@@ -1,0 +1,54 @@
+(* disease rates for dorsopatieen totaal, CMR Nijmegen
+specified by gender and 5-year ageclass
+
+	incidence
+	prevalence
+	remission
+	case fatality
+	excess mortality
+	cause-specific mortality
+Source: DisMod 2000 *)
+
+dorsopathies_incidence_rates_males&females
+
+div 1000
+
+18.4721 21.8093 29.261 40.6646 53.8372 66.7241 75.9025 84.5651 91.2048 94.7532 94.4662 91.1015 83.1655 76.5536 68.8873 63.5523 62.2217 62.0775
+16.5761 19.6471 26.4342 36.2956 48.3109 59.6717 70.5423 80.378 85.7905 90.1505 90.2644 89.2188 86.6922 83.3531 78.2322 73.4666 69.9673 64.6291
+
+dorsopathies_prevalence_rates_males&females
+
+div 1000
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dorsopathies_remission_rates_males&females
+
+div 100
+
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95 95
+
+dorsopathies_case_fatality_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dorsopathies_excess_mortality_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dorsopathies_CBS_cause_specific_mortality_numbers_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+

@@ -1,0 +1,3265 @@
+(* :Title: CZMSimulationFunctions *)
+
+(* :Context: CZMSimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM simulation routine describes functions to be used in simulation packages *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM November 2004
+		2.0 first release CZM 2005, version March
+		3.0 version November 2005 
+		3.1 version March 2007; inital distriubtions; storage of results *)
+
+(* :Keywords: joint model, functions *)
+
+
+BeginPackage["CZMSimulation`CZMSimulationFunctions`",
+	{"CZMInitialization`CZMLogFile`", 
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportRelativeRisks`",
+	"CZMAdjustData`CZMDataSmoothing`",
+	"CZMAdjustData`CZMAdjustBeforeSelection`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMDefineScenarios`CZMDefineScenarios`"}] 
+
+
+ncz::usage		= "# classes in joint model = product of # classes over risk factors selected * # classes over diseases selected"
+nz::usage		= "# state variables of joint model = # risk factors + # diseases selected = nrdsel + nd"
+nz1::usage		= "# states of joint model = # classes of all state variables multiplied, see also ncz"
+zind::usage		= "zind[[zi,z]]: related risk factor class and disease state values (columns) for joint model states (rows)"
+zindrisk::usage		= "zindrisk[[r,ri]]: joint model states for any classri of risk factor r, see also zind"
+zinddis::usage		= "zinddis[[d,di]]: joint model states for any state di of disease d, see also zind"
+zdist::usage		= "zdist[[z]]: distances between joint model states that differ in only in variable (risk factor or disease) z"
+disindsmall::usage	= "disindsmall[[d]]: diseases with prevalence rates smaller than .01"
+disindlarge::usage	= "disindlarge[[d]]: complement of disindsmall"
+riskclass::usage	= "riskclass[[ri]]: list of all combinations of different joint risk factor classes"
+riskset::usage		= "riskset[[ri]]: joint model states for each set of joint risk factor classes, see riskclass"
+
+makezval	::usage	= "makezval[prev]: transforms multi-dimensional state vector to index value"
+makezvalinv	::usage	= "inverse function of makezval"
+
+makeprevcurr::usage	=
+
+"routine calculates initial class prevalence rates of joint model, with:\n
+ arguments:\n 
+  1: prisk: risk factor class prevalence rates\n
+  2: pdis: disease prevalence rates\n
+  3: RMrisk: disease incidence rate multipliers specified by risk factor class\n
+  4: RRdis: disease incidence risks specified by (independent) disease\n
+  5: RRcasefat: case fatality relative risks specified by (independent) disease\n
+ calculation steps:\n
+  1: prevalence rates = product of class prevalence rates over risk factors * disease prevalence rates\n
+  2: adjustment for causal relations using disease incidence rate ratios\n
+  3: (if selected) overwriting with user-provided data"
+
+makepriskold	::usage =
+
+"routine calculates risk factor class prevalence rates in current population"
+
+changeprevcurrg	::usage	=
+
+"routine calculates change of initial class prevalence rates of joint model according to scenario, with"
+
+changeprevcurr	::usage	=
+
+"routine calculates change of initial class prevalence rates of joint model according to scenario,\n
+  (see) changeprevcurrg applied to each gender"
+
+makeincjoint::usage	=
+
+"routine calculates incidence rates for joint model states, with:\n
+ arguments:\n
+  1: incbase: baseline disease incidence rates\n
+  2: RRrisk: disease incidence relative risks specified by risk factor class\n
+  3: RRdis: disease incidence risks specified by (independent) disease\n
+ calculated by multiplying baseline incidence rates with:\n
+  1: relative risk values according to risk factor class\n
+  2: relative risk values according to co-morbid disease state"
+
+maketransmarginal::usage =
+
+"routine calculates risk factor class transition rates, with:\n
+ arguments:\n
+  1: transrisk: (vector of) 1-year risk factor class transition risks\n
+  2: transriskind: (matrix of) pointers to transrisk for each pair of risk factor classes\n
+  3: r: risk factor class index\n
+  4: ncr: # classes of r\n
+  5: trackingmult: multiplicator of 1-year transition risk values related to tracking\n
+ calculation steps:\n
+  1: starts with selected risk factor class transition risks values\n
+  2: (if selected) adding up 1-year transition risk values related to tracking\n
+  3: for each transition transformation risk to rate values\n
+  4: matrix back-transformation from rate to risk values resulting in 1-year state transition probability matrix"
+
+maketransmarginalext::usage = 
+
+"routine calculates risk factor class transition rates (extended version),\n
+ i.e. maketransmarginal only applied to selected age range"
+
+maketransjointga::usage	= 
+
+"routine calculates transition probability matrix of joint model specified by gender and age, with:\n
+ arguments:\n 
+  1: g: gender\n
+  2: a: age\n
+  3: transrisk: 1-year risk factor class transition risks\n
+  4: incbase: baseline incidence rates\n
+  5: excessmort: adjusted disease-related excess mortality rates\n
+  6: casefat: case fatality rates\n
+  7: RRrisk: disease incidence relative risks specified by risk factor class\n
+  8: trackingmult: multiplicator of 1-year transition risk values related to tracking\n
+  9: RRdis: disease incidence risks specified by (independent) disease\n
+  10:RRcasefat: case fatality relative risks specified by (independent) disease\n
+ calculation steps:\n
+  1: disease incidence rates (see makeincjoint) for each disease-free state, taking account of case fatality\n
+  2: disease remission rates for each with-disease state\n
+  3: risk factor class transition rates (see maketransmarginal)\n
+  4: disease-related excess mortality rates for each with-disease state\n
+  5: other causes mortality rates for all states\n
+  6: back-transformation to 1-year incidence, state transition, and other causes mortality risks"
+
+
+maketransjoint::usage	=
+
+"routine calculates transition probability matrix of joint model, i.e\n
+ (see) maketransjointga applied to each gender and age range selected"
+
+transformres::usage	=
+
+"routine transforms output specified by age at baseline to current age, with:\n
+ arguments: see marginalmodelresults\n 
+ calculation steps applied on each argument:\n
+  1: numbers specified by year n and baseline age a to year and current age n+a-1\n
+  2: for each year age-year specific numbers aggregated to 5-year age class values\n"
+
+marginalmodelresults::usage =
+
+"model results in terms of marginal numbers, with arrays as elements:\n
+  1: total population numbers, indexes scen,n,g,ai\n
+  2: risk factor class prevalence numbers, indexes scen,n,r,g,ri,ai\n
+  3: continuous risk factor distribution characteristics, PM\n
+  4: disease prevalence numbers, indexes scen,n,d,g,ai\n
+  5: disease incidence numbers, indexes scen,n,d,g,ai\n
+  6: cause-specific mortality numbers, indexes scen,n,d,g,ai\n
+  7: aggregated age of disease onset, indexes scen,n,d,g,ai\n
+  8: aggregated years since smoking cessation of former smokers, indexes scen,n,g,ai\n
+  9: all cause mortality numbers per risk factor class, indexes scen,n,r,g,ri,ai\n
+  length of indexes: scen: nscen, n: nstap, g: ng, r: nrdsel, ri: ncrsel[[r]], d: nd or nd+2, ai: nac[[1]]"
+
+jointmodelresults::usage = "joint model results with indexes scen (length nscen),n (nstap),g (ng),zi (nz1),ai (nac[[1]]"
+
+maketransrisksmok	::usage	= "routine calculates current state transition risk matrix in case of smoking being duration-dependent"
+makemortsmok		::usage	= "routine calculates current mortalit risks in case of smoking being duration-dependent"
+
+
+Begin["`Private`"]
+
+
+Print["CZMSimulationFunctions package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMSimulationFunctions", c}]];
+
+
+(*-------------------------------------------------
+ CONSTANTS AND SYSTEM PARAMETERS OF JOINT MODEL
+---------------------------------------------------*)
+
+printbug["1."];
+
+ncdsel	= Table[2, {nd}];
+ncz 	= Flatten[{ncrsel, ncdsel}];
+nz 	= Length[ncz];
+nz1 	= Times@@ncz;
+zdist 	= Table[Times@@ncz[[Range[z]]], {z, 0, nz - 1}];
+
+printbug["1.1"];
+
+If[(Max[Take[modelsel,{2,4}]] > 0),
+
+	If[(nz > 0),
+		zind = Transpose[Table[Flatten[Table[Table[zi, {zi, ncz[[z]]}, {zdist[[z]]}], {nz1 / ncz[[z]] / zdist[[z]]}]], {z, nz}]],
+		zind = {1}];
+
+printbug["1.2"];
+
+	zindrisk 	= Table[Select[Range[nz1], (zind[[#, r]] == ri) &], {r, nrd}, {ri, ncrsel[[r]]}];
+	zinddis		= Table[Select[Range[nz1], (zind[[#, nrd + d]] == di) &], {d, nd}, {di, ncdsel[[d]]}];
+
+(* LIST OF JOINT RISK FACTOR CLASSES AND RELATED JOINT MODEL STATES *)
+
+printbug["1.3"];
+
+	riskclass = If[(nrd > 0),
+
+		Transpose[Partition[Flatten[Table[ri, {r, nrd}, {Times@@Drop[ncrsel, r]}, {ri, ncrsel[[r]]},
+							{Times@@ncrsel[[Range[r - 1]]]}]],
+				Times@@ncrsel]],
+		{}];
+
+printbug["1.4"];
+
+	riskset	= Table[0, {Times@@ncrsel}];
+
+	Do[	set = Range[nz1];
+
+		Do[set = Intersection[set, zindrisk[[r, riskclass[[ri, r]]]]], {r, nrd}];
+
+		riskset[[ri]] = set,
+
+		{ri, Times@@ncrsel}]
+
+	];
+
+(* SELECTION CRITERIA FOR ADJUSTMENT *)
+
+printbug["1.5"];
+
+disindlarge	= Select[Table[If[(Max[pdissel[[d]]] > .01), d, 0], {d, nd}], Positive];
+disindsmall 	= Complement[Range[nd], disindlarge];
+
+
+(*-------------------------------------------------
+ TRANSFORMS AND RE-TRANSFORMS MULTI-DIMENSIONAL STATE VECTOR TO INDEX VALUE
+---------------------------------------------------*)
+
+makezval[prev_] := 1 + Plus@@Table[(prev[[zi]] - 1) Times@@ncz[[Range[zi - 1]]], {zi, nz}];
+
+makezvalinv[prev_] := Block[{},
+
+	hprev	= prev;
+	zval	= 0 Table[prev, {nz}];
+
+	Do[	zval[[nz + 1 - z]] = 1 + Quotient[hprev - 1, Times@@Drop[ncz, z]];
+		hprev -= Times@@Drop[ncz, -z] (zval[[nz + 1 - z]] - 1),
+		{z, nz}];
+
+	Do[	zval[[z]] *= Sign[prev], {z, nz}];
+
+	Transpose[zval, {3, 1, 2}]];
+
+
+(*-------------------------------------------------
+ CALCULATION OF INITIAL PREVALENCE RATES FOR JOINT MODEL
+---------------------------------------------------*)
+
+printbug["2."];
+
+(* REFERENCE VALUES *)
+
+makeprevcurr[prisk_, pdis_, RMrisk_, RRdis_, RRcasefat_] := Block[{},
+
+printbug["2.1"];
+
+	(* INITIAL RISK FACTOR CLASS PREVALENCE RATES *)
+
+	hprevcurr = Table[1, {ng}, {nz1}, {na1}];
+
+printbug["2.1.2"];
+
+	(* CLASS PREVALENCE RATES TIMES CLASS PREVALENCE RATES FOR RISK FACTOR APPLIED TO TOTAL POPULATION *)
+
+	Do[	hprevcurr[[g, zindrisk[[r, ri, z]]]] *= prisk[[r, g, ri]], 
+		{g, ng}, {r, nrdpop}, {ri, ncrsel[[r]]}, {z, Length[zindrisk[[r, ri]]]}];
+
+	(* CLASS PREVALENCE RATES TIMES CLASS PREVALENCE RATES FOR DISEASE-RESTRICTED RISK FACTORS (NEW DISEASE CASES) *)
+
+	Do[	disset = Intersection[zindrisk[[nrdpop + r, ri]], zinddis[[disindinv[[disriskindddis[[r]]]], 1]]];
+		Do[	hprevcurr[[g, disset[[z]]]] *= priskincsel[[r, g, ri]], {z, Length[disset]}],
+		{g, ng}, {r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+	
+	(* CLASS PREVALENCE RATES TIMES CLASS PREVALENCE RATES FOR DISEASE-RESTRICTED RISK FACTORS (PREVALENT DISEASE CASES) *)
+
+	Do[	disset = Intersection[zindrisk[[nrdpop + r, ri]], zinddis[[disindinv[[disriskindddis[[r]]]], 2]]];
+		Do[	hprevcurr[[g, disset[[z]]]] *= prisk[[nrdpop + r, g, ri]], {z, Length[disset]}],
+		{g, ng}, {r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+	(* CO-MORBIDITY RATE MULTIPLIERS *)
+
+	RMcomorb = If[(nrd == 0),
+
+			Table[1., {nd}, {nd}, {na1}],
+
+			Table[Times@@Table[Plus@@(	RMrisk[[r, RRriskindsel[[r, d + 1]], g]] *
+							RMrisk[[r, RRriskindsel[[r, d1 + 1]], g]] *
+							prisksel[[r, g]]),
+						{r, nrdpop}],
+				{d, nd}, {d1, nd}, {g, ng}]];
+
+printbug["2.1.4"];
+
+	(* INITIAL DISEASE PREVALENCE RATE RATIO VALUE *)
+
+	hRMrisk	= Table[1, {ng}, {nz1}, {nd}, {na1}];
+
+printbug["2.1.5"];
+
+	(* ADJUSTMENT OF DISEASE PREVALENCE RATE RATIO FOR RISK FACTORS APPLIED TO TOTAL POPULATION *)
+
+	Do[	disset	= zindrisk[[r, ri]];
+		Do[hRMrisk[[g, disset[[z]], d]] *= RMrisk[[r, RRriskindsel[[r, d + 1]], g, ri]], {z, Length[disset]}, {g, ng}],
+
+		{r, nrdpop}, {ri, ncrsel[[r]]}, {d, nd}];
+
+printbug["2.1.6"];
+
+	(* ADJUSTMENT OF PREVALENCE RATE RATIO FOR RISK FACTORS RESTRICTED TO DISEASES *)
+
+	Do[	d1	= disindinv[[disriskindddis[[r]]]];
+
+		Do[	currdis	= Intersection[zindrisk[[nrdpop + r, ri]], zinddis[[d1, 2]]];
+			Do[hRMrisk[[g, currdis[[z]], d]] *= RMrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, d + 1]], g, ri]],
+				{z, Length[currdis]}],
+
+			{d, nd}, {g, ng}],
+
+		{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+printbug["2.1.6.1"];
+
+		(* ADJUSTMENT OF PREVALENCE RATE RATIO FOR RISK FACTORS WITH EMPIRICAL DATA *)
+
+		If[(userriskdata >= 1), Do[
+
+			r	= DMriskpairsel[[d, r1]];
+
+			Do[	hRMrisk[[Intersection[zindrisk[[r, ri]], zinddis[[d, 2]]], d]] *= RMriskDMinc[[d, r1, g, ri, agerange[[a]]]],
+				{ri, ncrsel[[r]]}],
+
+			{d, nd}, {r1, Length[DMriskpairsel[[d]]]}]];
+
+printbug["2.1.7"];
+
+	(* CLASS PREVALENCE RATES TIMES ADJUSTMENT USING CALCULATED PREVALENCE RATE RATIO VALUES *)
+
+	Do[	disset	= zinddis[[d, 1]];
+		Do[	hprevcurr[[g, disset[[z]]]] *= 1 - hRMrisk[[g, disset[[z]], d]] pdis[[d, g]], {z, Length[disset]}, {g, ng}];
+
+		disset	= zinddis[[d, 2]];
+		Do[	hprevcurr[[g, disset[[z]]]] *= hRMrisk[[g, disset[[z]], d]] pdis[[d, g]], {z, Length[disset]}, {g, ng}],
+
+		{d, nd}];
+
+printbug["2.1.8"];
+
+	(* CLASS PREVALENCE RATES TIMES ADJUSTMENT FOR CAUSALLY RELATED DISEASES *)
+
+	Do[	d1	= dispair[[d, 1]];				(* INDEPENDENT DISEASE *)
+		d2	= dispair[[d, 2]];				(* DEPENDENT DISEASE *)
+
+		If[MemberQ[disindlarge, d1] && MemberQ[disindlarge, d2],
+
+			(* RELATIVE RISKS AND MEAN RISKS FOR PAIR OF CAUSALLY RELATED DISEASES d1 & d2 *)
+
+			currRRcasefat	= RRcasefat[[RRcasefatindsel[[d1, d2]], g]];
+
+			currRRdis 	= RRdis[[RRdisindsel[[d1, d2]], g]] *
+						( 1 - (currRRcasefat - 1) casefat1[[casefatindsel[[d2]], g]] /
+							( 1 + (currRRcasefat - 1) pdissel[[d1, g]] - casefat1[[casefatindsel[[d2]], g]] ) );
+
+			currERRdis	= 1 + (currRRdis - 1) RMcomorb[[d1, d2, g]] pdissel[[d1, g]];
+
+			(* ADJUSTMENT OF PREVALENCE RATES: WITHOUT DISEASES d1 AND d2 *)
+
+			disset	= Intersection[zinddis[[d2, 2]], zinddis[[d1, 1]]];
+
+			Do[	hprev	= hprevcurr[[g, disset, a]] + hprevcurr[[g, disset - zdist[[nrd + d2]], a]];
+				hprevcurr[[g, disset, a]] *= 1 / currERRdis[[a]];
+				hprevcurr[[g, disset - zdist[[nrd + d2]], a]] = hprev - hprevcurr[[g, disset, a]],
+
+				{a, na1}];
+
+			disset	= Intersection[zinddis[[d2, 2]], zinddis[[d1, 2]]];
+
+			Do[	hprev	= hprevcurr[[g, disset, a]] + hprevcurr[[g, disset - zdist[[nrd + d2]], a]];
+				hprevcurr[[g, disset, a]] *= currRRdis[[a]] / currERRdis[[a]];
+				hprevcurr[[g, disset - zdist[[nrd + d2]], a]] = hprev - hprevcurr[[g, disset, a]],
+
+				{a, na1}]],
+
+		{d, Length[dispair]}, {g, ng}];
+
+printbug["2.1.10"];
+
+	(* SCALING OF PREVALENCE RATES *)
+
+	somhprevcurr	= Table[Plus@@hprevcurr[[g]], {g, ng}];
+	
+	Do[hprevcurr[[g, All, agerange[[a]]]] /= somhprevcurr[[g, agerange[[a]]]], {g, ng}, {a, Length[agerange]}];
+
+	hprevcurr
+
+	]; (* END MAKEPREVCURR *)
+
+
+(* CALCULATION OF RISK FACTOR CLASS PREVALENCE RATES WITHIN CURRENT POPULATION *)
+
+makepriskold[r_, g_] := Block[{},
+
+	priskold	= prisksel[[r, g]];
+
+	If[(patientsel > 0), priskold = RRrisksel[[r, RRriskindsel[[r, disindinv[[Quotient[patientsel, 10]]] + 1]], g]] prisksel[[r, g]]];
+
+	If[(userriskdata >= 1), Do[
+
+		If[(DMriskpairsel[[d, hr]] == r), priskold = RMriskDMinc[[d, hr, g]] prisksel[[r, g]]],
+
+		{d, nd}, {hr, Length[DMriskpairsel[[d]]]}]];
+
+	priskold	= Table[priskold[[ri]] / Plus@@priskold, {ri, ncrsel[[r]]}];
+
+	priskold];
+
+
+(* CHANGE OF REFERENCE VALUES ACCORDING TO SCENARIO *)
+
+changeprevcurrg[g_, prevcurr_, prisknew_] := Block[{priskold, hprevcurr, disset, currdis}, 
+
+printbug["2.3"];
+
+    hprevcurr = prevcurr;
+
+printbug["2.3.1"];
+
+    disset = Range[nz1];
+
+    If[patientsel > 0, disset = Intersection[disset, zinddis[[disindinv[[Quotient[patientsel,10]]], 2]]]];
+
+    scenpriskind = Table[0, {nrd}];
+    Do[If[Max[Abs[prisknew[[r]] - prisksel[[r,g]]]] > 0, scenpriskind[[r]] = 1], {r, nrd}];
+
+printbug["2.3.2"];
+
+    Do[If[(scenpriskind[[r]] > 0),
+
+	(*PERSONS IN RISK FACTOR CLASS*)
+
+printbug["2.3.3"];
+
+        currdis = If[(r > nrdpop), Intersection[disset,zinddis[[disindinv[[disriskindddis[[r - nrdpop]]]], 2]]], disset];
+        currdis = Table[Intersection[currdis, zindrisk[[r, ri]]], {ri, ncrsel[[r]]}];
+
+printbug["2.3.4"];
+
+        priskold = makepriskold[r, g];
+
+        Do[transrisk = 
+		If[(ncrsel[[r]] == 8),
+			makedrisk[r, priskold[[All, agerange[[a]]]],prisknew[[r, All, agerange[[a]]]],1],
+			makedrisk[r, priskold[[All, agerange[[a]]]],prisknew[[r, All, agerange[[a]]]], 0]];
+
+printbug["2.3.5"];
+
+          		Do[	If[(rj != ri),
+				Do[					
+					hprevcurr[[currdis[[ri,zi]] + (rj - ri) zdist[[r]], agerange[[a]]]] +=
+						transrisk[[ri, rj]] prevcurr[[currdis[[ri, zi]], agerange[[a]]]];
+		                	hprevcurr[[currdis[[ri, zi]], agerange[[a]]]] -= 
+						transrisk[[ri, rj]] prevcurr[[currdis[[ri, zi]],agerange[[a]]]],
+						{zi, Length[currdis[[ri]]]}]],
+
+					{ri, ncrsel[[r]]}, {rj, ncrsel[[r]]}],
+			{a, Length[agerange]}]],
+		{r, nrd}];
+
+
+    hprevcurr];(*END CHANGEPREVCURRG*)
+
+changeprevcurr[prevcurr_, prisk_] :=
+                   Table[changeprevcurrg[g, prevcurr[[g]], prisk[[All, g]]],{g, ng}];
+
+
+(*-------------------------------------------------
+ CALCULATION OF INCIDENCE RATES FOR JOINT MODEL
+---------------------------------------------------*)
+
+printbug["3."];
+
+makeincjoint[incbase_, RRrisk_, RRdis_] := Block[{},
+
+printbug["3.1"];
+
+	incrate	= Table[0, {ng}, {nd}, {nz1}, {na1}];
+	
+	Do[	incrate[[g, d, zinddis[[d, 1]]]] = Table[incbase[[d, g]], {Length[zinddis[[d, 1]]]}], {g, ng}, {d, nd}];
+
+	(* ADJUSTMENT FOR POPULATION RISK FACTOR LEVELS *)
+	
+	Do[	disset	= Intersection[zindrisk[[r, ri]], zinddis[[d, 1]]];
+
+		Do[incrate[[g, d, disset]] *= Table[RRrisk[[r, RRriskindsel[[r, d + 1]], g, ri]], {Length[disset]}],
+			{g, ng}],
+		{r, nrdpop}, {ri, ncrsel[[r]]}, {d, nd}];
+
+	(* ADJUSTMENT FOR RISK FACTORS ONLY RELEVANT FOR SPECIFIC DISEASES, E.G. HBA1C AND DIABETES *)
+	
+	Do[	d1 = disindinv[[disriskindddis[[r]]]];
+
+		disset	= Intersection[zindrisk[[r, ri]], zinddis[[d1, 1]]];
+
+		Do[incrate[[g, d1, disset]] *= Table[RRrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, d1 + 1]], g, ri]], {Length[disset]}],
+			{g, ng}],
+
+		{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+	(* ADJUSTMENT FOR RISK FACTORS ONLY RELEVANT FOR SPECIFIC DISEASES, E.G. HBA1C AND DIABETES *)
+	
+	Do[	disset	= Intersection[zinddis[[disindinv[[disriskindddis[[r]]]], 2]], zinddis[[d, 1]]];
+
+		Do[	currdis	= Intersection[disset, zindrisk[[nrdpop + r, ri]]];
+
+			Do[incrate[[g, d, currdis]] *=
+				Table[RRrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, d + 1]], g, ri]], {Length[currdis]}],
+				{g, ng}],
+
+			{ri, ncrsel[[nrdpop + r]]}],
+
+		{r, nrddis}, {d, nd}];
+
+	(* ADJUSTMENT FOR CO-MORBIDITY *)
+
+	Do[	d1		= dispair[[d, 1]];				(* INDEPENDENT DISEASE *)
+		d2		= dispair[[d, 2]];				(* DEPENDENT DISEASE *)
+
+		currdis		= Intersection[zinddis[[d1, 2]], zinddis[[d2, 1]]];
+
+		Do[incrate[[g, d2, currdis]] *= Table[RRdis[[RRdisindsel[[d1, d2]], g]], {Length[currdis]}], {g, ng}],
+
+		{d, Length[dispair]}];
+
+	Max0[Min1[incrate]]
+	
+	]; (* END MAKEINCJOINT *)
+
+
+(*-------------------------------------------------
+ CALCULATION OF RISK FACTOR CLASS TRANSITION RATES FOR MARGINAL MODEL
+---------------------------------------------------*)
+
+printbug["4."];
+
+(* ONLY FOR AGERANGE *)
+
+maketransmarginal[transrisk_, transriskind_, r_, ncr_, trackingmult_] := Block[{},
+
+printbug["4.1"];
+
+	transrate = Table[0, {ng}, {na1}, {ncr}, {ncr} ];
+
+	Do[	(* DATA VALUES *)
+
+		htrans	= Table[transrisk[[g, transriskind[[ri, rj]], agerange[[a]]]], {ri, ncr}, {rj, ncr}];
+
+		(* ADJUSTMENT FOR TRACKING *)
+
+		If[(trackingind == 1) && (trstrackingind[[riskindd[[r]]]] == 1),
+
+			Do[htrans[[ri, ri + 1]] += trackingmult trstrackingsel[[r, g, ri, 1, agerange[[a]]]], {ri, ncr - 1}];
+			Do[htrans[[ri, ri - 1]] += trackingmult trstrackingsel[[r, g, ri, 2, agerange[[a]]]], {ri, 2, ncr}]];
+
+		(* RISK -> RATE TRANSFORMATION *)
+
+		htrans 	= -Log[1 - htrans];
+		
+		Do[	htrans[[ri, ri]] = - Plus@@htrans[[ri]], {ri, ncr}];
+
+		(* MATRIX RATE -> RISK TRANSFORMATION *)
+
+		transrate[[g, agerange[[a]]]] = Max0[Min1[DiagonalMatrix[Table[1, {ncr}]] + htrans + .5 htrans.htrans]],
+
+		{g, ng}, {a, Length[agerange]}];
+
+	transrate = Table[transrate[[g, Range[na1], ri, rj]], {g, ng}, {ri, ncr}, {rj, ncr}]
+	
+	];
+
+(* FROM MINIMUM OF AGERANGE ONWARDS *)
+
+maketransmarginalext[transrisk_, transriskind_, r_, ncr_, trackingmult_] := Block[{},
+
+printbug["4.2"];
+
+	transrate = Table[0, {ng}, {na1}, {ncr}, {ncr} ];
+
+	hagerange = Range[Min[agerange], na1];
+
+	Do[	(* DATA VALUES *)
+
+		htrans	= Table[transrisk[[g, transriskind[[ri, rj]], hagerange[[a]]]], {ri, ncr}, {rj, ncr}];
+
+		(* ADJUSTMENT FOR TRACKING *)
+
+		If[(trackingind == 1) && (trstrackingind[[riskindd[[r]]]] == 1),
+
+			Do[htrans[[ri, ri + 1]] += trackingmult trstrackingsel[[r, g, ri, 1, hagerange[[a]]]], {ri, ncr - 1}];
+
+			Do[htrans[[ri, ri - 1]] += trackingmult trstrackingsel[[r, g, ri, 2, hagerange[[a]]]], {ri, 2, ncr}]	];
+
+		(* RISK -> RATE TRANSFORMATION *)
+
+		htrans 	= -Log[1 - htrans];
+		
+		Do[	htrans[[ri, ri]] = - Plus@@htrans[[ri]], {ri, ncr}];
+
+		(* MATRIX RATE -> RISK TRANSFORMATION *)
+
+		transrate[[g, hagerange[[a]]]] = Max0[Min1[DiagonalMatrix[Table[1, {ncr}]] + htrans + .5 htrans.htrans]],
+
+		{g, ng}, {a, Length[hagerange]}];
+
+	transrate = Table[transrate[[g, Range[na1], ri, rj]], {g, ng}, {ri, ncr}, {rj, ncr}]
+	
+	];
+
+
+(*-------------------------------------------------
+ CONSTRUCTION OF TRANSITION PROBABILITY MATRIX SPECIFIED BY GENDER AND AGE
+---------------------------------------------------*)
+
+printbug["5."];
+
+maketransjointga[g_, a_, transrisk_, incbase_, excessmort_, casefat_, RRrisk_, trackingmult_, RRdis_, RRcasefat_] := Block[{},
+
+printbug["5.1"];
+
+	transjoint1	= Table[0, {nz1}, {nz1}];
+	incrate1	= Table[0, {nd}, {nz1}];
+
+(* EXCESS MORTALITY RATES FOR ONE-DISEASE AND CO-MORBID DISEASE PATIENTS *)
+
+printbug["5.1.1"];	
+
+	excessmortadj 	= Min1[Max0[excessmortseladj + (excessmort - excessmortsel)]];
+
+(* chang151206RH *)
+(* DISEASE INCIDENCE RATES *)
+
+printbug["5.1.2"];
+
+	Do[	(* DISEASE-FREE STATES *)
+
+		disset = zinddis[[d, 1]];
+
+		incrate2 = Table[0, {nz1}];
+
+		(* ADJUSTMENT FOR DISCRETELY DISTRIBUTED POPULATION RISK FACTORS AND CO-MORBIDITY *)
+
+		incrate2[[disset]] = incbase[[d, g, a]] *
+
+				Times@@Table[RRrisk[[r, RRriskindsel[[r, d + 1]], g, zind[[disset, r]], a]], {r, nrdpop}] *
+
+				Times@@Table[(2 - zind[[disset, nrd + d1]]) +
+							(zind[[disset, nrd + d1]] - 1) RRdis[[RRdisindsel[[d1, d]], g, a]],
+						{d1, nd}];
+
+		(* ADJUSTMENT FOR DISCRETELY DISTRIBUTED DISEASE-SPECIFIC POPULATION RISK FACTORS, E.G. HBA1C *)
+
+		Do[	currdis	= Intersection[zinddis[[disindinv[[disriskindddis[[r]]]], 2]], zindrisk[[riskindddis[[r]], ri]], disset];
+
+			incrate2[[currdis]] *= RRrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, d + 1]], g, ri, a]],
+
+			{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+		casefat2 = Table[casefat[[casefatindsel[[d]], g, a]] /
+					Times@@Table[1 + (RRcasefat[[RRcasefatindsel[[d1, d]], g, a]] - 1) pdissel[[d1, g, a]],
+							{d1, nd}],
+				{nz1}];
+
+		Do[	currdis = Intersection[disset, zinddis[[d1, 2]]];
+
+			casefat2[[currdis]] *= RRcasefat[[RRcasefatindsel[[d1, d]], g, a]],
+
+			{d1, nd}];
+
+		(* ADJUSTMENT FOR RISK FACTORS ONLY RELEVANT FOR SPECIFIC DISEASES, E.G. HBA1C AND DIABETES *)
+	
+		Do[	d1 = disindinv[[disriskindddis[[r]]]];
+
+			If[(d == d1),
+
+				Do[	currdis	= Intersection[zindrisk[[r, ri]], disset];
+
+					incrate2[[currdis]] *=
+						Table[RRrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, d1 + 1]], g, ri, a]], {Length[currdis]}],
+
+					{ri, ncrsel[[nrdpop + r]]}]],
+
+			{r, nrddis}]; 
+
+		incrate2 = - Log[1 - incrate2];
+
+		incrate1[[d]] = incrate2;
+
+		Do[transjoint1[[disset[[zi]], disset[[zi]] + zdist[[nrd + d]]]] += (1 - casefat2[[zi]]) incrate2[[disset[[zi]]]],
+				{zi, Length[disset]}];
+
+		Do[transjoint1[[disset[[zi]], disset[[zi]]]] -= incrate2[[disset[[zi]]]],
+				{zi, Length[disset]}],
+
+		{d, nd}];
+
+(* DISEASE REMISSION RATES *)
+
+printbug["5.1.3"];
+
+	Do[	disset	= zinddis[[d, 2]];
+
+		remrate	= - Log[1 - rem1[[remindsel[[d]], g, a]]];
+
+		Do[transjoint1[[disset[[zi]], disset[[zi]] - zdist[[nrd + d]]]] += remrate, {zi, Length[disset]}];
+
+		Do[transjoint1[[disset[[zi]], disset[[zi]]]] -= remrate, {zi, Length[disset]}],
+
+		{d, nd}];
+
+(* RISK FACTOR CLASS TRANSITION RATES *)
+
+printbug["5.1.4"];
+
+	Do[	disset	= zindrisk[[r, ri]];
+
+		htrans	= Table[0, {nz1}];
+
+		Do[	If[(transriskindsel[[r, ri, rj]] > 1),
+
+				htrans[[disset]]	= transrisk[[r, g, transriskindsel[[r, ri, rj]], a]];
+
+				(* ADJUSTMENT FOR TRACKING *)
+				
+				If[(trackingind == 1) && (trstrackingind[[riskindd[[r]]]] == 1),
+
+					If[(rj == (ri + 1)), htrans[[disset]] += trackingmult trstrackingsel[[r, g, ri, 1, a]]];
+				
+					If[(rj == (ri - 1)), htrans[[disset]] += trackingmult trstrackingsel[[r, g, ri, 2, a]]]];
+
+				(* TIME-CONSTANT CLASS PREVALENCE RATES IN DISESE-FREE PERSONS FOR DISEASE SPECIFIC RISK FACTORS *)
+
+				If[(r > nrdpop),
+
+					currdis	= Intersection[disset, zinddis[[disindinv[[disriskindddis[[r - nrdpop]]]], 1]]];
+
+					htrans[[currdis]] = 0];
+
+				transrate	= - Log[1 - htrans];
+
+				Do[transjoint1[[disset[[zi]], disset[[zi]] + zdist[[r]] (rj - ri)]] += transrate[[disset[[zi]]]],
+						{zi, Length[disset]}];
+
+				Do[transjoint1[[disset[[zi]], disset[[zi]]]] -= transrate[[disset[[zi]]]],
+						{zi, Length[disset]}]
+
+				],
+
+			{rj, ncrsel[[r]]}],
+
+		{r, nrd}, {ri, ncrsel[[r]]}];
+	
+(* DISEASE-RELATED EXCESS MORTALITY RATES *)
+
+printbug["5.1.5"];
+
+	Do[	disset = zinddis[[d, 2]];
+		excessmortrate	= - Log[1 - excessmortadj[[d, g, a]]];
+		
+		Do[transjoint1[[disset[[zi]], disset[[zi]]]] -=  excessmortrate, {zi, Length[disset]}],
+
+		{d, nd}];
+
+(* OTHER CAUSES MORTALITY RATES *)
+
+printbug["5.1.6"];
+
+	mortothrate1 = - Log[1 - mortothsel[[g, a]]] Table[1, {nz1}];
+
+	Do[	currdis = zindrisk[[r, ri]];
+		mortothrate1[[currdis]] *= RMothrisksel[[r, g, ri, a]],
+		{r, nrdpop}, {ri, ncrsel[[r]]}];
+
+	Do[	disset	= zindrisk[[nrdpop + r, ri]];
+		currdis = Intersection[disset, zinddis[[disindinv[[disriskindddis[[r]]]], 1]]];
+		mortothrate1[[currdis]] *= RMothrisksel[[r, g, 1, a]];
+		currdis = Intersection[disset, zinddis[[disindinv[[disriskindddis[[r]]]], 2]]];
+		mortothrate1[[currdis]] *= RMothrisksel[[r, g, ri, a]],		
+		{r, nrddis}, {ri, ncrsel[[r]]}];
+
+	Do[transjoint1[[zi, zi]] -= mortothrate1[[zi]], {zi, nz1}];
+
+(* TRANSFORMATION OF RATES TO 1-YEAR RISKS *)
+
+printbug["5.1.7"];
+
+	transjoint1 	= DiagonalMatrix[Table[1, {nz1}]] + transjoint1 + .5 transjoint1.transjoint1;
+
+	incrate1	= Max0[Min1[1 - Exp[-incrate1]]];
+
+	mortothrate1	= Max0[Min1[1 - Exp[-mortothrate1]]];
+
+	{transjoint1, incrate1, mortothrate1}
+
+]; (* END MAKETANSJOINTGA *)
+
+
+(*-------------------------------------------------
+ CONSTRUCTS TRANSITION PROBABILITY MATRIX OVER GENDER AND AGE
+---------------------------------------------------*)
+
+maketransjoint[transrisk_, incbase_, excessmort_, casefat_, RRrisk_, trackingmult_, RRdis_, RRcasefat_] := Block[{},
+
+printbug["5.2"];
+
+	transjoint	= Table[0, {ng}, {nz1}, {nz1}, {na1}];
+	incrate		= Table[0, {ng}, {nd}, {nz1}, {na1}];
+	mortothrate	= Table[0, {ng}, {nz1}, {na1}];
+
+	Do[	rate 	=  maketransjointga[g, agerange[[a]], transrisk, incbase, excessmort, casefat,
+						RRrisk, trackingmult, RRdis, RRcasefat];
+
+		transjoint[[g, Range[nz1], Range[nz1], agerange[[a]]]] 	= rate[[1]];
+
+		incrate[[g, Range[nd], Range[nz1], agerange[[a]]]] 	= rate[[2]];
+
+		mortothrate[[g, Range[nz1], agerange[[a]]]] 		= rate[[3]],
+
+		{g, ng}, {a, Length[agerange]}];
+
+	{transjoint, incrate, mortothrate}
+
+]; (* END MAKETRANSJOINT *)
+
+
+(*-------------------------------------------------
+ TRANSFORMS OUTPUT SPECIFIED BY AGE AT BASELINE TO CURRENT AGE
+---------------------------------------------------*)
+
+printbug["6."];
+
+transformres[respop_, resrisk_, resdist_, resdis_, resinc_, resmort_, resonsetage_, resduurstop_, resmortrisk_] := Block[{},
+
+(* POPULATION NUMBERS *)
+
+	respop1 = Table[0, {nscen}, {nstap}, {ng}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += respop[[scen, n, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[respop1[[scen, n, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {g, ng}];
+
+(* RISK FACTOR CLASS PREVALENCE NUMBERS *)
+
+	resrisk1 = Table[0, {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resrisk[[scen, n, r, g, ri, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resrisk1[[scen, n, r, g, ri]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+(* DISEASE PREVALENCE NUMBERS *)
+
+	resdis1 = Table[0, {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resdis[[scen, n, d, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resdis1[[scen, n, d, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {d, nd}, {g, ng}];
+
+(* DISEASE INCIDENCE NUMBERS *)
+
+	resinc1 = Table[0, {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resinc[[scen, n, d, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resinc1[[scen, n, d, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {d, nd}, {g, ng}];
+
+(* MORTALITY NUMBERS *)
+
+	resmort1 = Table[0, {nscen}, {nstap}, {nd + 2}, {ng}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resmort[[scen, n, d, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resmort1[[scen, n, d, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {d, nd + 2}, {g, ng}];
+
+(* SUM OF AGE AT ONSET OF DISEASED PERSONS *)
+
+	resonsetage1 = Table[0, {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resonsetage[[scen, n, d, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resonsetage1[[scen, n, d, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {d, nd}, {g, ng}];
+
+(* SUM OF TIME DURATION SINCE SMOKING CESSATION *)
+
+	If[(RRsmokduurind == 1) && (riskindd[[1]] == 1),
+
+		(* IF DURATION DEPENDENT *)
+
+		resduurstop1 = Table[0, {nscen}, {nstap}, {ng}, {nac[[1]]}];
+
+		Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+			Do[hres[[n, agesel[[a]] + n - 1]] += resduurstop[[scen, n, g, a]], {n, nstap}, {a, Length[agesel]}];
+
+			hres = Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+			Do[resduurstop1[[scen, n, g]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+			{scen, nscen}, {g, ng}],
+
+		(* IF NOT DURATION DEPENDENT *)
+
+		resduurstop1 = resduurstop
+
+		];
+
+(* CHARACTERISTICS OF CONTINUOUSLY DISTRIBUTED RISK FACTORS *)
+
+	If[(riskcontind == 1) && (nrc > 0),
+
+		resdist1 = Table[0, {nscen}, {nstap}, {nrc}, {ng}, {2}, {nac[[1]]}];
+
+		Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+			Do[hres[[n, agesel[[a]] + n - 1]] += resdist[[scen, n, r, g, ri, a]], {n, nstap}, {a, Length[agesel]}];
+			hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+			Do[resdist1[[scen, n, r, g, ri]] = aggreg[hres[[n]], 1], {n, nstap}],
+			{scen, nscen}, {r, nrc}, {g, ng}, {ri, 2}],
+
+		resdist1 = resdist
+
+		];	
+
+(* RISK FACTOR CLASS MORTALITY NUMBERS *)
+
+	resmortrisk1 = Table[0, {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {nac[[1]]}];
+
+	Do[	hres	= Table[0, {nstap}, {na1 + nstap}];
+
+		Do[hres[[n, agesel[[a]] + n - 1]] += resmortrisk[[scen, n, r, g, ri, a]], {n, nstap}, {a, Length[agesel]}];
+
+		hres	= Table[Flatten[{hres[[n, Range[na]]], Plus@@Drop[hres[[n]], na]}], {n, nstap}];
+
+		Do[resmortrisk1[[scen, n, r, g, ri]] = aggreg[hres[[n]], 1], {n, nstap}],
+
+		{scen, nscen}, {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];	
+
+	{respop1, resrisk1, resdist1, resdis1, resinc1, resmort1, resonsetage1, resduurstop1, resmortrisk1}
+
+]; (* END TRANSFORMRES *)
+
+
+(* --------------------------------------------------
+ CALCULATION OF SMOKING CLASS TRANSITION RATES ACCORDING TO GIVEN SCENARIO scen AND FOR GIVEN TIME n
+----------------------------------------------------*)
+
+maketransrisksmok[transrisk_, relapserate_] := Block[{},
+	
+	htransrisksmok = Table[0, {ng}, {ncsmok}, {ncsmok}, {na1}];
+	
+	Do[	(* TRANSITIONS BETWEEN CLASSES *)			
+
+		htransrisksmok[[g, 1, {2, 3}]]		+= transrisk[[1, g, 1, {2, 3}]];
+		htransrisksmok[[g, 2, 3]] 		+= transrisk[[1, g, 2, 3]];
+		Do[htransrisksmok[[g, 2 + ri, 2]] 	+= relapserate[[g, ri]], {ri, nstopduur}];
+
+		Do[htransrisksmok[[g, ri, ri]] 		= 1 - Plus@@htransrisksmok[[g, ri]], {ri, ncsmok}];
+		Do[htransrisksmok[[g, ri, ri + 1]]	= htransrisksmok[[g, ri, ri]], {ri, 3, ncsmok - 1}];
+		Do[htransrisksmok[[g, ri, ri]]		*= 0, {ri, 3, ncsmok - 1}],
+
+		{g, ng}];
+
+	htransrisksmok]; (* MAKETRANSRISKSMOK *)
+
+
+(* --------------------------------------------------
+ CALCULATION OF SMOKING CLASS MORTALITY RATES FOR GIVEN TIME n
+----------------------------------------------------*)
+
+makemortsmok[nrisksmok_, RRsmokform_, mortspec_, RMothsmok_, mortoth_] := Block[{},
+
+	hmortsmok = Table[0, {ng}, {ncsmok}, {na1}];	
+
+	(* DISEASE-RELATED EXCESS MORTALITY RATES *)
+
+	ERRsmok = Table[(Plus@@Table[nrisksmok[[g, ri]] RRrisksel[[1, RRriskindsel[[1, d + 1]], g, ri]], {ri, 2}] +
+				Plus@@Table[nrisksmok[[g, 2 + ri]] RRsmokform[[RRriskindsel[[1, d + 1]], g, ri]], {ri, nstopduur}]) /
+				(Plus@@nrisksmok[[g]] + eps),
+				{d, nd}, {g, ng}];
+
+	Do[hmortsmok[[g, ri]] += Plus@@Table[mortspec[[d, g]] RRrisksel[[1, RRriskindsel[[1, d + 1]], g, ri]] / (ERRsmok[[d, g]] + eps),
+						{d, nd}],
+				{g, ng}, {ri, 2}];
+
+	Do[hmortsmok[[g, 2 + ri]] += Plus@@Table[mortspec[[d, g]] RRsmokform[[RRriskindsel[[1, d + 1]], g, ri]] / (ERRsmok[[d, g]] + eps),
+						{d, nd}],
+				{g, ng}, {ri, nstopduur}];
+
+	(* OTHER CAUSES MORTALITY RATES *)
+
+	ERMothsmok = Table[Plus@@(RMothsmok[[g]] nrisksmok[[g]]) / (Plus@@nrisksmok[[g]] + eps), {g, ng}];
+
+	Do[hmortsmok[[g, ri]] += RMothsmok[[g, ri]] mortoth[[g]] / (ERMothsmok[[g]] + eps), {g, ng}, {ri, ncsmok}];
+
+	hmortsmok]; (* MAKEMORTSMOK *)
+
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMSimulationMarginalModelDetermPop *)
+
+(* :Context: CZMsimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM simulation routine describes deterministic CZM marginal model, i.e. equations of change of marginal
+   risk factor class and disease prevalence numbers *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March, effect of time since smoking cessation
+		3.0 version November 2005 
+		3.1 version March 2007; storage of results *)
+
+(* :Keywords: model equations, simulation *)
+
+
+BeginPackage["CZMSimulation`CZMSimulationMarginalModelDetermPop`",
+	{"CZMInitialization`CZMLogFile`", 
+	 "CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportRelativeRisks`",
+	"CZMAdjustData`CZMDataSmoothing`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustBeforeSelection`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMDefineScenarios`CZMDefineScenarios`",
+	"CZMSimulation`CZMSimulationFunctions`"}] 
+
+
+resmarginalmodeldetermpop::usage 	= "output numbers of deterministic marginal model, see marginalmodelresults"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMSimulationMarginalModelDetermPop package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMSimulationMarginalModelDetermPop", c}]];
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+respop = resrisk = resdist = resdis = resinc = resmort = resonsetage = resduurstop = resmortrisk = Table[0., {nscen}, {nstap}];
+
+If[(modelsel[[1]] == 1) && (appltype != "outp"),
+
+(* INITIALIZE OUTPUT VARIABLES *)
+
+printbug["1."];
+
+respop 		= Table[0., {nscen}, {nstap}, {ng}, {nac[[1]]}];
+resrisk 	= Table[0., {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {nac[[1]]}];
+resdis 		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}]; 
+resinc		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}]; 
+resmort 	= Table[0., {nscen}, {nstap}, {nd + 2}, {ng}, {nac[[1]]}]; 
+resonsetage	= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}];
+If[(riskcontind == 1) && (nrc > 0),
+	resdist		= Table[0., {nscen}, {nstap}, {nrc}, {ng}, {2}, {nac[[1]]}]];
+
+(* INITIALIZE MODEL VARIABLES *)
+
+printbug["2."];
+
+If[(RRsmokduurind == 1),
+
+	n		= 0;
+	scen		= 1;
+	ToExpression[makescen];
+	
+	(* CHARACTERISTICS OF DISTRIBUTIN OF TIME SINCE SMOKING CESSATION *)
+
+printbug["2.1"];	
+
+	resduurstop	= Table[0, {nscen}, {nstap}, {ng}, {nac[[1]]}];		(* OUTPUT VARIABLE *)
+
+(* Delete testrun17 151106 Jack
+printbug["2.2"];
+
+	ncsmok		= ncrsel[[1]] + nstopduur - 1;				(* # SMOKING CLASSES *)
+
+printbug["2.3"];
+
+	duurval		= Range[nstopduur] - .5;				(* MEAN TIME SINCE SMOKING CESSATION *)
+End of delete testrun17 151106 Jack *)
+
+	(* OTHER CAUSES SMOKING RISKS DEPEND ON TIME SINCE SMOKING CESSATION *)
+
+printbug["2.4"];
+
+	hRMothsmok	= Table[RMothrisksel[[1, g, ri]] / RMothrisksel[[1, g, 1]], {g, ng}, {ri, 3}];
+
+printbug["2.5"];
+
+	RMsmokformoth	= Table[1 + (hRMothsmok[[g, 2]] - 1) Exp[ -logRRsmokduuroth[[g, 1]] *
+					Exp[ - logRRsmokduuroth[[g, 2]] Max0[Range[na1] - 51] ] duurval[[ri]] ],
+				{g, ng}, {ri, nstopduur}];
+
+printbug["2.6"];
+
+	ERRothsmok	= Table[Plus@@(hRMothsmok[[g, Range[2]]] prisksel[[1, g, Range[2]]]) +
+				Plus@@(RMsmokformoth[[g]] stopduur[[g]]) prisksel[[1, g, 3]],
+				{g, ng}];
+
+printbug["2.7"];
+
+	Do[hRMothsmok[[g]] = Join[	Table[hRMothsmok[[g, ri]] / ERRothsmok[[g]], {ri, 2}],
+					Table[RMsmokformoth[[g, ri]] / ERRothsmok[[g]], {ri, nstopduur}]],
+				{g, ng}],
+
+	(* THEY DO NOT *)
+
+printbug["2.9"];
+
+	resduurstop	= Table[0., {nscen}, {nstap}]				(* OUTPUT VARIABLE *)
+	];
+
+(* CALCULATION OF SMOKING CLASS TRANSITION RATES ACCORDING TO GIVEN SCENARIO scen AND FOR GIVEN TIME n *)
+
+printbug["3."];
+
+hmaketransrisksmok[] := Block[{},
+	
+	htransrisksmok = Table[0, {ng}, {ncsmok}, {ncsmok}, {na1}];
+	
+	Do[	(* SMOKING CLASS TRANSITION RATES *)
+
+		Do[htransrisksmok[[g, ri, ri]] 	= vect11, {ri, 2}];
+		htransrisksmok[[g, ncsmok, ncsmok]] 	= vect11;
+		Do[htransrisksmok[[g, ri, ri + 1]] 	= vect11, {ri, 3, ncsmok - 1}];
+
+		(* TRANSITIONS BETWEEN CLASSES *)			
+			
+		htransrisksmok[[g, 1, {1, 2, 3}]] +=
+					{-Plus@@transrisk[[1, g, 1, {2, 3}]], transrisk[[1, g, 1, 2]], transrisk[[1, g, 1, 3]]};
+
+		htransrisksmok[[g, 2, {2, 3}]] += {-transrisk[[1, g, 2, 3]], transrisk[[1, g, 2, 3]]};
+
+		htransrisksmok[[g, ncsmok, {2, ncsmok}]] += {relapserate[[g, nstopduur]], -relapserate[[g, nstopduur]]};
+			
+		Do[htransrisksmok[[g, 2 + ri, {2, 3 + ri}]] += {relapserate[[g, ri]], -relapserate[[g, ri]]}, {ri, nstopduur - 1}],
+
+		{g, ng}];
+
+	htransrisksmok
+
+	];
+
+(* CALCULATION OF SMOKING CLASS MORTALITY RATES FOR GIVEN TIME n *)
+
+printbug["4."];
+
+hmakemortsmok[] := Block[{},
+
+	mortsmok = Table[0, {ng}, {ncsmok}, {na1}];	
+
+	(* DISEASE-RELATED EXCESS MORTALITY RATES *)
+
+	ERRsmok = Table[Plus@@Table[nrisksmok[[g, ri]] RRriskscen[[1, RRriskindsel[[1, d + 1]], g, ri]], {ri, 2}] +
+				Plus@@Table[nrisksmok[[g, 2 + ri]] RRsmokform[[RRriskindsel[[1, d + 1]], g, ri]], {ri, nstopduur}],
+				{d, nd}, {g, ng}];
+
+	Do[mortsmok[[g, ri]] = Plus@@Table[mortspec[[d, g]] nrisksmok[[g, ri]] RRriskscen[[1, RRriskindsel[[1, d + 1]], g, ri]] /
+						(ERRsmok[[d, g]] + eps), {d, nd}],
+				{g, ng}, {ri, 2}];
+
+	Do[mortsmok[[g, 2 + ri]] = Plus@@Table[mortspec[[d, g]] nrisksmok[[g, 2 + ri]] RRsmokform[[RRriskindsel[[1, d + 1]], g, ri]] /
+						(ERRsmok[[d, g]] + eps), {d, nd}],
+				{g, ng}, {ri, nstopduur}];
+
+	(* OTHER CAUSES MORTALITY RATES *)
+
+	Do[mortsmok[[g, ri]] += hRMothsmok[[g, ri]] mortothsel[[g]], {g, ng}, {ri, ncsmok}];
+
+	mortsmok
+
+	];
+
+
+(*-------------------------------------------------
+		LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+Do[
+	(* DEFINES SCENARIO-SPECIFIC INPUT PARAMETER VALUES *)
+
+printbug["5."];
+
+	n		= 0;
+	ToExpression[makescen];
+	RMothrisk	= RMothrisksel;
+
+	(* FORMER SMOKER EVENT RATES DEPEND ON TIME SINCE SMOKING CESSATION *)
+
+printbug["5.2"];
+
+	If[(RRsmokduurind == 1),
+
+		(* FORMER SMOKER RELAPSE RATES DEPEND ON TIME SINCE SMOKING CESSATION *)
+
+		relapserate 	= Table[1 - Exp[ -relapsecoeffscen[[g, 1]] Exp[ -relapsecoeffscen[[g, 2]] 12 duurval ] *
+						( 1 - Exp[ -relapsecoeffscen[[g, 2]] 12 ] ) ],
+					{g, ng}];
+
+		nrisksmok	= Table[0, {ng}, {ncsmok}, {na1}];
+
+		Do[	Do[nrisksmok[[g, ri]] 		= priskscen[[1, g, ri]] npop0[[g]], {ri, 2}];
+			Do[nrisksmok[[g, 2 + ri]] 	= prisksel[[1, g, 3]] stopduur[[g, ri]] npop0[[g]], {ri, nstopduur}];
+			nrisksmok[[g, 2 + 1]] 		+= (priskscen[[1, g, 3]] - prisksel[[1, g, 3]]) npop0[[g]],
+
+			{g, ng}];
+	
+		RRsmokform	= Table[1 + (RRriskscen[[1, d, g, 2]] - 1) Exp[ -logRRsmokduurscen[[d, g, 1]] *
+					Exp[ - logRRsmokduurscen[[d, g, 2]] Max0[Range[na1] - 51] ] duurval[[ri]] ],
+				{d, Length[RRriskscen[[1]]]}, {g, ng}, {ri, nstopduur}];
+
+		Do[RRriskscen[[1, d, g, 3]] = Plus@@(RRsmokform[[d, g]] Drop[nrisksmok[[g]], 2]) / (Plus@@Drop[nrisksmok[[g]], 2] + eps),
+				{d, Length[RRriskscen[[1]]]}, {g, ng}]
+
+		];
+
+	(* CURRENT MEAN RELATIVE RISK AND RISK MULTIPLIER VALUES *)
+
+printbug["5.3"];
+		
+	ERRrisk 	= Table[Plus@@(RRriskscen[[r, d, g]] prisksel[[r, g]]),
+				{r, nrd}, {d, Length[RRriskscen[[r]]]}, {g, ng}];
+
+	(* BASELINE DISEASE INCIDENCE RATES *)
+
+printbug["5.4"];
+
+	incbase 	= Table[incscen[[d]] / (1 - pdissel[[d]]) /
+				Times@@Table[ERRrisk[[r, RRriskindsel[[r, d + 1]]]], {r, nrdpop}] / 
+				Times@@Table[1 + (RRdisscen[[RRdisindsel[[d1, d]]]] - 1) pdissel[[d1]], {d1, nd}],
+				{d, nd}];
+
+	(* ADJUSTED EXCESS MORTALITY RATES *)
+
+printbug["5.5"];
+
+	excessmortadj 	= Min1[Max0[excessmortseladj + (excessmortscen - excessmortsel)]];
+
+	(* DISCRETELY DISTRIBUTED RISK FACTOR CLASS TRANSITION RATES *)
+
+printbug["5.6"];
+
+	transrisk	= Table[maketransmarginal[transriskscen[[r]], transriskindsel[[r]], r, ncrsel[[r]], trackingscen], {r, nrd}];
+	
+	If[(RRsmokduurind == 1), transrisksmok0 = hmaketransrisksmok[]];
+
+	(* INITIAL POPULATION NUMBERS *)
+
+printbug["5.7"];
+
+	npop 		= Table[npop0[[g]] agesel1, {g, ng}];
+
+	(* INITIAL DISCRETE RISK FACTOR CLASS PREVALENCE NUMBERS *)
+
+printbug["5.8"];
+
+	nrisk		= Join[	Table[priskscen[[r, g, ri]] npop[[g]], {r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}],
+
+				Table[priskscen[[nrdpop + r, g, ri]] pdissel[[disindinv[[disriskindddis[[r]]]], g]] npop[[g]],
+					{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}]];
+
+	If[(RRsmokduurind == 1),
+
+printbug["5.9"];
+
+		nrisksmok = Table[nrisksmok[[g, ri]] agesel1, {g, ng}, {ri, 2 + nstopduur}]];
+
+	(* INITIAL CLASS PREVALENCE NUMBERS FOR DISCRETELY DISTRIUTED RISK FACTORS RESTRICTED TO DISEASED PERSONS *)
+
+printbug["5.10"];
+
+	hprisk 		= Table[priskscen[[nrdpop + r, g, ri]] /
+					RRriskscen[[nrdpop + r, RRriskindsel[[nrdpop + r, disindinv[[disriskindddis[[r]]]] + 1]], g, ri]],
+				{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+        hprisk 		= Table[hprisk[[r, g, ri]] / Plus@@hprisk[[r, g]], {r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+	prisknondis 	= Table[(hprisk[[r, g, ri]] - pdissel[[disindinv[[disriskindddis[[r]]]], g]] priskscen[[nrdpop + r, g, ri]]) /
+					(1 - pdissel[[disindinv[[disriskindddis[[r]]]], g]]),
+				{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+	(* INITIAL CONTINUOUSLY DISTRIBUTED RISK FACTOR DISTRIBUTION CHARACTERISTICS *)
+
+	(* INITIAL  DISEASE PREVALENCE RATES *)
+
+printbug["5.12"];
+
+	pdis 		= pdissel;
+
+	(* INITIAL SUM OF AGE AT DISEASE ONSET *)
+
+printbug["5.13"];
+
+	onsetage 	= Table[pdis[[d, g]] npop[[g]] (Range[na1] - .5 - disduur[[d, g]]), {d, nd}, {g, ng}];
+
+
+	(*-------------------------------------------------
+			LOOP OVER 1 YEAR TIME STEPS
+	---------------------------------------------------*)
+
+	Do[
+		nbirth 		= makenbirth[n] (1 - .5 morttot1[[Range[ng], 1]]);
+		
+		migpop 		= makemigpop[n] (1 - .5 morttot1);
+	
+		(* WGTSUBSET = PROPORTIONAL DISTRIBUTION OF 84+ POPULATION NUMBERS OVER AGE YEAR 84 AND AGE CLASS 85+ *)
+		
+		wgtsubset 	= Table[Take[npop[[g]], -2] / (Plus@@Take[npop[[g]], -2] + eps), {g, ng}];
+
+		(* CURRENT DISCRETE & CONTINUOUS RISK FACTOR CLASS PREVALENCE RATES *)
+
+		priskcurr	= Table[nrisk[[r, g, ri]] / (Plus@@nrisk[[r, g]] + eps), {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+		
+		(* CURRENT MEAN RELATIVE RISK AND RISK MULTIPLIER VALUES *)
+		(* FORMER SMOKER EVENT RATES DEPEND ON TIME SINCE SMOKING CESSATION *)
+
+		If[(RRsmokduurind == 1),
+
+			Do[RRriskscen[[1, d, g, 3]] =
+				Plus@@(RRsmokform[[d, g]] Drop[nrisksmok[[g]], 2]) / (Plus@@Drop[nrisksmok[[g]], 2] + eps),
+				{d, Length[RRriskscen[[1]]]}, {g, ng}]];
+
+		(* DISCRETELY DISTRIBUTED RISK FACTORS *)
+
+		ERRrisk		= Table[Plus@@(RRriskscen[[r, d, g]] priskcurr[[r, g]]), {r, nrd}, {d, Length[RRriskscen[[r]]]}, {g, ng}];
+
+		RMrisk		= Table[RRriskscen[[r, d, g, ri]] / (ERRrisk[[r, d, g]] + eps),
+					{r, nrd}, {d, Length[RRriskscen[[r]]]}, {g, ng}, {ri, ncrsel[[r]]}];
+
+		(* CONTINUOUSLY DISTRIBUTED RISK FACTORS *)
+
+		(* DISCRETELY DISTRIBUTED RISK FACTORS RESTRICTED TO DISEASES, E.G. HBA1C *)
+
+		ERMriskdis	= Table[Plus@@(RRriskscen[[r, RRriskindsel[[r, d + 1]], g]] priskcurr[[r, g]]) /
+						(Plus@@(RRriskscen[[r, RRriskindsel[[r, d + 1]], g]] prisksel[[r, g]]) + eps),
+					{r, nrdpop + 1, nrdpop + nrddis}, {d, nd}, {g, ng}];
+
+		(* CURRENT DISEASE INCIDENCE RATES *)
+
+		inc 		= Table[incbase[[d]] (1 - pdis[[d]]) *
+
+					(* MEAN RELATIVE RISK FROM DISCRETELY DISTRIBUTED RISK FACTORS *)
+
+					Times@@Table[ERRrisk[[r, RRriskindsel[[r, d + 1]]]], {r, nrdpop}] *
+
+					(* MEAN RELATIVE RISK FROM CO-MORBIDITY *)
+
+					Times@@Table[1 + (RRdisscen[[RRdisindsel[[d1, d]]]] *
+
+						(* ADJUSTMENT RESULTING FROM DISEASE-RESTRICTED RISK FACTORS *)
+
+						Times@@Table[If[(disriskindddis[[r]] == disind[[d1]]),
+									ERMriskdis[[r, d]],
+									1],
+								{r, nrddis}] - 1) pdis[[d1]],
+
+						{d1, nd}],
+
+					{d, nd}];
+
+		(* CASE FATALITY RATES ADJUSTED FOR CO-MORBIDITY *)
+
+		casefatadj	= Table[casefatscen[[casefatindsel[[d]]]] *
+
+					Times@@Table[1 + (RRcasefatscen[[RRcasefatindsel[[d1, d]]]] - 1) pdis[[d1]], {d1, nd}] /
+
+					Times@@Table[1 + (RRcasefatscen[[RRcasefatindsel[[d1, d]]]] - 1) pdissel[[d1]], {d1, nd}],
+
+					{d, nd}];
+
+		(* CURRENT DISEASE MORTALITY RATES *)
+
+		mortspec 	= excessmortadj pdis + inc (casefatadj + (1 - casefatadj) .5 excessmortadj);
+
+		(* CURRENT OTHER CAUSES MORTALITY RATE MULTIPLIERS *)
+
+		mortoth	= Table[Times@@Table[Plus@@(RMothrisksel[[r, g]] priskcurr[[r, g]]), {r, 2, nrd}] *
+					mortothsel[[g]],
+					{g, ng}];
+
+		(* OTHER CAUSES MORTALITY RISKS FOR 1ST RISK FACTOR, I.E. SMOKERS IN CASE OF DURATION DEPENDENCY *)
+
+		If[(RRsmokduurind == 1),
+
+			mortoth	*= Table[Plus@@(hRMothsmok[[g]] nrisksmok[[g]]) / (Plus@@nrisksmok[[g]] + eps), {g, ng}]];
+
+		(* OTHER CAUSES MORTALITY RISKS FOR 1ST RISK FACTOR IN ALL OTHER CASES *)
+
+		If[(RRsmokduurind == 0) && (nrd > 0),
+
+			mortoth	*= Table[Plus@@(RMothrisksel[[1, g]] priskcurr[[1, g]]), {g, ng}]];
+
+		(* CURRENT ALL CAUSE MORTALITY RATES *)
+
+		morttot 	= Table[mortoth[[g]] + Plus@@Table[mortspec[[d, g]], {d, nd}], {g, ng}];
+
+		(* NEW DISCRETELY DISTRIBUTED RISK FACTOR CLASS PREVALENCE NUMBERS *)
+
+		mortrisk = Join[Table[	Plus@@Table[mortspec[[d, g]] RMrisk[[r, RRriskindsel[[r, d + 1]], g, ri]], {d, nd}] +
+					RMothrisksel[[r, g, ri]] mortoth[[g]] / (Plus@@(RMothrisksel[[r, g]] priskcurr[[r, g]]) + eps),
+					{r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}],
+
+				Table[	RMrisk[[nrdpop + r, RRriskindsel[[nrdpop + r, disindinv[[disriskindddis[[r]]]] + 1]], g, ri]] *
+						excessmortadj[[disindinv[[disriskindddis[[r]]]], g]] *
+						(1 - pdis[[disindinv[[disriskindddis[[r]]]], g]]),
+					{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}]];
+
+		
+		(*--------------------------------------------------------------------------
+		FILL OUTPUT VARIABLES WITH MODEL RESULTS FOR SCENARIO scen AND TIME STEP n 
+		---------------------------------------------------------------------------*)
+
+		respop[[scen, n]] = Table[aggreg[npop[[g]], 1], {g, ng}] +
+					Table[Ceiling[.2 lengthageclass[[1, Range[nac[[1]]]]]] eps, {ng}];
+
+		resrisk[[scen, n]] = Table[aggreg[nrisk[[r, g, ri]], 1], {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+		resinc[[scen, n]] = Table[aggreg[inc[[d, g]] npop[[g]], 1], {d, nd}, {g, ng}];
+
+		resdis[[scen, n]] = Table[aggreg[pdis[[d, g]] npop[[g]], 1], {d, nd}, {g, ng}];
+
+		resmort[[scen, n, Range[nd]]] = Table[aggreg[mortspec[[d, g]] npop[[g]], 1], {d, nd}, {g, ng}];
+
+		resmort[[scen, n, nd + 1]] = Table[aggreg[mortoth[[g]] npop[[g]], 1], {g, ng}];
+
+		resmort[[scen, n, nd + 2]]= Plus@@resmort[[scen, n, Range[nd + 1]]];
+
+		resonsetage[[scen, n]] = Table[aggreg[onsetage[[d, g]], 1], {d, nd}, {g, ng}];
+
+		If[(RRsmokduurind == 1),
+			resduurstop[[scen, n]] = Table[aggreg[Plus@@(nrisksmok[[g, 2 + Range[nstopduur]]] duurval), 1],	{g, ng}]];
+
+		If[(riskcontind == 1) && (nrc > 0),
+			resdist[[scen, n]] = Table[{aggreg[mucurr[[r, g]] npop[[g]], 1], aggreg[varcurr[[r, g]] npop[[g]], 1]},
+					{r, nrc}, {g, ng}]];
+
+		resmortrisk[[scen, n]] = Table[aggreg[mortrisk[[r, g, ri]] nrisk[[r, g, ri]], 1], {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+			
+		(*---------------------------------------------------------
+	 	CALCULATED NEW VALUES OF MODEL STATE VARIABLES, I.E. AT END OF 1-YEAR TIME STEP 
+		----------------------------------------------------------*)
+
+		(* NEW DISEASE PREVALENCE RATES *)
+
+		pdis 	= Table[subsetp[
+				pdis[[d, g, 1]] +
+				.5 inc[[d, g, 1]] (1 - (1 - pdis[[d, g, 1]]) casefatadj[[d, g, 1]]) *
+					(1 - .25 (excessmortscen[[d, g, 1]] + rem1[[remindsel[[d]], g, 1]])),
+				inc[[d, g]] (1 - (1 - pdis[[d, g]]) casefatadj[[d, g]]) *
+					(1 - .5 (excessmortscen[[d, g]] + rem1[[remindsel[[d]], g]])) +
+				pdis[[d, g]] (1 - rem1[[remindsel[[d]], g]] - excessmortscen[[d, g]] (1 - pdis[[d, g]])),
+				wgtsubset[[g]]
+				],
+				{d, nd}, {g, ng}];
+
+		(* NEW SUM OF AGE AT DISEASE ONSET OF PREVALENT CASES *)
+
+		onsetage = Table[subsetn[
+				.5 inc[[d, g, 1]] (1 - casefatadj[[d, g, 1]]) *
+					(1 - .25 (excessmortscen[[d, g, 1]] + rem1[[remindsel[[d]], g, 1]])) *
+					nbirth[[g]] .5,
+				inc[[d, g]] (1 -  casefatadj[[d, g]]) *
+					(1 - .5 (excessmortscen[[d, g]] + rem1[[remindsel[[d]], g]])) npop[[g]] Range[na1] +
+				onsetage[[d, g]] *
+					(1 - rem1[[remindsel[[d]], g]] - excessmortscen[[d, g]] (1 - pdissel[[d, g]]) - morttot1[[g]])
+				],
+				{d, nd}, {g, ng}];
+
+		(* NEW TOTAL POPULATION NUMBERS *)
+
+		npop 	= Table[subsetn[nbirth[[g]], npop[[g]] (1 - morttot[[g]]) ], {g, ng}];
+		
+		(* RE-SCALING NUMBERS BECAUSE OF MIGRATION *)
+
+		onsetage = Table[(npop[[g]] + migpop[[g]]) / (npop[[g]] + eps) onsetage[[d, g]], {d, nd}, {g, ng}];
+
+		npop	+= migpop;
+
+		(* SCENARIO-SPECIFIC TRANSITION RATES *)
+
+		ToExpression[makescen];
+	
+		transrisk = Table[maketransmarginal[transriskscen[[r]], transriskindsel[[r]], r, ncrsel[[r]], trackingscen], {r, nrd}];
+	
+		If[(RRsmokduurind == 1), transrisksmok0 = hmaketransrisksmok[]];
+
+		(* NEW RISK FACTOR CLASS PREVALENCE NUMBERS *)
+
+		nrisk 	= Join[	Table[subsetn[
+					nbirth[[g]] priskscen[[r, g, ri, 1]],
+					nrisk[[r, g, ri]] (1 - mortrisk[[r, g, ri]] - Plus@@transrisk[[r, g, ri]]) +
+						Plus@@(transrisk[[r, g, Range[ncrsel[[r]]], ri]] nrisk[[r, g]])
+					],
+					{r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}],
+
+				Table[subsetn[
+					nbirth[[g]] priskscen[[r, g, ri, 1]] *
+					(pdis[[disindinv[[disriskindddis[[r - nrdpop]]]], g, 1]] + 
+					.5 inc[[disindinv[[disriskindddis[[r - nrdpop]]]], g, 1]]),
+					nrisk[[r, g, ri]] (1 - mortrisk[[r, g, ri]] - Plus@@transrisk[[r, g, ri]]) +
+					Plus@@(transrisk[[r, g, All, ri]] nrisk[[r, g]]) +
+					inc[[disindinv[[disriskindddis[[r - nrdpop]]]], g]] npop[[g]] priskincsel[[r - nrdpop, g, ri]]
+					],
+					{r, nrdpop + 1, nrdpop + nrddis}, {g, ng}, {ri, ncrsel[[r]]}]];
+				
+		(* NEW CONTINUOUSLY DISTRIBUTED RISK FACTOR DISTRIBUTION CHARACTERISTICS *)
+
+		(* NEW SMOKING CLASS PREVALENCE NUMBERS IN CASE OF DURATION DEPENDENT *)
+
+		If[(RRsmokduurind == 1),
+
+			(* ADJUSTMENT OF SMOKING CLASS TRANSITION RATES FOR MORTALITY *)
+
+			mortsmok = hmakemortsmok[];
+
+			transrisksmok = transrisksmok0;
+
+			Do[transrisksmok[[g, ri, ri]] -= mortsmok[[g, ri]], {g, ng}, {ri, ncsmok}];
+
+			(* SMOKING CLASS PREVALENCE NUMBERS, NEW VALUES *)
+
+			nrisksmok = Table[subsetn[
+						nbirth[[g]]*
+							If[(ri <= 2),
+								priskscen[[1, g, ri, 1]],
+								priskscen[[1, g, 3, 1]] stopduur[[g, ri - 2, 1]]],
+						Plus@@(transrisksmok[[g, Range[ncsmok], ri]] nrisksmok[[g]])
+						],
+						{g, ng}, {ri, ncsmok}];
+
+			(* OVERWRITING PREVIOUSLY CALCULATED PREVALENCE NUMBERS *)
+
+			nrisk[[1]] = Table[Join[nrisksmok[[g, Range[2]]], {Plus@@nrisksmok[[g, 2 + Range[nstopduur]]]}], {g, ng}]
+
+			];
+
+		(* RE-SCALING DISCRETE RISK FACTOR CLASS PREVALENCE NUMBERS BECAUSE OF MIGRATION *)
+
+		sumnrisk = Table[Plus@@nrisk[[r, g]], {r, nrd}, {g, ng}];
+
+		nrisk = Join[	Table[nrisk[[r, g, ri]] npop[[g]] / (sumnrisk[[r, g]] + eps), {r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}],
+
+				Table[nrisk[[nrdpop + r, g, ri]] pdis[[disindinv[[disriskindddis[[r]]]], g]] npop[[g]] /
+					(sumnrisk[[nrdpop + r, g]] + eps),
+					{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}]
+				];
+
+		If[(RRsmokduurind == 1),
+
+			nrisksmok = Table[nrisksmok[[g, ri]] npop[[g]] / (sumnrisk[[1, g]] + eps), {g, ng}, {ri, ncsmok}]],
+
+
+		(*-------------------------------------------------
+			END OF LOOP OVER 1 YEAR TIME STEPS
+		---------------------------------------------------*)
+
+	{n, nstap}],
+
+
+(*-------------------------------------------------
+		END OF SCENARIO LOOP
+---------------------------------------------------*)
+
+{scen, nscen}]];
+
+resmarginalmodeldetermpop = {respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk};
+
+(* --------------------------------------------------
+			Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMSimulationJointModelDetermPop *)
+
+(* :Context: CZMsimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM simulation routine describes deterministic joint CZM model, i.e. change of joint risk factor
+   class and disease prevalence numbers *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM November 2004
+		2.0 first release CZM 2005, version March
+		3.0 version November 2005 
+		3.1 version March 2007; storage of results *)
+
+(* :Keywords: joint model, model parameters *)
+
+
+BeginPackage["CZMSimulation`CZMSimulationJointModelDetermPop`",
+	{"CZMInitialization`CZMLogFile`", 
+	 "CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportRelativeRisks`",
+	"CZMAdjustData`CZMDataSmoothing`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMDefineScenarios`CZMDefineScenarios`",
+	"CZMSimulation`CZMSimulationFunctions`",
+	"CZMPostProcessing`CZMExportUserSelections`"}] 
+
+
+resjointmodeldetermpop::usage	= "output numbers of deterministic joint model total population, see marginalmodelresults"
+jointmodeldetermpopprev::usage	= "MMA data file, field 1: dimension of:, field 2: data, see jointmodelresults"
+
+
+Begin["`Private`"]
+
+
+Print["CZMSimulationJointModelDetermPop package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMSimulationJointModelDetermPop", c}]];
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+respop = resrisk = resdist = resdis = resinc = resmort = resonsetage = resduurstop = resmortrisk = Table[0., {nscen}, {nstap}];
+
+If[(modelsel[[2]] == 1) && (appltype != "outp"),
+
+(* INITIALIZE OUTPUT VARIABLES *)
+
+printbug["1."];
+
+respop 		= Table[0., {nscen}, {nstap}, {ng}, {nac[[1]]}];
+resrisk 	= Table[0., {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {nac[[1]]}];
+resdis 		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}]; 
+resinc 		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}]; 
+resmort 	= Table[0., {nscen}, {nstap}, {nd + 2}, {ng}, {nac[[1]]}]; 
+resonsetage 	= Table[0., {nscen}, {nstap}, {nd}, {ng}, {nac[[1]]}]; 
+If[(RRsmokduurind == 1),
+	resduurstop	= Table[0., {nscen}, {nstap}, {ng}, {nac[[1]]}]];
+
+mortrisk	= Table[0., {r, nrd}, {ng}, {ncrsel[[r]]}, {na1}];
+
+(* JOINT STATE PREVALENCE NUMBERS MADE AVAILABLE *)
+
+printbug["2."];
+
+outfile		= OpenWrite[Global`outputpath <> "jointmodeldetermpopprev.m"];
+Put[{nscen, Length[agesel], nstap, nz1, agemin, 0, riskind, disind, nscen0}, outfile];
+
+(* EMPIRICAL INITIAL CLASS PREVALENCE RATES *)
+
+printbug["3."];
+
+ERRrisk 	= Table[Plus@@(RRriskseladj[[r, d, g]] prisksel[[r, g]]), {r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}];
+
+RMrisk		= Table[RRriskseladj[[r, d, g, ri]] / (ERRrisk[[r, d, g]] + eps),
+			{r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}, {ri, ncrsel[[r]]}];
+
+printbug["4."];
+
+n		= 0;
+scen		= 1;
+ToExpression[makescen];
+
+printbug["5."];	
+
+prevcurr0	= makeprevcurr[prisksel, pdissel, RMrisk, RRdisscen, RRcasefatscen];
+
+		
+(*-------------------------------------------------
+		LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+Do[
+	(* DEFINES SCENARIO-SPECIFIC INPUT PARAMETER VALUES *)
+
+printbug["6."];
+
+	n		= 0;
+	ToExpression[makescen];
+
+	(* ADJUSTED EXCESS MORTALITY RATES *)
+
+printbug["6.1"];
+
+	excessmortadj 	= Min1[Max0[excessmortseladj + (excessmortscen - excessmortsel)]];
+	
+	(* DISEASE INCIDENCE FIGURES *)
+
+printbug["6.1"];
+
+	inc		= makeincjoint[incscen, RRriskscen, RRdisscen];
+
+printbug["6.2"];
+
+	incbase		= Table[incscen[[d, g]]^2 / (Plus@@(inc[[g, d]] prevcurr0[[g]]) + eps), {d, nd}, {g, ng}];
+
+
+printbug["6.3"];
+
+	rate		= maketransjoint[transriskscen, incbase, excessmortscen, casefatscen,
+						RRriskscen, trackingscen, RRdisscen, RRcasefatscen];
+
+printbug["6.4"];
+
+	transjoint	= rate[[1]];
+	inc		= rate[[2]];
+	mortoth		= rate[[3]];
+
+	(* CHANGE OF INITIAL CLASS PREVALENCE RATES ACCORDING TO SCENARIO *)
+
+printbug["6.5"];
+
+	prevcurr = If[(scen == 1), prevcurr0, changeprevcurr[prevcurr0, priskscen]];
+
+
+	(* RESTRICTION TO DISEASE PATIENT POPULATION *)
+
+	If[(Quotient[patientsel, 10] > 0) && (Mod[patientsel, 10] == 0),
+
+		prevcurr[[Range[ng], zinddis[[disindinv[[Quotient[patientsel, 10]]], 1]]]] *= 0];
+
+printbug["6.6"];
+	nprev		= Table[prevcurr[[g, zi]] npop0[[g]] agesel1, {g, ng}, {zi, nz1}];
+
+	npop		= Table[Plus@@nprev[[g]], {g, ng}];
+	
+	prevnewborn 	= prevcurr[[Range[ng], Range[nz1], 1]];
+	(* MEAN AGE AT ONSET OF INCIDENT AND PREVALENT DISEASE CASES *)
+
+	If[(outputsel[[7]] == 1),
+
+printbug["6.7"];
+
+		onsetage = Table[Range[na1], {ng}, {nz1}, {nd}] - 1;
+
+		Do[onsetage[[g, zinddis[[d, 2, zi]], d]] = Range[na1] - .5 - disduur[[d, g]],
+				{g, ng}, {d, nd}, {zi, Length[zinddis[[d, 2]]]}]];
+
+
+	(*-------------------------------------------------
+			LOOP OVER 1 YEAR TIME STEPS
+	---------------------------------------------------*)
+
+	Do[
+		(* UPDATE OF MEAN AGE AT ONSET OF NEW DISEASE CASES *)
+
+printbug["7"];
+
+		If[(outputsel[[7]] == 1), Do[++onsetage[[g, zinddis[[d, 1]], d]], {g, ng}, {d, nd}]];	
+
+		(* #NEWBORNS *)
+		
+		nbirth 	= makenbirth[n] (1 - .5 morttot1[[Range[ng], 1]]);
+
+		(* 1-YEAR MIGRATION NUMBERS APPLIED TO SELECTED COHORT TIMES PROBABILITY OF HALF YEAR SURVIVAL *)
+
+		migpop 	= makemigpop[n] ( 1 - .5 morttot1);
+
+		(* WGTSUBSET = PROPORTIONAL DISTRIBUTION OF 84+ POPULATION NUMBERS OVER AGE YEAR 84 AND AGE CLASS 85+ *)
+	
+		wgtsubset = Table[Take[npop[[g]], -2] / (Plus@@Take[npop[[g]], -2] + eps), {g, ng}];
+
+		(* MORTALITY NUMBERS FOR EACH RISK FACTOR CLASS *)
+
+		Do[mortrisk[[r, g, ri]] = Plus@@(mortoth[[g, zindrisk[[r, ri]]]] nprev[[g, zindrisk[[r, ri]]]]),
+				{r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}];
+					
+		Do[	disset	= Intersection[zindrisk[[r, ri]], zinddis[[d, 1]]];
+
+			Do[	mortrisk[[r, g, ri]] += Plus@@(nprev[[g, disset]] inc[[g, d, disset]]) *
+	 						(casefatscen[[casefatindsel[[d]], g]] +
+							.5 (1 - casefatscen[[casefatindsel[[d]], g]]) excessmortadj[[d, g]]),
+					{g, ng}];
+
+			disset	= Intersection[zindrisk[[r, ri]], zinddis[[d, 2]]];
+
+			Do[mortrisk[[r, g, ri]] += Plus@@nprev[[g, disset]] excessmortadj[[d, g]], {g, ng}],
+
+			{r, nrdpop}, {ri, ncrsel[[r]]}, {d, nd}];
+
+		Do[	d1	= disindinv[[disriskindddis[[r]]]];
+			disset	= Intersection[zindrisk[[nrdpop + r, ri]], zinddis[[d1, 2]]];
+			Do[	mortrisk[[nrdpop + r, g, ri]] = excessmortadj[[d1, g]] Plus@@nprev[[g, disset]], {g, ng}],
+
+			{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+
+		(*--------------------------------------------------------------------------
+		CALCULATED NEW VALUES OF MODEL STATE VARIABLES, I.E. AT END OF 1-YEAR TIME STEP 
+		----------------------------------------------------------*)
+
+printbug["8."];		
+		nprevnew 	= Table[Plus@@(nprev[[g]] transjoint[[g, Range[nz1], zj]]), {g, ng}, {zj, nz1}];
+
+		If[(outputsel[[7]] == 1),
+
+			onsetage	= Table[subsetp[
+							.5 .5 Plus@@(prevnewborn[[g]] transjoint[[g, Range[nz1], zj, 1]]),
+							Plus@@(onsetage[[g, Range[nz1], d]] nprev[[g]] transjoint[[g, Range[nz1], zj]]) /
+								(Plus@@(nprev[[g]] transjoint[[g, Range[nz1], zj]]) + eps),
+							wgtsubset[[g]]
+							],
+						{g, ng}, {zj, nz1}, {d, nd}]];
+
+
+		(*--------------------------------------------------------------------------
+		FILL OUTPUT VARIABLES WITH MODEL RESULTS FOR SCENARIO scen AND TIME STEP n 
+		---------------------------------------------------------------------------*)
+
+printbug["9."];
+
+		respop[[scen, n]] = Table[aggreg[Plus@@nprev[[g]], 1], {g, ng}] +
+					Table[Ceiling[.2 lengthageclass[[1, Range[nac[[1]]]]]] eps, {ng}];
+
+		Do[resrisk[[scen, n, r, g, ri]] = aggreg[Plus@@nprev[[g, zindrisk[[r, ri]]]], 1],
+					{r, nrdpop}, {g, ng}, {ri, ncrsel[[r]]}];
+
+		Do[resrisk[[scen, n, nrdpop + r, g, ri]] =
+					aggreg[Plus@@nprev[[g, Intersection[zindrisk[[nrdpop + r, ri]],
+									zinddis[[disindinv[[disriskindddis[[r]]]], 2]]]]], 1],
+					{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+		resdis[[scen, n]] = Table[aggreg[Plus@@nprev[[g, zinddis[[d, 2]]]], 1], {d, nd}, {g, ng}];
+
+		resinc[[scen, n]] = Table[aggreg[Plus@@(nprev[[g, zinddis[[d, 1]]]] inc[[g, d, zinddis[[d, 1]]]]), 1],
+					{d, nd}, {g, ng}];
+
+		resmort[[scen, n, Range[nd]]] = Table[aggreg[
+					Plus@@(nprev[[g, zinddis[[d, 1]]]] inc[[g, d, zinddis[[d, 1]]]]) *
+	 					(casefatscen[[casefatindsel[[d]], g]] +
+						.5 (1 - casefatscen[[casefatindsel[[d]], g]]) excessmortadj[[d, g]]) +
+					Plus@@nprev[[g, zinddis[[d, 2]]]] excessmortadj[[d, g]] , 1],
+					{d, nd}, {g, ng}];
+
+		resmort[[scen, n, nd + 1]] = Table[aggreg[Plus@@(mortoth[[g]] nprev[[g]]), 1], {g, ng}];
+
+		resmort[[scen, n, nd + 2]] = Table[aggreg[Plus@@(nprev[[g]] - nprevnew[[g]]), 1], {g, ng}];
+
+		If[(outputsel[[7]] == 1),
+			resonsetage[[scen, n]] = Table[aggreg[
+						Plus@@(onsetage[[g, zinddis[[d, 2]], d]] nprev[[g, zinddis[[d, 2]]]]), 1],
+						{d, nd}, {g, ng}]];	
+		
+		resmortrisk[[scen, n]] = Table[aggreg[mortrisk[[r, g, ri]], 1],	{r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+		PutAppend[Table[aggreg[nprev[[g, zi]], 1], {g, ng}, {zi, nz1}],	outfile]; 
+
+		(*---------------------------------------------------------
+		CALCULATED NEW VALUES OF MODEL STATE VARIABLES, I.E. AT END OF 1-YEAR TIME STEP 
+		----------------------------------------------------------*)
+
+printbug["10."];		
+		nprev		= Table[subsetn[nbirth[[g]] prevnewborn[[g, zi]], nprevnew[[g, zi]]], {g, ng}, {zi, nz1}];
+
+		sumnprev 	= Table[Plus@@nprev[[g]], {g, ng}];
+
+		(* RE-SCALING BECAUSE OF MIGRATION *)
+
+		npop		= sumnprev + migpop;
+		nprev		= Table[nprev[[g, zi]] npop[[g]] / (sumnprev[[g]] + eps), {g, ng}, {zi, nz1}],
+
+
+		(*-------------------------------------------------
+			END OF LOOP OVER 1 YEAR TIME STEPS
+		---------------------------------------------------*)
+
+
+	{n, nstap}],
+
+
+(*-------------------------------------------------
+	END OF SCENARIO LOOP
+---------------------------------------------------*)
+
+{scen, nscen}];
+
+
+Close[outfile]];
+
+printbug["10."];
+
+resjointmodeldetermpop = {respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk};
+
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMSimulationJointModelDetermAge *)
+
+(* :Context: CZMSimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM simulation routine describes deterministic joint CZM model stratified by age, i.e. change of joint risk factor
+   class and disease prevalence numbers for successive cohorts *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM November 2004
+		2.0 first release CZM 2005, version March
+		3.0 version November 2005 
+		3.1 version March 2007; storage of results *)
+
+(* :Keywords: joint model, model parameters *)
+
+
+BeginPackage["CZMSimulation`CZMSimulationJointModelDetermAge`",
+	{"CZMInitialization`CZMLogFile`", 
+	 "CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportRelativeRisks`",
+	"CZMAdjustData`CZMDataSmoothing`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMDefineScenarios`CZMDefineScenarios`",
+	"CZMSimulation`CZMSimulationFunctions`",
+	"CZMPostProcessing`CZMExportUserSelections`"}] 
+
+
+resjointmodeldetermage::usage	= "output numbers of deterministic joint model stratified by cohort, see marginalmodelresults"
+jointmodeldetermageprev::usage	= "MMA data file, field 1: dimension of:, field 2: data, see jointmodelresults"
+
+
+Begin["`Private`"]
+
+
+Print["CZMSimulationJointModelDetermAge package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMSimulationJointModelDetermAge", c}]];
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+respop = resrisk = resdist = resdis = resinc = resmort = resonsetage = resduurstop = resmortrisk = Table[0., {nscen}, {nstap}];
+
+If[(modelsel[[3]] == 1) && (appltype != "outp"),
+
+(* INITIALIZE OUTPUT VARIABLES *)
+
+printbug["1."];
+
+respop 		= Table[0., {nscen}, {nstap}, {ng}, {Length[agesel]}];
+resrisk 	= Table[0., {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {Length[agesel]}];
+resdis 		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}]; 
+resinc 		= Table[0., {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}]; 
+resmort 	= Table[0., {nscen}, {nstap}, {nd + 2}, {ng}, {Length[agesel]}]; 
+resonsetage	= Table[0., {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}]; 
+If[(RRsmokduurind == 1),
+	resduurstop	= Table[0., {nscen}, {nstap}, {ng}, {nac[[1]]}]];
+
+resmortrisk	= Table[0., {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {Length[agesel]}];;
+mortrisk	= Table[0., {r, nrd}, {ncrsel[[r]]}]; 
+
+(* JOINT STATE PREVALENCE NUMBERS *)
+
+outfile		= OpenWrite[Global`outputpath <> "jointmodeldetermageprev.m"];
+
+Put[{nscen, Length[agesel], nstap, nz1, agemin, 0, riskind, disind, nscen0}, outfile];
+
+(* EMPIRICAL INITIAL CLASS PREVALENCE RATES *)
+
+printbug["1.1"];
+
+ERRrisk		= Table[Plus@@(RRriskseladj[[r, d, g]] prisksel[[r, g]]), {r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}];
+
+RMrisk		= Table[RRriskseladj[[r, d, g, ri]] / (ERRrisk[[r, d, g]] + eps),
+			{r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}, {ri, ncrsel[[r]]}];
+
+printbug["1.2"];
+
+n		= 0;
+scen		= 1;
+ToExpression[makescen];
+
+printbug["1.3"];
+	
+prevcurr0	= makeprevcurr[prisksel, pdissel, RMrisk, RRdisscen, RRcasefatscen];
+
+printbug["1.4"];
+
+				
+(*-------------------------------------------------
+		LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+Do[
+	(* DEFINES SCENARIO-SPECIFIC INPUT PARAMETER VALUES *)
+
+printbug["2."];
+
+	n		= 0;
+	ToExpression[makescen];
+	
+	(* ADJUSTED EXCESS MORTALITY RATES *)
+
+printbug["2.1"];
+
+	excessmortadj 	= Min1[Max0[excessmortseladj + (excessmortscen - excessmortsel)]];
+	
+	(* DISEASE INCIDENCE FIGURES *)
+
+printbug["2.2"];
+
+	inc		= makeincjoint[incscen, RRriskscen, RRdisscen];
+
+	incbase		= Table[incscen[[d, g]]^2 / (Plus@@(inc[[g, d]] prevcurr0[[g]]) + eps), {d, nd}, {g, ng}];
+
+	(* CHANGE OF INITIAL CLASS PREVALENCE RATES ACCORDING TO SCENARIO *)
+
+printbug["2.3"];
+
+	prevcurr = If[(scen == 1), prevcurr0, changeprevcurr[prevcurr0, priskscen]];
+
+	(* UNCHANGED TRANSITION RATES FOR DISEASE-FREE PERSONS IN CASE OF SCENARIOS RESTRICTED TO DISEASE PATIENT POPULATION *)
+
+printbug["2.4"]; 
+
+	If[(Quotient[patientsel, 10] > 0) && (scen == 1),
+
+		transjointref = maketransjoint[transriskscen, incbase, excessmortscen, casefatscen, 
+							RRriskscen, trackingscen, RRdisscen, RRcasefatscen][[1]]];
+
+	(* RESTRICTION TO DISEASE PATIENT POPULATION *)
+
+	If[(Quotient[patientsel, 10] > 0) && (Mod[patientsel, 10] == 0),
+
+printbug["2.5"];
+
+		prevcurr[[Range[ng], zinddis[[disindinv[[Quotient[patientsel, 10]]], 1]]]] *= 0];
+
+	prevnewborn 	= prevcurr[[Range[ng], Range[nz1], 1]];
+
+printbug["2.6"];
+
+
+(*-------------------------------------------------
+		LOOP OVER GENDER AND AGE
+---------------------------------------------------*)
+	
+	Do[
+		a	= agesel[[a1]];				(* INITIAL AGE OF COHORT*)
+		ha	= a;					(* CURRENT AGE OF COHORT*)
+
+printbug["3."];
+
+		(* INITIAL POPULATIONAND CLASS PREVALENCE NUMBERS *)
+			
+		nprev	= prevcurr[[g, Range[nz1], a]] npop0[[g, a]];
+		npop	= Plus@@nprev;
+
+		(* MEAN AGE AT ONSET OF INCIDENT AND PREVALENT DISEASE CASES *)
+
+		onsetage = Table[a, {nz1}, {nd}] - 1;
+
+		Do[onsetage[[zinddis[[d, 2, zi]], d]] = a - .5 - disduur[[d, g, a]], {d, nd}, {zi, Length[zinddis[[d, 2]]]}];
+				
+
+		(*-------------------------------------------------
+				LOOP OVER 1 YEAR TIME STEPS
+		---------------------------------------------------*)
+				
+		Do[
+			(* UPDATE OF AGE AT ONSET OF NEW DISEASE CASES *)
+printbug["4."];	
+			Do[++onsetage[[zinddis[[d, 1]], d]], {d, nd}];	
+
+			(* CURRENT TRANSITION RATE VALUES *)
+printbug["4.1"];
+			rate		= maketransjointga[g, ha, transriskscen, incbase, excessmortscen, casefatscen, 
+								RRriskscen, trackingscen, RRdisscen, RRcasefatscen];
+
+			transjoint 	= rate[[1]];
+
+			If[(Quotient[patientsel, 10] > 0),
+				transjoint[[zinddis[[disindinv[[Quotient[patientsel, 10]]], 1]], Range[nz1]]] = 
+						transjointref[[g, zinddis[[disindinv[[Quotient[patientsel, 10]]], 1]], Range[nz1], ha]]];
+			
+			inc		= rate[[2]];
+			mortoth		= rate[[3]];
+
+			(* MORTALITY NUMBERS FOR EACH RISK FACTOR CLASS *)
+printbug["4.2"];
+
+			Do[	mortrisk[[r, ri]] = Plus@@(mortoth[[zindrisk[[r, ri]]]] nprev[[zindrisk[[r, ri]]]]),
+				{r, nrdpop}, {ri, ncrsel[[r]]}];
+					
+			Do[	disset	= Intersection[zindrisk[[r, ri]], zinddis[[d, 1]]];
+
+				mortrisk[[r, ri]] += Plus@@(nprev[[disset]] inc[[d, disset]]) *
+	 						(casefatscen[[casefatindsel[[d]], g, ha]] +
+							.5 (1 - casefatscen[[casefatindsel[[d]], g, ha]]) excessmortadj[[d, g, ha]]);
+
+				disset	= Intersection[zindrisk[[r, ri]], zinddis[[d, 2]]];
+
+				mortrisk[[r, ri]] += Plus@@nprev[[disset]] excessmortadj[[d, g, ha]],
+
+				{r, nrdpop}, {ri, ncrsel[[r]]}, {d, nd}];
+
+			Do[	d1	= disindinv[[disriskindddis[[r]]]];
+				disset	= Intersection[zindrisk[[nrdpop + r, ri]], zinddis[[d1, 2]]];
+				mortrisk[[nrdpop + r, ri]] = excessmortadj[[d1, g, ha]] Plus@@nprev[[disset]],
+
+				{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+printbug["4.3"];
+
+			(*---------------------------------------------------------
+			CALCULATED NEW VALUES OF MODEL STATE VARIABLES, I.E. AT END OF 1-YEAR TIME STEP 
+			----------------------------------------------------------*)
+
+			onsetage	= Table[Plus@@(onsetage[[Range[nz1], d]] nprev transjoint[[Range[nz1], zj]]) /
+						(Plus@@(nprev transjoint[[Range[nz1], zj]]) + eps),
+						{zj, nz1}, {d, nd}];
+
+			nprevnew	= Table[Plus@@(nprev transjoint[[Range[nz1], zj]]), {zj, nz1}];
+			npopnew		= Plus@@nprevnew;
+
+			
+			(*--------------------------------------------------------------------------
+			FILL OUTPUT VARIABLES WITH MODEL RESULTS FOR SCENARIO scen AND TIME STEP n 
+			---------------------------------------------------------------------------*)
+	
+			respop[[scen, n, g, a1]] = npop;
+	
+			Do[	resrisk[[scen, n, r, g, ri, a1]] = Plus@@nprev[[zindrisk[[r, ri]]]], {r, nrdpop}, {ri, ncrsel[[r]]}];
+
+			Do[	resrisk[[scen, n, nrdpop + r, g, ri, a1]] =
+				Plus@@nprev[[Intersection[zindrisk[[nrdpop + r, ri]],
+								zinddis[[disindinv[[disriskindddis[[r]]]], 2]]]]],
+				{r, nrddis}, {ri, ncrsel[[nrdpop + r]]}];
+
+ 			Do[resdis[[scen, n, d, g, a1]] = Plus@@nprev[[zinddis[[d, 2]]]], {d, nd}];
+
+			Do[resinc[[scen, n, d, g, a1]] = Plus@@(nprev[[zinddis[[d, 1]]]] inc[[d, zinddis[[d, 1]]]]), {d, nd}];
+
+			Do[resmort[[scen, n, d, g, a1]] = 
+					Plus@@(nprev[[zinddis[[d, 1]]]] inc[[d, zinddis[[d, 1]]]]) *
+	 					(casefatscen[[casefatindsel[[d]], g, ha]] +
+						.5 (1 - casefatscen[[casefatindsel[[d]], g, ha]]) *
+						excessmortadj[[d, g, ha]]) +
+					Plus@@nprev[[zinddis[[d, 2]]]] excessmortadj[[d, g, ha]],
+					{d, nd}];
+
+			resmort[[scen, n, nd + 1, g, a1]] = Plus@@(mortoth nprev);
+
+			resmort[[scen, n, nd + 2, g, a1]] = Plus@@(npop - npopnew);
+
+			Do[resonsetage[[scen, n, d, g, a1]] = Plus@@(onsetage[[zinddis[[d, 2]], d]] nprev[[zinddis[[d, 2]]]]), {d, nd}];
+
+			Do[resmortrisk[[scen, n, r, g, ri, a1]] = mortrisk[[r, ri]], {r, nrd}, {ri, ncrsel[[r]]}];
+
+			PutAppend[nprev, outfile];
+
+			(*---------------------------------------------------------
+			NEW POPULATION NUMBERS
+			----------------------------------------------------------*)
+
+			nprev		= nprevnew;			
+			npop		= npopnew;
+			ha		= Min[{ha + 1, na1}],
+
+
+			(*-------------------------------------------------
+				END OF LOOP OVER 1 YEAR TIME STEPS
+			---------------------------------------------------*)
+
+		{n, nstap}],
+
+
+	(*-------------------------------------------------
+		END OF LOOP OVER GENDER AND AGE
+	---------------------------------------------------*)
+
+	{g, ng}, {a1, Length[agesel]}],
+
+
+(*-------------------------------------------------
+		END OF LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+{scen, nscen}];
+
+printbug["6."];
+
+
+Close[outfile];
+
+resjointmodeldetermage = transformres[respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk],
+
+resjointmodeldetermage = {respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk}];
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMSimulationJointModelStochInd *)
+
+(* :Context: CZMSimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM simulation routine describes stochastic joint CZM model sratified by individuals, i.e. random change of risk
+   factor class and disease state for successive individuals *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM November 2004
+		2.0 first release CZM 2005, version March, effect of time since smoking cessation 
+		3.1 version March 2007; storage of results *)
+
+(* :Keywords: joint model, model parameters *)
+
+
+BeginPackage["CZMSimulation`CZMSimulationJointModelStochInd`",
+	{"CZMInitialization`CZMLogFile`", 
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportRelativeRisks`",
+	"CZMAdjustData`CZMDataSmoothing`",
+	"CZMAdjustData`CZMAdjustBeforeSelection`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMDefineScenarios`CZMDefineScenarios`",
+	"CZMSimulation`CZMSimulationFunctions`",
+	"CZMPostProcessing`CZMExportUserSelections`",
+	"Statistics`DiscreteDistributions`"}] 
+
+
+resjointmodelstochind::usage	= "output numbers of joint model stratified by individuals, see marginalmodelresults"
+ndraw::usage			= "sample size of stochastic joint model stratified by individuals"
+jointmodeldetermindprev::usage	= "MMA data file, field 1: dimension of:, field 2: data, see jointmodelresults"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMSimulationJointModelStochInd package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMSimulationJointModelStochInd", c}]];
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+respop = resrisk = resdist = resdis = resinc = resmort = resonsetage = resduurstop = resmortrisk = Table[0., {nscen}, {nstap}];
+
+If[(modelsel[[4]] == 1) && (appltype != "outp"),
+
+(* INITIALIZE OUTPUT VARIABLES *)
+
+ndraw		= 10000;
+
+(* INIDIVUAL RISK FACTOR CLASS STATES, INITIAL DISEASE STATES, TIMES AT DISEASE ONSET, AND TIMES OF MORTALITY *)
+
+respop		= Table[.0, {nscen}, {nstap}, {ng}, {Length[agesel]}];
+resrisk 	= Table[.0, {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {Length[agesel]}];
+resdis		= Table[.0, {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}];
+resinc		= Table[.0, {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}];
+resmort		= Table[.0, {nscen}, {nstap}, {nd + 2}, {ng}, {Length[agesel]}]; 
+resonsetage	= Table[.0, {nscen}, {nstap}, {nd}, {ng}, {Length[agesel]}];
+resmortrisk 	= Table[.0, {nscen}, {nstap}, {r, nrd}, {ng}, {ncrsel[[r]]}, {Length[agesel]}];
+
+printbug["1."];
+
+If[(RRsmokduurind == 1),
+
+	resduurstop	= Table[.0, {nscen}, {nstap}, {ng}, {Length[agesel]}];
+
+	(* MEAN DURATION SINCE SMOKING CESSATION SPECIFIED BY AGE *)
+
+	meanstopduur	= Table[Plus@@(duurval stopduur[[g, Range[nstopduur], a]]), {g, ng}, {a, na1}];
+
+	RRsmokformoth = Table[1 + (RMothrisksel[[1, g, 2]] / RMothrisksel[[1, g, 1]] - 1) Exp[-logRRsmokduuroth[[g, 1]] *
+					Exp[-logRRsmokduuroth[[g, 2]] Max0[Range[na1] - 51] ] meanstopduur[[g]] ],
+				{g, ng}],
+
+	(*JACK 240506resduurstop	= .0;*)resduurstop	= Table[0., {nscen}, {nstap}];
+
+	];
+
+(* JOINT STATE PREVALENCE NUMBERS MADE AVAILABLE *)
+
+outfile		= OpenWrite[Global`outputpath <> "jointmodelstochindprev.m"];
+Put[{nscen, Length[agesel], nstap, nz1, agemin, ndraw, riskind, disind, nscen0}, outfile]; 
+
+(*{nscen, Length[agesel], nstap, nz1, agemin, ndraw, riskind, disind}*)
+
+
+(* INITIAL CLASS PREVALENCE RATES *)
+
+printbug["2."];
+
+ERRrisk		= Table[Plus@@(RRriskseladj[[r, d, g]] prisksel[[r, g]]), {r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}];
+
+RMrisk		= Table[RRriskseladj[[r, d, g, ri]] / (ERRrisk[[r, d, g]] + eps),
+			{r, nrd}, {d, Length[RRriskseladj[[r]]]}, {g, ng}, {ri, ncrsel[[r]]}];
+
+printbug["2.1"];
+
+n		= 0;
+scen		= 1;
+ToExpression[makescen];
+
+printbug["2.2"];
+
+prevcurr0	= makeprevcurr[prisksel, pdissel, RMrisk, RRdisscen, RRcasefatscen];
+
+casefatbase	= Table[casefatscen[[casefatindsel[[d]]]] *
+				Times@@Table[1 + (RRcasefatscen[[RRcasefatindsel[[d1, d]]]] - 1) pdissel[[d1]], {d1, nd}],
+			{d, nd}];
+printbug["2.3"];
+
+	
+(*-------------------------------------------------
+	LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+nprevnew	= Table[0, {nz}];	(* CLASS PREVALENCE VALUES AFTER 1-YEAR TIME STEP *)
+incevent	= Table[0, {nd}];	(* INCIDENCE EVENT INDICATOR VALUES *)
+casefatevent	= Table[0, {nd}];	(* CASE FATALITY EVENT INDICATOR VALEUS *)
+
+Do[
+	(* DEFINES SCENARIO-SPECIFIC INPUT PARAMETER VALUES *)
+
+printbug["3."];
+
+	n		= 0;
+	ToExpression[makescen];
+
+	(* ADJUSTED EXCESS MORTALITY RATES *)
+
+printbug["3.1"];
+
+	excessmortadj 	= Min1[Max0[excessmortseladj + (excessmortscen - excessmortsel)]];
+	
+	transrisk	= Table[maketransmarginal[transriskscen[[r]], transriskindsel[[r]], r, ncrsel[[r]], trackingscen], {r, nrd}];
+
+printbug["3.2"];
+
+	If[(Quotient[patientsel, 10] > 0) && (scen == 1), transriskref = transrisk];
+
+	(* DISCRETELY DISTRIBUTED RISK FACTORS *)
+
+printbug["3.3"];
+
+	ERRrisk		= Table[Plus@@(RRriskscen[[r, d, g]] priskscen[[r, g]]),
+				{r, nrd}, {d, Length[RRriskscen[[r]]]}, {g, ng}];
+
+	RMrisk		= Table[RRriskscen[[r, d, g, ri]] / (ERRrisk[[r, d, g]] + eps),
+				{r, nrd}, {d, Length[RRriskscen[[r]]]}, {g, ng}, {ri, ncrsel[[r]]}];
+
+	(* DISEASE INCIDENCE FIGURES *)
+
+printbug["3.4"];
+
+	inc		= makeincjoint[incscen, RRriskscen, RRdisscen];
+
+	incbase		= Table[incscen[[d, g]]^2 / (Plus@@(inc[[g, d]] prevcurr0[[g]]) + eps), {d, nd}, {g, ng}];
+
+	(* CHANGE OF INITIAL CLASS PREVALENCE RATES ACCORDING TO SCENARIO *)
+
+printbug["3.5"];
+
+	prevcurr 	= If[(scen == 1), prevcurr0, changeprevcurr[prevcurr0, priskscen]];
+
+	prevnewborn 	= prevcurr[[Range[ng], Range[nz1], 1]];
+
+	(* INITIAL DISCRETELY DISTRIBUTED DISEASE-SPECIFIC RISK FACTOR CLASSES, E.G. HBA1C *)
+
+printbug["3.6"];
+
+	hprisk	= Table[priskscen[[nrdpop + r, g, ri]] /
+				RRrisksel[[nrdpop + r, RRriskindsel[[nrdpop + r, disindinv[[disriskindddis[[r]]]] + 1]], g, ri]],
+			{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+	hprisk	= Table[hprisk[[r, g, ri]] / Plus@@hprisk[[r, g]], {r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+	hRMriskdis = Table[RRrisksel[[nrdpop + r, RRriskindsel[[nrdpop + r, disindinv[[disriskindddis[[r]]]] + 1]], g, ri]] /
+			(Plus@@(RRrisksel[[nrdpop + r, RRriskindsel[[nrdpop + r, disindinv[[disriskindddis[[r]]]] + 1]], g]] *
+				hprisk[[r, g]]) + eps),
+			{r, nrddis}, {g, ng}, {ri, ncrsel[[nrdpop + r]]}];
+
+printbug["3.7"];
+
+
+If[(scen == 1),	initprev = Table[0, {ng}, {Length[agesel]}, {ndraw}];
+		initcont = Table[0, {ng}, {Length[agesel]}, {ndraw}]];
+
+
+(*-------------------------------------------------
+	LOOP OVER GENDER, AGE AND SAMPLE SIZE
+---------------------------------------------------*)
+
+	Do[	a	= agesel[[a1]];			(* INITIAL AGE OF COHORT *)
+		b	= 1;				(* FIRST RANDOM DRAWING FROM POPULATION SAMPLE *)
+		
+	While[(b <= ndraw),
+
+		ha	= agesel[[a1]];			(* CURRENT AGE OF COHORT *)
+		breject	= False;
+		nprev 	= If[(scen  == 1), Table[0, {nz}], initprev[[g, a1, b]]];
+		
+		If[(scen == 1), (* REFERENCE SCENARIO *)
+
+			(* INITIAL DISCRETELY DISTRIBUTED RISK FACTOR CLASSES *)
+
+			Do[	nprev[[r]] = Max[Range[ncrsel[[r]] + 1] Sign[Random[] - FoldList[Plus, 0, priskscen[[r, g, All, ha]]]]],
+				{r, nrdpop}];
+
+			(* INITIAL DISEASE STATES *)
+
+			Do[	d = dispath[[d1]];
+
+				(* BASELINE DISEASE PREVALENCE RATE *)
+
+				currpdis = pdissel[[d, g, ha]];
+
+				(* EFFECT THROUGH DISCRETELY DISTRIBUTED POPULATION RISK FACTORS *)
+
+				Do[currpdis *= RMrisk[[r, RRriskindsel[[r, d + 1]], g, nprev[[r]], ha]], {r, nrdpop}];
+				
+				(* EFFECT THROUGH NOT CAUSALLY RELATED RISK FACTORS WITH EMPIRICAL DATA *)
+
+				If[(userriskdata >= 1),	Do[
+
+					currpdis *= RMriskDMinc[[d, r1, g, nprev[[DMriskpairsel[[d, r1]]]], ha]],
+					{r1, Length[DMriskpairsel[[d]]]}]];
+
+				(* EFFECT THROUGH INDEPENDENT CO-MORBIDITY DISEASES *)
+
+				Do[If[MemberQ[dispair, {dispath[[d2]], d}],
+
+					currpdis *= (2 - nprev[[nrd + dispath[[d2]]]]) +
+							(nprev[[nrd + dispath[[d2]]]] - 1) *
+								RRdisadj[[RRdisindsel[[dispath[[d2]], dispath[[d1]]]], g, ha]] /
+							ERRdisadj[[RRdisindsel[[dispath[[d2]], dispath[[d1]]]], g, ha]]],
+					{d2, d1 - 1}];
+
+				(* EFFECT THROUGH DISCRETELY DISTRIBUTED DISEASE-SPECIFIC RISK FACTORS *)
+
+				Do[	hr 	= nrdpop + riskdisdsel[[dispath[[d2]], r]];
+					hd	= nprev[[nrd + disindinv[[disriskindddis[[hr - nrdpop]]]]]];
+
+					currpdis *= RMrisk[[hr, RRriskindsel[[hr, d + 1]], g, nprev[[hr]], ha]] (hd - 1) + (2 - hd),
+
+					{d2, d1 - 1}, {r, Length[riskdisdsel[[dispath[[d2]]]]]}];
+
+				nprev[[nrd + d]] = 1 + Max0[Sign[currpdis - Random[]]];
+
+				(* DISCRETELY DISTRIBUTED DISEASE-SPECIFIC RISK FACTORS HAVING THE RELATED DISEASE *)
+
+				Do[	hr 	= nrdpop + riskdisdsel[[d, r]];
+					hprisk	= (nprev[[nrd + d]] - 1) priskscen[[hr, g, All, ha]] +
+							(2 - nprev[[nrd + d]]) priskincsel[[hr - nrdpop, g, All, ha]];
+
+					nprev[[hr]] = Max[Range[ncrsel[[hr]] + 1] Sign[Random[] - FoldList[Plus, 0, hprisk]]],
+
+					{r, Length[riskdisdsel[[d]]]}]
+
+				,{d1, nd}]; (* INITIAL DISEASE STATES *)
+
+			If[(patientsel == 0) || (Mod[patientsel, 10] > 0)|| (nprev[[nrd + disindinv[[Quotient[patientsel, 10]]]]] == 2),
+
+				initprev[[g, a1, b]] = nprev;
+				b++,
+				breject = True]];  (* END REFERENCE SCENARIO *)
+
+		(* ALTERNATIVE SCENARIO *)
+
+		If[(scen > 1), 
+			rsel = Select[Range[nrd] Sign[Table[Plus @@Flatten[Abs[prisksel[[r]] - priskscen[[r]]]], {r, nrd}]], Positive];
+			If[! ((Quotient[patientsel, 10] > 0)
+				&& (Mod[patientsel, 10] > 0)
+				&& (nprev[[nrd + disindinv[[Quotient[patientsel, 10]]]]] == 1)), 
+				Do[nprev[[rsel[[r]]]] = Max[Range[ncrsel[[rsel[[r]]]] + 1]*Sign[Random[] - FoldList[Plus, 0, priskscen[[rsel[[r]], g, All, ha]]]]],
+				{r, Length[rsel]}]];
+			b++];
+
+		n	= 0;				(* TIME STEP *)	
+		dmort	= 0;				(* MORTALITY INDICATOR *)
+
+		(* RESTRICTION TO DISEASED POPULATION *)
+
+		If[(Quotient[patientsel, 10] > 0) && (Mod[patientsel, 10] == 0) &&
+			(nprev[[nrd + disindinv[[Quotient[patientsel, 10]]]]] == 1), dmort = 1];
+		
+		(* AGE AT DISEASE ONSET *)
+
+		onsetage = ha - 1 - disduur[[Range[nd], g, ha]];
+
+		(* AGE AT SMOKING CESSATION *)
+
+		If[(nrd > 0),
+
+			duurstop = If[(RRsmokduurind == 1) && (nprev[[1]] == 3),
+					(prisksel[[1, g, 3, ha]] Plus@@(stopduur[[g, Range[nstopduur], ha]] duurval) +
+					(priskscen[[1, g, 3, ha]] - prisksel[[1, g, 3, ha]]) duurval[[1]]) / (priskscen[[1, g, 3, ha]] + eps),
+					0]];
+
+		resprev	= Table[0, {nstap}];						
+
+		While[(n < nstap) && (dmort == 0),	
+
+				
+		(*-------------------------------------------------
+				LOOP OVER 1 YEAR TIME STEPS
+		---------------------------------------------------*)
+
+			++n;
+
+			(* RANDOM RISK FACTOR CLASS TRANSITIONS *) 
+
+			Do[	transrate = transrisk[[r, g, nprev[[r]], Range[ncrsel[[r]]], ha]];
+
+				(* ADJUSTMENT FOR TRACKING *)
+
+				If[(trackingind == 1) && (trstrackingind[[riskindd[[r]]]] == 1),
+
+					Do[transrate[[ri + 1]] += trackingscen trstrackingsel[[r, g, ri, 1, ha]],
+						{ri, ncrsel[[r]] - 1}];
+
+					Do[transrate[[ri - 1]] += trackingscen trstrackingsel[[r, g, ri, 2, ha]],
+						{ri, 2, ncrsel[[r]]}]
+
+					];
+		
+				(* NO TRANSITIONS IN CASE OF DISEASE-FREE FOR DISEASE-SPECIFIC RISK FACTORS, E.G. HBA1C *)
+
+				If[(r > nrdpop) && (nprev[[nrd + disindinv[[disriskindddis[[r - nrdpop]]]]]] == 1),
+					transrate = Table[0, {ncrsel[[r]]}];
+					transrate[[nprev[[r]]]] = 1];
+
+				(* DURATION-DEPENDENT SMOKING RELAPSE RATES *)
+
+				If[(RRsmokduurind == 1) && (r == 1) && (nprev[[r]] == 3),
+
+					transrate[[2]] = 1 - Exp[ -relapsecoeffscen[[g, 1]] Exp[ -relapsecoeffscen[[g, 2]] 12 duurstop] *
+									( 1 - Exp[ -relapsecoeffscen[[g, 2]] 12] ) ];
+					transrate[[3]] = 1 - transrate[[2]]];
+
+				nprevnew[[r]] = Max[Range[ncrsel[[r]] + 1] Sign[Random[] - FoldList[Plus, 0, transrate]]],
+
+				{r, nrd}];
+
+			(* RELATIVE RISKS FOR EX-SMOKERS DEPEND ON TIME SINCE SMOKING CESSATION *)
+
+			If[(RRsmokduurind == 1),
+
+				Do[RRriskscen[[1, d, g, 3, ha]] =
+						1 + (RRriskscen[[1, d, g, 2, ha]] - 1) *
+						Exp[-logRRsmokduur[[d, g, 1]] Exp[-logRRsmokduur[[d, g, 2]] Max0[ha - 51] ] duurstop],
+					{d, Length[logRRsmokduur]}, {g, ng}]];
+
+			(* RANDOM DISEASE STATE TRANSITIONS *)
+
+			incevent = Table[0, {nd}];
+
+			Do[If[(nprev[[nrd + d]] == 1),
+
+					(* INCIDENCE AND CASE FATALITY EVENTS IN CASE OF DISEASE-FREE *)
+
+					inc = incbase[[d, g, ha]] *
+
+						(* DISCRETELY DISTRIBUTED POPULATION RISK FACTORS *)
+
+						Times@@Table[RRriskscen[[r, RRriskindsel[[r, d + 1]], g, nprev[[r]], ha]], {r, nrdpop}] *
+
+						(* DISCRETELY DISTRIBUTED RISK FACTORS RESTRICTED TO DISEASES, E.G. HBA1C *)
+
+						Times@@Table[	1 +
+								(nprev[[nrd + disindinv[[disriskindddis[[r]]]]]] - 1) *
+								(RRriskscen[[nrdpop + r, RRriskindsel[[nrdpop + r, d + 1]], g,													nprev[[nrdpop + r]], a]] - 1),
+								{r, nrddis}] *
+
+						(* CO-MORBIDITY *)
+
+						Times@@Table[1 + (RRdisadj[[RRdisindsel[[d1, d]], g, ha]] - 1) (nprev[[nrd + d1]] - 1),
+								{d1, nd}];
+
+					incevent[[d]] 	= Max0[Sign[inc - Random[]]];
+
+					onsetage[[d]] 	= ha;
+
+					(* CASE FATALITY RATES ADJUSTED FOR CO-MORBID DISEASE STATUS *)
+
+					casefatadj	= casefatbase[[d, g, ha]] *
+								Times@@Table[
+									1 +
+									(RRcasefatscen[[RRcasefatindsel[[d1, d]], g, ha]] - 1) *
+										nprev[[nrd + d1]],
+									{d1, nd}];
+								
+					probcasefat	= casefatadj +
+								.5 (1 - casefatadj ) *
+									(excessmortscen[[d, g, ha]] + rem1[[remindsel[[d]], g, ha]]);
+
+					casefatevent[[d]] = incevent[[d]] Max0[Sign[probcasefat - Random[]]];
+
+					nprevnew[[nrd + d]] = 1 + incevent[[d]] (1 - casefatevent[[d]]),
+
+					(* REMISSION EVENTS IN CASE OF DISEASED *)
+					
+					remrate		= rem1[[remindsel[[d]], g, ha]];
+
+					nprevnew[[nrd + d]] = 2 - Max0[Sign[remrate - Random[]]]],
+
+				{d, nd}]; (* END RANDOM DISEASE STATE TRANSITIONS *)
+
+			(* MORTALITY EVENT *)
+
+			mortoth		= Times@@Table[RMothrisksel[[r, g, nprev[[r]], ha]], {r, 2, nrd}] mortothsel[[g, ha]] *
+
+						If[(nrd == 0),
+
+							1,
+
+							If[(RRsmokduurind == 1) && (nprev[[1]] == 3),
+
+								(1 + (RMothrisksel[[1, g, 2, ha]] / RMothrisksel[[1, g, 1, ha]] - 1) *
+									Exp[-logRRsmokduuroth[[g, 1]] Exp[-logRRsmokduuroth[[g, 2]] *
+									Max0[ha - 51] ] duurstop ]) /
+								RRsmokformoth[[g, ha]],
+
+								RMothrisksel[[1, g, nprev[[1]], ha]]]
+
+							];
+
+			excessmortcurr	= excessmortadj[[Range[nd], g, ha]] (nprev[[nrd + Range[nd]]] - 1);
+
+			morttot 	= Plus@@excessmortcurr + mortoth;
+
+			dmortprev 	= Max0[Sign[morttot - Random[]]];
+
+			dmort		= Max[{casefatevent incevent, dmortprev}];
+	
+	
+			(*--------------------------------------------------------------------------
+			FILL OUTPUT VARIABLES WITH MODEL RESULTS FOR SCENARIO scen AND TIME STEP n 
+			---------------------------------------------------------------------------*)
+
+			++respop[[scen, n, g, a1]];
+
+			Do[++resrisk[[scen, n, r, g, nprev[[r]], a1]], {r, nrdpop}];
+
+			Do[If[(nprev[[nrd + disindinv[[disriskindddis[[r]]]]]] == 2),
+					++resrisk[[scen, n, nrdpop + r, g, nprev[[nrdpop + r]], a1]]], {r, nrddis}];
+
+			resdis[[scen, n, Range[nd], g, a1]] += nprev[[nrd + Range[nd]]] - 1;
+
+			resinc[[scen, n, Range[nd], g, a1]] += incevent;
+
+			If[(dmortprev == 1),
+
+				resmort[[scen, n, Range[nd], g, a1]] += excessmortcurr / morttot;
+
+				resmort[[scen, n, nd + 1, g, a1]] += mortoth / morttot];
+
+			If[(dmortprev == 0) && (dmort == 1),
+
+				resmort[[scen, n, Range[nd], g, a1]] += casefatevent incevent];
+		
+			resmort[[scen, n, nd + 2, g, a1]] += dmort;
+
+			resonsetage[[scen, n, Range[nd], g, a1]] += (nprev[[nrd + Range[nd]]] - 1) onsetage;
+
+			If[(RRsmokduurind == 1) && (nprev[[1]] == 3), resduurstop[[scen, n, g, a1]] += duurstop];
+
+			If[(dmort == 1),
+
+				Do[	++resmortrisk[[scen, n, r, g, nprev[[r]], a1]], {r, nrdpop}];
+
+				Do[	If[(nprev[[nrd + disindinv[[disriskindddis[[r]]]]]] == 2),
+				 		++resmortrisk[[scen, n, nrdpop + r, g, nprev[[nrdpop + r]], a1]]], {r, nrddis}]];
+
+			resprev[[n]] = makezval[nprev];
+	 		
+			(*---------------------------------------------------------
+		 	CALCULATED NEW VALUES OF MODEL STATE VARIABLES, I.E. AT END OF 1-YEAR TIME STEP
+			----------------------------------------------------------*)
+
+			If[(RRsmokduurind == 1),
+
+				If[(nprev[[1]] == 3) && (nprevnew[[1]] == 3), ++duurstop];	(* CONTINUOUSLY FORMER SMOKER *)
+				If[(nprev[[1]] == 2) && (nprevnew[[1]] == 3), duurstop = .5]];	(* NEW FORMER SMOKER *)
+									
+			nprev		= nprevnew (1 - dmort);
+			ha		= Min[{ha + 1, na1}]
+
+
+		(*-------------------------------------------------
+				END OF LOOP OVER 1 YEAR TIME STEPS
+			---------------------------------------------------*)
+
+		];
+
+		If[!breject, PutAppend[{scen, g, agesel[[a1]], resprev}, outfile]]
+
+
+	(*-------------------------------------------------
+		END OF LOOP OVER GENDER, AGE AND DRAWING
+	---------------------------------------------------*)
+
+	], {g, ng}, {a1, Length[agesel]}],
+
+(*-------------------------------------------------
+	END OF LOOP OVER SCENARIOS
+---------------------------------------------------*)
+
+{scen, nscen}]; 
+
+Close[outfile];
+
+
+(*-------------------------------------------------
+	SCALING OF RESULTS FROM SAMPLE SIZE TO POPULATION SIZE
+---------------------------------------------------*)
+
+printbug["5."];
+
+scalepop	= npop0;
+
+If[(Quotient[patientsel, 10] > 0) && (Mod[patientsel, 10] == 0),scalepop *= pdissel[[disindinv[[Quotient[patientsel, 10]]]]]];
+
+Do[respop[[scen, n]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}];
+
+Do[resrisk[[scen, n, r, g, ri]] *= scalepop[[g, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+If[(riskcontind == 1) && (nrc > 0), Do[resdist[[scen, n, r, g, ri]] *= scalepop[[g, agesel]] / ndraw,
+	{scen, nscen}, {n, nstap}, {r, nrc}, {g, ng}, {ri, 2}]];
+
+Do[resdis[[scen, n, d]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {d, nd}];
+
+Do[resinc[[scen, n, d]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {d, nd}];
+
+Do[resmort[[scen, n, d]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {d, nd + 2}];
+
+Do[resonsetage[[scen, n, d]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {d, nd}];
+
+If[(RRsmokduurind == 1), Do[resduurstop[[scen, n]] *= scalepop[[All, agesel]] / ndraw, {scen, nscen}, {n, nstap}]];
+
+Do[resmortrisk[[scen, n, r, g, ri]] *= scalepop[[g, agesel]] / ndraw, {scen, nscen}, {n, nstap}, {r, nrd}, {g, ng}, {ri, ncrsel[[r]]}];
+
+printbug["5.1"];
+
+resjointmodelstochind = transformres[respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk],
+
+resjointmodelstochind = {respop, resrisk, resdist, resdis, resinc, resmort, resonsetage, resduurstop, resmortrisk}];
+
+ (* IF[(MODELSEL[[4]] == 1) && (APPLTYPE != "outp") *)
+
+printtijd;
+
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMStoreResults *)
+
+(* :Context: CZMSimulation` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM postprocessing routine stores results *)
+
+(* :Copyright: © 2006 by Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	 3.1 March 2007 *)
+
+(* :Keywords: postprocessing, results, storage, file *)
+
+
+BeginPackage["CZMSimulation`CZMStoreResults`",
+	{"CZMMain`CZMMain`",
+	"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`", 
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMAdjustData`CZMMakeSelections`",
+	"CZMAdjustData`CZMAdjustAfterSelection`",
+	"CZMSimulation`CZMSimulationMarginalModelDetermPop`",
+	"CZMSimulation`CZMSimulationJointModelDetermPop`",
+	"CZMSimulation`CZMSimulationJointModelDetermAge`",
+	"CZMSimulation`CZMSimulationJointModelStochInd`",
+	"CZMSimulation`CZMSimulationMarginalModelDetermDis`"}]
+
+resmodel	::usage	= "list of CZM model results"
+leesprev1	::usage	= "reads data from file with results from marginal model"
+leesprevpop	::usage	= "reads data from file with results from joint population model"
+leesprevage	::usage	= "reads data from file with results from joint age-cohort model"
+leesprevind	::usage	= "reads data from file with results from joint individual model"
+leesprevpop1	::usage	= "reads data from file with results from multiple joint population models"
+leesprevage1	::usage	= "reads data from file with results from multiple joint age-cohort models"
+leesprevind1	::usage	= "reads data from file with results from multiple joint individual models"
+
+
+Begin["`Private`"]
+
+
+Print["CZMStoreResults package is evaluated"];
+printtijd;
+
+printbug[c_] := If[(bugind == 1), Print[{"CZMStoreResults", c}]];
+
+printbug["1."];
+
+
+(* --------------------------------------------------
+	CONCATENATION OF MODEL RESULTS
+----------------------------------------------------*)
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+If[(appltype != "outp"),
+
+printbug["1.1"];
+
+	(* MARGINAL MODEL RESULTS: MARGINAL MODEL ON DISEASE INCLUDED *)
+
+	If[(appltype == "test"),
+
+		resmodel	= {resmarginalmodeldetermpop, resjointmodeldetermpop, resjointmodeldetermage, resjointmodelstochind,
+					resmarginalmodeldetermdis,
+					excessmortseladj, mortothsel, RRriskseladj, RMothrisksel},
+
+		resmodel	= {resmarginalmodeldetermpop, resjointmodeldetermpop, resjointmodeldetermage, resjointmodelstochind,
+					resmarginalmodeldetermdis,
+					0, 0, 0, 0}];
+
+	PutAppend[{riskindd, disind, excessmortcond, mortothind, agemin, agemax, modelsel, nstap, nscen0},
+			Global`outputpath <> "outfileresmodelrun.m"];
+
+	Do[PutAppend[resmodel[[m, o, scen, n]], Global`outputpath <> "outfileresmodelrun.m"],
+		{m, nmodel}, {o, Length[resmodel[[m]]]}, {scen, nscen}, {n, nstap}];
+
+	Do[PutAppend[resmodel[[m]], Global`outputpath <> "outfileresmodelrun.m"], {m, nmodel + 1, Length[resmodel]}];
+	
+	(* JOINT POPULATION MODEL RESULTS *)
+
+	If[(modelsel[[2]] == 1),
+printbug["1.2"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodeldetermpopprev.m"];
+		hres	= Read[dat];
+		PutAppend[hres, Global`outputpath <> "jointmodeldetermpopprev1.m"];
+		hnscen	= hres[[1]];
+		hnstap	= hres[[3]];
+		Do[	PutAppend[Read[dat], Global`outputpath <> "jointmodeldetermpopprev1.m"], {hnscen}, {hnstap}];
+		Close[dat]];
+		
+	(* JOINT AGE-COHORT MODEL RESULTS *)
+
+	If[(modelsel[[3]] == 1),
+printbug["1.3"]; 
+		dat	= OpenRead[Global`outputpath <> "jointmodeldetermageprev.m"];
+		hres	= Read[dat];
+		PutAppend[hres, Global`outputpath <> "jointmodeldetermageprev1.m"];
+		hnscen	= hres[[1]];
+		nagesel	= hres[[2]];
+		hnstap	= hres[[3]];
+		Do[	PutAppend[ReadList[dat, Expression, hnstap], Global`outputpath <> "jointmodeldetermageprev1.m"],
+			{hnscen}, {ng}, {nagesel}];
+		Close[dat]];
+	
+	(* JOINT INDIVIDUAL MODEL RESULTS *)
+
+	If[(modelsel[[4]] == 1),
+printbug["1.4"];
+		dat	= OpenRead[Global`outputpath <> "jointmodelstochindprev.m"];
+		hres	= Read[dat];
+		PutAppend[hres, Global`outputpath <> "jointmodelstochindprev1.m"];
+		hnscen	= hres[[1]];
+		nagesel	= hres[[2]];
+		hndraw	= hres[[6]];
+		Do[	PutAppend[ReadList[dat, Expression, hndraw], Global`outputpath <> "jointmodelstochindprev1.m"],
+			{hnscen}, {ng}, {nagesel}];
+		Close[dat]];
+printbug["1.6"],
+
+	resmodel = (ReadList[Global`outputpath <> resfile])[[1 + 2 run]];
+
+	];
+
+(* --------------------------------------------------
+	READ PROCEDURES
+----------------------------------------------------*)
+
+(* MARGINAL MODEL *)
+
+leesprev1 := Block[{},
+
+printbug["2.1"];
+
+	dat	= OpenRead[Global`outputpath <> "outfileresmodelrun.m"];
+	Read[dat];
+	hsel 	= Read[dat]; 
+	hnstap	= hsel[[8]];
+	hnscen	= hsel[[9]];
+	res 	= Table[0., {10}, {hnscen}, {hnstap}];
+	Do[	res[[o, scen, n]] += Read[dat], {o, 10}, {scen, hnscen}, {n, hnstap}]; 
+	Close[dat];
+
+	{{hnscen, hnstap}, res}];	
+
+(* JOINT MODEL DETERMINISTIC POPULATION *)
+
+leesprevpop := Block[{},
+
+printbug["2.2"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodeldetermpopprev.m"];
+	hres 	= Read[dat];
+	hnscen	= hres[[1]];
+	hnstap	= hres[[3]];
+	hnprev	= Table[0., {hnscen}, {hnstap}];
+	Do[hnprev[[scen, n]] += Read[dat], {scen, hnscen}, {n, hnstap}];
+	Close[dat];
+
+	{hres, hnprev}];
+
+(* JOINT MODEL DETERMINISTIC AGE COHORTS *)
+
+leesprevage := Block[{},
+
+printbug["2.3"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodeldetermageprev.m"];
+
+	hres 	= Read[dat];
+	hnscen 	= hres[[1]];
+	nagesel	= hres[[2]];
+	hnstap	= hres[[3]];
+	hnz1	= hres[[4]];
+	hagemin	= hres[[5]];
+	hna	= Max[{na1, hagemin + nagesel + hnstap}];
+
+	hnprev = Table[0., {hnscen}, {hnstap}, {ng}, {hna}, {hnz1}];
+
+	Do[hnprev[[scen, n, g, hagemin + a + n - 2]] += Read[dat], {scen, hnscen}, {g, ng}, {a, nagesel}, {n, hnstap}];
+
+	Close[dat];
+
+	hnprev	= Transpose[hnprev, {2, 3, 4, 1, 5}];
+
+	If[(hna > na1),	hnprev[[na1]] = Plus@@Drop[hnprev, na];
+			hnprev	= hnprev[[Range[na1]]]];
+
+	hnprev	= Table[Plus@@hnprev[[Range[5 ai - 4, Min[{5 ai, na1}]]]], {ai, nac[[1]]}];
+	hnprev	= Transpose[hnprev, {5, 1, 2, 3, 4}];
+
+	{hres, hnprev}];
+
+(* JOINT MODEL STOCHASTIC INDIVIDUALS *)
+
+leesprevind := Block[{},
+
+printbug["2.4"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodelstochindprev.m"];
+	hres 	= Read[dat];
+	hnscen 	= hres[[1]];
+	nagesel = hres[[2]];
+	hnstap 	= hres[[3]];
+	hnz1 	= hres[[4]];
+	hagemin = hres[[5]];
+	hndraw 	= hres[[6]];
+
+	hnprev 	= Table[0., {hnscen}, {ng}, {nagesel}, {hnstap}, {hnz1}];
+
+	Do[	hresi = Read[dat];
+		nstapi = Max[Range[hnstap] Sign[hresi[[4]]]];
+		Do[++hnprev[[scen, g, a, n, hresi[[4, n]]]], {n, nstapi}], {scen, hnscen}, {g, ng}, {a, nagesel}, {hndraw}];
+
+	Do[hnprev[[scen, g, a, n]] *= npop0[[g, hagemin + a - 1 ]] / hndraw, {scen, hnscen}, {g, ng}, {a, nagesel}, {n, hnstap}];
+	hnprev	= Transpose[hnprev, {3, 4, 1, 2, 5}];
+	hnprev1	= Table[0., {na1}, {hnstap}, {hnscen}, {ng}, {hnz1}]; 
+	Do[hnprev1[[Min[{hagemin + a + n - 2, na1}], n]] += hnprev[[a, n]], {a, nagesel}, {n, hnstap}];
+	hnprev	= Table[Plus@@hnprev1[[Range[5 ai - 4, Min[{5 ai, na1}]]]], {ai, nac[[1]]}];
+	hnprev	= Transpose[hnprev, {5, 2, 1, 3, 4}];
+
+	{hres, hnprev}];
+
+(* JOINT MODEL DETERMINISTIC POPULATION, SEVERAL RUNS *)
+
+leesprevpop1 := Block[{},
+
+printbug["2.5"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodeldetermpopprev1.m"];
+	hnrun	= Read[dat][[1]];
+	hres	= hnprev = Table[0., {hnrun}];
+	Do[	hres[[hrun]]	= Read[dat];
+		hnscen		= hres[[hrun, 1]];
+		hnstap		= hres[[hrun, 3]];
+		hnprev[[hrun]]	= Table[0., {hnscen}, {hnstap}];
+		Do[hnprev[[hrun, scen, n]] += Read[dat], {scen, hnscen}, {n, hnstap}],
+		{hrun, hnrun}];
+	Close[dat];
+   
+	Table[{hres[[hrun]], hnprev[[hrun]]}, {hrun, hnrun}]];
+
+(* JOINT MODEL DETERMINISTIC AGE COHORTS *)
+
+leesprevage1 := Block[{},
+
+printbug["2.6"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodeldetermageprev1.m"];
+	hnrun	= Read[dat][[1]];
+	hres	= hnprev = Table[0., {hnrun}];
+printbug["2.6.1"];	
+	Do[	hres[[hrun]]	= Read[dat];
+		hnscen		= hres[[hrun, 1]];
+		nagesel		= hres[[hrun, 2]];
+		hnstap		= hres[[hrun, 3]];
+		hnz1		= hres[[hrun, 4]];
+		hagemin		= hres[[hrun, 5]];
+		hna		= Max[{na1, hagemin + nagesel + hnstap}];
+		hnprev[[hrun]]	= Table[0., {hnscen}, {ng}, {hna}, {hnstap}, {hnz1}];
+printbug["2.6.2"];
+		Do[	resi	= Read[dat];
+			Do[hnprev[[hrun, scen, g, hagemin + a + n - 2, n]] += resi[[n]], {n, hnstap}],
+			{scen, hnscen}, {g, ng}, {a, nagesel}]; 
+		hnprev[[hrun]]	= Transpose[hnprev[[hrun]], {2, 4, 1, 3, 5}];
+printbug["2.6.3"];
+		If[(hna > na1),	hnprev[[hrun, na1]] = Plus@@Drop[hnprev[[hrun]], na];
+printbug["2.6.4"];
+		hnprev[[hrun]]	= hnprev[[hrun, Range[na1]]]];
+		hnprev[[hrun]]	= Table[Plus@@hnprev[[hrun, Range[5 ai - 4, Min[{5 ai, na1}]]]], {ai, nac[[1]]}];
+		hnprev[[hrun]]	= Transpose[hnprev[[hrun]], {5, 1, 2, 3, 4}],
+
+		{hrun, hnrun}];
+
+	Table[{hres[[hrun]], hnprev[[hrun]]}, {hrun, hnrun}]];
+
+(* JOINT MODEL STOCHASTIC INDIVIDUALS *)
+
+leesprevind1 := Block[{},
+
+printbug["2.7"];
+
+	dat	= OpenRead[Global`outputpath <> "jointmodelstochindprev1.m"];
+	hnrun	= Read[dat][[1]];
+	hres	= hnprev = Table[0., {hnrun}];
+	Do[	hres[[hrun]]	= Read[dat];
+		hnscen		= hres[[hrun, 1]];
+		nagesel		= hres[[hrun, 2]];
+		hnstap 		= hres[[hrun, 3]];
+		hnz1 		= hres[[hrun, 4]];
+		hagemin 	= hres[[hrun, 5]];
+		hndraw 		= hres[[hrun, 6]];
+		hnprev[[hrun]] 	= Table[0., {hnscen}, {ng}, {nagesel}, {hnstap}, {hnz1}];
+		Do[	hdat 	= Read[dat];
+			Do[	hresi = hdat[[i]];
+				nstapi 	= Max[Range[hnstap] Sign[hresi[[4]]]];
+				Do[++hnprev[[hrun, scen, g, a, n, hresi[[4, n]]]], {n, nstapi}],
+				{i, hndraw}],
+			{scen, hnscen}, {g, ng}, {a, nagesel}];
+		Do[hnprev[[hrun, scen, g, a, n]] *= npop0[[g, hagemin + a - 1]] / hndraw, {scen, hnscen}, {g, ng}, {a, nagesel}, {n, hnstap}];
+		hnprev[[hrun]]	= Transpose[hnprev[[hrun]], {3, 4, 1, 2, 5}];
+		hnprev1		= Table[0., {na1}, {hnstap}, {hnscen}, {ng}, {hnz1}];
+		Do[hnprev1[[Min[{hagemin + a + n - 2, na1}], n]] += hnprev[[hrun, a, n]], {a, nagesel}, {n, hnstap}];
+		hnprev[[hrun]]	= Table[Plus@@hnprev1[[Range[5 ai - 4, Min[{5 ai, na1}]]]], {ai, nac[[1]]}];
+		hnprev[[hrun]]	= Transpose[hnprev[[hrun]], {5, 2, 1, 3, 4}],
+
+		{hrun, hnrun}];
+	
+	Table[{hres[[hrun]], hnprev[[hrun]]}, {hrun, hnrun}]];
+	
+printtijd;
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+

@@ -1,0 +1,15 @@
+Hendriek Boshuizen/RIVM/NL
+12-12-06 16:37
+To: Patrick Steinberger/RIVM/NL@RIVM
+Subject: TR voor op CZM gebied
+
+Hoi Patrick,
+
+Ik zag dat dit technical report nog nooit op het CZM gebied 
+is gezet (waarschijnlijk bij mij blijven hangen). Zou je 
+dat nog kunnen doen? (of als onderdeel van de nieuwe 
+productieversie)Het hoort bij de file: 
+
+          RRlichactinput010305.txt
+
+Hendriek

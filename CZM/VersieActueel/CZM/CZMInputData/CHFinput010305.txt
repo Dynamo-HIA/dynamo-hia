@@ -1,0 +1,50 @@
+(* disease rates per gender (row) and  5-year ageclass (col)
+	incidence
+	prevalence
+	remission
+	case fatality
+	excess mortality
+	CBS registered mortality
+Source: DisMod 2005 *)
+
+CHF_incidence_rates_males&females
+
+div 1000
+
+.06 .04 .05 .03 .02 .03 .07 .14 .3  .64 1.2 2.22 4.03 7.28 12.8 21.61 30.32 35.94
+.01 .01 .01 0   .01 .01 .04 .08 .21 .43 .81 1.5  2.87 5.5   9.8 16.3  23.57 32.9
+
+CHF_prevalence_rates_males&females
+
+div 1000
+
+.18 .15 .08 .04 .04 .09 .21 .48 1.01 2.17 4.44 8.29 14.89 27.31 49.15 77.04 108.28 134.82
+.25 .2  .11 .07 .11 .21 .23 .36  .79 1.62 3.04 5.56 10.28 19.98 37.25 61.18  93.54 131.55
+
+CHF_remission_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+CHF_case_fatality_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+CHF_excess_mortality_rates_males&females
+
+div 1000
+
+137 137 137 137 137 137 137 137 137 137 137 137 117 120 128 140 151 157
+137 137 137 137 137 137 137 137 137 137 137 137 157 164 173 184 193 199
+
+CHF_CBS_cause_specific_mortality_numbers_males&females
+
+div 100000
+
+0   0 .2 0 0 .36 .60 .44 .79 2.75 5.25 8.57 18.81 39.91 97.97 228.96 467.94 1479.57
+.26 0 0  0 0 .18 .31 0   .81 1.41 1.57 2.87 10.10 20.14 57.23 148.63 355.56 1390.64

@@ -1,0 +1,1606 @@
+(* :Title: CZMImportUserSelections *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf  T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM package with functions to import the user selections of input*)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March, update menus
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+(* :Keywords: user selections, import *)
+
+BeginPackage["CZMImportData`CZMImportUserSelections`",
+	{"CZMMain`CZMMain`",
+	"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMDefineScenarios`CZMDefineRuns`"}]
+
+risknames::usage 		= "risknames[[r]]: names of all risk factors distinguished"
+nrd0::usage 			= "total number of risk factors distinguished"
+nrc0::usage 			= "total number of continuously distributed risk factors distinguished"
+riskind::usage 			= "riksind[[r]]: selected risk factors, order is given in the user input file, seel also risknames"
+riskindc0::usage 		= "riksindc0[[r]]: continuously distributed risk factors"
+riskindcinv::usage		= "riskindcinv[[r]]: order numbers of continuously distributed risk factors" 	
+
+disnamesnoncancers::usage 	= "disnamesnoncancers[[d]]: names of all non-cancer chronic diseases distinguished"
+disnamescancers::usage 		= "disnamescancers[[d]]: names of all forms of cancer distinguished"
+disnames::usage 		= "disnames[[d]]: names of all implemented diseases, see also disnamesnoncancers and disnamescancers"
+ndnoncanc::usage 		= "number of non-cancer diseases"
+ndcancers::usage 		= "number of forms of cancer"
+nd0::usage 			= "total number of diseases, equals ndnoncanc + ndcancers"
+disind0::usage 			= "disind0[[d]]: selected diseases, order is given in the user input file, see also disnames"
+disindrisk::usage		= "selection parameter indicating selection of all diseases related to risk factor (1) or not (0)"
+
+agemin::usage			= "selected minimum age value"
+agemax::usage			= "selected maximum age value"
+agesel::usage 			= "agesel[[a]]: initial age range of the cohort used in the simulations, equals (see) agemin .. agemax"
+agesel1::usage 			= "agesel1[[a]]: indicator variable that describes the age-years selected, see agesel"
+agerange::usage			= "agerange[[a]]: life course age range of the cohort, equals agemin .. agemax + nstap"
+migpopind::usage 		= "selection parameter indicating whether migration is included (1) or not (0)"
+birthind::usage 		= "selection parameter indicating whether new borns are included (1) or not (0)"
+patientsel::usage		= "restricted to specific disease patient population"
+
+mortothind::usage		= "selection parameter indicating mortality effects through non-modeled disease (1) or not (0)"
+excessmortcond::usage		= "selection parameter indicating way of adjusting excess mortality rates for double counting (1,2)"
+RRsmokduurind::usage		= "selection parameter indicating use of former smoking RR's dependent on time since cessation (1) or not"
+riskcontind::usage		= "selection parameter indicating use of continuously distributed risk factors (1) or not (0)"
+trackingind::usage		= "selection parameter indicating use of tracking of individual risk factors (1) or not (0)"
+userriskdata::usage		= "selection parameter indicating using user-provided risk factor prevalence data (1) or not"
+
+modelnames::usage		= "modelnames[[m]]: names of different CZM model versions available"
+nmodel::usage			= "number of different CZM model versions, see also modelnames"
+modelsel::usage			= "modelsel[[m]]: selected CZM model versions, seel also modelnames"
+compareselect::usage		= "selection parameter indicating comparing different selections (runs) (1) or not (0)"
+
+nstap::usage 			= "selected number of time steps in the simulation"
+nscen0::usage 			= "selected number of user-defined scenarios excluding random parameter drawings"
+analyse::usage			= "selected type of analyses: 0: standard, 1: sensitivity analyses, 2: risk factor tracking"
+sensparameters::usage		= "model parameters selected for sensitivity analysis"
+
+bugind::usage			= "indicator of printing debugging information (1) or not (0)"
+ageclssel::usage		= "ageclssel: fixed age class for presentation over time"
+
+seqPAR::usage			= "seqPAR[[z]]: sequence of scenarios for PAR calculations"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMImportUserSelections package is evaluated"];
+
+printbug[c_] 	:= If[(bugind == 1), Print[{"CZMImportUserSelections", c}]];
+printtijd	:= If[(bugind == 1), Print[{"CPU time ", TimeUsed[]}]];
+bugind 		= 1;
+
+appltype	= StringTake[ToString[Global`application], {8, 11}];
+
+input		= ReadList[Global`inputpath <> userinput, Word, WordSeparators -> {"/t", "="}];
+
+(* s0 to s8 denote the position of the KEYWORDS in the userinput file *)
+
+kop	= {	"DEMOGRAPHIC CONSTANTS SELECTED",
+		"EPIDEMIOLOGICAL CONSTANTS SELECTED",
+		"MODEL VERSIONS SELECTED",
+		"SCENARIO CHARACTERISTICS SELECTED",
+		"RISK FACTORS SELECTED",
+		"CHRONIC DISEASES SELECTED",
+		"NON-CANCER",
+		"CANCER",
+		"END"};
+
+s0	= Flatten[Position[input, kop[[1]]]][[1]];
+s1	= Flatten[Position[input, kop[[2]]]][[1]];
+s2	= Flatten[Position[input, kop[[3]]]][[1]];
+s3	= Flatten[Position[input, kop[[4]]]][[1]];
+s4 	= Flatten[Position[input, kop[[5]]]][[1]];
+s5 	= Flatten[Position[input, kop[[6]]]][[1]];
+s6 	= Flatten[Position[input, kop[[7]]]][[1]];
+s7 	= Flatten[Position[input, kop[[8]]]][[1]];
+s8 	= Flatten[Position[input, kop[[9]]]][[1]];
+
+
+(* -----------------------------------------------
+           CONSTANTS
+   -----------------------------------------------*)
+
+printbug["1."];
+
+
+(* DEMOGRAPHIC SELECTIONS *)
+
+printbug["1.1"];
+
+constants1 = ToExpression[Take[input, {s0 + 2, s1 - 1, 2}]];
+
+agemin			= constants1[[1]] + 1;
+agemax			= Minc[constants1[[2]] + 1, na1];
+
+migpopind		= constants1[[3]];
+birthind		= constants1[[4]];
+patientsel		= constants1[[5]];
+
+naam1			= {"agemin", "agemax", "migpopind", "birthind", "patientsel"};
+
+
+(* EPIDEMIOLOGICAL SELECTIONS *)
+
+printbug["1.2"];
+
+constants2 = ToExpression[Take[input, {s1 + 2, s2 - 1, 2}]];
+
+mortothind		= constants2[[1]];
+excessmortcond		= constants2[[2]];
+RRsmokduurind		= constants2[[3]];
+
+userriskdata		= constants2[[4]];
+
+riskcontind		= 0;
+trackingind		= 0;
+
+If[(excessmortcond == 2),
+	Print["if adjusting double-counted mortality numbers using Stat Netherlands mortality data (excessmortcond=2), " <>
+		"mortality effect through other causes allowed (thus: mortothind = 1)"];
+	mortothind = 1];									(* DEFAULT SELECTION *)
+
+naam2			= {"mortothind", "excessmortcond", "RRsmokduurind", "riskcontind", "trackingind", "userriskdata"};
+		
+
+(* MODEL VERSIONS SELECTED *)
+
+printbug["1.3"];
+
+modelnames 		= Take[input, {s2 + 1, s3 - 1, 2}]; 
+modelsel		= ToExpression[Take[input, {s2 + 2, s3 - 1, 2}]];
+
+ 
+If[(modelsel[[5]] == 1) && (patientsel == 0), Print["model 5 is only defined on patient population (thus: modelsel[[5]] = 0)"];
+	modelsel[[5]] = 0];									(* DEFAULT SELECTION *)
+
+nmodel			= Length[modelnames];
+
+
+(* SCENARIO CHARACTERISTICS SELECTED *)
+
+printbug["1.4"];
+
+constants4 = ToExpression[Take[input, {s3 + 2, s4 - 1, 2}]];
+
+nstap			= constants4[[1]];
+nscen0			= constants4[[2]];	
+analyse			= constants4[[3]];
+
+naam4			= {"nstap", "nscen", "analyse"};
+
+
+(* -----------------------------------------------
+           RISK FACTORS
+   -----------------------------------------------*)
+
+printbug["1.5"];
+
+risknames		= Take[input, {s4 + 1, s5 - 1, 2}];
+riskind1		= ToExpression[Take[input, {s4 + 2, s5 - 1, 2}]]; 
+riskind			= Flatten[Position[ToExpression[riskind1], 1]];
+riskindc0		= {2, 3, 4, 5};
+riskindcinv		= Table[0, {Length[risknames]}];
+Do[riskindcinv[[riskindc0[[r]]]] = r, {r, Length[riskindc0]}];
+
+nrd0			= Length[risknames]; 
+nrc0			= Length[riskindc0];
+
+
+(* -----------------------------------------------
+           DISEASES
+   -----------------------------------------------*)
+
+printbug["1.6"];
+disindrisk		= ToExpression[Take[input, {s5 + 2, s6 - 1, 2}]][[1]]; 
+
+disnamesnoncancers 	= Take[input, {s6 + 1, s7 - 1, 2}]; 
+ndnoncanc		= Length[disnamesnoncancers];
+disindnoncanc		= ToExpression[Take[input, {s6 + 2, s7 - 1, 2}]]; 
+
+disnamescancers 	= Take[input, {s7 + 1, s8 - 1, 2}]; 
+ndcancers		= Length[disnamescancers];
+disindcanc		= ToExpression[Take[input, {s7 + 2, s8 - 1, 2}]];
+
+disnames		= Join[disnamesnoncancers, disnamescancers];
+
+disind0			= Join[disindnoncanc, disindcanc];
+
+disind0			= Flatten[Position[ToExpression[disind0], 1]];
+
+nd0			= ndnoncanc + ndcancers;
+
+
+(* -----------------------------------------------
+           EXCLUDING JOINT MODELS IF RISK FACTORS ARE SMOKING AND/OR BMI AND ALL RELATED DISEASES ARE SELECTED
+   -----------------------------------------------*)
+printbug["1.7"];
+
+If[(disindrisk == 1) && (MemberQ[riskind, 1]||MemberQ[riskind,4]),
+	Print["if selecting all smoking and/or BMI related diseases , then all joint models are excluded (thus: modelsel[[2,3,4]]=0)"];
+	modelsel[[{2, 3,4}]] = 0];								(* DEFAULT SELECTION *)
+
+
+(* -----------------------------------------------
+           INTERACTIVE PARAMETER INPUT
+   -----------------------------------------------*)
+			
+
+(* -----------------------------------------------
+           OVERRULING SELECTIONS IN EXTRA MODEL RUNS
+   -----------------------------------------------*)
+
+If[(appltype != "outp"),
+
+printbug["3."];
+
+	ToExpression[makerun];
+
+printbug["3.1"];
+
+	agesel			= Range[agemin, agemax];
+	agesel1 		= Table[0, {na1}]; 
+	agesel1[[agesel]] 	= 1; 
+	agerange 		= Range[agemin, Minc[agemax + nstap, na1]];
+
+(* DEFAULT INDICATOR VALUES IN CASE OF NON-FULL POPULATION *)
+
+printbug["3.2"];
+
+	If[((agemax - agemin) < 85) || ((Quotient[patientsel, 10] > 0) && (Mod[patientsel, 10] == 0)),
+		Print["no migration or newborns in case of restriction of age range or (diseased) population 
+				(thus: migpopind = birthind = 0)"];
+		migpopind	= 0;								(* DEFAULT SELECTION *)
+		birthind	= 0
+		];
+
+printbug["3.3"];
+
+	If[(RRsmokduurind == 1),
+		Print["risk factor smoking selected in case of duration dependent selected (thus: riskind[[1]] = 1)"];
+		riskind = Union[{1}, riskind]];							(* DEFAULT SELECTION *)
+
+	];
+
+(* -----------------------------------------------
+           READING SELECTIONS FROM FILE
+   -----------------------------------------------*)
+
+printbug["4."];
+
+If[(appltype == "outp"),
+
+printbug["4.1"];
+
+	Do[sel = Read[Global`resfile], {1 + 2 (run - 1) + 1}];
+	
+printbug["4.2"];
+
+	
+	riskindd	= sel[[1]];
+	disind		= sel[[2]];
+	excessmortcond	= sel[[3]];
+	mortothind	= sel[[4]];
+	agemin		= sel[[5]];
+	agemax		= sel[[6]];
+	modelsel	= sel[[7]];
+	nstap		= sel[[8]];
+	nscen0 = nscen	= sel[[9]];
+
+	nrd		= Length[riskindd];
+	nd		= Length[disind];				
+	agerange 	= Range[agemin, Minc[agemax + nstap, na1]];
+	analyse		= 0;
+
+	Print["standard analysis if only output results are presented from former runs (thus: analyse = 0)"]
+
+	];
+
+
+(* -----------------------------------------------
+           MODEL INPUT PARAMETERS FOR SENSITIVITY ANALYSIS
+   -----------------------------------------------*)
+
+printbug["5."];
+
+sensparameters = Table[0, {14}];
+
+If[(analyse == 1),
+
+printbug["5.1"];
+
+	input = ReadList[Global`inputpath <> "sensinput011205.txt", Word, WordSeparators -> {"/t", "="}];
+
+	(* s0 to s1 denote the position of the KEYWORDS in the userinput file *)
+
+	s0	= Flatten[Position[input, "MODEL INPUT PARAMETERS SELECTED"]][[1]];
+	s1 	= Flatten[Position[input, "END"]][[1]];
+
+	sensparameters = ToExpression[Take[input, {s0 + 2, s1 - 1, 2}]];
+
+	If[(disindnoncanc[[1]] == 0) && (disindnoncanc[[4]] == 0),
+		Print["for sensitivity analysis, no disease selected with case fatality (thus: sensparameters[[{7,12}]] = 0)"];
+		sensparameters[[{7, 12}]] *= 0						(* DEFAULT SELECTION *)
+		];
+
+
+	If[(riskcontind == 0),
+		Print["for sensitivity analysis, no continuous risk factors selected (thus: sensparameters[[{3,4,9}]] = 0)"];
+		sensparameters[[{3, 4, 9}]] = 0						(* DEFAULT SELECTION *)
+		];
+	
+	If[(trackingind == 0),
+		Print["for sensitivity analysis, no tracking selected (thus: sensparameters[[10]] = 0)"];
+		sensparameters[[10]] = 0						(* DEFAULT SELECTION *)
+		];
+
+	If[(RRsmokduurind == 0),
+		Print["for sensitivity analysis, no duration dependent smoking events (thus: sensparameters[[{13,14}]] = 0)"];
+		sensparameters[[{13, 14}]] *= 0						(* DEFAULT SELECTION *)
+		],
+
+	sensparameters = Table[0, {14}]
+
+	];
+	
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+WriteString[logfile,
+
+	"Selected Risk Factors \n\n",
+
+		"\t" <> ToString[risknames[[riskind]]] 			<> "\n\n",
+
+	"Demographic Selections\n\n",
+
+		"\t" <> "agemin: " 		<> ToString[agemin] 		<> "\n",
+		"\t" <> "agemax: " 		<> ToString[agemax] 		<> "\n",
+		"\t" <> "migration: " 		<> ToString[migpopind] 		<> "\n",
+		"\t" <> "birth: " 		<> ToString[birthind] 		<> "\n",
+		"\t" <> "restricted to disease: " <> ToString[patientsel] 	<> "\n\n",
+
+	"Epidemiologic Selections\n\n",
+
+		"\t" <> "mortothind: " 		<> ToString[mortothind] 	<> "\n",	
+		"\t" <> "excessmortcond: " 	<> ToString[excessmortcond] 	<> "\n",	
+		"\t" <> "RRsmokduurind: " 	<> ToString[RRsmokduurind] 	<> "\n",
+		"\t" <> "riskcontind: " 	<> ToString[riskcontind] 	<> "\n",
+		"\t" <> "trackingind: " 	<> ToString[trackingind] 	<> "\n",
+		"\t" <> "userriskdata: " 	<> ToString[userriskdata] 	<> "\n\n",
+		
+	"Model Version Selections\n\n",
+
+		modelnames[[Select[Range[nmodel] modelsel, Positive]]] 	<> "\n\n",
+		
+	"Scenario Characteristics Selections\n\n",
+
+		"\t" <> "nstap: " 		<> ToString[nstap] 		<> "\n",
+		"\t" <> "nscen0: " 		<> ToString[nscen0] 		<> "\n",
+		"\t" <> "analyse: " 		<> ToString[analyse] 		<> "\n\n"
+	
+]; 
+
+End[]
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportDemography *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM input data routine imports demographic data *)
+
+(* :Copyright: © 2004 by Roel G.M. Breuls/Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+
+(* :Keywords: demographic data, import *)
+
+
+BeginPackage["CZMImportData`CZMImportDemography`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`"}]
+
+
+npop0::usage 		= "npop0[[g,a]]: initial population numbers, specified by gender (g=1..ng) and age (a=1..na1)"
+npop1::usage 		= "npop1[[g,ai]: initial population numbers, aggregated to 5 year ageclass values."
+morttot0::usage		= "mortot0[[g,ai]]: empirical total mortality rates, specified by gender (g) and ageclass (ai=1..nac[2])"
+
+nbirth0::usage 		= "nbirth0[[n,g]]: birth numbers specified by year and gender, specification see input file"
+
+migpop0::usage 		= "migpop0[[n,g,a]]: net migrantion numbers specified by year, gender and age, specification see input file"
+migpopyear::usage	= "migpopyear[[n]]: years for which migration data are given"
+
+
+Begin["`Private`"]
+
+
+Print["CZMImportDemography package is evaluated"]
+
+(* INITIALIZATION DATA FILE *)
+
+dat		= OpenRead[Global`inputpath <> deminput];
+Skip[dat, Record, RecordSeparators->{{"(*"}, {"*)"}}];
+Read[dat, Word];
+
+
+(* POPULATION NUMBERS *)
+
+npop0 		= Table[0, {ng}];
+Do[	Read[dat, Word];
+	npop0[[g]] = Read[dat, Table[Number, {na1}]],
+	{g, ng}];	
+npop1 		= Table[aggreg[npop0[[g]], 1], {g, ng}];
+npop2 		= Table[aggreg[npop0[[g]], 2], {g, ng}];
+
+
+(* MORTALITY NUMBERS *)
+
+mort2		= Table[0, {ng}];
+Read[dat, Table[Word, {2}]];
+div		= Read[dat, Number];
+mort2 		= Partition[Read[dat, Table[Number, {ng nac[[2]]}]], nac[[2]]] / div;
+morttot0 	= N[Table[aggregc[(mort2 npop2)[[g]], 2, 1] / npop1[[g]], {g, ng}]];
+
+
+(* SEXRATIO *)
+
+Read[dat, Word];
+sexratio 	= Read[dat, Number];
+sexratio 	= {sexratio, 1} / (1 + sexratio);
+
+
+(* NUMBERS OF NEWBORNS *)
+
+Read[dat, Table[Word, {2}]];
+ndat		= Read[dat, Number];
+nbirthtot 	= Read[dat, Table[Number, {2 ndat}]];
+nbirthtot 	= Transpose[Partition[nbirthtot, 2]][[2]];
+nbirth0 	= Transpose[Table[nbirthtot sexratio[[g]],{g, ng}]];
+
+
+(* NET NUMBERS OF MIGRANTS *)
+
+Read[dat, Table[Word, {2}]];
+ndat		= Read[dat, Number];
+migpop0 	= Read[dat, Table[Number, {ndat (ng na1 + 1)}]];
+Close[dat];
+migpopyear	= (Transpose[Partition[migpop0, 2na1 + 1]])[[1]];
+migpopyear	= migpopyear - migpopyear[[1]] + 1;
+migpop0 	= N[Partition[Partition[Flatten[Transpose[Drop[Transpose[Partition[migpop0, ng na1 + 1]], 1]]], na1], ng]];
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportRiskFactors *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM import data routine imports initial riskfactor class prevalence 
+   and transition rates *)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March, update data
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+(* :Keywords: risk factor data, import *)
+
+
+BeginPackage["CZMImportData`CZMImportRiskFactors`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`"}]
+
+
+prisk0::usage 		= "prisk0[[r,g,ri,ai]]: all initial risk factor class prevalence rates" 
+priskinc0	::usage = "priskinc0[[r,g,ri,ai]]: all initial risk factor class prevalence rates (new disease cases)"
+priskDM0::usage 	= "priskDM0[[r,g,ri,ai]]: all initial risk factor class prevalence rates (within current disease (DM) cases)"
+
+transrisk0::usage 	= "transrisk0[[r,g,ri,ai]]: all initial risk factor class transition rates"
+transriskind0::usage	= "transriskind0[[r,ri,rj]]: risk factor class transition indicator values"
+ncr0::usage 		= "ncr0[[r]]: number of classes for all risk factors"
+
+riskdispair::usage	= "riskdispair[[r]]: risk factors restricted to diseases"
+riskdispairinv::usage	= "riskdispairinv[[r]]: diseases to which risk factors are restricted, see riskdispair"
+
+riskDMpair::usage	= "riskDMpair[[r]]: empirical risk factor distributions within patients"
+riskDMpairinv::usage	= "riskDMpairinv[[r]]: diseases for which empirical risk factor distributions are provided, see riskDMpair"
+
+
+Begin["`Private`"]
+
+
+Print["CZMImportRiskFactors package is evaluated"]
+
+prisk0 = priskinc0	= Table[0, {nrd0}, {ng}];
+
+ncr0			= Table[0, {nrd0}];
+transrisk0		= Table[0, {nrd0}, {ng}];
+transriskind0		= Table[1, {nrd0}];
+
+
+(* ----------------------------------------------- 
+   RISK FACTOR DATA INPUT ROUTINE
+   -----------------------------------------------*)
+	
+readriskdata[r_, nac_] := Block[{},
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	Read[dat, Word];
+
+(* #RISK FACTOR CLASSES *)
+
+	ncr0[[r]] = Read[dat, {Word, Number}][[2]];
+
+(* INITIAL RISK FACTOR CLASS PREVALENCE DATA *)
+
+	Do[	div 		= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		prisk0[[r, g]] 	= Partition[Read[dat, Table[Number, {ncr0[[r]] nac}]], nac] / div,
+		{g, ng}];
+
+
+(* INITIAL RISK FACTOR CLASS PREVALENCE DATA (NEW DISEASE CASES) *)
+
+	If[MemberQ[Transpose[riskdispair][[1]], r],
+
+		Do[	div 		= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+			priskinc0[[r, g]] = Partition[Read[dat, Table[Number, {ncr0[[r]] nac}]], nac] / div,
+			{g, ng}]];
+
+(* RISK FACTOR CLASS TRANSITIONS SELECTED *)
+
+	ntrans		= Read[dat, {Word, Number}][[2]];
+	transind	= Partition[Read[dat, Table[Number, {2 ntrans}]], 2];
+
+(* RISK FACTOR CLASS TRANSITION RATE DATA *)
+
+	Do[	div 			= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		transrisk0[[r, g]] 	= Table[Read[dat, Table[Number, {nac}]], {ri, Length[transind]}] / div;
+		transrisk0[[r, g]] 	= Join[{Table[0, {nac}]}, transrisk0[[r, g]]],
+		{g, ng}];
+
+	Close[dat];
+
+	transriskind0[[r]] = Table[1, {ncr0[[r]]}, {ncr0[[r]]}];
+
+	Do[	transriskind0[[r, transind[[ri, 1]], transind[[ri, 2]]]] = ri + 1, 
+		{ri, Length[transind]}]
+
+	]; (* READRISKDATA *)
+
+
+(* ----------------------------------------------- 
+   RISK FACTORS ONLY RELEVANT TO DISEASED POPULATIONS, E.G. HBA1C AND DIABETES
+   -----------------------------------------------*)
+
+
+riskdispair	= {{12, 7}};
+riskdispairinv 	= Table[0, {nrd0}];
+Do[riskdispairinv[[riskdispair[[r, 1]]]] = riskdispair[[r, 2]], {r, Length[riskdispair]}];
+
+
+(* SMOKING *)
+
+dat		= OpenRead[Global`inputpath <> smokinput];
+readriskdata[1, nac[[1]]];
+If[(RRsmokduurind == 1), transrisk0[[1, Range[ng], transriskind0[[1, 2, 3]]]] *= .76];
+
+
+(* SYSTOLIC BLOOD PRESSURE *)
+
+dat 		= OpenRead[Global`inputpath <> SBPinput]; 
+readriskdata[2, nac[[1]]];
+
+
+(* TOTAL CHOLESTEROL *)
+	
+dat 		= OpenRead[Global`inputpath <> cholinput];  
+readriskdata[3, nac[[1]]];
+
+
+(* BMI *)
+	 
+dat 		= OpenRead[Global`inputpath <> BMIinput];
+readriskdata[4, nac[[1]]];
+
+
+(* PHYSICAL ACTIVITY *)
+
+dat 		= OpenRead[Global`inputpath <> lichactinput];
+readriskdata[5, na1];
+
+
+(* CONSUMPTION OF ALCOHOL *)
+
+dat 		= OpenRead[Global`inputpath <> alcoinput];
+readriskdata[6, nac[[1]]];
+
+
+(* CONSUMPTION OF FATTY ACIDS *)
+
+dat 		= OpenRead[Global`inputpath <> verzvetinput];
+readriskdata[7, nac[[1]]];
+
+
+(* CONSUMPTION OF TRANS FATTY ACIDS *)
+
+dat 		= OpenRead[Global`inputpath <> transvetinput];
+readriskdata[8, nac[[1]]];
+
+
+(* CONSUMPTION OF FRUIT *)
+
+dat 		= OpenRead[Global`inputpath <> fruitinput];
+readriskdata[9, nac[[1]]];
+
+
+(* CONSUMPTION OF VEGETABLES *)
+
+dat 		= OpenRead[Global`inputpath <> groenteinput];
+readriskdata[10, nac[[1]]];
+
+
+(* CONSUMPTION OF FISH *)
+
+dat 		= OpenRead[Global`inputpath <> visinput];
+readriskdata[11, nac[[1]]];
+
+(* HBA1C *)
+
+dat 		= OpenRead[Global`inputpath <> HbA1cinput];
+readriskdata[12, nac[[1]]];
+
+
+(* ----------------------------------------------- 
+   EMPIRICAL RISK FACTOR DISTRIBUTIONS WITHIN PATIENTS
+   -----------------------------------------------*)
+
+If[(userriskdata >= 1),
+
+
+	dat		= OpenRead[Global`inputpath <> riskdisinput];
+	skipcomment[dat]; 
+        Skip[dat, Word];
+	npair 		= Read[dat, Number];
+	riskDMpair 	= Table[0, {npair}];
+	priskDM0 	= Table[0, {npair}, {ng}];
+
+	Do[	skipcomment[dat];
+		riskDMpair[[r]] = Transpose[Read[dat, Table[{Word, Number}, {2}]]][[2]];
+
+		Do[	Skip[dat, String];
+			div	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+			priskDM0[[r, g]] = Partition[Read[dat, Table[Number, {ncr0[[riskDMpair[[r, 1]]]] nac[[1]]}]], nac[[1]]] / div,
+
+			{g, ng}],
+
+		{r, npair}];
+
+	Close[dat];
+
+	riskDMpairinv = Table[{}, {nrd0}];
+	Do[riskDMpairinv[[riskDMpair[[r, 1]]]] = Flatten[{riskDMpair[[r, 2]], riskDMpairinv[[riskDMpair[[r, 1]]]]}], {r, npair}]];
+	
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportRelativeRisks *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM import data routine imports relative risks of risk factors on diseases*)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March, update data
+		3.0 version november 2005 
+		3.1 version March 2007; import relative risks routine *)
+
+(* :Keywords: relative risks, import *)
+
+BeginPackage["CZMImportData`CZMImportRelativeRisks`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportRiskFactors`",
+	"CZMImportData`CZMImportDiseaseData`"}]
+
+RRdis0::usage 		= "RRdis0[[d,g,a]]: relative risks for one disease on another disease incidence"
+RRdisind::usage 	= "RRdisind[[d,d1]]: pointer to elements of vector RRdis"
+RRdisinddata::usage 	= "RRdisinddata[[d]]: lists of independent co-morbid diseases"
+RRdisinddatasel::usage 	= "RRdisinddatasel[[d]]: lists of independent co-morbid diseases adjusted for risk factors"
+
+RRcasefat0::usage	= "RRcasefat0[[d,g,a]]: relatve risks for one disease on another disease case fatality"
+RRcasefatind		= "RRcasefatind[[d,d1]]: pointer to elements of vector RRcasefat"
+
+RRrisk0::usage 		= "RRrisk0[[r,d,g,ri,a]]: relative risks for each risk factor r for each related disease,
+				specified by gender (g), risk factor class (ri) and age (a). 
+				Only values for related diseases are stored in RRrisk (See also RRiskind0)
+				d=1 refers to NO RELATION between the risk factor and the disease (i.e. RR=1) 
+				d=2 is associated with all cause mortality. 
+				Positions d>=3 contain the RRs for the diseases associated with the risk factor."
+RRriskind0::usage 	= "RRiskind0[[r,d]]: the pointer to the index in RRrisk0 for each risk factor r and disease d" 
+disriskrelated::usage	= "disriskrelated[[r,d]]: diseases related to each risk factor"
+logRRsmokduur0::usage	= "logRRsmokduur[[d,g]]: parameters of log-linear decrease of former smoker RR's with stopping time"
+relapsecoeff::usage	= "relapsecoeff[[g]]: parameters of decrease of relapse rates with stopping time"
+
+riskdisprevind::usage	= "pairs of empirical risk factor distributions within disease patients"
+riskdisprev0::usage	= "empirical risk factor distributions within disease patients data"
+
+pdisDM::usage		= "empirical disease prevalence rates within diabetics"
+pdisDMpair::usage	= "pairs of diseases with empirical disease prevalence rates within diabetics"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMImportRelativeRisks package is evaluated"]
+
+
+(* ----------------------------------------------- 
+   INPUT RELATIVE RISKS ROUTINE 
+   -----------------------------------------------*)
+	
+readriskdata[r_] := Block[{},
+
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	Read[dat, Word];
+	Read[dat, Word];
+	nd1		= Read[dat, Number];
+	RRrisk0[[r]]	= Table[0, {nd1 + 1}, {ng}];
+	RRrisk0[[r, 1]] = Table[1, {ng}, {ncr0[[r]]}, {nac[[1]]}];
+
+	Do[	Skip[dat, Word];
+		RRriskind0[[r, Read[dat, Number] + 1]] = d;
+		Do[	Skip[dat, Word];
+			RRrisk0[[r, d + 1, g]] = Partition[Read[dat, Table[Number, {ncr0[[r]] nac[[1]]}]], nac[[1]]], {g, ng}],
+		{d, nd1}];
+
+	Close[dat]
+
+	]; (* READRISKDATA *)
+
+(* ----------------------------------------------- 
+   EPIDEMIOLOGICAL RISK FACTORS 
+   -----------------------------------------------*)
+
+(* SMOKING *)
+
+RRrisk0		= Table[0, {nrd0}];
+RRriskind0	= Table[0, {nrd0}, {nd0 + 1}];
+
+dat		= OpenRead[Global`inputpath <> RRsmokinput];
+readriskdata[1];
+
+(* CHECK AND ADJUSTMENT: 1 = RR NEVER SMOKERS <= RR FORMER SMOKERS <= RR CURRENT SMOKERS *)
+
+RRrisk0[[1]] 	= Max1[RRrisk0[[1]]]; 
+Do[RRrisk0[[1, d, g, 3]] = Minc[RRrisk0[[1, d, g, 2]], RRrisk0[[1, d, g, 3]]],
+		{d, Length[RRrisk0[[1]]]}, {g, ng}]; 
+
+
+(* SYSTOLIC BLOOD PRESSURE *)
+
+dat 		= OpenRead[Global`inputpath <> RRSBPinput]; 
+readriskdata[2];
+
+
+(* TOTAL CHOLESTEROL LEVEL *)
+
+dat 		= OpenRead[Global`inputpath <> RRcholinput]; 
+readriskdata[3];
+
+
+(* BMI *)
+
+dat 		= OpenRead[Global`inputpath <> RRBMIinput]; 
+readriskdata[4];
+
+
+(* PHYSICAL ACTIVITY *)
+
+dat 		= OpenRead[Global`inputpath <> RRlichactinput]; 
+readriskdata[5];
+
+
+(* CONSUMPTION OF ALCOHOL *)
+
+dat 		= OpenRead[Global`inputpath <> RRalcoinput]; 
+readriskdata[6];
+
+
+(* CONSUMPTION OF FATTY ACIDS *)
+
+dat 		= OpenRead[Global`inputpath <> RRverzvetinput]; 
+readriskdata[7];
+
+
+(* CONSUMPTION OF TRANS FATTY ACIDS *)
+
+dat 		= OpenRead[Global`inputpath <> RRtransvetinput]; 
+readriskdata[8];
+
+
+(* CONSUMPTION OF FRUIT *)
+
+dat 		= OpenRead[Global`inputpath <> RRfruitinput]; 
+readriskdata[9];
+
+
+(* CONSUMPTION OF VEGETABLES *)
+
+dat 		= OpenRead[Global`inputpath <> RRgroenteinput]; 
+readriskdata[10];
+
+
+(* CONSUMPTION OF FISH (ACIDS) *)
+
+dat 		= OpenRead[Global`inputpath <> RRvisinput]; 
+readriskdata[11];
+
+
+(* HbA1c *)
+
+dat 		= OpenRead[Global`inputpath <> RRHbA1cinput]; 
+readriskdata[12];
+
+++RRriskind0;
+
+disriskrelated	= Table[Flatten[Table[Select[Range[nd0], RRriskind0[[r, # + 1]] == d1 &],
+	{d1, 3, Length[RRriskind0[[r]]]}]], {r, 1, nrd0}];
+
+
+
+(* ----------------------------------------------- 
+   RELATIVE RISKS FOR ONE DISEASE ANOTHER
+   -----------------------------------------------*)
+
+dat 		= OpenRead[Global`inputpath <> RRCVDinput]; 
+Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+Read[dat, Word];
+
+(* CONSTRUCTION OF CO-MORBIDITY INDICATOR VALUES *)
+
+nd1		= Read[dat, {Word, Number}][[2]];
+RRdisinddata	= Table[0, {nd1}];
+RRdisinddatasel	= Table[0, {nd1}];
+RRdisind 	= Table[1, {nd0}, {nd0}]; 
+
+(* FILLS IN CO-MORBIDITY RATE VALUES *)
+
+RRdis0		= Table[0, {nd1 + 1}];
+RRdis0[[1]]	= Table[1, {ng}, {nac[[1]]}];
+
+
+Do[	RRdisinddata[[d]]	= Read[dat, {Word, Table[Number, {2}]}][[2]];
+	RRdisind[[RRdisinddata[[d, 1]], RRdisinddata[[d, 2]]]] = d + 1;
+	RRdisinddatasel[[d]]	= Read[dat, {Word, Number}][[2]];
+	RRdis0[[d + 1]] 	= Partition[Read[dat, Table[Number, {ng nac[[1]]}]], nac[[1]]],
+	{d, nd1}];
+
+Close[dat];
+
+RRdisinddatasel	= Select[Range[nd1] RRdisinddatasel, Positive];
+
+
+(* ----------------------------------------------- 
+   RELATIVE RISKS FOR CASE FATALITY = 1-MONTH MORTALITY
+   -----------------------------------------------*)
+
+dat 		= OpenRead[Global`inputpath <> RRcasefatinput]; 
+Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+Read[dat, Word];
+
+(* CONSTRUCTION OF CO-MORBIDITY INDICATOR VALUES *)
+
+nd1		= Read[dat, {Word, Number}][[2]];
+RRcasefatinddata = Table[0, {nd1}];
+RRcasefatind 	= Table[1, {nd0}, {nd0}]; 
+
+(* FILLS IN CO-MORBIDITY RATE VALUES *)
+
+RRcasefat0	= Table[0, {nd1 + 1}];
+RRcasefat0[[1]]	= Table[1, {ng}, {nac[[1]]}];
+
+
+Do[	RRcasefatinddata[[d]]	= Read[dat, {Word, Table[Number, {2}]}][[2]];
+	RRcasefatind[[RRcasefatinddata[[d, 1]], RRcasefatinddata[[d, 2]]]] = d + 1;
+	RRcasefat0[[d + 1]] 	= Partition[Read[dat, Table[Number, {ng nac[[1]]}]], nac[[1]]],
+	{d, nd1}];
+
+Close[dat];
+
+
+(* ----------------------------------------------- 
+   RISK FACTOR AND DISEASE DATA INPUT ROUTINE CONDITIONAL ON DISEASE PREVALENCE, TRANSFORMED TO RELATIVE RISK VALUES, NOT-USED
+   -----------------------------------------------*)
+
+If[(userriskdata == 1),
+	
+	readriskdata1[r_, nac_] := Block[{},
+		Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+		Read[dat, Word];
+
+	(* #RISK FACTOR CLASSES *)
+
+		Read[dat, {Word, Number}][[2]];
+
+	(* INITIAL RISK FACTOR CLASS PREVALENCE DATA *)
+
+		prev	= trans = Table[0, {ng}];
+
+		Do[	div 		= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+			prev[[g]] 	= Partition[Read[dat, Table[Number, {ncr0[[r]] nac}]], nac] / div,
+			{g, ng}];
+
+		transind	= Max[transriskind0[[r]]] - 1;
+
+	(* RISK FACTOR CLASS TRANSITION RATE DATA, DATA READ, NOT USED *)
+
+		Do[	div = N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+			trans[[g]] = Table[Read[dat, Table[Number, {nac}]], {ri, Max[transriskind0[[r]]] - 1}] / div;
+			trans[[g]] = Join[{Table[0, {nac}]}, trans[[g]]],
+			{g, ng}];
+
+		Close[dat];
+
+		{prev, trans}
+
+		]; (* READRISKDATA1 *)
+
+	readdisdata1 := Block[{},
+
+		Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+		Read[dat, Word];
+
+		hnd	= Read[dat, {Word, Number}][[2]];
+		pdisDM	= pdisDMpair = Table[0, {hnd}];
+		div	= N[Read[dat, {Word, Number}][[2]]];
+
+		Do[	pdisDMpair[[d]] = Read[dat, Table[Number, {2}]];
+			pdisDM[[d]]	= Partition[Read[dat, Table[Number, {ng nac[[1]]}]], nac[[1]]] / div,
+
+			{d, hnd}];
+
+		Close[dat]
+
+		];
+
+	(* EMPIRICAL RISK FACTOR DISTRIBUTIONS WITHIN DISEASE GROUPS, NOT USED *)
+
+	(* BMI & DIABETES *)
+
+	riskdisprevind = {{4, 7}};						
+	dat 	= OpenRead[Global`inputpath <> "BmiInputDm280405.txt"];
+	WriteString[logfile, "\t" <> "BmiInputDm280405.txt" <> "\n\n"];
+	riskdisprev0	= {readriskdata1[riskdisprevind[[1, 1]], nac[[1]]][[1]]};
+
+	(* EMPIRICAL DISEASE PREVALENCE RATES WITHIN DISEASE GROUPS *)
+
+	If[(1 == 0),
+
+		dat = OpenRead[Global`inputpath <> "disinputDM.txt"];
+		WriteString[logfile, "\t" <> "disinputDM.txt" <> "\n\n"];
+		readdisdata1;
+
+		(* CALCULATED RELATED DISEASE PREVALENCE RATE RATIO *)
+
+		pcomorbB = Table[pdisDM[[d, g]] (1 - pdis0[[pdisDMpair[[d, 2]], g]]) /
+					(pdis0[[pdisDMpair[[d, 1]], g]] - pdisDM[[d, g]] pdis0[[pdisDMpair[[d, 2]], g]]),
+				{d, Length[pdisDMpair]}, {g, ng}];
+
+		(* ADJUSTMENT OF RELATIVE RISKS *)
+
+		Do[If[(RRdisind[[pdisDMpair[[d, 1]], pdisDMpair[[d, 2]]]] == 1),
+	
+				(* NEW ASSOCIATION DATA ADDED *)
+
+				RRdis0 = Join[RRdis0, {pcomorbB[[d]]}];
+				RRdisind[[pdisDMpair[[d, 1]], pdisDMpair[[d, 2]]]] = Length[RRdis0],
+
+				(* OLD ASSOCIATION DATA OVERWRITEN *)
+	
+				RRdis0[[RRdisind[[pdisDMpair[[d, 1]], pdisDMpair[[d, 2]]]]]] = pcomorbB[[d]]
+
+				],
+			{d, Length[pdisDMpair]}]
+
+		]
+
+	];
+
+
+(* ----------------------------------------------- 
+   PARAMETERS OF LOG-LINEAR MODELS OF DECREASE OF ALL CAUSE MORTALITY AND
+   DISEASE INCIDENCE RR's WITH TIME SINCE SMOKING CESSATION
+   -----------------------------------------------*)
+
+dat 		= OpenRead[Global`inputpath <> smokduurinput]; 
+Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+Read[dat, Word];
+
+logRRsmokduur0	= Table[0, {1 + Plus@@Sign[RRriskind0[[1]] - 1]} ];
+
+logRRsmokduur0[[1]] = Table[0, {ng}, {2}];
+
+Do[	Read[dat, Word];
+	logRRsmokduur0[[d]] = Partition[Read[dat, Table[Number, {4}]], 2],
+	{d, 2, Length[logRRsmokduur0]}];
+
+Read[dat, Word];
+relapsecoeff = Partition[Read[dat, Table[Number, {2 ng}]], 2];
+
+Close[dat];
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportDiseaseData *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM import data routine imports incidences, prevalences, remission,
+	case fatality and excess mortality rates of diseases*)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004
+		2.0 first release CZM 2005, version March, partial update data DisMod 2005
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+(* :Keywords: disease data, import *)
+
+
+BeginPackage["CZMImportData`CZMImportDiseaseData`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`"}]
+
+
+inc0::usage		= "inc0[[d,g,ai]]: empirical disease incidence rates"
+rem0::usage		= "rem0[[d,g,ai]]: unique empirical disease remission rates, see also remind0"
+pdis0::usage		= "pdis0[[d,g,ai]]: empirical initial disease prevalence rates"
+excessmort0::usage	= "excessmort0[[d,g,ai]]: calculated disease-related excess mortality rates"
+causemort0::usage	= "causemort0[[d,g,ai]]: initial cause-specific mortality rates"
+remind0::usage		= "remind0[[d]]: for each disease d, the pointer to the index in variable rem0, see also rem0"	
+casefat0::usage		= "casefat0[[d,g,ai]]: case fatality (1-month mortality) rates for all diseases"	
+casefatind0::usage	= "casefatind0[[d]]: pointer to the index in casefat0 for each disease d, see also casefat0"	
+
+nonmodelpdis0		= "nonmodelpdis0[[d,g,ai]]: prevalence rates of diseases not modelled in CZM"
+ndoth			= "# non-modeled diseases"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMImportDiseaseData package is evaluated"]
+
+
+(* -----------------------------------------------
+           INITIALIZATION
+   -----------------------------------------------*)
+
+inc0		= Table[0, {nd0}];
+pdis0		= Table[0, {nd0}];
+excessmort0	= Table[0, {nd0}, {ng}];
+casefat0	= {Table[0, {ng}, {nac[[1]]}]};
+casefatind0	= Table[1, {nd0}];
+rem0		= {Table[0, {ng}, {nac[[1]]}]};
+remind0		= Table[1, {nd0}];
+causemort0	= Table[0, {nd0}];
+
+
+(* -----------------------------------------------
+           READ NON-CANCER DISEASE DATA
+   -----------------------------------------------*)
+
+currremind	= 1;
+currcasefatind	= 1;
+
+readdisdat1[dis_, dat_] := Block[{},
+
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	Read[dat, Word];
+	Do[
+
+(* INCIDENCE DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		inc0[[dis[[d]]]] = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div;
+
+(* INITIAL PREVALENCE DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		pdis0[[dis[[d]]]] = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div;
+
+(* REMISSION DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		currrem = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div;
+		If[(Max[currrem] > 0),
+			currremind	= currremind + 1;
+			rem0		= Join[rem0, {currrem}];
+			remind0[[dis[[d]]]] = currremind,
+			remind0[[dis[[d]]]] = 1];
+
+(* CASE FATALITY = 1-MONTH MORTALITY) DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		currcasefat = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div;
+		If[(Max[currcasefat] > 0),
+			currcasefatind	= currcasefatind + 1;
+			casefat0	= Join[casefat0, {currcasefat}];
+			casefatind0[[dis[[d]]]] = currcasefatind,
+			casefatind0[[dis[[d]]]] = 1];
+
+(* EXCESS MORTALITY DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		excessmort0[[dis[[d]]]] = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div;
+
+(* CBS-REGISTERED CAUSE-SPECIFIC MORTALITY DATA *)
+
+		div 	= N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+		causemort0[[dis[[d]]]] = N[Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}]];
+		causemort0[[dis[[d]]]] = causemort0[[dis[[d]]]] / If[(div < 0), npop1, div],
+		{d, Length[dis]}];
+
+	Close[dat];
+
+	]; (* READDISDAT1 *)
+
+
+(* CHD *)
+
+dat 		= OpenRead[Global`inputpath <> CHDinput];
+readdisdat1[{1, 2}, dat];
+
+
+(* CHF *)
+	
+dat 		= OpenRead[Global`inputpath <> CHFinput]; 
+readdisdat1[{3}, dat];
+
+
+(* CVA *)
+
+dat 		= OpenRead[Global`inputpath <> CVAinput]; 
+readdisdat1[{4}, dat];
+
+
+(* CARA (ASTHMA & COPD) *)
+
+dat 		= OpenRead[Global`inputpath <> CARAinput]; 
+readdisdat1[{5, 6}, dat];
+
+
+(* DIABETES MELLITUS *)
+
+dat 		= OpenRead[Global`inputpath <> DMinput];
+readdisdat1[{7}, dat]; 
+(*excessmort0[[7]] = Maxc[2.0 excessmort0[[7]], .02];*)
+
+
+(* DEMENTIA *)
+
+dat 		= OpenRead[Global`inputpath <> demeninput]; 
+readdisdat1[{8}, dat];
+
+
+(* ARTHROSIS OF HIP, KNEE AND OTHER *)
+
+dat 		= OpenRead[Global`inputpath <> artrinput]; 
+readdisdat1[{9, 10, 11}, dat];
+
+
+(* DORSOPATHIES (LOW BACK PAIN) *)
+
+dat 		= OpenRead[Global`inputpath <> dorsinput]; 
+readdisdat1[{12}, dat];
+
+
+(* OSTEOPOROSIS *)
+
+dat 		= OpenRead[Global`inputpath <> osteinput]; 
+readdisdat1[{13}, dat];
+
+
+(* TRANSFORMATION OF RATES TO 1-YEAR RISKS *)
+
+excessmort0[[Range[ndnoncanc]]] =
+	1 - ( 1 - excessmort0[[Range[ndnoncanc]]] / 4 )^4;
+
+rem0 = 1 - ( 1 - rem0 / 4 )^4;
+
+
+(* -----------------------------------------------
+           READ CANCER DISEASE DATA
+   -----------------------------------------------*)
+
+readdisdat2[dat_] := Block[{},
+
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	div = N[Read[dat, {Table[Word, {2}], Number}][[2]]];
+	res = Table[0, {ndcancers}];
+	Do[	Read[dat, Word];
+		res[[d]] = Partition[Read[dat, Table[Number, {ng nac[[1]]}]], {nac[[1]]}] / div,
+		{d, ndcancers}];
+	Close[dat];
+
+	res
+
+	]; (* READDISDAT2 *)
+
+(* INCIDENCE *)
+
+dat 		= OpenRead[Global`inputpath <> cancincinput];
+inc0[[ndnoncanc + Range[ndcancers]]] = readdisdat2[dat];
+inc0[[ndnoncanc + 6]] = .92 inc0[[ndnoncanc+6]];
+
+(* PREVALENCE *)
+
+dat 		= OpenRead[Global`inputpath <> cancprevinput]; 
+pdis0[[ndnoncanc + Range[ndcancers]]] = readdisdat2[dat];
+
+(* REGISTERED MORTALITY NUMBERS *)
+
+dat 		= OpenRead[Global`inputpath <> cancmortinput];
+causemort0[[ndnoncanc + Range[ndcancers]]] = readdisdat2[dat];       
+
+(* SURVIVAL PROPORTIONS, TRANSFORMED TO EXCESS MORTALITY RATES *)
+
+dat 		= OpenRead[Global`inputpath <> cancrelsurvinput]; 
+cancrelsurv 	= readdisdat2[dat];
+cancrelsurv 	= cancrelsurv^.2;
+Do[	excessmort0[[ndnoncanc + d, g]] = (1 - morttot0[[g]]) (1 - cancrelsurv[[d, g]]);
+	If[(Max[pdis0[[ndnoncanc + d, g]]] < eps),
+		excessmort0[[ndnoncanc + d, g]] += causemort0[[ndnoncanc + d, g]],
+		excessmort0[[ndnoncanc + d, g]] /= (1 - pdis0[[ndnoncanc + d, g]])],
+		{d, ndcancers}, {g, ng}];
+
+
+(* -----------------------------------------------
+           READ DISEASE DATA NON CZM DISEASES
+   -----------------------------------------------*)
+
+readfile[dat_, row_, n_] := Block[{},
+
+	OpenRead[dat]; 
+    	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}]; 
+	Skip[dat, Word, 2]; 
+      	div = Read[dat, Number]; 
+	Table[Read[dat, {Word, Table[Number, {row}, {nac[[1]]}]}][[2]] / div, {n}]
+
+	];
+
+ndoth		= 43;
+dat		= Global`inputpath <> nonmodelprevinput;
+nonmodelpdis0	= readfile[dat, ng, ndoth];
+Close[dat];
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportDALYs *)
+
+(* :Context: CZMImportData` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls *)
+
+(* :Summary:
+   CZM import data routine imports DALY data*)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+	
+(* :History: 	1.0 first update new implementation CZM July 2004
+		1.1 September 2004, Pieter added new variable: allcauseDALY0
+		2.0 first release CZM 2005, version March
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+(* :Keywords: DALYs, import *)
+
+
+BeginPackage["CZMImportData`CZMImportDALYs`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportDiseaseData`",
+	"CZMImportData`CZMImportUserSelections`"}]
+
+
+DALYwgt0::usage			= "DALYwgt0[[d,g,ai]]: DALY wgt coefficients of modeled diseases"
+nonmodelDALYwgt0::usage 	= "nonmodelDALYwgt0[[d,g,ai]]: DALY wgt coefficients of diseases not modelled in CZM" 
+DALYwgtall::usage		= "DALYwgtall[[d,g,ai]]: DALY wgt coefficients of all diseases"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMImportDALYs package is evaluated"]
+
+(* INPUT DATA ROUTINE *)
+
+readfile[dat_, n_] := Block[{},
+
+	OpenRead[dat]; 
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	Skip[dat, Word, 2]; 
+      	div = Read[dat, Number];
+	Table[Read[dat, {Word, Table[Number, {ng}, {nac[[1]]}]}][[2]] / div, {n}]
+
+	];
+
+(* DALY WEIGHTS OF NON-MODELED DISEASES *)
+
+dat			= Global`inputpath <> nonmodelDALYwgtinput;
+nonmodelDALYwgt0	= readfile[dat, ndoth];
+Close[dat];
+
+
+(* DALY WEIGHTS OF MODELED DISEASES *)
+
+dat			= Global`inputpath <> DALYwgtinput;
+DALYwgt0 		= readfile[dat, 28];
+Close[dat];
+
+DALYwgtall		= Join[DALYwgt0, nonmodelDALYwgt0];
+	
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"\t" <> "Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[] <> "*"]]
+
+
+EndPackage[]
+(* :Title: CZMImportCosts *)
+
+(* :Context: CZMImportData`CZMImportCosts` *)
+
+(* :Author: Rudolf T. Hoogenveen, Roel G.M. Breuls, Pieter van Baal *)
+
+(* :Summary:
+   CZM import data routine imports disease costs data*)
+
+(* :Copyright: © 2004 by Rudolf Hoogenveen/Roel Breuls *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+(* :History: 	1.0 first update new implementation CZM July 2004 
+		1.1 update by Pieter for 010305 CZM version
+		2.0 first release CZM 2005, version March, data update by Pieter
+		3.0 version november 2005 
+		3.1 version March 2007 *)
+
+(* :Keywords: costs data, import *)
+
+
+BeginPackage["CZMImportData`CZMImportCosts`",
+	{"CZMInitialization`CZMLogFile`",
+	"CZMInitialization`CZMDefaultFileNames`",
+	"CZMInitialization`CZMConstants`",
+	"CZMInitialization`CZMFunctions`",
+	"CZMImportData`CZMImportUserSelections`",
+	"CZMImportData`CZMImportDemography`",
+	"CZMImportData`CZMImportDiseaseData`"}]
+
+costsperson0::usage	= "costsperson0[[d,g,ai]]: health care use costs per person year per disease, d=29: total costs"
+costspatient0::usage	= "costspatient0[[d,g,ai]]: health care use costs per patient year per disease"
+
+
+Begin["`Private`"]	
+
+
+Print["CZMImportCosts package is evaluated"]
+
+
+(* ----------------------------------------------- 
+   		INPUT COST DATA
+   -----------------------------------------------*)
+
+readfile[dat_, n_] := Block[{},
+
+	OpenRead[dat]; 
+	Skip[dat, Record, RecordSeparators -> {{"(*"}, {"*)"}}];
+	Skip[dat, Word, 2]; 
+      	div = Read[dat, Number];
+	Table[Read[dat, {Word, Table[Number, {ng}, {nac[[1]]}]}][[2]] / div, {n}]
+	
+	];
+
+(* COSTS PER PERSON YEAR *)
+
+dat 		= Global`inputpath <> costspersoninput;
+costsperson0 	= readfile[dat, 29];
+Close[dat];
+
+(* COSTS PER PATIENT YEAR *)
+
+dat 		= Global`inputpath <> costspatientinput;
+costspatient0 	= readfile[dat, 28];
+Close[dat];
+
+
+(* --------------------------------------------------
+		Write info to Logfile
+----------------------------------------------------*)
+
+(* PACKAGE VERSION *)
+
+version = 3.1;
+
+WriteString[logfile, 
+		"          Package: " <> StringReplace[Evaluate[Context[]], "`Private`"-> ", " ] 
+		<> "version " <> ToString[version] <> "\n\n"];
+
+End[]
+
+
+Protect[Evaluate[Context[]<>"*"]]
+
+
+EndPackage[]
+

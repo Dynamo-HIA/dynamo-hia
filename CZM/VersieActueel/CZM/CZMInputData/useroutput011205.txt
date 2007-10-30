@@ -1,0 +1,88 @@
+OUTPUT VARIABLES SELECTED
+
+	total population numbers = 1
+	(discrete) risk factor class prevalence figures = 1
+	(continuous) risk factor distribition characteristics = 0
+	disease prevalence figures = 1
+	disease incidence figures = 1
+	mortality figures = 1
+	age at disease onset = 0
+	time since smoking cessation = 0
+	costs figures = 0
+
+OUTPUT SPECIFICATION
+
+	rates = 0
+	scaled = 0
+	age specification (0,1,2,3) = 0
+	within disease population (0,1) = 0
+
+COMBINING LIFE YEARS
+
+	disease status weighting (0..4) = 0
+
+OUTPUT DEVICE SPECIFICATION
+
+	output to notebook (0,1) = 1
+	output to file (0,1) = 0
+	table output (0,1) = 1
+	graphical output (0,1) = 1
+
+END
+
+COMMENTS ON OUTPUT VARIABLES
+
+	here the variables are selected of which table or graphic results are presented:
+
+	variables calculated by CDM in each 1-year time step (see also marginalmodelresults)
+
+		total population numbers
+		(discrete) risk factor class prevalence figures
+		(continuous) risk factor distribition characteristics
+		disease prevalence figures
+		disease incidence figures
+		mortality figures
+		age at disease onset
+		time since smoking cessation
+
+	variables that are calculated afterwards
+
+		life-expectancy and costs figures
+
+COMMENTS ON SPECIFICATION OF OUTPUT
+
+	rates	0	absolute numbers
+		1	rates: absolute numbers / total population numbers
+
+	scaled	0	not
+		1	rates: calculated time-dependent absolute numbers / initial absolute number
+
+	age specification (0,1,2,3)
+
+			risk factor class prevalence numbers		disease prevalence numbers
+	
+		0	aggregated over age				aggregated over age
+		1	idem, stacked over risk factor classes		idem
+		2	specified by 5-year age class			specified by 5-year age class
+		3	see 2, stacked over risk factor classes		stacked over 5-year age classes
+
+	within disease population (0,1)
+
+		if 1, risk factor class prevalence figures are presented stratified by each disease selected
+
+COMMENTS ON COMBINING OF LIFE YEARS
+
+	cumulative	0	yearly numbers
+			1	cumulative over time
+	discountc 	>=0	disounting factor of costs
+	discounte 	>=0	discounting factor of effects
+	disweighting 	0	no weighting of population numbers (default setting)
+			1	disease-free numbers
+			2	DALY-weighting assuming proportionality of weights
+			3	DALY-weighting assuming additivity of weights
+			4	DALY-weighting based on worst disease
+	otherdis	0	no costs or effects of other diseases included (1 yes)
+	heterogeneity	0	co-morbidity prevalence rates not taking into account population heterogeneity (1 yes)
+
+COMMENTS ON SPECIFICATION OF OUTPUT DEVICE
+

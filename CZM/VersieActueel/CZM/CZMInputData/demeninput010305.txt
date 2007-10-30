@@ -1,0 +1,52 @@
+(* dementia rates specified by gender and 5-year ageclass
+	incidence
+	prevalence
+	remission
+	case fatality
+	excess mortality
+	CBS registered mortality
+Source: DisMod 2005 *)
+
+dementia_incidence_rates_males&females
+
+div 1000
+
+0 0 0 0   0   .01 0   0 .01 .05 .15 .3  .67 1.75 4.21 8.83 15.71 23.91
+0 0 0 .02 .04 .02 .01 0 0   .01 .05 .19 .62 1.85 4.68 9.8  16.14 20.71
+
+dementia_prevalence_rates_males&females
+
+div 1000
+
+0 0 0 0 .01 .03 .02 .02 .03 .09 .32 .91 1.8  4.45 9.31 19.72 39.45 58.42
+0 0 0 0 .02 .05 .04 .07 .15 .13 .2  .55 1.65 4.5 10.44 24.4  43.78 73.15
+
+dementia_remission_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dementia_case_fatality_rates_males&females
+
+div 100
+
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+dementia_excess_mortality_rates_males&females
+
+div 1000
+
+212 212 212 212 212 212 212 212 212 212 212 212 212 210 214 197 208 218
+212 212 212 212 212 212 212 212 212 212 212 212 212 210 214 238 233 227 
+
+dementia_CBS_cause_specific_mortality_numbers_males&females
+
+div 100000
+
+0 0 0 .21 0 0 0 0 .16 .17 .34 2.96 4.40  7.85 37.10 124.52 359.48 1033.46
+0 0 0 0   0 0 0 0 0   .18 .17 1.40 3.25 11.53 33.64 137.12 418.88 1603.80
+
+

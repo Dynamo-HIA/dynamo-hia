@@ -1,0 +1,229 @@
+(* :Title: CZMMain *)
+
+(* :Context: CZMMain` *)
+
+(* :Author: Rudolf T. Hoogenveen *)
+
+(* :Summary:
+   CZM initialization routine contains the names of the default import data files *)
+
+(* :Copyright: © 2004 by Roel G.M. Breuls/Rudolf Hoogenveen *)
+
+(* :Package Version: 3.1 *)
+
+(* :Mathematica Version: 5.1 *)
+
+
+(* :History: 	2.1 first release CZM 2005, version March, *010305.txt input files
+		3.0 release CZM, November 2005 
+		3.1 release CZM, March 2007 *)
+
+(* :Keywords: file names, import *)
+
+
+BeginPackage["CZMMain`CZMMain`"]
+
+CZMprogram::usage	= "CZMprogram runs CZM for different input selections"
+run::usage		= "index on model runs"
+
+
+Begin["`Private`"]
+
+
+Print["CZMMain package is evaluated"];
+
+printbug[c_] := Print[{"CZMMain", c}];
+
+
+(* ALL CZM SIMULATION MODEL RUNS *)
+
+CZMprogram := Block[{},
+
+	(* # RUNS TO BE MADE *)
+
+printbug["1"];
+
+	appltype	= StringTake[ToString[Global`application], 4];
+
+	applnumber	= ToExpression[StringDrop[ToString[Global`application], 4]];
+
+printbug["1.1"];
+
+	Switch[appltype,
+
+		"stnd",	nrun = 1,
+
+		"test",	nrun = Switch[applnumber,
+
+					1,	8,
+					2,	8,
+					3,	8,
+					4,	4,
+					5,	4,
+					6,	4,
+					7,	4,
+					8,	4,
+					9,	4,
+					10,	5,
+					11,	2,
+					12,	2,
+					13,	4,
+					29,	2,
+					30,	2,
+					31,	2,
+					_,	1],
+
+		"outp",	nrun = (Read[Global`resfile])[[1]],
+
+		_,	1];
+		
+printbug["1.3"];
+
+	If[(appltype != "outp"),
+
+printbug["2"];
+
+		Put[{nrun}, Global`outputpath <> "outfileresmodelrun.m"];
+
+		Put[{}, Global`outputpath <> "outfilemarginalmodeldetermpop.m"];
+		Put[{}, Global`outputpath <> "outfilejointmodelstochpop.m"];
+		Put[{}, Global`outputpath <> "outfilejointmodelstochind.m"];
+		Put[{}, Global`outputpath <> "outfilejointmodelstochage"];
+		Put[{}, Global`outputpath <> "outfilejointmodeldetermpop.m"];
+		Put[{}, Global`outputpath <> "outfilejointmodeldetermage.m"]
+
+		];
+
+	Do[	(* REMOVE CZM MEMORY CONTENTS *)
+
+printbug["3"];
+
+			Do[If[(StringTake[$ContextPath[[i]], 3] == "CZM") && (StringTake[$ContextPath[[i]], 7] != "CZMMain"),
+
+				Unprotect[Evaluate[$ContextPath[[i]] <> "*"]]], {i, 1, Length[$ContextPath]}];
+				Map[Close, Streams[][[Range[3, Length[Streams[]]]]]];
+
+		Print["CZM run " <> ToString[run]];
+
+		(* INITIALIZATION *)
+
+printbug["3.1"];
+
+			Get["CZMInitialization`CZMLogFile`"];
+
+			Get["CZMInitialization`CZMDefaultFileNames`"];
+
+			Get["CZMInitialization`CZMConstants`"];
+
+			Get["CZMInitialization`CZMFunctions`"];
+
+		(* IMPORT USER INPUT SELECTIONS *)
+
+printbug["3.2"];
+
+			Get["CZMImportData`CZMImportUserSelections`"];
+
+		(* IMPORT MODEL DATA *)
+
+printbug["3.3"];
+
+			Get["CZMImportData`CZMImportDemography`"];
+
+			Get["CZMImportData`CZMImportRiskFactors`"];
+
+			Get["CZMImportData`CZMImportDiseaseData`"];
+
+			Get["CZMImportData`CZMImportRelativeRisks`"];
+
+			Get["CZMImportData`CZMImportDALYs`"];
+
+			Get["CZMImportData`CZMImportCosts`"];
+
+		(* PARAMETER ADJUSTMENTS BEFORE SELECTION OF RISK FACTORS AND DISEASES *)
+
+printbug["3.4"];
+
+			Get["CZMAdjustData`CZMDataSmoothing`"];
+
+			Get["CZMAdjustData`CZMAdjustBeforeSelection`"];
+
+		(* SELECTION OF RISK FACTORS AND DISEASES *)
+
+printbug["3.5"];
+
+			Get["CZMAdjustData`CZMMakeSelections`"];
+
+			If[(appltype != "outp"),
+
+		(* PARAMETER ADJUSTMENTS BEFORE SELECTION OF RISK FACTORS AND DISEASES *)
+
+printbug["3.6"];
+
+				Get["CZMAdjustData`CZMAdjustAfterSelection`"]; 
+
+		(* GENERAL SIMULATION FUNCTIONS *)
+
+printbug["3.7"];
+
+		        	Get["CZMDefineScenarios`CZMDefineScenarios`"]; 
+
+				Get["CZMSimulation`CZMSimulationFunctions`"];
+
+		(* RUNNING CZM SIMULATION MODEL VERSIONS SELECTED *)
+
+printbug["3.8"];
+
+				Get["CZMSimulation`CZMSimulationMarginalModelDetermPop`"];
+
+				Get["CZMSimulation`CZMSimulationJointModelDetermPop`"];
+
+				Get["CZMSimulation`CZMSimulationJointModelDetermAge`"];
+
+				Get["CZMSimulation`CZMSimulationJointModelStochInd`"];
+
+				];(* IF[(appltype != "outp") *)
+
+			Get["CZMSimulation`CZMStoreResults`"];
+
+		(* REMOVE CZM OUTPUT MEMORY CONTENTS *)
+
+printbug["3.9"];
+
+			Do[If[(StringLength[$ContextPath[[i]]] > 16) && (StringTake[$ContextPath[[i]], 17] == "CZMPostProcessing"),
+				Unprotect[Evaluate[$ContextPath[[i]] <> "*"]]], {i, 1, Length[$ContextPath]}];
+
+			Map[Close, Streams[][[Range[3, Length[Streams[]]]]]];
+	
+		(* OUTPUT USER INPUT SELECTIONS *)
+
+printbug["3.10"];
+
+			Get["CZMPostProcessing`CZMExportUserSelections`"];
+
+		(* RUNNING CZM OUTPUT PROCEDURES *)
+
+printbug["3.11"];
+
+			Get["CZMPostProcessing`CZMCalcResults`"];
+
+			If[(appltype == "stnd") && (applnumber == 1), Get["CZMPostProcessing`CZMCalcResultsJoint`"]];
+
+			Get["CZMPostProcessing`CZMPresentResults`"];
+	
+			If[(nrun == 1), Get["CZMPostProcessing`CZMSensitivityAnalyses`"]],
+
+		{run, 1, nrun}]; (* END DO OVER CZM MODEL RUNS *)
+
+		(* POST PROCESSING *)
+
+			If[(appltype == "test") && (applnumber > 0), Get["CZMPostProcessing`CZMCompareRuns`"]];
+			
+	]; (* END CZMProgram *)
+
+
+End[]
+
+Protect[Evaluate[Context[] <> "*"]]
+
+EndPackage[]
+
