@@ -1,10 +1,18 @@
 package nl.rivm.emi.cdm.updating;
 
-public class SimpleLoadableUpdateRules implements UpdateRulesBase {
+public class SimpleLoadableUpdateRules extends UpdateRuleBaseClass {
 
-	public Integer updateOneToOneSquared(Integer input){
-		int result = input.intValue();
+	public SimpleLoadableUpdateRules(int characteristicId, int stepSize){
+		super(characteristicId, stepSize);
+	}
+	public int updateOneToOneSquared(int input){
+		int result = input;
 		result = result*result;
-		return new Integer(result);
+		return result;
+	}
+	@Override
+	public int updateSelf(int currentValue) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

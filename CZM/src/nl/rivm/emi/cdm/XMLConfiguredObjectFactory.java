@@ -19,16 +19,29 @@ public abstract class XMLConfiguredObjectFactory {
 	/**
 	 * The elementName in the XML-file that corresponds to this Object.
 	 */
-	void setElementName(String elementName) {
+	protected void setElementName(String elementName) {
 		this.elementName = elementName;
 	}
 
-	String getElementName() {
+	protected String getElementName() {
 		return elementName;
 	}
 
 	protected Node findMyNodeAtThisLevel(Node node) {
 		Node nextNode = node;
+		Node foundNode = null;
+		while ((nextNode != null) && (foundNode == null)) {
+			if ((elementName != null)
+					&& (elementName.equals(nextNode.getNodeName()))) {
+				foundNode = nextNode;
+			}
+			nextNode = nextNode.getNextSibling(); 
+		}
+		return foundNode;
+	}
+	protected Node findMyNextNodeAtThisLevel(Node node) {
+		// This time skip the current Node.
+		Node nextNode = node.getNextSibling(); 
 		Node foundNode = null;
 		while ((nextNode != null) && (foundNode == null)) {
 			if ((elementName != null)

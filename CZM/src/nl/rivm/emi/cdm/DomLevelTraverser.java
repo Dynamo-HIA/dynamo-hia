@@ -3,7 +3,6 @@ package nl.rivm.emi.cdm;
 import java.util.TreeSet;
 
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.w3c.dom.Node;
@@ -15,8 +14,8 @@ public abstract class DomLevelTraverser extends TreeSet<Individual>{
 	protected Node traverseTreeLevel(Node node) throws CZMConfigurationException {
 		while (node != null) {
 			if (isMyElementName(node)) {
-				Population population = new Population(node);
-				setPopulation(population);
+//				Population population = new Population(node);
+//				setPopulation(population);
 			}
 			node = node.getNextSibling();
 		}

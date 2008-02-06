@@ -2,11 +2,15 @@ package nl.rivm.emi.cdm.characteristic;
 
 public class Characteristic {
 
-	Integer index;
+	private int index;
 	
-	String label = "simplicity";
+	private String label = "simplicity";
 
-	public Integer getIndex() {
+	public Characteristic(int index, String label){
+		this.index = index;
+		this.label = label;
+	}
+	public int getIndex() {
 		return index;
 	}
 	public String getLabel() {

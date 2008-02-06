@@ -19,6 +19,7 @@ import junit.framework.JUnit4TestAdapter;
 
 import nl.rivm.emi.cdm.characteristic.CharacteristicValueFactory;
 import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.individual.test.IndividualTestProxy;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.util.StringInputStream;
 
@@ -65,12 +66,17 @@ public class TestCharacteristicValueFactory {
 //			Document document = docBuilder.parse(theStream);
 			Document document = docBuilder.parse(testFileNOK);
 			Node rootNode = document.getFirstChild();
-			Individual individual = new Individual("Pietje");
+			Individual individual = new IndividualTestProxy("ind", "Pietje" );
 			assertNotNull(individual);
 			CharacteristicValueFactory factory = new CharacteristicValueFactory(
 					"charval");
-			boolean success = factory.makeIt(rootNode, individual);
+			// Numberofsteps is not relevant here.
+			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertFalse(success);
+		} catch (CZMConfigurationException e) {
+			logger.warn(e.getMessage());
+			// Is not an error perse.
+			assertNotNull(e);
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 			// Make junit fail. TODO Make something nicer.
@@ -79,9 +85,6 @@ public class TestCharacteristicValueFactory {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			assertNull(e);
-		} catch (CZMConfigurationException e) {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (Exception e){
@@ -100,12 +103,17 @@ public class TestCharacteristicValueFactory {
 //			Document document = docBuilder.parse(theStream);
 			Document document = docBuilder.parse(testFileNOK2);
 			Node rootNode = document.getFirstChild();
-			Individual individual = new Individual("Pietje");
+			Individual individual = new IndividualTestProxy("ind", "Pietje" );
 			assertNotNull(individual);
 			CharacteristicValueFactory factory = new CharacteristicValueFactory(
 					"charval");
-			boolean success = factory.makeIt(rootNode, individual);
+			// Numberofsteps is not relevant here.
+			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertFalse(success);
+		} catch (CZMConfigurationException e) {
+			logger.warn(e.getMessage());
+			// Is not an error perse.
+			assertNotNull(e);
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 			// Make junit fail. TODO Make something nicer.
@@ -114,9 +122,6 @@ public class TestCharacteristicValueFactory {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			assertNull(e);
-		} catch (CZMConfigurationException e) {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (Exception e){
@@ -135,12 +140,16 @@ public class TestCharacteristicValueFactory {
 //			Document document = docBuilder.parse(theStream);
 			Document document = docBuilder.parse(testFileOK);
 			Node rootNode = document.getFirstChild();
-			Individual individual = new Individual("Pietje");
+			Individual individual = new IndividualTestProxy("ind", "Pietje" );
 			assertNotNull(individual);
 			CharacteristicValueFactory factory = new CharacteristicValueFactory(
 					"charval");
-			boolean success = factory.makeIt(rootNode, individual);
+			// Numberofsteps is not relevant here.
+			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertTrue(success);
+		} catch (CZMConfigurationException e) {
+			// Is not an error perse.
+			logger.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 			// Make junit fail. TODO Make something nicer.
@@ -149,9 +158,6 @@ public class TestCharacteristicValueFactory {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (IOException e) {
-			e.printStackTrace();
-			assertNull(e);
-		} catch (CZMConfigurationException e) {
 			e.printStackTrace();
 			assertNull(e);
 		} catch (Exception e){

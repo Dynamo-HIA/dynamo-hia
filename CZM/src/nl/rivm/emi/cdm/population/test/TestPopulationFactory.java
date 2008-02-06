@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.individual.test;
+package nl.rivm.emi.cdm.population.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -14,9 +14,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.IndividualFactory;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
+import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,20 +28,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class TestIndividualFactory {
+public class TestPopulationFactory {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	File testFileNOK = new File(
-			"C:/eclipse321/workspace/CZM/data/individualtestNOK.xml");
+			"C:/eclipse321/workspace/CZM/data/populationtestNOK.xml");
 
 	File testFileNOK2 = new File(
-			"C:/eclipse321/workspace/CZM/data/individualtestNOK2.xml");
+			"C:/eclipse321/workspace/CZM/data/populationtestNOK2.xml");
 
 	File testFileOK = new File(
-			"C:/eclipse321/workspace/CZM/data/individualtestOK.xml");
+			"C:/eclipse321/workspace/CZM/data/populationtestOK.xml");
 
-	File testFileOK2= new File(
-	"C:/eclipse321/workspace/CZM/data/individualtestOK2.xml");
+	File testFileOK2 = new File(
+			"C:/eclipse321/workspace/CZM/data/populationtestOK2.xml");
 
 	@Before
 	public void setup() {
@@ -52,6 +53,7 @@ public class TestIndividualFactory {
 
 	@Test
 	public void list_ThatIsNOK() {
+log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 
 		try {
@@ -59,11 +61,10 @@ public class TestIndividualFactory {
 					.newDocumentBuilder();
 			Document document = docBuilder.parse(testFileNOK);
 			Node rootNode = document.getFirstChild();
-			Population population = new Population("pop", "Popie");
-			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
-			// Number of steps not yet relevant.
-			boolean success = factory.makeIt(rootNode, population, 1);
+			Simulation simulation = new Simulation("Label", 1);
+			assertNotNull(simulation);
+			PopulationFactory factory = new PopulationFactory("pop");
+			boolean success = factory.makeIt(rootNode, simulation);
 			assertFalse(success);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
@@ -86,17 +87,17 @@ public class TestIndividualFactory {
 
 	@Test
 	public void list_ThatIsNOK2() {
+		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder docBuilder = (DocumentBuilder) dbfac
 					.newDocumentBuilder();
 			Document document = docBuilder.parse(testFileNOK2);
 			Node rootNode = document.getFirstChild();
-			Population population = new Population("pop", "Popie");
-			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
-			// Number of steps not yet relevant.
-			boolean success = factory.makeIt(rootNode, population, 1);
+			Simulation simulation = new Simulation("Label", 1);
+			assertNotNull(simulation);
+			PopulationFactory factory = new PopulationFactory("pop");
+			boolean success = factory.makeIt(rootNode, simulation);
 			assertFalse(success);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
@@ -119,6 +120,7 @@ public class TestIndividualFactory {
 
 	@Test
 	public void list_ThatIsOK() {
+		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		// DocumentBuilderFactory dbfac =
 		// DocumentBuilderFactoryImpl.newInstance();
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -130,13 +132,11 @@ public class TestIndividualFactory {
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			Document document = docBuilder.parse(testFileOK);
 			Node rootNode = document.getFirstChild();
-			Population population = new Population("pop", "Popie");
-			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
-			// Number of steps not yet relevant.
-			boolean success = factory.makeIt(rootNode, population, 1);
+			Simulation simulation = new Simulation("Label", 1);
+			assertNotNull(simulation);
+			PopulationFactory factory = new PopulationFactory("pop");
+			boolean success = factory.makeIt(rootNode, simulation);
 			assertTrue(success);
-			checkResult(population);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
@@ -158,17 +158,17 @@ public class TestIndividualFactory {
 
 	@Test
 	public void list_ThatIsOK2() {
+		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder docBuilder = (DocumentBuilder) dbfac
 					.newDocumentBuilder();
 			Document document = docBuilder.parse(testFileOK2);
 			Node rootNode = document.getFirstChild();
-			Population population = new Population("pop", "Popie");
-			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
-			// Number of steps not yet relevant.
-			boolean success = factory.makeIt(rootNode, population, 1);
+			Simulation simulation = new Simulation("Label", 1);
+			assertNotNull(simulation);
+			PopulationFactory factory = new PopulationFactory("pop");
+			boolean success = factory.makeIt(rootNode, simulation);
 			assertTrue(success);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
@@ -191,24 +191,24 @@ public class TestIndividualFactory {
 
 	private void checkResult(Population population) {
 		log.debug("Checking Object Tree");
-		try{
-		if (population != null) {
-			log.debug("Population present, contains " + population.size()
-					+ " individual(s).");
-			for (int count = 0; count < population.size(); count++) {
-				Individual indy = population.nextIndividual();
-				log.debug("Individual contains " + indy.size()
-						+ " CharacteristicValue(s).");
-				for (int charCount = 0; charCount < indy.size(); charCount++) {
-					log.debug("CharacteristicValue at index " + charCount
-							+ " has value "
-							+ indy.get(charCount).getValue());
+		try {
+			if (population != null) {
+				log.debug("Population present, contains " + population.size()
+						+ " individual(s).");
+				for (int count = 0; count < population.size(); count++) {
+					Individual indy = population.nextIndividual();
+					log.debug("Individual contains " + indy.size()
+							+ " CharacteristicValue(s).");
+					for (int charCount = 0; charCount < indy.size(); charCount++) {
+						log.debug("CharacteristicValue at index " + charCount
+								+ " has value "
+								+ indy.get(charCount).getValue());
+					}
 				}
 			}
-		}}
-		catch(Exception e){
-			log.warn("Something blew up in checkResult. Exc: " + e.getClass().getName() 
-					+ " message: " + e.getMessage());
+		} catch (Exception e) {
+			log.warn("Something blew up in checkResult. Exc: "
+					+ e.getClass().getName() + " message: " + e.getMessage());
 		}
 	}
 
