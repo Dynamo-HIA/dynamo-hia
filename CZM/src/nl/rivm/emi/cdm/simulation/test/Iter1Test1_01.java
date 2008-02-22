@@ -19,6 +19,7 @@ import nl.rivm.emi.cdm.CZMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMap;
 import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.population.PopulationWriter;
@@ -40,17 +41,17 @@ import org.xml.sax.SAXException;
 public class Iter1Test1_01 {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	File testpop3a = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/testpop3d.xml");
+	File testpop1 = new File(
+			"C:/eclipse321/workspace/CZM/data/iter1test1/testpop1.xml");
 
 	File longSimOutput = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/longtestpop3d.xml");
+			"C:/eclipse321/workspace/CZM/data/iter1test1/longtestpop1.xml");
 
 	File transSimOutput = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop3d.xml");
+			"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop1.xml");
 
 	File transSimOutputStep5 = new File(
-	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop3dst5.xml");
+	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop1st5.xml");
 
 	static public class UpdateRuleST1_01 extends UpdateRuleBaseClass {
 		public UpdateRuleST1_01() {
@@ -59,11 +60,7 @@ public class Iter1Test1_01 {
 
 		@Override
 		public int updateSelf(int currentValue) {
-				int newValue = currentValue;
-				if (newValue > 10) {
-					newValue = 10;
-				}
-				return newValue;
+			return currentValue;
 		}
 	}
 
@@ -77,118 +74,6 @@ public class Iter1Test1_01 {
 			int newValue = 10;
 			if (currentValue < 10) {
 				newValue = currentValue + 1;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_03 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_03() {
-			super(3, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = 10;
-			if (currentValue < 10) {
-				newValue = currentValue + 2;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_04 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_04() {
-			super(4, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = 10;
-			if (currentValue < 10) {
-				newValue = currentValue * 2;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_05 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_05() {
-			super(5, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = 10;
-			if (currentValue < 10) {
-				newValue = currentValue * 2 -1;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_06 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_06() {
-			super(6, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = 1;
-			if (currentValue < 1) {
-				newValue = currentValue * 2 - 2;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_07 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_07() {
-			super(7, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			return 1;
-		}
-	}
-
-	static public class UpdateRuleST1_08 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_08() {
-			super(8, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			return 0;
-		}
-	}
-
-	static public class UpdateRuleST1_09 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_09() {
-			super(9, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = currentValue * currentValue;
-			if (newValue > 10) {
-				newValue = 10;
-			}
-			return newValue;
-		}
-	}
-
-	static public class UpdateRuleST1_10 extends UpdateRuleBaseClass {
-		public UpdateRuleST1_10() {
-			super(10, 1);
-		}
-
-		@Override
-		public int updateSelf(int currentValue) {
-			int newValue = currentValue - 1;
-			if (newValue < 1) {
-				newValue = 1;
 			}
 			return newValue;
 		}
@@ -216,7 +101,9 @@ public class Iter1Test1_01 {
 		charConfMap.addCharacteristic(characteristic2);
 		simulation.setCharacteristics(charConfMap);
 		try {
-			simulation.makeAndSetPopulation(testpop3a);
+			DOMBootStrap domBoot = new DOMBootStrap();
+			Population population = domBoot.process2PopulationTree(testpop1, 1);
+			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);
 			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
@@ -261,7 +148,7 @@ public class Iter1Test1_01 {
 	public void runTransversalSimulation() {
 		log.fatal("Starting transversal");
 		String label = "Checking";
-		int numberOfSteps = 2;
+		int numberOfSteps = 10;
 		Simulation simulation = new Simulation(label, numberOfSteps);
 		assertNotNull(simulation);
 		CharacteristicsConfigurationMap charConfMap = new CharacteristicsConfigurationMap();
@@ -287,20 +174,14 @@ public class Iter1Test1_01 {
 		charConfMap.addCharacteristic(characteristic10);
 		simulation.setCharacteristics(charConfMap);
 		try {
-			simulation.makeAndSetPopulation(testpop3a);
+			DOMBootStrap domBoot = new DOMBootStrap();
+			Population population = domBoot.process2PopulationTree(testpop1, 1);
+			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);
 			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_01());
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_02());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_03());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_04());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_05());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_06());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_07());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_08());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_09());
-			updateRuleStorage.addUpdateRule(new UpdateRuleST1_10());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
 			assertTrue(simulation.sanityCheck());
 			log.fatal("Running transversal");

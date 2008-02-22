@@ -1,9 +1,7 @@
-package nl.rivm.emi.cdm.population.test;
+package nl.rivm.emi.cdm.model.test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.model.StaxBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
@@ -28,7 +27,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class TestPopulationFactory {
+public class TestStaxBootStrap {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	File testFileNOK = new File(
@@ -54,18 +53,19 @@ public class TestPopulationFactory {
 	@Test
 	public void list_ThatIsNOK() {
 log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
-		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-
-		try {
-			DocumentBuilder docBuilder = (DocumentBuilder) dbfac
-					.newDocumentBuilder();
-			Document document = docBuilder.parse(testFileNOK);
-			Node rootNode = document.getFirstChild();
-			Simulation simulation = new Simulation("Label", 1);
-			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
-			Population population = factory.makeItFromDOM(rootNode, 1);
-			assertNull(population);
+int numberOfSteps = 10;
+StaxBootStrap sbs = new StaxBootStrap();
+try {
+	sbs.process2PopulationTree(testFileNOK, numberOfSteps);
+//			DocumentBuilder docBuilder = (DocumentBuilder) dbfac
+//					.newDocumentBuilder();
+//			Document document = docBuilder.parse(testFileNOK);
+//			Node rootNode = document.getFirstChild();
+//			Simulation simulation = new Simulation("Label", 1);
+//			assertNotNull(simulation);
+//			PopulationFactory factory = new PopulationFactory("pop");
+//			Population population = factory.makeItFromDOM(rootNode, 1);
+//			assertNull(population);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
@@ -85,7 +85,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		}
 	}
 
-	@Test
+//	@Test
 	public void list_ThatIsNOK2() {
 		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
@@ -118,7 +118,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		}
 	}
 
-	@Test
+//	@Test
 	public void list_ThatIsOK() {
 		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		// DocumentBuilderFactory dbfac =
@@ -156,7 +156,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		}
 	}
 
-	@Test
+//	@Test
 	public void list_ThatIsOK2() {
 		log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();

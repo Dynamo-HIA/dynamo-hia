@@ -36,11 +36,12 @@ public class IndividualFactory extends XMLConfiguredObjectFactory {
 	 * @param Population
 	 *            to put Individuals into.
 	 * @throws CZMConfigurationException
-	 * @throws CZMRunException 
-	 * @throws NumberFormatException 
+	 * @throws CZMRunException
+	 * @throws NumberFormatException
 	 */
 	public boolean makeIt(Node node, Population population, int numberOfSteps)
-			throws CZMConfigurationException, NumberFormatException, CZMRunException {
+			throws CZMConfigurationException, NumberFormatException,
+			CZMRunException {
 		boolean noErrors = true;
 		int numberOfValidIndividuals = 0;
 		if (node != null) {
@@ -50,7 +51,7 @@ public class IndividualFactory extends XMLConfiguredObjectFactory {
 			while (myNode != null) {
 				String label = tryToFindLabel(myNode);
 				Individual currentIndividual = new Individual("ind", label);
-	log.fatal("Individual " + label);
+				log.info("Individual " + label);
 				Node childNode = myNode.getFirstChild();
 				CharacteristicValueFactory charValFactory = new CharacteristicValueFactory(
 						"ch");

@@ -38,20 +38,20 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class Iter1Test1_20 {
+public class Iter1Test1_11 {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	File testpop3a = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/testpop3c.xml");
+	File testpop = new File(
+			"C:/eclipse321/workspace/CZM/data/iter1test1/transtest11.xml");
 
 	File longSimOutput = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/longtestpop3c.xml");
+			"C:/eclipse321/workspace/CZM/data/iter1test1/longtest11b.xml");
 
 	File transSimOutput = new File(
-			"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop3c.xml");
+			"C:/eclipse321/workspace/CZM/data/iter1test1/transtest11b.xml");
 
 	File transSimOutputStep5 = new File(
-	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop3cst5.xml");
+	"C:/eclipse321/workspace/CZM/data/iter1test1/transtest11bst5.xml");
 
 	static public class UpdateRuleST1_01 extends UpdateRuleBaseClass {
 		public UpdateRuleST1_01() {
@@ -234,7 +234,7 @@ public class Iter1Test1_20 {
 		simulation.setCharacteristics(charConfMap);
 		try {
 			DOMBootStrap domBoot = new DOMBootStrap();
-			Population population = domBoot.process2PopulationTree(testpop3a, numberOfSteps);
+			Population population = domBoot.process2PopulationTree(testpop, numberOfSteps);
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);
@@ -315,7 +315,7 @@ public class Iter1Test1_20 {
 		simulation.setCharacteristics(charConfMap);
 		try {
 			DOMBootStrap domBoot = new DOMBootStrap();
-			Population population = domBoot.process2PopulationTree(testpop3a, numberOfSteps);
+			Population population = domBoot.process2PopulationTree(testpop, numberOfSteps);
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);

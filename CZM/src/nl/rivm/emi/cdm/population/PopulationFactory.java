@@ -4,7 +4,6 @@ import nl.rivm.emi.cdm.CZMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.individual.IndividualFactory;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
-import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,15 +25,16 @@ public class PopulationFactory extends XMLConfiguredObjectFactory {
 	 * with a valid CharacteristicValue have been added to the Population.
 	 * 
 	 * @param node
+	 * @param numberOfSteps TODO
 	 * @param Simulation
 	 *            to put Population into.
 	 * @throws CZMConfigurationException
 	 * @throws CZMRunException 
 	 * @throws NumberFormatException 
 	 */
-	public boolean makeIt(Node node, Simulation simulation)
+	public Population makeItFromDOM(Node node, int numberOfSteps)
 			throws CZMConfigurationException, NumberFormatException, CZMRunException {
-		boolean noErrors = true;
+		Population resultPopulation = null;
 		if (node != null) {
 			log.info("Passed Node, name: " + node.getNodeName() + " value: "
 					+ node.getNodeValue());
@@ -42,20 +42,17 @@ public class PopulationFactory extends XMLConfiguredObjectFactory {
 			// while (myNode != null) {
 			if (myNode != null) {
 				String label = tryToFindLabel(myNode);
-				Population currentPopulation = new Population(getElementName(),
+				resultPopulation = new Population(getElementName(),
 						label);
 				Node childNode = myNode.getFirstChild();
 				IndividualFactory individualFactory = new IndividualFactory(
 						"ind");
 				boolean success = individualFactory.makeIt(childNode,
-						currentPopulation, simulation.getNumberOfSteps());
+						resultPopulation, numberOfSteps);
 				// Do not add individuals without a charval.
 				if (!success) {
 					log.warn("Individual factoring had errors.");
-					noErrors = false;
-				} else {
-					log.debug("Adding Population to Simulation.");
-					simulation.setPopulation(currentPopulation);
+					resultPopulation = null;
 				}
 				myNode = findMyNextNodeAtThisLevel(myNode);
 				if (myNode != null) {
@@ -63,7 +60,7 @@ public class PopulationFactory extends XMLConfiguredObjectFactory {
 				}
 			}
 		}
-		return noErrors;
+		return resultPopulation;
 	}
 
 	private String tryToFindLabel(Node myNode) {

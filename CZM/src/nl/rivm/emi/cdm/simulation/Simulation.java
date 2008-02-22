@@ -14,6 +14,7 @@ import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMap;
 import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.updating.SimpleLoadableUpdateRules;
@@ -113,7 +114,8 @@ public class Simulation extends DomLevelTraverser {
 		super();
 		this.label = label;
 		this.numberOfSteps = numberOfSteps;
-		makeAndSetPopulation(populationFile);
+		DOMBootStrap domBoot = new DOMBootStrap();
+		population = domBoot.process2PopulationTree(populationFile, 1);
 	}
 
 	public String getLabel() {
@@ -132,76 +134,18 @@ public class Simulation extends DomLevelTraverser {
 		this.population = population;
 	}
 
-	public void makeAndSetPopulation(File populationFile)
-			throws ParserConfigurationException, SAXException, IOException,
-			CZMConfigurationException, NumberFormatException, CZMRunException {
-		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-		Document document = docBuilder.parse(populationFile);
-		// Get the reading started
-		Node rootNode = document.getFirstChild();
-		PopulationFactory populationFactory = new PopulationFactory("pop");
-		boolean success = populationFactory.makeIt(rootNode, this);
-		if (!success) {
-			log.error("Population construction produced errors.");
-		}
-	}
-
 	public Population getPopulation() {
 		return population;
 	}
-
-//	public void run() throws CZMRunException {
-//		log.info("Starting simulation");
-//		if (population != null) {
-//			// applyStaticIdentityUpdateRule();
-//			// applyStaticPlusOneUpdateRule();
-//			// applyLoadableSquareUpdateRule();
-//			log.info("Simulation complete");
-//		} else {
-//			log.info("Simulation not started, no population found.");
-//
-//		}
-//	}
 
 	public void runLongitudinal() throws CZMRunException {
 		Iterator<Individual> individualIterator = population.iterator();
 		while (individualIterator.hasNext()) {
 			Individual individual = individualIterator.next();
-			log.debug("Longitudinal: Processing individual " + individual.getLabel());
-			Iterator<IntCharacteristicValue> charValIterator = individual
-					.iterator();
+			log.debug("Longitudinal: Processing individual "
+					+ individual.getLabel());
 			for (int stepCount = 0; stepCount < numberOfSteps; stepCount++) {
-			while (charValIterator.hasNext()) {
-				IntCharacteristicValue charVal = charValIterator.next();
-				int charValIndex = charVal.getIndex();
-				if (!Characteristics.containsKey(charValIndex)) {
-					log
-							.warn("Individual "
-									+ individual.getLabel()
-									+ " has a value at index "
-									+ charValIndex
-									+ " for a non configured characteristic removing it.");
-					charValIterator.remove();
-					break;
-				}
-				UpdateRuleBaseClass rule = updateRuleStorage.getUpdateRule(
-						charValIndex, stepSize);
-				if (rule == null) {
-					log.warn("Individual " + individual.getLabel()
-							+ " has a characteristicValue at index "
-							+ charValIndex
-							+ " without updaterule, removing it.");
-					charValIterator.remove();
-					break;
-				}
-					int oldValue = charVal.getCurrentValue();
-					int newValue = rule.updateSelf(oldValue);
-					charVal.appendValue(newValue);
-					log.info("Updated charval at " + charVal.getIndex()
-							+ " from " + oldValue + " to " + newValue
-							+ " for individual " + individual.getLabel());
-				}
+				processCharVals(individual);
 			}
 		}
 	}
@@ -211,104 +155,44 @@ public class Simulation extends DomLevelTraverser {
 			Iterator<Individual> individualIterator = population.iterator();
 			while (individualIterator.hasNext()) {
 				Individual individual = individualIterator.next();
-				Iterator<IntCharacteristicValue> charValIterator = individual
-						.iterator();
-				log.debug("Transversal: Processing individual " + individual.getLabel());
-				while (charValIterator.hasNext()) {
-					IntCharacteristicValue charVal = charValIterator.next();
-					int charValIndex = charVal.getIndex();
-					if (!Characteristics.containsKey(charValIndex)) {
-						log
-								.warn("Individual "
-										+ individual.getLabel()
-										+ " has a value at index "
-										+ charValIndex
-										+ " for a non configured characteristic removing it.");
-						charValIterator.remove();
-						break;
-					}
-					UpdateRuleBaseClass rule = updateRuleStorage.getUpdateRule(
-							charValIndex, stepSize);
-					if (rule == null) {
-						log.warn("Individual " + individual.getLabel()
-								+ " has a characteristicValue at index "
-								+ charValIndex
-								+ " without updaterule, removing it.");
-						charValIterator.remove();
-						break;
-					}
-					int oldValue = charVal.getCurrentValue();
-					int newValue = rule.updateSelf(oldValue);
-					charVal.appendValue(newValue);
-					log.info("Updated charval at " + charVal.getIndex()
-							+ " from " + oldValue + " to " + newValue
-							+ " for individual " + individual.getLabel());
-				}
+				log
+				.debug("Transversal: Processing individual "
+						+ individual.getLabel());
+				processCharVals(individual);
 			}
 		}
 	}
 
-	// private void applyStaticIdentityUpdateRule() throws CZMRunException {
-	// Individual individual;
-	// int count = 0;
-	// while ((individual = (Individual) population.nextIndividual()) != null) {
-	// count++;
-	// int currentValue = individual.getCurrentCharacteristicValue(1)
-	// .getCurrentValue();
-	// int newValue = SimpleUpdateRules.updateUnchanged(currentValue);
-	// log.info("Individual " + count + " updating " + currentValue
-	// + " to " + newValue);
-	// individual.getCurrentCharacteristicValue(1).appendValue(newValue);
-	// }
-	// }
-	//
-	// private void applyStaticPlusOneUpdateRule() throws CZMRunException {
-	// Individual individual;
-	// int count = 0;
-	// while ((individual = (Individual) population.nextIndividual()) != null) {
-	// count++;
-	// IntCharacteristicValue charVal = individual
-	// .getCurrentCharacteristicValue(1);
-	// int currentValue = charVal.getCurrentValue();
-	// int newValue = SimpleUpdateRules.updateAddOne(currentValue);
-	// log.info("Individual " + count + " updating " + currentValue
-	// + " to " + newValue);
-	// charVal.appendValue(newValue);
-	// }
-	// }
-	//
-	// private void applyLoadableSquareUpdateRule() throws CZMRunException {
-	// Individual individual;
-	// int count = 0;
-	// ClassLoader myLoader = ClassLoader.getSystemClassLoader();
-	// Class updateClass;
-	// try {
-	// updateClass = myLoader
-	// .loadClass("nl.rivm.emi.cdm.updating.SimpleLoadableUpdateRules");
-	// SimpleLoadableUpdateRules rules = (SimpleLoadableUpdateRules) updateClass
-	// .newInstance();
-	//
-	// while ((individual = (Individual) population.nextIndividual()) != null) {
-	// count++;
-	// IntCharacteristicValue charVal = individual
-	// .getCurrentCharacteristicValue(1);
-	// int currentValue = charVal.getCurrentValue();
-	// int newValue = rules.updateOneToOneSquared(currentValue);
-	// log.info("Individual " + count + " updating loaded square "
-	// + currentValue + " to " + newValue);
-	// charVal.appendValue(newValue);
-	// }
-	// } catch (ClassNotFoundException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (InstantiationException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// } catch (IllegalAccessException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
+	private void processCharVals(Individual individual) throws CZMRunException {
+		Iterator<IntCharacteristicValue> charValIterator = individual
+				.iterator();
+		while (charValIterator.hasNext()) {
+			IntCharacteristicValue charVal = charValIterator.next();
+			int charValIndex = charVal.getIndex();
+			if (!Characteristics.containsKey(charValIndex)) {
+				log.warn("Individual " + individual.getLabel()
+						+ " has a value at index " + charValIndex
+						+ " for a non configured characteristic removing it.");
+				charValIterator.remove();
+				break;
+			}
+			UpdateRuleBaseClass rule = updateRuleStorage.getUpdateRule(
+					charValIndex, stepSize);
+			if (rule == null) {
+				log.warn("Individual " + individual.getLabel()
+						+ " has a characteristicValue at index " + charValIndex
+						+ " without updaterule, removing it.");
+				charValIterator.remove();
+				break;
+			}
+			int oldValue = charVal.getCurrentValue();
+			int newValue = rule.updateSelf(oldValue);
+			charVal.appendValue(newValue);
+			log.info("Updated charval at " + charVal.getIndex() + " from "
+					+ oldValue + " to " + newValue + " for individual "
+					+ individual.getLabel());
+		}
+	}
 
 	public void setCharacteristics(
 			CharacteristicsConfigurationMap characteristics) {

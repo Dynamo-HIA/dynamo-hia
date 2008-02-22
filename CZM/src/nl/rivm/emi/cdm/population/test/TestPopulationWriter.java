@@ -54,12 +54,10 @@ public class TestPopulationWriter {
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			Document document = docBuilder.parse(testFileOK);
 			Node rootNode = document.getFirstChild();
-			Simulation simulation = new Simulation("Label", 1);
-			assertNotNull(simulation);
 			PopulationFactory factory = new PopulationFactory("pop");
-			boolean success = factory.makeIt(rootNode, simulation);
-			assertTrue(success);
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(), 0, testWriterOutput);
+			Population population = factory.makeItFromDOM(rootNode, 1);
+			assertNotNull(population);
+			PopulationWriter.writeToXMLFile(population, 0, testWriterOutput);
 		} catch (CZMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());

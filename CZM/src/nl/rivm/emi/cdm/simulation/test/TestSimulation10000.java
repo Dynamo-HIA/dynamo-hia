@@ -19,6 +19,7 @@ import nl.rivm.emi.cdm.CZMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMap;
 import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.population.PopulationWriter;
@@ -107,7 +108,9 @@ public class TestSimulation10000 {
 		charConfMap.addCharacteristic(characteristic2);
 		simulation.setCharacteristics(charConfMap);
 		try {
-			simulation.makeAndSetPopulation(testFileOK);
+			DOMBootStrap domBoot = new DOMBootStrap();
+			Population population = domBoot.process2PopulationTree(testFileOK, 1);
+			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);
 			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
@@ -162,7 +165,9 @@ public class TestSimulation10000 {
 		charConfMap.addCharacteristic(characteristic2);
 		simulation.setCharacteristics(charConfMap);
 		try {
-			simulation.makeAndSetPopulation(testFileOK);
+			DOMBootStrap domBoot = new DOMBootStrap();
+			Population population = domBoot.process2PopulationTree(testFileOK, 1);
+			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setStepSize(stepSize);
 			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();

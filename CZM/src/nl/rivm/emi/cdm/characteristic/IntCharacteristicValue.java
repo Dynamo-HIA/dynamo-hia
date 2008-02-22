@@ -56,7 +56,7 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 			numberFilled++;
 		} else {
 			log.warn("Steps are full!");
-			throw new CZMRunException("Step storage overflow, cannot append value.");
+			throw new CZMRunException("Step storage (size " + rijtje.length + " ) overflow, cannot append value.");
 		}
 	}
 
