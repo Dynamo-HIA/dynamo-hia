@@ -2,6 +2,7 @@ package nl.rivm.emi.cdm.simulation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -11,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import nl.rivm.emi.cdm.CZMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMap;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
@@ -40,34 +41,45 @@ public class Simulation extends DomLevelTraverser {
 	private String label = "Not initialized";
 
 	/**
-	 * The maximum number of steps this Simulation will run.
+	 * Configured timeStep.
 	 */
-	private int numberOfSteps;
+	private float stepSize = 1;
 
 	/**
-	 * Configured Characteristics.
+	 * Configured runMode.
 	 */
-	private CharacteristicsConfigurationMap Characteristics;
+	String runMode;
+	/**
+	 * The maximum number of steps this Simulation will run.
+	 */
+	private int stepsInRun;
+
+	/**
+	 * The stopping condition for the run.
+	 */
+	private String stoppingCondition;
 
 	/**
 	 * Population to use.
 	 */
 	private Population population = null;
 
-	/**
-	 * Configured stepsize.
-	 */
-	private int stepSize = 1;
 
 	/**
 	 * Configured updaterules.
 	 */
 	private UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
+	
+	/**
+	 * Configured Characteristics.
+	 */
+	private CharacteristicsConfigurationMapSingleton Characteristics;
+
 
 	/**
-	 * Prevent unintentional default construction.
+	 * 
 	 */
-	private Simulation() {
+	public Simulation() {
 		super();
 	}
 
@@ -195,11 +207,11 @@ public class Simulation extends DomLevelTraverser {
 	}
 
 	public void setCharacteristics(
-			CharacteristicsConfigurationMap characteristics) {
+			CharacteristicsConfigurationMapSingleton characteristics) {
 		Characteristics = characteristics;
 	}
 
-	public void setStepSize(int stepSize) {
+	public void setTimeStep(float stepSize) {
 		this.stepSize = stepSize;
 	}
 

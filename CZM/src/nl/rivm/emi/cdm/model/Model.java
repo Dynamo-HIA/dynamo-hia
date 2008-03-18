@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import nl.rivm.emi.cdm.CZMRunException;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMap;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
@@ -18,7 +18,7 @@ public class Model {
 
 	Log log = LogFactory.getLog(getClass().getName());
 
-	CharacteristicsConfigurationMap characteristicsConfiguration;
+	CharacteristicsConfigurationMapSingleton characteristicsConfiguration;
 
 	Simulation simulation;
 

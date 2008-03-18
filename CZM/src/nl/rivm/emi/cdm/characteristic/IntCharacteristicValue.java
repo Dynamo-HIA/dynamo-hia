@@ -1,7 +1,5 @@
 package nl.rivm.emi.cdm.characteristic;
 
-import static org.junit.Assert.assertFalse;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,9 +30,9 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 	/**
 	 * Multiple steps possible. Number is fixed after instantiation.
 	 * 
-	 * @param numSteps
-	 * @param index
-	 * @param value
+	 * @param numSteps Number of steps to be preallocated for this value.
+	 * @param index The index of the Characteristic the value belongs to.
+	 * @param value The value for the characteristic to be stored in the first step (at index 0).
 	 */
 	public IntCharacteristicValue(int numSteps, int index, int value) {
 		super("ch", index );
