@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.characteristic.Characteristic;
-import nl.rivm.emi.cdm.characteristic.CharacteristicType;
+import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -14,24 +14,17 @@ import org.apache.commons.configuration.SubnodeConfiguration;
 
 public class SimulationFromXMLFactory {
 	/**
-	 * Currently implemented structure.
-	 * <?xml version="1.0" encoding="UTF-8"?>
-	 * <sim lb="netalsof">
-	 *   <timestep>nnn</timestep>
-	 *   <runmode>longitudinal</runmode>
-	 *   <stepsbetweensaves>nnnnn</stepsbetweensaves>
-	 *   <stepsinrun>nnnn</stepsinrun>
-	 *   <stoppingcondition/>
-	 *   <pop lb="manipel"/>
-	 *   <updaterules>
-	 *      <updaterule>classname</updaterule>
-	 *      <updaterule>classname</updaterule>
-	 *      <updaterule>classname</updaterule>
-	 *      <updaterule>classname</updaterule>
-	 *   </updaterules>
-	 * </sim>
+	 * Currently implemented structure. <?xml version="1.0" encoding="UTF-8"?>
+	 * <sim lb="netalsof"> <timestep>nnn</timestep> <runmode>longitudinal</runmode>
+	 * <stepsbetweensaves>nnnnn</stepsbetweensaves> <stepsinrun>nnnn</stepsinrun>
+	 * <stoppingcondition/> <pop lb="manipel"/> <updaterules>
+	 * <updaterule>classname</updaterule> <updaterule>classname</updaterule>
+	 * <updaterule>classname</updaterule> <updaterule>classname</updaterule>
+	 * </updaterules> </sim>
 	 */
 	public static final String simulationLabel = "sim";
+
+	public static final String labelLabel = "lb";
 
 	public static final String timestepLabel = "timestep";
 
@@ -54,7 +47,18 @@ public class SimulationFromXMLFactory {
 			throws ConfigurationException {
 		Simulation simulation = new Simulation();
 		try {
-			 float timeStep = simulationConfiguration.getFloat(timestepLabel);
+			String label = simulationConfiguration.getString(labelLabel);
+			if (label == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationLabelMessage);
+			}
+			simulation.setLabel(label);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationLabelMessage);
+		}
+		try {
+			float timeStep = simulationConfiguration.getFloat(timestepLabel);
 			simulation.setTimeStep(timeStep);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
@@ -66,49 +70,74 @@ public class SimulationFromXMLFactory {
 				throw new ConfigurationException(
 						CDMConfigurationException.noSimulationRunmodeMessage);
 			}
-			simulation.setLabel(label);
+			simulation.setRunMode(runmode);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
-					CDMConfigurationException.noCharacteristicLabelMessage);
+					CDMConfigurationException.noSimulationRunmodeMessage);
 		}
 		try {
-			String type = simulationConfiguration.getString(typeLabel);
-			if (type == null) {
-				throw new ConfigurationException(
-						CDMConfigurationException.noCharacteristicTypeMessage);
-			}
-			simulation.setType(type);
+			int stepsBetweenSaves = simulationConfiguration
+					.getInt(stepsBetweenSavesLabel);
+			simulation.setStepsBetweenSaves(stepsBetweenSaves);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
-					CDMConfigurationException.noCharacteristicTypeMessage);
+					CDMConfigurationException.noSimulationStepsBetweenSavesMessage);
 		}
-		if (!CharacteristicType.continuousTypeString.equals(simulation
-				.getType())) {
-			List<SubnodeConfiguration> possibleValuesConfigurations = simulationConfiguration
-					.configurationsAt(possibleValuesLabel);
-			if (possibleValuesConfigurations.size() == 1) {
-				SubnodeConfiguration possibleValuesConfiguration = possibleValuesConfigurations
-						.get(0);
-				List<SubnodeConfiguration> valueConfigurations = possibleValuesConfiguration
-						.configurationsAt(valueLabel);
-				if (valueConfigurations.size() > 0) {
-					Iterator<SubnodeConfiguration> iterator = valueConfigurations
-							.iterator();
-					while (iterator.hasNext()) {
-						SubnodeConfiguration currentValueNode = iterator.next();
-						String value = currentValueNode.getString(valueLabel);
-					}
-
-				} else {
-					throw new ConfigurationException(
-							CDMConfigurationException.noCharacteristicValueMessage);
+		try {
+			int stepsInRun = simulationConfiguration.getInt(stepsInRunLabel);
+			simulation.setStepsInRun(stepsInRun);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationStepsInRunMessage);
+		}
+		try {
+			String stoppingCondition = simulationConfiguration
+					.getString(stoppingConditionLabel);
+			if (stoppingCondition == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationStoppingConditionMessage);
+			}
+			simulation.setStoppingCondition(stoppingCondition);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationStoppingConditionMessage);
+		}
+		try {
+			String populationFileName = simulationConfiguration
+					.getString(populationLabel);
+			if (populationFileName == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationPopulationMessage);
+			}
+			simulation.setPopulationByFileName(populationFileName);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationPopulationMessage);
+		}
+		List<SubnodeConfiguration> updaterulesConfigurations = simulationConfiguration
+				.configurationsAt(updaterulesLabel);
+		if (updaterulesConfigurations.size() == 1) {
+			SubnodeConfiguration updaterulesConfiguration = updaterulesConfigurations
+					.get(0);
+			List<SubnodeConfiguration> updateruleConfigurations = updaterulesConfiguration
+					.configurationsAt(updateruleLabel);
+			if (updateruleConfigurations.size() > 0) {
+				Iterator<SubnodeConfiguration> iterator = updateruleConfigurations
+						.iterator();
+				while (iterator.hasNext()) {
+					SubnodeConfiguration currentValueNode = iterator.next();
+					String updateruleClassName = currentValueNode
+							.getString(updateruleLabel);
 				}
+
 			} else {
 				throw new ConfigurationException(
-						CDMConfigurationException.noCharacteristicPossibleValuesMessage);
+						CDMConfigurationException.noSimulationUpdateruleMessage);
 			}
+		} else {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationUpdaterulesMessage);
 		}
 		return simulation;
 	}
-
 }

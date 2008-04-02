@@ -11,11 +11,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.StaxBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
@@ -66,7 +66,7 @@ try {
 //			PopulationFactory factory = new PopulationFactory("pop");
 //			Population population = factory.makeItFromDOM(rootNode, 1);
 //			assertNull(population);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -99,7 +99,7 @@ try {
 			PopulationFactory factory = new PopulationFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNull(population);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -137,7 +137,7 @@ try {
 			PopulationFactory factory = new PopulationFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -170,7 +170,7 @@ try {
 			PopulationFactory factory = new PopulationFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {

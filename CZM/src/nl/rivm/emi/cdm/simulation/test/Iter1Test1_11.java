@@ -11,16 +11,16 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationWriter;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.updating.UpdateRuleBaseClass;
-import nl.rivm.emi.cdm.updating.UpdateRuleStorage;
+import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
+import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +44,7 @@ public class Iter1Test1_11 {
 	File transSimOutputStep5 = new File(
 	"C:/eclipse321/workspace/CZM/data/iter1test1/transtest11bst5.xml");
 
-	static public class UpdateRuleST1_01 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_01 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_01() {
 			super(1, 1);
 		}
@@ -59,7 +59,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_02 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_02 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_02() {
 			super(2, 1);
 		}
@@ -74,7 +74,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_03 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_03 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_03() {
 			super(3, 1);
 		}
@@ -89,7 +89,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_04 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_04 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_04() {
 			super(4, 1);
 		}
@@ -104,7 +104,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_05 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_05 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_05() {
 			super(5, 1);
 		}
@@ -119,7 +119,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_06 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_06 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_06() {
 			super(6, 1);
 		}
@@ -134,7 +134,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_07 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_07 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_07() {
 			super(7, 1);
 		}
@@ -145,7 +145,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_08 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_08 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_08() {
 			super(8, 1);
 		}
@@ -156,7 +156,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_09 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_09 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_09() {
 			super(9, 1);
 		}
@@ -171,7 +171,7 @@ public class Iter1Test1_11 {
 		}
 	}
 
-	static public class UpdateRuleST1_10 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_10 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_10() {
 			super(10, 1);
 		}
@@ -241,9 +241,9 @@ public class Iter1Test1_11 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_09());
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_10());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running longitudinal.");
-			simulation.runLongitudinal();
+			simulation.run();
 			log.fatal("Longitudinal run complete.");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, longSimOutput);
@@ -260,11 +260,11 @@ public class Iter1Test1_11 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -322,9 +322,12 @@ public class Iter1Test1_11 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_09());
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_10());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running transversal");
-			simulation.runTransversal();
+//			simulation.runTransversal();
+			simulation.setRunMode("transversal");
+			simulation.run();
+// ~
 			log.fatal("Transversal run complete");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, transSimOutput);
@@ -343,11 +346,11 @@ public class Iter1Test1_11 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -360,7 +363,7 @@ public class Iter1Test1_11 {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.updating.test.TestUpdateRuleContainers.class);
+				nl.rivm.emi.cdm.updaterules.test.TestUpdateRuleContainers.class);
 	}
 
 }

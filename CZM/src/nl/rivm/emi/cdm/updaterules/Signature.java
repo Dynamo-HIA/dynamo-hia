@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.updating;
+package nl.rivm.emi.cdm.updaterules;
 
 /**
  * Class administrating the usage of Characteristics in the update-rule it

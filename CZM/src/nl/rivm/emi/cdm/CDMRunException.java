@@ -1,10 +1,10 @@
 package nl.rivm.emi.cdm;
 
-public class CZMRunException extends Exception {
+public class CDMRunException extends Exception {
 
 	private static final long serialVersionUID = 7803315390527952637L;
 
-	public CZMRunException(String string) {
+	public CDMRunException(String string) {
 super(string);
 }
 

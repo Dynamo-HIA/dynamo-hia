@@ -3,13 +3,11 @@ package nl.rivm.emi.cdm.individual;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import nl.rivm.emi.cdm.CZMRunException;
-import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
+import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Node;
 
 /**
  * Simplest individual that can be used in a simulation.
@@ -28,6 +26,18 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 
 	private String label = "Not initialized.";
 
+	public static final String xmlElementName = "ind";
+
+	private Float randomNumberGeneratorSeed = null;
+	
+	public Float getRandomNumberGeneratorSeed() {
+		return randomNumberGeneratorSeed;
+	}
+
+	public void setRandomNumberGeneratorSeed(Float randomNumberGeneratorSeed) {
+		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
+	}
+
 	protected Individual(String elementName, String label) {
 		super();
 		this.elementName = elementName;
@@ -39,10 +49,10 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 	}
 
 	public int getCurrentCharacteristicValue(int characteristicIndex)
-			throws CZMRunException {
+			throws CDMRunException {
 		IntCharacteristicValue cv = this.get(characteristicIndex);
 		if (cv == null) {
-			throw new CZMRunException(
+			throw new CDMRunException(
 					"No CharacteristicValue found for index: "
 							+ characteristicIndex);
 		}
@@ -50,10 +60,10 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 	}
 
 	public void updateCharacteristicValue(int characteristicIndex,
-			int newValue) throws CZMRunException {
+			int newValue) throws CDMRunException {
 		IntCharacteristicValue cv = this.get(characteristicIndex);
 		if (cv == null) {
-			throw new CZMRunException(
+			throw new CDMRunException(
 					"No CharacteristicValue found for index: "
 							+ characteristicIndex);
 		}

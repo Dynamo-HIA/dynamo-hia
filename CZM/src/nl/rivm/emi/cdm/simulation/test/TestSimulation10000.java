@@ -1,41 +1,32 @@
 package nl.rivm.emi.cdm.simulation.test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.TreeMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.population.PopulationWriter;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.updating.UpdateRuleBaseClass;
-import nl.rivm.emi.cdm.updating.UpdateRuleStorage;
-import nl.rivm.emi.cdm.updating.UpdateRulesByCharIdContainer;
+import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
+import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class TestSimulation10000 {
@@ -51,7 +42,7 @@ public class TestSimulation10000 {
 	"C:/eclipse321/workspace/CZM/data/transversal10000SimulationOutput.xml");
 
 
-	static public class UpdateRuleOneOne extends UpdateRuleBaseClass {
+	static public class UpdateRuleOneOne extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleOneOne() {
 			super(1, 1);
 		}
@@ -62,7 +53,7 @@ public class TestSimulation10000 {
 		}
 	}
 
-	static public class UpdateRuleTwoTwo extends UpdateRuleBaseClass {
+	static public class UpdateRuleTwoTwo extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleTwoTwo() {
 			super(2, 2);
 		}
@@ -74,7 +65,7 @@ public class TestSimulation10000 {
 		}
 	}
 
-	static public class UpdateRuleSixFour extends UpdateRuleBaseClass {
+	static public class UpdateRuleSixFour extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleSixFour() {
 			super(6, 4);
 		}
@@ -118,9 +109,9 @@ public class TestSimulation10000 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
 			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running longitudinal.");
-			simulation.runLongitudinal();
+			simulation.run();
 			log.fatal("Longitudinal run complete.");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, longSimOutput);
 			log.fatal("Longitudinal result written.");
@@ -136,11 +127,11 @@ public class TestSimulation10000 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -175,9 +166,12 @@ public class TestSimulation10000 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
 			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running transversal");
-			simulation.runTransversal();
+//			simulation.runTransversal();
+			simulation.setRunMode("transversal");
+			simulation.run();
+// ~
 			log.fatal("Transversal run complete");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, transSimOutput);
 			log.fatal("Transversal result written.");
@@ -193,11 +187,11 @@ public class TestSimulation10000 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -210,7 +204,7 @@ public class TestSimulation10000 {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.updating.test.TestUpdateRuleContainers.class);
+				nl.rivm.emi.cdm.updaterules.test.TestUpdateRuleContainers.class);
 	}
 
 }

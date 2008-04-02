@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
+import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
+import nl.rivm.emi.cdm.characteristic.types.CharacteristicTypesContainer;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -45,43 +50,87 @@ public class CharacteristicFromXMLFactory {
 			throw new ConfigurationException(
 					CDMConfigurationException.noCharacteristicLabelMessage);
 		}
+		AbstractCharacteristicType type = handleConfigurationType(characteristicConfiguration);
+		if ((characteristic.getType()).isCategoricalType()) {
+			fillPossibleValues(characteristicConfiguration, type);
+		}
+		characteristic.setType(type);
+		return characteristic;
+	}
+
+	private static AbstractCharacteristicType handleConfigurationType(
+			HierarchicalConfiguration characteristicConfiguration)
+			throws ConfigurationException {
+		AbstractCharacteristicType type = null;
 		try {
-			String type = characteristicConfiguration.getString(typeLabel);
-			if (type == null) {
+			String typeLabel = characteristicConfiguration
+					.getString(CharacteristicFromXMLFactory.typeLabel);
+			if (typeLabel == null) {
 				throw new ConfigurationException(
 						CDMConfigurationException.noCharacteristicTypeMessage);
 			}
-			characteristic.setType(type);
+			CharacteristicTypesContainer container = CharacteristicTypesContainer
+					.getInstance();
+			Class typeClass = container.get(typeLabel);
+			if (typeClass == null) {
+				throw new ConfigurationException(String.format(
+						"Class for typeLabel  %1$s could not be found.",
+						typeLabel));
+			}
+			type = instantiateTypeClass(typeClass);
+			return type;
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noCharacteristicTypeMessage);
 		}
-		if (!CharacteristicType.continuousTypeString.equals(characteristic
-				.getType())) {
-			List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
-					.configurationsAt(possibleValuesLabel);
-			if (possibleValuesConfigurations.size() == 1) {
-				SubnodeConfiguration possibleValuesConfiguration = possibleValuesConfigurations
-						.get(0);
-				List<SubnodeConfiguration> valueConfigurations = possibleValuesConfiguration
-						.configurationsAt(valueLabel);
-				if (valueConfigurations.size() > 0) {
-					Iterator<SubnodeConfiguration> iterator = valueConfigurations
-							.iterator();
-					while (iterator.hasNext()) {
-						SubnodeConfiguration currentValueNode = iterator.next();
-						String value = currentValueNode.getString(valueLabel);
-					}
+	}
 
-				} else {
-					throw new ConfigurationException(
-							CDMConfigurationException.noCharacteristicValueMessage);
+	private static AbstractCharacteristicType instantiateTypeClass(
+			Class typeClass) throws ConfigurationException {
+		AbstractCharacteristicType type;
+		try {
+			type = (AbstractCharacteristicType) typeClass.newInstance();
+		} catch (InstantiationException e) {
+			throw new ConfigurationException(String.format(
+					"Class %1$s could not be instantiated.", typeClass
+							.getName()));
+		} catch (IllegalAccessException e) {
+			throw new ConfigurationException(String.format(
+					"Illegal access for Class %1$s.", typeClass.getName()));
+		}
+		if ((type == null) || !(type instanceof AbstractCharacteristicType)) {
+			throw new ConfigurationException(
+					"Unexpected Class in CharacteristicTypesContainer.");
+		}
+		return type;
+	}
+
+	private static void fillPossibleValues(
+			HierarchicalConfiguration characteristicConfiguration,
+			AbstractCharacteristicType type) throws ConfigurationException {
+		List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
+				.configurationsAt(possibleValuesLabel);
+		AbstractCategoricalCharacteristicType catType = (AbstractCategoricalCharacteristicType) type;
+		if (possibleValuesConfigurations.size() == 1) {
+			SubnodeConfiguration possibleValuesConfiguration = possibleValuesConfigurations
+					.get(0);
+			List<SubnodeConfiguration> valueConfigurations = possibleValuesConfiguration
+					.configurationsAt(valueLabel);
+			if (valueConfigurations.size() > 0) {
+				Iterator<SubnodeConfiguration> iterator = valueConfigurations
+						.iterator();
+				while (iterator.hasNext()) {
+					SubnodeConfiguration currentValueNode = iterator.next();
+					String value = currentValueNode.getString(valueLabel);
+					catType.addPossibleValue(value);
 				}
 			} else {
 				throw new ConfigurationException(
-						CDMConfigurationException.noCharacteristicPossibleValuesMessage);
+						CDMConfigurationException.noCharacteristicPossibleValueValueMessage);
 			}
+		} else {
+			throw new ConfigurationException(
+					CDMConfigurationException.noCharacteristicPossibleValuesMessage);
 		}
-		return characteristic;
 	}
 }

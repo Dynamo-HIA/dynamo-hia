@@ -1,9 +1,9 @@
 package nl.rivm.emi.cdm.population;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.IndividualFactory;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,11 +29,11 @@ public class PopulationFactory extends XMLConfiguredObjectFactory {
 	 * @param Simulation
 	 *            to put Population into.
 	 * @throws CZMConfigurationException
-	 * @throws CZMRunException 
+	 * @throws CDMRunException 
 	 * @throws NumberFormatException 
 	 */
 	public Population makeItFromDOM(Node node, int numberOfSteps)
-			throws CZMConfigurationException, NumberFormatException, CZMRunException {
+			throws CDMConfigurationException, NumberFormatException, CDMRunException {
 		Population resultPopulation = null;
 		if (node != null) {
 			log.info("Passed Node, name: " + node.getNodeName() + " value: "

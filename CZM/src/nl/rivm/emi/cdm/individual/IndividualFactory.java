@@ -1,12 +1,11 @@
 package nl.rivm.emi.cdm.individual;
 
-import java.util.regex.Matcher;
-
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
-import nl.rivm.emi.cdm.characteristic.CharacteristicValueFactory;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueFactory;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
+import nl.rivm.emi.cdm.prngutil.PRngSeedFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,12 +35,12 @@ public class IndividualFactory extends XMLConfiguredObjectFactory {
 	 * @param Population
 	 *            to put Individuals into.
 	 * @throws CZMConfigurationException
-	 * @throws CZMRunException
+	 * @throws CDMRunException
 	 * @throws NumberFormatException
 	 */
 	public boolean makeIt(Node node, Population population, int numberOfSteps)
-			throws CZMConfigurationException, NumberFormatException,
-			CZMRunException {
+			throws CDMConfigurationException, NumberFormatException,
+			CDMRunException {
 		boolean noErrors = true;
 		int numberOfValidIndividuals = 0;
 		if (node != null) {
@@ -53,9 +52,13 @@ public class IndividualFactory extends XMLConfiguredObjectFactory {
 				Individual currentIndividual = new Individual("ind", label);
 				log.info("Individual " + label);
 				Node childNode = myNode.getFirstChild();
+				PRngSeedFactory seedFactory = new PRngSeedFactory(
+				"rngseed");
+				boolean success = seedFactory.makeIt(childNode,
+						currentIndividual);
 				CharacteristicValueFactory charValFactory = new CharacteristicValueFactory(
 						"ch");
-				boolean success = charValFactory.makeIt(childNode,
+				success = charValFactory.makeIt(childNode,
 						currentIndividual, numberOfSteps);
 				// Do not add individuals without a charval.
 				if (!success) {

@@ -16,6 +16,10 @@ public class Population extends ArrayList<Individual> {
 
 	String label = "Not initialized.";
 
+	public static final String xmlElementName = "pop";
+	public static final String xmlLabelElementName = "lb";
+	public static final String populationFileNotWriteableMsg = "File %1$s could not be written.";
+
 	private Iterator<Individual> iterator = null;
 
 	public Population(String elementName, String label) {
@@ -30,8 +34,8 @@ public class Population extends ArrayList<Individual> {
 
 	/**
 	 * Iterates over the Individuals in the Population. Restarts after the end
-	 * has been reached (returns null once when it does).
-	 * TODO Make a more robust implementation.
+	 * has been reached (returns null once when it does). TODO Make a more
+	 * robust implementation.
 	 * 
 	 * @return null if there is no Individual (left). the next Individual. The
 	 *         first call returns the first individual.

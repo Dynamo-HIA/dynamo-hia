@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
@@ -44,9 +44,9 @@ public class Model {
 			System.out.println(e.getClass().getName() + " " + e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getClass().getName() + " " + e.getMessage());
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			System.out.println(e.getClass().getName() + " " + e.getMessage());
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			System.out.println(e.getClass().getName() + " " + e.getMessage());
 		}
 	}

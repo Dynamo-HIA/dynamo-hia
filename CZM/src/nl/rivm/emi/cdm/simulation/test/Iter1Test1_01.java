@@ -1,41 +1,32 @@
 package nl.rivm.emi.cdm.simulation.test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.TreeMap;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
 import nl.rivm.emi.cdm.population.PopulationWriter;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.updating.UpdateRuleBaseClass;
-import nl.rivm.emi.cdm.updating.UpdateRuleStorage;
-import nl.rivm.emi.cdm.updating.UpdateRulesByCharIdContainer;
+import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
+import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class Iter1Test1_01 {
@@ -53,7 +44,7 @@ public class Iter1Test1_01 {
 	File transSimOutputStep5 = new File(
 	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop1st5.xml");
 
-	static public class UpdateRuleST1_01 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_01 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_01() {
 			super(1, 1);
 		}
@@ -64,7 +55,7 @@ public class Iter1Test1_01 {
 		}
 	}
 
-	static public class UpdateRuleST1_02 extends UpdateRuleBaseClass {
+	static public class UpdateRuleST1_02 extends AbstractUnboundOneToOneUpdateRule {
 		public UpdateRuleST1_02() {
 			super(2, 1);
 		}
@@ -110,9 +101,9 @@ public class Iter1Test1_01 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_01());
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_02());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running longitudinal.");
-			simulation.runLongitudinal();
+			simulation.run();
 			log.fatal("Longitudinal run complete.");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, longSimOutput);
@@ -129,11 +120,11 @@ public class Iter1Test1_01 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -183,9 +174,12 @@ public class Iter1Test1_01 {
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_01());
 			updateRuleStorage.addUpdateRule(new UpdateRuleST1_02());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
-			assertTrue(simulation.sanityCheck());
+			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running transversal");
-			simulation.runTransversal();
+//			simulation.runTransversal();
+			simulation.setRunMode("transversal");
+			simulation.run();
+// ~
 			log.fatal("Transversal run complete");
 			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, transSimOutput);
@@ -204,11 +198,11 @@ public class Iter1Test1_01 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
-		} catch (CZMRunException e) {
+		} catch (CDMRunException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
@@ -221,7 +215,7 @@ public class Iter1Test1_01 {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.updating.test.TestUpdateRuleContainers.class);
+				nl.rivm.emi.cdm.updaterules.test.TestUpdateRuleContainers.class);
 	}
 
 }

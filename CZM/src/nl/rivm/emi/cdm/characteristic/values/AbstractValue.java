@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.characteristic;
+package nl.rivm.emi.cdm.characteristic.values;
 /**
  * 
  * @author mondeelr

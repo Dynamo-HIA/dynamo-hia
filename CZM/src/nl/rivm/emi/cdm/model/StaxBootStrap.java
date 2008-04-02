@@ -10,9 +10,9 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,8 +26,8 @@ public class StaxBootStrap {
 
 	public Population process2PopulationTree(File populationFile,
 			int numberOfSteps) throws ParserConfigurationException,
-			SAXException, IOException, CZMConfigurationException,
-			NumberFormatException, CZMRunException {
+			SAXException, IOException, CDMConfigurationException,
+			NumberFormatException, CDMRunException {
 		Population population = null;
 		try {
 			if (populationFile.isFile() && populationFile.canRead()) {

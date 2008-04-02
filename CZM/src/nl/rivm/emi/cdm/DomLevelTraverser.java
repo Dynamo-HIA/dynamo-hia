@@ -2,8 +2,8 @@ package nl.rivm.emi.cdm;
 
 import java.util.TreeSet;
 
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.w3c.dom.Node;
 
@@ -11,7 +11,7 @@ public abstract class DomLevelTraverser extends TreeSet<Individual>{
  
 	protected String myElementName = "Skblzz";
 	
-	protected Node traverseTreeLevel(Node node) throws CZMConfigurationException {
+	protected Node traverseTreeLevel(Node node) throws CDMConfigurationException {
 		while (node != null) {
 			if (isMyElementName(node)) {
 //				Population population = new Population(node);

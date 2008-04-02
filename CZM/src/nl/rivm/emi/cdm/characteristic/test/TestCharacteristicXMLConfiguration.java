@@ -23,12 +23,19 @@ public class TestCharacteristicXMLConfiguration {
 	String nonExistentFileName = "xxx.xml";
 
 	String existingFileName_WithoutCharacteristic = "unittestdata\\charconf_nocharacteristic.xml";
+
 	String existingFileName_NoIndex = "unittestdata\\charconf_noindex.xml";
+
 	String existingFileName_NoLabel = "unittestdata\\charconf_nolabel.xml";
+
 	String existingFileName_NoType = "unittestdata\\charconf_notype.xml";
+
 	String existingFileName_NoPossibleValues = "unittestdata\\charconf_nopossiblevalues.xml";
+
 	String existingFileName_NoValues = "unittestdata\\charconf_novalues.xml";
+
 	String existingFileName_SingleChar = "unittestdata\\charconf_onechar.xml";
+
 	String existingFileName_MultiChar = "unittestdata\\charconf_multichar.xml";
 
 	@Test
@@ -41,7 +48,8 @@ public class TestCharacteristicXMLConfiguration {
 					nonExistentFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noFileMessage, e.getMessage());
+			assertEquals(CDMConfigurationException.noFileMessage, e
+					.getMessage());
 			log.debug(e.getMessage() + " " + nonExistentFileName);
 		}
 	}
@@ -50,87 +58,114 @@ public class TestCharacteristicXMLConfiguration {
 	public void parseConfigurationFileWithoutCharacteristic() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
 
-		String withoutCharacteristicFileName =currentWorkingDirectory +"\\" + existingFileName_WithoutCharacteristic;
+		String withoutCharacteristicFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_WithoutCharacteristic;
 		System.out.println(withoutCharacteristicFileName);
 		try {
-			File withoutCharacteristicFile = new File(withoutCharacteristicFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutCharacteristicFile);
+			File withoutCharacteristicFile = new File(
+					withoutCharacteristicFileName);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutCharacteristicFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicMessage, e.getMessage());
+			assertEquals(CDMConfigurationException.noCharacteristicMessage, e
+					.getMessage());
 			log.debug(e.getMessage() + withoutCharacteristicFileName);
 		}
 	}
-
 
 	@Test
 	public void parseConfigurationFileWithoutIndex() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
 
-		String withoutCharacteristicFileName =currentWorkingDirectory +"\\" + existingFileName_NoIndex;
+		String withoutCharacteristicFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_NoIndex;
 		System.out.println(withoutCharacteristicFileName);
 		try {
-			File withoutCharacteristicFile = new File(withoutCharacteristicFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutCharacteristicFile);
+			File withoutCharacteristicFile = new File(
+					withoutCharacteristicFileName);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutCharacteristicFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicIndexMessage, e.getMessage());
+			assertEquals(
+					CDMConfigurationException.noCharacteristicIndexMessage, e
+							.getMessage());
 			log.debug(e.getMessage() + withoutCharacteristicFileName);
 		}
 	}
 
-	@Test	public void parseConfigurationFileWithoutLabel() {
+	@Test
+	public void parseConfigurationFileWithoutLabel() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String withoutLabelFileName =currentWorkingDirectory +"\\" + existingFileName_NoLabel;
+		String withoutLabelFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_NoLabel;
 		System.out.println(withoutLabelFileName);
 		try {
 			File withoutLabelFile = new File(withoutLabelFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutLabelFile);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicLabelMessage, e.getMessage());
+			assertEquals(
+					CDMConfigurationException.noCharacteristicLabelMessage, e
+							.getMessage());
 			log.debug(e.getMessage() + withoutLabelFileName);
 		}
 	}
 
-	@Test	public void parseConfigurationFileWithoutType() {
+	@Test
+	public void parseConfigurationFileWithoutType() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String withoutTypeFileName =currentWorkingDirectory +"\\" + existingFileName_NoType;
+		String withoutTypeFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_NoType;
 		System.out.println(withoutTypeFileName);
 		try {
 			File withoutLabelFile = new File(withoutTypeFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutLabelFile);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicTypeMessage, e.getMessage());
+			assertEquals(CDMConfigurationException.noCharacteristicTypeMessage,
+					e.getMessage());
 			log.debug(e.getMessage() + withoutTypeFileName);
 		}
 	}
 
-	@Test	public void parseConfigurationFileWithoutPossibleValues() {
+	@Test
+	public void parseConfigurationFileWithoutPossibleValues() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String withoutPossibleValuesFileName =currentWorkingDirectory +"\\" + existingFileName_NoPossibleValues;
+		String withoutPossibleValuesFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_NoPossibleValues;
 		System.out.println(withoutPossibleValuesFileName);
 		try {
 			File withoutLabelFile = new File(withoutPossibleValuesFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutLabelFile);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicPossibleValuesMessage, e.getMessage());
+			assertEquals(
+					CDMConfigurationException.noCharacteristicPossibleValuesMessage,
+					e.getMessage());
 			log.debug(e.getMessage() + withoutPossibleValuesFileName);
 		}
 	}
 
-	@Test	public void parseConfigurationFileWithoutValues() {
+	@Test
+	public void parseConfigurationFileWithoutValues() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String withoutValueFileName =currentWorkingDirectory +"\\" + existingFileName_NoValues;
+		String withoutValueFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_NoValues;
 		System.out.println(withoutValueFileName);
 		try {
 			File withoutLabelFile = new File(withoutValueFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(withoutLabelFile);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
-			assertEquals(CDMConfigurationException.noCharacteristicValueMessage, e.getMessage());
+			assertEquals(
+					CDMConfigurationException.noCharacteristicPossibleValueValueMessage, e
+							.getMessage());
 			log.debug(e.getMessage() + withoutValueFileName);
 		}
 	}
@@ -138,12 +173,16 @@ public class TestCharacteristicXMLConfiguration {
 	@Test
 	public void parseConfigurationFileSingleCharacteristic() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String singleCharacteristicFileName =currentWorkingDirectory +"\\" + existingFileName_SingleChar;
+		String singleCharacteristicFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_SingleChar;
 		System.out.println(singleCharacteristicFileName);
 		try {
-			File singleCharacteristicFile = new File(singleCharacteristicFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(singleCharacteristicFile);
-			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance().size() == 1);
+			File singleCharacteristicFile = new File(
+					singleCharacteristicFileName);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					singleCharacteristicFile);
+			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
+					.size() == 1);
 		} catch (ConfigurationException e) {
 			assertNull(e);
 		}
@@ -152,13 +191,18 @@ public class TestCharacteristicXMLConfiguration {
 	@Test
 	public void parseConfigurationFileMultipleCharacteristics() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String multipleCharacteristicsFileName =currentWorkingDirectory +"\\" + existingFileName_MultiChar;
+		String multipleCharacteristicsFileName = currentWorkingDirectory + "\\"
+				+ existingFileName_MultiChar;
 		System.out.println(multipleCharacteristicsFileName);
 		try {
-			File multipleCharacteristicsFile = new File(multipleCharacteristicsFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(multipleCharacteristicsFile);
-			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance().size() > 1);
+			File multipleCharacteristicsFile = new File(
+					multipleCharacteristicsFileName);
+			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+					multipleCharacteristicsFile);
+			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
+					.size() > 1);
 		} catch (ConfigurationException e) {
+			e.printStackTrace();
 			assertNull(e);
 		}
 	}

@@ -13,10 +13,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.individual.IndividualFactory;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +65,7 @@ public class TestIndividualFactory {
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertFalse(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -98,7 +98,7 @@ public class TestIndividualFactory {
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertFalse(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -137,7 +137,7 @@ public class TestIndividualFactory {
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertTrue(success);
 			checkResult(population);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {
@@ -170,7 +170,7 @@ public class TestIndividualFactory {
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertTrue(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {

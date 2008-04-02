@@ -2,13 +2,13 @@ package nl.rivm.emi.cdm.characteristic;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
 
-public class CharacteristicWriter {
+public class DOMCharacteristicValueInserter {
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.cdm.characteristic.CharacteristicWriter");
 
@@ -19,9 +19,9 @@ public class CharacteristicWriter {
 		Element element = parentElement.getOwnerDocument().createElement(
 				elementName);
 		int index = characteristicValue.getIndex();
-		if (stepNumber >= characteristicValue.rijtje.length) {
+		if (stepNumber >= characteristicValue.getRijtje().length) {
 			log.fatal("Attemp to get a value (arraysize: "
-					+ characteristicValue.rijtje.length
+					+ characteristicValue.getRijtje().length
 					+ ") from a nonexistent location: " + stepNumber);
 		}
 		int value = characteristicValue.getValue(stepNumber);

@@ -5,23 +5,18 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
-
-import nl.rivm.emi.cdm.characteristic.CharacteristicValueFactory;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueFactory;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.individual.test.IndividualTestProxy;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
-import nl.rivm.emi.cdm.util.StringInputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,7 +68,7 @@ public class TestCharacteristicValueFactory {
 			// Numberofsteps is not relevant here.
 			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertFalse(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			logger.warn(e.getMessage());
 			// Is not an error perse.
 			assertNotNull(e);
@@ -110,7 +105,7 @@ public class TestCharacteristicValueFactory {
 			// Numberofsteps is not relevant here.
 			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertFalse(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			logger.warn(e.getMessage());
 			// Is not an error perse.
 			assertNotNull(e);
@@ -147,7 +142,7 @@ public class TestCharacteristicValueFactory {
 			// Numberofsteps is not relevant here.
 			boolean success = factory.makeIt(rootNode, individual, 1);
 			assertTrue(success);
-		} catch (CZMConfigurationException e) {
+		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			logger.warn(e.getMessage());
 		} catch (ParserConfigurationException e) {

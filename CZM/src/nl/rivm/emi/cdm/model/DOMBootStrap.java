@@ -7,10 +7,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFactory;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +25,7 @@ public class DOMBootStrap {
 
 	public Population process2PopulationTree(File populationFile, int numberOfSteps)
 			throws ParserConfigurationException, SAXException, IOException,
-			CZMConfigurationException, NumberFormatException, CZMRunException {
+			CDMConfigurationException, NumberFormatException, CDMRunException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 		Document document = docBuilder.parse(populationFile);

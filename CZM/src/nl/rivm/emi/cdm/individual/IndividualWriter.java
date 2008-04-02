@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.characteristic.CharacteristicWriter;
-import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.DOMCharacteristicValueInserter;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual.CharacteristicValueIterator;
 
 import org.apache.commons.logging.Log;
@@ -34,7 +34,7 @@ public class IndividualWriter {
 		Iterator<IntCharacteristicValue> iterator = individual.iterator();
 		while (iterator.hasNext()) {
 			IntCharacteristicValue charVal = iterator.next();
-			CharacteristicWriter.generateDOM(charVal, stepNumber, element);
+			DOMCharacteristicValueInserter.generateDOM(charVal, stepNumber, element);
 		}
 		// TODO No todo, but layout fluff.
 		Node textNode = parentElement.getOwnerDocument().createTextNode("\n");

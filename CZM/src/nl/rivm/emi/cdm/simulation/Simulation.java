@@ -2,31 +2,26 @@ package nl.rivm.emi.cdm.simulation;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
-import nl.rivm.emi.cdm.updating.SimpleLoadableUpdateRules;
-import nl.rivm.emi.cdm.updating.SimpleUpdateRules;
-import nl.rivm.emi.cdm.updating.UpdateRuleBaseClass;
-import nl.rivm.emi.cdm.updating.UpdateRuleStorage;
+import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
+import nl.rivm.emi.cdm.updaterules.UpdateRuleMarker;
+import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public class Simulation extends DomLevelTraverser {
@@ -43,12 +38,19 @@ public class Simulation extends DomLevelTraverser {
 	/**
 	 * Configured timeStep.
 	 */
-	private float stepSize = 1;
+	private Float stepSize = 1F;
 
 	/**
 	 * Configured runMode.
 	 */
 	String runMode;
+
+	/**
+	 * The number of steps between population snapshots that will be written to
+	 * disk.
+	 */
+	private int stepsBetweenSaves;
+
 	/**
 	 * The maximum number of steps this Simulation will run.
 	 */
@@ -64,17 +66,21 @@ public class Simulation extends DomLevelTraverser {
 	 */
 	private Population population = null;
 
-
 	/**
 	 * Configured updaterules.
 	 */
 	private UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
-	
-	/**
-	 * Configured Characteristics.
-	 */
-	private CharacteristicsConfigurationMapSingleton Characteristics;
 
+	/**
+	 * When the first Individual is processed, this transient HashMap is filled.
+	 * After the run it is discarded.
+	 */
+	HashMap<Integer, UpdateRuleMarker> actualUpdateRules;
+
+	/**
+	 * Globally configured Characteristics.
+	 */
+	private CharacteristicsConfigurationMapSingleton characteristics;
 
 	/**
 	 * 
@@ -87,13 +93,13 @@ public class Simulation extends DomLevelTraverser {
 	 * Instantiate with label only, used in unit-tests.
 	 * 
 	 * @param label
-	 * @param numberOfSteps
+	 * @param stepsInRun
 	 *            TODO
 	 */
-	public Simulation(String label, int numberOfSteps) {
+	public Simulation(String label, int stepsInRun) {
 		super();
 		this.label = label;
-		this.numberOfSteps = numberOfSteps;
+		this.stepsInRun = stepsInRun;
 	}
 
 	/**
@@ -102,9 +108,9 @@ public class Simulation extends DomLevelTraverser {
 	 * @param label
 	 * @param population
 	 */
-	public Simulation(String label, int numberOfSteps, Population population) {
+	public Simulation(String label, int stepsInRun, Population population) {
 		super();
-		this.numberOfSteps = numberOfSteps;
+		this.stepsInRun = stepsInRun;
 		this.population = population;
 	}
 
@@ -117,17 +123,68 @@ public class Simulation extends DomLevelTraverser {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
-	 * @throws CZMRunException
+	 * @throws CDMRunException
 	 * @throws NumberFormatException
 	 */
-	public Simulation(String label, int numberOfSteps, File populationFile)
-			throws CZMConfigurationException, ParserConfigurationException,
-			SAXException, IOException, NumberFormatException, CZMRunException {
+	public Simulation(String label, int stepsInRun, File populationFile)
+			throws CDMConfigurationException, ParserConfigurationException,
+			SAXException, IOException, NumberFormatException, CDMRunException {
 		super();
 		this.label = label;
-		this.numberOfSteps = numberOfSteps;
+		this.stepsInRun = stepsInRun;
 		DOMBootStrap domBoot = new DOMBootStrap();
 		population = domBoot.process2PopulationTree(populationFile, 1);
+	}
+
+	/**
+	 * Method that does a sanity-check on the Simulation configuration. Only
+	 * completeness is checked, consistency is not.
+	 * 
+	 * @return
+	 */
+	public boolean isConfigurationOK() {
+		boolean checkOK = true;
+		if (label == null) {
+			checkOK = false;
+		} else {
+			if ("".equals(label)) {
+				checkOK = false;
+			}
+		}
+		if (stepSize <= 0) {
+			checkOK = false;
+
+		}
+		if (runMode == null) {
+			checkOK = false;
+		} else {
+			if ("".equals(runMode)) {
+				checkOK = false;
+			}
+		}
+		if (stepsBetweenSaves < 0) {
+			checkOK = false;
+		}
+		if (stepsInRun <= 0) {
+			checkOK = false;
+		}
+		if (stoppingCondition == null) {
+			checkOK = false;
+		} else {
+			if ("".equals(stoppingCondition)) {
+				checkOK = false;
+			}
+		}
+		if (population == null) {
+			checkOK = false;
+		}
+		if (updateRuleStorage == null) {
+			checkOK = false;
+		}
+		if (characteristics == null) {
+			checkOK = false;
+		}
+		return checkOK;
 	}
 
 	public String getLabel() {
@@ -138,57 +195,105 @@ public class Simulation extends DomLevelTraverser {
 		this.label = label;
 	}
 
-	public int getNumberOfSteps() {
-		return numberOfSteps;
+	public void setPopulationByFileName(String populationFileName) {
+		// TODO load population.
+		// this.population = population;
 	}
 
 	public void setPopulation(Population population) {
 		this.population = population;
 	}
 
+	public String getRunMode() {
+		return runMode;
+	}
+
+	public void setRunMode(String runMode) {
+		this.runMode = runMode;
+	}
+
+	public int getStepsInRun() {
+		return stepsInRun;
+	}
+
+	public void setStepsInRun(int stepsInRun) {
+		this.stepsInRun = stepsInRun;
+	}
+
+	public float getStepSize() {
+		return stepSize;
+	}
+
+	public void setStepSize(float stepSize) {
+		this.stepSize = stepSize;
+	}
+
+	public String getStoppingCondition() {
+		return stoppingCondition;
+	}
+
+	public void setStoppingCondition(String stoppingCondition) {
+		this.stoppingCondition = stoppingCondition;
+	}
+
+	public UpdateRuleStorage getUpdateRuleStorage() {
+		return updateRuleStorage;
+	}
+
 	public Population getPopulation() {
 		return population;
 	}
 
-	public void runLongitudinal() throws CZMRunException {
+	public void run() throws CDMRunException {
+		if (RunModes.LONGITUDINAL.equalsIgnoreCase(runMode)) {
+			runLongitudinal();
+		} else {
+			if (RunModes.TRANSVERSAL.equalsIgnoreCase(runMode)) {
+				runTransversal();
+			} else {
+				throw new CDMRunException("Illegal runmode: " + runMode);
+			}
+		}
+	}
+
+	private void runLongitudinal() throws CDMRunException {
 		Iterator<Individual> individualIterator = population.iterator();
 		while (individualIterator.hasNext()) {
 			Individual individual = individualIterator.next();
 			log.debug("Longitudinal: Processing individual "
 					+ individual.getLabel());
-			for (int stepCount = 0; stepCount < numberOfSteps; stepCount++) {
+			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 				processCharVals(individual);
 			}
 		}
 	}
 
-	public void runTransversal() throws CZMRunException {
-		for (int stepCount = 0; stepCount < numberOfSteps; stepCount++) {
+	private void runTransversal() throws CDMRunException {
+		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 			Iterator<Individual> individualIterator = population.iterator();
 			while (individualIterator.hasNext()) {
 				Individual individual = individualIterator.next();
-				log
-				.debug("Transversal: Processing individual "
+				log.debug("Transversal: Processing individual "
 						+ individual.getLabel());
 				processCharVals(individual);
 			}
 		}
 	}
 
-	private void processCharVals(Individual individual) throws CZMRunException {
+	private void processCharVals(Individual individual) throws CDMRunException {
 		Iterator<IntCharacteristicValue> charValIterator = individual
 				.iterator();
 		while (charValIterator.hasNext()) {
 			IntCharacteristicValue charVal = charValIterator.next();
 			int charValIndex = charVal.getIndex();
-			if (!Characteristics.containsKey(charValIndex)) {
+			if (!characteristics.containsKey(charValIndex)) {
 				log.warn("Individual " + individual.getLabel()
 						+ " has a value at index " + charValIndex
 						+ " for a non configured characteristic removing it.");
 				charValIterator.remove();
 				break;
 			}
-			UpdateRuleBaseClass rule = updateRuleStorage.getUpdateRule(
+			Set<UpdateRuleMarker> rule = updateRuleStorage.getUpdateRules(
 					charValIndex, stepSize);
 			if (rule == null) {
 				log.warn("Individual " + individual.getLabel()
@@ -198,7 +303,7 @@ public class Simulation extends DomLevelTraverser {
 				break;
 			}
 			int oldValue = charVal.getCurrentValue();
-			int newValue = rule.updateSelf(oldValue);
+			int newValue = rule.update(oldValue);
 			charVal.appendValue(newValue);
 			log.info("Updated charval at " + charVal.getIndex() + " from "
 					+ oldValue + " to " + newValue + " for individual "
@@ -208,7 +313,7 @@ public class Simulation extends DomLevelTraverser {
 
 	public void setCharacteristics(
 			CharacteristicsConfigurationMapSingleton characteristics) {
-		Characteristics = characteristics;
+		characteristics = characteristics;
 	}
 
 	public void setTimeStep(float stepSize) {
@@ -219,26 +324,12 @@ public class Simulation extends DomLevelTraverser {
 		this.updateRuleStorage = updateRuleStorage;
 	}
 
-	public boolean sanityCheck() {
-		boolean allOK = true;
-		if (myElementName == null || "".equals(myElementName)) {
-			allOK = false;
-		}
-		if (!(numberOfSteps > 0)) {
-			allOK = false;
-		}
-		if (Characteristics == null) {
-			allOK = false;
-		}
-		if (population == null) {
-			allOK = false;
-		}
-		if (!(stepSize > 0)) {
-			allOK = false;
-		}
-		if (updateRuleStorage == null) {
-			allOK = false;
-		}
-		return allOK;
+	public int getStepsBetweenSaves() {
+		return stepsBetweenSaves;
 	}
+
+	public void setStepsBetweenSaves(int stepsBetweenSaves) {
+		this.stepsBetweenSaves = stepsBetweenSaves;
+	}
+
 }

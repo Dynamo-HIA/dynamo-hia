@@ -1,17 +1,12 @@
-package nl.rivm.emi.cdm.characteristic;
+package nl.rivm.emi.cdm.characteristic.values;
 
-import static org.junit.Assert.assertFalse;
-
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
-import nl.rivm.emi.cdm.characteristic.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.simulation.CZMConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,11 +47,11 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	 * @param Population
 	 *            to put Individuals into.
 	 * @throws CZMConfigurationException
-	 * @throws CZMRunException 
+	 * @throws CDMRunException 
 	 * @throws NumberFormatException 
 	 */
 	public boolean makeIt(Node node, Individual individual, int numberOfSteps)
-			throws CZMConfigurationException, NumberFormatException, CZMRunException {
+			throws CDMConfigurationException, NumberFormatException, CDMRunException {
 		boolean anyErrors = false;
 		if (node != null) {
 			log.info("Passed Node, name: " + node.getNodeName() + " value: "
@@ -72,7 +67,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 				myNode = findMyNextNodeAtThisLevel(myNode);
 			}
 			if (numNodesFound == 0) {
-				throw new CZMConfigurationException(
+				throw new CDMConfigurationException(
 						"No CharacteristicValue found.");
 			}
 		}
@@ -80,7 +75,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	}
 
 	private boolean processMyNode(Individual individual, Node myNode,
-			int numberOfSteps) throws CZMConfigurationException, NumberFormatException, CZMRunException {
+			int numberOfSteps) throws CDMConfigurationException, NumberFormatException, CDMRunException {
 		boolean success = false;
 		NamedNodeMap myAttributes = myNode.getAttributes();
 		if (myAttributes != null) {
@@ -88,7 +83,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			if (indexNode == null) {
 				indexNode = myAttributes.getNamedItem("index");
 				if (indexNode == null) {
-					throw new CZMConfigurationException(
+					throw new CDMConfigurationException(
 							"CharacteristicValue without index attribute found.");
 				}
 			}
@@ -102,7 +97,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			if (valueNode == null) {
 				valueNode = myAttributes.getNamedItem("value");
 				if (valueNode == null) {
-					throw new CZMConfigurationException(
+					throw new CDMConfigurationException(
 							"CharacteristicValue without value attribute found.");
 				}
 			}
@@ -124,7 +119,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 				log.warn("CharacteristicValue attribute(s) no integer.");
 			}
 		} else {
-			throw new CZMConfigurationException(
+			throw new CDMConfigurationException(
 					"CharacteristicValue without attributes found.");
 		}
 		return success;

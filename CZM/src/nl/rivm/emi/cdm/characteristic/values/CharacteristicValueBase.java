@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.characteristic;
+package nl.rivm.emi.cdm.characteristic.values;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

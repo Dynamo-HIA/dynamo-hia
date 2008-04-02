@@ -1,9 +1,9 @@
-package nl.rivm.emi.cdm.characteristic;
+package nl.rivm.emi.cdm.characteristic.values;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.CZMRunException;
+import nl.rivm.emi.cdm.CDMRunException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,26 +48,30 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 		return rijtje[step];
 	}
 
-	public void appendValue(int value) throws CZMRunException {
+	public int[] getRijtje() {
+		return rijtje;
+	}
+
+	public void appendValue(int value) throws CDMRunException {
 		if (numberFilled < rijtje.length) {
 			rijtje[numberFilled] = value;
 			numberFilled++;
 		} else {
 			log.warn("Steps are full!");
-			throw new CZMRunException("Step storage (size " + rijtje.length + " ) overflow, cannot append value.");
+			throw new CDMRunException("Step storage (size " + rijtje.length + " ) overflow, cannot append value.");
 		}
 	}
 
-	public int getCurrentValue() throws CZMRunException {
+	public int getCurrentValue() throws CDMRunException {
 		if (numberFilled > 0) {
 			return rijtje[numberFilled - 1];
 		} else {
 			log.warn("Steps are empty!");
-			throw new CZMRunException("Step storage is empty, no newest value available.");
+			throw new CDMRunException("Step storage is empty, no newest value available.");
 		}
 	}
 
-	public boolean appendIntegerValue(String stringValue) throws CZMRunException {
+	public boolean appendIntegerValue(String stringValue) throws CDMRunException {
 		String intRegex = "[0-9]+";
 		Pattern pattern = Pattern.compile(intRegex);
 		Matcher matcher = pattern.matcher(stringValue);

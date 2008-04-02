@@ -2,6 +2,8 @@ package nl.rivm.emi.cdm.characteristic;
 
 import java.util.ArrayList;
 
+import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
+
 /**
  * Characteristics each have a unique base one index among themselves.
  * 
@@ -11,12 +13,19 @@ public class Characteristic {
 	 * The unique index. -1 indicates it hasn't been initialized.
 	 */
 	private int index = -1;
-
+/**
+ * The name of the Characteristic.
+ */
 	private String label = null;
-
-	private String type = null;
+/**
+ * The type of the Characteristic.
+ * One of "categorical", "numericalcontinuous" or "numericaldiscrete".
+ */
+	private AbstractCharacteristicType type = null;
 
 	private ArrayList<String> possibleValues = null;
+
+	public static final String xmlElementName = "ch";
 
 	public Characteristic() {
 		super();
@@ -43,11 +52,11 @@ public class Characteristic {
 		return label;
 	}
 
-	public String getType() {
+	public AbstractCharacteristicType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(AbstractCharacteristicType type) {
 		this.type = type;
 	}
 
