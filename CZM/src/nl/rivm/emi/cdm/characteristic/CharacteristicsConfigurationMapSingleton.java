@@ -62,4 +62,19 @@ public class CharacteristicsConfigurationMapSingleton extends
 			remove(iterator.next());
 		}
 	}
+	public String humanReadableReport(){
+		StringBuffer resultBuffer = new StringBuffer();
+		int characteristicCount = 0;
+		for(int index = 0; characteristicCount < size(); index++){
+			resultBuffer.append("Characteristic at index " + index + ":");
+			Characteristic current = get(new Integer(index));
+if(current == null){
+	resultBuffer.append("None\n");
+} else {
+	resultBuffer.append(current.humanreadableReport() + "\n");
+	characteristicCount++;
+}
+		}
+		return resultBuffer.toString();
+	}
 }

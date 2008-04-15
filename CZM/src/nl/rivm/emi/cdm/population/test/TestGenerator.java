@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Generator;
@@ -68,8 +69,16 @@ public class TestGenerator {
 	File testFile_OK_huge_mersenne = new File(
 	"C:/eclipse321/workspace/CZM/unittestdata/generator_huge_mersenne.xml");
 
+	String existingFileName_MultiChar = "C:/eclipse321/workspace/CZM/unittestdata/iteration2/charconf1.xml";
+
 @Before
-	public void setup() {
+	synchronized public void setup() throws ConfigurationException {
+		String multipleCharacteristicsFileName = existingFileName_MultiChar;
+		System.out.println(multipleCharacteristicsFileName);
+		File multipleCharacteristicsFile = new File(
+				multipleCharacteristicsFileName);
+		CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+				multipleCharacteristicsFile);
 	}
 
 	@After

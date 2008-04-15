@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<newborngenerator>
+   <lb>generatorname</lb>
+   <populationsize>12</populationsize>
+   <rngclassname>cccccccccccccc</rngclassname>
+   <rngseed>12</rngseed>
+   <characteristics>
+   </characteristics>
+</newborngenerator>

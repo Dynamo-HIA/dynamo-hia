@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 
 import org.apache.commons.logging.Log;
@@ -15,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
  * @author mondeelr
  * 
  */
-public class Individual extends ArrayList<IntCharacteristicValue> {
+public class Individual extends ArrayList<CharacteristicValueBase> {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	/**
@@ -28,13 +30,13 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 
 	public static final String xmlElementName = "ind";
 
-	private Float randomNumberGeneratorSeed = null;
-	
-	public Float getRandomNumberGeneratorSeed() {
+	private Long randomNumberGeneratorSeed = null;
+
+	public Long getRandomNumberGeneratorSeed() {
 		return randomNumberGeneratorSeed;
 	}
 
-	public void setRandomNumberGeneratorSeed(Float randomNumberGeneratorSeed) {
+	public void setRandomNumberGeneratorSeed(Long randomNumberGeneratorSeed) {
 		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
 	}
 
@@ -48,34 +50,80 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 		return elementName;
 	}
 
-	public int getCurrentCharacteristicValue(int characteristicIndex)
+	public int getCurrentIntCharacteristicValue(int characteristicIndex)
 			throws CDMRunException {
-		IntCharacteristicValue cv = this.get(characteristicIndex);
+		CharacteristicValueBase cv = this.get(characteristicIndex);
 		if (cv == null) {
 			throw new CDMRunException(
 					"No CharacteristicValue found for index: "
 							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof IntCharacteristicValue)) {
+				throw new CDMRunException(
+						"No IntCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
 		}
-		return cv.getCurrentValue();
+		return ((IntCharacteristicValue) cv).getCurrentValue();
 	}
 
-	public void updateCharacteristicValue(int characteristicIndex,
-			int newValue) throws CDMRunException {
-		IntCharacteristicValue cv = this.get(characteristicIndex);
+	public float getCurrentFloatCharacteristicValue(int characteristicIndex)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
 		if (cv == null) {
 			throw new CDMRunException(
 					"No CharacteristicValue found for index: "
 							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof FloatCharacteristicValue)) {
+				throw new CDMRunException(
+						"No FloatCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
 		}
-		cv.appendValue(newValue);
+		return ((FloatCharacteristicValue) cv).getCurrentValue();
+	}
+
+	public void updateIntCharacteristicValue(int characteristicIndex, int newValue)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
+		if (cv == null) {
+			throw new CDMRunException(
+					"No CharacteristicValue found for index: "
+							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof IntCharacteristicValue)) {
+				throw new CDMRunException(
+						"No IntCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
+		}
+		((IntCharacteristicValue)cv).appendValue(newValue);
+	}
+
+	public void updateFloatCharacteristicValue(int characteristicIndex, float newValue)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
+		if (cv == null) {
+			throw new CDMRunException(
+					"No CharacteristicValue found for index: "
+							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof FloatCharacteristicValue)) {
+				throw new CDMRunException(
+						"No FloatCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
+		}
+		((FloatCharacteristicValue)cv).appendValue(newValue);
 	}
 
 	/**
 	 * Append / replace the value at index.
 	 */
-	public IntCharacteristicValue luxeSet(int index,
-			IntCharacteristicValue value) {
-		IntCharacteristicValue result = null;
+	public CharacteristicValueBase luxeSet(int index,
+			CharacteristicValueBase value) {
+		CharacteristicValueBase result = null;
 		if (index >= this.size()) {
 			int count = this.size();
 			// Fill up.
@@ -95,19 +143,19 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 		return label;
 	}
 
-	public Iterator<IntCharacteristicValue> iterator() {
+	public Iterator<CharacteristicValueBase> iterator() {
 		return new CharacteristicValueIterator();
 	}
 
 	class CharacteristicValueIterator implements
-			Iterator<IntCharacteristicValue> {
+			Iterator<CharacteristicValueBase> {
 		/**
 		 * Some status bookkeeping.
 		 */
 		int currentIndex = -1;
 
 		int nextIndex = -1;
-		
+
 		int lastReturnedIndex = -1;
 
 		public boolean hasNext() {
@@ -121,20 +169,20 @@ public class Individual extends ArrayList<IntCharacteristicValue> {
 			return (nextIndex != -1);
 		}
 
-		public IntCharacteristicValue next() {
-			IntCharacteristicValue found = null;
+		public CharacteristicValueBase next() {
+			CharacteristicValueBase found = null;
 			// Sanity check.
 			if (-1 < nextIndex && nextIndex < size()) {
 				currentIndex = nextIndex;
 				found = get(currentIndex);
-				if(found != null){
+				if (found != null) {
 					lastReturnedIndex = currentIndex;
 				}
 			}
 			return found;
 		}
 
-		public void remove(){
+		public void remove() {
 			set(lastReturnedIndex, null);
 		}
 	}

@@ -2,24 +2,27 @@ package nl.rivm.emi.cdm.simulation;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
-import nl.rivm.emi.cdm.updaterules.UpdateRuleMarker;
-import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
+import nl.rivm.emi.cdm.updaterules.base.ManyToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker;
+import nl.rivm.emi.cdm.updaterules.containment.UpdateRules4Simulation;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
@@ -69,18 +72,20 @@ public class Simulation extends DomLevelTraverser {
 	/**
 	 * Configured updaterules.
 	 */
-	private UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
+	private UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
 
-	/**
-	 * When the first Individual is processed, this transient HashMap is filled.
-	 * After the run it is discarded.
-	 */
-	HashMap<Integer, UpdateRuleMarker> actualUpdateRules;
+	// /**
+	// * When the first Individual is processed, this transient HashMap is
+	// filled.
+	// * After the run it is discarded.
+	// */
+	// UpdateRules4Simulation actualUpdateRules;
 
 	/**
 	 * Globally configured Characteristics.
 	 */
-	private CharacteristicsConfigurationMapSingleton characteristics;
+	private CharacteristicsConfigurationMapSingleton characteristics = CharacteristicsConfigurationMapSingleton
+			.getInstance();
 
 	/**
 	 * 
@@ -195,9 +200,29 @@ public class Simulation extends DomLevelTraverser {
 		this.label = label;
 	}
 
-	public void setPopulationByFileName(String populationFileName) {
-		// TODO load population.
-		// this.population = population;
+	public void setPopulationByFileName(String populationFileName)
+			throws ConfigurationException {
+		File populationFile = new File(populationFileName);
+		if (populationFile.exists() && populationFile.isFile()
+				&& populationFile.canRead()) {
+			DOMBootStrap domBoot = new DOMBootStrap();
+			try {
+				population = domBoot.process2PopulationTree(populationFile,
+						this.stepsInRun);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new ConfigurationException(
+						"Error reading populationfile " + populationFileName
+								+ ", Exception thrown: "
+								+ e.getClass().getName() + " message "
+								+ e.getMessage());
+			}
+		} else {
+			throw new ConfigurationException("Populationfile "
+					+ populationFileName + ", does not exist or is no file.");
+
+		}
 	}
 
 	public void setPopulation(Population population) {
@@ -236,7 +261,7 @@ public class Simulation extends DomLevelTraverser {
 		this.stoppingCondition = stoppingCondition;
 	}
 
-	public UpdateRuleStorage getUpdateRuleStorage() {
+	public UpdateRules4Simulation getUpdateRuleStorage() {
 		return updateRuleStorage;
 	}
 
@@ -281,33 +306,133 @@ public class Simulation extends DomLevelTraverser {
 	}
 
 	private void processCharVals(Individual individual) throws CDMRunException {
-		Iterator<IntCharacteristicValue> charValIterator = individual
+		Iterator<CharacteristicValueBase> charValIterator = individual
 				.iterator();
 		while (charValIterator.hasNext()) {
-			IntCharacteristicValue charVal = charValIterator.next();
-			int charValIndex = charVal.getIndex();
+			CharacteristicValueBase charValBase = charValIterator.next();
+			if (charValBase instanceof IntCharacteristicValue) {
+				IntCharacteristicValue charVal = (IntCharacteristicValue) charValBase;
+				if (!handleIntCharVal(charVal, individual)) {
+					charValIterator.remove();
+				}
+			} else {
+				if (charValBase instanceof FloatCharacteristicValue) {
+					FloatCharacteristicValue charVal = (FloatCharacteristicValue) charValBase;
+					if (!handleFloatCharVal(charVal, individual)) {
+						charValIterator.remove();
+					}
+				}
+			}
+		}
+	}
+
+	private boolean handleIntCharVal(IntCharacteristicValue intCharVal,
+			Individual individual) throws CDMRunException {
+		boolean keep = false;
+		int charValIndex = intCharVal.getIndex();
+		UpdateRuleMarker updateRule = updateRuleStorage
+				.getUpdateRule(charValIndex);
+		try {
 			if (!characteristics.containsKey(charValIndex)) {
 				log.warn("Individual " + individual.getLabel()
 						+ " has a value at index " + charValIndex
 						+ " for a non configured characteristic removing it.");
-				charValIterator.remove();
-				break;
+			} else {
+				if (updateRule == null) {
+					log.warn("Individual " + individual.getLabel()
+							+ " has a characteristicValue at index "
+							+ charValIndex
+							+ " without updaterules, removing it.");
+				} else {
+					int oldValue = intCharVal.getCurrentValue();
+					Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
+							.update(new Integer(oldValue));
+					intCharVal.appendValue(newValue);
+					log.info("Updated charval at " + intCharVal.getIndex()
+							+ " for " + individual.getLabel() + " from "
+							+ oldValue + " to " + newValue);
+					keep = true;
+				}
 			}
-			Set<UpdateRuleMarker> rule = updateRuleStorage.getUpdateRules(
-					charValIndex, stepSize);
-			if (rule == null) {
+			return keep;
+		} catch (WrongUpdateRuleException e) {
+			log.warn("Individual " + individual.getLabel()
+					+ " has a characteristicValue at index " + charValIndex
+					+ " with updaterule mismatch: "
+					+ updateRule.getClass().getName() + ", removing it.");
+			return keep;
+		}
+	}
+
+	private boolean handleFloatCharVal(FloatCharacteristicValue floatCharVal,
+			Individual individual) throws CDMRunException {
+		boolean keep = false;
+		int charValIndex = floatCharVal.getIndex();
+		UpdateRuleMarker updateRule = updateRuleStorage
+				.getUpdateRule(charValIndex);
+		try {
+			if (!characteristics.containsKey(charValIndex)) {
 				log.warn("Individual " + individual.getLabel()
-						+ " has a characteristicValue at index " + charValIndex
-						+ " without updaterule, removing it.");
-				charValIterator.remove();
-				break;
+						+ " has a value at index " + charValIndex
+						+ " for a non configured characteristic removing it.");
+			} else {
+				if (updateRule == null) {
+					log.warn("Individual " + individual.getLabel()
+							+ " has a characteristicValue at index "
+							+ charValIndex
+							+ " without an updaterule, removing it.");
+				} else {
+					if (updateRule instanceof OneToOneUpdateRuleBase) {
+						float oldValue = floatCharVal.getCurrentValue();
+						Float newValue = (Float) ((OneToOneUpdateRuleBase) updateRule)
+								.update(new Float(oldValue));
+						floatCharVal.appendValue(newValue);
+						log.info("Updated charval at "
+								+ floatCharVal.getIndex() + " for "
+								+ individual.getLabel() + " from " + oldValue
+								+ " to " + newValue);
+						keep = true;
+					} else {
+						if (updateRule instanceof ManyToOneUpdateRuleBase) {
+							Object[] charVals = new Object[individual
+									.size()];
+							for (int count = 0; count < charVals.length; count++) {
+								CharacteristicValueBase charValBase = individual
+										.get(count);
+								if(charValBase != null){
+									Object currValue =  charValBase.getCurrentValue();
+								charVals[count] = currValue;
+								} else{
+								charVals[count] = null;	
+								}
+							}
+							float oldValue = floatCharVal.getCurrentValue();
+							int index = floatCharVal.getIndex();
+							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
+									.update(charVals);
+							if(newValue != null){
+							floatCharVal.appendValue(newValue);
+							log.info("Updated charval at "
+									+ floatCharVal.getIndex() + " for "
+									+ individual.getLabel() + " from "
+									+ oldValue + " to " + newValue);
+							keep = true;
+							} else {
+								throw new CDMRunException("ManyToOne update rule produced a null result, aborting.");
+							}
+						}
+					}
+				}
 			}
-			int oldValue = charVal.getCurrentValue();
-			int newValue = rule.update(oldValue);
-			charVal.appendValue(newValue);
-			log.info("Updated charval at " + charVal.getIndex() + " from "
-					+ oldValue + " to " + newValue + " for individual "
-					+ individual.getLabel());
+
+			return keep;
+		} catch (WrongUpdateRuleException e) {
+			e.printStackTrace(); // TODO remove
+			log.warn("Individual " + individual.getLabel()
+					+ " has a characteristicValue at index " + charValIndex
+					+ " with updaterule mismatch: "
+					+ updateRule.getClass().getName() + ", removing it.");
+			return keep;
 		}
 	}
 
@@ -320,7 +445,7 @@ public class Simulation extends DomLevelTraverser {
 		this.stepSize = stepSize;
 	}
 
-	public void setUpdateRuleStorage(UpdateRuleStorage updateRuleStorage) {
+	public void setUpdateRuleStorage(UpdateRules4Simulation updateRuleStorage) {
 		this.updateRuleStorage = updateRuleStorage;
 	}
 

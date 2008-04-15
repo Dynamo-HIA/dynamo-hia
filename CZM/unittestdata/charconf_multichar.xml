@@ -9,11 +9,11 @@
 			<vl>1</vl>
 		</possiblevalues>
 	</ch>
-	<ch>
+    <ch>
 		<id>2</id>
 		<lb>age</lb>
 		<type>numericalcontinuous</type>
-	</ch>
+	</ch>	
 	<ch>
 		<id>3</id>
 		<lb>spin</lb>

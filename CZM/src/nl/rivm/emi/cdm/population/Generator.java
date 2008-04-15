@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import nl.rivm.emi.cdm.characteristic.Characteristic;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.prngutil.RandomConstants;
@@ -123,6 +124,12 @@ public class Generator {
 
 	public File generateNewbornsWithAllZeroes()
 			throws CDMConfigurationException {
+		CharacteristicsConfigurationMapSingleton charConf = CharacteristicsConfigurationMapSingleton
+				.getInstance();
+		if (charConf.isEmpty()) {
+			throw new CDMConfigurationException(
+					CDMConfigurationException.characteristicsConfigurationNotInitializedMessage);
+		}
 		File newBornCohort = null;
 		int count = 1;
 		String fileName;

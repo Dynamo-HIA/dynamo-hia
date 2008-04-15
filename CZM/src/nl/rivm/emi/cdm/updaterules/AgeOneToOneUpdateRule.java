@@ -1,33 +1,65 @@
 package nl.rivm.emi.cdm.updaterules;
 
+import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
+import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.updaterules.base.StepSizeSpecific;
+
 /**
- * Update rule for incrementing the age Characteristic. 
- * Has been made specific to that characteristic.
+ * Update rule for incrementing the age Characteristic. Has been made specific
+ * to that characteristic.
+ * 
  * @author mondeelr
  * 
  */
-public class AgeOneToOneUpdateRule extends AbstractDoubleBoundUpdateRule {
+public class AgeOneToOneUpdateRule extends OneToOneUpdateRuleBase implements
+		CharacteristicSpecific, StepSizeSpecific {
 
-	int characteristicId;
+	private int characteristicId;
+
+	private float stepSize;
 
 	/**
-	 * NB This is not the stepSize as used in StepSizeSpecific.
+	 * Default constructor for ClassLoading. 
 	 */
-	float stepSize;
-
+	public AgeOneToOneUpdateRule() {
+		super();
+	}
 	/**
 	 * 
 	 * @param configuredStepSize
 	 *            Age increment per step. Unit: Part of a year.
 	 */
 	public AgeOneToOneUpdateRule(int characteristicId, float configuredStepSize) {
-		super(characteristicId, configuredStepSize);
+		super();
+		this.characteristicId = characteristicId;
+		this.stepSize = configuredStepSize;
 		setCharacteristicId(characteristicId);
 		this.stepSize = configuredStepSize;
 	}
 
-	public Float update(Object currentValue) {
+	public int getCharacteristicId() {
+		return this.characteristicId;
+	}
+
+	public void setCharacteristicId(int characteristicId) {
+		this.characteristicId = characteristicId;
+	}
+
+	public float getStepSize() {
+		return this.stepSize;
+	}
+
+	public void setStepSize(float stepSize) {
+		this.stepSize = stepSize;
+	}
+
+	public Float update(Object currentValue) throws WrongUpdateRuleException {
+		if(currentValue instanceof Float){
 		float newAge = (Float) currentValue + stepSize;
 		return newAge;
+		} else {
+			throw new WrongUpdateRuleException(this.getClass().getName(), currentValue.getClass().getSimpleName());
+		}
 	}
 }

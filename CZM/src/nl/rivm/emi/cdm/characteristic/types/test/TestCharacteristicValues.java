@@ -60,7 +60,7 @@ public class TestCharacteristicValues {
 		charType.addPossibleValue("Aap");
 		charType.addPossibleValue("Noot");
 		charType.addPossibleValue("Mies");
-		String pValue = (String) charType.getValue(1);
+		String pValue = (String) charType.getPossibleValue(1);
 		assertEquals("Noot", pValue);
 	}
 

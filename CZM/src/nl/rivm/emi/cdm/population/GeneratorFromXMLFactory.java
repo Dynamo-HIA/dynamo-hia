@@ -95,8 +95,6 @@ public class GeneratorFromXMLFactory {
 				while (iterator.hasNext()) {
 					SubnodeConfiguration currentCharacteristicIdNode = iterator
 							.next();
-					// int value = currentCharacteristicIdNode
-					// .getInt(characteristicIndexLabel);
 					Object value = currentCharacteristicIdNode.getRoot()
 							.getValue();
 					characteristicIds.add(Integer.valueOf((String) value));

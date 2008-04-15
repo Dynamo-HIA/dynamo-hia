@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
+import nl.rivm.emi.cdm.characteristic.types.AbstractContinuousCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.CharacteristicTypesContainer;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 
@@ -27,6 +28,12 @@ public class CharacteristicFromXMLFactory {
 	public static final String possibleValuesLabel = "possiblevalues";
 
 	public static final String valueLabel = "vl";
+
+	public static final String limitsLabel = "limits";
+
+	public static final String lowerLimitLabel = "lower";
+
+	public static final String upperLimitLabel = "upper";
 
 	public static Characteristic manufacture(
 			HierarchicalConfiguration characteristicConfiguration)
@@ -51,8 +58,16 @@ public class CharacteristicFromXMLFactory {
 					CDMConfigurationException.noCharacteristicLabelMessage);
 		}
 		AbstractCharacteristicType type = handleConfigurationType(characteristicConfiguration);
-		if ((characteristic.getType()).isCategoricalType()) {
-			fillPossibleValues(characteristicConfiguration, type);
+		if (type == null) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noCharacteristicTypeMessage);
+		}
+		if (type.isCategoricalType()) {
+			fillPossibleValues(characteristicConfiguration,
+					(AbstractCategoricalCharacteristicType) type);
+		} else {
+			fillLimits(characteristicConfiguration,
+					(AbstractContinuousCharacteristicType) type);
 		}
 		characteristic.setType(type);
 		return characteristic;
@@ -107,10 +122,10 @@ public class CharacteristicFromXMLFactory {
 
 	private static void fillPossibleValues(
 			HierarchicalConfiguration characteristicConfiguration,
-			AbstractCharacteristicType type) throws ConfigurationException {
+			AbstractCategoricalCharacteristicType catType)
+			throws ConfigurationException {
 		List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
 				.configurationsAt(possibleValuesLabel);
-		AbstractCategoricalCharacteristicType catType = (AbstractCategoricalCharacteristicType) type;
 		if (possibleValuesConfigurations.size() == 1) {
 			SubnodeConfiguration possibleValuesConfiguration = possibleValuesConfigurations
 					.get(0);
@@ -121,7 +136,12 @@ public class CharacteristicFromXMLFactory {
 						.iterator();
 				while (iterator.hasNext()) {
 					SubnodeConfiguration currentValueNode = iterator.next();
-					String value = currentValueNode.getString(valueLabel);
+					Object valueObject = currentValueNode.getRootNode()
+							.getValue();
+					String value = null;
+					if (valueObject instanceof String) {
+						value = (String) valueObject;
+					}
 					catType.addPossibleValue(value);
 				}
 			} else {
@@ -131,6 +151,89 @@ public class CharacteristicFromXMLFactory {
 		} else {
 			throw new ConfigurationException(
 					CDMConfigurationException.noCharacteristicPossibleValuesMessage);
+		}
+	}
+
+	public static void fillLimits(
+			HierarchicalConfiguration characteristicConfiguration,
+			AbstractContinuousCharacteristicType catType)
+			throws ConfigurationException {
+		List<SubnodeConfiguration> possibleValuesConfigurations = characteristicConfiguration
+				.configurationsAt(limitsLabel);
+		if (possibleValuesConfigurations.size() == 1) {
+			SubnodeConfiguration limitsConfiguration = possibleValuesConfigurations
+					.get(0);
+			List<SubnodeConfiguration> valueConfigurations;
+			for (int count = 0; count < 2; count++) {
+				switch (count) {
+				case 0:
+					String lowerLimit = null;
+					valueConfigurations = limitsConfiguration
+							.configurationsAt(lowerLimitLabel);
+					if (valueConfigurations.size() == 1) {
+						SubnodeConfiguration currentValueNode = valueConfigurations
+								.get(0);
+						Object valueObject = currentValueNode.getRootNode()
+								.getValue();
+						String value = null;
+						if (valueObject instanceof String) {
+							value = (String) valueObject;
+						}
+						lowerLimit = value;
+					} else {
+						throw new ConfigurationException(
+								CDMConfigurationException.noCharacteristicPossibleValueValueMessage);
+					}
+					if (lowerLimit != null) {
+						try {
+							catType.setLowerLimit(lowerLimit);
+						} catch (NumberFormatException e) {
+							throw new ConfigurationException(
+									CDMConfigurationException.wrongCharacteristicLowerLimitConfigurationFormatMessage);
+						}
+					} else {
+						throw new ConfigurationException(
+								CDMConfigurationException.noCharacteristicLimitsValueMessage);
+					}
+					break;
+				case 1:
+					String upperLimit = null;
+					valueConfigurations = limitsConfiguration
+							.configurationsAt(upperLimitLabel);
+					if (valueConfigurations.size() == 1) {
+						SubnodeConfiguration currentValueNode = valueConfigurations
+								.get(0);
+						Object valueObject = currentValueNode.getRootNode()
+								.getValue();
+						String value = null;
+						if (valueObject instanceof String) {
+							value = (String) valueObject;
+						}
+						upperLimit = value;
+					} else {
+						throw new ConfigurationException(
+								CDMConfigurationException.noCharacteristicPossibleValueValueMessage);
+					}
+					if (upperLimit != null) {
+						try {
+							catType.setUpperLimit(upperLimit);
+						} catch (NumberFormatException e) {
+							throw new ConfigurationException(
+									CDMConfigurationException.wrongCharacteristicUpperLimitConfigurationFormatMessage);
+						}
+					} else {
+						throw new ConfigurationException(
+								CDMConfigurationException.noCharacteristicLimitsValueMessage);
+					}
+					break;
+				default:
+					throw new ConfigurationException(
+							CDMConfigurationException.noCharacteristicPossibleValueValueMessage);
+				}
+			}
+		} else {
+			// No limits in configuration, configure defaults.
+			catType.setLimits(null, null);
 		}
 	}
 }

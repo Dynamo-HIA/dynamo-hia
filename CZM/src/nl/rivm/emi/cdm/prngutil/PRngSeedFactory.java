@@ -27,7 +27,7 @@ public class PRngSeedFactory extends XMLConfiguredObjectFactory {
 	 */
 	Pattern posIntPattern = Pattern.compile("[0-9]+");
 
-	Pattern floatPattern = Pattern.compile("[0-9]+[\\.]?[0-9]*");
+	Pattern longPattern = Pattern.compile("[0-9]+[\\.]?[0-9]*");
 
 	/**
 	 * Specialised pattern to detect 0.
@@ -82,9 +82,9 @@ public class PRngSeedFactory extends XMLConfiguredObjectFactory {
 		boolean success = false;
 		String myValue = myNode.getNodeValue();
 		if (myValue != null) {
-			Matcher matcher = floatPattern.matcher(myValue);
+			Matcher matcher = longPattern.matcher(myValue);
 			if (matcher.matches()) {
-				individual.setRandomNumberGeneratorSeed(Float.valueOf(myValue));
+				individual.setRandomNumberGeneratorSeed(Long.valueOf(myValue));
 			} else {
 				log
 				.error(String

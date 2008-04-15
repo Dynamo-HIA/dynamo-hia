@@ -1,0 +1,12 @@
+Characteristic at index 0:None
+Characteristic at index 1:sex
+Typelabel: categorical
+
+Characteristic at index 2:age
+Typelabel: numericalcontinuous
+Lower limit: 1.4E-45
+Upper limit: 3.4028235E38
+
+Characteristic at index 3:spin
+Typelabel: numericaldiscrete
+

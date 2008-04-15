@@ -44,8 +44,8 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 		return rijtje[0];
 	}
 
-	public int getValue(int step) {
-		return rijtje[step];
+	public Integer getValue(int step) {
+		return new Integer(rijtje[step]);
 	}
 
 	public int[] getRijtje() {
@@ -62,7 +62,7 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 		}
 	}
 
-	public int getCurrentValue() throws CDMRunException {
+	public Integer getCurrentValue() throws CDMRunException {
 		if (numberFilled > 0) {
 			return rijtje[numberFilled - 1];
 		} else {

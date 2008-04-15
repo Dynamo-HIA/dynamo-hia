@@ -1,0 +1,4 @@
+Characteristic at index 0:None
+Characteristic at index 1:sex
+Typelabel: categorical
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<transitionmatrix>
+	<level1>
+		<level2>.11</level2>
+		<level2>.12</level2>
+		<level2>.13</level2>
+		<level2>.14</level2>
+		<level2>.15</level2>
+	</level1>
+	<level1>
+		<level2>.21</level2>
+		<level2>.22</level2>
+		<level2>.23</level2>
+		<level2>.24</level2>
+		<level2>.25</level2>
+	</level1>
+	<level1>
+		<level2>.31</level2>
+		<level2>.32</level2>
+		<level2>.33</level2>
+		<level2>.34</level2>
+		<level2>.35</level2>
+	</level1>
+	<level1>
+		<level2>.41</level2>
+		<level2>.42</level2>
+		<level2>.43</level2>
+		<level2>.44</level2>
+		<level2>.45</level2>
+	</level1>
+	<level1>
+		<level2>.51</level2>
+		<level2>.52</level2>
+		<level2>.53</level2>
+		<level2>.54</level2>
+		<level2>.55</level2>
+	</level1>
+</transitionmatrix>
+</root>

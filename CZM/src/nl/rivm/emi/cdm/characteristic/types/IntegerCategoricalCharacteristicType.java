@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class IntegerCategoricalCharacteristicType extends
 		AbstractCategoricalCharacteristicType {
-	
+
 	static final String myTypeLabel = "numericaldiscrete";
 
 	ArrayList<Integer> possibleValues = new ArrayList<Integer>();
@@ -42,15 +42,38 @@ public class IntegerCategoricalCharacteristicType extends
 	}
 
 	public boolean isValueValid(Object value) {
-		return possibleValues.contains((Integer) value);
+		boolean valid = false;
+		if (value instanceof String) {
+			valid = possibleValues.contains((String) value);
+		} else {
+			if (value instanceof Integer) {
+				valid = possibleValues.contains((Integer) value);
+			}
+		}
+		return valid;
 	}
 
-	public Integer getValue(int index) {
+	public Integer getPossibleValue(int index) {
 		return possibleValues.get(index);
 	}
 
 	@Override
 	public Integer getNumberOfPossibleValues() {
 		return new Integer(possibleValues.size());
+	}
+
+	@Override
+	public String humanReadableReport() {
+		StringBuffer resultBuffer = new StringBuffer();
+		resultBuffer.append("Typelabel: " + myTypeLabel + "\n");
+		for (int count = 0; count < possibleValues.size(); count++) {
+			resultBuffer.append("Possible value at index " + (count + 1)
+					+ " value " + possibleValues.get(count) + "\n");
+		}
+		return resultBuffer.toString();
+	}
+
+	public ArrayList<Integer> getPossibleValues() {
+		return possibleValues;
 	}
 }

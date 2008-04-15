@@ -32,11 +32,26 @@ public class StringCategoricalCharacteristicType extends
 		return possibleValues.contains(value);
 	}
 
-	public String getValue(int index) {
+	public String getPossibleValue(int index) {
 		return possibleValues.get(index);
 	}
 
 	public Integer getNumberOfPossibleValues() {
 		return new Integer(possibleValues.size());
+	}
+
+	public ArrayList<String> getPossibleValues() {
+		return possibleValues;
+	}
+
+	@Override
+	public String humanReadableReport() {
+		StringBuffer resultBuffer = new StringBuffer();
+		resultBuffer.append("Typelabel: " + myTypeLabel + "\n");
+		for (int count = 0; count < possibleValues.size(); count++) {
+			resultBuffer.append("Possible value at index " + (count + 1)
+					+ " value " + possibleValues.get(count) + "\n");
+		}
+		return resultBuffer.toString();
 	}
 }

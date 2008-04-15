@@ -3,9 +3,9 @@ package nl.rivm.emi.cdm.updaterules.test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
-import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
-import nl.rivm.emi.cdm.updaterules.UpdateRulesByCharIdContainer;
+import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.updaterules.containment.UpdateRuleRepository;
+import nl.rivm.emi.cdm.updaterules.containment.UpdateRulesByCharIdRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

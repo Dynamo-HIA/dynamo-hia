@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.individual.IndividualFactory;
@@ -202,7 +203,7 @@ public class TestIndividualFactory {
 				for (int charCount = 0; charCount < indy.size(); charCount++) {
 					log.debug("CharacteristicValue at index " + charCount
 							+ " has value "
-							+ indy.get(charCount).getValue());
+							+ ((IntCharacteristicValue)indy.get(charCount)).getValue());
 				}
 			}
 		}}

@@ -19,8 +19,8 @@ import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.updaterules.AbstractUnboundOneToOneUpdateRule;
-import nl.rivm.emi.cdm.updaterules.UpdateRuleStorage;
+import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.updaterules.containment.UpdateRuleRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,18 +42,18 @@ public class TestSimulation {
 	"C:/eclipse321/workspace/CZM/data/transversalSimulationOutput.xml");
 
 
-	static public class UpdateRuleOneOne extends AbstractUnboundOneToOneUpdateRule {
+	static public class UpdateRuleOneOne extends OneToOneUpdateRuleBase {
 		public UpdateRuleOneOne() {
 			super(1, 1);
 		}
 
 		@Override
-		public int updateSelf(int currentValue) {
+		public int update(int currentValue) {
 			return currentValue + 1;
 		}
 	}
 
-	static public class UpdateRuleTwoTwo extends AbstractUnboundOneToOneUpdateRule {
+	static public class UpdateRuleTwoTwo extends OneToOneUpdateRuleBase {
 		public UpdateRuleTwoTwo() {
 			super(2, 2);
 		}
@@ -65,7 +65,7 @@ public class TestSimulation {
 		}
 	}
 
-	static public class UpdateRuleSixFour extends AbstractUnboundOneToOneUpdateRule {
+	static public class UpdateRuleSixFour extends OneToOneUpdateRuleBase {
 		public UpdateRuleSixFour() {
 			super(6, 4);
 		}
@@ -104,7 +104,7 @@ public class TestSimulation {
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
-			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
+			UpdateRuleRepository updateRuleStorage = new UpdateRuleRepository();
 			updateRuleStorage.addUpdateRule(new UpdateRuleOneOne());
 			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
 			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
@@ -161,7 +161,7 @@ public class TestSimulation {
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
-			UpdateRuleStorage updateRuleStorage = new UpdateRuleStorage();
+			UpdateRuleRepository updateRuleStorage = new UpdateRuleRepository();
 			updateRuleStorage.addUpdateRule(new UpdateRuleOneOne());
 			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
 			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
@@ -204,7 +204,7 @@ public class TestSimulation {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.updaterules.test.TestUpdateRuleContainers.class);
+				nl.rivm.emi.cdm.updaterules.containment.test.TestUpdateRuleContainers.class);
 	}
 
 }

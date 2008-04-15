@@ -61,20 +61,16 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 	 * otherwise.
 	 * 
 	 * @return null if the configuration was not changed.
-	 * @throws ConfigurationException 
+	 * @throws ConfigurationException
 	 */
 	private CharacteristicsConfigurationMapSingleton populateSingleton()
 			throws ConfigurationException {
 		CharacteristicsConfigurationMapSingleton singleton = null;
-//		List<HierarchicalConfiguration> characteristicsConfiguration = this.getList(containerTag);
-//		if (characteristicsConfiguration.size() == 1) {
-//			// The XML contains a Characteristics-tag.
-			List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
-			if (characteristicConfigurations.size() > 0) {
-				// The XML contains at least one Characteristic-tag.
-				singleton = CharacteristicsConfigurationMapSingleton
-						.getInstance();
-				singleton.clear();
+		List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
+		if (characteristicConfigurations.size() > 0) {
+			// The XML contains at least one Characteristic-tag.
+			singleton = CharacteristicsConfigurationMapSingleton.getInstance();
+			if (singleton.isEmpty()) {
 				Iterator<HierarchicalConfiguration> characteristicConfigurationsIterator = characteristicConfigurations
 						.iterator();
 				while (characteristicConfigurationsIterator.hasNext()) {
@@ -84,13 +80,44 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 							.manufacture(characteristicConfiguration);
 					singleton.put(charInstance.getIndex(), charInstance);
 				}
-			} else {
-				throw new ConfigurationException(CDMConfigurationException.noCharacteristicMessage);
 			}
-//		} else {
-//			throw new ConfigurationException(CDMConfigurationException.noCharacteristicsMessage);
-//		}
+		} else {
+			throw new ConfigurationException(
+					CDMConfigurationException.noCharacteristicMessage);
+		}
 		return singleton;
 	}
 
+	/**
+	 * When the characteristics-configurationfile supplied in the constructor is
+	 * valid this method clears the CharacteristicsConfigurationSingleton and
+	 * fills it from the characteristics-configurationfile. Does nothing
+	 * otherwise.
+	 * 
+	 * @return null if the configuration was not changed.
+	 * @throws ConfigurationException
+	 */
+	private CharacteristicsConfigurationMapSingleton rePopulateSingleton()
+			throws ConfigurationException {
+		CharacteristicsConfigurationMapSingleton singleton = null;
+		List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
+		if (characteristicConfigurations.size() > 0) {
+			// The XML contains at least one Characteristic-tag.
+			singleton = CharacteristicsConfigurationMapSingleton.getInstance();
+			singleton.clear();
+			Iterator<HierarchicalConfiguration> characteristicConfigurationsIterator = characteristicConfigurations
+					.iterator();
+			while (characteristicConfigurationsIterator.hasNext()) {
+				HierarchicalConfiguration characteristicConfiguration = characteristicConfigurationsIterator
+						.next();
+				Characteristic charInstance = CharacteristicFromXMLFactory
+						.manufacture(characteristicConfiguration);
+				singleton.put(charInstance.getIndex(), charInstance);
+			}
+		} else {
+			throw new ConfigurationException(
+					CDMConfigurationException.noCharacteristicMessage);
+		}
+		return singleton;
+	}
 }

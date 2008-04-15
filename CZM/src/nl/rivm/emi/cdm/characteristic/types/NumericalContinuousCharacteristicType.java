@@ -17,7 +17,7 @@ public class NumericalContinuousCharacteristicType extends
 
 	public NumericalContinuousCharacteristicType() {
 		super(myTypeLabel);
-		matchPattern = Pattern.compile("^\\d++\\.?\\d*$");
+		matchPattern = Pattern.compile("^\\-?\\d++\\.?\\d*$");
 	}
 
 	@Override
@@ -33,11 +33,28 @@ public class NumericalContinuousCharacteristicType extends
 		}
 		return match;
 	}
+	
+	@Override
+	public boolean setLimits(Float lowerLimit, Float upperLimit) {
+		if(lowerLimit != null){
+		this.lowerLimit = ((Float) lowerLimit).floatValue();
+		} else {
+			lowerLimit = Float.MIN_VALUE;
+		}
+		if(upperLimit != null){
+		this.upperLimit = ((Float) upperLimit).floatValue();
+		} else {
+			upperLimit = Float.MAX_VALUE;
+		}
+		return true;
+	}
 
 	@Override
-	public boolean setLimits(Object lowerLimit, Object upperLimit) {
-		this.lowerLimit = ((Float) lowerLimit).floatValue();
-		this.upperLimit = ((Float) upperLimit).floatValue();
-		return true;
+	public String humanReadableReport() {
+		StringBuffer resultBuffer = new StringBuffer();
+		resultBuffer.append("Typelabel: " + myTypeLabel + "\n");
+		resultBuffer.append("Lower limit: " + lowerLimit +  "\n");
+		resultBuffer.append("Upper limit: " + upperLimit +  "\n");
+		return resultBuffer.toString();
 	}
 }

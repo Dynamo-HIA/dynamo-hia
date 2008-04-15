@@ -1,6 +1,8 @@
 package nl.rivm.emi.cdm.updaterules;
 
-public class SimpleLoadableUpdateRules extends AbstractUnboundOneToOneUpdateRule {
+import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
+
+public class SimpleLoadableUpdateRules extends OneToOneUpdateRuleBase {
 
 	public SimpleLoadableUpdateRules(){
 		super();

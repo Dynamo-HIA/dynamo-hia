@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -36,7 +38,11 @@ public class TestCharacteristicXMLConfiguration {
 
 	String existingFileName_SingleChar = "unittestdata\\charconf_onechar.xml";
 
+	String singleChar_Report_FileName = "unittestdata\\charconf_singlechar.txt";
+
 	String existingFileName_MultiChar = "unittestdata\\charconf_multichar.xml";
+
+	String multiChar_Report_FileName = "unittestdata\\charconf_multichar.txt";
 
 	@Test
 	public void parseAbsentConfigurationFile() {
@@ -164,29 +170,34 @@ public class TestCharacteristicXMLConfiguration {
 			assertNotNull(null); // An exception should be thrown.
 		} catch (ConfigurationException e) {
 			assertEquals(
-					CDMConfigurationException.noCharacteristicPossibleValueValueMessage, e
-							.getMessage());
+					CDMConfigurationException.noCharacteristicPossibleValueValueMessage,
+					e.getMessage());
 			log.debug(e.getMessage() + withoutValueFileName);
 		}
 	}
 
-	@Test
-	public void parseConfigurationFileSingleCharacteristic() {
-		String currentWorkingDirectory = System.getProperty("user.dir");
-		String singleCharacteristicFileName = currentWorkingDirectory + "\\"
-				+ existingFileName_SingleChar;
-		System.out.println(singleCharacteristicFileName);
-		try {
-			File singleCharacteristicFile = new File(
-					singleCharacteristicFileName);
-			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
-					singleCharacteristicFile);
-			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
-					.size() == 1);
-		} catch (ConfigurationException e) {
-			assertNull(e);
-		}
-	}
+//	@Test
+//	public void parseConfigurationFileSingleCharacteristic() {
+//		String currentWorkingDirectory = System.getProperty("user.dir");
+//		String singleCharacteristicFileName = currentWorkingDirectory + "\\"
+//				+ existingFileName_SingleChar;
+//		System.out.println(singleCharacteristicFileName);
+//		try {
+//			File singleCharacteristicFile = new File(
+//					singleCharacteristicFileName);
+//			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
+//					singleCharacteristicFile);
+//			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
+//					.getInstance();
+//			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
+//					.size() == 1);
+//			dumpSingleton(single, singleChar_Report_FileName);
+//		} catch (ConfigurationException e) {
+//			assertNull(e);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Test
 	public void parseConfigurationFileMultipleCharacteristics() {
@@ -199,12 +210,27 @@ public class TestCharacteristicXMLConfiguration {
 					multipleCharacteristicsFileName);
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
-			assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
-					.size() > 1);
+			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
+					.getInstance();
+			assertTrue(single.size() > 1);
+			dumpSingleton(single, multiChar_Report_FileName);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 			assertNull(e);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
+
+	private void dumpSingleton(CharacteristicsConfigurationMapSingleton single,
+			String fileName) throws IOException {
+		File reportFile = new File(fileName);
+		FileWriter writer = new FileWriter(reportFile);
+		String report = single.humanReadableReport();
+		writer.append(report.subSequence(0, report.length()));
+		writer.flush();
+		writer.close();
 	}
 
 	public static junit.framework.Test suite() {

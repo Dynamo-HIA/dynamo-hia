@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<transitionmatrix>
+<level1 charid="1">
+	<level2>
+		<level3>.19</level3>
+		<level3>.21</level3>
+		<level3>.18</level3>
+		<level3>.22</level3>
+		<level3>.20</level3>
+	</level2>
+	<level2>
+		<level3>.15</level3>
+		<level3>.17</level3>
+		<level3>.23</level3>
+		<level3>.20</level3>
+		<level3>.25</level3>
+	</level2>
+	<level2>
+		<level3>.0</level3>
+		<level3>.3</level3>
+		<level3>.15</level3>
+		<level3>.32</level3>
+		<level3>.23</level3>
+	</level2>
+	<level2>
+		<level3>.41</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.44</level3>
+		<level3>.15</level3>
+	</level2>
+	<level2>
+		<level3>.50</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.50</level3>
+	</level2>
+</level1>
+<level1 charid="1">
+	<level2>
+		<level3>.19</level3>
+		<level3>.21</level3>
+		<level3>.18</level3>
+		<level3>.22</level3>
+		<level3>.20</level3>
+	</level2>
+	<level2>
+		<level3>.15</level3>
+		<level3>.17</level3>
+		<level3>.23</level3>
+		<level3>.20</level3>
+		<level3>.25</level3>
+	</level2>
+	<level2>
+		<level3>.0</level3>
+		<level3>.3</level3>
+		<level3>.15</level3>
+		<level3>.32</level3>
+		<level3>.23</level3>
+	</level2>
+	<level2>
+		<level3>.41</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.44</level3>
+		<level3>.15</level3>
+	</level2>
+	<level2>
+		<level3>.50</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.0</level3>
+		<level3>.50</level3>
+	</level2>
+</level1>
+</transitionmatrix>
+</root>

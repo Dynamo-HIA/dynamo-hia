@@ -8,6 +8,11 @@ public class CDMConfigurationException extends ConfigurationException {
 		super(message);
 	}
 
+	/* Configuration in general. */
+	static public final String noMessageMessage = "No sensible message yet.";
+
+	static public final String wrongClassMessage = "Class of type SubnodeConfiguration expected at this point.";
+
 	/* Characteristic */
 	static public final String noFileMessage = "Configuration file missing or cannot be read: ";
 
@@ -18,12 +23,22 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String noCharacteristicIndexMessage = "No index for Characteristic found in configuration: ";
 
 	static public final String noCharacteristicLabelMessage = "No label for Characteristic found in configuration: ";
-
+/* Characteristic types */
 	static public final String noCharacteristicTypeMessage = "No type for Characteristic found in configuration: ";
 
 	static public final String noCharacteristicPossibleValuesMessage = "No possiblevalues for Characteristic found in configuration: ";
 
 	static public final String noCharacteristicPossibleValueValueMessage = "No value in possiblevalues for Characteristic found in configuration: ";
+
+	static public final String characteristicsConfigurationNotInitializedMessage = "Characteristics configuration has not been initialized.";
+
+	static public final String noCharacteristicLimitsMessage = "No possiblevalues for Characteristic found in configuration: ";
+
+	static public final String noCharacteristicLimitsValueMessage = "No value in possiblevalues for Characteristic found in configuration: ";
+
+	static public final String wrongCharacteristicLowerLimitConfigurationFormatMessage = "Lower limit configuration for Characteristic no correct Float format.";
+
+	static public final String wrongCharacteristicUpperLimitConfigurationFormatMessage = "Upper limit configuration for Characteristic no correct Float format.";
 
 	/* Simulation */
 	static public final String noSimulationLabelMessage = "No label for Simulation found in configuration: ";
@@ -40,9 +55,9 @@ public class CDMConfigurationException extends ConfigurationException {
 
 	static public final String noSimulationPopulationMessage = "No pop for Simulation found in configuration: ";
 
-	static public final String noSimulationUpdaterulesMessage = "No updaterules for Simulation found in configuration: ";
+	static public final String noSimulationUpdaterulesMessage = "No \"updaterule\" elements for Simulation found in configuration: ";
 
-	static public final String noSimulationUpdateruleMessage = "No updaterule for Simulation found in configuration: ";
+	static public final String noOrTooManySimulationUpdateruleMessage = "No or too many \"updaterules\" elements for Simulation found in configuration: ";
 
 	/* Generator */
 	static public final String noGeneratorLabelMessage = "No label for Generator found in configuration: ";
@@ -58,4 +73,19 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String noGeneratorCharacteristicIdMessage = "No (characteristic) id for Generator found in configuration: ";
 
 	static public final String invalidGeneratorRngClassNameMessage = "Invalid rngclassname for Generator found in configuration: ";
-}
+
+	/* Update Rules */
+	public static final String invalidUpdateRuleClassNameMessage = "Invalid classname for UpdateRule found in configuration: ";
+
+	public static final String invalidUpdateRuleClassTypeMessage = "Class of UpdateRule is not a subtype of UpdateRuleMarker.";
+
+	static public final String noCharacteristicIndex4UpdateRuleMessage = "No characteristic index found in simulation updaterule configuration: ";
+
+	static public final String noConfigurationFileNameConfigured4UpdateRuleMessage = "No configuration filename configured for updaterule %1$s that needs one.";
+
+	static public final String configuredConfigurationFileName4UpdateRuleDoesNotExistOrCannotReadMessage = "Configured configuration file %1$s for updaterule %2$s does not exist or cannot be read.";
+
+	static public final String wrongConfigurationFile4UpdateRuleMessage = "Configuration file does not have the format updaterule %1$s expects.";
+
+	public static final String invalidUpdateRuleConfigurationFileFormatMessage = "Invalid configuration file %1$s for UpdateRule %2$s.";
+	}

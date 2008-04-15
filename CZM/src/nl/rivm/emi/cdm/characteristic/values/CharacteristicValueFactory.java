@@ -5,6 +5,9 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
+import nl.rivm.emi.cdm.characteristic.Characteristic;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.characteristic.types.NumericalContinuousCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 
@@ -47,21 +50,24 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	 * @param Population
 	 *            to put Individuals into.
 	 * @throws CZMConfigurationException
-	 * @throws CDMRunException 
-	 * @throws NumberFormatException 
+	 * @throws CDMRunException
+	 * @throws NumberFormatException
 	 */
 	public boolean makeIt(Node node, Individual individual, int numberOfSteps)
-			throws CDMConfigurationException, NumberFormatException, CDMRunException {
+			throws CDMConfigurationException, NumberFormatException,
+			CDMRunException {
 		boolean anyErrors = false;
 		if (node != null) {
-			log.info("Passed Node, name: " + node.getNodeName() + " value: "
+			log.debug("Passed Node, name: " + node.getNodeName() + " value: "
 					+ node.getNodeValue());
 			// Single CharacteristicValue for now. TODO Extend.
 			Node myNode = findMyNodeAtThisLevel(node);
 			int numNodesFound = 0;
 			while (myNode != null) {
+log.debug("Processing node " + myNode.getNodeName());
 				numNodesFound++;
 				if (!processMyNode(individual, myNode, numberOfSteps)) {
+					log.debug("Errors!");
 					anyErrors = true;
 				}
 				myNode = findMyNextNodeAtThisLevel(myNode);
@@ -75,7 +81,8 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	}
 
 	private boolean processMyNode(Individual individual, Node myNode,
-			int numberOfSteps) throws CDMConfigurationException, NumberFormatException, CDMRunException {
+			int numberOfSteps) throws CDMConfigurationException,
+			NumberFormatException, CDMRunException {
 		boolean success = false;
 		NamedNodeMap myAttributes = myNode.getAttributes();
 		if (myAttributes != null) {
@@ -88,40 +95,97 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 				}
 			}
 			String index = indexNode.getNodeValue();
-			Matcher matcher = posIntPattern.matcher(index);
-			boolean indexPosInt = matcher.matches();
-			matcher = zeroPattern.matcher(index);
-			boolean indexZero = matcher.matches();
-			boolean indexOK = indexPosInt && !indexZero;
-			Node valueNode = myAttributes.getNamedItem("vl");
-			if (valueNode == null) {
-				valueNode = myAttributes.getNamedItem("value");
-				if (valueNode == null) {
-					throw new CDMConfigurationException(
-							"CharacteristicValue without value attribute found.");
-				}
+			log.debug("Node index " + index);
+			CharacteristicsConfigurationMapSingleton charConfig = CharacteristicsConfigurationMapSingleton
+					.getInstance();
+			if (charConfig.isEmpty()) {
+				throw new CDMConfigurationException(
+						CDMConfigurationException.characteristicsConfigurationNotInitializedMessage);
 			}
-			String value = valueNode.getNodeValue();
-			matcher = posIntPattern.matcher(value);
-			boolean valueOK = matcher.matches();
-			if (indexOK && valueOK) {
-				IntCharacteristicValue intCharacteristicValue = new IntCharacteristicValue(
-						numberOfSteps, Integer.parseInt(index));
-				intCharacteristicValue.appendValue(Integer.parseInt(value));
-				log.debug("Setting CharacteristicValue "
-						+ intCharacteristicValue.getValue()
-						+ " in Individual at index "
-						+ +intCharacteristicValue.getIndex());
-				individual.luxeSet(Integer.parseInt(index),
-						intCharacteristicValue);
-				success = true;
+			Characteristic characteristic = charConfig.getCharacteristic(Integer.parseInt(index));
+			if(!(characteristic.getType() instanceof NumericalContinuousCharacteristicType)){
+			success = handleIntegerValue(individual, numberOfSteps, success, myAttributes, index);
 			} else {
-				log.warn("CharacteristicValue attribute(s) no integer.");
+				success = handleFloatValue(individual, numberOfSteps, success, myAttributes, index);
 			}
-		} else {
+			} else {
 			throw new CDMConfigurationException(
 					"CharacteristicValue without attributes found.");
 		}
 		return success;
+	
+}
+
+	private boolean handleIntegerValue(Individual individual, int numberOfSteps, boolean success, NamedNodeMap myAttributes, String index) throws CDMConfigurationException, CDMRunException {
+		Matcher matcher;
+		boolean indexOK = isIndexPosInt(index);
+		Node valueNode = myAttributes.getNamedItem("vl");
+		if (valueNode == null) {
+			valueNode = myAttributes.getNamedItem("value");
+			if (valueNode == null) {
+				throw new CDMConfigurationException(
+						"CharacteristicValue without value attribute found.");
+			}
+		}
+		String value = valueNode.getNodeValue();
+		log.debug("Node integer value " + value);
+		matcher = posIntPattern.matcher(value);
+		boolean valueOK = matcher.matches();
+		if (indexOK && valueOK) {
+			IntCharacteristicValue intCharacteristicValue = new IntCharacteristicValue(
+					numberOfSteps, Integer.parseInt(index));
+			intCharacteristicValue.appendValue(Integer.parseInt(value));
+			log.debug("Setting CharacteristicValue "
+					+ intCharacteristicValue.getValue()
+					+ " in Individual at index "
+					+ +intCharacteristicValue.getIndex());
+			individual.luxeSet(Integer.parseInt(index),
+					intCharacteristicValue);
+			success = true;
+		} else {
+			log.warn("CharacteristicValue attribute(s) no integer.");
+		}
+		return success;
+	}
+
+	private boolean handleFloatValue(Individual individual, int numberOfSteps, boolean success, NamedNodeMap myAttributes, String index) throws CDMConfigurationException, CDMRunException {
+		Matcher matcher;
+		boolean indexOK = isIndexPosInt(index);
+		Node valueNode = myAttributes.getNamedItem("vl");
+		if (valueNode == null) {
+			valueNode = myAttributes.getNamedItem("value");
+			if (valueNode == null) {
+				throw new CDMConfigurationException(
+						"CharacteristicValue without value attribute found.");
+			}
+		}
+		String value = valueNode.getNodeValue();
+		log.debug("Node float value " + value);
+		matcher = floatPattern.matcher(value);
+		boolean valueOK = matcher.matches();
+		if (indexOK && valueOK) {
+			FloatCharacteristicValue floatCharacteristicValue = new FloatCharacteristicValue(
+					numberOfSteps, Integer.parseInt(index));
+			floatCharacteristicValue.appendValue(Float.parseFloat(value));
+			log.debug("Setting CharacteristicValue "
+					+ floatCharacteristicValue.getValue()
+					+ " in Individual at index "
+					+ +floatCharacteristicValue.getIndex());
+			individual.luxeSet(Integer.parseInt(index),
+					floatCharacteristicValue);
+			success = true;
+		} else {
+			log.warn("CharacteristicValue attribute(s) not supported.");
+		}
+		return success;
+	}
+
+	private boolean isIndexPosInt(String index) {
+		Matcher matcher = posIntPattern.matcher(index);
+		boolean indexPosInt = matcher.matches();
+		matcher = zeroPattern.matcher(index);
+		boolean indexZero = matcher.matches();
+		boolean indexOK = indexPosInt && !indexZero;
+		return indexOK;
 	}
 }

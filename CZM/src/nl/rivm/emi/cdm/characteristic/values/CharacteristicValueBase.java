@@ -1,5 +1,7 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
+import nl.rivm.emi.cdm.CDMRunException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,5 +27,9 @@ abstract public class CharacteristicValueBase {
 	public int getIndex() {
 		return index;
 	}
+
+	abstract public Object getValue(int step);
+
+	abstract public Object getCurrentValue() throws CDMRunException;
 
 }

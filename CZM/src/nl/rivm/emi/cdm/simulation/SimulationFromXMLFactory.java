@@ -1,18 +1,18 @@
 package nl.rivm.emi.cdm.simulation;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
-import nl.rivm.emi.cdm.characteristic.Characteristic;
-import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.updaterules.UpdateRules4SimulationFromXMLFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.SubnodeConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class SimulationFromXMLFactory {
+	static private Log log = LogFactory.getLog("nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory");
+
 	/**
 	 * Currently implemented structure. <?xml version="1.0" encoding="UTF-8"?>
 	 * <sim lb="netalsof"> <timestep>nnn</timestep> <runmode>longitudinal</runmode>
@@ -38,70 +38,25 @@ public class SimulationFromXMLFactory {
 
 	public static final String populationLabel = "pop";
 
-	public static final String updaterulesLabel = "updaterules";
-
-	public static final String updateruleLabel = "updaterule";
-
 	public static Simulation manufacture(
 			HierarchicalConfiguration simulationConfiguration)
 			throws ConfigurationException {
 		Simulation simulation = new Simulation();
-		try {
-			String label = simulationConfiguration.getString(labelLabel);
-			if (label == null) {
-				throw new ConfigurationException(
-						CDMConfigurationException.noSimulationLabelMessage);
-			}
-			simulation.setLabel(label);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationLabelMessage);
-		}
-		try {
-			float timeStep = simulationConfiguration.getFloat(timestepLabel);
-			simulation.setTimeStep(timeStep);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationTimestepMessage);
-		}
-		try {
-			String runmode = simulationConfiguration.getString(runmodeLabel);
-			if (runmode == null) {
-				throw new ConfigurationException(
-						CDMConfigurationException.noSimulationRunmodeMessage);
-			}
-			simulation.setRunMode(runmode);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationRunmodeMessage);
-		}
-		try {
-			int stepsBetweenSaves = simulationConfiguration
-					.getInt(stepsBetweenSavesLabel);
-			simulation.setStepsBetweenSaves(stepsBetweenSaves);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationStepsBetweenSavesMessage);
-		}
-		try {
-			int stepsInRun = simulationConfiguration.getInt(stepsInRunLabel);
-			simulation.setStepsInRun(stepsInRun);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationStepsInRunMessage);
-		}
-		try {
-			String stoppingCondition = simulationConfiguration
-					.getString(stoppingConditionLabel);
-			if (stoppingCondition == null) {
-				throw new ConfigurationException(
-						CDMConfigurationException.noSimulationStoppingConditionMessage);
-			}
-			simulation.setStoppingCondition(stoppingCondition);
-		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationStoppingConditionMessage);
-		}
+		handleLabel(simulationConfiguration, simulation);
+		handleTimestep(simulationConfiguration, simulation);
+		handleRunMode(simulationConfiguration, simulation);
+		handleStepsBetweenSaves(simulationConfiguration, simulation);
+		handleStepsInRun(simulationConfiguration, simulation);
+		handleStoppingCondition(simulationConfiguration, simulation);
+		handlePopulation(simulationConfiguration, simulation);
+		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
+				.manufacture(simulationConfiguration, simulation));
+		return simulation;
+	}
+
+	private static void handlePopulation(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
 		try {
 			String populationFileName = simulationConfiguration
 					.getString(populationLabel);
@@ -114,30 +69,94 @@ public class SimulationFromXMLFactory {
 			throw new ConfigurationException(
 					CDMConfigurationException.noSimulationPopulationMessage);
 		}
-		List<SubnodeConfiguration> updaterulesConfigurations = simulationConfiguration
-				.configurationsAt(updaterulesLabel);
-		if (updaterulesConfigurations.size() == 1) {
-			SubnodeConfiguration updaterulesConfiguration = updaterulesConfigurations
-					.get(0);
-			List<SubnodeConfiguration> updateruleConfigurations = updaterulesConfiguration
-					.configurationsAt(updateruleLabel);
-			if (updateruleConfigurations.size() > 0) {
-				Iterator<SubnodeConfiguration> iterator = updateruleConfigurations
-						.iterator();
-				while (iterator.hasNext()) {
-					SubnodeConfiguration currentValueNode = iterator.next();
-					String updateruleClassName = currentValueNode
-							.getString(updateruleLabel);
-				}
+	}
 
-			} else {
+	private static void handleStoppingCondition(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			String stoppingCondition = simulationConfiguration
+					.getString(stoppingConditionLabel);
+			if (stoppingCondition == null) {
 				throw new ConfigurationException(
-						CDMConfigurationException.noSimulationUpdateruleMessage);
+						CDMConfigurationException.noSimulationStoppingConditionMessage);
 			}
-		} else {
+			simulation.setStoppingCondition(stoppingCondition);
+		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationUpdaterulesMessage);
+					CDMConfigurationException.noSimulationStoppingConditionMessage);
 		}
-		return simulation;
+	}
+
+	private static void handleStepsInRun(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			int stepsInRun = simulationConfiguration.getInt(stepsInRunLabel);
+			log.debug("Setting stepsInRun to " + stepsInRun);
+			simulation.setStepsInRun(stepsInRun);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationStepsInRunMessage);
+		}
+	}
+
+	private static void handleStepsBetweenSaves(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			int stepsBetweenSaves = simulationConfiguration
+					.getInt(stepsBetweenSavesLabel);
+			log.debug("Setting stepsBetweenSaves to " + stepsBetweenSaves);
+			simulation.setStepsBetweenSaves(stepsBetweenSaves);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationStepsBetweenSavesMessage);
+		}
+	}
+
+	private static void handleRunMode(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			String runmode = simulationConfiguration.getString(runmodeLabel);
+			if (runmode == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationRunmodeMessage);
+			}
+			simulation.setRunMode(runmode);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationRunmodeMessage);
+		}
+	}
+
+	private static void handleTimestep(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			float timeStep = simulationConfiguration.getFloat(timestepLabel);
+			log.debug("Setting timeStep to " + timeStep);
+			simulation.setTimeStep(timeStep);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationTimestepMessage);
+		}
+	}
+
+	private static void handleLabel(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			String label = simulationConfiguration.getString(labelLabel);
+			if (label == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationLabelMessage);
+			}
+			simulation.setLabel(label);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationLabelMessage);
+		}
 	}
 }
