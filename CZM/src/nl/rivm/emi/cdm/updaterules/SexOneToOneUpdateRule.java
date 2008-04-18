@@ -3,7 +3,7 @@ package nl.rivm.emi.cdm.updaterules;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
 
@@ -25,6 +25,7 @@ public class SexOneToOneUpdateRule extends OneToOneUpdateRuleBase implements
 	public SexOneToOneUpdateRule() {
 		super();
 	}
+
 	public SexOneToOneUpdateRule(int characteristicId) {
 		super();
 		setCharacteristicId(characteristicId);
@@ -38,12 +39,13 @@ public class SexOneToOneUpdateRule extends OneToOneUpdateRuleBase implements
 		this.characteristicId = characteristicId;
 	}
 
-	public Integer update(Object currentValue) throws WrongUpdateRuleException {
+	public Integer update(Object currentValue) throws CDMUpdateRuleException {
 		if (currentValue instanceof Integer) {
 			return (Integer) currentValue;
 		} else {
-			throw new WrongUpdateRuleException(this.getClass().getName(),
-					currentValue.getClass().getSimpleName());
+			throw new CDMUpdateRuleException(String.format(
+					CDMUpdateRuleException.wrongParameterMessage, currentValue
+							.getClass().getSimpleName()));
 		}
 	}
 }

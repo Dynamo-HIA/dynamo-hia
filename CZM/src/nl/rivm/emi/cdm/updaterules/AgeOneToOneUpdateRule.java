@@ -1,6 +1,6 @@
 package nl.rivm.emi.cdm.updaterules;
 
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.base.StepSizeSpecific;
@@ -20,11 +20,12 @@ public class AgeOneToOneUpdateRule extends OneToOneUpdateRuleBase implements
 	private float stepSize;
 
 	/**
-	 * Default constructor for ClassLoading. 
+	 * Default constructor for ClassLoading.
 	 */
 	public AgeOneToOneUpdateRule() {
 		super();
 	}
+
 	/**
 	 * 
 	 * @param configuredStepSize
@@ -54,12 +55,14 @@ public class AgeOneToOneUpdateRule extends OneToOneUpdateRuleBase implements
 		this.stepSize = stepSize;
 	}
 
-	public Float update(Object currentValue) throws WrongUpdateRuleException {
-		if(currentValue instanceof Float){
-		float newAge = (Float) currentValue + stepSize;
-		return newAge;
+	public Float update(Object currentValue) throws CDMUpdateRuleException {
+		if (currentValue instanceof Float) {
+			float newAge = (Float) currentValue + stepSize;
+			return newAge;
 		} else {
-			throw new WrongUpdateRuleException(this.getClass().getName(), currentValue.getClass().getSimpleName());
+			throw new CDMUpdateRuleException(String.format(
+					CDMUpdateRuleException.wrongParameterMessage, currentValue.getClass()
+							.getSimpleName()));
 		}
 	}
 }

@@ -10,7 +10,7 @@
    <updaterules>
       <updaterule>
          <characteristicid>1</characteristicid>
-         <classname>nl.rivm.emi.cdm.updaterules.SexLife02_03UpdateRule</classname>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_03</classname>
          <configurationfile>C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/sexlifeconf02_03.xml</configurationfile>
       </updaterule>
    </updaterules>

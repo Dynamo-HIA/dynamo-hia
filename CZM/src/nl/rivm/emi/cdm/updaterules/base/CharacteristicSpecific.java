@@ -1,5 +1,7 @@
 package nl.rivm.emi.cdm.updaterules.base;
 
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+
 /**
  * Interface to be implemented by UpdateRules that have been created to update a
  * specific Characteristic.
@@ -17,5 +19,5 @@ public interface CharacteristicSpecific {
 
  	public int getCharacteristicId();
 
-	public void setCharacteristicId(int characteristicId);
+	public void setCharacteristicId(int characteristicId) throws CDMUpdateRuleException;
 }

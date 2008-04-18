@@ -8,7 +8,7 @@ import static org.junit.Assert.assertNull;
 import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.AgeOneToOneUpdateRule;
 import nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.updaterules.containment.UpdateRuleRepository;
@@ -51,7 +51,7 @@ public class TestAgeOneToOneUpdateRule {
 			double wrongAge = 7;
 			nextAge = daRule.update(wrongAge);
 			assertFalse(true); // Force error if Exception is not thrown.
-		} catch (WrongUpdateRuleException e) {
+		} catch (CDMUpdateRuleException e) {
 			e.printStackTrace();
 		}
 	}

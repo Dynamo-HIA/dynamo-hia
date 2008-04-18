@@ -1,5 +1,7 @@
 package nl.rivm.emi.cdm.updaterules.base;
 
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+
 
 /**
  * 
@@ -19,8 +21,9 @@ public abstract class ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 	 * @return The Result when AOK, null when a parameter is missing, a
 	 *         ConfigurationException when the types of the parameters do not
 	 *         match.
+	 * @throws CDMUpdateRuleException 
 	 */
-	public Object update(Object[] currentValues) {
+	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
 		Object justAnObject = new Object();
 		for (Object inputObj : currentValues) {
 			if (inputObj == null) {

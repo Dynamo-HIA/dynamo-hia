@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sim>
+<lb>netalsof</lb>
+<timestep>1</timestep>
+<runmode>longitudinal</runmode>
+<stepsbetweensaves>3</stepsbetweensaves>
+<stepsinrun>10</stepsinrun>
+   <stoppingcondition/>
+   <pop>C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/genpop02_10_1k_001.xml</pop>
+   <updaterules>
+      <updaterule>
+         <characteristicid>1</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_1</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>2</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_2</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>3</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_3</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>4</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_4</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>5</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_5</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>6</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_6</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>7</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_7</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>8</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_8</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>9</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_9</classname>
+      </updaterule>
+      <updaterule>
+         <characteristicid>10</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_10_10</classname>
+      </updaterule>
+   </updaterules>
+</sim>
+

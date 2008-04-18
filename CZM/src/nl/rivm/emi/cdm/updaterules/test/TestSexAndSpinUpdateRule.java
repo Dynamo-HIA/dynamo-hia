@@ -12,7 +12,7 @@ import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.cdm.updaterules.AgeOneToOneUpdateRule;
 import nl.rivm.emi.cdm.updaterules.SexUpdateRuleEntryLayer;

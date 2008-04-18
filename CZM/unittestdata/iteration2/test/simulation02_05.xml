@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sim>
+<lb>netalsof</lb>
+<timestep>1</timestep>
+<runmode>longitudinal</runmode>
+<stepsbetweensaves>3</stepsbetweensaves>
+<stepsinrun>15</stepsinrun>
+   <stoppingcondition/>
+   <pop>C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/pop02_05.xml</pop>
+   <updaterules>
+      <updaterule>
+         <characteristicid>3</characteristicid>
+         <classname>nl.rivm.emi.cdm.iterations.two.test.UpdateRule02_05</classname>
+      </updaterule>
+   </updaterules>
+</sim>
+

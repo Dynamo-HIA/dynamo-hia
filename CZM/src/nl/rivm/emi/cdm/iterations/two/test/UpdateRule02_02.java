@@ -2,7 +2,7 @@ package nl.rivm.emi.cdm.iterations.two.test;
 
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.updaterules.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
@@ -41,8 +41,6 @@ public class UpdateRule02_02 extends ManyToOneUpdateRuleBase implements
 		if(!(currentValues[1] == null)&&(currentValues[1] instanceof Integer) &&!(currentValues[2]==null)){
 			Characteristic characteristic1 = CharacteristicsConfigurationMapSingleton.getInstance().getCharacteristic(1);
 			String derefValue = characteristic1.getPossibleValue((Integer)currentValues[1]);
-//			Integer intDerefValue = Integer.decode(derefValue);
-//			returnValue = ((Float)currentValues[2])*(1+((100 - (intDerefValue))/100));
 			float currVal1 = ((Integer)currentValues[1]).floatValue();
 			float currVal2 = ((Float)currentValues[2]).floatValue();
 			returnValue = currVal2*(1F+((100F - currVal1)/100F));

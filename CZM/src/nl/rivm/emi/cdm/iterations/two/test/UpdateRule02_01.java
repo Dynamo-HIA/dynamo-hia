@@ -1,6 +1,6 @@
 package nl.rivm.emi.cdm.iterations.two.test;
 
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.base.StepSizeSpecific;
@@ -31,14 +31,16 @@ public class UpdateRule02_01 extends OneToOneUpdateRuleBase implements
 		setCharacteristicId(characteristicId);
 	}
 
-	public Integer update(Object currentValue) throws WrongUpdateRuleException {
+	public Integer update(Object currentValue) throws CDMUpdateRuleException {
 		if (currentValue instanceof Integer) {
 			return (Integer) currentValue;
 		} else {
-			throw new WrongUpdateRuleException(this.getClass().getName(),
-					currentValue.getClass().getSimpleName());
+			throw new CDMUpdateRuleException(
+					String.format(CDMUpdateRuleException.wrongParameterMessage, currentValue
+									.getClass().getSimpleName()));
 		}
 	}
+
 	public int getCharacteristicId() {
 		return this.characteristicId;
 	}
@@ -46,7 +48,6 @@ public class UpdateRule02_01 extends OneToOneUpdateRuleBase implements
 	public void setCharacteristicId(int characteristicId) {
 		this.characteristicId = characteristicId;
 	}
-
 
 	public float getStepSize() {
 		return stepSize;

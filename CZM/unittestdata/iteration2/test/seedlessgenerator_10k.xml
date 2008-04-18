@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<newborngenerator>
+   <lb>genpop02_10_10k_</lb>
+   <populationsize>10000</populationsize>
+   <characteristics>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+      <id>4</id>
+      <id>5</id>
+      <id>6</id>
+      <id>7</id>
+      <id>8</id>
+      <id>9</id>
+      <id>10</id>
+   </characteristics>
+</newborngenerator>

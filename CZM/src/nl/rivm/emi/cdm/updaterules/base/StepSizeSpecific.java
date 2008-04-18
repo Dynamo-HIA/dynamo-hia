@@ -1,5 +1,7 @@
 package nl.rivm.emi.cdm.updaterules.base;
 
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+
 /**
  * Interface to be implemented by UpdateRules that are only valid for a certain
  * simulationstepsize.
@@ -9,5 +11,5 @@ package nl.rivm.emi.cdm.updaterules.base;
  */
 public interface StepSizeSpecific {
 	public float getStepSize();
-	public void setStepSize(float stepSize);
+	public void setStepSize(float stepSize) throws CDMUpdateRuleException;
 }

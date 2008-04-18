@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.updaterules.AgeOneToOneUpdateRule;
 import nl.rivm.emi.cdm.updaterules.SpinSoloUpdateRule;
 import nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker;

@@ -13,7 +13,7 @@ import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
@@ -355,7 +355,7 @@ public class Simulation extends DomLevelTraverser {
 				}
 			}
 			return keep;
-		} catch (WrongUpdateRuleException e) {
+		} catch (CDMUpdateRuleException e) {
 			log.warn("Individual " + individual.getLabel()
 					+ " has a characteristicValue at index " + charValIndex
 					+ " with updaterule mismatch: "
@@ -426,7 +426,7 @@ public class Simulation extends DomLevelTraverser {
 			}
 
 			return keep;
-		} catch (WrongUpdateRuleException e) {
+		} catch (CDMUpdateRuleException e) {
 			e.printStackTrace(); // TODO remove
 			log.warn("Individual " + individual.getLabel()
 					+ " has a characteristicValue at index " + charValIndex

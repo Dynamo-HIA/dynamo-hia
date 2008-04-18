@@ -224,7 +224,7 @@ public class Generator {
 	private void writeCharacteristic(XMLStreamWriter output, int count)
 			throws XMLStreamException {
 		output.writeEmptyElement(Characteristic.xmlElementName);
-		output.writeAttribute("lb", "char_" + characteristicIds.get(count));
+		output.writeAttribute("id", characteristicIds.get(count).toString());
 		output.writeAttribute("vl", "0");
 		output.writeCharacters("\n");
 	}

@@ -1,6 +1,6 @@
 package nl.rivm.emi.cdm.updaterules.base;
 
-import nl.rivm.emi.cdm.exceptions.WrongUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 
 
 /**
@@ -14,5 +14,5 @@ public abstract class OneToOneUpdateRuleBase implements UpdateRuleMarker{
 		super();
 	}
 
-	abstract public Object update(Object currentValue) throws WrongUpdateRuleException ;
+	abstract public Object update(Object currentValue) throws CDMUpdateRuleException ;
 }
