@@ -30,7 +30,7 @@ public class Test01_00 {
 	@Test
 	public void parseConfigurationFileMultipleCharacteristics() {
 		String currentWorkingDirectory = System.getProperty("user.dir");
-		String multipleCharacteristicsFileName = currentWorkingDirectory + "\\"
+		String multipleCharacteristicsFileName = currentWorkingDirectory + "/"
 				+ existingFileName_MultiChar;
 		System.out.println(multipleCharacteristicsFileName);
 		try {
