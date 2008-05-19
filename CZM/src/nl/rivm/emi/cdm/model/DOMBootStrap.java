@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
+import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,7 +31,7 @@ public class DOMBootStrap {
 		Document document = docBuilder.parse(populationFile);
 		// Get the reading started
 		Node rootNode = document.getFirstChild();
-		PopulationFactory populationFactory = new PopulationFactory("pop");
+		PopulationFromDomFactory populationFactory = new PopulationFromDomFactory("pop");
 		Population population = populationFactory.makeItFromDOM(rootNode, numberOfSteps);
 		if (population == null) {
 			log.error("Population construction produced errors.");

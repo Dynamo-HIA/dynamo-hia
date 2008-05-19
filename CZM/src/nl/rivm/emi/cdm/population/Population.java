@@ -17,7 +17,7 @@ public class Population extends ArrayList<Individual> {
 	String label = "Not initialized.";
 
 	public static final String xmlElementName = "pop";
-	public static final String xmlLabelElementName = "lb";
+	public static final String xmlLabelAttributeName = "lb";
 	public static final String populationFileNotWriteableMsg = "File %1$s could not be written.";
 
 	private Iterator<Individual> iterator = null;

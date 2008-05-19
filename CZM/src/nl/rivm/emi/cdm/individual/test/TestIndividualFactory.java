@@ -16,7 +16,7 @@ import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.IndividualFactory;
+import nl.rivm.emi.cdm.individual.IndividualFromDOMFactory;
 import nl.rivm.emi.cdm.population.Population;
 
 import org.apache.commons.logging.Log;
@@ -62,7 +62,7 @@ public class TestIndividualFactory {
 			Node rootNode = document.getFirstChild();
 			Population population = new Population("pop", "Popie");
 			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
+			IndividualFromDOMFactory factory = new IndividualFromDOMFactory("ind");
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertFalse(success);
@@ -95,7 +95,7 @@ public class TestIndividualFactory {
 			Node rootNode = document.getFirstChild();
 			Population population = new Population("pop", "Popie");
 			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
+			IndividualFromDOMFactory factory = new IndividualFromDOMFactory("ind");
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertFalse(success);
@@ -133,7 +133,7 @@ public class TestIndividualFactory {
 			Node rootNode = document.getFirstChild();
 			Population population = new Population("pop", "Popie");
 			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
+			IndividualFromDOMFactory factory = new IndividualFromDOMFactory("ind");
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertTrue(success);
@@ -167,7 +167,7 @@ public class TestIndividualFactory {
 			Node rootNode = document.getFirstChild();
 			Population population = new Population("pop", "Popie");
 			assertNotNull(population);
-			IndividualFactory factory = new IndividualFactory("ind");
+			IndividualFromDOMFactory factory = new IndividualFromDOMFactory("ind");
 			// Number of steps not yet relevant.
 			boolean success = factory.makeIt(rootNode, population, 1);
 			assertTrue(success);

@@ -16,7 +16,7 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.StaxBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
+import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
@@ -97,7 +97,7 @@ try {
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNull(population);
 		} catch (CDMConfigurationException e) {
@@ -135,7 +135,7 @@ try {
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
 		} catch (CDMConfigurationException e) {
@@ -168,7 +168,7 @@ try {
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
 		} catch (CDMConfigurationException e) {

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- Shiny. -->
+<pop lb="TrotsOpNederland">
+<ind lb="Pietje" >
+<rngseed vl="123.456"/>
+<charval id="5" vl="42" />
+</ind>
+<ind lb="Jantje" >
+<rngseed vl="123.456"/>
+<charval id="4" vl="21" />
+</ind>
+<ind lb="Klaasje" >
+<rngseed vl="123.456"/>
+<charval id="3" vl="12" />
+</ind>
+<ind lb="Keesje" >
+<rngseed vl="123.456"/>
+<charval id="2" vl="8" />
+</ind>
+<ind lb="Roeltje" >
+<rngseed vl="123.456"/>
+<charval id="1" vl="13" />
+</ind>
+<ind lb="Gertje" >
+<rngseed vl="123.456"/>
+<charval id="7" vl="2" />
+</ind>
+<ind lb="Jantje" >
+<rngseed vl="123.456"/>
+<charval id="5" vl="4" />
+</ind>
+<ind lb="Xavier" >
+<rngseed vl="123.456"/>
+<charval id="6" vl="8" />
+</ind>
+<ind lb="Job" >
+<rngseed vl="123.456"/>
+<charval id="5" vl="4" />
+<charval id="6" vl="8" />
+<charval id="9" vl="7" />
+<charval id="7" vl="2" />
+</ind>
+</pop>

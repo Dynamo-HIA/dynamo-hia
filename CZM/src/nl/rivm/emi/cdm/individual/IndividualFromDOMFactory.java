@@ -18,10 +18,10 @@ import org.w3c.dom.Node;
  * @author mondeelr
  * 
  */
-public class IndividualFactory extends XMLConfiguredObjectFactory {
+public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	public IndividualFactory(String elementName) {
+	public IndividualFromDOMFactory(String elementName) {
 		super(elementName);
 	}
 

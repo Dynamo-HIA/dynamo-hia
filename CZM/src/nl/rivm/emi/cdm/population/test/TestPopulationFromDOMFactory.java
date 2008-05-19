@@ -15,7 +15,7 @@ import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
+import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;
@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-public class TestPopulationFactory {
+public class TestPopulationFromDOMFactory {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	File testFileNOK = new File(
@@ -62,7 +62,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNull(population);
 		} catch (CDMConfigurationException e) {
@@ -95,7 +95,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNull(population);
 		} catch (CDMConfigurationException e) {
@@ -133,7 +133,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
 		} catch (CDMConfigurationException e) {
@@ -166,7 +166,7 @@ log.info("<<<<<<<<<<<<Starting test>>>>>>>>>>");
 			Node rootNode = document.getFirstChild();
 			Simulation simulation = new Simulation("Label", 1);
 			assertNotNull(simulation);
-			PopulationFactory factory = new PopulationFactory("pop");
+			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
 		} catch (CDMConfigurationException e) {

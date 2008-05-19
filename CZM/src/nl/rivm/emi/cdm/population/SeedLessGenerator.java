@@ -134,10 +134,12 @@ public class SeedLessGenerator {
 	private void writePopulation(XMLStreamWriter output)
 			throws XMLStreamException, CDMConfigurationException {
 		output.writeStartElement(Population.xmlElementName);
-		output.writeCharacters("\n");
-		output.writeStartElement(Population.xmlLabelElementName);
-		output.writeCharacters(label);
-		output.writeEndElement();
+//		output.writeCharacters("\n");
+//		output.writeStartElement(Population.xmlLabelElementName);
+//		output.writeCharacters(label);
+//		output.writeEndElement();
+		output.writeAttribute(Population.xmlLabelAttributeName,label);
+// ~
 		output.writeCharacters("\n");
 		for (int count = 1; count <= populationSize; count++) {
 			writeIndividual(output, count);

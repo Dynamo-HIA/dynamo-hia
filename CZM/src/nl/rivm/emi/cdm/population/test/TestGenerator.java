@@ -17,7 +17,7 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Generator;
 import nl.rivm.emi.cdm.population.GeneratorFromXMLFactory;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFactory;
+import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.configuration.ConfigurationException;

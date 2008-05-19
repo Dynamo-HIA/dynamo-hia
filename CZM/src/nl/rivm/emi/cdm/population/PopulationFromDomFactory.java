@@ -3,18 +3,18 @@ package nl.rivm.emi.cdm.population;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.IndividualFactory;
+import nl.rivm.emi.cdm.individual.IndividualFromDOMFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class PopulationFactory extends XMLConfiguredObjectFactory {
+public class PopulationFromDomFactory extends XMLConfiguredObjectFactory {
 
 	Log log = LogFactory.getLog(getClass().getName());
 
-	public PopulationFactory(String elementName) {
+	public PopulationFromDomFactory(String elementName) {
 		super(elementName);
 	}
 
@@ -45,7 +45,7 @@ public class PopulationFactory extends XMLConfiguredObjectFactory {
 				resultPopulation = new Population(getElementName(),
 						label);
 				Node childNode = myNode.getFirstChild();
-				IndividualFactory individualFactory = new IndividualFactory(
+				IndividualFromDOMFactory individualFactory = new IndividualFromDOMFactory(
 						"ind");
 				boolean success = individualFactory.makeIt(childNode,
 						resultPopulation, numberOfSteps);
