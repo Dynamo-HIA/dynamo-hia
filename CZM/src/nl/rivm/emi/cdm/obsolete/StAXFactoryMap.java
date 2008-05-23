@@ -2,7 +2,7 @@ package nl.rivm.emi.cdm.obsolete;
 
 import java.util.HashMap;
 
-import nl.rivm.emi.cdm.individual.IndividualStAXEventsConsumer;
+import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
 
 public class StAXFactoryMap extends HashMap<String, NopStAXEventConsumerBase> {
 	

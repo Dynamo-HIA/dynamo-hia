@@ -9,7 +9,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.IndividualStAXEventsConsumer;
+import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
 import nl.rivm.emi.cdm.stax.AbstractStAXElementEventConsumer;
 import nl.rivm.emi.cdm.stax.AbstractStAXEventConsumer;
 
@@ -45,6 +45,7 @@ public class PopulationStAXEventConsumer extends
 	public void consumeEvents(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
+		logHeadOfEventStream(reader, "");
 		if (elementPreCheck(reader)) {
 			handleElement(reader, mother);
 		}
@@ -75,15 +76,16 @@ public class PopulationStAXEventConsumer extends
 		String label = labelAttribute.getValue();
 		population = new Population(xmlElementName, label);
 		mother.add(population);
-		if (nextStartElementOrFalse(reader)) {
+		while (nextStartElementOrFalse(reader)) {
 			event = reader.peek();
-			IndividualStAXEventsConsumer indiCons = new IndividualStAXEventsConsumer(
+			StAXIndividualEventConsumer indiCons = new StAXIndividualEventConsumer(
 					"ind");
 			indiCons.consumeEvents(reader, this);
-			if (!elementPostCheck(reader)) {
-				throw new UnexpectedFileStructureException("Population file.");
-			}
-		} else {
+//			if (!elementPostCheck(reader)) {
+//				throw new UnexpectedFileStructureException("Population file.");
+//			}
+		}
+		if(population.size() == 0) {
 			throw new UnexpectedFileStructureException(
 					"No individuals found in Population.");
 		}

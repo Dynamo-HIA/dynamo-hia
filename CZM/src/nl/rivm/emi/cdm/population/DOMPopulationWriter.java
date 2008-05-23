@@ -18,21 +18,21 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.IndividualWriter;
+import nl.rivm.emi.cdm.individual.DOMIndividualWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class PopulationWriter {
+public class DOMPopulationWriter {
 
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.cdm.population.PopulationWriter");
 
 	String label = "Not initialized.";
 
-	public PopulationWriter() {
+	public DOMPopulationWriter() {
 		super();
 	}
 
@@ -51,7 +51,7 @@ public class PopulationWriter {
 		document.appendChild(element);
 		Individual individual;
 		while ((individual = population.nextIndividual()) != null) {
-			IndividualWriter.generateDOM(individual, stepNumber, element);
+			DOMIndividualWriter.generateDOM(individual, stepNumber, element);
 		}
 		boolean isDirectory = xmlFileName.isDirectory();
 		boolean canWrite = xmlFileName.canWrite();

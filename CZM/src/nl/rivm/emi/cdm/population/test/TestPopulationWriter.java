@@ -16,7 +16,7 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +55,7 @@ public class TestPopulationWriter {
 			PopulationFromDomFactory factory = new PopulationFromDomFactory("pop");
 			Population population = factory.makeItFromDOM(rootNode, 1);
 			assertNotNull(population);
-			PopulationWriter.writeToXMLFile(population, 0, testWriterOutput);
+			DOMPopulationWriter.writeToXMLFile(population, 0, testWriterOutput);
 		} catch (CDMConfigurationException e) {
 			// Is not an error perse.
 			log.warn(e.getMessage());

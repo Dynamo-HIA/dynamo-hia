@@ -17,7 +17,7 @@ import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
@@ -56,7 +56,7 @@ public class TestSimulationFromXMLFactory {
 				simulationConfiguration = new XMLConfiguration(
 						simulationConfiguration1);
 				Simulation sim1 = SimulationFromXMLFactory
-						.manufacture(simulationConfiguration);
+						.manufacture_DOMPopulationTree(simulationConfiguration);
 			} else {
 				throw new ConfigurationException(String.format(
 						"Configuration file %1$s does not exist",

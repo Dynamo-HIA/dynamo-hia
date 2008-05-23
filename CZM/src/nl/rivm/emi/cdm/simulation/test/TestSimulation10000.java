@@ -17,7 +17,7 @@ import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.containment.UpdateRuleRepository;
@@ -113,7 +113,7 @@ public class TestSimulation10000 {
 			log.fatal("Running longitudinal.");
 			simulation.run();
 			log.fatal("Longitudinal run complete.");
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, longSimOutput);
+			DOMPopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, longSimOutput);
 			log.fatal("Longitudinal result written.");
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -173,7 +173,7 @@ public class TestSimulation10000 {
 			simulation.run();
 // ~
 			log.fatal("Transversal run complete");
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, transSimOutput);
+			DOMPopulationWriter.writeToXMLFile(simulation.getPopulation(), numberOfSteps, transSimOutput);
 			log.fatal("Transversal result written.");
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

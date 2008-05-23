@@ -8,7 +8,7 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStAXEventsConsumer;
+import nl.rivm.emi.cdm.characteristic.values.StAXCharacteristicValueEventConsumer;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.prngutil.RandomSeedStAXEventConsumer;
@@ -18,14 +18,14 @@ import nl.rivm.emi.cdm.stax.AbstractStAXEventConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class IndividualStAXEventsConsumer extends
+public class StAXIndividualEventConsumer extends
 		AbstractStAXElementEventConsumer {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	private Individual currentIndividual;
 
-	public IndividualStAXEventsConsumer(String xmlElementName) {
+	public StAXIndividualEventConsumer(String xmlElementName) {
 		super(xmlElementName);
 		log.debug("Constructing, " + xmlElementName);
 	}
@@ -41,6 +41,7 @@ public class IndividualStAXEventsConsumer extends
 	public void consumeEvents(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
+		logHeadOfEventStream(reader, "");
 		if (elementPreCheck(reader)) {
 			handleElement(reader, mother);
 		}
@@ -60,10 +61,13 @@ public class IndividualStAXEventsConsumer extends
 					"No \"lb\" attribute found for \"" + xmlElementName
 							+ "\" element.");
 		}
+		log.info("Individual " + labelAttribute.getValue());
 		String label = labelAttribute.getValue();
 		currentIndividual = new Individual(xmlElementName, label);
 		mother.add(currentIndividual);
 		while (nextStartElementOrFalse(reader)) {
+		logHeadOfEventStream(reader, "In Individual loop");
+		event = reader.peek();
 			elementName = ((StartElement) event).getName().getLocalPart();
 			if ("rngseed".equals(elementName)) {
 				handleRandomNumberGeneratorSeed(reader);
@@ -71,31 +75,31 @@ public class IndividualStAXEventsConsumer extends
 				if ("ch".equals(elementName)) {
 					handleCharacteristicValue(reader);
 				} else {
-					throw new UnexpectedFileStructureException(
-							"Unexpected subelement \"" + elementName
-									+ "\" in \"" + xmlElementName
-									+ "\" element.");
+					if ("ind".equals(elementName)) {
+						break;
+					} else {
+						throw new UnexpectedFileStructureException(
+								"Unexpected subelement \"" + elementName
+										+ "\" in \"" + xmlElementName
+										+ "\" element.");
+					}
 				}
 			}
 		}
-		if (!elementPostCheck(reader)) {
-			throw new UnexpectedFileStructureException(
-					"Asymmetric end element event for element \""
-							+ xmlElementName + "\", got \"" + elementName
-							+ "\"");
-		}
 	}
 
-	private void handleRandomNumberGeneratorSeed(XMLEventReader reader) throws XMLStreamException, UnexpectedFileStructureException {
-		System.out.println("Delegating rngseed.");
+	private void handleRandomNumberGeneratorSeed(XMLEventReader reader)
+			throws XMLStreamException, UnexpectedFileStructureException {
+		log.debug("Delegating rngseed.");
 		RandomSeedStAXEventConsumer seedCons = new RandomSeedStAXEventConsumer(
 				"rngseed");
 		seedCons.consumeEvents(reader, this);
 	}
 
-	private void handleCharacteristicValue(XMLEventReader reader) throws XMLStreamException, UnexpectedFileStructureException {
-		System.out.println("Delegating ch.");
-		CharacteristicValueStAXEventsConsumer charCons = new CharacteristicValueStAXEventsConsumer(
+	private void handleCharacteristicValue(XMLEventReader reader)
+			throws XMLStreamException, UnexpectedFileStructureException {
+		log.debug("Delegating ch.");
+		StAXCharacteristicValueEventConsumer charCons = new StAXCharacteristicValueEventConsumer(
 				"ch");
 		charCons.consumeEvents(reader, this);
 	}
@@ -115,10 +119,11 @@ public class IndividualStAXEventsConsumer extends
 
 	public void addCharacteristicValue(CharacteristicValueBase cvb) {
 		int index = cvb.getIndex();
-		if (currentIndividual.get(index) != null) {
+		if ((currentIndividual.size() > index)
+				&& (currentIndividual.get(index) != null)) {
 			log.error("More than one CharacteristicValue at index " + index
 					+ ", using last one.");
 		}
-		currentIndividual.set(cvb.getIndex(), cvb);
+		currentIndividual.luxeSet(cvb.getIndex(), cvb);
 	}
 }

@@ -9,7 +9,7 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.IndividualStAXEventsConsumer;
+import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 
@@ -66,7 +66,7 @@ public abstract class AbstractStAXElementEventConsumer extends AbstractStAXEvent
 	 * XMLEvent.
 	 * 
 	 * @param reader
-	 * @param elementName
+	 * @param xmlElementName
 	 * @return
 	 * @throws XMLStreamException
 	 * @throws UnexpectedFileStructureException 
@@ -81,14 +81,16 @@ public abstract class AbstractStAXElementEventConsumer extends AbstractStAXEvent
 			String elementName = ((EndElement) event).getName().getLocalPart();
 			if ((elementName != null) && elementName.equals(xmlElementName)) {
 				event = reader.nextEvent();
-				System.out.println(xmlElementName + " ends");
+				log.info(xmlElementName + " ends");
 			} else {
-				throw new UnexpectedFileStructureException(
+				//throw new UnexpectedFileStructureException(
+				log.error(
 						"Asymmetric end element event, expected "
 								+ xmlElementName + ", got " + elementName);
 			}
 		} else {
-			throw new UnexpectedFileStructureException(
+//			throw new UnexpectedFileStructureException(
+			log.error(
 					"Wrong event type, expected " + XMLEvent.END_ELEMENT
 							+ " pop, got " + event.getEventType());
 		}

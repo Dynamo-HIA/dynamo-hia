@@ -1,15 +1,13 @@
-package nl.rivm.emi.cdm.characteristic;
+package nl.rivm.emi.cdm.characteristic.values;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
 
-public class DOMCharacteristicValueInserter {
+public class DOMCharacteristicValueWriter {
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.cdm.characteristic.CharacteristicWriter");
 

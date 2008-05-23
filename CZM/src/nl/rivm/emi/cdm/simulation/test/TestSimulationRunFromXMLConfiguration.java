@@ -19,7 +19,7 @@ import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
@@ -66,7 +66,7 @@ public class TestSimulationRunFromXMLConfiguration {
 				simulationConfiguration = new XMLConfiguration(
 						simulationConfiguration1);
 				sim1 = SimulationFromXMLFactory
-						.manufacture(simulationConfiguration);
+						.manufacture_DOMPopulationTree(simulationConfiguration);
 			} else {
 				throw new ConfigurationException(String.format(
 						"Configuration file %1$s does not exist",
@@ -94,7 +94,7 @@ public class TestSimulationRunFromXMLConfiguration {
 			log.fatal("Starting run.");
 			sim1.run();
 			log.fatal("Run complete.");
-			PopulationWriter.writeToXMLFile(sim1.getPopulation(), sim1
+			DOMPopulationWriter.writeToXMLFile(sim1.getPopulation(), sim1
 					.getStepsInRun(), sim1Output);
 			log.fatal("Result written.");
 		} catch (CDMRunException e) {

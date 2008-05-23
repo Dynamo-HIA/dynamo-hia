@@ -45,6 +45,7 @@ public class PopulationDocumentStAXEventConsumer extends
 	public void consumeEvents(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
+		logHeadOfEventStream(reader, "");
 		XMLEvent event;
 		if (((event = reader.peek()) != null) && (event.isStartDocument())) {
 			event = reader.nextEvent(); // Get my event.

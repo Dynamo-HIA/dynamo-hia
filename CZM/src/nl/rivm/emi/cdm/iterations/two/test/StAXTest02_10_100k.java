@@ -26,16 +26,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test02_03 {
+public class StAXTest02_10_100k {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	String preCharConfig = "C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/charconf02_03.xml";
+	String preCharConfig = "C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/charconf02_10.xml";
 
 	File simulationConfigurationFile = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/simulation02_03.xml");
+			"C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/simulation02_10_100k_it25.xml");
 
 	File simOutput = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/sim02_03_out.xml");
+			"C:/eclipse321/workspace/CZM/unittestdata/iteration2/test/sim02_10_100k_it25_out.xml");
 
 	HierarchicalConfiguration simulationConfiguration;
 
@@ -46,21 +46,21 @@ public class Test02_03 {
 		public void setup() throws ConfigurationException {
 			System.out.println(preCharConfig);
 			try {
-				File characteristicsFile = new File(
+				File multipleCharacteristicsFile = new File(
 						preCharConfig);
 				CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
-						characteristicsFile);
+						multipleCharacteristicsFile);
 				CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 						.getInstance();
 				if (simulationConfigurationFile.exists()) {
 					simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
 					sim = SimulationFromXMLFactory
-							.manufacture_DOMPopulationTree(simulationConfiguration);
+							.manufacture_Population_StAX(simulationConfiguration);
 				} else {
 					throw new ConfigurationException(String.format(
 							"Configuration file %1$s does not exist",
-							simulationConfiguration));
+							simulationConfigurationFile.getAbsolutePath()));
 				}
 			} catch (ConfigurationException e) {
 				// TODO Auto-generated catch block
@@ -79,7 +79,7 @@ public class Test02_03 {
 	@Test
 	public void runSimulation() {
 		assertTrue(CharacteristicsConfigurationMapSingleton.getInstance()
-				.size() > 0);
+				.size() > 1);
 		try {
 			log.fatal("Starting run.");
 			sim.run();
@@ -105,6 +105,6 @@ public class Test02_03 {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.iterations.two.test.Test02_03.class);
+				nl.rivm.emi.cdm.iterations.two.test.StAXTest02_10_100k.class);
 	}
 }

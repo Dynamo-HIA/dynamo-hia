@@ -1,10 +1,12 @@
 package nl.rivm.emi.cdm.simulation;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
@@ -17,6 +19,8 @@ import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
+import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 import nl.rivm.emi.cdm.updaterules.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker;
@@ -200,7 +204,7 @@ public class Simulation extends DomLevelTraverser {
 		this.label = label;
 	}
 
-	public void setPopulationByFileName(String populationFileName)
+	public void setPopulationByFileName_DOM(String populationFileName)
 			throws ConfigurationException {
 		File populationFile = new File(populationFileName);
 		if (populationFile.exists() && populationFile.isFile()
@@ -212,6 +216,40 @@ public class Simulation extends DomLevelTraverser {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new ConfigurationException(
+						"Error reading populationfile " + populationFileName
+								+ ", Exception thrown: "
+								+ e.getClass().getName() + " message "
+								+ e.getMessage());
+			}
+		} else {
+			throw new ConfigurationException("Populationfile "
+					+ populationFileName + ", does not exist or is no file.");
+
+		}
+	}
+
+	public void setPopulationByFileName_StAX(String populationFileName)
+			throws ConfigurationException {
+		File populationFile = new File(populationFileName);
+		if (populationFile.exists() && populationFile.isFile()
+				&& populationFile.canRead()) {
+			try {
+				population = (Population) StAXEntryPoint
+						.processFile(populationFile);
+			} catch (FileNotFoundException e) {
+				throw new ConfigurationException(
+						"Error reading populationfile " + populationFileName
+								+ ", Exception thrown: "
+								+ e.getClass().getName() + " message "
+								+ e.getMessage());
+			} catch (XMLStreamException e) {
+				throw new ConfigurationException(
+						"Error reading populationfile " + populationFileName
+								+ ", Exception thrown: "
+								+ e.getClass().getName() + " message "
+								+ e.getMessage());
+			} catch (UnexpectedFileStructureException e) {
 				throw new ConfigurationException(
 						"Error reading populationfile " + populationFileName
 								+ ", Exception thrown: "
@@ -394,31 +432,32 @@ public class Simulation extends DomLevelTraverser {
 						keep = true;
 					} else {
 						if (updateRule instanceof ManyToOneUpdateRuleBase) {
-							Object[] charVals = new Object[individual
-									.size()];
+							Object[] charVals = new Object[individual.size()];
 							for (int count = 0; count < charVals.length; count++) {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
-								if(charValBase != null){
-									Object currValue =  charValBase.getCurrentValue();
-								charVals[count] = currValue;
-								} else{
-								charVals[count] = null;	
+								if (charValBase != null) {
+									Object currValue = charValBase
+											.getCurrentValue();
+									charVals[count] = currValue;
+								} else {
+									charVals[count] = null;
 								}
 							}
 							float oldValue = floatCharVal.getCurrentValue();
 							int index = floatCharVal.getIndex();
 							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
 									.update(charVals);
-							if(newValue != null){
-							floatCharVal.appendValue(newValue);
-							log.info("Updated charval at "
-									+ floatCharVal.getIndex() + " for "
-									+ individual.getLabel() + " from "
-									+ oldValue + " to " + newValue);
-							keep = true;
+							if (newValue != null) {
+								floatCharVal.appendValue(newValue);
+								log.info("Updated charval at "
+										+ floatCharVal.getIndex() + " for "
+										+ individual.getLabel() + " from "
+										+ oldValue + " to " + newValue);
+								keep = true;
 							} else {
-								throw new CDMRunException("ManyToOne update rule produced a null result, aborting.");
+								throw new CDMRunException(
+										"ManyToOne update rule produced a null result, aborting.");
 							}
 						}
 					}

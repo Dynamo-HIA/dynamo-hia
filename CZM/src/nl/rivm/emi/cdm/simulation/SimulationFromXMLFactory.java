@@ -38,7 +38,7 @@ public class SimulationFromXMLFactory {
 
 	public static final String populationLabel = "pop";
 
-	public static Simulation manufacture(
+	public static Simulation manufacture_DOMPopulationTree(
 			HierarchicalConfiguration simulationConfiguration)
 			throws ConfigurationException {
 		Simulation simulation = new Simulation();
@@ -48,13 +48,28 @@ public class SimulationFromXMLFactory {
 		handleStepsBetweenSaves(simulationConfiguration, simulation);
 		handleStepsInRun(simulationConfiguration, simulation);
 		handleStoppingCondition(simulationConfiguration, simulation);
-		handlePopulation(simulationConfiguration, simulation);
+		handlePopulation_DOMTree(simulationConfiguration, simulation);
+		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
+				.manufacture(simulationConfiguration, simulation));
+		return simulation;
+	}
+	public static Simulation manufacture_Population_StAX(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		Simulation simulation = new Simulation();
+		handleLabel(simulationConfiguration, simulation);
+		handleTimestep(simulationConfiguration, simulation);
+		handleRunMode(simulationConfiguration, simulation);
+		handleStepsBetweenSaves(simulationConfiguration, simulation);
+		handleStepsInRun(simulationConfiguration, simulation);
+		handleStoppingCondition(simulationConfiguration, simulation);
+		handlePopulation_StAX(simulationConfiguration, simulation);
 		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
 				.manufacture(simulationConfiguration, simulation));
 		return simulation;
 	}
 
-	private static void handlePopulation(
+	private static void handlePopulation_DOMTree(
 			HierarchicalConfiguration simulationConfiguration,
 			Simulation simulation) throws ConfigurationException {
 		try {
@@ -64,7 +79,24 @@ public class SimulationFromXMLFactory {
 				throw new ConfigurationException(
 						CDMConfigurationException.noSimulationPopulationMessage);
 			}
-			simulation.setPopulationByFileName(populationFileName);
+			simulation.setPopulationByFileName_DOM(populationFileName);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationPopulationMessage);
+		}
+	}
+
+	private static void handlePopulation_StAX(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			String populationFileName = simulationConfiguration
+					.getString(populationLabel);
+			if (populationFileName == null) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noSimulationPopulationMessage);
+			}
+			simulation.setPopulationByFileName_StAX(populationFileName);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noSimulationPopulationMessage);

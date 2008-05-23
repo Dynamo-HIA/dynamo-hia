@@ -15,7 +15,7 @@ import javax.xml.stream.events.XMLEvent;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.IndividualStAXEventsConsumer;
+import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
 import nl.rivm.emi.cdm.obsolete.NopStAXEventConsumerBase;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationStAXEventConsumer;
@@ -49,6 +49,7 @@ public class RandomSeedStAXEventConsumer extends
 	public void consumeEvents(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
+		logHeadOfEventStream(reader, "");
 		if (elementPreCheck(reader)) {
 			handleElement(reader, mother);
 		}
@@ -68,8 +69,15 @@ public class RandomSeedStAXEventConsumer extends
 							+ "\" element.");
 		}
 		String valueString = valueAttribute.getValue();
-		Long valueLong = Long.decode(valueString);
-		((IndividualStAXEventsConsumer) mother).addRNGSeed(valueLong);
+		try{
+			Long valueLong = Long.decode(valueString);
+		((StAXIndividualEventConsumer) mother).addRNGSeed(valueLong);
+		logHeadOfEventStream(reader, "after processing attribute");
+		event = reader.nextEvent();
+		logHeadOfEventStream(reader, "one event fetched after processing attribute");
+		} catch(NumberFormatException e){
+			throw new UnexpectedFileStructureException("Long could not decode: \"" + valueString + "\"");
+		}
 	}
 
 	@Override

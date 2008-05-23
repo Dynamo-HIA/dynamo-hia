@@ -4,22 +4,23 @@ import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.characteristic.DOMCharacteristicValueInserter;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual.CharacteristicValueIterator;
+import nl.rivm.emi.cdm.prngutil.DOMRNGSeedWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class IndividualWriter {
+public class DOMIndividualWriter {
 
 	Log log = LogFactory.getLog(getClass().getName());
 
-	public IndividualWriter() {
+	public DOMIndividualWriter() {
 		super();
 	}
 
@@ -33,14 +34,15 @@ public class IndividualWriter {
 			element.setAttribute("lb", label);
 		}
 		parentElement.appendChild(element);
+		DOMRNGSeedWriter.generateDOM(individual.getRandomNumberGeneratorSeed(), element);
 		Iterator<CharacteristicValueBase> iterator = individual.iterator();
 		while (iterator.hasNext()) {
 			CharacteristicValueBase charVal = iterator.next();
 			if(charVal instanceof IntCharacteristicValue){
-			DOMCharacteristicValueInserter.generateDOM((IntCharacteristicValue)charVal, stepNumber, element);
+			DOMCharacteristicValueWriter.generateDOM((IntCharacteristicValue)charVal, stepNumber, element);
 			} else {
 				if(charVal instanceof FloatCharacteristicValue){
-					DOMCharacteristicValueInserter.generateDOM((FloatCharacteristicValue)charVal, stepNumber, element);
+					DOMCharacteristicValueWriter.generateDOM((FloatCharacteristicValue)charVal, stepNumber, element);
 				}
 				}
 			}

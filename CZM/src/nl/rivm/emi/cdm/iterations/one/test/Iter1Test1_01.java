@@ -17,7 +17,7 @@ import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.updaterules.AbstractDoubleBoundOneToOneUpdateRule;
 import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
@@ -150,7 +150,7 @@ public void setStepSize(float stepSize) {
 			log.fatal("Running longitudinal.");
 			simulation.run();
 			log.fatal("Longitudinal run complete.");
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
+			DOMPopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, longSimOutput);
 			log.fatal("Longitudinal result written.");
 		} catch (ParserConfigurationException e) {
@@ -224,9 +224,9 @@ public void setStepSize(float stepSize) {
 			simulation.setRunMode("transversal");
 			simulation.run();
 			log.fatal("Transversal run complete");
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
+			DOMPopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					numberOfSteps, transSimOutput);
-			PopulationWriter.writeToXMLFile(simulation.getPopulation(),
+			DOMPopulationWriter.writeToXMLFile(simulation.getPopulation(),
 					5, transSimOutputStep5);
 			log.fatal("Transversal result written.");
 		} catch (ParserConfigurationException e) {

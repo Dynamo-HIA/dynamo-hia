@@ -1,18 +1,21 @@
 package nl.rivm.emi.cdm.stax.test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
@@ -55,6 +58,15 @@ public class TestStAXStuff {
 	File testFileOK = new File(
 			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK.xml");
 
+	File testFileOKOutput = new File(
+	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK_output.xml");
+
+	File testFileOKStAXOutput = new File(
+	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK_StAX_output.xml");
+
+	File recycledStAXOutput = new File(
+	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/recycled_population_StAX_output.xml");
+
 	File testFileOK2 = new File(
 			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK2.xml");
 
@@ -66,7 +78,7 @@ public class TestStAXStuff {
 	public void teardown() {
 	}
 
-	@Test
+//	@Test
 	public void noFile() {
 		try {
 			log.info("<<<<<<<<<<<< Test without file. >>>>>>>>>>");
@@ -105,7 +117,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void noRootElement() {
 		try {
 			log.info("<<<<<<<<<<<< Test file without rootelement. >>>>>>>>>>");
@@ -126,7 +138,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void nonPopRootElement() {
 		try {
 			log
@@ -148,7 +160,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void sepCharVal4Stax() {
 		try {
 			log
@@ -170,7 +182,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void sepCharVal4Stax2() {
 		try {
 			log
@@ -192,7 +204,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void popRootElementOnly() {
 		try {
 			log
@@ -210,7 +222,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testFileNOK() {
 		try {
 			log.info("<<<<<<<<<<<< Test testFileNOK. >>>>>>>>>>");
@@ -230,7 +242,7 @@ public class TestStAXStuff {
 		}
 	}
 
-	@Test
+//	@Test
 	public void testFileNOK2() {
 		try {
 			log.info("<<<<<<<<<<<< Test testFileNOK2. >>>>>>>>>>");
@@ -254,23 +266,44 @@ public class TestStAXStuff {
 	public void testFileOK() {
 		try {
 			log.info("<<<<<<<<<<<< Test testFileOK. >>>>>>>>>>");
-			Object result;
-			result = StAXEntryPoint.processFile(testFileOK);
+			Object result = StAXEntryPoint.processFile(testFileOK);
 			assertNotNull(result);
 			assertTrue(result instanceof Population);
+			DOMPopulationWriter.writeToXMLFile((Population)result, 0, testFileOKOutput); 
+			StAXEntryPoint.produceFile((Population)result, testFileOKStAXOutput); 
+/* Recycle */
+			result = StAXEntryPoint.processFile(testFileOKStAXOutput);
+			assertNotNull(result);
+			assertTrue(result instanceof Population);
+			StAXEntryPoint.produceFile((Population)result, recycledStAXOutput); 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			assertNull(e); // Force error.
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			assertNull(e); // Force error.
 		} catch (UnexpectedFileStructureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNull(e); // Force error.
 		}
 	}
 
-	@Test
+//	@Test
 	public void testFileOK2() {
 		try {
 			log.info("<<<<<<<<<<<< Test testFileOK2. >>>>>>>>>>");

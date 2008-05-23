@@ -12,7 +12,7 @@ import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.population.PopulationWriter;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 
@@ -56,7 +56,7 @@ public class Test02_10_1k {
 					simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
 					sim = SimulationFromXMLFactory
-							.manufacture(simulationConfiguration);
+							.manufacture_DOMPopulationTree(simulationConfiguration);
 				} else {
 					throw new ConfigurationException(String.format(
 							"Configuration file %1$s does not exist",
@@ -84,7 +84,7 @@ public class Test02_10_1k {
 			log.fatal("Starting run.");
 			sim.run();
 			log.fatal("Run complete.");
-			PopulationWriter.writeToXMLFile(sim.getPopulation(), sim
+			DOMPopulationWriter.writeToXMLFile(sim.getPopulation(), sim
 					.getStepsInRun(), simOutput);
 			log.fatal("Result written.");
 		} catch (CDMRunException e) {

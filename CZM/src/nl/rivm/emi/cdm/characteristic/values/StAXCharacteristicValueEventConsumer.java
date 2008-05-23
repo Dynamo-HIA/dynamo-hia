@@ -9,7 +9,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.IndividualStAXEventsConsumer;
+import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
 import nl.rivm.emi.cdm.obsolete.NopStAXEventConsumerBase;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.stax.AbstractStAXElementEventConsumer;
@@ -18,11 +18,13 @@ import nl.rivm.emi.cdm.stax.AbstractStAXEventConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CharacteristicValueStAXEventsConsumer extends
+public class StAXCharacteristicValueEventConsumer extends
 		AbstractStAXElementEventConsumer {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	public CharacteristicValueStAXEventsConsumer(String xmlElementName) {
+	// TODO Pass or something...
+	final int NUMSTEPS = 10;
+	public StAXCharacteristicValueEventConsumer(String xmlElementName) {
 		super(xmlElementName);
 		log.debug("Constructing, " + xmlElementName);
 	}
@@ -38,12 +40,15 @@ public class CharacteristicValueStAXEventsConsumer extends
 	public void consumeEvents(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
+//		logHeadOfEventStream(reader, "entering consumeEvents");
+
 		if (elementPreCheck(reader)) {
-			handleMyElement(reader, mother);
+			handleElement(reader, mother);
 		}
 	}
 
-	private void handleMyElement(XMLEventReader reader,
+	@Override
+	protected void handleElement(XMLEventReader reader,
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException {
 		XMLEvent event = reader.nextEvent();
@@ -69,26 +74,22 @@ public class CharacteristicValueStAXEventsConsumer extends
 		int indexOfDot = valueString.indexOf(".");
 		if (indexOfDot != -1) {
 			Float floatValue = Float.parseFloat(valueString);
-			charVal = new FloatCharacteristicValue(1, indexInteger);
+			charVal = new FloatCharacteristicValue(NUMSTEPS, indexInteger);
 			((FloatCharacteristicValue)charVal).appendValue(floatValue);
 		} else {
 			Integer intValue = Integer.parseInt(valueString);
-			charVal = new IntCharacteristicValue(1, indexInteger);
+			charVal = new IntCharacteristicValue(NUMSTEPS, indexInteger);
 			((IntCharacteristicValue) charVal).appendValue(intValue);
 		}
-		((IndividualStAXEventsConsumer)mother).addCharacteristicValue(charVal);
+		((StAXIndividualEventConsumer)mother).addCharacteristicValue(charVal);
+//		logHeadOfEventStream(reader, "attributes processed");
+		event = reader.nextEvent();
+//		logHeadOfEventStream(reader, "one event fetched after attributes processed.");
 		} catch(CDMRunException e){
 			throw new UnexpectedFileStructureException(e.getMessage());
 		}
 	}
 
-	@Override
-	protected void handleElement(XMLEventReader reader,
-			AbstractStAXEventConsumer mother) throws XMLStreamException,
-			UnexpectedFileStructureException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void add(Object theObject) {

@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 abstract public class CharacteristicValueBase {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	String elementName;
+	static String xmlElementName;
 
 	int index;
 
@@ -16,12 +16,12 @@ abstract public class CharacteristicValueBase {
 	}
 
 	CharacteristicValueBase(String elementName, int index) {
-		this.elementName = elementName;
+		this.xmlElementName = elementName;
 		this.index = index;
 	}
 
 	public String getElementName() {
-		return elementName;
+		return xmlElementName;
 	}
 
 	public int getIndex() {
