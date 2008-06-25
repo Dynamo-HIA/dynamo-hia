@@ -1,11 +1,12 @@
 package nl.rivm.emi.cdm.characteristic;
 
-import java.util.ArrayList;
+/**
+ * Class for manufacturing a <code>Characteristic</code> <code>Object</code> 
+ * from an XML element. 
+ */
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
@@ -16,25 +17,68 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class CharacteristicFromXMLFactory {
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the index of the <Code>Characteristic</code>.
+	 */
 	public static final String indexLabel = "id";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the label of the <Code>Characteristic</code>.
+	 */
 	public static final String labelLabel = "lb";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the type of the <Code>Characteristic</code>.
+	 */
 	public static final String typeLabel = "type";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the possible values of the <Code>Characteristic</code>.
+	 */
 	public static final String possibleValuesLabel = "possiblevalues";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains a value for the <Code>Characteristic</code>.
+	 */
 	public static final String valueLabel = "vl";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the limits of the <Code>Characteristic</code>.
+	 */
 	public static final String limitsLabel = "limits";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the lower limit of the <Code>Characteristic</code>.
+	 */
 	public static final String lowerLimitLabel = "lower";
 
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the upper limit of the <Code>Characteristic</code>.
+	 */
 	public static final String upperLimitLabel = "upper";
 
+	/**
+	 * Method that creates a <code>Characteristic</code> Object from the
+	 * (sub)configuration passed to it.
+	 * 
+	 * @param characteristicConfiguration
+	 *            (sub)configuration containing data for a
+	 *            <code>Characteristic</code>.
+	 * @return A <code>Characteristic</code> Object if successfull.
+	 * @throws ConfigurationException
+	 *             When the supplied configuration does not conform to the
+	 *             expected configuration structure.
+	 */
 	public static Characteristic manufacture(
 			HierarchicalConfiguration characteristicConfiguration)
 			throws ConfigurationException {
@@ -73,6 +117,18 @@ public class CharacteristicFromXMLFactory {
 		return characteristic;
 	}
 
+	/**
+	 * Method that creates a <code>CharacteristicType</code> Object from the
+	 * (sub)configuration passed to it.
+	 * 
+	 * @param characteristicTypeConfiguration
+	 *            (sub)configuration containing data for a
+	 *            <code>AbstractCharacteristicType</code>.
+	 * @return A <code>CharacteristicType</code> Object if successfull.
+	 * @throws ConfigurationException
+	 *             When the supplied configuration does not conform to the
+	 *             expected configuration structure.
+	 */
 	private static AbstractCharacteristicType handleConfigurationType(
 			HierarchicalConfiguration characteristicConfiguration)
 			throws ConfigurationException {
@@ -100,6 +156,18 @@ public class CharacteristicFromXMLFactory {
 		}
 	}
 
+	/**
+	 * Method that instantiates a <code>CharacteristicType</code> Object from
+	 * the type<code>Class</code> passed to it.
+	 * 
+	 * @param typeClass
+	 *            <code>Class</code> to be instantiated.
+	 * @return A <code>AbstractCharacteristicType</code> Object if
+	 *         successfull.
+	 * @throws ConfigurationException
+	 *             When the supplied <Code>Class</code> cannot be
+	 *             instantiated.
+	 */
 	private static AbstractCharacteristicType instantiateTypeClass(
 			Class typeClass) throws ConfigurationException {
 		AbstractCharacteristicType type;
@@ -120,6 +188,17 @@ public class CharacteristicFromXMLFactory {
 		return type;
 	}
 
+	/**
+	 * Method that creates values and puts them in the possiblevalues of the
+	 * categorical <code>Characteristic</code> from the (sub)configuration
+	 * passed to it.
+	 * 
+	 * @param characteristicConfiguration
+	 *            (sub)configuration containing data for the possible values.
+	 * @throws ConfigurationException
+	 *             When the supplied configuration does not conform to the
+	 *             expected configuration structure.
+	 */
 	private static void fillPossibleValues(
 			HierarchicalConfiguration characteristicConfiguration,
 			AbstractCategoricalCharacteristicType catType)
@@ -154,6 +233,19 @@ public class CharacteristicFromXMLFactory {
 		}
 	}
 
+	/**
+	 * Method that creates values and puts them in the limits of the continuous
+	 * <code>Characteristic</code> from the (sub)configuration passed to it.
+	 * 
+	 * @param characteristicConfiguration
+	 *            (sub)configuration containing data for the possible values.
+	 * @param catType
+	 *            The <code>CharacteristicType</code> Object that should be
+	 *            filled.
+	 * @throws ConfigurationException
+	 *             When the supplied configuration does not conform to the
+	 *             expected configuration structure.
+	 */
 	public static void fillLimits(
 			HierarchicalConfiguration characteristicConfiguration,
 			AbstractContinuousCharacteristicType catType)

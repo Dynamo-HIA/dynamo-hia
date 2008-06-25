@@ -1,7 +1,7 @@
 package nl.rivm.emi.cdm.characteristic;
 
 /**
- * Class to contain the configured characteristics for the
+ * Class to contain the configured <code>Characteristic</code>s for the
  * model. User indices are one up, internal storage is zero up.
  * This is a Singleton.
  */
@@ -11,17 +11,29 @@ import java.util.TreeMap;
 
 public class CharacteristicsConfigurationMapSingleton extends
 		TreeMap<Integer, Characteristic> {
+/**
+ * The one and only instance of this Class.
+ */
 	private static CharacteristicsConfigurationMapSingleton instance = null;
 
 	/**
-	 * 
+	 * The Class is <code>Serializable</code> and needs s <code>serialVersionUID</code>
+	 * to avoid warnings.
 	 */
 	private static final long serialVersionUID = 2302958719022314338L;
 
+	/**
+	 * Private default constructor to enforce singleton-ness.
+	 *
+	 */
 	private CharacteristicsConfigurationMapSingleton() {
 		super();
 	}
 
+	/**
+	 * Method to get the reference to the single instance of this <code>Class</code>.
+	 * @return
+	 */
 	public static synchronized CharacteristicsConfigurationMapSingleton getInstance() {
 		if (instance == null) {
 			instance = new CharacteristicsConfigurationMapSingleton();

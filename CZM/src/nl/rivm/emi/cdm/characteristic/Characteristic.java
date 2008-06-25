@@ -7,7 +7,10 @@ import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractContinuousCharacteristicType;
 
 /**
- * Characteristics each have a unique base one index among themselves.
+ * The Class <code>Characteristic</code> is an abstraction for both
+ * diseases and riskfactors.
+ * In a <code>Simulation</code> environment the <code>Characteristics</code> 
+ * must each have a unique base one index.
  * 
  */
 public class Characteristic {
@@ -27,41 +30,91 @@ public class Characteristic {
 	 */
 	private AbstractCharacteristicType type = null;
 
+/**
+ * <code>elementName</code> representing this <code>Object</code> 
+ * in XML configurationfiles.
+ */
 	public static final String xmlElementName = "ch";
 
-	public Characteristic() {
+/**
+ * Default constructor, initializing nothing.
+ *
+ */	public Characteristic() {
 		super();
 	}
-
+ 
+/**
+ * Constructor initializing the index of the disease in the 
+ * collection of risk-factors and the name of the 
+ * <code>Characteristic</code>
+ * @param index The index of the disease in the 
+ * collection of risk-factors.
+ * @param label The name of the <code>Characteristic</code>.
+ */
 	public Characteristic(int index, String label) {
 		this.index = index;
 		this.label = label;
 	}
 
+	/**
+	 * Setter initializing the index of the disease in the 
+	 * collection of risk-factors.
+	 * @param index The index of the disease in the 
+	 * collection of risk-factors.
+	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
+	/**
+	 * Getter retrieving the index of the disease in the 
+	 * collection of risk-factors.
+	 * @return index The index of the disease in the 
+	 * collection of risk-factors.
+	 */
 	public int getIndex() {
 		return index;
 	}
 
+	/**
+	 * Setter for the label of the disease.
+	 * @param label The label of the disease.
+	 */
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
+	/**
+	 * Getter for the label of the disease.
+	 * @return label The label of the disease.
+	 */
 	public String getLabel() {
 		return label;
 	}
 
-	public AbstractCharacteristicType getType() {
-		return type;
-	}
-
+	/**
+	 * Setter for the type of the disease.
+	 * @param type The type of the disease.
+	 */
 	public void setType(AbstractCharacteristicType type) {
 		this.type = type;
 	}
 
+	/**
+	 * Getter for the type of the disease.
+	 * @return type The type of the disease.
+	 */
+	public AbstractCharacteristicType getType() {
+		return type;
+	}
+
+	/**
+	 * Getter for the possible value at the <code>index</code> of the 
+	 * <code>Characteristic</code> if any.
+	 * Works for categorical <code>CharacteristicType</code>s only.
+	 * @param index Index in the array of possible values.
+	 * @return The type of the <code>Characteristic</code>.
+	 */
 	public String getPossibleValue(int index) {
 		String possibleValue = null;
 		if (type instanceof AbstractCategoricalCharacteristicType) {
@@ -70,6 +123,12 @@ public class Characteristic {
 		return possibleValue;
 	}
 
+	/**
+	 * Getter for the lower limit of the value-range
+	 * <code>Characteristic</code>.
+	 * Works for continuous <code>CharacteristicType</code>s only.
+	 * @return The lower limit of the value-range.
+	 */
 	public Float getLowerLimit() {
 		Float lowerLimit = null;
 		if (type instanceof AbstractContinuousCharacteristicType) {
@@ -78,6 +137,12 @@ public class Characteristic {
 		return lowerLimit;
 	}
 
+	/**
+	 * Getter for the upper limit of the value-range
+	 * <code>Characteristic</code>.
+	 * Works for continuous <code>CharacteristicType</code>s only.
+	 * @return The upper limit of the value-range.
+	 */
 	public Float getUpperLimit() {
 		Float upperLimit = null;
 		if (type instanceof AbstractContinuousCharacteristicType) {
@@ -110,14 +175,16 @@ public class Characteristic {
 		return thisWhenValid;
 	}
 
+	/**
+	 * Dumps the <code>Characteristic</code> instance's content in a human 
+	 * readable form.
+	 * 
+	 * @return The <code>String</code> with the report.
+	 */
 	public String humanreadableReport() {
 		StringBuffer resultBuffer = new StringBuffer();
 		resultBuffer.append(label + "\n");
 		resultBuffer.append(type.humanReadableReport());
-		// for(int count = 0; count< possibleValues.size(); count++){
-		// resultBuffer.append("Possible value at index " + (count+1) + " value
-		// " + possibleValues.get(count));
-		// }
 		return resultBuffer.toString();
 	}
 }

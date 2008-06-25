@@ -44,7 +44,8 @@ public class StAXTest02_10_100k {
 
 	@Before
 		public void setup() throws ConfigurationException {
-			System.out.println(preCharConfig);
+			log.fatal("Processing: " + preCharConfig);
+			log.fatal("Starting setup().");
 			try {
 				File multipleCharacteristicsFile = new File(
 						preCharConfig);
