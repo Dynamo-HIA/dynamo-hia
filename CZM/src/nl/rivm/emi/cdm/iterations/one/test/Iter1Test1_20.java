@@ -18,9 +18,9 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
+import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.containment.UpdateRuleRepository;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -363,7 +363,7 @@ public class Iter1Test1_20 {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.updaterules.containment.test.TestUpdateRuleContainers.class);
+				nl.rivm.emi.cdm.rules.update.containment.test.TestUpdateRuleContainers.class);
 	}
 
 }

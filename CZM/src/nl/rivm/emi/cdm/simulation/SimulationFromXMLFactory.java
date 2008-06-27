@@ -3,7 +3,7 @@ package nl.rivm.emi.cdm.simulation;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.updaterules.UpdateRules4SimulationFromXMLFactory;
+import nl.rivm.emi.cdm.rules.update.UpdateRules4SimulationFromXMLFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;

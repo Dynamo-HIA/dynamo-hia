@@ -4,12 +4,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+
+import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
 import org.apache.commons.logging.Log;
@@ -49,10 +50,16 @@ public class TestPopulationThroughSTaxFactory {
 			population = (Population) StAXEntryPoint
 					.processFile(testFileNOK);
 			assertNull(population);
-		} catch (CDMConfigurationException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+			} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnexpectedFileStructureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -64,10 +71,16 @@ public class TestPopulationThroughSTaxFactory {
 			population = (Population) StAXEntryPoint
 					.processFile(testFileNOK2);
 			assertNull(population);
-		} catch (CDMConfigurationException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnexpectedFileStructureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -79,10 +92,16 @@ public class TestPopulationThroughSTaxFactory {
 			population = (Population) StAXEntryPoint
 					.processFile(testFileOK);
 			assertNotNull(population);
-		} catch (CDMConfigurationException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnexpectedFileStructureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -94,38 +113,44 @@ public class TestPopulationThroughSTaxFactory {
 			population = (Population) StAXEntryPoint
 					.processFile(testFileOK2);
 			assertNotNull(population);
-		} catch (CDMConfigurationException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnexpectedFileStructureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	private void checkResult(Population population) {
-		log.debug("Checking Object Tree");
-		try {
-			if (population != null) {
-				log.debug("Population present, contains " + population.size()
-						+ " individual(s).");
-				for (int count = 0; count < population.size(); count++) {
-					Individual indy = population.nextIndividual();
-					log.debug("Individual contains " + indy.size()
-							+ " CharacteristicValue(s).");
-					for (int charCount = 0; charCount < indy.size(); charCount++) {
-						log
-								.debug("CharacteristicValue at index "
-										+ charCount
-										+ " has value "
-										+ ((IntCharacteristicValue) indy
-												.get(charCount)).getValue());
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.warn("Something blew up in checkResult. Exc: "
-					+ e.getClass().getName() + " message: " + e.getMessage());
-		}
-	}
+//	private void checkResult(Population population) {
+//		log.debug("Checking Object Tree");
+//		try {
+//			if (population != null) {
+//				log.debug("Population present, contains " + population.size()
+//						+ " individual(s).");
+//				for (int count = 0; count < population.size(); count++) {
+//					Individual indy = population.nextIndividual();
+//					log.debug("Individual contains " + indy.size()
+//							+ " CharacteristicValue(s).");
+//					for (int charCount = 0; charCount < indy.size(); charCount++) {
+//						log
+//								.debug("CharacteristicValue at index "
+//										+ charCount
+//										+ " has value "
+//										+ ((IntCharacteristicValue) indy
+//												.get(charCount)).getValue());
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			log.warn("Something blew up in checkResult. Exc: "
+//					+ e.getClass().getName() + " message: " + e.getMessage());
+//		}
+//	}
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(

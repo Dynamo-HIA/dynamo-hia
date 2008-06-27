@@ -7,9 +7,9 @@ import java.util.TreeMap;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
-import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.ConfigurationEntryPoint;
-import nl.rivm.emi.cdm.updaterules.base.NeedsSeed;
+import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.NeedsSeed;
+import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<newborngenerator>
+   <lb>generatorname</lb>
+   <populationsize>12</populationsize>
+   <rngclassname>java.util.Random</rngclassname>
+   <rngseed>12</rngseed>
+   <characteristics>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+   </characteristics>
+  <generatingrules>
+      <generatingrule>
+         <characteristicid>1</characteristicid>
+         <classname>nl.rivm.emi.cdm.generatingrules.SexOneToOnegeneratingRule</classname>
+         <configurationfile>filepath</configurationfile>
+      </generatingrule>
+      <generatingrule>
+         <characteristicid>2</characteristicid>
+         <classname>nl.rivm.emi.cdm.generatingrules.AgeOneToOnegeneratingRule</classname>
+         <configurationfile>filepath</configurationfile>
+      </generatingrule>
+      <generatingrule>
+         <characteristicid>3</characteristicid>
+         <classname>thename</classname>
+         <configurationfile>filepath</configurationfile>
+      </generatingrule> 
+   </generatingrules>
+</newborngenerator>

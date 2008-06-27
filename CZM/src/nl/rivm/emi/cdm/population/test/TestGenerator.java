@@ -258,7 +258,7 @@ public class TestGenerator {
 					.manufacture(configuration);
 			assertNotNull(generator);
 			assertNotNull(generator.isValid());
-			generator.generateNewbornsWithAllZeroes();
+			generator.generateNewborns();
 		} catch (CDMConfigurationException e) {
 			log.warn(e.getMessage());
 			assertNull(e); // Force error.
@@ -280,7 +280,7 @@ public class TestGenerator {
 			assertNotNull(generator);
 			assertNotNull(generator.isValid());
 			log.fatal("Generating 100k population.");
-			generator.generateNewbornsWithAllZeroes();
+			generator.generateNewborns();
 			log.fatal("100k population ready.");
 		} catch (CDMConfigurationException e) {
 			log.warn(e.getMessage());
@@ -303,7 +303,7 @@ public class TestGenerator {
 			assertNotNull(generator);
 			assertNotNull(generator.isValid());
 			log.fatal("Generating 100k population with MersenneTwisterRNG.");
-			generator.generateNewbornsWithAllZeroes();
+			generator.generateNewborns();
 			log.fatal("100k population ready with MersenneTwisterRNG.");
 		} catch (CDMConfigurationException e) {
 			log.warn(e.getMessage());

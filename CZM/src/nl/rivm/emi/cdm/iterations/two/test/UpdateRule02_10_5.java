@@ -8,12 +8,12 @@ import java.util.TreeMap;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
-import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
-import nl.rivm.emi.cdm.updaterules.base.ManyToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.ConfigurationEntryPoint;
-import nl.rivm.emi.cdm.updaterules.base.NeedsSeed;
-import nl.rivm.emi.cdm.updaterules.base.StepSizeSpecific;
+import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
+import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.NeedsSeed;
+import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.StepSizeSpecific;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;

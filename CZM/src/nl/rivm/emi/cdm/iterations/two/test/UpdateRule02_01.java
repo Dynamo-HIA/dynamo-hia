@@ -1,9 +1,9 @@
 package nl.rivm.emi.cdm.iterations.two.test;
 
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.updaterules.base.CharacteristicSpecific;
-import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.StepSizeSpecific;
+import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
+import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.StepSizeSpecific;
 
 /**
  * Update rule for incrementing the age Characteristic. Has been made specific

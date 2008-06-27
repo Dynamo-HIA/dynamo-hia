@@ -122,7 +122,7 @@ public class Generator {
 		return success;
 	}
 
-	public File generateNewbornsWithAllZeroes()
+	public File generateNewborns()
 			throws CDMConfigurationException {
 		CharacteristicsConfigurationMapSingleton charConf = CharacteristicsConfigurationMapSingleton
 				.getInstance();
@@ -191,8 +191,9 @@ public class Generator {
 				Random rngInstance = (Random) rngClass.newInstance();
 				rngInstance.setSeed((long) rngSeed);
 				for (int count = 1; count <= populationSize; count++) {
-					writeIndividual(output, count, rngInstance.nextLong());
-				}
+//					writeIndividual(output, count, rngInstance.nextLong());
+					writeIndividual(output, count, rngInstance);
+								}
 			}
 		} catch (ClassNotFoundException e) {
 			throw new CDMConfigurationException(String.format(
@@ -207,27 +208,30 @@ public class Generator {
 		output.writeEndElement();
 	}
 
-	private void writeIndividual(XMLStreamWriter output, int count, long rngSeed)
+	private void writeIndividual(XMLStreamWriter output, int count, Random rnGenerator)
 			throws XMLStreamException, CDMConfigurationException {
 		output.writeStartElement(Individual.xmlElementName);
 		output.writeAttribute("lb", "ind_" + count);
 		output.writeCharacters("\n");
-		output.writeStartElement(RandomConstants.xmlElementName);
-		output.writeCharacters(String.valueOf(rngSeed));
-		output.writeEndElement();
-		output.writeCharacters("\n");
+//		output.writeEmptyElement(RandomConstants.xmlElementName);
+//		output.writeAttribute("rngseed", String.valueOf(rngSeed));
+//		output.writeCharacters("\n");
 		for (int cCount = 0; cCount < characteristicIds.size(); cCount++) {
-			writeCharacteristic(output, cCount);
+			writeCharacteristic(output, cCount, rnGenerator);
 		}
 		output.writeEndElement();
 		output.writeCharacters("\n");
 	}
 
-	private void writeCharacteristic(XMLStreamWriter output, int count)
+	private void writeCharacteristic(XMLStreamWriter output, int count, Random pRNG)
 			throws XMLStreamException {
 		output.writeEmptyElement(Characteristic.xmlElementName);
 		output.writeAttribute("id", characteristicIds.get(count).toString());
 		output.writeAttribute("vl", "0");
+		rngSeed = pRNG.nextLong();
+		output.writeAttribute("rs", String.valueOf(rngSeed));
 		output.writeCharacters("\n");
+//		output.writeEmptyElement(RandomConstants.xmlElementName);
+//		output.writeCharacters("\n");
 	}
 }

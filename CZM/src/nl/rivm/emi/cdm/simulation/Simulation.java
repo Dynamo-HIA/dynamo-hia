@@ -20,11 +20,11 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
+import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
+import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
-import nl.rivm.emi.cdm.updaterules.base.ManyToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker;
-import nl.rivm.emi.cdm.updaterules.containment.UpdateRules4Simulation;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

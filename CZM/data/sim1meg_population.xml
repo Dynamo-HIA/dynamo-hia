@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<!-- Shiny. -->
+<pop>
+<ind lb="Pietje" >
+<charval id="1" vl="42" />
+</ind>
+<ind lb="Jantje" >
+<charval id="1" vl="21" />
+</ind>
+<ind lb="Klaasje" >
+<charval id="1" vl="12" />
+</ind>
+<ind lb="Keesje" >
+<charval id="1" vl="8" />
+</ind>
+<ind lb="Roeltje" >
+<charval id="1" vl="13" />
+</ind>
+<ind lb="Gertje" >
+<charval id="1" vl="2" />
+</ind>
+<ind lb="Jantje" >
+<charval id="1" vl="4" />
+</ind>
+<ind lb="Xavier" >
+<charval id="1" vl="8" />
+</ind>
+<ind lb="Job" >
+<charval id="1" vl="7" />
+</ind>
+</pop>

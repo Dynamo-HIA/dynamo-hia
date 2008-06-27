@@ -1,2 +1,3 @@
 <?xml version="1.0" ?>
-<charval/>
+<!-- Value not an integer -->
+<charval id="1" vl="abc" />
