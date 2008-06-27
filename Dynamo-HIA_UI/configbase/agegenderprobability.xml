@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE probabilities SYSTEM "probabilities.dtd">
+<probabilities>
+<probability age="0" gender="female">0,1</probability>
+<probability age="0" gender="male">0,2</probability>
+<probability age="1" gender="female">0,3</probability>
+<probability age="1" gender="male">0,4</probability>
+<probability age="2" gender="female">0,5</probability>
+<probability age="2" gender="male">0,6</probability>
+<probability age="3" gender="female">0,7</probability>
+<probability age="3" gender="male">0,8</probability>
+</probabilities>
