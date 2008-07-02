@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.validators;
+package nl.rivm.emi.dynamo.databinding.validators;
 
 import org.eclipse.core.databinding.validation.IValidator;
 import org.eclipse.core.databinding.validation.ValidationStatus;

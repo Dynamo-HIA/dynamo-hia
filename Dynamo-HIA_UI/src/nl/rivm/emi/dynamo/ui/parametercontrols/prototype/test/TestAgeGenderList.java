@@ -1,14 +1,23 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols.test;
+package nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.dynamo.databinding.validators.AfterGetFromViewAgeValidator;
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer.DummyElement;
+import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.AgeGenderDatabindingPrototype;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -23,12 +32,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLists {
-	Log log = LogFactory.getLog(getClass().getName());
+public class TestAgeGenderList {
+//	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
 	Composite container = null;
-
 
 	@Before
 	public void setup() {
@@ -50,6 +58,7 @@ public class TestLists {
 
 	@After
 	public void teardown() {
+		shell.pack();
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -59,41 +68,15 @@ public class TestLists {
 	}
 
 	@Test
-	public void ageGenderList() {
-		DatabindableAgeGenderRow[] rows = { new DatabindableAgeGenderRow(0, 1F, 2F),
-				new DatabindableAgeGenderRow(1, 2F, 3F), new DatabindableAgeGenderRow(2, 3F, 4F),
-				new DatabindableAgeGenderRow(3, 4F, 5F), new DatabindableAgeGenderRow(4, 5F, 6F),
-				new DatabindableAgeGenderRow(5, 6F, 7F), new DatabindableAgeGenderRow(6, 7F, 8F),
-				new DatabindableAgeGenderRow(7, 8F, 9F) };
-		shell.setText("AgeGenderList");
-		AgeGenderList testComposite = new AgeGenderList(container,
-				SWT.V_SCROLL);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
+	public void runSnippet11() {
+		Runnable snippet11 = new AgeGenderDatabindingPrototype(container);
+		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
+				snippet11);
 	}
 
-
-	@Test
-	public void yearIntegerList() {
-		YearIntegerDataRow[] rows = { new YearIntegerDataRow(1984, 1234),
-				new YearIntegerDataRow(1985, 2345), new YearIntegerDataRow(1986, 3456),
-				new YearIntegerDataRow(1987, 456789), new YearIntegerDataRow(1989, 67890),
-				new YearIntegerDataRow(1990, 56789), new YearIntegerDataRow(1991, 78345),
-				new YearIntegerDataRow(1992, 87654) };
-		shell.setText("YearIntegerList");
-		YearIntegerList testComposite = new YearIntegerList(container,
-				SWT.V_SCROLL);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
+	public static junit.framework.Test suite() {
+		return new JUnit4TestAdapter(
+				nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.TestAgeGenderList.class);
 	}
 
-	@Test
-	public void demoTableViewer(){
-		DummyElement[] datas = new DummyElement[] {
-			new DummyElement(new RGB(255, 12, 40), "row1col2", "row1col3"),
-			new DummyElement(new RGB(70, 255, 40), "row2col2", "row2col3") };
-
-		DemoTableViewer idt = new DemoTableViewer();
-			idt.put(container, datas);
-	}
 }

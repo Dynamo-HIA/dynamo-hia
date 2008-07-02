@@ -36,7 +36,7 @@ public class AgeGenderList extends Composite {
 		label.setLayoutData(layoutData);
 	}
 
-	public void putData(AgeGenderRow[] rows) {
+	public void putData(DatabindableAgeGenderRow[] rows) {
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 //		label.setBackground(new Color(null, 0xee, 0x00, 0x00));
@@ -50,7 +50,7 @@ public class AgeGenderList extends Composite {
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 
-		for (AgeGenderRow row : rows) {
+		for (DatabindableAgeGenderRow row : rows) {
 			Label label = new Label( this, SWT.NONE);
 			label.setText(row.getAgeAsString());
 //			label.setBackground(new Color(null, 0xee, 0x00, 0x00));

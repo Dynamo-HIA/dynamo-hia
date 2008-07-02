@@ -1,10 +1,10 @@
-package nl.rivm.emi.dynamo.data.validators.test;
+package nl.rivm.emi.dynamo.databinding.validators.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import nl.rivm.emi.dynamo.data.validators.AgeValidator;
+import nl.rivm.emi.dynamo.databinding.validators.AfterGetFromViewAgeValidator;
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderRow;
+import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
@@ -41,7 +41,7 @@ public class TestValidators {
 
 	@Test
 	public void ageValidatorNoValueString() {
-		AgeValidator ageValidator = new AgeValidator();
+		AfterGetFromViewAgeValidator ageValidator = new AfterGetFromViewAgeValidator();
 		IStatus validationStatus = (IStatus) ageValidator.validate("Aap");
 		assertTrue( validationStatus  instanceof IStatus);
 		assertFalse(validationStatus .isOK());
@@ -49,7 +49,7 @@ public class TestValidators {
 	
 	@Test
 	public void ageValidatorWrongValueString() {
-		AgeValidator ageValidator = new AgeValidator();
+		AfterGetFromViewAgeValidator ageValidator = new AfterGetFromViewAgeValidator();
 		IStatus validationStatus = (IStatus) ageValidator.validate("101");
 		assertTrue( validationStatus instanceof IStatus);
 		assertFalse(validationStatus.isOK());
@@ -57,7 +57,7 @@ public class TestValidators {
 	
 	@Test
 	public void ageValidatorRightValueString() {
-		AgeValidator ageValidator = new AgeValidator();
+		AfterGetFromViewAgeValidator ageValidator = new AfterGetFromViewAgeValidator();
 		IStatus validationStatus = (IStatus) ageValidator.validate("42");
 		assertTrue( validationStatus instanceof IStatus);
 		assertTrue(validationStatus.isOK());
@@ -65,7 +65,7 @@ public class TestValidators {
 	
 	@Test
 	public void ageValidatorWrongInteger() {
-		AgeValidator ageValidator = new AgeValidator();
+		AfterGetFromViewAgeValidator ageValidator = new AfterGetFromViewAgeValidator();
 		IStatus validationStatus = (IStatus) ageValidator.validate(new Integer(101));
 		assertTrue( validationStatus instanceof IStatus);
 		assertFalse(validationStatus.isOK());
@@ -73,7 +73,7 @@ public class TestValidators {
 	
 	@Test
 	public void ageValidatorRightInteger() {
-		AgeValidator ageValidator = new AgeValidator();
+		AfterGetFromViewAgeValidator ageValidator = new AfterGetFromViewAgeValidator();
 		IStatus validationStatus = (IStatus) ageValidator.validate(new Integer(42));
 		assertTrue( validationStatus instanceof IStatus);
 		assertTrue(validationStatus.isOK());

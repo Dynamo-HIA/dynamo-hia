@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols;
+package nl.rivm.emi.dynamo.ui.parametercontrols.prototype;
 public class AgeGenderRow {
 	public Float age;
 	public Float femaleParam;
