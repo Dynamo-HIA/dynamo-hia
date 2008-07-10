@@ -61,7 +61,6 @@ public class TestSimplifiedFileTreeViewer {
 	 * Runs main program.
 	 */
 	public static void main (String [] args) {
-		SimpleFileTreeViewer application = new SimpleFileTreeViewer();
 		Shell shell = application.open(display);
 		while (! shell.isDisposed()) {
 			if (! display.readAndDispatch()) display.sleep();
