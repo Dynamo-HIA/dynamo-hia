@@ -1,14 +1,24 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols.test;
+package nl.rivm.emi.dynamo.ui.treecontrol.test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.dynamo.databinding.validators.AfterGetFromViewAgeValidator;
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer.DummyElement;
+import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.AgeGenderDatabindingPrototype;
+import nl.rivm.emi.dynamo.ui.treecontrol.SimpleFileTreeViewer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.Realm;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
@@ -23,12 +33,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLists {
-	Log log = LogFactory.getLog(getClass().getName());
+public class TestSimplifiedFileTreeViewer {
+//	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
 	Composite container = null;
-
 
 	@Before
 	public void setup() {
@@ -48,8 +57,25 @@ public class TestLists {
 		container.setBackground(new Color(null, 0x00, 0x00, 0xee));
 	}
 
+	/**
+	 * Runs main program.
+	 */
+	public static void main (String [] args) {
+		SimpleFileTreeViewer application = new SimpleFileTreeViewer();
+		Shell shell = application.open(display);
+		while (! shell.isDisposed()) {
+			if (! display.readAndDispatch()) display.sleep();
+		}
+		application.close();
+		display.dispose();
+	}
+
+
+	
+	
 	@After
 	public void teardown() {
+		shell.pack();
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -59,41 +85,15 @@ public class TestLists {
 	}
 
 	@Test
-	public void ageGenderList() {
-		DatabindableAgeGenderRow[] rows = { new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow() };
-		shell.setText("AgeGenderList");
-		AgeGenderList testComposite = new AgeGenderList(container,
-				SWT.V_SCROLL);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
+	public void runSnippet11() {
+		Runnable agdbPrototype = new AgeGenderDatabindingPrototype(container);
+		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
+				agdbPrototype);
 	}
 
-
-	@Test
-	public void yearIntegerList() {
-		YearIntegerDataRow[] rows = { new YearIntegerDataRow(1984, 1234),
-				new YearIntegerDataRow(1985, 2345), new YearIntegerDataRow(1986, 3456),
-				new YearIntegerDataRow(1987, 456789), new YearIntegerDataRow(1989, 67890),
-				new YearIntegerDataRow(1990, 56789), new YearIntegerDataRow(1991, 78345),
-				new YearIntegerDataRow(1992, 87654) };
-		shell.setText("YearIntegerList");
-		YearIntegerList testComposite = new YearIntegerList(container,
-				SWT.SCROLL_LINE);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
+	public static junit.framework.Test suite() {
+		return new JUnit4TestAdapter(
+				nl.rivm.emi.dynamo.ui.treecontrol.test.TestSimplifiedFileTreeViewer.class);
 	}
 
-	@Test
-	public void demoTableViewer(){
-		DummyElement[] datas = new DummyElement[] {
-			new DummyElement(new RGB(255, 12, 40), "row1col2", "row1col3"),
-			new DummyElement(new RGB(70, 255, 40), "row2col2", "row2col3") };
-
-		DemoTableViewer idt = new DemoTableViewer();
-			idt.put(container, datas);
-	}
 }

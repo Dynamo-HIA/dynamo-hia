@@ -69,9 +69,9 @@ public class TestAgeGenderList {
 
 	@Test
 	public void runSnippet11() {
-		Runnable snippet11 = new AgeGenderDatabindingPrototype(container);
+		Runnable agdbPrototype = new AgeGenderDatabindingPrototype(container);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-				snippet11);
+				agdbPrototype);
 	}
 
 	public static junit.framework.Test suite() {

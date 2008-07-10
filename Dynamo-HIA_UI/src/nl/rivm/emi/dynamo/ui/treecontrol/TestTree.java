@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols.test;
+package nl.rivm.emi.dynamo.ui.treecontrol;
 
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLists {
+public class TestTree {
 	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
@@ -82,7 +82,7 @@ public class TestLists {
 				new YearIntegerDataRow(1992, 87654) };
 		shell.setText("YearIntegerList");
 		YearIntegerList testComposite = new YearIntegerList(container,
-				SWT.SCROLL_LINE);
+				SWT.V_SCROLL);
 		testComposite.putData(rows);
 		// testComposite.putTestLabel(testComposite);
 	}
