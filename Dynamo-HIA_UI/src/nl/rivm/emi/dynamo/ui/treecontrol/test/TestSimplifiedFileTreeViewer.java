@@ -61,16 +61,13 @@ public class TestSimplifiedFileTreeViewer {
 	 * Runs main program.
 	 */
 	public static void main (String [] args) {
-		Shell shell = application.open(display);
-		while (! shell.isDisposed()) {
-			if (! display.readAndDispatch()) display.sleep();
-		}
-		application.close();
-		display.dispose();
+//		Shell shell = application.open(display);
+//		while (! shell.isDisposed()) {
+//			if (! display.readAndDispatch()) display.sleep();
+//		}
+//		application.close();
+//		display.dispose();
 	}
-
-
-	
 	
 	@After
 	public void teardown() {

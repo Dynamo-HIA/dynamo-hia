@@ -8,7 +8,8 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.ui.treecontrol.examples;
+
 
 
 import org.eclipse.swt.*;
@@ -27,7 +28,7 @@ import java.util.*;
 /**
  * File Viewer example
  */
-public class FileTreeViewer { 
+public class Example_FileTreeViewer { 
  	private static ResourceBundle resourceBundle = ResourceBundle.getBundle("examples_fileviewer");
 
 	private final static String DRIVE_A = "a:" + File.separator;
@@ -84,10 +85,10 @@ public class FileTreeViewer {
 		// File: Currently visible directory
 	private static final int[] tableWidths = new int[] {150, 60, 75, 150};
 	private final String[] tableTitles = new String [] {
-		FileTreeViewer.getResourceString("table.Name.title"),
-		FileTreeViewer.getResourceString("table.Size.title"),
-		FileTreeViewer.getResourceString("table.Type.title"),
-		FileTreeViewer.getResourceString("table.Modified.title")
+		Example_FileTreeViewer.getResourceString("table.Name.title"),
+		Example_FileTreeViewer.getResourceString("table.Size.title"),
+		Example_FileTreeViewer.getResourceString("table.Type.title"),
+		Example_FileTreeViewer.getResourceString("table.Modified.title")
 	};
 	private Table table;
 	private Label tableContentsOfLabel;
@@ -118,7 +119,7 @@ public class FileTreeViewer {
 	 */
 	public static void main (String [] args) {
 		Display display = new Display ();
-		FileTreeViewer application = new FileTreeViewer();
+		Example_FileTreeViewer application = new Example_FileTreeViewer();
 		Shell shell = application.open(display);
 		while (! shell.isDisposed()) {
 			if (! display.readAndDispatch()) display.sleep();
@@ -389,7 +390,7 @@ public class FileTreeViewer {
 		composite.setLayout(gridLayout);
 
 		treeScopeLabel = new Label(composite, SWT.BORDER);
-		treeScopeLabel.setText(FileTreeViewer.getResourceString("details.AllFolders.text"));
+		treeScopeLabel.setText(Example_FileTreeViewer.getResourceString("details.AllFolders.text"));
 		treeScopeLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
 
 		tree = new Tree(composite, SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.SINGLE);
@@ -590,7 +591,7 @@ public class FileTreeViewer {
 		dirItem.setData(TREEITEMDATA_STUB, this); // clear stub flag
 
 		/* Get directory listing */
-		File[] subFiles = (dir != null) ? FileTreeViewer.getDirectoryList(dir) : null;
+		File[] subFiles = (dir != null) ? Example_FileTreeViewer.getDirectoryList(dir) : null;
 		if (subFiles == null || subFiles.length == 0) {
 			/* Error or no contents */
 			treeItemRemoveAll(dirItem);
@@ -1512,7 +1513,7 @@ public class FileTreeViewer {
 		// Clear existing information
 		display.syncExec(new Runnable() {
 			public void run() {
-				tableContentsOfLabel.setText(FileTreeViewer.getResourceString("details.ContentsOf.text",
+				tableContentsOfLabel.setText(Example_FileTreeViewer.getResourceString("details.ContentsOf.text",
 					new Object[] { workerStateDir.getPath() }));
 				table.removeAll();
 				table.setData(TABLEDATA_DIR, workerStateDir);

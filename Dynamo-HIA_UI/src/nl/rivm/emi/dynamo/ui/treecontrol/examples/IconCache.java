@@ -8,7 +8,8 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.ui.treecontrol.examples;
+
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.examples.fileviewer.FileViewer;
@@ -85,7 +86,7 @@ class IconCache {
 				if (image == null) {
 					freeResources();
 					throw new IllegalStateException(
-						FileTreeViewer.getResourceString("error.CouldNotLoadResources"));
+						Example_FileTreeViewer.getResourceString("error.CouldNotLoadResources"));
 				}
 				stockImages[i] = image;
 			}
