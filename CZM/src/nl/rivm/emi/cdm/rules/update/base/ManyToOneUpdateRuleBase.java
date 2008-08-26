@@ -15,22 +15,11 @@ public abstract class ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 	}
 
 	/**
-	 * Override, this is just a very finicky example.
-	 * 
 	 * @param currentValues
 	 * @return The Result when AOK, null when a parameter is missing, a
 	 *         ConfigurationException when the types of the parameters do not
 	 *         match.
 	 * @throws CDMUpdateRuleException 
 	 */
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
-		Object justAnObject = new Object();
-		for (Object inputObj : currentValues) {
-			if (inputObj == null) {
-				justAnObject = null;
-				break;
-			}
-		}
-		return justAnObject;
-	}
+	public abstract Object update(Object[] currentValues) throws CDMUpdateRuleException;
 }
