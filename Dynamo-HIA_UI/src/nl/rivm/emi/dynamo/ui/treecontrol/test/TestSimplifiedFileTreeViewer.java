@@ -1,27 +1,12 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.databinding.validators.AfterGetFromViewAgeValidator;
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer.DummyElement;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.AgeGenderDatabindingPrototype;
-import nl.rivm.emi.dynamo.ui.treecontrol.SimpleFileTreeViewer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.validation.ValidationStatus;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;

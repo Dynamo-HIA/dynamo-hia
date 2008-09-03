@@ -1,11 +1,12 @@
 package nl.rivm.emi.dynamo.data;
 
-public class Gender {
+public class BiGender {
+	static public int NUMBER_OF_CLASSES = 2;
 	static public int MINIMUM_VALUE = 0;
 	static public int MAXIMUM_VALUE = 1;
 	static public String labels[] = { "female", "male" };
 
-	private Gender() {
+	private BiGender() {
 	}
 
 	/**

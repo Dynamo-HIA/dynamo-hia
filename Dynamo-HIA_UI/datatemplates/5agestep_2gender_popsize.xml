@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<age_gender_steppeddata>
+	<agesteppedcontainer agestep="1" numsteps="5">
+		<age value="0">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="1">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="2">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="3">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="4">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+	</agesteppedcontainer>
+</age_gender_steppeddata>
