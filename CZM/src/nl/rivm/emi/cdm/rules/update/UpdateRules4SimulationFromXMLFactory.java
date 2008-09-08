@@ -100,7 +100,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 			UpdateRuleMarker updateRuleInstance = loadAndCheckUpdateRuleClass(updateRuleClassName);
 			if (updateRuleInstance == null) {
 				throw new ConfigurationException(
-						CDMConfigurationException.invalidUpdateRuleClassNameMessage);
+						CDMConfigurationException.invalidUpdateRuleClassNameMessage + updateRuleClassName);
 			}
 			if (updateRuleInstance instanceof CharacteristicSpecific) {
 				((CharacteristicSpecific) updateRuleInstance)
@@ -165,7 +165,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 		try {
 			updateRuleClass = classLoader.loadClass(className);
 			Class updateRuleMarkerClass = classLoader
-					.loadClass("nl.rivm.emi.cdm.updaterules.base.UpdateRuleMarker");
+					.loadClass("nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker");
 			boolean success = (updateRuleClass
 					.asSubclass(updateRuleMarkerClass) != null);
 			if (success) {
