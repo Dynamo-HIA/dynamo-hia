@@ -4,17 +4,15 @@ import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.verification.AgeTextVerificationListener;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class SingleAgeGenderComposite extends Composite {
-	public Text age = new Text(this,SWT.NONE);
-	public Text femaleText =  new Text(this,SWT.NONE);
-	public Text maleText =  new Text(this,SWT.NONE);
+	private Text ageText = new Text(this,SWT.NONE);
+	private Text femaleText =  new Text(this,SWT.NONE);
+	private Text maleText =  new Text(this,SWT.NONE);
 
 	public SingleAgeGenderComposite(Composite parent, int style) {
 		super(parent, style);
@@ -22,29 +20,19 @@ public class SingleAgeGenderComposite extends Composite {
 		gridLayout.numColumns = 3;
 		gridLayout.makeColumnsEqualWidth = true;
 		setLayout(gridLayout);
-		hookupListeners();
+		hookupVerificationListeners();
 	}
 	
-	public void hookupListeners(){
-		age.addVerifyListener(new AgeTextVerificationListener());
+	public void hookupVerificationListeners(){
+		ageText.addVerifyListener(new AgeTextVerificationListener());
 	}
 
-	// public void putTestLabel(Composite parent) {
-	// Text label = new Text(parent, SWT.BORDER);
-	// label.setText("Test-tekst");
-	// label.setBackground(new Color(null, 0xee, 0x00, 0x00));
-	// GridData layoutData = new GridData();
-	// layoutData.heightHint = 20;
-	// layoutData.widthHint = 100;
-	// label.setLayoutData(layoutData);
-	// }
-	//
-	public void putData(DatabindableAgeGenderRow rows) {
-		putLabels();
-		bindData(rows);
+	public void putData(DatabindableAgeGenderRow row) {
+		setLabels();
+		setTexts(row);
 	}
 
-	private void putLabels() {
+	private void setLabels() {
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 		Label femaleLabel = new Label(this, SWT.NONE);
@@ -53,23 +41,21 @@ public class SingleAgeGenderComposite extends Composite {
 		maleLabel.setText("Male");
 	}
 
-	private void bindData(DatabindableAgeGenderRow row) {
-//		for (AgeGenderRow row : rows) {
-			age = new Text(this, SWT.NONE);
-			age.setText(row.getAgeValue().toString());
+	private void setTexts(DatabindableAgeGenderRow row) {
+			ageText = new Text(this, SWT.NONE);
+			ageText.setText(row.getAgeValue().toString());
 			femaleText = new Text(this, SWT.NONE);
 			femaleText.setText(row.getFemaleValue().toString());
 			maleText = new Text(this, SWT.NONE);
 			maleText.setText(row.getMaleValue().toString());
-//		}
 	}
 
-	public Text getAge() {
-		return age;
+	public Text getAgeText() {
+		return ageText;
 	}
 
-	public void setAge(Text age) {
-		this.age = age;
+	public void setAgeText(Text age) {
+		this.ageText = age;
 	}
 
 	public Text getFemaleText() {

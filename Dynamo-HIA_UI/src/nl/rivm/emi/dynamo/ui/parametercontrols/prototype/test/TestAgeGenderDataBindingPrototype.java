@@ -1,26 +1,12 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.databinding.validators.AfterGetFromViewAgeValidator;
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer.DummyElement;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.AgeGenderDatabindingPrototype;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.core.databinding.validation.ValidationStatus;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -32,7 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestAgeGenderList {
+public class TestAgeGenderDataBindingPrototype {
 //	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
@@ -68,7 +54,7 @@ public class TestAgeGenderList {
 	}
 
 	@Test
-	public void runSnippet11() {
+	public void testRun() {
 		Runnable agdbPrototype = new AgeGenderDatabindingPrototype(container);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				agdbPrototype);
@@ -76,7 +62,7 @@ public class TestAgeGenderList {
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.TestAgeGenderList.class);
+				nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.TestAgeGenderDataBindingPrototype.class);
 	}
 
 }

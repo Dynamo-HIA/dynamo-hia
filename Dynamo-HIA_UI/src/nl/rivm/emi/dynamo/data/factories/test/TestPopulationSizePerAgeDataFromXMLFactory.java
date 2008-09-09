@@ -1,15 +1,12 @@
 package nl.rivm.emi.dynamo.data.factories.test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
-
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.PopulationSizePerAgeDataFromXMLFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestPopulationSizeDataFromXMLFactory {
+public class TestPopulationSizePerAgeDataFromXMLFactory {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	@Before
@@ -35,13 +32,14 @@ public class TestPopulationSizeDataFromXMLFactory {
 		File configurationFile = new File(configurationFilePath);
 		log.fatal(configurationFile.getAbsolutePath());
 		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testContainer = 
-			PopulationSizeDataFromXMLFactory.manufacture(configurationFile);
+			PopulationSizePerAgeDataFromXMLFactory.manufacture(configurationFile);
 		assertNotNull(testContainer);
+
 	}
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.dynamo.data.factories.test.TestPopulationSizeDataFromXMLFactory.class);
+				nl.rivm.emi.dynamo.data.factories.test.TestPopulationSizePerAgeDataFromXMLFactory.class);
 	}
 }
 

@@ -35,7 +35,7 @@ import org.junit.Test;
 
 
 
-public class TestScrollingYearNumberList {
+public class TestAgeBiGenderList {
 	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;

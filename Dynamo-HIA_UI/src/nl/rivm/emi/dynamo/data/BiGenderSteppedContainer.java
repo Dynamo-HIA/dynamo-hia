@@ -2,6 +2,9 @@ package nl.rivm.emi.dynamo.data;
 
 import java.util.TreeMap;
 
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+
 public class BiGenderSteppedContainer<E> {
 	static public final String genderTagName = "gender";
 
@@ -15,6 +18,9 @@ public class BiGenderSteppedContainer<E> {
 			return (E)objects[index];
 	}
 
+	public IObservable getWritableValue(int index) throws ArrayIndexOutOfBoundsException{
+		return new WritableValue(objects[index], objects[index].getClass());
+}
 	/**
 	 * 
 	 * @param index The index at which the Object should be stored.

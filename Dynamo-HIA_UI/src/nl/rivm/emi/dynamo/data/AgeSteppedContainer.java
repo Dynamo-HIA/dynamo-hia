@@ -21,6 +21,10 @@ public class AgeSteppedContainer<E> {
 		return ageStepSize;
 	}
 	
+	public float getAge(int step) {
+			return step*ageStepSize;
+	}
+	
 	public E get(int step) throws ArrayIndexOutOfBoundsException{
 			return (E)objects[step];
 	}
@@ -40,5 +44,9 @@ public class AgeSteppedContainer<E> {
 			}
 			objects[step] = object;
 		return result;
+	}
+
+	public int size() {
+		return objects.length;
 	}
 }

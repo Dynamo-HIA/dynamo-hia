@@ -1,24 +1,18 @@
 package nl.rivm.emi.dynamo.data.factories;
 
-import java.io.File;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class GenderSteppedIntegersFromXMLFactory {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.data.factories.PopulationSizeFromXMLFactory");
+			.getLog("nl.rivm.emi.dynamo.data.factories.BiGenderSteppedContainer<Integer>");
 
 	public static BiGenderSteppedContainer<Integer> manufacture(
 			ConfigurationNode configurationNode) throws ConfigurationException {

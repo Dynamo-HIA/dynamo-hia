@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.data;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.updaterules.UpdateRules4SimulationFromXMLFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;

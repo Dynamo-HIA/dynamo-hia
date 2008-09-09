@@ -1,14 +1,11 @@
 package nl.rivm.emi.dynamo.data.values;
 
-import nl.rivm.emi.dynamo.databinding.validators.IntegerInAgeRangeValidator;
+import nl.rivm.emi.dynamo.data.types.Age;
 
 import org.eclipse.core.databinding.observable.value.ValueDiff;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
- * WritableValue for Age fields, type is an Integer, can only be instantiated
- * without a value.
- * 
  * @author mondeelr
  * 
  */
@@ -17,8 +14,9 @@ public class AgeWritableValue extends WritableValue {
 	 * Default constructor, the only accessible one.
 	 */
 	public AgeWritableValue() {
-		super(null, Integer.class);
-	}
+//		super(null, Integer.class);
+		super(new Integer(-1), Integer.class);
+		}
 
 	/**
 	 * Private constructor to block direct access to the superclass one.
@@ -46,7 +44,7 @@ public class AgeWritableValue extends WritableValue {
 	 */
 	public void doSetValue(Integer value) {
 		IntegerValueDiff integerValueDiff = new IntegerValueDiff( (Integer)super.doGetValue(), value);
-		if (!IntegerInAgeRangeValidator.validate(value)) {
+		if (!Age.inRange(new Float(value))) {
 			super.fireValueChange(integerValueDiff);
 		} else {
 			super.doSetValue(value);

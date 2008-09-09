@@ -16,7 +16,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PopulationSizeDataFromXMLFactory {
+public class PopulationSizePerAgeDataFromXMLFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.PopulationSizeFromXMLFactory");
 
@@ -43,7 +43,7 @@ public class PopulationSizeDataFromXMLFactory {
 					outerContainer = new AgeSteppedContainer<BiGenderSteppedContainer<Integer>>(
 							ageStepSize, numSteps);
 					// TODO Maybe make configurable.
-					handleAgeTags(confNode, ageStepSize);
+					handleAgeTags(confNode, outerContainer);
 				}
 			}
 			return outerContainer;
@@ -55,8 +55,9 @@ public class PopulationSizeDataFromXMLFactory {
 	}
 
 	private static void handleAgeTags(ConfigurationNode confNode,
-			float ageStepSize) throws ConfigurationException {
+			AgeSteppedContainer<BiGenderSteppedContainer<Integer>> outerContainer) throws ConfigurationException {
 		float expectedAge = 0;
+		int step = 0;
 		List theChildren = confNode.getChildren();
 		for (Object child : theChildren) {
 			ConfigurationNode castedChild = (ConfigurationNode) child;
@@ -64,14 +65,15 @@ public class PopulationSizeDataFromXMLFactory {
 					.equals(castedChild.getName())) {
 				float ageValue = getAndDecodeAgeValue(castedChild);
 				if (expectedAge == ageValue) {
-					log.debug("Age value " + ageValue
+					log.fatal("Age value " + ageValue
 							+ " as expected.");
-					GenderSteppedIntegersFromXMLFactory.manufacture(castedChild);
+					outerContainer.put(step, GenderSteppedIntegersFromXMLFactory.manufacture(castedChild));
 				} else {
 					throw new ConfigurationException("Age value is \"" + ageValue
 							+ "\" expected \"" + expectedAge + "\"");
 				}
-				expectedAge = expectedAge + ageStepSize;
+				expectedAge = expectedAge + outerContainer.getAgeStepSize();
+			step++;
 			} else {
 				throw new ConfigurationException("\""
 						+ AgeSteppedContainer.ageWrapperTagName
@@ -79,6 +81,7 @@ public class PopulationSizeDataFromXMLFactory {
 						+ castedChild.getName() + "\" tag found.");
 			}
 		}
+		log.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains " + outerContainer.size() + "units.");
 	}
 
 	private static int getAndDecodeNumberOfSteps(ConfigurationNode confNode) {

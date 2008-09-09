@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.test;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeGenderList;
+import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
@@ -66,7 +66,7 @@ public class TestLists {
 				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
 				new DatabindableAgeGenderRow() };
 		shell.setText("AgeGenderList");
-		AgeGenderList testComposite = new AgeGenderList(container,
+		AgeBiGenderList testComposite = new AgeBiGenderList(container,
 				SWT.V_SCROLL);
 		testComposite.putData(rows);
 		// testComposite.putTestLabel(testComposite);
