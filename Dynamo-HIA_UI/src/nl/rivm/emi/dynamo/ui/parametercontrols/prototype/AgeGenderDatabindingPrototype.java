@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.parametercontrols.prototype;
 
 import nl.rivm.emi.dynamo.databinding.converters.AgeIntegerToStringConverter;
 import nl.rivm.emi.dynamo.databinding.converters.AgeStringToIntegerConverter;
+import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
+import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -11,6 +13,7 @@ import org.eclipse.core.databinding.observable.value.IValueChangeListener;
 import org.eclipse.core.databinding.observable.value.ValueChangeEvent;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 public class AgeGenderDatabindingPrototype implements Runnable {
@@ -31,6 +34,9 @@ public class AgeGenderDatabindingPrototype implements Runnable {
 		DatabindableAgeGenderRow model = new DatabindableAgeGenderRow();
 		hookupViewAndModel(view, model, dbc);
 		hookupViewAndModel(anotherView, model, dbc);
+		Button aButton = new Button(container, SWT.ABORT);
+		aButton.setText("Abort");
+		
 //		addDebugListeners(model);
 //		addDebugListeners(view);
 	}
@@ -47,28 +53,14 @@ public class AgeGenderDatabindingPrototype implements Runnable {
 		IObservableValue modelFemaleObservableValue = (IObservableValue) model.getFemaleValue();
 		IObservableValue modelMaleObservableValue = (IObservableValue) model.getMaleValue();
 		dbc.bindValue(ageTextObservableValue, modelAgeObservableValue,
-				assembleSimpleModelAgeValueUpdateStrategy(dbc),
-				assembleSimpleViewAgeValueUpdateStrategy());
+				ModelUpdateValueStrategies.getStrategy(new Integer(1)),
+				ViewUpdateValueStrategies.getStrategy(new Integer(1)));
 		dbc.bindValue(femaleTextObservableValue, modelFemaleObservableValue,
 				null,
 				null);
 		dbc.bindValue(maleTextObservableValue, modelMaleObservableValue,
 				null,
 				null);
-	}
-
-	private UpdateValueStrategy assembleSimpleViewAgeValueUpdateStrategy() {
-		UpdateValueStrategy ageUpdateValueStrategy = new UpdateValueStrategy();
-		ageUpdateValueStrategy.setConverter(new AgeIntegerToStringConverter(
-				"ViewAge"));
-		return ageUpdateValueStrategy;
-	}
-
-	private UpdateValueStrategy assembleSimpleModelAgeValueUpdateStrategy(DataBindingContext dbc) {
-		UpdateValueStrategy ageUpdateValueStrategy = new UpdateValueStrategy();
-		ageUpdateValueStrategy.setConverter(new AgeStringToIntegerConverter(
-				"ModelAge"));
-		return ageUpdateValueStrategy;
 	}
 
 	private void addDebugListeners(DatabindableAgeGenderRow model) {

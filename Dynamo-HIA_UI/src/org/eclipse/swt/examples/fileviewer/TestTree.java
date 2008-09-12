@@ -1,6 +1,6 @@
 package org.eclipse.swt.examples.fileviewer;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderList;
+import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderRunnable;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
@@ -66,7 +66,7 @@ public class TestTree {
 				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
 				new DatabindableAgeGenderRow() };
 		shell.setText("AgeGenderList");
-		AgeBiGenderList testComposite = new AgeBiGenderList(container,
+		AgeBiGenderRunnable testComposite = new AgeBiGenderRunnable(container,
 				SWT.V_SCROLL);
 		testComposite.putData(rows);
 		// testComposite.putTestLabel(testComposite);

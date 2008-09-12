@@ -1,11 +1,20 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test;
+package nl.rivm.emi.dynamo.ui.parametercontrols.test;
 
-import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.AgeGenderDatabindingPrototype;
+import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+
+import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
+import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderRunnable;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
@@ -18,12 +27,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestAgeGenderDataBindingPrototype {
-//	Log log = LogFactory.getLog(getClass().getName());
+public class TestAgeBiGenderComposite {
+	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
 	Composite container = null;
-	boolean killScreen = false;
+	AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testModel;
 
 	@Before
 	public void setup() {
@@ -32,6 +41,7 @@ public class TestAgeGenderDataBindingPrototype {
 		shell.setSize(400, 400);
 		shell.setLayout(new FormLayout());
 		container = new Composite(shell, SWT.NONE);
+
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.right = new FormAttachment(100, 0);
@@ -41,13 +51,24 @@ public class TestAgeGenderDataBindingPrototype {
 		FillLayout fillLayout = new FillLayout();
 		container.setLayout(fillLayout);
 		container.setBackground(new Color(null, 0x00, 0x00, 0xee));
+		manufactureModel();
+	}
+
+	public void manufactureModel() {
+		String configurationFilePath = "datatemplates" + File.separator
+				+ "5agestep_2gender_popsize.xml";
+		File configurationFile = new File(configurationFilePath);
+		log.fatal(configurationFile.getAbsolutePath());
+		testModel = IntegerPerAgeDataFromXMLFactory
+				.manufacture(configurationFile);
+		assertNotNull(testModel);
+
 	}
 
 	@After
 	public void teardown() {
-		shell.pack();
 		shell.open();
-		while (!shell.isDisposed() && !killScreen) {
+		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
@@ -55,15 +76,11 @@ public class TestAgeGenderDataBindingPrototype {
 	}
 
 	@Test
-	public void testRun() {
-		Runnable agdbPrototype = new AgeGenderDatabindingPrototype(container);
+	public void testAgeBiGenderComposite() {
+		shell.setText("AgeBiGenderComposite");
+		AgeBiGenderRunnable testComposite = new AgeBiGenderRunnable(
+				container, SWT.V_SCROLL, testModel);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-				agdbPrototype);
+				testComposite);
 	}
-
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(
-				nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.TestAgeGenderDataBindingPrototype.class);
-	}
-
 }

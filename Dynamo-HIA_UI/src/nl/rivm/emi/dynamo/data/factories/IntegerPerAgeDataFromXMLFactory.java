@@ -16,9 +16,9 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PopulationSizePerAgeDataFromXMLFactory {
+public class IntegerPerAgeDataFromXMLFactory {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.data.factories.PopulationSizeFromXMLFactory");
+			.getLog("nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory");
 
 	public static AgeSteppedContainer<BiGenderSteppedContainer<Integer>> manufacture(
 			File configurationFile) {
@@ -81,7 +81,7 @@ public class PopulationSizePerAgeDataFromXMLFactory {
 						+ castedChild.getName() + "\" tag found.");
 			}
 		}
-		log.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains " + outerContainer.size() + "units.");
+		log.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains " + outerContainer.size() + " units.");
 	}
 
 	private static int getAndDecodeNumberOfSteps(ConfigurationNode confNode) {

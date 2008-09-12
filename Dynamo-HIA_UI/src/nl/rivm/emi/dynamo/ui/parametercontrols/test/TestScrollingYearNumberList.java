@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.test;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderList;
+import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderRunnable;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
 import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
@@ -80,7 +80,7 @@ public class TestScrollingYearNumberList {
 				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
 				new DatabindableAgeGenderRow() };
 		shell.setText("AgeGenderList");
-		AgeBiGenderList testComposite = new AgeBiGenderList(scrolledContainer,
+		AgeBiGenderRunnable testComposite = new AgeBiGenderRunnable(scrolledContainer,
 				SWT.V_SCROLL);
 		testComposite.putData(rows);
 		// testComposite.putTestLabel(testComposite);

@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestLists {
+public class TestDemoTableViewer {
 	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;
 	Shell shell = null;
@@ -56,35 +56,6 @@ public class TestLists {
 				display.sleep();
 		}
 		display.dispose();
-	}
-
-	@Test
-	public void ageGenderList() {
-		DatabindableAgeGenderRow[] rows = { new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow(), new DatabindableAgeGenderRow(),
-				new DatabindableAgeGenderRow() };
-		shell.setText("AgeGenderList");
-		AgeBiGenderRunnable testComposite = new AgeBiGenderRunnable(container,
-				SWT.V_SCROLL);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
-	}
-
-
-	@Test
-	public void yearIntegerList() {
-		YearIntegerDataRow[] rows = { new YearIntegerDataRow(1984, 1234),
-				new YearIntegerDataRow(1985, 2345), new YearIntegerDataRow(1986, 3456),
-				new YearIntegerDataRow(1987, 456789), new YearIntegerDataRow(1989, 67890),
-				new YearIntegerDataRow(1990, 56789), new YearIntegerDataRow(1991, 78345),
-				new YearIntegerDataRow(1992, 87654) };
-		shell.setText("YearIntegerList");
-		YearIntegerList testComposite = new YearIntegerList(container,
-				SWT.SCROLL_LINE);
-		testComposite.putData(rows);
-		// testComposite.putTestLabel(testComposite);
 	}
 
 	@Test
