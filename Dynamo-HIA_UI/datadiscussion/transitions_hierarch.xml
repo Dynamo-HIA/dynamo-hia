@@ -1,131 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <transitionmatrix>
-  <transition>
-    <age value="0">
-    <sex>0</sex>
-    <from>0</from>
-    <to>0</to>
-    <value>0.9</value>
-  </transition>
-  <transition>   
-    <sex>0</sex>
-    <age>0</age>
-    <from>0</from>
-    <to>1</to>
-    <value>0.1</value>
-  </transition>
-  <transition>
-    <sex>0</sex>
-    <age>0</age>
-    <from>0</from>
-    <to>3</to>
-    <value>0.0</value>
-  </transition>
-  <transition>
-    <sex>0</sex>
-    <age>0</age>
-    <from>1</from>
-    <to>0</to>
-    <value>0.1</value>
-  </transition>
-  <transition>
-    <sex>0</sex>
-    <age>0</age>
-    <from>1</from>
-    <to>1</to>
-    <value>0.8</value>
-  </transition>
-  <transition>
-    <sex>0</sex>
-    <age>0</age>
-    <from>1</from>
-    <to>2</to>
-    <value>0.1</value>
-  </transition>
-  <transition>
-    <sex>0</sex>
-    <age>0</age>
-    <from>2</from>
-    <to>0</to>
-    <value>0.0</value>
-  </transition>
-<transition>
-  <sex>0</sex>
-  <age>0</age>
-  <from>2</from>
-  <to>1</to>
-  <value>0.2</value>
-</transition>
-<transition>
-  <sex>0</sex>
-  <age>0</age>
-  <from>2</from>
-  <to>2</to>
-  <value>0.8</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>0</from>
-<to>0</to>
-<value>0.9</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>0</from>
-<to>1</to>
-<value>0.1</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>0</from>
-<to>3</to>
-<value>0.0</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>1</from>
-<to>0</to>
-<value>0.1</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>1</from>
-<to>1</to>
-<value>0.8</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>1</from>
-<to>2</to>
-<value>0.1</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>2</from>
-<to>0</to>
-<value>0.0</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>2</from>
-<to>1</to>
-<value>0.2</value>
-</transition>
-<transition>
-<sex>1</sex>
-<age>0</age>
-<from>2</from>
-<to>2</to>
-<value>0.8</value>
-</transition>
-</age>
+	<transition>
+		<age value="0">
+			<sex value="0">
+				<from value="0">
+					<to value="0">0.1</to>
+					<to value="1">0.2</to>
+					<to value="2">0.3</to>
+					<to value="3">0.4</to>
+				</from>
+				<from value="1">
+					<to value="0">0.1</to>
+					<to value="1">0.2</to>
+					<to value="2">0.3</to>
+					<to value="3">0.4</to>
+				</from>
+				<from value="2">
+					<to value="0">0.1</to>
+					<to value="1">0.2</to>
+					<to value="2">0.3</to>
+					<to value="3">0.4</to>
+				</from>
+				<from value="3">
+					<to value="0">0.1</to>
+					<to value="1">0.2</to>
+					<to value="2">0.3</to>
+					<to value="3">0.4</to>
+				</from>
+			</sex>
+		</age>
+	</transition>
 </transitionmatrix>
 
