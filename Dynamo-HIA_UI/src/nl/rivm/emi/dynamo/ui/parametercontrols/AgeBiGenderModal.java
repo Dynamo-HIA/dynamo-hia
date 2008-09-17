@@ -5,27 +5,22 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
-import nl.rivm.emi.dynamo.ui.panels.ButtonPanel;
-import nl.rivm.emi.dynamo.ui.panels.HelpPanel;
-import nl.rivm.emi.dynamo.ui.panels.DiseasePanel;
-import nl.rivm.emi.dynamo.ui.panels.IncidencePanel;
+import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.button.LotsOfButtonsPanel;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -42,10 +37,6 @@ public class AgeBiGenderModal implements Runnable {
 	public AgeBiGenderModal(Shell parentShell, String configurationFilePath) {
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL |SWT.RESIZE);
 		this.lotsOfData = manufactureModel(configurationFilePath);
-		// GridLayout gridLayout = new GridLayout();
-		// gridLayout.numColumns = 3;
-		// gridLayout.makeColumnsEqualWidth = true;
-		// shell.setLayout(gridLayout);
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 	}
@@ -53,12 +44,10 @@ public class AgeBiGenderModal implements Runnable {
 	public synchronized void open() {
 		if (!open) {
 			open = true;
-			putAndHookData();
-			// createControlButtons();
-			Composite buttonPanel = ButtonPanel.generate(shell);
-			Composite helpPanel = HelpPanel.generate(shell, buttonPanel);
-			Composite diseasePanel = DiseasePanel.generate(shell, helpPanel);
-//			Composite incidencePanel = IncidencePanel.generate(shell, diseasePanel, helpPanel, buttonPanel, null);
+//			putAndHookData();
+			Composite buttonPanel = LotsOfButtonsPanel.generate(shell);
+			Composite helpPanel = HelpGroup.generate(shell, buttonPanel);
+			Composite characteristicPanel = CharacteristicGroup.generate(shell, helpPanel, buttonPanel);
 			shell.pack();
 			shell.open();
 			Display display = shell.getDisplay();
@@ -69,32 +58,6 @@ public class AgeBiGenderModal implements Runnable {
 		}
 	}
 
-	// private void createControlButtons() {
-	// Composite buttonComposite = new Composite(shell, SWT.NONE);
-	// buttonComposite.setLayoutData(new GridData(
-	// GridData.HORIZONTAL_ALIGN_CENTER));
-	// GridLayout layout = new GridLayout();
-	// layout.numColumns = 2;
-	// buttonComposite.setLayout(layout);
-	// Button okButton = new Button(buttonComposite, SWT.PUSH);
-	// okButton.setText("OK");
-	// okButton.addSelectionListener(new SelectionAdapter() {
-	// public void widgetSelected(SelectionEvent e) {
-	// shell.close();
-	// }
-	// });
-	// Button cancelButton = new Button(buttonComposite, SWT.PUSH);
-	// cancelButton.setText("Cancel");
-	// cancelButton.addSelectionListener(new SelectionAdapter() {
-	// public void widgetSelected(SelectionEvent e) {
-	// // values = null;
-	// shell.close();
-	// }
-	// });
-	//
-	// shell.setDefaultButton(okButton);
-	// }
-
 	public void setLotsOfData(
 			AgeSteppedContainer<BiGenderSteppedContainer<Integer>> lotsOfData) {
 		this.lotsOfData = lotsOfData;
@@ -104,7 +67,7 @@ public class AgeBiGenderModal implements Runnable {
 			String configurationFilePath) {
 		File configurationFile = new File(configurationFilePath);
 		// log.fatal(configurationFile.getAbsolutePath());
-		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testModel = IntegerPerAgeDataFromXMLFactory
+		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testModel = SomethingPerAgeDataFromXMLFactory
 				.manufacture(configurationFile);
 		return testModel;
 	}
@@ -119,9 +82,6 @@ public class AgeBiGenderModal implements Runnable {
 	public void putAndHookData() {
 		Composite composite = new Composite(shell, SWT.NONE);
 		// DataBindingContext dataBindingContext = new DataBindingContext();
-		// composite.setLayoutData(new GridData(
-		// GridData.HORIZONTAL_ALIGN_CENTER));
-		// composite.setLayoutData(new FormData());
 		handlePlacementInContainer(composite);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;

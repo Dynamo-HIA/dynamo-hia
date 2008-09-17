@@ -6,7 +6,7 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +32,7 @@ public class TestIntegerPerAgeDataFromXMLFactory {
 		File configurationFile = new File(configurationFilePath);
 		log.fatal(configurationFile.getAbsolutePath());
 		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testContainer = 
-			IntegerPerAgeDataFromXMLFactory.manufacture(configurationFile);
+			SomethingPerAgeDataFromXMLFactory.manufacture(configurationFile);
 		assertNotNull(testContainer);
 
 	}

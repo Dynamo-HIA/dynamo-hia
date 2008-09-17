@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<age_gender_steppeddata>
+	<agesteppedcontainer agestep="1" numsteps="25">
+		<age value="0">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="1">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="2">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="3">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="4">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+		<age value="5">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="6">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="7">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="8">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="9">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+		<age value="10">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="11">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="12">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="13">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="14">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+		<age value="15">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="16">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="17">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="18">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="19">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+		<age value="20">
+			<gender value="0">123</gender>
+			<gender value="1">234</gender>
+		</age>
+		<age value="21">
+			<gender value="0">246</gender>
+			<gender value="1">345</gender>
+		</age>
+		<age value="22">
+			<gender value="0">369</gender>
+			<gender value="1">456</gender>
+		</age>
+		<age value="23">
+			<gender value="0">482</gender>
+			<gender value="1">567</gender>
+		</age>
+		<age value="24">
+			<gender value="0">505</gender>
+			<gender value="1">678</gender>
+		</age>
+	</agesteppedcontainer>
+</age_gender_steppeddata>

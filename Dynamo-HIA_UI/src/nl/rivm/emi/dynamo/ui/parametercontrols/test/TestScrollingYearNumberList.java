@@ -1,5 +1,10 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.test;
 
+import java.io.File;
+
+import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
+import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderRunnable;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
@@ -41,6 +46,9 @@ public class TestScrollingYearNumberList {
 	Shell shell = null;
 	ScrolledComposite scrolledContainer = null;
 
+	String configurationFilePath = "datatemplates" + File.separator
+	+ "5agestep_2gender_popsize.xml";
+	AgeSteppedContainer<BiGenderSteppedContainer<Integer>> lotsOfData;
 
 	@Before
 	public void setup() {
@@ -60,6 +68,7 @@ public class TestScrollingYearNumberList {
 		FillLayout fillLayout = new FillLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
+lotsOfData = manufactureModel(configurationFilePath);
 	}
 
 	@After
@@ -72,6 +81,14 @@ public class TestScrollingYearNumberList {
 		display.dispose();
 	}
 
+	public AgeSteppedContainer<BiGenderSteppedContainer<Integer>> manufactureModel(
+			String configurationFilePath) {
+		File configurationFile = new File(configurationFilePath);
+		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testModel = SomethingPerAgeDataFromXMLFactory
+				.manufacture(configurationFile);
+		return testModel;
+	}
+
 	@Test
 	public void ageGenderList() {
 		DatabindableAgeGenderRow[] rows = { new DatabindableAgeGenderRow(),
@@ -81,8 +98,8 @@ public class TestScrollingYearNumberList {
 				new DatabindableAgeGenderRow() };
 		shell.setText("AgeGenderList");
 		AgeBiGenderRunnable testComposite = new AgeBiGenderRunnable(scrolledContainer,
-				SWT.V_SCROLL);
-		testComposite.putData(rows);
+				SWT.V_SCROLL, lotsOfData);
+//		testComposite.putData(rows);
 		// testComposite.putTestLabel(testComposite);
 	}
 

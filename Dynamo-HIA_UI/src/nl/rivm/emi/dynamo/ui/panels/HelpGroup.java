@@ -10,31 +10,33 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class HelpPanel {
+public class HelpGroup{
+	Group theGroup = null;
 
-	public static Composite generate(Shell shell, Composite buttonPane) {
-		Group group = new Group(shell, SWT.NONE);
-		// myComposite.setSize(150, 100);
-		handlePlacementInContainer(group, buttonPane);
+	public HelpGroup(Shell shell, Composite buttonPane) {
+		theGroup = new Group(shell, SWT.NONE);
+		handlePlacementInContainer(theGroup, buttonPane);
 		FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
 		fillLayout.marginHeight = 2;
 		fillLayout.marginWidth = 2;
-		group.setLayout(fillLayout);
-		group.setText("Help");
-		putWindowHelpGroup(group);
-		putFieldHelpGroup(group);
-		group.pack();
-		return group;
+		theGroup.setLayout(fillLayout);
+		theGroup.setText("Help");
+		putWindowHelpGroup(theGroup);
+		putFieldHelpGroup(theGroup);
+		theGroup.pack();
 	}
 
-	static private void handlePlacementInContainer(Composite myComposite,
+	public Group getGroup(){
+		return theGroup;
+	}
+	
+	 private void handlePlacementInContainer(Composite myComposite,
 			Composite buttonPane) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(buttonPane, -5);
 		formData.left = new FormAttachment(100, -155);
-		// TEST formData.bottom = new FormAttachment(100, -5);
 		myComposite.setLayoutData(formData);
 	}
 

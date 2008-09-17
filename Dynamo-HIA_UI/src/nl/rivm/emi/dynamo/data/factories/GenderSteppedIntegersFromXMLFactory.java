@@ -9,14 +9,16 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class GenderSteppedIntegersFromXMLFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.BiGenderSteppedContainer<Integer>");
 
-	public static BiGenderSteppedContainer<Integer> manufacture(
+	public static BiGenderSteppedContainer<IObservable> manufacture(
 			ConfigurationNode configurationNode) throws ConfigurationException {
-		BiGenderSteppedContainer<Integer> innerContainer = new BiGenderSteppedContainer<Integer>();
+		BiGenderSteppedContainer<IObservable> innerContainer = new BiGenderSteppedContainer<IObservable>();
 		float expectedGender = 0;
 		List theChildren = configurationNode.getChildren();
 		for (Object child : theChildren) {
@@ -29,8 +31,11 @@ public class GenderSteppedIntegersFromXMLFactory {
 					String byGenderValueString = (String) castedChild
 							.getValue();
 					int byGenderValue = Integer.parseInt(byGenderValueString);
-					log.fatal("Gender value " + genderValue + " byGenderValue " + byGenderValue);
-					innerContainer.put(genderValue, new Integer(byGenderValue));
+					Integer genderValueInteger = new Integer(genderValue);
+					Integer byGenderValueInteger = new Integer(byGenderValue);
+					IObservable byGenderValueWritable = new WritableValue(byGenderValueInteger, byGenderValueInteger);
+					log.fatal("Gender value " + genderValueInteger + " byGenderValue " + ((WritableValue)byGenderValueWritable).doGetValue());
+					innerContainer.put(genderValueInteger, byGenderValueWritable);
 				} else {
 					throw new ConfigurationException("Gender value is \""
 							+ genderValue + "\" expected \"" + expectedGender

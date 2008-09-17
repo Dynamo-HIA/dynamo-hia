@@ -3,6 +3,8 @@ package nl.rivm.emi.dynamo.ui.main;
 /* Imports */
 import java.io.File;
 
+import nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel;
+import nl.rivm.emi.dynamo.ui.panels.TestParameterDataPanel;
 import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderModal;
 
 import org.eclipse.core.databinding.observable.Realm;
@@ -21,13 +23,13 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class BaseScreen {
+public class TestTopLevelScrolledContainer {
 	private Shell shell;
 
 	/** Testing only. */
 
 	String configurationFilePath = "datatemplates" + File.separator
-			+ "25agestep_2gender_popsize.xml";
+			+ "5agestep_2gender_popsize.xml";
 
 	public Shell open(Display display) {
 		shell = new Shell(display);
@@ -38,7 +40,8 @@ public class BaseScreen {
 		});
 
 		createMenuBar();
-
+		new TestParameterDataPanel(shell, null,
+				null);
 		shell.open();
 		return shell;
 	}
@@ -67,17 +70,19 @@ public class BaseScreen {
 	}
 
 	private void editEntry() {
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(shell,
-				configurationFilePath);
+		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
+				shell, configurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
+		// dialog.open();
 	}
 
 	private void newEntry() {
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(shell,
-				configurationFilePath);
+		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
+				shell, configurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
+		// dialog.open();
 	}
 
 	private void createFileMenu(Menu menuBar) {

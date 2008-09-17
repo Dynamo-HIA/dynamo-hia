@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.panels;
+package nl.rivm.emi.dynamo.ui.panels.button;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -8,31 +8,31 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-public class ButtonPanel {
-	static public Composite generate(Shell shell) {
-		Composite buttonComposite = new Composite(shell, SWT.NONE);
-		buttonComposite.setSize(100, 35);
-		handlePlacementInContainer(buttonComposite);
+public class LotsOfButtonsPanel extends Composite {
+
+ public LotsOfButtonsPanel(Shell shell) {
+	 super(shell, SWT.NONE);
+		setSize(100, 35);
+		setFormData();
 		FormLayout formLayout = new FormLayout();
-		buttonComposite.setLayout(formLayout);
-		Button saveButton = putSaveButton(buttonComposite);
-		Button estimateParametersButton = putEstimateParametersButton(buttonComposite,
+		setLayout(formLayout);
+		Button saveButton = putSaveButton(this);
+		Button estimateParametersButton = putEstimateParametersButton(this,
 				saveButton);
-		Button viewParametersButton = putViewParametersButton(buttonComposite,
+		Button viewParametersButton = putViewParametersButton(this,
 				estimateParametersButton);
-		Button cancelButton = putCancelButton(buttonComposite);
-		Button viewResultsButton = putViewResultsButton(buttonComposite, cancelButton);
-		putRunButton(shell, viewResultsButton);
-		buttonComposite.pack();
-		return buttonComposite;
+		Button cancelButton = putCancelButton(this);
+		Button viewResultsButton = putViewResultsButton(this, cancelButton);
+		putRunButton(this, viewResultsButton);
+		pack();
 	}
 
-	static private void handlePlacementInContainer(Composite myComposite) {
+ private void setFormData() {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(100, -5);
-		myComposite.setLayoutData(formData);
+		setLayoutData(formData);
 	}
 
 	private static void putRunButton(Composite panel, Button viewResultsButton) {

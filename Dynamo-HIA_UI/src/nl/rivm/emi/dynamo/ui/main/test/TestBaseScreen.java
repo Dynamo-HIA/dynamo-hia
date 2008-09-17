@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.parametercontrols.test;
+package nl.rivm.emi.dynamo.ui.main.test;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -6,7 +6,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
 import nl.rivm.emi.dynamo.ui.main.BaseScreen;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +28,6 @@ public class TestBaseScreen {
 	Display display = null;
 	Shell shell = null;
 	Composite container = null;
-	AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testModel;
 
 	@Before
 	public void setup() {
@@ -37,7 +36,6 @@ public class TestBaseScreen {
 
 	private void instantiateContainer() {
 		container = new Composite(shell, SWT.NONE);
-
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.right = new FormAttachment(100, 0);

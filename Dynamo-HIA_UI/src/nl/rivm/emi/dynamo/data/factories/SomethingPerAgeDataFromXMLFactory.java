@@ -15,14 +15,15 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.IObservable;
 
-public class IntegerPerAgeDataFromXMLFactory {
+public class SomethingPerAgeDataFromXMLFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromXMLFactory");
 
-	public static AgeSteppedContainer<BiGenderSteppedContainer<Integer>> manufacture(
+	public static AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> manufacture(
 			File configurationFile) {
-		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> outerContainer = null;
+		AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> outerContainer = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -40,7 +41,7 @@ public class IntegerPerAgeDataFromXMLFactory {
 					ConfigurationNode confNode = tagConf.getRootNode();
 					float ageStepSize = getAndDecodeAgeStep(confNode);
 					int numSteps = getAndDecodeNumberOfSteps(confNode);
-					outerContainer = new AgeSteppedContainer<BiGenderSteppedContainer<Integer>>(
+					outerContainer = new AgeSteppedContainer<BiGenderSteppedContainer<IObservable>>(
 							ageStepSize, numSteps);
 					// TODO Maybe make configurable.
 					handleAgeTags(confNode, outerContainer);
@@ -55,7 +56,7 @@ public class IntegerPerAgeDataFromXMLFactory {
 	}
 
 	private static void handleAgeTags(ConfigurationNode confNode,
-			AgeSteppedContainer<BiGenderSteppedContainer<Integer>> outerContainer) throws ConfigurationException {
+			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> outerContainer) throws ConfigurationException {
 		float expectedAge = 0;
 		int step = 0;
 		List theChildren = confNode.getChildren();
@@ -81,7 +82,7 @@ public class IntegerPerAgeDataFromXMLFactory {
 						+ castedChild.getName() + "\" tag found.");
 			}
 		}
-		log.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains " + outerContainer.size() + " units.");
+		log.fatal("AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> contains " + outerContainer.size() + " units.");
 	}
 
 	private static int getAndDecodeNumberOfSteps(ConfigurationNode confNode) {
