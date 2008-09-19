@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.factories;
+package nl.rivm.emi.dynamo.data.writers;
 
 /**
  * 20080918 Agestep fixed at 1. Ages are Integers. 
@@ -12,6 +12,8 @@ import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
 import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;
+import nl.rivm.emi.dynamo.data.types.Age;
+import nl.rivm.emi.dynamo.data.types.Sex;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -21,62 +23,51 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class AgeGenderIncidenceArrayFromFlatXMLFactory {
+public class AgeGenderIncidenceDataWriter {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromFlatXMLFactory");
+			.getLog("nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory");
 
 	/**
 	 * 
 	 * @param configurationFile
 	 * @return
+	 * @throws ConfigurationException
 	 */
-	public static int[][] manufactureArray(File configurationFile) {
+	public static int[][] manufactureArrayFromFlatXML(File configurationFile)
+			throws ConfigurationException {
 		int[][] theArray = null;
-		try {
-			AgeMap<SexMap<IObservable>> theMap = manufacture(configurationFile);
-			int ageDim = theMap.size();
-			SexMap<IObservable> sexMap = theMap.get(new Integer(0));
-			int sexDim = sexMap.size();
-			theArray = new int[ageDim][sexDim];
-			IObservable theObservable = null;
-			log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
-			for (int ageCount = 0; ageCount < ageDim; ageCount++) {
-				sexMap = theMap.get(new Integer(ageCount));
-				if (sexMap == null) {
+		AgeMap<SexMap<IObservable>> theMap = manufactureFromFlatXML(configurationFile);
+		int ageDim = theMap.size();
+		SexMap<IObservable> sexMap = theMap.get(new Integer(0));
+		int sexDim = sexMap.size();
+		theArray = new int[ageDim][sexDim];
+		IObservable theObservable = null;
+		log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
+		for (int ageCount = 0; ageCount < ageDim; ageCount++) {
+			sexMap = theMap.get(new Integer(ageCount));
+			if (sexMap == null) {
+				throw new ConfigurationException(
+						"Incomplete set of sexes for age " + ageCount);
+			}
+			for (int sexCount = 0; sexCount < sexDim; sexCount++) {
+				theObservable = sexMap.get(new Integer(sexCount));
+				if (theObservable != null) {
+					log.debug("Putting value " + theObservable + " for age "
+							+ ageCount + " sex: " + sexCount);
+					theArray[ageCount][sexCount] = ((Integer) ((WritableValue) theObservable)
+							.doGetValue()).intValue();
+				} else {
 					throw new ConfigurationException(
-							"Incomplete set of sexes for age " + ageCount);
-				}
-				for (int sexCount = 0; sexCount < sexDim; sexCount++) {
-					theObservable = sexMap.get(new Integer(sexCount));
-					if (theObservable != null) {
-						log.debug("Putting value " + theObservable
-								+ " for age " + ageCount + " sex: " + sexCount);
-						theArray[ageCount][sexCount] = ((Integer) ((WritableValue) theObservable)
-								.doGetValue()).intValue();
-					} else {
-						throw new ConfigurationException(
-								"Incomplete set of values for age " + ageCount
-										+ ",sex " + sexCount);
-					}
+							"Incomplete set of values for age " + ageCount
+									+ ",sex " + sexCount);
 				}
 			}
-			return theArray;
-		} catch (ConfigurationException exception) {
-			log.error("Caught Exception of type: "
-					+ exception.getClass().getName() + " with message: "
-					+ exception.getMessage());
-			// e.printStackTrace();
-			return null;
-		} catch (Exception exception) {
-			log.error("Caught Exception of type: "
-					+ exception.getClass().getName() + " with message: "
-					+ exception.getMessage());
-			 exception.printStackTrace();
-			return null;
 		}
+		return theArray;
 	}
 
-	public static AgeMap<SexMap<IObservable>> manufacture(File configurationFile) {
+	public static AgeMap<SexMap<IObservable>> manufactureFromFlatXML(
+			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		AgeMap<SexMap<IObservable>> outerContainer = null;
 		XMLConfiguration configurationFromFile;
@@ -91,14 +82,15 @@ public class AgeGenderIncidenceArrayFromFlatXMLFactory {
 			} // for rootChildren
 			return outerContainer;
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
+			log.error("Caught Exception of type: " + e.getClass().getName()
+					+ " with message: " + e.getMessage());
 			e.printStackTrace();
-			return outerContainer;
+			throw e;
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
 					+ exception.getMessage());
-			 exception.printStackTrace();
+			exception.printStackTrace();
 			return null;
 		}
 	}
@@ -106,8 +98,8 @@ public class AgeGenderIncidenceArrayFromFlatXMLFactory {
 	private static AgeMap<SexMap<IObservable>> handleRootChild(
 			ConfigurationNode rootChild, AgeMap<SexMap<IObservable>> ageMap)
 			throws ConfigurationException {
-		String rootChildName = rootChild.getName();
-		Object rootChildValueObject = rootChild.getValue();
+//		String rootChildName = rootChild.getName();
+//		Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
 		Integer sex = null;
 		Integer value = null;
@@ -175,53 +167,29 @@ public class AgeGenderIncidenceArrayFromFlatXMLFactory {
 		}
 		log.debug("Processing value for age: " + age + " sex: " + sex
 				+ " value: " + value);
-		IObservable obsValue =  new WritableValue(value, value);
+		IObservable obsValue = new WritableValue(value, value);
 		sexMap.put(sex, obsValue);
 		log.debug("Processed value for age: " + age + " sex: " + sex
 				+ " value: " + value);
 		return ageMap;
 	}
 
-	private static void handleAgeTags(
-			ConfigurationNode confNode,
-			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> outerContainer)
-			throws ConfigurationException {
-		int expectedAge = 0;
-		List theChildren = confNode.getChildren();
-		for (Object child : theChildren) {
-			ConfigurationNode castedChild = (ConfigurationNode) child;
-			if (AgeSteppedContainer.ageWrapperTagName.equals(castedChild
-					.getName())) {
-				float ageValue = getAndDecodeAgeValue(castedChild);
-				if (expectedAge == ageValue) {
-					log.fatal("Age value " + ageValue + " as expected.");
-					outerContainer.put(expectedAge,
-							GenderSteppedIntegersFromXMLFactory
-									.manufacture(castedChild));
-				} else {
-					throw new ConfigurationException("Age value is \""
-							+ ageValue + "\" expected \"" + expectedAge + "\"");
-				}
-				expectedAge++;
-			} else {
-				throw new ConfigurationException("\""
-						+ AgeSteppedContainer.ageWrapperTagName
-						+ "\" tag expected at this point, \""
-						+ castedChild.getName() + "\" tag found.");
-			}
+	public static AgeMap<SexMap<IObservable>> constructAllZeroesModel() {
+		log.debug("Starting construction of empty model.");
+		AgeMap<SexMap<IObservable>> theModel = new AgeMap<SexMap<IObservable>>();
+		for (int ageCount = Age.MIN_VALUE; ageCount <= Age.MAX_VALUE; ageCount++) {
+			theModel.put(new Integer(ageCount), constructAllZeroesSexMap());
 		}
-		log
-				.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains "
-						+ outerContainer.size() + " units.");
+		return theModel;
 	}
 
-	private static float getAndDecodeAgeValue(ConfigurationNode confNode) {
-		List ageStepAttributes = confNode
-				.getAttributes(AgeSteppedContainer.ageValueAttributeName);
-		ConfigurationNode ageValueAttributeNode = (ConfigurationNode) ageStepAttributes
-				.get(0);
-		String ageValueString = (String) ageValueAttributeNode.getValue();
-		float ageValue = Float.parseFloat(ageValueString);
-		return ageValue;
+	private static SexMap<IObservable> constructAllZeroesSexMap() {
+		SexMap<IObservable> theSexMap = new SexMap<IObservable>();
+		Integer nul = new Integer(0);
+		for (int sexCount = Sex.MIN_VALUE; sexCount <= Sex.MAX_VALUE; sexCount++) {
+			theSexMap.put(new Integer(sexCount), new WritableValue(nul, nul
+					.getClass()));
+		}
+		return theSexMap;
 	}
 }

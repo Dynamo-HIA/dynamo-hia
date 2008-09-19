@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.containers.AgeMap;
+import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.ScrollListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -22,7 +24,7 @@ public class ParameterGroup {
 	Group theGroup;
 
 	public ParameterGroup(Composite parent,
-			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> lotsOfData,
+			AgeMap<SexMap<IObservable>> lotsOfData,
 			DataBindingContext dataBindingContext) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

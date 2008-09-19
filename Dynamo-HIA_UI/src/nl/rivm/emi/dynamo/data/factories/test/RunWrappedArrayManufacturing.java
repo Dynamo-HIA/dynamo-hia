@@ -4,10 +4,11 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceArrayFromFlatXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.SingleAgeGenderComposite;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -24,8 +25,13 @@ public class RunWrappedArrayManufacturing implements Runnable {
 				+ File.separator + "incidence1.xml";
 		File configurationFile = new File(configurationFilePath);
 		log.debug(configurationFile.getAbsolutePath());
-		int[][] theArray = AgeGenderIncidenceArrayFromFlatXMLFactory
-				.manufactureArray(configurationFile);
+		try {
+			int[][] theArray = AgeGenderIncidenceDataFactory
+					.manufactureArrayFromFlatXML(configurationFile);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

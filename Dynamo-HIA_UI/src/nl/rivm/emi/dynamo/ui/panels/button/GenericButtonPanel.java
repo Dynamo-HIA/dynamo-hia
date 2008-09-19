@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
 import nl.rivm.emi.dynamo.listeners.TestSelectionListener;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -12,26 +13,33 @@ import org.eclipse.swt.widgets.Shell;
 
 public class GenericButtonPanel extends Composite {
 
- public GenericButtonPanel(Shell shell) {
-	 super(shell, SWT.NONE);
+	Button saveButton;
+	DataAndFileContainer modalParent;
+
+	public GenericButtonPanel(Shell shell) {
+		super(shell, SWT.NONE);
 		setSize(100, 35);
 		setFormData();
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
-		Button saveButton = putSaveButton(this);
-		Button importButton = putImportButton(this,
-				saveButton);
+		saveButton = putSaveButton(this);
+		Button importButton = putImportButton(this, saveButton);
 		Button cancelButton = putCancelButton(this, importButton);
 		cancelButton.addSelectionListener(new CancelSelectionListener(shell));
 		pack();
 	}
 
- private void setFormData() {
+	private void setFormData() {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(100, -5);
 		setLayoutData(formData);
+	}
+
+	public void setModalParent(DataAndFileContainer theParent) {
+		modalParent = theParent;
+		saveButton.addSelectionListener(new SaveSelectionListener(modalParent));
 	}
 
 	static private Button putSaveButton(Composite panel) {
@@ -42,7 +50,6 @@ public class GenericButtonPanel extends Composite {
 		formData.left = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		saveButton.setLayoutData(formData);
-		saveButton.addSelectionListener(new TestSelectionListener());
 		return saveButton;
 	}
 
@@ -58,7 +65,8 @@ public class GenericButtonPanel extends Composite {
 		return importButton;
 	}
 
-	private static Button putCancelButton(Composite composite, Button leftNeighbour) {
+	private static Button putCancelButton(Composite composite,
+			Button leftNeighbour) {
 		FormData formData;
 		Button cancelButton = new Button(composite, SWT.PUSH);
 		cancelButton.setText("Cancel");

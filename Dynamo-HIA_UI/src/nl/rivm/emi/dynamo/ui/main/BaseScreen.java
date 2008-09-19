@@ -16,6 +16,7 @@ import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -26,8 +27,8 @@ public class BaseScreen {
 
 	/** Testing only. */
 
-	String configurationFilePath = "datatemplates" + File.separator
-			+ "25agestep_2gender_popsize.xml";
+//	String configurationFilePath = "datatemplates" + File.separator
+//			+ "25agestep_2gender_popsize.xml";
 
 	public Shell open(Display display) {
 		shell = new Shell(display);
@@ -67,15 +68,27 @@ public class BaseScreen {
 	}
 
 	private void editEntry() {
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(shell,
-				configurationFilePath);
+		FileDialog fileDialog = new FileDialog(shell);
+		fileDialog.open();
+		String selectedConfigurationFilePath = fileDialog.getFilterPath()
+				+ File.separator + fileDialog.getFileName();
+//		MessageBox messageBox = new MessageBox(shell, SWT.NONE);
+//		messageBox.setText("Testing....");
+//		messageBox.setMessage(selectedConfigurationFilePath);
+//		messageBox.open();
+		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
+				shell, selectedConfigurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}
 
 	private void newEntry() {
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(shell,
-				configurationFilePath);
+		FileDialog fileDialog = new FileDialog(shell);
+		fileDialog.open();
+		String selectedConfigurationFilePath = fileDialog.getFilterPath()
+				+ File.separator + fileDialog.getFileName();
+		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
+				shell, selectedConfigurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}
@@ -113,6 +126,7 @@ public class BaseScreen {
 		subItem.setAccelerator(SWT.MOD1 + 'E');
 		subItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+
 				editEntry();
 			}
 		});

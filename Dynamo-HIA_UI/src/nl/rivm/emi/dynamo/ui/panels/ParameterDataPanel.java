@@ -1,11 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import java.io.File;
-
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGender;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
+import nl.rivm.emi.dynamo.data.containers.AgeMap;
+import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 
@@ -17,28 +14,24 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class ParameterDataPanel extends Composite /* implements Runnable */ {
 static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
-	AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> lotsOfData;
+	AgeMap<SexMap<IObservable>> lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	
 	public ParameterDataPanel(Composite parent, Text topNeighbour,
-			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> lotsOfData, DataBindingContext dataBindingContext) {
+			AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext) {
 		super(parent, SWT.NONE);
-			this.lotsOfData = lotsOfData;
+		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		GridLayout layout = new GridLayout();
 // Testing		layout.numColumns = 3;
@@ -56,18 +49,17 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 		Label maleTestLabel = new Label(this, SWT.NONE);
 		maleTestLabel.setText("MaleTest");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			BiGenderSteppedContainer<IObservable> bgsc = lotsOfData.get(
+			SexMap<IObservable> sexMap = lotsOfData.get(
 					count);
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Float(count
-					* lotsOfData.getAgeStepSize()).toString());
-			bindValue(bgsc,
+			label.setText(new Integer(count).toString());
+			bindValue(sexMap,
 					BiGender.FEMALE_INDEX);
-			bindTestValue(bgsc,
+			bindTestValue(sexMap,
 					BiGender.FEMALE_INDEX);
-			bindValue(bgsc,
+			bindValue(sexMap,
 					BiGender.MALE_INDEX);
-			bindTestValue(bgsc,
+			bindTestValue(sexMap,
 					BiGender.MALE_INDEX);
 		}
 	}
@@ -81,44 +73,23 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 		panel.setLayoutData(formData);
 	}
 
-	public void setLotsOfData(
-			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> lotsOfData) {
-		this.lotsOfData = lotsOfData;
-	}
-
-	public AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> getLotsOfData() {
-		return lotsOfData;
-	}
-
-	public AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> manufactureModel(
-			String configurationFilePath) {
-		File configurationFile = new File(configurationFilePath);
-		// log.fatal(configurationFile.getAbsolutePath());
-		AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> testModel = SomethingPerAgeDataFromXMLFactory
-				.manufacture(configurationFile);
-		return testModel;
-	}
-
-	private void bindValue(BiGenderSteppedContainer<IObservable> bgsc, int index) {
+	private void bindValue(SexMap<IObservable> sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
-		text.setText(bgsc.get(index).toString());
+		text.setText(sexMap.get(index).toString());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) bgsc.get(index);
+		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()),
 				ViewUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()));
 	}
 
-	private void bindTestValue(BiGenderSteppedContainer<IObservable> bgsc, int index) {
+	private void bindTestValue(SexMap<IObservable> sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
-		text.setText(bgsc.get(index).toString());
+		text.setText(sexMap.get(index).toString());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-//		Object theValue = bgsc.get(index);
-//		IObservableValue modelObservableValue = (IObservableValue) new WritableValue(
-//				theValue, theValue);
-		WritableValue modelObservableValue = (WritableValue) bgsc.get(index);
+		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()),
 				ViewUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()));

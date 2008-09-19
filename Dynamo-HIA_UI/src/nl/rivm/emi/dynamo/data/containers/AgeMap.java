@@ -3,6 +3,8 @@ package nl.rivm.emi.dynamo.data.containers;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.rivm.emi.dynamo.data.types.Age;
+
 public class AgeMap<T> extends HashMap<Integer, T> {
 
 	public AgeMap() {
@@ -25,4 +27,7 @@ public class AgeMap<T> extends HashMap<Integer, T> {
 		// TODO Auto-generated constructor stub
 	}
 
+	public static String getXMLElementName() {
+		return Age.XMLElementName;
+	}
 }
