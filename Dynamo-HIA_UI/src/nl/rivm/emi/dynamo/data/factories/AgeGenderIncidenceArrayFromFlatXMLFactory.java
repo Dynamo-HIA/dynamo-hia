@@ -19,8 +19,9 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class FourDimFloatArrayFromFlatXMLFactory {
+public class AgeGenderIncidenceArrayFromFlatXMLFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.IntegerPerAgeDataFromFlatXMLFactory");
 
@@ -29,61 +30,33 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 	 * @param configurationFile
 	 * @return
 	 */
-	public static float[][][][] manufactureArray(File configurationFile) {
-		float[][][][] theArray = null;
+	public static int[][] manufactureArray(File configurationFile) {
+		int[][] theArray = null;
 		try {
-			AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>> theMap = manufacture(configurationFile);
+			AgeMap<SexMap<IObservable>> theMap = manufacture(configurationFile);
 			int ageDim = theMap.size();
-			SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>> sexMap = theMap
-					.get(new Integer(0));
+			SexMap<IObservable> sexMap = theMap.get(new Integer(0));
 			int sexDim = sexMap.size();
-			DestinationsByOriginMap<ValueByDestinationMap<Float>> originMap = sexMap
-					.get(new Integer(0));
-			int originDim = originMap.size();
-			ValueByDestinationMap<Float> destinyMap = originMap.get(0);
-			int destinyDim = destinyMap.size();
-			theArray = new float[ageDim][sexDim][originDim][destinyDim];
-			Float theFloat = null;
-			log.debug("Array sizes: age " + ageDim + " sex: " + sexDim
-					+ " from: " + originDim + " to: " + destinyDim);
+			theArray = new int[ageDim][sexDim];
+			IObservable theObservable = null;
+			log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
 			for (int ageCount = 0; ageCount < ageDim; ageCount++) {
 				sexMap = theMap.get(new Integer(ageCount));
-				if(sexMap == null){
-				throw new ConfigurationException(
-						"Incomplete set of sexes for age " + ageCount);
+				if (sexMap == null) {
+					throw new ConfigurationException(
+							"Incomplete set of sexes for age " + ageCount);
 				}
 				for (int sexCount = 0; sexCount < sexDim; sexCount++) {
-					originMap = sexMap.get(new Integer(sexCount));
-					if(originMap == null){
-					throw new ConfigurationException(
-							"Incomplete set of froms for age " + ageCount
-									+ " and sex: " + sexCount);
-					}
-					for (int originCount = 0; originCount < originDim; originCount++) {
-						destinyMap = originMap.get(new Integer(originCount));
-						if(destinyMap == null){
-							throw new ConfigurationException(
-									"Incomplete set of to's for age " + ageCount
-											+ ", sex: " + sexCount + " and from " + originCount);
-							}
-						for (int destinyCount = 0; destinyCount < destinyDim; destinyCount++) {
-							theFloat = destinyMap
-									.get(new Integer(destinyCount));
-							if (theFloat != null) {
-								log.debug("Putting value " + theFloat
-										+ " for age " + ageCount + " sex: "
-										+ sexCount + " from: " + originCount
-										+ " to: " + destinyCount);
-								theArray[ageCount][sexCount][originCount][destinyCount] = theFloat
-										.floatValue();
-							} else {
-								throw new ConfigurationException(
-										"Incomplete set of values for age " + ageCount
-												+ ",sex " + sexCount
-												+ ",from " + originCount
-												+ " and to " + destinyCount);
-							}
-						}
+					theObservable = sexMap.get(new Integer(sexCount));
+					if (theObservable != null) {
+						log.debug("Putting value " + theObservable
+								+ " for age " + ageCount + " sex: " + sexCount);
+						theArray[ageCount][sexCount] = ((Integer) ((WritableValue) theObservable)
+								.doGetValue()).intValue();
+					} else {
+						throw new ConfigurationException(
+								"Incomplete set of values for age " + ageCount
+										+ ",sex " + sexCount);
 					}
 				}
 			}
@@ -94,13 +67,18 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 					+ exception.getMessage());
 			// e.printStackTrace();
 			return null;
+		} catch (Exception exception) {
+			log.error("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage());
+			 exception.printStackTrace();
+			return null;
 		}
 	}
 
-	public static AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>> manufacture(
-			File configurationFile) {
+	public static AgeMap<SexMap<IObservable>> manufacture(File configurationFile) {
 		log.debug("Starting manufacture.");
-		AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>> outerContainer = null;
+		AgeMap<SexMap<IObservable>> outerContainer = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -116,20 +94,23 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return outerContainer;
+		} catch (Exception exception) {
+			log.error("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage());
+			 exception.printStackTrace();
+			return null;
 		}
 	}
 
-	private static AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>> handleRootChild(
-			ConfigurationNode rootChild,
-			AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>> ageMap)
+	private static AgeMap<SexMap<IObservable>> handleRootChild(
+			ConfigurationNode rootChild, AgeMap<SexMap<IObservable>> ageMap)
 			throws ConfigurationException {
 		String rootChildName = rootChild.getName();
 		Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
 		Integer sex = null;
-		Integer from = null;
-		Integer to = null;
-		Float value = null;
+		Integer value = null;
 
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
@@ -153,34 +134,16 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 							throw new ConfigurationException("Double sex tag.");
 						}
 					} else {
-						if ("from".equalsIgnoreCase(leafName)) {
-							if (from == null) {
-								from = Integer.parseInt(valueString);
+						if ("value".equalsIgnoreCase(leafName)) {
+							if (value == null) {
+								value = Integer.parseInt(valueString);
 							} else {
 								throw new ConfigurationException(
-										"Double from tag.");
+										"Double value tag.");
 							}
 						} else {
-							if ("to".equalsIgnoreCase(leafName)) {
-								if (to == null) {
-									to = Integer.parseInt(valueString);
-								} else {
-									throw new ConfigurationException(
-											"Double to tag.");
-								}
-							} else {
-								if ("value".equalsIgnoreCase(leafName)) {
-									if (value == null) {
-										value = Float.parseFloat(valueString);
-									} else {
-										throw new ConfigurationException(
-												"Double value tag.");
-									}
-								} else {
-									throw new ConfigurationException(
-											"Unexpected tag: " + leafName);
-								}
-							}
+							throw new ConfigurationException("Unexpected tag: "
+									+ leafName);
 						}
 					}
 				}
@@ -188,44 +151,34 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 				throw new ConfigurationException("Value is no String!");
 			}
 		} // for leafChildren
-		SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>> sexMap = null;
-		DestinationsByOriginMap<ValueByDestinationMap<Float>> originMap = null;
-		ValueByDestinationMap<Float> destinyMap = null;
-		Float storedValue = null;
+		SexMap<IObservable> sexMap = null;
+		IObservable storedValue = null;
 		boolean newBranch = false;
 		if (ageMap == null) {
 			newBranch = true;
-			ageMap = new AgeMap<SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>>();
+			ageMap = new AgeMap<SexMap<IObservable>>();
 		} else {
 			sexMap = ageMap.get(age);
 		}
 		if (sexMap == null) {
 			newBranch = true;
-			sexMap = new SexMap<DestinationsByOriginMap<ValueByDestinationMap<Float>>>();
+			sexMap = new SexMap<IObservable>();
 			ageMap.put(age, sexMap);
 		} else {
-			originMap = sexMap.get(from);
-		}
-		if (originMap == null) {
-			originMap = new DestinationsByOriginMap<ValueByDestinationMap<Float>>();
-			sexMap.put(sex, originMap);
-		} else {
-			destinyMap = originMap.get(from);
-		}
-		if (destinyMap == null) {
-			destinyMap = new ValueByDestinationMap<Float>();
-			originMap.put(from, destinyMap);
-		} else {
-			storedValue = destinyMap.get(to);
+			storedValue = sexMap.get(sex);
 		}
 		if (storedValue != null) {
 			throw new ConfigurationException("Duplicate value for age: " + age
-					+ " sex: " + sex + " from: " + from + " to: " + to
-					+ "\nPresentValue: " + storedValue + " newValue: " + value);
+					+ " sex: " + sex + "\nPresentValue: "
+					+ ((WritableValue) storedValue).doGetValue()
+					+ " newValue: " + value);
 		}
-		destinyMap.put(to, value);
+		log.debug("Processing value for age: " + age + " sex: " + sex
+				+ " value: " + value);
+		IObservable obsValue =  new WritableValue(value, value);
+		sexMap.put(sex, obsValue);
 		log.debug("Processed value for age: " + age + " sex: " + sex
-				+ " from: " + from + " to: " + to + " value: " + value);
+				+ " value: " + value);
 		return ageMap;
 	}
 
@@ -260,26 +213,6 @@ public class FourDimFloatArrayFromFlatXMLFactory {
 		log
 				.fatal("AgeSteppedContainer<BiGenderSteppedContainer<Integer>> contains "
 						+ outerContainer.size() + " units.");
-	}
-
-	private static int getAndDecodeNumberOfSteps(ConfigurationNode confNode) {
-		List numStepsAttributes = confNode
-				.getAttributes(AgeSteppedContainer.numberOfStepsAttributeName);
-		ConfigurationNode numStepsNode = (ConfigurationNode) numStepsAttributes
-				.get(0);
-		String numStepsString = (String) numStepsNode.getValue();
-		int numSteps = Integer.parseInt(numStepsString);
-		return numSteps;
-	}
-
-	private static float getAndDecodeAgeStep(ConfigurationNode confNode) {
-		List ageStepAttributes = confNode
-				.getAttributes(AgeSteppedContainer.ageStepAttributeName);
-		ConfigurationNode ageStepNode = (ConfigurationNode) ageStepAttributes
-				.get(0);
-		String ageStepString = (String) ageStepNode.getValue();
-		float ageStep = Float.parseFloat(ageStepString);
-		return ageStep;
 	}
 
 	private static float getAndDecodeAgeValue(ConfigurationNode confNode) {

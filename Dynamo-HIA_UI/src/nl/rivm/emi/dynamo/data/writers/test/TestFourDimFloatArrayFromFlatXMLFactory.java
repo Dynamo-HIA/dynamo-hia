@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.factories.test;
+package nl.rivm.emi.dynamo.data.writers.test;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;

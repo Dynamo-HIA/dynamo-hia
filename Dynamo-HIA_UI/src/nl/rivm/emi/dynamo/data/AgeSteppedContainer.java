@@ -1,6 +1,12 @@
 package nl.rivm.emi.dynamo.data;
-
-import java.util.TreeMap;
+/**
+ * AgeContainer for hierarchical configuration files. 
+ * OBSOLETE for the moment.
+ * 
+ * @author mondeelr
+ *
+ * @param <E>
+ */
 
 public class AgeSteppedContainer<E> {
 	static public final String ageSteppedContainerTagName = "agesteppedcontainer";

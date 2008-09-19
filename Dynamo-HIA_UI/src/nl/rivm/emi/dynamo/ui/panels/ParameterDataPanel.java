@@ -37,12 +37,11 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 	
 	public ParameterDataPanel(Composite parent, Text topNeighbour,
 			AgeSteppedContainer<BiGenderSteppedContainer<IObservable>> lotsOfData, DataBindingContext dataBindingContext) {
-//		super(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		super(parent, SWT.NONE);
 			this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		GridLayout layout = new GridLayout();
-//		layout.numColumns = 3;
+// Testing		layout.numColumns = 3;
 		layout.numColumns = 5;
 				layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
