@@ -76,7 +76,7 @@ public class BaseScreen {
 //		messageBox.setText("Testing....");
 //		messageBox.setMessage(selectedConfigurationFilePath);
 //		messageBox.open();
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
+		DiseaseIncidenceModal dialog = new DiseaseIncidenceModal(
 				shell, selectedConfigurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);

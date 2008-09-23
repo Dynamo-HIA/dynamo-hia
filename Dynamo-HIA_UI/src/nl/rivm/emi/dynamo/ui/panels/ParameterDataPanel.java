@@ -13,9 +13,13 @@ import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.viewers.CellEditor.LayoutData;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -27,14 +31,14 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
-	
+	HelpGroup theHelpGroup;
 	public ParameterDataPanel(Composite parent, Text topNeighbour,
-			AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext) {
+			AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
+		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-// Testing		layout.numColumns = 3;
 		layout.numColumns = 5;
 				layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
@@ -75,8 +79,21 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 
 	private void bindValue(SexMap<IObservable> sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		text.setLayoutData(gridData);
 		text.setText(sexMap.get(index).toString());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
+		text.addFocusListener(new FocusListener(){
+			public void focusGained(FocusEvent arg0) {
+			theHelpGroup.getFieldHelpGroup().putHelpText(1);
+			}
+
+			public void focusLost(FocusEvent arg0) {
+				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of range.
+			}
+			
+		});
+	IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

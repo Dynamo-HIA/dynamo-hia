@@ -1,17 +1,20 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.ui.panels.help.PreconfiguredHelpGroup;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class HelpGroup{
+public class HelpGroup {
 	Group theGroup = null;
+	PreconfiguredHelpGroup windowHelpGroup;
+	PreconfiguredHelpGroup fieldHelpGroup;
 
 	public HelpGroup(Shell shell, Composite buttonPane) {
 		theGroup = new Group(shell, SWT.NONE);
@@ -21,16 +24,18 @@ public class HelpGroup{
 		fillLayout.marginWidth = 2;
 		theGroup.setLayout(fillLayout);
 		theGroup.setText("Help");
-		putWindowHelpGroup(theGroup);
-		putFieldHelpGroup(theGroup);
+		String[] windowTexts = {"Hellepie."};
+		windowHelpGroup = new PreconfiguredHelpGroup(theGroup, "Window", windowTexts);
+		String[] fieldTexts = {"FieldText0","FieldText1","FieldText2","FieldText3","FieldText4"};
+		fieldHelpGroup = new PreconfiguredHelpGroup(theGroup, "Field", fieldTexts);
 		theGroup.pack();
 	}
 
-	public Group getGroup(){
+	public Group getGroup() {
 		return theGroup;
 	}
-	
-	 private void handlePlacementInContainer(Composite myComposite,
+
+	private void handlePlacementInContainer(Composite myComposite,
 			Composite buttonPane) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
@@ -40,39 +45,11 @@ public class HelpGroup{
 		myComposite.setLayoutData(formData);
 	}
 
-	static private void putWindowHelpGroup(Composite parent) {
-		Group group = new Group(parent, SWT.NONE);
-		// text.setSize(100, 25);
-		group.setText("On this window");
-		FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
-		fillLayout.marginHeight = 5;
-		fillLayout.marginWidth = 5;
-		group.setLayout(fillLayout);
-		putWindowHelpText(group);
+	public PreconfiguredHelpGroup getWindowHelpGroup() {
+		return windowHelpGroup;
 	}
 
-	static private void putWindowHelpText(Composite parent) {
-		Text text = new Text(parent, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP);
-		// text.setSize(100, 25);
-		// text.setMessage("Massage");
-		text
-				.setText("Dit is de algemene, read-only, multiline text widget. En dit is nog veel meer text om de breedte te testen.");
-	}
-
-	static private void putFieldHelpGroup(Composite parent) {
-		Group group = new Group(parent, SWT.NONE);
-		// text.setSize(100, 25);
-		group.setText("On this field");
-		FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
-		fillLayout.marginHeight = 5;
-		fillLayout.marginWidth = 5;
-		group.setLayout(fillLayout);
-		putFieldHelpText(group);
-	}
-
-	static private void putFieldHelpText(Composite parent) {
-		Text text = new Text(parent, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP);
-		text.setSize(100, 25);
-		text.setText("Dit is de specifieke, read-only, multiline text widget.");
+	public PreconfiguredHelpGroup getFieldHelpGroup() {
+		return fieldHelpGroup;
 	}
 }

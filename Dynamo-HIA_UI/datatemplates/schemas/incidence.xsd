@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+	<element name="incidences">
+		<complexType>
+			<sequence minOccurs="96" maxOccurs="96">
+				<element name="incidence">
+					<complexType>
+						<sequence minOccurs="1" maxOccurs="1">
+							<element name="age" type="string" />
+							<element name="sex" type="string" />
+							<element name="value" type="string" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

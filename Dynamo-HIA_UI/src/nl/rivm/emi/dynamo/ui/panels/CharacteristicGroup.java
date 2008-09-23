@@ -18,13 +18,13 @@ import org.eclipse.swt.widgets.Shell;
 public class CharacteristicGroup{
 	Group theGroup;
 
-	public CharacteristicGroup(Shell shell, AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext) {
+	public CharacteristicGroup(Shell shell, AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		CharacteristicNamePanel characteristicNameGroup = new CharacteristicNamePanel(theGroup);
+		CharacteristicNamePanel characteristicNameGroup = new CharacteristicNamePanel(theGroup, helpGroup);
 		characteristicNameGroup.handlePlacementInContainer();
-		ParameterGroup parameterGroup = new ParameterGroup(theGroup, lotsOfData, dataBindingContext);
+		ParameterGroup parameterGroup = new ParameterGroup(theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(characteristicNameGroup.group);
 }
 
@@ -36,5 +36,4 @@ public class CharacteristicGroup{
 		formData.bottom = new FormAttachment(lowerNeighbour, -5);
 		theGroup.setLayoutData(formData);
 	}
-
 }

@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class CharacteristicParameterModal implements Runnable, DataAndFileContainer {
+public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Shell shell;
 	AgeMap<SexMap<IObservable>> lotsOfData;
@@ -31,7 +31,7 @@ public class CharacteristicParameterModal implements Runnable, DataAndFileContai
 	String configurationFilePath;
 	HelpGroup helpPanel;
 
-	public CharacteristicParameterModal(Shell parentShell,
+	public DiseaseIncidenceModal(Shell parentShell,
 			String configurationFilePath) {
 		this.configurationFilePath = configurationFilePath;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
