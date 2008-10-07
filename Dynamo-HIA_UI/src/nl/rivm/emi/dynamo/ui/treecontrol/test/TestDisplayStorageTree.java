@@ -21,7 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class Test2 {
+public class TestDisplayStorageTree {
 	Display display;
 	Shell shell;
 
@@ -74,6 +74,6 @@ public class Test2 {
 	}
 
 	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(Test2.class);
+		return new JUnit4TestAdapter(TestDisplayStorageTree.class);
 	}
 }

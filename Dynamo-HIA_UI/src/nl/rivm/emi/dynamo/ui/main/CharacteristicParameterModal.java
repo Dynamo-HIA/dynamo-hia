@@ -4,7 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -46,7 +46,7 @@ public class CharacteristicParameterModal implements Runnable, DataAndFileContai
 			File configurationFile = new File(configurationFilePath);
 			if (configurationFile.exists()) {
 				if (configurationFile.isFile() && configurationFile.canRead()) {
-					lotsOfData = AgeGenderIncidenceDataFactory
+					lotsOfData = IncidenceIntegerFactory
 							.manufactureFromFlatXML(configurationFile);
 					if (lotsOfData == null) {
 						throw new ConfigurationException(
@@ -57,7 +57,7 @@ public class CharacteristicParameterModal implements Runnable, DataAndFileContai
 							+ " is no file or cannot be read.");
 				}
 			} else {
-				lotsOfData = AgeGenderIncidenceDataFactory
+				lotsOfData = IncidenceIntegerFactory
 						.constructAllZeroesModel();
 			}
 			Composite buttonPanel = new GenericButtonPanel(shell);

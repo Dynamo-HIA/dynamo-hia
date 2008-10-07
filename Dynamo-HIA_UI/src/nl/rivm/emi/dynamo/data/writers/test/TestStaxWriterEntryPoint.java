@@ -11,7 +11,7 @@ import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.data.factories.FourDimFloatArrayFromFlatXMLFactory;
 import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
 import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;

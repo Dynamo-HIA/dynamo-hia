@@ -7,8 +7,6 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 
 	ParentNode parent = null;
 
-	File physicalStorage = null;
-
 	ArrayList<ChildNode> children = new ArrayList<ChildNode>();
 
 	public DirectoryNode(ParentNode parentNode,
@@ -51,9 +49,6 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 		}
 	}
 
-	public File getPhysicalStorage() {
-		return physicalStorage;
-	}
 
 	public int numberOfChildren() {
 		return children.size();

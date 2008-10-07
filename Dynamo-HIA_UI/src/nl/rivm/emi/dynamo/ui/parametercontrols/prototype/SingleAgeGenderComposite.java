@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.prototype;
 
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
-import nl.rivm.emi.dynamo.ui.verification.AgeTextVerificationListener;
+import nl.rivm.emi.dynamo.ui.verifylisteners.AgeTextVerifyListener;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -24,7 +24,7 @@ public class SingleAgeGenderComposite extends Composite {
 	}
 	
 	public void hookupVerificationListeners(){
-		ageText.addVerifyListener(new AgeTextVerificationListener());
+		ageText.addVerifyListener(new AgeTextVerifyListener());
 	}
 
 	public void putData(DatabindableAgeGenderRow row) {

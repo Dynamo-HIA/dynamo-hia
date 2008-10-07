@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.verifylisteners.StandardValueVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,22 +26,25 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ParameterDataPanel extends Composite /* implements Runnable */ {
-static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
+public class IntegerParameterDataPanel extends Composite /* implements Runnable */{
+	static Log log = LogFactory
+			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
 	AgeMap<SexMap<IObservable>> lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	public ParameterDataPanel(Composite parent, Text topNeighbour,
-			AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+
+	public IntegerParameterDataPanel(Composite parent, Text topNeighbour,
+			AgeMap<SexMap<IObservable>> lotsOfData,
+			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 5;
-				layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
@@ -53,22 +57,18 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 		Label maleTestLabel = new Label(this, SWT.NONE);
 		maleTestLabel.setText("MaleTest");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			SexMap<IObservable> sexMap = lotsOfData.get(
-					count);
+			SexMap<IObservable> sexMap = lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
-			bindValue(sexMap,
-					BiGender.FEMALE_INDEX);
-			bindTestValue(sexMap,
-					BiGender.FEMALE_INDEX);
-			bindValue(sexMap,
-					BiGender.MALE_INDEX);
-			bindTestValue(sexMap,
-					BiGender.MALE_INDEX);
+			bindValue(sexMap, BiGender.FEMALE_INDEX);
+			bindTestValue(sexMap, BiGender.FEMALE_INDEX);
+			bindValue(sexMap, BiGender.MALE_INDEX);
+			bindTestValue(sexMap, BiGender.MALE_INDEX);
 		}
 	}
 
-	public void handlePlacementInContainer(ParameterDataPanel panel, Label topNeighbour) {
+	public void handlePlacementInContainer(IntegerParameterDataPanel panel,
+			Label topNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 10);
 		formData.right = new FormAttachment(100, -10);
@@ -83,22 +83,26 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		text.setText(sexMap.get(index).toString());
-		text.addFocusListener(new FocusListener(){
+		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
-			theHelpGroup.getFieldHelpGroup().putHelpText(1);
+				theHelpGroup.getFieldHelpGroup().putHelpText(1);
 			}
 
 			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of range.
+				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
+																	// range.
 			}
-			
+
 		});
-	IObservableValue textObservableValue = SWTObservables.observeText(text,
+//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				ModelUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()),
-				ViewUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()));
+				ModelUpdateValueStrategies.getStrategy(modelObservableValue
+						.getValueType()), ViewUpdateValueStrategies
+						.getStrategy(modelObservableValue.getValueType()));
+		text.addVerifyListener(new StandardValueVerifyListener());
 	}
 
 	private void bindTestValue(SexMap<IObservable> sexMap, int index) {
@@ -108,7 +112,8 @@ static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPa
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				ModelUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()),
-				ViewUpdateValueStrategies.getStrategy(modelObservableValue.getValueType()));
+				ModelUpdateValueStrategies.getStrategy(modelObservableValue
+						.getValueType()), ViewUpdateValueStrategies
+						.getStrategy(modelObservableValue.getValueType()));
 	}
 }

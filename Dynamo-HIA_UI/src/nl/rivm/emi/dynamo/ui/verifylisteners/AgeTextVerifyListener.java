@@ -1,11 +1,11 @@
-package nl.rivm.emi.dynamo.ui.verification;
+package nl.rivm.emi.dynamo.ui.verifylisteners;
 
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 
-public class AgeTextVerificationListener implements VerifyListener {
+public class AgeTextVerifyListener implements VerifyListener {
 
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;

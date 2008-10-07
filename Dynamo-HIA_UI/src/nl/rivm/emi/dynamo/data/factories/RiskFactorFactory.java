@@ -1,19 +1,16 @@
-package nl.rivm.emi.dynamo.data.writers;
+package nl.rivm.emi.dynamo.data.factories;
 
 /**
- * 20080918 Agestep fixed at 1. Ages are Integers. 
+ *  
  */
 import java.io.File;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.atomictypes.Age;
 import nl.rivm.emi.dynamo.data.atomictypes.Sex;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
-import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;
+import nl.rivm.emi.dynamo.data.riskfactor.RiskFactorMarker;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -23,53 +20,14 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class AgeGenderIncidenceDataWriter {
+public class RiskFactorFactory {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory");
+			.getLog("nl.rivm.emi.dynamo.data.factories.RiskFactorFactory");
 
-	/**
-	 * 
-	 * @param configurationFile
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	public static int[][] manufactureArrayFromFlatXML(File configurationFile)
-			throws ConfigurationException {
-		int[][] theArray = null;
-		AgeMap<SexMap<IObservable>> theMap = manufactureFromFlatXML(configurationFile);
-		int ageDim = theMap.size();
-		SexMap<IObservable> sexMap = theMap.get(new Integer(0));
-		int sexDim = sexMap.size();
-		theArray = new int[ageDim][sexDim];
-		IObservable theObservable = null;
-		log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
-		for (int ageCount = 0; ageCount < ageDim; ageCount++) {
-			sexMap = theMap.get(new Integer(ageCount));
-			if (sexMap == null) {
-				throw new ConfigurationException(
-						"Incomplete set of sexes for age " + ageCount);
-			}
-			for (int sexCount = 0; sexCount < sexDim; sexCount++) {
-				theObservable = sexMap.get(new Integer(sexCount));
-				if (theObservable != null) {
-					log.debug("Putting value " + theObservable + " for age "
-							+ ageCount + " sex: " + sexCount);
-					theArray[ageCount][sexCount] = ((Integer) ((WritableValue) theObservable)
-							.doGetValue()).intValue();
-				} else {
-					throw new ConfigurationException(
-							"Incomplete set of values for age " + ageCount
-									+ ",sex " + sexCount);
-				}
-			}
-		}
-		return theArray;
-	}
-
-	public static AgeMap<SexMap<IObservable>> manufactureFromFlatXML(
+	public static RiskFactorMarker manufacture(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		AgeMap<SexMap<IObservable>> outerContainer = null;
+		RiskFactorMarker riskFactory = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);

@@ -12,9 +12,9 @@ import junit.framework.JUnit4TestAdapter;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.atomictypes.Age;
+import nl.rivm.emi.dynamo.data.atomictypes.Probability;
 import nl.rivm.emi.dynamo.data.factories.SomethingPerAgeDataFromXMLFactory;
-import nl.rivm.emi.dynamo.data.types.Age;
-import nl.rivm.emi.dynamo.data.types.Probability;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

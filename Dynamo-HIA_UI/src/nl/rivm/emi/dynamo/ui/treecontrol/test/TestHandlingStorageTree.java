@@ -16,7 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestStorageTree {
+public class TestHandlingStorageTree {
 	Log log = LogFactory.getLog(getClass().getName());
 	File baseDirectory = null;
 
@@ -87,7 +87,7 @@ public class TestStorageTree {
 	}
 
 	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(TestStorageTree.class);
+		return new JUnit4TestAdapter(TestHandlingStorageTree.class);
 	}
 
 }

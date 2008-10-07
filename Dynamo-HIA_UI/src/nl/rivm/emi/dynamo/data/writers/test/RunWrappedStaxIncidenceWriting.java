@@ -10,7 +10,7 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.data.writers.StAXWriterEntryPoint;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.SingleAgeGenderComposite;
@@ -33,7 +33,7 @@ public class RunWrappedStaxIncidenceWriting implements Runnable {
 					+ "staxwriterincidenceoutput.xml";
 			File configurationFile = new File(configurationFilePath);
 			log.debug(configurationFile.getAbsolutePath());
-			AgeMap<SexMap<IObservable>> testContainer = AgeGenderIncidenceDataFactory
+			AgeMap<SexMap<IObservable>> testContainer = IncidenceIntegerFactory
 					.constructAllZeroesModel();
 			StAXWriterEntryPoint.produceFile(testContainer, configurationFile);
 			assertNotNull(testContainer);

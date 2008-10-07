@@ -23,10 +23,10 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
+import nl.rivm.emi.dynamo.data.atomictypes.Age;
+import nl.rivm.emi.dynamo.data.atomictypes.Sex;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.types.Age;
-import nl.rivm.emi.dynamo.data.types.Sex;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

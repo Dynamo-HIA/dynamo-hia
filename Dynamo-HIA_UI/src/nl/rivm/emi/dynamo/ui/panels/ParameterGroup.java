@@ -63,8 +63,7 @@ public class ParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-
-		Composite parameterDataPanel = new ParameterDataPanel(
+		Composite parameterDataPanel = new FloatParameterDataPanel(
 				scrolledContainer, text, lotsOfData, dataBindingContext, helpGroup);
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(label, 2);

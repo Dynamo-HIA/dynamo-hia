@@ -1,10 +1,15 @@
 package nl.rivm.emi.dynamo.ui.main;
 
-/* Imports */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderModal;
+import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
+import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
+import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
+import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
@@ -22,21 +27,48 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class BaseScreen {
-	private Shell shell;
+public class BaseStorageTreeScreen {
+	Shell shell;
+
+	Log log = LogFactory.getLog(getClass().getName());
+	File baseDirectory = null;
+
+	public BaseStorageTreeScreen(String baseDirectoryPath) throws Exception {
+		baseDirectory = new File(baseDirectoryPath);
+		if (!baseDirectory.exists()) {
+			throw new ConfigurationException("Base directory "
+					+ baseDirectory.getAbsolutePath() + " does not exist.");
+		} else {
+			if (!baseDirectory.isDirectory()) {
+				throw new ConfigurationException("Base directory "
+						+ baseDirectory.getAbsolutePath()
+						+ " is not a directory.");
+			}
+		}
+	}
 
 	public Shell open(Display display) {
-		shell = new Shell(display);
-		shell.setLayout(new FillLayout());
-		shell.addShellListener(new ShellAdapter() {
-			public void shellClosed(ShellEvent e) {
-			}
-		});
-
-		createMenuBar();
-
-		shell.open();
-		return shell;
+		try {
+			shell = new Shell(display);
+			shell.setLayout(new FillLayout());
+			shell.addShellListener(new ShellAdapter() {
+				public void shellClosed(ShellEvent e) {
+				}
+			});
+			createMenuBar();
+			StorageTree testTree = new StorageTree(baseDirectory
+					.getAbsolutePath());
+			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
+					testTree.getRootNode());
+			new TreeViewerPlusCustomMenu(shell, sTCP);
+			shell.open();
+			return shell;
+		} catch (StorageTreeException e) {
+			log.error("Caught " + e.getClass().getName() + " with message "
+					+ e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -67,8 +99,12 @@ public class BaseScreen {
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
-		DiseaseIncidenceModal dialog = new DiseaseIncidenceModal(
-				shell, selectedConfigurationFilePath);
+		// MessageBox messageBox = new MessageBox(shell, SWT.NONE);
+		// messageBox.setText("Testing....");
+		// messageBox.setMessage(selectedConfigurationFilePath);
+		// messageBox.open();
+		DiseaseIncidenceModal dialog = new DiseaseIncidenceModal(shell,
+				selectedConfigurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}
@@ -160,4 +196,5 @@ public class BaseScreen {
 			}
 		});
 	}
+
 }

@@ -4,7 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.SingleAgeGenderComposite;
 
@@ -26,7 +26,7 @@ public class RunWrappedContainerManufacturing implements Runnable {
 		File configurationFile = new File(configurationFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
-			AgeMap<SexMap<IObservable>> testContainer = AgeGenderIncidenceDataFactory
+			AgeMap<SexMap<IObservable>> testContainer = IncidenceIntegerFactory
 					.manufactureFromFlatXML(configurationFile);
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block

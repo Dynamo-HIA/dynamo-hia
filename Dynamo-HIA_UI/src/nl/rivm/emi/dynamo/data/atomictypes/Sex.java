@@ -1,9 +1,9 @@
-package nl.rivm.emi.dynamo.data.types;
+package nl.rivm.emi.dynamo.data.atomictypes;
 
-public class Age {
-	static final public String XMLElementName = "age";
+public class Sex {
 	static final public Integer MIN_VALUE = new Integer(0);
-	static final public Integer MAX_VALUE = new Integer(95);
+	static final public Integer MAX_VALUE = new Integer(1);
+	public static final String XMLElementName = "sex";
 
 	static public boolean inRange(Integer testValue) {
 		boolean result = false;

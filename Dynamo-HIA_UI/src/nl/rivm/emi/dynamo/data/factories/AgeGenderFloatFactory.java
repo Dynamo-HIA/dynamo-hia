@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.writers;
+package nl.rivm.emi.dynamo.data.factories;
 
 /**
  * 20080918 Agestep fixed at 1. Ages are Integers. 
@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class AgeGenderIncidenceDataWriter {
+public class AgeGenderFloatFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory");
 
@@ -33,29 +33,29 @@ public class AgeGenderIncidenceDataWriter {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	public static int[][] manufactureArrayFromFlatXML(File configurationFile)
+	public static float[][] manufactureArrayFromFlatXML(File configurationFile)
 			throws ConfigurationException {
-		int[][] theArray = null;
+		float[][] theArray = null;
 		AgeMap<SexMap<IObservable>> theMap = manufactureFromFlatXML(configurationFile);
 		int ageDim = theMap.size();
-		SexMap<IObservable> sexMap = theMap.get(new Integer(0));
+		SexMap<IObservable> sexMap = theMap.get(new Float(0));
 		int sexDim = sexMap.size();
-		theArray = new int[ageDim][sexDim];
+		theArray = new float[ageDim][sexDim];
 		IObservable theObservable = null;
 		log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
 		for (int ageCount = 0; ageCount < ageDim; ageCount++) {
-			sexMap = theMap.get(new Integer(ageCount));
+			sexMap = theMap.get(new Float(ageCount));
 			if (sexMap == null) {
 				throw new ConfigurationException(
 						"Incomplete set of sexes for age " + ageCount);
 			}
 			for (int sexCount = 0; sexCount < sexDim; sexCount++) {
-				theObservable = sexMap.get(new Integer(sexCount));
+				theObservable = sexMap.get(new Float(sexCount));
 				if (theObservable != null) {
 					log.debug("Putting value " + theObservable + " for age "
 							+ ageCount + " sex: " + sexCount);
-					theArray[ageCount][sexCount] = ((Integer) ((WritableValue) theObservable)
-							.doGetValue()).intValue();
+					theArray[ageCount][sexCount] = ((Float) ((WritableValue) theObservable)
+							.doGetValue()).floatValue();
 				} else {
 					throw new ConfigurationException(
 							"Incomplete set of values for age " + ageCount
@@ -102,7 +102,7 @@ public class AgeGenderIncidenceDataWriter {
 //		Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
 		Integer sex = null;
-		Integer value = null;
+		Float value = null;
 
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
@@ -128,7 +128,7 @@ public class AgeGenderIncidenceDataWriter {
 					} else {
 						if ("value".equalsIgnoreCase(leafName)) {
 							if (value == null) {
-								value = Integer.parseInt(valueString);
+								value = Float.parseFloat(valueString);
 							} else {
 								throw new ConfigurationException(
 										"Double value tag.");
@@ -185,7 +185,7 @@ public class AgeGenderIncidenceDataWriter {
 
 	private static SexMap<IObservable> constructAllZeroesSexMap() {
 		SexMap<IObservable> theSexMap = new SexMap<IObservable>();
-		Integer nul = new Integer(0);
+		Float nul = new Float(0F);
 		for (int sexCount = Sex.MIN_VALUE; sexCount <= Sex.MAX_VALUE; sexCount++) {
 			theSexMap.put(new Integer(sexCount), new WritableValue(nul, nul
 					.getClass()));

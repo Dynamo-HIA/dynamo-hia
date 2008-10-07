@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.types;
+package nl.rivm.emi.dynamo.data.atomictypes;
 
 public class Probability {
 	static public Float MIN_VALUE = new Float(0F);

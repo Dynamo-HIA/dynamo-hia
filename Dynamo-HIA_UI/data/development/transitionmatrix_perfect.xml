@@ -5,7 +5,7 @@
 		<sex>0</sex>
 		<from>0</from>
 		<to>0</to>
-		<value>0.9</value>
+		<percent>0.9</percent>
 	</transition>
 	<transition>
 		<age>0</age>
