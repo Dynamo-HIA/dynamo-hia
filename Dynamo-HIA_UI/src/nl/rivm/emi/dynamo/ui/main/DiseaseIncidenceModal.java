@@ -4,8 +4,10 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.AgeGenderFloatFactory;
-import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
+import nl.rivm.emi.dynamo.data.factories.dispatch.DispatchMap;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FromXMLFactoryDispatcher;
+import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
+import nl.rivm.emi.dynamo.data.factories.parts.AgeGenderFloatFactory;
 import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -32,55 +34,59 @@ public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 	String configurationFilePath;
 	HelpGroup helpPanel;
 
-	public DiseaseIncidenceModal(Shell parentShell,
-			String configurationFilePath) {
-		this.configurationFilePath = configurationFilePath;
+	public DiseaseIncidenceModal(Shell parentShell, String configurationFilePath)
+			throws ConfigurationException {
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
+		MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
+		box.setText("Loading file ");
+		box.setMessage(configurationFilePath);
+		box.open();
+		this.configurationFilePath = configurationFilePath;
+		try {
+			try {
+				lotsOfData = (AgeMap<SexMap<IObservable>>) FromXMLFactoryDispatcher.makeDataObject(configurationFilePath);
+			} catch (ClassCastException e) {
+				throw new ConfigurationException(e.getClass().getName() + " "
+						+ e.getMessage());
+			}
+		} catch (ConfigurationException e) {
+			box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+			StackTraceElement[] stackTraceElements = e.getStackTrace();
+			StringBuffer theText = new StringBuffer();
+			for (StackTraceElement stackTraceElement : stackTraceElements) {
+				theText.append(stackTraceElement.getClassName() + "."
+						+ stackTraceElement.getMethodName() + "("
+						+ stackTraceElement.getLineNumber() + ")\n");
+			}
+			box.setText("Trouble");
+			// box.setMessage(e.getMessage());
+			box.setMessage(theText.toString());
+			box.open();
+			throw e;
+		}
 	}
 
 	public synchronized void open() {
-		try {
-			dataBindingContext = new DataBindingContext();
-			File configurationFile = new File(configurationFilePath);
-			if (configurationFile.exists()) {
-				if (configurationFile.isFile() && configurationFile.canRead()) {
-					lotsOfData = AgeGenderFloatFactory
-							.manufactureFromFlatXML(configurationFile);
-					if (lotsOfData == null) {
-						throw new ConfigurationException(
-								"DataModel could not be constructed.");
-					}
-				} else {
-					throw new ConfigurationException(configurationFilePath
-							+ " is no file or cannot be read.");
-				}
-			} else {
-				lotsOfData = IncidenceIntegerFactory
-						.constructAllZeroesModel();
-			}
-			Composite buttonPanel = new GenericButtonPanel(shell);
-			((GenericButtonPanel)buttonPanel).setModalParent((DataAndFileContainer)this);
-			helpPanel = new HelpGroup(shell, buttonPanel);
-			CharacteristicGroup characteristicGroup = new CharacteristicGroup(
-					shell, lotsOfData, dataBindingContext, helpPanel);
-			characteristicGroup.setFormData(helpPanel.getGroup(), buttonPanel);
-			shell.pack();
-			shell.open();
-			Display display = shell.getDisplay();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
+		dataBindingContext = new DataBindingContext();
+		Composite buttonPanel = new GenericButtonPanel(shell);
+		((GenericButtonPanel) buttonPanel)
+				.setModalParent((DataAndFileContainer) this);
+		helpPanel = new HelpGroup(shell, buttonPanel);
+		CharacteristicGroup characteristicGroup = new CharacteristicGroup(
+				shell, lotsOfData, dataBindingContext, helpPanel);
+		characteristicGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+		shell.pack();
+		shell.open();
+		Display display = shell.getDisplay();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
 		}
 	}
+
 
 	public void run() {
 		open();

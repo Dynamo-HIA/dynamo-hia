@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.values;
 
-import nl.rivm.emi.dynamo.data.atomictypes.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 import org.eclipse.core.databinding.observable.value.ValueDiff;
 import org.eclipse.core.databinding.observable.value.WritableValue;

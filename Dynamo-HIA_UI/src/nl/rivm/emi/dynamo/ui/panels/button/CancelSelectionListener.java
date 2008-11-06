@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
-import nl.rivm.emi.dynamo.listeners.AbstractLoggingClass;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;

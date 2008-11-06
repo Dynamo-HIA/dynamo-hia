@@ -8,9 +8,9 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.IncidenceIntegerFactory;
+import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.data.writers.StAXWriterEntryPoint;
-import nl.rivm.emi.dynamo.listeners.AbstractLoggingClass;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.eclipse.core.databinding.observable.IObservable;

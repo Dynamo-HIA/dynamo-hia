@@ -17,7 +17,7 @@ public class ViewConverters {
 					+ objectType.getClass().getName());
 		} else {
 			if (objectType instanceof Float) {
-				resultConverter = new FloatViewConverter("");
+				resultConverter = new StandardFloatViewConverter("");
 				log.debug("Viewconverter constructed for "
 						+ objectType.getClass().getName());
 			} else {

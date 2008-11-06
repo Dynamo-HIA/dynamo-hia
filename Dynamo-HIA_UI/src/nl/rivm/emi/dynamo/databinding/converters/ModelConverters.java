@@ -16,7 +16,7 @@ public class ModelConverters {
 					+ objectType.getClass().getName());
 		} else {
 			if (objectType instanceof Float) {
-				resultConverter = new FloatModelConverter("");
+				resultConverter = new StandardFloatModelConverter("");
 				log.debug("Modelconverter constructed for "
 						+ objectType.getClass().getName());
 			} else {

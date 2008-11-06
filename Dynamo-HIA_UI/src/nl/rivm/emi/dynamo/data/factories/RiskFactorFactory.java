@@ -6,11 +6,14 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.atomictypes.Age;
-import nl.rivm.emi.dynamo.data.atomictypes.Sex;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
+import nl.rivm.emi.dynamo.data.objects.RiskFactorObject;
 import nl.rivm.emi.dynamo.data.riskfactor.RiskFactorMarker;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -20,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class RiskFactorFactory {
+public class RiskFactorFactory  implements IObjectFromXMLFactory<RiskFactorObject>{
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.RiskFactorFactory");
 

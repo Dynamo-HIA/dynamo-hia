@@ -1,21 +1,21 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols;
 
 
-import nl.rivm.emi.dynamo.listeners.TestControlListener;
-import nl.rivm.emi.dynamo.listeners.TestDisposeListener;
-import nl.rivm.emi.dynamo.listeners.TestDragDetectlListener;
-import nl.rivm.emi.dynamo.listeners.TestFocusListener;
-import nl.rivm.emi.dynamo.listeners.TestHelpListener;
-import nl.rivm.emi.dynamo.listeners.TestKeyListener;
-import nl.rivm.emi.dynamo.listeners.TestListener;
-import nl.rivm.emi.dynamo.listeners.TestMenuDetectListener;
-import nl.rivm.emi.dynamo.listeners.TestMouseListener;
-import nl.rivm.emi.dynamo.listeners.TestMouseMoveListener;
-import nl.rivm.emi.dynamo.listeners.TestMouseTrackListener;
-import nl.rivm.emi.dynamo.listeners.TestMouseWheelListener;
-import nl.rivm.emi.dynamo.listeners.TestPaintListener;
-import nl.rivm.emi.dynamo.listeners.TestSelectionListener;
-import nl.rivm.emi.dynamo.listeners.TestTraverseListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestControlListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestDisposeListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestDragDetectlListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestFocusListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestHelpListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestKeyListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestMenuDetectListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestMouseListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestMouseMoveListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestMouseTrackListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestMouseWheelListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestPaintListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.for_test.TestTraverseListener;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColorCellEditor;

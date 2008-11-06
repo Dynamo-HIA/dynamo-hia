@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.containers;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.rivm.emi.dynamo.data.atomictypes.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class AgeMap<T> extends HashMap<Integer, T> {
 

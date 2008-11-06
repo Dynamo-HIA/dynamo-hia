@@ -5,7 +5,7 @@ import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
-import nl.rivm.emi.dynamo.ui.verifylisteners.StandardValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.StandardValueVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

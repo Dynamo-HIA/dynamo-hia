@@ -5,6 +5,10 @@ import java.util.List;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.notinuse.GenderSteppedIntegersFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
+import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
@@ -13,7 +17,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TransitionMatrixFactory {
+public class TransitionMatrixFactory  implements IObjectFromXMLFactory<TransitionMatrixObject>{
 	static private Log log = LogFactory
 	.getLog("nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory");
 static final String transitionMatrixContainerTagName = "transitiomatrix";

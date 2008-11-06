@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
@@ -99,14 +100,15 @@ public class BaseStorageTreeScreen {
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
-		// MessageBox messageBox = new MessageBox(shell, SWT.NONE);
-		// messageBox.setText("Testing....");
-		// messageBox.setMessage(selectedConfigurationFilePath);
-		// messageBox.open();
-		DiseaseIncidenceModal dialog = new DiseaseIncidenceModal(shell,
-				selectedConfigurationFilePath);
-		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-				dialog);
+		DiseaseIncidenceModal dialog;
+		try {
+			dialog = new DiseaseIncidenceModal(shell,
+					selectedConfigurationFilePath);
+			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
+					dialog);
+		} catch (ConfigurationException e) {
+			// Do nothing, already handled on a deeper level.
+		}
 	}
 
 	private void newEntry() {
@@ -118,6 +120,16 @@ public class BaseStorageTreeScreen {
 				shell, selectedConfigurationFilePath);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
+	}
+
+	private void new2Entry() {
+		InputDialog inputDialog = new InputDialog(shell, "dialogTitle",
+				"dialogMessage", "initialValue", null);
+		inputDialog.open();
+		String input = inputDialog.getValue();
+		MessageBox messageBox = new MessageBox(shell);
+		messageBox.setMessage(input);
+		messageBox.open();
 	}
 
 	private void createFileMenu(Menu menuBar) {
@@ -146,6 +158,15 @@ public class BaseStorageTreeScreen {
 		subItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				newEntry();
+			}
+		});
+		// File -> New Contact
+		subItem = new MenuItem(menu, SWT.NONE);
+		subItem.setText("New2");
+		subItem.setAccelerator(SWT.MOD1 + '2');
+		subItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				new2Entry();
 			}
 		});
 		subItem = new MenuItem(menu, SWT.NONE);

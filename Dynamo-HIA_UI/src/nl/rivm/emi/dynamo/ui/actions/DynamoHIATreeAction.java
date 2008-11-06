@@ -4,6 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidenceModal;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
@@ -43,9 +44,12 @@ public class DynamoHIATreeAction extends Action {
 					selectionPath);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					dialog);
-		} catch (Throwable t) {
-			t.printStackTrace();
+		} catch (ConfigurationException e){
+			// Do nothing, message has been displayed.
 		}
+		// catch (Throwable t) {
+//			t.printStackTrace();
+//		}
 	}
 
 }

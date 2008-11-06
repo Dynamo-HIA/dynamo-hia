@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.prototype;
 
+import nl.rivm.emi.dynamo.ui.listeners.verify.AgeTextVerifyListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
-import nl.rivm.emi.dynamo.ui.verifylisteners.AgeTextVerifyListener;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
