@@ -44,7 +44,7 @@ public class AgeWritableValue extends WritableValue {
 	 */
 	public void doSetValue(Integer value) {
 		IntegerValueDiff integerValueDiff = new IntegerValueDiff( (Integer)super.doGetValue(), value);
-		if (!Age.inRange(new Float(value))) {
+		if (!new Age().inRange(value)) {
 			super.fireValueChange(integerValueDiff);
 		} else {
 			super.doSetValue(value);

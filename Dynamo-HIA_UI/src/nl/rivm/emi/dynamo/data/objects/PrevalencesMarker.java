@@ -1,5 +1,5 @@
 package nl.rivm.emi.dynamo.data.objects;
 
-public class PrevalencesObject {
+public interface PrevalencesMarker {
 
 }

@@ -21,7 +21,9 @@ public class TestFromXMLFactoryDispatcher {
 	Shell shell = null;
 	Composite container = null;
 	boolean killScreen = false;
-String configurationFilePath = "D:\\eclipse_workspaces\\rcp\\Dynamo-HIA_UI\\data\\dynamobase\\ReferenceData\\Lung Cancer\\Incidences\\incidence1.xml"; 
+	String incidenceConfigurationFilePath = "D:\\eclipse_workspaces\\KISFromSVN\\Dynamo-HIA_UI\\data\\dynamobase\\ReferenceData\\Lung Cancer\\Incidences\\incidence1.xml"; 
+	String prevalenceConfigurationFilePath = "D:\\eclipse_workspaces\\KISFromSVN\\Dynamo-HIA_UI\\data\\development\\prevalencecategorical.xml"; 
+
 	@Before
 	public void setup() {
 	}
@@ -31,9 +33,26 @@ String configurationFilePath = "D:\\eclipse_workspaces\\rcp\\Dynamo-HIA_UI\\data
 	}
 
 	@Test
-	public void testManufacturing() {
+	public void testManufacturingIncidenceObject() {
 		try {
-			Object theObject = FromXMLFactoryDispatcher.makeDataObject(configurationFilePath);
+			Object theObject = FromXMLFactoryDispatcher.makeDataObject(incidenceConfigurationFilePath);
+			assertNotNull(theObject);
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		}
+	}
+
+	/**
+	 * WARNING Three different Object to test,
+	 * Starting with categorical.
+	 * TODO continuous
+	 * TODO duration.
+	 */
+	@Test
+	public void testManufacturingPrevalenceObjects() {
+		try {
+			Object theObject = FromXMLFactoryDispatcher.makeDataObject(prevalenceConfigurationFilePath);
 			assertNotNull(theObject);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();

@@ -18,7 +18,7 @@ public enum AtomicTypeEnum {
 		return theType;
 	}
 
-	public String getRootNodeName() {
+	public String getElementName() {
 		return theType.XMLElementName;
 	}
 }

@@ -14,6 +14,7 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Node;
 
 import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl;
 
@@ -55,17 +56,17 @@ public class FromXMLFactoryDispatcher {
 
 			configurationFromFile = new XMLConfiguration(configurationFile.getAbsolutePath());
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			String aroundTheBend = ((DeferredElementImpl)rootNode.getReference()).getNodeName();
+//			String aroundTheBend = ((DeferredElementImpl)rootNode.getReference()).getNodeName();
 			ConfigurationNode firstChildNode = rootNode.getChild(0);
-			ConfigurationNode parentNode = firstChildNode.getParentNode();
-			String parentName = parentNode.getName();
-			String rootNodeName = rootNode.getName();
-			// Node firstChild = configurationFromFile.getDocument()
-			// .getFirstChild();
-			// String firstChildName = firstChild.getNodeName();
+//			ConfigurationNode parentNode = firstChildNode.getParentNode();
+//			String parentName = parentNode.getName();
+//			String rootNodeName = rootNode.getName();
+			 Node firstChild = configurationFromFile.getDocument()
+			 .getFirstChild();
+			 String firstChildName = firstChild.getNodeName();
 			IObjectFromXMLFactory relevantFactory = dispatchMap
-					.get(rootNodeName);
-			// .get(firstChildName);
+			//		.get(rootNodeName);
+			 .get(firstChildName);
 			Object object = relevantFactory
 					.manufactureFromFlatXML(configurationFile);
 			return object;

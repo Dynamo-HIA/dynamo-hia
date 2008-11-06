@@ -5,21 +5,21 @@ import java.util.Map;
 
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
-public class AgeMap<T> extends HashMap<Integer, T> {
+public class CategoryMap<T> extends HashMap<Integer, T> {
 
-	public AgeMap() {
+	public CategoryMap() {
 		super();
 	}
 
-	public AgeMap(int initialCapacity, float loadFactor) {
+	public CategoryMap(int initialCapacity, float loadFactor) {
 		super(initialCapacity, loadFactor);
 	}
 
-	public AgeMap(int initialCapacity) {
+	public CategoryMap(int initialCapacity) {
 		super(initialCapacity);
 	}
 
-	public AgeMap(Map<? extends Integer, ? extends T> m) {
+	public CategoryMap(Map<? extends Integer, ? extends T> m) {
 		super(m);
 	}
 

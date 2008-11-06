@@ -35,22 +35,24 @@ public class TestTypes {
 
 	@Test
 	public void testAge() {
-		Float minusTwoFloat = new Float(-2F);
-		Float fourFloat = new Float(4F);
-		Float oneOhOneFloat = new Float(101F);
-		assertFalse(Age.inRange(minusTwoFloat));
-		assertTrue(Age.inRange(fourFloat));
-		assertFalse(Age.inRange(oneOhOneFloat));
+		Age utilityAge = new Age();
+		Integer minusTwoInteger = new Integer(-2);
+		Integer fourInteger = new Integer(4);
+		Integer oneOhOneInteger = new Integer(101);
+		assertFalse(utilityAge.inRange(minusTwoInteger));
+		assertTrue(utilityAge.inRange(fourInteger));
+		assertFalse(utilityAge.inRange(oneOhOneInteger));
 	}
 
 	@Test
 	public void testProbability() {
+		Probability utilityProbability = new Probability();
 		Float minusTwoFloat = new Float(-2F);
 		Float pointFourFloat = new Float(.4F);
 		Float oneOhOneFloat = new Float(101F);
-		assertFalse(Probability.inRange(minusTwoFloat));
-		assertTrue(Probability.inRange(pointFourFloat));
-		assertFalse(Probability.inRange(oneOhOneFloat));
+		assertFalse(utilityProbability.inRange(minusTwoFloat));
+		assertTrue(utilityProbability.inRange(pointFourFloat));
+		assertFalse(utilityProbability.inRange(oneOhOneFloat));
 	}
 
 	public static junit.framework.Test suite() {

@@ -35,6 +35,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class StAXWriterEntryPoint {
 	static Log log = LogFactory.getLog("nl.rivm.emi.cdm.StAXEntryPoint");
+	static Age utilityAge = new Age();
+	static Sex utilitySex = new Sex();
 
 	/**
 	 * Expects an XML-file. When the XML-file contains a hierarchy of elements
@@ -121,9 +123,9 @@ public class StAXWriterEntryPoint {
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		TreeMap<String, String> contentMap = new TreeMap<String, String>();
-		for (int ageCount = Age.MIN_VALUE; ageCount < theModel.size(); ageCount++) {
+		for (int ageCount = utilityAge.getMIN_VALUE(); ageCount < theModel.size(); ageCount++) {
 			Integer ageCountInteger = new Integer(ageCount);
-			contentMap.put(Age.XMLElementName, ageCountInteger.toString());
+			contentMap.put(utilityAge.getElementName(), ageCountInteger.toString());
 			SexMap<IObservable> sexMap = (SexMap<IObservable>) theModel
 					.get(ageCountInteger);
 			streamSexMapEvents(sexMap, contentMap, writer, eventFactory);
@@ -133,9 +135,9 @@ public class StAXWriterEntryPoint {
 	static public void streamSexMapEvents(SexMap<IObservable> theModel,
 			TreeMap<String, String> contentMap, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
-		for (int sexCount = Sex.MIN_VALUE; sexCount < theModel.size(); sexCount++) {
+		for (int sexCount = utilitySex.getMIN_VALUE(); sexCount < theModel.size(); sexCount++) {
 			Integer sexCountInteger = new Integer(sexCount);
-			contentMap.put(Sex.XMLElementName, sexCountInteger.toString());
+			contentMap.put(utilitySex.getElementName(), sexCountInteger.toString());
 			Integer incidenceValue = (Integer) (((WritableValue) theModel
 					.get(sexCountInteger)).doGetValue());
 			contentMap.put("value", incidenceValue.toString());

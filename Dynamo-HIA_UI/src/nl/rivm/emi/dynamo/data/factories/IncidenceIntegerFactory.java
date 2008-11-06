@@ -6,14 +6,10 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.atomictypes.Age;
-import nl.rivm.emi.dynamo.data.atomictypes.Sex;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
-import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -176,17 +172,19 @@ public class IncidenceIntegerFactory {
 
 	public static AgeMap<SexMap<IObservable>> constructAllZeroesModel() {
 		log.debug("Starting construction of empty model.");
+		Age utilityAge = new Age();
 		AgeMap<SexMap<IObservable>> theModel = new AgeMap<SexMap<IObservable>>();
-		for (int ageCount = Age.MIN_VALUE; ageCount <= Age.MAX_VALUE; ageCount++) {
+		for (int ageCount = utilityAge.getMIN_VALUE(); ageCount <= utilityAge.getMAX_VALUE(); ageCount++) {
 			theModel.put(new Integer(ageCount), constructAllZeroesSexMap());
 		}
 		return theModel;
 	}
 
 	private static SexMap<IObservable> constructAllZeroesSexMap() {
+		Sex utilitySex = new Sex();
 		SexMap<IObservable> theSexMap = new SexMap<IObservable>();
 		Integer nul = new Integer(0);
-		for (int sexCount = Sex.MIN_VALUE; sexCount <= Sex.MAX_VALUE; sexCount++) {
+		for (int sexCount = utilitySex.getMIN_VALUE(); sexCount <= utilitySex.getMAX_VALUE(); sexCount++) {
 			theSexMap.put(new Integer(sexCount), new WritableValue(nul, nul
 					.getClass()));
 		}

@@ -26,6 +26,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 public class RiskFactorFactory  implements IObjectFromXMLFactory<RiskFactorObject>{
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.RiskFactorFactory");
+	static Age utilityAge = new Age();
+	static Sex utilitySex = new Sex();
 
 	public static RiskFactorMarker manufacture(
 			File configurationFile) throws ConfigurationException {

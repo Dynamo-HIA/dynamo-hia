@@ -11,7 +11,7 @@ public class AtomicTypesSingleton extends HashMap<String,TypeBase>{
 	private AtomicTypesSingleton(){
 		super();
 		for(AtomicTypeEnum type: AtomicTypeEnum.values()){
-		put(type.getRootNodeName(),type.getTheType());
+		put(type.getElementName(),type.getTheType());
 		}
 	}
 	

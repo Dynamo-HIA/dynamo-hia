@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Java1.6 update 5"/>
 	<classpathentry kind="lib" path="lib/com.ibm.icu_3.6.1.v20070906.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>

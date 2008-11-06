@@ -15,7 +15,7 @@ public abstract class TypeBase {
 		return result;
 	}
 
-	public String isGetElementName(){
+	public String getElementName(){
 		return XMLElementName;
 		}
 }
