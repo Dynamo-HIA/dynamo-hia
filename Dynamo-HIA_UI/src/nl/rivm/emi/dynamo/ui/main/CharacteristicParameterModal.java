@@ -46,8 +46,8 @@ public class CharacteristicParameterModal implements Runnable, DataAndFileContai
 			File configurationFile = new File(configurationFilePath);
 			if (configurationFile.exists()) {
 				if (configurationFile.isFile() && configurationFile.canRead()) {
-					lotsOfData = IncidenceIntegerFactory
-							.manufactureFromFlatXML(configurationFile);
+//					lotsOfData = IncidenceIntegerFactory
+//							.manufactureFromFlatXML(configurationFile);
 					if (lotsOfData == null) {
 						throw new ConfigurationException(
 								"DataModel could not be constructed.");

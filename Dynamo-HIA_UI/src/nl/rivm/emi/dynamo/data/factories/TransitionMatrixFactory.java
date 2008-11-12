@@ -7,7 +7,9 @@ import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
 import nl.rivm.emi.dynamo.data.factories.notinuse.GenderSteppedIntegersFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
 import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
+import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
 import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -17,12 +19,12 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TransitionMatrixFactory  implements IObjectFromXMLFactory<TransitionMatrixObject>{
+public class TransitionMatrixFactory  implements IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker>{
 	static private Log log = LogFactory
 	.getLog("nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory");
 static final String transitionMatrixContainerTagName = "transitiomatrix";
 public static AgeSteppedContainer<BiGenderSteppedContainer<CharIndexSteppedContainer<CharIndexSteppedContainer<Percentage>>>> manufacture(
-	File configurationFile) {
+	File configurationFile, boolean makeObservable) {
 AgeSteppedContainer<BiGenderSteppedContainer<Integer>> outerContainer = null;
 XMLConfiguration configurationFromFile;
 try {

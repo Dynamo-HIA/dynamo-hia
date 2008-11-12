@@ -39,37 +39,6 @@ public class StAXWriterEntryPoint {
 	static Sex utilitySex = new Sex();
 
 	/**
-	 * Expects an XML-file. When the XML-file contains a hierarchy of elements
-	 * the Factory-Classes stored in the FactoryMap know how to handle a
-	 * Hierarchy of Objects is returned. Null if this is not the case or when
-	 * the XML content caues errors to happen.
-	 * 
-	 * @param populationFile
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws XMLStreamException
-	 * @throws UnexpectedFileStructureException
-	 * @throws CDMConfigurationException
-	 */
-	// static public Object processFile(File populationFile)
-	// throws FileNotFoundException, XMLStreamException,
-	// UnexpectedFileStructureException {
-	// Object whatEver = null;
-	// XMLInputFactory factory = XMLInputFactory.newInstance();
-	// Reader fileReader = new FileReader(populationFile);
-	// XMLEventReader reader = factory.createXMLEventReader(fileReader);
-	// if (reader.peek() != null) { // Something to do.
-	// PopulationDocumentStAXEventConsumer popCons = new
-	// PopulationDocumentStAXEventConsumer();
-	// popCons.consumeEvents(reader, null);
-	// whatEver = popCons.getPopulation();
-	// } else {
-	// throw new UnexpectedFileStructureException("No events in File "
-	// + populationFile.getName());
-	// }
-	// return whatEver;
-	// }
-	/**
 	 * 
 	 * @param population
 	 * @param populationFile

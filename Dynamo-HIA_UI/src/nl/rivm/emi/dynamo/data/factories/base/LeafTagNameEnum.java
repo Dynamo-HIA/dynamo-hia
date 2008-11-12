@@ -1,5 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories.base;
-
+// UNDER CONSTRUCTION, JUST A COPY.
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
@@ -8,7 +8,7 @@ import nl.rivm.emi.dynamo.data.factories.NewBornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.PrevalencesFactory;
+import nl.rivm.emi.dynamo.data.factories.PrevalencesProxy;
 import nl.rivm.emi.dynamo.data.factories.RRiskForRiskFactorFactory;
 import nl.rivm.emi.dynamo.data.factories.RRiskFromDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathFactory;
@@ -27,7 +27,7 @@ public enum LeafTagNameEnum {
 	RISKFACTOR("riskfactor", new RiskFactorFactory()), // TODO Factory, Model.
 	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory()), // TODO Factory, Model.
 	TRANSITIONDRIFT("transitiondrift", new TransitionDriftFactory()), // TODO Factory, Model.
-	PREVALENCES("prevalences", new PrevalencesFactory()), // TODO Factory, Model.
+	PREVALENCES("prevalences", new PrevalencesProxy()), // TODO Factory, Model.
 	RELRISKFORDEATH("relriskfordeath", new RelRiskForDeathFactory()), // TODO Factory, Model.
 	DISEASEPREVALENCES("diseaseprevalences", new DiseasePrevalencesFactory()), // TODO Factory, Model.
 	INCIDENCES("incidences", new IncidencesFactory()),

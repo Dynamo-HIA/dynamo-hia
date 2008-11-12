@@ -4,7 +4,7 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  */
 import java.util.HashMap;
 
-public class AtomicTypesSingleton extends HashMap<String,TypeBase>{
+public class AtomicTypesSingleton extends HashMap<String,AtomicTypeBase>{
 	private static final long serialVersionUID = 3111726151725007942L;
 	private static AtomicTypesSingleton instance = null;
 	

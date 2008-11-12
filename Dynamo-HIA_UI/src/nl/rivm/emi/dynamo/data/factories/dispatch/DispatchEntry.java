@@ -8,7 +8,7 @@ import nl.rivm.emi.dynamo.data.factories.NewBornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.PrevalencesFactory;
+import nl.rivm.emi.dynamo.data.factories.PrevalencesProxy;
 import nl.rivm.emi.dynamo.data.factories.RRiskForRiskFactorFactory;
 import nl.rivm.emi.dynamo.data.factories.RRiskFromDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathFactory;
@@ -17,6 +17,8 @@ import nl.rivm.emi.dynamo.data.factories.SimulationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
+import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
 
 public enum DispatchEntry {
 	SIMULATION("simulation", new SimulationFactory()), // TODO Factory, Model.
@@ -27,7 +29,7 @@ public enum DispatchEntry {
 	RISKFACTOR("riskfactor", new RiskFactorFactory()), // TODO Factory, Model.
 	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory()), // TODO Factory, Model.
 	TRANSITIONDRIFT("transitiondrift", new TransitionDriftFactory()), // TODO Factory, Model.
-	PREVALENCES("prevalences", new PrevalencesFactory()), // TODO Factory, Model.
+	PREVALENCES("prevalences", new PrevalencesProxy()), // TODO Factory, Model.
 	RELRISKFORDEATH("relriskfordeath", new RelRiskForDeathFactory()), // TODO Factory, Model.
 	DISEASEPREVALENCES("diseaseprevalences", new DiseasePrevalencesFactory()), // TODO Factory, Model.
 	INCIDENCES("incidences", new IncidencesFactory()),
@@ -37,9 +39,9 @@ public enum DispatchEntry {
 	DALYWEIGHTS("dalyweights", new DALYWeightsFactory()); // TODO Factory, Model.
 	
 	private final String rootNodeName;
-	private final IObjectFromXMLFactory theFactory;
+	private final IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> theFactory;
 
-	private DispatchEntry(String rootNodeName, IObjectFromXMLFactory theFactory) {
+	private DispatchEntry(String rootNodeName, IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> theFactory) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
 	}
@@ -48,7 +50,7 @@ public enum DispatchEntry {
 		return rootNodeName;
 	}
 
-	public IObjectFromXMLFactory getTheFactory() {
+	public IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> getTheFactory() {
 		return theFactory;
 	}
 }

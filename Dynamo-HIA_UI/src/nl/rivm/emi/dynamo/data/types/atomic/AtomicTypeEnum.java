@@ -2,19 +2,19 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 
 public enum AtomicTypeEnum {
-	AGE((TypeBase)new Age()),
-	SEX((TypeBase)new Sex()),
-	PERCENTAGE((TypeBase) new Percentage()),
-	PROBABILITY((TypeBase)new Probability()),
-	STANDARDVALUE((TypeBase)new StandardValue());
+	AGE((AtomicTypeBase)new Age()),
+	SEX((AtomicTypeBase)new Sex()),
+	PERCENTAGE((AtomicTypeBase) new Percentage()),
+	PROBABILITY((AtomicTypeBase)new Probability()),
+	STANDARDVALUE((AtomicTypeBase)new Value());
 	
-	private final TypeBase theType;
+	private final AtomicTypeBase theType;
 
-	private AtomicTypeEnum(TypeBase type) {
+	private AtomicTypeEnum(AtomicTypeBase type) {
 		this.theType = type;
 	}
 
-	public TypeBase getTheType() {
+	public AtomicTypeBase getTheType() {
 		return theType;
 	}
 

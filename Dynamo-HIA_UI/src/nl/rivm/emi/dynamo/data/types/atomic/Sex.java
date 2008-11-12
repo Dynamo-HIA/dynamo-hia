@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class Sex extends NumberRangeTypeBase<Integer>{
+public class Sex extends NumberRangeTypeBase<Integer> implements ContainerType{
 
 	public Sex(){
 		super("sex", new Integer(0), new Integer(1));

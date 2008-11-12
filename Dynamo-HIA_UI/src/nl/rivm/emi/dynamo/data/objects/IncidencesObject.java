@@ -8,6 +8,6 @@ import nl.rivm.emi.dynamo.data.containers.SexMap;
 
 import org.eclipse.core.databinding.observable.IObservable;
 
-public class IncidencesObject extends AgeMap<SexMap<IObservable>>{
+public class IncidencesObject extends AgeMap<SexMap<Float>> implements StandardObjectMarker{
 
 }

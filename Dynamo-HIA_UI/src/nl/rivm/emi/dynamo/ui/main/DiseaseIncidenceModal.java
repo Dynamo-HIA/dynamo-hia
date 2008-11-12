@@ -1,13 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
 
-import java.io.File;
-
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.dispatch.DispatchMap;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FromXMLFactoryDispatcher;
-import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
-import nl.rivm.emi.dynamo.data.factories.parts.AgeGenderFloatFactory;
+import nl.rivm.emi.dynamo.data.objects.ObservableIncidencesObject;
 import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -45,36 +41,21 @@ public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 		box.setMessage(configurationFilePath);
 		box.open();
 		this.configurationFilePath = configurationFilePath;
-		try {
-			try {
-				lotsOfData = (AgeMap<SexMap<IObservable>>) FromXMLFactoryDispatcher.makeDataObject(configurationFilePath);
-			} catch (ClassCastException e) {
-				throw new ConfigurationException(e.getClass().getName() + " "
-						+ e.getMessage());
-			}
-		} catch (ConfigurationException e) {
-			box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			StackTraceElement[] stackTraceElements = e.getStackTrace();
-			StringBuffer theText = new StringBuffer();
-			for (StackTraceElement stackTraceElement : stackTraceElements) {
-				theText.append(stackTraceElement.getClassName() + "."
-						+ stackTraceElement.getMethodName() + "("
-						+ stackTraceElement.getLineNumber() + ")\n");
-			}
-			box.setText("Trouble");
-			// box.setMessage(e.getMessage());
-			box.setMessage(theText.toString());
-			box.open();
-			throw e;
-		}
 	}
 
-	public synchronized void open() {
+	public synchronized void open() throws ConfigurationException {
 		dataBindingContext = new DataBindingContext();
 		Composite buttonPanel = new GenericButtonPanel(shell);
 		((GenericButtonPanel) buttonPanel)
 				.setModalParent((DataAndFileContainer) this);
 		helpPanel = new HelpGroup(shell, buttonPanel);
+		try {
+			lotsOfData = (ObservableIncidencesObject) FromXMLFactoryDispatcher
+					.makeObservableDataObject(configurationFilePath);
+		} catch (ClassCastException e) {
+			throw new ConfigurationException(e.getClass().getName() + " "
+					+ e.getMessage());
+		}
 		CharacteristicGroup characteristicGroup = new CharacteristicGroup(
 				shell, lotsOfData, dataBindingContext, helpPanel);
 		characteristicGroup.setFormData(helpPanel.getGroup(), buttonPanel);
@@ -87,9 +68,25 @@ public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 		}
 	}
 
-
-	public void run() {
-		open();
+	public void run(){
+		try {
+			open();
+		} catch (ConfigurationException e) {
+			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+			StackTraceElement[] stackTraceElements = e.getStackTrace();
+			StringBuffer theText = new StringBuffer();
+			theText.append(e.getClass().getName() + "\n");
+			theText.append(e.getMessage() + "\n\n");
+			for (StackTraceElement stackTraceElement : stackTraceElements) {
+				theText.append(stackTraceElement.getClassName() + "."
+						+ stackTraceElement.getMethodName() + "("
+						+ stackTraceElement.getLineNumber() + ")\n");
+			}
+			box.setText("Trouble in IncidenceModal run.");
+			// box.setMessage(e.getMessage());
+			box.setMessage(theText.toString());
+			box.open();
+}
 	}
 
 	static private void handlePlacementInContainer(Composite myComposite) {

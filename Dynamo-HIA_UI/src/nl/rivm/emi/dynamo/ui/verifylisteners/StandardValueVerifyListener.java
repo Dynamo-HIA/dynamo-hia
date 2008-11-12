@@ -25,10 +25,10 @@ public class StandardValueVerifyListener implements VerifyListener {
 			if (candidateContent.length() == 0) {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 			} else {
-				if ((StandardValue.matchPattern.matcher(candidateContent))
+				if ((Value.matchPattern.matcher(candidateContent))
 						.matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
-					if (StandardValue.isValueValid(candidateFloat)) {
+					if (Value.isValueValid(candidateFloat)) {
 						arg0.doit = true;
 						myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 					}

@@ -1,12 +1,12 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class Percentage extends NumberRangeTypeBase<Integer>{
+public class Percentage extends NumberRangeTypeBase<Float>{
 
 	public Percentage(){
-		super("percent", new Integer(0), new Integer(100));
+		super("percent", new Float(0), new Float(100));
 	}
 		
-	public boolean inRange(Integer testValue) {
+	public boolean inRange(Float testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
 				&& !(MAX_VALUE.compareTo(testValue) < 0)) {
@@ -15,10 +15,10 @@ public class Percentage extends NumberRangeTypeBase<Integer>{
 		return result;
 	}
 
-	public Integer fromString(String inputString) {
-		Integer result = null;
+	public Float fromString(String inputString) {
+		Float result = null;
 		try {
-			result = Integer.decode(inputString);
+			result = Float.parseFloat(inputString);
 			if (!inRange(result)) {
 				result = null;
 			}
@@ -29,7 +29,7 @@ public class Percentage extends NumberRangeTypeBase<Integer>{
 		}
 	}
 
-	public String toString(Integer inputValue) {
+	public String toString(Float inputValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}

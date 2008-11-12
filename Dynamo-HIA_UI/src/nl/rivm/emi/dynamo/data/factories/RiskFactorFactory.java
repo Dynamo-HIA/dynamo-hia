@@ -9,8 +9,10 @@ import java.util.List;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
 import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorObject;
+import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
 import nl.rivm.emi.dynamo.data.riskfactor.RiskFactorMarker;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
@@ -23,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class RiskFactorFactory  implements IObjectFromXMLFactory<RiskFactorObject>{
+public class RiskFactorFactory  implements IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker>{
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.RiskFactorFactory");
 	static Age utilityAge = new Age();
@@ -137,7 +139,7 @@ public class RiskFactorFactory  implements IObjectFromXMLFactory<RiskFactorObjec
 		return ageMap;
 	}
 
-	public static AgeMap<SexMap<IObservable>> constructAllZeroesModel() {
+	public static AgeMap<SexMap<IObservable>> constructObservableAllZeroesModel() {
 		log.debug("Starting construction of empty model.");
 		AgeMap<SexMap<IObservable>> theModel = new AgeMap<SexMap<IObservable>>();
 		for (int ageCount = Age.MIN_VALUE; ageCount <= Age.MAX_VALUE; ageCount++) {

@@ -36,7 +36,7 @@ public class AgeGenderFloatFactory implements IObjectFromXMLFactory<AgeMap<SexMa
 	public float[][] manufactureArrayFromFlatXML(File configurationFile)
 			throws ConfigurationException {
 		float[][] theArray = null;
-		AgeMap<SexMap<IObservable>> theMap = manufactureFromFlatXML(configurationFile);
+		AgeMap<SexMap<IObservable>> theMap = manufactureObservable(configurationFile);
 		int ageDim = theMap.size();
 		SexMap<IObservable> sexMap = theMap.get(new Float(0));
 		int sexDim = sexMap.size();
@@ -66,7 +66,7 @@ public class AgeGenderFloatFactory implements IObjectFromXMLFactory<AgeMap<SexMa
 		return theArray;
 	}
 
-	public AgeMap<SexMap<IObservable>> manufactureFromFlatXML(
+	public AgeMap<SexMap<IObservable>> manufactureObservable(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		AgeMap<SexMap<IObservable>> outerContainer = null;
@@ -174,7 +174,7 @@ public class AgeGenderFloatFactory implements IObjectFromXMLFactory<AgeMap<SexMa
 		return ageMap;
 	}
 
-	public AgeMap<SexMap<IObservable>> constructAllZeroesModel() {
+	public AgeMap<SexMap<IObservable>> constructObservableAllZeroesModel() {
 		log.debug("Starting construction of empty model.");
 		AgeMap<SexMap<IObservable>> theModel = new AgeMap<SexMap<IObservable>>();
 		for (int ageCount = utilityAge.getMIN_VALUE(); ageCount <= utilityAge.getMAX_VALUE(); ageCount++) {

@@ -6,12 +6,8 @@ package nl.rivm.emi.dynamo.data.factories.notinuse;
 import java.io.File;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
-import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 
@@ -26,8 +22,6 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 public class IncidenceIntegerFactory {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.factories.AgeGenderIncidenceDataFactory");
-	static Age utilityAge = new Age();
-	static Sex utilitySex = new Sex();
 
 	/**
 	 * 
@@ -178,6 +172,7 @@ public class IncidenceIntegerFactory {
 
 	public static AgeMap<SexMap<IObservable>> constructAllZeroesModel() {
 		log.debug("Starting construction of empty model.");
+		Age utilityAge = new Age();
 		AgeMap<SexMap<IObservable>> theModel = new AgeMap<SexMap<IObservable>>();
 		for (int ageCount = utilityAge.getMIN_VALUE(); ageCount <= utilityAge.getMAX_VALUE(); ageCount++) {
 			theModel.put(new Integer(ageCount), constructAllZeroesSexMap());
@@ -186,6 +181,7 @@ public class IncidenceIntegerFactory {
 	}
 
 	private static SexMap<IObservable> constructAllZeroesSexMap() {
+		Sex utilitySex = new Sex();
 		SexMap<IObservable> theSexMap = new SexMap<IObservable>();
 		Integer nul = new Integer(0);
 		for (int sexCount = utilitySex.getMIN_VALUE(); sexCount <= utilitySex.getMAX_VALUE(); sexCount++) {

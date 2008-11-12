@@ -1,11 +1,11 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public abstract class NumberRangeTypeBase<T> extends TypeBase{
+public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 	final protected T MIN_VALUE;
 	final protected T MAX_VALUE;
 
 	protected NumberRangeTypeBase(String tagName, T minValue, T maxValue){
-		super(tagName);
+		super(tagName, minValue);
 		MIN_VALUE = minValue;
 		MAX_VALUE = maxValue;
 	}

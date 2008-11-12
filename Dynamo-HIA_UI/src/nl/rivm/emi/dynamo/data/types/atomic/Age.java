@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class Age extends NumberRangeTypeBase<Integer>{
+public class Age extends NumberRangeTypeBase<Integer> implements ContainerType{
 
 	public Age(){
 		super("age", new Integer(0), new Integer(95));
@@ -33,4 +33,5 @@ public class Age extends NumberRangeTypeBase<Integer>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 }

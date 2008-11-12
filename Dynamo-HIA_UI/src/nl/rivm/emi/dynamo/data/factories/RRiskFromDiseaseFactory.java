@@ -6,7 +6,9 @@ import java.util.List;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
 import nl.rivm.emi.dynamo.data.objects.RRiskFromDiseaseObject;
+import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 
@@ -19,7 +21,7 @@ import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class RRiskFromDiseaseFactory implements
-		IObjectFromXMLFactory<RRiskFromDiseaseObject> {
+		IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -31,7 +33,7 @@ public class RRiskFromDiseaseFactory implements
 	public float[][] manufactureArrayFromFlatXML(File configurationFile)
 			throws ConfigurationException {
 		float[][] theArray = null;
-		AgeMap<SexMap<IObservable>> theMap = manufactureFromFlatXML(configurationFile);
+		AgeMap<SexMap<IObservable>> theMap = manufactureObservable(configurationFile);
 		int ageDim = theMap.size();
 		SexMap<IObservable> sexMap = theMap.get(new Float(0));
 		int sexDim = sexMap.size();
@@ -61,7 +63,7 @@ public class RRiskFromDiseaseFactory implements
 		return theArray;
 	}
 
-	public RRiskFromDiseaseObject manufactureFromFlatXML(File configurationFile)
+	public RRiskFromDiseaseObject manufactureObservable(File configurationFile)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		RRiskFromDiseaseObject outerContainer = null;
@@ -168,7 +170,7 @@ public class RRiskFromDiseaseFactory implements
 		return ageMap;
 	}
 
-	public RRiskFromDiseaseObject constructAllZeroesModel() {
+	public RRiskFromDiseaseObject constructObservableAllZeroesModel() {
 		log.debug("Starting construction of empty model.");
 		RRiskFromDiseaseObject theModel = new RRiskFromDiseaseObject();
 		for (int ageCount = Age.MIN_VALUE; ageCount <= Age.MAX_VALUE; ageCount++) {

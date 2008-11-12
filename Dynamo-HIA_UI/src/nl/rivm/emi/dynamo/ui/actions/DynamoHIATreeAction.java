@@ -10,7 +10,9 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class DynamoHIATreeAction extends Action {
@@ -44,8 +46,21 @@ public class DynamoHIATreeAction extends Action {
 					selectionPath);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					dialog);
-		} catch (ConfigurationException e){
-			// Do nothing, message has been displayed.
+		} catch (Exception e){
+			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+			StackTraceElement[] stackTraceElements = e.getStackTrace();
+			StringBuffer theText = new StringBuffer();
+			theText.append(e.getClass().getName() + "\n");
+			theText.append(e.getMessage() + "\n\n");
+			for (StackTraceElement stackTraceElement : stackTraceElements) {
+				theText.append(stackTraceElement.getClassName() + "."
+						+ stackTraceElement.getMethodName() + "("
+						+ stackTraceElement.getLineNumber() + ")\n");
+			}
+			box.setText("Trouble");
+			// box.setMessage(e.getMessage());
+			box.setMessage(theText.toString());
+			box.open();
 		}
 		// catch (Throwable t) {
 //			t.printStackTrace();

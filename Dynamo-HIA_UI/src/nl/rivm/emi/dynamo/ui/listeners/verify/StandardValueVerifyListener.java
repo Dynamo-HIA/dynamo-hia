@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
-import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,10 +26,10 @@ public class StandardValueVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((StandardValue.matchPattern.matcher(candidateContent))
+				if ((Value.matchPattern.matcher(candidateContent))
 						.matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
-					if (StandardValue.isValueValid(candidateFloat)) {
+					if (Value.isValueValid(candidateFloat)) {
 						arg0.doit = true;
 						myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 					}

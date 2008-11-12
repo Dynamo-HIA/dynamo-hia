@@ -10,7 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Percentage;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 import nl.rivm.emi.dynamo.data.types.atomic.RangeValueException;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
-import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,8 +75,8 @@ public class TestAtomicTypes {
 
 	@Test
 	public void testStandardValue() {
-		StandardValue standardValue;
-		standardValue = new StandardValue();
+		Value standardValue;
+		standardValue = new Value();
 		assertNotNull(standardValue);
 		assertFalse(standardValue.inRange(-1F));
 		assertTrue(standardValue.inRange(0F));
