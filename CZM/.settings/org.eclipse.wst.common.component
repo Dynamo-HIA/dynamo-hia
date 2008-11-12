@@ -3,7 +3,6 @@
 <wb-module deploy-name="CZM">
 <wb-resource deploy-path="/" source-path="/WebContent"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src_v0"/>
 <property name="context-root" value="CZM"/>
 <property name="java-output-path" value="build/classes"/>
 </wb-module>

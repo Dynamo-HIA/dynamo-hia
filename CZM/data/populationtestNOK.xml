@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<!-- Wrong charval in ind tag. -->
-<pop>
-<ind>
-<charval>blabla</charval>
-</ind>
-</pop>

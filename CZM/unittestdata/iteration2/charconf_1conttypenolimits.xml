@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<characteristics>
-    <ch>
-		<id>2</id>
-		<lb>age</lb>
-		<type>numericalcontinuous</type>
-	</ch>	
-</characteristics>

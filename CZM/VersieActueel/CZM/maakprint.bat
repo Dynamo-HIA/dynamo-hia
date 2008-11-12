@@ -1,8 +1,0 @@
-copy .\CZMInitialization\CZMDefaultFileNames.m + .\CZMInitialization\CZMConstants.m + .\CZMInitialization\CZMFunctions.m fileA.txt
-copy .\CZMImportdata\CZMImportUserSelections.m + .\CZMImportData\CZMImportDemography.m + .\CZMImportData\CZMImportRiskFactors.m + .\CZMImportData\CZMImportRelativeRisks.m + .\CZMImportData\CZMImportDiseaseData.m + .\CZMImportData\CZMImportDALYs.m + .\CZMImportData\CZMImportCosts.m fileB.txt
-copy .\CZMAdjustData\CZMDataSmoothing.m + .\CZMAdjustData\CZMAdjustBeforeSelection.m + .\CZMadjustData\CZMMakeSelections.m + .\CZMAdjustData\CZMAdjustAfterSelection.m fileC.txt
-copy .\CZMDefineScenarios\CZMDefineScenarios.m + .\CZMDefineScenarios\CZMDefineScenariosexem.m + .\CZMDefineScenarios\CZMDefineScenariossens.m + .\CZMDefineScenarios\CZMDefineRuns.m + .\CZMDefineScenarios\CZMDefineRunstest.m fileD.txt
-copy .\CZMSimulation\CZMSimulationFunctions.m + .\CZMSimulation\CZMSimulationMarginalModelDetermPop.m + .\CZMSimulation\CZMSimulationJointModelDetermPop.m + .\CZMSimulation\CZMSimulationJointModelDetermAge.m + .\CZMSimulation\CZMSimulationJointModelStochPop.m + .\CZMSimulation\CZMSimulationJointModelStochAge.m + .\CZMSimulation\CZMSimulationJointModelStochInd.m + .\CZMSimulation\CZMSimulationJointModelStochIndCourse.m + .\CZMSimulation\CZMStoreResults.m fileE.txt
-copy .\CZMPostProcessing\CZMExportUserSelections.m + .\CZMPostProcessing\CZMCalcResults.m + .\CZMPostProcessing\CZMPresentResults.m + .\CZMpostprocessing\CZMSensitivityAnalyses.m + .\CZMpostprocessing\CZMCompareRuns.m fileF.txt
-copy .\CZMMain\CZMMain.m fileG.txt
-copy fileA.txt + fileB.txt + fileC.txt + fileD.txt + fileE.txt + fileF.txt + fileG.txt fileH.txt

@@ -27,48 +27,48 @@ import org.junit.Test;
 
 public class TestStAXStuff {
 	Log log = LogFactory.getLog(getClass().getName());
-
+final String projectRoot = "D:/eclipse_workspaces/KISFromSVN/";
 	File absentFile = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/thisfilemustnotexist.xml");
+			projectRoot + "CZM/unittestdata/thisfilemustnotexist.xml");
 
 	File noRootElement = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/norootelement.xml");
+			projectRoot + "CZM/unittestdata/norootelement.xml");
 
 	File nonPopRootElement = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/nonpoprootelementonly.xml");
+			projectRoot + "CZM/unittestdata/nonpoprootelementonly.xml");
 
 	File popRootElementOnly = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/poprootelementonly.xml");
+			projectRoot + "CZM/unittestdata/poprootelementonly.xml");
 
 	File sepIndOK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/separateindividual4stax.xml");
+			projectRoot + "CZM/unittestdata/separateindividual4stax.xml");
 
 	File sepIntCharValOK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/separateintcharvalue4stax.xml");
+			projectRoot + "CZM/unittestdata/separateintcharvalue4stax.xml");
 
 	File sepFloatCharValOK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/separatefloatcharvalue4stax.xml");
+			projectRoot + "CZM/unittestdata/separatefloatcharvalue4stax.xml");
 
 	File testFileNOK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestNOK.xml");
+			projectRoot + "CZM/unittestdata/xmlstructures/populationtestNOK.xml");
 
 	File testFileNOK2 = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestNOK2.xml");
+			projectRoot + "CZM/unittestdata/xmlstructures/populationtestNOK2.xml");
 
 	File testFileOK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK.xml");
+			projectRoot + "CZM/unittestdata/xmlstructures/populationtestOK.xml");
 
 	File testFileOKOutput = new File(
-	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK_output.xml");
+	projectRoot + "CZM/unittestdata/xmlstructures/populationtestOK_output.xml");
 
 	File testFileOKStAXOutput = new File(
-	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK_StAX_output.xml");
+	projectRoot + "CZM/unittestdata/xmlstructures/populationtestOK_StAX_output.xml");
 
 	File recycledStAXOutput = new File(
-	"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/recycled_population_StAX_output.xml");
+	projectRoot + "CZM/unittestdata/xmlstructures/recycled_population_StAX_output.xml");
 
 	File testFileOK2 = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/xmlstructures/populationtestOK2.xml");
+			projectRoot + "CZM/unittestdata/xmlstructures/populationtestOK2.xml");
 
 	@Before
 	public void setup() {
