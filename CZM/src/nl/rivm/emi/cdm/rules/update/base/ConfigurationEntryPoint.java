@@ -2,6 +2,8 @@ package nl.rivm.emi.cdm.rules.update.base;
 
 import java.io.File;
 
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+
 import org.apache.commons.configuration.ConfigurationException;
 
 /**

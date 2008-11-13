@@ -40,7 +40,7 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
 	}
 
-	protected Individual(String elementName, String label) {
+	public Individual(String elementName, String label) {
 		super();
 		this.elementName = elementName;
 		this.label = label;

@@ -43,7 +43,8 @@ public class DOMPopulationWriter {
 				.newDocumentBuilder();
 		Document document = docBuilder.newDocument();
 		String elementName = population.getElementName();
-		Element element = document.createElement(elementName);
+		Element element = document.createElement(population.xmlLabelAttributeName);
+		
 		String label = population.getLabel();
 		if (label != null && !"".equals(label)) {
 			element.setAttribute("lb", label);

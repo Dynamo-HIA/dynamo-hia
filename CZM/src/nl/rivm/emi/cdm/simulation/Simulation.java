@@ -20,10 +20,10 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
-import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
+import nl.rivm.emi.cdm.rules.update.dynamo.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -382,16 +382,52 @@ public class Simulation extends DomLevelTraverser {
 							+ charValIndex
 							+ " without updaterules, removing it.");
 				} else {
-					int oldValue = intCharVal.getCurrentValue();
-					Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
-							.update(new Integer(oldValue));
-					intCharVal.appendValue(newValue);
-					log.info("Updated charval at " + intCharVal.getIndex()
-							+ " for " + individual.getLabel() + " from "
-							+ oldValue + " to " + newValue);
-					keep = true;
+					if (updateRule instanceof OneToOneUpdateRuleBase) {
+
+						int oldValue = intCharVal.getCurrentValue();
+						Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
+								.update(new Integer(oldValue));
+						intCharVal.appendValue(newValue);
+						log.info("Updated charval at " + intCharVal.getIndex()
+								+ " for " + individual.getLabel() + " from "
+								+ oldValue + " to " + newValue);
+						keep = true;
+					} else {
+						if (updateRule instanceof ManyToOneUpdateRuleBase) {
+							Object[] charVals = new Object[individual.size()];
+							for (int count = 0; count < charVals.length; count++) {
+								CharacteristicValueBase charValBase = individual
+										.get(count);
+								if (charValBase != null) {
+									Object currValue = charValBase
+											.getCurrentValue();
+									charVals[count] = currValue;
+								} else {
+									charVals[count] = null;
+								}
+							}
+							float oldValue = intCharVal.getCurrentValue();
+							// int index = intCharVal.getIndex();
+							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
+									.update(charVals);
+							if (newValue != null) {
+								intCharVal.appendValue(newValue);
+								log.info("Updated charval at "
+										+ intCharVal.getIndex() + " for "
+										+ individual.getLabel() + " from "
+										+ oldValue + " to " + newValue);
+								keep = true;
+							} else {
+								throw new CDMRunException(
+										"ManyToOne update rule produced a null result, aborting.");
+							}
+						} else
+							throw new CDMRunException(
+									"Update rule not in updateRuleBase");
+					}
 				}
 			}
+
 			return keep;
 		} catch (CDMUpdateRuleException e) {
 			log.warn("Individual " + individual.getLabel()
@@ -445,7 +481,7 @@ public class Simulation extends DomLevelTraverser {
 								}
 							}
 							float oldValue = floatCharVal.getCurrentValue();
-							int index = floatCharVal.getIndex();
+							// int index = floatCharVal.getIndex();
 							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
 									.update(charVals);
 							if (newValue != null) {
@@ -460,6 +496,9 @@ public class Simulation extends DomLevelTraverser {
 										"ManyToOne update rule produced a null result, aborting.");
 							}
 						}
+						 else
+							throw new CDMRunException(
+									"Update rule not in updateRuleBase");
 					}
 				}
 			}
