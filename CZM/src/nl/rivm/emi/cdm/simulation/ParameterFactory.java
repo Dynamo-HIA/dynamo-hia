@@ -64,7 +64,7 @@ double [][][][] getParameters(File fln)
 		XMLConfiguration transitionConfiguration = new XMLConfiguration(fln);
 	
 
-	List transList = new transitionConfiguration.getList();
+	List transList = transitionConfiguration.getList();
 	nCat=(int) Math.sqrt(transList.size());
 	
 	

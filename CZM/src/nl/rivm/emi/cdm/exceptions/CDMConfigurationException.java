@@ -13,6 +13,7 @@ public class CDMConfigurationException extends ConfigurationException {
 
 	static public final String wrongClassMessage = "Class of type SubnodeConfiguration expected at this point.";
 
+	public static final String noConfigurationTagMessage = "Configuration doesn't contain the tag searched.";
 	/* Characteristic */
 	static public final String noFileMessage = "Configuration file missing or cannot be read: ";
 
@@ -23,7 +24,9 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String noCharacteristicIndexMessage = "No index for Characteristic found in configuration: ";
 
 	static public final String noCharacteristicLabelMessage = "No label for Characteristic found in configuration: ";
-/* Characteristic types */
+
+	public static final String noUpdateCharIDMessage = "No message in CDMConfigurationException.noUpdateCharIDMessage";
+	/* Characteristic types */
 	static public final String noCharacteristicTypeMessage = "No type for Characteristic found in configuration: ";
 
 	static public final String noCharacteristicPossibleValuesMessage = "No possiblevalues for Characteristic found in configuration: ";
@@ -88,4 +91,5 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String wrongConfigurationFile4UpdateRuleMessage = "Configuration file does not have the format updaterule %1$s expects.";
 
 	public static final String invalidUpdateRuleConfigurationFileFormatMessage = "Invalid configuration file %1$s for UpdateRule %2$s.";
-	}
+	public static final String noUpdateTransitionMatrixFileNameMessage = "No message for CDMConfigurationException.noUpdateTransitionMatrixFileNameMessage yet.";
+}

@@ -2,7 +2,6 @@ package nl.rivm.emi.cdm.simulation;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import DynamoLib;
 
 import java.io.File;
 
@@ -14,7 +13,6 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;

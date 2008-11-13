@@ -1,7 +1,6 @@
 package nl.rivm.emi.cdm.rules.update.base;
 
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.dynamo.exceptions.UpdateRuleException;
 
 
 /**

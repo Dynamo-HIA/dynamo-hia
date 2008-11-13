@@ -4,12 +4,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Random;
 
-import Jama.Matrix;
-
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
-
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
