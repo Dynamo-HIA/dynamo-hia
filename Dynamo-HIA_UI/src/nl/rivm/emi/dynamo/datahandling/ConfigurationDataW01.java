@@ -1,11 +1,9 @@
 package nl.rivm.emi.dynamo.datahandling;
 import java.util.NoSuchElementException;
 
-import nl.rivm.emi.cdm.estimation.DiseaseClusterStructure;
-import nl.rivm.emi.cdm.estimation.InconsistentDataException;
-import nl.rivm.emi.cdm.estimation.InputData;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.rules.update.UpdateRules4SimulationFromXMLFactory;
+import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
+import nl.rivm.emi.dynamo.estimation.InconsistentDataException;
+import nl.rivm.emi.dynamo.estimation.InputData;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;

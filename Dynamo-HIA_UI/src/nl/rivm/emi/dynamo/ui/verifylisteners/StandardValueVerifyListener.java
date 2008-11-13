@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.verifylisteners;
 
-import nl.rivm.emi.dynamo.data.atomictypes.StandardValue;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

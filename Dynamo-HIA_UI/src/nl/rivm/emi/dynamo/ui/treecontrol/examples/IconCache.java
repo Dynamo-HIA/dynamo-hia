@@ -11,14 +11,17 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.examples;
 
 
-import org.eclipse.swt.*;
-import org.eclipse.swt.examples.fileviewer.FileViewer;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.program.*;
-import org.eclipse.swt.widgets.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
-import java.io.*;
-import java.util.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.program.Program;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Manages icons for the application.
