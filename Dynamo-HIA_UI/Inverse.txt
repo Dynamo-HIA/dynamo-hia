@@ -1,0 +1,23 @@
+   public static double[][] MatrixInverse(double[][] x) {
+	int n=x.length;
+	if (n!=x[0].length) return null;
+	double[][] z=new double[n][n];
+	int npn=n+n;
+	double[][] matrix=new double[n+1][npn];
+	int i,j,kk;
+	for (i=0;i<n;i++) {
+	   for (j=0;j<n;j++) {
+		matrix[i][j]=x[i][j];
+		if (i==j) matrix[i][j+n]=1; else matrix[i][j+n]=0;
+	   }
+	}
+	for (i=0;i<n;i++) {
+	   for (j=i+1;j<npn;j++) matrix[n][j]=matrix[0][j]/matrix[0][i];
+	   for (int k=0;k<n-1;k++) {
+		for (j=i+1;j<npn;j++) matrix[k][j]=matrix[k+1][j]-matrix[k+1][i]*matrix[n][j];
+	   }
+	   for (j=i+1;j<npn;j++) matrix[n-1][j]=matrix[n][j];
+	}
+	for (i=0;i<n;i++) for (j=0;j<n;j++) z[i][j]=matrix[i][j+n];
+	return z;
+   }

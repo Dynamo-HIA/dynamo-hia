@@ -44,7 +44,7 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String noSimulationLabelMessage = "No label for Simulation found in configuration: ";
 
 	static public final String noSimulationTimestepMessage = "No timestep for Simulation found in configuration: ";
-
+	
 	static public final String noSimulationRunmodeMessage = "No runmode for Simulation found in configuration: ";
 
 	static public final String noSimulationStepsBetweenSavesMessage = "No stepsbetweensaves for Simulation found in configuration: ";
@@ -88,4 +88,14 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String wrongConfigurationFile4UpdateRuleMessage = "Configuration file does not have the format updaterule %1$s expects.";
 
 	public static final String invalidUpdateRuleConfigurationFileFormatMessage = "Invalid configuration file %1$s for UpdateRule %2$s.";
-	}
+
+	static public final String noUpdateCharIDMessage = "No CharID found in configurationfile for update rule: ";
+	
+	static public final String noUpdateTransitionMatrixFileNameMessage = "No filename for a transitionMatrix found in configurationfile for update rule: ";
+	
+	static public final String noUpdateRandomSeedMessage = "No randomSeed found in configurationfile for update rule: ";
+	
+	static public final String noConfigurationTagMessage = "No Tag found in configurationfile %1$s for update rule %2$s. Missing tag is %3$s.";
+
+	
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		 <newborns>no</newborns>
+		 <startingYear>2008</startingYear>
+		 <numberOfYears>10</numberOfYears>
+		 <simPopSize> 1000</simPopSize>
+		 <minAge> 0</minAge>
+		 <maxAge>100 </maxAge>
+		 <timeStep>1 </timeStep> 
+		 <randomSeed>12345 </randomSeed> 
+		 <resultType>aggregated</resultType> 
+		 <popFileName>NL-2008 </popFileName>
+		 <scenarios>
+		 <scenario label="1">
+		 <scenName>scenario 1 </scenName>
+		 <successRate> 100 </successRate>
+		 <targetMinAge>0</targetMinAge><targetMaxAge>100</targetMaxAge>
+		 <targetGender> 2</targetGender>
+		 <alternativeTransFile>none</alternativeTransFile>
+		 <alternativePrevFile>Prev-scen1 </alternativePrevFile>
+		 </scenario>
+		 <scenario label="2">
+		 <scenName>scenario 2 </scenName>
+		 <successRate> 50 </successRate>
+		 <targetMinAge>0</targetMinAge><targetMaxAge>100</targetMaxAge>
+		 <targetGender> 2</targetGender>
+		 <alternativeTransFile>none</alternativeTransFile>
+		 <alternativePrevFile>Prev-scen1 </alternativePrevFile>
+		 </scenario>
+		  </scenarios>
+		 <diseases> 
+		 <disease label="1">
+		 <diseaseName> lung cancer</diseaseName>
+		 <diseasePrevFile>lung cancer-prev-NL</diseasePrevFile>
+		  <diseaseIncFile>lung cancer-inc-NL</diseaseIncFile> 
+		  <diseaseExcessMortFile>lungcancer-excess-mort</diseaseExcessMortFile>
+		  <diseaseDalyWeights>lungcancer-Daly weights </diseaseDalyWeights>
+		  </disease >
+		  <disease label="2">
+		 <diseaseName> HVD</diseaseName>
+		 <diseasePrevFile>HVD-prev-NL</diseasePrevFile>
+		  <diseaseIncFile>HVD-inc-NL</diseaseIncFile> 
+		  <diseaseExcessMortFile>HVD-excess-mort</diseaseExcessMortFile>
+		  <diseaseDalyWeights>HVD-Daly weights </diseaseDalyWeights>
+		  </disease >
+		  <disease label="3">
+		 <diseaseName> diabetes</diseaseName>
+		 <diseasePrevFile>diabetes-prev-NL</diseasePrevFile>
+		  <diseaseIncFile>diabetes-inc-NL</diseaseIncFile> 
+		  <diseaseExcessMortFile>diabetes-excess-mort</diseaseExcessMortFile>
+		  <diseaseDalyWeights>diabetes-Daly weights </diseaseDalyWeights>
+		  </disease >
+		  </diseases>  
+		<riskfactor>
+    <riskFactorName>BMI </riskFactorName> 
+	<riskFactorType>compound</riskFactorType>
+	<riskFactorPrevFile>BMI-NL</riskFactorPrevFile>;
+		 <riskFactorTransFile> </riskFactorTransFile>
+		 <riskFactorRRforDeathFile></riskFactorRRforDeathFile>;
+		</riskfactor>
+		<RRs> 
+		<RR label="1">
+		
+		 <isRRfrom>CVD</isRRfrom>
+		 <isRRto>lung cancer</isRRto>
+		 <isRRFile>RR-CVD-lung cancer</isRRFile>
+		 </RR >
+		 <RR label="2">
+		
+		 <isRRfrom>diabetes</isRRfrom>
+		 <isRRto>CVD</isRRto>
+		 <isRRFile>RR-CVD-lung cancer</isRRFile>
+		 </RR >
+		</RR>
+		</RRs>
+		</xml>
