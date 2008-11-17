@@ -28,7 +28,8 @@ public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleB
 	float timeStep=1;
 	int riskType = -1;
 	int durationClass = -1;
-			
+	static protected String globalTagName="updateRuleConfiguration";		
+	
 	public int getCharacteristicIndex() {
 		return characteristicIndex;
 	}

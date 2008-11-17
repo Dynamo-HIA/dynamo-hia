@@ -79,17 +79,25 @@ public final class MatrixExponential {
 		int[] NNonZero = new int[dim];// NNonZero(J) is number of non-zero
 										// entries
 		// in column J of ATMat
-		int[][] NonZeroRows = new int[dim][dim];// NonZeroRows(J,n) is row index
+		
+		/* changed by Hendriek: dimension is made dim+1 in stead of dim as otherwise it gets out of bound because of the indexing 
+		 * from 1.
+		 */
+		
+		int[][] NonZeroRows = new int[dim+1][dim+1];// NonZeroRows(J,n) is row index
 												// for nth non-zero
 		// entry in col J of AMat (note that this is indexed
 		// from 1 since it is only used when there is at least 1
 		// non-zero entry in a given column).
 
+		/* changed by Hendriek: dimension is made dim+1 as otherwise it gets out of bound because of the indexing 
+ * from 1. In the original there was a fixed dimension of 100
+ */
 		// A computational algorithm associated with patient progress modelling
 		// 297
 		// ============================================================================
 
-		// ==========
+		
 		// Subroutine to calculate exp(At)for matrices with zero column-sums and
 		// non-negative entries
 		// off the diagonal
@@ -100,9 +108,9 @@ public final class MatrixExponential {
 		// in advance to be zero due to the structure of matrices being
 		// multiplied.
 		// ----------------------------------------------------------------------------------------------------------------
-		for (int j1 = 0; j1 < dim; j1++) { // Initialise arrays
+		for (int j1 = 0; j1 < dim ;j1++) { // Initialise arrays
 			NNonZero[j1] = 0;// Set ATMat matrix
-			for (int j2 = 0; j2 < dim; j2++) {
+			for (int j2 = 0; j2 < dim; j2++) {;
 				ATMat[j1][j2] = AT[j1][j2];
 				if (j1 == j2) {
 
@@ -167,7 +175,7 @@ public final class MatrixExponential {
 				{
 					DumMat[j1][j2] = 0;// Initially each term of DumMat is zero
 
-					for (int j3 = 0; j3 <= NNonZero[j2]; j3++)
+					for (int j3 = 1; j3 <= NNonZero[j2]; j3++)
 						// J3 loop is for explicit matrix multiplication
 						// NNonZero allows us to consider only the non-zero
 						// elements of ATMat(,) in this multiplication
@@ -222,7 +230,7 @@ public final class MatrixExponential {
 				for (int j2 = 0; j2 < dim; j2++) {// Square ExpMat(,)
 
 					DumMat[j1][j2] = 0; // Reset DumMat elements to be zero
-					for (int j3 = 0; j3 <= NNonZero[j2]; j3++)
+					for (int j3 = 1; j3 <= NNonZero[j2]; j3++)
 						// Calculate square of ExpMatrix
 						// Only consider non-zero elements of ExpMatrix
 						DumMat[j1][j2] = DumMat[j1][j2]

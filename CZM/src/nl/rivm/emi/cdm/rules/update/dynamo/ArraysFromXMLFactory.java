@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
 public class ArraysFromXMLFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private float[][][][] checkArray;
-
+    public boolean detailedDebug=false;
 	public ArraysFromXMLFactory() {
 		super();
 		
@@ -97,9 +97,10 @@ public class ArraysFromXMLFactory {
 
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
+			
 
 			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
+		if (detailedDebug)		log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
@@ -111,7 +112,7 @@ public class ArraysFromXMLFactory {
 			
 /* check if the input file was complete */			
 				for (int sex = 0; sex < 2; sex++)
-					for (int age = 0; sex < 96; age++) 
+					for (int age = 0; age < 96; age++) 
 						if (checkArray[age][sex][0][0] != 1)
 							throw new DynamoConfigurationException(
 									"no value read in parameter file for age="
@@ -164,32 +165,25 @@ public class ArraysFromXMLFactory {
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
-			log.debug("Handle leafChild: " + leafChild.getName());
+	//		log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			Object valueObject = leafChild.getValue();
 			if (valueObject instanceof String) {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
-					if (age == null) {
+					
 						age = Integer.parseInt(valueString);
-					} else {
-						throw new ConfigurationException("Double age tag.");
-					}
+					
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
-						if (sex == null) {
+					
 							sex = Integer.parseInt(valueString);
-						} else {
-							throw new ConfigurationException("Double sex tag.");
-						}
+						
 					} else {
 						if (valueTagName.equalsIgnoreCase(leafName)) {
-							if (value == null) {
+							
 								value = Float.parseFloat(valueString);
-							} else {
-								throw new ConfigurationException(
-										"Double value tag.");
-							}
+							
 						} else {
 							throw new ConfigurationException("Unexpected tag: "
 									+ leafName);
@@ -208,7 +202,7 @@ public class ArraysFromXMLFactory {
 		} else {
 			arrayToBeFilled[age][sex] = value;
 			checkArray[age][sex][0][0]++;
-			log.debug("Processing value for age: " + age + " sex: " + sex
+			if (detailedDebug)			log.debug("Processing value for age: " + age + " sex: " + sex
 					+ " value: " + value);
 
 			
@@ -287,7 +281,7 @@ public class ArraysFromXMLFactory {
 
 			/* now initialize the arrays */
 			float[][][] returnArray = new float[96][2][maxIndex + 1];
-			checkArray = new float[96][2][maxIndex + 1][0];
+			checkArray = new float[96][2][maxIndex + 1][1];
 
 			for (int sex = 0; sex < 2; sex++)
 				for (int age = 0; age < 96; age++)
@@ -298,7 +292,7 @@ public class ArraysFromXMLFactory {
 					}
 
 			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
+				if (detailedDebug)			log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
@@ -313,7 +307,7 @@ public class ArraysFromXMLFactory {
 
 			for (int cat = 0; cat <= maxIndex; cat++)
 				for (int sex = 0; sex < 2; sex++)
-					for (int age = 0; sex < 96; age++) {
+					for (int age = 0; age < 96; age++) {
 						if (checkArray[age][sex][cat][0] != 1)
 							throw new DynamoConfigurationException(
 									"no value read in parameter file "+fileName+" for age="
@@ -364,41 +358,31 @@ public class ArraysFromXMLFactory {
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
-			log.debug("Handle leafChild: " + leafChild.getName());
+		//	log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			Object valueObject = leafChild.getValue();
 			if (valueObject instanceof String) {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
-					if (age == null) {
+					
 						age = Integer.parseInt(valueString);
-					} else {
-						throw new ConfigurationException("Double age tag.");
-					}
+					
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
-						if (sex == null) {
+						
 							sex = Integer.parseInt(valueString);
-						} else {
-							throw new ConfigurationException("Double sex tag.");
-						}
+						
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
-							if (value == null) {
+							
 								index = Integer.parseInt(valueString);
-							} else {
-								throw new ConfigurationException(
-										"Double value tag.");
-							}
+							
 						} else
 
 						if (value2Tagname.equalsIgnoreCase(leafName)) {
-							if (value == null) {
+							
 								value = Float.parseFloat(valueString);
-							} else {
-								throw new ConfigurationException(
-										"Double value tag.");
-							}
+							
 						} else
 
 						{
@@ -419,7 +403,7 @@ public class ArraysFromXMLFactory {
 		} else {
 			arrayToBeFilled[age][sex][index] = value;
 			checkArray[age][sex][index][0]++;
-			log.debug("Processing value for age: " + age + " sex: " + sex
+			if (detailedDebug)				log.debug("Processing value for age: " + age + " sex: " + sex
 					+ " index: " + index + " value: " + value);
 		}
 		return arrayToBeFilled;
@@ -521,7 +505,7 @@ public class ArraysFromXMLFactory {
 					}
 
 			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
+				if (detailedDebug)			log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
@@ -537,7 +521,7 @@ public class ArraysFromXMLFactory {
 			for (int cat = 0; cat <= maxIndex; cat++)
 				for (int cat2 = 0; cat2 <= maxIndex; cat2++)
 				for (int sex = 0; sex < 2; sex++)
-					for (int age = 0; sex < 96; age++) {
+					for (int age = 0; age < 96; age++) {
 						if (checkArray[age][sex][cat][cat2] != 1)
 							throw new DynamoConfigurationException(
 									"no value read in parameter file "+fileName +" for age="
@@ -591,50 +575,37 @@ public class ArraysFromXMLFactory {
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
-			log.debug("Handle leafChild: " + leafChild.getName());
+//			log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			Object valueObject = leafChild.getValue();
 			if (valueObject instanceof String) {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
-					if (age == null) {
+					
 						age = Integer.parseInt(valueString);
-					} else {
-						throw new ConfigurationException("Double age tag.");
-					}
+					
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
-						if (sex == null) {
+						
 							sex = Integer.parseInt(valueString);
-						} else {
-							throw new ConfigurationException("Double sex tag.");
-						}
+						
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
-							if (value == null) {
+							
 								index1 = Integer.parseInt(valueString);
-							} else {
-								throw new ConfigurationException(
-										"Double value tag.");
-							}
+							
 						} else {
 
 						if (value2TagName.equalsIgnoreCase(leafName)) {
-							if (value == null) {
+							
 								index2 =  Integer.parseInt(valueString);
-							} else {
-								throw new ConfigurationException(
-										"Double value tag.");
-							}
+							
 						} else
 
 							if (value3TagName.equalsIgnoreCase(leafName)) {
-								if (value == null) {
+								
 									value = Float.parseFloat(valueString);
-								} else {
-									throw new ConfigurationException(
-											"Double value tag.");
-								}
+								
 							} else
 
 						{
@@ -655,7 +626,7 @@ public class ArraysFromXMLFactory {
 		} else {
 			arrayToBeFilled[age][sex][index1][index2] = value;
 			checkArray[age][sex][index1][index2]++;
-			log.debug("Processing value for age: " + age + " sex: " + sex
+			if (detailedDebug)			log.debug("Processing value for age: " + age + " sex: " + sex
 					+ " index: " + index1 + " and " + index2+  " value: " + value);
 		}
 		return arrayToBeFilled;

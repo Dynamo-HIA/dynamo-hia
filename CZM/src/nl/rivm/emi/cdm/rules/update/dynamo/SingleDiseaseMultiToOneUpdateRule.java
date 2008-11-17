@@ -18,6 +18,8 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Hendriek
+ * 
+ *
  * reading part only implemented for categorical risk factors
  *layout of configurationfile:
  <?xml version="1.0" encoding="UTF-8"?>
@@ -44,20 +46,25 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	/* data needed in update rule */
 	protected   float referenceValueContinous;
 	
-	private   float relRiskContinous[][] = null;
-	private  float relRiskCategorical[][][] = null;
-	private   float relRiskEnd[][] = null;
-	private   float relRiskBegin[][] = null;
-	private  float alfaDuur[][] = null;
-	private  float attributableMortality[][] = null;
-	private float baselineIncidence[][] = null;
+	private   float relRiskContinous[][] =  new float [96][2];
+	private  float relRiskCategorical[][][] =  new float [96][2][];
+	private   float relRiskEnd[][] =  new float [96][2];
+	private   float relRiskBegin[][] =  new float [96][2];
+	private  float alfaDuur[][] =  new float [96][2];
+	private  float attributableMortality[][] =  new float [96][2];
+	private float baselineIncidence[][] =  new float [96][2];
 	/* the following fields are needed in inherited types */
-	protected float baselineOtherMort [][]=null; //(OM alleen nodig voor inherited types)
-	protected float relRiskOtherMortCategorical[][][] = null;// kan dus evt weg
-	protected float relRiskOtherMortEnd[][] = null;
-	protected float relRiskOtherMortBegin[][] = null;
-	protected float alfaDuurOtherMort[][] = null;
-	protected float relRiskOtherMortContinous[][] = null;
+	protected float relRiskOtherMortEnd[][] =  new float [96][2];
+	protected float relRiskOtherMortBegin[][] =  new float [96][2];
+	protected float alfaDuurOtherMort[][] =  new float [96][2];
+	protected float relRiskOtherMortContinous[][] =  new float [96][2];
+	
+	// needed in inherited types
+	// do not delete as common methods are in this class
+	protected float[][][] relRiskOtherMortCategorical;
+
+	protected float[][] baselineOtherMort;
+
 	int riskType = 0;
 	int nCat =0;
 	/* filenames */
@@ -68,8 +75,11 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	private String alfaDuurFileName = null;
 	private String attributableMortalityFileName = null;
 	private String baselineIncidenceFileName =null;
+	private String baselineFatalIncidenceFileName =null;
 	private String baselineOtherMortFileName =null;
 	private String relRiskOtherMortCatFileName=null;
+
+	
 	
 	/* xml tags for filenames */
 	// TODO voor andere typen riskfactors 
@@ -80,12 +90,23 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	static protected String referenceValueContinousLabel=null;
 	static protected  String riskTypeLabel = "riskType";
 	static protected  String nCatLabel = "nCat";
+	static protected  String refValLabel="refValContinuousVariable"; 
+
 	static protected String relRiskCatFileNameLabel ="relativeRiskFile";
+	static protected String relRiskDiseaseOnDiseaseFileNameLabel ="diseaseOnDiseaseRelativeRiskFile";
 	static protected String baselineIncidenceFileNameLabel ="baselineIncidenceFile" ;
+	static protected String baselineFatalIncidenceFileNameLabel ="baselineFatalIncidenceFile" ;
 	static protected String attributableMortalityFileNameLabel = "attributableMortFile";
 	static protected String baselineOtherMortFileLabel=  "baselineOtherMortFile";
 	static protected String relativeRiskOtherMortFileLabel=  "relativeRiskOtherMortFile";
+	
+	
+	/* these types are for other inherited update rules */
+	static protected String nInClusterLabel="nInCluster";
+	static protected String firstCharLabel="CharIdFirstInCluster";  
+	
 
+	
 	public SingleDiseaseMultiToOneUpdateRule() throws ConfigurationException, CDMUpdateRuleException {
 		// constructor fills the parameters
 		// temporary;
@@ -96,23 +117,10 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	
 	
 	public SingleDiseaseMultiToOneUpdateRule(String configFileName)
-			throws ConfigurationException {
-		// constructor fills the parameters with data
-		// filenames of the parameter files are given in the file name with
-		// configFileName
-		relRiskCatFileName = null; // ConfigurationFactory.getRiskCatFileName(configFileName);
-		relRiskContFileName = null;
-		relRiskEndFileName = null;
-		relRiskBeginFileName = null;
-		alfaDuurFileName = null;
-		attributableMortalityFileName = null;
-		baselineIncidenceFileName = null;
+			{
 		
-		File configFile = new File(configFileName);
-		boolean success = loadConfigurationFile(configFile);
-		if (!success) throw new ConfigurationException("loading of configuration file failed for updateRule SingleDiseaseMultiToOneUpdateRule");
 		
-
+	
 	}
 
 	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
@@ -237,7 +245,7 @@ return success;
 			setNCat(nCat);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationTimestepMessage);
+					CDMConfigurationException.noConfigurationTagMessage+" reading number of categories");
 		}
 	}	
 	
@@ -246,11 +254,11 @@ return success;
 			HierarchicalConfiguration simulationConfiguration) throws ConfigurationException {
 		try {
 			int riskType   = simulationConfiguration.getInt(riskTypeLabel);
-			log.debug("Setting number of categories to " + riskType);
+			log.debug("Setting riskType to " + riskType);
 			setRiskType(riskType);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
-					CDMConfigurationException.noSimulationTimestepMessage);
+					CDMConfigurationException.noConfigurationTagMessage);
 		}
 	}	
 
@@ -305,18 +313,23 @@ return success;
 		
 		    if (dataName==" baselineOtherMortality") {
 				
-				inputData=factory.manufactureOneDimArray( baselineOtherMortFileName, "baselineOtherMortalities","baselineOtherMortality");
-			  setAttributableMortality(inputData);} 
+			  inputData=factory.manufactureOneDimArray( baselineOtherMortFileName, "baselineOtherMortalities","baselineOtherMortality");
+			  setBaselineOtherMort(inputData);} 
 			
-			if (dataName=="attributableMortality") {
+			if (dataName=="baselineIncidence") {
 						
 				inputData=factory.manufactureOneDimArray(baselineIncidenceFileName, "baselineIncidences","baselineIncidence");
-			  setAttributableMortality(inputData);} 
+			  setBaselineIncidence(inputData);} 
 			
-			if (dataName=="baselineIncidence") 
+			if (dataName=="baselineFatalIncidence") {
+	
+				inputData=factory.manufactureOneDimArray(baselineFatalIncidenceFileName, "baselineFatalIncidences","baselineFatalIncidence");
+			  setBaselineIncidence(inputData);} 
+			
+			if (dataName=="attributableMortality") 
 			{ inputData= factory.manufactureOneDimArray(attributableMortalityFileName, "attributableMortalities","attributableMortality")  ; 
 				
-				setBaselineIncidence(inputData);}
+				setAttributableMortality(inputData);}
 			
 		
 		} catch (NoSuchElementException e) {
@@ -327,29 +340,7 @@ return success;
 	
 
 
-	/* temporary version that loads fill into the file */
-	protected  void loadTwoDimData(
-				String XMLFileName, String dataName, float [] filldata) throws ConfigurationException {
-			try {
-				
-		/*		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-						XMLFileName);
-		*/		log.debug("Setting "+ dataName );
-				float [][][] inputData =getDataTwoDim(filldata);
-//				later: getData( attributableMortalityFileName); 
-				if (dataName=="relRiskCat") 
-							setRelRiskCategorical(inputData);
-					
-				if (dataName=="relRiskCatOtherMort") 
-					setRelRiskOtherMortCategorical(inputData);
-				
-			
-			} catch (NoSuchElementException e) {
-				throw new ConfigurationException(
-						CDMConfigurationException.noFileMessage);
-			}
-		}
-		
+	
 	
 
 
@@ -373,7 +364,7 @@ return success;
 				 ArraysFromXMLFactory factory=new ArraysFromXMLFactory();
 				    
 					
-//				later: getData( attributableMortalityFileName); 
+
 				if (dataName=="relRiskCat") {
 					inputData= factory.manufactureTwoDimArray(relRiskCatFileName, "relativeRisks","relativeRisk")  ; 
 						
@@ -467,7 +458,8 @@ try {
 			String attributableMortalityFileName   = simulationConfiguration.getString(attributableMortalityFileNameLabel);
 			log.debug("Setting AttributableMortalityFilename to: " + attributableMortalityFileName );
 			setAttributableMortalityFileName(attributableMortalityFileName);
-			loadOneDimData( attributableMortalityFileName,"attributableMortality",0.01F);
+			//loadOneDimData( attributableMortalityFileName,"attributableMortality",0.01F);
+			loadOneDimData( attributableMortalityFileName,"attributableMortality");
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noFileMessage);
@@ -477,16 +469,45 @@ try {
 	protected   void handleBaselineIncidence(
 			HierarchicalConfiguration simulationConfiguration) throws ConfigurationException {
 		try {
-			String FileName   = simulationConfiguration.getString(attributableMortalityFileNameLabel);
+			String FileName   = simulationConfiguration.getString(baselineIncidenceFileNameLabel);
 			log.debug("Setting BaselineIncidenceFilename to: " + FileName );
 			setBaselineIncidenceFileName(FileName);
-			loadOneDimData( baselineIncidenceFileName,"baselineIncidence",0.01F);
+			loadOneDimData( baselineIncidenceFileName,"baselineIncidence");
+		//	loadOneDimData( baselineIncidenceFileName,"baselineIncidence",0.01F);
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noFileMessage);
 		}
 	}
 	
+
+	protected   void handleBaselineFatalIncidence(
+			HierarchicalConfiguration simulationConfiguration) throws ConfigurationException {
+		try {
+			String FileName   = simulationConfiguration.getString(baselineFatalIncidenceFileNameLabel);
+			log.debug("Setting BaselineFatalIncidenceFilename to: " + FileName );
+			setBaselineIncidenceFileName(FileName);
+			loadOneDimData( baselineFatalIncidenceFileName,"baselineFatalIncidence");
+		//	loadOneDimData( baselineIncidenceFileName,"baselineIncidence",0.01F);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noFileMessage);
+		}
+	}
+
+	protected   void handleBaselineOtherMort(
+			HierarchicalConfiguration simulationConfiguration) throws ConfigurationException {
+		try {
+			String FileName   = simulationConfiguration.getString(baselineOtherMortFileLabel);
+			log.debug("Setting BaselineOtherMortalityFilename to: " + FileName );
+			setBaselineOtherMortFileName(FileName);
+			loadOneDimData( baselineOtherMortFileName,"baselineOtherMort");
+		//	loadOneDimData( baselineIncidenceFileName,"baselineIncidence",0.01F);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noFileMessage);
+		}
+	}
 	
 
 
@@ -502,7 +523,8 @@ try {
 			log.debug("Setting RelativeRiskFilename to: " + FileName );
 			setRelRiskCatFileNameLabel(FileName);
 			float[] fill={1.0F,1.2F,1.5F,2F};
-			loadTwoDimData( relRiskCatFileName,"relRiskCat",fill);
+		//	loadTwoDimData( relRiskCatFileName,"relRiskCat",fill);
+			loadTwoDimData( relRiskCatFileName,"relRiskCat");
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noFileMessage);
@@ -519,9 +541,11 @@ try {
 			// relRiskCatFileName 
 			String FileName   = simulationConfiguration.getString(relativeRiskOtherMortFileLabel);
 			log.debug("Setting relativeRiskOtherMortFile to: " + FileName );
-			setRelativeRiskOtherMortFileName(FileName);
-			float[] fill={1.0F,1.2F,1.5F,2F};
-			loadTwoDimData( relRiskCatFileName,"relRiskCatOtherMort",fill);
+			setRelativeRiskOtherMortCatFileName(FileName);
+			// temporary filling with data for testing
+			// float[] fill={1.0F,1.2F,1.5F,2F};
+		//	loadTwoDimData( relRiskCatFileName,"relRiskCatOtherMort",fill);
+			loadTwoDimData( relRiskCatFileName,"relRiskCatOtherMort");
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(
 					CDMConfigurationException.noFileMessage);
@@ -529,9 +553,9 @@ try {
 	}
 
 
-	private void setRelativeRiskOtherMortFileName(String fileName) {
-		// TODO Auto-generated method stub
+	private void setRelativeRiskOtherMortCatFileName(String fileName) {
 		
+		relRiskOtherMortCatFileName=fileName;
 	}
 
 
@@ -561,12 +585,16 @@ try {
 		this.referenceValueContinous = referenceValueContinous;
 	}
 
+
 	public float[][][] getRelRiskCategorical() {
 		return relRiskCategorical;
 	}
 
-	public void setRelRiskCategorical(float[][][] relRiskCategorical) {
-		this.relRiskCategorical = relRiskCategorical;
+	
+
+	public void setRelRiskCategorical(float[][][] input) {
+		this.relRiskCategorical =new float [96][2][ input[0][0].length];
+		this.relRiskCategorical =input;
 	}
 
 	public float[][] getRelRiskEnd() {
@@ -743,15 +771,6 @@ try {
 	}
 
 
-	public float[][][] getRelRiskOtherMortCategorical() {
-		return relRiskOtherMortCategorical;
-	}
-
-
-	public void setRelRiskOtherMortCategorical(
-			float[][][] relRiskOtherMortCategorical) {
-		this.relRiskOtherMortCategorical = relRiskOtherMortCategorical;
-	}
 
 
 	public float[][] getRelRiskOtherMortBegin() {
@@ -786,6 +805,58 @@ try {
 		return relRiskOtherMortCatFileName;
 	}
 
+
+
+
+	public float[][] getRelRiskOtherMortEnd() {
+		return relRiskOtherMortEnd;
+	}
+
+
+	public void setRelRiskOtherMortEnd(float[][] relRiskOtherMortEnd) {
+		this.relRiskOtherMortEnd = relRiskOtherMortEnd;
+	}
+
+
+	public float[][] getAlfaDuurOtherMort() {
+		return alfaDuurOtherMort;
+	}
+
+
+	public void setAlfaDuurOtherMort(float[][] alfaDuurOtherMort) {
+		this.alfaDuurOtherMort = alfaDuurOtherMort;
+	}
+
+
+	public String getBaselineFatalIncidenceFileName() {
+		return baselineFatalIncidenceFileName;
+	}
+
+
+	public void setBaselineFatalIncidenceFileName(
+			String baselineFatalIncidenceFileName) {
+		this.baselineFatalIncidenceFileName = baselineFatalIncidenceFileName;
+	}
+
+
+	public String getBaselineOtherMortFileName() {
+		return baselineOtherMortFileName;
+	}
+
+
+	public void setBaselineOtherMortFileName(String baselineOtherMortFileName) {
+		this.baselineOtherMortFileName = baselineOtherMortFileName;
+	}
+
+
+	private void setRelRiskOtherMortCategorical(float[][][] input) {
+		
+		relRiskOtherMortCategorical=input;
+	}
+
+	public void setBaselineOtherMort(float[][] baselineOtherMort) {
+		this.baselineOtherMort = baselineOtherMort;
+	}
 	
 	}
 
