@@ -36,8 +36,8 @@ for (int age=0;age<96;age++)
 		try {
 			// todo echte data hier inlezen 
 		
-			parameters[g][age] = new ModelParameters(100, Testdata);
-			prev[g][age]=Testdata.prevRisk	;	} catch (Exception e) {
+			parameters[age][g] = new ModelParameters(100, Testdata,0,0);
+			prev[age][g]=Testdata.prevRisk[age][g]	;	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -45,9 +45,9 @@ for (int age=0;age<96;age++)
 	//		NettTransitionRates(double[] oldPrev, double[] newPrev, double baselineMort, double [] RR) {
 				
 		double[] RRdis={1};		
-       if (age>0) {NettTransitionRates transEst = new NettTransitionRates(prev[g][age-1],prev[g][age],0.001,RRdis);
+       if (age>0) {NettTransitionRates transEst = new NettTransitionRates(prev[age-1][g],prev[age][g],0.001,RRdis);
         
-       transmat[g][age]=transEst.transitionRates;
+       transmat[age][g]=transEst.transitionRates;
         }
 			}}
 		

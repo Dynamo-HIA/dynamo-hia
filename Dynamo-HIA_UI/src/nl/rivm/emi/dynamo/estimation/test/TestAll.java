@@ -23,6 +23,9 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
 import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
 import nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule;
+
 import nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
@@ -101,7 +104,8 @@ public class TestAll {
 		try {
 			p = new ModelParameters();
 			InputData i = new InputData();
-			i.makeTest2Data();
+			// i.makeTest2Data();
+			i.makeTest1Data();
 			p.estimateModelParameters(100, i);
 			log.fatal("ModelParameters estimated ");
 			p.setRiskType(1);
@@ -145,7 +149,7 @@ public class TestAll {
 		try {
 			log.fatal("Starting manufacturing initial population.");
 			InitialPopulationFactory E2 = new InitialPopulationFactory();
-			E2.writeInitialPopulation(p, 10, simName, 1111, popFileName);
+			E2.writeInitialPopulation(p, 10, simName, 1111);
 			log.fatal("Starting run.");
 
 			
@@ -196,7 +200,7 @@ public class TestAll {
 								.getValue(stepCount);
 						float disease = (float) (Float) individual.get(4)
 								.getValue(stepCount);
-						float survival = (float) (Float) individual.get(10)
+						float survival = (float) (Float) individual.get(7)
 								.getValue(stepCount);
 						simulatedRiskFactorPrevalence[stepCount][ageIndex][sexIndex][riskFactor]++;
 						simulatedDiseasePrevalence[stepCount][ageIndex][sexIndex] += disease;

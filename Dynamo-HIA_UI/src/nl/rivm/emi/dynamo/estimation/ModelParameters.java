@@ -153,12 +153,22 @@ public class ModelParameters {
 		/** * 2. uses this to estimate the model parameters*/
         estimateModelParameters(nSim,inputData);
         /** * 3. write xml files needed by the simulation module */
-        SimulationConfigurationFactory f1= new SimulationConfigurationFactory() ;
-        f1.manufactureSimulationConfigurationFile(this, config);
-        f1.manufactureCharacteristicsConfigurationFile(this, config);
+        SimulationConfigurationFactory s = new SimulationConfigurationFactory(
+        		simulationName);
+    	s.manufactureSimulationConfigurationFile(this);
+		log.debug("SimulationConfigurationFile written ");
+		s.manufactureCharacteristicsConfigurationFile(this);
+		log.debug("CharacteristicsConfigurationFile written ");
+		s.manufactureUpdateRuleConfigurationFiles(this);
+		log.debug("UpdateRuleConfigurationFile written ");
+       
         /** * 4. write the initial population file*/
+		
+		
+		InitialPopulationFactory E2 = new InitialPopulationFactory();
+		E2.writeInitialPopulation(this, 10, simulationName, 1111);
         InitialPopulationFactory f2=new InitialPopulationFactory();
-        int seed=config.getSeed;
+        int seed=1111; // TODO uit configuration halen 
         f2.manufactureInitialPopulation(this, simulationName, nSim, seed);
         
         /** * 5. writes a population of newborns (TODO)*/

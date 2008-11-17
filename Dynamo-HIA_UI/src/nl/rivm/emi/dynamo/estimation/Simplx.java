@@ -8,8 +8,8 @@ public class Simplx {
 	int icase;
 	int kp=0; //these are indexes that are passed to and from methods
 	int ip=0;
-	private int iposv[];
-	private int izrov[];
+	int iposv[];
+	int izrov[];
 	// On output, the tableau a is indexed by two returned arrays of integers. iposv[j]
 	//contains, for j= 1. . .M, the number i whose original variable xi is now represented
 	//by row j+1 of a. These are thus the left-hand variables in the solution. (The first row
@@ -21,10 +21,9 @@ public class Simplx {
 	//of a. These variables are all zero in the solution. The meaning ofi > N is the same
 	//as above, except that i >N +m1 +m2 denotes an artificial or slack variable which
 	//was used only internally and should now be entirely ignored.
-	public float[][] a;
+	float[][] a;
 // er zit een goto in die anders moet worden georganiseerd. */
 	
-	public Simplx(){super();}
 	
 	public Simplx(float[][]ainput,int m, int n, int m1, int m2, int m3) {
 
@@ -62,8 +61,8 @@ public class Simplx {
 		int m12 = 0;
 		int nl1 = 0;
 		int nl2 = 0;
-		setIzrov(new int [n+1]);
-		setIposv(new int [m+1]);
+		izrov = new int [n+1];
+		iposv = new int [m+1];
 		// first copy input to array a starting at 1;
 		/*
 		 * This input occupies the M + 1 rows and N + 1 columns of a[1..m+1][1..n+1].
@@ -86,14 +85,14 @@ public class Simplx {
 		nl1 = n; // Initially make all variables right-hand.
 		for (k = 1; k <= n; k++)
 			{l1[k] = k;
-			getIzrov()[k] = k; }// Initialize index lists.
+			izrov[k] = k; }// Initialize index lists.
 		nl2 = m; // Make all artificial variables left-hand,
 		for (i = 1; i <= m; i++) { // and initialize those lists.
 			if (a[i + 1][1] < 0.0)
 				System.out.println("Bad input tableau in simplx");
 			// Constants bi must be nonnegative.
 			l2[i] = i;
-			getIposv()[i] = n + i;
+			iposv[i] = n + i;
 		}
 		for (i = 1; i <= m2; i++)
 			l3[i] = 1; // Used later, but initialized here.
@@ -124,7 +123,7 @@ public class Simplx {
 					// be improved, hence
 					// no
 					// feasible solution exists.
-					return ;
+					return;
 				} else if (bmax <= EPS && a[m + 2][1] <= EPS) {
 					m12 = m1 + m2 + 1;
 
@@ -135,7 +134,7 @@ public class Simplx {
 					// one
 					// and then move on to phase two.
 					for (ip = m12; ip <= m; ip++) {
-						if (getIposv()[ip] == (ip + n)) {
+						if (iposv[ip] == (ip + n)) {
 							bmax=simp1(a, ip, l1, nl1, 1);
 							if (bmax > 0.0) {
 								goto_one=true;
@@ -158,17 +157,18 @@ public class Simplx {
 				if (!goto_one) {
 				q1=simp2(a, n, l2, nl2,  kp,q1); // Locate a pivot element
 													// (phase one).
-						if (ip == 0) { /* Maximum of auxiliary objective function
-				 is unbounded, so no feasible solution exists. */
+						if (ip == 0) { // Maximum of auxiliary objective function
+				// is unbounded, so no feasible
+					// solution exists.
 					icase = -1;
-					return ;
+					return;
 				}}
 				goto_one=false; // we reached the point of the goto statement;
 				a=simp3(a, m + 1, n, ip, kp);
 				// Exchange a left- and a right-hand variable (phase one), then
 				// update
 				// lists.
-				if (getIposv()[ip] >= (n + m1 + m2 + 1)) {
+				if (iposv[ip] >= (n + m1 + m2 + 1)) {
 					for (k = 1; k <= nl1; k++)
 						if (l1[k] == kp)
 							break;
@@ -179,8 +179,8 @@ public class Simplx {
 					for (i = 1; i <= m + 2; i++)
 						a[i][kp + 1] = -a[i][kp + 1];
 				} else {
-					if (getIposv()[ip] >= (n + m1 + 1)) {
-						kh = getIposv()[ip] - m1 - n;
+					if (iposv[ip] >= (n + m1 + 1)) {
+						kh = iposv[ip] - m1 - n;
 						if (l3[kh] == 1) {
 							l3[kh] = 0;
 							++a[m + 2][kp + 1];
@@ -189,9 +189,9 @@ public class Simplx {
 						}
 					}
 				}
-				is = getIzrov()[kp];
-				getIzrov()[kp] = getIposv()[ip];
-				getIposv()[ip] = is;
+				is = izrov[kp];
+				izrov[kp] = iposv[ip];
+				iposv[ip] = is;
 			} while (ir == 1); // If still in phase one, go back to the
 		} // do.
 		// End of phase one code for _nding an initial feasible solution. Now,
@@ -211,12 +211,12 @@ public class Simplx {
 			
 			if (ip == 0) { // Objective function is unbounded. Re*
 				icase = 1; // port and return.
-				return ;
+				return;
 			}
 			a=simp3(a, m, n, ip, kp); // Exchange a left- and a right-hand
-			is = getIzrov()[kp]; // variable (phase two),
-			getIzrov()[kp] = getIposv()[ip];
-			getIposv()[ip] = is;
+			is = izrov[kp]; // variable (phase two),
+			izrov[kp] = iposv[ip];
+			iposv[ip] = is;
 		} // and return for another iteration.
 	}
 
@@ -313,53 +313,71 @@ public class Simplx {
 		return a;
 	}
 
-	public void setIzrov(int izrov[]) {
-		this.izrov = izrov;
-	}
-
-	public int[] getIzrov() {
-		return izrov;
-	}
-
-	public void setIposv(int iposv[]) {
-		this.iposv = iposv;
-	}
-
-	public int[] getIposv() {
-		return iposv;
-	}
-
-	public int getIcase() {
-		return icase;
-	}
-
-	public void setIcase(int icase) {
-		this.icase = icase;
-	}
-
-	public int getKp() {
-		return kp;
-	}
-
-	public void setKp(int kp) {
-		this.kp = kp;
-	}
-
-	public int getIp() {
-		return ip;
-	}
-
-	public void setIp(int ip) {
-		this.ip = ip;
-	}
-
-	public float[][] getA() {
-		return a;
-	}
-
-	public void setA(float[][] a) {
-		this.a = a;
-	}
-
 	
-	}
+	public static void main(String[] args)
+
+	{
+	//test: this should give the solution: eerste var: 15, tweede 22.5. maximum = -45
+	//	double[][] augmented = { { 2.5, 5 ,1 ,0,150 }, {5,2,0,1,120 },{-1.5,-1,0,0,0 } };
+	//	double [][]augmented = { {-1.5,-1,0,0,0 },{ 2.5, 5 ,1 ,0, 150 }, {5,2,0,1,120 } }; 
+	//	double [][]augmented = { {0,-1.5,-1,0,0 },{ 150,2.5, 5 ,1 ,0 }, {120,5,2,0,1 } }; 
+	
+		// voorbeeld uit NR
+		
+		
+		/*float [][]augmented = {{0,1,1,3,-0.5f,0,0,0},
+				                {740,-1,0,-2,0,-1,0,0},
+				                {0,0,-2,0,7,0,-1,0},
+				                {0.5f,0,-1,1,-2,0,0,1},
+				                {9,-1,-1,-1,-1,0,0,0}
+		};
+		// outcome should be:
+		// z 17.03 -0.95 -0.05 -1.05 ...
+		// x2 3.33 -0.35 -0.15 0.35 ...
+		// x3 4.73 -0.55 0.5 -0.45 ...
+		// x4 0.95 -.10 0.10 0.10 ...
+		// y1 730.55 0.10 -0.10 0.90 ...
+		Simplx result= new Simplx(augmented,4,4,2,1,1);
+		/* m,n,m1,m2,m3 */
+		float [][]augmented = {{0,2,-4},{2,-6,1},{8,3,-4}};
+		// outcome should be x1=0 x2=3.33 x4=4.73 en x4=0.95 */
+		
+		Simplx result= new Simplx(augmented,2,2,0,0,2);
+		System.out
+		.println(result.a[1][1]+" "+ result.a[1][2]+" "+result.a[1][3]+" "+result.a[2][1]+" "+
+				result.a[2][2]+" "+result.a[2][3]+" "+
+				result.a[3][1]+" "+result.a[3][2]+" "+result.a[3][3]);
+		
+		// iposv geeft de nummers van variabelen die niet nul zijn in de oplossing
+		// bij gehorende antwoord staat in a[j+1][1] (+1 vanwege z in eerste rij)
+// izrow geeft variabelen die 0 zijn geworden //
+	//	De nummering is daarbij: eerst variabelen (boven aan de tabel) , daarna constraints (rijen)
+		
+		System.out
+		.println(" var zrow " + result.izrov[1] + " var zrow " + result.izrov[2] 
+			+	"var posv " + result.iposv[1]+"var posv " + result.iposv[2] );
+		
+		/* test transitiekansen 
+		a = [0.7304662, 0.2169622, 0.05257154]
+				b = [0.7189476, 0.2255193, 0.05553312] */
+		float [] poud={0.7304662F, 0.2169622F, 0.05257154F} ;
+		float [] pnew={0.7189476F, 0.2255193F, 0.05553312F} ;
+		float [] hulp = new float[3];
+		
+		float[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},
+		                       {poud[0], -1, -1, -1,  0,  0,  0,  0,  0,  0},
+		                       {poud[1],  0,  0,  0, -1, -1, -1,  0,  0,  0},
+		                       {poud[2],  0,  0,  0,  0,  0,  0, -1, -1, -1},
+		                       {pnew[0], -1,  0,  0, -1,  0,  0, -1,  0,  0},
+		                       {pnew[1],  0, -1,  0,  0, -1,  0,  0, -1,  0},
+		                       {pnew[2],  0,  0, -1,  0,  0, -1,  0,  0, -1}};
+		Simplx result2= new Simplx(augmented2,6,9,0,0,6);
+		System.out
+		.println(" var posv " + result2.iposv[1] + " var posv " + result2.iposv[2] 
+		      +	"var posv " + result2.iposv[3]+"var posv " + result2.iposv[4] 
+			+	"var posv " + result2.iposv[5]+"var posv " + result2.iposv[6] ); 
+		System.out
+		.println(" results  1 " + result2.a[2][1] + " 2 " + result2.a[3][1]
+		      +	" 3 " + result2.a[4][1]+" 4 " + result2.a[5][1]
+			+	" 5 " + result2.a[6][1]+" 6 " + result2.a[7][1] ); 	
+}}

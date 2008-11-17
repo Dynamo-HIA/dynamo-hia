@@ -45,12 +45,16 @@ public class InitialPopulationFactory {
 		super();
 	}
 
-	public void writeInitialPopulation(ModelParameters parameters, int nSim, String simulationName,int seed,
-			String filenameInitPop) throws ParserConfigurationException,
+	public void writeInitialPopulation(ModelParameters parameters, int nSim, String simulationName,int seed) throws ParserConfigurationException,
 			TransformerException {
 		Population pop = manufactureInitialPopulation(parameters, simulationName,  nSim,seed );
-		File initPopXMLfile = new File(filenameInitPop+ ".XML");
 		
+		String baseDir = BaseDirectory.getInstance(
+		"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+		String directoryName = baseDir + "Simulations\\" + simulationName;
+		String popFileName = directoryName + "\\modelconfiguration"
+				+ "\\population.xml";
+		File initPopXMLfile = new File(popFileName);
 		writeToXMLFile(pop, 0, initPopXMLfile);
 	}
 

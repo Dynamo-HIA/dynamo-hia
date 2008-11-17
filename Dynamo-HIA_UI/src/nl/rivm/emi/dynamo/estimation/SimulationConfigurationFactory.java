@@ -100,7 +100,7 @@ public class SimulationConfigurationFactory {
 		/* write rule for categorical risk factor */
 		/**
 		 * implemented xml file for categorical risk factor: <?xml version="1.0"
-		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>3</charID>
+		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>3</charID> <refValContinuousVariable>0</refValContinuousVariable>
 		 * <nCat>4</nCat> <durationClass>2</durationClass> <nullTransition>1</nullTransition>
 		 * <durationClass>2</durationClass> <transitionFile>c:/hendriek
 		 * /java/workspace/dynamo/dynamodata/transdata.xml</transitionFile>
@@ -119,7 +119,8 @@ public class SimulationConfigurationFactory {
 					.createElement("updateRuleConfiguration");
 			writeFinalElementToDom(rootElement, "charID",
 					((Integer) ruleNumber).toString());
-
+			writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
+					.getRefClassCont()).toString());
 			writeFinalElementToDom(rootElement, "nCat", ((Integer) parameters
 					.getPrevRisk()[0][0].length).toString());
 			writeFinalElementToDom(rootElement, "durationClass",
@@ -172,7 +173,8 @@ public class SimulationConfigurationFactory {
 				((Integer) riskType).toString());
 		writeFinalElementToDom(survivalRootElement, "nCat",
 				((Integer) parameters.getPrevRisk()[0][0].length).toString());
-
+		writeFinalElementToDom(survivalRootElement, "refValContinuousVariable", ((Float) parameters
+				.getRefClassCont()).toString());
 		Element survivalDiseaseElement;
 
 		for (int c = 0; c < parameters.getNCluster(); c++) {
@@ -209,6 +211,9 @@ public class SimulationConfigurationFactory {
 					writeFinalElementToDom(rootElement, "nCat",
 							((Integer) parameters.getPrevRisk()[0][0].length)
 									.toString());
+					writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
+							.getRefClassCont()).toString());
+				
 					String name = structure.getDiseaseName().get(d);
 
 					writeFinalElementToDom(survivalDiseaseElement,
@@ -311,6 +316,8 @@ public class SimulationConfigurationFactory {
 					writeFinalElementToDom(rootElement, "nCat",
 							((Integer) parameters.getPrevRisk()[0][0].length)
 									.toString());
+					writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
+							.getRefClassCont()).toString());
 					writeFinalElementToDom(rootElement, "nInCluster",
 							((Integer) structure.getNinCluster()).toString());
 					writeFinalElementToDom(rootElement, "CharIdFirstInCluster",
@@ -342,7 +349,7 @@ public class SimulationConfigurationFactory {
 						survivalDiseaseElement = documentForSurvival
 								.createElement("disease");
 						writeFinalElementToDom(survivalDiseaseElement,
-								"ClusterNumber", ((Integer) c).toString());
+								"clusterNumber", ((Integer) c).toString());
 						writeFinalElementToDom(survivalDiseaseElement,
 								"diseaseNumberWithinCluster", ((Integer) d)
 										.toString());
@@ -371,9 +378,9 @@ public class SimulationConfigurationFactory {
 						/* baseline fatal incidence */
 						fileName = directoryName
 								+ "\\parameters\\baselineFatalIncidence_"
-								+ ((Integer) ruleNumber).toString() + "_"
+								+ ((Integer) charIdFirst).toString() + "_"
 								+ name + ".xml";
-						writeFinalElementToDom(rootElement,
+						writeFinalElementToDom(diseaseElement,
 								"baselineFatalIncidenceFile", fileName);
 						if (combi == 1){writeFinalElementToDom(survivalDiseaseElement,
 								"baselineFatalIncidenceFile", fileName);
@@ -516,19 +523,24 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(rootElement, "pop", popFileName);
 
 		int riskType = parameters.getRiskType();
-		int nRules=3;
-		for (int c=0;c<parameters.getNCluster();c++) nRules+=Math.pow(2,parameters.getClusterStructure()[c].getNinCluster())-1;
-		setNRules(parameters.getNDiseases() + 3);
-		// TODO get this from parameter estimation
+		int BasicNRules=4;// age+sex+riskfactor+survival
+		int nRules=BasicNRules;
 		if (riskType == 3)
-			setNRules(getNRules() + 1);
+			BasicNRules++;
+		for (int c=0;c<parameters.getNCluster();c++) nRules+=Math.pow(2,parameters.getClusterStructure()[c].getNinCluster())-1;
+		setNRules(nRules);
+		DiseaseClusterStructure[] structure=parameters.clusterStructure;
+		// TODO get this from parameter estimation
+		
 
 		Element updateRuleElement = document.createElement("updaterules");
-
+        int currentDiseaseCluster=0;
+        int currentStateInCluster=0;
+        int nState=1;
 		for (int charID = 1; charID <= getNRules(); charID++) {
 			Element rule = document.createElement("updaterule");
 			updateRuleElement.appendChild(rule);
-			String ruleName;
+			String ruleName=null;
 			switch (charID) {
 			case 1:
 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule";
@@ -542,11 +554,27 @@ public class SimulationConfigurationFactory {
 			case 4:
 				if (riskType == 3)
 					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule";
-				else
-					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule";
-				break;
+					
 			default:
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule";
+				if (riskType == 3) break;
+				if (charID==getNRules() ) break;
+				if (structure[currentDiseaseCluster].nInCluster==1)	{
+					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule";
+					currentDiseaseCluster++;}
+				else if 
+				 (structure[currentDiseaseCluster].withCuredFraction){
+					 ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule";
+				if (currentStateInCluster==0) currentStateInCluster++; else 
+				{currentStateInCluster=0;
+				currentDiseaseCluster++;}
+				}
+				else{ ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule";
+				if (currentStateInCluster==0) nState=(int) (Math.pow(2, structure[currentDiseaseCluster].getNinCluster())-1);
+				if (currentStateInCluster<nState-1) // not the last state in cluster
+					currentStateInCluster++; else 
+				{currentStateInCluster=0;
+				currentDiseaseCluster++;}
+				}
 			}
 			if (getNRules() == charID)
 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule";
@@ -696,7 +724,7 @@ public class SimulationConfigurationFactory {
 				}
 		}
 		/* finally write the info for survival */
-		Element Element = document.createElement("ch");
+		charElement = document.createElement("ch");
 		rootElement.appendChild(charElement);
 
 		writeFinalElementToDom(charElement, "id", ((Integer) index).toString());
@@ -742,21 +770,19 @@ public class SimulationConfigurationFactory {
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
-		Element element = document.createElement(tag);
-		rootElement.appendChild(element);
+		
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++) {
+				Element element = document.createElement(tag);
+				rootElement.appendChild(element);
 				writeFinalElementToDom(element, "age", ((Integer) a).toString());
 				writeFinalElementToDom(element, "sex", ((Integer) g).toString());
-
 				writeFinalElementToDom(element, "value",
 						((Float) arrayToWrite[a][g]).toString());
-
 			}
 		document.appendChild(rootElement);
 		/* write document to xml-file */
 		writeDomToXML(fileName, document);
-
 	}
 
 	/**
@@ -764,8 +790,7 @@ public class SimulationConfigurationFactory {
 	 * dimensional array for which the third dimension is equal to d
 	 * 
 	 * @param inArray
-	 * @param d:
-	 *            number of the third dimension to be extracted
+	 * @param d: number of the third dimension to be extracted
 	 * @return
 	 */
 
@@ -854,11 +879,12 @@ public class SimulationConfigurationFactory {
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
-		Element element = document.createElement(tag);
-		rootElement.appendChild(element);
+		
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++)
 				for (int c = 0; c < dim3; c++) {
+					Element element = document.createElement(tag);
+					rootElement.appendChild(element);
 					writeFinalElementToDom(element, "age", ((Integer) a)
 							.toString());
 					writeFinalElementToDom(element, "sex", ((Integer) g)
@@ -889,12 +915,13 @@ public class SimulationConfigurationFactory {
 		Document document = newDocument(fileName);
 
 		Element rootElement = document.createElement(globalTag);
-		Element element = document.createElement(tag);
-		rootElement.appendChild(element);
+		
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++)
 				for (int c = 0; c < dim3; c++)
 					for (int d = 0; d < dim4; d++) {
+						Element element = document.createElement(tag);
+						rootElement.appendChild(element);
 						writeFinalElementToDom(element, "age", ((Integer) a)
 								.toString());
 						writeFinalElementToDom(element, "sex", ((Integer) g)

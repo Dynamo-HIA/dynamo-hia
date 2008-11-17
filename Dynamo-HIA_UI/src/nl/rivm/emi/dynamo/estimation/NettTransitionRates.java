@@ -443,7 +443,7 @@ public class NettTransitionRates {
 			for (int j = 0; j < nCat; j++) {
 				int variableNum = (i) * nCat + j + 1;
 				for (int k = 1; k <= 2 * nCat; k++)
-					if (result.getIposv()[k] == variableNum) {
+					if (result.iposv[k] == variableNum) {
 						transitionRates[i][j] = (double) result.a[k + 1][1]
 								/ oldPrev[i];
 						// K+1 WANT RIJ 1 BEVAT KOSTEN
