@@ -161,9 +161,11 @@ log.debug("Processing node " + myNode.getNodeName());
 		}
 		String value = valueNode.getNodeValue();
 		log.debug("Node float value " + value);
-		matcher = floatPattern.matcher(value);
-		boolean valueOK = matcher.matches();
-		if (indexOK && valueOK) {
+// TODO Reintroduce check.
+//		matcher = floatPattern.matcher(value);
+//		boolean valueOK = matcher.matches();
+//		if (indexOK && valueOK) {
+			if (indexOK) {
 			FloatCharacteristicValue floatCharacteristicValue = new FloatCharacteristicValue(
 					numberOfSteps, Integer.parseInt(index));
 			floatCharacteristicValue.appendValue(Float.parseFloat(value));
