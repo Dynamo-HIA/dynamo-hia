@@ -22,6 +22,9 @@ import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
  */
 
 public enum FileControlEnum {
+	POPULATIONSIZE(FileControlEnumHelp.populationSizeStrings),
+	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings),
+	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings),
 	INCIDENCES(FileControlEnumHelp.incidencesStrings),
 	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings);
 	Log log = LogFactory.getLog(this.getClass().getName());
