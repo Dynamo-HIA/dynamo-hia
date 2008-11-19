@@ -2,10 +2,8 @@ package nl.rivm.emi.cdm.characteristic.types.test;
 
 import static org.junit.Assert.assertEquals;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.StringCategoricalCharacteristicType;
-import nl.rivm.emi.cdm.characteristic.types.WrongPossibleValueException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
