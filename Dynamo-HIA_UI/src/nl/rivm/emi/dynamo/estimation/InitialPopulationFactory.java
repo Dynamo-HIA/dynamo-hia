@@ -45,22 +45,42 @@ public class InitialPopulationFactory {
 		super();
 	}
 
-	public void writeInitialPopulation(ModelParameters parameters, int nSim, String simulationName,int seed) throws ParserConfigurationException,
+	/**
+	 * @param parameters
+	 * @param nSim
+	 * @param simulationName
+	 * @param seed
+	 * @param newborns
+	 * @throws ParserConfigurationException
+	 * @throws TransformerException
+	 */
+	public void writeInitialPopulation(ModelParameters parameters, int nSim, String simulationName,int seed, boolean newborns) throws ParserConfigurationException,
 			TransformerException {
-		Population pop = manufactureInitialPopulation(parameters, simulationName,  nSim,seed );
+		Population pop = manufactureInitialPopulation(parameters, simulationName,  nSim,seed ,newborns);
 		
 		String baseDir = BaseDirectory.getInstance(
 		"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 		String directoryName = baseDir + "Simulations\\" + simulationName;
-		String popFileName = directoryName + "\\modelconfiguration"
+		String popFileName;
+		if ( newborns) popFileName = directoryName + "\\modelconfiguration"
+		+ "\\newborns.xml";
+		else popFileName = directoryName + "\\modelconfiguration"
 				+ "\\population.xml";
 		File initPopXMLfile = new File(popFileName);
 		writeToXMLFile(pop, 0, initPopXMLfile);
 	}
 
 	/** nsim= number of simulated individuals per age and gender */
+	/**
+	 * @param parameters
+	 * @param simulationName
+	 * @param nSim
+	 * @param seed
+	 * @param newborns
+	 * @return
+	 */
 	public Population manufactureInitialPopulation(ModelParameters parameters,String simulationName,
-			int nSim, int seed) {
+			int nSim, int seed, boolean newborns) {
 
 		/* at this moment: simulate all ages */
 		/* First make some indexes that are needed */
@@ -85,15 +105,16 @@ public class InitialPopulationFactory {
 		
 		
 		// TODO nakijken of juiste directory naam 
-		
+		int agemax=96;
+		if (newborns) agemax=1;
 		if (parameters.riskType == 3) {
-			for (int a = 0; a < 96; a++)
+			for (int a = 0; a < agemax; a++)
 				for (int g = 0; g < 2; g++) {
 					nDuurClasses[a][g] = parameters.duurFreq[a][g].length;
 				}
 		}
 
-		for (int a = 0; a < 96; a++)
+		for (int a = 0; a <agemax; a++)
 			for (int g = 0; g < 2; g++) {
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
@@ -517,6 +538,15 @@ public class InitialPopulationFactory {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * @param p
+	 * @param sim
+	 * @param simName
+	 * @param seed
+	 * @param newborns
+	 */
+	
 }
 	
 	
