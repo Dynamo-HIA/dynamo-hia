@@ -58,15 +58,12 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	protected float relRiskOtherMortBegin[][] =  new float [96][2];
 	protected float alfaDuurOtherMort[][] =  new float [96][2];
 	protected float relRiskOtherMortContinous[][] =  new float [96][2];
-	
+	protected float[][][] relRiskOtherMortCategorical;
 	// needed in inherited types
 	// do not delete as common methods are in this class
-	protected float[][][] relRiskOtherMortCategorical;
-
 	protected float[][] baselineOtherMort;
 
-	int riskType = 0;
-	int nCat =0;
+	
 	/* filenames */
 	private String  relRiskCatFileName = null;
 	private String  relRiskContFileName = null;
@@ -521,7 +518,7 @@ try {
 			// relRiskCatFileName 
 			String FileName   = simulationConfiguration.getString(relRiskCatFileNameLabel);
 			log.debug("Setting RelativeRiskFilename to: " + FileName );
-			setRelRiskCatFileNameLabel(FileName);
+			setRelRiskCatFileName(FileName);
 			float[] fill={1.0F,1.2F,1.5F,2F};
 		//	loadTwoDimData( relRiskCatFileName,"relRiskCat",fill);
 			loadTwoDimData( relRiskCatFileName,"relRiskCat");

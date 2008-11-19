@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -90,7 +90,7 @@ public class ArraysFromXMLFactory {
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
 			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoUpdateRuleConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
@@ -102,7 +102,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 		if (detailedDebug)		log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
-					throw new DynamoConfigurationException(" Tagname "
+					throw new DynamoUpdateRuleConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName());
 
@@ -114,7 +114,7 @@ public class ArraysFromXMLFactory {
 				for (int sex = 0; sex < 2; sex++)
 					for (int age = 0; age < 96; age++) 
 						if (checkArray[age][sex][0][0] != 1)
-							throw new DynamoConfigurationException(
+							throw new DynamoUpdateRuleConfigurationException(
 									"no value read in parameter file for age="
 											+ age + " sex=" + sex
 											);
@@ -128,7 +128,7 @@ public class ArraysFromXMLFactory {
 					+ " with message: " + e.getMessage()+  "from file "+fileName);
 			e.printStackTrace();
 			throw e;
-		} catch (DynamoConfigurationException exception) {
+		} catch (DynamoUpdateRuleConfigurationException exception) {
 			log
 					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
 							+ " with message: " + exception.getMessage()+  "from file "+fileName);
@@ -259,7 +259,7 @@ public class ArraysFromXMLFactory {
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoUpdateRuleConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
@@ -294,7 +294,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)			log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
-					throw new DynamoConfigurationException(" Tagname "
+					throw new DynamoUpdateRuleConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName()+  "in file "+fileName);
 			}
@@ -309,7 +309,7 @@ public class ArraysFromXMLFactory {
 				for (int sex = 0; sex < 2; sex++)
 					for (int age = 0; age < 96; age++) {
 						if (checkArray[age][sex][cat][0] != 1)
-							throw new DynamoConfigurationException(
+							throw new DynamoUpdateRuleConfigurationException(
 									"no value read in parameter file "+fileName+" for age="
 											+ age + " sex=" + sex
 											+ " and category nr " + cat);
@@ -320,7 +320,7 @@ public class ArraysFromXMLFactory {
 					+ " with message: " + e.getMessage()+  "from file "+fileName);
 			e.printStackTrace();
 			throw e;
-		} catch (DynamoConfigurationException exception) {
+		} catch (DynamoUpdateRuleConfigurationException exception) {
 			log
 					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
 							+ " with message: " + exception.getMessage()+  "from file "+fileName);
@@ -457,7 +457,7 @@ public class ArraysFromXMLFactory {
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoUpdateRuleConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
@@ -487,7 +487,7 @@ public class ArraysFromXMLFactory {
 			}
 			int maxIndex;
             if (maxIndex1==maxIndex2) maxIndex=maxIndex1;
-            else throw new DynamoConfigurationException(" number of values for tag "
+            else throw new DynamoUpdateRuleConfigurationException(" number of values for tag "
 					+ value1TagName +" not equal to that in tag " + value1TagName +" in file "  + fileName
 					);
 	
@@ -507,7 +507,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)			log.debug("Handle rootChild: " + rootChild.getName());
 				if (rootChild.getName() != tagName)
-					throw new DynamoConfigurationException(" Tagname "
+					throw new DynamoUpdateRuleConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName());
 			}
@@ -523,7 +523,7 @@ public class ArraysFromXMLFactory {
 				for (int sex = 0; sex < 2; sex++)
 					for (int age = 0; age < 96; age++) {
 						if (checkArray[age][sex][cat][cat2] != 1)
-							throw new DynamoConfigurationException(
+							throw new DynamoUpdateRuleConfigurationException(
 									"no value read in parameter file "+fileName +" for age="
 											+ age + " sex=" + sex
 											+ " and category nrs " + cat+" and "+cat2);
@@ -534,7 +534,7 @@ public class ArraysFromXMLFactory {
 					+ " with message: " + e.getMessage()+  "from file "+fileName);
 			e.printStackTrace();
 			throw e;
-		} catch (DynamoConfigurationException exception) {
+		} catch (DynamoUpdateRuleConfigurationException exception) {
 			log
 					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
 							+ " with message: " + exception.getMessage()+  "from file "+fileName);

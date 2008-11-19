@@ -1,12 +1,13 @@
 package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -73,36 +74,30 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 public class SurvivalMultiToOneUpdateRule extends
 		ClusterDiseaseMultiToOneUpdateRule {
 
+/* XML labels */
 	private String nDiseasesLabel = "Survival rule";
-
 	private String clusterInformationLabel = "clusterInformation";
-
 	private String clusterNumberLabel = "clusterNumber";
-
-	private String clusterNameLabel = "ClusterNumber";
 	private String diseaseNumberWithinClusterLabel = "diseaseNumberWithinCluster";
-
 	private String startsAtDiseaseNumberLabel = "startsAtDiseaseNumber";
-	private String numberOfDiseasesInClusterLabel = "numberOfDiseasesInCluster";
+	private static String numberOfDiseasesInClusterLabel = "numberOfDiseasesInCluster";
 
+/* update rule specific data */	
+	private String nClusterLabel = "nclusters";
+	private int [] nCombinations;
 	private int[] numberOfDiseasesInCluster;
 	private int[] clusterStartsAtDiseaseNumber;
 	private int totalNumberOfDiseases;
-
-	private String nClusterLabel = "nclusters";
-
-	private int nCluster = 1;
-
+	private int nCluster = -1;
 	private int[] DiseaseNumberWithinCluster;
+
+/* update rule data that have a different dimension here then for the parent rule */	
 	/* indexes are: 1:cluster number, 2: age 3: sex 4: from 5: to */
 	private float[][][][][] relativeRiskDiseaseOnDisease;
-
 	private String[] diseaseOnDiseaseRelativeRiskFileName;
-
-	private float[][][] relRiskOtherMortCategorical;
-
-	private float[][] baselineOtherMort;
-
+	
+	
+	
 	public SurvivalMultiToOneUpdateRule() throws ConfigurationException,
 			CDMUpdateRuleException {
 		super();
@@ -122,28 +117,122 @@ public class SurvivalMultiToOneUpdateRule extends
 			double otherMort = calculateOtherCauseMortality(currentValues,
 					ageValue, sexValue);
 			double[] incidence = new double[nDiseases];
+			double[] atMort = getAttributableMortality(ageValue,sexValue);
 			for (int d = 0; d < nDiseases; d++) {
 				incidence[d] = calculateIncidence(currentValues, ageValue,
 						sexValue, d);
+				
 			}
-			double[] currentDiseaseValue;
-			if (riskType == 1 || riskType == 2)
-				currentDiseaseValue = getCurrentDiseaseValues(currentValues,
-						ageValue, sexValue, riskFactorIndex1 + 1, nDiseases);
-			else
-				currentDiseaseValue = getCurrentDiseaseValues(currentValues,
-						ageValue, sexValue, riskFactorIndex2 + 1, nDiseases);
+			// array currentDiseaseValue holds the current values of the disease-characteristics
+			// 
+			double[] currentStateValue;
+		
+			if (riskType == 1 || riskType == 2){
+				currentStateValue = getCurrentDiseaseValues(currentValues,
+						 riskFactorIndex1 + 1, characteristicIndex-riskFactorIndex1-1);
+			}
+			else{
+				currentStateValue = getCurrentDiseaseValues(currentValues,
+						riskFactorIndex2 + 1, characteristicIndex-riskFactorIndex2-1);
+				
+			}
 			double survivalFraction = Math.exp(-otherMort * timeStep);
-			for (int d = 0; d < nDiseases; d++) {
-				survivalFraction *= (attributableMortality[d][ageValue][sexValue] * (1 - currentDiseaseValue[d])
-						* Math.exp(-timeStep * incidence[d]) + (attributableMortality[d][ageValue][sexValue]
-						* currentDiseaseValue[d] - incidence[d])
-						* Math.exp(-timeStep * attributableMortality[d][ageValue][sexValue]))
-						/ (attributableMortality[d][ageValue][sexValue] - incidence[d]);
+			
+		//	private int[] numberOfDiseasesInCluster == array over clusters;
+		//	private int[] clusterStartsAtDiseaseNumber == array over clusters;
+		//	private int totalNumberOfDiseases;
+	//		private int nCluster = -1;
+	//		private int[] DiseaseNumberWithinCluster;== array over diseases
+		
+			int currentStateNo=0;
+			
+			for (int c = 0; c < nCluster; c++){
+				if (numberOfDiseasesInCluster[c]==1){
+					
+			int d=clusterStartsAtDiseaseNumber[c];
+				survivalFraction *= (atMort[d] * (1 - currentStateValue[d])
+						* Math.exp(-timeStep * incidence[d]) + (atMort[d]
+						* currentStateValue[d] - incidence[d])
+						* Math.exp(-timeStep * atMort[d]))
+						/ (atMort[d] - incidence[d]);
+				currentStateNo++ ;}
+				else // TODO if with cured fraction
+					{ double[][] rateMatrix = new double[nCombinations[c]][nCombinations[c]];
+					
+				/*
+				 * first= changed state (row) second :sources of
+				 * change(change=number in second state entry in matrix
+				 */
+				for (int row = 0; row < nCombinations[c]; row++)
+					Arrays.fill(rateMatrix[row], 0);
+				for (int row = 0; row < nCombinations[c]; row++)
+					for (int column = 0; column < nCombinations[c]; column++)
+						if (row == column)
+							/*
+							 * Matrix entry is formed as: / 
+							 * - attributable Mortality for each disease that is 1 in
+							 * combi - sum incidence to all other disease that are 0 in
+							 * combi (including RR's as above)
+							 */
+							{
 
-			}
+							for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) 
+								
+									if ((row & (1 << d)) != (1 << d)) {
+										double RR = 1;
+										for (int dCause = 0; dCause < nDiseases; dCause++)
+											if ((row & (1 << dCause)) == (1 << dCause))
+												RR *= relativeRiskDiseaseOnDisease[c][ageValue][sexValue][dCause][d];
 
-			newValue = (float) survivalFraction;
+										rateMatrix[row][column] -=  (RR * incidence[clusterStartsAtDiseaseNumber[c]+d] + atMort[clusterStartsAtDiseaseNumber[c]+d]);
+									}
+							} else
+								for (int d1 = 0; d1 < nDiseases; d1++)
+									for (int d2 = 0; d2 < nDiseases; d2++)
+										if (((row & (1 << d1)) == (1 << d1))
+												&& ((column & (1 << d2)) != (1 << d2))) {
+											double RR = 1;
+											for (int dCause = 0; dCause < nDiseases; dCause++)
+												if ((column & (1 << dCause)) == (1 << dCause))
+													RR *= relativeRiskDiseaseOnDisease[c][ageValue][sexValue][dCause][d1];
+
+											rateMatrix[row][column] +=  (RR * incidence[clusterStartsAtDiseaseNumber[c]+d1]);
+										}
+					;
+
+					/* Exponentiale the matrix */
+
+					MatrixExponential matExp = MatrixExponential.getInstance();
+					double[][] TransitionProbabilities = new double[nCombinations[c]][nCombinations[c]];
+					TransitionProbabilities = matExp.exponentiateMatrix(rateMatrix);
+
+					/* Multiply the matrix with the old values (column vector) */
+					double unconditionalNewValues[] = new double[nCombinations[c]];
+                    /* calculate the healthy state */
+					double currentHealthyState=0;
+					for (int state =currentStateNo; state <currentStateNo+ nCombinations[c]-1; state++)
+						currentHealthyState+=currentStateValue[state];
+					
+					for (int state1 = 0; state1 < nCombinations[c]; state1++) // row
+					{
+						unconditionalNewValues[state1] = 
+							TransitionProbabilities[state1][0]
+							          *currentHealthyState;
+						for (int state2 = 1; state2 < nCombinations[c]; state2++)//column
+
+							unconditionalNewValues[state1] += TransitionProbabilities[state1][state2]
+									*currentStateValue[state2-1+currentStateNo];
+						}
+					/* calculate survival */
+					double survival = 0;
+					for (int state =0; state <nCombinations[c]; state++) {
+						survival += unconditionalNewValues[state];
+					}
+					survivalFraction *= survival;
+			} // end if statement for cluster diseases
+				
+			} // end loop over clusters
+			newValue = (float) survivalFraction*oldValue;
 
 			return newValue;
 		} catch (CDMUpdateRuleException e) {
@@ -250,7 +339,7 @@ public class SurvivalMultiToOneUpdateRule extends
 					.getRootNode();
 			if (configurationFileConfiguration.getRootElementName() != globalTagName)
 
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoUpdateRuleConfigurationException(" Tagname "
 						+ globalTagName
 						+ " expected in file for updaterule ClusterDisease"
 						+ " but found tag " + rootNode.getName());
@@ -297,9 +386,10 @@ public class SurvivalMultiToOneUpdateRule extends
 			}
 			/* count the total number of diseases and set it */
 			int nTotDiseases = 0;
-			for (int c = 0; c < getNCluster(); c++)
+			nCombinations=new int [getNCluster()];
+			for (int c = 0; c < getNCluster(); c++){
 				nTotDiseases += getNdiseasesInCluster(c);
-
+			   nCombinations[c] = (int) Math.pow(2, getNdiseasesInCluster(c));}
 			/* handle the disease dependent information */
 			setNDiseases(nTotDiseases);
 			DiseaseNumberWithinCluster=new int [nTotDiseases];
@@ -350,7 +440,7 @@ public class SurvivalMultiToOneUpdateRule extends
 			throw new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
 							+ nDiseasesLabel);
-		} catch (DynamoConfigurationException e) {
+		} catch (DynamoUpdateRuleConfigurationException e) {
 			log.fatal(e.getMessage());
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -490,7 +580,7 @@ public class SurvivalMultiToOneUpdateRule extends
 			int nClusters = configurationFileConfiguration
 					.getInt(nClusterLabel);
 			log.debug("Setting number of clusters to " + nClusters);
-
+            setNCluster(nClusters);
 			diseaseOnDiseaseRelativeRiskFileName = new String[nClusters];
 			relativeRiskDiseaseOnDisease = new float[nClusters][96][2][][];
 			numberOfDiseasesInCluster = new int[nClusters];
@@ -553,7 +643,10 @@ public class SurvivalMultiToOneUpdateRule extends
 				throw new CDMUpdateRuleException(
 						"configuration file for survival update rule has no number of disease in cluster "
 								+ clusterNumber);
-			else {
+			else 
+				if (nDiseasesInCluster==1 ){setRelativeRisksDiseaseOnDisease(null, clusterNumber);
+					// TODO if disease with cured fraction
+				} else {
 				float[][][][] inputData = new float[96][2][nDiseasesInCluster][nDiseasesInCluster];
 				ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 				inputData = factory.manufactureThreeDimArray(
@@ -592,21 +685,21 @@ public class SurvivalMultiToOneUpdateRule extends
 	private void setNumberOfDiseasesInCluster(String value, int i) {
 
 		numberOfDiseasesInCluster[i] = Integer.parseInt(value);
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	public int getNumberOfDiseasesInCluster(int i) {
 
 		return numberOfDiseasesInCluster[i];
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	private void setDiseaseOnDiseaseRelativeRiskFile(String value, int i) {
 		diseaseOnDiseaseRelativeRiskFileName[i] = value;
 
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -632,14 +725,7 @@ public class SurvivalMultiToOneUpdateRule extends
 			HierarchicalConfiguration simulationConfiguration)
 			throws ConfigurationException {
 		try {
-			/*
-			 * TODO String attributableMortalityFileName =
-			 * simulationConfiguration
-			 * .getString(attributableMortalityFileNameLabel);
-			 * log.debug("Setting AttributableMortalityFilename to: " +
-			 * attributableMortalityFileName );
-			 * setAttributableMortalityFileName(attributableMortalityFileName);
-			 */
+			
 
 			String attributableMortalityFileName = "not given";
 			attributableMortality = new float[96][2][6];
@@ -740,7 +826,7 @@ public class SurvivalMultiToOneUpdateRule extends
 			// simulationConfiguration.getString(attributableMortalityFileNameLabel);
 			// log.debug("Setting BaselineIncidenceFilename to: " + FileName );
 			// setattributableMortalityFileName(FileName);
-			String attributableMortalityFileName = "not given";
+			
 			relRiskCategorical = new float[96][2][nDiseases][nCat];
 			float[] fill = { 1, 1.1F, 1.2F, 1.5F };
 			for (int d = 0; d < 6; d++)
@@ -754,6 +840,10 @@ public class SurvivalMultiToOneUpdateRule extends
 			throw new ConfigurationException(
 					CDMConfigurationException.noFileMessage);
 		}
+	}
+
+	public void setNCluster(int cluster) {
+		nCluster = cluster;
 	}
 
 }

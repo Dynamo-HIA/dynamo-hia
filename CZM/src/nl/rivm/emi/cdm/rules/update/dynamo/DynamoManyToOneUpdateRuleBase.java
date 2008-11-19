@@ -28,6 +28,7 @@ public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleB
 	float timeStep=1;
 	int riskType = -1;
 	int durationClass = -1;
+	int nCat =0;
 	static protected String globalTagName="updateRuleConfiguration";		
 	
 	public int getCharacteristicIndex() {
@@ -103,5 +104,85 @@ protected void handleCharID(
 		throw new ConfigurationException(
 				CDMConfigurationException.noUpdateCharIDMessage);
 	}
+}
+
+public int getNCat() {
+	return nCat;
+}
+
+public void setNCat(int cat) {
+	nCat = cat;
+}
+
+public static String getCharIDLabel() {
+	return charIDLabel;
+}
+
+public static void setCharIDLabel(String charIDLabel) {
+	DynamoManyToOneUpdateRuleBase.charIDLabel = charIDLabel;
+}
+
+public int getAgeIndex() {
+	return ageIndex;
+}
+
+public void setAgeIndex(int ageIndex) {
+	this.ageIndex = ageIndex;
+}
+
+public int getSexIndex() {
+	return sexIndex;
+}
+
+public void setSexIndex(int sexIndex) {
+	this.sexIndex = sexIndex;
+}
+
+public int getRiskFactorIndex1() {
+	return riskFactorIndex1;
+}
+
+public void setRiskFactorIndex1(int riskFactorIndex1) {
+	this.riskFactorIndex1 = riskFactorIndex1;
+}
+
+public int getRiskFactorIndex2() {
+	return riskFactorIndex2;
+}
+
+public void setRiskFactorIndex2(int riskFactorIndex2) {
+	this.riskFactorIndex2 = riskFactorIndex2;
+}
+
+public float getTimeStep() {
+	return timeStep;
+}
+
+public void setTimeStep(float timeStep) {
+	this.timeStep = timeStep;
+}
+
+public int getRiskType() {
+	return riskType;
+}
+
+public void setRiskType(int riskType) {
+	this.riskType = riskType;
+}
+
+public int getDurationClass() {
+	return durationClass;
+}
+
+public void setDurationClass(int durationClass) {
+	this.durationClass = durationClass;
+}
+
+public static String getGlobalTagName() {
+	return globalTagName;
+}
+
+public static void setGlobalTagName(String globalTagName) {
+	DynamoManyToOneUpdateRuleBase.globalTagName = globalTagName;
 }
 }

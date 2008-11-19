@@ -8,8 +8,8 @@ import java.util.Random;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -19,7 +19,6 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 
 /**
  * @author Hendriek
@@ -102,7 +101,8 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 	protected float baselineIncidence[][][] = null;
 	protected float baselineFatalIncidence[][][] = null;
 	protected float relRiskDiseaseOnDisease[][][][] = null;
-
+	// number of combinations (only calculate once for efficiency)
+    private int nCombinations;
 	int startIndex = -1;
 
 	String relRiskDiseaseOnDiseaseFileName = null;
@@ -138,7 +138,7 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 			if (ageValue > 95)
 				ageValue = 95;
 			int sexValue = getInteger(currentValues, sexIndex);
-			int nCombinations = (int) Math.pow(2, nDiseases);
+			
 			float[] oldValue = new float[nCombinations];
 			float sumOldValues = 0; /*
 									 * add state 0 to the combinations of
@@ -304,8 +304,15 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 		return incidence;
 	}
 
+	/** This method extracts a subarray (use: array with old disease values) from the list with all characteristics values
+	 * @param currentValues  list with all current characteristics values
+	 * @param Nstart index of the first element that should be extracted 
+	 * @param Ntot number of elements to extract
+	 * @return array (double []) of values
+	 * @throws CDMUpdateRuleException
+	 */
 	protected double[] getCurrentDiseaseValues(Object[] currentValues,
-			int ageValue, int sexValue, int Nstart, int Ntot)
+			int Nstart, int Ntot)
 			throws CDMUpdateRuleException {
 		double diseaseValues[] = new double[Ntot];
 		Arrays.fill(diseaseValues, -1);
@@ -326,7 +333,7 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 					.getRootNode();
 			if (configurationFileConfiguration.getRootElementName() != globalTagName)
 
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoUpdateRuleConfigurationException(" Tagname "
 						+ globalTagName
 						+ " expected in file for updaterule ClusterDisease"
 						+ " but found tag " + rootNode.getName());
@@ -382,7 +389,9 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 				}
 
 			}
-		} catch (DynamoConfigurationException e) {
+			
+			nCombinations = (int) Math.pow(2, nDiseases);
+		} catch (DynamoUpdateRuleConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
@@ -531,6 +540,14 @@ public class ClusterDiseaseMultiToOneUpdateRule extends
 		this.attributableMortality[i] = attributableMortality;
 	}
 
+
+	protected double [] getAttributableMortality(
+			int age,int sex) {
+		int dim=this.attributableMortality.length;
+		double [] returnarray= new double [dim];
+		for (int d=0;d<dim;d++) returnarray[d]= this.attributableMortality[d][age][sex] ;
+		return returnarray;
+	}
 	protected void setAttributableMortalityFileName(String value, int i) {
 		attributableMortalityFileName[i] = value;
 
