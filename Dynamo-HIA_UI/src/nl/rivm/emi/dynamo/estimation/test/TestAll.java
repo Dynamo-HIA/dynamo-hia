@@ -149,7 +149,7 @@ public class TestAll {
 		try {
 			log.fatal("Starting manufacturing initial population.");
 			InitialPopulationFactory E2 = new InitialPopulationFactory();
-			E2.writeInitialPopulation(p, 10, simName, 1111);
+			E2.writeInitialPopulation(p, 10, simName, 1111, false);
 			log.fatal("Starting run.");
 
 			
