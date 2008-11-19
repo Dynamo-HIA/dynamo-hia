@@ -161,7 +161,12 @@ log.debug("Processing node " + myNode.getNodeName());
 		}
 		String value = valueNode.getNodeValue();
 		log.debug("Node float value " + value);
-// TODO Reintroduce check.
+		// verwijderd door Hendriek omdat floatPattern geen exponentiele notatie aankan
+	//	matcher = floatPattern.matcher(value);
+	//	boolean valueOK = matcher.matches();
+		
+	//	if (indexOK && valueOK) {
+		// TODO Reintroduce check.
 //		matcher = floatPattern.matcher(value);
 //		boolean valueOK = matcher.matches();
 //		if (indexOK && valueOK) {
