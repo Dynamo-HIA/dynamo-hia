@@ -454,6 +454,7 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(survivalRootElement, "charID",
 				((Integer) ruleNumber).toString());
 		/* write disease structure data */
+		
 		writeFinalElementToDom(survivalRootElement, "nclusters",
 				((Integer) parameters.getNCluster()).toString());
    
@@ -471,7 +472,7 @@ public class SimulationConfigurationFactory {
 			fileName = directoryName
 					+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
 					+ ((Integer) c).toString() + ".xml";
-			writeFinalElementToDom(clusterElement,
+			if (structure.getNinCluster()>1) writeFinalElementToDom(clusterElement,
 					"diseaseOnDiseaseRelativeRiskFile", fileName);
 			survivalRootElement.appendChild(clusterElement);
 		}
