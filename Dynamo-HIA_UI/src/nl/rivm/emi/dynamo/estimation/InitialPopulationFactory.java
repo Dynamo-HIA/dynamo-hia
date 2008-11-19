@@ -208,8 +208,9 @@ public class InitialPopulationFactory {
 				 */
 				
 				for (int i = 0; i < nSim; i++) {
+					int no=a*2*nSim+g*nSim+i+1;
 					Individual currentIndividual = new Individual("ind",
-							"ind_"+i);
+							"ind_"+no);
 
 					
 					
