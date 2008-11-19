@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Value extends NumberRangeTypeBase<Float> {
+public class Value extends NumberRangeTypeBase<Float> implements LeafType<Float>{
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
@@ -32,5 +32,9 @@ public class Value extends NumberRangeTypeBase<Float> {
 	public String toString(Float inputValue) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Float getDefaultValue() {
+		return 0F;
 	}
 }

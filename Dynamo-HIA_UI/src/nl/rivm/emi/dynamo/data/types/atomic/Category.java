@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 /*
  * Nonnegative Integer without fixed upper limit.
  */
-public class Category extends NumberRangeTypeBase<Integer>{
+public class Category extends NumberRangeTypeBase<Integer> implements ContainerType{
 
 	public Category(){
 		super("cat", new Integer(0), new Integer(Integer.MAX_VALUE));

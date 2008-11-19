@@ -3,40 +3,33 @@ package nl.rivm.emi.dynamo.datahandling.test;
 
 
 	import static org.junit.Assert.assertNull;
-	import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
-	import java.io.File;
-	import java.util.Iterator;
+import java.io.File;
+import java.util.Iterator;
 
-	import javax.xml.parsers.ParserConfigurationException;
-	import javax.xml.transform.TransformerException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
-	import junit.framework.JUnit4TestAdapter;
-	import nl.rivm.emi.cdm.CDMRunException;
-	import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-	import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-	import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-	import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-	import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-	import nl.rivm.emi.cdm.estimation.DynamoLib;
-	import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-	import nl.rivm.emi.cdm.individual.Individual;
-	import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-	import nl.rivm.emi.cdm.population.Population;
-	import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
-	import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
-	import nl.rivm.emi.cdm.simulation.Simulation;
-	import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
+import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
+import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.simulation.Simulation;
+import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
 
-	import org.apache.commons.configuration.ConfigurationException;
-	import org.apache.commons.configuration.ConversionException;
-	import org.apache.commons.configuration.HierarchicalConfiguration;
-	import org.apache.commons.configuration.XMLConfiguration;
-	import org.apache.commons.logging.Log;
-	import org.apache.commons.logging.LogFactory;
-	import org.junit.After;
-	import org.junit.Before;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.ConversionException;
+import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 	public class test {

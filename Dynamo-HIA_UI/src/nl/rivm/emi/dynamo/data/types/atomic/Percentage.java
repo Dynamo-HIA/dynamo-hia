@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class Percentage extends NumberRangeTypeBase<Float>{
+public class Percentage extends NumberRangeTypeBase<Float> implements LeafType<Float>{
 
 	public Percentage(){
 		super("percent", new Float(0), new Float(100));
@@ -30,7 +30,10 @@ public class Percentage extends NumberRangeTypeBase<Float>{
 	}
 
 	public String toString(Float inputValue) {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Float getDefaultValue() {
+		return 0F;
 	}
 }

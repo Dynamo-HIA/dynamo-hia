@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class Probability extends NumberRangeTypeBase<Float> {
+public class Probability extends NumberRangeTypeBase<Float> implements LeafType<Float> {
 
 	public Probability(){
 	super("bogus", new Float(0F), new Float(1F));
@@ -23,5 +23,9 @@ public class Probability extends NumberRangeTypeBase<Float> {
 	public String toString(Float inputValue) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Float getDefaultValue() {
+		return 0F;
 	}
 }
