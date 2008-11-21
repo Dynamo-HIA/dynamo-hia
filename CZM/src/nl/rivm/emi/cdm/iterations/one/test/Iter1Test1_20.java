@@ -15,6 +15,7 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
@@ -46,26 +47,27 @@ public class Iter1Test1_20 {
 
 	static public class UpdateRuleST1_01 extends OneToOneUpdateRuleBase {
 		public UpdateRuleST1_01() {
-			super(1, 1);
+			super();
 		}
 
+
 		@Override
-		public int updateSelf(int currentValue) {
-				int newValue = currentValue;
-				if (newValue > 10) {
-					newValue = 10;
-				}
-				return newValue;
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
+			int newValue = ((Number)currentValue).intValue();
+			if (newValue > 10) {
+				newValue = 10;
+			}
+			return newValue;
 		}
 	}
 
 	static public class UpdateRuleST1_02 extends OneToOneUpdateRuleBase {
 		public UpdateRuleST1_02() {
-			super(2, 1);
+			super();
 		}
 
 		@Override
-		public int updateSelf(int currentValue) {
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
 			int newValue = 10;
 			if (currentValue < 10) {
 				newValue = currentValue + 1;
