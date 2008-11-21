@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Value extends NumberRangeTypeBase<Float> implements LeafType<Float>{
+	static final protected String XMLElementName = "value";
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
@@ -36,5 +37,17 @@ public class Value extends NumberRangeTypeBase<Float> implements LeafType<Float>
 
 	public Float getDefaultValue() {
 		return 0F;
+	}
+
+	static public String getElementName() {
+		return XMLElementName;
+	}
+
+	public boolean isMyElement(String elementName) {
+		boolean result = true;
+		if (!XMLElementName.equalsIgnoreCase(elementName)) {
+			result = false;
+		}
+		return result;
 	}
 }

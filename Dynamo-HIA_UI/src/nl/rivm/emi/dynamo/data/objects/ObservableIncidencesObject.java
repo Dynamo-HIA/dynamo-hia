@@ -3,11 +3,13 @@ package nl.rivm.emi.dynamo.data.objects;
  * Wrapper Class to clarify the relations in the sourcecode.
  * Object to contain the data entered in W32.
  */
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
-import org.eclipse.core.databinding.observable.IObservable;
+public class ObservableIncidencesObject extends TypedHashMap<Age> implements ObservableObjectMarker{
+	private static final long serialVersionUID = 3842282209503745605L;
 
-public class ObservableIncidencesObject extends AgeMap<SexMap<IObservable>> implements ObservableObjectMarker{
-
+	public ObservableIncidencesObject(Age theType) {
+		super(theType);
+	}
 }

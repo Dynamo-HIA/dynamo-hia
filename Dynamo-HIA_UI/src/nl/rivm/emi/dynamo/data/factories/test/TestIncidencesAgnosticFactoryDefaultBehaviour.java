@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamException;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -26,7 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestAgnosticFactoryDefaultBehaviour {
+public class TestIncidencesAgnosticFactoryDefaultBehaviour {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	@Before
@@ -47,15 +48,7 @@ public class TestAgnosticFactoryDefaultBehaviour {
 				+ File.separator + "stax_disease_incidence_default.xml";
 		File outputFile = new File(outputFilePath);
 		try {
-			LeafNodeList theList = new LeafNodeList();
-			theList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
-					.getInstance().get("age"), null));
-			theList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
-					.getInstance().get("sex"), null));
-			theList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
-					.getInstance().get("value"), null));
-			Object result = new AgnosticFactory().manufactureDefault(theList,
-					false);
+			Object result = new IncidencesFactory().manufactureDefault();
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -83,6 +76,6 @@ public class TestAgnosticFactoryDefaultBehaviour {
 
 
 	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(TestAgnosticFactoryDefaultBehaviour.class);
+		return new JUnit4TestAdapter(TestIncidencesAgnosticFactoryDefaultBehaviour.class);
 	}
 }

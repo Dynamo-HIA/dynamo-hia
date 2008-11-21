@@ -1,9 +1,10 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 public class Probability extends NumberRangeTypeBase<Float> implements LeafType<Float> {
+	static final protected String XMLElementName = "prob";
 
 	public Probability(){
-	super("bogus", new Float(0F), new Float(1F));
+	super("prob", new Float(0F), new Float(1F));
 	}
 
 	public boolean inRange(Float testValue) {
@@ -27,5 +28,17 @@ public class Probability extends NumberRangeTypeBase<Float> implements LeafType<
 
 	public Float getDefaultValue() {
 		return 0F;
+	}
+
+	static public String getElementName() {
+		return XMLElementName;
+	}
+
+	public boolean isMyElement(String elementName) {
+		boolean result = true;
+		if (!XMLElementName.equalsIgnoreCase(elementName)) {
+			result = false;
+		}
+		return result;
 	}
 }

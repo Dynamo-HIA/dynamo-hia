@@ -4,26 +4,16 @@ package nl.rivm.emi.dynamo.data.factories;
  * 20080918 Agestep fixed at 1. Ages are Integers. 
  * 20081111 Implementation from HashMapto LinkedHashMap to preserve ordering of the elements.
  * 20081117 Constructing of IObservables added.
+ * 20081120 Made class abstract and methods protected to force inheritance. 
  */
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.objects.IncidencesObject;
-import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.ContainerType;
 import nl.rivm.emi.dynamo.data.types.atomic.LeafType;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
@@ -35,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class AgnosticFactory {
+abstract public class AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -45,8 +35,8 @@ public class AgnosticFactory {
 	 * @param makeObservable
 	 *            TODO
 	 */
-	synchronized public Object manufacture(File configurationFile,
-			boolean makeObservable) throws ConfigurationException {
+	protected TypedHashMap manufacture(File configurationFile, boolean makeObservable)
+			throws ConfigurationException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap underConstruction = null;
 		XMLConfiguration configurationFromFile;
@@ -182,15 +172,15 @@ public class AgnosticFactory {
 	 * @throws DynamoConfigurationException
 	 */
 	@SuppressWarnings("unchecked")
-	public TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
+	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
 		AtomicTypeBase type = leafNodeList.get(currentLevel).getType();
 		TypedHashMap resultMap = new TypedHashMap(type);
 		int currentIndex = 0;
-		resultMap = makeDefaultPath(resultMap, leafNodeList, theLastContainer,
-				currentLevel, currentIndex, makeObservable);
+		makeDefaultPath(resultMap, leafNodeList, theLastContainer,
+				currentLevel, makeObservable);
 		return resultMap;
 	}
 
@@ -209,42 +199,47 @@ public class AgnosticFactory {
 	@SuppressWarnings("unchecked")
 	private TypedHashMap makeDefaultPath(TypedHashMap priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, int currentLevel, int currentIndex, boolean makeObservable)
-			throws DynamoConfigurationException {
+			int theLastContainer, int currentLevel, boolean makeObservable) throws DynamoConfigurationException {
 		log.debug("Recursing, making default Object, currentLevel "
 				+ currentLevel);
-		if (currentLevel < theLastContainer - 1) {
-			for (int value = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
-					currentLevel).getType()).getMIN_VALUE(); value < ((NumberRangeTypeBase<Integer>) leafNodeList
-					.get(currentLevel).getType()).getMIN_VALUE(); value++) {
-				TypedHashMap pathMap = (TypedHashMap) priorLevel.get(value);
-				if (pathMap == null) {
-					pathMap = new TypedHashMap(leafNodeList.get(
-							currentLevel + 1).getType());
-				}
-				priorLevel.put(value, pathMap);
-				makeDefaultPath(pathMap, leafNodeList, theLastContainer,
-						currentLevel + 1, value, makeObservable);
+		int maxValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
+				currentLevel).getType()).getMAX_VALUE();
+		for (int value = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
+				currentLevel).getType()).getMIN_VALUE(); value <= maxValue; value++) {
+			TypedHashMap pathMap = (TypedHashMap) priorLevel.get(value);
+			if (pathMap == null) {
+				pathMap = new TypedHashMap(leafNodeList.get(currentLevel + 1)
+						.getType());
 			}
-		} else {
-			Number defaultValue =((LeafType<Number>)leafNodeList.get(currentLevel + 1)
-					.getType()).getDefaultValue();
-			if (!makeObservable) {
-				priorLevel.put(currentIndex, defaultValue);
+			log.debug("Adding map at value " + value);
+			priorLevel.put(value, pathMap);
+			if (currentLevel < theLastContainer - 1) {
+				makeDefaultPath(pathMap, leafNodeList, theLastContainer,
+						currentLevel + 1, makeObservable);
+
 			} else {
-				if (defaultValue instanceof Integer) {
-					WritableValue writableValue = new WritableValue(defaultValue,
-							Integer.class);
-					priorLevel.put(currentIndex, writableValue);
+				Number defaultValue = ((LeafType<Number>) leafNodeList.get(
+						currentLevel + 1).getType()).getDefaultValue();
+				if (!makeObservable) {
+					log.debug("Adding default leaf " + defaultValue + " at value " + value);
+					priorLevel.put(value, defaultValue);
 				} else {
-					if (defaultValue instanceof Float) {
+					if (defaultValue instanceof Integer) {
 						WritableValue writableValue = new WritableValue(
-								defaultValue, Float.class);
-						priorLevel.put(currentIndex, writableValue);
+								defaultValue, Integer.class);
+						log.debug("Adding default Writable Integer leaf " + defaultValue + " at value " + value);
+						priorLevel.put(value, writableValue);
 					} else {
-						throw new DynamoConfigurationException(
-								"Unsupported leafValueType for IObservable-s :"
-										+ defaultValue.getClass().getName());
+						if (defaultValue instanceof Float) {
+							WritableValue writableValue = new WritableValue(
+									defaultValue, Float.class);
+							log.debug("Adding default Writable Float leaf " + defaultValue + " at value " + value);
+							priorLevel.put(value, writableValue);
+						} else {
+							throw new DynamoConfigurationException(
+									"Unsupported leafValueType for IObservable-s :"
+											+ defaultValue.getClass().getName());
+						}
 					}
 				}
 			}

@@ -1,19 +1,10 @@
 package nl.rivm.emi.dynamo.datahandling.test;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import junit.framework.Assert;
-import nl.rivm.emi.dynamo.datahandling.ArraysFromXMLFactory;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
-import nl.rivm.emi.dynamo.estimation.InputData;
-import nl.rivm.emi.dynamo.estimation.ModelParameters;
-import nl.rivm.emi.dynamo.estimation.XMLBaseElement;
+import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -52,7 +43,7 @@ public class testXMLreading {
 				for (int sex = 0; sex < 2; sex++)
 					Assert.assertEquals(incidence[age][sex] == 0.1F, true);
 			log.fatal("Test 1 OK ");
-			relrisk=factory.manufactureTwoDimArray(ff,"relrisks", "relrisk");
+// TODO			relrisk=factory.manufactureTwoDimArray(ff,"relrisks", "relrisk");
 			
 			
 		} catch (Exception e) {

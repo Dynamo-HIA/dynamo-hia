@@ -19,6 +19,6 @@ public enum AtomicTypeEnum {
 	}
 
 	public String getElementName() {
-		return theType.XMLElementName;
+		return theType.getXMLElementName();
 	}
 }

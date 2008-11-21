@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidencesFactory_NonRecurs;
 import nl.rivm.emi.dynamo.data.factories.NewBornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
@@ -32,7 +32,7 @@ public enum DispatchEntry {
 	PREVALENCES("prevalences", new PrevalencesProxy()), // TODO Factory, Model.
 	RELRISKFORDEATH("relriskfordeath", new RelRiskForDeathFactory()), // TODO Factory, Model.
 	DISEASEPREVALENCES("diseaseprevalences", new DiseasePrevalencesFactory()), // TODO Factory, Model.
-	INCIDENCES("incidences", new IncidencesFactory()),
+	INCIDENCES("incidences", new IncidencesFactory_NonRecurs()),
 	EXCESSMORTALITY("excessmortality", new ExcessMortalityFactory()), // TODO Factory, Model.
 	RRISKFORRISKFACTOR("rriskforriskfactor", new RRiskForRiskFactorFactory()), // TODO Factory, Model.
 	RRISKFROMDISEASE("rriskfromdisease", new RRiskFromDiseaseFactory()), // TODO Factory, Model.

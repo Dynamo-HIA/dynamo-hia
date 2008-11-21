@@ -30,7 +30,7 @@ public /* abstract */ class AtomicTypeBase<T> {
 		return result;
 	}
 
-	public String getElementName() {
+	public String getXMLElementName() {
 		return XMLElementName;
 	}
 

@@ -4,8 +4,8 @@ public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 	final protected T MIN_VALUE;
 	final protected T MAX_VALUE;
 
-	protected NumberRangeTypeBase(String tagName, T minValue, T maxValue){
-		super(tagName, minValue);
+	protected NumberRangeTypeBase(String elementName, T minValue, T maxValue){
+		super(elementName, minValue);
 		MIN_VALUE = minValue;
 		MAX_VALUE = maxValue;
 	}
