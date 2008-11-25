@@ -11,7 +11,7 @@ abstract public class CharacteristicValueBase {
 	static String xmlElementName;
 
 	int index;
-
+	
 	private CharacteristicValueBase() {
 	}
 
