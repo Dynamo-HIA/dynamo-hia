@@ -4,63 +4,26 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import nl.rivm.emi.cdm.CDMRunException;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule;
 
-import nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
-
-
-import junit.framework.Assert;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
-import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
@@ -152,7 +115,6 @@ public class TestAll {
 			E2.writeInitialPopulation(p, 10, simName, 1111, false);
 			log.fatal("Starting run.");
 
-			
 			File multipleCharacteristicsFile = new File(preCharConfig);
 			log.fatal("charFile made.");
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
@@ -169,8 +131,15 @@ public class TestAll {
 				log.fatal("simulationFile read");
 				sim = SimulationFromXMLFactory
 						.manufacture_DOMPopulationTree(simulationConfiguration);
-				log.fatal("simulationFile loaded");
-				
+				log.fatal("simulationFile manufactured through DOM");
+				/*
+				 * log.fatal("Starting second, test threaded manufacture.");
+				 * Simulation sim2 = ThreadedSimulationFromXMLFactory
+				 * .manufacture_DOMPopulationTree(simulationConfiguration); log
+				 * .fatal(
+				 * "Second, dummy simulation object manufactured with high priority threading."
+				 * );
+				 */
 				log.fatal("starting run");
 				sim.run();
 				log.fatal("Run complete.");
@@ -260,15 +229,18 @@ public class TestAll {
 
 			}
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			log.fatal("Exception " + e.getClass().getName()
+					+ " caught. Message: " + e.getMessage());
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
+			log.fatal("Exception " + e.getClass().getName()
+					+ " caught. Message: " + e.getMessage());
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
+			log.fatal("Exception " + e.getClass().getName()
+					+ " caught. Message: " + e.getMessage());
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
@@ -284,10 +256,9 @@ public class TestAll {
 	 * element=new XMLBaseElement(); element.setTag("Tag"+i);
 	 * element.setValue(i); example.add(element);}
 	 * 
-	 * example.writeToXMLFile(example,f);
-	 * //E2.writeInitialPopulation(E1,10,"c:/hendriek/java/workspace/dynamo/dynamoinput/initial"); //
-	 * test weighted regression
-	 * 
+	 * example.writeToXMLFile(example,f);//E2.writeInitialPopulation(E1,10,
+	 * "c:/hendriek/java/workspace/dynamo/dynamoinput/initial"); // test
+	 * weighted regression
 	 */
 
 	public static junit.framework.Test suite() {
