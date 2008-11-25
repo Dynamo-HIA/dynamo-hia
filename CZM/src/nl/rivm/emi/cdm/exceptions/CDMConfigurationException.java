@@ -26,6 +26,10 @@ public class CDMConfigurationException extends ConfigurationException {
 	static public final String noCharacteristicLabelMessage = "No label for Characteristic found in configuration: ";
 
 	public static final String noUpdateCharIDMessage = "No message in CDMConfigurationException.noUpdateCharIDMessage";
+	
+	/* added by hendriek */
+	static public final String noNumberofValuesLabelMessage = "No value for number of elements found in for compound Characteristic in configuration: ";
+
 	/* Characteristic types */
 	static public final String noCharacteristicTypeMessage = "No type for Characteristic found in configuration: ";
 
@@ -39,6 +43,8 @@ public class CDMConfigurationException extends ConfigurationException {
 
 	static public final String noCharacteristicLimitsValueMessage = "No value in possiblevalues for Characteristic found in configuration: ";
 
+	
+	
 	static public final String wrongCharacteristicLowerLimitConfigurationFormatMessage = "Lower limit configuration for Characteristic no correct Float format.";
 
 	static public final String wrongCharacteristicUpperLimitConfigurationFormatMessage = "Upper limit configuration for Characteristic no correct Float format.";
