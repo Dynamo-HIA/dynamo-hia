@@ -43,8 +43,6 @@ public class CDMConfigurationException extends ConfigurationException {
 
 	static public final String noCharacteristicLimitsValueMessage = "No value in possiblevalues for Characteristic found in configuration: ";
 
-	
-	
 	static public final String wrongCharacteristicLowerLimitConfigurationFormatMessage = "Lower limit configuration for Characteristic no correct Float format.";
 
 	static public final String wrongCharacteristicUpperLimitConfigurationFormatMessage = "Upper limit configuration for Characteristic no correct Float format.";
@@ -98,4 +96,6 @@ public class CDMConfigurationException extends ConfigurationException {
 
 	public static final String invalidUpdateRuleConfigurationFileFormatMessage = "Invalid configuration file %1$s for UpdateRule %2$s.";
 	public static final String noUpdateTransitionMatrixFileNameMessage = "No message for CDMConfigurationException.noUpdateTransitionMatrixFileNameMessage yet.";
+
+	public static final String noClassFoundMessage = "ClassLoader could not load: ";
 }
