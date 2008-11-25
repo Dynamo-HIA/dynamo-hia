@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
@@ -41,6 +42,10 @@ public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	
 
+	/**
+	 * @author Boshuizh
+	 * This class generates the initial population and populations of newborns
+	 */
 	public InitialPopulationFactory() {
 		super();
 	}
@@ -208,9 +213,8 @@ public class InitialPopulationFactory {
 				 */
 				
 				for (int i = 0; i < nSim; i++) {
-					int no=a*2*nSim+g*nSim+i+1;
 					Individual currentIndividual = new Individual("ind",
-							"ind_"+no);
+							"ind_"+i);
 
 					
 					
@@ -309,18 +313,35 @@ public class InitialPopulationFactory {
 									currentDurationValue));
 
 							characteristicIndex++;
-							characteristicIndex++;
+							
 						}
 					}
 
 					/*
 					 * 
-					 * DISEASES
-					 * generate disease info
+					 * DISEASES /HEALTH STATE CHARACTERISTIC
+					 * 
+					 * generate initial probabilities of each disease state and put them in the
+					 * array CharValues
+					 * 
+					 
 					 */
-
-					double log2 = Math.log(2.0);
-					for (int cluster = 0; cluster < parameters.nCluster; cluster++) {
+					
+					/* first calculate number of elements in the characteristic;
+					 *  
+					 */
+					int numberOfElements=1;
+					
+					for (int c=0;c<parameters.getNCluster();c++){
+						DiseaseClusterStructure structure = parameters.getClusterStructure()[c];
+						if (structure.getNinCluster()==1) numberOfElements++;
+						else if (structure.isWithCuredFraction()) numberOfElements+=2;
+						else numberOfElements+=Math.pow(2,structure.getNinCluster())-1;
+					}
+					float [] CharValues= new float[numberOfElements];
+                   double log2 = Math.log(2.0);
+                   int elementIndex=0;
+				   for (int cluster = 0; cluster < parameters.nCluster; cluster++) {
 
 						/*
 						 * first make the logit of the probability for
@@ -476,16 +497,27 @@ public class InitialPopulationFactory {
 
 							}probCombi *= probCurrent;} // end loop over d1
 							float value = (float) probCombi;
-							currentIndividual.add(new FloatCharacteristicValue(
-									0, characteristicIndex, value));
-							characteristicIndex++;
+							
+							CharValues[elementIndex]=value;
+							elementIndex++;
+							
 						} // end loop over combi
+						
 					} // end loop over clusters
+					
 					// tot slot nog characteristiek voor
 					// survival;
-
-					currentIndividual.add(new FloatCharacteristicValue(0,
-							characteristicIndex, 1F));
+					CharValues[elementIndex]=1;
+					elementIndex++;
+					
+					if (elementIndex!=numberOfElements)log.warn("number of element written does not" +
+							"fit number calculated, that is : "+elementIndex+" not equal "+numberOfElements);
+					 
+						 
+					
+					currentIndividual.add(new CompoundCharacteristicValue(0,characteristicIndex,numberOfElements,CharValues));
+					
+					
 
 					initialPopulation.addIndividual(currentIndividual);
 
