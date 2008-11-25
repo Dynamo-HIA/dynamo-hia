@@ -21,6 +21,11 @@ abstract public class AbstractCategoricalCharacteristicType extends
 	public boolean isCategoricalType() {
 		return true;
 	}
+	
+/* added by hendriek */
+	public boolean isCompoundType() {
+		return false;
+	}
 
 	@Override
 	abstract public String humanReadableReport();
