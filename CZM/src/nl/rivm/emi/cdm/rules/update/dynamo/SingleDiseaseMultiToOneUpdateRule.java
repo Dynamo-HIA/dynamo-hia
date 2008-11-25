@@ -7,6 +7,7 @@ import java.util.Random;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 
@@ -126,13 +127,13 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 	
 		
 		try {
-			int ageValue = (int) getFloat(currentValues, ageIndex);
-			int sexValue = getInteger(currentValues, sexIndex);
+			int ageValue = (int) getFloat(currentValues, getAgeIndex());
+			int sexValue = getInteger(currentValues, getSexIndex());
 			if (ageValue>95) ageValue=95;
 			float oldValue;
 			
 			
-				oldValue = getFloat(currentValues, characteristicIndex);
+				oldValue = getFloat(currentValues, getCharacteristicIndex());
 			
 			double atMort = attributableMortality[ageValue][sexValue];
 
@@ -143,11 +144,11 @@ public class SingleDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRule
 				// / ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0))
 if (Math.abs(incidence-atMort)>1E-15) 
 				newValue = (float) (((oldValue * atMort - incidence)
-						* Math.exp((incidence - atMort) * timeStep) + incidence
+						* Math.exp((incidence - atMort) * getTimeStep()) + incidence
 						* (1 - (double) oldValue)) / ((oldValue * atMort - incidence)
-						* Math.exp((incidence - atMort) * timeStep) + atMort
+						* Math.exp((incidence - atMort) * getTimeStep()) + atMort
 						* (1 - (double) oldValue)));
-else newValue = (float)(1-(1-oldValue)/(1+incidence*(1-oldValue)*timeStep));
+else newValue = (float)(1-(1-oldValue)/(1+incidence*(1-oldValue)*getTimeStep()));
 				/* if incidence equal to attributable mortality, the denominator becomes zero and we need another formula
 				 * */
 				
@@ -169,16 +170,16 @@ else newValue = (float)(1-(1-oldValue)/(1+incidence*(1-oldValue)*timeStep));
 	private double calculateIncidence(Object[] currentValues, int ageValue,
 			int sexValue) throws CDMUpdateRuleException {
 		double incidence = 0;
-		if (riskType == 1) {
+		if (getRiskType() == 1) {
 			
-				int riskFactorValue =  getInteger(currentValues, riskFactorIndex1);
+				int riskFactorValue =  getInteger(currentValues, getRiskFactorIndex1());
 				incidence = baselineIncidence[ageValue][sexValue]
 						* relRiskCategorical[ageValue][sexValue][riskFactorValue];
 			}
 		
-		if (riskType == 2) {
+		if (getRiskType() == 2) {
 			
-				float  riskFactorValue =  getFloat(currentValues, riskFactorIndex1);
+				float  riskFactorValue =  getFloat(currentValues, getRiskFactorIndex1());
 				incidence = baselineIncidence[ageValue][sexValue]
 						* Math
 								.pow(
@@ -186,13 +187,13 @@ else newValue = (float)(1-(1-oldValue)/(1+incidence*(1-oldValue)*timeStep));
 										relRiskContinous[ageValue][sexValue]);
 			
 		}
-		if (riskType == 3) {
+		if (getRiskType() == 3) {
 
-			int riskFactorValue =  getInteger(currentValues, riskFactorIndex1);
+			int riskFactorValue =  getInteger(currentValues, getRiskFactorIndex1());
 			
 			
-				if (durationClass == riskFactorValue){
-					float  riskDurationValue =  getFloat(currentValues, riskFactorIndex2);
+				if (getDurationClass() == riskFactorValue){
+					float  riskDurationValue =  getFloat(currentValues, getRiskFactorIndex2());
 				
 					incidence = baselineIncidence[ageValue][sexValue]
 							* ((relRiskBegin[ageValue][sexValue] - relRiskEnd[ageValue][sexValue])
