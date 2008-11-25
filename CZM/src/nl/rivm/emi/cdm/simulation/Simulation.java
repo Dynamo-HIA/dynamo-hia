@@ -12,6 +12,7 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -20,6 +21,7 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
+import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
@@ -360,6 +362,17 @@ public class Simulation extends DomLevelTraverser {
 						charValIterator.remove();
 					}
 				}
+
+				else
+
+				{
+					if (charValBase instanceof CompoundCharacteristicValue) {
+						CompoundCharacteristicValue charVal = (CompoundCharacteristicValue) charValBase;
+						if (!handleCompoundCharVal(charVal, individual)) {
+							charValIterator.remove();
+						}
+					}
+				}
 			}
 		}
 	}
@@ -495,11 +508,91 @@ public class Simulation extends DomLevelTraverser {
 								throw new CDMRunException(
 										"ManyToOne update rule produced a null result, aborting.");
 							}
-						}
-						 else
+						} else
 							throw new CDMRunException(
 									"Update rule not in updateRuleBase");
 					}
+				}
+			}
+
+			return keep;
+		} catch (CDMUpdateRuleException e) {
+			e.printStackTrace(); // TODO remove
+			log.warn("Individual " + individual.getLabel()
+					+ " has a characteristicValue at index " + charValIndex
+					+ " with updaterule mismatch: "
+					+ updateRule.getClass().getName() + ", removing it.");
+			return keep;
+		}
+	}
+
+	private boolean handleCompoundCharVal(
+			CompoundCharacteristicValue diseaseCharVal, Individual individual)
+			throws CDMRunException {
+		boolean keep = false;
+		int charValIndex = diseaseCharVal.getIndex();
+		UpdateRuleMarker updateRule = updateRuleStorage
+				.getUpdateRule(charValIndex);
+		try {
+			if (!characteristics.containsKey(charValIndex)) {
+				log.warn("Individual " + individual.getLabel()
+						+ " has a value at index " + charValIndex
+						+ " for a non configured characteristic removing it.");
+			} else {
+				if (updateRule == null) {
+					log.warn("Individual " + individual.getLabel()
+							+ " has a characteristicValue at index "
+							+ charValIndex
+							+ " without an updaterule, removing it.");
+				} else {
+					/**
+					 * for type diseaseCharVal only ManyToManyUpdateRules are
+					 * allowed
+					 */
+
+					/*
+					 * if (updateRule instanceof OneToOneUpdateRuleBase) {
+					 * float[] oldValue = diseaseCharVal.getCurrentValue();
+					 * Float[] newValue = (Float) ((OneToOneUpdateRuleBase)
+					 * updateRule) .update(new Float(oldValue));
+					 * diseaseCharVal.appendValue(newValue);
+					 * log.info("Updated charval at " + floatCharVal.getIndex()
+					 * + " for " + individual.getLabel() + " from " + oldValue +
+					 * " to " + newValue); keep = true; } else {
+					 */
+					if (updateRule instanceof ManyToManyUpdateRuleBase) {
+						Object[] charVals = new Object[individual.size()];
+						for (int count = 0; count < charVals.length; count++) {
+							CharacteristicValueBase charValBase = individual
+									.get(count);
+							if (charValBase != null) {
+								Object currValue = charValBase
+										.getCurrentValue();
+								charVals[count] = currValue;
+							} else {
+								charVals[count] = null;
+							}
+						}
+						float[] oldValue = diseaseCharVal
+								.getCurrentWrapperlessValue();
+						// int index = floatCharVal.getIndex();
+						float[] newValue = (float[]) ((ManyToManyUpdateRuleBase) updateRule)
+								.update(charVals);
+						if (newValue != null) {
+							diseaseCharVal.appendValue(newValue);
+							log.info("Updated charval at "
+									+ diseaseCharVal.getIndex() + " for "
+									+ individual.getLabel() + " from "
+									+ oldValue + " to " + newValue);
+							keep = true;
+						} else {
+							throw new CDMRunException(
+									"ManyToMany update rule produced a null result, aborting.");
+						}
+					} else
+						throw new CDMRunException(
+								"Update rule not in updateRuleBase or not defined for this type of"
+										+ "characteristic");
 				}
 			}
 
