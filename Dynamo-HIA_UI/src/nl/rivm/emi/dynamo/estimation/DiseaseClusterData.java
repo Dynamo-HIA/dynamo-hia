@@ -63,7 +63,8 @@ public class DiseaseClusterData {
 		// RRdisExtended is a RR matrix for all diseases, as this make looking up the
 		// right RR much easier;
 		
-
+        if (RRdis.length==Structure.nInCluster) RRdisExtended=RRdis;
+        else {
 		RRdisExtended = new float[Structure.nInCluster][Structure.nInCluster];
 		int dd =0;// dd contains number of current dependent disease;
 		int di = 0;// di contains number of current independent disease;
@@ -82,7 +83,7 @@ public class DiseaseClusterData {
 			} else
 				for (int d2 = 0; d2 < Structure.nInCluster; d2++) {
 					RRdisExtended[d1][d2] = 1;
-				}
+				}}
 	}
 
 	public DiseaseClusterData() {

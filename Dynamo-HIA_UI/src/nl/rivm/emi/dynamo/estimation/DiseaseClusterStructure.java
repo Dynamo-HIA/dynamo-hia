@@ -34,16 +34,16 @@ public class DiseaseClusterStructure {
 	public String clusterName;
     public boolean withCuredFraction=false;
 	public int nInCluster = 1;
-
-	//public int[] IndexDependentDiseases;
+	
+	public int[] indexDependentDiseases;
 	/**
-	 * @IndexDependentDiseases Index giving the numbers of the dependent
+	 * @indexDependentDiseases Index giving the numbers of the dependent
 	 *                         diseases within this cluster
 	 * 
 	 */
-	//public int[] IndexIndependentDiseases;
+	public int[] indexIndependentDiseases;
 	/**
-	 * @IndexIndependentDiseases Index giving the numbers of the independent
+	 * @indexIndependentDiseases Index giving the numbers of the independent
 	 *                           diseases within this cluster
 	 * 
 	 */
@@ -106,6 +106,24 @@ public class DiseaseClusterStructure {
 			diseaseNumber[d] = startN + d;
 
 		}
+		
+		/*
+		 * make an index for the numbers of dependent and
+		 * independent diseases within the cluster
+		 */
+		indexDependentDiseases= new int[NDep];
+		int iterDep = 0;
+		int iterIndep = 0;
+		indexIndependentDiseases= new int[NIndep];
+		for (int dtemp = 0; dtemp < nInCluster; dtemp++) {
+			if (dependentDisease[dtemp]) {
+				indexDependentDiseases[iterDep] = dtemp;
+				iterDep++;
+			} else {
+				indexIndependentDiseases[iterIndep] = dtemp;
+				iterIndep++;
+			}
+		}
 
 	}
 
@@ -129,6 +147,9 @@ public class DiseaseClusterStructure {
 		NDep = 0;
 		NIndep = 1;
 		nInCluster=1;
+		indexDependentDiseases=new int[0];
+		indexIndependentDiseases=new int[1];
+		indexIndependentDiseases[0]=0;
 	}
 
 	public boolean[] getDependentDisease() {

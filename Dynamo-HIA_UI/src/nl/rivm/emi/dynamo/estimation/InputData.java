@@ -324,8 +324,8 @@ public class InputData {
 
 					switch (c) {
 					case 0: {
-						float[] Istring = { 0.01F, 0.01F };
-						float[] Pstring = { 0.1F, 0.1F };
+						float[] Istring = { 0.01F, 0.02F };
+						float[] Pstring = { 0.1F, 0.2F };
 						clusterData[age][g][0].incidence = Istring;
 						clusterData[age][g][0].prevalence = Pstring;
 					}

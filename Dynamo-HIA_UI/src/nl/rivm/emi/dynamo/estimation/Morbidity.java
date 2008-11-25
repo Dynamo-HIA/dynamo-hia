@@ -21,6 +21,12 @@ public class Morbidity {
 	//public int nDis;
 	//public int dStart;
 
+	/**
+	 * @param D: data of the cluster
+	 * @param S: cluster structure
+	 * @param RR: relative risk of this person for each disease
+	 * @param prevOdds0: prevalence odds for the diseases
+	 */
 	public Morbidity(DiseaseClusterData D, DiseaseClusterStructure S, double[] RR, double[] prevOdds0) {
 		
 		int nDis = S.nInCluster;
@@ -29,6 +35,33 @@ public class Morbidity {
 		/*
 		 * p-dependent = rr(risk)*inc0*(1*(1-Pindep)+RRdis(Pindep))=
 		 * rr(risk)*inc0*(1+Pindep(RRdis-1))= Pindep= inc0*RR(risk-Pindep)
+		 */
+		
+		/** prob [d1][d2] contains the probability of having both disease d1 and d2;
+		 * so prob[d1][d2]==prob[d2][d1]
+		 * prob [d1][d1] contains the probability of having d1
+		 * 
+		 * d1 and d2 independent:
+		 * 
+		 * P(d1^d2)=P(d1)*P(d2)
+		 * 
+		 * where P(d1) is the probability of d1 for this person based only on riskfactors
+		 * 
+		 * d1 --> d2 (d1 cause of d2)
+		 * 
+		 * P(d1^d2)=P(d1)*P(d2|d1)=P(d1)*P(d2)*RR(d2|d1)
+		 * 
+		 * d2 --> d1 
+		 * 
+		 * P(d1^d2)=P(d2)*P(d1|d2)=P(d1)*P(d2)*RR(d1|d2)
+		 * 
+		 * d2 and d1 both dependent on other independent diseases:
+		 * combi = each possible combination of other independent diseases:
+		 * 
+		 * P(d1^d2)=sum(over combi) of (P(combi)P(d1|combi)*P(d2|combi))=
+		 * 
+		 *== sum(over combi) of (P(combi)P(d1)P(d2)RR(d1|combi)*RR(d2|combi))		
+		 * 
 		 */
 
 		prob = new double[nDis][nDis];
@@ -46,32 +79,33 @@ public class Morbidity {
 					// prob[d1][d1]= prob [d1]
 					// if d1 and d2 are independent, p[d1] is just prob1, the probability if only risk factors count
 					prob[d1][d2] = prob1; 
+	
 					// if d1==d2 is dependent disease, 
 					//p(d)=sum(all combis of presence/absence indep) of p(combi)*p(d|combi)
-					//== something recurrent
+					
 					// loop over all independent 
 					// diseases to get their effects
 					if (S.dependentDisease[d1] == true) {
 						prob[d1][d2] = 0;
 						// loop through all combinations of independent diseases
 						// each combination contributes p(combi)*(p(d1|combi) to p(d1)
-						for (int combi = 0; combi < Math.pow(S.NIndep,2); combi++) {
+						for (int combi = 0; combi < Math.pow(2,S.NIndep); combi++) {
 							//calculate RR for this combi ;
 							// calculate prob(combi);
 							double RRcombi=1;
 							double probCombi=1;
-							for (int d3=0;d3<S.nInCluster;d3++) {
-								int Ndi=S.diseaseNumber[d3];
+							for (int d3=0;d3<S.NIndep;d3++) {
+								int Ndi=S.indexIndependentDiseases[d3]+dStart;
 								double prob3=RR[Ndi ]
 												* prevOdds0[Ndi ]/(1+RR[Ndi]
 																				* prevOdds0[Ndi]);
 					
-							   if ((combi & (1<<d3))==(1<<d3) ) RRcombi*=D.RRdisExtended[d3][d1];
+							   if ((combi & (1<<d3))==(1<<d3) ) RRcombi*=D.RRdisExtended[S.indexIndependentDiseases[d3]][d1];
 							   if ((combi & (1<<d3))==(1<<d3) ) probCombi*= prob3; 
 							   else probCombi*=(1-prob3);
 							   }
 							// probability of d1 in those with this combination prob3=
-							prob[d1][d2] += probCombi*RRcombi*prevOdds0[d1 + dStart]/(1+RRcombi* prevOdds0[d1 + dStart]);
+							prob[d1][d2] += probCombi*RRcombi*RR[d1+dStart ]*prevOdds0[d1 + dStart]/(1+RRcombi*RR[d1+dStart ]* prevOdds0[d1 + dStart]);
 						}}}
 						
 				else if (S.dependentDisease[d1] == false
@@ -91,23 +125,23 @@ public class Morbidity {
 					// now we need to loop through all combinations of independent diseases
 					// each contributes p(combi)P(d1^d2|combi) to the overall p(d1^d2)
 					
-					for (int combi = 0; combi < Math.pow(S.NIndep,2); combi++) {
+					for (int combi = 0; combi < Math.pow(2,S.NIndep); combi++) {
 						//calculate RR for this combi ;
 						// calculate prob(combi);
 						double RRcombi1=1; // relative risk from particular combination of diseases for disease d1
 						double RRcombi2=1; // relative risk from particular combination of diseases for disease d2
 						double probCombi=1;
-						for (int d3=0;d3<S.nInCluster;d3++) {
+						for (int d3=0;d3<S.NIndep;d3++) {
 							
-							int Ndi= S.diseaseNumber[d3];
+							int Ndi= S.indexIndependentDiseases[d3]+dStart;
 							// d3 = current disease within the combination (loops over all diseases)
 							double prob3=RR[Ndi ]
 											* prevOdds0[Ndi ]/(1+RR[Ndi]
 																			* prevOdds0[Ndi]);
 							
 						   if ((combi & (1<<d3))==(1<<d3) )
-						   {RRcombi1*=D.RRdisExtended[d3][d1];
-						   RRcombi2*=D.RRdisExtended[d3][d2];
+						   {RRcombi1*=D.RRdisExtended[S.indexIndependentDiseases[d3]][d1];
+						   RRcombi2*=D.RRdisExtended[S.indexIndependentDiseases[d3]][d2];
 						   probCombi*= prob3; }
 						   else probCombi*=(1-prob3);
 						   } // calculations for single combination
@@ -173,12 +207,17 @@ public class Morbidity {
 	int dStart = S.diseaseNumber[0]; /* number of first disease */
 
 	  for (int d1=0;d1<nDis;d1++)for (int d2=0;d2<nDis;d2++){
-	//calculate matrix V= 
-		//	average(probdisease (d1 &d2|i))/p(d1)-
-		//	      average(probdisease(d1|i)*probdisease(d2|i))/p(d1)
+	//calculate matrix V.
+		  // a row for disease d1 = [
+		//	average(probdisease (d1 |d2,i))-
+		//	      {average(probdisease(d1|i)*probdisease(d2|i))/p(d1)}]
+		  // which is also 
+		  //d1 = [
+			//	{average(probdisease (d1 ^d2|i))}/p(d1)-
+			//	      {average(probdisease(d1|i)*probdisease(d2|i))/p(d1)}]
 	  
 	  // forget /p(d1) for the moment, than this can be calculated by summing
-	  // probdisease (d1 &d2|i))- (probdisease(d1|i)*probdisease(d2|i))
+	  // probdisease (d1 & d2|i)- (probdisease(d1|i)*probdisease(d2|i))
 	  // weighted for the probability of the riskfactor combination
 	  
 	  baseMat[d1+dStart][d2+dStart]+=weight*(this.prob[d1][d2]-this.prob[d1][d1]*this.prob[d2][d2]);
