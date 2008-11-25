@@ -7,6 +7,7 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.NumericalContinuousCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
@@ -83,7 +84,8 @@ log.debug("Processing node " + myNode.getNodeName());
 	private boolean processMyNode(Individual individual, Node myNode,
 			int numberOfSteps) throws CDMConfigurationException,
 			NumberFormatException, CDMRunException {
-		boolean success = false;
+		
+		boolean success=false;
 		NamedNodeMap myAttributes = myNode.getAttributes();
 		if (myAttributes != null) {
 			Node indexNode = myAttributes.getNamedItem("id");
@@ -103,11 +105,25 @@ log.debug("Processing node " + myNode.getNodeName());
 						CDMConfigurationException.characteristicsConfigurationNotInitializedMessage);
 			}
 			Characteristic characteristic = charConfig.getCharacteristic(Integer.parseInt(index));
-			if(!(characteristic.getType() instanceof NumericalContinuousCharacteristicType)){
+			/* gewijzigd door Hendriek: compound type toegevoegd; */
+			if(!(characteristic.getType() instanceof NumericalContinuousCharacteristicType)  &&
+					!(characteristic.getType() instanceof CompoundCharacteristicType	)){
 			success = handleIntegerValue(individual, numberOfSteps, success, myAttributes, index);
-			} else {
+			/* gewijzigd door Hendriek: compound type toegevoegd; */
+			} else if (characteristic.getType() instanceof NumericalContinuousCharacteristicType){
 				success = handleFloatValue(individual, numberOfSteps, success, myAttributes, index);
+				
+			} else if (characteristic.getType() instanceof CompoundCharacteristicType){
+				
+				success = handleCompoundElementValue(individual, numberOfSteps, success,myAttributes, index,
+						characteristic.getNumberOfElements());
+				
+					
+				
 			}
+			
+			
+			
 			} else {
 			throw new CDMConfigurationException(
 					"CharacteristicValue without attributes found.");
@@ -166,11 +182,7 @@ log.debug("Processing node " + myNode.getNodeName());
 	//	boolean valueOK = matcher.matches();
 		
 	//	if (indexOK && valueOK) {
-		// TODO Reintroduce check.
-//		matcher = floatPattern.matcher(value);
-//		boolean valueOK = matcher.matches();
-//		if (indexOK && valueOK) {
-			if (indexOK) {
+		if (indexOK) {
 			FloatCharacteristicValue floatCharacteristicValue = new FloatCharacteristicValue(
 					numberOfSteps, Integer.parseInt(index));
 			floatCharacteristicValue.appendValue(Float.parseFloat(value));
@@ -187,6 +199,54 @@ log.debug("Processing node " + myNode.getNodeName());
 		return success;
 	}
 
+	
+/* added by Hendriek */
+	private boolean handleCompoundElementValue(Individual individual, int numberOfSteps, boolean success, NamedNodeMap myAttributes, String index, int numberOfElements) throws CDMConfigurationException, CDMRunException {
+		Matcher matcher;
+		boolean indexOK = isIndexPosInt(index);
+		Node valueNode = myAttributes.getNamedItem("vl");
+		if (valueNode == null) {
+			valueNode = myAttributes.getNamedItem("value");
+			if (valueNode == null) {
+				throw new CDMConfigurationException(
+						"CharacteristicValue without value attribute found.");
+			}
+		}
+		String value = valueNode.getNodeValue();
+		log.debug("Node float value " + value);
+	
+		
+		if (indexOK) {
+			if (Integer.parseInt(index)< individual.size()){CompoundCharacteristicValue compoundCharacteristicValue=
+				(CompoundCharacteristicValue) individual.get(Integer.parseInt(index));
+			compoundCharacteristicValue.appendInitialValue(Float.parseFloat(value));
+			individual.luxeSet(Integer.parseInt(index),
+					compoundCharacteristicValue);
+			log.debug("Setting CharacteristicValue "
+					+ compoundCharacteristicValue.getLastValue()
+					+ " in Individual at index "
+					+ compoundCharacteristicValue.getIndex());
+			success = true;
+			}else { 
+			
+				CompoundCharacteristicValue compoundCharacteristicValue
+			 = new CompoundCharacteristicValue(
+					numberOfSteps, Integer.parseInt(index),numberOfElements);
+		    compoundCharacteristicValue.appendInitialValue(Float.parseFloat(value));
+			log.debug("Setting CharacteristicValue "
+					+ compoundCharacteristicValue.getLastValue()
+					+ " in Individual at index "
+					+ compoundCharacteristicValue.getIndex());
+			individual.luxeSet(Integer.parseInt(index),
+					compoundCharacteristicValue);
+			success = true;
+		}} else {
+			log.warn("CharacteristicValue attribute(s) not supported.");
+		}
+		return success;
+	}
+
+	
 	private boolean isIndexPosInt(String index) {
 		Matcher matcher = posIntPattern.matcher(index);
 		boolean indexPosInt = matcher.matches();
