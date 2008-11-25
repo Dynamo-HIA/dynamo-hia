@@ -41,7 +41,19 @@ public class ExpMattest {
 			  0.980199}}
 			  */
 		
+		double [][] inArray2={{-0.045, 0, 0, 0}, {0.017, -0.058, 0, 0}, {0.028, 0, -0.0506, 0}, {0,
+			   0.028, 0.0306, -0.05}};
 		
+		outArray=m.exponentiateMatrix(inArray2);
+		for (int i=0; i<4;i++)
+			log.fatal("outArray "+i+" : "+outArray[i][0]+" : "+outArray[i][1]+" : "+outArray[i][2]+" : "+outArray[i][3] );
+		for (int i=1; i<11;i++){
+		m.setNIterations(i);
+		outArray=m.exponentiateMatrix(inArray2);
+		log.fatal("n iterations in matrix exponential"+i);
+		for (int k=0; k<4;k++)
+			log.fatal("outArray "+k+" : "+outArray[k][0]+" : "+outArray[k][1]+" : "+outArray[k][2]+" : "+outArray[k][3] );
+		}
 		
 		
 		
