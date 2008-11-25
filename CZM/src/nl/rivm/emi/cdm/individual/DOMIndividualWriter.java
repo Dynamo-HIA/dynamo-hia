@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
+import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual.CharacteristicValueIterator;
@@ -43,6 +44,10 @@ public class DOMIndividualWriter {
 			} else {
 				if(charVal instanceof FloatCharacteristicValue){
 					DOMCharacteristicValueWriter.generateDOM((FloatCharacteristicValue)charVal, stepNumber, element);
+				}/* toegevoegd door Hendriek */
+				else if (charVal instanceof CompoundCharacteristicValue){
+					
+					DOMCharacteristicValueWriter.generateDOM((CompoundCharacteristicValue)charVal, stepNumber, element);
 				}
 				}
 			}

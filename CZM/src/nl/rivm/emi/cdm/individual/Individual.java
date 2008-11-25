@@ -7,6 +7,7 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -83,6 +84,44 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		}
 		return ((FloatCharacteristicValue) cv).getCurrentValue();
 	}
+	
+/* added by Hendriek */
+	public Float[] getCurrentCompoundCharacteristicValue(int characteristicIndex)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
+		if (cv == null) {
+			throw new CDMRunException(
+					"No CharacteristicValue found for index: "
+							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof FloatCharacteristicValue)) {
+				throw new CDMRunException(
+						"No FloatCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
+		}
+		return ((CompoundCharacteristicValue) cv).getCurrentValue();
+	}
+	
+	
+	/* added by Hendriek */
+	public float[] getCurrentUnwrappedCompoundCharacteristicValue(int characteristicIndex)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
+		if (cv == null) {
+			throw new CDMRunException(
+					"No CharacteristicValue found for index: "
+							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof FloatCharacteristicValue)) {
+				throw new CDMRunException(
+						"No FloatCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
+		}
+		return ((CompoundCharacteristicValue) cv).getCurrentWrapperlessValue();
+	}
+	
 
 	public void updateIntCharacteristicValue(int characteristicIndex, int newValue)
 			throws CDMRunException {
@@ -116,6 +155,26 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 			}
 		}
 		((FloatCharacteristicValue)cv).appendValue(newValue);
+	}
+
+	
+	
+/* added by Hendriek */
+	public void updateCompoundCharacteristicValue(int characteristicIndex, float [] newValue)
+			throws CDMRunException {
+		CharacteristicValueBase cv = this.get(characteristicIndex);
+		if (cv == null) {
+			throw new CDMRunException(
+					"No CharacteristicValue found for index: "
+							+ characteristicIndex);
+		} else {
+			if (!(cv instanceof FloatCharacteristicValue)) {
+				throw new CDMRunException(
+						"No FloatCharacteristicValue found for index: "
+								+ characteristicIndex);
+			}
+		}
+		((CompoundCharacteristicValue)cv).appendValue(newValue);
 	}
 
 	/**
@@ -186,4 +245,5 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 			set(lastReturnedIndex, null);
 		}
 	}
+
 }
