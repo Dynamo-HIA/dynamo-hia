@@ -100,7 +100,8 @@ public class UpdateRules4SimulationFromXMLFactory {
 			UpdateRuleMarker updateRuleInstance = loadAndCheckUpdateRuleClass(updateRuleClassName);
 			if (updateRuleInstance == null) {
 				throw new ConfigurationException(
-						CDMConfigurationException.invalidUpdateRuleClassNameMessage + updateRuleClassName);
+						CDMConfigurationException.invalidUpdateRuleClassNameMessage
+								+ updateRuleClassName);
 			}
 			if (updateRuleInstance instanceof CharacteristicSpecific) {
 				((CharacteristicSpecific) updateRuleInstance)
@@ -129,7 +130,9 @@ public class UpdateRules4SimulationFromXMLFactory {
 		return characteristicIdUpdateRuleTuple;
 	}
 
-	private static void handleConfigurationFile(SubnodeConfiguration currentValueNode, UpdateRuleMarker updateRuleInstance) throws ConfigurationException {
+	private static void handleConfigurationFile(
+			SubnodeConfiguration currentValueNode,
+			UpdateRuleMarker updateRuleInstance) throws ConfigurationException {
 		if (updateRuleInstance instanceof ConfigurationEntryPoint) {
 			String configurationFileName = currentValueNode
 					.getString(configurationFileLabel);
@@ -139,8 +142,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 						String
 								.format(
 										CDMConfigurationException.noConfigurationFileNameConfigured4UpdateRuleMessage,
-										updateRuleInstance.getClass()
-												.getName()));
+										updateRuleInstance.getClass().getName()));
 			}
 			File configurationFile = new File(configurationFileName);
 			if (!configurationFile.exists() || !configurationFile.isFile()
@@ -150,10 +152,10 @@ public class UpdateRules4SimulationFromXMLFactory {
 								.format(
 										CDMConfigurationException.configuredConfigurationFileName4UpdateRuleDoesNotExistOrCannotReadMessage,
 										configurationFileName,
-										updateRuleInstance.getClass()
-												.getName()));
+										updateRuleInstance.getClass().getName()));
 			}
-			((ConfigurationEntryPoint)updateRuleInstance).loadConfigurationFile(configurationFile);
+			((ConfigurationEntryPoint) updateRuleInstance)
+					.loadConfigurationFile(configurationFile);
 		}
 	}
 
@@ -173,7 +175,12 @@ public class UpdateRules4SimulationFromXMLFactory {
 			}
 			return instance;
 		} catch (ClassNotFoundException e) {
-			return instance;
+			// return instance;
+			throw new ConfigurationException(
+					CDMConfigurationException.noClassFoundMessage + className);
+		} catch (NoClassDefFoundError e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noClassFoundMessage + className);
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
