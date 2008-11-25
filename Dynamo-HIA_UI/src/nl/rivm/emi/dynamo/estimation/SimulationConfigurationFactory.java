@@ -48,7 +48,7 @@ public class SimulationConfigurationFactory {
 	 */
 	private boolean isNullTransition = true;
 	private int randomSeed = 1111;
-	private Integer stepsInRun = 1;
+	private Integer stepsInRun = 100;
 
 	/**
 	 * this method writes the characteristicsConfigurationFile that is one of
@@ -100,8 +100,9 @@ public class SimulationConfigurationFactory {
 		/* write rule for categorical risk factor */
 		/**
 		 * implemented xml file for categorical risk factor: <?xml version="1.0"
-		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>3</charID> <refValContinuousVariable>0</refValContinuousVariable>
-		 * <nCat>4</nCat> <durationClass>2</durationClass> <nullTransition>1</nullTransition>
+		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>3</charID>
+		 * <refValContinuousVariable>0</refValContinuousVariable> <nCat>4</nCat>
+		 * <durationClass>2</durationClass> <nullTransition>1</nullTransition>
 		 * <durationClass>2</durationClass> <transitionFile>c:/hendriek
 		 * /java/workspace/dynamo/dynamodata/transdata.xml</transitionFile>
 		 * <randomSeed>1234</randomSeed> </updateRuleConfiguration>
@@ -119,8 +120,8 @@ public class SimulationConfigurationFactory {
 					.createElement("updateRuleConfiguration");
 			writeFinalElementToDom(rootElement, "charID",
 					((Integer) ruleNumber).toString());
-			writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
-					.getRefClassCont()).toString());
+			writeFinalElementToDom(rootElement, "refValContinuousVariable",
+					((Float) parameters.getRefClassCont()).toString());
 			writeFinalElementToDom(rootElement, "nCat", ((Integer) parameters
 					.getPrevRisk()[0][0].length).toString());
 			writeFinalElementToDom(rootElement, "durationClass",
@@ -154,312 +155,44 @@ public class SimulationConfigurationFactory {
 		 * here in stead of file name the method new document only uses this
 		 * string for the error message so it does not matter
 		 */
-		Document documentForSurvival = newDocument(" for survival update rule ");
+		Document documentForHealthState = newDocument(" for health state update rule ");
 		/**
-		 * configuration file for the rule for survival is: <?xml version="1.0"
-		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>9</charID>
-		 * <name>Dis6</name> <riskType>1</riskType> <nCat>4</nCat>
+		 * configuration file for the rule for health state is: <?xml
+		 * version="1.0" encoding="UTF-8"?> <updateRuleConfiguration>
+		 * <charID>9</charID> <name>HealthState</name> <riskType>1</riskType>
+		 * <nCat>4</nCat>
 		 * <baselineOtherMortFile>otherMort.xml</baselineOtherMortFile>
-		 * <relativeRiskOtherMortFile >relriskOtherMort.xml</relativeRiskOtherMortFile>
-		 * <disease> <baselineIncidenceFile>incidenceDis1.xml</baselineIncidenceFile>
+		 * <relativeRiskOtherMortFile
+		 * >relriskOtherMort.xml</relativeRiskOtherMortFile> <disease>
+		 * <baselineIncidenceFile>incidenceDis1.xml</baselineIncidenceFile>
 		 * <attributableMortFile>catMortDis1.xml</attributableMortFile>
 		 * <relativeRiskFile>relriskDis1.xml</relativeRiskFile> </disease>
 		 */
-		Element survivalRootElement = documentForSurvival
+		Element healthStateRootElement = documentForHealthState
 				.createElement("updateRuleConfiguration");
 
-		writeFinalElementToDom(survivalRootElement, "name", "survival");
-		writeFinalElementToDom(survivalRootElement, "riskType",
+		writeFinalElementToDom(healthStateRootElement, "name", "healthState");
+		writeFinalElementToDom(healthStateRootElement, "riskType",
 				((Integer) riskType).toString());
-		writeFinalElementToDom(survivalRootElement, "nCat",
+		writeFinalElementToDom(healthStateRootElement, "nCat",
 				((Integer) parameters.getPrevRisk()[0][0].length).toString());
-		writeFinalElementToDom(survivalRootElement, "refValContinuousVariable", ((Float) parameters
-				.getRefClassCont()).toString());
-		Element survivalDiseaseElement;
-
-		for (int c = 0; c < parameters.getNCluster(); c++) {
-			DiseaseClusterStructure structure = parameters
-					.getClusterStructure()[c];
-			if (structure.getNinCluster() == 1 || structure.withCuredFraction)
-				/**
-				 * implemented xml file for single disease: <?xml version="1.0"
-				 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>4</charID>
-				 * <name>Dis1</name> <riskType>1</riskType> <nCat>4</nCat>
-				 * <baselineIncidenceFile>incidenceDis1.xml</baselineIncidenceFile>
-				 * <attributableMortFile>catMortDis1.xml</attributableMortFile>
-				 * <relativeRiskFile>relriskDis1.xml</relativeRiskFile>
-				 * </updateRuleConfiguration>
-				 */
-				for (int d = 0; d < structure.getNinCluster(); d++) {
-
-					String ConfigXMLfileName = directoryName
-							+ "\\modelconfiguration" + "\\rule"
-							+ ((Integer) (ruleNumber + d)).toString() + ".xml";
-
-					Document document = newDocument(ConfigXMLfileName);
-					survivalDiseaseElement = documentForSurvival
-							.createElement("disease");
-					survivalRootElement.appendChild(survivalDiseaseElement);
-					Element rootElement = document
-							.createElement("updateRuleConfiguration");
-					writeFinalElementToDom(rootElement, "charID",
-							((Integer) ruleNumber).toString());
-					writeFinalElementToDom(rootElement, "name",
-							structure.diseaseName.get(d));
-					writeFinalElementToDom(rootElement, "riskType",
-							((Integer) riskType).toString());
-					writeFinalElementToDom(rootElement, "nCat",
-							((Integer) parameters.getPrevRisk()[0][0].length)
-									.toString());
-					writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
-							.getRefClassCont()).toString());
-				
-					String name = structure.getDiseaseName().get(d);
-
-					writeFinalElementToDom(survivalDiseaseElement,
-							"ClusterNumber", ((Integer) c).toString());
-					writeFinalElementToDom(survivalDiseaseElement,
-							"diseaseNumberWithinCluster", ((Integer) structure
-									.getDiseaseNumber()[d]).toString());
-					writeFinalElementToDom(survivalDiseaseElement,
-							"diseaseName", name);
-
-					fileName = directoryName
-							+ "\\parameters\\baselineIncidence_"
-							+ ((Integer) ruleNumber).toString() + "_" + name
-							+ ".xml";
-					writeFinalElementToDom(rootElement,
-							"baselineIncidenceFile", fileName);
-					writeFinalElementToDom(survivalDiseaseElement,
-							"baselineIncidenceFile", fileName);
-					writeOneDimArray(extractFromOneDimArray(parameters
-							.getBaselineIncidence(), structure
-							.getDiseaseNumber()[0]), "baselineIncidences",
-							"baselineIncidence", fileName);
-
-					fileName = directoryName
-							+ "\\parameters\\baselineFatalIncidence_"
-							+ ((Integer) ruleNumber).toString() + "_" + name
-							+ ".xml";
-					/*
-					 * not needed by update rule for disease, only for mortality
-					 * rule
-					 */
-					writeFinalElementToDom(survivalDiseaseElement,
-							"baselineFatalIncidenceFile", fileName);
-					writeOneDimArray(extractFromOneDimArray(parameters
-							.getBaselineFatalIncidence(), structure
-							.getDiseaseNumber()[0]), "baselineFatalIncidences",
-							"baselineFatalIncidence", fileName);
-
-					fileName = directoryName
-							+ "\\parameters\\attributableMort_"
-							+ ((Integer) ruleNumber).toString() + "_" + name
-							+ ".xml";
-					writeFinalElementToDom(rootElement, "attributableMortFile",
-							fileName);
-					writeFinalElementToDom(survivalDiseaseElement,
-							"attributableMortFile", fileName);
-					writeOneDimArray(extractFromOneDimArray(parameters
-							.getAttributableMortality(), structure
-							.getDiseaseNumber()[0]), "attributableMortalities",
-							"attributableMortality", fileName);
-
-					fileName = directoryName + "\\parameters\\relativeRisk_"
-							+ ((Integer) ruleNumber).toString() + "_" + name
-							+ ".xml";
-					writeFinalElementToDom(rootElement, "relativeRiskFile",
-							fileName);
-					writeFinalElementToDom(survivalDiseaseElement,
-							"relativeRiskFile", fileName);
-					writeTwoDimArray(
-							extractFromTwoDimArray(
-									parameters.getRelRiskClass(), structure
-											.getDiseaseNumber()[0]),
-							"relativeRisks", "relativeRisk", fileName);
-
-					document.appendChild(rootElement);
-
-					writeDomToXML(ConfigXMLfileName, document);
-					ruleNumber++;
-					if (structure.withCuredFraction) {
-
-						// TODO bovenstaande is nog niet goed voor ziekten met
-						// cured fractions.
-					}
-				} // end if single or cured fraction disease
-
-			else {
-				int charIdFirst = ruleNumber;
-				for (int combi = 1; combi < Math.pow(2, structure
-						.getNinCluster()); combi++) {
-					String ConfigXMLfileName = directoryName
-							+ "\\modelconfiguration" + "\\rule"
-							+ ((Integer) ruleNumber).toString() + ".xml";
-
-					Document document = newDocument(ConfigXMLfileName);
-					Element rootElement = document
-							.createElement("updateRuleConfiguration");
-
-					String namePart1 = structure.getClusterName();
-					String namePart2 = Integer.toBinaryString(combi);
-					int zerosToAdd = structure.getNinCluster()
-							- namePart2.length();
-					for (int i = 0; i < zerosToAdd; i++)
-						namePart2 = "0" + namePart2;
-					writeFinalElementToDom(rootElement, "charID",
-							((Integer) ruleNumber).toString());
-					writeFinalElementToDom(rootElement, "name", namePart1 + "_"
-							+ namePart2);
-					writeFinalElementToDom(rootElement, "riskType",
-							((Integer) riskType).toString());
-					writeFinalElementToDom(rootElement, "nCat",
-							((Integer) parameters.getPrevRisk()[0][0].length)
-									.toString());
-					writeFinalElementToDom(rootElement, "refValContinuousVariable", ((Float) parameters
-							.getRefClassCont()).toString());
-					writeFinalElementToDom(rootElement, "nInCluster",
-							((Integer) structure.getNinCluster()).toString());
-					writeFinalElementToDom(rootElement, "CharIdFirstInCluster",
-							((Integer) charIdFirst).toString());
-					fileName = directoryName
-							+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
-							+ ((Integer) c).toString() + ".xml";
-				    writeFinalElementToDom(rootElement,
-							"diseaseOnDiseaseRelativeRiskFile", fileName);
-					if (combi==1){ writeThreeDimArray(extractFromThreeDimArray(parameters
-							.getRelRiskDiseaseOnDisease(), c), "relativeRisks",
-							"relativeRisk", fileName);
-					/* the diseaseOnDiseaseRelativeRiskFile filename for the survival rule is written later, as it should be included in a
-					 * cluster element
-					 */
-					}
-
-					for (int d = 0; d < structure.getNinCluster(); d++) {
-						
-						/* write away information per disease, both for each disease
-						 * combination rule, and for the survival rule
-						 * survival rule info and data need to be written only once
-						 */
-						
-						/* first the general info */ 
-						Element diseaseElement = document
-								.createElement("disease");
-						String name = structure.getDiseaseName().get(d);
-						survivalDiseaseElement = documentForSurvival
-								.createElement("disease");
-						writeFinalElementToDom(survivalDiseaseElement,
-								"clusterNumber", ((Integer) c).toString());
-						writeFinalElementToDom(survivalDiseaseElement,
-								"diseaseNumberWithinCluster", ((Integer) d)
-										.toString());
-						writeFinalElementToDom(survivalDiseaseElement,
-								"diseaseName", name);
-						writeFinalElementToDom(diseaseElement, "diseaseNumber",
-								((Integer) d).toString());
-						writeFinalElementToDom(diseaseElement, "diseaseName",
-								name);
-
-						/* baseline (non-fatal) incidence */
-						fileName = directoryName
-								+ "\\parameters\\baselineIncidence_"
-								+ ((Integer) (charIdFirst)).toString() + "_"
-								+ name + ".xml";
-						writeFinalElementToDom(diseaseElement,
-								"baselineIncidenceFile", fileName);
-						if (combi == 1){
-							writeFinalElementToDom(survivalDiseaseElement,
-									"baselineIncidenceFile", fileName);
-						writeOneDimArray(extractFromOneDimArray(parameters
-								.getBaselineIncidence(), structure
-								.getDiseaseNumber()[d]), "baselineIncidences",
-								"baselineIncidence", fileName);}
-
-						/* baseline fatal incidence */
-						fileName = directoryName
-								+ "\\parameters\\baselineFatalIncidence_"
-								+ ((Integer) charIdFirst).toString() + "_"
-								+ name + ".xml";
-						writeFinalElementToDom(diseaseElement,
-								"baselineFatalIncidenceFile", fileName);
-						if (combi == 1){writeFinalElementToDom(survivalDiseaseElement,
-								"baselineFatalIncidenceFile", fileName);
-						writeOneDimArray(extractFromOneDimArray(parameters
-								.getBaselineFatalIncidence(), structure
-								.getDiseaseNumber()[0]),
-								"baselineFatalIncidences",
-								"baselineFatalIncidence", fileName);}
-
-						/* attributable mortality */
-						fileName = directoryName
-								+ "\\parameters\\attributableMort_"
-								+ ((Integer) (charIdFirst)).toString() + "_"
-								+ name + ".xml";
-						writeFinalElementToDom(diseaseElement,
-								"attributableMortFile", fileName);
-						if (combi == 1){
-							writeFinalElementToDom(survivalDiseaseElement,
-									"attributableMortFile", fileName);
-						writeOneDimArray(extractFromOneDimArray(parameters
-								.getAttributableMortality(), structure
-								.getDiseaseNumber()[d]),
-								"attributableMortalities",
-								"attributableMortality", fileName);}
-						
-						/* relative risks of risk factor on the disease */
-						fileName = directoryName
-								+ "\\parameters\\relativeRisk_"
-								+ ((Integer) (charIdFirst)).toString() + "_"
-								+ name + ".xml";
-						writeFinalElementToDom(diseaseElement,
-								"relativeRiskFile", fileName);
-						if (combi == 1){
-							writeFinalElementToDom(survivalDiseaseElement,
-									"relativeRiskFile", fileName);
-						writeTwoDimArray(extractFromTwoDimArray(parameters
-									.getRelRiskClass(), structure
-									.getDiseaseNumber()[d]), "relativeRisks",
-									"relativeRisk", fileName);}
-
-						
-						rootElement.appendChild(diseaseElement);
-						if (combi == 1)
-							survivalRootElement
-									.appendChild(survivalDiseaseElement);
-					}
-					document.appendChild(rootElement);
-
-					ConfigXMLfileName = directoryName + "\\modelconfiguration"
-							+ "\\rule" + ((Integer) ruleNumber).toString()
-							+ ".xml";
-
-					writeDomToXML(ConfigXMLfileName, document);
-                    /* end of this rule */
-					ruleNumber++;
-
-				} // end loop over combi
-
-			} // end writing configuration files for cluster disease
-
-		} // end loop over clusters
-
-		/* now write configuration for survival */
+		writeFinalElementToDom(healthStateRootElement,
+				"refValContinuousVariable", ((Float) parameters
+						.getRefClassCont()).toString());
 
 		String ConfigXMLfileName = directoryName + "\\modelconfiguration"
 				+ "\\rule" + ((Integer) ruleNumber).toString() + ".xml";
-		/*
-		 * most single items where written before, but this one needs to know
-		 * the number of the update rule
-		 */
-		writeFinalElementToDom(survivalRootElement, "charID",
-				((Integer) ruleNumber).toString());
-		/* write disease structure data */
 		
-		writeFinalElementToDom(survivalRootElement, "nclusters",
+		writeFinalElementToDom(healthStateRootElement, "charID",
+				((Integer) ruleNumber).toString());
+		
+		/* write disease structure data */
+
+		writeFinalElementToDom(healthStateRootElement, "nclusters",
 				((Integer) parameters.getNCluster()).toString());
-   
+
 		for (int c = 0; c < parameters.getNCluster(); c++) {
-			Element clusterElement = documentForSurvival
+			Element clusterElement = documentForHealthState
 					.createElement("clusterInformation");
 			DiseaseClusterStructure structure = parameters
 					.getClusterStructure()[c];
@@ -472,25 +205,205 @@ public class SimulationConfigurationFactory {
 			fileName = directoryName
 					+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
 					+ ((Integer) c).toString() + ".xml";
-			if (structure.getNinCluster()>1) writeFinalElementToDom(clusterElement,
-					"diseaseOnDiseaseRelativeRiskFile", fileName);
-			survivalRootElement.appendChild(clusterElement);
+			if (structure.getNinCluster() > 1)
+				writeFinalElementToDom(clusterElement,
+						"diseaseOnDiseaseRelativeRiskFile", fileName);
+			healthStateRootElement.appendChild(clusterElement);
 		}
 		/* write the other mortality data */
+		
 		fileName = directoryName + "\\parameters\\baselineOtherMort.xml";
-		writeFinalElementToDom(survivalRootElement, "baselineOtherMortFile",
+		writeFinalElementToDom(healthStateRootElement, "baselineOtherMortFile",
 				fileName);
 		writeOneDimArray(parameters.getBaselineOtherMortality(),
 				"baselineOtherMortalities", "baselineOtherMortality", fileName);
 		fileName = directoryName + "\\parameters\\relativeRisk_OtherMort.xml";
 
-		writeFinalElementToDom(survivalRootElement,
+		writeFinalElementToDom(healthStateRootElement,
 				"relativeRiskOtherMortFile", fileName);
 		writeTwoDimArray(parameters.getRelRiskOtherMort(), "relativeRisks",
 				"relativeRisk", fileName);
 
-		documentForSurvival.appendChild(survivalRootElement);
-		writeDomToXML(ConfigXMLfileName, documentForSurvival);
+		/* now start the writing of disease-specific information */
+		
+		
+		
+		Element healthStateDiseaseElement;
+
+		for (int c = 0; c < parameters.getNCluster(); c++) {
+			DiseaseClusterStructure structure = parameters
+					.getClusterStructure()[c];
+			if (structure.getNinCluster() == 1 || structure.withCuredFraction)
+
+				for (int d = 0; d < structure.getNinCluster(); d++) {
+
+					healthStateDiseaseElement = documentForHealthState
+							.createElement("disease");
+					healthStateRootElement
+							.appendChild(healthStateDiseaseElement);
+
+					String name = structure.getDiseaseName().get(d);
+
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"ClusterNumber", ((Integer) c).toString());
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"diseaseNumberWithinCluster", ((Integer) structure
+									.getDiseaseNumber()[d]).toString());
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"diseaseName", name);
+
+					fileName = directoryName
+							+ "\\parameters\\baselineIncidence_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"baselineIncidenceFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getBaselineIncidence(), structure
+							.getDiseaseNumber()[0]), "baselineIncidences",
+							"baselineIncidence", fileName);
+
+					fileName = directoryName
+							+ "\\parameters\\baselineFatalIncidence_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+					/*
+					 * not needed by update rule for disease, only for mortality
+					 * rule
+					 */
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"baselineFatalIncidenceFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getBaselineFatalIncidence(), structure
+							.getDiseaseNumber()[0]), "baselineFatalIncidences",
+							"baselineFatalIncidence", fileName);
+
+					fileName = directoryName
+							+ "\\parameters\\attributableMort_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"attributableMortFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getAttributableMortality(), structure
+							.getDiseaseNumber()[0]), "attributableMortalities",
+							"attributableMortality", fileName);
+
+					fileName = directoryName + "\\parameters\\relativeRisk_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"relativeRiskFile", fileName);
+					writeTwoDimArray(
+							extractFromTwoDimArray(
+									parameters.getRelRiskClass(), structure
+											.getDiseaseNumber()[0]),
+							"relativeRisks", "relativeRisk", fileName);
+
+					if (structure.withCuredFraction) {
+
+						// TODO bovenstaande is nog niet goed voor ziekten met
+						// cured fractions.
+					}
+				} // end if single or cured fraction disease
+
+			else {
+
+				fileName = directoryName
+						+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
+						+ ((Integer) c).toString() + ".xml";
+				writeThreeDimArray(extractFromThreeDimArray(parameters
+						.getRelRiskDiseaseOnDisease(), c), "relativeRisks",
+						"relativeRisk", fileName);
+				/*
+				 * the diseaseOnDiseaseRelativeRiskFile filename for the
+				 * survival rule is written later, as it should be included in a
+				 * cluster element
+				 */
+
+				for (int d = 0; d < structure.getNinCluster(); d++) {
+
+					/*
+					 * write away information per disease, both for each disease
+					 * combination rule, and for the survival rule survival rule
+					 * info and data need to be written only once
+					 */
+
+					/* first the general info */
+
+					String name = structure.getDiseaseName().get(d);
+					healthStateDiseaseElement = documentForHealthState
+							.createElement("disease");
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"clusterNumber", ((Integer) c).toString());
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"diseaseNumberWithinCluster", ((Integer) d)
+									.toString());
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"diseaseName", name);
+
+					/* baseline (non-fatal) incidence */
+					fileName = directoryName
+							+ "\\parameters\\baselineIncidence_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"baselineIncidenceFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getBaselineIncidence(), structure
+							.getDiseaseNumber()[d]), "baselineIncidences",
+							"baselineIncidence", fileName);
+
+					/* baseline fatal incidence */
+					fileName = directoryName
+							+ "\\parameters\\baselineFatalIncidence_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"baselineFatalIncidenceFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getBaselineFatalIncidence(), structure
+							.getDiseaseNumber()[0]), "baselineFatalIncidences",
+							"baselineFatalIncidence", fileName);
+
+					/* attributable mortality */
+					fileName = directoryName
+							+ "\\parameters\\attributableMort_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"attributableMortFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters
+							.getAttributableMortality(), structure
+							.getDiseaseNumber()[d]), "attributableMortalities",
+							"attributableMortality", fileName);
+
+					/* relative risks of risk factor on the disease */
+					fileName = directoryName + "\\parameters\\relativeRisk_"
+							+ ((Integer) c).toString() + "_"
+							+ ((Integer) d).toString() + "_" + name + ".xml";
+
+					writeFinalElementToDom(healthStateDiseaseElement,
+							"relativeRiskFile", fileName);
+					writeTwoDimArray(
+							extractFromTwoDimArray(
+									parameters.getRelRiskClass(), structure
+											.getDiseaseNumber()[d]),
+							"relativeRisks", "relativeRisk", fileName);
+
+					healthStateRootElement
+							.appendChild(healthStateDiseaseElement);
+
+				} // end loop over diseases for clusters with multiple diseases
+			}// end if statement for clusters with multiple diseases
+		} // end loop over clusters
+
+		/* now write the  configuration for health State rule to xml*/
+		documentForHealthState.appendChild(healthStateRootElement);
+		writeDomToXML(ConfigXMLfileName, documentForHealthState);
 
 	}
 
@@ -509,7 +422,7 @@ public class SimulationConfigurationFactory {
 
 		String fileName = simFileName;
 
-		File simConfigXMLfile = new File(fileName);
+	
 
 		Document document = newDocument(fileName);
 
@@ -524,24 +437,21 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(rootElement, "pop", popFileName);
 
 		int riskType = parameters.getRiskType();
-		int BasicNRules=4;// age+sex+riskfactor+survival
-		int nRules=BasicNRules;
+		// age+sex+riskfactor+diseasestate
+		int nRules = 4;
 		if (riskType == 3)
-			BasicNRules++;
-		for (int c=0;c<parameters.getNCluster();c++) nRules+=Math.pow(2,parameters.getClusterStructure()[c].getNinCluster())-1;
-		setNRules(nRules);
-		DiseaseClusterStructure[] structure=parameters.clusterStructure;
-		// TODO get this from parameter estimation
+			nRules++;
 		
+		setNRules(nRules);
+		
+		// TODO get this from parameter estimation
 
 		Element updateRuleElement = document.createElement("updaterules");
-        int currentDiseaseCluster=0;
-        int currentStateInCluster=0;
-        int nState=1;
+		
 		for (int charID = 1; charID <= getNRules(); charID++) {
 			Element rule = document.createElement("updaterule");
 			updateRuleElement.appendChild(rule);
-			String ruleName=null;
+			String ruleName = null;
 			switch (charID) {
 			case 1:
 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule";
@@ -555,38 +465,24 @@ public class SimulationConfigurationFactory {
 			case 4:
 				if (riskType == 3)
 					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule";
-					
+
 			default:
-				if (riskType == 3) break;
-				if (charID==getNRules() ) break;
-				if (structure[currentDiseaseCluster].nInCluster==1)	{
-					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule";
-					currentDiseaseCluster++;}
-				else if 
-				 (structure[currentDiseaseCluster].withCuredFraction){
-					 ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule";
-				if (currentStateInCluster==0) currentStateInCluster++; else 
-				{currentStateInCluster=0;
-				currentDiseaseCluster++;}
+				if (riskType == 3)
+					break;
+				else 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule";
+					
+					
 				}
-				else{ ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule";
-				if (currentStateInCluster==0) nState=(int) (Math.pow(2, structure[currentDiseaseCluster].getNinCluster())-1);
-				if (currentStateInCluster<nState-1) // not the last state in cluster
-					currentStateInCluster++; else 
-				{currentStateInCluster=0;
-				currentDiseaseCluster++;}
-				}
-			}
-			if (getNRules() == charID)
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule";
+			
 			writeFinalElementToDom(rule, "characteristicid", ((Integer) charID)
 					.toString());
 			writeFinalElementToDom(rule, "classname", ruleName);
 			String ConfigXMLfileName = directoryName + "\\modelconfiguration"
-			+ "\\rule" + ((Integer) charID).toString() + ".xml";
-			
+					+ "\\rule" + ((Integer) charID).toString() + ".xml";
+
 			if (charID > 2)
-				writeFinalElementToDom(rule, "configurationfile", ConfigXMLfileName);
+				writeFinalElementToDom(rule, "configurationfile",
+						ConfigXMLfileName);
 
 		}
 		;
@@ -601,8 +497,8 @@ public class SimulationConfigurationFactory {
 	 * * this method writes the configurationFile that is one of the inputs of
 	 * the SOR CDM model
 	 * 
-	 * @param parameters :
-	 *            the object containing the modelparameters
+	 * @param parameters
+	 *            : the object containing the modelparameters
 	 * @throws TransformerException
 	 * @throws ParserConfigurationException
 	 * @throws CDMConfigurationException
@@ -613,14 +509,12 @@ public class SimulationConfigurationFactory {
 
 		String fileName = charFileName;
 
-		File charConfigXMLfile = new File(fileName);
-
+		
 		Document document = newDocument(fileName);
-		String fillValue = null;
+		
 		Element rootElement = document.createElement("characteristics");
 		int firstDiseaseNo = 4;
-		String name = null;
-		String type = null;
+		
 
 		/* write age info */
 		Element charElement = document.createElement("ch");
@@ -646,7 +540,7 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(charElement, "id", "3");
 		// TODO inlezen en wegschrijven naar van risk factor
 		writeFinalElementToDom(charElement, "lb", "risk factor");
-		writeFinalElementToDom(charElement, "type", "categorical");
+		
 
 		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3)
 			writeFinalElementToDom(charElement, "type", "categorical");
@@ -673,65 +567,29 @@ public class SimulationConfigurationFactory {
 		}
 
 		int index = firstDiseaseNo;
-		for (int c = 0; c < parameters.getNCluster(); c++) {
-			DiseaseClusterStructure structure = parameters
-					.getClusterStructure()[c];
-			if (structure.getNinCluster() == 1) {
+		
 				charElement = document.createElement("ch");
 				rootElement.appendChild(charElement);
 
 				writeFinalElementToDom(charElement, "id", ((Integer) index)
 						.toString());
-				name = structure.getDiseaseName().get(0);
-				writeFinalElementToDom(charElement, "lb", "disease: " + name);
+				
+				writeFinalElementToDom(charElement, "lb", "healthState");
 				writeFinalElementToDom(charElement, "type",
-						"numericalcontinuous");
-				index++;
-
-			} // end of single diseases
-			else if (structure.withCuredFraction)
-				for (int d = 0; d < 2; d++) {
-					charElement = document.createElement("ch");
-					rootElement.appendChild(charElement);
-					writeFinalElementToDom(charElement, "id", ((Integer) index)
-							.toString());
-					name = structure.getDiseaseName().get(d);
-					writeFinalElementToDom(charElement, "lb", "disease: "
-							+ name);
-					writeFinalElementToDom(charElement, "type",
-							"numericalcontinuous");
-
-					index++;
-
+						"compound");
+				int numberOfElements=1;
+				
+				for (int c=0;c<parameters.getNCluster();c++){
+					DiseaseClusterStructure structure = parameters.getClusterStructure()[c];
+					if (structure.getNinCluster()==1) numberOfElements++;
+					else if (structure.isWithCuredFraction()) numberOfElements+=2;
+					else numberOfElements+=Math.pow(2,structure.getNinCluster())-1;
 				}
-			else
-				for (int d = 1; d < Math.pow(2, structure.getNinCluster()); d++) {
-					charElement = document.createElement("ch");
-					rootElement.appendChild(charElement);
-					writeFinalElementToDom(charElement, "id", ((Integer) index)
-							.toString());
-					String namePart1 = structure.getClusterName();
-					String namePart2 = Integer.toBinaryString(d);
-					int zerosToAdd = structure.getNinCluster()
-							- namePart2.length();
-					for (int i = 0; i < zerosToAdd; i++)
-						namePart2 = "0" + namePart2;
-					writeFinalElementToDom(charElement, "lb", namePart1 + "_"
-							+ namePart2);
-					writeFinalElementToDom(charElement, "type",
-							"numericalcontinuous");
-
-					index++;
-				}
-		}
-		/* finally write the info for survival */
-		charElement = document.createElement("ch");
-		rootElement.appendChild(charElement);
-
-		writeFinalElementToDom(charElement, "id", ((Integer) index).toString());
-		writeFinalElementToDom(charElement, "lb", "survival");
-		writeFinalElementToDom(charElement, "type", "numericalcontinuous");
-
+				writeFinalElementToDom(charElement, "numberofelements", ((Integer)numberOfElements).toString());
+				
+							
+		
+		
 		/* write to document */
 
 		document.appendChild(rootElement);
@@ -742,14 +600,14 @@ public class SimulationConfigurationFactory {
 	/**
 	 * this method write the lowest node element to the dom document
 	 * 
-	 * @param document :
-	 *            document to which the element should be attached
-	 * @param parent :
-	 *            parent node
-	 * @param tag :
-	 *            tag of the element
-	 * @param content :
-	 *            content of the element
+	 * @param document
+	 *            : document to which the element should be attached
+	 * @param parent
+	 *            : parent node
+	 * @param tag
+	 *            : tag of the element
+	 * @param content
+	 *            : content of the element
 	 */
 	private void writeFinalElementToDom(Element parent, String tag,
 			String content) {
@@ -762,8 +620,7 @@ public class SimulationConfigurationFactory {
 
 	private void writeOneDimArray(float[][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws CDMConfigurationException {
-		File charConfigXMLfile = new File(fileName);
-
+		
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
 		if (dim2 != 2 || dim1 != 96)
@@ -771,7 +628,7 @@ public class SimulationConfigurationFactory {
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
-		
+
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++) {
 				Element element = document.createElement(tag);
@@ -791,7 +648,8 @@ public class SimulationConfigurationFactory {
 	 * dimensional array for which the third dimension is equal to d
 	 * 
 	 * @param inArray
-	 * @param d: number of the third dimension to be extracted
+	 * @param d
+	 *            : number of the third dimension to be extracted
 	 * @return
 	 */
 
@@ -814,8 +672,8 @@ public class SimulationConfigurationFactory {
 	 * dimensional array for which the <b> third </b> dimension is equal to c
 	 * 
 	 * @param inArray
-	 * @param c:
-	 *            number of the third dimension to be extracted
+	 * @param c
+	 *            : number of the third dimension to be extracted
 	 * @return
 	 */
 	private float[][][][] extractFromThreeDimArray(float[][][][][] inArray,
@@ -823,9 +681,15 @@ public class SimulationConfigurationFactory {
 		int dim1 = inArray.length;
 		int dim2 = inArray[0].length;
 		int dim3 = inArray[0][0].length;
-		if (dim3<c) {log.fatal("disease on disease relative risk matrix for cluster "+c+ " does not exist but" +
-				"the program tries to write it ") ;throw new RuntimeErrorException(null, "disease on disease relative risk matrix for cluster "+c+ " does not exist but" +
-				"the program tries to write it ");}
+		if (dim3 < c) {
+			log.fatal("disease on disease relative risk matrix for cluster "
+					+ c + " does not exist but"
+					+ "the program tries to write it ");
+			throw new RuntimeErrorException(null,
+					"disease on disease relative risk matrix for cluster " + c
+							+ " does not exist but"
+							+ "the program tries to write it ");
+		}
 		int dim4 = inArray[0][0][c].length;
 		int dim5 = inArray[0][0][c][0].length;
 		if (dim2 != 2 || dim1 != 96)
@@ -849,8 +713,8 @@ public class SimulationConfigurationFactory {
 	 * dimensional array for which the <b> third </b> dimension is equal to c
 	 * 
 	 * @param inArray
-	 * @param d:
-	 *            number of the third dimension to be extracted
+	 * @param d
+	 *            : number of the third dimension to be extracted
 	 * @return
 	 */
 	private float[][][] extractFromTwoDimArray(float[][][][] inArray, int d) {
@@ -871,7 +735,7 @@ public class SimulationConfigurationFactory {
 
 	private void writeTwoDimArray(float[][][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws CDMConfigurationException {
-		File charConfigXMLfile = new File(fileName);
+	
 		int dim3 = arrayToWrite[0][0].length;
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
@@ -880,7 +744,7 @@ public class SimulationConfigurationFactory {
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
-		
+
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++)
 				for (int c = 0; c < dim3; c++) {
@@ -904,7 +768,7 @@ public class SimulationConfigurationFactory {
 	private void writeThreeDimArray(float[][][][] arrayToWrite,
 			String globalTag, String tag, String fileName)
 			throws CDMConfigurationException {
-		File charConfigXMLfile = new File(fileName);
+		
 
 		int dim1 = arrayToWrite.length;
 		int dim2 = arrayToWrite[0].length;
@@ -916,7 +780,7 @@ public class SimulationConfigurationFactory {
 		Document document = newDocument(fileName);
 
 		Element rootElement = document.createElement(globalTag);
-		
+
 		for (int a = 0; a < dim1; a++)
 			for (int g = 0; g < dim2; g++)
 				for (int c = 0; c < dim3; c++)
