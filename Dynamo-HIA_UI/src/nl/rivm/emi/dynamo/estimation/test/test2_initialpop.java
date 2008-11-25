@@ -43,7 +43,7 @@ public void test() {
 		testdata.makeTest1Data();
 		E1.estimateModelParameters(100,testdata);
 		InitialPopulationFactory E2=new InitialPopulationFactory();
-		E2.writeSimulationSteeringFiles(E1,10,"simname", 111,"pop","sim", "char");
+		E2.manufactureInitialPopulation(E1,"simname",10, 111,true);
 		// test weighted regression
 
 		
