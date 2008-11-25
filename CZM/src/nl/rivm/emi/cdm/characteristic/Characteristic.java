@@ -35,6 +35,13 @@ public class Characteristic {
  * in XML configurationfiles.
  */
 	public static final String xmlElementName = "ch";
+	
+	/* toegevoegd door Hendriek */
+	/**
+	 * Number of elementes in this characteristics (used for compound types)</code> 
+	 * in XML configurationfiles.
+	 */
+		public int numberOfElements = -1;
 
 /**
  * Default constructor, initializing nothing.
@@ -187,4 +194,24 @@ public class Characteristic {
 		resultBuffer.append(type.humanReadableReport());
 		return resultBuffer.toString();
 	}
+	/* toegevoegd door Hendriek */
+	/**
+	 * @return: number of elements in the (compound) characteristic
+	 */
+public int getNumberOfElements() {
+		
+		// TODO Auto-generated method stub
+		return numberOfElements;
+	}
+
+/* toegevoegd door Hendriek */
+
+/**
+ * Setter initializing the number of elements in a compound characteristic
+ * @param value The index of the disease in the 
+ * collection of risk-factors.
+ */
+public void setNumberOfElements(int value) {
+	this.numberOfElements = value;
+}
 }
