@@ -29,5 +29,8 @@ public class CharacteristicTypesContainer extends HashMap<String, Class> {
 				IntegerCategoricalCharacteristicType.class);
 		put(NumericalContinuousCharacteristicType.myTypeLabel,
 				NumericalContinuousCharacteristicType.class);
+		/* added by Hendriek */
+		put(CompoundCharacteristicType.myTypeLabel,
+				CompoundCharacteristicType.class);
 	}
 }

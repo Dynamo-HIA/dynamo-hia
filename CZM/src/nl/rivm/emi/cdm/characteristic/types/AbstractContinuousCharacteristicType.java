@@ -44,6 +44,11 @@ abstract public class AbstractContinuousCharacteristicType extends
 	public boolean isCategoricalType() {
 		return false;
 	}
+	/* toegevoegd door hendriek */
+	public boolean isCompoundType() {
+		return false;
+	}
+
 
 	@Override
 	abstract public String humanReadableReport();

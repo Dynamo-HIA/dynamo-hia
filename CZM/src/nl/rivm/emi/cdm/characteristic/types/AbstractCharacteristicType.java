@@ -25,6 +25,10 @@ abstract public class AbstractCharacteristicType {
 	abstract public boolean isValueValid(Object value);
 
 	abstract public boolean isCategoricalType();
+	
+	
+	/* toegevoegd by hendriek */
+	abstract public boolean isCompoundType();
 
 	abstract public String humanReadableReport();
 }
