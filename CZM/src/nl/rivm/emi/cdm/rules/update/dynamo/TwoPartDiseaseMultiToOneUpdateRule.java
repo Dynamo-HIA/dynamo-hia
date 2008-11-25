@@ -8,6 +8,7 @@ import Jama.Matrix;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -136,7 +137,7 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 						incidence = baselineIncidence[ageValue][sexValue]
 								* relRiskCategorical[ageValue][sexValue][riskFactorValue];
 				}
-/* TODO Repair the errors in the commented out region.
+
 				// finci = ((p0 * em - i) * exp((i - em) * time) + i * (1 - p0))
 				// / ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0))
 				// Cured part of disease:
@@ -168,7 +169,7 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 					        itot)* itot (pcured - ptot) - Math.exp(
 					        a )*(icured - itot) *(-1 + ptot) -Math.exp(
 					        a + itot)* (icured + itot *pcured - icured *ptot)));
-	*/			
+				
 				
 			}
 
