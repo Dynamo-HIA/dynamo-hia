@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
+import nl.rivm.emi.cdm.characteristic.types.AbstractCompoundCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.AbstractContinuousCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.CharacteristicTypesContainer;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -48,7 +49,13 @@ public class CharacteristicFromXMLFactory {
 	 * that contains a value for the <Code>Characteristic</code>.
 	 */
 	public static final String valueLabel = "vl";
-
+	/**
+	 * <code>String</code> containing the element in the configuration file
+	 * that contains the limits of the <Code>Characteristic</code>.
+	 */
+	
+	/* added by Hendriek */
+	public static final String numberOfElementsLabel = "numberofelements";
 	/**
 	 * <code>String</code> containing the element in the configuration file
 	 * that contains the limits of the <Code>Characteristic</code>.
@@ -110,11 +117,39 @@ public class CharacteristicFromXMLFactory {
 			fillPossibleValues(characteristicConfiguration,
 					(AbstractCategoricalCharacteristicType) type);
 		} else {
+			/* added by Hendriek */	
+			if (type.isCompoundType()) {try{
+				int numberOfElements = characteristicConfiguration.getInt(numberOfElementsLabel);
+					characteristic.setNumberOfElements(numberOfElements);
+			} catch (NoSuchElementException e) {
+				throw new ConfigurationException(
+						CDMConfigurationException.noCharacteristicLabelMessage);
+			}
+				/* fillLimits is not yet implemented for this type */
+				fillLimits(characteristicConfiguration,
+						(AbstractCompoundCharacteristicType) type);
+			}
+			else{
 			fillLimits(characteristicConfiguration,
 					(AbstractContinuousCharacteristicType) type);
 		}
+		
+		}
+		
 		characteristic.setType(type);
 		return characteristic;
+	}
+
+	/**
+	 * @param characteristicConfiguration
+	 * @param type
+	 */
+	private static void fillLimits(
+			HierarchicalConfiguration characteristicConfiguration,
+			AbstractCompoundCharacteristicType type) {
+		// TODO Auto-generated method stub
+		// Not yet implemented
+		
 	}
 
 	/**

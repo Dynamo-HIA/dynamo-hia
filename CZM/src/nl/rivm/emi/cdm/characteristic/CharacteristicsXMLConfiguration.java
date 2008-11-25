@@ -34,6 +34,9 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 	static final String typeTag = "type";
 
 	static final String possibleValuesTag = "possiblevalues";
+	/* added by Hendriek for compound type*/
+	
+	static final String numberOfValuesTag = "numberofvalues";
 
 	static final String valueTag = "vl";
 
