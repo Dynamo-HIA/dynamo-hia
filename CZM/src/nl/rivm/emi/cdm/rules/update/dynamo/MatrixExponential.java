@@ -154,6 +154,9 @@ public final class MatrixExponential {
 			for (int j1 = 0; j1 < dim; j1++)
 				for (int j2 = 0; j2 < dim; j2++)
 					// Reduce modulus of diagonal sum to below 1/4
+					// maybe this can be done by bitshifting?
+					
+					
 					ATMat[j1][j2] = ATMat[j1][j2] / TwoPower[MDivisor];
 
 		// ---------------------------------------------------------------------------------------------------------------
@@ -246,6 +249,14 @@ public final class MatrixExponential {
 					ExpMatrix[j1][j2] = DumMat[j1][j2];
 		}// end loop NPower
 		return ExpMatrix;
+	}
+
+	public int getNIterations() {
+		return NExpIterations;
+	}
+
+	public void setNIterations(int expIterations) {
+		NExpIterations = expIterations;
 	}
 
 }
