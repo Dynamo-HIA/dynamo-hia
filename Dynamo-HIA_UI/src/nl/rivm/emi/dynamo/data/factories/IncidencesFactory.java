@@ -7,6 +7,7 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 import java.util.List;
 
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.objects.IncidencesObject;
@@ -79,7 +80,9 @@ public class IncidencesFactory extends AgnosticFactory {
 	public IncidencesObject manufacture(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (IncidencesObject) manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		IncidencesObject result = new IncidencesObject(producedMap);
+		return (result); 
 	}
 	public IncidencesObject manufactureDefault() throws ConfigurationException {
 		log.debug("Starting manufacture.");
@@ -92,5 +95,4 @@ public class IncidencesFactory extends AgnosticFactory {
 				.getInstance().get("value"), null));
 		return (IncidencesObject) super.manufactureDefault(leafNodeList, false);
 	}
-
 }

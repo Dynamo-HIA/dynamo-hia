@@ -7,12 +7,19 @@ package nl.rivm.emi.dynamo.data.objects;
  * @author mondeelr
  *
  */
-import org.eclipse.core.databinding.observable.IObservable;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.containers.CategoryMap;
+public class PrevalencesCategoricalObject  extends TypedHashMap<Age> implements StandardObjectMarker{
+	private static final long serialVersionUID = -3022294026093628326L;
 
-public class PrevalencesCategoricalObject extends AgeMap<SexMap<CategoryMap<IObservable>>> implements PrevalencesMarker{
-
-}
+	/**
+	 * Initialize self and copy content.
+	 * @param manufacturedMap
+	 */
+		public PrevalencesCategoricalObject(TypedHashMap<Age> manufacturedMap) {
+			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 putAll(manufacturedMap);
+		}
+		}

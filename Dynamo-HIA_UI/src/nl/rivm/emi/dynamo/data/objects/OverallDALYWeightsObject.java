@@ -4,11 +4,18 @@ package nl.rivm.emi.dynamo.data.objects;
  * The Observable contains a nonnegative Integer.
  */
 
-import org.eclipse.core.databinding.observable.IObservable;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
-
-public class OverallDALYWeightsObject extends AgeMap<SexMap<IObservable>>{
-
-}
+public class OverallDALYWeightsObject  extends TypedHashMap<Age> implements StandardObjectMarker{
+	private static final long serialVersionUID = -1973812253427654652L;
+	/**
+	 * Initialize self and copy content.
+	 * @param manufacturedMap
+	 */
+		public OverallDALYWeightsObject(TypedHashMap<Age> manufacturedMap) {
+			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 putAll(manufacturedMap);
+		}
+		}

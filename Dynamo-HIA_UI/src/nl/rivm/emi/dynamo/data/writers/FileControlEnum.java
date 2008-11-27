@@ -26,7 +26,10 @@ public enum FileControlEnum {
 	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings),
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings),
 	INCIDENCES(FileControlEnumHelp.incidencesStrings),
-	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings);
+	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings),
+	RELRISKFORRISKFACTORCONTINUOUS(FileControlEnumHelp.relRiskForRiskfactorConStrings),
+	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings),
+	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings);
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum

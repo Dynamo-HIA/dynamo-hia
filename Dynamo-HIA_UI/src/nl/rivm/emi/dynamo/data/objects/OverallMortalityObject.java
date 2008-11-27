@@ -1,15 +1,22 @@
 package nl.rivm.emi.dynamo.data.objects;
 
-import org.eclipse.core.databinding.observable.IObservable;
-
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
 /**
  * Object to contain the data entered in W12.
  * The Observable contains a nonegative Float with eight decimals.
  */
 
-public class OverallMortalityObject extends AgeMap<SexMap<IObservable>>{
-
+public class OverallMortalityObject  extends TypedHashMap<Age> implements StandardObjectMarker{
+	private static final long serialVersionUID = -1973812253427654652L;
+	/**
+	 * Initialize self and copy content.
+	 * @param manufacturedMap
+	 */
+		public OverallMortalityObject(TypedHashMap<Age> manufacturedMap) {
+			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 putAll(manufacturedMap);
+		}
 }

@@ -82,7 +82,7 @@ public class StAXAgnosticWriter {
 			Map.Entry<Integer, Object> entry = iterator.next();
 			int level = leafValueMap.size();
 			AtomicTypeBase<Number> type = fileControl.getParameterType(level);
-			String elementName = type.getElementName();
+			String elementName = type.getXMLElementName();
 			leafValueMap.put(elementName, entry.getKey());
 			if (entry.getValue() instanceof HashMap) {
 				recurseLeafData(fileControl, (HashMap<Integer, Object>) entry
@@ -114,7 +114,7 @@ public class StAXAgnosticWriter {
 		}
 		int level = leafValueMap.size();
 		String elementName = fileControl.getParameterType(level)
-				.getElementName();
+				.getXMLElementName();
 		event = eventFactory.createStartElement("", "", elementName);
 		writer.add(event);
 		event = eventFactory.createCharacters(containedValue.toString());

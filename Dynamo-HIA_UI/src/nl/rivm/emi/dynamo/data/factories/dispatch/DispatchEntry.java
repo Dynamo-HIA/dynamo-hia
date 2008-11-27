@@ -10,7 +10,7 @@ import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.PrevalencesProxy;
 import nl.rivm.emi.dynamo.data.factories.RRiskForRiskFactorFactory;
-import nl.rivm.emi.dynamo.data.factories.RRiskFromDiseaseFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorFactory;
 import nl.rivm.emi.dynamo.data.factories.SimulationFactory;
@@ -35,7 +35,7 @@ public enum DispatchEntry {
 	INCIDENCES("incidences", new IncidencesFactory_NonRecurs()),
 	EXCESSMORTALITY("excessmortality", new ExcessMortalityFactory()), // TODO Factory, Model.
 	RRISKFORRISKFACTOR("rriskforriskfactor", new RRiskForRiskFactorFactory()), // TODO Factory, Model.
-	RRISKFROMDISEASE("rriskfromdisease", new RRiskFromDiseaseFactory()), // TODO Factory, Model.
+	RRISKFROMDISEASE("rriskfromdisease", new RelRiskFromOtherDiseaseFactory()), // TODO Factory, Model.
 	DALYWEIGHTS("dalyweights", new DALYWeightsFactory()); // TODO Factory, Model.
 	
 	private final String rootNodeName;
