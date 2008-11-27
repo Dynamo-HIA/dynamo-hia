@@ -323,14 +323,20 @@ public class Simulation extends DomLevelTraverser {
 
 	private void runLongitudinal() throws CDMRunException {
 		Iterator<Individual> individualIterator = population.iterator();
+		int count = 0;
 		while (individualIterator.hasNext()) {
 			Individual individual = individualIterator.next();
-			log.debug("Longitudinal: Processing individual "
-					+ individual.getLabel());
+			if(count % 100 == 0){
+			log.warn("Longitudinal: Processing individual # "
+					+ count /* individual.getLabel()*/ + " at " + System.currentTimeMillis());
+			}
+			count++;
 			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 				processCharVals(individual);
 			}
 		}
+		log.warn("Longitudinal: Done processing "+ count + " individuals at " + System.currentTimeMillis());
+
 	}
 
 	private void runTransversal() throws CDMRunException {
@@ -362,9 +368,7 @@ public class Simulation extends DomLevelTraverser {
 						charValIterator.remove();
 					}
 				}
-
 				else
-
 				{
 					if (charValBase instanceof CompoundCharacteristicValue) {
 						CompoundCharacteristicValue charVal = (CompoundCharacteristicValue) charValBase;
@@ -379,6 +383,7 @@ public class Simulation extends DomLevelTraverser {
 
 	private boolean handleIntCharVal(IntCharacteristicValue intCharVal,
 			Individual individual) throws CDMRunException {
+		log.debug("Entering handleIntCharVal");
 		boolean keep = false;
 		int charValIndex = intCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -453,6 +458,7 @@ public class Simulation extends DomLevelTraverser {
 
 	private boolean handleFloatCharVal(FloatCharacteristicValue floatCharVal,
 			Individual individual) throws CDMRunException {
+		log.debug("Entering handleFloatCharVal");
 		boolean keep = false;
 		int charValIndex = floatCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -529,6 +535,7 @@ public class Simulation extends DomLevelTraverser {
 	private boolean handleCompoundCharVal(
 			CompoundCharacteristicValue diseaseCharVal, Individual individual)
 			throws CDMRunException {
+		log.debug("Entering handleCompoundCharVal");
 		boolean keep = false;
 		int charValIndex = diseaseCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -561,6 +568,7 @@ public class Simulation extends DomLevelTraverser {
 					 * " to " + newValue); keep = true; } else {
 					 */
 					if (updateRule instanceof ManyToManyUpdateRuleBase) {
+						log.debug("Entering ManyToManyUpdateRule" + System.currentTimeMillis());
 						Object[] charVals = new Object[individual.size()];
 						for (int count = 0; count < charVals.length; count++) {
 							CharacteristicValueBase charValBase = individual
@@ -589,6 +597,7 @@ public class Simulation extends DomLevelTraverser {
 							throw new CDMRunException(
 									"ManyToMany update rule produced a null result, aborting.");
 						}
+						log.debug("Exiting ManyToManyUpdateRule " + System.currentTimeMillis());
 					} else
 						throw new CDMRunException(
 								"Update rule not in updateRuleBase or not defined for this type of"

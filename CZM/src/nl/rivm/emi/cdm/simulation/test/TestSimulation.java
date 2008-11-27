@@ -15,6 +15,7 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
@@ -50,6 +51,12 @@ public class TestSimulation {
 		@Override
 		public int update(int currentValue) {
 			return currentValue + 1;
+		}
+
+		@Override
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 

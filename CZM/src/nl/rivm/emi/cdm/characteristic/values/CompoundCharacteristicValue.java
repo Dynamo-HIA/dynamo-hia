@@ -7,9 +7,6 @@ package nl.rivm.emi.cdm.characteristic.values;
  * @author Hendriek
  *
  */
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 
@@ -64,8 +61,6 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	public float[] getValue() {
 		return rijtje[0];
 	}
-	
-	
 
 	public Float[] getValue(int step) {
 	Float[]	returnArray= new Float[rijtje[step].length];
@@ -108,12 +103,9 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 
 	public Float[] getCurrentValue() throws CDMRunException {
 		if (numberFilled > 0) {
-			
-			
 			Float[]	returnArray= new Float[rijtje[numberFilled - 1].length];
 	        for (int i=0;i<rijtje[numberFilled - 1].length;i++) returnArray[i]=rijtje[numberFilled - 1][i];
 			return returnArray;
-			
 		} else {
 			log.warn("Steps are empty!");
 			throw new CDMRunException(
@@ -130,10 +122,7 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	 */
 	public float[] getCurrentWrapperlessValue() throws CDMRunException {
 		if (numberFilled > 0) {
-			
-			
 			return rijtje[numberFilled - 1];
-			
 		} else {
 			log.warn("Steps are empty!");
 			throw new CDMRunException(
@@ -158,28 +147,4 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 		
 		return rijtje[numberFilled-1][nElementFilled-1];
 	}
-
-	
-	
-/* this seems obsolete (could not find any references to it, so no version made for this new class 
- * 
- */
-	/*
-	public boolean appendDiseaseValue(String stringValue) throws CDMRunException {
-		String floatRegex = "^\\d++\\.?\\d*$";
-		Pattern pattern = Pattern.compile(floatRegex);
-		Matcher matcher = pattern.matcher(stringValue);
-		boolean success = matcher.matches();
-		try {
-			if (success) {
-				float numberToSet = Float.parseFloat(stringValue);
-				appendValue(numberToSet);
-			}
-			return success;
-			// The Regex should prevent this from happening.
-		} catch (NumberFormatException e) {
-			success = false;
-			return success;
-		}
-	} */
 }
