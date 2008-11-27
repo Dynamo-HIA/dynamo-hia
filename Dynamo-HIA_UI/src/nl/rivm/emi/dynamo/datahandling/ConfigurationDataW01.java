@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.datahandling;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
-import nl.rivm.emi.dynamo.estimation.InconsistentDataException;
 import nl.rivm.emi.dynamo.estimation.InputData;
 
 import org.apache.commons.configuration.ConfigurationException;
