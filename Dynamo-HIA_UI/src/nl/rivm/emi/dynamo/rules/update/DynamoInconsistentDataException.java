@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.exceptions;
+package nl.rivm.emi.dynamo.rules.update;
 
 
 /**
