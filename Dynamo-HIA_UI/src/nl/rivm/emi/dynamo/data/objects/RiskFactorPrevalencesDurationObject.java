@@ -4,14 +4,14 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
-public class RelRiskForDeathCategoricalObject extends TypedHashMap<Age> implements StandardObjectMarker{
-	private static final long serialVersionUID = 2491255194115037128L;
+public class RiskFactorPrevalencesDurationObject  extends TypedHashMap<Age> implements StandardObjectMarker{
+	private static final long serialVersionUID = 8666339552453771280L;
 
 	/**
 	 * Initialize self and copy content.
 	 * @param manufacturedMap
 	 */
-		public RelRiskForDeathCategoricalObject(TypedHashMap<Age> manufacturedMap) {
+		public RiskFactorPrevalencesDurationObject(TypedHashMap<Age> manufacturedMap) {
 			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
 			 putAll(manufacturedMap);
 		}

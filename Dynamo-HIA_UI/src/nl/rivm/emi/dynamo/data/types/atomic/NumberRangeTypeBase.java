@@ -1,8 +1,16 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
-
+/**
+ * Base Class for types that have a range in which they are valid.
+ * 
+ * 20081127 Removed final from MAX_VALUE for flexible use.
+ * 
+ * @author mondeelr
+ *
+ * @param <T>
+ */
 public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 	final protected T MIN_VALUE;
-	final protected T MAX_VALUE;
+	protected T MAX_VALUE;
 
 	protected NumberRangeTypeBase(String elementName, T minValue, T maxValue){
 		super(elementName, minValue);
@@ -23,5 +31,6 @@ public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 	public T getMAX_VALUE() {
 		return MAX_VALUE;
 	}
+
 
 }

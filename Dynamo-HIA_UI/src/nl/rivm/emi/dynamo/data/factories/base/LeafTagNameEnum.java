@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorFactory;
 import nl.rivm.emi.dynamo.data.factories.SimulationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
+import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory_Obsolete;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
 
 public enum LeafTagNameEnum {
@@ -25,7 +25,7 @@ public enum LeafTagNameEnum {
 	NEWBORNS("newborns", new NewBornsFactory()), // TODO Factory, Model.
 	OVERALLDALYWEIGHTS("overalldalyweights", new OverallDALYWeightsFactory()), // TODO Factory, Model.
 	RISKFACTOR("riskfactor", new RiskFactorFactory()), // TODO Factory, Model.
-	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory()), // TODO Factory, Model.
+	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory_Obsolete()), // TODO Factory, Model.
 	TRANSITIONDRIFT("transitiondrift", new TransitionDriftFactory()), // TODO Factory, Model.
 	PREVALENCES("prevalences", new PrevalencesProxy()), // TODO Factory, Model.
 	RELRISKFORDEATH("relriskfordeath", new RelRiskForDeathFactory()), // TODO Factory, Model.

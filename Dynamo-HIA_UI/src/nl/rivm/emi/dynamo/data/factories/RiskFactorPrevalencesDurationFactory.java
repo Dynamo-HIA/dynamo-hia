@@ -8,6 +8,7 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.OverallDALYWeightsObject;
 import nl.rivm.emi.dynamo.data.objects.PrevalencesCategoricalObject;
+import nl.rivm.emi.dynamo.data.objects.RiskFactorPrevalencesDurationObject;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
@@ -18,21 +19,21 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PrevalencesCategoricalFactory extends AgnosticFactory {
+public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public PrevalencesCategoricalObject manufactureObservable(
+	public RiskFactorPrevalencesDurationObject manufactureObservable(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (PrevalencesCategoricalObject) manufacture(configurationFile,
+		return (RiskFactorPrevalencesDurationObject) manufacture(configurationFile,
 				true);
 	}
 
-	public PrevalencesCategoricalObject manufacture(File configurationFile)
+	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
+		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
 				producedMap);
 		return (result);
 	}

@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -12,18 +11,19 @@ import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
-import nl.rivm.emi.dynamo.data.objects.RelRiskFromOtherDiseaseObject;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
+import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
@@ -236,9 +236,258 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@Test
+	public void testTransitionMatrix() {
+		String rootElementName = FileControlEnum.TRANSITIONMATRIX.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+  rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			TransitionMatrixFactory theFactory = new TransitionMatrixFactory();
+			int numCategories = 6;
+			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get( rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get( rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void testCategoricalRiskFactorPrevalences() {
+		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESCATEGORICAL.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+  rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			PrevalencesCategoricalFactory theFactory = new PrevalencesCategoricalFactory();
+			int numCategories = 6;
+			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get( rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get( rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void testDurationRiskFactorPrevalences() {
+		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESDURATION.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+  rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			RiskFactorPrevalencesDurationFactory theFactory = new RiskFactorPrevalencesDurationFactory();
+			int numDurations = 20;
+			Object defaultResult = theFactory.manufactureDefault(numDurations);
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get( rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get( rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void testRelRiskForDeathCategorical() {
+		String rootElementName = FileControlEnum.RELRISKFORDEATHCATEGORICAL.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+  rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			RelRiskForDeathCategoricalFactory theFactory = new RelRiskForDeathCategoricalFactory();
+			int numCategories = 6;
+			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get( rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get( rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void testRelRiskForDeathContinuous() {
+		String rootElementName = FileControlEnum.RELRISKFORDEATHCONTINUOUS.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+ rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			RelRiskForDeathContinuousFactory theFactory = new RelRiskForDeathContinuousFactory();
+			Object defaultResult = theFactory.manufactureDefault();
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get(rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get(rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
 	// This test must not finish normally because of a comma in a value field.
 	@Test
-	public void testOriginalPrevalence() {
+	public void testOriginalDiseasePrevalences() {
 		String configurationFilePath
 
 		= "data" + File.separator + "Mehdi" + File.separator
@@ -273,7 +522,7 @@ public class TestAgnosticFactoryPlusChildren {
 	}
 
 	@Test
-	public void testCorrectedPrevalence() {
+	public void testDiseasePrevalences() {
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Disease prevalence_corrected.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -346,6 +595,57 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNull(e); // Force error.
 		}
 	}
+	
+	@Test
+	public void testRelRiskForRiskFactorCategorical() {
+		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCATEGORICAL.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + rootElementName +"_default.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator
+				+  rootElementName +"_read_written.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			// Create XML-file with defaults and write it to disk.
+			RelRiskForRiskFactorCategoricalFactory theFactory = new RelRiskForRiskFactorCategoricalFactory();
+			int numCategories = 6;
+			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			try {
+				FileControlSingleton instance = FileControlSingleton
+						.getInstance();
+				FileControlEnum myEnum = instance.get( rootElementName);
+				StAXAgnosticWriter.produceFile(myEnum,
+						(HashMap<Integer, Object>) defaultResult,
+						configurationFile);
+				// Read defaults file and write it out again.
+				Object result = theFactory.manufacture(configurationFile);
+				assertNotNull(result);
+				StAXAgnosticWriter.produceFile((FileControlSingleton
+						.getInstance()).get( rootElementName),
+						(HashMap<Integer, Object>) result, outputFile);
+				// assertEquals( 0, outputFile.compareTo(configurationFile));
+			} catch (XMLStreamException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		}
+	}
+
 
 	@Test
 	public void testRelRiskForRiskFactorContinuous() {

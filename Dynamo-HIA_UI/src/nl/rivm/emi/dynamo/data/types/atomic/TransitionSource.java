@@ -2,11 +2,11 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 /*
  * Nonnegative Integer without fixed upper limit.
  */
-public class Category extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
-	static final protected String XMLElementName = "cat";
+public class TransitionSource extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
+	static final protected String XMLElementName = "from";
 
-	public Category(){
-		super("cat" , new Integer(1), new Integer(Integer.MAX_VALUE));
+	public TransitionSource(){
+		super(XMLElementName , new Integer(1), new Integer(Integer.MAX_VALUE));
 	}
 		
 	public boolean inRange(Integer testValue) {
