@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.factories;
+package nl.rivm.emi.dynamo.data.factories.notinuse;
 
 /**
  * Factory to create the categorical, continuous and duration variations.
@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 import java.util.HashMap;
 
+import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.base.Factory;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
 import nl.rivm.emi.dynamo.data.factories.base.IZeroesObjectFactory;

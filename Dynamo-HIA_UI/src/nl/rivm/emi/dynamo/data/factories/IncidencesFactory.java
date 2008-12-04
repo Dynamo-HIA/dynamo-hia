@@ -5,26 +5,17 @@ package nl.rivm.emi.dynamo.data.factories;
  * 20080918 Agestep fixed at 1. Ages are Integers. 
  */
 import java.io.File;
-import java.util.List;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.objects.IncidencesObject;
-import nl.rivm.emi.dynamo.data.objects.ObservableIncidencesObject;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.IObservable;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class IncidencesFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());

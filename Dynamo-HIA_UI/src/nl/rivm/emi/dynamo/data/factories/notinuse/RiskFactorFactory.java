@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.factories;
+package nl.rivm.emi.dynamo.data.factories.notinuse;
 
 /**
  *  
