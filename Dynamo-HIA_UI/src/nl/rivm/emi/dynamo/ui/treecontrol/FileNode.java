@@ -8,10 +8,10 @@ public class FileNode extends BaseNode implements ChildNode {
 
 	public FileNode(ParentNode parent, File correspondingPhysicalStorage)
 			throws StorageTreeException {
+		super(correspondingPhysicalStorage);
 		log.info("Instantiating FileNode, parent " + parent
 				+ " physical storage " + correspondingPhysicalStorage);
 		this.parent = parent;
-		physicalStorage = correspondingPhysicalStorage;
 	}
 
 	public void report() {

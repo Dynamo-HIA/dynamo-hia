@@ -2,6 +2,9 @@ package nl.rivm.emi.dynamo.ui.treecontrol;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 
@@ -11,10 +14,11 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 
 	public DirectoryNode(ParentNode parentNode,
 			File correspondingPhysicalStorage) throws StorageTreeException {
+		super(correspondingPhysicalStorage);
 		log.info("Instantiating DirectoryNode, parent " + parentNode
 				+ " physical storage " + correspondingPhysicalStorage);
 		this.parent = parentNode;
-		physicalStorage = correspondingPhysicalStorage;
+		StandardDirectoryStructureHandler.process(this);
 		populateChildren();
 	}
 
@@ -65,4 +69,6 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 	public ParentNode getParent() {
 		return parent;
 	}
+	
+
 }

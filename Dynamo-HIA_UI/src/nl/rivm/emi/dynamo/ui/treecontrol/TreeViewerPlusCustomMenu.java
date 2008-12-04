@@ -24,6 +24,7 @@ import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -34,6 +35,7 @@ public class TreeViewerPlusCustomMenu {
 		final TreeViewer treeViewer = new TreeViewer(shell);
 		treeViewer.setLabelProvider(new LabelProvider());
 		treeViewer.setContentProvider(contentProvider);
+		treeViewer.setSorter(new ViewerSorter());
 		treeViewer.setInput(contentProvider.rootNode);
 		final MenuManager mgr = new MenuManager();
 		mgr.setRemoveAllWhenShown(true);

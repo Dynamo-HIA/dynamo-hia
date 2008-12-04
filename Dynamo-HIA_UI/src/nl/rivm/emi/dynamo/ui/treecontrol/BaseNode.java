@@ -11,6 +11,11 @@ public class BaseNode {
 
 	File physicalStorage = null;
 
+	public BaseNode(File physicalStorage) {
+		super();
+		this.physicalStorage = physicalStorage;
+	}
+
 	public File getPhysicalStorage() {
 		return physicalStorage;
 	}
@@ -28,7 +33,7 @@ public class BaseNode {
 			String inLevelPath = absolutePath.substring(startOfLevelPart, indexOfDotXML!=-1?indexOfDotXML:absolutePath.length());
 			return inLevelPath;
 		} else {
-			return "nullll";
+			return "null";
 		}
 	}
 }

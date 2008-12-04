@@ -1,5 +1,8 @@
 package nl.rivm.emi.dynamo.ui.treecontrol;
-
+/**
+ * The RootNode does not correspond to a physical directory. 
+ * It's only child is the base directory of the Dynamo-HIA configuration.
+ */
 import java.util.ArrayList;
 
 public class RootNode extends BaseNode implements ParentNode {
@@ -7,15 +10,19 @@ public class RootNode extends BaseNode implements ParentNode {
 	ArrayList<ChildNode> children = new ArrayList<ChildNode>();
 
 	/**
-	 * Constructor for rootnode only.
+	 * Constructor for RootNode only.
 	 * 
 	 * @param rootChild
 	 * @throws StorageTreeException
 	 */
 	public RootNode() throws StorageTreeException {
+		super(null);
 		log.info("Instantiating StorageTree-Root-Node.");
 	}
 
+	/**
+	 * For debugging.
+	 */
 	public void report() {
 		if (children != null) {
 			for (ChildNode child : children) {
@@ -49,8 +56,8 @@ public class RootNode extends BaseNode implements ParentNode {
 		return children.toArray();
 	}
 
-	/** A RootNode must have exactly one child, the basedirectory.
-	 * 
+	/** 
+	 * A RootNode must have exactly one child, the basedirectory.
 	 */ 
 	public int populateChildren() throws StorageTreeException {
 	if(children.size() == 1){
