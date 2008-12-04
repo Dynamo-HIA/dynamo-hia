@@ -1,33 +1,24 @@
 package nl.rivm.emi.dynamo.data.factories.dispatch;
 
+import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
-import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.NewBornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.RRiskForRiskFactorFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathFactory;
-import nl.rivm.emi.dynamo.data.factories.SimulationFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory_Obsolete;
-import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
+import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.factories.notinuse.IncidencesFactory_NonRecurs;
 import nl.rivm.emi.dynamo.data.factories.notinuse.PrevalencesProxy;
 import nl.rivm.emi.dynamo.data.factories.notinuse.RiskFactorFactory;
-import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
-import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
 
 public enum DispatchEntry {
 	SIMULATION("simulation", new SimulationFactory()), // TODO Factory, Model.
-	POPULATIONSIZE("populationsize", new PopulationSizeFactory()), // TODO Factory, Model.
-	OVERALLMORTALITY("overallmortality", new OverallMortalityFactory()), // TODO Factory, Model.
+	POPULATIONSIZE("populationsize", new PopulationSizeFactory()), // TODO Model.
+	OVERALLMORTALITY("overallmortality", new OverallMortalityFactory()), // TODO Model.
 	NEWBORNS("newborns", new NewBornsFactory()), // TODO Factory, Model.
-	OVERALLDALYWEIGHTS("overalldalyweights", new OverallDALYWeightsFactory()), // TODO Factory, Model.
+	OVERALLDALYWEIGHTS("overalldalyweights", new OverallDALYWeightsFactory()), // TODO Model.
 	RISKFACTOR("riskfactor", new RiskFactorFactory()), // TODO Factory, Model.
-	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory_Obsolete()), // TODO Factory, Model.
+	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory()), // TODO Model.
 	TRANSITIONDRIFT("transitiondrift", new TransitionDriftFactory()), // TODO Factory, Model.
 	PREVALENCES("prevalences", new PrevalencesProxy()), // TODO Factory, Model.
 	RELRISKFORDEATH("relriskfordeath", new RelRiskForDeathFactory()), // TODO Factory, Model.
@@ -35,13 +26,13 @@ public enum DispatchEntry {
 	INCIDENCES("incidences", new IncidencesFactory_NonRecurs()),
 	EXCESSMORTALITY("excessmortality", new ExcessMortalityFactory()), // TODO Factory, Model.
 	RRISKFORRISKFACTOR("rriskforriskfactor", new RRiskForRiskFactorFactory()), // TODO Factory, Model.
-	RRISKFROMDISEASE("rriskfromdisease", new RelRiskFromOtherDiseaseFactory()), // TODO Factory, Model.
-	DALYWEIGHTS("dalyweights", new DALYWeightsFactory()); // TODO Factory, Model.
+	RRISKFROMDISEASE("rriskfromdisease", new RelRiskFromOtherDiseaseFactory()), // TODO Model.
+	DALYWEIGHTS("dalyweights", new DALYWeightsFactory()); // TODO Model.
 	
 	private final String rootNodeName;
-	private final IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> theFactory;
+	private final AgnosticFactory  theFactory;
 
-	private DispatchEntry(String rootNodeName, IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> theFactory) {
+	private DispatchEntry(String rootNodeName, AgnosticFactory theFactory) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
 	}
@@ -50,7 +41,7 @@ public enum DispatchEntry {
 		return rootNodeName;
 	}
 
-	public IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> getTheFactory() {
+	public AgnosticFactory  getTheFactory() {
 		return theFactory;
 	}
 }
