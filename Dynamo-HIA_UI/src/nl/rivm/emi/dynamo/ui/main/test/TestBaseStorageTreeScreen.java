@@ -23,16 +23,18 @@ public class TestBaseStorageTreeScreen {
 	@Before
 	public void setup() {
 		display = new Display();
-log.debug("setup() complete.");
+		log.debug("setup() complete.");
 	}
 
 	@After
 	public void teardown() {
 		log.debug("teardown() starts.");
-		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
+		if (shell != null) {
+			shell.open();
+			while (!shell.isDisposed()) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
 		}
 		display.dispose();
 		log.debug("teardown() complete.");
@@ -44,8 +46,7 @@ log.debug("setup() complete.");
 
 		try {
 			String baseDirectoryPath = System.getProperty("user.dir")
-					+ File.separator + "data" + File.separator
-					+ "dynamobase";
+					+ File.separator + "data" + File.separator + "dynamobase";
 			BaseStorageTreeScreen application = new BaseStorageTreeScreen(
 					baseDirectoryPath);
 			shell = application.open(display);
@@ -55,6 +56,7 @@ log.debug("setup() complete.");
 			log.debug("test caused an Exception.");
 			log.fatal("Exception caught: " + e.getClass().getName()
 					+ " with message: " + e.getMessage());
+			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (Throwable t) {
 			log.debug("test caused a Throwable.");

@@ -1,6 +1,10 @@
 package nl.rivm.emi.dynamo.ui.main;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
@@ -21,6 +25,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
@@ -32,20 +37,12 @@ public class BaseStorageTreeScreen {
 	Shell shell;
 
 	Log log = LogFactory.getLog(getClass().getName());
-	File baseDirectory = null;
+	String baseDirectoryPath = null;
+
+	// File baseDirectory = null;
 
 	public BaseStorageTreeScreen(String baseDirectoryPath) throws Exception {
-		baseDirectory = new File(baseDirectoryPath);
-		if (!baseDirectory.exists()) {
-			throw new ConfigurationException("Base directory "
-					+ baseDirectory.getAbsolutePath() + " does not exist.");
-		} else {
-			if (!baseDirectory.isDirectory()) {
-				throw new ConfigurationException("Base directory "
-						+ baseDirectory.getAbsolutePath()
-						+ " is not a directory.");
-			}
-		}
+		this.baseDirectoryPath = baseDirectoryPath;
 	}
 
 	public Shell open(Display display) {
@@ -56,9 +53,9 @@ public class BaseStorageTreeScreen {
 				public void shellClosed(ShellEvent e) {
 				}
 			});
+			baseDirectoryPath = selectBaseDirectory(baseDirectoryPath);
 			createMenuBar();
-			StorageTree testTree = new StorageTree(baseDirectory
-					.getAbsolutePath());
+			StorageTree testTree = new StorageTree(baseDirectoryPath);
 			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
 					testTree.getRootNode());
 			new TreeViewerPlusCustomMenu(shell, sTCP);
@@ -68,6 +65,10 @@ public class BaseStorageTreeScreen {
 			log.error("Caught " + e.getClass().getName() + " with message "
 					+ e.getMessage());
 			e.printStackTrace();
+			return null;
+		} catch (ConfigurationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 			return null;
 		}
 	}
@@ -93,6 +94,17 @@ public class BaseStorageTreeScreen {
 		MessageBox box = new MessageBox(shell, SWT.ICON_ERROR);
 		box.setMessage(msg);
 		box.open();
+	}
+
+	private String selectBaseDirectory(String parBaseDirectoryPath)
+			throws ConfigurationException {
+		DirectoryDialog directoryDialog = new DirectoryDialog(shell);
+		if (baseDirectoryPath != null) {
+			directoryDialog.setFilterPath(parBaseDirectoryPath);
+		}
+		directoryDialog.open();
+		String newBaseDirectoryPath = directoryDialog.getFilterPath();
+		return newBaseDirectoryPath;
 	}
 
 	private void editEntry() {
@@ -194,17 +206,19 @@ public class BaseStorageTreeScreen {
 	 * menu items with their appropriate functions.
 	 * 
 	 * @param menuBar
-	 *            Menu the <code>Menu</code> that file contain the Help
-	 *            submenu.
+	 *            Menu the <code>Menu</code> that file contain the Help submenu.
 	 */
 	private void createHelpMenu(Menu menuBar) {
-
-		// Help Menu
 		MenuItem item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("Help");
 		Menu menu = new Menu(shell, SWT.DROP_DOWN);
 		item.setMenu(menu);
 
+		addAboutItem(menu);
+		// addDirectoryDialogItem(menu);
+	}
+
+	private void addAboutItem(Menu menu) {
 		// Help -> About Text Editor
 		MenuItem subItem = new MenuItem(menu, SWT.NONE);
 		subItem.setText("About");
@@ -217,5 +231,23 @@ public class BaseStorageTreeScreen {
 			}
 		});
 	}
+
+	// private void addDirectoryDialogItem(Menu menu) {
+	// MenuItem subItem = new MenuItem(menu, SWT.NONE);
+	// subItem.setText("DirectoryDialog");
+	// subItem.addSelectionListener(new SelectionAdapter() {
+	// public void widgetSelected(SelectionEvent e) {
+	// try {
+	// selectBaseDirectory();
+	// } catch (ConfigurationException e1) {
+	// MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+	// box.setText("BaseDirectory error");
+	// box.setMessage(e1.getClass().getName() + " containing " +
+	// e1.getMessage());
+	// box.open();
+	// }
+	// }
+	// });
+	// }
 
 }
