@@ -22,6 +22,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class StAXAgnosticWriter {
 	static Log log = LogFactory
@@ -58,15 +59,16 @@ public class StAXAgnosticWriter {
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
-		event = eventFactory.createStartElement("", "",
-				fileControl.getRootElementName());
+		event = eventFactory.createStartElement("", "", fileControl
+				.getRootElementName());
 		writer.add(event);
 		LinkedHashMap<String, Number> leafValueMap = new LinkedHashMap<String, Number>();
 		recurseLeafData(fileControl, hierarchicalConfiguration, leafValueMap,
 				writer, eventFactory);
-		event = eventFactory.createEndElement("", "", fileControl.getRootElementName());
+		event = eventFactory.createEndElement("", "", fileControl
+				.getRootElementName());
 		writer.add(event);
-		event=eventFactory.createEndDocument();
+		event = eventFactory.createEndDocument();
 		writer.add(event);
 	}
 
@@ -88,22 +90,44 @@ public class StAXAgnosticWriter {
 				recurseLeafData(fileControl, (HashMap<Integer, Object>) entry
 						.getValue(), leafValueMap, writer, eventFactory);
 			} else {
-				Number containedValue = (Number) entry.getValue();
-				streamEntry(fileControl, leafValueMap, containedValue, writer, eventFactory);
+				Object containedValue = entry.getValue();
+				if (containedValue instanceof Number) {
+					Number containedNumber = (Number) containedValue;
+					streamEntry(fileControl, leafValueMap, containedNumber,
+							writer, eventFactory);
+				} else {
+					if (containedValue instanceof WritableValue) {
+						Object writableValueContent = ((WritableValue) containedValue)
+								.doGetValue();
+						if (writableValueContent instanceof Number) {
+							streamEntry(fileControl, leafValueMap, (Number)writableValueContent,
+									writer, eventFactory);
+						} else {
+							log.error("Unsupported Object type: "
+											+ writableValueContent.getClass()
+													.getName());
+						}
+					} else {
+						log.error("Unsupported Object type: "
+								+ containedValue.getClass().getName());
+					}
+				}
 			}
 			leafValueMap.remove(elementName);
 		}
 	}
 
-	private static void streamEntry(FileControlEnum fileControl, LinkedHashMap<String, Number> leafValueMap,
-			Number containedValue, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException {
+	private static void streamEntry(FileControlEnum fileControl,
+			LinkedHashMap<String, Number> leafValueMap, Number containedValue,
+			XMLEventWriter writer, XMLEventFactory eventFactory)
+			throws XMLStreamException {
 		XMLEvent event;
 		event = eventFactory.createStartElement("", "",
 				fileControl.rootChildElementName);
 		writer.add(event);
-		Iterator<Map.Entry<String, Number>> iterator = leafValueMap.entrySet().iterator();
-		while(iterator.hasNext()){
+		Iterator<Map.Entry<String, Number>> iterator = leafValueMap.entrySet()
+				.iterator();
+		while (iterator.hasNext()) {
 			Map.Entry<String, Number> entry = iterator.next();
 			event = eventFactory.createStartElement("", "", entry.getKey());
 			writer.add(event);

@@ -27,11 +27,13 @@ public class PopulationSizeFactory extends AgnosticFactory{
 		return null;
 	}
 
-//	public ObservablePopulationSizeObject manufactureObservable(File configurationFile)
-//			throws ConfigurationException {
-//		log.debug("Starting manufacture.");
-//		return (ObservablePopulationSizeObject) manufacture(configurationFile, true);
-//	}
+	public PopulationSizeObject manufactureObservable(File configurationFile)
+			throws ConfigurationException {
+		log.debug("Starting manufacture.");
+		TypedHashMap<Age> producedMap =  manufacture(configurationFile, true);
+		PopulationSizeObject result = new PopulationSizeObject(producedMap);
+		return result;
+	}
 
 	public PopulationSizeObject manufacture(
 			File configurationFile) throws ConfigurationException {

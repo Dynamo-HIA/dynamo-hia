@@ -24,7 +24,9 @@ public class TransitionMatrixFactory extends AgnosticFactory {
 	public TransitionMatrixObject manufactureObservable(File configurationFile)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return new TransitionMatrixObject(manufacture(configurationFile, true));
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
+		return (result);
 	}
 
 	public TransitionMatrixObject manufacture(File configurationFile)

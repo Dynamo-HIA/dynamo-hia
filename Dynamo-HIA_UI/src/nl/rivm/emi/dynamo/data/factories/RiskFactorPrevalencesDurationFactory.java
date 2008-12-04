@@ -25,8 +25,10 @@ public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
 	public RiskFactorPrevalencesDurationObject manufactureObservable(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (RiskFactorPrevalencesDurationObject) manufacture(configurationFile,
-				true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
+				producedMap);
+		return (result);
 	}
 
 	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile)

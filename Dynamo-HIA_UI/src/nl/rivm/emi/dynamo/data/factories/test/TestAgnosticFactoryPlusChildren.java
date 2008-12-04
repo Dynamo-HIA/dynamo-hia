@@ -52,7 +52,8 @@ public class TestAgnosticFactoryPlusChildren {
 	 */
 	@Test
 	public void testPopulationSize() {
-		String configurationFilePath = "data" + File.separator + "Mehdi"
+		String rootElementName = FileControlEnum.POPULATIONSIZE.getRootElementName();
+String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Population size.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
@@ -65,7 +66,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("populationsize"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
@@ -89,6 +90,8 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testCorrectedPopulationSize() {
+		String rootElementName = FileControlEnum.POPULATIONSIZE.getRootElementName();
+
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Population size_corrected.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -102,7 +105,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("populationsize"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) { // TODO Auto-generated catch block
 				e.printStackTrace();
@@ -127,6 +130,8 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testOverallMortality() {
+		String rootElementName = FileControlEnum.OVERALLMORTALITY.getRootElementName();
+
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall mortality.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -140,7 +145,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("overallmortality"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
@@ -164,6 +169,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testCorrectedOverallMortality() {
+		String rootElementName = FileControlEnum.OVERALLMORTALITY.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall mortality_corrected.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -176,7 +182,7 @@ public class TestAgnosticFactoryPlusChildren {
 					.manufacture(configurationFile);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
-					.get("overallmortality"),
+					.get(rootElementName),
 					(HashMap<Integer, Object>) result, outputFile);
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
@@ -201,6 +207,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testOverallDALYWeights() {
+		String rootElementName = FileControlEnum.OVERALLDALYWEIGHTS.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall daly weights.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -214,7 +221,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("overalldalyweights"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
@@ -488,8 +495,8 @@ public class TestAgnosticFactoryPlusChildren {
 	// This test must not finish normally because of a comma in a value field.
 	@Test
 	public void testOriginalDiseasePrevalences() {
+		String rootElementName = FileControlEnum.PREVALENCES.getRootElementName();
 		String configurationFilePath
-
 		= "data" + File.separator + "Mehdi" + File.separator
 				+ "Disease prevalence.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -502,7 +509,7 @@ public class TestAgnosticFactoryPlusChildren {
 					.manufacture(configurationFile);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
-					.get("diseaseprevalences"),
+					.get(rootElementName),
 					(HashMap<Integer, Object>) result, outputFile);
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
@@ -523,6 +530,8 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testDiseasePrevalences() {
+		String rootElementName = FileControlEnum.PREVALENCES.getRootElementName();
+
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Disease prevalence_corrected.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -536,7 +545,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("diseaseprevalences"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
@@ -560,6 +569,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testDiseaseIncidence() {
+		String rootElementName = FileControlEnum.INCIDENCES.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Disease incidence.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -574,7 +584,7 @@ public class TestAgnosticFactoryPlusChildren {
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("incidences"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
 				// TODO Auto-generated catch block
@@ -649,6 +659,8 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testRelRiskForRiskFactorContinuous() {
+		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCONTINUOUS.getRootElementName();
+
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "relriskforriskfactorcontinuous_default.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -664,7 +676,7 @@ public class TestAgnosticFactoryPlusChildren {
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get("rrisksforriskfactor");
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -672,7 +684,7 @@ public class TestAgnosticFactoryPlusChildren {
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("rrisksforriskfactor"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
@@ -697,6 +709,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testRelRiskFromOtherDisease() {
+		String rootElementName = FileControlEnum.RELRISKFROMOTHERDISEASE.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "relriskfromdisease_default.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -711,7 +724,7 @@ public class TestAgnosticFactoryPlusChildren {
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get("rrisksfromdisease");
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -719,7 +732,7 @@ public class TestAgnosticFactoryPlusChildren {
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("rrisksfromdisease"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
@@ -744,6 +757,8 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testDALYWeights() {
+		String rootElementName = FileControlEnum.DALYWEIGHTS.getRootElementName();
+
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "dalyweights_default.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -758,7 +773,7 @@ public class TestAgnosticFactoryPlusChildren {
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get("dalyweights");
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -766,7 +781,7 @@ public class TestAgnosticFactoryPlusChildren {
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get("dalyweights"),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {

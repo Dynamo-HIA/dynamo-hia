@@ -71,10 +71,12 @@ public class IncidencesFactory extends AgnosticFactory {
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
 	 */
-	public ObservableIncidencesObject manufactureObservable(
+	public IncidencesObject manufactureObservable(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (ObservableIncidencesObject) manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		IncidencesObject result = new IncidencesObject(producedMap);
+		return (result); 
 	}
 
 	public IncidencesObject manufacture(

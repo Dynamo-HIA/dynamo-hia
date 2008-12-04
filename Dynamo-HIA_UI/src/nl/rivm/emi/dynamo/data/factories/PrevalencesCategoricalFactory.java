@@ -24,8 +24,10 @@ public class PrevalencesCategoricalFactory extends AgnosticFactory {
 	public PrevalencesCategoricalObject manufactureObservable(
 			File configurationFile) throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (PrevalencesCategoricalObject) manufacture(configurationFile,
-				true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
+				producedMap);
+		return (result);
 	}
 
 	public PrevalencesCategoricalObject manufacture(File configurationFile)

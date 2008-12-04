@@ -31,9 +31,7 @@ abstract public class AgnosticFactory {
 	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
-	 * 
-	 * @param makeObservable
-	 *            TODO
+	 * @param makeObservable TODO
 	 */
 	protected TypedHashMap manufacture(File configurationFile, boolean makeObservable)
 			throws ConfigurationException {
@@ -125,40 +123,56 @@ abstract public class AgnosticFactory {
 		log.debug("Recursing, currentLevel " + currentLevel + " value "
 				+ currentLevelValue);
 		if (currentLevel < theLastContainer - 1) {
-			TypedHashMap pathMap = (TypedHashMap) priorLevel
-					.get(currentLevelValue);
-			if (pathMap == null) {
-				pathMap = new TypedHashMap(leafNodeList.get(currentLevel + 1)
-						.getType());
-			}
-			makePath(pathMap, leafNodeList, theLastContainer, currentLevel + 1,
-					makeObservable);
-			priorLevel.put(currentLevelValue, pathMap);
+			handleContainer(priorLevel, leafNodeList, theLastContainer,
+					currentLevel, makeObservable, currentLevelValue);
 		} else {
-			Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
-					.getValue());
-			if (!makeObservable) {
-				priorLevel.put(currentLevelValue, leafValue);
-			} else {
-				if (leafValue instanceof Integer) {
-					WritableValue writableValue = new WritableValue(leafValue,
-							Integer.class);
-					priorLevel.put(currentLevelValue, writableValue);
-				} else {
-					if (leafValue instanceof Float) {
-						WritableValue writableValue = new WritableValue(
-								leafValue, Float.class);
-						priorLevel.put(currentLevelValue, writableValue);
-					} else {
-						throw new DynamoConfigurationException(
-								"Unsupported leafValueType for IObservable-s :"
-										+ leafValue.getClass().getName());
-					}
-				}
-				// TODO if()
-			}
+			handleObjectLeaf(priorLevel, leafNodeList, currentLevel,
+					makeObservable, currentLevelValue);
 		}
 		return priorLevel;
+	}
+
+	private void handleContainer(TypedHashMap priorLevel,
+			ArrayList<AtomicTypeObjectTuple> leafNodeList,
+			int theLastContainer, int currentLevel, boolean makeObservable,
+			Integer currentLevelValue) throws DynamoConfigurationException {
+		TypedHashMap pathMap = (TypedHashMap) priorLevel
+				.get(currentLevelValue);
+		if (pathMap == null) {
+			pathMap = new TypedHashMap(leafNodeList.get(currentLevel + 1)
+					.getType());
+		}
+		makePath(pathMap, leafNodeList, theLastContainer, currentLevel + 1,
+				makeObservable);
+		priorLevel.put(currentLevelValue, pathMap);
+	}
+
+	private void handleObjectLeaf(TypedHashMap priorLevel,
+			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
+			boolean makeObservable, Integer currentLevelValue)
+			throws DynamoConfigurationException {
+		Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
+				.getValue());
+		if (!makeObservable) {
+			priorLevel.put(currentLevelValue, leafValue);
+		} else {
+			if (leafValue instanceof Integer) {
+				WritableValue writableValue = new WritableValue(leafValue,
+						Integer.class);
+				priorLevel.put(currentLevelValue, writableValue);
+			} else {
+				if (leafValue instanceof Float) {
+					WritableValue writableValue = new WritableValue(
+							leafValue, Float.class);
+					priorLevel.put(currentLevelValue, writableValue);
+				} else {
+					throw new DynamoConfigurationException(
+							"Unsupported leafValueType for IObservable-s :"
+									+ leafValue.getClass().getName());
+				}
+			}
+			// TODO if()
+		}
 	}
 
 	/**

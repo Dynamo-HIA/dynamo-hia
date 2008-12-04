@@ -47,11 +47,11 @@ public class FileControlEnumHelp {
 	/* W21TdFp */
 	/* W21TdMA */
 	/* W22CatCom */
-	static final String[] riskFactorPrevalenceCatStrings = { "riskfactorprevalencescategorical",
+	static final String[] riskFactorPrevalenceCatStrings = { "riskfactorprevalences_categorical",
 			"prevalence", "age", "sex", "cat", "percent" };
 	/* W22Con */
 	/* W22ComDur */
-	static final String[] riskFactorPrevalenceDurStrings = { "riskfactorprevalencesduration",
+	static final String[] riskFactorPrevalenceDurStrings = { "riskfactorprevalences_duration",
 			"prevalence", "age", "sex", "duration", "percent" };
 	/* W23Cat */
 	static final String[] relRiskForDeathCatStrings = { "relrisksfordeath_categorical",
@@ -64,14 +64,14 @@ public class FileControlEnumHelp {
 	static final String[] diseasePrevalencesStrings = { "diseaseprevalences",
 			"prevalence", "age", "sex", "percent" };
 	/* W32 */
-	static final String[] incidencesStrings = { "incidences", "incidence",
+	static final String[] incidencesStrings = { "diseaseincidences", "incidence",
 			"age", "sex", "value" };
 	/* W33 */
 	/* W34Cat */
 	static final String[] relRiskForRiskfactorCatStrings = { "rrisksforriskfactor_categorical",
 			"relativerisk", "age", "sex", "cat", "value" };
 	/* W34Con */
-	static final String[] relRiskForRiskfactorConStrings = { "rrisksforriskfactor",
+	static final String[] relRiskForRiskfactorConStrings = { "rrisksforriskfactor_continuous",
 			"relativerisk", "age", "sex", "value" };
 	/* W34Com */
 	/* W35 */

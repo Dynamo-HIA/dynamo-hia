@@ -33,7 +33,9 @@ public class OverallMortalityFactory extends AgnosticFactory {
 	public OverallMortalityObject manufactureObservable(File configurationFile)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		return (OverallMortalityObject) manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		OverallMortalityObject result = new OverallMortalityObject(producedMap);
+		return (result); 
 	}
 
 	public OverallMortalityObject manufacture(
