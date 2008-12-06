@@ -19,9 +19,11 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
+import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
@@ -51,9 +53,11 @@ public class TestAll {
 
 	String simFileName = directoryName + "\\modelconfiguration"
 			+ "\\simulation.XML";
+	String simFileName2 = directoryName + "\\modelconfiguration"
+	+ "\\simulation_scen_1.XML";
 	/* LET OP: de factory voor initial population voegt zelf XML toe */
-	String popFileName = directoryName + "\\modelconfiguration"
-			+ "\\population";
+	/* String popFileName = directoryName + "\\modelconfiguration"
+			+ "\\population"; */
 
 	HierarchicalConfiguration simulationConfiguration;
 	Simulation sim;
@@ -64,25 +68,27 @@ public class TestAll {
 		log.fatal("Starting test. ");
 
 		System.out.println(preCharConfig);
+		ScenarioInfo scen = new ScenarioInfo();
 		try {
 			p = new ModelParameters();
 			InputData i = new InputData();
-			// i.makeTest2Data();
-			i.makeTest1Data();
+			 i.makeTest2Data();
+			//i.makeTest1Data();
 			p.estimateModelParameters(100, i);
 			log.fatal("ModelParameters estimated ");
-			p.setRiskType(1);
-
+		
+			
+			scen.makeTestData();
 			SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 					simName);
 
 			// DynamoConfigurationData d= new
 			// DynamoConfigurationData(BaseDirectory.getBaseDir());
-			s.manufactureSimulationConfigurationFile(p);
+			s.manufactureSimulationConfigurationFile(p, scen);
 			log.fatal("SimulationConfigurationFile written ");
 			s.manufactureCharacteristicsConfigurationFile(p);
 			log.fatal("CharacteristicsConfigurationFile written ");
-			s.manufactureUpdateRuleConfigurationFiles(p);
+			s.manufactureUpdateRuleConfigurationFiles(p,scen);
 			log.fatal("UpdateRuleConfigurationFile written ");
 
 		} catch (ConfigurationException e) {
@@ -110,9 +116,13 @@ public class TestAll {
 	public void runSimulation() throws CDMRunException {
 
 		try {
+			ScenarioInfo scen = new ScenarioInfo();
+			scen.makeTestData();
 			log.fatal("Starting manufacturing initial population.");
 			InitialPopulationFactory E2 = new InitialPopulationFactory();
-			E2.writeInitialPopulation(p, 10, simName, 1111, false);
+			
+			
+			E2.writeInitialPopulation(p, 10, simName, 1111, false, scen);
 			log.fatal("Starting run.");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
@@ -125,6 +135,7 @@ public class TestAll {
 			log.fatal("charFile loaded.");
 			File simulationConfigurationFile = new File(simFileName);
 			log.fatal("simulationFile made.");
+			Population[] pop=new Population[2];
 			if (simulationConfigurationFile.exists()) {
 				simulationConfiguration = new XMLConfiguration(
 						simulationConfigurationFile);
@@ -147,86 +158,49 @@ public class TestAll {
 						.getInstance().size() > 1);
 				// calculate frequency of risk factor values during simulation
 				// //
-				Population pop = sim.getPopulation();
+				pop[0] = sim.getPopulation();
+				
+				/* int nScen, int riskType, int nRiskFactorClasses,
+				int stepsInRun, DiseaseClusterStructure[] structure */
+				simulationConfigurationFile = new File(simFileName2);
+				log.fatal("simulationFile 2 made.");
+				simulationConfiguration = new XMLConfiguration(
+						simulationConfigurationFile);
+								
+								log.fatal("simulationFile 2 read");
+				sim = SimulationFromXMLFactory
+				.manufacture_DOMPopulationTree(simulationConfiguration);
+		log.fatal("simulationFile 2 manufactured through DOM");
+		log.fatal("starting run 2");
+		sim.run();
+		log.fatal("Run 2 complete .");
+		
+		pop[1] = sim.getPopulation();
+				
+				
+				
+				
+				
+				DynamoOutputFactory df=new DynamoOutputFactory(1,p.riskType, p.prevRisk.length, 100,p.clusterStructure);
+				df.makeOutput(pop);
+				df.makePrevalenceByRiskFactorPlots(0);
+				df.makeLifeExpectancyPlot();
+				df.makeRiskFactorPlots(0);
+				
+				df.makeSurvivalPlot("survival", 0);
+				df.makeSurvivalPlot("survival", 1);
+				df.makePrevalencePlots(0);
+				df.makePrevalencePlots(1);
 				int sexIndex = 0;
-				int ageIndex = 0;
-				float simulatedRiskFactorPrevalence[][][][] = new float[sim
-						.getStepsInRun()][150][2][9];
-				float[][][] simulatedDiseasePrevalence = new float[sim
-						.getStepsInRun()][150][2];
-				float[][][] simulatedSurvival = new float[sim.getStepsInRun()][150][2];
-
-				for (int stepCount = 0; stepCount < sim.getStepsInRun(); stepCount++) {
-					Iterator<Individual> individualIterator = pop.iterator();
-					int[][] nPop = new int[150][2];
-					while (individualIterator.hasNext()) {
-						Individual individual = individualIterator.next();
-						ageIndex = (int) Math.round(((Float) individual.get(1)
-								.getValue(stepCount)));
-						sexIndex = (int) (Integer) individual.get(2).getValue(
-								stepCount);
-						int riskFactor = (int) (Integer) individual.get(3)
-								.getValue(stepCount);
-						float disease = (float) (Float) individual.get(4)
-								.getValue(stepCount);
-						float survival = (float) (Float) individual.get(7)
-								.getValue(stepCount);
-						simulatedRiskFactorPrevalence[stepCount][ageIndex][sexIndex][riskFactor]++;
-						simulatedDiseasePrevalence[stepCount][ageIndex][sexIndex] += disease;
-						simulatedSurvival[stepCount][ageIndex][sexIndex] += survival;
-						nPop[ageIndex][sexIndex]++;
-					}// end loop over individuals
-
-					for (int a = 0; a < 96; a++)
-						for (int s = 0; s < 2; s++) {
-							for (int r = 0; r < 4; r++) {
-								if (nPop[a][s] != 0) {
-									simulatedRiskFactorPrevalence[stepCount][a][s][r] = simulatedRiskFactorPrevalence[stepCount][a][s][r]
-											/ nPop[a][s];
-
-									log
-											.fatal("step "
-													+ stepCount
-													+ "prev for risk factor class "
-													+ r
-													+ " age "
-													+ a
-													+ " sex "
-													+ s
-													+ " = "
-													+ simulatedRiskFactorPrevalence[stepCount][a][s][r]);
-								}
-							}
-							if (nPop[a][s] != 0) {
-								simulatedDiseasePrevalence[stepCount][a][s] = simulatedDiseasePrevalence[stepCount][a][s]
-										/ nPop[a][s];
-								simulatedSurvival[stepCount][a][s] = simulatedSurvival[stepCount][a][s]
-										/ nPop[a][s];
-
-								log
-										.fatal("step "
-												+ stepCount
-												+ "prev disease for age "
-												+ a
-												+ " sex "
-												+ s
-												+ " = "
-												+ simulatedDiseasePrevalence[stepCount][a][s]);
-								log.fatal("step " + stepCount
-										+ "survival for age " + a + " sex " + s
-										+ " = "
-										+ simulatedSurvival[stepCount][a][s]);
-							}
-						}
-				}// end loop over time
-
+				int ageIndex = 0;	
+				/*
 				for (int count = 1; count <= sim.getStepsInRun(); count++) {
 					File outFile = new File(baseDir + "out" + count + ".XML");
 					DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),
 							count, outFile);
 				}
 				log.fatal("Result written.");
-
+*/
 			}
 		} catch (ParserConfigurationException e) {
 			log.fatal("Exception " + e.getClass().getName()
