@@ -40,11 +40,10 @@ import org.w3c.dom.Node;
 
 public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	
 
 	/**
-	 * @author Boshuizh
-	 * This class generates the initial population and populations of newborns
+	 * @author Boshuizh This class generates the initial population and
+	 *         populations of newborns
 	 */
 	public InitialPopulationFactory() {
 		super();
@@ -56,23 +55,44 @@ public class InitialPopulationFactory {
 	 * @param simulationName
 	 * @param seed
 	 * @param newborns
+	 *            : boolean: should this give an intial population or newborns
+	 * @param scenarioInfo
+	 *            : information on scenario
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
-	public void writeInitialPopulation(ModelParameters parameters, int nSim, String simulationName,int seed, boolean newborns) throws ParserConfigurationException,
+	public void writeInitialPopulation(ModelParameters parameters, int nSim,
+			String simulationName, int seed, boolean newborns,
+			ScenarioInfo scenarioInfo) throws ParserConfigurationException,
 			TransformerException {
-		Population pop = manufactureInitialPopulation(parameters, simulationName,  nSim,seed ,newborns);
-		
+		Population[] pop = manufactureInitialPopulation(parameters,
+				simulationName, nSim, seed, newborns, scenarioInfo);
+
 		String baseDir = BaseDirectory.getInstance(
-		"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+				"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 		String directoryName = baseDir + "Simulations\\" + simulationName;
 		String popFileName;
-		if ( newborns) popFileName = directoryName + "\\modelconfiguration"
-		+ "\\newborns.xml";
-		else popFileName = directoryName + "\\modelconfiguration"
-				+ "\\population.xml";
+		if (newborns)
+			popFileName = directoryName + "\\modelconfiguration"
+					+ "\\newborns.xml";
+		else
+			popFileName = directoryName + "\\modelconfiguration"
+					+ "\\population.xml";
 		File initPopXMLfile = new File(popFileName);
-		writeToXMLFile(pop, 0, initPopXMLfile);
+		writeToXMLFile(pop[0], 0, initPopXMLfile);
+		if (pop.length > 1)
+			for (int scen = 1; scen < pop.length; scen++) {
+				popFileName = directoryName + "\\modelconfiguration"
+						+ "\\population_scen_" + scen + ".xml";
+				initPopXMLfile = new File(popFileName);
+				if (pop[scen] != null)
+					writeToXMLFile(pop[scen], 0, initPopXMLfile);
+				else if (scenarioInfo.initialPrevalenceType[0])
+					log
+							.fatal("trying to write non existing initial population for scenario "
+									+ scen);
+			}
+
 	}
 
 	/** nsim= number of simulated individuals per age and gender */
@@ -82,14 +102,16 @@ public class InitialPopulationFactory {
 	 * @param nSim
 	 * @param seed
 	 * @param newborns
+	 * @param scenarioInfo
 	 * @return
 	 */
-	public Population manufactureInitialPopulation(ModelParameters parameters,String simulationName,
-			int nSim, int seed, boolean newborns) {
+	public Population[] manufactureInitialPopulation(
+			ModelParameters parameters, String simulationName, int nSim,
+			int seed, boolean newborns, ScenarioInfo scenarioInfo) {
 
 		/* at this moment: simulate all ages */
 		/* First make some indexes that are needed */
-		
+
 		int nClasses = parameters.prevRisk[0][0].length;
 		int[][] nDuurClasses = new int[96][2];
 		int[] cumulativeNSimPerClass;
@@ -99,19 +121,68 @@ public class InitialPopulationFactory {
 		float[] rest;
 		float[] restDuration;
 		int currentRiskValue = 0;
-		
-		
-		
+
 		DynamoLib.getInstance(nSim);
-		BaseDirectory baseDir=BaseDirectory.getInstance("c:");
-		Random rand = new Random(seed);
-		
-		Population initialPopulation = new Population(simulationName,null);
-		
-		
-		// TODO nakijken of juiste directory naam 
-		int agemax=96;
-		if (newborns) agemax=1;
+		BaseDirectory baseDir = BaseDirectory.getInstance("c:");
+		Random rand = new Random(seed); // used to draw the initial population
+		MTRandom rand2 = new MTRandom(seed + 1); // used to generate seeds in
+													// update rules
+		// TODO nakijken of juiste directory naam
+
+		int nPopulations;
+		if (scenarioInfo.nScenarios == 0)
+			nPopulations = 1;
+		else if (parameters.riskType != 2)
+			nPopulations = 2;
+		else
+			nPopulations = scenarioInfo.nScenarios + 1;
+		Population[] initialPopulation = new Population[nPopulations];
+
+		initialPopulation[0] = new Population(simulationName, null);
+		if (parameters.riskType == 2)
+			for (int scen = 0; scen < nPopulations; scen++) {
+				initialPopulation[scen] = new Population(simulationName, null);
+			}
+
+		if (parameters.riskType != 2 && scenarioInfo.nScenarios > 0
+				&& scenarioInfo.initialPrevalenceType[0] && !newborns)
+			initialPopulation[1] = new Population(simulationName, null);
+
+		boolean[][][][] shouldChangeInto = null;
+		if (parameters.riskType != 2 && scenarioInfo.initialPrevalenceType[0]
+				&& !newborns) {
+			int nCat = parameters.prevRisk[0][0].length;
+			float[] RR = new float[nCat];
+			shouldChangeInto = new boolean[96][2][nCat][nCat];
+			// initialize arrays;
+			Arrays.fill(RR, 1);
+			for (int a = 0; a < 96; a++)
+				for (int g = 0; g < 2; g++)
+					for (int r1 = 0; r1 < nCat; r1++)
+						for (int r2 = 0; r2 < nCat; r2++)
+							shouldChangeInto[a][g][r1][r2] = false;
+
+			for (int a = 0; a < 96; a++)
+				for (int g = 0; g < 2; g++)
+					for (int s = 0; s < scenarioInfo.nScenarios; s++) {
+
+						float oldPrev[] = parameters.prevRisk[a][g];
+						float newPrev[] = scenarioInfo.newPrevalence[s][a][g];
+						float[][] trans = NettTransitionRates
+								.makeNettTransitionRates(oldPrev, newPrev, 0,
+										RR);
+						for (int r1 = 0; r1 < nCat; r1++)
+							for (int r2 = 0; r2 < nCat; r2++) {
+								if (r1 != r2 && trans[r1][r2] > 0)
+									shouldChangeInto[a][g][r1][r2] = true;
+							}
+
+					}
+		}
+
+		int agemax = 96;
+		if (newborns)
+			agemax = 1;
 		if (parameters.riskType == 3) {
 			for (int a = 0; a < agemax; a++)
 				for (int g = 0; g < 2; g++) {
@@ -119,7 +190,7 @@ public class InitialPopulationFactory {
 				}
 		}
 
-		for (int a = 0; a <agemax; a++)
+		for (int a = 0; a < agemax; a++)
 			for (int g = 0; g < 2; g++) {
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
@@ -133,7 +204,6 @@ public class InitialPopulationFactory {
 					nSimPerClass = new int[nClasses];
 
 					int c = 0;
-					
 
 					for (c = 0; c < nClasses; c++) {
 						nSimPerClass[c] = (int) Math
@@ -146,14 +216,14 @@ public class InitialPopulationFactory {
 						else
 							cumulativeNSimPerClass[c] = nSimPerClass[c];
 					}
-					float totrest=0;
+					float totrest = 0;
 					for (int c2 = 0; c2 < nClasses; c2++) {
-						totrest+= rest[c2];
+						totrest += rest[c2];
 					}
 					for (int c2 = 0; c2 < nClasses; c2++) {
-						rest[c2] = rest[c2]
-								/totrest;}
-					
+						rest[c2] = rest[c2] / totrest;
+					}
+
 					;
 
 				}
@@ -162,7 +232,7 @@ public class InitialPopulationFactory {
 					nSimPerClass = new int[nClasses];
 
 					int c = 0;
-					
+
 					nSimPerDurationClass = new int[nClasses];
 					for (c = 0; c < nClasses; c++) {
 						nSimPerClass[c] = (int) Math
@@ -175,17 +245,15 @@ public class InitialPopulationFactory {
 						else
 							cumulativeNSimPerClass[c] = nSimPerClass[c];
 					}
-					float totrest=0;
+					float totrest = 0;
 					for (int c2 = 0; c2 < nClasses; c2++) {
-						totrest+= rest[c2];
+						totrest += rest[c2];
 					}
 					for (int c2 = 0; c2 < nClasses; c2++) {
-						rest[c2] = rest[c2]
-								/totrest;
+						rest[c2] = rest[c2] / totrest;
 					}
 					;
 
-					
 					for (c = 0; c < nDuurClasses[a][g]; c++) {
 						nSimPerDurationClass[c] = (int) Math
 								.floor(parameters.duurFreq[a][g][c]
@@ -199,42 +267,50 @@ public class InitialPopulationFactory {
 						else
 							cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c];
 					}
-					totrest=0;
+					totrest = 0;
 					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
-						totrest+= restDuration[c2];
+						totrest += restDuration[c2];
 					}
 					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
-						restDuration[c2] = restDuration[c2]
-								/ totrest;
+						restDuration[c2] = restDuration[c2] / totrest;
 					}
 				}
-				/* werktte niet omdat Class Individual protected;
-				 * veranderd in SOR code
+				/*
+				 * werktte niet omdat Class Individual protected; veranderd in
+				 * SOR code
 				 */
-				
-				for (int i = 0; i < nSim; i++) {
-					Individual currentIndividual = new Individual("ind",
-							"ind_"+i);
 
-					
-					
-					
-					
-					/* first characteristic is age
-					 * if i==1 generate the configuration of the characteristic and of the simulation
+				/*****************************************************************************
+				 * 
+				 * 
+				 * LOOP OVER INDIVIDUALS
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 */
+				/*****************************************************************************/
+
+				for (int i = 0; i < nSim; i++) {
+					Individual currentIndividual = new Individual("ind", "ind_"
+							+ (i + a * nSim * 2 + nSim * g) + "_bl");
+					long seed2 = (long) rand2.random();
+					currentIndividual.setRandomNumberGeneratorSeed(seed2);
+
+					/*
+					 * first characteristic is age if i==1 generate the
+					 * configuration of the characteristic and of the simulation
 					 */
-					
-                   
-                    	
-                    /* now generate the characteristic in the initial population
-                     * 	
-                     */
+
+					/*
+					 * now generate the characteristic in the initial population
+					 */
 					currentIndividual.add(new FloatCharacteristicValue(0, 1,
 							(float) a));
 
 					// second characteristic is sex
-					
-					
+
 					currentIndividual.add(new IntCharacteristicValue(0, 2, g));
 
 					/*
@@ -243,30 +319,38 @@ public class InitialPopulationFactory {
 					 * generate risk factors
 					 */
 
-					/* third and possibly fourth characteristic is risk factor
-					   now use index  for this */
+					/*
+					 * third and possibly fourth characteristic is risk factor
+					 * now use index for this
+					 */
 					int characteristicIndex = 3;
 					// if categorical then fill in proportionally;
 					// randomly draw the last elements needed to get
 					// exactly nSim persons
-					boolean flagForRandomlyAdded=false;
+					boolean flagForRandomlyAdded = false;
 					if (parameters.riskType == 1 || parameters.riskType == 3) {
-						
+
 						int c;
-						
+
 						for (c = 0; c < nClasses; c++) {
 							if (i < cumulativeNSimPerClass[c])
 								break;
 						}
 						currentRiskValue = c;
-						/* if the loop was performed until the very end 
-						 * this means that i is equal or above highest cumulative value
-						 * In that case we are going to draw randomly */
-						if (c==nClasses){
-							currentRiskValue = DynamoLib.draw(
-									rest, rand);
-							/* if a duration class value is draw, a duration should also be drawn */
-						if (currentRiskValue==parameters.getDurationClass())flagForRandomlyAdded=true;	
+						/*
+						 * if the loop was performed until the very end this
+						 * means that i is equal or above highest cumulative
+						 * value In that case we are going to draw randomly
+						 */
+						if (c == nClasses) {
+							currentRiskValue = DynamoLib.draw(rest, rand);
+							/*
+							 * if a duration class value is draw, a duration
+							 * should also be drawn
+							 */
+							if (currentRiskValue == parameters
+									.getDurationClass())
+								flagForRandomlyAdded = true;
 						}
 
 						currentIndividual.add(new IntCharacteristicValue(0,
@@ -276,6 +360,8 @@ public class InitialPopulationFactory {
 					}
 					float riskFactorValue = 0;
 					if (parameters.riskType == 2) {
+
+						// TODO lognormale verdeling (ook verderop
 						riskFactorValue = parameters.meanRisk[a][g]
 								+ parameters.stdDevRisk[a][g]
 								* (float) DynamoLib.normInv((i + 0.5) / nSim);
@@ -287,33 +373,35 @@ public class InitialPopulationFactory {
 
 					float currentDurationValue = 0;
 					if (parameters.riskType == 3) {
-						if (flagForRandomlyAdded) currentDurationValue = DynamoLib.draw(
-								parameters.duurFreq[a][g], rand); else{
-						int relativeI;
-						if (currentRiskValue == parameters.durationClass) {
-							int c;
-							if (parameters.durationClass == 0)
-								relativeI = i;
-							else
-								relativeI = i
-										- cumulativeNSimPerClass[parameters.durationClass - 1];
-							for (c = 0; c < nDuurClasses[a][g]; c++) {
+						if (flagForRandomlyAdded)
+							currentDurationValue = DynamoLib.draw(
+									parameters.duurFreq[a][g], rand);
+						else {
+							int relativeI;
+							if (currentRiskValue == parameters.durationClass) {
+								int c;
+								if (parameters.durationClass == 0)
+									relativeI = i;
+								else
+									relativeI = i
+											- cumulativeNSimPerClass[parameters.durationClass - 1];
+								for (c = 0; c < nDuurClasses[a][g]; c++) {
 
-								if (relativeI < cumulativeNSimPerDurationClass[c])
-									break;
+									if (relativeI < cumulativeNSimPerDurationClass[c])
+										break;
+								}
+								/* TODO checken of dit wel goed gaat */
+								currentDurationValue = c;
+								if (c == nDuurClasses[a][g])
+									currentDurationValue = DynamoLib.draw(
+											restDuration, rand);
 							}
-							/* TODO checken of dit wel goed gaat */
-							currentDurationValue = c;
-							if (c == nDuurClasses[a][g])
-								currentDurationValue = DynamoLib.draw(
-										restDuration, rand);
-						}
 							currentIndividual.add(new FloatCharacteristicValue(
 									0, characteristicIndex,
 									currentDurationValue));
 
 							characteristicIndex++;
-							
+
 						}
 					}
 
@@ -321,31 +409,34 @@ public class InitialPopulationFactory {
 					 * 
 					 * DISEASES /HEALTH STATE CHARACTERISTIC
 					 * 
-					 * generate initial probabilities of each disease state and put them in the
-					 * array CharValues
-					 * 
-					 
+					 * generate initial probabilities of each disease state and
+					 * put them in the array CharValues
 					 */
-					
-					/* first calculate number of elements in the characteristic;
-					 *  
+
+					/*
+					 * first calculate number of elements in the characteristic;
 					 */
-					int numberOfElements=1;
-					
-					for (int c=0;c<parameters.getNCluster();c++){
-						DiseaseClusterStructure structure = parameters.getClusterStructure()[c];
-						if (structure.getNinCluster()==1) numberOfElements++;
-						else if (structure.isWithCuredFraction()) numberOfElements+=2;
-						else numberOfElements+=Math.pow(2,structure.getNinCluster())-1;
+					int numberOfElements = 1;
+
+					for (int c = 0; c < parameters.getNCluster(); c++) {
+						DiseaseClusterStructure structure = parameters
+								.getClusterStructure()[c];
+						if (structure.getNinCluster() == 1)
+							numberOfElements++;
+						else if (structure.isWithCuredFraction())
+							numberOfElements += 2;
+						else
+							numberOfElements += Math.pow(2, structure
+									.getNinCluster()) - 1;
 					}
-					float [] CharValues= new float[numberOfElements];
-                   double log2 = Math.log(2.0);
-                   int elementIndex=0;
-				   for (int cluster = 0; cluster < parameters.nCluster; cluster++) {
+					float[] CharValues = new float[numberOfElements];
+					double log2 = Math.log(2.0);
+					int elementIndex = 0;
+					for (int cluster = 0; cluster < parameters.nCluster; cluster++) {
 
 						/*
-						 * first make the logit of the probability for
-						 * all diseases in this cluster based only on riskfactor
+						 * first make the logit of the probability for all
+						 * diseases in this cluster based only on riskfactor
 						 * information
 						 */
 						double[] logitDisease = new double[parameters.clusterStructure[cluster].nInCluster];
@@ -409,11 +500,10 @@ public class InitialPopulationFactory {
 							 * P(E=1|D=1) log odds (G=1|D=1)=
 							 * logRR(G|D)+logoddsBaseline(G)--> P(G=1|D=1)
 							 * 
-							 * in het algemeen:
-							 *  p-combi= product [P(each dep
+							 * in het algemeen: p-combi= product [P(each dep
 							 * disease|all independent
 							 * diseases)]product[P(independent disease)] dus:
-							 * GENERAL:   product [p (disease |causes (if any)]
+							 * GENERAL: product [p (disease |causes (if any)]
 							 */
 
 							double probCombi = 1;
@@ -466,64 +556,163 @@ public class InitialPopulationFactory {
 										} else
 											probCurrent = 0;
 
-									} else /* == independent disease */
+									} else
+										/* == independent disease */
 										probCurrent = 1 / (1 + Math
 												.exp(-logitDisease[d1]));
 
-								}/* end if disease d1 ==1 */ else{
+								}/* end if disease d1 ==1 */else {
 									/* now if d1 is zero in combination */;
 									if (parameters.baselinePrevalenceOdds[a][g][d1number] != 0) {
-										
-								if (parameters.clusterStructure[cluster].dependentDisease[d1]) {
-										double logitCurrent = logitDisease[d1];
 
-										for (int d2 = 0; d2 < parameters.clusterStructure[cluster].nInCluster; d2++)
-											if ((combi & (1 << d2)) == (1 << d2))
-												logitCurrent += Math
-														.log(parameters.relRiskDiseaseOnDisease[a][g][cluster][d2][d1]);
-										/*
-										 * NB now exp(+x) a this is 1-p in stead
-										 * of p
-										 */
-										probCurrent = 1 / (1 + Math
-												.exp(logitCurrent));
+										if (parameters.clusterStructure[cluster].dependentDisease[d1]) {
+											double logitCurrent = logitDisease[d1];
+
+											for (int d2 = 0; d2 < parameters.clusterStructure[cluster].nInCluster; d2++)
+												if ((combi & (1 << d2)) == (1 << d2))
+													logitCurrent += Math
+															.log(parameters.relRiskDiseaseOnDisease[a][g][cluster][d2][d1]);
+											/*
+											 * NB now exp(+x) a this is 1-p in
+											 * stead of p
+											 */
+											probCurrent = 1 / (1 + Math
+													.exp(logitCurrent));
+										} else
+											probCurrent = 1 / (1 + Math
+													.exp(logitDisease[d1]));
 									} else
-										probCurrent = 1 / (1 + Math
-												.exp(logitDisease[d1]));
-								} else
-									
-								{probCurrent = 1;}
-								
 
-							}probCombi *= probCurrent;} // end loop over d1
+									{
+										probCurrent = 1;
+									}
+
+								}
+								probCombi *= probCurrent;
+							} // end loop over d1
 							float value = (float) probCombi;
-							
-							CharValues[elementIndex]=value;
+
+							CharValues[elementIndex] = value;
 							elementIndex++;
-							
+
 						} // end loop over combi
-						
+
 					} // end loop over clusters
-					
+
 					// tot slot nog characteristiek voor
 					// survival;
-					CharValues[elementIndex]=1;
+					CharValues[elementIndex] = 1;
 					elementIndex++;
-					
-					if (elementIndex!=numberOfElements)log.warn("number of element written does not" +
-							"fit number calculated, that is : "+elementIndex+" not equal "+numberOfElements);
-					 
-						 
-					
-					currentIndividual.add(new CompoundCharacteristicValue(0,characteristicIndex,numberOfElements,CharValues));
-					
-					
 
-					initialPopulation.addIndividual(currentIndividual);
+					if (elementIndex != numberOfElements)
+						log.warn("number of element written does not"
+								+ "fit number calculated, that is : "
+								+ elementIndex + " not equal "
+								+ numberOfElements);
 
-					;
+					currentIndividual.add(new CompoundCharacteristicValue(0,
+							characteristicIndex, numberOfElements, CharValues));
 
-					;
+					initialPopulation[0].addIndividual(currentIndividual);
+
+					/*
+					 * now add individuals for scenarios / the nulth
+					 * characteristic is an indicator of scenario this gives the
+					 * old (baseline) value of the individual (0-9) plus the new
+					 * value (0-9) for categorical data
+					 */
+					// TODO: for continuous variables: it is 0 for baseline, and
+					// - delta for scenario
+					/*
+					 * if i==1 generate the configuration of the characteristic
+					 * and of the simulation
+					 */
+
+					// TODO more than 1 scenario's: here all necessary
+					// individuals in one population
+					/*
+					 * however, this can lead to very large datasets
+					 */
+					// TODO for continuous risk factors
+					// TODO for duration risk factors
+					if (parameters.riskType == 2 && !newborns) {
+						for (int scen = 0; scen < nPopulations; scen++) {
+							if (scenarioInfo.initialPrevalenceType[scen]) {
+								currentIndividual = new Individual("ind",
+										"ind_" + (i + a * nSim * 2 + nSim * g)
+												+ "_" + scen);
+								currentIndividual
+										.setRandomNumberGeneratorSeed(seed2);
+								currentIndividual
+										.add(new FloatCharacteristicValue(0, 1,
+												(float) a));
+								currentIndividual
+										.add(new IntCharacteristicValue(0, 2, g));
+
+								if (parameters.RiskTypeDistribution == "normal")
+									riskFactorValue = (parameters.meanRisk[a][g] + scenarioInfo.drift[scen][a][g])
+											+ (parameters.stdDevRisk[a][g] + scenarioInfo.stdDrift[scen][a][g])
+											* (float) DynamoLib
+													.normInv((i + 0.5) / nSim);
+								// simulate equi-probable points
+								else {
+									// TODO lognormale verdeling;
+
+								}
+								currentIndividual
+										.add(new FloatCharacteristicValue(0, 3,
+												riskFactorValue));
+
+								currentIndividual
+										.add(new CompoundCharacteristicValue(0,
+												characteristicIndex,
+												numberOfElements, CharValues));
+								initialPopulation[scen + 1]
+										.addIndividual(currentIndividual);
+
+							}
+						}
+					}
+
+					if (parameters.riskType != 2 && shouldChangeInto != null
+							&& !newborns) {
+						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
+							if (shouldChangeInto[a][g][currentRiskValue][r]) {
+								currentIndividual = new Individual("ind",
+										"ind_" + (i + a * nSim * 2 + nSim * g)
+												+ "_" + currentRiskValue + "_"
+												+ r);
+								currentIndividual
+										.setRandomNumberGeneratorSeed(seed2);
+								currentIndividual
+										.add(new FloatCharacteristicValue(0, 1,
+												(float) a));
+								currentIndividual
+										.add(new IntCharacteristicValue(0, 2, g));
+								if (parameters.riskType == 1
+										|| parameters.riskType == 3)
+									currentIndividual
+											.add(new IntCharacteristicValue(0,
+													3, r));
+								// duration = 0, both for just stopped, and for
+								// other categories
+
+								if (parameters.riskType == 3)
+									currentIndividual
+											.add(new FloatCharacteristicValue(
+													0, 4, 0));
+
+								currentIndividual
+										.add(new CompoundCharacteristicValue(0,
+												characteristicIndex,
+												numberOfElements, CharValues));
+								initialPopulation[1]
+										.addIndividual(currentIndividual);
+							}
+						}
+
+					}
+
 				}// end sim loop
 				;
 
@@ -531,17 +720,18 @@ public class InitialPopulationFactory {
 		// end age and sex group
 		return initialPopulation;
 	}
-	
 
-	public  void writeToXMLFile(Population population, int stepNumber, File xmlFileName)
-			throws ParserConfigurationException, TransformerException {
+	public void writeToXMLFile(Population population, int stepNumber,
+			File xmlFileName) throws ParserConfigurationException,
+			TransformerException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = (DocumentBuilder) dbfac
 				.newDocumentBuilder();
 		Document document = docBuilder.newDocument();
 		String elementName = population.getElementName();
 		Element element = document.createElement(population.xmlElementName);
-		Element nameElement = document.createElement(population.xmlLabelAttributeName);
+		Element nameElement = document
+				.createElement(population.xmlLabelAttributeName);
 		nameElement.setTextContent(elementName);
 		element.appendChild(nameElement);
 		String label = population.getLabel();
@@ -579,9 +769,5 @@ public class InitialPopulationFactory {
 	 * @param seed
 	 * @param newborns
 	 */
-	
+
 }
-	
-	
-
-
