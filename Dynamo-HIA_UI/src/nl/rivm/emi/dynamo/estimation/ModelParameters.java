@@ -103,7 +103,7 @@ public class ModelParameters {
 			throws DynamoInconsistentDataException {
 
 		splitCuredDiseases(inputData);
-		NettTransitionRates transRates = new NettTransitionRates();
+		transitionMatrix= new float[96][2][inputData.getPrevRisk()[0][0].length][inputData.getPrevRisk()[0][0].length];
 		for (int a = 0; a < 96; a++)
 			for (int g = 0; g < 2; g++) {
 
@@ -114,7 +114,8 @@ public class ModelParameters {
 					 * moeten worden
 					 */
 					if (inputData.getRiskType() != 2) {
-						transRates.makeNettTransitionRates(
+						transitionMatrix[a-1][g]=
+						NettTransitionRates.makeNettTransitionRates(
 								getPrevRisk()[a - 1][g], inputData
 										.getPrevRisk()[a][g],
 								baselineMortality[a - 1][g],
