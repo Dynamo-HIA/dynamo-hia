@@ -67,9 +67,9 @@ public class SimulationConfigurationFactory {
 		charFileName = directoryName + "\\modelconfiguration"
 				+ "\\charconfig.XML";
 		simFileName = directoryName + "\\modelconfiguration"
-				+ "\\simulation.XML";
+				+ "\\simulation"; //no .xml because different variants are needed
 		popFileName = directoryName + "\\modelconfiguration"
-				+ "\\population.XML";
+				+ "\\population";//no .xml because different variants are needed
 		newbornsFileName = directoryName + "\\modelconfiguration"
 				+ "\\newborns.XML";
 		;
@@ -91,7 +91,8 @@ public class SimulationConfigurationFactory {
 	 */
 
 	public void manufactureUpdateRuleConfigurationFiles(
-			ModelParameters parameters) throws CDMConfigurationException {
+			ModelParameters parameters, ScenarioInfo scenInfo)
+			throws CDMConfigurationException {
 		// temporary name for testing
 
 		String fileName;
@@ -110,42 +111,79 @@ public class SimulationConfigurationFactory {
 		// TODO : add rule class name to configuration files and check for this
 		// in the rule
 		int riskType = parameters.getRiskType();
-		if (riskType == 1 || riskType == 3) {
-			String ConfigXMLfileName = directoryName + "\\modelconfiguration"
-					+ "\\rule" + ((Integer) ruleNumber).toString() + ".xml";
-			fileName = directoryName + "\\parameters\\transitionrates.xml";
-			Document document = newDocument(fileName);
 
-			Element rootElement = document
-					.createElement("updateRuleConfiguration");
-			writeFinalElementToDom(rootElement, "charID",
-					((Integer) ruleNumber).toString());
-			writeFinalElementToDom(rootElement, "refValContinuousVariable",
-					((Float) parameters.getRefClassCont()).toString());
-			writeFinalElementToDom(rootElement, "nCat", ((Integer) parameters
-					.getPrevRisk()[0][0].length).toString());
-			writeFinalElementToDom(rootElement, "durationClass",
-					((Integer) parameters.getDurationClass()).toString());
-			if (isNullTransition) {
-				writeFinalElementToDom(rootElement, "nullTransition", "1");
-				writeFinalElementToDom(rootElement, "transitionFile", null);
-			} else {
-				writeFinalElementToDom(rootElement, "nullTransition", "0");
-				writeFinalElementToDom(rootElement, "transitionFile", fileName);
-				writeThreeDimArray(parameters.getTransitionMatrix(),
-						"transitionMatrix", "transitionRates", fileName);
+		for (int scen = 0; scen <= scenInfo.nScenarios; scen++) {
+			if (riskType == 1 || riskType == 3){
+				
+
+					String ConfigXMLfileName = null;
+
+					if (scen == 0) {
+						fileName = directoryName
+								+ "\\parameters\\transitionrates.xml";
+						ConfigXMLfileName = directoryName
+								+ "\\modelconfiguration" + "\\rule"
+								+ ((Integer) ruleNumber).toString() + ".xml";
+					} else {
+						fileName = directoryName
+								+ "\\parameters\\transitionrates_scen_" + scen
+								+ ".xml";
+						ConfigXMLfileName = directoryName
+								+ "\\modelconfiguration" + "\\rule"
+								+ ((Integer) ruleNumber).toString() + "_scen_"
+								+ scen + ".xml";
+					}
+
+					Document document = newDocument(fileName);
+
+					Element rootElement = document
+							.createElement("updateRuleConfiguration");
+					writeFinalElementToDom(rootElement, "charID",
+							((Integer) ruleNumber).toString());
+					writeFinalElementToDom(rootElement,
+							"refValContinuousVariable", ((Float) parameters
+									.getRefClassCont()).toString());
+					writeFinalElementToDom(rootElement, "nCat",
+							((Integer) parameters.getPrevRisk()[0][0].length)
+									.toString());
+					writeFinalElementToDom(rootElement, "durationClass",
+							((Integer) parameters.getDurationClass())
+									.toString());
+					if (isNullTransition) {
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"1");
+						writeFinalElementToDom(rootElement, "transitionFile",
+								null);
+					} else {
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"0");
+						writeFinalElementToDom(rootElement, "transitionFile",
+								fileName);
+						if (scen == 0)
+							writeThreeDimArray(
+									parameters.getTransitionMatrix(),
+									"transitionMatrix", "transitionRates",
+									fileName);
+						else
+							writeThreeDimArray(scenInfo
+									.getTransitionMatrix(scen-1),
+									"transitionMatrix", "transitionRates",
+									fileName);
+					}
+					// random seeds meegeven: dat gaat nu per persoon dus niet
+					// meer nodig
+					writeFinalElementToDom(rootElement, "randomSeed",
+							((Integer) randomSeed).toString());
+					document.appendChild(rootElement);
+					writeDomToXML(ConfigXMLfileName, document);
+					
 			}
-			// TODO random seeds meegeven
-			writeFinalElementToDom(rootElement, "randomSeed",
-					((Integer) randomSeed).toString());
-			document.appendChild(rootElement);
-			writeDomToXML(ConfigXMLfileName, document);
-			ruleNumber++;
+
+			// TODO for categorical risk factor and duration 
 		}
-
-		// TODO for categorical risk factor or duration (last also increase
-		// ruleIndex)
-
+		
+	   ruleNumber = 4;
+	  if ( riskType == 3) ruleNumber=5;
 		/*
 		 * first make a second document for survival, so this can be filled
 		 * simultaneously with that of the diseases
@@ -182,10 +220,10 @@ public class SimulationConfigurationFactory {
 
 		String ConfigXMLfileName = directoryName + "\\modelconfiguration"
 				+ "\\rule" + ((Integer) ruleNumber).toString() + ".xml";
-		
+
 		writeFinalElementToDom(healthStateRootElement, "charID",
 				((Integer) ruleNumber).toString());
-		
+
 		/* write disease structure data */
 
 		writeFinalElementToDom(healthStateRootElement, "nclusters",
@@ -211,7 +249,7 @@ public class SimulationConfigurationFactory {
 			healthStateRootElement.appendChild(clusterElement);
 		}
 		/* write the other mortality data */
-		
+
 		fileName = directoryName + "\\parameters\\baselineOtherMort.xml";
 		writeFinalElementToDom(healthStateRootElement, "baselineOtherMortFile",
 				fileName);
@@ -225,9 +263,7 @@ public class SimulationConfigurationFactory {
 				"relativeRisk", fileName);
 
 		/* now start the writing of disease-specific information */
-		
-		
-		
+
 		Element healthStateDiseaseElement;
 
 		for (int c = 0; c < parameters.getNCluster(); c++) {
@@ -401,7 +437,7 @@ public class SimulationConfigurationFactory {
 			}// end if statement for clusters with multiple diseases
 		} // end loop over clusters
 
-		/* now write the  configuration for health State rule to xml*/
+		/* now write the configuration for health State rule to xml */
 		documentForHealthState.appendChild(healthStateRootElement);
 		writeDomToXML(ConfigXMLfileName, documentForHealthState);
 
@@ -417,80 +453,94 @@ public class SimulationConfigurationFactory {
 	 * @throws CDMConfigurationException
 	 */
 	public void manufactureSimulationConfigurationFile(
-			ModelParameters parameters) throws CDMConfigurationException {
+			ModelParameters parameters, ScenarioInfo scenInfo)
+			throws CDMConfigurationException {
 		// temporary name for testing
 
-		String fileName = simFileName;
+		String fileName = simFileName+".xml";
 
-	
+		for (int scen = 0; scen <= scenInfo.nScenarios; scen++) {
+			if (scen > 0)
+				fileName = simFileName + "_scen_" + scen+".xml";
+			Document document = newDocument(fileName);
 
-		Document document = newDocument(fileName);
+			Element rootElement = document.createElement("sim");
+			writeFinalElementToDom(rootElement, "lb", simulationName);
+			writeFinalElementToDom(rootElement, "timestep", "1");
+			writeFinalElementToDom(rootElement, "runmode", "longitudinal");
+			writeFinalElementToDom(rootElement, "stepsbetweensaves", "1");
+			writeFinalElementToDom(rootElement, "stepsinrun",
+					((Integer) stepsInRun).toString());
+			writeFinalElementToDom(rootElement, "stoppingcondition", null);
+			if (scen > 0 && scenInfo.initialPrevalenceType[scen-1])
+				writeFinalElementToDom(rootElement, "pop", popFileName
+						+ "_scen_" + scen+".xml");
+			else
+				writeFinalElementToDom(rootElement, "pop", popFileName+".xml");
 
-		Element rootElement = document.createElement("sim");
-		writeFinalElementToDom(rootElement, "lb", simulationName);
-		writeFinalElementToDom(rootElement, "timestep", "1");
-		writeFinalElementToDom(rootElement, "runmode", "longitudinal");
-		writeFinalElementToDom(rootElement, "stepsbetweensaves", "1");
-		writeFinalElementToDom(rootElement, "stepsinrun",
-				((Integer) stepsInRun).toString());
-		writeFinalElementToDom(rootElement, "stoppingcondition", null);
-		writeFinalElementToDom(rootElement, "pop", popFileName);
+			int riskType = parameters.getRiskType();
+			// age+sex+riskfactor+diseasestate
+			int nRules = 4;
+			if (riskType == 3)
+				nRules++;
 
-		int riskType = parameters.getRiskType();
-		// age+sex+riskfactor+diseasestate
-		int nRules = 4;
-		if (riskType == 3)
-			nRules++;
-		
-		setNRules(nRules);
-		
-		// TODO get this from parameter estimation
+			setNRules(nRules);
 
-		Element updateRuleElement = document.createElement("updaterules");
-		
-		for (int charID = 1; charID <= getNRules(); charID++) {
-			Element rule = document.createElement("updaterule");
-			updateRuleElement.appendChild(rule);
-			String ruleName = null;
-			switch (charID) {
-			case 1:
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule";
-				break;
-			case 2:
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SexOneToOneUpdateRule";
-				break;
-			case 3:
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule";
-				break;
-			case 4:
-				if (riskType == 3)
-					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule";
+			// TODO get this from parameter estimation
 
-			default:
-				if (riskType == 3)
+			Element updateRuleElement = document.createElement("updaterules");
+
+			for (int charID = 1; charID <= getNRules(); charID++) {
+				Element rule = document.createElement("updaterule");
+				updateRuleElement.appendChild(rule);
+				String ruleName = null;
+				switch (charID) {
+				case 1:
+					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule";
 					break;
-				else 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule";
-					
-					
-				}
-			
-			writeFinalElementToDom(rule, "characteristicid", ((Integer) charID)
-					.toString());
-			writeFinalElementToDom(rule, "classname", ruleName);
-			String ConfigXMLfileName = directoryName + "\\modelconfiguration"
-					+ "\\rule" + ((Integer) charID).toString() + ".xml";
+				case 2:
+					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SexOneToOneUpdateRule";
+					break;
+				case 3:
+					ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule";
+					break;
+				case 4:
+					if (riskType == 3)
+						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule";
 
-			if (charID > 2)
-				writeFinalElementToDom(rule, "configurationfile",
-						ConfigXMLfileName);
+				default:
+					if (riskType == 3)
+						break;
+					else
+						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule";
+
+				}
+
+				writeFinalElementToDom(rule, "characteristicid",
+						((Integer) charID).toString());
+				writeFinalElementToDom(rule, "classname", ruleName);
+				String ConfigXMLfileName = null;
+				if (scen == 0 || charID != 3)
+					ConfigXMLfileName = directoryName + "\\modelconfiguration"
+							+ "\\rule" + ((Integer) charID).toString() + ".xml";
+				else
+					ConfigXMLfileName = directoryName + "\\modelconfiguration"
+							+ "\\rule" + ((Integer) charID).toString()
+							+ "_scen_" + scen + ".xml";
+				if (charID > 2)
+					writeFinalElementToDom(rule, "configurationfile",
+							ConfigXMLfileName);
+
+			}
+			;
+			rootElement.appendChild(updateRuleElement);
+
+			document.appendChild(rootElement);
+
+			writeDomToXML(fileName, document);
 
 		}
-		;
-		rootElement.appendChild(updateRuleElement);
 
-		document.appendChild(rootElement);
-
-		writeDomToXML(fileName, document);
 	}
 
 	/**
@@ -509,12 +559,10 @@ public class SimulationConfigurationFactory {
 
 		String fileName = charFileName;
 
-		
 		Document document = newDocument(fileName);
-		
+
 		Element rootElement = document.createElement("characteristics");
 		int firstDiseaseNo = 4;
-		
 
 		/* write age info */
 		Element charElement = document.createElement("ch");
@@ -540,7 +588,6 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(charElement, "id", "3");
 		// TODO inlezen en wegschrijven naar van risk factor
 		writeFinalElementToDom(charElement, "lb", "risk factor");
-		
 
 		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3)
 			writeFinalElementToDom(charElement, "type", "categorical");
@@ -567,29 +614,29 @@ public class SimulationConfigurationFactory {
 		}
 
 		int index = firstDiseaseNo;
-		
-				charElement = document.createElement("ch");
-				rootElement.appendChild(charElement);
 
-				writeFinalElementToDom(charElement, "id", ((Integer) index)
-						.toString());
-				
-				writeFinalElementToDom(charElement, "lb", "healthState");
-				writeFinalElementToDom(charElement, "type",
-						"compound");
-				int numberOfElements=1;
-				
-				for (int c=0;c<parameters.getNCluster();c++){
-					DiseaseClusterStructure structure = parameters.getClusterStructure()[c];
-					if (structure.getNinCluster()==1) numberOfElements++;
-					else if (structure.isWithCuredFraction()) numberOfElements+=2;
-					else numberOfElements+=Math.pow(2,structure.getNinCluster())-1;
-				}
-				writeFinalElementToDom(charElement, "numberofelements", ((Integer)numberOfElements).toString());
-				
-							
-		
-		
+		charElement = document.createElement("ch");
+		rootElement.appendChild(charElement);
+
+		writeFinalElementToDom(charElement, "id", ((Integer) index).toString());
+
+		writeFinalElementToDom(charElement, "lb", "healthState");
+		writeFinalElementToDom(charElement, "type", "compound");
+		int numberOfElements = 1;
+
+		for (int c = 0; c < parameters.getNCluster(); c++) {
+			DiseaseClusterStructure structure = parameters
+					.getClusterStructure()[c];
+			if (structure.getNinCluster() == 1)
+				numberOfElements++;
+			else if (structure.isWithCuredFraction())
+				numberOfElements += 2;
+			else
+				numberOfElements += Math.pow(2, structure.getNinCluster()) - 1;
+		}
+		writeFinalElementToDom(charElement, "numberofelements",
+				((Integer) numberOfElements).toString());
+
 		/* write to document */
 
 		document.appendChild(rootElement);
@@ -620,7 +667,7 @@ public class SimulationConfigurationFactory {
 
 	private void writeOneDimArray(float[][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws CDMConfigurationException {
-		
+
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
 		if (dim2 != 2 || dim1 != 96)
@@ -735,7 +782,7 @@ public class SimulationConfigurationFactory {
 
 	private void writeTwoDimArray(float[][][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws CDMConfigurationException {
-	
+
 		int dim3 = arrayToWrite[0][0].length;
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
@@ -768,7 +815,6 @@ public class SimulationConfigurationFactory {
 	private void writeThreeDimArray(float[][][][] arrayToWrite,
 			String globalTag, String tag, String fileName)
 			throws CDMConfigurationException {
-		
 
 		int dim1 = arrayToWrite.length;
 		int dim2 = arrayToWrite[0].length;
