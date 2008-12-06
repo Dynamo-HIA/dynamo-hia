@@ -353,7 +353,7 @@ public class NettTransitionRates {
 	 * @return 
 	 */
 
-	public void makeNettTransitionRates(float[] oldPrevOriginal, float[] newPrev,
+	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal, float[] newPrev,
 			double baselineMort, float[] RR) {
 
 		int nCat = oldPrevOriginal.length;
@@ -438,19 +438,20 @@ public class NettTransitionRates {
 		Simplx result = new Simplx(table, 2 * nCat, numVar, 0, 0, 2 * nCat);
 
 		// Extract transitionrates
-		transitionRates = new double[nCat][nCat];
+		float [][] transitionRates = new float[nCat][nCat];
 		for (int i = 0; i < nCat; i++)
 			for (int j = 0; j < nCat; j++) {
 				int variableNum = (i) * nCat + j + 1;
 				for (int k = 1; k <= 2 * nCat; k++)
 					if (result.iposv[k] == variableNum) {
-						transitionRates[i][j] = (double) result.a[k + 1][1]
+						transitionRates[i][j] =  result.a[k + 1][1]
 								/ oldPrev[i];
 						// K+1 WANT RIJ 1 BEVAT KOSTEN
 					}
 				;
 			}
-		;
+		return transitionRates;
+		
 	}
 
 	public NettTransitionRates() {
