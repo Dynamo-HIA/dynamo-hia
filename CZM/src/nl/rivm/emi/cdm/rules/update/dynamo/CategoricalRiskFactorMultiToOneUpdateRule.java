@@ -7,6 +7,7 @@ import java.util.Random;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -119,9 +120,12 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 	public  void setRandomGenerator(Random randomGenerator) {
 		this.randomGenerator = randomGenerator;
 	}
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
+	public Object update(Object[] currentValues, Long seed) throws CDMUpdateRuleException {
 
 		try {
+			/* only the highest 32 bits are to be used */ 
+			double pRandom=(((int)(seed >>> 16))+2147483648.0)/4294967295.0;
+;
 			int oldValue = getInteger(currentValues, characteristicIndex);
 			if (isNullTransitions()){Integer newValue=oldValue; 
 			return newValue;}
@@ -135,7 +139,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 				
 			
 			p = transitionMatrix[ageValue][sexValue][oldValue];
-			newValue = draw(p, randomGenerator);
+			newValue = draw(p, pRandom);
 			return newValue;}
 		} catch (CDMUpdateRuleException e) {log.fatal(e.getMessage());
 		log.fatal("this message was issued by CategoricalRiskFactorMultiToOneUpdateRule"+
@@ -220,7 +224,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 //	}  temporary blocked
 	public boolean loadConfigurationFile(String configurationFileName){return true;}
 
-	static int draw(float[] p, Random rand) throws CDMUpdateRuleException {
+	static int draw(float[] p, double d) throws CDMUpdateRuleException {
 		// Generates a random draws from an array with percentages
 		// To do: check if sum p=1 otherwise error
 		float sumP=0;
@@ -229,7 +233,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 		
 		double cump = 0; // cump is cumulative p
 
-		double d = rand.nextDouble(); // d is random value between 0 and 1
+		 // d is random value between 0 and 1
 		int i;
 		for (i = 0; i < p.length - 1; i++) {
 			cump = +p[i];
@@ -317,6 +321,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 				this.getClass().getSimpleName()+" : isNullTransitions should be either 0 or 1 but is "
 				+ isNullTransitions);
 	}
+	
 	
 	
 	

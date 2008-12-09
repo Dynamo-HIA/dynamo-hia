@@ -44,7 +44,11 @@ public abstract class ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 	 * 
 	 * @throws CDMUpdateRuleException 
 	 */
-	public abstract Object update(Object[] currentValues) throws  CDMUpdateRuleException;
+	//this has been changed by hendriek in include random seed
+	// old version
+	//public abstract Object update(Object[] currentValues) throws  CDMUpdateRuleException;
+	// new versus
+	public abstract Object update(Object[] currentValues, Long seed) throws  CDMUpdateRuleException;
 	//this added by hendriek
 	public static float getFloat(Object [] currentValues,int characteristicsIndex) throws CDMUpdateRuleException
 	
@@ -123,6 +127,7 @@ protected float getFloatVariable(
 				CDMConfigurationException.noConfigurationTagMessage+Label);
 	}
 }
+
 }
 
 

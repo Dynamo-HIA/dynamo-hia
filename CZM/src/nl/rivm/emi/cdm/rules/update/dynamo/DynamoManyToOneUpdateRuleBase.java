@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.rules.update.dynamo;
+package nl.rivm.emi.cdm.rules.update.base;
 
 
 import java.util.NoSuchElementException;
@@ -8,7 +8,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
+import nl.rivm.emi.cdm.rules.update.dynamo.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 
@@ -20,14 +20,14 @@ import nl.rivm.emi.cdm.simulation.Simulation;
  */
 public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 	private static String charIDLabel="charID";
-	int characteristicIndex = -1;
-	int ageIndex = 1;
-	int sexIndex = 2;
-	int riskFactorIndex1 = 3;
-	int riskFactorIndex2 = 4;
+	protected int characteristicIndex = -1;
+	protected int ageIndex = 1;
+	protected int sexIndex = 2;
+	protected int riskFactorIndex1 = 3;
+	protected int riskFactorIndex2 = 4;
 	float timeStep=1;
-	int riskType = -1;
-	int durationClass = -1;
+	protected int riskType = -1;
+	protected int durationClass = -1;
 	int nCat =0;
 	static protected String globalTagName="updateRuleConfiguration";		
 	
@@ -51,8 +51,11 @@ public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleB
 	 * 
 	 * @throws CDMUpdateRuleException 
 	 */
-	public abstract Object update(Object[] currentValues) throws  CDMUpdateRuleException;
+	public abstract Object update(Object[] currentValues, Long seed) throws  CDMUpdateRuleException;
 	//this added by hendriek
+	
+	
+	
 	public static float getFloat(Object [] currentValues,int characteristicsIndex) throws CDMUpdateRuleException
 	
 	{float returnValue=-1; 
