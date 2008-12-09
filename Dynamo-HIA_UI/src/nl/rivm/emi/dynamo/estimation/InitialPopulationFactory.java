@@ -107,7 +107,7 @@ public class InitialPopulationFactory {
 	 */
 	public Population[] manufactureInitialPopulation(
 			ModelParameters parameters, String simulationName, int nSim,
-			int seed, boolean newborns, ScenarioInfo scenarioInfo) {
+			long seed, boolean newborns, ScenarioInfo scenarioInfo) {
 
 		/* at this moment: simulate all ages */
 		/* First make some indexes that are needed */
@@ -125,7 +125,7 @@ public class InitialPopulationFactory {
 		DynamoLib.getInstance(nSim);
 		BaseDirectory baseDir = BaseDirectory.getInstance("c:");
 		Random rand = new Random(seed); // used to draw the initial population
-		MTRandom rand2 = new MTRandom(seed + 1); // used to generate seeds in
+		MTRand rand2 = new MTRand(seed+1); // used to generate seeds in
 													// update rules
 		// TODO nakijken of juiste directory naam
 
