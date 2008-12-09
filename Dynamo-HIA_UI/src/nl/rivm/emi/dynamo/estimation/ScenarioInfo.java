@@ -44,6 +44,22 @@ public class ScenarioInfo {
 		;}
 
 }}
+public void makeTestData1 (){
+		
+		initialPrevalenceType = new boolean[1];
+		initialPrevalenceType[0]=true;
+		
+		newPrevalence=new float [1][96][3][3];
+		
+		for (int a = 0; a < 96; a++) {
+			for (int g = 0; g < 2; g++) {
+				newPrevalence[0][a][g][0]=0.0F;
+				newPrevalence[0][a][g][1]=0.5F;
+				newPrevalence[0][a][g][2]=0.5F;
+		;}
+
+}}
+	
 	/**
 	 * @param scen
 	 * @return

@@ -116,7 +116,7 @@ public class InputData {
 						clusterData[age][g][0] = new DiseaseClusterData();
 						clusterData[age][g][0].relRiskCont[0] = 1.1F;
 						clusterData[age][g][0].excessMortality[0] = 0.01F;
-						clusterData[age][g][0].caseFatality [0]= 0.1F;
+						clusterData[age][g][0].caseFatality [0]= 0.0F;
 						clusterData[age][g][0].relRiskDuurBegin[0]=2;
 						clusterData[age][g][0].relRiskDuurEnd[0] = 1.1F;
 						clusterData[age][g][0].halfTime[0] =5;
@@ -132,11 +132,11 @@ public class InputData {
 								"ziekte 2", 1);
 						clusterData[age][g][1] = new DiseaseClusterData();
 						
-						clusterData[age][g][1].relRiskCont[0] = 1.1F;
-						clusterData[age][g][1].excessMortality[0] = 0.01F;
-						clusterData[age][g][1].caseFatality [0]= 0.1F;
+						clusterData[age][g][1].relRiskCont[0] = 1.2F;
+						clusterData[age][g][1].excessMortality[0] = 0.02F;
+						clusterData[age][g][1].caseFatality [0]= 0.2F;
 						clusterData[age][g][1].relRiskDuurBegin[0]=2;
-						clusterData[age][g][1].relRiskDuurEnd[0] = 1.1F;
+						clusterData[age][g][1].relRiskDuurEnd[0] = 1.2F;
 						clusterData[age][g][1].halfTime[0] =5;
 						
 						float[][] hulp = { { 1 },
@@ -160,21 +160,21 @@ public class InputData {
 								"cluster1", 2, 5, Namestring, nrIndep);
 						clusterData[age][g][2] = new DiseaseClusterData(
 								clusterStructure[2], RRdis);
-						float[] hulp1 = { 1.1F, 1.1F, 1.1F, 1.1F, 1.1F, 1.1F, 1.1F };
+						float[] hulp1 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
 						clusterData[age][g][2].relRiskCont = hulp1;
-						float[] hulp2 = { 0.01F, 0.01F, 0.01F, 0.01F, 0.01F, 0.01F, 0.01F };
+						float[] hulp2 = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F, 0.06F, 0.07F };
 						clusterData[age][g][2].excessMortality = hulp2;
-						float[] hulp3 = { 0, 0, 0, 0.1F, 0.1F, 0, 0.1F };
+						float[] hulp3 = { 0, 0, 0, 0.1F, 0.2F, 0, 0.3F };
 						clusterData[age][g][2].caseFatality = hulp3;
 						float[] hulp5 = { 2, 2, 2, 2, 2, 2, 2 };
 						clusterData[age][g][2].relRiskDuurBegin= hulp5;
-						float[] hulp6 = { 1.1F, 1.1F, 1.1F, 1.1F, 1.1F, 1.1F, 1.1F };
+						float[] hulp6 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
 						clusterData[age][g][2].relRiskDuurEnd = hulp6;
-						float[] hulp8 = { 5, 5, 5, 5, 5, 5, 5 };
+						float[] hulp8 = { 5, 15, 5, 15, 5, 15, 5 };
 						clusterData[age][g][2].halfTime = hulp8;
 						float[][] hulp = { {  1, 1, 1, 1, 1 },
-								{   1.2F, 1.2F, 1.2F, 1.2F, 1.2F },
-								{ 1.5F, 1.5F, 1.5F, 1.5F, 1.5F } };
+								{   1.2F, 1.4F, 1.6F, 1.8F, 2.2F },
+								{ 1.5F, 1.7F, 1.9F, 2.1F, 2.5F } };
 						clusterData[age][g][2].relRiskCat = hulp;
 						// here the first index is rc {risk factor class}, and the
 						// second d (disease);
@@ -193,14 +193,14 @@ public class InputData {
 						break;
 
 					case 1: {
-						clusterData[age][g][1].setIncidence(0.01F);
-						clusterData[age][g][1].setPrevalence(0.1F);
+						clusterData[age][g][1].setIncidence(0.02F);
+						clusterData[age][g][1].setPrevalence(0.2F);
 
 					}
 						break;
 					case 2: {
-						float[] Istring = { 0.01F, 0.01F, 0.01F, 0.01F, 0.01F };
-						float[] Pstring = { 0.1F, 0.1F, 0.1F, 0.1F, 0.1F };
+						float[] Istring = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F };
+						float[] Pstring = { 0.1F, 0.12F, 0.15F, 0.2F, 0.25F };
 						clusterData[age][g][2].incidence = Istring;
 						clusterData[age][g][2].prevalence = Pstring;
 					}

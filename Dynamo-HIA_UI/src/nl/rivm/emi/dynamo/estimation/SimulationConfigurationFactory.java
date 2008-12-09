@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,12 +88,13 @@ public class SimulationConfigurationFactory {
 	 * @param parameters
 	 *            object with the model parameters
 	 * @throws CDMConfigurationException
+	 * @throws DynamoConfigurationException 
 	 * 
 	 */
 
 	public void manufactureUpdateRuleConfigurationFiles(
 			ModelParameters parameters, ScenarioInfo scenInfo)
-			throws CDMConfigurationException {
+			throws CDMConfigurationException, DynamoConfigurationException {
 		// temporary name for testing
 
 		String fileName;
@@ -108,8 +110,11 @@ public class SimulationConfigurationFactory {
 		 * /java/workspace/dynamo/dynamodata/transdata.xml</transitionFile>
 		 * <randomSeed>1234</randomSeed> </updateRuleConfiguration>
 		 */
+		
 		// TODO : add rule class name to configuration files and check for this
-		// in the rule
+		// in the rule to prevent using wrong configuration file with wrong rule
+		// not essential
+		
 		int riskType = parameters.getRiskType();
 
 		for (int scen = 0; scen <= scenInfo.nScenarios; scen++) {
@@ -143,6 +148,22 @@ public class SimulationConfigurationFactory {
 					writeFinalElementToDom(rootElement,
 							"refValContinuousVariable", ((Float) parameters
 									.getRefClassCont()).toString());
+					if (parameters.getRiskTypeDistribution()=="Normal"||
+							parameters.getRiskTypeDistribution()=="normal"||
+							parameters.getRiskTypeDistribution()=="NORMAL")
+						
+						writeFinalElementToDom(rootElement,
+							"DistributionType", "normal");
+					else if (parameters.getRiskTypeDistribution()=="LogNormal"||
+							parameters.getRiskTypeDistribution()=="lognormal"||
+							parameters.getRiskTypeDistribution()=="logNormal"||
+							parameters.getRiskTypeDistribution()=="LOGNORMAL")
+						writeFinalElementToDom(rootElement,
+								"DistributionType", "lognormal");
+					else throw new DynamoConfigurationException( "unknown distribution type for continuous risk factor"+
+							parameters.getRiskTypeDistribution());
+						writeFinalElementToDom(rootElement,
+							"DistributionType", "normal");
 					writeFinalElementToDom(rootElement, "nCat",
 							((Integer) parameters.getPrevRisk()[0][0].length)
 									.toString());
@@ -179,11 +200,170 @@ public class SimulationConfigurationFactory {
 					
 			}
 
-			// TODO for categorical risk factor and duration 
-		}
+			// TODO testing for duration
+			// TODO testing continuous risk factor  
 		
+		if ( riskType == 2) {
+			String ConfigXMLfileName = null;
+				ConfigXMLfileName = directoryName
+						+ "\\modelconfiguration" + "\\rule"
+						+ ((Integer) ruleNumber).toString() + ".xml";
+				Document document = newDocument("rule3");
+
+				Element rootElement = document
+						.createElement("updateRuleConfiguration");
+				writeFinalElementToDom(rootElement, "charID",
+						((Integer) ruleNumber).toString());
+				writeFinalElementToDom(rootElement,
+						"refValContinuousVariable", ((Float) parameters
+								.getRefClassCont()).toString());
+				
+				
+				fileName = directoryName
+				+ "\\parameters\\meanValueRiskFactor.xml";
+				writeFinalElementToDom(rootElement,
+						"meanValueFileName", fileName);
+				
+				if (scen == 0)
+					writeOneDimArray(
+							parameters.getMeanRisk(),
+							"meanRiskValues", "mean",
+							fileName);
+				else
+					{
+					
+					// TODO
+					// at this moment the only possible scenario's for continuous risk factors
+					// are those with another initial distribution
+					};
+				
+				
+				
+				fileName = directoryName
+				+ "\\parameters\\stdValueRiskFactor.xml";
+				writeFinalElementToDom(rootElement,
+						"stdValueFileName", fileName);
+				if (scen == 0)
+					writeOneDimArray(
+							parameters.getStdDevRisk(),
+							"stdRiskValues", "std",
+							fileName);
+				else
+					{
+					
+					// TODO
+					// at this moment the only possible scenario's for continuous risk factors
+					// are those with another initial distribution
+					};
+				
+				
+				
+				fileName = directoryName
+				+ "\\parameters\\meanDriftRiskFactor.xml";
+				writeFinalElementToDom(rootElement,
+						"meanDriftFileName", fileName);
+				
+				if (scen == 0)
+					writeOneDimArray(
+							parameters.getMeanDrift(),
+							"meandrift", "meandrift",
+							fileName);
+				else
+					{
+					
+					// TODO
+					// at this moment the only possible scenario's for continuous risk factors
+					// are those with another initial distribution
+					};
+				
+				
+				
+				fileName = directoryName
+				+ "\\parameters\\stdDriftRiskFactor.xml";
+				writeFinalElementToDom(rootElement,
+						"stdDriftFileName", fileName);
+				
+				if (scen == 0)
+					writeOneDimArray(
+							parameters.getStdDrift(),
+							"stddrift", "stddrift",
+							fileName);
+				else
+					{
+					
+					// TODO
+					// at this moment the only possible scenario's for continuous risk factors
+					// are those with another initial distribution
+					};
+				
+				fileName = directoryName
+				+ "\\parameters\\offsetDriftRiskFactor.xml";
+				writeFinalElementToDom(rootElement,
+						"offsetDriftFileName", fileName);
+				
+				if (scen == 0)
+					writeOneDimArray(
+							parameters.getOffsetDrift(),
+							"offsetdrift", "offsetdrift",
+							fileName);
+				else
+					{
+					
+					// TODO
+					// at this moment the only possible scenario's for continuous risk factors
+					// are those with another initial distribution
+					};
+				
+				writeFinalElementToDom(rootElement, "durationClass",
+						((Integer) parameters.getDurationClass())
+								.toString());
+				if (isNullTransition) {
+					writeFinalElementToDom(rootElement, "nullTransition",
+							"1");
+					
+				} else {
+					writeFinalElementToDom(rootElement, "nullTransition",
+							"0");
+					
+					}
+				
+				document.appendChild(rootElement);
+				writeDomToXML(ConfigXMLfileName, document);
+		  
+		 }
 	   ruleNumber = 4;
-	  if ( riskType == 3) ruleNumber=5;
+		}
+	  if ( riskType == 3) {
+			String ConfigXMLfileName = null;
+				ConfigXMLfileName = directoryName
+						+ "\\modelconfiguration" + "\\rule"
+						+ ((Integer) ruleNumber).toString() + ".xml";
+				Document document = newDocument("rule4");
+
+				Element rootElement = document
+						.createElement("updateRuleConfiguration");
+				writeFinalElementToDom(rootElement, "charID",
+						((Integer) ruleNumber).toString());
+				writeFinalElementToDom(rootElement, "nCat",
+						((Integer) parameters.getPrevRisk()[0][0].length)
+								.toString());
+				writeFinalElementToDom(rootElement, "durationClass",
+						((Integer) parameters.getDurationClass())
+								.toString());
+				if (isNullTransition) {
+					writeFinalElementToDom(rootElement, "nullTransition",
+							"1");
+					
+				} else {
+					writeFinalElementToDom(rootElement, "nullTransition",
+							"0");
+					
+					}
+				
+				document.appendChild(rootElement);
+				writeDomToXML(ConfigXMLfileName, document);
+		  
+		  ruleNumber=5;}
 		/*
 		 * first make a second document for survival, so this can be filled
 		 * simultaneously with that of the diseases
@@ -240,6 +420,11 @@ public class SimulationConfigurationFactory {
 					((Integer) structure.getDiseaseNumber()[0]).toString());
 			writeFinalElementToDom(clusterElement, "numberOfDiseasesInCluster",
 					((Integer) structure.getNinCluster()).toString());
+			if (structure.isWithCuredFraction())
+					writeFinalElementToDom(clusterElement, "withCuredFraction",
+					"1");
+			else writeFinalElementToDom(clusterElement, "withCuredFraction","0");
+			
 			fileName = directoryName
 					+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
 					+ ((Integer) c).toString() + ".xml";
@@ -257,10 +442,29 @@ public class SimulationConfigurationFactory {
 				"baselineOtherMortalities", "baselineOtherMortality", fileName);
 		fileName = directoryName + "\\parameters\\relativeRisk_OtherMort.xml";
 
-		writeFinalElementToDom(healthStateRootElement,
+		if (parameters.riskType==1||parameters.riskType==3) {writeFinalElementToDom(healthStateRootElement,
 				"relativeRiskOtherMortFile", fileName);
 		writeTwoDimArray(parameters.getRelRiskOtherMort(), "relativeRisks",
+				"relativeRisk", fileName);}
+		else  {writeFinalElementToDom(healthStateRootElement,
+				"relativeRiskOtherMortFile", fileName);
+		writeOneDimArray(parameters.getRelRiskOtherMortCont(), "relativeRisks",
+				"relativeRisk", fileName);}
+		if (parameters.riskType==3) {writeFinalElementToDom(healthStateRootElement,
+				"endRelativeRiskOtherMortFile", fileName);
+		writeOneDimArray(parameters.getRelRiskOtherMortEnd(), "relativeRisks",
 				"relativeRisk", fileName);
+		writeFinalElementToDom(healthStateRootElement,
+				"beginRelativeRiskOtherMortFile", fileName);
+		writeOneDimArray(parameters.getRelRiskOtherMortBegin(), "relativeRisks",
+				"relativeRisk", fileName);
+		writeFinalElementToDom(healthStateRootElement,
+				"alfaRelRiskOtherMortFile", fileName);
+		writeOneDimArray(parameters.getAlfaOtherMort(), "alfa",
+				"alfa", fileName);
+		
+		}
+		
 
 		/* now start the writing of disease-specific information */
 
@@ -325,6 +529,7 @@ public class SimulationConfigurationFactory {
 							.getDiseaseNumber()[0]), "attributableMortalities",
 							"attributableMortality", fileName);
 
+					if (parameters.riskType==3||parameters.riskType==3){
 					fileName = directoryName + "\\parameters\\relativeRisk_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
@@ -334,13 +539,60 @@ public class SimulationConfigurationFactory {
 							extractFromTwoDimArray(
 									parameters.getRelRiskClass(), structure
 											.getDiseaseNumber()[0]),
-							"relativeRisks", "relativeRisk", fileName);
+							"relativeRisks", "relativeRisk", fileName);}
 
-					if (structure.withCuredFraction) {
-
-						// TODO bovenstaande is nog niet goed voor ziekten met
-						// cured fractions.
+					else
+					
+					{
+						fileName = directoryName + "\\parameters\\relativeRisk_"
+								+ ((Integer) c).toString() + "_"
+								+ ((Integer) d).toString() + "_" + name + ".xml";
+						writeFinalElementToDom(healthStateDiseaseElement,
+								"relativeRiskFile", fileName);
+						writeOneDimArray(
+								extractFromOneDimArray(
+										parameters.getRelRiskContinue(), structure
+												.getDiseaseNumber()[0]),
+								"relativeRisks", "relativeRisk", fileName);}
+					
+					if (parameters.riskType==3) {
+						fileName = directoryName + "\\parameters\\relativeRisk_end_"
+						+ ((Integer) c).toString() + "_"
+						+ ((Integer) d).toString() + "_" + name + ".xml";
+						
+						
+						writeFinalElementToDom(healthStateRootElement,
+							"endRelativeRiskFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters.getRelRiskDuurEnd(), structure
+							.getDiseaseNumber()[0]), "relativeRisks",
+							"relativeRisk", fileName);
+					
+					fileName = directoryName + "\\parameters\\relativeRisk_begin_"
+					+ ((Integer) c).toString() + "_"
+					+ ((Integer) d).toString() + "_" + name + ".xml";
+					
+					writeFinalElementToDom(healthStateRootElement,
+							"beginRelativeRiskOtherMortFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters.getRelRiskDuurBegin(), structure
+							.getDiseaseNumber()[0]), "relativeRisks",
+							"relativeRisk", fileName);
+						fileName = directoryName + "\\parameters\\alfa_"
+					+ ((Integer) c).toString() + "_"
+					+ ((Integer) d).toString() + "_" + name + ".xml";
+					
+					writeFinalElementToDom(healthStateRootElement,
+							"alfaRelRiskOtherMortFile", fileName);
+					writeOneDimArray(extractFromOneDimArray(parameters.getAlfaDuur(), structure
+							.getDiseaseNumber()[0]), "alfa",
+							"alfa", fileName);
+					
 					}
+					
+					
+
+						// TODO testen voor ziekten met
+						// cured fractions en continue risicofactoren.
+					
 				} // end if single or cured fraction disease
 
 			else {
@@ -486,7 +738,7 @@ public class SimulationConfigurationFactory {
 
 			setNRules(nRules);
 
-			// TODO get this from parameter estimation
+			// TODO get this from parameter estimation ???? what did I mean by that???
 
 			Element updateRuleElement = document.createElement("updaterules");
 
@@ -512,7 +764,7 @@ public class SimulationConfigurationFactory {
 					if (riskType == 3)
 						break;
 					else
-						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule";
+						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.HealthStateCatManyToManyUpdateRule";
 
 				}
 
@@ -586,7 +838,6 @@ public class SimulationConfigurationFactory {
 		charElement = document.createElement("ch");
 		rootElement.appendChild(charElement);
 		writeFinalElementToDom(charElement, "id", "3");
-		// TODO inlezen en wegschrijven naar van risk factor
 		writeFinalElementToDom(charElement, "lb", "risk factor");
 
 		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3)
@@ -888,7 +1139,7 @@ public class SimulationConfigurationFactory {
 			log.fatal("TransformerConfigurationException when writing "
 					+ fileName + ": " + e.getClass().getName() + " message: "
 					+ e.getMessage());
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			throw new CDMConfigurationException(
 					"TransformerConfigurationException when writing "
@@ -897,7 +1148,7 @@ public class SimulationConfigurationFactory {
 		} catch (TransformerException e) {
 			log.fatal("TransformerException when writing " + fileName + " "
 					+ e.getClass().getName() + " message: " + e.getMessage());
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			throw new CDMConfigurationException(
 					"TransformerException when writing " + fileName + " "
@@ -927,7 +1178,7 @@ public class SimulationConfigurationFactory {
 			Document document = docBuilder.newDocument();
 			return document;
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			log.fatal(e.getMessage());
 

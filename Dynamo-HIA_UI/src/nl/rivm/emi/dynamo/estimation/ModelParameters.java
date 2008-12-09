@@ -72,7 +72,7 @@ public class ModelParameters {
 	public float prevRisk[][][] = new float[96][2][];;
 	public float[][] meanRisk = new float[96][2];
 	public float[][] stdDevRisk = new float[96][2];
-	public float[][] skewnessRisk = new float[96][2];
+	
 	public float[][][] relRiskDuurBegin = new float[96][2][];
 	public float[][][] relRiskDuurEnd = new float[96][2][];
 	public float[][][] alfaDuur = new float[96][2][];
@@ -182,6 +182,14 @@ public class ModelParameters {
 		/** * 5. writes a population of newborns (TODO) */
 	}
 
+	/**
+	 * 
+	 * The method splits a disease with a cured fraction in two separate diseases for simulation
+	 * The first is the "cured" disease, the second the "not cured" disease.
+	 * 
+	 * @param inputData: object with imput data
+	 * @throws DynamoInconsistentDataException
+	 */
 	public void splitCuredDiseases(InputData inputData)
 			throws DynamoInconsistentDataException {
 
@@ -356,7 +364,7 @@ public class ModelParameters {
 		prevRisk = inputData.getPrevRisk();
 		meanRisk = inputData.meanRisk;
 		stdDevRisk = inputData.stdDevRisk;
-		skewnessRisk = inputData.skewnessRisk;
+		// TODO : for lognormal distribution the mean and std should be those on the log scale;
 		duurFreq = inputData.duurFreq;
 		nCluster = inputData.nCluster;
 		clusterStructure = inputData.clusterStructure;
@@ -837,10 +845,7 @@ public class ModelParameters {
 									} else
 										probCombi *= (1 - probDisease[i][Ndi]);
 								}
-								// TODO checken of dit (hierboven) nog steeds
-								// klopt
-								// TODO uitrekenen op logaritmische schaal is
-								// waarschijnlijk beter
+								
 								sumPrevCurrent += weight[i]
 										* probCombi
 										* RR
@@ -1093,8 +1098,8 @@ public class ModelParameters {
 											 * cannot calculate the attributable
 											 * mortality in this case and so it
 											 * is made equal to excess
-											 * mortality?? TODO definitief maken
-											 * en beschrijven
+											 * mortality.
+											
 											 */
 										} // end loop over dependent diseases
 									}
@@ -1266,11 +1271,7 @@ public class ModelParameters {
 
 				} // einde herhaling schatting van Attributable mortality
 
-				/*
-				 * TODO: dit bedenken if
-				 * (diseasePrevalence[age][sex][d]==0)attributableMortality
-				 * [age][sex][d] =
-				 */
+				
 			}
 			;
 			/**
@@ -1290,12 +1291,12 @@ public class ModelParameters {
 
 			double otherMort[] = new double[nSim];
 			double logOtherMort[] = new double[nSim];
+			double nNegativeOtherMort=0;
 
 			// make design matrix for regression (including dummy variables
 			// for
 			// each risk class)
-			// TODO: separate for different risk factor types::
-			// testing for type 2 and 3
+			
 			double[][] xMatrix = new double[nSim][2];
 
 			if (inputData.riskType == 1 || inputData.riskType == 3)
@@ -1336,32 +1337,40 @@ public class ModelParameters {
 				if (otherMort[i] > 0)
 					logOtherMort[i] = Math.log(otherMort[i]);
 				else {
-					System.out.println("negative other mortality  = "
+					log.warn("negative other mortality  = "
 							+ otherMort[i] + " for person  " + i
 							+ " for riskclass " + riskclass[i]
 							+ " and for riskfactor " + riskfactor[i]);
 					logOtherMort[i] = -999999;
+					nNegativeOtherMort+=weight[i];
 				}
 			}
+			
 			// end of fourth loop over all persons i
 			if (age == 0 && sex == 0)
 				log.debug("end loop 4");
-			// TODO warnings for other mortality lower then 0
-
+			if (nNegativeOtherMort>0.1) {
+			// TODO warnings for other mortality lower then 0 in window for user
+				log.fatal("negative other mortality  in  "+(nNegativeOtherMort*100)+" % of simulated cases");
+						}
+			if (nNegativeOtherMort>0.4)  throw new DynamoInconsistentDataException("other mortality becomes negative in"+
+					" more than 40% ( "+(nNegativeOtherMort*100)+" %) of cases. The amount of disease specific mortality given to the model" +
+							"exceeds the overall mortality give to the model.  Please lower excess mortality rates or" +
+							"disease prevalence rates, or increase total mortality rates" );
 			// carry out the regression of log other mortality on the risk
 			// factors;
 			try {
 				beta = weightedRegression(logOtherMort, xMatrix, weight);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
-				log.fatal(e.getMessage());
+				log.fatal("runtime error while estimating model parameters. e.getMessage()");
 				throw new RuntimeException(e.getMessage());
 			}
 			if (age == 0 && sex == 0)
 				log.debug(" beta 0 and 1 :" + beta[0] + beta[1]);
 			// calculate relative risks from the regression coefficients
-			// TODO: for compound type other form is needed
+		
 
 			// first class has relative risk of 1
 			relRiskOtherMort[age][sex][0] = 1;
@@ -1901,45 +1910,7 @@ public class ModelParameters {
 		return coef;
 	};
 
-	/**
-	 * calculatatCuredPrevFraction calculates the fraction of cured disease in
-	 * the initial prevalence assuming that past incidence and cure rates were
-	 * the same as current incidence and cure rates
-	 * 
-	 * obsolete as calculateNonCuredPrevFraction is used
-	 * 
-	 * @param inc
-	 *            double[] incidence by age
-	 * @param prev
-	 *            double[] prevalence by age
-	 * @param curedFraction
-	 *            [] curedFraction (of newly diagnosed cases) by age
-	 * @return percentage of prevalent cases that belongs to the group of cured
-	 *         patients
-	 */
-
-	private double[] calculateCuredPrevFraction(double inc[], double prev[],
-			double[] curedFraction) {
-		int n = inc.length;
-		double[] curedPrev = new double[n];
-		double[] curedPrevFraction = new double[n];
-		curedPrev[0] = curedFraction[0] * prev[0];
-		// TODO juist formule overnemen uit estimation stuk;
-		for (int a = 1; a < n; a++) {
-			curedPrev[a] = curedPrev[a - 1] + (1 - Math.exp(-inc[a - 1]))
-					* curedFraction[a - 1];
-			if (prev[a] != 0)
-				curedPrevFraction[a] = curedPrev[a] / prev[a];
-			else
-				curedPrevFraction[a] = 0;
-			if (curedPrevFraction[a] > 1) {
-				curedPrevFraction[a] = 1.0;
-				curedPrev[a] = prev[a];
-			}
-		}
-		return curedPrev;
-	}
-
+	
 	/**
 	 * This method calculates the prevalence of not cured disease, by
 	 * back-calculating the survivors from earlier agegroups
@@ -1966,9 +1937,8 @@ public class ModelParameters {
 		double[] CuredPrevFraction = new double[n];
 		double expDifferenceIncExcessMort;
 		notCuredPrev[0] = (1 - curedFraction[0]) * prev[0];
-		// TODO juist formule overnemen uit estimation stuk;
 		for (int a = 1; a < n; a++) {
-
+// TODO Testen van deze methode (kloppen berekeningen)
 			// finci = ((p0 * em - i) * exp((i - em) * time) + i * (1 - p0)) /
 			// ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0)) + p0 - p5
 			expDifferenceIncExcessMort = Math.exp((1 - curedFraction[a - 1])
