@@ -18,6 +18,8 @@ import org.apache.commons.logging.LogFactory;
  * @author mondeelr
  * 
  */
+
+
 public class Individual extends ArrayList<CharacteristicValueBase> {
 	Log log = LogFactory.getLog(getClass().getName());
 
@@ -33,7 +35,7 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 
 	private Long randomNumberGeneratorSeed = null;
 
-	public Long getRandomNumberGeneratorSeed() {
+		public Long getRandomNumberGeneratorSeed() {
 		return randomNumberGeneratorSeed;
 	}
 
@@ -41,6 +43,9 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
 	}
 
+	
+	
+	
 	public Individual(String elementName, String label) {
 		super();
 		this.elementName = elementName;
