@@ -26,8 +26,13 @@ public class PRngSeedFactory extends XMLConfiguredObjectFactory {
 	 * Generic patterns to prevent NumberFormatExceptions.
 	 */
 	Pattern posIntPattern = Pattern.compile("[0-9]+");
+	
+/* changed by hendriek to allow for negative numbers 
+ * old version was
+ * Pattern longPattern = Pattern.compile("[0-9]+[\\.]?[0-9]*");
 
-	Pattern longPattern = Pattern.compile("[0-9]+[\\.]?[0-9]*");
+ */
+	Pattern longPattern = Pattern.compile("^-?[0-9]+[\\.]?[0-9]*");
 
 	/**
 	 * Specialised pattern to detect 0.
@@ -80,7 +85,28 @@ public class PRngSeedFactory extends XMLConfiguredObjectFactory {
 			throws CDMConfigurationException, NumberFormatException,
 			CDMRunException {
 		boolean success = false;
-		String myValue = myNode.getNodeValue();
+		/* changed by Hendriek as the old version returned only null values of random seed
+		 * old version:
+		 * String myValue = myNode.getNodeValue();
+		 */
+		NamedNodeMap myAttributes = myNode.getAttributes();
+		Node valueNode=null;
+		if (myAttributes != null) {
+		valueNode =myAttributes.getNamedItem("vl");
+		if (valueNode == null) {
+			valueNode =myAttributes.getNamedItem("value");
+			if (valueNode == null) {
+				
+					
+							throw new CDMConfigurationException(
+									"Randomseed value not present");
+						}
+					}
+					
+		}
+		String myValue = valueNode.getNodeValue();
+		
+		/* end changes Hendriek */
 		if (myValue != null) {
 			Matcher matcher = longPattern.matcher(myValue);
 			if (matcher.matches()) {
@@ -96,6 +122,7 @@ public class PRngSeedFactory extends XMLConfiguredObjectFactory {
 						"Non float Random Number Generator Seed found.");
 			}
 		}
+		
 		return success;
 	}
 }
