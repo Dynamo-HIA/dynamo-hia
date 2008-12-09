@@ -4,21 +4,56 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.population.DOMPopulationWriter;
+import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.HealthStateCatManyToManyUpdateRule;
 
+import nl.rivm.emi.cdm.simulation.Simulation;
+import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
+import nl.rivm.emi.dynamo.estimation.DynamoLib;
+import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
+
+
+import junit.framework.Assert;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
+import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
+import nl.rivm.emi.dynamo.estimation.DynamoLib;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
@@ -33,6 +68,11 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,8 +96,10 @@ public class TestAll {
 	String simFileName2 = directoryName + "\\modelconfiguration"
 	+ "\\simulation_scen_1.XML";
 	/* LET OP: de factory voor initial population voegt zelf XML toe */
-	/* String popFileName = directoryName + "\\modelconfiguration"
-			+ "\\population"; */
+	String popFileName = directoryName + "\\modelconfiguration"
+			+ "\\population";
+	String popFileName2 = directoryName + "\\modelconfiguration"
+	+ "\\population_scen_1";
 
 	HierarchicalConfiguration simulationConfiguration;
 	Simulation sim;
@@ -68,27 +110,29 @@ public class TestAll {
 		log.fatal("Starting test. ");
 
 		System.out.println(preCharConfig);
-		ScenarioInfo scen = new ScenarioInfo();
 		try {
 			p = new ModelParameters();
 			InputData i = new InputData();
-			 i.makeTest2Data();
-			//i.makeTest1Data();
+			i.makeTest1Data();
+			// NB is testdata=1 then also scenario info=1: 2x veranderen!!
+			//i.makeTest2Data();
 			p.estimateModelParameters(100, i);
 			log.fatal("ModelParameters estimated ");
-		
-			
-			scen.makeTestData();
+			p.setRiskType(1);
+			ScenarioInfo scenInfo=new ScenarioInfo();
+			// scenInfo.makeTestData();
+			 
+			 scenInfo.makeTestData1();
 			SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 					simName);
 
 			// DynamoConfigurationData d= new
 			// DynamoConfigurationData(BaseDirectory.getBaseDir());
-			s.manufactureSimulationConfigurationFile(p, scen);
+			s.manufactureSimulationConfigurationFile(p,scenInfo);
 			log.fatal("SimulationConfigurationFile written ");
 			s.manufactureCharacteristicsConfigurationFile(p);
 			log.fatal("CharacteristicsConfigurationFile written ");
-			s.manufactureUpdateRuleConfigurationFiles(p,scen);
+			s.manufactureUpdateRuleConfigurationFiles(p,scenInfo);
 			log.fatal("UpdateRuleConfigurationFile written ");
 
 		} catch (ConfigurationException e) {
@@ -116,15 +160,19 @@ public class TestAll {
 	public void runSimulation() throws CDMRunException {
 
 		try {
-			ScenarioInfo scen = new ScenarioInfo();
-			scen.makeTestData();
+			
 			log.fatal("Starting manufacturing initial population.");
 			InitialPopulationFactory E2 = new InitialPopulationFactory();
+			ScenarioInfo scenInfo=new ScenarioInfo();
+			 scenInfo.makeTestData1();
+			// for testing purposes use only newborns
+			E2.writeInitialPopulation(p, 10, simName, 1111,true, scenInfo);
+		//	log.fatal("Starting manufacturing newborn population.");
+			E2.writeInitialPopulation(p, 10, simName, 1111,false, scenInfo);
 			
-			
-			E2.writeInitialPopulation(p, 10, simName, 1111, false, scen);
 			log.fatal("Starting run.");
 
+			
 			File multipleCharacteristicsFile = new File(preCharConfig);
 			log.fatal("charFile made.");
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
@@ -132,89 +180,106 @@ public class TestAll {
 			log.fatal("charFile handled.");
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
-			log.fatal("charFile loaded.");
+			log.fatal("empty charmap made");
 			File simulationConfigurationFile = new File(simFileName);
+			File simulationConfigurationFile2 = new File(simFileName2);
 			log.fatal("simulationFile made.");
-			Population[] pop=new Population[2];
-			if (simulationConfigurationFile.exists()) {
-				simulationConfiguration = new XMLConfiguration(
-						simulationConfigurationFile);
-				log.fatal("simulationFile read");
-				sim = SimulationFromXMLFactory
-						.manufacture_DOMPopulationTree(simulationConfiguration);
-				log.fatal("simulationFile manufactured through DOM");
-				/*
-				 * log.fatal("Starting second, test threaded manufacture.");
-				 * Simulation sim2 = ThreadedSimulationFromXMLFactory
-				 * .manufacture_DOMPopulationTree(simulationConfiguration); log
-				 * .fatal(
-				 * "Second, dummy simulation object manufactured with high priority threading."
-				 * );
-				 */
-				log.fatal("starting run");
-				sim.run();
-				log.fatal("Run complete.");
+			
 				assertTrue(CharacteristicsConfigurationMapSingleton
 						.getInstance().size() > 1);
 				// calculate frequency of risk factor values during simulation
 				// //
-				pop[0] = sim.getPopulation();
-				
-				/* int nScen, int riskType, int nRiskFactorClasses,
-				int stepsInRun, DiseaseClusterStructure[] structure */
-				simulationConfigurationFile = new File(simFileName2);
-				log.fatal("simulationFile 2 made.");
-				simulationConfiguration = new XMLConfiguration(
-						simulationConfigurationFile);
-								
-								log.fatal("simulationFile 2 read");
-				sim = SimulationFromXMLFactory
-				.manufacture_DOMPopulationTree(simulationConfiguration);
-		log.fatal("simulationFile 2 manufactured through DOM");
-		log.fatal("starting run 2");
-		sim.run();
-		log.fatal("Run 2 complete .");
-		
-		pop[1] = sim.getPopulation();
-				
-				
-				
-				
-				
-				DynamoOutputFactory df=new DynamoOutputFactory(1,p.riskType, p.prevRisk.length, 100,p.clusterStructure);
-				df.makeOutput(pop);
-				df.makePrevalenceByRiskFactorPlots(0);
-				df.makeLifeExpectancyPlot();
-				df.makeRiskFactorPlots(0);
-				
-				df.makeSurvivalPlot("survival", 0);
-				df.makeSurvivalPlot("survival", 1);
-				df.makePrevalencePlots(0);
-				df.makePrevalencePlots(1);
-				int sexIndex = 0;
-				int ageIndex = 0;	
+				Population pop2=null; ;
+				Population pop1=null; ;
+				if (simulationConfigurationFile.exists()) {
+					simulationConfiguration = new XMLConfiguration(
+							simulationConfigurationFile);
+					log.fatal("simulationconfuration made");
+					sim = SimulationFromXMLFactory
+							.manufacture_DOMPopulationTree(simulationConfiguration);
+					log.fatal("simulationFile loaded");
+					
+					log.fatal("starting run ");
+					sim.run();
+					log.fatal("Run  complete.");
+					
+					pop1 = sim.getPopulation();
+					
+					if (simulationConfigurationFile2.exists()) {
+						simulationConfiguration = new XMLConfiguration(
+								simulationConfigurationFile2);
+						log.fatal("simulationconfuration made");
+						sim = SimulationFromXMLFactory
+								.manufacture_DOMPopulationTree(simulationConfiguration);
+						log.fatal("simulationFile2 loaded");
+						
+						log.fatal("starting run 2");
+						sim.run();
+						log.fatal("Run 2 complete.");
+						
+						pop2 = sim.getPopulation();}	
+				//public DynamoOutputFactory(int nScen,int riskType, int nRiskFactorClasses, int stepsInRun,DiseaseClusterStructure [] structure) {
+				int nScen=1;// number of alternative scenarios
+				DynamoOutputFactory output = new DynamoOutputFactory(nScen,p.riskType,p.prevRisk[0][0].length, sim.getStepsInRun(), p.clusterStructure);
+				Population[] pop=new Population[2];
+				pop[0]=pop1;
+				pop[1]=pop2;
+				output.makeOutput(pop);
+				JFreeChart chart=output.makeSurvivalPlot("testplot",0);
+				chart=output.makeSurvivalPlot("testplot",1);
+				ChartFrame frame1 = new ChartFrame("Survival Chart", chart);
+				frame1.setVisible(true);
+				frame1.setSize(300, 300);
+				output.makeLifeExpectancyPlot();
+				output.makePrevalencePlots(0);
+				output.makePrevalencePlots(1);
+				output.makePopulationPyramidPlot(0,0);
+				output.makeRiskFactorPlots(0); 
+				output.makePrevalenceByRiskFactorPlots(0); 
+				output.makePrevalenceByRiskFactorPlots(1); 
+				try {
+
+					ChartUtilities.saveChartAsJPEG(new File(
+							"C:\\hendriek\\java\\chart.jpg"), chart, 500, 300);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					System.out.println("Problem occurred creating chart.");
+				}
 				/*
 				for (int count = 1; count <= sim.getStepsInRun(); count++) {
 					File outFile = new File(baseDir + "out" + count + ".XML");
 					DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),
 							count, outFile);
-				}
+				}*/
 				log.fatal("Result written.");
-*/
+
 			}
+
+			/*
+			for (int count = 1; count <= sim.getStepsInRun(); count++) {
+				File outFile = new File(baseDir + "out" + count + ".XML");
+				DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),
+						count, outFile);
+			}*/
+			log.fatal("Result written.");
+
+		
+			
+			
+			
+			
+			
+			
 		} catch (ParserConfigurationException e) {
-			log.fatal("Exception " + e.getClass().getName()
-					+ " caught. Message: " + e.getMessage());
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
-			log.fatal("Exception " + e.getClass().getName()
-					+ " caught. Message: " + e.getMessage());
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (TransformerException e) {
-			log.fatal("Exception " + e.getClass().getName()
-					+ " caught. Message: " + e.getMessage());
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
@@ -230,9 +295,10 @@ public class TestAll {
 	 * element=new XMLBaseElement(); element.setTag("Tag"+i);
 	 * element.setValue(i); example.add(element);}
 	 * 
-	 * example.writeToXMLFile(example,f);//E2.writeInitialPopulation(E1,10,
-	 * "c:/hendriek/java/workspace/dynamo/dynamoinput/initial"); // test
-	 * weighted regression
+	 * example.writeToXMLFile(example,f);
+	 * //E2.writeInitialPopulation(E1,10,"c:/hendriek/java/workspace/dynamo/dynamoinput/initial"); //
+	 * test weighted regression
+	 * 
 	 */
 
 	public static junit.framework.Test suite() {
