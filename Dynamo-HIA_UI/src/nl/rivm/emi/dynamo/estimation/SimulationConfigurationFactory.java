@@ -148,7 +148,7 @@ public class SimulationConfigurationFactory {
 					writeFinalElementToDom(rootElement,
 							"refValContinuousVariable", ((Float) parameters
 									.getRefClassCont()).toString());
-					if (parameters.getRiskTypeDistribution()=="Normal"||
+					if (parameters.riskType==2){if (parameters.getRiskTypeDistribution()=="Normal"||
 							parameters.getRiskTypeDistribution()=="normal"||
 							parameters.getRiskTypeDistribution()=="NORMAL")
 						
@@ -162,8 +162,7 @@ public class SimulationConfigurationFactory {
 								"DistributionType", "lognormal");
 					else throw new DynamoConfigurationException( "unknown distribution type for continuous risk factor"+
 							parameters.getRiskTypeDistribution());
-						writeFinalElementToDom(rootElement,
-							"DistributionType", "normal");
+					 }
 					writeFinalElementToDom(rootElement, "nCat",
 							((Integer) parameters.getPrevRisk()[0][0].length)
 									.toString());
@@ -528,8 +527,8 @@ public class SimulationConfigurationFactory {
 							.getAttributableMortality(), structure
 							.getDiseaseNumber()[0]), "attributableMortalities",
 							"attributableMortality", fileName);
-
-					if (parameters.riskType==3||parameters.riskType==3){
+					/* relative risks of risk factor on the disease */
+					if (parameters.riskType==3||parameters.riskType==1){
 					fileName = directoryName + "\\parameters\\relativeRisk_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
@@ -539,7 +538,16 @@ public class SimulationConfigurationFactory {
 							extractFromTwoDimArray(
 									parameters.getRelRiskClass(), structure
 											.getDiseaseNumber()[0]),
-							"relativeRisks", "relativeRisk", fileName);}
+							"relativeRisks", "relativeRisk", fileName);
+					
+					
+					
+					
+					
+					
+					
+					
+					}
 
 					else
 					
