@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<incidences>
+<diseaseincidences>
 	<incidence>
 		<age>0</age>
 		<sex>0</sex>
@@ -960,4 +960,4 @@
 		<sex>1</sex>
 		<value>0</value>
 	</incidence>
-</incidences>
+</diseaseincidences>
