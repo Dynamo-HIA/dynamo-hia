@@ -1,59 +1,22 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
+ 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import nl.rivm.emi.cdm.CDMRunException;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.SingleDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.TwoPartDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.ClusterDiseaseMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.SurvivalMultiToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.HealthStateManyToManyUpdateRule;
-import nl.rivm.emi.cdm.rules.update.dynamo.HealthStateCatManyToManyUpdateRule;
 
-import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
-
-
-import junit.framework.Assert;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
-import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
@@ -68,11 +31,9 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
