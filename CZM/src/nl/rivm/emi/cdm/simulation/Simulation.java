@@ -403,8 +403,11 @@ public class Simulation extends DomLevelTraverser {
 					if (updateRule instanceof OneToOneUpdateRuleBase) {
 
 						int oldValue = intCharVal.getCurrentValue();
+						
+						
 						Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
-								.update(new Integer(oldValue));
+						.update(new Integer(oldValue));
+						
 						intCharVal.appendValue(newValue);
 						log.info("Updated charval at " + intCharVal.getIndex()
 								+ " for " + individual.getLabel() + " from "
@@ -426,8 +429,24 @@ public class Simulation extends DomLevelTraverser {
 							}
 							float oldValue = intCharVal.getCurrentValue();
 							// int index = intCharVal.getIndex();
+							
+							
+							
+							/* changed by Hendriek to include random number in update
+							 * was: 
+							 
+							
+							
 							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
 									.update(charVals);
+							
+							*/
+							Long seed=individual.getRandomNumberGeneratorSeed();
+							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
+									.update(charVals,seed);
+							individual.setRandomNumberGeneratorSeed(nextSeed(seed));
+							
+							/* end change by Hendriek */
 							if (newValue != null) {
 								intCharVal.appendValue(newValue);
 								log.info("Updated charval at "
@@ -455,7 +474,25 @@ public class Simulation extends DomLevelTraverser {
 			return keep;
 		}
 	}
-
+/* added by Hendriek */
+	
+	
+	
+	/**
+	 * method nextSeed generates a next seed with the same algoritm as used within util.Random
+		 * 
+	 * @param seed: Long value of seed
+	 * @return
+	 */
+	public Long nextSeed(Long seed){
+		/** method nextSeed generates a next seed with the same algoritm as used within util.Random
+		 * */
+		 
+			seed = (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
+			
+			
+		return seed;}
+	/* end added by hendriek */
 	private boolean handleFloatCharVal(FloatCharacteristicValue floatCharVal,
 			Individual individual) throws CDMRunException {
 		log.debug("Entering handleFloatCharVal");
@@ -501,8 +538,19 @@ public class Simulation extends DomLevelTraverser {
 							}
 							float oldValue = floatCharVal.getCurrentValue();
 							// int index = floatCharVal.getIndex();
+							
+							
+							/* changed by Hendriek to include random number in update
+							 * was: 
 							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
 									.update(charVals);
+							*/
+						
+							Long seed=individual.getRandomNumberGeneratorSeed();
+							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
+									.update(charVals,seed);
+							individual.setRandomNumberGeneratorSeed(nextSeed(seed));
+							/* end change by Hendriek */
 							if (newValue != null) {
 								floatCharVal.appendValue(newValue);
 								log.info("Updated charval at "
