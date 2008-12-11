@@ -79,7 +79,7 @@ public class InputData {
 		for (int age = 0; age < 96; age++)
 			for (int g = 0; g < 2; g++) {
 
-				mortTot[age][g] = (float) 0.01;
+				mortTot[age][g] = (float) 0.05;
 				// first index is for risk factor class, second for disease //
 				
 				
@@ -164,7 +164,7 @@ public class InputData {
 						clusterData[age][g][2].relRiskCont = hulp1;
 						float[] hulp2 = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F, 0.06F, 0.07F };
 						clusterData[age][g][2].excessMortality = hulp2;
-						float[] hulp3 = { 0, 0, 0, 0.1F, 0.2F, 0, 0.3F };
+						float[] hulp3 = { 0, 0, 0, 0.01F, 0.02F, 0, 0.03F };
 						clusterData[age][g][2].caseFatality = hulp3;
 						float[] hulp5 = { 2, 2, 2, 2, 2, 2, 2 };
 						clusterData[age][g][2].relRiskDuurBegin= hulp5;
