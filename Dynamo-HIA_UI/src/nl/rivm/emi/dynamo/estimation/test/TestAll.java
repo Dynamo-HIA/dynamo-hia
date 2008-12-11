@@ -79,6 +79,7 @@ import org.junit.Test;
 
 public class TestAll {
 	Log log = LogFactory.getLog(getClass().getName());
+	
 	String baseDir = BaseDirectory.getInstance(
 			"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 
