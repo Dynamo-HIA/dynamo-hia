@@ -1,10 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.verify.IntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.StandardValueVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -29,14 +31,14 @@ import org.eclipse.swt.widgets.Text;
 public class IntegerParameterDataPanel extends Composite /* implements Runnable */{
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
-	AgeMap<SexMap<IObservable>> lotsOfData;
+	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
 
 	public IntegerParameterDataPanel(Composite parent, Text topNeighbour,
-			AgeMap<SexMap<IObservable>> lotsOfData,
+			TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
@@ -57,7 +59,7 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 		Label maleTestLabel = new Label(this, SWT.NONE);
 		maleTestLabel.setText("MaleTest");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			SexMap<IObservable> sexMap = lotsOfData.get(count);
+			TypedHashMap sexMap = (TypedHashMap)lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
 			bindValue(sexMap, BiGender.FEMALE_INDEX);
@@ -77,7 +79,7 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(SexMap<IObservable> sexMap, int index) {
+	private void bindValue(TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
@@ -94,7 +96,6 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 			}
 
 		});
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
@@ -102,10 +103,10 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies
 						.getStrategy(modelObservableValue.getValueType()));
-		text.addVerifyListener(new StandardValueVerifyListener());
+		text.addVerifyListener(new IntegerVerifyListener());
 	}
 
-	private void bindTestValue(SexMap<IObservable> sexMap, int index) {
+	private void bindTestValue(TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
@@ -115,5 +116,6 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies
 						.getStrategy(modelObservableValue.getValueType()));
+		text.addVerifyListener(new IntegerVerifyListener());
 	}
 }

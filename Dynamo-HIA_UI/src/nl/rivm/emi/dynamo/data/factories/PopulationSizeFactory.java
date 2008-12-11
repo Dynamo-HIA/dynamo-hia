@@ -13,30 +13,37 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PopulationSizeFactory extends AgnosticFactory{
+public class PopulationSizeFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public PopulationSizeObject constructObservableAllZeroesModel() {
-		// TODO Auto-generated method stub
-		return null;
+	public PopulationSizeObject manufacture(File configurationFile)
+			throws ConfigurationException {
+		log.debug("Starting manufacture.");
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		PopulationSizeObject result = new PopulationSizeObject(producedMap);
+		return (result);
 	}
 
 	public PopulationSizeObject manufactureObservable(File configurationFile)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap =  manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
 		return result;
 	}
 
-	public PopulationSizeObject manufacture(
-			File configurationFile) throws ConfigurationException {
-		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		PopulationSizeObject result = new PopulationSizeObject(producedMap);
-		return (result); 
+	public PopulationSizeObject manufactureDefault()
+			throws ConfigurationException {
+		return manufactureDefault(false);
 	}
-	public PopulationSizeObject manufactureDefault() throws ConfigurationException {
+
+	public PopulationSizeObject manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
+	private PopulationSizeObject manufactureDefault(boolean makeObservable)
+			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -45,7 +52,9 @@ public class PopulationSizeFactory extends AgnosticFactory{
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
-		return (PopulationSizeObject) super.manufactureDefault(leafNodeList, false);
+		TypedHashMap<Age> producedMap = manufactureDefault(leafNodeList,
+				makeObservable);
+		PopulationSizeObject result = new PopulationSizeObject(producedMap);
+		return result; 
 	}
-
 }

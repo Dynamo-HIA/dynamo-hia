@@ -42,7 +42,7 @@ public class PrevalencesProxy implements
 		Factory<StandardObjectMarker, ObservableObjectMarker> theFactory = factoriesMap
 				.get(testElementName);
 		if (theFactory != null) {
-			dataObject = theFactory.constructObservableAllZeroesModel();
+			dataObject = theFactory.manufactureObservableDefault();
 			if (dataObject == null) {
 				log.error(theFactory.getClass().getName()
 						+ " constructed a null dataobject.");

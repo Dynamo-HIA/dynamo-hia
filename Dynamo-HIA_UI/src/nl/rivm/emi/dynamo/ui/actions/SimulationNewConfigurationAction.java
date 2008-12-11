@@ -2,29 +2,24 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.main.DiseaseIncidenceModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class SimulationsNewAction extends Action {
+public class SimulationNewConfigurationAction extends Action {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private String selectionPath;
 	private Shell shell;
 	private TreeViewer theViewer;
+	private String selectionPath;
 	private DirectoryNode simulationsNode;
 
-	public SimulationsNewAction(Shell shell, TreeViewer v) {
+	public SimulationNewConfigurationAction(Shell shell, TreeViewer v) {
 		super();
 		this.shell = shell;
 		theViewer = v;

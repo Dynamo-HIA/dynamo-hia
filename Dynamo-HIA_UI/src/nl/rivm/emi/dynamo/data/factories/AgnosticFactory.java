@@ -1,16 +1,20 @@
 package nl.rivm.emi.dynamo.data.factories;
 
 /**
+ * Base Factory for hierarchic configuration files.
+ * Current limitations: Simple Object (Integer, Float) at the deepest level.
+ * 
  * 20080918 Agestep fixed at 1. Ages are Integers. 
  * 20081111 Implementation from HashMapto LinkedHashMap to preserve ordering of the elements.
  * 20081117 Constructing of IObservables added.
- * 20081120 Made class abstract and methods protected to force inheritance. 
+ * 20081120 Made class abstract and external interface protected to force inheritance. 
  */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.LeafType;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -29,12 +33,52 @@ abstract public class AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
+	 * Abstract method to allow polymorphism.
+	 * 
+	 * @param configurationFile
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	abstract public TypedHashMap manufacture(File configurationFile)
+			throws ConfigurationException;
+
+	/**
+	 * Abstract method to allow polymorphism.
+	 * 
+	 * @param configurationFile
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	abstract public TypedHashMap manufactureObservable(File configurationFile)
+			throws ConfigurationException;
+
+	/**
+	 * Abstract method to allow polymorphism.
+	 * 
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	abstract public TypedHashMap manufactureDefault()
+			throws ConfigurationException;
+
+	/**
+	 * Abstract method to allow polymorphism.
+	 * 
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	abstract public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException;
+
+	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
-	 * @param makeObservable TODO
+	 * 
+	 * @param makeObservable
+	 *            TODO
 	 */
-	protected TypedHashMap manufacture(File configurationFile, boolean makeObservable)
-			throws ConfigurationException {
+	protected TypedHashMap manufacture(File configurationFile,
+			boolean makeObservable) throws ConfigurationException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap underConstruction = null;
 		XMLConfiguration configurationFromFile;
@@ -63,38 +107,31 @@ abstract public class AgnosticFactory {
 		}
 	}
 
+	/**
+	 * Currently each rootchild contains a group of XML-elements (leafnodes) of
+	 * which all but the last must be "container" datatypes. The result of
+	 * successfull processing is the addition of a single Object (wrapped in a
+	 * WritableValue when makeObservable is true) contained in a number of
+	 * levels of TypedHashMap.
+	 * 
+	 * @param originalObject
+	 * @param rootChild
+	 * @param makeObservable
+	 * @return
+	 * @throws ConfigurationException
+	 */
 	@SuppressWarnings("unchecked")
 	private TypedHashMap handleRootChild(TypedHashMap originalObject,
 			ConfigurationNode rootChild, boolean makeObservable)
 			throws ConfigurationException {
-		TypedHashMap resultMap = null;
 		LeafNodeList leafNodeList = new LeafNodeList();
-		leafNodeList.fill(rootChild);
-		int theLastContainer = leafNodeList.checkContents();
+		int theLastContainer = leafNodeList.fill(rootChild);
 		log.debug("Handling rootchild. LastContainer " + theLastContainer
 				+ leafNodeList.report());
-		resultMap = buildObject(originalObject, leafNodeList, theLastContainer,
-				makeObservable);
-		return resultMap;
-	}
-
-	/**
-	 * @param leafNodeList
-	 * @param theLastContainer
-	 * @param makeObservable
-	 *            TODO
-	 * @return
-	 * @throws DynamoConfigurationException
-	 */
-	@SuppressWarnings("unchecked")
-	private TypedHashMap buildObject(TypedHashMap originalObject,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, boolean makeObservable)
-			throws DynamoConfigurationException {
 		int currentLevel = 0;
-		TypedHashMap resultMap = makePath(originalObject, leafNodeList,
+		TypedHashMap updatedObject = makePath(originalObject, leafNodeList,
 				theLastContainer, currentLevel, makeObservable);
-		return resultMap;
+		return updatedObject;
 	}
 
 	/**
@@ -123,21 +160,20 @@ abstract public class AgnosticFactory {
 		log.debug("Recursing, currentLevel " + currentLevel + " value "
 				+ currentLevelValue);
 		if (currentLevel < theLastContainer - 1) {
-			handleContainer(priorLevel, leafNodeList, theLastContainer,
+			handleContainerType(priorLevel, leafNodeList, theLastContainer,
 					currentLevel, makeObservable, currentLevelValue);
 		} else {
-			handleObjectLeaf(priorLevel, leafNodeList, currentLevel,
+			handlePayLoadType(priorLevel, leafNodeList, currentLevel,
 					makeObservable, currentLevelValue);
 		}
 		return priorLevel;
 	}
 
-	private void handleContainer(TypedHashMap priorLevel,
+	private void handleContainerType(TypedHashMap priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable,
 			Integer currentLevelValue) throws DynamoConfigurationException {
-		TypedHashMap pathMap = (TypedHashMap) priorLevel
-				.get(currentLevelValue);
+		TypedHashMap pathMap = (TypedHashMap) priorLevel.get(currentLevelValue);
 		if (pathMap == null) {
 			pathMap = new TypedHashMap(leafNodeList.get(currentLevel + 1)
 					.getType());
@@ -147,7 +183,7 @@ abstract public class AgnosticFactory {
 		priorLevel.put(currentLevelValue, pathMap);
 	}
 
-	private void handleObjectLeaf(TypedHashMap priorLevel,
+	private void handlePayLoadType(TypedHashMap priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, Integer currentLevelValue)
 			throws DynamoConfigurationException {
@@ -162,8 +198,8 @@ abstract public class AgnosticFactory {
 				priorLevel.put(currentLevelValue, writableValue);
 			} else {
 				if (leafValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(
-							leafValue, Float.class);
+					WritableValue writableValue = new WritableValue(leafValue,
+							Float.class);
 					priorLevel.put(currentLevelValue, writableValue);
 				} else {
 					throw new DynamoConfigurationException(
@@ -171,7 +207,6 @@ abstract public class AgnosticFactory {
 									+ leafValue.getClass().getName());
 				}
 			}
-			// TODO if()
 		}
 	}
 
@@ -213,7 +248,8 @@ abstract public class AgnosticFactory {
 	@SuppressWarnings("unchecked")
 	private TypedHashMap makeDefaultPath(TypedHashMap priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, int currentLevel, boolean makeObservable) throws DynamoConfigurationException {
+			int theLastContainer, int currentLevel, boolean makeObservable)
+			throws DynamoConfigurationException {
 		log.debug("Recursing, making default Object, currentLevel "
 				+ currentLevel);
 		int maxValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
@@ -235,19 +271,22 @@ abstract public class AgnosticFactory {
 				Number defaultValue = ((LeafType<Number>) leafNodeList.get(
 						currentLevel + 1).getType()).getDefaultValue();
 				if (!makeObservable) {
-					log.debug("Adding default leaf " + defaultValue + " at value " + value);
+					log.debug("Adding default leaf " + defaultValue
+							+ " at value " + value);
 					priorLevel.put(value, defaultValue);
 				} else {
 					if (defaultValue instanceof Integer) {
 						WritableValue writableValue = new WritableValue(
 								defaultValue, Integer.class);
-						log.debug("Adding default Writable Integer leaf " + defaultValue + " at value " + value);
+						log.debug("Adding default Writable Integer leaf "
+								+ defaultValue + " at value " + value);
 						priorLevel.put(value, writableValue);
 					} else {
 						if (defaultValue instanceof Float) {
 							WritableValue writableValue = new WritableValue(
 									defaultValue, Float.class);
-							log.debug("Adding default Writable Float leaf " + defaultValue + " at value " + value);
+							log.debug("Adding default Writable Float leaf "
+									+ defaultValue + " at value " + value);
 							priorLevel.put(value, writableValue);
 						} else {
 							throw new DynamoConfigurationException(

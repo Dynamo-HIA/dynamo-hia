@@ -6,7 +6,6 @@ import java.util.List;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.ContainerType;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -54,6 +53,7 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 			}
 
 		} // for leafChildren
+		theLastContainer = checkContents();
 		return theLastContainer;
 	}
 
@@ -66,7 +66,7 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 		return resultStringBuffer.toString();
 	}
 
-	public int checkContents() throws DynamoConfigurationException {
+	public int checkContents() throws ConfigurationException {
 		int theLastContainer = 0;
 		for (; theLastContainer < this.size(); theLastContainer++) {
 			if (!(get(theLastContainer).getType() instanceof ContainerType)) {
@@ -74,12 +74,12 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 			}
 		}
 		if (theLastContainer == 0) {
-			throw new DynamoConfigurationException(
+			throw new ConfigurationException(
 					"Supporting only XML with at least one dimension (eg. age) for now. LastContainer "
 							+ theLastContainer + report());
 		} else {
 			if (theLastContainer != size() - 1) {
-				throw new DynamoConfigurationException(
+				throw new ConfigurationException(
 						"Supporting XML with single value only for now. LastContainer "
 								+ theLastContainer + report());
 			} else {

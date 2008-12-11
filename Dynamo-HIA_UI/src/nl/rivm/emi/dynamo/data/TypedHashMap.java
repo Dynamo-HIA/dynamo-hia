@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data;
-
+/**
+ * HashMap
+ */
 import java.util.LinkedHashMap;
 
 public class TypedHashMap<T> extends LinkedHashMap<Integer, Object> {

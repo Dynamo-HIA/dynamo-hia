@@ -75,5 +75,4 @@ public class StorageTreeContentProvider implements ITreeContentProvider {
 		}
 		return hasChildren;
 	}
-
 }

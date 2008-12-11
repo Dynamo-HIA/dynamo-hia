@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.panels.button;
+package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 

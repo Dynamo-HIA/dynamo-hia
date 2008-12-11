@@ -1,9 +1,11 @@
 package nl.rivm.emi.dynamo.ui.main;
 
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FromXMLFactoryDispatcher;
-import nl.rivm.emi.dynamo.data.objects.ObservableIncidencesObject;
+import java.io.File;
+
+import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
+import nl.rivm.emi.dynamo.data.objects.IncidencesObject;
 import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -12,7 +14,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -25,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Shell shell;
-	AgeMap<SexMap<IObservable>> lotsOfData;
+	IncidencesObject lotsOfData;
 	DataBindingContext dataBindingContext = null;
 	String configurationFilePath;
 	HelpGroup helpPanel;
@@ -37,7 +38,7 @@ public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 		MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
-		box.setText("Loading file ");
+		box.setText("File to process.");
 		box.setMessage(configurationFilePath);
 		box.open();
 		this.configurationFilePath = configurationFilePath;
@@ -50,8 +51,10 @@ public class DiseaseIncidenceModal implements Runnable, DataAndFileContainer {
 				.setModalParent((DataAndFileContainer) this);
 		helpPanel = new HelpGroup(shell, buttonPanel);
 		try {
-			lotsOfData = (ObservableIncidencesObject) FromXMLFactoryDispatcher
-					.makeObservableDataObject(configurationFilePath);
+			AgnosticFactory theFactory =FactoryProvider
+			.getRelevantFactory(configurationFilePath);
+			File configurationFile = new File(configurationFilePath);
+			lotsOfData = ((IncidencesFactory)theFactory).manufacture(configurationFile);
 		} catch (ClassCastException e) {
 			throw new ConfigurationException(e.getClass().getName() + " "
 					+ e.getMessage());

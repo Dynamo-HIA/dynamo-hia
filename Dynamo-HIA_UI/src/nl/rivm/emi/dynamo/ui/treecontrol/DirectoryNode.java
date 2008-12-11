@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
+
 public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 
 	ParentNode parent = null;

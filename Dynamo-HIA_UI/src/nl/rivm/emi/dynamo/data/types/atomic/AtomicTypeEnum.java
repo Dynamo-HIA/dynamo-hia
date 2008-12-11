@@ -4,6 +4,7 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 public enum AtomicTypeEnum {
 	AGE((AtomicTypeBase)new Age()),
 	SEX((AtomicTypeBase)new Sex()),
+	NUMBER((AtomicTypeBase)new Number()),
 	CATEGORY((AtomicTypeBase)new Category()),
 	DURATION((AtomicTypeBase)new Duration()),
 	TRANSITIONSOURCE((AtomicTypeBase)new TransitionSource()),

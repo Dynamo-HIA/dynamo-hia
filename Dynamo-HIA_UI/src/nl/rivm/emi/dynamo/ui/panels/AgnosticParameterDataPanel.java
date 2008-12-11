@@ -1,8 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.StandardValueVerifyListener;
@@ -25,20 +27,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class FloatParameterDataPanel extends Composite /* implements Runnable */{
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
-	AgeMap<SexMap<IObservable>> lotsOfData;
+public class AgnosticParameterDataPanel extends Composite /* implements Runnable */{
+	Log log = LogFactory
+			.getLog(this.getClass().getName());
+	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
 
-	public FloatParameterDataPanel(Composite parent, Text topNeighbour,
-			AgeMap<SexMap<IObservable>> lotsOfData,
+	public AgnosticParameterDataPanel(Composite parent, Text topNeighbour,
+			TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
+		AtomicTypeBase topType = (AtomicTypeBase) lotsOfData.getType();
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
@@ -66,7 +69,7 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		}
 	}
 
-	public void handlePlacementInContainer(FloatParameterDataPanel panel,
+	public void handlePlacementInContainer(AgnosticParameterDataPanel panel,
 			Label topNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 10);

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.writers;
+package nl.rivm.emi.dynamo.data.writers.obsolete;
 
 /**
  * 20080918 Agestep fixed at 1. Ages are Integers. 

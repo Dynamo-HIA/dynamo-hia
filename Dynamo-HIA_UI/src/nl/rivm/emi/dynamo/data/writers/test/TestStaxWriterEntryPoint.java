@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.data.factories.notinuse.FourDimFloatArrayFromFlatXMLFa
 import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.data.transition.DestinationsByOriginMap;
 import nl.rivm.emi.dynamo.data.transition.ValueByDestinationMap;
-import nl.rivm.emi.dynamo.data.writers.StAXWriterEntryPoint;
+import nl.rivm.emi.dynamo.data.writers.obsolete.StAXWriterEntryPoint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

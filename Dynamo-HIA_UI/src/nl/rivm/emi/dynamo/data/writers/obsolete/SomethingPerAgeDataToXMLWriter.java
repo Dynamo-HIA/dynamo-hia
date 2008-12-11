@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.writers;
+package nl.rivm.emi.dynamo.data.writers.obsolete;
 
 import java.io.File;
 import java.util.List;

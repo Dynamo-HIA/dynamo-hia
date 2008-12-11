@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.panels.button;
+package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,10 +6,12 @@ import java.io.IOException;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
-import nl.rivm.emi.dynamo.data.writers.StAXWriterEntryPoint;
+import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
+import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
+import nl.rivm.emi.dynamo.data.writers.obsolete.StAXWriterEntryPoint;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
@@ -17,7 +19,6 @@ import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 
 public class SaveSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
@@ -35,11 +36,10 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
-		File configurationFile = new File(modalParent.getFilePath());
+		String filePath = modalParent.getFilePath();
+		File configurationFile = new File(filePath);
 		try {
-			StAXWriterEntryPoint.produceFile(
-					(AgeMap<SexMap<IObservable>>) modalParent.getData(),
-					configurationFile);
+			StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton.getInstance().get(modalParent.getRootElementName()), (TypedHashMap)modalParent.getData(),configurationFile);
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

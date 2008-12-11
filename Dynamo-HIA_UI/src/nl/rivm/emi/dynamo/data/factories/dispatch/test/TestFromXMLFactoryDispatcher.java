@@ -9,7 +9,7 @@ import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FromXMLFactoryDispatcher;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.factories.notinuse.IncidenceIntegerFactory;
 import nl.rivm.emi.dynamo.data.objects.ObservableIncidencesObject;
 import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
@@ -49,7 +49,7 @@ public class TestFromXMLFactoryDispatcher {
 	@Test
 	public void testManufacturingIncidenceObject() {
 		try {
-			Object theObject = FromXMLFactoryDispatcher
+			Object theObject = FactoryProvider
 					.makeDataObject(incidenceConfigurationFilePath);
 			assertNotNull(theObject);
 		} catch (ConfigurationException e) {
@@ -61,7 +61,7 @@ public class TestFromXMLFactoryDispatcher {
 	@Test
 	public void testManufacturingObservableIncidenceObject() {
 		try {
-			Object theObject = FromXMLFactoryDispatcher
+			Object theObject = FactoryProvider
 					.makeObservableDataObject(incidenceConfigurationFilePath);
 			assertNotNull(theObject);
 		} catch (ConfigurationException e) {
@@ -74,7 +74,7 @@ public class TestFromXMLFactoryDispatcher {
 	public void testManufacturing() {
 		IObjectFromXMLFactory<StandardObjectMarker, ObservableObjectMarker> theFactory;
 		try {
-			theFactory = FromXMLFactoryDispatcher.getRelevantFactory(incidenceConfigurationFilePath);
+			theFactory = FactoryProvider.getRelevantFactory(incidenceConfigurationFilePath);
 		RunWrappedContainerManufacturing conManRunner = new RunWrappedContainerManufacturing(incidenceConfigurationFilePath, theFactory);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				conManRunner);

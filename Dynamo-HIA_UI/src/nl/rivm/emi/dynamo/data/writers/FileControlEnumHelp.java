@@ -1,11 +1,5 @@
 package nl.rivm.emi.dynamo.data.writers;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
 /**
  * Class that for the moment contains items nescessary to be able to write out
@@ -27,7 +21,7 @@ public class FileControlEnumHelp {
 	 */
 	/* W11 */
 	static final String[] populationSizeStrings = { "populationsize", "size",
-			"age", "sex", "value" };
+			"age", "sex", "number" };
 	/* W12 */
 	static final String[] overallMortalityStrings = { "overallmortality",
 			"mortality", "age", "sex", "value" };
@@ -56,10 +50,10 @@ public class FileControlEnumHelp {
 	/* W23Cat */
 	static final String[] relRiskForDeathCatStrings = { "relrisksfordeath_categorical",
 			"relriskfordeath", "age", "sex", "cat", "value" };
-	/* W23Cat */
+	/* W23Con */
 	static final String[] relRiskForDeathContStrings = { "relrisksfordeath_continuous",
 			"relriskfordeath", "age", "sex", "value" };
-	/* W23Com */
+	/* W23Cmp */
 	/* W31 */
 	static final String[] diseasePrevalencesStrings = { "diseaseprevalences",
 			"prevalence", "age", "sex", "percent" };
@@ -73,7 +67,7 @@ public class FileControlEnumHelp {
 	/* W34Con */
 	static final String[] relRiskForRiskfactorConStrings = { "rrisksforriskfactor_continuous",
 			"relativerisk", "age", "sex", "value" };
-	/* W34Com */
+	/* W34Cmp */
 	/* W35 */
 	static final String[] relRiskFromDiseaseStrings = { "rrisksfromdisease",
 			"relativerisk", "age", "sex", "value" };

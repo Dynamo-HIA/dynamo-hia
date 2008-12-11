@@ -6,7 +6,6 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.base.IObjectFromXMLFactory;
 
 public class DispatchMap extends HashMap<String, AgnosticFactory > {
 	private static DispatchMap instance = null;

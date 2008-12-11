@@ -1,9 +1,13 @@
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.ui.treecontrol.structure;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,7 +83,7 @@ public class StandardDirectoryStructureHandler {
 				// Sequence counts.
 				Set<String> requiredNames = new LinkedHashSet<String>();
 				requiredNames.add("Simulations");
-				requiredNames.add("Reference Data");
+				requiredNames.add("Reference_Data");
 				super.setRequiredNames(requiredNames);
 			}
 
@@ -98,14 +102,14 @@ public class StandardDirectoryStructureHandler {
 				super();
 				Set<String> requiredNames = new LinkedHashSet<String>();
 				requiredNames.add("Populations");
-				requiredNames.add("Risk Factors");
+				requiredNames.add("Risk_Factors");
 				requiredNames.add("Diseases");
 				super.setRequiredNames(requiredNames);
 			}
 
 			@Override
 			public void process(DirectoryNode node) {
-				if ("Reference Data"
+				if ("Reference_Data"
 						.equals(node.getPhysicalStorage().getName())) {
 					checkAndCreateNames(node);
 				}
@@ -119,8 +123,8 @@ public class StandardDirectoryStructureHandler {
 				Set<String> requiredNames = new LinkedHashSet<String>();
 				requiredNames.add("Prevalences");
 				requiredNames.add("Incidences");
-				requiredNames.add("Relative Risks");
-				requiredNames.add("DALY Weights");
+				requiredNames.add("Relative_Risks");
+				requiredNames.add("DALY_Weights");
 				super.setRequiredNames(requiredNames);
 			}
 
