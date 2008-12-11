@@ -415,7 +415,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 								transMat[a][g][r][c] = new float[nCombinations[c]][nCombinations[c]];
 
 								transMat[a][g][r][c] = matExp
-										.exponentiateMatrix(rateMatrix);
+										.exponentiateFloatMatrix(rateMatrix);
 
 								currentStateNo += nCombinations[c] - 1;
 							} // end if statement for cluster diseases

@@ -161,7 +161,10 @@ public class ArraysFromXMLFactory {
 		Integer age = null;
 		Integer sex = null;
 		Float value = null;
-
+		boolean sexRead =false;
+		boolean ageRead =false;
+		
+		boolean  valueRead =false;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
@@ -172,18 +175,18 @@ public class ArraysFromXMLFactory {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 					
-						age = Integer.parseInt(valueString);
-					
+						age = getIntegerValue(valueString,valueTagName);
+						ageRead =true;
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 					
-							sex = Integer.parseInt(valueString);
-						
+							sex = getIntegerValue(valueString,valueTagName);;
+							sexRead =true;
 					} else {
 						if (valueTagName.equalsIgnoreCase(leafName)) {
 							
-								value = Float.parseFloat(valueString);
-							
+								value = getFloatValue(valueString,valueTagName);
+								valueRead =true;
 						} else {
 							throw new ConfigurationException("Unexpected tag: "
 									+ leafName);
@@ -194,7 +197,9 @@ public class ArraysFromXMLFactory {
 				throw new ConfigurationException("Value is no String!");
 			}
 		} // for leafChildren
-
+		  if (!(ageRead && sexRead && valueRead) ) throw new ConfigurationException("Tag missing when processing value for age " + age
+					+ " sex: " + sex + "\nPresentValue: "+ value)
+					;
 		if (arrayToBeFilled[age][sex] != 0) {
 			throw new ConfigurationException("Duplicate value for age: " + age
 					+ " sex: " + sex + "\nPresentValue: "
@@ -354,35 +359,41 @@ public class ArraysFromXMLFactory {
 		Integer sex = null;
 		Float value = null;
 		Integer index = null;
-
+		boolean sexRead =false;
+		boolean ageRead =false;
+		boolean indexRead =false;
+		boolean  valueRead =false;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
 		//	log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			Object valueObject = leafChild.getValue();
+			
 			if (valueObject instanceof String) {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 					
-						age = Integer.parseInt(valueString);
+						age = getIntegerValue(valueString,value2Tagname);
+						ageRead =true;
 					
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 						
-							sex = Integer.parseInt(valueString);
+							sex = getIntegerValue(valueString,value2Tagname);
+							sexRead =true;
 						
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
 							
-								index = Integer.parseInt(valueString);
-							
+								index = getIntegerValue(valueString,value2Tagname);
+								indexRead =true;
 						} else
 
 						if (value2Tagname.equalsIgnoreCase(leafName)) {
 							
-								value = Float.parseFloat(valueString);
-							
+								value = getFloatValue(valueString,value2Tagname);
+								valueRead =true;
 						} else
 
 						{
@@ -395,7 +406,9 @@ public class ArraysFromXMLFactory {
 				throw new ConfigurationException("Value is no String!");
 			}
 		} // for leafChildren
-
+        if (!(ageRead && sexRead && valueRead && indexRead) ) throw new ConfigurationException("Tag missing when processing value for age " + age
+				+ " sex: " + sex + " index: " + index + "\nPresentValue: "+ value)
+				;
 		if (arrayToBeFilled[age][sex][index] != 0) {
 			throw new ConfigurationException("Duplicate value for age: " + age
 					+ " sex: " + sex + " index: " + index + "\nPresentValue: "
@@ -571,6 +584,11 @@ public class ArraysFromXMLFactory {
 		Float value = null;
 		Integer index1 = null;
 		Integer index2 = null;
+		boolean sexRead =false;
+		boolean ageRead =false;
+		boolean index1Read =false;
+		boolean index2Read =false;
+		boolean  valueRead =false;
 
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
@@ -582,30 +600,30 @@ public class ArraysFromXMLFactory {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 					
-						age = Integer.parseInt(valueString);
-					
+						age = getIntegerValue(valueString,value2TagName);;
+						ageRead =true;
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 						
-							sex = Integer.parseInt(valueString);
-						
+							sex = getIntegerValue(valueString,value2TagName);
+							sexRead =true;
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
 							
 								index1 = Integer.parseInt(valueString);
-							
+								index1Read =true;
 						} else {
 
 						if (value2TagName.equalsIgnoreCase(leafName)) {
 							
-								index2 =  Integer.parseInt(valueString);
-							
+								index2 =  getIntegerValue(valueString,value2TagName);;
+								index2Read =true;
 						} else
 
 							if (value3TagName.equalsIgnoreCase(leafName)) {
 								
-									value = Float.parseFloat(valueString);
-								
+									value = getFloatValue(valueString,value2TagName);
+									valueRead =true;
 							} else
 
 						{
@@ -618,7 +636,9 @@ public class ArraysFromXMLFactory {
 				throw new ConfigurationException("Value is no String!");
 			}
 		} // for leafChildren
-
+		  if (!(ageRead && sexRead && valueRead && index1Read && index2Read) ) throw new ConfigurationException("Tag missing when processing value for age " + age
+					+ " sex: " + sex + " index1: " + index1 + " index2: " + index2 +"\nPresentValue: "+ value)
+					;
 		if (arrayToBeFilled[age][sex][index1][index2] != 0) {
 			throw new ConfigurationException("Duplicate value for age: " + age
 					+ " sex: " + sex + " index: " + index1 + "\nPresentValue: "
@@ -631,5 +651,21 @@ public class ArraysFromXMLFactory {
 		}
 		return arrayToBeFilled;
 
+	}
+	
+	public int getIntegerValue(String value,String tag) throws ConfigurationException {
+		int returnvalue=0;
+		if (value==null) throw new ConfigurationException("no value found with "+tag);
+		else returnvalue= Integer.parseInt(value);
+	return returnvalue;
+	
+	}
+	public float getFloatValue(String value, String tag) throws ConfigurationException {
+		float returnvalue=0;
+		
+		if (value==null) throw new ConfigurationException("no value found with "+tag);
+		else returnvalue= Float.parseFloat(value);
+	return returnvalue;
+	
 	}
 }

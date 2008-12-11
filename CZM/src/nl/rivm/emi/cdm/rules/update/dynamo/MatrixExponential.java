@@ -50,6 +50,20 @@ public final class MatrixExponential {
 	}
 	public void setNumberOfIterations(int Niterations){NExpIterations=Niterations;};
 	
+	public float[][] exponentiateFloatMatrix(double[][] AT) {
+		int dim=AT.length;
+		float [][] returnMatrix=new float [dim][dim];
+		double [][] matrix=	exponentiateMatrix(AT);
+		
+		for  (int j1 = 0; j1 < dim; j1++)
+			for (int j2 = 0; j2 < dim; j2++)
+				returnMatrix[j1][j2]=(float) matrix[j1][j2];
+		return returnMatrix;
+		
+		
+		
+	};
+	
 	public double[][] exponentiateMatrix(double[][] AT) {
 		// ----------------------------------------------------------------------------------------------------------------
 		// External variables whose values are shared with the calling program
