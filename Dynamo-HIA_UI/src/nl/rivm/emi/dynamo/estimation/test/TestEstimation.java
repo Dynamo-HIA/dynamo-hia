@@ -143,7 +143,7 @@ public void test() {
 		
 		
 		InputData Testdata2 = new InputData();
-		Testdata2.makeTest2();
+		Testdata2.makeTest2Data();
 		ModelParameters E4 = new ModelParameters();
 		E4.estimateModelParametersForSingleAgeGroup(100, Testdata2,0,0);
 
