@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
 import org.apache.commons.logging.Log;
@@ -18,7 +20,8 @@ public class StandardValueVerifyListener implements VerifyListener {
 		String candidateContent = currentContent.substring(0, arg0.start)
 				+ arg0.text
 				+ currentContent.substring(arg0.end, currentContent.length());
-		log.debug("VerifyEvent with current content: " + currentContent + " , candidate content: " + candidateContent);
+		log.debug("VerifyEvent with current content: " + currentContent
+				+ " , candidate content: " + candidateContent);
 		arg0.doit = false;
 		myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		try {
@@ -26,10 +29,11 @@ public class StandardValueVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((Value.matchPattern.matcher(candidateContent))
-						.matches()) {
+				if ((Value.matchPattern.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
-					if (Value.isValueValid(candidateFloat)) {
+					if (((NumberRangeTypeBase<Float>) AtomicTypesSingleton
+							.getInstance().get("value"))
+							.inRange(candidateFloat)) {
 						arg0.doit = true;
 						myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 					}

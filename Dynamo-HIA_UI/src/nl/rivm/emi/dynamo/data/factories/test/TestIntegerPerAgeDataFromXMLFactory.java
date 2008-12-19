@@ -1,12 +1,7 @@
 package nl.rivm.emi.dynamo.data.factories.test;
-import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.notinuse.SomethingPerAgeDataFromXMLFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,9 +26,9 @@ public class TestIntegerPerAgeDataFromXMLFactory {
 		String configurationFilePath = "datatemplates" + File.separator + "5agestep_2gender_popsize.xml";
 		File configurationFile = new File(configurationFilePath);
 		log.fatal(configurationFile.getAbsolutePath());
-		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testContainer = 
-			SomethingPerAgeDataFromXMLFactory.manufacture(configurationFile);
-		assertNotNull(testContainer);
+//		AgeSteppedContainer<BiGenderSteppedContainer<Integer>> testContainer = 
+//			SomethingPerAgeDataFromXMLFactory.manufacture(configurationFile);
+//		assertNotNull(testContainer);
 
 	}
 

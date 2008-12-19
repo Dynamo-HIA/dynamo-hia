@@ -18,6 +18,7 @@ import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -42,7 +43,8 @@ public class RunnableCategoricalRiskfactorPrevalencesManufacturing implements Ru
 			// Create XML-file with defaults and write it to disk.
 			PrevalencesCategoricalFactory theFactory = new PrevalencesCategoricalFactory();
 			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			theFactory.setNumberOfCategories(numCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
@@ -64,6 +66,10 @@ public class RunnableCategoricalRiskfactorPrevalencesManufacturing implements Ru
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}

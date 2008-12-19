@@ -1,4 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
+
+import org.eclipse.core.databinding.UpdateValueStrategy;
+
 /**
  * Nonnegative Integer without fixed upper limit. 
  * This to enable adjustment to the range of categories the transitions can cover. 
@@ -53,5 +56,29 @@ public class TransitionSource extends FlexibleUpperLimitNumberRangeTypeBase<Inte
 		Integer oldUpperLimit = MAX_VALUE;
 		MAX_VALUE = newUpperLimit;
 		return oldUpperLimit;
+	}
+
+	@Override
+	Object convert4Model(String viewString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String convert4View(Object modelValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UpdateValueStrategy getModelUpdateValueStrategy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UpdateValueStrategy getViewUpdateValueStrategy() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

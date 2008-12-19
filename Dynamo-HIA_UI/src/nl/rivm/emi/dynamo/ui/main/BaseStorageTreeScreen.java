@@ -112,24 +112,9 @@ public class BaseStorageTreeScreen {
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
-		DiseaseIncidenceModal dialog;
-		try {
-			dialog = new DiseaseIncidenceModal(shell,
-					selectedConfigurationFilePath);
-			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-					dialog);
-		} catch (ConfigurationException e) {
-			// Do nothing, already handled on a deeper level.
-		}
-	}
-
-	private void newEntry() {
-		FileDialog fileDialog = new FileDialog(shell);
-		fileDialog.open();
-		String selectedConfigurationFilePath = fileDialog.getFilterPath()
-				+ File.separator + fileDialog.getFileName();
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
-				shell, selectedConfigurationFilePath);
+		DiseaseIncidencesModal dialog;
+		dialog = new DiseaseIncidencesModal(shell,
+				selectedConfigurationFilePath, selectedConfigurationFilePath, null);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}
@@ -169,7 +154,6 @@ public class BaseStorageTreeScreen {
 		subItem.setAccelerator(SWT.MOD1 + 'N');
 		subItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				newEntry();
 			}
 		});
 		// File -> New Contact

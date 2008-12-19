@@ -10,16 +10,24 @@ import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TransitionMatrixFactory extends AgnosticFactory {
+public class TransitionMatrixFactory extends AgnosticFactory implements
+		CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	private Integer numberOfCategories = null;
+
+	public void setNumberOfCategories(Integer numberOfCategories) {
+		this.numberOfCategories = numberOfCategories;
+	}
+
 	public TransitionMatrixObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
 		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
@@ -27,14 +35,26 @@ public class TransitionMatrixFactory extends AgnosticFactory {
 	}
 
 	public TransitionMatrixObject manufacture(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
 		return (result);
 	}
 
-	public TransitionMatrixObject manufactureDefault(int numberOfCategories)
+	@Override
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
+
+	public TransitionMatrixObject manufactureDefault(boolean makeObservable)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
@@ -56,10 +76,9 @@ public class TransitionMatrixFactory extends AgnosticFactory {
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
 		TransitionMatrixObject theObject = new TransitionMatrixObject(super
-				.manufactureDefault(leafNodeList, false));
+				.manufactureDefault(leafNodeList, makeObservable));
 		source.setMAX_VALUE(oldMaxSource);
 		destination.setMAX_VALUE(oldMaxDestination);
 		return theObject;
 	}
-
 }

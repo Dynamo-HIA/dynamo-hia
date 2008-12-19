@@ -9,23 +9,32 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForDeathCategoricalFactory extends AgnosticFactory {
+public class RelRiskForDeathCategoricalFactory extends AgnosticFactory
+		implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	Integer numberOfCategories = null;
+
+
+	public void setNumberOfCategories(Integer numberOfCategories) {
+		this.numberOfCategories = numberOfCategories;
+	}
+
 	public RelRiskForDeathCategoricalObject manufactureObservable(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return new RelRiskForDeathCategoricalObject(manufacture(
 				configurationFile, true));
 	}
 
 	public RelRiskForDeathCategoricalObject manufacture(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		RelRiskForDeathCategoricalObject result = new RelRiskForDeathCategoricalObject(
@@ -33,8 +42,19 @@ public class RelRiskForDeathCategoricalFactory extends AgnosticFactory {
 		return (result);
 	}
 
+	@Override
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
 	public RelRiskForDeathCategoricalObject manufactureDefault(
-			int numberOfCategories) throws ConfigurationException {
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -49,7 +69,7 @@ public class RelRiskForDeathCategoricalFactory extends AgnosticFactory {
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
 		return new RelRiskForDeathCategoricalObject(super.manufactureDefault(
-				leafNodeList, false));
+				leafNodeList, makeObservable));
 	}
 
 }

@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -17,7 +18,7 @@ public class DALYWeightsFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public DALYWeightsObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
 		DALYWeightsObject result = new DALYWeightsObject(producedMap);
@@ -25,13 +26,27 @@ public class DALYWeightsFactory extends AgnosticFactory {
 	}
 
 	public DALYWeightsObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		DALYWeightsObject result = new DALYWeightsObject(producedMap);
 		return (result); 
 	}
-	public DALYWeightsObject manufactureDefault() throws ConfigurationException {
+
+	@Override
+	public DALYWeightsObject manufactureDefault()
+			throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return manufactureDefault(true);
+	}
+
+	private DALYWeightsObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -40,6 +55,7 @@ public class DALYWeightsFactory extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("percent"), null));
-		return new DALYWeightsObject(super.manufactureDefault(leafNodeList, false));
+		return new DALYWeightsObject(super.manufactureDefault(leafNodeList, makeObservable));
 	}
+
 }

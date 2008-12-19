@@ -19,6 +19,7 @@ import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -43,7 +44,8 @@ public class RunnableDurationRiskfactorPrevalencesManufacturing implements Runna
 			// Create XML-file with defaults and write it to disk.
 			RiskFactorPrevalencesDurationFactory theFactory = new RiskFactorPrevalencesDurationFactory();
 			int numDurations = 20;
-			Object defaultResult = theFactory.manufactureDefault(numDurations);
+			theFactory.setNumberOfCategories(numDurations);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
@@ -65,6 +67,9 @@ public class RunnableDurationRiskfactorPrevalencesManufacturing implements Runna
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}

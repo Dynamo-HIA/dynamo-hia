@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -22,19 +23,31 @@ public class RelRiskForRiskFactorContinuousFactory extends AgnosticFactory {
 	}
 
 	public RelRiskForRiskFactorContinuousObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return  new RelRiskForRiskFactorContinuousObject( manufacture(configurationFile, true));
 	}
 
 	public RelRiskForRiskFactorContinuousObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		RelRiskForRiskFactorContinuousObject result = new RelRiskForRiskFactorContinuousObject(producedMap);
 		return (result); 
 	}
-	public RelRiskForRiskFactorContinuousObject manufactureDefault() throws ConfigurationException {
+
+	@Override
+	public TypedHashMap manufactureDefault()
+			throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+	public RelRiskForRiskFactorContinuousObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -43,7 +56,6 @@ public class RelRiskForRiskFactorContinuousFactory extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
-		return new RelRiskForRiskFactorContinuousObject(super.manufactureDefault(leafNodeList, false));
+		return new RelRiskForRiskFactorContinuousObject(super.manufactureDefault(leafNodeList, makeObservable));
 	}
-
 }

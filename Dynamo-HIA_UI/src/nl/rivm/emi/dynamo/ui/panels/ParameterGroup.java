@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.ui.parametercontrols.prototype.test.ScrollListener;
@@ -26,7 +27,7 @@ public class ParameterGroup {
 	Group theGroup;
 
 	public ParameterGroup(Composite parent,
-			AgeMap<SexMap<IObservable>> lotsOfData,
+			TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
@@ -63,7 +64,7 @@ public class ParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-		Composite parameterDataPanel = new FloatParameterDataPanel(
+		Composite parameterDataPanel = new ValueParameterDataPanel(
 				scrolledContainer, text, lotsOfData, dataBindingContext, helpGroup);
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(label, 2);

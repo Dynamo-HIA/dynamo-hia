@@ -10,18 +10,11 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
+import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -42,7 +35,7 @@ public class RunnableDiseaseIncidencesManufacturing implements Runnable {
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
-			Object result = new IncidencesFactory()
+			Object result = new DiseaseIncidencesFactory()
 					.manufactureObservable(configurationFile);
 			assertNotNull(result);
 			try {
@@ -60,6 +53,9 @@ public class RunnableDiseaseIncidencesManufacturing implements Runnable {
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}

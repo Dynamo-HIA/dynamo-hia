@@ -6,16 +6,16 @@ import java.util.ArrayList;
 
 public class TemplateTree extends ArrayList<TemplateTreeNode>{
 
-	BaseDirectoryNode baseDirectoryNode;
+	/* BaseDirectoryNode */ String baseDirectoryNode;
 
-	private TemplateTree(BaseDirectoryNode baseDirectoryNode) {
+	TemplateTree(String baseDirectoryAbsolutePath) {
 		super();
-		this.baseDirectoryNode = baseDirectoryNode;
+		this.baseDirectoryNode = baseDirectoryAbsolutePath;
 	}
 
-	public boolean add(TemplateTreeNode arg0) {
-		return baseDirectoryNode.add(arg0);
-	}
+//	public boolean add(TemplateTreeNode arg0) {
+//		return baseDirectoryNode.add(arg0);
+//	}
 	
 
 }

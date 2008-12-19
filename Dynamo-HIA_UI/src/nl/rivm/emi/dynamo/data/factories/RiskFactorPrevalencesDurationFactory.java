@@ -13,16 +13,23 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
+public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+Integer numberOfCategories = null;
+
+public void setNumberOfCategories(Integer numberOfCategories) {
+this.numberOfCategories = numberOfCategories;
+}
+
 	public RiskFactorPrevalencesDurationObject manufactureObservable(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
 		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
@@ -31,7 +38,7 @@ public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
 	}
 
 	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
@@ -39,8 +46,19 @@ public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
 		return (result);
 	}
 
+	@Override
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
 	public PrevalencesCategoricalObject manufactureDefault(
-			int numberOfCategories) throws ConfigurationException {
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -55,47 +73,8 @@ public class RiskFactorPrevalencesDurationFactory extends AgnosticFactory {
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("percent"), null));
 		PrevalencesCategoricalObject defaultObject = new PrevalencesCategoricalObject(
-				super.manufactureDefault(leafNodeList, false));
+				super.manufactureDefault(leafNodeList, makeObservable));
 		category.setMAX_VALUE(oldMaxValue);
 		return defaultObject;
 	}
-
-	/**
-	 * TODO Change
-	 * 
-	 * @param configurationFile
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	// public float[][] manufactureArrayFromFlatXML(File configurationFile)
-	// throws ConfigurationException {
-	// float[][] theArray = null;
-	// AgeMap<SexMap<Float>> theMap = manufacture(configurationFile);
-	// int ageDim = theMap.size();
-	// SexMap<Float> sexMap = theMap.get(new Float(0));
-	// int sexDim = sexMap.size();
-	// theArray = new float[ageDim][sexDim];
-	// Float theFloat = null;
-	// log.debug("Array sizes: age " + ageDim + " sex: " + sexDim);
-	// for (int ageCount = 0; ageCount < ageDim; ageCount++) {
-	// sexMap = theMap.get(new Float(ageCount));
-	// if (sexMap == null) {
-	// throw new ConfigurationException(
-	// "Incomplete set of sexes for age " + ageCount);
-	// }
-	// for (int sexCount = 0; sexCount < sexDim; sexCount++) {
-	// theFloat = sexMap.get(new Float(sexCount));
-	// if (theFloat != null) {
-	// log.debug("Putting value " + theFloat + " for age "
-	// + ageCount + " sex: " + sexCount);
-	// theArray[ageCount][sexCount] = theFloat;
-	// } else {
-	// throw new ConfigurationException(
-	// "Incomplete set of values for age " + ageCount
-	// + ",sex " + sexCount);
-	// }
-	// }
-	// }
-	// return theArray;
-	// }
 }

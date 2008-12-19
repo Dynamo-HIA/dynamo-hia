@@ -21,6 +21,7 @@ import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -66,6 +67,9 @@ public class RunnableRelRiskForDeathContinuousManufacturing implements Runnable 
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}

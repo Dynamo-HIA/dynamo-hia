@@ -11,12 +11,7 @@ import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
 
@@ -48,7 +43,7 @@ public class TestIncidencesAgnosticFactoryDefaultBehaviour {
 				+ File.separator + "stax_disease_incidence_default.xml";
 		File outputFile = new File(outputFilePath);
 		try {
-			Object result = new IncidencesFactory().manufactureDefault();
+			Object result = new DiseaseIncidencesFactory().manufactureDefault();
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton

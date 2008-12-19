@@ -3,8 +3,6 @@ package nl.rivm.emi.dynamo.ui.main;
 /* Imports */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderModal;
-
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
@@ -67,22 +65,12 @@ public class BaseScreen {
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
-		DiseaseIncidenceModal dialog = new DiseaseIncidenceModal(
-				shell, selectedConfigurationFilePath);
+		DiseaseIncidencesModal dialog = new DiseaseIncidencesModal(
+				shell, selectedConfigurationFilePath, selectedConfigurationFilePath, null);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}
 
-	private void newEntry() {
-		FileDialog fileDialog = new FileDialog(shell);
-		fileDialog.open();
-		String selectedConfigurationFilePath = fileDialog.getFilterPath()
-				+ File.separator + fileDialog.getFileName();
-		CharacteristicParameterModal dialog = new CharacteristicParameterModal(
-				shell, selectedConfigurationFilePath);
-		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-				dialog);
-	}
 
 	private void createFileMenu(Menu menuBar) {
 		// File menu.
@@ -109,7 +97,6 @@ public class BaseScreen {
 		subItem.setAccelerator(SWT.MOD1 + 'N');
 		subItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				newEntry();
 			}
 		});
 		subItem = new MenuItem(menu, SWT.NONE);

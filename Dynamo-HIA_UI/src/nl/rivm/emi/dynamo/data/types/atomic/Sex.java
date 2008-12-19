@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import org.eclipse.core.databinding.UpdateValueStrategy;
+
 public class Sex extends NumberRangeTypeBase<Integer> implements ContainerType{
 	static final protected String XMLElementName = "sex";
 
@@ -45,5 +47,29 @@ public class Sex extends NumberRangeTypeBase<Integer> implements ContainerType{
 			result = false;
 		}
 		return result;
+	}
+
+	@Override
+	Object convert4Model(String viewString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String convert4View(Object modelValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UpdateValueStrategy getModelUpdateValueStrategy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UpdateValueStrategy getViewUpdateValueStrategy() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

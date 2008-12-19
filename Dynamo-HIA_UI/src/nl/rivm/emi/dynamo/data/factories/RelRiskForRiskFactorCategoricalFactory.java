@@ -9,28 +9,33 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory {
+public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory
+		implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public RelRiskForRiskFactorCategoricalObject constructObservableAllZeroesModel() {
-		// TODO Auto-generated method stub
-		return null;
+	private Integer numberOfCategories = null;
+
+	public void setNumberOfCategories(Integer numberOfCategories) {
+		this.numberOfCategories = numberOfCategories;
 	}
 
 	public RelRiskForRiskFactorCategoricalObject manufactureObservable(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return new RelRiskForRiskFactorCategoricalObject(manufacture(
 				configurationFile, true));
 	}
 
 	public RelRiskForRiskFactorCategoricalObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		RelRiskForRiskFactorCategoricalObject result = new RelRiskForRiskFactorCategoricalObject(
@@ -38,8 +43,20 @@ public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory {
 		return (result);
 	}
 
-	public RelRiskForRiskFactorCategoricalObject manufactureDefault(
-			int numberOfCategories) throws ConfigurationException {
+
+	@Override
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public TypedHashMap manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
+	private RelRiskForRiskFactorCategoricalObject manufactureDefault(
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -54,7 +71,7 @@ public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory {
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
 		return new RelRiskForRiskFactorCategoricalObject(super
-				.manufactureDefault(leafNodeList, false));
+				.manufactureDefault(leafNodeList, makeObservable));
 	}
 
 }

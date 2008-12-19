@@ -13,10 +13,10 @@ public class ContinuousStandardValueRiskFactor extends
 	private float lowerLimit = 0F;
 
 	private float upperLimit = Float.MAX_VALUE;
-
+	private String testPattern =  "^\\-?\\d++\\.?\\d*$"; // TODO Error-busting.
+	
 	public ContinuousStandardValueRiskFactor() {
-		super(ContinuousStandardValueRiskFactor.myTagLabel,
-				"^\\-?\\d++\\.?\\d*$");
+		super(ContinuousStandardValueRiskFactor.myTagLabel);
 	}
 
 	public boolean isValueValid(Object value) {

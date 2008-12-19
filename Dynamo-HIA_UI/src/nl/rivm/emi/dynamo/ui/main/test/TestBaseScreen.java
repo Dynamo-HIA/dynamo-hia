@@ -1,12 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main.test;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.io.File;
-
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
-import nl.rivm.emi.dynamo.data.factories.notinuse.SomethingPerAgeDataFromXMLFactory;
 import nl.rivm.emi.dynamo.ui.main.BaseScreen;
 
 import org.apache.commons.logging.Log;

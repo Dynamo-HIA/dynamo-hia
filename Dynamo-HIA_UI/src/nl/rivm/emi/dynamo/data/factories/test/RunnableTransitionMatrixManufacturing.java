@@ -10,13 +10,11 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -40,8 +38,9 @@ public class RunnableTransitionMatrixManufacturing implements Runnable {
 		try {
 			// Create XML-file with defaults and write it to disk.
 			TransitionMatrixFactory theFactory = new TransitionMatrixFactory();
-			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			int numberOfCategories = 6;
+			theFactory.setNumberOfCategories(numberOfCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
@@ -63,6 +62,9 @@ public class RunnableTransitionMatrixManufacturing implements Runnable {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}

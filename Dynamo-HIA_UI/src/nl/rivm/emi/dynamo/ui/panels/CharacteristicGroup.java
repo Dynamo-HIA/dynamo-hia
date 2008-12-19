@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
 import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 
@@ -18,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CharacteristicGroup{
 	Group theGroup;
 
-	public CharacteristicGroup(Shell shell, AgeMap<SexMap<IObservable>> lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+	public CharacteristicGroup(Shell shell, TypedHashMap lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

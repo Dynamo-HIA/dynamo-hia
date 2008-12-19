@@ -12,7 +12,7 @@ import javax.xml.stream.XMLStreamException;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
+import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
@@ -27,6 +27,7 @@ import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -52,8 +53,9 @@ public class TestAgnosticFactoryPlusChildren {
 	 */
 	@Test
 	public void testPopulationSize() {
-		String rootElementName = FileControlEnum.POPULATIONSIZE.getRootElementName();
-String configurationFilePath = "data" + File.separator + "Mehdi"
+		String rootElementName = FileControlEnum.POPULATIONSIZE
+				.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Population size.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
@@ -69,28 +71,28 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
 		}
 	}
 
 	@Test
 	public void testCorrectedPopulationSize() {
-		String rootElementName = FileControlEnum.POPULATIONSIZE.getRootElementName();
+		String rootElementName = FileControlEnum.POPULATIONSIZE
+				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Population size_corrected.xml";
@@ -107,19 +109,20 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
-			} catch (XMLStreamException e) { // TODO Auto-generated catch block
+			} catch (XMLStreamException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
-			} catch (UnexpectedFileStructureException e) { // TODO
-				// Auto-generated
-				// catch block
+			} catch (UnexpectedFileStructureException e) { 
 				e.printStackTrace();
 				assertNull(e); // Force error.
-			} catch (IOException e) { // TODO Auto-generated catch block
+			} catch (IOException e) { 
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
-		} catch (ConfigurationException e) { // TODO Auto-generated catch block
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
@@ -130,7 +133,8 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testOverallMortality() {
-		String rootElementName = FileControlEnum.OVERALLMORTALITY.getRootElementName();
+		String rootElementName = FileControlEnum.OVERALLMORTALITY
+				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall mortality.xml";
@@ -148,28 +152,28 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
 		}
 	}
 
 	@Test
 	public void testCorrectedOverallMortality() {
-		String rootElementName = FileControlEnum.OVERALLMORTALITY.getRootElementName();
+		String rootElementName = FileControlEnum.OVERALLMORTALITY
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall mortality_corrected.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -182,24 +186,22 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 					.manufacture(configurationFile);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
-					.get(rootElementName),
-					(HashMap<Integer, Object>) result, outputFile);
+					.get(rootElementName), (HashMap<Integer, Object>) result,
+					outputFile);
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (UnexpectedFileStructureException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e);
 			// Force error.
-		} catch (IOException e) { // TODO Auto-generated catch block
+		} catch (IOException e) { 
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
@@ -207,7 +209,8 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testOverallDALYWeights() {
-		String rootElementName = FileControlEnum.OVERALLDALYWEIGHTS.getRootElementName();
+		String rootElementName = FileControlEnum.OVERALLDALYWEIGHTS
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Overall daly weights.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -224,45 +227,45 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
 		}
 	}
 
 	@Test
 	public void testTransitionMatrix() {
-		String rootElementName = FileControlEnum.TRANSITIONMATRIX.getRootElementName();
+		String rootElementName = FileControlEnum.TRANSITIONMATRIX
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+  rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
 			TransitionMatrixFactory theFactory = new TransitionMatrixFactory();
-			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			int numberOfCategories = 6;
+			theFactory.setNumberOfCategories(numberOfCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get( rootElementName);
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -270,24 +273,23 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get( rootElementName),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -295,24 +297,25 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testCategoricalRiskFactorPrevalences() {
-		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESCATEGORICAL.getRootElementName();
+		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESCATEGORICAL
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+  rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
 			PrevalencesCategoricalFactory theFactory = new PrevalencesCategoricalFactory();
-			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			int numberOfCategories = 6;
+			theFactory.setNumberOfCategories(numberOfCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get( rootElementName);
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -320,24 +323,23 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get( rootElementName),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -345,24 +347,25 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testDurationRiskFactorPrevalences() {
-		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESDURATION.getRootElementName();
+		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESDURATION
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+  rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
 			RiskFactorPrevalencesDurationFactory theFactory = new RiskFactorPrevalencesDurationFactory();
 			int numDurations = 20;
-			Object defaultResult = theFactory.manufactureDefault(numDurations);
+			theFactory.setNumberOfCategories(numDurations);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get( rootElementName);
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -370,24 +373,23 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get( rootElementName),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -395,24 +397,25 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testRelRiskForDeathCategorical() {
-		String rootElementName = FileControlEnum.RELRISKFORDEATHCATEGORICAL.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFORDEATHCATEGORICAL
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+  rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
 			RelRiskForDeathCategoricalFactory theFactory = new RelRiskForDeathCategoricalFactory();
-			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			int numberOfCategories = 6;
+			theFactory.setNumberOfCategories(numberOfCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get( rootElementName);
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -420,24 +423,23 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get( rootElementName),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -445,13 +447,13 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testRelRiskForDeathContinuous() {
-		String rootElementName = FileControlEnum.RELRISKFORDEATHCONTINUOUS.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFORDEATHCONTINUOUS
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+ rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
@@ -473,20 +475,19 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -495,10 +496,10 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 	// This test must not finish normally because of a comma in a value field.
 	@Test
 	public void testOriginalDiseasePrevalences() {
-		String rootElementName = FileControlEnum.PREVALENCES.getRootElementName();
-		String configurationFilePath
-		= "data" + File.separator + "Mehdi" + File.separator
-				+ "Disease prevalence.xml";
+		String rootElementName = FileControlEnum.PREVALENCES
+				.getRootElementName();
+		String configurationFilePath = "data" + File.separator + "Mehdi"
+				+ File.separator + "Disease prevalence.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
 				+ File.separator + "stax_disease_prevalence.xml";
@@ -509,28 +510,29 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 					.manufacture(configurationFile);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
-					.get(rootElementName),
-					(HashMap<Integer, Object>) result, outputFile);
+					.get(rootElementName), (HashMap<Integer, Object>) result,
+					outputFile);
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (UnexpectedFileStructureException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
 			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
 		}
 	}
 
 	@Test
 	public void testDiseasePrevalences() {
-		String rootElementName = FileControlEnum.PREVALENCES.getRootElementName();
+		String rootElementName = FileControlEnum.PREVALENCES
+				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Disease prevalence_corrected.xml";
@@ -548,20 +550,19 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
-
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
-
 				e.printStackTrace();
 				assertNull(e); // Force error.
-			} catch (IOException e) { // TODO Auto-generated catch block
+			} catch (IOException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
-		} catch (ConfigurationException e) { // TODO Auto-generated catch block
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
@@ -569,7 +570,8 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testDiseaseIncidence() {
-		String rootElementName = FileControlEnum.INCIDENCES.getRootElementName();
+		String rootElementName = FileControlEnum.INCIDENCES
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Disease incidence.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -578,7 +580,7 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
-			Object result = new IncidencesFactory()
+			Object result = new DiseaseIncidencesFactory()
 					.manufacture(configurationFile);
 			// manufacture(configurationFile, false);
 			assertNotNull(result);
@@ -587,45 +589,45 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		}
 	}
-	
+
 	@Test
 	public void testRelRiskForRiskFactorCategorical() {
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCATEGORICAL.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCATEGORICAL
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName +"_default.xml";
+				+ File.separator + rootElementName + "_default.xml";
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator
-				+  rootElementName +"_read_written.xml";
+				+ File.separator + rootElementName + "_read_written.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
 			RelRiskForRiskFactorCategoricalFactory theFactory = new RelRiskForRiskFactorCategoricalFactory();
-			int numCategories = 6;
-			Object defaultResult = theFactory.manufactureDefault(numCategories);
+			int numberOfCategories = 6;
+			theFactory.setNumberOfCategories(numberOfCategories);
+			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
 						.getInstance();
-				FileControlEnum myEnum = instance.get( rootElementName);
+				FileControlEnum myEnum = instance.get(rootElementName);
 				StAXAgnosticWriter.produceFile(myEnum,
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
@@ -633,33 +635,32 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 				Object result = theFactory.manufacture(configurationFile);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get( rootElementName),
+						.getInstance()).get(rootElementName),
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
 	}
 
-
 	@Test
 	public void testRelRiskForRiskFactorContinuous() {
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCONTINUOUS.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCONTINUOUS
+				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "relriskforriskfactorcontinuous_default.xml";
@@ -688,20 +689,19 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -709,7 +709,8 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testRelRiskFromOtherDisease() {
-		String rootElementName = FileControlEnum.RELRISKFROMOTHERDISEASE.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFROMOTHERDISEASE
+				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "relriskfromdisease_default.xml";
 		File configurationFile = new File(configurationFilePath);
@@ -736,20 +737,19 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
@@ -757,7 +757,8 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 
 	@Test
 	public void testDALYWeights() {
-		String rootElementName = FileControlEnum.DALYWEIGHTS.getRootElementName();
+		String rootElementName = FileControlEnum.DALYWEIGHTS
+				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "dalyweights_default.xml";
@@ -785,20 +786,19 @@ String configurationFilePath = "data" + File.separator + "Mehdi"
 						(HashMap<Integer, Object>) result, outputFile);
 				// assertEquals( 0, outputFile.compareTo(configurationFile));
 			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (UnexpectedFileStructureException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (DynamoInconsistentDataException e) {
 				e.printStackTrace();
 				assertNull(e); // Force error.
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNotNull(e); // Force error.
 		}
