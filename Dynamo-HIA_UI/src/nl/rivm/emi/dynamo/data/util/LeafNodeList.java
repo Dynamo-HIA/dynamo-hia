@@ -3,8 +3,8 @@ package nl.rivm.emi.dynamo.data.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.ContainerType;
 
 import org.apache.commons.configuration.ConfigurationException;

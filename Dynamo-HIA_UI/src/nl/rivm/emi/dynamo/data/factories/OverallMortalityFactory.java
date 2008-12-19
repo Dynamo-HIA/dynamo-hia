@@ -4,10 +4,11 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -25,7 +26,7 @@ public class OverallMortalityFactory extends AgnosticFactory {
 	}
 
 	public OverallMortalityObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
 		OverallMortalityObject result = new OverallMortalityObject(producedMap);
@@ -33,13 +34,23 @@ public class OverallMortalityFactory extends AgnosticFactory {
 	}
 
 	public OverallMortalityObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
 		OverallMortalityObject result = new OverallMortalityObject(producedMap);
 		return (result); 
 	}
+	
 	public OverallMortalityObject manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	public OverallMortalityObject manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
+	private OverallMortalityObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -48,7 +59,8 @@ public class OverallMortalityFactory extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
-		return (OverallMortalityObject) super.manufactureDefault(leafNodeList, false);
+		TypedHashMap<Age> producedMap = super.manufactureDefault(leafNodeList, makeObservable);
+		OverallMortalityObject result = new OverallMortalityObject(producedMap);
+		return result; 
 	}
-
 }

@@ -1,10 +1,15 @@
-package nl.rivm.emi.dynamo.data.types.functional;
+package nl.rivm.emi.dynamo.data.objects;
 
 import java.util.ArrayList;
 
 import nl.rivm.emi.cdm.simulation.Simulation;
+import nl.rivm.emi.dynamo.data.types.functional.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.types.functional.IDynamoSimulationConfiguration;
+import nl.rivm.emi.dynamo.data.types.functional.IRelativeRiskConfiguration;
+import nl.rivm.emi.dynamo.data.types.functional.IRiskFactorConfiguration;
+import nl.rivm.emi.dynamo.data.types.functional.IScenarioConfiguration;
 
-public class DynamoSimulationConfiguration extends Simulation implements IDynamoSimulationConfiguration {
+public class DynamoSimulationObject extends Simulation implements IDynamoSimulationConfiguration {
 
 	boolean newborns;
 	Integer startingYear;

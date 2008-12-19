@@ -2,9 +2,9 @@ package nl.rivm.emi.dynamo.datahandling;
 
 import java.util.ArrayList;
 
-import nl.rivm.emi.dynamo.data.types.functional.DynamoSimulationConfiguration.DiseaseConfigurationData;
-import nl.rivm.emi.dynamo.data.types.functional.DynamoSimulationConfiguration.RelativeRiskConfigurationData;
-import nl.rivm.emi.dynamo.data.types.functional.DynamoSimulationConfiguration.ScenarioConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject.DiseaseConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject.RelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject.ScenarioConfigurationData;
 
 public interface IDynamoSimulationConfiguration {
 

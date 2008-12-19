@@ -1,4 +1,16 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types;
+
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.Category;
+import nl.rivm.emi.dynamo.data.types.atomic.Duration;
+import nl.rivm.emi.dynamo.data.types.atomic.Number;
+import nl.rivm.emi.dynamo.data.types.atomic.Percent;
+import nl.rivm.emi.dynamo.data.types.atomic.Probability;
+import nl.rivm.emi.dynamo.data.types.atomic.Sex;
+import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
+import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
 
 public enum AtomicTypeEnum {
@@ -9,7 +21,7 @@ public enum AtomicTypeEnum {
 	DURATION((AtomicTypeBase)new Duration()),
 	TRANSITIONSOURCE((AtomicTypeBase)new TransitionSource()),
 	TRANSITIONDESTINATION((AtomicTypeBase)new TransitionDestination()),
-	PERCENTAGE((AtomicTypeBase) new Percentage()),
+	PERCENTAGE((AtomicTypeBase) new Percent()),
 	PROBABILITY((AtomicTypeBase)new Probability()),
 	STANDARDVALUE((AtomicTypeBase)new Value());
 	

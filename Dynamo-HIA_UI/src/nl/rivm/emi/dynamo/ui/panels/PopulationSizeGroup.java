@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.IObservable;
@@ -20,14 +21,14 @@ import org.eclipse.swt.widgets.Shell;
 public class PopulationSizeGroup{
 	Group theGroup;
 
-	public PopulationSizeGroup(Shell shell, TypedHashMap lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+	public PopulationSizeGroup(Shell shell, TypedHashMap lotsOfData, DataBindingContext dataBindingContext, BaseNode selectedNode, HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		CharacteristicNamePanel characteristicNameGroup = new CharacteristicNamePanel(theGroup, helpGroup);
-		characteristicNameGroup.handlePlacementInContainer();
+		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup, selectedNode, helpGroup);
+		entityNameGroup.handlePlacementInContainer();
 		PopulationSizeParameterGroup parameterGroup = new PopulationSizeParameterGroup(theGroup, lotsOfData, dataBindingContext, helpGroup);
-		parameterGroup.handlePlacementInContainer(characteristicNameGroup.group);
+		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 }
 
  public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

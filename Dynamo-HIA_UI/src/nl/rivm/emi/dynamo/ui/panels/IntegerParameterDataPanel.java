@@ -28,9 +28,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class IntegerParameterDataPanel extends Composite /* implements Runnable */{
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
+public class IntegerParameterDataPanel extends Composite {
+	Log log = LogFactory.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
@@ -38,34 +37,36 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 	HelpGroup theHelpGroup;
 
 	public IntegerParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
+		// this.setSize(300, 300);
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 5;
+		// layout.numColumns = 5;
+		layout.numColumns = 3;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
-		Label femaleTestLabel = new Label(this, SWT.NONE);
-		femaleTestLabel.setText("FemaleTest");
+		// Label femaleTestLabel = new Label(this, SWT.NONE);
+		// femaleTestLabel.setText("FemaleTest");
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
-		Label maleTestLabel = new Label(this, SWT.NONE);
-		maleTestLabel.setText("MaleTest");
+		// Label maleTestLabel = new Label(this, SWT.NONE);
+		// maleTestLabel.setText("MaleTest");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			TypedHashMap sexMap = (TypedHashMap)lotsOfData.get(count);
+			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
-			bindValue(sexMap, BiGender.FEMALE_INDEX);
-			bindTestValue(sexMap, BiGender.FEMALE_INDEX);
-			bindValue(sexMap, BiGender.MALE_INDEX);
-			bindTestValue(sexMap, BiGender.MALE_INDEX);
+			bindValue(tHMap, BiGender.FEMALE_INDEX);
+			// bindTestValue(sexMap, BiGender.FEMALE_INDEX);
+			bindValue(tHMap, BiGender.MALE_INDEX);
+			// bindTestValue(sexMap, BiGender.MALE_INDEX);
 		}
 	}
 
@@ -92,7 +93,7 @@ public class IntegerParameterDataPanel extends Composite /* implements Runnable 
 
 			public void focusLost(FocusEvent arg0) {
 				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-																	// range.
+				// range.
 			}
 
 		});

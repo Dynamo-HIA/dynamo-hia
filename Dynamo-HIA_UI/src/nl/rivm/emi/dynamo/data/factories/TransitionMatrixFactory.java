@@ -4,8 +4,8 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;

@@ -1,8 +1,10 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types;
 /**
  * Map to find the type by its corresponding tagname.
  */
 import java.util.HashMap;
+
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 
 public class AtomicTypesSingleton extends HashMap<String,AtomicTypeBase>{
 	private static final long serialVersionUID = 3111726151725007942L;

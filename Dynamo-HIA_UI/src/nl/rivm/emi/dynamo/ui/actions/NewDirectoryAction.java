@@ -5,7 +5,6 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
@@ -29,10 +28,10 @@ public class NewDirectoryAction extends NewActionBase {
 			throws StorageTreeException {
 		File candidateDirectory = new File(candidatePath);
 		if (!candidateDirectory.exists() && candidateDirectory.mkdir()) {
-			MessageBox messageBox = new MessageBox(shell);
-			messageBox.setMessage("\"" + candidateName
-					+ "\"\nhas been created.");
-			messageBox.open();
+//			MessageBox messageBox = new MessageBox(shell);
+//			messageBox.setMessage("\"" + candidateName
+//					+ "\"\nhas been created.");
+//			messageBox.open();
 			((ParentNode)node).addChild((ChildNode)new DirectoryNode((ParentNode)node,candidateDirectory));
 			theViewer.refresh();
 		} else {

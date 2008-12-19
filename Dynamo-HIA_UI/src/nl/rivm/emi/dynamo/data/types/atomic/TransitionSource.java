@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
-/*
- * Nonnegative Integer without fixed upper limit.
+/**
+ * Nonnegative Integer without fixed upper limit. 
+ * This to enable adjustment to the range of categories the transitions can cover. 
  */
 public class TransitionSource extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
 	static final protected String XMLElementName = "from";

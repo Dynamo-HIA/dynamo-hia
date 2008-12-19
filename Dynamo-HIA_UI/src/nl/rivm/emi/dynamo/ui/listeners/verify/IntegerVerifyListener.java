@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 

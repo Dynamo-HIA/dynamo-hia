@@ -16,8 +16,8 @@ import nl.rivm.emi.dynamo.data.objects.IncidencesObject;
 import nl.rivm.emi.dynamo.data.objects.ObservableIncidencesObject;
 import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
 import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 
 import org.apache.commons.configuration.ConfigurationException;

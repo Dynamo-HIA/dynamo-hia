@@ -8,8 +8,8 @@ package nl.rivm.emi.dynamo.data.objects;
  *
  */
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
 public class PrevalencesCategoricalObject  extends TypedHashMap<Age> implements StandardObjectMarker{
 	private static final long serialVersionUID = -3022294026093628326L;

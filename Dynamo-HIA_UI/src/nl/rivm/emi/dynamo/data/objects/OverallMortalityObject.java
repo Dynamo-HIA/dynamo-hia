@@ -1,8 +1,8 @@
 package nl.rivm.emi.dynamo.data.objects;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 
 /**
  * Object to contain the data entered in W12.

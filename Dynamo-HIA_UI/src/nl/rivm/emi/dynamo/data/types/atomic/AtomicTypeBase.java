@@ -1,8 +1,12 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public /* abstract */ class AtomicTypeBase<T> {
+import org.eclipse.core.databinding.UpdateValueStrategy;
+
+public abstract class AtomicTypeBase<T> {
 	final protected String XMLElementName;
 	final protected T aValue;
+	protected UpdateValueStrategy modelUpdateValueStrategy;
+	protected UpdateValueStrategy viewUpdateValueStrategy;
 
 	/**
 	 * Default constructor, only use to initialize array.
@@ -37,4 +41,12 @@ public /* abstract */ class AtomicTypeBase<T> {
 	public T getType() {
 		return (T) aValue.getClass();
 	}
+
+	abstract public String convert4View(Object modelValue);
+	
+	abstract Object convert4Model(String viewString);
+	
+	abstract public UpdateValueStrategy getModelUpdateValueStrategy();
+
+	abstract public UpdateValueStrategy getViewUpdateValueStrategy();
 }

@@ -1,14 +1,16 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
-/*
- * Nonnegative Integer without fixed upper limit.
+/**
+ * Nonnegative Integer without fixed upper limit. 
+ * This to enable adjustment to the range of categories the transitions can cover. 
  */
-public class TransitionDestination extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
+public class TransitionDestination extends
+		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType {
 	static final protected String XMLElementName = "to";
 
-	public TransitionDestination(){
-		super(XMLElementName , new Integer(1), new Integer(Integer.MAX_VALUE));
+	public TransitionDestination() {
+		super(XMLElementName, new Integer(1), new Integer(Integer.MAX_VALUE));
 	}
-		
+
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
@@ -48,7 +50,7 @@ public class TransitionDestination extends FlexibleUpperLimitNumberRangeTypeBase
 		return result;
 	}
 
-	public Integer setMAX_VALUE(Integer newUpperLimit){
+	public Integer setMAX_VALUE(Integer newUpperLimit) {
 		Integer oldUpperLimit = MAX_VALUE;
 		MAX_VALUE = newUpperLimit;
 		return oldUpperLimit;

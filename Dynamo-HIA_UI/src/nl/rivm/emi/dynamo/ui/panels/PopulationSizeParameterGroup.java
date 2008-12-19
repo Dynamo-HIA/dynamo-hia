@@ -28,36 +28,34 @@ public class PopulationSizeParameterGroup {
 	Group theGroup;
 
 	public PopulationSizeParameterGroup(Composite parent,
-			TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, final HelpGroup helpGroup) {
+			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		Label label = new Label(theGroup, SWT.LEFT);
-		label.setText("Parameter:");
-		FormData labelFormData = new FormData();
-		labelFormData.right = new FormAttachment(0, 100);
-		labelFormData.left = new FormAttachment(0, 5);
-		label.setLayoutData(labelFormData);
-		Text text = new Text(theGroup, SWT.SINGLE);
-		text.setText("ParameterName");
-		FormData textFormData = new FormData();
-		textFormData.left = new FormAttachment(label, 2);
-		textFormData.right = new FormAttachment(100, -5);
-		text.setLayoutData(textFormData);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				helpGroup.getFieldHelpGroup().putHelpText(0);
-			}
-			public void focusLost(FocusEvent arg0) {
-				helpGroup.getFieldHelpGroup().putHelpText(47); // Out of range.
-			}
-		});
-
+		/*
+		 * Label label = new Label(theGroup, SWT.LEFT);
+		 * label.setText("Parameter:"); FormData labelFormData = new FormData();
+		 * labelFormData.right = new FormAttachment(0, 100); labelFormData.left
+		 * = new FormAttachment(0, 5); label.setLayoutData(labelFormData); Text
+		 * text = new Text(theGroup, SWT.SINGLE); text.setText("ParameterName");
+		 * FormData textFormData = new FormData(); textFormData.left = new
+		 * FormAttachment(label, 2); textFormData.right = new
+		 * FormAttachment(100, -5); text.setLayoutData(textFormData);
+		 * text.addFocusListener(new FocusListener() { public void
+		 * focusGained(FocusEvent arg0) {
+		 * helpGroup.getFieldHelpGroup().putHelpText(0); } public void
+		 * focusLost(FocusEvent arg0) {
+		 * helpGroup.getFieldHelpGroup().putHelpText(47); // Out of range. } });
+		 */
 		ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+// Doesn't work..		scrolledContainer.setSize(300, 300);
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(label, 5);
+
+		// formData.top = new FormAttachment(label, 5);
+		formData.top = new FormAttachment(0, 5);
+
 		formData.right = new FormAttachment(100, 0);
 		formData.bottom = new FormAttachment(100, 0);
 		formData.left = new FormAttachment(0, 0);
@@ -65,10 +63,18 @@ public class PopulationSizeParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
+
+		// Composite parameterDataPanel = new IntegerParameterDataPanel(
+		// scrolledContainer, text, lotsOfData, dataBindingContext, helpGroup);
 		Composite parameterDataPanel = new IntegerParameterDataPanel(
-				scrolledContainer, text, lotsOfData, dataBindingContext, helpGroup);
+				scrolledContainer, null, lotsOfData, dataBindingContext,
+				helpGroup);
+
 		FormData parameterFormData = new FormData();
-		parameterFormData.top = new FormAttachment(label, 2);
+
+		// parameterFormData.top = new FormAttachment(label, 2);
+		parameterFormData.top = new FormAttachment(0, 2);
+
 		parameterFormData.right = new FormAttachment(100, -5);
 		parameterFormData.bottom = new FormAttachment(100, -2);
 		parameterFormData.left = new FormAttachment(0, 5);

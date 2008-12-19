@@ -38,9 +38,8 @@ public class StAXAgnosticTypedHashMapWriter {
 	 * @throws IOException
 	 */
 	static public void produceFile(FileControlEnum fileControl,
-			TypedHashMap theModel, File outputFile)
-			throws XMLStreamException, UnexpectedFileStructureException,
-			IOException {
+			TypedHashMap theModel, File outputFile) throws XMLStreamException,
+			UnexpectedFileStructureException, IOException {
 		if (theModel != null) {
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter;
@@ -55,9 +54,8 @@ public class StAXAgnosticTypedHashMapWriter {
 	}
 
 	static public void streamEvents(FileControlEnum fileControl,
-			TypedHashMap hierarchicalConfiguration,
-			XMLEventWriter writer, XMLEventFactory eventFactory)
-			throws XMLStreamException {
+			TypedHashMap hierarchicalConfiguration, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
 		event = eventFactory.createStartElement("", "", fileControl
@@ -88,8 +86,8 @@ public class StAXAgnosticTypedHashMapWriter {
 			String elementName = type.getXMLElementName();
 			leafValueMap.put(elementName, entry.getKey());
 			if (entry.getValue() instanceof HashMap) {
-				recurseLeafData(fileControl, (TypedHashMap) entry
-						.getValue(), leafValueMap, writer, eventFactory);
+				recurseLeafData(fileControl, (TypedHashMap) entry.getValue(),
+						leafValueMap, writer, eventFactory);
 			} else {
 				Object containedValue = entry.getValue();
 				if (containedValue instanceof Number) {
@@ -101,10 +99,12 @@ public class StAXAgnosticTypedHashMapWriter {
 						Object writableValueContent = ((WritableValue) containedValue)
 								.doGetValue();
 						if (writableValueContent instanceof Number) {
-							streamEntry(fileControl, leafValueMap, (Number)writableValueContent,
-									writer, eventFactory);
+							streamEntry(fileControl, leafValueMap,
+									(Number) writableValueContent, writer,
+									eventFactory);
 						} else {
-							log.error("Unsupported Object type: "
+							log
+									.error("Unsupported Object type: "
 											+ writableValueContent.getClass()
 													.getName());
 						}
@@ -132,7 +132,14 @@ public class StAXAgnosticTypedHashMapWriter {
 			Map.Entry<String, Number> entry = iterator.next();
 			event = eventFactory.createStartElement("", "", entry.getKey());
 			writer.add(event);
-			event = eventFactory.createCharacters(entry.getValue().toString());
+			Number value = entry.getValue();
+			String valueString = null;
+			if (value instanceof Integer) {
+				valueString = ((Integer) value).toString();
+			} else {
+				valueString = value.toString();
+			}
+			event = eventFactory.createCharacters(valueString);
 			writer.add(event);
 			event = eventFactory.createEndElement("", "", entry.getKey());
 			writer.add(event);
@@ -142,6 +149,12 @@ public class StAXAgnosticTypedHashMapWriter {
 				.getXMLElementName();
 		event = eventFactory.createStartElement("", "", elementName);
 		writer.add(event);
+		String containedValueString = null;
+		if (containedValue instanceof Integer) {
+			containedValueString = ((Integer) containedValue).toString();
+		} else {
+			containedValueString = containedValue.toString();
+		}
 		event = eventFactory.createCharacters(containedValue.toString());
 		writer.add(event);
 		event = eventFactory.createEndElement("", "", elementName);

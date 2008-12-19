@@ -21,6 +21,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -38,9 +39,10 @@ abstract public class AgnosticFactory {
 	 * @param configurationFile
 	 * @return
 	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException 
 	 */
 	abstract public TypedHashMap manufacture(File configurationFile)
-			throws ConfigurationException;
+			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -48,9 +50,10 @@ abstract public class AgnosticFactory {
 	 * @param configurationFile
 	 * @return
 	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException 
 	 */
 	abstract public TypedHashMap manufactureObservable(File configurationFile)
-			throws ConfigurationException;
+			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -76,9 +79,10 @@ abstract public class AgnosticFactory {
 	 * 
 	 * @param makeObservable
 	 *            TODO
+	 * @throws DynamoInconsistentDataException 
 	 */
 	protected TypedHashMap manufacture(File configurationFile,
-			boolean makeObservable) throws ConfigurationException {
+			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap underConstruction = null;
 		XMLConfiguration configurationFromFile;
@@ -103,7 +107,9 @@ abstract public class AgnosticFactory {
 					+ exception.getClass().getName() + " with message: "
 					+ exception.getMessage());
 			exception.printStackTrace();
-			return null;
+			throw new DynamoInconsistentDataException("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage() + " inside " + this.getClass().getName());
 		}
 	}
 

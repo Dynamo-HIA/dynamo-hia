@@ -4,33 +4,49 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskForDeathContinuousObject;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForDeathContinuousFactory  extends AgnosticFactory {
+public class RelRiskForDeathContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
 
-	public RelRiskForDeathContinuousObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+	public RelRiskForDeathContinuousObject manufactureObservable(
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return  new RelRiskForDeathContinuousObject( manufacture(configurationFile, true));
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		return new RelRiskForDeathContinuousObject(producedMap);
 	}
 
-	public RelRiskForDeathContinuousObject manufacture(
-			File configurationFile) throws ConfigurationException {
+	public RelRiskForDeathContinuousObject manufacture(File configurationFile)
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		RelRiskForDeathContinuousObject result = new RelRiskForDeathContinuousObject(producedMap);
-		return (result); 
+		RelRiskForDeathContinuousObject result = new RelRiskForDeathContinuousObject(
+				producedMap);
+		return (result);
 	}
-	public RelRiskForDeathContinuousObject manufactureDefault() throws ConfigurationException {
+
+	@Override
+	public RelRiskForDeathContinuousObject manufactureDefault()
+			throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	@Override
+	public RelRiskForDeathContinuousObject manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+
+	private RelRiskForDeathContinuousObject manufactureDefault(
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -39,7 +55,11 @@ public class RelRiskForDeathContinuousFactory  extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("value"), null));
-		return new RelRiskForDeathContinuousObject(super.manufactureDefault(leafNodeList, false));
+		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(
+				leafNodeList, makeObservable);
+		RelRiskForDeathContinuousObject result = new RelRiskForDeathContinuousObject(
+				manufacturedMap);
+		return result;
 	}
 
 }

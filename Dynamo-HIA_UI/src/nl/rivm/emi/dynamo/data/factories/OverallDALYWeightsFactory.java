@@ -4,10 +4,11 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.OverallDALYWeightsObject;
+import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypesSingleton;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -17,19 +18,31 @@ public class OverallDALYWeightsFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public OverallDALYWeightsObject manufactureObservable(File configurationFile)
-			throws ConfigurationException {
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return (OverallDALYWeightsObject) manufacture(configurationFile, true);
+		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true);
+		OverallDALYWeightsObject result = new OverallDALYWeightsObject(manufacturedMap);
+		return result;
 	}
 
 	public OverallDALYWeightsObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		OverallDALYWeightsObject result = new OverallDALYWeightsObject(producedMap);
+		TypedHashMap manufacturedMap = manufacture(configurationFile, false);
+		OverallDALYWeightsObject result = new OverallDALYWeightsObject(manufacturedMap);
 		return (result); 
 	}
+
+	@Override
 	public OverallDALYWeightsObject manufactureDefault() throws ConfigurationException {
+		return manufactureDefault(false);
+	}
+
+	public OverallDALYWeightsObject manufactureObservableDefault()
+			throws ConfigurationException {
+		return manufactureDefault(true);
+	}
+	private OverallDALYWeightsObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
@@ -38,6 +51,8 @@ public class OverallDALYWeightsFactory extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
 				.getInstance().get("percent"), null));
-		return (OverallDALYWeightsObject) super.manufactureDefault(leafNodeList, false);
+		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(leafNodeList, makeObservable);
+		OverallDALYWeightsObject result = new OverallDALYWeightsObject(manufacturedMap);
+			return result;
 	}
 }

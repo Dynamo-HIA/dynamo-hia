@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Percentage;
+import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 import nl.rivm.emi.dynamo.data.types.atomic.RangeValueException;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
@@ -53,13 +53,19 @@ public class TestAtomicTypes {
 
 	@Test
 	public void testPercentage() {
-		Percentage percentage;
-		percentage = new Percentage();
+		Percent percentage;
+		percentage = new Percent();
 		assertNotNull(percentage);
-		assertFalse(percentage.inRange(-1));
-		assertTrue(percentage.inRange(new Integer(0)));
-		assertTrue(percentage.inRange(100));
-		assertFalse(percentage.inRange(101));
+		assertFalse(percentage.inRange(-1F));
+		assertTrue(percentage.inRange(new Float(0)));
+		assertTrue(percentage.inRange(100F));
+		assertFalse(percentage.inRange(101F));
+		assertFalse(Percent.matchPattern.matcher("3333").matches());
+		assertTrue(Percent.matchPattern.matcher(".").matches());
+		assertTrue(Percent.matchPattern.matcher("0.123").matches());
+		assertTrue(Percent.matchPattern.matcher("999.999").matches());
+		assertFalse(Percent.matchPattern.matcher("9999.999").matches());
+		assertFalse(Percent.matchPattern.matcher("9.999999999").matches());
 	}
 
 	@Test

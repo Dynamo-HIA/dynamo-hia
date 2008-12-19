@@ -1,11 +1,14 @@
 package nl.rivm.emi.dynamo.ui.main;
 
+/**
+ * Modal dialog to create and edit the population size XML files. 
+ */
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.ui.panels.CharacteristicGroup;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -25,25 +28,32 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class PopulationSizeModal implements Runnable, DataAndFileContainer {
-	Log log = LogFactory.getLog(this.getClass().getName());
-	Shell shell;
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	private Shell shell;
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	TypedHashMap lotsOfData;
-	DataBindingContext dataBindingContext = null;
-	String configurationFilePath;
-	String rootElementName;
-	HelpGroup helpPanel;
+	private TypedHashMap lotsOfData;
+	private DataBindingContext dataBindingContext = null;
+	private String configurationFilePath;
+	private String rootElementName;
+	private HelpGroup helpPanel;
+	private BaseNode selectedNode;
 
-	public PopulationSizeModal(Shell parentShell,
-			String configurationFilePath, String rootElementName, BaseNode selectedNode) {
+	public PopulationSizeModal(Shell parentShell, String configurationFilePath,
+			String rootElementName, BaseNode selectedNode) {
 		this.configurationFilePath = configurationFilePath;
 		this.rootElementName = rootElementName;
+		this.selectedNode = selectedNode;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
+		shell.setText(createCaption(selectedNode));
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
+	}
+
+	private String createCaption(BaseNode selectedNode2) {
+		return "Population size";
 	}
 
 	public synchronized void open() {
@@ -51,12 +61,15 @@ public class PopulationSizeModal implements Runnable, DataAndFileContainer {
 			dataBindingContext = new DataBindingContext();
 			lotsOfData = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(shell);
-			((GenericButtonPanel)buttonPanel).setModalParent((DataAndFileContainer)this);
+			((GenericButtonPanel) buttonPanel)
+					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			PopulationSizeGroup characteristicGroup = new PopulationSizeGroup(
-					shell, lotsOfData, dataBindingContext, helpPanel);
-			characteristicGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+			PopulationSizeGroup populationSizeGroup = new PopulationSizeGroup(
+					shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
+			populationSizeGroup.setFormData(helpPanel.getGroup(), buttonPanel);
 			shell.pack();
+			// This is the first place this works.
+			shell.setSize(900, 700);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {
@@ -68,14 +81,20 @@ public class PopulationSizeModal implements Runnable, DataAndFileContainer {
 			box.setText("Processing " + configurationFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
 		}
 	}
 
-	private TypedHashMap manufactureModelObject() throws ConfigurationException {
+	private TypedHashMap manufactureModelObject()
+			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap producedData = null;
 		AgnosticFactory factory = FactoryProvider
-		 .getRelevantFactoryByRootNodeName(rootElementName);
-		if(factory == null){
+				.getRelevantFactoryByRootNodeName(rootElementName);
+		if (factory == null) {
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: " + rootElementName);
 		}

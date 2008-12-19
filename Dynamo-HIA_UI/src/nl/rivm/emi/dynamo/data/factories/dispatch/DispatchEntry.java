@@ -7,8 +7,9 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
+import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
+import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DummyPlaceholderFactory;
-import nl.rivm.emi.dynamo.data.factories.IncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
@@ -76,9 +77,9 @@ public enum DispatchEntry {
 	/* W23Cmp */
 	RELRISKFORDEATH_COMPOUND("relriskfordeath_categorical",
 			new DummyPlaceholderFactory()), // TODO
-	DISEASEPREVALENCES("diseaseprevalences", new DummyPlaceholderFactory()), // TODO
+	DISEASEPREVALENCES("diseaseprevalences", new DiseasePrevalencesFactory()), // TODO
 	/* W32 */
-	DISEASEINCIDENCES("diseaseincidences", new IncidencesFactory()),
+	DISEASEINCIDENCES("diseaseincidences", new DiseaseIncidencesFactory()),
 	/* W33 */
 	EXCESSMORTALITY("excessmortality", new DummyPlaceholderFactory()), // TODO
 	/* W34Cat */
