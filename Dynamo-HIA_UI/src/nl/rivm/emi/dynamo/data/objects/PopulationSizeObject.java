@@ -6,7 +6,7 @@ package nl.rivm.emi.dynamo.data.objects;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.containers.AgeMap;
 import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 import org.eclipse.core.databinding.observable.IObservable;
@@ -17,7 +17,7 @@ public class PopulationSizeObject  extends TypedHashMap<Age> implements Standard
 	 * @param manufacturedMap
 	 */
 		public PopulationSizeObject(TypedHashMap<Age> manufacturedMap) {
-			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
 			 putAll(manufacturedMap);
 		}
 }

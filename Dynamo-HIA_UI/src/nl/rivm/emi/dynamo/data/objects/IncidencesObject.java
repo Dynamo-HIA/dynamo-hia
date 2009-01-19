@@ -4,7 +4,7 @@ package nl.rivm.emi.dynamo.data.objects;
  * Object to contain the data entered in W32.
  */
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class IncidencesObject extends TypedHashMap<Age> implements StandardObjectMarker{
@@ -14,7 +14,7 @@ public class IncidencesObject extends TypedHashMap<Age> implements StandardObjec
  * @param manufacturedMap
  */
 	public IncidencesObject(TypedHashMap<Age> manufacturedMap) {
-		 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+		 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
 		 putAll(manufacturedMap);
 	}
 	

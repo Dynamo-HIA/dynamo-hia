@@ -3,11 +3,11 @@ package nl.rivm.emi.dynamo.data.objects;
 import java.util.ArrayList;
 
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.dynamo.data.types.functional.IDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.types.functional.IDynamoSimulationConfiguration;
-import nl.rivm.emi.dynamo.data.types.functional.IRelativeRiskConfiguration;
-import nl.rivm.emi.dynamo.data.types.functional.IRiskFactorConfiguration;
-import nl.rivm.emi.dynamo.data.types.functional.IScenarioConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.IDynamoSimulationConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.IRelativeRiskConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.IRiskFactorConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.IScenarioConfiguration;
 
 public class DynamoSimulationObject extends Simulation implements IDynamoSimulationConfiguration {
 

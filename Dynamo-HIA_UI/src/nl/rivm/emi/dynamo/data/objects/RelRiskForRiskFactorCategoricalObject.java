@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.data.objects;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class RelRiskForRiskFactorCategoricalObject extends TypedHashMap<Age> implements StandardObjectMarker{
@@ -12,7 +12,7 @@ public class RelRiskForRiskFactorCategoricalObject extends TypedHashMap<Age> imp
 	 * @param manufacturedMap
 	 */
 		public RelRiskForRiskFactorCategoricalObject(TypedHashMap<Age> manufacturedMap) {
-			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
 			 putAll(manufacturedMap);
 		}
 }

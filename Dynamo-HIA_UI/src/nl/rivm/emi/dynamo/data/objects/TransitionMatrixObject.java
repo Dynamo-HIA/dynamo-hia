@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.data.objects;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class TransitionMatrixObject extends TypedHashMap<Age> implements StandardObjectMarker{
@@ -10,7 +10,7 @@ public class TransitionMatrixObject extends TypedHashMap<Age> implements Standar
 	 * @param manufacturedMap
 	 */
 		public TransitionMatrixObject(TypedHashMap<Age> manufacturedMap) {
-			 super((Age)AtomicTypesSingleton.getInstance().get(Age.getElementName()));
+			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
 			 putAll(manufacturedMap);
 		}
 }
