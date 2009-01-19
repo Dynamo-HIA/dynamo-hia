@@ -3,9 +3,9 @@ package nl.rivm.emi.dynamo.data.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.ContainerType;
+import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -21,13 +21,13 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 		int theLastContainer = 0;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
-		AtomicTypesSingleton atomicTypesSingleton = AtomicTypesSingleton
+		XMLTagEntitySingleton atomicTypesSingleton = XMLTagEntitySingleton
 				.getInstance();
 		for (ConfigurationNode leafChild : leafChildren) {
 			log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			String valueString = (String) leafChild.getValue();
-			AtomicTypeBase leafAtomicType = atomicTypesSingleton
+			AtomicTypeBase leafAtomicType = (AtomicTypeBase) atomicTypesSingleton
 					.get(leafName);
 			if (leafAtomicType != null) {
 				Object leafDataType = leafAtomicType.getType();

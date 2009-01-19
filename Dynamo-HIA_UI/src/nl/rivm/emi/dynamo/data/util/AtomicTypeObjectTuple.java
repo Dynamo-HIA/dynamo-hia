@@ -1,17 +1,18 @@
 package nl.rivm.emi.dynamo.data.util;
 
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 
 public class AtomicTypeObjectTuple {
-	AtomicTypeBase type;
+	XMLTagEntity type;
 	Object value;
 
-	public AtomicTypeObjectTuple(AtomicTypeBase theType, Object value) {
-		this.type = theType;
+	public AtomicTypeObjectTuple(XMLTagEntity tagEntity, Object value) {
+		this.type = tagEntity;
 		this.value = value;
 	}
 
-	public AtomicTypeBase getType() {
+	public XMLTagEntity getType() {
 		return type;
 	}
 
