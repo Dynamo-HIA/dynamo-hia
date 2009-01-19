@@ -16,8 +16,8 @@ import java.util.List;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.LeafType;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.data.types.markers.LeafType;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
@@ -169,8 +169,13 @@ abstract public class AgnosticFactory {
 			handleContainerType(priorLevel, leafNodeList, theLastContainer,
 					currentLevel, makeObservable, currentLevelValue);
 		} else {
+			if(leafNodeList.size() - theLastContainer == 1){
 			handlePayLoadType(priorLevel, leafNodeList, currentLevel,
 					makeObservable, currentLevelValue);
+			} else {
+				handleMultiplePayLoadTypes(priorLevel, leafNodeList, currentLevel,
+						makeObservable, currentLevelValue);
+				}
 		}
 		return priorLevel;
 	}
@@ -215,6 +220,43 @@ abstract public class AgnosticFactory {
 			}
 		}
 	}
+	
+	/**
+	 * Method for handling compound payload types.
+	 * 
+	 * @param priorLevel
+	 * @param leafNodeList
+	 * @param currentLevel
+	 * @param makeObservable
+	 * @param currentLevelValue
+	 * @throws DynamoConfigurationException
+	 */
+	private void handleMultiplePayLoadTypes(TypedHashMap priorLevel,
+			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
+			boolean makeObservable, Integer currentLevelValue)
+			throws DynamoConfigurationException {
+		Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
+				.getValue());
+		if (!makeObservable) {
+			priorLevel.put(currentLevelValue, leafValue);
+		} else {
+			if (leafValue instanceof Integer) {
+				WritableValue writableValue = new WritableValue(leafValue,
+						Integer.class);
+				priorLevel.put(currentLevelValue, writableValue);
+			} else {
+				if (leafValue instanceof Float) {
+					WritableValue writableValue = new WritableValue(leafValue,
+							Float.class);
+					priorLevel.put(currentLevelValue, writableValue);
+				} else {
+					throw new DynamoConfigurationException(
+							"Unsupported leafValueType for IObservable-s :"
+									+ leafValue.getClass().getName());
+				}
+			}
+		}
+	}
 
 	/**
 	 * Creates an "empty" Object with all values of the ContainerTypes in their
@@ -231,7 +273,7 @@ abstract public class AgnosticFactory {
 			boolean makeObservable) throws ConfigurationException {
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
-		AtomicTypeBase type = leafNodeList.get(currentLevel).getType();
+		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel).getType();
 		TypedHashMap resultMap = new TypedHashMap(type);
 		int currentIndex = 0;
 		makeDefaultPath(resultMap, leafNodeList, theLastContainer,

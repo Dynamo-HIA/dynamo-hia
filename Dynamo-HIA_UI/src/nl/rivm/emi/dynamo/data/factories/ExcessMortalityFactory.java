@@ -3,7 +3,8 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.DiseaseIncidencesObject;
+import nl.rivm.emi.dynamo.data.objects.DALYWeightsObject;
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -14,35 +15,39 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DiseaseIncidencesFactory extends AgnosticFactory {
+public class ExcessMortalityFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public DiseaseIncidencesObject manufactureObservable(File configurationFile)
+	public ExcessMortalityObject manufactureObservable(File configurationFile)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true);
-		DiseaseIncidencesObject result = new DiseaseIncidencesObject(manufacturedMap);
-		return result;
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		ExcessMortalityObject result = new ExcessMortalityObject(producedMap);
+		return (result); 
 	}
 
-	public DiseaseIncidencesObject manufacture(
+	public ExcessMortalityObject manufacture(
 			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap manufacturedMap = manufacture(configurationFile, false);
-		DiseaseIncidencesObject result = new DiseaseIncidencesObject(manufacturedMap);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		ExcessMortalityObject result = new ExcessMortalityObject(producedMap);
 		return (result); 
 	}
 
 	@Override
-	public DiseaseIncidencesObject manufactureDefault() throws ConfigurationException {
+	public ExcessMortalityObject manufactureDefault()
+			throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public DiseaseIncidencesObject manufactureObservableDefault()
+	@Override
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
+		// TODO Auto-generated method stub
 		return manufactureDefault(true);
 	}
-	private DiseaseIncidencesObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
+
+	private ExcessMortalityObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
@@ -50,9 +55,8 @@ public class DiseaseIncidencesFactory extends AgnosticFactory {
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
-		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(leafNodeList, makeObservable);
-		DiseaseIncidencesObject result = new DiseaseIncidencesObject(manufacturedMap);
-			return result;
+				.getInstance().get("percent"), null));
+		return new ExcessMortalityObject(super.manufactureDefault(leafNodeList, makeObservable));
 	}
+
 }

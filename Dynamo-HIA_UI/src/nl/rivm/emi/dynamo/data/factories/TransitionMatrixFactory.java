@@ -4,7 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
@@ -58,22 +58,22 @@ public class TransitionMatrixFactory extends AgnosticFactory implements
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("age"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		TransitionSource source = (TransitionSource) AtomicTypesSingleton
+		TransitionSource source = (TransitionSource) XMLTagEntitySingleton
 				.getInstance().get(TransitionSource.getElementName());
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxSource = source.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(source, null));
-		TransitionDestination destination = (TransitionDestination) AtomicTypesSingleton
+		TransitionDestination destination = (TransitionDestination) XMLTagEntitySingleton
 				.getInstance().get(TransitionDestination.getElementName());
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxDestination = destination
 				.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(destination, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("value"), null));
 		TransitionMatrixObject theObject = new TransitionMatrixObject(super
 				.manufactureDefault(leafNodeList, makeObservable));

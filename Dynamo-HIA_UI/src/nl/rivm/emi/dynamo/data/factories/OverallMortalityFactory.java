@@ -4,7 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.OverallMortalityObject;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
@@ -53,11 +53,11 @@ public class OverallMortalityFactory extends AgnosticFactory {
 	private OverallMortalityObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("age"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("value"), null));
 		TypedHashMap<Age> producedMap = super.manufactureDefault(leafNodeList, makeObservable);
 		OverallMortalityObject result = new OverallMortalityObject(producedMap);

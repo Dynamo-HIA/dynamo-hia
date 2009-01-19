@@ -7,7 +7,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.PrevalencesCategoricalObject;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -67,16 +67,16 @@ public class PrevalencesCategoricalFactory extends AgnosticFactory implements Ca
 			) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("age"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		Category category = (Category) AtomicTypesSingleton.getInstance().get(
+		Category category = (Category) XMLTagEntitySingleton.getInstance().get(
 				"cat");
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories); // The loop has <=, so 6 results in 7 categories.
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(AtomicTypesSingleton
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("percent"), null));
 		PrevalencesCategoricalObject defaultObject = new PrevalencesCategoricalObject(
 				super.manufactureDefault(leafNodeList, false));
