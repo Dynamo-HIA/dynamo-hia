@@ -6,7 +6,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
  * whether the input characters are going anywhere.
  */
 
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 import org.eclipse.swt.events.VerifyEvent;

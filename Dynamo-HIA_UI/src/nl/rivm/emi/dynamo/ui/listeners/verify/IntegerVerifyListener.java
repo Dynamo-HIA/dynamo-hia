@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class IntegerVerifyListener implements VerifyListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>)AtomicTypesSingleton.getInstance().get("number");
+	NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>)XMLTagEntitySingleton.getInstance().get("number");
 
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;

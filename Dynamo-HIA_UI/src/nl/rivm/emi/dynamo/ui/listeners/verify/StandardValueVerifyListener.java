@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 
@@ -31,7 +31,7 @@ public class StandardValueVerifyListener implements VerifyListener {
 			} else {
 				if ((Value.matchPattern.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
-					if (((NumberRangeTypeBase<Float>) AtomicTypesSingleton
+					if (((NumberRangeTypeBase<Float>) XMLTagEntitySingleton
 							.getInstance().get("value"))
 							.inRange(candidateFloat)) {
 						arg0.doit = true;
