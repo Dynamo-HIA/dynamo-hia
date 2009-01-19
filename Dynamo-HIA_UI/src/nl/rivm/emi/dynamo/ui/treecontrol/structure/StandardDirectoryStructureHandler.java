@@ -82,8 +82,10 @@ public class StandardDirectoryStructureHandler {
 				super();
 				// Sequence counts.
 				Set<String> requiredNames = new LinkedHashSet<String>();
-				requiredNames.add("Simulations");
-				requiredNames.add("Reference_Data");
+				requiredNames.add(StandardTreeNodeLabelsEnum.SIMULATIONS
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.REFERENCEDATA
+						.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
@@ -101,16 +103,18 @@ public class StandardDirectoryStructureHandler {
 			public RefDataDirectoryStructure() {
 				super();
 				Set<String> requiredNames = new LinkedHashSet<String>();
-				requiredNames.add("Populations");
-				requiredNames.add("Risk_Factors");
-				requiredNames.add("Diseases");
+				requiredNames.add(StandardTreeNodeLabelsEnum.POPULATIONS
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.RISKFACTORS
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
 			@Override
 			public void process(DirectoryNode node) {
-				if ("Reference_Data"
-						.equals(node.getPhysicalStorage().getName())) {
+				if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel().equals(
+						node.getPhysicalStorage().getName())) {
 					checkAndCreateNames(node);
 				}
 			}
@@ -121,10 +125,20 @@ public class StandardDirectoryStructureHandler {
 			public DiseaseDirectoryStructure() {
 				super();
 				Set<String> requiredNames = new LinkedHashSet<String>();
-				requiredNames.add("Prevalences");
-				requiredNames.add("Incidences");
-				requiredNames.add("Relative_Risks");
-				requiredNames.add("DALY_Weights");
+				requiredNames.add(StandardTreeNodeLabelsEnum.PREVALENCES
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.INCIDENCES
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.DALYWEIGHTS
+						.getNodeLabel());
+				requiredNames
+						.add(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+								.getNodeLabel());
+				requiredNames
+						.add(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
+								.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.EXCESSMORTALITY
+						.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
@@ -135,8 +149,9 @@ public class StandardDirectoryStructureHandler {
 					log.fatal("Diseases check, parentName: "
 							+ ((DirectoryNode) parentNode).getPhysicalStorage()
 									.getName());
-					if ("Diseases".equals(((DirectoryNode) parentNode)
-							.getPhysicalStorage().getName())) {
+					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
+							((DirectoryNode) parentNode).getPhysicalStorage()
+									.getName())) {
 						checkAndCreateNames(node);
 					}
 				}
