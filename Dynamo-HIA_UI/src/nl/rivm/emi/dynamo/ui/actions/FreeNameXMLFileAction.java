@@ -2,23 +2,22 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 /**
  * Develop with populationSize as concrete implementation.
+ * 
+ * 20090115 RLM Refactored to use the RootElementNamesEnum.
  */
 import java.io.File;
-import java.io.IOException;
 
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
-import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
-import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
-import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,7 +66,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
 		String newPath = null;
 		InputDialog inputDialog = new InputDialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for new disease", "Name", null);
+				+ selectionPath, "Enter name for new file", "Name", null);
 		inputDialog.open();
 		int returnCode = inputDialog.getReturnCode();
 		log.debug("ReturnCode is: " + returnCode);
@@ -93,22 +92,28 @@ public class FreeNameXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
-			if ("diseaseincidences".equals(rootElementName)) {
+			if (RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel().equals(rootElementName)) {
 				theModal = new DiseaseIncidencesModal(shell, file
 						.getAbsolutePath(), rootElementName, node);
 			} else {
-			if ("diseaseprevalences".equals(rootElementName)) {
-				theModal = new DiseasePrevalencesModal(shell, file
-						.getAbsolutePath(), rootElementName, node);
-			} else {
-				if ("simulation".equals(rootElementName)) {
-					theModal = new SimulationModal(shell, file
+				if (RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel().equals(rootElementName)) {
+					theModal = new DiseasePrevalencesModal(shell, file
 							.getAbsolutePath(), rootElementName, node);
 				} else {
-					throw new DynamoConfigurationException("RootElementName "
-							+ rootElementName + " not implemented yet.");
+					if (RootElementNamesEnum.SIMULATION.getNodeLabel().equals(rootElementName)) {
+						theModal = new SimulationModal(shell, file
+								.getAbsolutePath(), rootElementName, node);
+					} else {
+						if (RootElementNamesEnum.DALYWEIGHTS.getNodeLabel().equals(rootElementName)) {
+							theModal = new DALYWeightsModal(shell, file
+									.getAbsolutePath(), rootElementName, node);
+						} else {
+							throw new DynamoConfigurationException(
+									"RootElementName " + rootElementName
+											+ " not implemented yet.");
+						}
+					}
 				}
-			}
 			}
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);

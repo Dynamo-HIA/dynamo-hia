@@ -5,12 +5,15 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -57,36 +60,60 @@ public class XMLFileAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
-			if ("populationsize".equals(rootElementName)) {
+			if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
+					rootElementName)) {
 				theModal = new PopulationSizeModal(shell, file
 						.getAbsolutePath(), rootElementName, node);
 			} else {
-				if ("overallmortality".equals(rootElementName)) {
+				if (RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel()
+						.equals(rootElementName)) {
 					theModal = new OverallMortalityModal(shell, file
 							.getAbsolutePath(), rootElementName, node);
 				} else {
-					if ("overalldalyweights".equals(rootElementName)) {
+					if (RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel()
+							.equals(rootElementName)) {
 						theModal = new OverallDALYWeightsModal(shell, file
 								.getAbsolutePath(), rootElementName, node);
 					} else {
-						if ("diseaseincidences".equals(rootElementName)) {
+						if (RootElementNamesEnum.DISEASEINCIDENCES
+								.getNodeLabel().equals(rootElementName)) {
 							theModal = new DiseaseIncidencesModal(shell, file
 									.getAbsolutePath(), rootElementName, node);
 						} else {
-							if ("diseaseprevalences".equals(rootElementName)) {
+							if (RootElementNamesEnum.DISEASEPREVALENCES
+									.getNodeLabel().equals(rootElementName)) {
 								theModal = new DiseasePrevalencesModal(shell,
 										file.getAbsolutePath(),
 										rootElementName, node);
 							} else {
-								if ("simulation".equals(rootElementName)) {
-									theModal = new SimulationModal(shell, file
+								if (RootElementNamesEnum.DALYWEIGHTS
+										.getNodeLabel().equalsIgnoreCase(
+												rootElementName)) {
+									theModal = new DALYWeightsModal(shell, file
 											.getAbsolutePath(),
 											rootElementName, node);
 								} else {
-									throw new DynamoConfigurationException(
-											"RootElementName "
-													+ rootElementName
-													+ " not implemented yet.");
+									if (RootElementNamesEnum.RELATIVERISKSFROMDISEASES
+											.getNodeLabel().equalsIgnoreCase(
+													rootElementName)) {
+										theModal = new RelRiskFromOtherDiseaseModal(shell,
+												file.getAbsolutePath(),
+												rootElementName, node, null);
+									} else {
+										if (RootElementNamesEnum.SIMULATION
+												.getNodeLabel().equals(
+														rootElementName)) {
+											theModal = new SimulationModal(
+													shell, file
+															.getAbsolutePath(),
+													rootElementName, node);
+										} else {
+											throw new DynamoConfigurationException(
+													"RootElementName "
+															+ rootElementName
+															+ " not implemented yet.");
+										}
+									}
 								}
 							}
 						}
