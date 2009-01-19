@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentModelConverter;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentViewConverter;
+import nl.rivm.emi.dynamo.data.types.markers.LeafType;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;

@@ -8,8 +8,8 @@ import nl.rivm.emi.dynamo.databinding.converters.ModelConverters;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 
-public class Percent extends NumberRangeTypeBase<Float> implements
-		LeafType<Float> {
+public class Unit extends NumberRangeTypeBase<Float> implements
+		LeafType<String> {
 	static final protected String XMLElementName = "percent";
 
 	/**
@@ -22,7 +22,7 @@ public class Percent extends NumberRangeTypeBase<Float> implements
 //	private UpdateValueStrategy modelUpdateValueStrategy;
 //	private UpdateValueStrategy viewUpdateValueStrategy;
 
-	public Percent() {
+	public Unit() {
 		super("percent", new Float(0), new Float(100));
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();

@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.regex.Pattern;
 
+import nl.rivm.emi.dynamo.data.types.markers.LeafType;
+
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 public class Number extends NumberRangeTypeBase<Integer> implements LeafType<Integer>{

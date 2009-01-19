@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /*
