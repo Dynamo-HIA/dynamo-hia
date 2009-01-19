@@ -1,0 +1,125 @@
+package nl.rivm.emi.dynamo.data.factories.test;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.xml.stream.XMLStreamException;
+
+import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
+import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
+import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
+import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
+import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
+import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
+import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
+import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
+import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
+import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
+import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
+import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class TestAgnosticFactory_MK2PlusChildren {
+	Log log = LogFactory.getLog(getClass().getName());
+
+	@Before
+	public void setup() {
+	}
+
+	@After
+	public void teardown() {
+	}
+
+	@Test
+	public void testRiskFactorCategorical() {
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + "riskfactor_categorical_config1.xml";
+		File configurationFile = new File(configurationFilePath);
+		String outputFilePath = "data" + File.separator + "development"
+				+ File.separator + "riskfactor_categorical_config1_after.xml";
+		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
+			Object result = theFactory.manufacture(configurationFile);
+			assertNotNull(result);
+			try {
+		((RiskFactorCategoricalObject)result).writeToFile(outputFile);
+			} catch (XMLStreamException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (UnexpectedFileStructureException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			} catch (IOException e) {
+				e.printStackTrace();
+				assertNull(e); // Force error.
+			}
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		}
+	}
+
+//	@Test
+	public void testRiskFactorCategorical_copy() {
+		String configurationFilePath = "data" + File.separator + "development"
+				+ File.separator + "riskfactor_categorical_config1.xml";
+		File configurationFile = new File(configurationFilePath);
+//		String outputFilePath = "data" + File.separator + "development"
+//				+ File.separator + "stax_population_size.xml";
+//		File outputFile = new File(outputFilePath);
+		log.debug(configurationFile.getAbsolutePath());
+		try {
+			RiskFactorCategoricalFactory theFactory = new RiskFactorCategoricalFactory(); 
+			Object result = theFactory.manufacture(configurationFile);
+			assertNotNull(result);
+//			try {
+//				StAXAgnosticWriter.produceFile((FileControlSingleton
+//						.getInstance()).get(rootElementName),
+//						(HashMap<Integer, Object>) result, outputFile);
+//			} catch (XMLStreamException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			} catch (UnexpectedFileStructureException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			}
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+			assertNotNull(e); // Force error.
+		} catch (DynamoInconsistentDataException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		}
+	}
+
+	public static junit.framework.Test suite() {
+		return new JUnit4TestAdapter(TestAgnosticFactory_MK2PlusChildren.class);
+	}
+}
