@@ -42,18 +42,18 @@ public class StAXAgnosticTypedHashMapWriter {
 			UnexpectedFileStructureException, IOException {
 		if (theModel != null) {
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
-			Writer fileWriter;
-			fileWriter = new FileWriter(outputFile);
+			Writer fileWriter = new FileWriter(outputFile);
 			XMLEventWriter writer = factory.createXMLEventWriter(fileWriter);
 			XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-			streamEvents(fileControl, theModel, writer, eventFactory);
+			streamDocument(fileControl, theModel, writer, eventFactory);
 			writer.flush();
+			fileWriter.flush();
 		} else {
 			log.info("Model is null, nothing to write.");
 		}
 	}
 
-	static public void streamEvents(FileControlEnum fileControl,
+	static public void streamDocument(FileControlEnum fileControl,
 			TypedHashMap hierarchicalConfiguration, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
@@ -62,7 +62,7 @@ public class StAXAgnosticTypedHashMapWriter {
 				.getRootElementName());
 		writer.add(event);
 		LinkedHashMap<String, Number> leafValueMap = new LinkedHashMap<String, Number>();
-		recurseLeafData(fileControl, hierarchicalConfiguration, leafValueMap,
+		flattenLeafData(fileControl, hierarchicalConfiguration, leafValueMap,
 				writer, eventFactory);
 		event = eventFactory.createEndElement("", "", fileControl
 				.getRootElementName());
@@ -71,27 +71,28 @@ public class StAXAgnosticTypedHashMapWriter {
 		writer.add(event);
 	}
 
-	private static void recurseLeafData(FileControlEnum fileControl,
-			TypedHashMap hierarchicalConfiguration,
+	private static void flattenLeafData(FileControlEnum fileControl,
+			TypedHashMap configurationLevel,
 			LinkedHashMap<String, Number> leafValueMap, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		log.debug("Recursing at level " + leafValueMap.size());
-		Set<Map.Entry<Integer, Object>> entrySet = hierarchicalConfiguration
+		Set<Map.Entry<Integer, Object>> entrySet = configurationLevel
 				.entrySet();
 		Iterator<Map.Entry<Integer, Object>> iterator = entrySet.iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<Integer, Object> entry = iterator.next();
-			int level = leafValueMap.size();
-			AtomicTypeBase<Number> type = fileControl.getParameterType(level);
-			String elementName = type.getXMLElementName();
+			String elementName = getElementName(fileControl, leafValueMap);
 			leafValueMap.put(elementName, entry.getKey());
+			log.debug("Level increased to " + leafValueMap.size());
 			if (entry.getValue() instanceof HashMap) {
-				recurseLeafData(fileControl, (TypedHashMap) entry.getValue(),
+				flattenLeafData(fileControl, (TypedHashMap) entry.getValue(),
 						leafValueMap, writer, eventFactory);
 			} else {
 				Object containedValue = entry.getValue();
 				if (containedValue instanceof Number) {
 					Number containedNumber = (Number) containedValue;
+					elementName = getElementName(fileControl, leafValueMap);
+					leafValueMap.put(elementName, containedNumber);
 					streamEntry(fileControl, leafValueMap, containedNumber,
 							writer, eventFactory);
 				} else {
@@ -116,6 +117,14 @@ public class StAXAgnosticTypedHashMapWriter {
 			}
 			leafValueMap.remove(elementName);
 		}
+	}
+
+	private static String getElementName(FileControlEnum fileControl,
+			LinkedHashMap<String, Number> leafValueMap) {
+		int level = leafValueMap.size();
+		AtomicTypeBase<Number> type = fileControl.getParameterType(level);
+		String elementName = type.getXMLElementName();
+		return elementName;
 	}
 
 	private static void streamEntry(FileControlEnum fileControl,
@@ -143,6 +152,7 @@ public class StAXAgnosticTypedHashMapWriter {
 			writer.add(event);
 			event = eventFactory.createEndElement("", "", entry.getKey());
 			writer.add(event);
+			log.debug("Streamed element with name: " + entry.getKey() + " and valuestring: " + valueString);
 		}
 		int level = leafValueMap.size();
 		String elementName = fileControl.getParameterType(level)
@@ -159,7 +169,7 @@ public class StAXAgnosticTypedHashMapWriter {
 		writer.add(event);
 		event = eventFactory.createEndElement("", "", elementName);
 		writer.add(event);
-
+		log.debug("Streamed element with name: " + elementName + " and valuestring: " + containedValue.toString());
 		event = eventFactory.createEndElement("", "",
 				fileControl.rootChildElementName);
 		writer.add(event);
