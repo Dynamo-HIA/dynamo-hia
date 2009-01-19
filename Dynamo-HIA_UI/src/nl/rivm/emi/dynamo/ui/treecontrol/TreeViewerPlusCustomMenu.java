@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.treecontrol;
 
-import nl.rivm.emi.dynamo.ui.listeners.menu.StorageTreeMenuListener;
+import nl.rivm.emi.dynamo.ui.menu.listeners.StorageTreeMenuListener;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
