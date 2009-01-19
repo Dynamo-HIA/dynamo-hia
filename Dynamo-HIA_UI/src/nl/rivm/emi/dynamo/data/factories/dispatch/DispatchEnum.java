@@ -20,86 +20,97 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 
-public enum DispatchEntry {
+public enum DispatchEnum {
 	/* W01 */
-	SIMULATION("simulation", /* new SimulationFactory() */
+	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(), /*
+																 * new
+																 * SimulationFactory
+																 * ()
+																 */
 	new DummyPlaceholderFactory()), // TODO
 	/* W11 */
-	POPULATIONSIZE("populationsize", new PopulationSizeFactory()),
+	POPULATIONSIZE(RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(),
+			new PopulationSizeFactory()),
 	/* W12 */
-	OVERALLMORTALITY("overallmortality", new OverallMortalityFactory()),
+	OVERALLMORTALITY(RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel(),
+			new OverallMortalityFactory()),
 	/* W13 */
-	NEWBORNS("newborns", /* new NewBornsFactory() */
+	NEWBORNS(RootElementNamesEnum.NEWBORNS.getNodeLabel(), /*
+															 * new
+															 * NewBornsFactory()
+															 */
 	new DummyPlaceholderFactory()), // TODO
 	/* W14 */
-	OVERALLDALYWEIGHTS("overalldalyweights", new OverallDALYWeightsFactory()), // TODO
+	OVERALLDALYWEIGHTS(RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(),
+			new OverallDALYWeightsFactory()), // TODO
 	/* W20Cat */
 	/* W20Con */
 	/* W20Cmp */
-	RISKFACTOR("riskfactor", /* new RiskFactorFactory() */
+	RISKFACTOR_COMPOUND(RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), /* new RiskFactorFactory() */
 	new DummyPlaceholderFactory()), // TODO
 	/* W21TmId */
-	TRANSITIONMATRIX_ZERO("transitionmatrix_zero", /*
+	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO.getNodeLabel(), /*
 													 * new
 													 * TransitionMatrixFactory()
 													 */
 	new DummyPlaceholderFactory()), // TODO
 	/* W21TmFp */
-	TRANSITIONMATRIX_NETTO("transitionmatrix_netto", /*
+	TRANSITIONMATRIX_NETTO(RootElementNamesEnum.TRANSITIONMATRIX_NETTO.getNodeLabel(), /*
 													 * new
 													 * TransitionMatrixFactory()
 													 */
 	new DummyPlaceholderFactory()), // TODO
 	/* W21TmMA */
-	TRANSITIONMATRIX("transitionmatrix", new TransitionMatrixFactory()),
+	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(), new TransitionMatrixFactory()),
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
-	TRANSITIONDRIFT("transitiondrift", /* new TransitionDriftFactory() */
+	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), /* new TransitionDriftFactory() */
 	new DummyPlaceholderFactory()), // TODO
 	/* W22CatCom */
 
-	RISKFACTORPREVALENCES_CATEGORICAL("riskfactorprevalences_categorical",
+	RISKFACTORPREVALENCES_CATEGORICAL(RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL.getNodeLabel(),
 			new DummyPlaceholderFactory()), // TODO
 	/* W22Con */
-	RISKFACTORPREVALENCES_CONTINUOUS("riskfactorprevalences_continuous",
+	RISKFACTORPREVALENCES_CONTINUOUS(RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS.getNodeLabel(),
 			new DummyPlaceholderFactory()), // TODO
 	/* W22ComDur */
-	RISKFACTORPREVALENCES_DURATION("riskfactorprevalences_duration",
+	RISKFACTORPREVALENCES_DURATION(RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
 			new RiskFactorPrevalencesDurationFactory()),
 	/* W23Cat */
-	RELRISKFORDEATH_CATEGORICAL("relriskfordeath_categorical",
+	RELRISKFORDEATH_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL.getNodeLabel(),
 			new RelRiskForDeathCategoricalFactory()),
 	/* W23Con */
-	RELRISKFORDEATH_CONTINUOUS("relriskfordeath_continuous",
+	RELRISKFORDEATH_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS.getNodeLabel(),
 			new RelRiskForDeathContinuousFactory()),
 	/* W23Cmp */
-	RELRISKFORDEATH_COMPOUND("relriskfordeath_categorical",
+	RELRISKFORDEATH_COMPOUND(RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
 			new DummyPlaceholderFactory()), // TODO
-	DISEASEPREVALENCES("diseaseprevalences", new DiseasePrevalencesFactory()), // TODO
+	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(), new DiseasePrevalencesFactory()), // TODO
 	/* W32 */
-	DISEASEINCIDENCES("diseaseincidences", new DiseaseIncidencesFactory()),
+	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(), new DiseaseIncidencesFactory()),
 	/* W33 */
-	EXCESSMORTALITY("excessmortality", new DummyPlaceholderFactory()), // TODO
+	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), new DummyPlaceholderFactory()), // TODO
 	/* W34Cat */
-	RRISKFORRISKFACTOR_CATEGORICAL("rriskforriskfactor_categorical",
+	RRISKFORRISKFACTOR_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL.getNodeLabel(),
 			new RelRiskForRiskFactorCategoricalFactory()),
 	/* W34Con */
-	RRISKFORRISKFACTOR_CONTINUOUS("rriskforriskfactor_continuous",
+	RRISKFORRISKFACTOR_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS.getNodeLabel(),
 			new RelRiskForRiskFactorContinuousFactory()),
 	/* W34Cmp */
-	RRISKFORRISKFACTOR_COMPOUND("rriskforriskfactor_compound",
+	RRISKFORRISKFACTOR_COMPOUND(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND.getNodeLabel(),
 			new DummyPlaceholderFactory()), // TODO
 	/* W35 */
-	RRISKFROMDISEASE("rriskfromdisease", new RelRiskFromOtherDiseaseFactory()),
+	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel(), new RelRiskFromOtherDiseaseFactory()),
 	/* W?? */
-	DALYWEIGHTS("dalyweights", new DALYWeightsFactory());
+	DALYWEIGHTS(RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(), new DALYWeightsFactory());
 
 	private final String rootNodeName;
 	private final AgnosticFactory theFactory;
 
-	private DispatchEntry(String rootNodeName, AgnosticFactory theFactory) {
+	private DispatchEnum(String rootNodeName, AgnosticFactory theFactory) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
 	}

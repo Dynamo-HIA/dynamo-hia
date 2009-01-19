@@ -11,7 +11,7 @@ public class DispatchMap extends HashMap<String, AgnosticFactory > {
 	private static DispatchMap instance = null;
 
 	private DispatchMap() {
-		for (DispatchEntry entry : DispatchEntry.values()) {
+		for (DispatchEnum entry : DispatchEnum.values()) {
 			put(entry.getRootNodeName(), entry.getTheFactory());
 		}
 	}
