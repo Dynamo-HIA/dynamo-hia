@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.AtomicTypesSingleton;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
@@ -43,7 +43,7 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
-		myType = AtomicTypesSingleton.getInstance().get("percent");
+		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get("percent");
 		GridLayout layout = new GridLayout();
 //		layout.numColumns = 5;
 		layout.numColumns = 3;

@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class RelativeRiskForDeathParameterGroup {
+public class DALYWeightsParameterGroup {
 	Group theGroup;
 
-	public RelativeRiskForDeathParameterGroup(Composite parent,
+	public DALYWeightsParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
@@ -44,7 +44,7 @@ public class RelativeRiskForDeathParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-		Composite parameterDataPanel = new ValueParameterDataPanel(
+		Composite parameterDataPanel = new PercentParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
 				helpGroup);
 		FormData parameterFormData = new FormData();

@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class RelativeRiskForDeathParameterGroup {
+public class RelRiskFromOtherDiseaseParameterGroup {
 	Group theGroup;
 
-	public RelativeRiskForDeathParameterGroup(Composite parent,
+	public RelRiskFromOtherDiseaseParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
