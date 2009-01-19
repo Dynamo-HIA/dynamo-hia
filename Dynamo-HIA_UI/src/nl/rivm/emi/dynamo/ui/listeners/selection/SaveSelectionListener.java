@@ -7,15 +7,13 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
-import nl.rivm.emi.dynamo.data.writers.obsolete.StAXWriterEntryPoint;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
@@ -39,7 +37,15 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		String filePath = modalParent.getFilePath();
 		File configurationFile = new File(filePath);
 		try {
-			StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton.getInstance().get(modalParent.getRootElementName()), (TypedHashMap)modalParent.getData(),configurationFile);
+			Object modelObject = modalParent
+					.getData();
+			if(!(modelObject instanceof IStaxEventContributor)){
+			StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
+					.getInstance().get(modalParent.getRootElementName()),
+					(TypedHashMap) modelObject, configurationFile);
+			} else {
+				((IStaxEventContributor)modelObject).streamEvents(configurationFile);
+			}
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
