@@ -1,15 +1,7 @@
-package nl.rivm.emi.dynamo.ui.listeners.menu;
+package nl.rivm.emi.dynamo.ui.menu.listeners;
 
-import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
-import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
-import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
+import nl.rivm.emi.dynamo.ui.menu.StorageTreeMenuFactory;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
