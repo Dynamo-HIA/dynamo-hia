@@ -53,29 +53,9 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public ConfigurationObjectBase manufacture(File configurationFile)
-			throws ConfigurationException, DynamoInconsistentDataException;
-
-//	/**
-//	 * Abstract method to allow polymorphism.
-//	 * 
-//	 * @param configurationFile
-//	 * @return
-//	 * @throws ConfigurationException
-//	 * @throws DynamoInconsistentDataException
-//	 */
-//	abstract public ConfigurationObjectBase manufactureObservable(
-//			File configurationFile) throws ConfigurationException,
-//			DynamoInconsistentDataException;
-//
-	/**
-	 * Abstract method to allow polymorphism.
-	 * 
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	abstract public ConfigurationObjectBase manufactureDefault()
-			throws ConfigurationException;
+	abstract public ConfigurationObjectBase manufacture(
+			String configurationFilePath) throws ConfigurationException,
+			DynamoInconsistentDataException;
 
 	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
@@ -88,14 +68,13 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	 * @throws DynamoInconsistentDataException
 	 */
 	protected ConfigurationObjectBase manufacture(
-			ConfigurationObjectBase modelObject, File configurationFile)
+			ConfigurationObjectBase modelObject, String configurationFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		synchronized (this) {
-			log.debug(this.getClass().getName() + " Starting manufacture.");
+			log.debug(" Starting manufacture.");
+			File configurationFile = new File(configurationFilePath);
 			if (!configurationFile.exists()) {
-				throw new ConfigurationException("Configurationfile "
-						+ configurationFile.getAbsolutePath()
-						+ " doesn't exist.");
+				modelObject = handleRootChildren(modelObject, null);
 			} else {
 				if (!configurationFile.isFile()) {
 					throw new ConfigurationException("Configurationfile "
@@ -106,35 +85,43 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 						throw new ConfigurationException("Configurationfile "
 								+ configurationFile.getAbsolutePath()
 								+ " cannot be read.");
+					} else {
+						XMLConfiguration configurationFromFile;
+						try {
+							configurationFromFile = new XMLConfiguration(
+									configurationFile);
+							ConfigurationNode rootNode = configurationFromFile
+									.getRootNode();
+							List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+									.getChildren();
+							modelObject = handleRootChildren(modelObject,
+									rootChildren);
+							return modelObject;
+						} catch (ConfigurationException e) {
+							log.error("Caught Exception of type: "
+									+ e.getClass().getName()
+									+ " with message: " + e.getMessage());
+							e.printStackTrace();
+							throw e;
+						} catch (Exception exception) {
+							log.error("Caught Exception of type: "
+									+ exception.getClass().getName()
+									+ " with message: "
+									+ exception.getMessage());
+							exception.printStackTrace();
+							throw new DynamoInconsistentDataException(
+									"Caught Exception of type: "
+											+ exception.getClass().getName()
+											+ " with message: "
+											+ exception.getMessage()
+											+ " inside "
+											+ this.getClass().getName());
+						}
 					}
 				}
 			}
-			XMLConfiguration configurationFromFile;
-			try {
-				configurationFromFile = new XMLConfiguration(configurationFile);
-				ConfigurationNode rootNode = configurationFromFile
-						.getRootNode();
-				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
-						.getChildren();
-				modelObject = handleRootChildren(modelObject, rootChildren);
-				return modelObject;
-			} catch (ConfigurationException e) {
-				log.error("Caught Exception of type: " + e.getClass().getName()
-						+ " with message: " + e.getMessage());
-				e.printStackTrace();
-				throw e;
-			} catch (Exception exception) {
-				log.error("Caught Exception of type: "
-						+ exception.getClass().getName() + " with message: "
-						+ exception.getMessage());
-				exception.printStackTrace();
-				throw new DynamoInconsistentDataException(
-						"Caught Exception of type: "
-								+ exception.getClass().getName()
-								+ " with message: " + exception.getMessage()
-								+ " inside " + this.getClass().getName());
-			}
 		}
+		return modelObject;
 	}
 
 	/**
@@ -144,6 +131,9 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	 * @param modelObject
 	 * @param makeObservable
 	 * @param rootChildren
+	 *            The direct children of the rootElement of the
+	 *            configurationfile. When null is passed an Object with default
+	 *            values must be constructed.
 	 * @return
 	 * @throws ConfigurationException
 	 */

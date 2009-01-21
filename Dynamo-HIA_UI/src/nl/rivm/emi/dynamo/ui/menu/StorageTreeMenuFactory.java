@@ -9,10 +9,12 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreePartPlusDropDownPartNameAction;
+import nl.rivm.emi.dynamo.ui.actions.FreePlusDropDownPartNamePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -324,10 +326,9 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RiskFactor(IMenuManager manager,
 			IStructuredSelection selection) {
-		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
-		action.setText("Dummy: Risk factor");
-		action.setSelectionPath(((BaseNode) selection.getFirstElement())
-				.getPhysicalStorage().getAbsolutePath());
+		RiskFactorTypeBulletsAction action = new RiskFactorTypeBulletsAction(shell, treeViewer,
+				(DirectoryNode) selection.getFirstElement(), "riskfactor");
+		action.setText("Create riskfactor configuration");
 		manager.add(action);
 	}
 
@@ -411,7 +412,7 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RelRiskFromRiskFactor(IMenuManager manager,
 			IStructuredSelection selection) {
-		FreePartPlusDropDownPartNameAction action = new FreePartPlusDropDownPartNameAction(
+		FreePlusDropDownPartNamePlusTypeBulletsAction action = new FreePlusDropDownPartNamePlusTypeBulletsAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
 				null);
 		action.setText("New relative risks from risk factor file");

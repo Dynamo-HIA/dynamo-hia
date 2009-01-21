@@ -4,16 +4,20 @@ import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-/*
- * Nonnegative Integer without fixed upper limit.
+/**
+ * Nonnegative Integer without fixed upper limit. This to enable adjustment to
+ * the range of categories the transitions can cover.
  */
-public class Category extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
-	static final protected String XMLElementName = "cat";
+public class CategoryIndex extends
+		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType {
+	static final protected String XMLElementName = "from";
 
-	public Category(){
-		super(XMLElementName , new Integer(1), new Integer(Integer.MAX_VALUE));
+	static final protected Integer hardUpperLimit = new Integer(9);
+
+	public CategoryIndex() {
+		super(XMLElementName, new Integer(1), hardUpperLimit);
 	}
-		
+
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
@@ -53,21 +57,26 @@ public class Category extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 		return result;
 	}
 
-	public Integer setMAX_VALUE(Integer newUpperLimit){
-		Integer oldUpperLimit = MAX_VALUE;
-		MAX_VALUE = newUpperLimit;
+	public Integer setMAX_VALUE(Integer newUpperLimit) {
+		Integer oldUpperLimit = null;
+		if ((hardUpperLimit.compareTo(newUpperLimit) >= 0)
+				&& (MIN_VALUE.compareTo(newUpperLimit) < 0)) {
+			oldUpperLimit = MAX_VALUE;
+			MAX_VALUE = newUpperLimit;
+		}
 		return oldUpperLimit;
 	}
 
 	@Override
 	Object convert4Model(String viewString) {
-		return null;
+		Integer modelValue = Integer.decode(viewString);
+		return modelValue;
 	}
 
 	@Override
 	public String convert4View(Object modelValue) {
-		// TODO Auto-generated method stub
-		return null;
+		String viewValue = ((Integer)modelValue).toString();
+		return viewValue;
 	}
 
 	@Override

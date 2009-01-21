@@ -28,10 +28,6 @@ public class NewDirectoryAction extends NewActionBase {
 			throws StorageTreeException {
 		File candidateDirectory = new File(candidatePath);
 		if (!candidateDirectory.exists() && candidateDirectory.mkdir()) {
-//			MessageBox messageBox = new MessageBox(shell);
-//			messageBox.setMessage("\"" + candidateName
-//					+ "\"\nhas been created.");
-//			messageBox.open();
 			((ParentNode)node).addChild((ChildNode)new DirectoryNode((ParentNode)node,candidateDirectory));
 			theViewer.refresh();
 		} else {

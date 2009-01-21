@@ -6,9 +6,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
 /**
- * The atomic types used in Dynamo-HIA are divided into ContainerTypes (that are
- * marked by this marker-interface) and LeafType-s that do not have this
- * interface.
+ * A Class implementing this interface can handle part of the configuration.
  * 
  * @author mondeelr
  */

@@ -1,23 +1,15 @@
 package nl.rivm.emi.dynamo.data.objects;
-
+/**
+ * Model Object for the configuration of a categorical riskfactor.
+ */
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.tree.ConfigurationNode;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
@@ -30,6 +22,12 @@ import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 		IStaxEventContributor, IReferenceCategory, ICategoricalObject {
@@ -48,6 +46,10 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 		return categoricalObjectImplementation.getCategoryName(index);
 	}
 
+	public WritableValue getObservableCategoryName(Integer index) {
+		return categoricalObjectImplementation.getObservableCategoryName(index);
+	}
+
 	public int getNumberOfCategories() {
 		return categoricalObjectImplementation.getNumberOfCategories();
 	}
@@ -64,6 +66,10 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 		return referenceCategoryObjectImplementation.getReferenceCategory();
 	}
 
+	public WritableValue getObservableReferenceCategory() {
+		return referenceCategoryObjectImplementation.getObservableReferenceCategory();
+	}
+	
 	public Object putReferenceCategory(Integer index) {
 		return referenceCategoryObjectImplementation.putReferenceCategory(
 				index);
@@ -78,19 +84,16 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	// public RiskFactorCategoricalObject manufacture(
-	// RiskFactorCategoricalObject modelObject, File configurationFile)
-	// throws ConfigurationException, DynamoInconsistentDataException {
-	// log.debug("Starting manufacture.");
-	// modelObject =
-	// categoricalObjectImplementation.(RiskFactorCategoricalObject)
-	// manufacture(modelObject,
-	// configurationFile);
-	// return modelObject;
-	// }
+	 public RiskFactorCategoricalObject manufacture(String configurationFilePath)
+	 throws ConfigurationException, DynamoInconsistentDataException {
+	 log.debug("Starting manufacture.");
+	 manufacture(this, configurationFilePath);
+	 return this;
+	 }
 	protected ConfigurationObjectBase handleRootChildren(
 			ConfigurationObjectBase modelObject,
 			List<ConfigurationNode> rootChildren) throws ConfigurationException {
+	if(rootChildren != null){
 		for (ConfigurationNode rootChild : rootChildren) {
 			String childName = rootChild.getName();
 			log.debug("Handle rootChild: " + childName);
@@ -99,21 +102,15 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 			if ((entity != null) && (entity instanceof IHandlerType)) {
 				modelObject = ((IHandlerType) entity).handle(modelObject,
 						rootChild);
+			} else {
+				throw new ConfigurationException("Unhandled rootChild element: " + childName);
 			}
 		}
+	} else {
+		categoricalObjectImplementation.manufactureDefault();
+		referenceCategoryObjectImplementation.manufactureDefault();
+	}
 		return modelObject;
-	}
-
-	@Override
-	public ConfigurationObjectBase manufacture(File configurationFile)
-			throws ConfigurationException, DynamoInconsistentDataException {
-		return manufacture(this, configurationFile);
-	}
-
-	@Override
-	public ConfigurationObjectBase manufactureDefault()
-			throws ConfigurationException {
-		return null;
 	}
 
 	// write
@@ -133,4 +130,5 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 		event = eventFactory.createEndDocument();
 		writer.add(event);
 	}
+
 }

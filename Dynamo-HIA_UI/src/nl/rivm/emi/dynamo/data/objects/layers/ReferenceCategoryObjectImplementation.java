@@ -5,6 +5,7 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
@@ -15,7 +16,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class ReferenceCategoryObjectImplementation extends DualModeObjectBase implements
-		IReferenceCategory, IStaxEventContributor {
+		IReferenceCategory, IStaxEventContributor, IFactoryContributor {
 
 	private Object referenceCategory = null;
 
@@ -53,6 +54,14 @@ public class ReferenceCategoryObjectImplementation extends DualModeObjectBase im
 		return resultCategory;
 	}
 
+	public WritableValue getObservableReferenceCategory() {
+		WritableValue resultCategory = null;
+		if (referenceCategory instanceof WritableValue) {
+			resultCategory = (WritableValue) referenceCategory;
+			}
+		return resultCategory;
+	}
+
 	public void streamEvents(XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartElement("", "",
@@ -62,6 +71,10 @@ public class ReferenceCategoryObjectImplementation extends DualModeObjectBase im
 		writer.add(event);
 		event = eventFactory.createEndElement("", "", "referenceclass");
 		writer.add(event);
+	}
+
+	public void manufactureDefault() {
+putReferenceCategory(0);
 	}
 
 }

@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
+import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.DiseaseIncidencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.DiseasePrevalencesGroup;
@@ -17,6 +18,7 @@ import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRiskForDeathGroup;
+import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -59,20 +61,21 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 	}
 
 	private String createCaption(BaseNode selectedNode2) {
-		return "Relative risk for death, continuous,";
+		return "Categorical risk factor configuration";
 	}
 
 	public synchronized void open() {
 		try {
 			dataBindingContext = new DataBindingContext();
-			modelObject = manufactureModelObject();
+			modelObject = new RiskFactorCategoricalObject(true);
+			modelObject = modelObject.manufacture(configurationFilePath);
 			Composite buttonPanel = new GenericButtonPanel(shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			RelativeRiskForDeathGroup relativeRiskForDeathGroup = new RelativeRiskForDeathGroup(
+			RiskFactorCategoricalGroup riskFactorCategoricalGroup = new RiskFactorCategoricalGroup(
 					shell, modelObject, dataBindingContext, selectedNode, helpPanel);
-			relativeRiskForDeathGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+			riskFactorCategoricalGroup.setFormData(helpPanel.getGroup(), buttonPanel);
 			shell.pack();
 			// This is the first place this works.
 			shell.setSize(900, 700);
@@ -93,28 +96,6 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 			box.setMessage(e.getMessage());
 			box.open();
 		}
-	}
-
-	private TypedHashMap manufactureModelObject()
-			throws ConfigurationException, DynamoInconsistentDataException {
-		TypedHashMap producedData = null;
-		RiskFactorCategoricalObject workObject = new RiskFactorCategoricalObject(true);
-		File configurationFile = new File(configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				workObject.producedData = factory.manufactureObservable(configurationFile);
-				if (producedData == null) {
-					throw new ConfigurationException(
-							"DataModel could not be constructed.");
-				}
-			} else {
-				throw new ConfigurationException(configurationFilePath
-						+ " is no file or cannot be read.");
-			}
-		} else {
-			producedData = factory.manufactureObservableDefault();
-		}
-		return producedData;
 	}
 
 	public void run() {

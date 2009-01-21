@@ -1,10 +1,10 @@
 package nl.rivm.emi.dynamo.data.types;
 
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
+import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
@@ -20,6 +20,7 @@ public enum XMLTagEntityEnum {
 	AGE((XMLTagEntity)new Age()),
 	SEX((XMLTagEntity)new Sex()),
 	NUMBER((XMLTagEntity)new Number()),
+	NAME((XMLTagEntity)new Name()),
 	CATEGORY((XMLTagEntity)new Category()),
 	DURATION((XMLTagEntity)new Duration()),
 	TRANSITIONSOURCE((XMLTagEntity)new TransitionSource()),

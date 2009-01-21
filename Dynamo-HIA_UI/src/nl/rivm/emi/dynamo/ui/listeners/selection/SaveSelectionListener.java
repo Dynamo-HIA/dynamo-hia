@@ -9,6 +9,7 @@ import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
+import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
@@ -44,7 +45,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					.getInstance().get(modalParent.getRootElementName()),
 					(TypedHashMap) modelObject, configurationFile);
 			} else {
-				((IStaxEventContributor)modelObject).streamEvents(configurationFile);
+				((StaxWriterEntryPoint)modelObject).writeToFile(configurationFile);
 			}
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block

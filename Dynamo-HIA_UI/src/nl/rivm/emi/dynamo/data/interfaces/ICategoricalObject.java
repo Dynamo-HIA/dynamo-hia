@@ -1,8 +1,6 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public interface ICategoricalObject {
 
@@ -10,5 +8,7 @@ public interface ICategoricalObject {
 
 	public abstract String getCategoryName(Integer index);
 
+	public abstract WritableValue getObservableCategoryName(Integer index);
+	
 	public abstract int getNumberOfCategories();
 }
