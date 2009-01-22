@@ -6,6 +6,8 @@ package nl.rivm.emi.dynamo.estimation;
  * Fields are:
  * @relRiskCont  relative risk of continuous risk factor on diseases in cluster (counted within the cluster)
  *  @relRiskCat  relative risk of categorical risk factor on diseases in cluster (counted within the cluster)
+ *  NB: the first index is the categorie of the risk factor (from), the second the diseases to which the
+ *  RR applies
  8 TODO other names
  * @RRdisExtended same as RRdis but now the indexes range over all diseases in the cluster
 *	 the value is 1 if there is no equivalent RRdis value
@@ -22,16 +24,13 @@ public class DiseaseClusterData {
 	// the value is 1 if there is no equivalent RRdis value
 	float[] incidence;
 	float[] prevalence;
-	
 	public float[] relRiskCont={1};
-
-	
 	public float[] excessMortality={0};
 	public float caseFatality[]={0};
 	public float curedFraction[]={0};
 	public float[] relRiskDuurBegin={1};
 	public float[] relRiskDuurEnd={1};
-	public float[] halfTime={5};
+	public float[] rrAlpha={5};
 	public float[][] relRiskCat={{1}};
 	
 	
@@ -53,11 +52,23 @@ public class DiseaseClusterData {
 	 * 			  
 	 *          
 	 */
-	public DiseaseClusterData( DiseaseClusterStructure Structure,  float[][] RRdis ) {
+	public DiseaseClusterData( DiseaseClusterStructure Structure, int nClasses, float[][] RRdis ) {
 		
 		incidence = new float[Structure.nInCluster];
 		
 		prevalence = new float[Structure.nInCluster];
+		
+		 relRiskCont=new float[Structure.nInCluster];;
+		 excessMortality=new float[Structure.nInCluster];;
+		 caseFatality=new float[Structure.nInCluster];;
+		curedFraction=new float[Structure.nInCluster];;
+		 relRiskDuurBegin=new float[Structure.nInCluster];;
+		 relRiskDuurEnd=new float[Structure.nInCluster];;
+		 rrAlpha=new float[Structure.nInCluster];;
+		 relRiskCat=new float[nClasses][Structure.nInCluster];
+		
+		
+		
 		
 	//	this.RRdis = RRdis;
 		// RRdisExtended is a RR matrix for all diseases, as this make looking up the
@@ -128,6 +139,39 @@ public class DiseaseClusterData {
 		}
 	}
 	/**
+	 * @param input array with single incidence rate for this cluster
+	 * @param d disease number to which this incidence applies
+	 */
+	public void setIncidence(float input,int d) {
+		
+		
+			incidence[d] = input;
+		
+	}
+	/**
+	 * @param input array with single prevalence rate for this cluster
+	 * @param d disease number to which this prevalence applies
+	 */
+	public void setPrevalence(float input,int d) {
+		
+		
+			prevalence[d] = input;
+		
+	}
+	/**
+	 * @param input array with single excess mortality rate for this cluster
+	 * @param d disease number to which this excess mortality applies
+	 */
+	public void setExcessMortality(float input,int d) {
+		
+		
+		excessMortality[d] = input;
+		
+	}
+	
+	
+	
+	/**
 	 * @param Input: incidence rate for this cluster
 	 */
 	public void setIncidence(float Input) {
@@ -172,18 +216,35 @@ public class DiseaseClusterData {
 		this.relRiskDuurBegin = relRiskDuurBegin;
 	}
 
+	public void setRelRiskDuurBegin(float relRiskDuurBegin, int d) {
+		this.relRiskDuurBegin[d] = relRiskDuurBegin;
+	}
+	
+
 	public float[] getRelRiskDuurEnd() {
 		return relRiskDuurEnd;
 	}
 
-	public void setHalfTime(float[] halfTime) {
-		this.halfTime = halfTime;
+	public void setRrAlpha(float[] halfTime) {
+		this.rrAlpha = halfTime;
 	}
-	public float[] getHalfTime() {
-		return halfTime;
+
+	public void setRrAlpha(float halfTime, int d) {
+		this.rrAlpha[d] = halfTime;
 	}
+	
+	
+	public float[] getRrAlpha() {
+		return rrAlpha;
+	}
+
+	
+	
 	public void setRelRiskDuurEnd(float[] relRiskDuurEnd) {
 		this.relRiskDuurEnd = relRiskDuurEnd;
+	}
+	public void setRelRiskDuurEnd(float relRiskDuurEnd, int d) {
+		this.relRiskDuurEnd[d] = relRiskDuurEnd;
 	}
 
 	public float[] getRelRiskCont() {
@@ -192,6 +253,10 @@ public class DiseaseClusterData {
 
 	public void setRelRiskCont(float[] relRiskCont) {
 		this.relRiskCont = relRiskCont;
+	}
+	
+	public void setRelRiskCont(float relRiskCont, int d) {
+		this.relRiskCont[d] = relRiskCont;
 	}
 
 
@@ -215,6 +280,57 @@ public class DiseaseClusterData {
 
 	public void setCaseFatality(float[] caseFatality) {
 		this.caseFatality = caseFatality;
+	}
+	
+	
+	public void setCaseFatality(float caseFatality, int d) {
+		this.caseFatality[d] = caseFatality;
+	}
+	
+
+	public float[][] getRelRiskCat() {
+		return relRiskCat;
+	}
+
+	public void setRelRiskCat(float[][] relRiskCat) {
+		this.relRiskCat = relRiskCat;
+	}
+	
+
+	public void setRelRiskCat(float[] relRiskCat,int d) {
+		for (int cat=0;cat<relRiskCat.length;cat++)
+			this.relRiskCat[cat][d] = relRiskCat[cat];
+	}
+
+	/**
+	 * @param i: input value with which to fill all values of RelRiskCat
+	 * @param d: disease for which to fill in these values
+	 */
+	public void setRelRiskCat(int i, int d) {
+		for (int cat=0;cat<relRiskCat.length;cat++)
+			this.relRiskCat[cat][d] =  i;
+		
+	}
+
+	public float[] getCuredFraction() {
+		return curedFraction;
+	}
+
+	public void setCuredFraction(float[] curedFraction) {
+		this.curedFraction = curedFraction;
+	}
+	
+	
+	public void setCuredFraction(float curedFraction, int d) {
+		this.curedFraction[d] = curedFraction;
+		
+	}
+	
+	
+	public void setCuredFraction(float curedFraction, int d, DiseaseClusterStructure structure) {
+		this.curedFraction[d] = curedFraction;
+		if (curedFraction>0) structure.withCuredFraction=true;
+		
 	}
 
 }

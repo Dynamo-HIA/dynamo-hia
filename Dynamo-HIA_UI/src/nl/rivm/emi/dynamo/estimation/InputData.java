@@ -18,24 +18,14 @@ public class InputData {
 	public String [] riskFactorClassNames;
 	public String  riskFactorName;
 	/* class number of compound class with duration */
-	String riskDistribution = "Normal";;
+	String riskDistribution = "Normal";
+	/* index = cluster number */
 	DiseaseClusterStructure[] clusterStructure;
-	
-	// now data per age and gender
-	// index 1 always age, 2 always gender
+	/* index = age, sex, clusternumber */
 	public DiseaseClusterData[][][] clusterData= new DiseaseClusterData [96][2][];
 	public float[][] mortTot = new float [96][2];
-	// third index is for risk factor class, fourth for disease //
-	
-//	public float relRiskCont[][][]= new float [96][2][];
-//	public float relRiskMortCat[][][]= new float [96][2][];
-//	public float relRiskMortCont[][]= new float [96][2];
-//	public float excessMortality[][][]= new float [96][2][];
-//	public float caseFatality[][][]= new float [96][2][];
-//	public float[][][] relRiskDuurBegin= new float [96][2][];
-//	public float[][][] relRiskDuurEnd= new float[96][2][];
-//	public float[][][] halfTime= new float [96][2][];
-	
+	// third index is for risk factor class //
+
 	private float prevRisk[][][]= new float [96][2][];;
 	public float[][] meanRisk= new float [96][2];
 	public float[][] stdDevRisk= new float [96][2];
@@ -43,20 +33,22 @@ public class InputData {
 	public float[][] relRiskDuurMortBegin= new float[96][2];
 	public float[][] relRiskDuurMortEnd= new float [96][2];
 	public float[][][] duurFreq= new float [96][2][];
-	public float[][] halfTimeMort= new float[96][2];
+	public float[][] rrAlphaMort= new float[96][2];
 	public float[][][] relRiskMortCat = new float [96][2][];
 	public float[][] relRiskMortCont= new float [96][2];
     
-	// for the one dependent cluster gives the numbers of the independent
-	// diseases
+	// transition data
+	public int transType=-1; 
+	/* transtype: 0= null, 1= netto, 2= as inputted */
+	// now data per age and gender
+	// index 1 always age, 2 always gender
+	public float[][] stdDrift = new float[96][2];
+	public float[][] meanDrift = new float[96][2];
+	public float[][] offsetDrift = new float[96][2];
+	public float[][][][] transitionMatrix = new float[96][2][][];
 
-	// Matrix [] RRdis;
-
-	// RRdis [i-cluster][d-independent][d-dependent]
-
-	// 
-	// is an array of RR's
-
+	
+	
 	/**
 	 * the constructor () fills the fields with test data
 	 */
@@ -94,7 +86,7 @@ public class InputData {
 				float[] hulp7 = { 0.2F, 0.2F, 0.2F, 0.1F, 0.1F, 0.1F, 0.1F };
 				duurFreq[age][g] = hulp7;
 				
-				halfTimeMort[age][g] = 5;
+				rrAlphaMort[age][g] = 5;
 				float[] hulp11 = { 1, (float) 1.1, (float) 1.2 };
 			    relRiskMortCat [age][g]= hulp11;
 				relRiskMortCont [age][g]= (float) 1.1;
@@ -119,7 +111,7 @@ public class InputData {
 						clusterData[age][g][0].caseFatality [0]= 0.0F;
 						clusterData[age][g][0].relRiskDuurBegin[0]=2;
 						clusterData[age][g][0].relRiskDuurEnd[0] = 1.1F;
-						clusterData[age][g][0].halfTime[0] =5;
+						clusterData[age][g][0].rrAlpha[0] =0.15F;
 
 						float[][] hulp = { { 1 },
 								{  1.2F },
@@ -137,7 +129,7 @@ public class InputData {
 						clusterData[age][g][1].caseFatality [0]= 0.2F;
 						clusterData[age][g][1].relRiskDuurBegin[0]=2;
 						clusterData[age][g][1].relRiskDuurEnd[0] = 1.2F;
-						clusterData[age][g][1].halfTime[0] =5;
+						clusterData[age][g][1].rrAlpha[0] =0.15F;
 						
 						float[][] hulp = { { 1 },
 								{  1.2F },
@@ -159,7 +151,7 @@ public class InputData {
 						clusterStructure[2] = new DiseaseClusterStructure(
 								"cluster1", 2, 5, Namestring, nrIndep);
 						clusterData[age][g][2] = new DiseaseClusterData(
-								clusterStructure[2], RRdis);
+								clusterStructure[2], 3,RRdis);
 						float[] hulp1 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
 						clusterData[age][g][2].relRiskCont = hulp1;
 						float[] hulp2 = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F, 0.06F, 0.07F };
@@ -170,8 +162,8 @@ public class InputData {
 						clusterData[age][g][2].relRiskDuurBegin= hulp5;
 						float[] hulp6 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
 						clusterData[age][g][2].relRiskDuurEnd = hulp6;
-						float[] hulp8 = { 5, 15, 5, 15, 5, 15, 5 };
-						clusterData[age][g][2].halfTime = hulp8;
+						float[] hulp8 = { 0.15F,  0.015F,  0.15F,  0.015F,  0.15F,  0.015F,  0.15F };
+						clusterData[age][g][2].rrAlpha = hulp8;
 						float[][] hulp = { {  1, 1, 1, 1, 1 },
 								{   1.2F, 1.4F, 1.6F, 1.8F, 2.2F },
 								{ 1.5F, 1.7F, 1.9F, 2.1F, 2.5F } };
@@ -232,10 +224,10 @@ public class InputData {
 		
 		indexDuurClass = 2; /* class number of compound class with duration */
 		int[] nrIndep = { 0 };
-		String[] nameString = { "ziekte1", "ziekte2" };
+		String[] nameString = { "disease1", "disease2" };
 		clusterStructure =new DiseaseClusterStructure [nCluster] ;
 		clusterStructure[0] = new DiseaseClusterStructure(
-				"cluster1", 0, 2, nameString, nrIndep);
+				"cluster0", 0, 2, nameString, nrIndep);
 		clusterStructure[0].setWithCuredFraction(false);
 		
 		for (int age = 0; age < 96; age++)
@@ -282,7 +274,7 @@ public class InputData {
 						RRdis[1][1]=1;
 						
 						clusterData[age][g][0] = new DiseaseClusterData(
-								clusterStructure[0], RRdis);
+								clusterStructure[0],2, RRdis);
 						
 						
 						clusterData[age][g][0].relRiskCont = new float[2];// not used
@@ -511,12 +503,39 @@ public class InputData {
 
 
 
-	public float[][] getHalfTimeMort() {
-		return halfTimeMort;
+	public float[][] getRrAlphaMort() {
+		return rrAlphaMort;
 	}
 
-	public void setHalfTimeMort(float[][] halfTimeMort) {
-		this.halfTimeMort = halfTimeMort;
+	public void setRrAplhaMort(float[][] halfTimeMort) {
+		this.rrAlphaMort = halfTimeMort;
+	}
+	public float[][][] getRelRiskMortCat() {
+		return relRiskMortCat;
+	}
+	public void setRelRiskMortCat(float[][][] relRiskMortCat) {
+		this.relRiskMortCat = relRiskMortCat;
+	}
+	public float[][] getRelRiskMortCont() {
+		return relRiskMortCont;
+	}
+	public void setRelRiskMortCont(float[][] relRiskMortCont) {
+		this.relRiskMortCont = relRiskMortCont;
+	}
+	/**
+	 * @param input: array (float[][][]) of prevalence of risk factor (indexes: age, sex, risk category)
+	 * @param percent: boolean telling whether input is in percent
+	 */
+	public void setPrevRisk(float[][][] input, boolean percent) {
+		if (percent){
+			this.prevRisk=new float[96][2][input[0][0].length];
+		for (int a=0;a<96;a++)
+			for (int g=0;g<2;g++)
+				for (int r=0;r<input[0][0].length;r++)
+				this.prevRisk[a][g][r]=input[a][g][r]/100;}
+		else this.prevRisk=input;
+		
+		
 	}
 
 	}

@@ -4,9 +4,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 import Jama.Matrix;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
-import nl.rivm.emi.dynamo.datahandling.InputDataFactory;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
@@ -23,17 +24,20 @@ import java.io.File;
 import java.util.List;
 
 import javax.management.RuntimeErrorException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
- * @author boshuizh ModelParameters estimates and holds the model parameters
- *         method estimateModelParameters(String dir) is called when activating
+ * @author Hendriek Boshuizen.
+ *         ModelParameters estimates and holds the model parameters
+ *         method estimateModelParameters(String name_of_simulation) is called when activating
  *         the button "estimate parameters" of the DYNAMO model (or "run" when
  *         no parameters have been estimated previously) it 1. takes the
  *         information in the directory indicated by dir to collect all the
  *         input information needed 2. uses this to estimate the model
  *         parameters 3. write xml files needed by the simulation module 4.
  *         write the initial population file 5. writes a population of newborns
- *         (TODO)
+ *         
  * 
  */
 public class ModelParameters {
@@ -72,6 +76,7 @@ public class ModelParameters {
 	public float prevRisk[][][] = new float[96][2][];;
 	public float[][] meanRisk = new float[96][2];
 	public float[][] stdDevRisk = new float[96][2];
+	public float[][] offsetRisk = new float[96][2];
 	
 	public float[][][] relRiskDuurBegin = new float[96][2][];
 	public float[][][] relRiskDuurEnd = new float[96][2][];
@@ -88,7 +93,6 @@ public class ModelParameters {
 	};
 
 	/**
-	 * estimateModelParameters is the main method that directs all the others
 	 * 
 	 * @param nSim
 	 *            number of simulated subjects used in the parameter estimation
@@ -98,6 +102,8 @@ public class ModelParameters {
 	 * @throws DynamoInconsistentDataException
 	 *             which implies that the used should change the input data
 	 * @throws Exception
+	 * 
+	 * @returns ScenarioInfo: an object containing information that is needed for postprocessing
 	 */
 	public void estimateModelParameters(int nSim, InputData inputData)
 			throws DynamoInconsistentDataException {
@@ -128,18 +134,36 @@ public class ModelParameters {
 	};
 
 	/**
+	 * 
+	 *   estimateModelParameters(simulationname) is the main method between the user-interface and the simulation-module (the SOR program)
+	 * it directs all the other action. It orders the following actions: 
+	 * - read the xml files produced by the userinterface (using only the simulationname)
+	 * - put them into objects InputData (data that are needed only for construction of model parameters)
+	 *  and ScenarioInfo (data that are needed also for postprocessing)
+	 *  - estimate modelparameters and put them in the current object ModelParameters
+	 *  - write initial population xml files
+	 *  - write newborn xml file
+	 *  - write all configuration xml files for the SOR module   
+	
 	 * @param simulationName
 	 *            : name of the simulation (is used to find the directory of the
 	 *            data and configuration files and the directory to write the
 	 *            outputfiles too)
+	 * @returns ScenarioInfo: an object with information needed in postprocessing           
 	 * @throws DynamoInconsistentDataException
 	 *             , indicating that the user should supply other data
+	 * @throws DynamoConfigurationException 
+	 * 
+	 * both identical implementation showing that something got wrong reading the user data
+	 * if the user interface is implemented well, this should not occur in practise, but could occur
+	 * when users enter data directly in XML files.
 	 * 
 	 */
-	public void estimateModelParameters(String simulationName)
-			throws DynamoInconsistentDataException {
+	public ScenarioInfo estimateModelParameters(String simulationName)
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		/** step 1: build input data from baseline directory */
+		
 		/**
 		 * estimateModelParameters first takes the information in the directory
 		 * indicated by dir to collect all the input information needed this is
@@ -150,36 +174,49 @@ public class ModelParameters {
 		 * 
 		 */
 
-		BaseDirectory B = BaseDirectory.getInstance("c:/hendriek/dynamodata");
+		BaseDirectory B = BaseDirectory.getInstance("c:\\hendriek\\java\\dynamohome");
 		String BaseDir = B.getBaseDir();
+		InputDataFactory config= new InputDataFactory(simulationName);
 		InputData inputData = new InputData();
-		File simulationConfig = new File(BaseDir + simulationName);
-		DynamoConfigurationData config = new DynamoConfigurationData(
-				simulationConfig);
-		InputDataFactory.addMortalityToInputData(inputData, config);
-		InputDataFactory.addRiskFactorInfoToInputData(inputData, config);
-		InputDataFactory.addDiseaseAndRRInfoToInputData(inputData, config);
-		/** * 2. uses this to estimate the model parameters */
+		
+		ScenarioInfo scenInfo =new ScenarioInfo();
+		log.fatal("overall configuration read");
+		config.addPopulationInfoToInputData(simulationName,inputData,scenInfo);
+		log.fatal("population info added");
+		config.addRiskFactorInfoToInputData(inputData,scenInfo);
+		log.fatal("risk factor info added");
+		config.addDiseaseInfoToInputData(inputData,scenInfo);
+		config.addScenarioInfoToScenarioData(simulationName, scenInfo);
+
+		log.fatal("disease info added");
+	
+			
+		/** * 2. uses the inputdata to estimate the model parameters */
 		estimateModelParameters(nSim, inputData);
 		/** * 3. write xml files needed by the simulation module */
+		
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 				simulationName);
-		s.manufactureSimulationConfigurationFile(this);
+		s.manufactureSimulationConfigurationFile(this,scenInfo);
 		log.debug("SimulationConfigurationFile written ");
 		s.manufactureCharacteristicsConfigurationFile(this);
 		log.debug("CharacteristicsConfigurationFile written ");
-		s.manufactureUpdateRuleConfigurationFiles(this);
+		s.manufactureUpdateRuleConfigurationFiles(this,scenInfo);
 		log.debug("UpdateRuleConfigurationFile written ");
 
-		/** * 4. write the initial population file */
+		/** * 4. write the initial population file for all scenarios*/
 
-		InitialPopulationFactory E2 = new InitialPopulationFactory();
-		E2.writeInitialPopulation(this, 10, simulationName, 1111);
-		InitialPopulationFactory f2 = new InitialPopulationFactory();
-		int seed = 1111; // TODO uit configuration halen
-		f2.manufactureInitialPopulation(this, simulationName, nSim, seed);
-
+		InitialPopulationFactory popFactory = new InitialPopulationFactory();
+		int seed = config.getRandomSeed(); 
+		int nSim = config.getSimPopSize();
+		
+		popFactory.writeInitialPopulation(this, nSim, simulationName, seed, false, scenInfo);
+		
+		
 		/** * 5. writes a population of newborns (TODO) */
+		popFactory.writeInitialPopulation(this, nSim, simulationName, seed, true, scenInfo);
+		return scenInfo;
+		
 	}
 
 	/**
@@ -263,10 +300,10 @@ public class ModelParameters {
 						 * copy all info on relative risks to the array with
 						 * length 2 in stead of 1
 						 */
-						halftime = inputData.clusterData[a][g][c].halfTime[0];
-						inputData.clusterData[a][g][c].halfTime = new float[2];
-						inputData.clusterData[a][g][c].halfTime[0] = halftime;
-						inputData.clusterData[a][g][c].halfTime[1] = halftime;
+						halftime = inputData.clusterData[a][g][c].rrAlpha[0];
+						inputData.clusterData[a][g][c].rrAlpha = new float[2];
+						inputData.clusterData[a][g][c].rrAlpha[0] = halftime;
+						inputData.clusterData[a][g][c].rrAlpha[1] = halftime;
 						RRcat = new float[inputData.clusterData[a][g][c].relRiskCat.length];
 
 						inputData.clusterData[a][g][c].relRiskCat = new float[RRcat.length][2];
@@ -405,10 +442,8 @@ public class ModelParameters {
 				int dNumber = inputData.clusterStructure[c].diseaseNumber[d];
 				if (riskType == 3) {
 					relRiskDuurEnd[age][sex][dNumber] = inputData.clusterData[age][sex][c].relRiskDuurBegin[d];
-					if (inputData.clusterData[age][sex][c].halfTime[d] != 0)
-						alfaDuur[age][sex][dNumber] = (float) (log2 / inputData.clusterData[age][sex][c].halfTime[d]);
-					else
-						alfaDuur[age][sex][dNumber] = 999999;
+					alfaDuur[age][sex][dNumber] =  inputData.clusterData[age][sex][c].rrAlpha[d];
+					
 				}
 				diseasePrevalence[age][sex][clusterStructure[c]
 						.getDiseaseNumber()[d]] = inputData.clusterData[age][sex][c]
@@ -605,8 +640,7 @@ public class ModelParameters {
 									+ relRiskDuurEnd[age][sex][d];
 
 							relRiskMort[i] = (inputData.relRiskDuurMortBegin[age][sex] - inputData.relRiskDuurMortEnd[age][sex])
-									* Math.exp(-log2 * riskfactor[i]
-											/ inputData.halfTimeMort[age][sex])
+									* Math.exp(- riskfactor[i]* inputData.rrAlphaMort[age][sex])
 									+ inputData.relRiskDuurMortEnd[age][sex];
 
 						} else {
@@ -631,7 +665,7 @@ public class ModelParameters {
 
 						relRiskMort[i] = (inputData.relRiskDuurMortBegin[age][sex] - inputData.relRiskDuurMortEnd[age][sex])
 								* Math.exp(-log2 * riskfactor[i]
-										/ inputData.halfTimeMort[age][sex])
+										/ inputData.rrAlphaMort[age][sex])
 								+ inputData.relRiskDuurMortEnd[age][sex];
 
 					} else {
@@ -2139,12 +2173,12 @@ public class ModelParameters {
 		this.stdDevRisk = stdDevRisk;
 	}
 
-	public float[][] getSkewnessRisk() {
-		return skewnessRisk;
+	public float[][] getOffsetRisk() {
+		return offsetRisk;
 	}
 
-	public void setSkewnessRisk(float[][] skewnessRisk) {
-		this.skewnessRisk = skewnessRisk;
+	public void setOffsetRisk(float[][] input) {
+		this.offsetRisk = input;
 	}
 
 	public float[][][] getRelRiskDuurBegin() {

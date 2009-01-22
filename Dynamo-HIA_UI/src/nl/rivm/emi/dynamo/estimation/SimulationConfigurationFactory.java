@@ -12,13 +12,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,12 +55,11 @@ public class SimulationConfigurationFactory {
 	 * 
 	 * @param simName
 	 *            the name of the simulation
-	 * @throws ParserConfigurationException
-	 * @throws TransformerException
+	 * 
 	 */
 
 	public SimulationConfigurationFactory(String simName)
-			throws CDMConfigurationException {
+			{
 
 		directoryName = BaseDirectory.getBaseDir() + "Simulations\\" + simName;
 		charFileName = directoryName + "\\modelconfiguration"
@@ -94,7 +91,7 @@ public class SimulationConfigurationFactory {
 
 	public void manufactureUpdateRuleConfigurationFiles(
 			ModelParameters parameters, ScenarioInfo scenInfo)
-			throws CDMConfigurationException, DynamoConfigurationException {
+			throws  DynamoConfigurationException {
 		// temporary name for testing
 
 		String fileName;
@@ -117,7 +114,7 @@ public class SimulationConfigurationFactory {
 		
 		int riskType = parameters.getRiskType();
 
-		for (int scen = 0; scen <= scenInfo.nScenarios; scen++) {
+		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
 			if (riskType == 1 || riskType == 3){
 				
 
@@ -329,9 +326,9 @@ public class SimulationConfigurationFactory {
 				document.appendChild(rootElement);
 				writeDomToXML(ConfigXMLfileName, document);
 		  
-		 }
+		 }}
 	   ruleNumber = 4;
-		}
+		
 	  if ( riskType == 3) {
 			String ConfigXMLfileName = null;
 				ConfigXMLfileName = directoryName
@@ -714,12 +711,12 @@ public class SimulationConfigurationFactory {
 	 */
 	public void manufactureSimulationConfigurationFile(
 			ModelParameters parameters, ScenarioInfo scenInfo)
-			throws CDMConfigurationException {
+			throws DynamoConfigurationException {
 		// temporary name for testing
 
 		String fileName = simFileName+".xml";
 
-		for (int scen = 0; scen <= scenInfo.nScenarios; scen++) {
+		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
 			if (scen > 0)
 				fileName = simFileName + "_scen_" + scen+".xml";
 			Document document = newDocument(fileName);
@@ -732,7 +729,7 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(rootElement, "stepsinrun",
 					((Integer) stepsInRun).toString());
 			writeFinalElementToDom(rootElement, "stoppingcondition", null);
-			if (scen > 0 && scenInfo.initialPrevalenceType[scen-1])
+			if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen-1])
 				writeFinalElementToDom(rootElement, "pop", popFileName
 						+ "_scen_" + scen+".xml");
 			else
@@ -815,7 +812,7 @@ public class SimulationConfigurationFactory {
 	 */
 	public void manufactureCharacteristicsConfigurationFile(
 			ModelParameters parameters /* , DynamoConfigurationData config */)
-			throws CDMConfigurationException {
+			throws DynamoConfigurationException {
 
 		String fileName = charFileName;
 
@@ -925,7 +922,7 @@ public class SimulationConfigurationFactory {
 	}
 
 	private void writeOneDimArray(float[][] arrayToWrite, String globalTag,
-			String tag, String fileName) throws CDMConfigurationException {
+			String tag, String fileName) throws DynamoConfigurationException {
 
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
@@ -1040,7 +1037,7 @@ public class SimulationConfigurationFactory {
 	}
 
 	private void writeTwoDimArray(float[][][] arrayToWrite, String globalTag,
-			String tag, String fileName) throws CDMConfigurationException {
+			String tag, String fileName) throws DynamoConfigurationException {
 
 		int dim3 = arrayToWrite[0][0].length;
 		int dim2 = arrayToWrite[0].length;
@@ -1073,7 +1070,7 @@ public class SimulationConfigurationFactory {
 
 	private void writeThreeDimArray(float[][][][] arrayToWrite,
 			String globalTag, String tag, String fileName)
-			throws CDMConfigurationException {
+			throws DynamoConfigurationException {
 
 		int dim1 = arrayToWrite.length;
 		int dim2 = arrayToWrite[0].length;
@@ -1117,7 +1114,7 @@ public class SimulationConfigurationFactory {
 	 * 
 	 */
 	private void writeDomToXML(String fileName, Document document)
-			throws CDMConfigurationException {
+			throws DynamoConfigurationException {
 		File XMLfile = new File(fileName);
 		String directoryName = XMLfile.getParent();
 		File directory = new File(directoryName);
@@ -1140,7 +1137,7 @@ public class SimulationConfigurationFactory {
 			log.fatal("File exception when writing " + fileName + " : "
 					+ e.getClass().getName() + " message: " + e.getMessage());
 			e.printStackTrace();
-			throw new CDMConfigurationException("File exception when writing "
+			throw new DynamoConfigurationException("File exception when writing "
 					+ fileName + " : " + e.getClass().getName() + " message: "
 					+ e.getMessage());
 		} catch (TransformerConfigurationException e) {
@@ -1149,7 +1146,7 @@ public class SimulationConfigurationFactory {
 					+ e.getMessage());
 			
 			e.printStackTrace();
-			throw new CDMConfigurationException(
+			throw new DynamoConfigurationException(
 					"TransformerConfigurationException when writing "
 							+ fileName + ": " + e.getClass().getName()
 							+ " message: " + e.getMessage());
@@ -1158,7 +1155,7 @@ public class SimulationConfigurationFactory {
 					+ e.getClass().getName() + " message: " + e.getMessage());
 			
 			e.printStackTrace();
-			throw new CDMConfigurationException(
+			throw new DynamoConfigurationException(
 					"TransformerException when writing " + fileName + " "
 							+ e.getClass().getName() + " message: "
 							+ e.getMessage());
@@ -1178,7 +1175,7 @@ public class SimulationConfigurationFactory {
 	 * @throws CDMConfigurationException
 	 */
 	protected Document newDocument(String fileName)
-			throws CDMConfigurationException {
+			throws DynamoConfigurationException {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;
 		try {
@@ -1190,7 +1187,7 @@ public class SimulationConfigurationFactory {
 			e.printStackTrace();
 			log.fatal(e.getMessage());
 
-			throw new CDMConfigurationException(
+			throw new DynamoConfigurationException(
 					"error building document for parameterfile " + fileName);
 		}
 	}

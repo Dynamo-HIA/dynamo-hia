@@ -11,9 +11,10 @@ import nl.rivm.emi.cdm.individual.IndividualFromDOMFactory;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.prngutil.DOMRNGSeedWriter;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+
 import nl.rivm.emi.dynamo.estimation.DynamoLib;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,13 +59,14 @@ public class InitialPopulationFactory {
 	 *            : boolean: should this give an intial population or newborns
 	 * @param scenarioInfo
 	 *            : information on scenario
+	 * @throws DynamoConfigurationException 
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
 	public void writeInitialPopulation(ModelParameters parameters, int nSim,
 			String simulationName, int seed, boolean newborns,
-			ScenarioInfo scenarioInfo) throws ParserConfigurationException,
-			TransformerException {
+			ScenarioInfo scenarioInfo) throws DynamoConfigurationException 
+			{
 		Population[] pop = manufactureInitialPopulation(parameters,
 				simulationName, nSim, seed, newborns, scenarioInfo);
 
@@ -79,15 +81,39 @@ public class InitialPopulationFactory {
 			popFileName = directoryName + "\\modelconfiguration"
 					+ "\\population.xml";
 		File initPopXMLfile = new File(popFileName);
-		writeToXMLFile(pop[0], 0, initPopXMLfile);
+		try {
+			writeToXMLFile(pop[0], 0, initPopXMLfile);
+		} catch (ParserConfigurationException e) {
+			
+			e.printStackTrace();
+			throw new DynamoConfigurationException( "ParserConfigurationException while writing population" +
+					"to XML with message: "+e.getMessage());
+		} catch (TransformerException e) {
+			
+			e.printStackTrace();
+			throw new DynamoConfigurationException( "TransformerException while writing population" +
+					"to XML with message: "+e.getMessage());
+		}
 		if (pop.length > 1)
 			for (int scen = 1; scen < pop.length; scen++) {
 				popFileName = directoryName + "\\modelconfiguration"
 						+ "\\population_scen_" + scen + ".xml";
 				initPopXMLfile = new File(popFileName);
 				if (pop[scen] != null)
-					writeToXMLFile(pop[scen], 0, initPopXMLfile);
-				else if (scenarioInfo.initialPrevalenceType[0])
+					try {
+						writeToXMLFile(pop[scen], 0, initPopXMLfile);
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new DynamoConfigurationException( "ParserConfigurationException while writing population" +
+								"to XML with message: "+e.getMessage());
+					} catch (TransformerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						throw new DynamoConfigurationException( "TransformerException while writing population" +
+								"to XML with message: "+e.getMessage());
+					}
+				else if (scenarioInfo.getInitialPrevalenceType()[0])
 					log
 							.fatal("trying to write non existing initial population for scenario "
 									+ scen);
@@ -95,14 +121,24 @@ public class InitialPopulationFactory {
 
 	}
 
-	/** nsim= number of simulated individuals per age and gender */
+	/** this method manufactures initial populations for 
+	 * 1. the reference situation
+	 * 2. scenario's
+	 * in case of categorical risk factors and scenario's in which only the initial situation is changed,
+	 * only a single scenario population is manufactured, containing all subjects that are potentially changed 
+	 * under the scenario
+	 * The effect of each individual scenario then is calculated by the post-processing (DynamoOutputfactory)
+	 *  
+	 * nSim= number of simulated individuals per age and gender 
+	 * */
 	/**
-	 * @param parameters
+	 * @param parameters: Object with modelparameters
 	 * @param simulationName
-	 * @param nSim
+	 * @param nSim: number of simulated individuals per age and gender ; the method can add individuals if risk factors
+	 * would not be represented
 	 * @param seed
-	 * @param newborns
-	 * @param scenarioInfo
+	 * @param newborns (boolean) should a population of newborns be generated
+	 * @param scenarioInfo; object with scenario information
 	 * @return
 	 */
 	public Population[] manufactureInitialPopulation(
@@ -121,6 +157,7 @@ public class InitialPopulationFactory {
 		float[] rest;
 		float[] restDuration;
 		int currentRiskValue = 0;
+		int[][] nSimNew=new int [96][2];
 
 		DynamoLib.getInstance(nSim);
 		BaseDirectory baseDir = BaseDirectory.getInstance("c:");
@@ -130,12 +167,12 @@ public class InitialPopulationFactory {
 		// TODO nakijken of juiste directory naam
 
 		int nPopulations;
-		if (scenarioInfo.nScenarios == 0)
+		if (scenarioInfo.getNScenarios() == 0)
 			nPopulations = 1;
 		else if (parameters.riskType != 2)
 			nPopulations = 2;
 		else
-			nPopulations = scenarioInfo.nScenarios + 1;
+			nPopulations = scenarioInfo.getNScenarios() + 1;
 		Population[] initialPopulation = new Population[nPopulations];
 
 		initialPopulation[0] = new Population(simulationName, null);
@@ -144,12 +181,12 @@ public class InitialPopulationFactory {
 				initialPopulation[scen] = new Population(simulationName, null);
 			}
 
-		if (parameters.riskType != 2 && scenarioInfo.nScenarios > 0
-				&& scenarioInfo.initialPrevalenceType[0] && !newborns)
+		if (parameters.riskType != 2 && scenarioInfo.getNScenarios() > 0
+				&& scenarioInfo.getInitialPrevalenceType()[0] && !newborns)
 			initialPopulation[1] = new Population(simulationName, null);
 
 		boolean[][][][] shouldChangeInto = null;
-		if (parameters.riskType != 2 && scenarioInfo.initialPrevalenceType[0]
+		if (parameters.riskType != 2 && scenarioInfo.getInitialPrevalenceType()[0]
 				&& !newborns) {
 			int nCat = parameters.prevRisk[0][0].length;
 			float[] RR = new float[nCat];
@@ -164,7 +201,7 @@ public class InitialPopulationFactory {
 
 			for (int a = 0; a < 96; a++)
 				for (int g = 0; g < 2; g++)
-					for (int s = 0; s < scenarioInfo.nScenarios; s++) {
+					for (int s = 0; s < scenarioInfo.getNScenarios(); s++) {
 
 						float oldPrev[] = parameters.prevRisk[a][g];
 						float newPrev[] = scenarioInfo.newPrevalence[s][a][g];
@@ -192,6 +229,7 @@ public class InitialPopulationFactory {
 
 		for (int a = 0; a < agemax; a++)
 			for (int g = 0; g < 2; g++) {
+				nSimNew[a][g]=nSim;
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
 				cumulativeNSimPerDurationClass = new int[nDuurClasses[a][g]];
@@ -207,21 +245,49 @@ public class InitialPopulationFactory {
 
 					for (c = 0; c < nClasses; c++) {
 						nSimPerClass[c] = (int) Math
-								.floor(parameters.prevRisk[a][g][c] * nSim);
-						rest[c] = parameters.prevRisk[a][g][c]
-								- (float) nSimPerClass[c] / (float) nSim;
+								.floor(parameters.prevRisk[a][g][c] * nSimNew[a][g]);
+						/* if zero case in a class, add a person to the simulated population */
+						if 	(nSimPerClass[c] == 0) 	{nSimPerClass[c] = 1;
+						nSimNew[a][g]++;
+						
+						/* in that case, the rest from other categories only needs to be distributed 
+						 * differently over the other categories, as this categorie already has a large part of
+						 * the total as needed
+						 * 
+						 * We therefore recalculate the earlier
+						 */
+						
+						}
+						
 						if (c > 0)
 							cumulativeNSimPerClass[c] = nSimPerClass[c]
 									+ cumulativeNSimPerClass[c - 1];
 						else
 							cumulativeNSimPerClass[c] = nSimPerClass[c];
 					}
+					/* calculated the parts of nSim that have not yet been allocated */
 					float totrest = 0;
-					for (int c2 = 0; c2 < nClasses; c2++) {
-						totrest += rest[c2];
+					float totrestWithoutNegatives = 0;
+					for (c = 0; c < nClasses; c++) {
+						/* rest is the difference between the prevalence that is the aim to reach, and
+						 * the prevalence that is reached already
+						 * the rest of the data are drawn proportionally to that figure
+						 */
+						rest[c] = parameters.prevRisk[a][g][c]
+						    								- (float) nSimPerClass[c] / (float) nSimNew[a][g];
+						totrest += rest[c];
+						/* is totrest is negative, it should be taken into account into totrest (part that
+						 * is to be distributed later), but this should not be used in the distribution itself
+						 */
+						if (rest[c]<0) rest[c]=0;
+						else totrestWithoutNegatives +=rest[c];
+						
 					}
-					for (int c2 = 0; c2 < nClasses; c2++) {
-						rest[c2] = rest[c2] / totrest;
+					
+					
+					
+					for (c = 0; c < nClasses; c++) {
+						rest[c] = rest[c] / totrestWithoutNegatives;
 					}
 
 					;
@@ -229,30 +295,63 @@ public class InitialPopulationFactory {
 				}
 
 				if (parameters.riskType == 3) {
+					// NB all statements here are copied to the next part
+					// (risktype==3)
+					// so any faulth found here should be mended there too.
 					nSimPerClass = new int[nClasses];
-
+					nSimPerDurationClass = new int[nClasses];
 					int c = 0;
 
-					nSimPerDurationClass = new int[nClasses];
 					for (c = 0; c < nClasses; c++) {
 						nSimPerClass[c] = (int) Math
-								.floor(parameters.prevRisk[a][g][c] * nSim);
-						rest[c] = parameters.prevRisk[a][g][c]
-								- (float) nSimPerClass[c] / (float) nSim;
+								.floor(parameters.prevRisk[a][g][c] * nSimNew[a][g]);
+						/* if zero case in a class, add a person to the simulated population */
+						if 	(nSimPerClass[c] == 0) 	{nSimPerClass[c] = 1;
+						nSimNew[a][g]++;
+						
+						/* in that case, the rest from other categories only needs to be distributed 
+						 * differently over the other categories, as this categorie already has a large part of
+						 * the total as needed
+						 * 
+						 * We therefore recalculate the earlier
+						 */
+						
+						}
+						
 						if (c > 0)
 							cumulativeNSimPerClass[c] = nSimPerClass[c]
 									+ cumulativeNSimPerClass[c - 1];
 						else
 							cumulativeNSimPerClass[c] = nSimPerClass[c];
 					}
+					/* calculated the parts of nSim that have not yet been allocated */
 					float totrest = 0;
-					for (int c2 = 0; c2 < nClasses; c2++) {
-						totrest += rest[c2];
+					float totrestWithoutNegatives = 0;
+					for (c = 0; c < nClasses; c++) {
+						/* rest is the difference between the prevalence that is the aim to reach, and
+						 * the prevalence that is reached already
+						 * the rest of the data are drawn proportionally to that figure
+						 */
+						rest[c] = parameters.prevRisk[a][g][c]
+						    								- (float) nSimPerClass[c] / (float) nSimNew[a][g];
+						totrest += rest[c];
+						/* is totrest is negative, it should be taken into account into totrest (part that
+						 * is to be distributed later), but this should not be used in the distribution itself
+						 */
+						if (rest[c]<0) rest[c]=0;
+						else totrestWithoutNegatives +=rest[c];
+						
 					}
-					for (int c2 = 0; c2 < nClasses; c2++) {
-						rest[c2] = rest[c2] / totrest;
+					
+					
+					
+					for (c = 0; c < nClasses; c++) {
+						rest[c] = rest[c] / totrestWithoutNegatives;
 					}
+
 					;
+
+				
 
 					for (c = 0; c < nDuurClasses[a][g]; c++) {
 						nSimPerDurationClass[c] = (int) Math
@@ -292,9 +391,9 @@ public class InitialPopulationFactory {
 				 */
 				/*****************************************************************************/
 
-				for (int i = 0; i < nSim; i++) {
+				for (int i = 0; i < nSimNew[a][g]; i++) {
 					Individual currentIndividual = new Individual("ind", "ind_"
-							+ (i + a * nSim * 2 + nSim * g) + "_bl");
+							+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g] * g) + "_bl");
 					long seed2 = (long) rand2.random();
 					currentIndividual.setRandomNumberGeneratorSeed(seed2);
 
@@ -637,7 +736,7 @@ public class InitialPopulationFactory {
 					// TODO for duration risk factors
 					if (parameters.riskType == 2 && !newborns) {
 						for (int scen = 0; scen < nPopulations; scen++) {
-							if (scenarioInfo.initialPrevalenceType[scen]) {
+							if (scenarioInfo.getInitialPrevalenceType()[scen]) {
 								currentIndividual = new Individual("ind",
 										"ind_" + (i + a * nSim * 2 + nSim * g)
 												+ "_" + scen);
@@ -679,7 +778,7 @@ public class InitialPopulationFactory {
 						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 							if (shouldChangeInto[a][g][currentRiskValue][r]) {
 								currentIndividual = new Individual("ind",
-										"ind_" + (i + a * nSim * 2 + nSim * g)
+										"ind_" + (i + a * nSimNew[a][g] * 2 + nSimNew[a][g] * g)
 												+ "_" + currentRiskValue + "_"
 												+ r);
 								currentIndividual

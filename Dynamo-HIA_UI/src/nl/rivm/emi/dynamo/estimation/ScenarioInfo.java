@@ -10,29 +10,47 @@ package nl.rivm.emi.dynamo.estimation;
 public class ScenarioInfo {
 
 	
-	int nScenarios=1; // nScenarios give the number of alternative scenario's (the baseline scenario not included)
-	boolean [] initialPrevalenceType ={false};
-	boolean[] transitionType ={false};
-	float[][][][] newPrevalence=null; /* indexes: scenario,age, sex, class */
-	float [][][] drift=null;    /* indexes: scenario,age, sex */
+	private int nScenarios=1; 
+// nScenarios give the number of alternative scenario's (the baseline scenario not included)
+	String [] scenarioNames=null;
+	private boolean [] initialPrevalenceType ={false};
+	
+	private boolean[] transitionType ={false};
+	boolean[] zeroTransition=null;
+	float[][][][] newPrevalence; /* indexes: scenario,age, sex, class
+	scenario starts at index?? */
+	float [][][] oldPrevalence=null; /* prevalenc of reference situation; indexes: age sex class */
+	float [][][] drift=null;    /* indexes: scenario,age, sex */// TODO volgende 3 inlezen en initialiseren
 	float [][][] stdDrift=null;    /* indexes: scenario,age, sex */
 	float [][][] offsetDrift=null; /*indexes: scenario,age, sex */
-	float succesrate = 0.5F;
-	float minAge = 20;
-	float maxAge = 50;
-	boolean inMen = true;
-	boolean inWomen = true;
+	float [][][][] [] alternativeTransitionMatrix;
+	float [] succesrate = null;
+	float [] minAge = null;
+	float [] maxAge = null;
+	boolean[] inMen = null;
+	boolean[] inWomen = null;
+	public float[][] populationSize; // float as no reading method for integers is availlable at the moment
+	public float[][] overallDalyWeight;
+	int [][] newborns;
+	float maleFemaleRatio;
+	public String[] riskClassnames;
+	private int referenceClass;
+	public int riskType;
+	public DiseaseClusterStructure[] structure;
+	public int startYear;
+	public int yearsInRun;
+	public boolean details=false;
 	
 	/**
-	 * 
+	 * TODO: zorgen dat newPrevalence [0] de oude prevalences bevat
 	 */
 	public ScenarioInfo() {
 		// TODO Auto-generated constructor stub
 	}
 	public void makeTestData (){
 		
-		initialPrevalenceType = new boolean[1];
-		initialPrevalenceType[0]=true;
+		setInitialPrevalenceType(new boolean[1]);
+		getInitialPrevalenceType()[0]=true;
 		
 		newPrevalence=new float [1][96][2][2];
 		
@@ -46,8 +64,8 @@ public class ScenarioInfo {
 }}
 public void makeTestData1 (){
 		
-		initialPrevalenceType = new boolean[1];
-		initialPrevalenceType[0]=true;
+		setInitialPrevalenceType(new boolean[1]);
+		getInitialPrevalenceType()[0]=true;
 		
 		newPrevalence=new float [1][96][3][3];
 		
@@ -67,4 +85,28 @@ public void makeTestData1 (){
 	public float[][][][] getTransitionMatrix(int scen) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public void setReferenceClass(int referenceClass) {
+		this.referenceClass = referenceClass;
+	}
+	public int getReferenceClass() {
+		return referenceClass;
+	}
+	public void setNScenarios(int nScenarios) {
+		this.nScenarios = nScenarios;
+	}
+	public int getNScenarios() {
+		return nScenarios;
+	}
+	public void setInitialPrevalenceType(boolean [] initialPrevalenceType) {
+		this.initialPrevalenceType = initialPrevalenceType;
+	}
+	public boolean [] getInitialPrevalenceType() {
+		return initialPrevalenceType;
+	}
+	public void setTransitionType(boolean[] transitionType) {
+		this.transitionType = transitionType;
+	}
+	public boolean[] getTransitionType() {
+		return transitionType;
 	}}

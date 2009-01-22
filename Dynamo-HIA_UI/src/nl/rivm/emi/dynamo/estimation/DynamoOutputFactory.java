@@ -8,6 +8,9 @@ import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -322,7 +325,9 @@ public class DynamoOutputFactory {
 
 		final ChartPanel chartPanel = new ChartPanel(chart); 
 		chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-		
+		ChartFrame frame = new ChartFrame("First", chart);
+		frame.pack();
+		frame.setVisible(true);
 		try {
 
 			ChartUtilities.saveChartAsJPEG(new File(
@@ -514,46 +519,57 @@ setBarWidth(double)
 			
 			
 			    
-			double[][] pyramidData1=new double [100][2];
-			double [][] pyramidData2=new double [100][2];
+			double[][] pyramidData1=new double[2] [100];
+			double [][] pyramidData2=new double[2] [100];
 			for (int a = 0;  a<  100; a++){
-			 pyramidData1[a][0]=pPopByAge[scenNumber][a][timestep][0];
-			 pyramidData2[a][0]=-pPopByAge[scenNumber][a][timestep][1];
-			 pyramidData1[a][1]=1;
-			                 pyramidData1[a][1]=1;}
-				
-			CategoryDataset dataset1= DatasetUtilities.createCategoryDataset("age ", "",pyramidData1);
-			CategoryDataset dataset2= DatasetUtilities.createCategoryDataset("age ", "",pyramidData2);
+			 pyramidData1[0][a]=pPopByAge[scenNumber][a][timestep][0];
+			 pyramidData2[0][a]=-pPopByAge[scenNumber][a][timestep][1];
+			// pyramidData1[1][a]=difference between scenarios;
+			    //pyramidData2[1][a]=-difference between scenarios;
+			}
+			CategoryDataset dataset1= DatasetUtilities.createCategoryDataset(" ", "age",pyramidData1);
+			CategoryDataset dataset2= DatasetUtilities.createCategoryDataset(" ", "age",pyramidData2);
 			   
 			
-			
-			JFreeChart  chart1 = ChartFactory.createBarChart(
-	            "LifeExpectancy", "", "years", dataset1,
-	            PlotOrientation.HORIZONTAL, false, true, false);
-		    JFreeChart chart2 = ChartFactory.createBarChart(
-		            "LifeExpectancy", "", "years", dataset2,
-		            PlotOrientation.HORIZONTAL, false, true, false);
-		    CategoryPlot subPlot1 = chart1.getCategoryPlot();
-		    CategoryPlot subPlot2 = chart2.getCategoryPlot();
-		   
-		    ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart1);
+			JFreeChart  chart = ChartFactory.createStackedBarChart(
+			        "LifeExpectancy", "", "population size", dataset1,
+			        PlotOrientation.HORIZONTAL, false, false, false);
+			CategoryPlot plot = chart.getCategoryPlot();
+		    plot.setDataset(1, dataset2);
+		    BarRenderer renderer = (BarRenderer) plot.getRenderer();
+		    renderer.setItemMargin(0.0);
+		    renderer.setDrawBarOutline(true);
+		    
+		    ChartFrame frame = new ChartFrame("LifeExpectancy Chart", chart);
 		    final CategoryAxis domainAxis = new CategoryAxis("PopulationNumbers");
-	        final CombinedDomainCategoryPlot plot = new CombinedDomainCategoryPlot(domainAxis);
-
-	        plot.add(subPlot1, 1);
-	        plot.add(subPlot2, 1);
-
-	      
-	        
-			frame1.setVisible(true);
-			frame1.setSize(300, 300);
-			final JFreeChart chart = new JFreeChart(
-	                "Population", new Font("SansSerif", Font.BOLD, 12),
-	                plot, false);
+		    renderer.setItemMargin(0.0);
+		   
+		    renderer.setItemLabelAnchorOffset(9.0);
+		    renderer.setSeriesPaint(0,Color.white);
+		    renderer.setSeriesPaint(1,Color.pink);
+		    renderer.setDrawBarOutline(true);
+		    renderer.setBaseOutlinePaint(Color.black); 
+		    renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van de lijnen
+		    CategoryAxis categoryAxis = plot.getDomainAxis();
+		    categoryAxis.setCategoryMargin(0.0); // ruimte tussen de balken
+		    categoryAxis.setUpperMargin(0.02); //ruimte boven bovenste balk
+		    categoryAxis.setLowerMargin(0.02);//ruimte onder onderste balk
+		    NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		    rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		    rangeAxis.setUpperMargin(0.10);
+		    plot.setRenderer(1, renderer);
+		    plot.setRenderer(2, renderer);
+		  
+		    
+			frame.setVisible(true);
+			frame.setSize(200, 200);
+			frame.pack();
+		   
+			
 			try {
 
 				ChartUtilities.saveChartAsJPEG(new File(
-						"C:\\hendriek\\java\\chartPyramid.jpg"), chart, 500, 300);
+						"C:\\hendriek\\java\\chartPyramid.jpg"), chart, 300, 500);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				System.out.println("Problem occurred creating chart. for Pyramid");

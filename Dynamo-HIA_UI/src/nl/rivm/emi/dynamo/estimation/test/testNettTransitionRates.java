@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class testNettTransitionRates {	
+public class TestNettTransitionRates {	
 	Log log = LogFactory.getLog(getClass().getName());
 @Before
 	public void setup() {

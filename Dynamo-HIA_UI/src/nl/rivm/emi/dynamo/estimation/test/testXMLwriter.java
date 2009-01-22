@@ -22,7 +22,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class testXMLwriter {
+public class TestXMLwriter {
 	Log log = LogFactory.getLog(getClass().getName());
 
 @Before
