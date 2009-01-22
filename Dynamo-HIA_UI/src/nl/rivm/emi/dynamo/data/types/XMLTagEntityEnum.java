@@ -4,11 +4,13 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
+import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
+import nl.rivm.emi.dynamo.data.types.atomic.ReferenceValue;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
@@ -29,6 +31,8 @@ public enum XMLTagEntityEnum {
 	PROBABILITY((XMLTagEntity)new Probability()),
 	CLASSES((XMLTagEntity)new Classes()),
 	REFERENCECLASS((XMLTagEntity)new ReferenceClass()),
+	DURATIONCLASS((XMLTagEntity)new DurationClass()),
+	REFERENCEVALUE((XMLTagEntity)new ReferenceValue()),
 	STANDARDVALUE((XMLTagEntity)new Value());
 	
 	private final XMLTagEntity theType;

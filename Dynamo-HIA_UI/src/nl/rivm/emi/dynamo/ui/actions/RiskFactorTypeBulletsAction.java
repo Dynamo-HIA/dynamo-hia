@@ -8,6 +8,8 @@ import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
 import nl.rivm.emi.dynamo.ui.main.FreePlusDropDownAndTypeBulletsModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorTypeBulletsModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -90,11 +92,13 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
 						.equals(selectedRootElementName)) {
-					theModal = null; // TODO
+					theModal =  new RiskFactorContinuousModal(shell, file
+							.getAbsolutePath(), selectedRootElementName, node);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 							.equals(selectedRootElementName)) {
-						theModal = null; // TODO
+						theModal =  new RiskFactorCompoundModal(shell, file
+								.getAbsolutePath(), selectedRootElementName, node);
 					} else {
 						throw new DynamoConfigurationException(
 								"RootElementName " + selectedRootElementName

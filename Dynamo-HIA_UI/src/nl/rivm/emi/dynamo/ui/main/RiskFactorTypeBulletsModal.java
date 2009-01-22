@@ -49,7 +49,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		this.selectedNode = selectedNode;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
-		shell.setText("Enter name and choose risk source:");
+		shell.setText("Choose the risk factor type:");
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 	}

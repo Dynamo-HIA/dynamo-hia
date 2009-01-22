@@ -1,5 +1,108 @@
 package nl.rivm.emi.dynamo.data.objects;
 
-public class RiskFactorContinuousObject {
+import java.util.List;
+
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+
+import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
+import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
+import nl.rivm.emi.dynamo.data.objects.layers.ReferenceValueObjectImplementation;
+import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+
+public class RiskFactorContinuousObject extends StaxWriterEntryPoint implements
+		IStaxEventContributor, IReferenceValue {
+	Log log = LogFactory.getLog(this.getClass().getName());
+
+	ReferenceValueObjectImplementation referenceCategoryObjectImplementation;
+
+	public RiskFactorContinuousObject(boolean makeObservable) {
+		super(RootElementNamesEnum.RISKFACTOR_CONTINUOUS, makeObservable);
+		referenceCategoryObjectImplementation = new ReferenceValueObjectImplementation(
+				makeObservable);
+	}
+
+	public Float getReferenceValue() {
+		return referenceCategoryObjectImplementation.getReferenceValue();
+	}
+
+	public WritableValue getObservableReferenceValue() {
+		return referenceCategoryObjectImplementation
+				.getObservableReferenceValue();
+	}
+
+	public Object putReferenceValue(Float value) {
+		return referenceCategoryObjectImplementation.putReferenceValue(value);
+	}
+
+	/**
+	 * Create a modelObject from an XML configurationfile.
+	 * 
+	 * @param modelObject
+	 * @param configurationFile
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
+	public RiskFactorContinuousObject manufacture(String configurationFilePath)
+			throws ConfigurationException, DynamoInconsistentDataException {
+		log.debug("Starting manufacture.");
+		manufacture(this, configurationFilePath);
+		return this;
+	}
+
+	protected ConfigurationObjectBase handleRootChildren(
+			ConfigurationObjectBase modelObject,
+			List<ConfigurationNode> rootChildren) throws ConfigurationException {
+		if (rootChildren != null) {
+			for (ConfigurationNode rootChild : rootChildren) {
+				String childName = rootChild.getName();
+				log.debug("Handle rootChild: " + childName);
+				XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
+						childName);
+				if ((entity != null) && (entity instanceof IHandlerType)) {
+					modelObject = ((IHandlerType) entity).handle(modelObject,
+							rootChild);
+				} else {
+					throw new ConfigurationException(
+							"Unhandled rootChild element: " + childName);
+				}
+			}
+		} else {
+			referenceCategoryObjectImplementation.manufactureDefault();
+		}
+		return modelObject;
+	}
+
+	// write
+	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
+			throws XMLStreamException {
+		XMLEvent event = eventFactory.createStartDocument();
+		writer.add(event);
+		event = eventFactory.createStartElement("", "", rootElement
+				.getNodeLabel());
+		writer.add(event);
+		referenceCategoryObjectImplementation
+				.streamEvents(writer, eventFactory);
+		event = eventFactory.createEndElement("", "", rootElement
+				.getNodeLabel());
+		writer.add(event);
+		event = eventFactory.createEndDocument();
+		writer.add(event);
+	}
 
 }
