@@ -241,14 +241,11 @@ public class HealthStateCatManyToManyUpdateRule extends
 						OtherMortalitySurvival[a][g][r] = (float) Math
 								.exp(-otherMort * getTimeStep());
 
-						// int[] numberOfDiseasesInCluster == array over
-						// clusters;
-						// int[] clusterStartsAtDiseaseNumber == array over
-						// clusters;
+						/* int[] numberOfDiseasesInCluster == array over clusters;
+						// int[] clusterStartsAtDiseaseNumber == array over clusters;
 						// int totalNumberOfDiseases;
 						// int nCluster = -1;
-						// int[] DiseaseNumberWithinCluster;== array over
-						// diseases
+						// int[] DiseaseNumberWithinCluster;== array over diseases */
 
 						int currentStateNo = 0;
 
@@ -313,6 +310,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 								transMat[a][g][r][c][2][1] = 0;
 								transMat[a][g][r][c][2][2] = (float) Math
 										.exp(-atMort[d+1] );
+								currentStateNo+=2;
 
 							} else // cluster of dependent diseases
 							{
@@ -382,25 +380,19 @@ public class HealthStateCatManyToManyUpdateRule extends
 											// column
 
 											for (int bits = 0; bits < getNDiseases(); bits++) {
-												if ((row ^ column) == (1 << bits)) // only
-													// 1
-													// difference
-													// between
-													// row
-													// and
-													// column
-													if ((row & (1 << bits)) == (1 << bits)) // row=1
-													// at
-													// that
-													// place
-													// and
-													// not
-													// column
+												if ((row ^ column) == (1 << bits)) 
+													/* only 1 difference between row and column located at bits
+													 */
+													if ((row & (1 << bits)) == (1 << bits)) 
+														/* row=1 at the location of the difference 
+														 * thus incidence should be added */
+													
 
 													{
 														double RR = 1;
 														for (int dCause = 0; dCause < getNDiseases(); dCause++)
 															if ((column & (1 << dCause)) == (1 << dCause))
+																/* causal disease present */
 																RR *= relativeRiskDiseaseOnDisease[c][a][g][dCause][bits];
 
 														rateMatrix[row][column] += (RR * incidence[clusterStartsAtDiseaseNumber[c]

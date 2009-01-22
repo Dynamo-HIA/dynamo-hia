@@ -25,7 +25,11 @@ import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
 
 /**
  * @author Hendriek
- *
+ * This is the general version of the update rule for diseases and survival
+ * for the DYNAMO-HIA model
+ * It contains the methods and fields that are common to the more specific update rules for categorical, 
+ * continuous and compound risk factors.
+ * 
  */
 
 /**
@@ -115,6 +119,7 @@ public class HealthStateManyToManyUpdateRule extends
 	private String[] diseaseOnDiseaseRelativeRiskFileName;
 
 	/* update rule disease specific data */
+	/* indexes are: 1:disease number, 2: age 3: sex 4: category*/
 	protected float baselineIncidence[][][] = null;
 	protected float baselineFatalIncidence[][][] = null;
 	protected float relRiskContinous[][][] = null;
@@ -156,7 +161,6 @@ public class HealthStateManyToManyUpdateRule extends
 	private String alfaOtherMortFileName;
 
 	private int[] diseaseNumber;
-
 	private String[] diseaseNames;
 
 	static protected String withCuredFractionLabel = "withCuredFraction";
@@ -402,7 +406,7 @@ public class HealthStateManyToManyUpdateRule extends
 					float[][] TransitionProbabilities = new float[nCombinations[c]][nCombinations[c]];
 
 					TransitionProbabilities = matExp
-							.exponentiateMatrix(rateMatrix);
+							.exponentiateFloatMatrix(rateMatrix);
 
 					/* Multiply the matrix with the old values (column vector) */
 					double unconditionalNewValues[] = new double[nCombinations[c]];
@@ -816,7 +820,7 @@ public class HealthStateManyToManyUpdateRule extends
 					float[][] inputData = new float[96][2];
 					inputData = factory.manufactureOneDimArray(
 							attributableMortalityFileName[diseaseNo],
-							"attributableMortalities", "attributableMortality");
+							"attributableMortalities", "attributableMortality",false);
 					setAttributableMortality(inputData, diseaseNo);
 					log.debug("reading AttributableMortality data for disease "
 							+ diseaseNo);
@@ -830,7 +834,7 @@ public class HealthStateManyToManyUpdateRule extends
 					float[][] inputData = new float[96][2];
 					inputData = factory.manufactureOneDimArray(
 							baselineIncidenceFileName[diseaseNo],
-							"baselineIncidences", "baselineIncidence");
+							"baselineIncidences", "baselineIncidence",false);
 					setBaselineIncidence(inputData, diseaseNo);
 					log.debug("reading BaselineIncidence data for disease "
 							+ diseaseNo);
@@ -847,7 +851,7 @@ public class HealthStateManyToManyUpdateRule extends
 							.manufactureOneDimArray(
 									baselineFatalIncidenceFileName[diseaseNo],
 									"baselineFatalIncidences",
-									"baselineFatalIncidence");
+									"baselineFatalIncidence",false);
 					setBaselineFatalIncidence(inputData, diseaseNo);
 					log
 							.debug("reading BaselineFatalIncidence data for disease "
@@ -1046,7 +1050,7 @@ public class HealthStateManyToManyUpdateRule extends
 			ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 			inputData = factory.manufactureOneDimArray(
 					getBaselineOtherMortFileName(), "baselineOtherMortalities",
-					"baselineOtherMortality");
+					"baselineOtherMortality",false);
 			setBaselineOtherMort(inputData);
 			log.debug("reading BaselineOtherMortality for disease "
 					+ diseaseNumber);
@@ -1064,21 +1068,21 @@ public class HealthStateManyToManyUpdateRule extends
 				float[][] inputData2 = new float[96][2];
 				inputData2 = factory.manufactureOneDimArray(
 						getRelRiskOtherMortFileName(), "relativeRisks",
-						"relativeRisk");
+						"relativeRisk",false);
 				setRelRiskOtherMortContinous(inputData2);
 			}
 			if (riskType == 3) {
 				float[][] inputData2 = new float[96][2];
 				inputData2 = factory.manufactureOneDimArray(
 						getRelRiskOtherMortEndFileName(), "relativeRisks",
-						"relativeRisk");
+						"relativeRisk",false);
 				setRelRiskOtherMortEnd(inputData2);
 				inputData2 = factory.manufactureOneDimArray(
 						getRelRiskOtherMortBeginFileName(), "relativeRisks",
-						"relativeRisk");
+						"relativeRisk",false);
 				setRelRiskOtherMortBegin(inputData2);
 				inputData2 = factory.manufactureOneDimArray(
-						getAlfaDuurOtherMortFileName(), "alfa", "alfa");
+						getAlfaDuurOtherMortFileName(), "alfa", "alfa",false);
 				setAlfaDuurOtherMort(inputData2);
 
 			}
@@ -1182,7 +1186,7 @@ public class HealthStateManyToManyUpdateRule extends
 
 				inputData = factory.manufactureOneDimArray(
 						baselineOtherMortFileName, "baselineOtherMortalities",
-						"baselineOtherMortality");
+						"baselineOtherMortality",false);
 				setBaselineOtherMort(inputData);
 			}
 
@@ -1190,7 +1194,7 @@ public class HealthStateManyToManyUpdateRule extends
 
 				inputData = factory.manufactureOneDimArray(
 						baselineIncidenceFileName[dNumber],
-						"baselineIncidences", "baselineIncidence");
+						"baselineIncidences", "baselineIncidence",false);
 				setBaselineIncidence(inputData, dNumber);
 			}
 
@@ -1198,14 +1202,14 @@ public class HealthStateManyToManyUpdateRule extends
 
 				inputData = factory.manufactureOneDimArray(
 						baselineFatalIncidenceFileName[dNumber],
-						"baselineFatalIncidences", "baselineFatalIncidence");
+						"baselineFatalIncidences", "baselineFatalIncidence",false);
 				setBaselineIncidence(inputData, dNumber);
 			}
 
 			if (dataName == "attributableMortality") {
 				inputData = factory.manufactureOneDimArray(
 						attributableMortalityFileName[dNumber],
-						"attributableMortalities", "attributableMortality");
+						"attributableMortalities", "attributableMortality",false);
 
 				setAttributableMortality(inputData, dNumber);
 			}
