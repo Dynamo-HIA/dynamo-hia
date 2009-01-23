@@ -4,6 +4,9 @@ package nl.rivm.emi.dynamo.ui.util;
  * Class that generates an array of String-s filled with nodeLabels of ChildNodes of a certain ParentNode.
  * 
  */
+import java.io.File;
+
+import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
@@ -17,24 +20,30 @@ public class RiskSourcePropertiesMapFactory {
 			StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel(),
 			StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel() };
 
-/**
- * Method that generates an array of nodelabels of sibling nodes in the directorytree.
- * The siblings are the children of parentnode that is found by name.  
- * @param selectedNode
- * @param parentNodeName
- * @return
- */
+	/**
+	 * Method that generates an array of nodelabels of sibling nodes in the
+	 * directorytree. The siblings are the children of parentnode that is found
+	 * by name.
+	 * 
+	 * @param selectedNode
+	 * @param parentNodeName
+	 * @return
+	 */
 	static public RiskSourcePropertiesMap make(BaseNode selectedNode) {
 		RiskSourcePropertiesMap theMap = null;
 		String parentNodeName = null;
 		RiskSourcePropertiesMap list = null;
 		if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-				.getNodeLabel().equalsIgnoreCase(selectedNode.deriveNodeLabel())) {
-			parentNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel();
+				.getNodeLabel()
+				.equalsIgnoreCase(selectedNode.deriveNodeLabel())) {
+			parentNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS
+					.getNodeLabel();
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
-					.getNodeLabel().equalsIgnoreCase(selectedNode.deriveNodeLabel())) {
-					parentNodeName =	StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel();
+					.getNodeLabel().equalsIgnoreCase(
+							selectedNode.deriveNodeLabel())) {
+				parentNodeName = StandardTreeNodeLabelsEnum.DISEASES
+						.getNodeLabel();
 			} else {
 			}
 		}
@@ -121,7 +130,9 @@ public class RiskSourcePropertiesMapFactory {
 	/**
 	 * Create and fill the array of nodelabels of the children of the requested
 	 * parentNode.
-	 * @param selectedNode TODO
+	 * 
+	 * @param selectedNode
+	 *            TODO
 	 * @param currentNode
 	 * @param suppressMyLabel
 	 *            TODO
@@ -131,16 +142,23 @@ public class RiskSourcePropertiesMapFactory {
 	private static RiskSourcePropertiesMap fillMap(BaseNode selectedNode,
 			BaseNode currentNode, boolean suppressMyLabel) {
 		RiskSourcePropertiesMap theMap = null;
-		ParentNode parentOfSelectedNode =((ChildNode)selectedNode).getParent();
+		ParentNode parentOfSelectedNode = ((ChildNode) selectedNode)
+				.getParent();
 		if (currentNode != null) {
 			ParentNode currentAsParentNode = (ParentNode) currentNode;
 			Object[] childNodes = currentAsParentNode.getChildren();
-				theMap = new RiskSourcePropertiesMap();
+			theMap = new RiskSourcePropertiesMap();
 			for (Object child : childNodes) {
 				if (!(suppressMyLabel && parentOfSelectedNode.equals(child))) {
 					String name = ((BaseNode) child).deriveNodeLabel();
 					RiskSourceProperties properties = new RiskSourceProperties();
 					properties.setFileNameMainPart(name);
+					File configurationFile = currentNode.getPhysicalStorage();
+					String rootElementName = ConfigurationFileUtil
+							.extractRootElementName(configurationFile);
+					if(rootElementName != null){
+						properties.setRootElementName(rootElementName);
+					}
 					theMap.put(name, properties);
 				}
 			}

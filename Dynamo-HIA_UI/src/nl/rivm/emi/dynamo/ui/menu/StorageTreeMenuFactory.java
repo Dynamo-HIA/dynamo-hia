@@ -9,14 +9,14 @@ import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.FreePartPlusDropDownPartNameAction;
-import nl.rivm.emi.dynamo.ui.actions.FreePlusDropDownPartNamePlusTypeBulletsAction;
+import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.obsolete.FreePlusDropDownPartNamePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -399,7 +399,7 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RelRiskFromDiseases(IMenuManager manager,
 			IStructuredSelection selection) {
-		FreePartPlusDropDownPartNameAction action = new FreePartPlusDropDownPartNameAction(
+		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
 				RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel());
 		action.setText("New relative risks from other disease file");
@@ -414,7 +414,7 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RelRiskFromRiskFactor(IMenuManager manager,
 			IStructuredSelection selection) {
-		FreePlusDropDownPartNamePlusTypeBulletsAction action = new FreePlusDropDownPartNamePlusTypeBulletsAction(
+		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
 				null);
 		action.setText("New relative risks from risk factor file");

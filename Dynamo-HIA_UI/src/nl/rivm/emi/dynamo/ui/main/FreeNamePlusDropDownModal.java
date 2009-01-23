@@ -33,18 +33,15 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	private Shell shell;
 	private HelpGroup helpPanel;
 	private BaseNode selectedNode;
-	private String configurationFilePath;
 	private String newFilePath;
 	RiskSourcePropertiesMap list;
 	private RiskSourceProperties rsProps;
 	private Text freePart;
 	private Combo dropDown;
-	private String rootElementName = "wORTEL";
 
 	public FreeNamePlusDropDownModal(Shell parentShell,
-			String configurationFilePath, BaseNode selectedNode) {
+			BaseNode selectedNode) {
 		this.selectedNode = selectedNode;
-		this.configurationFilePath = configurationFilePath;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		shell.setText("Enter name and choose risk source:");
@@ -88,7 +85,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 				}
 
 				public void widgetSelected(SelectionEvent arg0) {
-					newFilePath = configurationFilePath + File.separator
+					newFilePath = selectedNode.getPhysicalStorage().getAbsolutePath() + File.separator
 							+ freePart.getText() + dropDown.getText() + ".xml";
 					rsProps = list.get(dropDown.getText());
 					shell.dispose();
@@ -121,18 +118,6 @@ public class FreeNamePlusDropDownModal implements Runnable {
 		open();
 	}
 
-	static private void handlePlacementInContainer(Composite myComposite) {
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.top = new FormAttachment(0, -5);
-		myComposite.setLayoutData(formData);
-	}
-
-	public String getFilePath() {
-		return configurationFilePath;
-	}
-
 	public BaseNode getSelectedNode() {
 		return selectedNode;
 	}
@@ -143,5 +128,9 @@ public class FreeNamePlusDropDownModal implements Runnable {
 
 	public RiskSourceProperties getRsProps() {
 		return rsProps;
+	}
+
+	public RiskSourcePropertiesMap getList() {
+		return list;
 	}
 }

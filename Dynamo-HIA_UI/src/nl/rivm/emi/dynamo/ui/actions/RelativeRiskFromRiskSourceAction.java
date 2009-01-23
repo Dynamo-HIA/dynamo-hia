@@ -1,11 +1,16 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
+/**
+ * Menu action that can process both relative risks from disease and risk factor choices.
+ * 
+ * When disease is the risk source the rootelementname is known, for risk factors three 
+ * rootelementnames are possible and dependent on the riskfactor chosen.
+ */
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
-import nl.rivm.emi.dynamo.ui.main.FreePlusDropDownAndTypeBulletsModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -24,11 +29,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
+public class RelativeRiskFromRiskSourceAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	String rootElementName = null;
+	String riskSourceRootElementName = null;
 
-	public FreePlusDropDownPartNamePlusTypeBulletsAction(Shell shell, TreeViewer v,
+	public RelativeRiskFromRiskSourceAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName) {
 		super(shell, v, node, "aBSTRACT");
 		this.rootElementName = rootElementName;
@@ -37,9 +43,8 @@ public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
 	@Override
 	public void run() {
 		if (node instanceof DirectoryNode) {
-			String selectionPath = node.getPhysicalStorage().getAbsolutePath();
-			FreePlusDropDownAndTypeBulletsModal theModal = new FreePlusDropDownAndTypeBulletsModal(
-					shell, selectionPath, node);
+			FreeNamePlusDropDownModal theModal = new FreeNamePlusDropDownModal(
+					shell, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
 			String candidatePath = theModal.getNewFilePath();
@@ -72,14 +77,14 @@ public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
-			if(rootElementName == null){
-				// rootElementName must be derived from the type of risksource.
-				rootElementName = props.getRootElementName();
+			if (rootElementName == null) {
+				fillRootElementName(props);
 			}
 			if (RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel()
 					.equals(rootElementName)) {
 				theModal = new RelRiskFromOtherDiseaseModal(shell, file
-						.getAbsolutePath(), rootElementName, node, props);
+						.getAbsolutePath(), riskSourceRootElementName, node,
+						props);
 			} else {
 				if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
 						.getNodeLabel().equals(rootElementName)) {
@@ -88,18 +93,14 @@ public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
 					if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
 							.getNodeLabel().equals(rootElementName)) {
 						theModal = null; // TODO
-						// new SimulationModal(shell, file.getAbsolutePath(),
-						// rootElementName, node);
 					} else {
 						if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
 								.getNodeLabel().equals(rootElementName)) {
 							theModal = null; // TODO
-							// new DALYWeightsModal(shell,
-							// file.getAbsolutePath(), rootElementName, node);
 						} else {
 							throw new DynamoConfigurationException(
-									"RootElementName " + rootElementName
-											+ " not implemented yet.");
+									"Illegal RootElementName "
+											+ rootElementName + ".");
 						}
 					}
 				}
@@ -120,6 +121,27 @@ public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();
+		}
+	}
+
+	private void fillRootElementName(RiskSourceProperties props) {
+		riskSourceRootElementName = props.getRootElementName();
+		if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel().equals(
+				riskSourceRootElementName)) {
+			rootElementName = RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
+					.getNodeLabel();
+		} else {
+			if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+					.equals(riskSourceRootElementName)) {
+				rootElementName = RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
+						.getNodeLabel();
+			} else {
+				if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
+						.equals(riskSourceRootElementName)) {
+					rootElementName = RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
+							.getNodeLabel();
+				}
+			}
 		}
 	}
 }

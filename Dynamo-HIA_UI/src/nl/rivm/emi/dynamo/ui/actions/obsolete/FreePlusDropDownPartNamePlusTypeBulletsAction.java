@@ -1,18 +1,13 @@
-package nl.rivm.emi.dynamo.ui.actions;
+package nl.rivm.emi.dynamo.ui.actions.obsolete;
 
-/**
- * Develop with populationSize as concrete implementation.
- */
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
-import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
-import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
+import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
+import nl.rivm.emi.dynamo.ui.main.FreePlusDropDownAndTypeBulletsModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
-import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -24,27 +19,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.internal.Platform;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.SelectionDialog;
-import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
-public class FreePartPlusDropDownPartNameAction extends ActionBase {
+public class FreePlusDropDownPartNamePlusTypeBulletsAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	String rootElementName = null;
 
-	public FreePartPlusDropDownPartNameAction(Shell shell, TreeViewer v,
+	public FreePlusDropDownPartNamePlusTypeBulletsAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName) {
 		super(shell, v, node, "aBSTRACT");
 		this.rootElementName = rootElementName;
@@ -54,7 +39,7 @@ public class FreePartPlusDropDownPartNameAction extends ActionBase {
 	public void run() {
 		if (node instanceof DirectoryNode) {
 			String selectionPath = node.getPhysicalStorage().getAbsolutePath();
-			FreeNamePlusDropDownModal theModal = new FreeNamePlusDropDownModal(
+			FreePlusDropDownAndTypeBulletsModal theModal = new FreePlusDropDownAndTypeBulletsModal(
 					shell, selectionPath, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
