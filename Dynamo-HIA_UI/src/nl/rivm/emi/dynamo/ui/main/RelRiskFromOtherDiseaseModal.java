@@ -11,7 +11,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.DALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRiskFromOtherDiseaseGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksFromOtherDiseaseGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -72,14 +72,14 @@ public class RelRiskFromOtherDiseaseModal implements Runnable,
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			RelRiskFromOtherDiseaseGroup relRiskFromOtherDiseaseGroup = new RelRiskFromOtherDiseaseGroup(
+			RelRisksFromOtherDiseaseGroup relRiskFromOtherDiseaseGroup = new RelRisksFromOtherDiseaseGroup(
 					shell, lotsOfData, dataBindingContext, selectedNode,
 					helpPanel);
 			relRiskFromOtherDiseaseGroup.setFormData(helpPanel.getGroup(),
 					buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {

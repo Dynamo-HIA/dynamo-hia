@@ -15,8 +15,8 @@ import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
@@ -95,10 +95,10 @@ public enum DispatchEnum {
 	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), new DummyPlaceholderFactory()), // TODO
 	/* W34Cat */
 	RRISKFORRISKFACTOR_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL.getNodeLabel(),
-			new RelRiskForRiskFactorCategoricalFactory()),
+			new RelRiskFromRiskFactorCategoricalFactory()),
 	/* W34Con */
 	RRISKFORRISKFACTOR_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS.getNodeLabel(),
-			new RelRiskForRiskFactorContinuousFactory()),
+			new RelRiskFromRiskFactorContinuousFactory()),
 	/* W34Cmp */
 	RRISKFORRISKFACTOR_COMPOUND(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND.getNodeLabel(),
 			new DummyPlaceholderFactory()), // TODO

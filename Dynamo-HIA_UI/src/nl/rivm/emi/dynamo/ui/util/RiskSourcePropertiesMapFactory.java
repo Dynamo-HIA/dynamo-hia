@@ -6,7 +6,10 @@ package nl.rivm.emi.dynamo.ui.util;
  */
 import java.io.File;
 
+import org.apache.commons.configuration.ConfigurationException;
+
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
@@ -21,87 +24,85 @@ public class RiskSourcePropertiesMapFactory {
 			StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel() };
 
 	/**
-	 * Method that generates an array of nodelabels of sibling nodes in the
-	 * directorytree. The siblings are the children of parentnode that is found
-	 * by name.
+	 * Method that generates a RiskSourcePropertiesMap of sibling nodes
+	 * ("RiskSource" nodes, either diseases or riskfactors) in the
+	 * directorytree. The siblings are the children of a parentnode that is
+	 * found by name.
 	 * 
 	 * @param selectedNode
 	 * @param parentNodeName
 	 * @return
+	 * @throws ConfigurationException
 	 */
-	static public RiskSourcePropertiesMap make(BaseNode selectedNode) {
+	static public RiskSourcePropertiesMap make(BaseNode selectedNode)
+			throws ConfigurationException {
 		RiskSourcePropertiesMap theMap = null;
-		String parentNodeName = null;
-		RiskSourcePropertiesMap list = null;
+		String selectedNodeLabel = selectedNode.deriveNodeLabel();
+		ParentNode parentOfRiskSourceNodes = getParentNodeOfRelevantRiskSourceNodes(selectedNode);
+		if (parentOfRiskSourceNodes != null) {
+			theMap = fillMap(selectedNode, parentOfRiskSourceNodes);
+		} else {
+			throw new ConfigurationException(
+					"RiskSourcePropertiesMapFactory: The parent of selected node: "
+							+ selectedNodeLabel + " cannot be handled.");
+		}
+		return theMap;
+	}
+
+	static ParentNode getParentNodeOfRelevantRiskSourceNodes(
+			BaseNode selectedNode) throws ConfigurationException {
+		String selectedNodeLabel = selectedNode.deriveNodeLabel();
+
+		String parentOfSelectedRiskSourceNodeName = null;
+		ParentNode parentNode = null;
 		if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-				.getNodeLabel()
-				.equalsIgnoreCase(selectedNode.deriveNodeLabel())) {
-			parentNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS
+				.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)) {
+			parentOfSelectedRiskSourceNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS
 					.getNodeLabel();
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 					.getNodeLabel().equalsIgnoreCase(
 							selectedNode.deriveNodeLabel())) {
-				parentNodeName = StandardTreeNodeLabelsEnum.DISEASES
+				parentOfSelectedRiskSourceNodeName = StandardTreeNodeLabelsEnum.DISEASES
 						.getNodeLabel();
 			} else {
+				throw new ConfigurationException(
+						"RiskSourcePropertiesMapFactory: Selected node: "
+								+ selectedNodeLabel + " cannot be handled.");
 			}
 		}
-		if (checkParentNodeName(parentNodeName)) {
-			BaseNode currentNode = selectedNode;
-			currentNode = findContainerNode(currentNode);
-			if (currentNode != null) {
-				currentNode = findParentNode(currentNode, parentNodeName);
-				if (currentNode != null) {
-					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
-							.equalsIgnoreCase(parentNodeName)) {
-						theMap = fillMap(selectedNode, currentNode, true);
-					} else {
-						theMap = fillMap(selectedNode, currentNode, false);
+		BaseNode containerNode = findContainerNode(selectedNode);
+		if (containerNode != null) {
+			parentNode = (ParentNode) findParentInContainerNode(containerNode,
+					parentOfSelectedRiskSourceNodeName);
+		} else {
+			throw new ConfigurationException(
+					"RiskSourcePropertiesMapFactory: Container node not found for node: "
+							+ selectedNodeLabel);
+		}
 
-					}
-				}
-			}
-		}
-		return theMap;
-	}
-
-	/**
-	 * Is the provided parentNodeName one of the possibleParentNodeNames this
-	 * Class knows how to handle?
-	 * 
-	 * @param parentNodeName
-	 * @return
-	 */
-	private static boolean checkParentNodeName(String parentNodeName) {
-		boolean found = false;
-		for (int count = 0; count < possibleParentNodeNames.length; count++) {
-			if (possibleParentNodeNames[count].equalsIgnoreCase(parentNodeName)) {
-				found = true;
-			}
-		}
-		return found;
+		return parentNode;
 	}
 
 	/**
 	 * The ParentNode that is requested is not nescessarily a parent of the
-	 * selected node. It must be a child of the configured containerNode.
+	 * selected node. It must be a child of the configured containerNode, so
+	 * first go up to the containernodeand find it by name.
 	 * 
 	 * @param currentNode
 	 * @return
 	 */
-	private static BaseNode findContainerNode(BaseNode currentNode) {
-		{
-			do {
-				currentNode = (BaseNode) ((ChildNode) currentNode).getParent();
-				if (currentNode != null) {
-					if (containerNodeName.equalsIgnoreCase(currentNode
-							.deriveNodeLabel())) {
-						break;
-					}
+	private static BaseNode findContainerNode(BaseNode selectedNode) {
+		BaseNode currentNode = selectedNode;
+		do {
+			currentNode = (BaseNode) ((ChildNode) currentNode).getParent();
+			if (currentNode != null) {
+				if (containerNodeName.equalsIgnoreCase(currentNode
+						.deriveNodeLabel())) {
+					break;
 				}
-			} while (currentNode != null);
-		}
+			}
+		} while (currentNode != null);
 		return currentNode;
 	}
 
@@ -113,7 +114,7 @@ public class RiskSourcePropertiesMapFactory {
 	 * @param parentNodeName
 	 * @return
 	 */
-	private static BaseNode findParentNode(BaseNode currentNode,
+	private static BaseNode findParentInContainerNode(BaseNode currentNode,
 			String parentNodeName) {
 		Object[] children = ((ParentNode) currentNode).getChildren();
 		currentNode = null;
@@ -128,41 +129,99 @@ public class RiskSourcePropertiesMapFactory {
 	}
 
 	/**
-	 * Create and fill the array of nodelabels of the children of the requested
-	 * parentNode.
+	 * Create and fill the RiskSourcePropertiesMap of the children of the found
+	 * RiskSourceParentNode.
 	 * 
 	 * @param selectedNode
-	 *            TODO
-	 * @param currentNode
-	 * @param suppressMyLabel
-	 *            TODO
-	 * 
+	 * @param parentNode
 	 * @return
 	 */
 	private static RiskSourcePropertiesMap fillMap(BaseNode selectedNode,
-			BaseNode currentNode, boolean suppressMyLabel) {
+			ParentNode riskSourceParentNode) {
+		// A disease cannot influence itself through a relative risk.
+		boolean riskSourceIsADisease = isTheRiskSourceADisease(riskSourceParentNode);
 		RiskSourcePropertiesMap theMap = null;
 		ParentNode parentOfSelectedNode = ((ChildNode) selectedNode)
-				.getParent();
-		if (currentNode != null) {
-			ParentNode currentAsParentNode = (ParentNode) currentNode;
-			Object[] childNodes = currentAsParentNode.getChildren();
+				.getParent(); // The "diseasename" node for now.
+		if (riskSourceParentNode != null) {
+			Object[] childNodes = ((ParentNode) riskSourceParentNode)
+					.getChildren();
 			theMap = new RiskSourcePropertiesMap();
 			for (Object child : childNodes) {
-				if (!(suppressMyLabel && parentOfSelectedNode.equals(child))) {
-					String name = ((BaseNode) child).deriveNodeLabel();
-					RiskSourceProperties properties = new RiskSourceProperties();
-					properties.setFileNameMainPart(name);
-					File configurationFile = currentNode.getPhysicalStorage();
-					String rootElementName = ConfigurationFileUtil
-							.extractRootElementName(configurationFile);
-					if(rootElementName != null){
-						properties.setRootElementName(rootElementName);
-					}
-					theMap.put(name, properties);
+				if (!(riskSourceIsADisease && parentOfSelectedNode
+						.equals(child))) {
+					RiskSourceProperties properties = createRiskSourceProperties(
+							riskSourceIsADisease, child);
+					theMap.put(properties.getFileNameMainPart(), properties);
 				}
 			}
 		}
 		return theMap;
+	}
+
+	private static RiskSourceProperties createRiskSourceProperties(
+			boolean riskSourceIsADisease, Object child) {
+		RiskSourceProperties properties = new RiskSourceProperties();
+		String name = ((BaseNode) child).deriveNodeLabel();
+		properties.setFileNameMainPart(name);
+		properties.setRiskSourceNode((BaseNode) child);
+		properties.setRiskSourceName(name);
+		BaseNode parentNode = (BaseNode) ((ChildNode) child).getParent();
+		String parentFullName = parentNode.deriveNodeLabel();
+		String parentTrucatedName = parentFullName.substring(0, parentFullName
+				.length() - 1);
+		properties.setRiskSourceLabel(parentTrucatedName);
+		if (!riskSourceIsADisease) {
+			addRiskFactorConfigurationFileInfo(child, properties);
+		}
+		return properties;
+	}
+
+	/**
+	 * Only RiskFactors can have (three) different configuration structures.
+	 * 
+	 * @param child
+	 * @param properties
+	 */
+	private static void addRiskFactorConfigurationFileInfo(Object child,
+			RiskSourceProperties properties) {
+		Object[] grandChildNodes = ((ParentNode) child).getChildren();
+		for (Object grandChildNode : grandChildNodes) {
+			String grandChildNodeLabel = ((BaseNode) grandChildNode)
+					.deriveNodeLabel();
+			if ("configuration".equals(grandChildNodeLabel)) {
+				File configurationFile = ((BaseNode) grandChildNode)
+						.getPhysicalStorage();
+				String rootElementName = ConfigurationFileUtil
+						.extractRootElementName(configurationFile);
+				if (rootElementName != null) {
+					properties.setRootElementName(rootElementName);
+					if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+							.getNodeLabel().equals(rootElementName)) {
+						Integer numberOfCategories = ConfigurationFileUtil
+								.extractNumberOfClasses(configurationFile);
+						properties.setNumberOfCategories(numberOfCategories);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method creates the boolean that is used to distinguish the
+	 * RiskSources in Diseases and non-Diseases (in practice RiskFactors).
+	 * 
+	 * @param riskSourceParentNode
+	 * @return
+	 */
+	private static boolean isTheRiskSourceADisease(
+			ParentNode riskSourceParentNode) {
+		boolean riskSourceIsADisease = false;
+		if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
+				.equalsIgnoreCase(
+						((BaseNode) riskSourceParentNode).deriveNodeLabel())) {
+			riskSourceIsADisease = true;
+		}
+		return riskSourceIsADisease;
 	}
 }

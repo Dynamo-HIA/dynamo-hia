@@ -12,6 +12,8 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -77,30 +79,33 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
-			if (rootElementName == null) {
-				fillRootElementName(props);
-			}
-			if (RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel()
-					.equals(rootElementName)) {
-				theModal = new RelRiskFromOtherDiseaseModal(shell, file
-						.getAbsolutePath(), riskSourceRootElementName, node,
-						props);
+			String chosenRootElementName = props.getRootElementName();
+			if (chosenRootElementName == null) {
+					theModal = new RelRiskFromOtherDiseaseModal(shell, file
+							.getAbsolutePath(), rootElementName,
+							node, props);
 			} else {
-				if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
-						.getNodeLabel().equals(rootElementName)) {
-					theModal = null; // TODO
+				fillRootElementName(chosenRootElementName);
+				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+						.getNodeLabel().equals(chosenRootElementName)) {
+					theModal = new RelRiskFromRiskFactorCategoricalModal(
+							shell, file.getAbsolutePath(),
+							rootElementName, node, props);
 				} else {
-					if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
-							.getNodeLabel().equals(rootElementName)) {
-						theModal = null; // TODO
+					if (RootElementNamesEnum.RISKFACTOR_COMPOUND
+							.getNodeLabel().equals(chosenRootElementName)) {
+						theModal = null;
 					} else {
-						if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
-								.getNodeLabel().equals(rootElementName)) {
-							theModal = null; // TODO
+						if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+								.getNodeLabel().equals(
+										chosenRootElementName)) {
+							theModal = new RelRiskFromRiskFactorContinuousModal(
+									shell, file.getAbsolutePath(),
+									rootElementName, node, props);
 						} else {
 							throw new DynamoConfigurationException(
-									"Illegal RootElementName "
-											+ rootElementName + ".");
+									"Unexpected RootElementName "
+											+ chosenRootElementName + ".");
 						}
 					}
 				}
@@ -124,9 +129,8 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 		}
 	}
 
-	private void fillRootElementName(RiskSourceProperties props) {
-		riskSourceRootElementName = props.getRootElementName();
-		if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel().equals(
+	private void fillRootElementName(String riskSourceRootElementName) {
+				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel().equals(
 				riskSourceRootElementName)) {
 			rootElementName = RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
 					.getNodeLabel();

@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.RelRiskForRiskFactorCategoricalObject;
+import nl.rivm.emi.dynamo.data.objects.RelRiskFromRiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
@@ -15,7 +15,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory
+public class RelRiskFromRiskFactorCategoricalFactory extends AgnosticFactory
 		implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -25,20 +25,20 @@ public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory
 		this.numberOfCategories = numberOfCategories;
 	}
 
-	public RelRiskForRiskFactorCategoricalObject manufactureObservable(
+	public RelRiskFromRiskFactorCategoricalObject manufactureObservable(
 			File configurationFile) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return new RelRiskForRiskFactorCategoricalObject(manufacture(
+		return new RelRiskFromRiskFactorCategoricalObject(manufacture(
 				configurationFile, true));
 	}
 
-	public RelRiskForRiskFactorCategoricalObject manufacture(
+	public RelRiskFromRiskFactorCategoricalObject manufacture(
 			File configurationFile) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		RelRiskForRiskFactorCategoricalObject result = new RelRiskForRiskFactorCategoricalObject(
+		RelRiskFromRiskFactorCategoricalObject result = new RelRiskFromRiskFactorCategoricalObject(
 				producedMap);
 		return (result);
 	}
@@ -55,7 +55,7 @@ public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory
 		return manufactureDefault(true);
 	}
 
-	private RelRiskForRiskFactorCategoricalObject manufactureDefault(
+	private RelRiskFromRiskFactorCategoricalObject manufactureDefault(
 			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
@@ -70,7 +70,7 @@ public class RelRiskForRiskFactorCategoricalFactory extends AgnosticFactory
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("value"), null));
-		return new RelRiskForRiskFactorCategoricalObject(super
+		return new RelRiskFromRiskFactorCategoricalObject(super
 				.manufactureDefault(leafNodeList, makeObservable));
 	}
 

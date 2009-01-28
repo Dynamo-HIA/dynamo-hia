@@ -7,15 +7,13 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRisksFromOtherDiseaseGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategoricalGroup;
+import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorContinuousGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -31,7 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
+public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 		DataAndFileContainer {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private Shell shell;
@@ -46,7 +44,7 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 	private BaseNode selectedNode;
 	private RiskSourceProperties props;
 
-	public RelRiskFromRiskFactorCategoricalModal(Shell parentShell,
+	public RelRiskFromRiskFactorContinuousModal(Shell parentShell,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode, RiskSourceProperties props) {
 		this.configurationFilePath = configurationFilePath;
@@ -55,14 +53,13 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 		this.props = props;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
-		shell.setText(createCaption((BaseNode) ((ChildNode) selectedNode)
-				.getParent()));
+		shell.setText(createCaption(selectedNode));
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 	}
 
 	private String createCaption(BaseNode selectedNode2) {
-		return "Relative risks from other disease.";
+		return "Relative risks from a continuous risk factor";
 	}
 
 	public synchronized void open() {
@@ -73,14 +70,13 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			RelRisksFromRiskFactorCategoricalGroup relRiskFromRiskFactorCategoricalGroup = new RelRisksFromRiskFactorCategoricalGroup(
+			RelRisksFromRiskFactorContinuousGroup populationSizeGroup = new RelRisksFromRiskFactorContinuousGroup(
 					shell, modelObject, dataBindingContext, selectedNode,
-					helpPanel, null);
-			relRiskFromRiskFactorCategoricalGroup.setFormData(helpPanel.getGroup(),
-					buttonPanel);
+					props.getRiskSourceNode(), helpPanel);
+			populationSizeGroup.setFormData(helpPanel.getGroup(), buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {
@@ -122,7 +118,6 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			((RelRiskFromRiskFactorCategoricalFactory)factory).setNumberOfCategories(props.getNumberOfCategories());
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

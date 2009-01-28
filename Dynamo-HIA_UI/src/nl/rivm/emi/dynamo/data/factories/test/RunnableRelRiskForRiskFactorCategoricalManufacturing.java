@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
@@ -44,7 +44,7 @@ public class RunnableRelRiskForRiskFactorCategoricalManufacturing implements Run
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
-			RelRiskForRiskFactorCategoricalFactory theFactory = new RelRiskForRiskFactorCategoricalFactory();
+			RelRiskFromRiskFactorCategoricalFactory theFactory = new RelRiskFromRiskFactorCategoricalFactory();
 			int numberOfCategories = 6;
 			theFactory.setNumberOfCategories(numberOfCategories);
 			Object defaultResult = theFactory.manufactureDefault();

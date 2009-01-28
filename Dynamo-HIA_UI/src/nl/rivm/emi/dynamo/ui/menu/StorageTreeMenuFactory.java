@@ -9,14 +9,13 @@ import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
 import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.obsolete.FreePlusDropDownPartNamePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -503,26 +502,35 @@ public class StorageTreeMenuFactory {
 												((BaseNode) grandParentNode)
 														.deriveNodeLabel())) {
 									if ("configuration".equals(nodeLabel)) {
-										String rootElementName = ConfigurationFileUtil.extractRootElementName(node.getPhysicalStorage());
-										XMLFileAction action = new XMLFileAction(shell,
-												treeViewer, (BaseNode) node, node
+										String rootElementName = ConfigurationFileUtil
+												.extractRootElementName(node
+														.getPhysicalStorage());
+										XMLFileAction action = new XMLFileAction(
+												shell, treeViewer,
+												(BaseNode) node, node
 														.toString(),
 												rootElementName);
 										action.setText("Edit");
 										manager.add(action);
 									} else {
 										if ("prevalence".equals(nodeLabel)) {
-											addDummy(manager, selection, "riskfactors-prevalence.xml");
+											addDummy(manager, selection,
+													"riskfactors-prevalence.xml");
 										} else {
 											if ("durationdistribution"
 													.equals(nodeLabel)) {
-												addDummy(manager, selection, "riskfactors-durationdistribution.xml");
+												addDummy(manager, selection,
+														"riskfactors-durationdistribution.xml");
 											} else {
 												if ("relriskofdeath"
 														.equals(nodeLabel)) {
-													addDummy(manager, selection, "riskfactors-relriskofdeath.xml");
+													addDummy(manager,
+															selection,
+															"riskfactors-relriskofdeath.xml");
 												} else {
-													addDummy(manager, selection, "Not implemented (yet)");
+													addDummy(manager,
+															selection,
+															"Not implemented (yet)");
 												}
 											}
 										}
@@ -536,16 +544,12 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
-	private void addDummy(IMenuManager manager, IStructuredSelection selection, String facText) {
-		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
-				shell);
-		action
-				.setText("Dummy: \"" + facText + "\"");
-		action
-				.setSelectionPath(((BaseNode) selection
-						.getFirstElement())
-						.getPhysicalStorage()
-						.getAbsolutePath());
+	private void addDummy(IMenuManager manager, IStructuredSelection selection,
+			String facText) {
+		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
+		action.setText("Dummy: \"" + facText + "\"");
+		action.setSelectionPath(((BaseNode) selection.getFirstElement())
+				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);
 	}
 

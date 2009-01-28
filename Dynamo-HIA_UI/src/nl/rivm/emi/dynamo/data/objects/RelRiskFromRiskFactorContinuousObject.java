@@ -4,15 +4,15 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
-public class RelRiskForRiskFactorCategoricalObject extends TypedHashMap<Age> implements StandardObjectMarker{
-	private static final long serialVersionUID = 7531350021240209294L;
+public class RelRiskFromRiskFactorContinuousObject   extends TypedHashMap<Age> implements StandardObjectMarker{
 
 	/**
 	 * Initialize self and copy content.
 	 * @param manufacturedMap
 	 */
-		public RelRiskForRiskFactorCategoricalObject(TypedHashMap<Age> manufacturedMap) {
+		public RelRiskFromRiskFactorContinuousObject(TypedHashMap<Age> manufacturedMap) {
 			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
 			 putAll(manufacturedMap);
 		}
+
 }

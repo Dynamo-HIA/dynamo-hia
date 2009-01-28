@@ -300,8 +300,9 @@ abstract public class AgnosticFactory {
 			throws DynamoConfigurationException {
 		log.debug("Recursing, making default Object, currentLevel "
 				+ currentLevel);
-		int maxValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
-				currentLevel).getType()).getMAX_VALUE();
+		AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList.get(
+				currentLevel).getType();
+		int maxValue = ((NumberRangeTypeBase<Integer>)myType ).getMAX_VALUE();
 		for (int value = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
 				currentLevel).getType()).getMIN_VALUE(); value <= maxValue; value++) {
 			TypedHashMap pathMap = (TypedHashMap) priorLevel.get(value);

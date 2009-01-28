@@ -11,7 +11,7 @@ public class BaseNode {
 
 	File physicalStorage = null;
 	boolean menuCreated;
-	
+
 	public BaseNode(File physicalStorage) {
 		super();
 		this.physicalStorage = physicalStorage;
@@ -28,10 +28,12 @@ public class BaseNode {
 	public String toString() {
 		if (physicalStorage != null) {
 			String absolutePath = physicalStorage.getAbsolutePath();
-			int startOfLevelPart = absolutePath
-			.lastIndexOf(File.separatorChar) + 1;
-			int indexOfDotXML =  absolutePath.indexOf(".xml", startOfLevelPart);
-			String inLevelPath = absolutePath.substring(startOfLevelPart, indexOfDotXML!=-1?indexOfDotXML:absolutePath.length());
+			int startOfLevelPart = absolutePath.lastIndexOf(File.separatorChar) + 1;
+			int indexOfDotXML = absolutePath.indexOf(".xml", startOfLevelPart);
+			String inLevelPath = absolutePath
+					.substring(startOfLevelPart,
+							indexOfDotXML != -1 ? indexOfDotXML : absolutePath
+									.length());
 			return inLevelPath;
 		} else {
 			return "null";
@@ -46,12 +48,23 @@ public class BaseNode {
 	 * @return
 	 */
 	public String deriveNodeLabel() {
-		String physicalStorageName = physicalStorage
-				.getName();
-		int firstDotIndex = -1;
-		if ((physicalStorageName != null)
-				&& ((firstDotIndex = physicalStorageName.indexOf(".")) != -1)) {
-			physicalStorageName = physicalStorageName.substring(firstDotIndex);
+		String physicalStorageName = physicalStorage.getName();
+		if (physicalStorageName != null) {
+			int firstDotIndex = physicalStorageName.indexOf(".");
+			int lastSlashIndex = physicalStorageName.lastIndexOf("\\");
+			if (lastSlashIndex == -1) {
+				lastSlashIndex = physicalStorageName.lastIndexOf("/");
+			}
+			if (!((lastSlashIndex != -1) && (firstDotIndex != -1) && (firstDotIndex < lastSlashIndex))) {
+				if (lastSlashIndex != -1) {
+					physicalStorageName = physicalStorageName.substring(
+							lastSlashIndex, physicalStorageName.length());
+				}
+				if (firstDotIndex != -1) {
+					physicalStorageName = physicalStorageName.substring(0,
+							firstDotIndex);
+				}
+			}
 		}
 		return physicalStorageName;
 	}

@@ -11,7 +11,7 @@ public class Category extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 	static final protected String XMLElementName = "cat";
 
 	public Category(){
-		super(XMLElementName , new Integer(1), new Integer(Integer.MAX_VALUE));
+		super(XMLElementName , new Integer(1), new Integer(9));
 	}
 		
 	public boolean inRange(Integer testValue) {

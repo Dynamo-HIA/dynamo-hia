@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -50,8 +51,9 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	}
 
 	public synchronized void open() {
-		list = RiskSourcePropertiesMapFactory
-				.make(selectedNode);
+		try {
+			list = RiskSourcePropertiesMapFactory
+					.make(selectedNode);
 		if ((list != null) && (list.size() != 0)) {
 			freePart = new Text(shell, SWT.BORDER);
 			FormData textFormData = new FormData();
@@ -111,6 +113,12 @@ public class FreeNamePlusDropDownModal implements Runnable {
 			MessageBox messageBox = new MessageBox(shell);
 			messageBox.setMessage("No risk sources could be found.");
 			messageBox.open();
+		}
+		} catch (ConfigurationException e) {
+			MessageBox messageBox = new MessageBox(shell,SWT.ERROR_CANNOT_GET_SELECTION);
+			messageBox.setMessage("Could not collect data\nfrom risk factors.");
+			messageBox.open();
+			e.printStackTrace();
 		}
 	}
 

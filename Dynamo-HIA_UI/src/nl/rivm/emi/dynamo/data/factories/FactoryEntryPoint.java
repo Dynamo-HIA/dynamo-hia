@@ -10,24 +10,10 @@ package nl.rivm.emi.dynamo.data.factories;
  * 20081120 Made class abstract and external interface protected to force inheritance. 
  */
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
-import nl.rivm.emi.dynamo.data.objects.TODO_Object;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
-import nl.rivm.emi.dynamo.data.types.markers.LeafType;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -35,7 +21,6 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
 abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	protected FactoryEntryPoint(RootElementNamesEnum rootElement,

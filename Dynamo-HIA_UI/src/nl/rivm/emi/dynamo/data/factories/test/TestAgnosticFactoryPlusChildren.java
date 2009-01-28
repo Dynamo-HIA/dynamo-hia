@@ -19,8 +19,8 @@ import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForRiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
@@ -620,7 +620,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
-			RelRiskForRiskFactorCategoricalFactory theFactory = new RelRiskForRiskFactorCategoricalFactory();
+			RelRiskFromRiskFactorCategoricalFactory theFactory = new RelRiskFromRiskFactorCategoricalFactory();
 			int numberOfCategories = 6;
 			theFactory.setNumberOfCategories(numberOfCategories);
 			Object defaultResult = theFactory.manufactureDefault();
@@ -672,7 +672,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			// Create XML-file with defaults and write it to disk.
-			RelRiskForRiskFactorContinuousFactory theFactory = new RelRiskForRiskFactorContinuousFactory();
+			RelRiskFromRiskFactorContinuousFactory theFactory = new RelRiskFromRiskFactorContinuousFactory();
 			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton
