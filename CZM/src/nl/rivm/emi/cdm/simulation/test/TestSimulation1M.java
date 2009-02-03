@@ -15,12 +15,17 @@ import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
+import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.simulation.Simulation;
+import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleOneOne;
+import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleSixFour;
+import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleTwoTwo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,6 +56,12 @@ public class TestSimulation1M {
 		public int updateSelf(int currentValue) {
 			return currentValue + 1;
 		}
+
+		@Override
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
+			// TODO Auto-generated method stub 3-2-2009
+			return null;
+		}
 	}
 
 	static public class UpdateRuleTwoTwo extends OneToOneUpdateRuleBase {
@@ -60,8 +71,14 @@ public class TestSimulation1M {
 
 		@Override
 		public int updateSelf(int currentValue) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub 3-2-2009
 			return 0;
+		}
+
+		@Override
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
@@ -72,8 +89,14 @@ public class TestSimulation1M {
 
 		@Override
 		public int updateSelf(int currentValue) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub 3-2-2009
 			return 0;
+		}
+
+		@Override
+		public Object update(Object currentValue) throws CDMUpdateRuleException {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
@@ -104,10 +127,10 @@ public class TestSimulation1M {
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
-			UpdateRuleRepository updateRuleStorage = new UpdateRuleRepository();
-			updateRuleStorage.addUpdateRule(new UpdateRuleOneOne());
-			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
-			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
+			UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
+			updateRuleStorage.putUpdateRule(new Integer(1), new UpdateRuleOneOne());
+			updateRuleStorage.putUpdateRule(new Integer(2), new UpdateRuleTwoTwo());
+			updateRuleStorage.putUpdateRule(new Integer(3), new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
 			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running longitudinal.");
@@ -161,10 +184,10 @@ public class TestSimulation1M {
 			simulation.setPopulation(population);
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
-			UpdateRuleRepository updateRuleStorage = new UpdateRuleRepository();
-			updateRuleStorage.addUpdateRule(new UpdateRuleOneOne());
-			updateRuleStorage.addUpdateRule(new UpdateRuleTwoTwo());
-			updateRuleStorage.addUpdateRule(new UpdateRuleSixFour());
+			UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
+			updateRuleStorage.putUpdateRule(new Integer(1), new UpdateRuleOneOne());
+			updateRuleStorage.putUpdateRule(new Integer(2), new UpdateRuleTwoTwo());
+			updateRuleStorage.putUpdateRule(new Integer(3), new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
 			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running transversal");

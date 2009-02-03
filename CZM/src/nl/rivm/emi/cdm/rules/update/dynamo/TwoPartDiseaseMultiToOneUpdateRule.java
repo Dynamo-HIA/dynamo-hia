@@ -7,6 +7,7 @@ import java.util.Random;
 import Jama.Matrix;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
@@ -17,6 +18,18 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+/**
+ * 
+ * TODO replace with correct class
+ * 
+ * Has been refactored for build purposes
+ * 
+ *  @date 3-2-2009
+ * 
+ * @author schutb
+ *
+ */
 
 public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRuleBase
 		implements ConfigurationEntryPoint {
@@ -141,8 +154,11 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 				// finci = ((p0 * em - i) * exp((i - em) * time) + i * (1 - p0))
 				// / ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0))
 				// Cured part of disease:
-				Math.exp()
-				
+				//Math.exp();
+				/**
+				 * TODO Refactored for building purposes: replace with correct method
+				 * @date 3-2-2009 
+				 
 				newValue=(
 						Math.exp(a) *(-a + itot) *(Math.exp(itot)* itot* pcured - (-1 +Math.exp(itot))*
 								icured *(-1 + 
@@ -152,12 +168,17 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 					    		
 					    		Math.exp(a)* (icured - itot)* (-1 + ptot) + Math.exp(
 					        a + itot) *(icured + itot *pcured - icured* ptot)));
+					        */
 				// fatal part of disease
 				// a= attributable mort
 				//itot=total incidence
 				// icured= cured incidence
 				//ptot=total prevalence
 				// pcured= cured incidence
+				/**
+				 * TODO Refactored for building purposes: replace with correct method
+				 * @date 3-2-2009 
+
 				newValue=
 				(itot (Math.exp(a)* (icured - itot)* (-1 + ptot) + 
 						Math.exp(itot) (icured + itot* (-1 + pcured) - icured *ptot + 
@@ -169,7 +190,7 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 					        itot)* itot (pcured - ptot) - Math.exp(
 					        a )*(icured - itot) *(-1 + ptot) -Math.exp(
 					        a + itot)* (icured + itot *pcured - icured *ptot)));
-				
+*/				
 				
 			}
 
@@ -182,5 +203,12 @@ public class TwoPartDiseaseMultiToOneUpdateRule extends DynamoManyToOneUpdateRul
 			throws ConfigurationException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,28 +1,10 @@
 package nl.rivm.emi.cdm.simulation;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule;
-
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-import org.junit.Before;
+import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.junit.Test;
 
 
@@ -63,12 +45,19 @@ double [][][][] getParameters(File fln)
 	try {
 		XMLConfiguration transitionConfiguration = new XMLConfiguration(fln);
 	
+		// Retrieve the xml root node
+		ConfigurationNode configurationNode = transitionConfiguration.getRootNode();
 
-	List transList = transitionConfiguration.getList();
-	nCat=(int) Math.sqrt(transList.size());
+		// Get the Children from the xml root node and determine its size
+		// Number of ages is 96, number of sexes is 2
+		int listSize = configurationNode.getChildren().size()/(96*2);
+		
+		// Calculate the number of categories
+		nCat=(int) Math.sqrt(listSize);
 	
 	
-	for (int t=0;t<transList.size();t++){ 
+	// Retrieve the values from the categories of the xml
+	for (int t=0;t<listSize;t++){ 
 		int a= Integer.parseInt(transitionConfiguration.getString("transition("+t+").age"));
 		int g= Integer.parseInt(transitionConfiguration.getString("transition("+t+").gender"));
 		int to= Integer.parseInt(transitionConfiguration.getString("transition("+t+").to"));

@@ -130,4 +130,12 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 		}
 		return i;
 	}
+
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -49,7 +49,10 @@ public class TestCharacteristicValues {
 		charType.addPossibleValue("Noot");
 		charType.addPossibleValue("Mies");
 		charType.addPossibleValue(new Integer(1));
-		assertEquals(3, charType.getNumberOfPossibleValues());
+		
+		// Assert the number of possible values
+		assertEquals(3, charType.getNumberOfPossibleValues().intValue());
+		
 	}
 
 	@Test

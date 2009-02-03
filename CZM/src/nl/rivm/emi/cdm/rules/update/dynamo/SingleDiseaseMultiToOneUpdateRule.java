@@ -311,21 +311,21 @@ return success;
 		
 		    if (dataName==" baselineOtherMortality") {
 				
-			  inputData=factory.manufactureOneDimArray( baselineOtherMortFileName, "baselineOtherMortalities","baselineOtherMortality");
+			  inputData=factory.manufactureOneDimArray( baselineOtherMortFileName, "baselineOtherMortalities","baselineOtherMortality", false);
 			  setBaselineOtherMort(inputData);} 
 			
 			if (dataName=="baselineIncidence") {
 						
-				inputData=factory.manufactureOneDimArray(baselineIncidenceFileName, "baselineIncidences","baselineIncidence");
+				inputData=factory.manufactureOneDimArray(baselineIncidenceFileName, "baselineIncidences","baselineIncidence", false);
 			  setBaselineIncidence(inputData);} 
 			
 			if (dataName=="baselineFatalIncidence") {
 	
-				inputData=factory.manufactureOneDimArray(baselineFatalIncidenceFileName, "baselineFatalIncidences","baselineFatalIncidence");
+				inputData=factory.manufactureOneDimArray(baselineFatalIncidenceFileName, "baselineFatalIncidences","baselineFatalIncidence", false);
 			  setBaselineIncidence(inputData);} 
 			
 			if (dataName=="attributableMortality") 
-			{ inputData= factory.manufactureOneDimArray(attributableMortalityFileName, "attributableMortalities","attributableMortality")  ; 
+			{ inputData= factory.manufactureOneDimArray(attributableMortalityFileName, "attributableMortalities","attributableMortality", false)  ; 
 				
 				setAttributableMortality(inputData);}
 			
@@ -854,6 +854,14 @@ try {
 
 	public void setBaselineOtherMort(float[][] baselineOtherMort) {
 		this.baselineOtherMort = baselineOtherMort;
+	}
+
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	}

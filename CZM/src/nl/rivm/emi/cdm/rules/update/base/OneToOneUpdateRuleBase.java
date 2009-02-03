@@ -14,5 +14,19 @@ public abstract class OneToOneUpdateRuleBase implements UpdateRuleMarker{
 		super();
 	}
 
+	protected OneToOneUpdateRuleBase(int i, int y) {
+		super();
+	}
+	
 	abstract public Object update(Object currentValue) throws CDMUpdateRuleException ;
+
+	public int update(int currentValue) {
+		// TODO Auto-generated method stub 3-2-2009
+		return 0;
+	}
+
+	public int updateSelf(int currentValue) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
