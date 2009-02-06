@@ -62,7 +62,7 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 	}
 
 	private String createCaption(BaseNode selectedNode2) {
-		return "Relative risks from other disease.";
+		return "Relative risks from categorical riskfactor.";
 	}
 
 	public synchronized void open() {
@@ -73,14 +73,18 @@ public class RelRiskFromRiskFactorCategoricalModal implements Runnable,
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
+			BaseNode riskSourceNode = null;
+			if(props != null){
+				riskSourceNode = props.getRiskSourceNode();
+			}
 			RelRisksFromRiskFactorCategoricalGroup relRiskFromRiskFactorCategoricalGroup = new RelRisksFromRiskFactorCategoricalGroup(
 					shell, modelObject, dataBindingContext, selectedNode,
-					helpPanel, null);
+					riskSourceNode, helpPanel);
 			relRiskFromRiskFactorCategoricalGroup.setFormData(helpPanel.getGroup(),
 					buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {

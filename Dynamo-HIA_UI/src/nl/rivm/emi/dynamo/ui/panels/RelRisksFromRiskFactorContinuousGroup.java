@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.containers.SexMap;
 import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.SWT;
@@ -23,7 +24,7 @@ public class RelRisksFromRiskFactorContinuousGroup {
 
 	public RelRisksFromRiskFactorContinuousGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) {
+			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

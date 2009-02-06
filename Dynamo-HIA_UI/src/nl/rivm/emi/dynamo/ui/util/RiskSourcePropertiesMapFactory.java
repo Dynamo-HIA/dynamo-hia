@@ -55,14 +55,23 @@ public class RiskSourcePropertiesMapFactory {
 
 		String parentOfSelectedRiskSourceNodeName = null;
 		ParentNode parentNode = null;
+		ParentNode parentOfSelectedNode = null;
+		if (selectedNode instanceof ChildNode) {
+			parentOfSelectedNode = ((ChildNode) selectedNode).getParent();
+		}
 		if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-				.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)) {
+				.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)
+				|| ((parentOfSelectedNode != null) && (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+						.getNodeLabel().equalsIgnoreCase(parentOfSelectedNode
+						.toString())))) {
 			parentOfSelectedRiskSourceNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS
 					.getNodeLabel();
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
-					.getNodeLabel().equalsIgnoreCase(
-							selectedNode.deriveNodeLabel())) {
+					.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)
+					|| ((parentOfSelectedNode != null) && (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
+							.getNodeLabel()
+							.equalsIgnoreCase(parentOfSelectedNode.toString())))) {
 				parentOfSelectedRiskSourceNodeName = StandardTreeNodeLabelsEnum.DISEASES
 						.getNodeLabel();
 			} else {
@@ -223,5 +232,53 @@ public class RiskSourcePropertiesMapFactory {
 			riskSourceIsADisease = true;
 		}
 		return riskSourceIsADisease;
+	}
+
+	/**
+	 * Method that returns the number of classes contained in the RiskFactor
+	 * configuration. It should be called with a node representing a sibling of
+	 * the RiskFactor configurationfile (for now). When called for an unexpected
+	 * location in the tree an Exception is throws. When called for a continuous
+	 * RiskFactor the Integer contains zero.
+	 * 
+	 * @param selectedNode
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	static public Integer getNumberOfRiskFactorClasses(BaseNode selectedNode)
+			throws ConfigurationException {
+		Integer numberOfCategories = null;
+		String selectedNodeLabel = selectedNode.deriveNodeLabel();
+		ParentNode parentNode = ((ChildNode) selectedNode).getParent();
+		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
+		if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
+				((BaseNode) grandParentNode).deriveNodeLabel())) {
+			Object[] children = parentNode.getChildren();
+			for (Object childNode : children) {
+				String childNodeLabel = ((BaseNode) childNode)
+						.deriveNodeLabel();
+				if ("configuration".equals(childNodeLabel)) {
+					File configurationFile = ((BaseNode) childNode)
+							.getPhysicalStorage();
+					String rootElementName = ConfigurationFileUtil
+							.extractRootElementName(configurationFile);
+					if ((rootElementName != null)
+							&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+									.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
+									.getNodeLabel().equals(rootElementName)))) {
+						numberOfCategories = ConfigurationFileUtil
+								.extractNumberOfClasses(configurationFile);
+					} else {
+						numberOfCategories = new Integer(0);
+					}
+					break;
+				}
+			}
+		} else {
+			throw new ConfigurationException(
+					"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
+							+ selectedNode.deriveNodeLabel());
+		}
+		return numberOfCategories;
 	}
 }

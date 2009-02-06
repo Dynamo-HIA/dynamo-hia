@@ -22,13 +22,27 @@ import org.apache.commons.logging.LogFactory;
 
 public enum StandardTreeNodeLabelsEnum {
 
-	SIMULATIONS("Simulations"), REFERENCEDATA("Reference_Data"), POPULATIONS(
-			"Populations"), RISKFACTORS("Risk_Factors"), DISEASES("Diseases"), PREVALENCES(
-			"Prevalences"), INCIDENCES("Incidences"), DALYWEIGHTS(
-			"DALY_Weights"), RELATIVERISKSFROMRISKFACTOR(
-			"Relative_Risks_From_Risk_Factor"), RELATIVERISKSFROMDISEASES(
-			"Relative_Risks_From_Diseases"), EXCESSMORTALITY("Excess_Mortality"),
-			MODELCONFIGURATION("Modelconfiguration"),PARAMETERS("Parameters"),RESULTS("Results");
+	SIMULATIONS("Simulations"), //
+	REFERENCEDATA("Reference_Data"), //
+	POPULATIONS("Populations"), //
+	RISKFACTORS("Risk_Factors"), //
+	DISEASES("Diseases"), //
+	PREVALENCES("Prevalences"), //
+	INCIDENCES("Incidences"), //
+	DALYWEIGHTS("DALY_Weights"), //
+	RELATIVERISKSFROMRISKFACTOR("Relative_Risks_From_Risk_Factor"), //
+	RELATIVERISKSFROMDISEASES("Relative_Risks_From_Diseases"), //
+	EXCESSMORTALITY("Excess_Mortality"), //
+	MODELCONFIGURATION("Modelconfiguration"), //
+	PARAMETERS("Parameters"), //
+	RESULTS("Results"), //
+	CONFIGURATIONFILE("configuration"), //
+	TRANSITION("transition"), //
+	PREVALENCEFILE("prevalence"), //
+	DURATIONDISTRIBUTIONFILE("durationdistribution"), //
+	RELRISKFORDEATHFILE("relriskfordeath"), //
+	RELRISKFORDISABILITYFILE("relriskfordisability") //
+	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**

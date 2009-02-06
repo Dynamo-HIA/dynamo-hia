@@ -7,14 +7,19 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorContinuousGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksFromOtherDiseaseGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategoricalGroup;
+import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalPrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
+import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -29,7 +34,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskFromRiskFactorContinuousModal implements Runnable,
+public class RiskFactorCategoricalPrevalenceModal implements Runnable,
 		DataAndFileContainer {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private Shell shell;
@@ -38,28 +43,27 @@ public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 	 */
 	private TypedHashMap modelObject;
 	private DataBindingContext dataBindingContext = null;
-	private String configurationFilePath;
+	private String riskFactorCategoricalPrevalencesFilePath;
 	private String rootElementName;
 	private HelpGroup helpPanel;
 	private BaseNode selectedNode;
-	private RiskSourceProperties props;
 
-	public RelRiskFromRiskFactorContinuousModal(Shell parentShell,
-			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode, RiskSourceProperties props) {
-		this.configurationFilePath = configurationFilePath;
+	public RiskFactorCategoricalPrevalenceModal(Shell parentShell,
+			String riskFactorCategoricalPrevalencesFilePath,
+			String rootElementName, BaseNode selectedNode) {
+		this.riskFactorCategoricalPrevalencesFilePath = riskFactorCategoricalPrevalencesFilePath;
 		this.rootElementName = rootElementName;
 		this.selectedNode = selectedNode;
-		this.props = props;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
-		shell.setText(createCaption(selectedNode));
+		shell.setText(createCaption((BaseNode) ((ChildNode) selectedNode)
+				.getParent()));
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 	}
 
 	private String createCaption(BaseNode selectedNode2) {
-		return "Relative risks from a continuous risk factor";
+		return "Prevalences for a categorical riskfactor.";
 	}
 
 	public synchronized void open() {
@@ -70,14 +74,11 @@ public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			BaseNode riskSourceNode = null;
-			if(props != null){
-				riskSourceNode = props.getRiskSourceNode();
-			}
-			RelRisksFromRiskFactorContinuousGroup populationSizeGroup = new RelRisksFromRiskFactorContinuousGroup(
+			RiskFactorCategoricalPrevalencesGroup relRiskFromRiskFactorCategoricalGroup = new RiskFactorCategoricalPrevalencesGroup(
 					shell, modelObject, dataBindingContext, selectedNode,
-					riskSourceNode, helpPanel);
-			populationSizeGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+					helpPanel);
+			relRiskFromRiskFactorCategoricalGroup.setFormData(helpPanel
+					.getGroup(), buttonPanel);
 			shell.pack();
 			// This is the first place this works.
 			shell.setSize(400, 400);
@@ -89,12 +90,14 @@ public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 			}
 		} catch (ConfigurationException e) {
 			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			box.setText("Processing "
+					+ riskFactorCategoricalPrevalencesFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		} catch (DynamoInconsistentDataException e) {
 			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			box.setText("Processing "
+					+ riskFactorCategoricalPrevalencesFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		}
@@ -109,19 +112,27 @@ public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: " + rootElementName);
 		}
-		File configurationFile = new File(configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile);
+		File riskFactorCategoricalPrevalencesFile = new File(
+				riskFactorCategoricalPrevalencesFilePath);
+		if (riskFactorCategoricalPrevalencesFile.exists()) {
+			if (riskFactorCategoricalPrevalencesFile.isFile()
+					&& riskFactorCategoricalPrevalencesFile.canRead()) {
+				producedData = factory
+						.manufactureObservable(riskFactorCategoricalPrevalencesFile);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");
 				}
 			} else {
-				throw new ConfigurationException(configurationFilePath
-						+ " is no file or cannot be read.");
+				throw new ConfigurationException(
+						riskFactorCategoricalPrevalencesFilePath
+								+ " is no file or cannot be read.");
 			}
 		} else {
+
+			((RiskFactorCategoricalPrevalencesFactory) factory)
+					.setNumberOfCategories(RiskSourcePropertiesMapFactory
+							.getNumberOfRiskFactorClasses(selectedNode));
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
@@ -144,7 +155,7 @@ public class RelRiskFromRiskFactorContinuousModal implements Runnable,
 	}
 
 	public String getFilePath() {
-		return configurationFilePath;
+		return riskFactorCategoricalPrevalencesFilePath;
 	}
 
 	public Object getRootElementName() {

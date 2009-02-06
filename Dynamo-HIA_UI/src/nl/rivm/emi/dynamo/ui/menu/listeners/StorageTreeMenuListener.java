@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.menu.listeners;
 
+import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.ui.menu.StorageTreeMenuFactory;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -33,7 +34,12 @@ public class StorageTreeMenuListener implements IMenuListener {
 				.getSelection();
 		if (!selection.isEmpty()) {
 			BaseNode selectedNode = (BaseNode) selection.getFirstElement();
-			stmf.createRelevantContextMenu(manager, selection, selectedNode);
+			try {
+				stmf.createRelevantContextMenu(manager, selection, selectedNode);
+			} catch (TreeStructureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

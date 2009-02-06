@@ -1,16 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
-import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -19,22 +14,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-public class DiseasePrevalencesGroup {
+public class RiskFactorCategoricalPrevalencesGroup {
 	Group theGroup;
 
-	public DiseasePrevalencesGroup(Shell shell, TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+	public RiskFactorCategoricalPrevalencesGroup(Shell shell,
+			TypedHashMap modelObject, DataBindingContext dataBindingContext,
+			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
-		entityNameGroup.putInContainer();
-		DiseasePrevalencesParameterGroup parameterGroup = new DiseasePrevalencesParameterGroup(
-				theGroup, lotsOfData, dataBindingContext, helpGroup);
-		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
+		String[] entityStrings = Util.deriveEntityLabelAndValueFromSelectedNode(selectedNode);
+		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup, entityStrings[0], entityStrings[1]);
+		entityNamePanel.putInContainer();
+		RiskFactorCategoricalPrevalencesParameterGroup parameterGroup = new RiskFactorCategoricalPrevalencesParameterGroup(
+				theGroup, modelObject, dataBindingContext, helpGroup);
+		parameterGroup.handlePlacementInContainer(entityNamePanel.group);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

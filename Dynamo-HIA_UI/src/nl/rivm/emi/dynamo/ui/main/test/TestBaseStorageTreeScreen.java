@@ -28,16 +28,22 @@ public class TestBaseStorageTreeScreen {
 
 	@After
 	public void teardown() {
-		log.debug("teardown() starts.");
-		if (shell != null) {
-			shell.open();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
+		try {
+			log.debug("teardown() starts.");
+			if (shell != null) {
+				shell.open();
+				while (!shell.isDisposed()) {
+					if (!display.readAndDispatch())
+						display.sleep();
+				}
 			}
+			display.dispose();
+			log.debug("teardown() complete.");
+		} catch (Exception e) {
+			log.fatal("Exception caught of type " + e.getClass().getName()
+					+ " with message: " + e.getMessage());
+			e.printStackTrace(System.err);
 		}
-		display.dispose();
-		log.debug("teardown() complete.");
 	}
 
 	@Test

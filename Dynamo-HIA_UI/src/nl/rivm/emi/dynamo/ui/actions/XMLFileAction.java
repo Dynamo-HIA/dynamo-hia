@@ -14,6 +14,8 @@ import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
@@ -132,7 +134,8 @@ public class XMLFileAction extends ActionBase {
 												} else {
 													if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 															.getNodeLabel()
-															.equals(rootElementName)) {
+															.equals(
+																	rootElementName)) {
 														theModal = new RiskFactorCompoundModal(
 																shell,
 																file
@@ -140,13 +143,50 @@ public class XMLFileAction extends ActionBase {
 																rootElementName,
 																node);
 													} else {
-													throw new DynamoConfigurationException(
-															"RootElementName "
-																	+ rootElementName
-																	+ " not implemented yet.");
+														if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
+																.getNodeLabel()
+																.equals(
+																		rootElementName)) {
+															theModal = new RelRiskFromRiskFactorCategoricalModal(
+																	shell,
+																	file
+																			.getAbsolutePath(),
+																	rootElementName,
+																	node, null);
+														} else {
+															if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
+																	.getNodeLabel()
+																	.equals(
+																			rootElementName)) {
+																theModal = new RelRiskFromRiskFactorContinuousModal(
+																		shell,
+																		file
+																				.getAbsolutePath(),
+																		rootElementName,
+																		node, null);
+															} else {
+																if (RootElementNamesEnum.RISKFACTOR_COMPOUND
+																		.getNodeLabel()
+																		.equals(
+																				rootElementName)) {
+																	theModal = new RiskFactorCompoundModal(
+																			shell,
+																			file
+																					.getAbsolutePath(),
+																			rootElementName,
+																			node);
+																} else {
+																	throw new DynamoConfigurationException(
+																			"RootElementName "
+																					+ rootElementName
+																					+ " not implemented yet.");
+																}
+															}
+														}
+													}
 												}
 											}
-											}										}
+										}
 									}
 								}
 							}

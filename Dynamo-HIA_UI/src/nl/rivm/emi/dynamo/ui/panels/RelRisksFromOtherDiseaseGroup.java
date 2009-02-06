@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -17,12 +18,12 @@ public class RelRisksFromOtherDiseaseGroup {
 
 	public RelRisksFromOtherDiseaseGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws ConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		EntityInDefaultDirNamePanel entityNameGroup = new EntityInDefaultDirNamePanel(theGroup,
-				selectedNode, helpGroup);
+		RelativeRiskPanel entityNameGroup = new RelativeRiskPanel(theGroup, null,
+				selectedNode);
 		entityNameGroup.handlePlacementInContainer();
 		RelRiskFromOtherDiseaseParameterGroup parameterGroup = new RelRiskFromOtherDiseaseParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);

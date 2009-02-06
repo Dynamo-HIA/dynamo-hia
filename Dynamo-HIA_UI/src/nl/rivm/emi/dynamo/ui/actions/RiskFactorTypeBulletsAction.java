@@ -4,9 +4,6 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
-import nl.rivm.emi.dynamo.ui.main.FreePlusDropDownAndTypeBulletsModal;
-import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
@@ -16,7 +13,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,12 +26,10 @@ import org.eclipse.swt.widgets.Shell;
 
 public class RiskFactorTypeBulletsAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	String selectedRootElementName = null;
 
 	public RiskFactorTypeBulletsAction(Shell shell, TreeViewer v,
-			BaseNode node, String rootElementName) {
+			BaseNode node) {
 		super(shell, v, node, "aBSTRACT");
-		this.selectedRootElementName = rootElementName;
 	}
 
 	@Override

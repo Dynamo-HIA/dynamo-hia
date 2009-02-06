@@ -216,22 +216,4 @@ public class BaseStorageTreeScreen {
 		});
 	}
 
-	// private void addDirectoryDialogItem(Menu menu) {
-	// MenuItem subItem = new MenuItem(menu, SWT.NONE);
-	// subItem.setText("DirectoryDialog");
-	// subItem.addSelectionListener(new SelectionAdapter() {
-	// public void widgetSelected(SelectionEvent e) {
-	// try {
-	// selectBaseDirectory();
-	// } catch (ConfigurationException e1) {
-	// MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-	// box.setText("BaseDirectory error");
-	// box.setMessage(e1.getClass().getName() + " containing " +
-	// e1.getMessage());
-	// box.open();
-	// }
-	// }
-	// });
-	// }
-
 }

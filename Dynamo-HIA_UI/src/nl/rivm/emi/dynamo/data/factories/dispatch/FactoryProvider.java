@@ -45,7 +45,7 @@ public class FactoryProvider {
 	static public AgnosticFactory getRelevantFactoryByRootNodeName(
 			String rootNodeName) throws ConfigurationException {
 		AgnosticFactory theFactory = null;
-		theFactory = dispatchMap.get(rootNodeName);
+		theFactory = dispatchMap.get(rootNodeName).getTheFactory();
 		return theFactory;
 	}
 }

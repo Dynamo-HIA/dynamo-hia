@@ -35,7 +35,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	private HelpGroup helpPanel;
 	private BaseNode selectedNode;
 	private String newFilePath;
-	RiskSourcePropertiesMap list;
+	RiskSourcePropertiesMap selectableRiskSourcePropertiesMap;
 	private RiskSourceProperties rsProps;
 	private Text freePart;
 	private Combo dropDown;
@@ -52,9 +52,9 @@ public class FreeNamePlusDropDownModal implements Runnable {
 
 	public synchronized void open() {
 		try {
-			list = RiskSourcePropertiesMapFactory
+			selectableRiskSourcePropertiesMap = RiskSourcePropertiesMapFactory
 					.make(selectedNode);
-		if ((list != null) && (list.size() != 0)) {
+		if ((selectableRiskSourcePropertiesMap != null) && (selectableRiskSourcePropertiesMap.size() != 0)) {
 			freePart = new Text(shell, SWT.BORDER);
 			FormData textFormData = new FormData();
 			textFormData.left = new FormAttachment(0, 15);
@@ -62,7 +62,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 			textFormData.top = new FormAttachment(0, 10);
 			freePart.setLayoutData(textFormData);
 			dropDown = new Combo(shell, SWT.DROP_DOWN);
-			Set<String> keys = list.keySet();
+			Set<String> keys = selectableRiskSourcePropertiesMap.keySet();
 			for (String item : keys) {
 				dropDown.add(item);
 			}
@@ -89,7 +89,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 				public void widgetSelected(SelectionEvent arg0) {
 					newFilePath = selectedNode.getPhysicalStorage().getAbsolutePath() + File.separator
 							+ freePart.getText() + dropDown.getText() + ".xml";
-					rsProps = list.get(dropDown.getText());
+					rsProps = selectableRiskSourcePropertiesMap.get(dropDown.getText());
 					shell.dispose();
 				}
 
@@ -139,6 +139,6 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	}
 
 	public RiskSourcePropertiesMap getList() {
-		return list;
+		return selectableRiskSourcePropertiesMap;
 	}
 }

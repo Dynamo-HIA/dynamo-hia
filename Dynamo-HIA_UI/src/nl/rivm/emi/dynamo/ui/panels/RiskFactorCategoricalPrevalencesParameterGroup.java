@@ -24,10 +24,10 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class RelRisksFromRiskFactorCategoricalParameterGroup {
+public class RiskFactorCategoricalPrevalencesParameterGroup {
 	Group theGroup;
 
-	public RelRisksFromRiskFactorCategoricalParameterGroup(Composite parent,
+	public RiskFactorCategoricalPrevalencesParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);

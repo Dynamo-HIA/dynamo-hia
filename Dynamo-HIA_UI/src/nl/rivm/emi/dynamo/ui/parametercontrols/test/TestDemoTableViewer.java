@@ -1,10 +1,6 @@
 package nl.rivm.emi.dynamo.ui.parametercontrols.test;
 
-import nl.rivm.emi.dynamo.ui.parametercontrols.AgeBiGenderRunnable;
-import nl.rivm.emi.dynamo.ui.parametercontrols.DatabindableAgeGenderRow;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerDataRow;
-import nl.rivm.emi.dynamo.ui.parametercontrols.YearIntegerList;
 import nl.rivm.emi.dynamo.ui.parametercontrols.DemoTableViewer.DummyElement;
 
 import org.apache.commons.logging.Log;

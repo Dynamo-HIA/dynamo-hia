@@ -5,30 +5,12 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
-import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
-import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
-import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;

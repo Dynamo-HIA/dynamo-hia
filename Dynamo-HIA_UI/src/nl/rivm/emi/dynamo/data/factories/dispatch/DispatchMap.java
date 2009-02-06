@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 
-public class DispatchMap extends HashMap<String, AgnosticFactory > {
+public class DispatchMap extends HashMap<String, DispatchEnum > {
 	private static DispatchMap instance = null;
 
 	private DispatchMap() {
 		for (DispatchEnum entry : DispatchEnum.values()) {
-			put(entry.getRootNodeName(), entry.getTheFactory());
+			put(entry.getRootNodeName(), entry);
 		}
 	}
 
