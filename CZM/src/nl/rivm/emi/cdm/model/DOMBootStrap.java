@@ -38,5 +38,28 @@ public class DOMBootStrap {
 		}
 		return population;
 	}
+	
+	/* added by Hendriek as a copy that generates a population for newborns (with empty values before birth);
+	 * 
+	 */
+	public Population process2PopulationTree(File populationFile, int numberOfSteps, int generationNumber)
+	throws ParserConfigurationException, SAXException, IOException,
+	CDMConfigurationException, NumberFormatException, CDMRunException {
+DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
+DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
+Document document = docBuilder.parse(populationFile);
+// Get the reading started
+Node rootNode = document.getFirstChild();
+PopulationFromDomFactory populationFactory = new PopulationFromDomFactory("pop");
+Population population = populationFactory.makeItFromDOM(rootNode, numberOfSteps,generationNumber);
+if (population == null) {
+	log.error("Population construction produced errors.");
+}
+return population;
+}
+
+	
+	
+	
 
 }
