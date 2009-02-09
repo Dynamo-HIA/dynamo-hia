@@ -21,27 +21,27 @@ public class DiseaseClusterStructure {
 	 * @dependentDisease (boolean[]) indicates whether a disease is a dependent
 	 *                   disease or not
 	 */
-	public boolean[] dependentDisease;
+	private boolean[] dependentDisease;
 	
 	
 
-	public int[] diseaseNumber; /*
+	private int[] diseaseNumber; /*
 						 * the overall disease number (in the entire model) of
 						 * the diseases
 						 */
 
-	public ArrayList<String> diseaseName;
-	public String clusterName;
-    public boolean withCuredFraction=false;
-	public int nInCluster = 1;
+	private ArrayList<String> diseaseName;
+	private String clusterName;
+	private boolean withCuredFraction=false;
+	private int nInCluster = 1;
 	
-	public int[] indexDependentDiseases;
+	private int[] indexDependentDiseases;
 	/**
 	 * @indexDependentDiseases Index giving the numbers of the dependent
 	 *                         diseases within this cluster
 	 * 
 	 */
-	public int[] indexIndependentDiseases;
+	private int[] indexIndependentDiseases;
 	/**
 	 * @indexIndependentDiseases Index giving the numbers of the independent
 	 *                           diseases within this cluster
@@ -54,8 +54,8 @@ public class DiseaseClusterStructure {
 	 * 
 	 */
 
-	public int NDep; /* number of dependent diseases within this cluster */
-	public int NIndep;/* number of independent diseases within this cluster */
+	private int NDep; /* number of dependent diseases within this cluster */
+	private int NIndep;/* number of independent diseases within this cluster */
 
 	/**
 	 * @param clusterName
@@ -85,7 +85,7 @@ public class DiseaseClusterStructure {
 		int dd = 0;// dd contains number of current dependent disease;
 		int di = 0;// di contains number of current independent disease;
 
-		this.nInCluster = N;
+		this.setNInCluster(N);
 		
 		for (int d = 0; d < N; d++) /*
 									 * go through all diseases and if disease
@@ -111,16 +111,16 @@ public class DiseaseClusterStructure {
 		 * make an index for the numbers of dependent and
 		 * independent diseases within the cluster
 		 */
-		indexDependentDiseases= new int[NDep];
+		setIndexDependentDiseases(new int[NDep]);
 		int iterDep = 0;
 		int iterIndep = 0;
-		indexIndependentDiseases= new int[NIndep];
-		for (int dtemp = 0; dtemp < nInCluster; dtemp++) {
+		setIndexIndependentDiseases(new int[NIndep]);
+		for (int dtemp = 0; dtemp < getNInCluster(); dtemp++) {
 			if (dependentDisease[dtemp]) {
-				indexDependentDiseases[iterDep] = dtemp;
+				getIndexDependentDiseases()[iterDep] = dtemp;
 				iterDep++;
 			} else {
-				indexIndependentDiseases[iterIndep] = dtemp;
+				getIndexIndependentDiseases()[iterIndep] = dtemp;
 				iterIndep++;
 			}
 		}
@@ -146,10 +146,10 @@ public class DiseaseClusterStructure {
 		diseaseNumber[0] = startN;
 		NDep = 0;
 		NIndep = 1;
-		nInCluster=1;
-		indexDependentDiseases=new int[0];
-		indexIndependentDiseases=new int[1];
-		indexIndependentDiseases[0]=0;
+		setNInCluster(1);
+		setIndexDependentDiseases(new int[0]);
+		setIndexIndependentDiseases(new int[1]);
+		getIndexIndependentDiseases()[0]=0;
 	}
 
 	public boolean[] getDependentDisease() {
@@ -206,13 +206,9 @@ public class DiseaseClusterStructure {
 		this.withCuredFraction = withCuredFraction;
 	}
 
-	public int getNinCluster() {
-		return nInCluster;
-	}
+	
 
-	public void setNinCluster(int ninCluster) {
-		nInCluster = ninCluster;
-	}
+	
 
 	
 	public int getNDep() {
@@ -230,5 +226,48 @@ public class DiseaseClusterStructure {
 	public void setNIndep(int indep) {
 		NIndep = indep;
 	}
+
+	public void setNInCluster(int nInCluster) {
+		this.nInCluster = nInCluster;
+	}
+
+	public int getNInCluster() {
+		return nInCluster;
+	}
+
+	public void setIndexIndependentDiseases(int[] indexIndependentDiseases) {
+		this.indexIndependentDiseases = indexIndependentDiseases;
+	}
+
+	public int[] getIndexIndependentDiseases() {
+		return indexIndependentDiseases;
+	}
+
+	/**
+	 * @param i
+	 * @param d
+	 */
+	public void setDiseaseNumber(int i, int d) {
+		diseaseNumber[d]=i;
+		
+	}
+
+	public void setIndexDependentDiseases(int[] indexDependentDiseases) {
+		this.indexDependentDiseases = indexDependentDiseases;
+	}
+
+	public int[] getIndexDependentDiseases() {
+		return indexDependentDiseases;
+	}
+
+	/**
+	 * @param string
+	 * @param i
+	 */
+	public void setDiseaseName(String string, int i) {
+		diseaseName.set(i,string);
+		
+	}
+
 
 }
