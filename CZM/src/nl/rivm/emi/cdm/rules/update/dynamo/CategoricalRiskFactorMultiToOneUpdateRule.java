@@ -171,10 +171,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 		return success;
 	}
 	public float[][][][] loadTransitionMatrix(String inputFile) throws CDMConfigurationException {
-		/* temporary blocked for testing
-				if (inputFile != null) {
-					File paramFile = new File(inputFile);double[][][][] transmat =null; return transmat;
-				} else {*/
+		
 					float [][][][] transmat = new float[96][2][nCat][nCat];
 					ArraysFromXMLFactory factory=new ArraysFromXMLFactory();
 					try {
@@ -187,11 +184,10 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 					}
 					return transmat;
 				}
+	
 	public float[][][][] loadTransitionMatrix() {
-/* temporary blocked for testing
-		if (inputFile != null) {
-			File paramFile = new File(inputFile);double[][][][] transmat =null; return transmat;
-		} else {*/
+/*  version for testing
+		*/
 			float [][][][] transmat = new float[96][2][nCat][nCat];
 			for (int a = 0; a < 96; a++) {
 				for (int g = 0; g < 2; g++)
@@ -221,7 +217,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			}
 			return transmat;
 		}
-//	}  temporary blocked
+
 	public boolean loadConfigurationFile(String configurationFileName){return true;}
 
 	static int draw(float[] p, double d) throws CDMUpdateRuleException {
