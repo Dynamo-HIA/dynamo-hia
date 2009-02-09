@@ -25,8 +25,9 @@ public abstract class DynamoManyToManyUpdateRuleBase extends ManyToManyUpdateRul
 	 * this abstract type contains the elements that are common to all DYNAMO updaterules
 	 */
 	
-	private static String charIDLabel="charID";
-	protected int characteristicIndex = -1;
+	private static String charIDLabel="charID";/* somehow setting this goes wrong */
+	protected int characteristicIndexOfThisRule = -2;
+	
 	protected int ageIndex = 1;
 	protected int sexIndex = 2;
 	protected int riskFactorIndex1 = 3;
@@ -34,20 +35,20 @@ public abstract class DynamoManyToManyUpdateRuleBase extends ManyToManyUpdateRul
 	protected float timeStep=1;
 	protected int riskType = -1;
 	protected int durationClass = -1;
+	protected float referenceValueContinous=-1;
 	protected int nCat =0;
 	
 	static protected  String riskTypeLabel = "riskType";
 	static protected  String nCatLabel = "nCat";
 	static protected  String refValLabel="refValContinuousVariable"; 
-
 	static protected String globalTagName="updateRuleConfiguration";		
 	
 	public int getCharacteristicIndex() {
-		return characteristicIndex;
+		return characteristicIndexOfThisRule;
 	}
 
 	public  void setCharacteristicIndex(int characteristicIndex) {
-		this.characteristicIndex = characteristicIndex;
+		this.characteristicIndexOfThisRule = characteristicIndex;
 	}
 
 	protected DynamoManyToManyUpdateRuleBase() {
@@ -69,9 +70,9 @@ public abstract class DynamoManyToManyUpdateRuleBase extends ManyToManyUpdateRul
 		HierarchicalConfiguration simulationConfiguration
 		) throws ConfigurationException {
 	try {
-		int characteristicIndex   = simulationConfiguration.getInt(charIDLabel);
+		int charIndex   = simulationConfiguration.getInt(charIDLabel);
 		
-		setCharacteristicIndex (characteristicIndex);
+		this.setCharacteristicIndex (charIndex);
 	} catch (NoSuchElementException e) {
 		throw new ConfigurationException(
 				CDMConfigurationException.noUpdateCharIDMessage);
@@ -86,13 +87,7 @@ public void setNCat(int cat) {
 	nCat = cat;
 }
 
-public static String getCharIDLabel() {
-	return charIDLabel;
-}
 
-public static void setCharIDLabel(String charIDLabel) {
-	DynamoManyToManyUpdateRuleBase.charIDLabel = charIDLabel;
-}
 
 public int getAgeIndex() {
 	return ageIndex;
@@ -150,12 +145,18 @@ public void setDurationClass(int durationClass) {
 	this.durationClass = durationClass;
 }
 
-public static String getGlobalTagName() {
-	return globalTagName;
-}
+
 
 public static void setGlobalTagName(String globalTagName) {
 	DynamoManyToOneUpdateRuleBase.globalTagName = globalTagName;
+}
+
+public float getReferenceValueContinous() {
+	return referenceValueContinous;
+}
+
+public void setReferenceValueContinous(float referenceValueContinous) {
+	this.referenceValueContinous = referenceValueContinous;
 }
 
 /* (non-Javadoc)
