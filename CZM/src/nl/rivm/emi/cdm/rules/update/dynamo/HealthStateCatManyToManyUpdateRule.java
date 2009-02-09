@@ -155,7 +155,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 			log
 					.fatal("this message was issued by HealthStateMultiToOneUpdateRule"
 							+ " when updating characteristic number "
-							+ characteristicIndex);
+							+ getCharacteristicIndex());
 			e.printStackTrace();
 			throw e;
 
