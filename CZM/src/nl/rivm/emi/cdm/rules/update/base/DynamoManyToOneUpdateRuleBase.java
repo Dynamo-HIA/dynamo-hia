@@ -8,7 +8,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.rules.update.dynamo.ManyToOneUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 
@@ -20,7 +20,9 @@ import nl.rivm.emi.cdm.simulation.Simulation;
  */
 public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 	private static String charIDLabel="charID";
+
 	protected int characteristicIndex = -1;
+	
 	protected int ageIndex = 1;
 	protected int sexIndex = 2;
 	protected int riskFactorIndex1 = 3;
@@ -28,7 +30,7 @@ public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleB
 	float timeStep=1;
 	protected int riskType = -1;
 	protected int durationClass = -1;
-	protected int nCat =0;
+	int nCat =0;
 	static protected String globalTagName="updateRuleConfiguration";		
 	
 	public int getCharacteristicIndex() {
@@ -51,7 +53,7 @@ public abstract class DynamoManyToOneUpdateRuleBase extends ManyToOneUpdateRuleB
 	 * 
 	 * @throws CDMUpdateRuleException 
 	 */
-	public abstract Object update(Object[] currentValues) throws  CDMUpdateRuleException;
+	public abstract Object update(Object[] currentValues, Long seed) throws  CDMUpdateRuleException;
 	//this added by hendriek
 	
 	
@@ -188,4 +190,5 @@ public static String getGlobalTagName() {
 public static void setGlobalTagName(String globalTagName) {
 	DynamoManyToOneUpdateRuleBase.globalTagName = globalTagName;
 }
+
 }
