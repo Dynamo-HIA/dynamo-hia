@@ -39,6 +39,28 @@ public class FloatCharacteristicValue extends CharacteristicValueBase {
 		rijtje = new float[numSteps+1];
 		rijtje[0] = value;
 	}
+	
+	/* extra constructor added by hendriek */
+	/**
+	 * Initiation of characteristic for newborns, where
+	 * the first steps are empty.
+	 * Multiple steps possible. Number is fixed after instantiation.
+	 * 
+	 * @param numSteps Number of steps to be preallocated for this value.
+	 * @param index The index of the Characteristic the value belongs to.
+	 * @param startstep The number of the first step to be filled.
+	 * @param value The value for the characteristic to be stored in the first step (at index 0).
+	
+	 */
+	public FloatCharacteristicValue(int numSteps, int index, int startStep, float value) {
+		super("ch", index );
+		rijtje = new float[numSteps+1];
+		rijtje[startStep] = value;
+		numberFilled = startStep;
+	}
+	
+	
+	
 
 	public float getValue() {
 		return rijtje[0];
