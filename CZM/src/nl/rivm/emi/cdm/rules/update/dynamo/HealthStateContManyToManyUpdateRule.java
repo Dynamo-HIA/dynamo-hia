@@ -103,7 +103,10 @@ int[][][] atIndex	;
 				int sexValue = getInteger(currentValues, getSexIndex());
 				if (ageValue > 95)
 					ageValue = 95;
-				int riskFactorValue = getInteger(currentValues, riskFactorIndex1);
+				float riskFactorValue = getFloat(currentValues, riskFactorIndex1);
+				//TODO dit beter oplossen: op een of ander manier wordt deze steeds -1;
+				// wellicht doordat setter in andere classe dan deze??
+				if (getCharacteristicIndex()>0) setCharacteristicIndex(4);
 				float[] oldValue = getValues(currentValues,
 						getCharacteristicIndex());
 				newValue = new float[oldValue.length];
@@ -127,7 +130,6 @@ int[][][] atIndex	;
 				int currentStateNo = 0;
 				double survival = 0;
 				double survivalFraction = calculateOtherCauseSurvival(riskFactorValue,ageValue,sexValue);
-			
 				float[][] currentTransMat;
 				double expAI ;
 				double expI ;
@@ -204,9 +206,9 @@ int[][][] atIndex	;
 						 * results
 						 */
 						
-						expI = Math.exp((-incidence)
-								* -getTimeStep());
-						expA = Math.exp(-atMort * -getTimeStep());
+						expI = Math.exp(-incidence
+								* timeStep);
+						expA = Math.exp(-atMort * timeStep);
 						double transMat10;
 						double transMat20;
 						if (incidence != 0)
@@ -262,7 +264,7 @@ int[][][] atIndex	;
 						for (int dc=0;dc<numberOfDiseasesInCluster[c];dc++){
 							d = clusterStartsAtDiseaseNumber[c]+dc;
 							incidence=calculateIncidence(riskFactorValue,ageValue,sexValue,d);
-						    atMort=attributableMortality[ageValue][sexValue][d];
+						    atMort=attributableMortality[d][ageValue][sexValue];
 							for (int loc=0;loc<nCombinations[c]>>1;loc++){
 								rateMatrix[incIndex[c][dc][loc]][incIndex[c][dc][loc]]+=
 									-incidence*RRdis[ageValue][sexValue][c][dc][loc];
@@ -327,7 +329,7 @@ int[][][] atIndex	;
 				log
 						.fatal("this message was issued by HealthStateMultiToOneUpdateRule"
 								+ " when updating characteristic number "
-								+ characteristicIndex);
+								+ getCharacteristicIndex());
 				e.printStackTrace();
 				throw e;
 
@@ -343,8 +345,8 @@ int[][][] atIndex	;
 			incidence = baselineIncidence[diseaseNumber][ageValue][sexValue]
 					* Math
 							.pow(
-									(riskFactorValue - referenceValueContinous),
-									relRiskContinous[diseaseNumber][ageValue][sexValue]);
+									
+									relRiskContinous[diseaseNumber][ageValue][sexValue],(riskFactorValue - referenceValueContinous));
 			return incidence;
 		}
 
@@ -361,15 +363,15 @@ int[][][] atIndex	;
 			return incidence;
 		}
 
-		private double calculateOtherCauseSurvival(int riskFactorValue,
+		private double calculateOtherCauseSurvival(float riskFactorValue,
 				int ageValue, int sexValue) {
 			double otherCauseSurvival = 0;
 
 			otherCauseSurvival =Math.exp(- baselineOtherMort[ageValue][sexValue]
 			 			                                   					* Math
 				                                   							.pow(
-				                                   									(riskFactorValue - referenceValueContinous),
-				                                   									relRiskOtherMortContinous[ageValue][sexValue]));
+				                                   									
+				                                   									relRiskOtherMortContinous[ageValue][sexValue],(riskFactorValue - referenceValueContinous)));
 				 
 				
 				
@@ -396,7 +398,11 @@ int[][][] atIndex	;
 				/* first handle the general information (not disease dependent) */
 				handleCharID(configurationFileConfiguration);
 				handleRiskType(configurationFileConfiguration);
-				handleNCat(configurationFileConfiguration);
+				/*
+				 * NB: riskType should be set before handling the disease information
+				 * 
+				 */
+				handleRefValueContinuous(configurationFileConfiguration);
 				handleNClusters(configurationFileConfiguration);
 				handleOtherMort(configurationFileConfiguration);
 				handleDiseaseData(rootNode);
@@ -421,7 +427,7 @@ int[][][] atIndex	;
 					for (int d = 0; d < numberOfDiseasesInCluster[c]; d++){
 						int dd=clusterStartsAtDiseaseNumber[c]+d;
 						if (baselineFatalIncidence[dd][a][g]>0) nFatal++;
-						nonCuredRatio[a][g][c]=baselineIncidence[dd+1][a][g]/(baselineIncidence[dd][a][g]+baselineIncidence[dd+1][a][g]);
+						if (withCuredFraction[c] && d==0) nonCuredRatio[a][g][c]=baselineIncidence[dd+1][a][g]/(baselineIncidence[dd][a][g]+baselineIncidence[dd+1][a][g]);
 					}
 					if (nFatal>0){disFatalIndex[a][g][c]= new  int[nFatal];
 					RRdisFatal[a][g][c]= new  float[nFatal][nCombinations[c]];
