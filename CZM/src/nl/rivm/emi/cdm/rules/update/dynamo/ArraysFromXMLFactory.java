@@ -196,12 +196,12 @@ public class ArraysFromXMLFactory {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 
-					age = getIntegerValue(valueString, valueTagName);
+					age = getIntegerValue(valueString, "age");
 					ageRead = true;
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 
-						sex = getIntegerValue(valueString, valueTagName);
+						sex = getIntegerValue(valueString, "sex");
 						;
 						sexRead = true;
 					} else {
@@ -255,6 +255,8 @@ public class ArraysFromXMLFactory {
 	 *            : root tag in the file
 	 * @param tagName
 	 *            : tag of the individual items in the file
+	 * @param otherTags
+	 *            : boolean indicating if other tags are allow to be present
 	 * 
 	 * @return three dimensional array (float[96][2][]) of parameters by age and
 	 *         sex
@@ -262,11 +264,11 @@ public class ArraysFromXMLFactory {
 	 */
 
 	public float[][][] manufactureTwoDimArray(String fileName,
-			String globalTagName, String tagName)
+			String globalTagName, String tagName, boolean otherTags)
 			throws DynamoConfigurationException {
 
 		float[][][] arrayToBeFilled = manufactureTwoDimArray(fileName,
-				globalTagName, tagName, "cat", "value");
+				globalTagName, tagName, "cat", "value", otherTags);
 		return arrayToBeFilled;
 	}
 
@@ -284,14 +286,17 @@ public class ArraysFromXMLFactory {
 	 *            : tag of the element indicating the third dimension
 	 * @param value2TagName
 	 *            : tag of the element containing the value to be read
+	 * @param otherTags
+	 *            : (boolean) true if other tags are allowed to be present in the file
 	 * @return three dimensional array (float[96][2][]) of parameters by age and
 	 *         sex
+	 *         
 	 * @throws ConfigurationException
 	 */
 
 	public float[][][] manufactureTwoDimArray(String fileName,
 			String globalTagName, String tagName, String value1TagName,
-			String value2TagName) throws DynamoConfigurationException {
+			String value2TagName, Boolean otherTags) throws DynamoConfigurationException {
 
 		File configurationFile = new File(fileName);
 
@@ -349,7 +354,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
-				if (rootChild.getName() != tagName)
+				if (!otherTags & rootChild.getName() != tagName)
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName()
@@ -358,7 +363,7 @@ public class ArraysFromXMLFactory {
 
 			for (ConfigurationNode rootChild : rootChildren) {
 				returnArray1 = handleRootChild(rootChild, returnArray1,
-						value1TagName, value2TagName);
+						value1TagName, value2TagName, otherTags);
 
 			} // end loop for rootChildren
 
@@ -431,12 +436,15 @@ public class ArraysFromXMLFactory {
 	 *            : tag for third dimension
 	 * @param value2TagName
 	 *            the tag name of the value to should be put into the array
+	 * @param otherTags
+	 *            : boolean indicating if other tags are allow to be present
+	 
 	 * @return array to which the newly read value has been added
 	 * @throws ConfigurationException
 	 */
 	public float[][][] handleRootChild(ConfigurationNode rootChild,
 			float[][][] arrayToBeFilled, String value1TagName,
-			String value2Tagname) throws DynamoConfigurationException {
+			String value2Tagname, boolean otherTags) throws DynamoConfigurationException {
 		// String rootChildName = rootChild.getName();
 		// Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
@@ -458,19 +466,19 @@ public class ArraysFromXMLFactory {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 
-					age = getIntegerValue(valueString, value2Tagname);
+					age = getIntegerValue(valueString, "age");
 					ageRead = true;
 
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 
-						sex = getIntegerValue(valueString, value2Tagname);
+						sex = getIntegerValue(valueString, "sex");
 						sexRead = true;
 
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
 
-							index = getIntegerValue(valueString, value2Tagname);
+							index = getIntegerValue(valueString, value1TagName);
 							indexRead = true;
 						} else
 
@@ -481,7 +489,7 @@ public class ArraysFromXMLFactory {
 						} else
 
 						{
-							throw new DynamoConfigurationException(
+							if (!otherTags) throw new DynamoConfigurationException(
 									"Unexpected tag: " + leafName);
 						}
 					}
@@ -516,6 +524,243 @@ public class ArraysFromXMLFactory {
 
 	}
 
+	
+	
+
+	/**
+	 * the method produces a two dimensional array from flat XML containing
+	 * particular model parameters by age, sex and a third dimension .
+	 * Data are selected for one particular value of another tag of the third dimension (given by the selectionTag name)
+	 * When this has the vale selectionValue, the value of valueTag is read and put into the array 
+	 * 
+	 * @param fileName
+	 *            : name of xml.file to be read (including the extension .xml)
+	 * @param globalTagName
+	 *            : root tag in the file
+	 * @param tagName
+	 *            : tag of the individual items in the file
+	 * @param valueTagName
+	 *            : tag of the element indicating the third dimension
+	 * @param selectionTagName
+	 *            : tag of the element containing the value to be read
+	 * @param selectionValue
+	 *            : value of selection Tag for which to read the data
+	 * @return two dimensional array (float[96][2][]) of parameters by age and
+	 *         sex
+	 *         
+	 * @throws ConfigurationException
+	 */
+
+	public float[][] selectOneDimArray(String fileName,
+			String globalTagName, String tagName, String valueTagName,
+			String selectionTagName, int selectionValue) throws DynamoConfigurationException {
+
+		File configurationFile = new File(fileName);
+
+		log.debug("Starting manufacturing two Dimensional array from file "
+				+ fileName);
+
+		XMLConfiguration configurationFromFile;
+		try {
+			configurationFromFile = new XMLConfiguration(configurationFile);
+
+			ConfigurationNode rootNode = configurationFromFile.getRootNode();
+			if (configurationFromFile.getRootElementName() != globalTagName)
+				throw new DynamoConfigurationException(" Tagname "
+						+ globalTagName + " expected in file " + fileName
+						+ " but found tag "
+						+ configurationFromFile.getRootElementName());
+
+			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+					.getChildren();
+
+			/* first find out how many elements there are */
+
+			
+			float[][]returnArray1 = new float[96][2];
+			checkArray = new float[96][2][1][1];
+
+			for (int sex = 0; sex < 2; sex++)
+				for (int age = 0; age < 96; age++)
+					 {
+
+						returnArray1[age][sex] = 0;
+						checkArray[age][sex][0][0] = 0;
+					}
+
+		
+			for (ConfigurationNode rootChild : rootChildren) {
+				returnArray1 = handleRootChild(rootChild, returnArray1,
+						valueTagName, selectionTagName, selectionValue);
+
+			} // end loop for rootChildren
+
+			/*
+			 * check whether the data are complete assuming that the numbering
+			 * of categories is allowed to start at minIndex (not necessarily
+			 * zero) but then there should be no gaps
+			 */
+
+			
+				for (int sex = 0; sex < 2; sex++)
+					for (int age = 0; age < 96; age++) {
+						if (checkArray[age][sex][0][0] != 1)
+							throw new DynamoConfigurationException(
+									"no value read in parameter file "
+											+ fileName + " for age=" + age
+											+ " sex=" + sex
+										);
+
+					}
+			
+			return returnArray1;
+			
+		} catch (DynamoConfigurationException exception) {
+			log
+					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
+							+ " with message: "
+							+ exception.getMessage()
+							+ "from file " + fileName);
+			exception.printStackTrace();
+			return null;
+		} catch (ConfigurationException e) {
+			log.error("Caught Exception of type: " + e.getClass().getName()
+					+ " with message: " + e.getMessage() + "from file "
+					+ fileName);
+			e.printStackTrace();
+			throw new DynamoConfigurationException("Caught Exception of type: "
+					+ e.getClass().getName() + " with message: "
+					+ e.getMessage() + "from file " + fileName);
+
+		} catch (Exception exception) {
+			log.error("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage() + "from file " + fileName);
+			exception.printStackTrace();
+			return null;
+		}
+	}
+
+
+	
+	
+	
+	/**
+	 * the method reads in the most inner group of values when containing four
+	 * values and selecting only one element for reading into a two dimensional array
+	 * 
+	 * @param rootChild
+	 *            : the element contain the inner group of values
+	 * @param arrayToBeFilled
+	 *            : the array to be filled (often already partly filled)
+	 * @param valueTagName
+	 *            : tag for value to read
+	 * @param selectionTagName
+	 *            the tag name of the value used for the selection
+	 * @param selectionValue
+	 *            : value to be selected
+	 
+	 * @return array to which the newly read value has been added
+	 * @throws ConfigurationException
+	 */
+	public float[][] handleRootChild(ConfigurationNode rootChild,
+			float[][] arrayToBeFilled, String valueTagName,
+			String selectionTagName, int selectionValue) throws DynamoConfigurationException {
+		// String rootChildName = rootChild.getName();
+		// Object rootChildValueObject = rootChild.getValue();
+		Integer age = null;
+		Integer sex = null;
+		Float value = null;
+		Integer index = null;
+		boolean sexRead = false;
+		boolean ageRead = false;
+		boolean indexRead = false;
+		boolean valueRead = false;
+		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+				.getChildren();
+		for (ConfigurationNode leafChild : leafChildren) {
+			// log.debug("Handle leafChild: " + leafChild.getName());
+			String leafName = leafChild.getName();
+			Object valueObject = leafChild.getValue();
+
+			if (valueObject instanceof String) {
+				String valueString = (String) valueObject;
+				if ("age".equalsIgnoreCase(leafName)) {
+
+					age = getIntegerValue(valueString, "age");
+					ageRead = true;
+
+				} else {
+					if ("sex".equalsIgnoreCase(leafName)) {
+
+						sex = getIntegerValue(valueString, "sex");
+						sexRead = true;
+
+					} else {
+						if (selectionTagName.equalsIgnoreCase(leafName)) {
+
+							index = getIntegerValue(valueString, selectionTagName);
+							indexRead = true;
+							if (index!=selectionValue) break;
+						} else
+
+						if (valueTagName.equalsIgnoreCase(leafName)) {
+                        try{
+							value = getFloatValue(valueString, valueTagName);
+							valueRead = true;}
+                        /*
+                         * here the value can be empty, so ignore the exception thrown in this case
+                         */
+                        catch (DynamoConfigurationException e){}
+							
+						} 
+						
+					}
+				}
+			} else {
+				throw new DynamoConfigurationException("Value: "  + value +
+						" is no String!");
+			}
+		} // for leafChildren
+		if (index==selectionValue&&!(ageRead && sexRead && valueRead && indexRead))
+			throw new DynamoConfigurationException(
+					"No value found when selecting values for class " + index
+					+" when processing value for age " + age
+							+ " sex: " + sex 
+							+ "\nValue found: " + value);
+		if (index==selectionValue&& arrayToBeFilled[age][sex] != 0) {
+			throw new DynamoConfigurationException("Duplicate value for age: "
+					+ age + " sex: " + sex + " index: " + index
+					+ "\nPresentValue: " + arrayToBeFilled[age][sex]
+					+ " newValue: " + value);
+		} else {
+			if (index==selectionValue&& age >= arrayToBeFilled.length)
+				throw new DynamoConfigurationException(
+						"Value for age is to large: " + age + "for sex: " + sex
+								+ " index: " + index);
+			else
+				if (index==selectionValue) {arrayToBeFilled[age][sex] = value;
+			checkArray[age][sex][0][0]++;
+			if (detailedDebug)
+				log.debug("Processing value for age: " + age + " sex: " + sex
+						+ " selecting category: " + index + " value: " + value);}
+		}
+		return arrayToBeFilled;
+
+	}
+
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * the method produces a four dimensional array from flat XML containing
 	 * particular model parameters by age, sex and two other dimensions.
@@ -719,18 +964,21 @@ public class ArraysFromXMLFactory {
 				String valueString = (String) valueObject;
 				if ("age".equalsIgnoreCase(leafName)) {
 
-					age = getIntegerValue(valueString, value2TagName);
+					age = getIntegerValue(valueString, "age");
 					;
 					ageRead = true;
 				} else {
 					if ("sex".equalsIgnoreCase(leafName)) {
 
-						sex = getIntegerValue(valueString, value2TagName);
+						sex = getIntegerValue(valueString, "sex");
 						sexRead = true;
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
 
-							index1 = Integer.parseInt(valueString);
+							
+							index1 = getIntegerValue(valueString,
+									value1TagName);
+							
 							index1Read = true;
 						} else {
 
@@ -745,7 +993,7 @@ public class ArraysFromXMLFactory {
 							if (value3TagName.equalsIgnoreCase(leafName)) {
 
 								value = getFloatValue(valueString,
-										value2TagName);
+										value3TagName);
 								valueRead = true;
 							} else
 
@@ -804,9 +1052,10 @@ public class ArraysFromXMLFactory {
 			throws DynamoConfigurationException {
 		float returnvalue = 0;
 
-		if (value == null)
+		if (value == null|| value==""||value.length()==0)
 			throw new DynamoConfigurationException("no value found with " + tag);
 		else
+			
 			returnvalue = Float.parseFloat(value);
 		return returnvalue;
 
