@@ -7,20 +7,15 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
-import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.DiseaseIncidencesGroup;
-import nl.rivm.emi.dynamo.ui.panels.DiseasePrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
-import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
-import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
-import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
+import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalPrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
+import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -35,50 +30,54 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RiskFactorCategoricalModal implements Runnable, DataAndFileContainer {
+public class RiskFactorCategoricalPrevalencesModal implements Runnable,
+		DataAndFileContainer {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private Shell shell;
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private RiskFactorCategoricalObject modelObject;
+	private TypedHashMap modelObject;
 	private DataBindingContext dataBindingContext = null;
-	private String configurationFilePath;
+	private String riskFactorCategoricalPrevalencesFilePath;
 	private String rootElementName;
 	private HelpGroup helpPanel;
 	private BaseNode selectedNode;
 
-	public RiskFactorCategoricalModal(Shell parentShell, String configurationFilePath,
+	public RiskFactorCategoricalPrevalencesModal(Shell parentShell,
+			String riskFactorCategoricalPrevalencesFilePath,
 			String rootElementName, BaseNode selectedNode) {
-		this.configurationFilePath = configurationFilePath;
+		this.riskFactorCategoricalPrevalencesFilePath = riskFactorCategoricalPrevalencesFilePath;
 		this.rootElementName = rootElementName;
 		this.selectedNode = selectedNode;
 		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
-		shell.setText(createCaption(selectedNode));
+		shell.setText(createCaption((BaseNode) ((ChildNode) selectedNode)
+				.getParent()));
 		FormLayout formLayout = new FormLayout();
 		shell.setLayout(formLayout);
 	}
 
 	private String createCaption(BaseNode selectedNode2) {
-		return "Categorical risk factor configuration";
+		return "Prevalences for a categorical riskfactor.";
 	}
 
 	public synchronized void open() {
 		try {
 			dataBindingContext = new DataBindingContext();
-			modelObject = new RiskFactorCategoricalObject(true);
-			modelObject = modelObject.manufacture(configurationFilePath);
+			modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			RiskFactorCategoricalGroup riskFactorCategoricalGroup = new RiskFactorCategoricalGroup(
-					shell, modelObject, dataBindingContext, selectedNode, helpPanel);
-			riskFactorCategoricalGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+			RiskFactorCategoricalPrevalencesGroup relRiskFromRiskFactorCategoricalGroup = new RiskFactorCategoricalPrevalencesGroup(
+					shell, modelObject, dataBindingContext, selectedNode,
+					helpPanel);
+			relRiskFromRiskFactorCategoricalGroup.setFormData(helpPanel
+					.getGroup(), buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {
@@ -87,15 +86,52 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 			}
 		} catch (ConfigurationException e) {
 			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			box.setText("Processing "
+					+ riskFactorCategoricalPrevalencesFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		} catch (DynamoInconsistentDataException e) {
 			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			box.setText("Processing "
+					+ riskFactorCategoricalPrevalencesFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		}
+	}
+
+	private TypedHashMap manufactureModelObject()
+			throws ConfigurationException, DynamoInconsistentDataException {
+		TypedHashMap producedData = null;
+		AgnosticFactory factory = FactoryProvider
+				.getRelevantFactoryByRootNodeName(rootElementName);
+		if (factory == null) {
+			throw new ConfigurationException(
+					"No Factory found for rootElementName: " + rootElementName);
+		}
+		File riskFactorCategoricalPrevalencesFile = new File(
+				riskFactorCategoricalPrevalencesFilePath);
+		if (riskFactorCategoricalPrevalencesFile.exists()) {
+			if (riskFactorCategoricalPrevalencesFile.isFile()
+					&& riskFactorCategoricalPrevalencesFile.canRead()) {
+				producedData = factory
+						.manufactureObservable(riskFactorCategoricalPrevalencesFile);
+				if (producedData == null) {
+					throw new ConfigurationException(
+							"DataModel could not be constructed.");
+				}
+			} else {
+				throw new ConfigurationException(
+						riskFactorCategoricalPrevalencesFilePath
+								+ " is no file or cannot be read.");
+			}
+		} else {
+			int numberOfClasses = RiskSourcePropertiesMapFactory
+					.getNumberOfRiskFactorClasses(selectedNode);
+			((RiskFactorCategoricalPrevalencesFactory) factory)
+					.setNumberOfCategories(numberOfClasses);
+			producedData = factory.manufactureObservableDefault();
+		}
+		return producedData;
 	}
 
 	public void run() {
@@ -115,7 +151,7 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 	}
 
 	public String getFilePath() {
-		return configurationFilePath;
+		return riskFactorCategoricalPrevalencesFilePath;
 	}
 
 	public Object getRootElementName() {

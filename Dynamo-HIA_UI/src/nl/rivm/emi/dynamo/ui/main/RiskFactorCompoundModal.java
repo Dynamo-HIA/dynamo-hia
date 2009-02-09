@@ -18,7 +18,7 @@ import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelativeRiskForDeathGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCompoundGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;

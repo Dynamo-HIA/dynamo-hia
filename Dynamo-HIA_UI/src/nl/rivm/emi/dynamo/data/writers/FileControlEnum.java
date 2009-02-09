@@ -36,6 +36,8 @@ public enum FileControlEnum {
 	RELRISKFORDEATHCATEGORICAL(FileControlEnumHelp.relRiskForDeathCatStrings), //
 	RELRISKFORDEATHCONTINUOUS(FileControlEnumHelp.relRiskForDeathContStrings), //
 	RISKFACTORCATEGORICAL(FileControlEnumHelp.riskFactorCategoricalStrings), //
+	RELRISKFORDISABILITYCATEGORICAL(FileControlEnumHelp.relRiskForDisabilityCatStrings), //
+	RELRISKFORDISABILITYCONTINUOUS(FileControlEnumHelp.relRiskForDisabilityContStrings), //
 	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings), //
 	INCIDENCES(FileControlEnumHelp.incidencesStrings), //
 	RELRISKFORRISKFACTORCATEGORICAL(

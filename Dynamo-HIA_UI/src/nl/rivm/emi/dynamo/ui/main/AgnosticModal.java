@@ -8,8 +8,6 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
-import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.DiseaseIncidencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.DiseasePrevalencesGroup;
@@ -18,7 +16,6 @@ import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
-import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -35,20 +32,20 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RiskFactorCategoricalModal implements Runnable, DataAndFileContainer {
-	private Log log = LogFactory.getLog(this.getClass().getName());
-	private Shell shell;
+abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
+	protected Shell shell;
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private RiskFactorCategoricalObject modelObject;
-	private DataBindingContext dataBindingContext = null;
-	private String configurationFilePath;
-	private String rootElementName;
-	private HelpGroup helpPanel;
-	private BaseNode selectedNode;
+	protected TypedHashMap lotsOfData;
+	protected DataBindingContext dataBindingContext = null;
+	protected String configurationFilePath;
+	protected String rootElementName;
+	protected HelpGroup helpPanel;
+	protected BaseNode selectedNode;
 
-	public RiskFactorCategoricalModal(Shell parentShell, String configurationFilePath,
+	public AgnosticModal(Shell parentShell, String configurationFilePath,
 			String rootElementName, BaseNode selectedNode) {
 		this.configurationFilePath = configurationFilePath;
 		this.rootElementName = rootElementName;
@@ -60,25 +57,20 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 		shell.setLayout(formLayout);
 	}
 
-	private String createCaption(BaseNode selectedNode2) {
-		return "Categorical risk factor configuration";
-	}
+	abstract protected String createCaption(BaseNode selectedNode2);
 
 	public synchronized void open() {
 		try {
 			dataBindingContext = new DataBindingContext();
-			modelObject = new RiskFactorCategoricalObject(true);
-			modelObject = modelObject.manufacture(configurationFilePath);
+			lotsOfData = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			RiskFactorCategoricalGroup riskFactorCategoricalGroup = new RiskFactorCategoricalGroup(
-					shell, modelObject, dataBindingContext, selectedNode, helpPanel);
-			riskFactorCategoricalGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+			specializedOpenPart(buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {
@@ -98,11 +90,40 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 		}
 	}
 
+	abstract protected void specializedOpenPart(Composite buttonPanel);
+
+	protected TypedHashMap manufactureModelObject()
+			throws ConfigurationException, DynamoInconsistentDataException {
+		TypedHashMap producedData = null;
+		AgnosticFactory factory = FactoryProvider
+				.getRelevantFactoryByRootNodeName(rootElementName);
+		if (factory == null) {
+			throw new ConfigurationException(
+					"No Factory found for rootElementName: " + rootElementName);
+		}
+		File configurationFile = new File(configurationFilePath);
+		if (configurationFile.exists()) {
+			if (configurationFile.isFile() && configurationFile.canRead()) {
+				producedData = factory.manufactureObservable(configurationFile);
+				if (producedData == null) {
+					throw new ConfigurationException(
+							"DataModel could not be constructed.");
+				}
+			} else {
+				throw new ConfigurationException(configurationFilePath
+						+ " is no file or cannot be read.");
+			}
+		} else {
+			producedData = factory.manufactureObservableDefault();
+		}
+		return producedData;
+	}
+
 	public void run() {
 		open();
 	}
 
-	static private void handlePlacementInContainer(Composite myComposite) {
+	static protected void handlePlacementInContainer(Composite myComposite) {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
@@ -111,7 +132,7 @@ public class RiskFactorCategoricalModal implements Runnable, DataAndFileContaine
 	}
 
 	public Object getData() {
-		return modelObject;
+		return lotsOfData;
 	}
 
 	public String getFilePath() {

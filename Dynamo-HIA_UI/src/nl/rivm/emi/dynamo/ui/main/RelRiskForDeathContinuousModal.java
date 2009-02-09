@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelativeRiskForDeathGroup;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -32,116 +32,24 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathContinuousModal implements Runnable, DataAndFileContainer {
-	private Log log = LogFactory.getLog(this.getClass().getName());
-	private Shell shell;
-	/**
-	 * Must be "global"to be available to the save-listener.
-	 */
-	private TypedHashMap lotsOfData;
-	private DataBindingContext dataBindingContext = null;
-	private String configurationFilePath;
-	private String rootElementName;
-	private HelpGroup helpPanel;
-	private BaseNode selectedNode;
+public class RelRiskForDeathContinuousModal extends AgnosticModal implements
+		Runnable, DataAndFileContainer {
 
-	public RelRiskForDeathContinuousModal(Shell parentShell, String configurationFilePath,
-			String rootElementName, BaseNode selectedNode) {
-		this.configurationFilePath = configurationFilePath;
-		this.rootElementName = rootElementName;
-		this.selectedNode = selectedNode;
-		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
-				| SWT.RESIZE);
-		shell.setText(createCaption(selectedNode));
-		FormLayout formLayout = new FormLayout();
-		shell.setLayout(formLayout);
+	public RelRiskForDeathContinuousModal(Shell parentShell,
+			String configurationFilePath, String rootElementName,
+			BaseNode selectedNode) {
+		super(parentShell, configurationFilePath, rootElementName, selectedNode);
 	}
 
-	private String createCaption(BaseNode selectedNode2) {
+	protected String createCaption(BaseNode selectedNode2) {
 		return "Relative risk for death, continuous,";
 	}
 
-	public synchronized void open() {
-		try {
-			dataBindingContext = new DataBindingContext();
-			lotsOfData = manufactureModelObject();
-			Composite buttonPanel = new GenericButtonPanel(shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			helpPanel = new HelpGroup(shell, buttonPanel);
-			RelativeRiskForDeathGroup relativeRiskForDeathGroup = new RelativeRiskForDeathGroup(
-					shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
-			relativeRiskForDeathGroup.setFormData(helpPanel.getGroup(), buttonPanel);
-			shell.pack();
-			// This is the first place this works.
-			shell.setSize(900, 700);
-			shell.open();
-			Display display = shell.getDisplay();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
-	}
-
-	private TypedHashMap manufactureModelObject()
-			throws ConfigurationException, DynamoInconsistentDataException {
-		TypedHashMap producedData = null;
-		AgnosticFactory factory = FactoryProvider
-				.getRelevantFactoryByRootNodeName(rootElementName);
-		if (factory == null) {
-			throw new ConfigurationException(
-					"No Factory found for rootElementName: " + rootElementName);
-		}
-		File configurationFile = new File(configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile);
-				if (producedData == null) {
-					throw new ConfigurationException(
-							"DataModel could not be constructed.");
-				}
-			} else {
-				throw new ConfigurationException(configurationFilePath
-						+ " is no file or cannot be read.");
-			}
-		} else {
-			producedData = factory.manufactureObservableDefault();
-		}
-		return producedData;
-	}
-
-	public void run() {
-		open();
-	}
-
-	static private void handlePlacementInContainer(Composite myComposite) {
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.top = new FormAttachment(0, -5);
-		myComposite.setLayoutData(formData);
-	}
-
-	public Object getData() {
-		return lotsOfData;
-	}
-
-	public String getFilePath() {
-		return configurationFilePath;
-	}
-
-	public Object getRootElementName() {
-		return rootElementName;
+	@Override
+	protected void specializedOpenPart(Composite buttonPanel) {
+		RelRisksForDeathContinuousGroup relativeRiskForDeathGroup = new RelRisksForDeathContinuousGroup(
+				shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
+		relativeRiskForDeathGroup
+				.setFormData(helpPanel.getGroup(), buttonPanel);
 	}
 }

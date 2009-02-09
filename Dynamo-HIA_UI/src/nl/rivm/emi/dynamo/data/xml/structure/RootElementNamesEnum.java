@@ -35,9 +35,12 @@ public enum RootElementNamesEnum {
 	RISKFACTORPREVALENCES_CATEGORICAL("riskfactorprevalences_categorical", null), //
 	RISKFACTORPREVALENCES_CONTINUOUS("riskfactorprevalences_continuous", null), //
 	RISKFACTORPREVALENCES_DURATION("riskfactorprevalences_duration", null), //
-	RELATIVERISKSFORDEATH_CATEGORICAL("relativerisksfordeath_categorical", null), //
-	RELATIVERISKSFORDEATH_CONTINUOUS("relativerisksfordeath_continuous", null), //
-	RELATIVERISKSFORDEATH_COMPOUND("relativerisksfordeath_compound", null), //
+	RELATIVERISKSFORDEATH_CATEGORICAL("relrisksfordeath_categorical", null), //
+	RELATIVERISKSFORDEATH_CONTINUOUS("relrisksfordeath_continuous", null), //
+	RELATIVERISKSFORDEATH_COMPOUND("relrisksfordeath_compound", null), //
+	RELATIVERISKSFORDISABILITY_CATEGORICAL("relrisksfordisability_categorical", null), //
+	RELATIVERISKSFORDISABILITY_CONTINUOUS("relrisksfordisability_continuous", null), //
+	RELATIVERISKSFORDISABILITY_COMPOUND("relrisksfordisability_compound", null), //
 	DISEASEPREVALENCES("diseaseprevalences", null), //
 	DISEASEINCIDENCES("diseaseincidences", null), //
 	EXCESSMORTALITY("excessmortality", null), //

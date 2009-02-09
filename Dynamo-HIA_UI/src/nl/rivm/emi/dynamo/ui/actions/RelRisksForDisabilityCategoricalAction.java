@@ -5,7 +5,7 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -22,10 +22,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class NewRiskFactorPrevalencesAction extends ActionBase {
+public class RelRisksForDisabilityCategoricalAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	public NewRiskFactorPrevalencesAction(Shell shell, TreeViewer v,
+	public RelRisksForDisabilityCategoricalAction(Shell shell, TreeViewer v,
 			BaseNode selectedNode) {
 		super(shell, v, selectedNode, "aBSTRACT");
 	}
@@ -37,7 +37,7 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 				String selectionPath = node.getPhysicalStorage()
 						.getAbsolutePath();
 				String candidatePath = selectionPath + File.separator
-						+ "prevalence.xml";
+						+ "relriskfordisability.xml";
 				File file = new File(candidatePath);
 				if (file != null) {
 					if (file.exists()) {
@@ -47,9 +47,9 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 								+ "\"\n exists already.");
 						alreadyExistsMessageBox.open();
 					} else {
-						String rootElementName = ConfigurationFileUtil
+						String configurationRootElementName = ConfigurationFileUtil
 								.extractRootElementNameFromChildConfiguration(node);
-						processThroughModal(file, rootElementName);
+						processThroughModal(file, configurationRootElementName);
 					}
 				}
 			} else {
@@ -68,43 +68,43 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File file, String rootElementName) {
+	private void processThroughModal(File file, String configurationRootElementName) {
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
-			if (rootElementName == null) {
+			if (configurationRootElementName == null) {
 				MessageBox messageBox = new MessageBox(shell,
 						SWT.ERROR_NULL_ARGUMENT);
 				messageBox.setMessage("No rootelementname selected.");
 				messageBox.open();
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
-						.equals(rootElementName)) {
-					theModal = new RiskFactorCategoricalPrevalencesModal(
+						.equals(configurationRootElementName)) {
+					theModal = new RelRiskForDisabilityCategoricalModal(
 							shell,
 							file.getAbsolutePath(),
-							RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+							RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
 									.getNodeLabel(), node);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-							.getNodeLabel().equals(rootElementName)) {
+							.getNodeLabel().equals(configurationRootElementName)) {
 						MessageBox messageBox = new MessageBox(shell,
 								SWT.ERROR_NOT_IMPLEMENTED);
-						messageBox.setMessage("\"" + rootElementName
+						messageBox.setMessage("\"" + configurationRootElementName
 								+ "\" not yet implemented.");
 						messageBox.open();
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
-								.getNodeLabel().equals(rootElementName)) {
+								.getNodeLabel().equals(configurationRootElementName)) {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_NOT_IMPLEMENTED);
-							messageBox.setMessage("\"" + rootElementName
+							messageBox.setMessage("\"" + configurationRootElementName
 									+ "\" not yet implemented.");
 							messageBox.open();
 						} else {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_UNSUPPORTED_FORMAT);
-							messageBox.setMessage("\"" + rootElementName
+							messageBox.setMessage("\"" + configurationRootElementName
 									+ "\" not supported.");
 							messageBox.open();
 						}

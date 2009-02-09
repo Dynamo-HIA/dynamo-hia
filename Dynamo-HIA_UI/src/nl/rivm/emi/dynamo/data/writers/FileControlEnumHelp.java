@@ -59,6 +59,13 @@ public class FileControlEnumHelp {
 	static final String[] relRiskForDeathContStrings = {RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS.getNodeLabel(),
 			"relriskfordeath", "age", "sex", "value" };
 	/* W23Cmp */
+	/* W23Cat */
+	static final String[] relRiskForDisabilityCatStrings = {RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL.getNodeLabel(),
+			"relriskfordisability", "age", "sex", "cat", "value" };
+	/* W23Con */
+	static final String[] relRiskForDisabilityContStrings = {RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS.getNodeLabel(),
+			"relriskfordisability", "age", "sex", "value" };
+	/* W23Cmp */
 	/* W31 */
 	static final String[] diseasePrevalencesStrings = {RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
 			"prevalence", "age", "sex", "percent" };

@@ -254,30 +254,41 @@ public class RiskSourcePropertiesMapFactory {
 		if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
 				((BaseNode) grandParentNode).deriveNodeLabel())) {
 			Object[] children = parentNode.getChildren();
-			for (Object childNode : children) {
-				String childNodeLabel = ((BaseNode) childNode)
-						.deriveNodeLabel();
-				if ("configuration".equals(childNodeLabel)) {
-					File configurationFile = ((BaseNode) childNode)
-							.getPhysicalStorage();
-					String rootElementName = ConfigurationFileUtil
-							.extractRootElementName(configurationFile);
-					if ((rootElementName != null)
-							&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-									.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
-									.getNodeLabel().equals(rootElementName)))) {
-						numberOfCategories = ConfigurationFileUtil
-								.extractNumberOfClasses(configurationFile);
-					} else {
-						numberOfCategories = new Integer(0);
-					}
-					break;
-				}
-			}
+			numberOfCategories = findNumberOfCategories(children);
 		} else {
-			throw new ConfigurationException(
-					"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
-							+ selectedNode.deriveNodeLabel());
+			if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
+					((BaseNode) parentNode).deriveNodeLabel())) {
+				Object[] children = ((ParentNode) selectedNode).getChildren();
+				numberOfCategories = findNumberOfCategories(children);
+			} else {
+				throw new ConfigurationException(
+						"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
+								+ selectedNode.deriveNodeLabel());
+			}
+		}
+		return numberOfCategories;
+	}
+
+	private static Integer findNumberOfCategories(Object[] children) {
+		Integer numberOfCategories = null;
+		for (Object childNode : children) {
+			String childNodeLabel = ((BaseNode) childNode).deriveNodeLabel();
+			if ("configuration".equals(childNodeLabel)) {
+				File configurationFile = ((BaseNode) childNode)
+						.getPhysicalStorage();
+				String rootElementName = ConfigurationFileUtil
+						.extractRootElementName(configurationFile);
+				if ((rootElementName != null)
+						&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+								.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
+								.getNodeLabel().equals(rootElementName)))) {
+					numberOfCategories = ConfigurationFileUtil
+							.extractNumberOfClasses(configurationFile);
+				} else {
+					numberOfCategories = new Integer(0);
+				}
+				break;
+			}
 		}
 		return numberOfCategories;
 	}

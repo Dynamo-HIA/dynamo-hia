@@ -41,8 +41,9 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			Object modelObject = modalParent
 					.getData();
 			if(!(modelObject instanceof IStaxEventContributor)){
+				Object rootElementName = modalParent.getRootElementName();
 			StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
-					.getInstance().get(modalParent.getRootElementName()),
+					.getInstance().get(rootElementName),
 					(TypedHashMap) modelObject, configurationFile);
 			} else {
 				((StaxWriterEntryPoint)modelObject).writeToFile(configurationFile);

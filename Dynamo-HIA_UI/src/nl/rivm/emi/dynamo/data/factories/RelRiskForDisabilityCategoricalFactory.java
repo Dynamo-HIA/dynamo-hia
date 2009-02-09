@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.factories;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalPrevalencesObject;
+import nl.rivm.emi.dynamo.data.objects.RelRiskForDisabilityCategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
@@ -15,34 +15,32 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
+public class RelRiskForDisabilityCategoricalFactory extends AgnosticFactory
 		implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	private Integer numberOfCategories = null;
+	Integer numberOfCategories = null;
+
 
 	public void setNumberOfCategories(Integer numberOfCategories) {
 		this.numberOfCategories = numberOfCategories;
 	}
 
-	public RiskFactorCategoricalPrevalencesObject manufactureObservable(
-			File configurationFile) throws ConfigurationException,
-			DynamoInconsistentDataException {
+	public RelRiskForDisabilityCategoricalObject manufactureObservable(
+			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return new RiskFactorCategoricalPrevalencesObject(manufacture(
+		return new RelRiskForDisabilityCategoricalObject(manufacture(
 				configurationFile, true));
 	}
 
-	public RiskFactorCategoricalPrevalencesObject manufacture(
-			File configurationFile) throws ConfigurationException,
-			DynamoInconsistentDataException {
+	public RelRiskForDisabilityCategoricalObject manufacture(File configurationFile)
+			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
-		RiskFactorCategoricalPrevalencesObject result = new RiskFactorCategoricalPrevalencesObject(
+		RelRiskForDisabilityCategoricalObject result = new RelRiskForDisabilityCategoricalObject(
 				producedMap);
 		return (result);
 	}
-
 
 	@Override
 	public TypedHashMap manufactureDefault() throws ConfigurationException {
@@ -55,7 +53,7 @@ public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
 		return manufactureDefault(true);
 	}
 
-	private RiskFactorCategoricalPrevalencesObject manufactureDefault(
+	public RelRiskForDisabilityCategoricalObject manufactureDefault(
 			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
@@ -70,7 +68,8 @@ public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("value"), null));
-		return new RiskFactorCategoricalPrevalencesObject(super
-				.manufactureDefault(leafNodeList, makeObservable));
+		return new RelRiskForDisabilityCategoricalObject(super.manufactureDefault(
+				leafNodeList, makeObservable));
 	}
+
 }

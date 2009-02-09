@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.menu;
+package nl.rivm.emi.dynamo.ui.treecontrol.menu;
 
 /**
  * TODO Get rootelement-names from the FileControlEnum.
@@ -6,9 +6,7 @@ package nl.rivm.emi.dynamo.ui.menu;
  */
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
-import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
@@ -16,7 +14,6 @@ import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
-import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -24,16 +21,12 @@ import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.ContextMenuFactory;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.dialogs.NewFolderDialog;
 
 public class StorageTreeMenuFactory {
 
@@ -537,8 +530,16 @@ public class StorageTreeMenuFactory {
 											manager.add(action);
 										} else {
 											if ("prevalence".equals(nodeLabel)) {
-												addDummy(manager, selection,
-														"riskfactors-prevalence.xml");
+												String rootElementName = ConfigurationFileUtil
+														.extractRootElementName(node
+																.getPhysicalStorage());
+												XMLFileAction action = new XMLFileAction(
+														shell, treeViewer,
+														(BaseNode) node, node
+																.toString(),
+														rootElementName);
+												action.setText("Edit");
+												manager.add(action);
 											} else {
 												if ("durationdistribution"
 														.equals(nodeLabel)) {
@@ -546,15 +547,40 @@ public class StorageTreeMenuFactory {
 															selection,
 															"riskfactors-durationdistribution.xml");
 												} else {
-													if ("relriskofdeath"
+													if ("relriskfordeath"
 															.equals(nodeLabel)) {
-														addDummy(manager,
-																selection,
-																"riskfactors-relriskofdeath.xml");
+														String rootElementName = ConfigurationFileUtil
+																.extractRootElementName(node
+																		.getPhysicalStorage());
+														XMLFileAction action = new XMLFileAction(
+																shell,
+																treeViewer,
+																(BaseNode) node,
+																node.toString(),
+																rootElementName);
+														action.setText("Edit");
+														manager.add(action);
 													} else {
-														addDummy(manager,
-																selection,
-																"Not implemented (yet)");
+														if ("relriskfordisability"
+																.equals(nodeLabel)) {
+															String rootElementName = ConfigurationFileUtil
+																	.extractRootElementName(node
+																			.getPhysicalStorage());
+															XMLFileAction action = new XMLFileAction(
+																	shell,
+																	treeViewer,
+																	(BaseNode) node,
+																	node
+																			.toString(),
+																	rootElementName);
+															action
+																	.setText("Edit");
+															manager.add(action);
+														} else {
+															addDummy(manager,
+																	selection,
+																	"Not implemented (yet)");
+														}
 													}
 												}
 											}

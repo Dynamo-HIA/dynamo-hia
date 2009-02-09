@@ -5,6 +5,8 @@ import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -15,11 +17,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class RiskFactorCategoricalGroup {
+	Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
 
 	public RiskFactorCategoricalGroup(Shell shell, RiskFactorCategoricalObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) {
+		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

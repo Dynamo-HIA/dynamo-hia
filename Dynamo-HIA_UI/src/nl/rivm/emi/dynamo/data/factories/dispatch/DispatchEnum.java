@@ -15,9 +15,11 @@ import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
@@ -74,7 +76,7 @@ public enum DispatchEnum {
 	/* W22CatCom */
 
 	RISKFACTORPREVALENCES_CATEGORICAL(RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL.getNodeLabel(),
-			new DummyPlaceholderFactory(), null), // TODO
+			new RiskFactorCategoricalPrevalencesFactory(), null), // TODO
 	/* W22Con */
 	RISKFACTORPREVALENCES_CONTINUOUS(RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS.getNodeLabel(),
 			new DummyPlaceholderFactory(), null), // TODO
@@ -90,6 +92,15 @@ public enum DispatchEnum {
 	/* W23Cmp */
 	RELRISKFORDEATH_COMPOUND(RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
 			new DummyPlaceholderFactory(), null), // TODO
+			/* W23Cat */
+			RELRISKFORDISABLITY_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL.getNodeLabel(),
+					new RelRiskForDisabilityCategoricalFactory(), null),
+			/* W23Con */
+			RELRISKFORDISABLITY_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS.getNodeLabel(),
+					new DummyPlaceholderFactory(), null),
+			/* W23Cmp */
+			RELRISKFORDISABLITY_COMPOUND(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND.getNodeLabel(),
+					new DummyPlaceholderFactory(), null), // TODO
 	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(), new DiseasePrevalencesFactory(), null), // TODO
 	/* W32 */
 	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(), new DiseaseIncidencesFactory(), null),

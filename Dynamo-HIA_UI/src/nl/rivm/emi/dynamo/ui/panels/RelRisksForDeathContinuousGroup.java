@@ -13,10 +13,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelativeRiskForDeathGroup {
+public class RelRisksForDeathContinuousGroup {
 	Group theGroup;
 
-	public RelativeRiskForDeathGroup(Shell shell, TypedHashMap lotsOfData,
+	public RelRisksForDeathContinuousGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
@@ -26,7 +26,7 @@ public class RelativeRiskForDeathGroup {
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
 				entityArray[0], entityArray[1]);
 		entityNameGroup.putInContainer();
-		RelativeRiskForDeathParameterGroup parameterGroup = new RelativeRiskForDeathParameterGroup(
+		RelRisksForDeathContinuousParameterGroup parameterGroup = new RelRisksForDeathContinuousParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 	}

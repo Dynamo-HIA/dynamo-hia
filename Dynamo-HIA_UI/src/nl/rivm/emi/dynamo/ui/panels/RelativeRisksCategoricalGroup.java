@@ -1,13 +1,17 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
+import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.containers.AgeMap;
+import nl.rivm.emi.dynamo.data.containers.SexMap;
+import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -16,15 +20,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-public class RiskFactorCategoricalPrevalencesGroup {
-	Log log = LogFactory.getLog(this.getClass().getName());
+public class RelativeRisksCategoricalGroup {
 	Group theGroup;
 
-	public RiskFactorCategoricalPrevalencesGroup(Shell shell,
+	public RelativeRisksCategoricalGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, HelpGroup helpGroup)
+			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup)
 			throws ConfigurationException {
-		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -33,7 +35,7 @@ public class RiskFactorCategoricalPrevalencesGroup {
 		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
 				entityStrings[0], entityStrings[1]);
 		entityNamePanel.putInContainer();
-		RiskFactorCategoricalPrevalencesParameterGroup parameterGroup = new RiskFactorCategoricalPrevalencesParameterGroup(
+		RelativeRisksCategoricalParameterGroup parameterGroup = new RelativeRisksCategoricalParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNamePanel.group);
 	}
