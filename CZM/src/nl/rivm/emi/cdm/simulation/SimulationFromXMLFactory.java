@@ -17,7 +17,9 @@ public class SimulationFromXMLFactory {
 	 * Currently implemented structure. <?xml version="1.0" encoding="UTF-8"?>
 	 * <sim lb="netalsof"> <timestep>nnn</timestep> <runmode>longitudinal</runmode>
 	 * <stepsbetweensaves>nnnnn</stepsbetweensaves> <stepsinrun>nnnn</stepsinrun>
-	 * <stoppingcondition/> <pop lb="manipel"/> <updaterules>
+	 * <stoppingcondition/> <pop lb="manipel"/> 
+	 * <newborns>filename</newborns> // added by Hendriek
+	 * <updaterules>
 	 * <updaterule>classname</updaterule> <updaterule>classname</updaterule>
 	 * <updaterule>classname</updaterule> <updaterule>classname</updaterule>
 	 * </updaterules> </sim>
@@ -37,6 +39,8 @@ public class SimulationFromXMLFactory {
 	public static final String stoppingConditionLabel = "stoppingcondition";
 
 	public static final String populationLabel = "pop";
+	/* next line added by hendriek */ 
+	public static final String newBornLabel = "newborns";
 
 	public static Simulation manufacture_DOMPopulationTree(
 			HierarchicalConfiguration simulationConfiguration)
@@ -49,6 +53,9 @@ public class SimulationFromXMLFactory {
 		handleStepsInRun(simulationConfiguration, simulation);
 		handleStoppingCondition(simulationConfiguration, simulation);
 		handlePopulation_DOMTree(simulationConfiguration, simulation);
+		/* added by Hendriek */
+		handleNewBorn_DOMTree(simulationConfiguration, simulation);
+		/* end addition */
 		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
 				.manufacture(simulationConfiguration, simulation));
 		return simulation;
@@ -102,6 +109,23 @@ public class SimulationFromXMLFactory {
 					CDMConfigurationException.noSimulationPopulationMessage);
 		}
 	}
+	
+	// added by Hendriek ;
+	private static void handleNewBorn_DOMTree(
+			HierarchicalConfiguration simulationConfiguration,
+			Simulation simulation) throws ConfigurationException {
+		try {
+			String newbornFileName = simulationConfiguration
+					.getString(newBornLabel);
+			if (newbornFileName != null) 
+				
+			simulation.setNewBornPopulationByFileName_DOM(newbornFileName);
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noSimulationPopulationMessage);
+		}
+	}
+	
 
 	private static void handleStoppingCondition(
 			HierarchicalConfiguration simulationConfiguration,

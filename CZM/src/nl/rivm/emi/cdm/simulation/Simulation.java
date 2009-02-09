@@ -1,8 +1,13 @@
 package nl.rivm.emi.cdm.simulation;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,10 +27,11 @@ import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
+import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
-import nl.rivm.emi.cdm.rules.update.dynamo.ManyToOneUpdateRuleBase;
+
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -74,6 +80,13 @@ public class Simulation extends DomLevelTraverser {
 	 * Population to use.
 	 */
 	private Population population = null;
+	
+	/* added by Hendriek */
+	/**
+	 * Newborn Population to use.
+	 */
+	private Population newBorns = null;
+
 
 	/**
 	 * Configured updaterules.
@@ -206,15 +219,56 @@ public class Simulation extends DomLevelTraverser {
 		this.label = label;
 	}
 
+	
+
+	/* added by hendriek */
+	public void setNewBornPopulationByFileName_DOM(String populationFileName)
+	throws ConfigurationException {
+		setNewBornPopulationByFileName_DOM(populationFileName,0);
+		
+	}
+	
+	public void setNewBornPopulationByFileName_DOM(String populationFileName,int generation)
+	throws ConfigurationException {
+File populationFile = new File(populationFileName);
+if (populationFile.exists() && populationFile.isFile()
+		&& populationFile.canRead()) {
+	DOMBootStrap domBoot = new DOMBootStrap();
+	try {
+		newBorns = domBoot.process2PopulationTree(populationFile,
+				this.stepsInRun,generation);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		throw new ConfigurationException(
+				"Error reading populationfile " + populationFileName
+						+ ", Exception thrown: "
+						+ e.getClass().getName() + " message "
+						+ e.getMessage());
+	}
+} else {
+	throw new ConfigurationException("Populationfile "
+			+ populationFileName + ", does not exist or is no file.");
+
+}
+}
+
+	
+	/* end added by hendriek */
+	
 	public void setPopulationByFileName_DOM(String populationFileName)
 			throws ConfigurationException {
 		File populationFile = new File(populationFileName);
 		if (populationFile.exists() && populationFile.isFile()
 				&& populationFile.canRead()) {
 			DOMBootStrap domBoot = new DOMBootStrap();
+			/* changed by hendriek to include the generation (for use of newborns */
+			/* so process2PopulationTree takes an extra parameter
+			 * 0, for generation=0 
+			 */
 			try {
 				population = domBoot.process2PopulationTree(populationFile,
-						this.stepsInRun);
+						this.stepsInRun,0);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -323,21 +377,43 @@ public class Simulation extends DomLevelTraverser {
 
 	private void runLongitudinal() throws CDMRunException {
 		Iterator<Individual> individualIterator = population.iterator();
-		int count = 0;
 		while (individualIterator.hasNext()) {
 			Individual individual = individualIterator.next();
-			if(count % 100 == 0){
-			log.warn("Longitudinal: Processing individual # "
-					+ count /* individual.getLabel()*/ + " at " + System.currentTimeMillis());
-			}
-			count++;
+			log.debug("Longitudinal: Processing individual "
+					+ individual.getLabel());
 			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 				processCharVals(individual);
 			}
 		}
-		log.warn("Longitudinal: Done processing "+ count + " individuals at " + System.currentTimeMillis());
-
+		
+		
+		
 	}
+	
+	/* added by Hendriek : also run the newborns*/
+	private void runNewborns() throws CDMRunException {
+		
+		
+		//TODO newborns: does not yet work
+		Iterator<Individual> individualIterator = population.iterator();
+		for (int nGeneration = 1; nGeneration < stepsInRun; nGeneration++) {
+			Population[] generation=new Population[stepsInRun-1];
+			// TODO random seeds should differ
+		Iterator<Individual> newbornIterator = generation[nGeneration].iterator();
+		while (individualIterator.hasNext()) {
+			Individual individual = individualIterator.next();
+			log.debug("Longitudinal: Processing individual "
+					+ individual.getLabel());
+			for (int stepCount = 0; stepCount < stepsInRun-nGeneration; stepCount++) {
+				processCharVals(individual);
+			}
+		}}
+		/* end added by Hendriek */	
+		
+		
+		
+	}
+
 
 	private void runTransversal() throws CDMRunException {
 		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
@@ -368,7 +444,9 @@ public class Simulation extends DomLevelTraverser {
 						charValIterator.remove();
 					}
 				}
+
 				else
+
 				{
 					if (charValBase instanceof CompoundCharacteristicValue) {
 						CompoundCharacteristicValue charVal = (CompoundCharacteristicValue) charValBase;
@@ -383,7 +461,6 @@ public class Simulation extends DomLevelTraverser {
 
 	private boolean handleIntCharVal(IntCharacteristicValue intCharVal,
 			Individual individual) throws CDMRunException {
-		log.debug("Entering handleIntCharVal");
 		boolean keep = false;
 		int charValIndex = intCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -413,8 +490,51 @@ public class Simulation extends DomLevelTraverser {
 								+ " for " + individual.getLabel() + " from "
 								+ oldValue + " to " + newValue);
 						keep = true;
-					} else {
-						if (updateRule instanceof ManyToOneUpdateRuleBase) {
+						/* next if clause added by Hendriek as  ManyToOneUpdateRule was not implemented for
+						 * integers
+						 * ii is a literal copy of the part for float characters, with all floats changed into integers
+						 */
+					} else if(updateRule instanceof ManyToOneUpdateRuleBase) {
+						Object[] charVals = new Object[individual.size()];
+						for (int count = 0; count < charVals.length; count++) {
+							CharacteristicValueBase charValBase = individual
+									.get(count);
+							if (charValBase != null) {
+								Object currValue = charValBase
+										.getCurrentValue();
+								charVals[count] = currValue;
+							} else {
+								charVals[count] = null;
+							}
+						}
+						int oldValue = intCharVal.getCurrentValue();
+						// int index = floatCharVal.getIndex();
+						
+						
+						/* changed by Hendriek to include random number in update
+						 * was: 
+						Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
+								.update(charVals);
+						*/
+					
+						Long seed=individual.getRandomNumberGeneratorSeed();
+						Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
+								.update(charVals,seed);
+						individual.setRandomNumberGeneratorSeed(nextSeed(seed));
+						/* end change by Hendriek */
+						if (newValue != null) {
+							intCharVal.appendValue(newValue);
+							log.info("Updated charval at "
+									+ intCharVal.getIndex() + " for "
+									+ individual.getLabel() + " from "
+									+ oldValue + " to " + newValue);
+							keep = true;
+						} else {
+							throw new CDMRunException(
+									"ManyToOne update rule produced a null result, aborting.");
+						}}
+				 else{
+						if (updateRule instanceof ManyToManyUpdateRuleBase) {
 							Object[] charVals = new Object[individual.size()];
 							for (int count = 0; count < charVals.length; count++) {
 								CharacteristicValueBase charValBase = individual
@@ -495,7 +615,6 @@ public class Simulation extends DomLevelTraverser {
 	/* end added by hendriek */
 	private boolean handleFloatCharVal(FloatCharacteristicValue floatCharVal,
 			Individual individual) throws CDMRunException {
-		log.debug("Entering handleFloatCharVal");
 		boolean keep = false;
 		int charValIndex = floatCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -583,7 +702,6 @@ public class Simulation extends DomLevelTraverser {
 	private boolean handleCompoundCharVal(
 			CompoundCharacteristicValue diseaseCharVal, Individual individual)
 			throws CDMRunException {
-		log.debug("Entering handleCompoundCharVal");
 		boolean keep = false;
 		int charValIndex = diseaseCharVal.getIndex();
 		UpdateRuleMarker updateRule = updateRuleStorage
@@ -616,7 +734,6 @@ public class Simulation extends DomLevelTraverser {
 					 * " to " + newValue); keep = true; } else {
 					 */
 					if (updateRule instanceof ManyToManyUpdateRuleBase) {
-						log.debug("Entering ManyToManyUpdateRule" + System.currentTimeMillis());
 						Object[] charVals = new Object[individual.size()];
 						for (int count = 0; count < charVals.length; count++) {
 							CharacteristicValueBase charValBase = individual
@@ -645,7 +762,6 @@ public class Simulation extends DomLevelTraverser {
 							throw new CDMRunException(
 									"ManyToMany update rule produced a null result, aborting.");
 						}
-						log.debug("Exiting ManyToManyUpdateRule " + System.currentTimeMillis());
 					} else
 						throw new CDMRunException(
 								"Update rule not in updateRuleBase or not defined for this type of"
@@ -684,5 +800,43 @@ public class Simulation extends DomLevelTraverser {
 	public void setStepsBetweenSaves(int stepsBetweenSaves) {
 		this.stepsBetweenSaves = stepsBetweenSaves;
 	}
+/* added by hendriek */
+	/* get Newborns returns a deepcopy of newBorns */
+	public Population getNewBorns() throws Exception{
+		
+		// deep copy via serialization
+       
+    
+            // serialize ArrayList into byte array
+    
+            ByteArrayOutputStream baos =
+                new ByteArrayOutputStream(1000);
+            ObjectOutputStream oos = new
+                            ObjectOutputStream(baos);
+            oos.writeObject(newBorns);
+            byte buf[] = baos.toByteArray();
+            oos.close();
+    
+            // deserialize byte array into ArrayList
+    
+            ByteArrayInputStream bais =
+                new ByteArrayInputStream(buf);
+            ObjectInputStream ois = new
+                             ObjectInputStream(bais);
+            ArrayList<Individual> newlist =
+                         (ArrayList)ois.readObject();
+            ois.close();
+    
+            return (Population) newlist;
+        }
+    
+		
+		
+		
+	
 
+	public void setNewBorns(Population newBorns) {
+		this.newBorns = newBorns;
+	}
+	/* end added by hendriek */
 }
