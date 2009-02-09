@@ -16,13 +16,16 @@ public abstract class ManyToOneUpdateRuleBase implements UpdateRuleMarker {
 
 	/**
 	 * @param currentValues
+	 * @param seed for generation of random number (added by Hendriek)
 	 * @return The Result when AOK, null when a parameter is missing, a
 	 *         ConfigurationException when the types of the parameters do not
 	 *         match.
 	 * @throws CDMUpdateRuleException 
 	 * @throws UpdateRuleException 
 	 */
-	public abstract Object update(Object[] currentValues) throws CDMUpdateRuleException, CDMUpdateRuleException;
+	
+	/* changed by Hendriek */
+	public abstract Object update(Object[] currentValues, Long seed) throws CDMUpdateRuleException, CDMUpdateRuleException;
 	//this added by hendriek
 	public static float getFloat(Object [] currentValues,int characteristicsIndex) throws CDMUpdateRuleException
 	
