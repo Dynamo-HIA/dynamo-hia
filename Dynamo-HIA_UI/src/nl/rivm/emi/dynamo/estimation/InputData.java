@@ -1,54 +1,64 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
 /**
  * @author Hendriek
- * This class contains the input data for a particular reference simulation that are needed to estimate
- * the parameters
+ * This class contains the input data for the reference simulation.
+ * These data are needed to estimate the parameters
  * 
  *  
  */
 public class InputData {
+	Log log = LogFactory.getLog(getClass().getName());
+
 
 	// first the general data (the same for each age and gender */
-	public int riskType = -1; /* 1=categorical 2=continuous, 3=compound */
-	public int nCluster = -1;
-	public int nDisease = -1;
-	public float refClassCont = -1;
-	public int indexDuurClass = -1;
-	public String [] riskFactorClassNames;
-	public String  riskFactorName;
+	private int  riskType = -1; /* 1=categorical 2=continuous, 3=compound */
+	private int nCluster = -1;
+	private int nDisease = -1;
+	private float refClassCont = -1;
+	private int indexDuurClass = -1;
+	private String [] riskFactorClassNames;
+	private String  riskFactorName;
 	/* class number of compound class with duration */
 	String riskDistribution = "Normal";
 	/* index = cluster number */
 	DiseaseClusterStructure[] clusterStructure;
 	/* index = age, sex, clusternumber */
-	public DiseaseClusterData[][][] clusterData= new DiseaseClusterData [96][2][];
-	public float[][] mortTot = new float [96][2];
+	private DiseaseClusterData[][][] clusterData= new DiseaseClusterData [96][2][];
+	private float[][] mortTot = new float [96][2];
 	// third index is for risk factor class //
 
 	private float prevRisk[][][]= new float [96][2][];;
-	public float[][] meanRisk= new float [96][2];
-	public float[][] stdDevRisk= new float [96][2];
-	public float[][] skewnessRisk= new float [96][2];
-	public float[][] relRiskDuurMortBegin= new float[96][2];
-	public float[][] relRiskDuurMortEnd= new float [96][2];
-	public float[][][] duurFreq= new float [96][2][];
-	public float[][] rrAlphaMort= new float[96][2];
-	public float[][][] relRiskMortCat = new float [96][2][];
-	public float[][] relRiskMortCont= new float [96][2];
+	private float[][] meanRisk= new float [96][2];
+	private float[][] stdDevRisk= new float [96][2];
+	private float[][] skewnessRisk= new float [96][2];
+	private float[][] relRiskDuurMortBegin= new float[96][2];
+	private float[][] relRiskDuurMortEnd= new float [96][2];
+	private float[][][] duurFreq= new float [96][2][];
+	private float[][] rrAlphaMort= new float[96][2];
+	private float[][][] relRiskMortCat = new float [96][2][];
+	private float[][] relRiskMortCont= new float [96][2];
     
 	// transition data
-	public int transType=-1; 
+	private int transType=-1; 
 	/* transtype: 0= null, 1= netto, 2= as inputted */
 	// now data per age and gender
 	// index 1 always age, 2 always gender
-	public float[][] stdDrift = new float[96][2];
-	public float[][] meanDrift = new float[96][2];
-	public float[][] offsetDrift = new float[96][2];
-	public float[][][][] transitionMatrix = new float[96][2][][];
-
-	
-	
+	private float[][] stdDrift = new float[96][2];
+	private  float[][] meanDrift = new float[96][2];
+	private float[][] offsetDrift = new float[96][2];
+	private float[][][][] transitionMatrix = new float[96][2][][];
+    private boolean withRRForMortality=true;
+    private boolean withRRForDisability=true;
+    private float [][] overallDalyWeight = new float [92][2];
+	private float [][][] ORforDisabilityCat =   new float [92][2][];
+	private float [][] ORforDisabilityCont =   new float [92][2];
+	//TODO: filling the disability arrays
 	/**
 	 * the constructor () fills the fields with test data
 	 */
@@ -106,17 +116,17 @@ public class InputData {
 						clusterStructure[0] = new DiseaseClusterStructure(
 								"ziekte 1", 0);
 						clusterData[age][g][0] = new DiseaseClusterData();
-						clusterData[age][g][0].relRiskCont[0] = 1.1F;
-						clusterData[age][g][0].excessMortality[0] = 0.01F;
-						clusterData[age][g][0].caseFatality [0]= 0.0F;
-						clusterData[age][g][0].relRiskDuurBegin[0]=2;
-						clusterData[age][g][0].relRiskDuurEnd[0] = 1.1F;
-						clusterData[age][g][0].rrAlpha[0] =0.15F;
+						clusterData[age][g][0].getRelRiskCont()[0] = 1.1F;
+						clusterData[age][g][0].getExcessMortality()[0] = 0.01F;
+						clusterData[age][g][0].getCaseFatality() [0]= 0.0F;
+						clusterData[age][g][0].getRelRiskDuurBegin()[0]=2;
+						clusterData[age][g][0].getRelRiskDuurEnd()[0] = 1.1F;
+						clusterData[age][g][0].getRrAlpha()[0] =0.15F;
 
 						float[][] hulp = { { 1 },
 								{  1.2F },
 								{ 1.5F } };
-						clusterData[age][g][0].relRiskCat = hulp;
+						clusterData[age][g][0].setRelRiskCat ( hulp);
 					}
 						break;
 					case 1: {
@@ -124,17 +134,17 @@ public class InputData {
 								"ziekte 2", 1);
 						clusterData[age][g][1] = new DiseaseClusterData();
 						
-						clusterData[age][g][1].relRiskCont[0] = 1.2F;
-						clusterData[age][g][1].excessMortality[0] = 0.02F;
-						clusterData[age][g][1].caseFatality [0]= 0.2F;
-						clusterData[age][g][1].relRiskDuurBegin[0]=2;
-						clusterData[age][g][1].relRiskDuurEnd[0] = 1.2F;
-						clusterData[age][g][1].rrAlpha[0] =0.15F;
+						clusterData[age][g][1].setRelRiskCont(1.2F,0);
+						clusterData[age][g][1].setExcessMortality(0.02F,0);
+						clusterData[age][g][1].setCaseFatality(0.02F,0) ;
+						clusterData[age][g][1].setRelRiskDuurBegin(2,0);
+						clusterData[age][g][1].setRelRiskDuurEnd(1.2F,0);
+						clusterData[age][g][1].setRrAlpha(15F,0);
 						
 						float[][] hulp = { { 1 },
 								{  1.2F },
 								{ 1.5F } };
-						clusterData[age][g][1].relRiskCat = hulp;
+						clusterData[age][g][1].setRelRiskCat ( hulp);
 						// here the first index is rc {risk factor class}, and the
 						// second d (disease);
 						
@@ -153,21 +163,21 @@ public class InputData {
 						clusterData[age][g][2] = new DiseaseClusterData(
 								clusterStructure[2], 3,RRdis);
 						float[] hulp1 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
-						clusterData[age][g][2].relRiskCont = hulp1;
+						clusterData[age][g][2].setRelRiskCont(hulp1) ;
 						float[] hulp2 = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F, 0.06F, 0.07F };
-						clusterData[age][g][2].excessMortality = hulp2;
+						clusterData[age][g][2].setExcessMortality (hulp2);
 						float[] hulp3 = { 0, 0, 0, 0.01F, 0.02F, 0, 0.03F };
-						clusterData[age][g][2].caseFatality = hulp3;
+						clusterData[age][g][2].setCaseFatality (hulp3);
 						float[] hulp5 = { 2, 2, 2, 2, 2, 2, 2 };
-						clusterData[age][g][2].relRiskDuurBegin= hulp5;
+						clusterData[age][g][2].setRelRiskDuurBegin(hulp5);
 						float[] hulp6 = { 1.1F, 1.2F, 1.3F, 1.4F, 1.5F, 1.6F, 1.7F };
-						clusterData[age][g][2].relRiskDuurEnd = hulp6;
+						clusterData[age][g][2].setRelRiskDuurEnd (hulp6);
 						float[] hulp8 = { 0.15F,  0.015F,  0.15F,  0.015F,  0.15F,  0.015F,  0.15F };
-						clusterData[age][g][2].rrAlpha = hulp8;
+						clusterData[age][g][2].setRrAlpha( hulp8);
 						float[][] hulp = { {  1, 1, 1, 1, 1 },
 								{   1.2F, 1.4F, 1.6F, 1.8F, 2.2F },
 								{ 1.5F, 1.7F, 1.9F, 2.1F, 2.5F } };
-						clusterData[age][g][2].relRiskCat = hulp;
+						clusterData[age][g][2].setRelRiskCat( hulp);
 						// here the first index is rc {risk factor class}, and the
 						// second d (disease);
 						
@@ -193,8 +203,8 @@ public class InputData {
 					case 2: {
 						float[] Istring = { 0.01F, 0.02F, 0.03F, 0.04F, 0.05F };
 						float[] Pstring = { 0.1F, 0.12F, 0.15F, 0.2F, 0.25F };
-						clusterData[age][g][2].incidence = Istring;
-						clusterData[age][g][2].prevalence = Pstring;
+						clusterData[age][g][2].setIncidence(Istring);
+						clusterData[age][g][2].setPrevalence(Pstring);
 					}
 						break;
 					}
@@ -203,7 +213,7 @@ public class InputData {
 				// count number of diseases;
 				nDisease = 0;
 				for (int c = 0; c < nCluster; c++) {
-					nDisease += clusterStructure[c].nInCluster;
+					nDisease += clusterStructure[c].getNInCluster();
 				}
 				// make an array with all prevalences
 				
@@ -277,23 +287,23 @@ public class InputData {
 								clusterStructure[0],2, RRdis);
 						
 						
-						clusterData[age][g][0].relRiskCont = new float[2];// not used
-						clusterData[age][g][0].relRiskCat = new float[2][2];
+						clusterData[age][g][0].setRelRiskCont( new float[2]);// not used
+						clusterData[age][g][0].setRelRiskCat( new float[2][2]);
 						for (int i = 0; i < 2; i++) {
 // i = disease nr ;
 		// risk=0	
-							clusterData[age][g][0].relRiskCat[0][i] = 1;
+							clusterData[age][g][0].getRelRiskCat()[0][i] = 1;
 	// risk=1					
-							clusterData[age][g][0].relRiskCat[1][i] = 2;
+							clusterData[age][g][0].getRelRiskCat()[1][i] = 2;
 						}
 						
-						clusterData[age][g][0].excessMortality= new float[2];
-						clusterData[age][g][0].excessMortality[0] = 0.01F;
-						clusterData[age][g][0].excessMortality[1] = 0.01F;
+						clusterData[age][g][0].setExcessMortality( new float[2]);
+						clusterData[age][g][0].setExcessMortality( 0.01F,0);
+						clusterData[age][g][0].setExcessMortality( 0.01F,1);
 
-						clusterData[age][g][0].caseFatality = new float[2];
-						clusterData[age][g][0].caseFatality[0] = 0;
-						clusterData[age][g][0].caseFatality[1] = 0;
+						clusterData[age][g][0].setCaseFatality ( new float[2]);
+						clusterData[age][g][0].setCaseFatality(0,0);
+						clusterData[age][g][0].setCaseFatality(0,1);
 						// public DiseaseClusterData(String Name, int StartN,
 						// int N, String[] Name2,
 						// int[] NRIndependent, double[][] RRdis )
@@ -318,8 +328,8 @@ public class InputData {
 					case 0: {
 						float[] Istring = { 0.01F, 0.02F };
 						float[] Pstring = { 0.1F, 0.2F };
-						clusterData[age][g][0].incidence = Istring;
-						clusterData[age][g][0].prevalence = Pstring;
+						clusterData[age][g][0].setIncidence(Istring);
+						clusterData[age][g][0].setPrevalence(Pstring);
 					}
 						break;
 
@@ -338,7 +348,7 @@ public class InputData {
 				// count number of diseases;
 				nDisease = 0;
 				for (int c = 0; c < nCluster; c++) {
-					nDisease += clusterStructure[c].nInCluster;
+					nDisease += clusterStructure[c].getNInCluster();
 				}
 				// make an array with all prevalences
 				
@@ -435,7 +445,7 @@ public class InputData {
 	}
 
 	public float[][] getMortTot() {
-		return mortTot;
+		return deepcopy(mortTot);
 	}
 
 	public void setMortTot(float[][] mortTot) {
@@ -446,7 +456,7 @@ public class InputData {
 
 
 	public float[][][] getPrevRisk() {
-		return prevRisk;
+		return deepcopy(prevRisk);
 	}
 
 	public void setPrevRisk(float[][][] prevRisk) {
@@ -454,23 +464,51 @@ public class InputData {
 	}
 
 	public float[][] getMeanRisk() {
-		return meanRisk;
+		return meanRisk.clone();
 	}
 
-	public void setMeanRisk(float[][] meanRisk) {
-		this.meanRisk = meanRisk;
+	public void setMeanRisk(float[][] inputMean){
+		this.meanRisk = inputMean;
 	}
+  private float [][] deepcopy( float [][] inarray)
+  {float [][] returnarray= new float [inarray.length][inarray[0].length];
+for (int i=0;i<inarray.length;i++) System.arraycopy(inarray[i],0,returnarray[i],0,inarray[0].length) ;
+return returnarray;
+  
+	  
+  }
+  private float [][][] deepcopy( float [][] []inarray)
+  {float [][][] returnarray= new float [inarray.length][inarray[0].length][inarray[0][0].length];
+  for (int i=0;i<inarray.length;i++)
+for (int j=0;j<inarray[0].length;j++) System.arraycopy(inarray[i][j],0,returnarray[i][j],0,inarray[0][0].length) ;
+return returnarray;
+  
+	  
+  }
+  
 
+  private float [][][][] deepcopy( float [][][] []inarray)
+  {float [][][][] returnarray= new float [inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
+  for (int i=0;i<inarray.length;i++)
+for (int j=0;j<inarray[0].length;j++)
+	for (int k=0;k<inarray[0][0].length;k++)System.arraycopy(inarray[i][j][k],0,returnarray[i][j][k],0,inarray[0][0][0].length) ;
+return returnarray;
+  
+	  
+  }
+	
+	
+	
 	public float[][] getStdDevRisk() {
-		return stdDevRisk;
+		return deepcopy(stdDevRisk);
 	}
 
 	public void setStdDevRisk(float[][] stdDevRisk) {
-		this.stdDevRisk = stdDevRisk;
+		this.stdDevRisk = deepcopy(stdDevRisk);
 	}
 
 	public float[][] getSkewnessRisk() {
-		return skewnessRisk;
+		return deepcopy(skewnessRisk);
 	}
 
 	public void setSkewnessRisk(float[][] skewnessRisk) {
@@ -478,11 +516,11 @@ public class InputData {
 	}
 
 	public float[][] getRelRiskDuurMortBegin() {
-		return relRiskDuurMortBegin;
+		return deepcopy(relRiskDuurMortBegin);
 	}
 
 	public void setRelRiskDuurMortBegin(float[][] relRiskDuurMortBegin) {
-		this.relRiskDuurMortBegin = relRiskDuurMortBegin;
+		this.relRiskDuurMortBegin = deepcopy(relRiskDuurMortBegin);
 	}
 
 	public float[][] getRelRiskDuurMortEnd() {
@@ -494,30 +532,41 @@ public class InputData {
 	}
 
 	public float[][][] getDuurFreq() {
-		return duurFreq;
+		return deepcopy(duurFreq);
 	}
+	/**
+	 * @param input: array (float[][][]) of prevalence of risk factor (indexes: age, sex, risk category)
+	 * @param percent: boolean telling whether input is in percent
+	 */
 
-	public void setDuurFreq(float[][][] duurFreq) {
-		this.duurFreq = duurFreq;
+	public void setDuurFreq(float[][][] input, boolean percent) {
+		
+		if (percent){
+			this.duurFreq=new float[96][2][input[0][0].length];
+		for (int a=0;a<96;a++)
+			for (int g=0;g<2;g++)
+				for (int r=0;r<input[0][0].length;r++)
+				this.duurFreq[a][g][r]=input[a][g][r]/100;}
+		else this.duurFreq=input;
 	}
 
 
 
 	public float[][] getRrAlphaMort() {
-		return rrAlphaMort;
+		return deepcopy(rrAlphaMort);
 	}
 
 	public void setRrAplhaMort(float[][] halfTimeMort) {
 		this.rrAlphaMort = halfTimeMort;
 	}
 	public float[][][] getRelRiskMortCat() {
-		return relRiskMortCat;
+		return deepcopy(relRiskMortCat);
 	}
 	public void setRelRiskMortCat(float[][][] relRiskMortCat) {
 		this.relRiskMortCat = relRiskMortCat;
 	}
 	public float[][] getRelRiskMortCont() {
-		return relRiskMortCont;
+		return deepcopy(relRiskMortCont);
 	}
 	public void setRelRiskMortCont(float[][] relRiskMortCont) {
 		this.relRiskMortCont = relRiskMortCont;
@@ -536,6 +585,87 @@ public class InputData {
 		else this.prevRisk=input;
 		
 		
+	}
+	public int getTransType() {
+		return transType;
+	}
+	public void setTransType(int transType) {
+		this.transType = transType;
+	}
+	public float[][] getStdDrift() {
+		return deepcopy(stdDrift);
+	}
+	public void setStdDrift(float[][] stdDrift) {
+		this.stdDrift = stdDrift;
+	}
+	public float[][] getMeanDrift() {
+		return deepcopy(meanDrift);
+	}
+	public void setMeanDrift(float[][] meanDrift) {
+		this.meanDrift = meanDrift;
+	}
+	public float[][] getOffsetDrift() {
+		return deepcopy(offsetDrift);
+	}
+	public void setOffsetDrift(float[][] offsetDrift) {
+		this.offsetDrift = offsetDrift;
+	}
+	public float[][][][] getTransitionMatrix() {
+		return transitionMatrix;
+	}
+	public void setTransitionMatrix(float[][][][] transitionMatrix) {
+		this.transitionMatrix = transitionMatrix;
+	}
+	public boolean isWithRRForMortality() {
+		return withRRForMortality;
+	}
+	public void setWithRRForMortality(boolean withRRForMortality) {
+		this.withRRForMortality = withRRForMortality;
+	}
+	public void setRrAlphaMort(float[][] rrAlphaMort) {
+		this.rrAlphaMort = rrAlphaMort;
+	}
+	/**
+	 * @param newdata
+	 * @param a
+	 * @param g
+	 * @param c
+	 */
+	public void setClusterData(DiseaseClusterData newdata, int a, int g, int c) {
+		clusterData[a][g][c]=newdata;
+		
+	}
+	/**
+	 * @param newStructure
+	 * @param c
+	 */
+	public void setClusterStructure(DiseaseClusterStructure newStructure, int c) {
+		clusterStructure[c]=newStructure;
+		
+	}
+	public float[][] getOverallDalyWeight() {
+		return overallDalyWeight;
+	}
+	public void setOverallDalyWeight(float[][] overallDalyWeight) {
+		this.overallDalyWeight = overallDalyWeight;
+	}
+	public boolean isWithRRForDisability() {
+		return withRRForDisability;
+	}
+	public void setWithRRForDisability(boolean withRRForDisability) {
+		this.withRRForDisability = withRRForDisability;
+	}
+	public float[][][] getORforDisabilityCat() {
+		return ORforDisabilityCat;
+	}
+	public void setORforDisabilityCat(float[][][] rforDisabilityCat) {
+		ORforDisabilityCat = rforDisabilityCat;
+	}
+	public float[][] getORforDisabilityCont() {
+		return ORforDisabilityCont;
+	}
+	public void setORforDisabilityCont(float[][] rforDisabilityCont) {
+		ORforDisabilityCont = rforDisabilityCont;
 	}
 
 	}

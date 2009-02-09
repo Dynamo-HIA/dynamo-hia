@@ -23,57 +23,12 @@ import org.apache.commons.logging.LogFactory;
 
 public class InputDataFactory {
 
-	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.estimation.ConfigurationFromXMLFactory");
+	Log log = LogFactory.getLog(getClass().getName());
 
 	/**
-	 * Currently implemented structure:
+	 * Currently implemented structure: see Dynamo-Hia User data document of
+	 * Rene Mondeel version 0.93
 	 * 
-	 * <?xml version="1.0" encoding="UTF-8"?> <newborns>no</newborns>
-	 * <startingYear>2008</startingYear> <numberOfYears>10</numberOfYears>
-	 * <simPopSize> 1000</simPopSize> <minAge> 0</minAge> <maxAge>100 </maxAge>
-	 * <timeStep>1 </timeStep> <randomSeed>12345 </randomSeed>
-	 * <resultType>aggregated</resultType> <popFileName>NL-2008 </popFileName>
-	 * <scenarios> <scenario label="1"> <scenName>scenario 1 </scenName>
-	 * <successRate> 100 </successRate>
-	 * <targetMinAge>0</targetMinAge><targetMaxAge>100</targetMaxAge>
-	 * <targetGender> 2</targetGender>
-	 * <alternativeTransFile>none</alternativeTransFile>
-	 * <alternativePrevFile>Prev-scen1 </alternativePrevFile> </scenario>
-	 * <scenario label="2"> <scenName>scenario 2 </scenName> <successRate> 50
-	 * </successRate>
-	 * <targetMinAge>0</targetMinAge><targetMaxAge>100</targetMaxAge>
-	 * <targetGender> 2</targetGender>
-	 * <alternativeTransFile>none</alternativeTransFile>
-	 * <alternativePrevFile>Prev-scen1 </alternativePrevFile> </scenario>
-	 * </scenarios> <diseases> <disease label="1"> <diseaseName> lung
-	 * cancer</diseaseName> <diseasePrevFile>lung
-	 * cancer-prev-NL</diseasePrevFile> <diseaseIncFile>lung
-	 * cancer-inc-NL</diseaseIncFile>
-	 * <diseaseExcessMortFile>lungcancer-excess-mort</diseaseExcessMortFile>
-	 * <diseaseDalyWeights>lungcancer-Daly weights </diseaseDalyWeights>
-	 * </disease > <disease label="2"> <diseaseName> HVD</diseaseName>
-	 * <diseasePrevFile>HVD-prev-NL</diseasePrevFile>
-	 * <diseaseIncFile>HVD-inc-NL</diseaseIncFile>
-	 * <diseaseExcessMortFile>HVD-excess-mort</diseaseExcessMortFile>
-	 * <diseaseDalyWeights>HVD-Daly weights </diseaseDalyWeights> </disease >
-	 * <disease label="3"> <diseaseName> diabetes</diseaseName>
-	 * <diseasePrevFile>diabetes-prev-NL</diseasePrevFile>
-	 * <diseaseIncFile>diabetes-inc-NL</diseaseIncFile>
-	 * <diseaseExcessMortFile>diabetes-excess-mort</diseaseExcessMortFile>
-	 * <diseaseDalyWeights>diabetes-Daly weights </diseaseDalyWeights> </disease
-	 * > </diseases> <riskfactor> <riskFactorName>BMI </riskFactorName>
-	 * <riskFactorType>compound</riskFactorType>
-	 * <riskFactorPrevFile>BMI-NL</riskFactorPrevFile>; <riskFactorTransFile>
-	 * </riskFactorTransFile>
-	 * <riskFactorRRforDeathFile></riskFactorRRforDeathFile>; </riskfactor>
-	 * <RRs> <RR label="1">
-	 * 
-	 * <isRRfrom>CVD</isRRfrom> <isRRto>lung cancer</isRRto>
-	 * <isRRFile>RR-CVD-lung cancer</isRRFile> </RR > <RR label="2">
-	 * 
-	 * <isRRfrom>diabetes</isRRfrom> <isRRto>CVD</isRRto> <isRRFile>RR-CVD-lung
-	 * cancer</isRRFile> </RR > </RR> </RRs> </xml>
 	 * 
 	 */
 
@@ -106,32 +61,24 @@ public class InputDataFactory {
 	private static final String randomSeedLabel = "randomSeed";
 	private static final String resultTypeLabel = "resultType";
 	private static final String popFileNameLabel = "popFileName";
-	private static final String diseasesLabel = "diseases";
-	private static final String singleDiseaseLabel = "disease";
-	private static final String diseaseNameLabel = "diseaseName";
-	private static final String diseasePrevFileLabel = "diseasePrevFile";
-	private static final String diseaseIncFileLabel = "diseaseIncFile";
-	private static final String diseaseExcessMortFileLabel = "diseaseExcessMortFile";
-	private static final String diseaseDalyWeightLabel = "diseaseDalyWeights";
-	private static final String riskFactorLabel = "riskfactor";
-	private static final String riskFactorNameLabel = "riskFactorName";
-	private static final String riskFactorTypeLabel = "riskFactorType";
-	private static final String riskFactorPrevFileLabel = "riskFactorPrevFile";
-	private static final String riskFactorTransFileLabel = "riskFactorTransFile";
-	private static final String riskFactorRRforDeathFileLabel = "riskFactorRRforDeathFile";
+	private static final String diseaseNameLabel = "name";
+	private static final String diseasePrevFileLabel = "prevfilename";
+	private static final String diseaseIncFileLabel = "incfilename";
+	private static final String diseaseExcessMortFileLabel = "excessmortfilename";
+	private static final String diseaseDalyWeightLabel = "dalyweightsfilename";
+	private static final String riskFactorNameLabel = "name";
+	private static final String riskFactorTransFileLabel = "riskfactortransfilename";
 
 	private static final String isRRfromLabel = "isRRfrom";
 	private static final String isRRtoLabel = "isRRto";
 	private static final String isRRfileLabel = "isRRFile";
-	private static final String scenarioSeriesLabel = "scenarios";
-	private static final String scenarioLabel = "scenario";
 	private static final String scenarioNameLabel = "scenName";
 	private static final String scenarioSuccessRateLabel = "successRate";
 	private static final String targetMinAgeLabel = "targetMinAge";
 	private static final String targetMaxAgeLabel = "targetMaxAge";
 	private static final String targetGenderLabel = "targetGender";
-	private static final String alternativeTransFileLabel = "alternativeTransFile";
-	private static final String alternativePrevFileLabel = "alternativePrevFile";
+	private static final String alternativeTransFileLabel = "transfilename";
+	private static final String alternativePrevFileLabel = "prevfilename";
 
 	/* the object containing the content of the XML configuration file */
 	private HierarchicalConfiguration configuration;
@@ -142,13 +89,9 @@ public class InputDataFactory {
 
 	private String riskFactorName;
 
-	private String riskFactorPrevFileName;
-
 	private String riskFactorTransDirName;
 
-	private String riskFactorRRforDeathFileName;
-
-	private String TransitionName;
+	private int originalNumberDurationClass;
 
 	/* this are the public fields that contain the information from the XML file */
 	public static boolean newborn = false;
@@ -159,8 +102,8 @@ public class InputDataFactory {
 	public static int maxAge = 95;
 	public static int timeStep = 1;
 	public static int randomSeed = 9;
-	public static boolean resultType = false;
-	public static String popFileName = "popFileName";
+	public static boolean details = false;
+
 	/* now scenario info read */
 	public static ArrayList<ScenInfo> scenInfo;
 
@@ -219,22 +162,24 @@ public class InputDataFactory {
 	private static final String diseasesDir = "diseases";
 	private static final String populationDir = "populations";
 	private static final String simulationDir = "Simulations";
+	private static final String RRriskDir = "Relative_Risks_From_Risk_Factor";
+	private static final String RRdiseaseDir = "Relative_Risks_From_Diseases";
+
 	private static final String referenceDataDir = "Reference_Data";
 
+	public static String populationName = "popFileName";
 	private static final String sizeXMLname = "size.xml";
 	private static final String allcauseXMLname = "overallmortality.xml";
 	private static final String newbornXMLname = "newborns.xml";
 	private static final String totDalyXMLname = "overalldalyweights.xml";
+
 	private static final String riskfactorXMLname = "configuration.xml";
 	private static final String classesXMLname = "classes.xml";
 	private static final String transMatXMLname = "transitionmatrix.xml";
 	private static final String transDriftXMLname = "transitiondrift.xml";
-	private static final String catPrevXMLname = "categoricalprevalence.xml";
-	private static final String contPrevXMLname = "continuousprevalence.xml";
+	private static final String riskfactorPrevXMLname = "prevalence.xml";
 	private static final String durationXMLname = "durationdistribution.xml";
-	private static final String allcauseRRcatXMLname = "categoricalrelriskofdeath.xml";
-	private static final String allcauseRRcontXMLname = "continuousrelriskofdeath.xml";
-	private static final String allcauseRRcompoundXMLname = "compoundrelriskofdeath.xml";
+	private static final String allcauseRRXMLname = "relriskofdeath.xml";
 	private static final String prefixRRcont = "continuousrelriskfrom";
 	private static final String prefixRRcat = "categoricalrelriskfrom";
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
@@ -269,6 +214,16 @@ public class InputDataFactory {
 		minAge = getInteger(minAgeLabel);
 		maxAge = getInteger(maxAgeLabel);
 		timeStep = getInteger(timeStepLabel);
+
+		/*
+		 * put this information in the scenario object
+		 * 
+		 * This is kind of arbitrary, as this is needed for setting up the
+		 * configuration, but not for the post-processing and for the parameter
+		 * estimation. however, to be save we put it in the scenario object, as
+		 * this is also availlable in the postprocessing stage
+		 */
+
 		if (timeStep != 1)
 			log.fatal("timestep given in configuration is " + timeStep
 					+ ". In Dynamo timestep should be "
@@ -277,11 +232,11 @@ public class InputDataFactory {
 		randomSeed = getInteger(randomSeedLabel);
 		String resultTypeS = getName(resultTypeLabel);
 		if (resultTypeS.compareToIgnoreCase("aggregated") == 0)
-			resultType = false;
+			details = false;
 		else
-			resultType = true;
+			details = true;
 
-		popFileName = getName(popFileNameLabel);
+		populationName = getName(popFileNameLabel);
 
 		/*
 		 * now read the parts that are from the subtabs (scenario, disease,
@@ -499,7 +454,7 @@ public class InputDataFactory {
 				throw new DynamoConfigurationException(
 						"incomplete information for disease in overall configuration file");
 
-			flag = true; /* at least one scenario has been success full read */
+			flag = true; /* at least one scenario has been successfully read */
 
 		} // end loop over disease
 
@@ -513,36 +468,19 @@ public class InputDataFactory {
 	 */
 	private boolean handleRiskfactorInfo(ConfigurationNode node)
 			throws DynamoConfigurationException {
-		// TODO Auto-generated method stub
+
 		boolean flag = false;
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) node
 				.getChildren();
 		String type = null;
 		boolean namePresent = false;
-		boolean typePresent = false;
-		boolean prevPresent = false;
 		boolean transPresent = false;
-		boolean rrPresent = false;
 		for (ConfigurationNode rootChild : rootChildren) {
 			if (rootChild.getName() == riskFactorNameLabel) {
 				riskFactorName = getString(rootChild, riskFactorNameLabel);
 				namePresent = true;
 			}
-			if (rootChild.getName() == riskFactorTypeLabel) {
-				type = getString(rootChild, riskFactorTypeLabel);
-				if (type.compareToIgnoreCase("compound") == 0)
-					riskFactorType = 3;
-				else if (type.compareToIgnoreCase("continuous") == 0)
-					riskFactorType = 2;
-				else if (type.compareToIgnoreCase("categorical") == 0)
-					riskFactorType = 1;
-				else
-					throw new DynamoConfigurationException(
-							"no valid riskFactorType found but found  " + type
-									+ " in XML file from window 1");
-				typePresent = true;
 
-			}
 			/*
 			 * redundant and deleted; if (rootChild.getName() ==
 			 * riskFactorPrevFileLabel) { riskFactorPrevFileName =
@@ -561,7 +499,7 @@ public class InputDataFactory {
 			 * true; }
 			 */
 		}
-		if (namePresent && typePresent /* && prevPresent */&& transPresent
+		if (namePresent /* && prevPresent */&& transPresent
 		/* && rrPresent */)
 			flag = true;
 		return flag;
@@ -771,9 +709,9 @@ public class InputDataFactory {
 
 		try {
 			int value = config.getInt(Label);
-			if (value <= 0) {
-				throw new DynamoConfigurationException("zero or negative "
-						+ Label + " in XML file from window 1");
+			if (value < 0) {
+				throw new DynamoConfigurationException("negative " + Label
+						+ " in XML file from window 1");
 			}
 
 			return value;
@@ -805,104 +743,136 @@ public class InputDataFactory {
 
 	public void addPopulationInfoToInputData(String simName,
 			InputData inputData, ScenarioInfo scenarioInfo)
-			throws DynamoConfigurationException {
+			throws DynamoConfigurationException,
+			DynamoInconsistentDataException {
 		// add general information
 
-		scenarioInfo.yearsInRun = numberOfYears;
-		scenarioInfo.startYear = startingYear;
-
-		scenarioInfo.details = resultType;
 		;
 
 		String sizeName = baseDir + File.separator + referenceDataDir
-				+ File.separator + populationDir + File.separator + popFileName
-				+ File.separator + sizeXMLname;
+				+ File.separator + populationDir + File.separator
+				+ populationName + File.separator + sizeXMLname;
 		String newbornName = baseDir + File.separator + referenceDataDir
-				+ File.separator + populationDir + File.separator + popFileName
-				+ File.separator + newbornXMLname;
+				+ File.separator + populationDir + File.separator
+				+ populationName + File.separator + newbornXMLname;
 		String dalyName = baseDir + File.separator + referenceDataDir
-				+ File.separator + populationDir + File.separator + popFileName
-				+ File.separator + totDalyXMLname;
+				+ File.separator + populationDir + File.separator
+				+ populationName + File.separator + totDalyXMLname;
 		String mortName = baseDir + File.separator + referenceDataDir
-				+ File.separator + populationDir + File.separator + popFileName
-				+ File.separator + allcauseXMLname;
+				+ File.separator + populationDir + File.separator
+				+ populationName + File.separator + allcauseXMLname;
 
-		scenarioInfo.populationSize = factory.manufactureOneDimArray(sizeName,
-				"populationsize", "size", "number", false);
-		scenarioInfo.overallDalyWeight = factory.manufactureOneDimArray(
-				dalyName, "overalldalyweights", "weight", "percent", false);
-		inputData.mortTot = factory.manufactureOneDimArray(mortName,
-				"overallmortality", "mortality", false);
-		// to do: newborns
+		scenarioInfo.setPopulationSize(factory.manufactureOneDimArray(sizeName,
+				"populationsize", "size", "number", false));
+		scenarioInfo.setOverallDalyWeight(factory.manufactureOneDimArray(
+				dalyName, "overalldalyweights", "weight", "percent", false));
+		/* put a copy in inputData */
+		inputData.setOverallDalyWeight(scenarioInfo.getOverallDalyWeight());
+		inputData.setMortTot(factory.manufactureOneDimArray(mortName,
+				"overallmortality", "mortality", false));
+		readNewbornData(newbornName, scenarioInfo);
 
 	}
 
-	// TODO inlezen info voor continue: refClassCont,
-	// riskDistribution,meanRisk,stdDevRisk,skewnessRisk
-	// TODO inlezen info voor compound : indexDuurClass, prevRisk
-
 	public void addScenarioInfoToScenarioData(String simName,
-			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
+			ScenarioInfo scenarioInfo) throws DynamoConfigurationException,
+			DynamoInconsistentDataException {
+
+		/* copy general information */
+		scenarioInfo.setYearsInRun(numberOfYears);
+		scenarioInfo.setStartYear(startingYear);
+		scenarioInfo.setMinSimAge(minAge);
+		scenarioInfo.setMaxSimAge(maxAge);
+		scenarioInfo.setWithNewBorns(newborn);
+		scenarioInfo.setStepsize(timeStep);
+		scenarioInfo.setSimPopSize(simPopSize);
+		scenarioInfo.setDetails(details);
+
+		scenarioInfo.setDetails(details);
 		/* initialize the arrays in scenarioInfo */
 		scenarioInfo.setNScenarios(scenInfo.size());
 		scenarioInfo.scenarioNames = new String[scenInfo.size()];
-		scenarioInfo.minAge = new float[scenInfo.size()];
-		scenarioInfo.maxAge = new float[scenInfo.size()];
-		scenarioInfo.succesrate = new float[scenInfo.size()];
-		scenarioInfo.inMen = new boolean[scenInfo.size()];
-		scenarioInfo.inWomen = new boolean[scenInfo.size()];
+		scenarioInfo.setMinAge(new float[scenInfo.size()]);
+		scenarioInfo.setMaxAge(new float[scenInfo.size()]);
+		scenarioInfo.setSuccesrate(new float[scenInfo.size()]);
+		scenarioInfo.setInMen(new boolean[scenInfo.size()]);
+		scenarioInfo.setInWomen(new boolean[scenInfo.size()]);
 		scenarioInfo.setTransitionType(new boolean[scenInfo.size()]);
 		scenarioInfo.setInitialPrevalenceType(new boolean[scenInfo.size()]);
-		scenarioInfo.zeroTransition = new boolean[scenInfo.size()];
-		scenarioInfo.newPrevalence = new float[scenInfo.size()][96][2][];
-		
-		scenarioInfo.alternativeTransitionMatrix = new float[scenInfo.size()][][][][];
-		
-		//TODO continue
-		
+		scenarioInfo.setZeroTransition(new boolean[scenInfo.size()]);
+		scenarioInfo.setNewPrevalence(new float[scenInfo.size()][96][2][]);
+		scenarioInfo.setNewOffset(new float[scenInfo.size()][96][2]);
+		scenarioInfo.setNewMean(new float[scenInfo.size()][96][2]);
+		scenarioInfo.setNewStd(new float[scenInfo.size()][96][2]);
+		scenarioInfo.setIsNormal(new boolean[scenInfo.size()]);
+		scenarioInfo
+				.setAlternativeTransitionMatrix(new float[scenInfo.size()][][][][]);
+
 		for (int scen = 0; scen < scenInfo.size(); scen++) {
 
 			scenarioInfo.scenarioNames[scen] = scenInfo.get(scen).name;
-			scenarioInfo.minAge[scen] = scenInfo.get(scen).minAge;
-			scenarioInfo.maxAge[scen] = scenInfo.get(scen).maxAge;
-			scenarioInfo.succesrate[scen] = scenInfo.get(scen).rate;
-			scenarioInfo.inMen[scen] = true;
-			scenarioInfo.inWomen[scen] = true;
+			scenarioInfo.getMinAge()[scen] = scenInfo.get(scen).minAge;
+			scenarioInfo.getMaxAge()[scen] = scenInfo.get(scen).maxAge;
+			scenarioInfo.getSuccesrate()[scen] = scenInfo.get(scen).rate;
+			scenarioInfo.getInMen()[scen] = true;
+			scenarioInfo.getInWomen()[scen] = true;
 			if (scenInfo.get(scen).gender == 0)
-				scenarioInfo.inWomen[scen] = false;
+				scenarioInfo.getInWomen()[scen] = false;
 			if (scenInfo.get(scen).gender == 1)
-				scenarioInfo.inMen[scen] = false;
-			
+				scenarioInfo.getInMen()[scen] = false;
+
 			/* reading and handling alternative prevalence information */
-			
+
 			if (scenInfo.get(scen).prevFileName.compareToIgnoreCase("none") == 0)
-				scenarioInfo.getInitialPrevalenceType()[scen] = false;
+				scenarioInfo.setInitialPrevalenceType(false, scen);
 			else {
-				scenarioInfo.getInitialPrevalenceType()[scen] = true;
+				scenarioInfo.setInitialPrevalenceType(true, scen);
 
 				String completePrevFileName = baseDir + File.separator
 						+ referenceDataDir + File.separator + riskFactorDir
 						+ File.separator + riskFactorName + File.separator
 						+ scenInfo.get(scen).prevFileName + ".xml";
-				scenarioInfo.newPrevalence[scen] = factory
-						.manufactureTwoDimArray(completePrevFileName,
-								"riskfactorprevalences_categorical",
-								"prevalence", "cat", "percent");
-			}
-			/* reading and handling transition matrix info */
-			
-			if (scenInfo.get(scen).transFileName.compareToIgnoreCase("none") == 0)
-				scenarioInfo.getTransitionType()[scen] = false;
-			else {
-				scenarioInfo.getTransitionType()[scen] = true;
-				String completeTransFileName = baseDir + File.separator
-						+ referenceDataDir + File.separator + riskFactorDir
-						+ File.separator + riskFactorName + File.separator
-						+ riskFactorTransDirName + File.separator
-						+ scenInfo.get(scen).transFileName + ".xml";
-				readTransitionData(completeTransFileName, null, scenarioInfo, 0);
-			}
+				if (riskFactorType != 2)
+					scenarioInfo.setNewPrevalence(factory
+							.manufactureTwoDimArray(completePrevFileName,
+									"riskfactorprevalences_categorical",
+									"prevalence", "cat", "percent", false),
+							scen);
+				else {
+					scenarioInfo.setNewMeanSTD(factory.manufactureOneDimArray(
+							completePrevFileName,
+							"riskfactorprevalences_continuous", "prevalence",
+							"standarddeviation", true), factory
+							.manufactureOneDimArray(completePrevFileName,
+									"riskfactorprevalences_continuous",
+									"prevalence", "mean", true), factory
+							.manufactureOneDimArray(completePrevFileName,
+									"riskfactorprevalences_continuous",
+									"prevalence", "skewness", true), scen);
 
+				}
+				/* reading and handling transition matrix info */
+
+				if (scenInfo.get(scen).transFileName
+						.compareToIgnoreCase("none") == 0)
+				
+					scenarioInfo.setTransitionType(false, scen);
+					
+
+				
+				else {
+					scenarioInfo.setTransitionType(true, scen);
+
+					String completeTransFileName = baseDir + File.separator
+							+ referenceDataDir + File.separator + riskFactorDir
+							+ File.separator + riskFactorName + File.separator
+							+ riskFactorTransDirName + File.separator
+							+ scenInfo.get(scen).transFileName + ".xml";
+					readTransitionData(completeTransFileName, null,
+							scenarioInfo, 0);
+				}
+
+			}
 		}
 
 	}
@@ -923,14 +893,6 @@ public class InputDataFactory {
 
 		// read and add risktype
 
-		if (riskFactorType == 1 || riskFactorType == 2 || riskFactorType == 3)
-			inputData.riskType = riskFactorType;
-		else
-			throw new DynamoConfigurationException(
-					"riskType not equal to 1,2 or 3, but  " + riskFactorType);
-
-		// make file name for riskfactor configurationfile
-		scenarioInfo.riskType = riskFactorType;
 		String configFileName;
 
 		configFileName = baseDir + File.separator + referenceDataDir
@@ -945,27 +907,44 @@ public class InputDataFactory {
 			throw new DynamoConfigurationException(
 					"XML error encountered with message: " + e.getMessage());
 		}
+		String type = ((XMLConfiguration) config).getRootElementName();
+		if (type == "riskfactor_categorical") {
+			riskFactorType = 1;
+		} else {
+			if (type == "riskfactor_continuous") {
+				riskFactorType = 2;
+			} else {
+				if (type == "riskfactor_compound")
+					riskFactorType = 3;
+				else
+					throw new DynamoConfigurationException(
+							"no valid main tag (riskfactor_type) found but found  "
+									+ type + " in XML file " + configFileName);
+			}
+
+		}
+
+		inputData.setRiskType(riskFactorType);
+
+		scenarioInfo.setRiskType(riskFactorType);
+		// make file name for riskfactor configurationfile
 
 		/* now read in all the data in the sequence of the user data document */
 
-		String type = getName("type", config);
-		if ((riskFactorType == 1 && type.compareToIgnoreCase("categorical") != 0)
-				|| (riskFactorType == 2 && type
-						.compareToIgnoreCase("continous") != 0)
-				|| (riskFactorType == 3 && type.compareToIgnoreCase("compound") != 0))
-			throw new DynamoConfigurationException(
-					"riskfactor Type in overall configuration file ("
-							+ riskFactorType
-							+ ") does not agree with type given in riskfactor configuration file ("
-							+ type + ")");
 		if (riskFactorType == 2)
-			inputData.refClassCont = getFloat("referencevalue", config);
+			inputData.setRefClassCont(getFloat("referencevalue", config));
 		else
-			inputData.refClassCont = 0;
-		if (riskFactorType == 3)
-			inputData.indexDuurClass = getInteger("durationclass", config);
-		else
-			inputData.indexDuurClass = 0;
+			inputData.setRefClassCont(0);
+		if (riskFactorType == 3) {
+			inputData.setIndexDuurClass(getInteger("durationclass", config));
+			/*
+			 * keep the original number as this is needed later to read from
+			 * this number the relative risks for duration
+			 */
+
+			originalNumberDurationClass = inputData.getIndexDuurClass();
+		} else
+			inputData.setIndexDuurClass(0);
 		if (riskFactorType != 2)
 			scenarioInfo
 					.setReferenceClass(getInteger("referenceclass", config));
@@ -977,13 +956,6 @@ public class InputDataFactory {
 		 */
 
 		ConfigurationNode rootNode = config.getRootNode();
-
-		if (((XMLConfiguration) config).getRootElementName() != "riskfactor")
-			throw new DynamoConfigurationException(" Tagname " + "riskfactor"
-					+ " expected in main simulation configuration file "
-					+ "but found tag "
-					+ ((XMLConfiguration) config).getRootElementName());
-
 		if (riskFactorType != 2) {
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
@@ -994,8 +966,8 @@ public class InputDataFactory {
 					int currentClass = 0;
 					List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 							.getChildren();// level: class
-					scenarioInfo.riskClassnames = new String[leafChildren
-							.size()];
+					scenarioInfo.setRiskClassnames(new String[leafChildren
+							.size()]);
 					int[] index = new int[leafChildren.size()];
 					int[] index2 = new int[leafChildren.size()];
 					String[] names = new String[leafChildren.size()];
@@ -1027,13 +999,13 @@ public class InputDataFactory {
 							if (index2[i] == index2[i - 1])
 								throw new DynamoConfigurationException(
 										"double class index "
-												+ +i
+												+ i
 												+ " in riskfactor configuration file  ");
 						for (int j = 0; j < index.length; j++) {
 							if (index2[i] == index[j]) {
-								scenarioInfo.riskClassnames[i] = names[j];
-								if (inputData.indexDuurClass == index[j])
-									inputData.indexDuurClass = i;
+								scenarioInfo.getRiskClassnames()[i] = names[j];
+								if (inputData.getIndexDuurClass() == index[j])
+									inputData.setIndexDuurClass(i);
 								if (scenarioInfo.getReferenceClass() == index[j])
 									scenarioInfo.setReferenceClass(i);
 
@@ -1049,75 +1021,71 @@ public class InputDataFactory {
 				}
 
 			}
-			//
-			/* read transition information */
-			//
-			//
-			if (riskFactorType != 2)
-				configFileName = baseDir + File.separator + referenceDataDir
-						+ File.separator + riskFactorDir + File.separator
-						+ riskFactorName + File.separator
-						+ riskFactorTransDirName + File.separator
-						+ transMatXMLname;
+		}
+		//
+		/* read transition information */
+		//
+		//
+		if (riskFactorType != 2)
+			configFileName = baseDir + File.separator + referenceDataDir
+					+ File.separator + riskFactorDir + File.separator
+					+ riskFactorName + File.separator + riskFactorTransDirName
+					+ File.separator + transMatXMLname;
+		else
+			configFileName = baseDir + File.separator + referenceDataDir
+					+ File.separator + riskFactorDir + File.separator
+					+ riskFactorName + File.separator + riskFactorTransDirName
+					+ File.separator + transDriftXMLname;
+
+		readTransitionData(configFileName, inputData, null, 0);
+
+		//
+		/* read prevalence information */
+		//
+		//
+		//
+		/* first for categorical/compound */
+		//
+		configFileName = baseDir + File.separator + referenceDataDir
+				+ File.separator + riskFactorDir + File.separator
+				+ riskFactorName + File.separator + riskfactorPrevXMLname;
+		if (riskFactorType != 2) {
+			inputData.setPrevRisk(factory.manufactureTwoDimArray(
+					configFileName, "riskfactorprevalences_categorical",
+					"prevalence", "cat", "percent", false), true);
+			scenarioInfo.setOldPrevalence(inputData.getPrevRisk());
+		} else {
+
+			inputData.setMeanRisk(factory.manufactureOneDimArray(
+					configFileName, "riskfactorprevalences_continuous",
+					"prevalence", "mean", true));
+			inputData.setStdDevRisk(factory.manufactureOneDimArray(
+					configFileName, "riskfactorprevalences_continuous",
+					"prevalence", "standarddeviation", true));
+			inputData.setSkewnessRisk(factory.manufactureOneDimArray(
+					configFileName, "riskfactorprevalences_continuous",
+					"prevalence", "skewness", true));
+			float[][] skewness = inputData.getSkewnessRisk();
+			boolean normal = true;
+			for (int a = 0; a < 96; a++)
+				for (int g = 0; g < 2; g++)
+					if (skewness[a][g] != 0)
+						normal = false;
+
+			if (normal)
+				inputData.setRiskDistribution("Normal");
 			else
-				configFileName = baseDir + File.separator + referenceDataDir
-						+ File.separator + riskFactorDir + File.separator
-						+ riskFactorName + File.separator + transDriftXMLname;
+				inputData.setRiskDistribution("LogNormal");
+		}
+		;
+		if (riskFactorType == 3) {
+			configFileName = baseDir + File.separator + referenceDataDir
+					+ File.separator + riskFactorDir + File.separator
+					+ riskFactorName + File.separator + durationXMLname;
 
-			readTransitionData(configFileName, inputData, null, 0);
-
-			//
-			/* read prevalence information */
-			//
-			//
-			//
-			/* first for categorical/compound */
-			//
-			if (riskFactorType != 2) {
-				configFileName = baseDir + File.separator + referenceDataDir
-						+ File.separator + riskFactorDir + File.separator
-						+ riskFactorName + File.separator + catPrevXMLname;
-
-				inputData.setPrevRisk(factory.manufactureTwoDimArray(
-						configFileName, "riskfactorprevalences_categorical",
-						"prevalence", "cat", "percent"), true);
-				scenarioInfo.oldPrevalence = inputData.getPrevRisk();
-			} else {
-				configFileName = baseDir + File.separator + referenceDataDir
-						+ File.separator + riskFactorDir + File.separator
-						+ riskFactorName + File.separator + contPrevXMLname;
-
-				inputData.setMeanRisk(factory.manufactureOneDimArray(
-						configFileName, "riskfactorprevalences_continuous",
-						"prevalence", "mean", true));
-				inputData.setStdDevRisk(factory.manufactureOneDimArray(
-						configFileName, "riskfactorprevalences_continuous",
-						"prevalence", "standarddeviation", true));
-				inputData.setSkewnessRisk(factory.manufactureOneDimArray(
-						configFileName, "riskfactorprevalences_continuous",
-						"prevalence", "skewness", true));
-				float[][] skewness = inputData.getSkewnessRisk();
-				boolean normal = true;
-				for (int a = 0; a < 96; a++)
-					for (int g = 0; g < 2; g++)
-						if (skewness[a][g] != 0)
-							normal = false;
-
-				if (normal)
-					inputData.setRiskDistribution("Normal");
-				else
-					inputData.setRiskDistribution("LogNormal");
-			}
-			;
-			if (riskFactorType == 3) {
-				configFileName = baseDir + File.separator + referenceDataDir
-						+ File.separator + riskFactorDir + File.separator
-						+ riskFactorName + File.separator + durationXMLname;
-
-				inputData.setPrevRisk(factory.manufactureTwoDimArray(
-						configFileName, "riskfactorprevalences_duration",
-						"prevalence", "duration", "percent"));
-			}
+			inputData.setDuurFreq(factory.manufactureTwoDimArray(
+					configFileName, "riskfactorprevalences_duration",
+					"prevalence", "duration", "percent", false), true);
 		}
 
 		//
@@ -1125,7 +1093,7 @@ public class InputDataFactory {
 		//
 		//
 		//
-		/* first for categorical/compound */
+		/* for categorical/compound */
 
 		float[][][] data3dim = new float[96][2][1];
 		float[][] data2dim = new float[96][2];
@@ -1135,34 +1103,53 @@ public class InputDataFactory {
 				data2dim[a][g] = 1;
 
 			}
-
+		/* for categorical */
 		if (riskFactorType == 1) {
 			configFileName = baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + allcauseRRcatXMLname;
+					+ riskFactorName + File.separator + allcauseRRXMLname;
 
 			inputData.setRelRiskMortCat(factory.manufactureTwoDimArray(
 					configFileName, "relrisksfordeath_categorical",
-					"relriskfordeath", "cat", "value"));
+					"relriskfordeath", "cat", "value", false));
 			inputData.setRelRiskMortCont(data2dim);
 
 		}
+		/* for continuous */
+
 		if (riskFactorType == 2) {
 			configFileName = baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + allcauseRRcontXMLname;
+					+ riskFactorName + File.separator + allcauseRRXMLname;
 
 			inputData.setRelRiskMortCont(factory.manufactureOneDimArray(
 					configFileName, "relrisksfordeath_continuous",
-					"relrisksfordeath", "value", false));
+					"relriskfordeath", "value", false));
 			inputData.setRelRiskMortCat(data3dim);
 		}
+		/*
+		 * for compound
+		 */
 		if (riskFactorType == 3) {
 			configFileName = baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator
-					+ allcauseRRcompoundXMLname;
-			// TODO: other RR's for compound
+					+ riskFactorName + File.separator + allcauseRRXMLname;
+
+			inputData.setRelRiskMortCat(factory.manufactureTwoDimArray(
+					configFileName, "relrisksfordeath_compound",
+					"relriskfordeath", "cat", "value", true));
+			inputData.setRelRiskDuurMortBegin(factory.selectOneDimArray(
+					configFileName, "relrisksfordeath_compound",
+					"relriskfordeath", "begin", "cat",
+					originalNumberDurationClass));
+			inputData.setRelRiskDuurMortEnd(factory.selectOneDimArray(
+					configFileName, "relrisksfordeath_compound",
+					"relriskfordeath", "end", "cat",
+					originalNumberDurationClass));
+			inputData.setRrAlphaMort(factory.selectOneDimArray(configFileName,
+					"relrisksfordeath_compound", "relriskfordeath", "alfa",
+					"cat", originalNumberDurationClass));
+
 			;
 			inputData.setRelRiskMortCont(data2dim);
 		}
@@ -1187,24 +1174,22 @@ public class InputDataFactory {
 			throws DynamoConfigurationException {
 
 		HierarchicalConfiguration config;
-		ConfigurationNode rootNode;
 		if (riskFactorType != 2) {
 			try {
 				config = new XMLConfiguration(configFileName);
 			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				throw new DynamoConfigurationException(
 						"reading error encountered when reading file: "
 								+ configFileName + " with message: "
 								+ e.getMessage());
 			}
-			rootNode = config.getRootNode();
 			if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_zero") {
 				if (inputData != null)
-					inputData.transType = 0;
+					inputData.setTransType(0);
 				else if (scenInfo != null)
-					scenInfo.zeroTransition[scenNumber] = true;
+					scenInfo.setZeroTransition(true, scenNumber);
 				else
 					throw new DynamoConfigurationException(
 							"Both scenInfo and Input data are null in method"
@@ -1213,7 +1198,7 @@ public class InputDataFactory {
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_netto") {
 				if (inputData != null)
-					inputData.transType = 1;
+					inputData.setTransType(1);
 
 				else
 					throw new DynamoConfigurationException(
@@ -1224,16 +1209,16 @@ public class InputDataFactory {
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix") {
 				if (inputData != null) {
-					inputData.transType = 2;
+					inputData.setTransType(2);
 
-					inputData.transitionMatrix = factory
+					inputData.setTransitionMatrix(factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
-									"to", "percent");
+									"to", "percent"));
 				}
 
 				else if (scenInfo != null)
-					scenInfo.alternativeTransitionMatrix[scenNumber] = factory
+					scenInfo.getAlternativeTransitionMatrix()[scenNumber] = factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
 									"to", "percent");
@@ -1258,34 +1243,32 @@ public class InputDataFactory {
 			try {
 				config = new XMLConfiguration(configFileName);
 			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				throw new DynamoConfigurationException(
 						"error encountered while reading file: "
 								+ configFileName + " with message: "
 								+ e.getMessage());
 			}
-			rootNode = config.getRootNode();
-
 			if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_zero") {
-				inputData.transType = 0;
+				inputData.setTransType(0);
 			}
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_netto") {
-				inputData.transType = 1;
+				inputData.setTransType(1);
 			}
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift") {
-				inputData.transType = 2;
-				inputData.meanDrift = factory.manufactureOneDimArray(
+				inputData.setTransType(2);
+				inputData.setMeanDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
-						"mean", true);
-				inputData.stdDrift = factory.manufactureOneDimArray(
+						"mean", true));
+				inputData.setStdDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
-						"standarddevivation", true);
-				inputData.offsetDrift = factory.manufactureOneDimArray(
+						"standarddevivation", true));
+				inputData.setOffsetDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
-						"skewness", true);
+						"skewness", true));
 			}
 
 			else
@@ -1537,7 +1520,7 @@ public class InputDataFactory {
 		 */
 		inputData.setNCluster(nClusters);
 		inputData.setClusterStructure(clusterStructure);
-		scenarioInfo.structure = clusterStructure;
+		scenarioInfo.setStructure(clusterStructure);
 
 		/*
 		 * now read the data for the diseases
@@ -1563,7 +1546,7 @@ public class InputDataFactory {
 				String configFileName = baseDir + File.separator
 						+ referenceDataDir + File.separator + diseasesDir
 						+ File.separator + info.to + File.separator
-						+ "Relative_Risks" + File.separator + info.rrFileName
+						+ RRdiseaseDir + File.separator + info.rrFileName
 						+ info.from + ".xml";
 				info.rrDataDis = factory.manufactureOneDimArray(configFileName,
 						"rrisksfromdisease", "relativerisk", "value", false);
@@ -1573,8 +1556,8 @@ public class InputDataFactory {
 					String configFileName = baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
-							+ "Relative_Risks" + File.separator
-							+ info.rrFileName + info.from + ".xml";
+							+ RRriskDir + File.separator + info.rrFileName
+							+ info.from + ".xml";
 					info.rrDataCont = factory.manufactureOneDimArray(
 							configFileName, "rrisksforriskfactor_continuous",
 							"relativerisk", "value", false);
@@ -1583,21 +1566,32 @@ public class InputDataFactory {
 					String configFileName = baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
-							+ "Relative_Risks" + File.separator
-							+ info.rrFileName + info.from + ".xml";
+							+ RRriskDir + File.separator + info.rrFileName
+							+ info.from + ".xml";
 					info.rrDataCat = factory.manufactureTwoDimArray(
 							configFileName, "rrisksforriskfactor_categorical",
-							"relativerisk", "cat", "value");
-				} else { // TODO if compound type
-
+							"relativerisk", "cat", "value", false);
+				} else {
 					String configFileName = baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
-							+ "Relative_Risks" + File.separator
-							+ info.rrFileName + info.from + ".xml";
+							+ RRriskDir + File.separator + info.rrFileName
+							+ info.from + ".xml";
+
 					info.rrDataCat = factory.manufactureTwoDimArray(
 							configFileName, "rrisksforriskfactor_compound",
-							"relativerisk", "value", "");
+							"relativerisk", "cat", "value", true);
+					info.rrDataBegin = factory.selectOneDimArray(
+							configFileName, "rrisksforriskfactor_compound",
+							"relativerisk", "begin", "cat",
+							originalNumberDurationClass);
+					info.rrDataEnd = factory.selectOneDimArray(configFileName,
+							"rrisksforriskfactor_compound", "relativerisk",
+							"end", "cat", originalNumberDurationClass);
+					info.rrDataAlfa = factory.selectOneDimArray(configFileName,
+							"rrisksforriskfactor_compound", "relativerisk",
+							"alfa", "cat", originalNumberDurationClass);
+
 				}
 
 			}
@@ -1606,18 +1600,17 @@ public class InputDataFactory {
 		DiseaseClusterData[][][] clusterData = new DiseaseClusterData[96][2][nClusters];
 
 		for (int c = 0; c < nClusters; c++) {
-			float[][][][] RRdis = new float[96][2][clusterStructure[c]
-					.getNinCluster()][clusterStructure[c].getNinCluster()];
 
-			pData = new float[clusterStructure[c].getNinCluster()][96][2];
-			iData = new float[clusterStructure[c].getNinCluster()][96][2];
-			eData = new float[clusterStructure[c].getNinCluster()][96][2];
-			fData = new float[clusterStructure[c].getNinCluster()][96][2];
-			cData = new float[clusterStructure[c].getNinCluster()][96][2];
-			dData = new float[clusterStructure[c].getNinCluster()][96][2];
+			pData = new float[clusterStructure[c].getNInCluster()][96][2];
+			iData = new float[clusterStructure[c].getNInCluster()][96][2];
+			eData = new float[clusterStructure[c].getNInCluster()][96][2];
+			fData = new float[clusterStructure[c].getNInCluster()][96][2];
+			cData = new float[clusterStructure[c].getNInCluster()][96][2];
+			dData = new float[clusterStructure[c].getNInCluster()][96][2];
 
-			for (int d = 0; d < clusterStructure[c].getNinCluster(); d++) {
-				String thisDisease = clusterStructure[c].diseaseName.get(d);
+			for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
+				String thisDisease = clusterStructure[c].getDiseaseName()
+						.get(d);
 
 				/* find the DisInfo element for this disease */
 
@@ -1669,9 +1662,8 @@ public class InputDataFactory {
 						}
 						String unitType = getName("unittype", config);
 						if (unitType.compareToIgnoreCase("Median survival") == 0)
-							for (int a = 0; a < 96; a++)
-								for (int g = 0; g < 2; g++)
-									eData[d][a][g] = (float) (log2 / ((double) eData[d][a][g]));
+
+							eData[d] = excessRate(eData[d], thisDisease);
 						// TODO nog een keer checken of omrekening klopt
 						configFileName = baseDir + File.separator
 								+ referenceDataDir + File.separator
@@ -1694,25 +1686,26 @@ public class InputDataFactory {
 			 */
 
 			float[][] RRdisExtended = new float[clusterStructure[c]
-					.getNinCluster()][clusterStructure[c].getNinCluster()];
+					.getNInCluster()][clusterStructure[c].getNInCluster()];
 
 			for (int a = 0; a < 96; a++)
 				for (int g = 0; g < 2; g++) {
 					/*
 					 * first make RRdis
 					 */
-					for (int d = 0; d < clusterStructure[c].getNinCluster(); d++) {
-						if (clusterStructure[c].dependentDisease[d]) {
+					for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
+						if (clusterStructure[c].getDependentDisease()[d]) {
 							for (int d2 = 0; d2 < clusterStructure[c]
-									.getNinCluster(); d2++) {
+									.getNInCluster(); d2++) {
 								// TODO fill RRDis
 								RRdisExtended[d2][d] = 1;
 								for (int rrDis = 0; rrDis < nRRsDisease; rrDis++) {
 									if (isRRto[rrDis]
-											.compareToIgnoreCase(clusterStructure[c].diseaseName
-													.get(d)) == 0
+											.compareToIgnoreCase(clusterStructure[c]
+													.getDiseaseName().get(d)) == 0
 											&& isRRfrom[rrDis]
-													.compareToIgnoreCase(clusterStructure[c].diseaseName
+													.compareToIgnoreCase(clusterStructure[c]
+															.getDiseaseName()
 															.get(d2)) == 0)
 
 										RRdisExtended[d2][d] = rrInfo
@@ -1726,22 +1719,25 @@ public class InputDataFactory {
 
 						else
 							for (int d2 = 0; d2 < clusterStructure[c]
-									.getNinCluster(); d2++)
+									.getNInCluster(); d2++)
 								RRdisExtended[d2][d] = 1;
 
 					}
+					int nclasses = 1;
+					if (riskFactorType != 2)
+						nclasses = inputData.getPrevRisk()[0][0].length;
 
 					clusterData[a][g][c] = new DiseaseClusterData(
-							clusterStructure[c],
-							inputData.getPrevRisk()[0][0].length, RRdisExtended);
+							clusterStructure[c], nclasses, RRdisExtended);
 
 					/* enter the data from diseases */
-					for (int d = 0; d < clusterStructure[c].getNinCluster(); d++) {
+					for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
 						clusterData[a][g][c].setPrevalence(
 								pData[d][a][g] / 100, d);
 						clusterData[a][g][c].setIncidence(iData[d][a][g], d);
 						clusterData[a][g][c].setExcessMortality(eData[d][a][g],
 								d);
+						clusterData[a][g][c].setDisability(dData[d][a][g], d);
 						clusterData[a][g][c].setCuredFraction(cData[d][a][g],
 								d, clusterStructure[c]);
 						clusterData[a][g][c].setCaseFatality(fData[d][a][g], d);
@@ -1758,9 +1754,8 @@ public class InputDataFactory {
 
 						for (int rr = 0; rr < rrInfo.size(); rr++) {
 							info = rrInfo.get(rr);
-							if (info.to
-									.compareToIgnoreCase(clusterStructure[c].diseaseName
-											.get(d)) == 0) {
+							if (info.to.compareToIgnoreCase(clusterStructure[c]
+									.getDiseaseName().get(d)) == 0) {
 								if (info.rrDataCat != null)
 									clusterData[a][g][c].setRelRiskCat(
 											info.rrDataCat[a][g], d);
@@ -1788,6 +1783,159 @@ public class InputDataFactory {
 		inputData.setClusterData(clusterData);
 		;
 	}// end method
+
+	public float[][] excessRate(float[][] medianSurvival, String diseaseLabel)
+			throws DynamoInconsistentDataException {
+		float[][] rate = new float[96][2];
+		double log2 = Math.log(2);
+		double[][] drate = new double[96][2];
+		double medianAge;
+		double aaRate;
+		double yearOfMedian;
+		double sumRate;
+		for (int g = 0; g < 2; g++) {
+			drate[95][g] = (log2 / medianSurvival[95][g]);
+			rate[95][g] = (float) drate[95][g];
+			for (int a = 94; a >= 0; a--) {
+				medianAge = a + medianSurvival[a][g];
+				yearOfMedian = a + Math.floor(medianAge);
+				sumRate = 0;
+				{
+					for (int aa = a + 1; aa < a + Math.ceil(medianAge); aa++) {
+						if (aa > 95)
+							aaRate = drate[95][g];
+						else
+							aaRate = drate[aa][g];
+						if (aa == yearOfMedian)
+							sumRate += (medianAge - yearOfMedian) * aaRate;
+						else
+							sumRate += aaRate;
+					}
+					drate[a][g] = log2 - sumRate;
+					if (drate[a][g] < 0)
+						throw new DynamoInconsistentDataException(
+								"median survival rates for age "
+										+ a
+										+ " and sex "
+										+ g
+										+ " for disease "
+										+ diseaseLabel
+										+ " are inconsistent with the median survival at the next higher agegroups. Please "
+										+ "check the data and make sure that survival does not decrease abruptly over age");
+					rate[a][g] = (float) drate[a][g];
+				}
+			}
+		}
+
+		return rate;
+
+	}
+
+	private void readNewbornData(String configFileName, ScenarioInfo scenInfo)
+			throws DynamoConfigurationException,
+			DynamoInconsistentDataException {
+
+		HierarchicalConfiguration config;
+		/* make an array large enough for all cases */
+
+		int[] year = new int[200];
+		int[] number = new int[200];
+		int currentChild = 0;
+		try {
+			config = new XMLConfiguration(configFileName);
+		} catch (ConfigurationException e) {
+
+			e.printStackTrace();
+			throw new DynamoConfigurationException(
+					"reading error encountered when reading file: "
+							+ configFileName + " with message: "
+							+ e.getMessage());
+		}
+
+		if (((XMLConfiguration) config).getRootElementName() == "newborns") {
+			if (scenInfo != null) {
+				scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
+
+				ConfigurationNode rootNode = config.getRootNode();
+
+				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+						.getChildren();
+
+				for (ConfigurationNode rootChild : rootChildren) {
+					if (rootChild.getName() != "amount"
+							&& rootChild.getName() != "sexratio")
+						throw new DynamoConfigurationException(" Tagname "
+								+ "amount or sexratio expected in file "
+								+ configFileName + " but found tag "
+								+ rootChild.getName());
+
+					if (rootChild.getName() == "amount") {
+						List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+								.getChildren();
+
+						for (ConfigurationNode leafChild : leafChildren) {
+							Object valueObject = leafChild.getValue();
+							String leafName = leafChild.getName();
+							if (valueObject instanceof String) {
+								String valueString = (String) valueObject;
+								if ("year".equalsIgnoreCase(leafName)) {
+
+									year[currentChild] = getIntegerValue(
+											valueString, "year");
+									if (currentChild > 0
+											&& year[currentChild] != year[currentChild - 1] + 1)
+										throw new DynamoInconsistentDataException(
+												" years in file with newborns"
+														+ " have a gap between year "
+														+ year[currentChild - 1]
+														+ " and "
+														+ year[currentChild]
+														+ " this is not allowed");
+									if ("number".equalsIgnoreCase(leafName)) {
+
+										number[currentChild] = getIntegerValue(
+												valueString, "number");
+										// TODO checken data completeness
+
+									}
+								}
+							}
+
+						}
+						currentChild++;
+					}
+				}
+
+				/* ready with reading, now make arrays to store */
+
+				;
+			}
+		} else
+			throw new DynamoConfigurationException(
+					"label newborns expected but found label: "
+							+ ((XMLConfiguration) config).getRootElementName()
+							+ " in file : " + configFileName);
+
+		int startYear = year[0];
+		scenInfo.setStartYear(startYear);
+		int newborns[] = new int[currentChild];
+
+		for (int i = 0; i < currentChild; i++)
+			newborns[i] = number[i];
+		scenInfo.setNewborns(newborns);
+
+	}
+
+	public int getIntegerValue(String value, String tag)
+			throws DynamoConfigurationException {
+		int returnvalue = 0;
+		if (value == null)
+			throw new DynamoConfigurationException("no value found with " + tag);
+		else
+			returnvalue = Integer.parseInt(value);
+		return returnvalue;
+
+	}
 
 	public int getRandomSeed() {
 		return randomSeed;

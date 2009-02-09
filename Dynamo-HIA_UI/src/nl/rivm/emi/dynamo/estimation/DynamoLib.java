@@ -304,7 +304,7 @@ public class DynamoLib {
 
 	/**
 	 * logNormInv give the inverse of the cumulative distribution of a lognormal
-	 * variable; /**
+	 * variable characterized by mu, sigma and offset; /**
 	 * 
 	 * @param p
 	 *            : (cumulative) probability
@@ -350,7 +350,17 @@ public class DynamoLib {
 		if (std <= 0)
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
-		double sigma = findRoot(skewness);
+		double sigma;
+				try {
+					sigma = findRoot(skewness);
+				} catch (Exception e) {
+					
+					e.printStackTrace();
+					throw new DynamoInconsistentDataException(
+					" STD of lognormal distribution in combination with skewness can" +
+					"not represent a lognormal distribution");
+				}
+		
 		double mu = 0.5 * (Math.log(std * std)
 				- Math.log(Math.exp(sigma * sigma) - 1) - sigma * sigma);
 		double offset = mean - Math.exp(mu + 0.5 * sigma * sigma);
@@ -382,6 +392,13 @@ public class DynamoLib {
 
 	};
 	
+	/** find Sigma calculates the sigma of a logNormal distributrion from its skewness
+	 * It uses the analytical way to solve this, rather than the rootsearching 
+	 * doen in find Root *implemented to check, bu
+	 * @param skew
+	 * @return
+	 * @throws Exception
+	 */
 	protected static double findSigma(double skew) throws Exception {
 		double sigma=0; 
 		double hulp=0;
@@ -395,8 +412,11 @@ public class DynamoLib {
 	
 
 	/**
+	 * 
 	 * findRoot solves sigma from the equation for skewness as a function of
-	 * sigma in case of a lognormal distribution. Here sigma is the standard
+	 * sigma in case of a lognormal distribution using a root finding algoritm
+	 * This is implemented only to check findSigma, that uses the analytical solution, that
+	 * is to be preferred. Here sigma is the standard
 	 * deviation parameter of the lognormal distribution. findRoot uses the
 	 * Brent algorithm (see numerical recipies); By replacing method f with
 	 * another function, and if necessary adapting the range in which a solution
