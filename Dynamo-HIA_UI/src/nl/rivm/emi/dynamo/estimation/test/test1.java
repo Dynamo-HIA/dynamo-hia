@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 import nl.rivm.emi.dynamo.estimation.InputData;
+import nl.rivm.emi.dynamo.estimation.InputDataFactory;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 
 import org.apache.commons.logging.Log;
@@ -8,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+/*  test 1 tests several components of the program */
 
 public class test1 {
 	Log log = LogFactory.getLog(getClass().getName());
@@ -25,7 +27,7 @@ public void teardown() {
 @Test
 public void test() {
 
-	// main conducts a set of tests for testing the different parts
+	
 
 	// data to test the regression
 	double y[] = { 1, 2, 3, 4, 5, 7 };
@@ -70,61 +72,24 @@ public void test() {
 				+ "= -2.02354? " + coef[1] + " = 0.88230? " + coef[2]
 				+ " = 0.14077 ? " + coef[3] + " = 0.17750?");
 
-		// test continuous risk factor
-		Testdata.riskType = 2;
-/*		ModelParameters E2 = new ModelParameters(100, Testdata); */
-		// test compound risk factor
-		Testdata.riskType = 3;
-	/*	ModelParameters E3 = new ModelParameters(100, Testdata);*/
-		/* next test: no mortality through other diseases;
-		 * then other cause = total cause
-		 */
 		
-		for (int i=0;i<7;i++){
-		Testdata.excessMortality[0][0][i]=0;
-		Testdata.caseFatality[0][0][i]=0;
-		Testdata.relRiskDuurBegin[0][0][i]=1;
-		Testdata.relRiskDuurEnd[0][0][i]=1;
-		Testdata.relRiskDuurMortEnd[0][0]=1.1; // also=1 for testing that end = fixed value
-		Testdata.relRiskDuurMortBegin[0][0]=1.1;  // also=1 for testing that begin=fixed value
-		Testdata.relRiskCat[0][0][1][i]=1;
-		Testdata.relRiskCat[0][0][2][i]=1;}
-		ModelParameters E3a = new ModelParameters();
-		E3a.estimateModelParameters(100, Testdata,0,0);
-		log.debug("relRiskOtherMortEnd "+E3a.relRiskOtherMortEnd[0][0]+" relRiskOtherMortBegin "
-				+E3a.relRiskOtherMortBegin
-				+" alfaOtherMort "+E3a.alfaOtherMort[0][0]);
+	/* to test the calculation of rates from median survival */
 		
-		InputData Testdata2 = new InputData();
-		Testdata2.makeTest2();
-		ModelParameters E4 = new ModelParameters();
-		estimateModelParameters(100, Testdata2,0,0);
-
-		// print comparison with what should come out of it
-		System.out.println("test resultaten 2 ziekte zonder casefat: "
-				+ E4.baselineIncidence[0][0][0] + "= ? "
-				+ E4.baselineIncidence[0][0][1] + "= ? "
-				+ E4.baselinePrevalenceOdds[0][0][0] + "=0.117647 ? "
-				+ E4.baselinePrevalenceOdds[0][0][1] + "=0.117647 ? "
-				+ E4.relRiskOtherMort[0][0][0] + "= ? " + E4.relRiskOtherMort[0][0][1]
-				+ "= ? " + E4.baselineOtherMortality + "= ? "
-				+ E4.attributableMortality[0][0][0] + "= ? "
-				+ E4.attributableMortality[0][0][1] + "= ? ");
-		Testdata2.caseFatality[0][0][0] = 0;
-		Testdata2.caseFatality[0][0][1] = 0.5;
-		ModelParameters E5 = new ModelParameters();
-		estimateModelParameters(100, Testdata2,0,0);
-		// print comparison with what should come out of it
-		System.out.println("test resultaten 2 ziekte with casefat: "
-				+ E4.baselineIncidence[0][0][0] + "= ? "
-				+ E4.baselineIncidence[0][0][1] + "= ? "
-				+ E4.baselinePrevalenceOdds[0][0][0] + "=0.117647 ? "
-				+ E4.baselinePrevalenceOdds[0][0][1] + "=0.117647 ? "
-				+ E4.relRiskOtherMort[0][0][0] + "= ? " + E4.relRiskOtherMort[0][0][1]
-				+ "= ? " + E4.baselineOtherMortality + "= ? "
-				+ E4.attributableMortality[0][0][0] + "= ? "
-				+ E4.attributableMortality[0][0][1] + "= ? ");
-
+		InputDataFactory E2 = new InputDataFactory ("simulation1");
+		float [][] rate;
+		float [][] medianSurvival = new float [96][2];
+		for (int g = 0; g < 2; g++)
+		for (int a = 0; a <96; a++)
+		{ medianSurvival[a][g]=1.4835F ;}
+		medianSurvival[94][0]=1.5344F;
+		medianSurvival[93][0]=2.4375F;
+		medianSurvival[92][0]=3.395F;
+	   rate=E2.excessRate(medianSurvival);
+		System.out.println("test resultaten rate calculation" + rate[92][0]
+		   				+ "= 0.019859172 " + rate[93][0] + " = 0.045275774 " + rate[94][0]
+		                                               				+ " = 0.4434549 " + rate[95][0] + " =  0.46723774");
+		
+		
 	} catch (Exception e) {
 		System.err.println(e.getMessage());
 
