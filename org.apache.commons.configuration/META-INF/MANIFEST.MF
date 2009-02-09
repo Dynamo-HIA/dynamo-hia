@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Configuration Plug-in
+Bundle-SymbolicName: org.apache.commons.configuration
+Bundle-Version: 1.5.0
+Bundle-ClassPath: .
+Bundle-Vendor: Apache
+Export-Package: org.apache.commons.configuration,
+ org.apache.commons.configuration.beanutils,
+ org.apache.commons.configuration.event,
+ org.apache.commons.configuration.interpol,
+ org.apache.commons.configuration.plist,
+ org.apache.commons.configuration.reloading,
+ org.apache.commons.configuration.tree,
+ org.apache.commons.configuration.tree.xpath,
+ org.apache.commons.configuration.web
+Require-Bundle: org.apache.commons.collections,
+ org.apache.commons.logging,
+ org.apache.commons.codec,
+ javax.servlet,
+ org.eclipse.core.runtime,
+ org.apache.commons.lang,
+ org.apache.ant,
+ javax.xml
