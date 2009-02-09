@@ -20,7 +20,16 @@ import org.w3c.dom.Node;
  */
 public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 	Log log = LogFactory.getLog(getClass().getName());
-
+/* hendriek has added newborns and generation as field and as part of a new constructor */
+/* standard this is set to the value false and 0, and then everything acts like before */	
+	boolean newborns=false;
+	int generation=0;
+	
+	public IndividualFromDOMFactory(String elementName, boolean newbornsindicator, int generation) {
+		super(elementName);
+		newborns=newbornsindicator;
+		this.generation=generation;
+	}
 	public IndividualFromDOMFactory(String elementName) {
 		super(elementName);
 	}
@@ -49,7 +58,7 @@ public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 			Node myNode = findMyNodeAtThisLevel(node);
 			while (myNode != null) {
 				String label = tryToFindLabel(myNode);
-				Individual currentIndividual = new Individual("ind", label);
+				Individual currentIndividual = new Individual("ind", label,newborns,generation);
 				log.info("Individual " + label);
 				Node childNode = myNode.getFirstChild();
 				PRngSeedFactory seedFactory = new PRngSeedFactory(

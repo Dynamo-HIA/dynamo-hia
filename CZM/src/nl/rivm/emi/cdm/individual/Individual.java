@@ -43,7 +43,23 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
 	}
 
-	
+	/* hendriek has added newborn and the generation of the newborn 
+	 * as fields and as part of a new constructor */
+	/* standard this is set to the value false and 0, and then everything acts like before */	
+		private boolean newborn=false;
+		private int generation=0;
+		/* generation gives the number of timesteps (thus not years) 
+		 * in which  this newborn enters the population
+		 * characteristics at timesteps before this moment are empty */
+		
+		
+		public Individual(String elementName, String label, boolean isNewborn, int generation2) {
+			super();
+			this.elementName = elementName;
+			this.label = label;
+			this.newborn =isNewborn;
+			this.generation=generation2;
+		}	
 	
 	
 	public Individual(String elementName, String label) {
@@ -165,6 +181,16 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	
 	
 /* added by Hendriek */
+	
+
+	public boolean isNewborn() {
+		return newborn;
+	}
+	
+	public int getGeneration() {
+		return generation;
+	}
+	
 	public void updateCompoundCharacteristicValue(int characteristicIndex, float [] newValue)
 			throws CDMRunException {
 		CharacteristicValueBase cv = this.get(characteristicIndex);
@@ -181,6 +207,8 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		}
 		((CompoundCharacteristicValue)cv).appendValue(newValue);
 	}
+	
+	/* end addition */
 
 	/**
 	 * Append / replace the value at index.
@@ -210,6 +238,9 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	public Iterator<CharacteristicValueBase> iterator() {
 		return new CharacteristicValueIterator();
 	}
+
+	
+
 
 	class CharacteristicValueIterator implements
 			Iterator<CharacteristicValueBase> {
