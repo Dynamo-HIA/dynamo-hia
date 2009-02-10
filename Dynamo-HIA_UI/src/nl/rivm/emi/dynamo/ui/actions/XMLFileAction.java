@@ -15,6 +15,8 @@ import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
@@ -213,10 +215,34 @@ public class XMLFileAction extends ActionBase {
 																						rootElementName,
 																						node);
 																			} else {
-																				throw new DynamoConfigurationException(
-																						"RootElementName "
-																								+ rootElementName
-																								+ " not implemented yet.");
+																				if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+																						.getNodeLabel()
+																						.equals(
+																								rootElementName)) {
+																					theModal = new RelRiskForDisabilityCategoricalModal(
+																							shell,
+																							file
+																									.getAbsolutePath(),
+																							rootElementName,
+																							node);
+																				} else {
+																					if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+																							.getNodeLabel()
+																							.equals(
+																									rootElementName)) {
+																						theModal = new RelRiskForDisabilityContinuousModal(
+																								shell,
+																								file
+																										.getAbsolutePath(),
+																								rootElementName,
+																								node);
+																					} else {
+																						throw new DynamoConfigurationException(
+																								"RootElementName "
+																										+ rootElementName
+																										+ " not implemented yet.");
+																					}
+																				}
 																			}
 																		}
 																	}

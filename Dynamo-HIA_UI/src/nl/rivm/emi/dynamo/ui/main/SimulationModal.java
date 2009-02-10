@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
+import nl.rivm.emi.dynamo.ui.panels.button.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -57,36 +58,39 @@ public class SimulationModal implements Runnable, DataAndFileContainer {
 	}
 
 	public synchronized void open() {
-		try {
+//		try {
 			dataBindingContext = new DataBindingContext();
-			lotsOfData = manufactureModelObject();
+//			lotsOfData = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			helpPanel = new HelpGroup(shell, buttonPanel);
-			PopulationSizeGroup populationSizeGroup = new PopulationSizeGroup(
-					shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
-			populationSizeGroup.setFormData(helpPanel.getGroup(), buttonPanel);
+			RunButtonPanel runButtonPanel = new RunButtonPanel(shell);
+			runButtonPanel.setModalParent(this);
+			runButtonPanel.setFormData(helpPanel.getGroup(), buttonPanel);
+//			PopulationSizeGroup populationSizeGroup = new PopulationSizeGroup(
+//					shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
+//			populationSizeGroup.setFormData(helpPanel.getGroup(), buttonPanel);
 			shell.pack();
 			// This is the first place this works.
-			shell.setSize(900, 700);
+			shell.setSize(400, 400);
 			shell.open();
 			Display display = shell.getDisplay();
 			while (!shell.isDisposed()) {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
+//		} catch (ConfigurationException e) {
+//			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+//			box.setText("Processing " + configurationFilePath);
+//			box.setMessage(e.getMessage());
+//			box.open();
+//		} catch (DynamoInconsistentDataException e) {
+//			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
+//			box.setText("Processing " + configurationFilePath);
+//			box.setMessage(e.getMessage());
+//			box.open();
+//		}
 	}
 
 	private TypedHashMap manufactureModelObject()
@@ -138,5 +142,9 @@ public class SimulationModal implements Runnable, DataAndFileContainer {
 
 	public Object getRootElementName() {
 		return rootElementName;
+	}
+
+	public BaseNode getSelectedNode() {
+		return selectedNode;
 	}
 }

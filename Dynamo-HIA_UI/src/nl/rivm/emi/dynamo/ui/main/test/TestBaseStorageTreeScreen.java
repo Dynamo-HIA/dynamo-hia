@@ -52,7 +52,7 @@ public class TestBaseStorageTreeScreen {
 
 		try {
 			String baseDirectoryPath = System.getProperty("user.dir")
-					+ File.separator + "data" + File.separator + "dynamobase";
+					/* + File.separator + "data" + File.separator + "dynamobase" */;
 			BaseStorageTreeScreen application = new BaseStorageTreeScreen(
 					baseDirectoryPath);
 			shell = application.open(display);

@@ -48,7 +48,7 @@ public class RelRiskForDeathContinuousModal extends AgnosticModal implements
 	@Override
 	protected void specializedOpenPart(Composite buttonPanel) {
 		RelRisksForDeathContinuousGroup relativeRiskForDeathGroup = new RelRisksForDeathContinuousGroup(
-				shell, lotsOfData, dataBindingContext, selectedNode, helpPanel);
+				shell, modelObject, dataBindingContext, selectedNode, helpPanel);
 		relativeRiskForDeathGroup
 				.setFormData(helpPanel.getGroup(), buttonPanel);
 	}

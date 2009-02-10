@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -90,11 +91,11 @@ public class NewRelRisksForDisabilityAction extends ActionBase {
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(configurationRootElementName)) {
-						MessageBox messageBox = new MessageBox(shell,
-								SWT.ERROR_NOT_IMPLEMENTED);
-						messageBox.setMessage("\"" + configurationRootElementName
-								+ "\" not yet implemented.");
-						messageBox.open();
+						theModal = new RelRiskForDisabilityContinuousModal(
+								shell,
+								file.getAbsolutePath(),
+								RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+										.getNodeLabel(), node);
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(configurationRootElementName)) {

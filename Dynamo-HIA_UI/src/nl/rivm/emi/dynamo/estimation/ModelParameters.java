@@ -256,8 +256,10 @@ public class ModelParameters {
 		BaseDirectory B = BaseDirectory
 				.getInstance("c:\\hendriek\\java\\dynamohome");
 		String BaseDir = B.getBaseDir();
-		InputDataFactory config = new InputDataFactory(simulationName);
-		InputData inputData = new InputData();
+		// TODO Hack to pass baseDirectory with minimum fuss.
+//		InputDataFactory config = new InputDataFactory(simulationName);
+		InputDataFactory config = new InputDataFactory(BaseDir, simulationName);
+			InputData inputData = new InputData();
 
 		ScenarioInfo scenInfo = new ScenarioInfo();
 		log.fatal("overall configuration read");

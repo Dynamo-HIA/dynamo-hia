@@ -39,8 +39,6 @@ public class BaseStorageTreeScreen {
 	Log log = LogFactory.getLog(getClass().getName());
 	String baseDirectoryPath = null;
 
-	// File baseDirectory = null;
-
 	public BaseStorageTreeScreen(String baseDirectoryPath) throws Exception {
 		this.baseDirectoryPath = baseDirectoryPath;
 	}

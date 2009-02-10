@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.main.test;
+package nl.rivm.emi.dynamo.ui.main.test.ffweg;
 
 import nl.rivm.emi.dynamo.ui.main.BaseScreen;
 

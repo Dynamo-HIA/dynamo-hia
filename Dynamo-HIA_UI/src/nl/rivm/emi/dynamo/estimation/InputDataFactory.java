@@ -34,7 +34,7 @@ public class InputDataFactory {
 
 	/* Field containing the name of the base directory */
 	// temporary for testing;
-	public String baseDir = "c:\\hendriek\\java\\dynamohome";;
+	public String baseDir = "c:\\hendriek\\java\\dynamohome";
 
 	/*
 	 * fields describing the labels of the XML configuration file (as made by
@@ -185,14 +185,33 @@ public class InputDataFactory {
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
 	private static final String prefixRRdis = "relriskfrom";
 
+	/**
+	 * Extra constructor for injecting rootDirectoryName.
+	 * 
+	 * @param baseDirectoryPath
+	 * @param simName
+	 * @throws DynamoConfigurationException
+	 */
+	public InputDataFactory(String baseDirectoryPath, String simName)
+			throws DynamoConfigurationException {
+		baseDir = baseDirectoryPath;
+		doIt(simName);
+	}
+
 	public InputDataFactory(String simName) throws DynamoConfigurationException {
+		doIt(simName);
+	}
+
+	private void doIt(String simName) throws DynamoConfigurationException {
 		;
 		// temporary for testing //;
 
 		try {
-			configuration = new XMLConfiguration(baseDir + File.separator
-					+ simulationDir + File.separator + simName + File.separator
-					+ "configuration.xml");
+			String configurationPath = baseDir + File.separator + simulationDir
+					+ File.separator + simName + File.separator
+					+ "configuration.xml";
+			log.fatal("Starting doIt(), configurationPath: " + configurationPath);
+			configuration = new XMLConfiguration(configurationPath);
 		} catch (ConfigurationException e) {
 
 			e.printStackTrace();
@@ -282,7 +301,6 @@ public class InputDataFactory {
 		if (!rrPresent)
 			throw new DynamoConfigurationException(
 					" no valid information present " + "for relative risks ");
-
 	}
 
 	/**
@@ -855,11 +873,9 @@ public class InputDataFactory {
 
 				if (scenInfo.get(scen).transFileName
 						.compareToIgnoreCase("none") == 0)
-				
-					scenarioInfo.setTransitionType(false, scen);
-					
 
-				
+					scenarioInfo.setTransitionType(false, scen);
+
 				else {
 					scenarioInfo.setTransitionType(true, scen);
 

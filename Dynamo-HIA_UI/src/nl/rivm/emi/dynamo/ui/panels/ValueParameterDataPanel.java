@@ -27,8 +27,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class ValueParameterDataPanel extends Composite /* implements Runnable */{
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
+	Log log = LogFactory
+			.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;

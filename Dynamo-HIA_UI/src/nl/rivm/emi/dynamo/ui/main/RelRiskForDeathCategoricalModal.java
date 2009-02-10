@@ -76,7 +76,7 @@ public class RelRiskForDeathCategoricalModal implements Runnable,
 //			relRiskForDeathCategoricalGroup.setFormData(helpPanel.getGroup(),
 //					buttonPanel);
 			RelativeRisksCategoricalGroup relRiskForDeathCategoricalGroup = new RelativeRisksCategoricalGroup(
-					shell, modelObject, dataBindingContext, selectedNode, riskSourceNode, helpPanel);
+					shell, modelObject, dataBindingContext, selectedNode, helpPanel);
 			relRiskForDeathCategoricalGroup.setFormData(helpPanel.getGroup(),
 					buttonPanel);
 			shell.pack();

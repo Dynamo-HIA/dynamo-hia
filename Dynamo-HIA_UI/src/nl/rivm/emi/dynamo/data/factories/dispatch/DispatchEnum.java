@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
@@ -52,79 +53,113 @@ public enum DispatchEnum {
 	/* W20Cat */
 	/* W20Con */
 	/* W20Cmp */
-	RISKFACTOR_COMPOUND(RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), /* new RiskFactorFactory() */
-	new DummyPlaceholderFactory(), null), // TODO
+	RISKFACTOR_COMPOUND(
+			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), /*
+																	 * new
+																	 * RiskFactorFactory
+																	 * ()
+																	 */
+			new DummyPlaceholderFactory(), null), // TODO
 	/* W21TmId */
-	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO.getNodeLabel(), /*
-													 * new
-													 * TransitionMatrixFactory()
-													 */
+	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO
+			.getNodeLabel(), /*
+							 * new TransitionMatrixFactory()
+							 */
 	new DummyPlaceholderFactory(), null), // TODO
 	/* W21TmFp */
-	TRANSITIONMATRIX_NETTO(RootElementNamesEnum.TRANSITIONMATRIX_NETTO.getNodeLabel(), /*
-													 * new
-													 * TransitionMatrixFactory()
-													 */
+	TRANSITIONMATRIX_NETTO(RootElementNamesEnum.TRANSITIONMATRIX_NETTO
+			.getNodeLabel(), /*
+							 * new TransitionMatrixFactory()
+							 */
 	new DummyPlaceholderFactory(), null), // TODO
 	/* W21TmMA */
-	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(), new TransitionMatrixFactory(), null),
+	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
+			new TransitionMatrixFactory(), null),
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
-	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), /* new TransitionDriftFactory() */
+	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), /*
+																		 * new
+																		 * TransitionDriftFactory
+																		 * ()
+																		 */
 	new DummyPlaceholderFactory(), null), // TODO
 	/* W22CatCom */
 
-	RISKFACTORPREVALENCES_CATEGORICAL(RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL.getNodeLabel(),
+	RISKFACTORPREVALENCES_CATEGORICAL(
+			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+					.getNodeLabel(),
 			new RiskFactorCategoricalPrevalencesFactory(), null), // TODO
 	/* W22Con */
-	RISKFACTORPREVALENCES_CONTINUOUS(RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS.getNodeLabel(),
-			new DummyPlaceholderFactory(), null), // TODO
+	RISKFACTORPREVALENCES_CONTINUOUS(
+			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
+					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
 	/* W22ComDur */
-	RISKFACTORPREVALENCES_DURATION(RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
+	RISKFACTORPREVALENCES_DURATION(
+			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
 			new RiskFactorPrevalencesDurationFactory(), null),
 	/* W23Cat */
-	RELRISKFORDEATH_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL.getNodeLabel(),
-			new RelRiskForDeathCategoricalFactory(), null),
+	RELRISKFORDEATH_CATEGORICAL(
+			RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
+					.getNodeLabel(), new RelRiskForDeathCategoricalFactory(),
+			null),
 	/* W23Con */
-	RELRISKFORDEATH_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS.getNodeLabel(),
-			new RelRiskForDeathContinuousFactory(), null),
+	RELRISKFORDEATH_CONTINUOUS(
+			RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS
+					.getNodeLabel(), new RelRiskForDeathContinuousFactory(),
+			null),
 	/* W23Cmp */
-	RELRISKFORDEATH_COMPOUND(RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
+	RELRISKFORDEATH_COMPOUND(
+			RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
 			new DummyPlaceholderFactory(), null), // TODO
-			/* W23Cat */
-			RELRISKFORDISABLITY_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL.getNodeLabel(),
-					new RelRiskForDisabilityCategoricalFactory(), null),
-			/* W23Con */
-			RELRISKFORDISABLITY_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS.getNodeLabel(),
-					new DummyPlaceholderFactory(), null),
-			/* W23Cmp */
-			RELRISKFORDISABLITY_COMPOUND(RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND.getNodeLabel(),
-					new DummyPlaceholderFactory(), null), // TODO
-	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(), new DiseasePrevalencesFactory(), null), // TODO
+	/* W23Cat */
+	RELRISKFORDISABLITY_CATEGORICAL(
+			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+					.getNodeLabel(),
+			new RelRiskForDisabilityCategoricalFactory(), null),
+	/* W23Con */
+	RELRISKFORDISABLITY_CONTINUOUS(
+			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+					.getNodeLabel(), new RelRiskForDisabilityContinuousFactory(), null),
+	/* W23Cmp */
+	RELRISKFORDISABLITY_COMPOUND(
+			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
+					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
+	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
+			new DiseasePrevalencesFactory(), null), // TODO
 	/* W32 */
-	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(), new DiseaseIncidencesFactory(), null),
+	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(),
+			new DiseaseIncidencesFactory(), null),
 	/* W33 */
-	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
+	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
+			new DummyPlaceholderFactory(), null), // TODO
 	/* W34Cat */
-	RRISKFORRISKFACTOR_CATEGORICAL(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL.getNodeLabel(),
+	RRISKFORRISKFACTOR_CATEGORICAL(
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
+					.getNodeLabel(),
 			new RelRiskFromRiskFactorCategoricalFactory(), null),
 	/* W34Con */
-	RRISKFORRISKFACTOR_CONTINUOUS(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS.getNodeLabel(),
+	RRISKFORRISKFACTOR_CONTINUOUS(
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
+					.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null),
 	/* W34Cmp */
-	RRISKFORRISKFACTOR_COMPOUND(RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND.getNodeLabel(),
-			new DummyPlaceholderFactory(), null), // TODO
+	RRISKFORRISKFACTOR_COMPOUND(
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
+					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
 	/* W35 */
-	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),
+	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASES
+			.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),
 	/* W?? */
-	DALYWEIGHTS(RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(), new DALYWeightsFactory(), null);
+	DALYWEIGHTS(RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(),
+			new DALYWeightsFactory(), null);
 
 	private final String rootNodeName;
 	private final AgnosticFactory theFactory;
-    private final Class theModalClass;
-	
-	private DispatchEnum(String rootNodeName, AgnosticFactory theFactory, Class modalClass) {
+	private final Class theModalClass;
+
+	private DispatchEnum(String rootNodeName, AgnosticFactory theFactory,
+			Class modalClass) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
 		theModalClass = modalClass;

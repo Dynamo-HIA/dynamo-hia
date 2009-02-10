@@ -243,7 +243,7 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection) {
 		XMLFileAction action = new XMLFileAction(shell, treeViewer,
 				(DirectoryNode) selection.getFirstElement(), "configuration",
-				"simulation");
+				RootElementNamesEnum.SIMULATION.getNodeLabel());
 		action.setText("New configuration");
 		manager.add(action);
 	}

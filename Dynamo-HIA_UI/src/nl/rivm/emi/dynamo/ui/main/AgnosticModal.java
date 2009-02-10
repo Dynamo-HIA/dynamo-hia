@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.ui.main;
 
 /**
- * Modal dialog to create and edit the population size XML files. 
+ * BaseClass for Modal dialogs that are used to create and edit configuration 
+ * files that are handled by an derivative of the AgnosticFactory. 
  */
 import java.io.File;
 
@@ -9,13 +10,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.DiseaseIncidencesGroup;
-import nl.rivm.emi.dynamo.ui.panels.DiseasePrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.OverallDALYWeightsGroup;
-import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
-import nl.rivm.emi.dynamo.ui.panels.PopulationSizeGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -38,7 +33,7 @@ abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	protected TypedHashMap lotsOfData;
+	protected TypedHashMap modelObject;
 	protected DataBindingContext dataBindingContext = null;
 	protected String configurationFilePath;
 	protected String rootElementName;
@@ -57,12 +52,20 @@ abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
 		shell.setLayout(formLayout);
 	}
 
+	/**
+	 * Set the text in the titlebar above the modal window.
+	 * @param selectedNode2
+	 * @return
+	 */
 	abstract protected String createCaption(BaseNode selectedNode2);
 
+	/**
+	 * Common open behaviour for all supported windows.
+	 */
 	public synchronized void open() {
 		try {
 			dataBindingContext = new DataBindingContext();
-			lotsOfData = manufactureModelObject();
+			modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -90,6 +93,12 @@ abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
 		}
 	}
 
+	/**
+	 * The method name says it all, the Class that extends this baseclass must 
+	 * implement its own special behaviour.
+     *
+	 * @param buttonPanel
+	 */
 	abstract protected void specializedOpenPart(Composite buttonPanel);
 
 	protected TypedHashMap manufactureModelObject()
@@ -114,8 +123,26 @@ abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			producedData = factory.manufactureObservableDefault();
+			producedData = bootstrapModelObject(factory);
 		}
+		return producedData;
+	}
+
+	/**
+	 * Method that creates a modelobject containing default LeafValue-s for 
+	 * all ContainerValue-s(Age, Sex etc.) when no configuration file is supplied.
+	 * 
+	 * Contains behaviour that goes for the most simple ModelObjects. 
+	 * 
+	 * For instance: Objects that contain category layers must override this methods 
+	 * to ensure the categories are initialized.
+	 * @param factory
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	protected TypedHashMap bootstrapModelObject(AgnosticFactory factory)
+			throws ConfigurationException {
+		TypedHashMap producedData = factory.manufactureObservableDefault();
 		return producedData;
 	}
 
@@ -132,7 +159,7 @@ abstract public class AgnosticModal implements Runnable, DataAndFileContainer {
 	}
 
 	public Object getData() {
-		return lotsOfData;
+		return modelObject;
 	}
 
 	public String getFilePath() {
