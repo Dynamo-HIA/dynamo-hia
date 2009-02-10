@@ -24,14 +24,13 @@ import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
-import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
-import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-
+import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
+import nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -53,7 +52,7 @@ public class TestAll {
 
 	// NB de directory moet ook worden aangepast in deze file //
 	
-	String simName = "simulation1";
+	String simName = "simulation3";
 	String directoryName = baseDir + "Simulations" + File.separator + simName;
 	String preCharConfig = directoryName + File.separator + "modelconfiguration"
 			+ File.separator +"charconfig.XML";
@@ -77,7 +76,7 @@ public class TestAll {
 		System.out.println(preCharConfig);
 		try {
 			p = new ModelParameters();
-			scen=p.estimateModelParameters("simulation1");
+			scen=p.estimateModelParameters(simName);
 			log.fatal("ModelParameters estimated and written");
 			
 			/* Below is obsolete
@@ -154,7 +153,7 @@ public class TestAll {
 			/* array pop contains the stimulated populations for the different scenario's */
 			int nLoops=scen.getNScenarios()+1;
 			// TODO: number of loops
-			for (int scennum=1; scennum<scen.getNScenarios();scennum++){
+			if (p.getRiskType() !=2) for (int scennum=1; scennum<scen.getNScenarios();scennum++){
 				if  (scen.getInitialPrevalenceType()[scennum]&&  (!scen.getTransitionType()[scennum])) nLoops--;
 			}
 			
@@ -175,11 +174,16 @@ public class TestAll {
 					simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
 					log.fatal("simulationconfuration made for scenario "+scennum);
+
 					sim = SimulationFromXMLFactory
 							.manufacture_DOMPopulationTree(simulationConfiguration);
-					log.fatal("simulationFile loaded for scenario " + scennum);
 					
+					pop[scennum] = sim.getPopulation();
+					
+					log.fatal("simulationFile loaded for scenario " + scennum);
+					if (pop[scennum]==null) throw new CDMConfigurationException("no population found for scenario "+scennum);
 					log.fatal("starting run for scenario "+scennum);
+					
 					sim.run();
 					log.fatal("Run  complete for scenario "+scennum);
 					
@@ -190,9 +194,10 @@ public class TestAll {
 			}
 				DynamoOutputFactory output = new DynamoOutputFactory(scen,simName);
 				
-				output.makeOutput(pop);
-				JFreeChart chart=output.makeSurvivalPlot("survival scenario 0",0);
-				chart=output.makeSurvivalPlot("survival scenario 1",1);
+				output.extractArraysFromPopulations(pop);
+				output.makeSummaryArrays();
+				JFreeChart chart=output.makeSurvivalPlot("survival men",0);
+				chart=output.makeSurvivalPlot("survival women",1);
 				ChartFrame frame1 = new ChartFrame("Survival Chart", chart);
 				frame1.setVisible(true);
 				frame1.setSize(300, 300);
@@ -253,6 +258,9 @@ public class TestAll {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+		} catch (DynamoScenarioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
