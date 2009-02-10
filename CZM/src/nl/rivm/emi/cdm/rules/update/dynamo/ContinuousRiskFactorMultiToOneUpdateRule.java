@@ -2,6 +2,7 @@ package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import Jama.Matrix;
@@ -9,9 +10,10 @@ import Jama.Matrix;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
-
+import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -21,192 +23,486 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Concrete implementation, must be generified later to UpdateRuleEntryLayer.
  * 
- * @author mondeelr
+ * @author Hendriek Boshuizen
  * 
+ *         implemented configuration file <?xml version="1.0" encoding="UTF-8"
+ *         standalone="no" ?> - <updateRuleConfiguration> <charID>3</charID>
+ *         <refValContinuousVariable>23.0</refValContinuousVariable>
+ *         <meanValueFileName
+ *         >c:\hendriek\java\dynamohome\Simulations\simulation2
+ *         \parameters\meanValueRiskFactor.xml</meanValueFileName>
+ *         <offsetFileName
+ *         >c:\hendriek\java\dynamohome\Simulations\simulation2\parameters
+ *         \stdValueRiskFactor.xml</offsetFileName>
+ *         <meanDriftFileName>c:\hendriek
+ *         \java\dynamohome\Simulations\simulation2
+ *         \parameters\meanDriftRiskFactor.xml</meanDriftFileName>
+ *         <stdDriftFileName
+ *         >c:\hendriek\java\dynamohome\Simulations\simulation2\
+ *         parameters\stdDriftRiskFactor.xml</stdDriftFileName>
+ *         <offsetDriftFileName
+ *         >c:\hendriek\java\dynamohome\Simulations\simulation2
+ *         \parameters\offsetDriftRiskFactor.xml</offsetDriftFileName>
+ *         <durationClass>0</durationClass> <nullTransition>1</nullTransition>
+ *         </updateRuleConfiguration>
  */
+
 public class ContinuousRiskFactorMultiToOneUpdateRule extends
-		ManyToOneUpdateRuleBase implements ConfigurationEntryPoint {
+		DynamoManyToOneUpdateRuleBase implements ConfigurationEntryPoint {
 
-	 Log log = LogFactory.getLog(this.getClass().getName());
+	Log log = LogFactory
+			.getLog("nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule");
 
-	String[] requiredTags = { "age", "sex", "charID", "updateRuleParameters" };
+	// static String[] requiredTags = {"updateRuleConfiguration", "age", "sex",
+	// "charID" };
 
-	float meanDrift[][] = null;
-	float stdDrift[][] = null;
-	float offsetDrift[][] = null;
-	float popMean [][]=null;
-	float offset [][]=null;
-	String type =null;
-	
-	int ageIndex = 1;
-	
-	int sexIndex = 2;
+	private float transitionMatrix[][][][] = null;
 
-	int nCat = -1;
+	private String meanDriftFileName = null;
+	private String stdDriftFileName = null;
+	private String offsetDriftFileName = null;
+	private String offsetFileName = null;
+	private String meanValueFileName = null;
 
-	int characteristicIndex = 3;
+	private String meanValueFileNameLabel = "meanValueFileName";
+	private String offsetFileNameLabel = "offsetFileName";
+	private String meanDriftFileNameLabel = "meanDriftFileName";
+	private String stdDriftFileNameLabel = "stdDriftFileName";
+	private String offsetDriftFileNameLabel = "offsetDriftFileName";
+	private String DistributionTypeLabel = "DistributionType";
 
-	String parameterFileName = null;
+	private float[][] meanDrift;
+	private float[][] stdRatio;
+	private float[][] offsetDrift;
+	private float[][] meanValue;
+	private float[][] offset;
+	private float[][][] meanByStepByAge; /* indexes: step age sex */
+	private float[][][] offsetByStepByAge; /* indexes: step age sex */
 
-	
+	private boolean isNullTransitions;
+	private boolean isNormal;
+	private String isNullTransitionLabel = "nullTransition";
+	private String configurationFileName;
 
-	public ContinuousRiskFactorMultiToOneUpdateRule(String configFileName) throws ConfigurationException {
+	private Random randomGenerator = null;
+
+	private int randomSeed = 0;
+
+	public ContinuousRiskFactorMultiToOneUpdateRule()
+			throws ConfigurationException, CDMUpdateRuleException {
 		// constructor fills the parameters
-		File configFile = new File(configFileName);
-		boolean success = loadConfigurationFile(configFile);
-		if (success)
-			loadTransitionMatrix(parameterFileName);
-		if (!success) throw new ConfigurationException("loading of configuration file failed for updateRule ContinuousRiskFactorMultiToOneUpdateRule");
-		
+		// temporary;
+		super();
+		int randomSeed = 0;
+		Random randomgenerator = new Random(randomSeed);
+
 	}
 
+	public ContinuousRiskFactorMultiToOneUpdateRule(String configFileName)
+			throws ConfigurationException, CDMUpdateRuleException {
+		// constructor fills the parameters
+		configurationFileName = configFileName;
+		File configFile = new File(configFileName);
+		boolean success = loadConfigurationFile(configFile);
+		int randomSeed = 0;
+		Random randomgenerator = new Random(randomSeed);
+		if (characteristicIndex != 3)
+			throw new CDMUpdateRuleException(
+					"wrong character ID given for DYNAMO riskfactor update rule (should always be 3) ");
 
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
+		if (!success)
+			throw new ConfigurationException(
+					"loading of configuration file failed for updateRule CategoricalRiskFactorMultiToOneUpdateRule");
+
+	}
+
+	public int getRandomSeed() {
+		return randomSeed;
+	}
+
+	public void setRandomSeed(int randomSeed) {
+		this.randomSeed = randomSeed;
+	}
+
+	public Random getRandomGenerator() {
+		return randomGenerator;
+	}
+
+	public void setRandomGenerator(Random randomGenerator) {
+		this.randomGenerator = randomGenerator;
+	}
+
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException {
 
 		try {
-			Float newValue = null;
-			int ageValue = (int) getFloat(currentValues, ageIndex);
-			int sexValue = getInteger(currentValues, sexIndex);
+			/* only the highest 32 bits are to be used */
+			/*
+			 * this is needed only for future applications that do stochastic
+			 * updates; not yet implemented
+			 */
+			double pRandom = (((int) (seed >>> 16)) + 2147483648.0) / 4294967295.0;
+			Float newValue;
 			float oldValue = getFloat(currentValues, characteristicIndex);
-			try {
-				if (type == "Normal") 
-					newValue=oldValue+meanDrift[ageIndex][sexIndex]+(oldValue-popMean[ageIndex][sexIndex])*
-					stdDrift[ageIndex][sexIndex];
-				 else if (type == "Lognormal") {double logOldValue= Math.log(oldValue-offset[ageIndex][sexIndex]);
-					 newValue=(float)Math.exp(logOldValue+meanDrift[ageIndex][sexIndex]+(logOldValue-popMean[ageIndex][sexIndex])*
-						stdDrift[ageIndex][sexIndex]+offset[ageIndex][sexIndex]+offsetDrift[ageIndex][sexIndex]);
-				// TODO nog even goed checken;
-				 } else
-					throw new CDMUpdateRuleException(
-							"ContinuousRiskFactorMultiToOneUpdateRule WARNING: no valid distributional form. Risk factor is not updated");
-			} catch (Exception e) {
-				log.fatal(e.getMessage());
+			if (isNullTransitions()) {
+				newValue = oldValue;
+				return newValue;
+			} else {
+
+				int ageValue = (int) getFloat(currentValues, ageIndex);
+				int sexValue = getInteger(currentValues, sexIndex);
+				if (ageValue > 95)
+					ageValue = 95;
 				
-				newValue=oldValue;
+					newValue = oldValue + meanDrift[ageValue][sexValue]
+							;
+				
+				
+
+				return newValue;
 			}
-			return newValue;
-		} catch (CDMUpdateRuleException e) {log.fatal(e.getMessage());
-		log.fatal("this message was issued by ContinuousRiskFactorMultiToOneUpdateRule"+
-		 " when updating characteristic number "+"characteristicIndex");
-		e.printStackTrace();
-		throw e;
+		} catch (CDMUpdateRuleException e) {
+			log.fatal(e.getMessage());
+			log
+					.fatal("this message was issued by ContinuousRiskFactorMultiToOneUpdateRule"
+							+ " when updating characteristic number "
+							+ "characteristicIndex");
+			e.printStackTrace();
+			throw e;
 		}
 	}
 
-	/** deze is niet goed
+	/**
+	 * @throws CDMUpdateRuleException
 	 */
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
 		boolean success = false;
 		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 				configurationFile);
-	
-	
-		List<SubnodeConfiguration> snConf = configurationFileConfiguration
-				.configurationsAt("param");
-		if (!((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1)))) {
-			SubnodeConfiguration tagConf = snConf.get(0);
-			ConfigurationNode confNode = tagConf.getRootNode();
-			List children = confNode.getChildren();
-			if (children.size() == 4) {
-				for (int innerdex = 0; innerdex < children.size(); innerdex++) {
-					ConfigurationNode childNode = (ConfigurationNode) children
-							.get(innerdex);
-					String value = (String) childNode.getValue();
-					Integer intValue = Integer.parseInt(value);
-					switch (innerdex) {
-					case 1:
-						ageIndex = intValue;
-						break;
-					case 2:
-						sexIndex = intValue;
-						break;
-					case 3:
-						characteristicIndex = intValue;
-						break;
-					case 4:
-						parameterFileName = value;
-						break;
+		// long seed = 21223445;
+		// randomGenerator = new java.util.Random(seed);
+
+		handleCharID(configurationFileConfiguration);
+		handleIsNullTransition(configurationFileConfiguration);
+		if (!isNullTransitions) {
+			handleIsNormal(configurationFileConfiguration);
+			handleMeanDriftFileName(configurationFileConfiguration);
+			setMeanDrift(loadData(meanDriftFileName, "meandrift", "meandrift"));
+			/*
+			 * left out are reading of files needed for more complex update
+			 * rules that can not be realised in the current situation
+			 */
+			/* 
+			 * handleStdDriftFileName(configurationFileConfiguration);
+			 * handleMeanValueFileName(configurationFileConfiguration);
+			 * setMeanDrift(loadData(meanValueFileName, "mean", "value"));
+			 * setMeanDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
+			 * if (!isNormal) {
+			 * handleOffsetDriftFileName(configurationFileConfiguration);
+			 * handleOffsetFileName(configurationFileConfiguration);
+			 * 
+			 * setMeanDrift(loadData(offsetDriftFileName, "offsetdrift",
+			 * "offsetdrift")); setMeanDrift(loadData(offsetFileName, "offset",
+			 * "offset"));
+			 * 
+			 * } setAimValues();
+			 */
+
+		}
+		success = true;
+		return success;
+	}
+
+	private void setAimValues() {
+		meanByStepByAge = new float[200][96][2];
+		if (!isNormal)
+			offsetByStepByAge = new float[200][96][2];
+		for (int a = 0; a < 96; a++)
+			for (int g = 0; g < 2; g++)
+				for (int step = 0; step < 96; step++) {
+					if (step == 0 || a == 0)
+						meanByStepByAge[step][a][g] = meanValue[a][g];
+					else if (a > 0)
+						meanByStepByAge[step][a][g] = meanByStepByAge[step - 1][a - 1][g]
+								+ meanDrift[a - 1][g];
+					if (!isNormal) {
+						if (step == 0 || a == 0)
+							offsetByStepByAge[step][a][g] = meanValue[a][g];
+						else if (a > 0)
+							offsetByStepByAge[step][a][g] = offsetByStepByAge[step - 1][a - 1][g]
+									+ offsetDrift[a - 1][g];
 					}
-				}
-			}
-		} else {
-			throw new ConfigurationException(
-					String
-							.format(
-									CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
-									configurationFile.getName(), this
-											.getClass().getSimpleName()));
-		}
-		return (false);
-	}
-
-	public double[][][][] loadTransitionMatrix(String inputFile) {
-
-		if (inputFile != null) {
-			File paramFile = new File(inputFile);double[][][][] transmat =null; return transmat;
-		} else {
-			nCat = 4;
-			double[][][][] transmat = new double[96][2][nCat][nCat];
-			for (int a = 0; a < 96; a++) {
-				for (int g = 0; g < 2; g++)
-
-				{
-					transmat[a][g][0][0] = 0.9;
-					transmat[a][g][1][0] = 0.1;
-					transmat[a][g][2][0] = 0.0;
-					transmat[a][g][3][0] = 0.0;
-					transmat[a][g][0][0] = 0.1;
-					transmat[a][g][1][0] = 0.8;
-					transmat[a][g][2][0] = 0.1;
-					transmat[a][g][3][0] = 0.0;
-					transmat[a][g][0][0] = 0.0;
-					transmat[a][g][1][0] = 0.1;
-					transmat[a][g][2][0] = 0.8;
-					transmat[a][g][3][0] = 0.1;
-					transmat[a][g][0][0] = 0.0;
-					transmat[a][g][1][0] = 0.1;
-					transmat[a][g][2][0] = 0.1;
-					transmat[a][g][3][0] = 0.8;
 
 				}
-				;
-			}
-			return transmat;
-		}
-	}
-	public boolean loadConfigurationFile(String configurationFileName){return true;}
+	};
 
-	public  int draw(float p[], Random rand)  {
-		// Generates a random draw from an array with percentages
-		// To do: check if sum p=1 otherwise error
-		float sumP=0;
-		for(float item:p)sumP+=item;
+	/**
+	 * @param configurationFileConfiguration
+	 */
+	private void handleIsNormal(XMLConfiguration simulationConfiguration)
+			throws CDMConfigurationException {
 		try {
-		if (Math.abs(sumP-1)>1.0E-3)
-			
-				throw new CDMUpdateRuleException(" CategoricalRiskFactorMultiToOneUpdateRule WARNING: risk factor prevalence rates do not add up to 1; sum prevalence rates = " + sumP);
-			} catch (CDMUpdateRuleException e) {
-				log.fatal(e.getMessage());
-				e.printStackTrace();
-			}
-		double cump = 0; // cump is cumulative p
-
-		double d = rand.nextDouble(); // d is random value between 0 and 1
-		int i;
-		for (i = 0; i < p.length - 1; i++) {
-			cump = +p[i];
-			if (d < cump)
-				break;
+			String type = simulationConfiguration
+					.getString(DistributionTypeLabel);
+			log.debug("Setting DistributionType to " + type);
+			if (type.compareToIgnoreCase("normal") == 0)
+				setNormal(true);
+			else
+				setNormal(false);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), DistributionTypeLabel));
 		}
-		return i;
 	}
 
-
-	@Override
-	public Object update(Object[] currentValues, Long seed)
-			throws CDMUpdateRuleException {
-		// TODO Auto-generated method stub
-		return null;
+	public float[][] loadData(String inputFile, String tag1, String tag2)
+			throws CDMConfigurationException {
+		/*
+		 * temporary blocked for testing if (inputFile != null) { File paramFile
+		 * = new File(inputFile);double[][][][] transmat =null; return transmat;
+		 * } else {
+		 */
+		float[][] data = new float[96][2];
+		ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
+		try {
+			data = factory.manufactureOneDimArray(inputFile, tag1, tag2, false);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.fatal("error in transition matrix file ");
+			throw new CDMConfigurationException(" error while reading "
+					+ inputFile);
+		}
+		return data;
 	}
+
+	public boolean loadConfigurationFile(String configurationFileName) {
+		return true;
+	}
+
+	private void handleIsNullTransition(
+			HierarchicalConfiguration simulationConfiguration)
+			throws CDMConfigurationException {
+		try {
+			int isNull = simulationConfiguration.getInt(isNullTransitionLabel);
+			log.debug("Setting isNullTransitions to " + isNull);
+			setNullTransitions(isNull);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), isNullTransitionLabel));
+		}
+	}
+
+	private void handleMeanDriftFileName(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		try {
+			String fileName = simulationConfiguration
+					.getString(meanDriftFileNameLabel);
+			log.debug("Setting meanDriftFileName to " + fileName);
+			setMeanDriftFileName(fileName);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), meanDriftFileNameLabel));
+		}
+	}
+
+	private void handleOffsetDriftFileName(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		try {
+			String fileName = simulationConfiguration
+					.getString(meanDriftFileNameLabel);
+			log.debug("Setting offsetDriftFileName to " + fileName);
+			setOffsetDriftFileName(fileName);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), offsetDriftFileNameLabel));
+		}
+	}
+
+	private void handleStdDriftFileName(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		try {
+			String fileName = simulationConfiguration
+					.getString(stdDriftFileNameLabel);
+			log.debug("Setting meanDriftFileName to " + fileName);
+			setStdDriftFileName(fileName);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), stdDriftFileNameLabel));
+		}
+	}
+
+	private void handleOffsetFileName(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		try {
+			String fileName = simulationConfiguration
+					.getString(offsetFileNameLabel);
+			log.debug("Setting meanDriftFileName to " + fileName);
+			setOffsetFileName(fileName);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), offsetFileNameLabel));
+		}
+	}
+
+	private void handleMeanValueFileName(
+			HierarchicalConfiguration simulationConfiguration)
+			throws ConfigurationException {
+		try {
+			String fileName = simulationConfiguration
+					.getString(meanValueFileNameLabel);
+			log.debug("Setting meanDriftFileName to " + fileName);
+			setMeanValueFileName(fileName);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(String.format(
+					CDMConfigurationException.noConfigurationTagMessage,
+					this.configurationFileName,
+					this.getClass().getSimpleName(), meanValueFileNameLabel));
+		}
+	}
+
+	public boolean isNullTransitions() {
+		return isNullTransitions;
+	}
+
+	public void setNullTransitions(boolean isNullTransitions) {
+		this.isNullTransitions = isNullTransitions;
+	}
+
+	public void setNullTransitions(int isNullTransitions)
+			throws CDMConfigurationException {
+		if (isNullTransitions == 0)
+			this.isNullTransitions = false;
+		else if (isNullTransitions == 1)
+			this.isNullTransitions = true;
+		else
+			throw new CDMConfigurationException(
+					"error in configuration File for updateRule "
+							+ this.getClass().getSimpleName()
+							+ " : isNullTransitions should be either 0 or 1 but is "
+							+ isNullTransitions);
+	}
+
+	public String getOffsetDriftFileNameLabel() {
+		return offsetDriftFileNameLabel;
+	}
+
+	public void setOffsetDriftFileNameLabel(String offsetDriftFileNameLabel) {
+		this.offsetDriftFileNameLabel = offsetDriftFileNameLabel;
+	}
+
+	public void setDriftFileName(String driftFileName) {
+		this.meanDriftFileName = driftFileName;
+	}
+
+	public String getDriftFileName() {
+		return meanDriftFileName;
+	}
+
+	public String getMeanDriftFileName() {
+		return meanDriftFileName;
+	}
+
+	public void setMeanDriftFileName(String meanDriftFileName) {
+		this.meanDriftFileName = meanDriftFileName;
+	}
+
+	public String getStdDriftFileName() {
+		return stdDriftFileName;
+	}
+
+	public void setStdDriftFileName(String stdDriftFileName) {
+		this.stdDriftFileName = stdDriftFileName;
+	}
+
+	public String getOffsetDriftFileName() {
+		return offsetDriftFileName;
+	}
+
+	public void setOffsetDriftFileName(String offsetDriftFileName) {
+		this.offsetDriftFileName = offsetDriftFileName;
+	}
+
+	public String getOffsetFileName() {
+		return offsetFileName;
+	}
+
+	public void setOffsetFileName(String offsetFileName) {
+		this.offsetFileName = offsetFileName;
+	}
+
+	public String getMeanValueFileName() {
+		return meanValueFileName;
+	}
+
+	public void setMeanValueFileName(String meanValueFileName) {
+		this.meanValueFileName = meanValueFileName;
+	}
+
+	
+	public float[][] getMeanDrift() {
+		return meanDrift;
+	}
+
+	public void setMeanDrift(float[][] meanDrift) {
+		this.meanDrift = meanDrift;
+	}
+
+	public float[][] getStdRatio() {
+		return stdRatio;
+	}
+
+	public void setStdRatio(float[][] stdRatio) {
+		this.stdRatio = stdRatio;
+	}
+
+	public float[][] getOffsetDrift() {
+		return offsetDrift;
+	}
+
+	public void setOffsetDrift(float[][] offsetDrift) {
+		this.offsetDrift = offsetDrift;
+	}
+
+	public float[][] getMeanValue() {
+		return meanValue;
+	}
+
+	public void setMeanValue(float[][] meanValue) {
+		this.meanValue = meanValue;
+	}
+
+	public float[][] getOffset() {
+		return offset;
+	}
+
+	public void setOffset(float[][] offset) {
+		this.offset = offset;
+	}
+
+	public boolean isNormal() {
+		return isNormal;
+	}
+
+	public void setNormal(boolean isNormal) {
+		this.isNormal = isNormal;
+	}
+
 }

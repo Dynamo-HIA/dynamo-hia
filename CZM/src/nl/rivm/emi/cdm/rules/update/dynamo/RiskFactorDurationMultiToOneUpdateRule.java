@@ -2,17 +2,21 @@ package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import Jama.Matrix;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
+import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 
 
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -32,27 +36,29 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 
 	String[] requiredTags = {  "charID", "durationClass" };
 
-	
+	float stepsize=1;
 	int durationClass =-1;
 	int riskFactorIndex = 3;
 	int characteristicIndex = 4;
-
+	private final String durationClassLabel = "durationClass";
+	private static String charIDLabel="charID";
 
 
 	public RiskFactorDurationMultiToOneUpdateRule(String configFileName,int randomSeed) throws ConfigurationException {
-		// constructor fills the parameters
-		File configFile = new File(configFileName);
-		boolean success = loadConfigurationFile(configFile);
-		if (!success) throw new ConfigurationException("loading of configuration file failed for updateRule RiskFactorDurationMultiToOneUpdateRule");
-	
+		
 
 	}
 
-
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
+	public RiskFactorDurationMultiToOneUpdateRule()
+	throws ConfigurationException {
+// empty constructor needed in order to be loaded
+// temporary;
+super();
+}
+	public Object update(Object[] currentValues, Long seed) throws CDMUpdateRuleException {
 
 		try {
-			float stepsize=1;
+			
 			float newValue = -1;
 			int riskValue = getInteger(currentValues, riskFactorIndex);
 			float oldValue = getFloat(currentValues, characteristicIndex);
@@ -69,73 +75,68 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 		}
 	}
 
-	/** deze is niet goed
-	 */
-	public boolean loadConfigurationFile(File configurationFile)
-			throws ConfigurationException {
-		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
+	
+	public boolean loadConfigurationFile(File configurationFile) throws ConfigurationException { 
 		
-		List<SubnodeConfiguration> snConf = configurationFileConfiguration
-				.configurationsAt("updateRuleParameters");
-		if (!((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1)))) {
-			SubnodeConfiguration tagConf = snConf.get(0);
-			ConfigurationNode confNode = tagConf.getRootNode();
-			List children = confNode.getChildren();
-			if (children.size() == 4) {
-				for (int innerdex = 0; innerdex < children.size(); innerdex++) {
-					ConfigurationNode childNode = (ConfigurationNode) children
-							.get(innerdex);
-					String value = (String) childNode.getValue();
-					Integer intValue = Integer.parseInt(value);
-					
-				}
-			}
-		} else {
-			throw new ConfigurationException(
+		boolean success = false;
+	    XMLConfiguration configurationFileConfiguration;
+	
+		configurationFileConfiguration = new XMLConfiguration(
+				configurationFile);
+	
+		 handleCharID(configurationFileConfiguration);
+	     handleDurationClass(configurationFileConfiguration);
+	
+		
+		
+		success=true;
+		
+	return success;}
+
+	private  void handleDurationClass(
+			HierarchicalConfiguration simulationConfiguration) throws ConfigurationException {
+		try {
+			int nCat   = simulationConfiguration.getInt(durationClassLabel);
+			log.debug("Setting duration class to " + nCat);
+			setDurationClass(nCat);
+		} catch (NoSuchElementException e) {
+			throw new CDMConfigurationException(
 					String
-							.format(
-									CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
-									configurationFile.getName(), this
-											.getClass().getSimpleName()));
+					.format(
+							CDMConfigurationException.noConfigurationTagMessage,
+							this.durationClassLabel, this
+									.getClass().getSimpleName(),durationClassLabel));
 		}
-		return (false);
 	}
 
 	
-	public boolean loadConfigurationFile(String configurationFileName){return true;}
-
-	public  int draw(float p[], Random rand)  {
-		// Generates a random draw from an array with percentages
-		// To do: check if sum p=1 otherwise error
-		float sumP=0;
-		for(float item:p)sumP+=item;
+	
+	protected void handleCharID(
+			HierarchicalConfiguration simulationConfiguration
+			) throws ConfigurationException {
 		try {
-		if (Math.abs(sumP-1)>1.0E-3)
+			int readCharacteristicIndex   = simulationConfiguration.getInt(charIDLabel);
+			if (characteristicIndex !=readCharacteristicIndex)
+				log.fatal ("the characteristics number in the rule-configuration file does not match" +
+						"the expected value of 4 in the duration update rule");
 			
-				throw new CDMUpdateRuleException(" CategoricalRiskFactorMultiToOneUpdateRule WARNING: risk factor prevalence rates do not add up to 1; sum prevalence rates = " + sumP);
-			} catch (CDMUpdateRuleException e) {
-				log.fatal(e.getMessage());
-				e.printStackTrace();
-			}
-		double cump = 0; // cump is cumulative p
-
-		double d = rand.nextDouble(); // d is random value between 0 and 1
-		int i;
-		for (i = 0; i < p.length - 1; i++) {
-			cump = +p[i];
-			if (d < cump)
-				break;
+		} catch (NoSuchElementException e) {
+			throw new ConfigurationException(
+					CDMConfigurationException.noUpdateCharIDMessage);
 		}
-		return i;
+	}
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase#update(java.lang.Object[], java.lang.Long)
+	 */
+	
+
+
+	public int getDurationClass() {
+		return durationClass;
 	}
 
 
-	@Override
-	public Object update(Object[] currentValues, Long seed)
-			throws CDMUpdateRuleException {
-		// TODO Auto-generated method stub
-		return null;
+	public void setDurationClass(int durationClass) {
+		this.durationClass = durationClass;
 	}
 }

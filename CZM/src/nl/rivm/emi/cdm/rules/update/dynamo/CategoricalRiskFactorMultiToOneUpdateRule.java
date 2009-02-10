@@ -317,11 +317,6 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 				this.getClass().getSimpleName()+" : isNullTransitions should be either 0 or 1 but is "
 				+ isNullTransitions);
 	}
-	@Override
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	
