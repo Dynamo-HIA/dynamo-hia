@@ -37,6 +37,7 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.MessageBox;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -72,8 +73,7 @@ public class CoupledTestAll {
 	Simulation sim;
 	ModelParameters p;
 
-	public void entryPoint(String baseDirectoryPath, String simulationName) {
-		try {
+	public void entryPoint(String baseDirectoryPath, String simulationName) throws CDMRunException {
 			log.fatal("Starting coupled test. ");
 
 			// System.out.println(preCharConfig);
@@ -82,11 +82,6 @@ public class CoupledTestAll {
 			estimateModelParameters(baseDirectoryPath, simulationName);
 			runSimulation(baseDirectoryPath, simulationName);
 			log.fatal("Test completed without Exception");
-		} catch (CDMRunException e) {
-			log.fatal("Caught " + e.getClass().getName() + " with message: "
-					+ e.getMessage());
-			e.printStackTrace();
-		}
 	}
 
 	public void runSimulation(String baseDirectoryPath, String simulationName)

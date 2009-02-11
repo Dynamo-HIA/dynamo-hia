@@ -147,4 +147,8 @@ public class SimulationModal implements Runnable, DataAndFileContainer {
 	public BaseNode getSelectedNode() {
 		return selectedNode;
 	}
+
+	public Shell getShell() {
+		return shell;
+	}
 }

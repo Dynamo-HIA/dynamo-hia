@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
+import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
@@ -16,13 +17,17 @@ import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.test.CoupledTestAll;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.MessageBox;
 
 public class RunSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
@@ -41,7 +46,7 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
 		String filePath = modalParent.getFilePath();
-		BaseNode selectedNode = modalParent.getSelectedNode();
+		BaseNode selectedNode = ((SimulationModal)modalParent).getSelectedNode();
 		BaseNode currentNode = selectedNode;
 		BaseNode parentNode = (BaseNode) ((ChildNode) currentNode).getParent();
 		while (!(parentNode instanceof RootNode)) {
@@ -56,7 +61,14 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 		String simulationName = selectedNode.deriveNodeLabel();
 		File configurationFile = new File(filePath);
 		CoupledTestAll test = new CoupledTestAll();
+		try{
 		test.entryPoint(baseDirectoryPath, simulationName);
+		} catch(CDMRunException e){
+			MessageBox messageBox = new MessageBox(((SimulationModal)modalParent).getShell(), SWT.ERROR_FAILED_EXEC);
+			messageBox.setMessage("Simulation run threw a " + e.getClass().getName() 
+					+ "\nwith message: " + e.getMessage());
+			messageBox.open();
+		}
 	}
 
 }

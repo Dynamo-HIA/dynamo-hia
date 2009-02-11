@@ -61,7 +61,6 @@ public class StorageTreeMenuFactory {
 					createErrorMenu4UnexpectedNodes(manager, selection,
 							treeDepth);
 				}
-
 			}
 			break;
 		case 3:
