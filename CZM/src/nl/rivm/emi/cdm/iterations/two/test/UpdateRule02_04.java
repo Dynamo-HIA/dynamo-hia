@@ -42,30 +42,6 @@ public class UpdateRule02_04 extends ManyToOneUpdateRuleBase implements
 		return prnGenerator.nextLong();
 	}
 
-	@Override
-	public Object update(Object[] currentValues) throws CDMUpdateRuleException {
-		Float newValue = null;
-		if ((currentValues[characteristicId] != null)
-				&& (currentValues[1] != null)) {
-			if (currentValues[characteristicId] instanceof Float) {
-				float currentValue = ((Float) currentValues[characteristicId])
-						.floatValue();
-				float currentValue1 = convertObjectValueToFloat(currentValues[1]);
-				int randomValue = prnGenerator.nextInt(maxRandInt);
-				log.debug("Random value returned: " + randomValue
-						+ ", threshold: " + threshold);
-				if (randomValue < threshold) {
-					newValue = currentValue
-							+ (0.01F * (((currentValue1 * 2F) - 1F) * (randomValue / (25F * maxRandInt))));
-				} else {
-					log.debug("Above threshold.");
-					newValue = currentValue;
-				}
-			}
-		}
-		return newValue;
-	}
-
 	private float convertObjectValueToFloat(Object currentValue)
 			throws CDMUpdateRuleException {
 		float currentValue1;
@@ -99,5 +75,30 @@ public class UpdateRule02_04 extends ManyToOneUpdateRuleBase implements
 	public void setStepSize(float stepSize) throws CDMUpdateRuleException {
 		log.info("Setting stepSize to " + stepSize);
 		this.stepSize = stepSize;
+	}
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException, CDMUpdateRuleException {
+		Float newValue = null;
+		if ((currentValues[characteristicId] != null)
+				&& (currentValues[1] != null)) {
+			if (currentValues[characteristicId] instanceof Float) {
+				float currentValue = ((Float) currentValues[characteristicId])
+						.floatValue();
+				float currentValue1 = convertObjectValueToFloat(currentValues[1]);
+				int randomValue = prnGenerator.nextInt(maxRandInt);
+				log.debug("Random value returned: " + randomValue
+						+ ", threshold: " + threshold);
+				if (randomValue < threshold) {
+					newValue = currentValue
+							+ (0.01F * (((currentValue1 * 2F) - 1F) * (randomValue / (25F * maxRandInt))));
+				} else {
+					log.debug("Above threshold.");
+					newValue = currentValue;
+				}
+			}
+		}
+		return newValue;
 	}
 }

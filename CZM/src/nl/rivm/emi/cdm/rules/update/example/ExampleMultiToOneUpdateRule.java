@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 
@@ -37,6 +38,7 @@ public class ExampleMultiToOneUpdateRule extends ManyToOneUpdateRuleBase
 	int parameter2 = -1;
 
 	@Override
+	/*
 	public Object update(Object[] currentValues) {
 		Integer newValue = null;
 		if ((currentValues[characteristicIndex1] != null)
@@ -53,6 +55,7 @@ public class ExampleMultiToOneUpdateRule extends ManyToOneUpdateRuleBase
 		}
 		return newValue;
 	}
+	*/
 
 	/**
 	 */
@@ -98,5 +101,25 @@ public class ExampleMultiToOneUpdateRule extends ManyToOneUpdateRuleBase
 											.getClass().getSimpleName()));
 		}
 		return (false);
+	}
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException, CDMUpdateRuleException {
+		Integer newValue = null;
+		if ((currentValues[characteristicIndex1] != null)
+				&& (currentValues[characteristicIndex2] != null)) {
+			if ((currentValues[characteristicIndex1] instanceof Integer)
+					&& (currentValues[characteristicIndex2] instanceof Integer)) {
+				int currentValue1 = ((Integer) currentValues[characteristicIndex1])
+						.intValue();
+				newValue = currentValue1 + parameter1;
+				int currentValue2 = ((Integer) currentValues[characteristicIndex2])
+						.intValue();
+				newValue = currentValue2 + parameter2 + newValue.intValue();
+			}
+		}
+		return newValue;
+
 	}
 }

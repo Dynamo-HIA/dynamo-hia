@@ -200,6 +200,14 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 					CDMConfigurationException. noUpdateTransitionMatrixFileNameMessage);
 		}
 	}
+
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException, CDMUpdateRuleException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

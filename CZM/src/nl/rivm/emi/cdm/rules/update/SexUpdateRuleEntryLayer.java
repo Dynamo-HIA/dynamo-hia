@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
@@ -38,6 +39,7 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 	SpinAsLeafUpdateRuleLayer[] delegates = null;
 
 	@Override
+	/*
 	public Object update(Object[] currentValues) {
 		Object newValue = null;
 		if (currentValues[SEXINDEX] instanceof Integer) {
@@ -45,7 +47,7 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 			newValue = delegates[currentIndex].update(currentValues[SPININDEX]);
 		}
 		return newValue;
-	}
+	}*/
 
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
@@ -123,5 +125,18 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException, CDMUpdateRuleException {
+		Object newValue = null;
+		if (currentValues[SEXINDEX] instanceof Integer) {
+			int currentIndex = ((Integer) currentValues[SEXINDEX]).intValue();
+			newValue = delegates[currentIndex].update(currentValues[SPININDEX]);
+		}
+		return newValue;
+	}
+
+
 
 }

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.example.ExampleMultiToOneUpdateRule;
 
@@ -46,9 +47,12 @@ public class TestExampleUpdateRules {
 			currentValues[0] = null;
 			currentValues[1] = new Integer(5);
 			currentValues[2] = new Integer(2);
-			Object newValue = exampleMultiToOneUpdateRule.update(currentValues);
+			Object newValue = exampleMultiToOneUpdateRule.update(currentValues, null);
 			assertEquals(42, newValue);
 		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CDMUpdateRuleException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

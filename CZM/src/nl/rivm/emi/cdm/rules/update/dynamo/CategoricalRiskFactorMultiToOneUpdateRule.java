@@ -317,8 +317,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 				this.getClass().getSimpleName()+" : isNullTransitions should be either 0 or 1 but is "
 				+ isNullTransitions);
 	}
-	
-	
-	
+
+
 	
 }

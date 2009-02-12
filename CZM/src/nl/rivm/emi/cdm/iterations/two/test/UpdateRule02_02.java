@@ -2,6 +2,7 @@ package nl.rivm.emi.cdm.iterations.two.test;
 
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.StepSizeSpecific;
@@ -60,5 +61,12 @@ public class UpdateRule02_02 extends ManyToOneUpdateRuleBase implements
 
 	public void setStepSize(float stepSize) {
 		this.stepSize = stepSize;
+	}
+
+	@Override
+	public Object update(Object[] currentValues, Long seed)
+			throws CDMUpdateRuleException, CDMUpdateRuleException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -55,7 +55,7 @@ public class TestSexAndSpinUpdateRule {
 	}
 
 	@Test
-	public void spinConfPlusSex() {
+	public void spinConfPlusSex() throws CDMUpdateRuleException {
 		SexUpdateRuleEntryLayer daRule = new SexUpdateRuleEntryLayer();
 		assertNotNull(daRule);
 		try {
@@ -66,7 +66,7 @@ public class TestSexAndSpinUpdateRule {
 			for (int sexCount = 1; sexCount <= 2; sexCount++) {
 				for (int count = 0; count < 100; count++) {
 					Object[] parameters = {null, new Integer(sexCount),null, new Integer(oldValue).intValue()};
-					int newValue = ((Integer) daRule.update(parameters));
+					int newValue = ((Integer) daRule.update(parameters, nextSeed));
 					System.out.println("Sex " + sexCount + " timestep " + count + " oldvalue " + oldValue
 							+ " updated to newValue " + newValue);
 					oldValue = newValue;
