@@ -1,19 +1,7 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.Assert;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
-import nl.rivm.emi.dynamo.estimation.InputData;
-import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.NettTransitionRates;
-import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
-import nl.rivm.emi.dynamo.estimation.XMLBaseElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class TestNettTransitionRates {	
+public class testNettTransitionRates {	
 	Log log = LogFactory.getLog(getClass().getName());
 @Before
 	public void setup() {

@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
@@ -42,7 +43,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
-			Object result = theFactory.manufacture(configurationFile);
+			Object result = theFactory.manufacture(configurationFile.getName());
 			assertNotNull(result);
 			try {
 		((RiskFactorCategoricalObject)result).writeToFile(outputFile);
@@ -75,7 +76,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 //		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 		try {
-			RiskFactorCategoricalFactory theFactory = new RiskFactorCategoricalFactory(); 
+			RelRiskFromRiskFactorCategoricalFactory theFactory = new RelRiskFromRiskFactorCategoricalFactory(); 
 			Object result = theFactory.manufacture(configurationFile);
 			assertNotNull(result);
 //			try {

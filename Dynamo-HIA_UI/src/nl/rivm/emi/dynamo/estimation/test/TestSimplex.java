@@ -82,9 +82,9 @@ public void test() {
 		      +	"var posv " + result2.getIposv()[3]+"var posv " + result2.getIposv()[4] 
 			+	"var posv " + result2.getIposv()[5]+"var posv " + result2.getIposv()[6] ); 
 		System.out
-		.println(" results  1 " + result2.a[2][1] + " 2 " + result2.a[3][1]
-		      +	" 3 " + result2.a[4][1]+" 4 " + result2.a[5][1]
-			+	" 5 " + result2.a[6][1]+" 6 " + result2.a[7][1] ); 
+		.println(" results  1 " + result2.getA()[2][1] + " 2 " + result2.getA()[3][1]
+		      +	" 3 " + result2.getA()[4][1]+" 4 " + result2.getA()[5][1]
+			+	" 5 " + result2.getA()[6][1]+" 6 " + result2.getA()[7][1] ); 
 
 }
 }

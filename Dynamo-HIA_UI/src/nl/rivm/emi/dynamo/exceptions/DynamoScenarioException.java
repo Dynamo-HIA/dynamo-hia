@@ -1,9 +1,12 @@
 package nl.rivm.emi.dynamo.exceptions;
 
-public class DynamoScenarioException extends Exception {
+import org.apache.commons.configuration.ConfigurationException;
 
-	public DynamoScenarioException(String message) {
-		super(message);
+public class DynamoScenarioException extends ConfigurationException {
+
+	public DynamoScenarioException(String string) {
+		super(string);
+		// TODO Auto-generated constructor stub
 	}
 
 }

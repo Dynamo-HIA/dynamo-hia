@@ -258,9 +258,6 @@ public class TestAll {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
-		} catch (DynamoScenarioException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 

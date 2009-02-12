@@ -84,7 +84,7 @@ public void test() {
 		medianSurvival[94][0]=1.5344F;
 		medianSurvival[93][0]=2.4375F;
 		medianSurvival[92][0]=3.395F;
-	   rate=E2.excessRate(medianSurvival);
+	   rate=E2.excessRate(medianSurvival, null);
 		System.out.println("test resultaten rate calculation" + rate[92][0]
 		   				+ "= 0.019859172 " + rate[93][0] + " = 0.045275774 " + rate[94][0]
 		                                               				+ " = 0.4434549 " + rate[95][0] + " =  0.46723774");

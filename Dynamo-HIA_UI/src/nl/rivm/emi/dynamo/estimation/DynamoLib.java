@@ -341,6 +341,7 @@ public class DynamoLib {
 	 * @param sigma
 	 *            : the standard deviation on the linear (not on the logscale)
 	 *            of the lognormal distribution;
+	 * @throws Exception 
 	 */
 	static double logNormInv2(double p, double skewness, double mean, double std)
 			throws DynamoInconsistentDataException {

@@ -84,14 +84,14 @@ public void test() {
 		
 		
 		// test continuous risk factor
-		testdata.riskType = 2;
+		testdata.setRiskType(2);
 		ModelParameters E2 = new ModelParameters(); 
 		E2.estimateModelParametersForSingleAgeGroup(100,testdata,0,0);
 		
 		log.fatal("end estimation continuous risk factor ");
 		
 		float [] hulp={0,0,0,0,0};
-		testdata.clusterData[0][0][2].setPrevalence(hulp);
+		testdata.getClusterData()[0][0][2].setPrevalence(hulp);
 		E1.estimateModelParametersForSingleAgeGroup(100,testdata,0,0);
 		log.fatal("end estimation factor with all prevalence disease=0 ");
 		/*
@@ -105,40 +105,40 @@ public void test() {
 		/*
 		log.fatal("end estimation compound risk factor "); */
 		
-		testdata.clusterData[0][0][0].excessMortality[0]=0;
-		testdata.clusterData[0][0][1].excessMortality[0]=0;
-		testdata.clusterData[0][0][0].caseFatality[0]=0;
-		testdata.clusterData[0][0][1].caseFatality[0]=0;
-		testdata.clusterData[0][0][0].relRiskDuurBegin[0]=1;
-		testdata.clusterData[0][0][1].relRiskDuurBegin[0]=1;
-		testdata.clusterData[0][0][0].relRiskDuurEnd[0]=1;
-		testdata.clusterData[0][0][1].relRiskDuurEnd[0]=1;
-		testdata.clusterData[0][0][0].relRiskCat[1][0]=1;
-		testdata.clusterData[0][0][0].relRiskCat[2][0]=1;
-		testdata.clusterData[0][0][1].relRiskCat[1][0]=1;
-		testdata.clusterData[0][0][1].relRiskCat[2][0]=1;
+		testdata.getClusterData()[0][0][0].getExcessMortality()[0]=0;
+		testdata.getClusterData()[0][0][1].getExcessMortality()[0]=0;
+		testdata.getClusterData()[0][0][0].getCaseFatality()[0]=0;
+		testdata.getClusterData()[0][0][1].getCaseFatality()[0]=0;
+		testdata.getClusterData()[0][0][0].getRelRiskDuurBegin()[0]=1;
+		testdata.getClusterData()[0][0][1].getRelRiskDuurBegin()[0]=1;
+		testdata.getClusterData()[0][0][0].getRelRiskDuurEnd()[0]=1;
+		testdata.getClusterData()[0][0][1].getRelRiskDuurEnd()[0]=1;
+		testdata.getClusterData()[0][0][0].getRelRiskCat()[1][0]=1;
+		testdata.getClusterData()[0][0][0].getRelRiskCat()[2][0]=1;
+		testdata.getClusterData()[0][0][1].getRelRiskCat()[1][0]=1;
+		testdata.getClusterData()[0][0][1].getRelRiskCat()[2][0]=1;
 		
 		
 		for (int i=0;i<5;i++){
-			testdata.clusterData[0][0][2].excessMortality[i]=0;
-		testdata.clusterData[0][0][2].caseFatality[i]=0;
-		testdata.clusterData[0][0][2].relRiskDuurBegin[i]=1;
-		testdata.clusterData[0][0][2].relRiskDuurEnd[i]=1;
-		testdata.relRiskDuurMortEnd[0][0]=1.1F; // also=1 for testing that end = fixed value
-		testdata.relRiskDuurMortBegin[0][0]=1.1F;  // also=1 for testing that begin=fixed value
-		testdata.clusterData[0][0][2].relRiskCat[1][i]=1;
-		testdata.clusterData[0][0][2].relRiskCat[2][i]=1;}
+			testdata.getClusterData()[0][0][2].getExcessMortality()[i]=0;
+		testdata.getClusterData()[0][0][2].getCaseFatality()[i]=0;
+		testdata.getClusterData()[0][0][2].getRelRiskDuurBegin()[i]=1;
+		testdata.getClusterData()[0][0][2].getRelRiskDuurEnd()[i]=1;
+		testdata.getRelRiskDuurMortEnd()[0][0]=1.1F; // also=1 for testing that end = fixed value
+		testdata.getRelRiskDuurMortBegin()[0][0]=1.1F;  // also=1 for testing that begin=fixed value
+		testdata.getClusterData()[0][0][2].getRelRiskCat()[1][i]=1;
+		testdata.getClusterData()[0][0][2].getRelRiskCat()[2][i]=1;}
 		ModelParameters E3a = new ModelParameters();
 		//E3a.estimateModelParameters(100, testdata,0,0);
-		log.debug("relRiskOtherMortEnd "+E3a.relRiskOtherMortEnd[0][0]+" relRiskOtherMortBegin "
-				+E3a.relRiskOtherMortBegin
-				+" alfaOtherMort "+E3a.alfaOtherMort[0][0]);
+		log.debug("relRiskOtherMortEnd "+E3a.getRelRiskOtherMortEnd()[0][0]+" relRiskOtherMortBegin "
+				+E3a.getRelRiskOtherMortBegin()
+				+" alfaOtherMort "+E3a.getAlfaOtherMort()[0][0]);
 		
-		testdata.clusterData[0][0][0].setPrevalence(0);
+		testdata.getClusterData()[0][0][0].setPrevalence(0);
 		//E1.estimateModelParameters(100,testdata,0,0);
 		log.fatal("end estimation with prevalence disease 0 =0 ");
 		
-		testdata.clusterData[0][0][1].setPrevalence(0);
+		testdata.getClusterData()[0][0][1].setPrevalence(0);
 		
 		
 		
@@ -149,28 +149,28 @@ public void test() {
 
 		// print comparison with what should come out of it
 		System.out.println("test resultaten 2 ziekte zonder casefat: "
-				+ E4.baselineIncidence[0][0][0] + "= ? "
-				+ E4.baselineIncidence[0][0][1] + "= ? "
-				+ E4.baselinePrevalenceOdds[0][0][0] + "=0.117647 ? "
-				+ E4.baselinePrevalenceOdds[0][0][1] + "=0.117647 ? "
-				+ E4.relRiskOtherMort[0][0][0] + "= ? " + E4.relRiskOtherMort[0][0][1]
-				+ "= ? " + E4.baselineOtherMortality + "= ? "
-				+ E4.attributableMortality[0][0][0] + "= ? "
-				+ E4.attributableMortality[0][0][1] + "= ? ");
-		Testdata2.clusterData[0][0][0].caseFatality[0] = 0;
-		Testdata2.clusterData[0][0][0].caseFatality[1] = 0.5F;
+				+ E4.getBaselineIncidence()[0][0][0] + "= ? "
+				+ E4.getBaselineIncidence()[0][0][1] + "= ? "
+				+ E4.getBaselinePrevalenceOdds()[0][0][0] + "=0.117647 ? "
+				+ E4.getBaselinePrevalenceOdds()[0][0][1] + "=0.117647 ? "
+				+ E4.getRelRiskOtherMort()[0][0][0] + "= ? " + E4.getRelRiskOtherMort()[0][0][1]
+				+ "= ? " + E4.getBaselineOtherMortality() + "= ? "
+				+ E4.getAttributableMortality()[0][0][0] + "= ? "
+				+ E4.getAttributableMortality()[0][0][1] + "= ? ");
+		Testdata2.getClusterData()[0][0][0].getCaseFatality()[0] = 0;
+		Testdata2.getClusterData()[0][0][0].getCaseFatality()[1] = 0.5F;
 		ModelParameters E5 = new ModelParameters();
 		E5.estimateModelParametersForSingleAgeGroup(100, Testdata2,0,0);
 		// print comparison with what should come out of it
 		System.out.println("test resultaten 2 ziekte with casefat: "
-				+ E4.baselineIncidence[0][0][0] + "= ? "
-				+ E4.baselineIncidence[0][0][1] + "= ? "
-				+ E4.baselinePrevalenceOdds[0][0][0] + "=0.117647 ? "
-				+ E4.baselinePrevalenceOdds[0][0][1] + "=0.117647 ? "
-				+ E4.relRiskOtherMort[0][0][0] + "= ? " + E4.relRiskOtherMort[0][0][1]
-				+ "= ? " + E4.baselineOtherMortality + "= ? "
-				+ E4.attributableMortality[0][0][0] + "= ? "
-				+ E4.attributableMortality[0][0][1] + "= ? ");
+				+ E4.getBaselineIncidence()[0][0][0] + "= ? "
+				+ E4.getBaselineIncidence()[0][0][1] + "= ? "
+				+ E4.getBaselinePrevalenceOdds()[0][0][0] + "=0.117647 ? "
+				+ E4.getBaselinePrevalenceOdds()[0][0][1] + "=0.117647 ? "
+				+ E4.getRelRiskOtherMort()[0][0][0] + "= ? " + E4.getRelRiskOtherMort()[0][0][1]
+				+ "= ? " + E4.getBaselineOtherMortality() + "= ? "
+				+ E4.getAttributableMortality()[0][0][0] + "= ? "
+				+ E4.getAttributableMortality()[0][0][1] + "= ? ");
 
 	} catch (Exception e) {
 		if (e.getMessage()==null)

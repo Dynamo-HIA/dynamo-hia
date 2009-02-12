@@ -380,4 +380,16 @@ public class Simplx {
 		.println(" results  1 " + result2.a[2][1] + " 2 " + result2.a[3][1]
 		      +	" 3 " + result2.a[4][1]+" 4 " + result2.a[5][1]
 			+	" 5 " + result2.a[6][1]+" 6 " + result2.a[7][1] ); 	
-}}
+}
+
+	public float[][] getA() {
+		return a;
+	}
+
+	public int[] getIzrov() {
+		return izrov;
+	}
+
+	public int[] getIposv() {
+		return iposv;
+	}}

@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 import junit.framework.Assert;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoLib;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
@@ -43,7 +43,7 @@ public void test() {
 		testdata.makeTest1Data();
 		E1.estimateModelParameters(100,testdata);
 		InitialPopulationFactory E2=new InitialPopulationFactory();
-		E2.manufactureInitialPopulation(E1,"simname",10, 111,true);
+		E2.manufactureInitialPopulation(E1,"simname",10, 111,true, null);
 		// test weighted regression
 
 		

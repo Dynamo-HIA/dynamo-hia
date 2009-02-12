@@ -13,9 +13,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class Util {
 
+	public static final String PLUGIN_ID = "CZM_Main";
+	
 	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(BaseNode selectedNode) {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
@@ -94,12 +97,16 @@ public class Util {
 	public static ImageRegistry getImageRegistry() {
 		if (image_registry == null) {
 			image_registry = new ImageRegistry();
-			image_registry.put("folder", ImageDescriptor
-					.createFromURL(newURL("file:images/tsuite.gif")));
-			image_registry.put("file", ImageDescriptor
-					.createFromURL(newURL("file:images/test.gif")));
-			image_registry.put("error", ImageDescriptor
-					.createFromURL(newURL("file:images/testerror.gif")));
+			
+			ImageDescriptor folderImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
+					Util.PLUGIN_ID, "/images/tsuite.gif");
+			image_registry.put("folder", folderImageDesriptor);
+			ImageDescriptor fileImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
+					Util.PLUGIN_ID, "/images/test.gif");
+			image_registry.put("file", fileImageDesriptor);
+			ImageDescriptor errorImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
+					Util.PLUGIN_ID, "/images/testerror.gif");			
+			image_registry.put("error", errorImageDesriptor);
 		}
 		return image_registry;
 	}

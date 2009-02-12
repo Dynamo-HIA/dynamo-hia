@@ -17,7 +17,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 
@@ -201,11 +201,11 @@ public class TestClusterRunSimulationConfigurationFactory {
 			writeFinalElementToDom(clusterElement, "startsAtDiseaseNumber",
 					((Integer) structure.getDiseaseNumber()[0]).toString());
 			writeFinalElementToDom(clusterElement, "numberOfDiseasesInCluster",
-					((Integer) structure.getNinCluster()).toString());
+					((Integer) structure.getNInCluster()).toString());
 			fileName = directoryName
 					+ "\\parameters\\relativeRiskDiseaseOnDisease_cluster"
 					+ ((Integer) c).toString() + ".xml";
-			if (structure.getNinCluster() > 1)
+			if (structure.getNInCluster() > 1)
 				writeFinalElementToDom(clusterElement,
 						"diseaseOnDiseaseRelativeRiskFile", fileName);
 			healthStateRootElement.appendChild(clusterElement);
@@ -233,9 +233,9 @@ public class TestClusterRunSimulationConfigurationFactory {
 		for (int c = 0; c < parameters.getNCluster(); c++) {
 			DiseaseClusterStructure structure = parameters
 					.getClusterStructure()[c];
-			if (structure.getNinCluster() == 1 || structure.withCuredFraction)
+			if (structure.getNInCluster() == 1 || structure.isWithCuredFraction())
 
-				for (int d = 0; d < structure.getNinCluster(); d++) {
+				for (int d = 0; d < structure.getNInCluster(); d++) {
 
 					healthStateDiseaseElement = documentForHealthState
 							.createElement("disease");
@@ -300,7 +300,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 											.getDiseaseNumber()[0]),
 							"relativeRisks", "relativeRisk", fileName);
 
-					if (structure.withCuredFraction) {
+					if (structure.isWithCuredFraction()) {
 
 						// TODO bovenstaande is nog niet goed voor ziekten met
 						// cured fractions.
@@ -321,7 +321,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 				 * cluster element
 				 */
 
-				for (int d = 0; d < structure.getNinCluster(); d++) {
+				for (int d = 0; d < structure.getNInCluster(); d++) {
 
 					/*
 					 * write away information per disease, both for each disease
@@ -550,7 +550,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3) {
 			element = document.createElement("possiblevalues");
 			charElement.appendChild(element);
-			for (int r = 0; r < parameters.prevRisk[0][0].length; r++) {
+			for (int r = 0; r < parameters.getPrevRisk()[0][0].length; r++) {
 				writeFinalElementToDom(element, "vl", ((Integer) r).toString());
 			}
 		}
@@ -581,9 +581,9 @@ public class TestClusterRunSimulationConfigurationFactory {
 				
 				for (int c=0;c<parameters.getNCluster();c++){
 					DiseaseClusterStructure structure = parameters.getClusterStructure()[c];
-					if (structure.getNinCluster()==1) numberOfElements++;
+					if (structure.getNInCluster()==1) numberOfElements++;
 					else if (structure.isWithCuredFraction()) numberOfElements+=2;
-					else numberOfElements+=Math.pow(2,structure.getNinCluster())-1;
+					else numberOfElements+=Math.pow(2,structure.getNInCluster())-1;
 				}
 				writeFinalElementToDom(charElement, "numberofelements", ((Integer)numberOfElements).toString());
 				

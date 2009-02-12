@@ -1,20 +1,10 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.Assert;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
-import nl.rivm.emi.dynamo.datahandling.ConfigurationFileData;
-import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
-import nl.rivm.emi.dynamo.estimation.XMLBaseElement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestXMLwriter {
+public class testXMLwriter {
 	Log log = LogFactory.getLog(getClass().getName());
 
 @Before
@@ -59,11 +49,11 @@ public void test() {
 		SimulationConfigurationFactory s=new SimulationConfigurationFactory(simName);
 		
 	   // DynamoConfigurationData d= new DynamoConfigurationData(BaseDirectory.getBaseDir());
-		s.manufactureSimulationConfigurationFile(p);
+		s.manufactureSimulationConfigurationFile(p, null);
 		log.fatal("SimulationConfigurationFile written ");
 		s.manufactureCharacteristicsConfigurationFile(p)  ;
 		log.fatal("CharacteristicsConfigurationFile written ");
-		s.manufactureUpdateRuleConfigurationFiles(p);
+		s.manufactureUpdateRuleConfigurationFiles(p, null);
 		log.fatal("UpdateRuleConfigurationFile written ");
 		/*
 		InitialPopulationFactory e2=new InitialPopulationFactory();

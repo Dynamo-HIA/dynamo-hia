@@ -21,7 +21,7 @@ import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.dynamo.datahandling.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
@@ -115,7 +115,7 @@ public class TestClusterRun_4Char {
 			Simulation sim;
 			log.fatal("Starting manufacturing initial population.");
 			InitialPopulationFactory E2 = new InitialPopulationFactory();
-			E2.writeInitialPopulation(p, 10, simName, 1111, false);
+			E2.writeInitialPopulation(p, 10, simName, 1111, false, null);
 			log.fatal("Starting run.");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
@@ -156,17 +156,7 @@ public class TestClusterRun_4Char {
 				// evaluateResult(sim);
 
 			}
-		} catch (ParserConfigurationException e) {
-			log.fatal("Exception " + e.getClass().getName()
-					+ " caught. Message: " + e.getMessage());
-			e.printStackTrace();
-			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
-			log.fatal("Exception " + e.getClass().getName()
-					+ " caught. Message: " + e.getMessage());
-			e.printStackTrace();
-			assertNull(e); // Force error.
-		} catch (TransformerException e) {
 			log.fatal("Exception " + e.getClass().getName()
 					+ " caught. Message: " + e.getMessage());
 			e.printStackTrace();

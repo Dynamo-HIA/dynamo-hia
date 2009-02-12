@@ -37,7 +37,7 @@ public class TestXMLreading {
 		try {
 			ArraysFromXMLFactory factory= new ArraysFromXMLFactory();
 			incidence = factory.manufactureOneDimArray(f,
-					"incidences", "incidence");
+					"incidences", "incidence", false);
 
 			for (int age = 0; age < 96; age++)
 				for (int sex = 0; sex < 2; sex++)

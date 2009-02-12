@@ -94,7 +94,7 @@ import org.junit.Test;
 					assertSame(i.getPrevRisk(),i2.getPrevRisk());
 					log.fatal("risk factor prevalence OK");
 					
-					assertSame(i.clusterData,i2.clusterData);
+					assertSame(i.getClusterData(),i2.getClusterData());
 					log.fatal("clusterdata OK");
 					assertSame(i.getPrevRisk(),i2.getPrevRisk());
 					log.fatal("risk factor prevalence OK");

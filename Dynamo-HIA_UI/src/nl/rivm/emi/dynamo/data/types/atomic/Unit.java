@@ -55,8 +55,9 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 		return null;
 	}
 
-	public Float getDefaultValue() {
-		return 0F;
+	public String getDefaultValue() {
+		// TODO Refactor 3-2-2009
+		return "";
 	}
 
 	static public String getElementName() {

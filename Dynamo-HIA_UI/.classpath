@@ -2,9 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/com.ibm.icu_3.6.1.v20070906.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.13.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.10.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.10-swt.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.3.0.I20070605-0010.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding_1.0.1.M20070822-0800.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding.beans_1.0.1.M20070910-0800b.jar"/>
@@ -18,17 +15,20 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.jface.text_3.3.2.r332_20071017-0800.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.swt.win32.win32.x86_3.3.3.v3349.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.text_3.3.0.v20070606-0010.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.9.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/commons-configuration-1.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CZM"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.ide_3.3.2.M20080207-0800.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.ide.application_1.0.0.I20070530-0100.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.core.resources_3.3.1.R33x_v20080205.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.workbench_3.3.2.M20080207-0800.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.logging_1.0.4.v20080605-1930.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.lang_2.3.0.v200803061910.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.configuration_1.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.collections_3.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/nl.rivm.emi.cdm_1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.jfree.chart_1.0.10.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.jfree.experimental.chart_1.0.10.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.jfree.jcommons_1.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/Jama_1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
