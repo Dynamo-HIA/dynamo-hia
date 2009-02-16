@@ -238,7 +238,7 @@ public class DiseaseClusterData {
 		this.rrAlpha[d] = halfTime;
 	}
 
-	public float[] getRrAlpha() {
+	public float[] getAlpha() {
 		return rrAlpha;
 	}
 
