@@ -34,7 +34,7 @@ public class InputDataFactory {
 
 	/* Field containing the name of the base directory */
 	// temporary for testing;
-	public String baseDir = "c:\\hendriek\\java\\dynamohome";
+	public String baseDir = "c:\\hendriek\\java\\dynamohome";;
 
 	/*
 	 * fields describing the labels of the XML configuration file (as made by
@@ -873,9 +873,11 @@ public class InputDataFactory {
 
 				if (scenInfo.get(scen).transFileName
 						.compareToIgnoreCase("none") == 0)
-
+				
 					scenarioInfo.setTransitionType(false, scen);
+					
 
+				
 				else {
 					scenarioInfo.setTransitionType(true, scen);
 
@@ -953,6 +955,7 @@ public class InputDataFactory {
 			inputData.setRefClassCont(0);
 		if (riskFactorType == 3) {
 			inputData.setIndexDuurClass(getInteger("durationclass", config));
+			
 			/*
 			 * keep the original number as this is needed later to read from
 			 * this number the relative risks for duration
@@ -1029,7 +1032,7 @@ public class InputDataFactory {
 							}
 						}
 					}
-
+					scenarioInfo.setIndexDurationClass(inputData.getIndexDuurClass());
 					if (index2[index.length - 1] - index2[0] != index.length - 1)
 						throw new DynamoConfigurationException(
 								" class numbers missing "
@@ -1102,6 +1105,7 @@ public class InputDataFactory {
 			inputData.setDuurFreq(factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_duration",
 					"prevalence", "duration", "percent", false), true);
+			scenarioInfo.setOldDurationClasses(inputData.getDuurFreq());
 		}
 
 		//
@@ -1162,7 +1166,7 @@ public class InputDataFactory {
 					configFileName, "relrisksfordeath_compound",
 					"relriskfordeath", "end", "cat",
 					originalNumberDurationClass));
-			inputData.setRrAlphaMort(factory.selectOneDimArray(configFileName,
+			inputData.setAlphaMort(factory.selectOneDimArray(configFileName,
 					"relrisksfordeath_compound", "relriskfordeath", "alfa",
 					"cat", originalNumberDurationClass));
 
