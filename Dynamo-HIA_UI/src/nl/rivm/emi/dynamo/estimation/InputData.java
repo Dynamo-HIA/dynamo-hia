@@ -40,7 +40,7 @@ public class InputData {
 	private float[][] relRiskDuurMortBegin= new float[96][2];
 	private float[][] relRiskDuurMortEnd= new float [96][2];
 	private float[][][] duurFreq= new float [96][2][];
-	private float[][] rrAlphaMort= new float[96][2];
+	private float[][] alphaMort= new float[96][2];
 	private float[][][] relRiskMortCat = new float [96][2][];
 	private float[][] relRiskMortCont= new float [96][2];
     
@@ -96,7 +96,7 @@ public class InputData {
 				float[] hulp7 = { 0.2F, 0.2F, 0.2F, 0.1F, 0.1F, 0.1F, 0.1F };
 				duurFreq[age][g] = hulp7;
 				
-				rrAlphaMort[age][g] = 5;
+				alphaMort[age][g] = 5;
 				float[] hulp11 = { 1, (float) 1.1, (float) 1.2 };
 			    relRiskMortCat [age][g]= hulp11;
 				relRiskMortCont [age][g]= (float) 1.1;
@@ -121,7 +121,7 @@ public class InputData {
 						clusterData[age][g][0].getCaseFatality() [0]= 0.0F;
 						clusterData[age][g][0].getRelRiskDuurBegin()[0]=2;
 						clusterData[age][g][0].getRelRiskDuurEnd()[0] = 1.1F;
-						clusterData[age][g][0].getRrAlpha()[0] =0.15F;
+						clusterData[age][g][0].getAlpha()[0] =0.15F;
 
 						float[][] hulp = { { 1 },
 								{  1.2F },
@@ -487,7 +487,7 @@ return returnarray;
   }
   
 
-  private float [][][][] deepcopy( float [][][] []inarray)
+  private float [][][][] deepcopy( float [][][][]inarray)
   {float [][][][] returnarray= new float [inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
   for (int i=0;i<inarray.length;i++)
 for (int j=0;j<inarray[0].length;j++)
@@ -553,11 +553,11 @@ return returnarray;
 
 
 	public float[][] getRrAlphaMort() {
-		return deepcopy(rrAlphaMort);
+		return deepcopy(alphaMort);
 	}
 
 	public void setRrAplhaMort(float[][] halfTimeMort) {
-		this.rrAlphaMort = halfTimeMort;
+		this.alphaMort = halfTimeMort;
 	}
 	public float[][][] getRelRiskMortCat() {
 		return deepcopy(relRiskMortCat);
@@ -622,8 +622,12 @@ return returnarray;
 	public void setWithRRForMortality(boolean withRRForMortality) {
 		this.withRRForMortality = withRRForMortality;
 	}
-	public void setRrAlphaMort(float[][] rrAlphaMort) {
-		this.rrAlphaMort = rrAlphaMort;
+	public void setAlphaMort(float[][] input) {
+		this.alphaMort = input;
+	}
+	
+	public float[][] getAlphaMort() {
+		return this.alphaMort;
 	}
 	/**
 	 * @param newdata
