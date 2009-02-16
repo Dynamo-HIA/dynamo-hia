@@ -185,7 +185,7 @@ extends HealthStateManyToManyUpdateRule {
 						 */
 						if (disFatalIndex[ageValue][sexValue][c][0] == 0)
 							survivalFraction *= Math.exp(-getTimeStep()
-									* calculateFatalIncidence(riskFactorValue,
+									* calculateFatalIncidence(riskDurationValue,
 											ageValue, sexValue, d))
 									* (atMort * (1 - oldValue[d]) * expI + (atMort
 											* oldValue[d] - incidence)
@@ -200,7 +200,7 @@ extends HealthStateManyToManyUpdateRule {
 						d = clusterStartsAtDiseaseNumber[c];
 
 						atMort = attributableMortality[ageValue][sexValue][d + 1];
-						incidence2 = calculateIncidence(riskFactorValue,
+						incidence2 = calculateIncidence(riskDurationValue,
 								ageValue, sexValue, d + 1);
 						incidence = incidence2
 								/ nonCuredRatio[ageValue][sexValue][c];
@@ -265,7 +265,7 @@ extends HealthStateManyToManyUpdateRule {
 						 */
 
 						double[][] rateMatrix = fillRateMatrixForCluster(
-								ageValue, sexValue, riskFactorValue, c);
+								ageValue, sexValue, riskDurationValue, c);
 						float[][] transMat = matExp
 								.exponentiateFloatMatrix(rateMatrix);
 
@@ -417,15 +417,15 @@ extends HealthStateManyToManyUpdateRule {
 
 	}
 
-	/**
+	/**this method fills the transition rate matrix for a riskfactor-category with duration classes
 	 * @param ageValue
 	 * @param sexValue
-	 * @param riskFactorValue
+	 * @param riskDurationValue
 	 * @param c
 	 * @return
 	 */
 	private double[][] fillRateMatrixForCluster(int ageValue, int sexValue,
-			float riskFactorValue, int c) {
+			float riskDurationValue, int c) {
 		int d;
 		double incidence;
 		double atMort;
@@ -433,7 +433,7 @@ extends HealthStateManyToManyUpdateRule {
 		double[][] rateMatrix = new double[nCombinations[c]][nCombinations[c]];
 		for (int dc = 0; dc < numberOfDiseasesInCluster[c]; dc++) {
 			d = clusterStartsAtDiseaseNumber[c] + dc;
-			incidence = calculateIncidence(riskFactorValue, ageValue, sexValue,
+			incidence = calculateIncidence(riskDurationValue, ageValue, sexValue,
 					d);
 			atMort = attributableMortality[d][ageValue][sexValue];
 			for (int loc = 0; loc < nCombinations[c] >> 1; loc++) {
@@ -452,7 +452,7 @@ extends HealthStateManyToManyUpdateRule {
 		 */
 		if (disFatalIndex[ageValue][sexValue][c][0] >= 0)
 			for (int fataldis = 0; fataldis < disFatalIndex[ageValue][sexValue][c].length; fataldis++) {
-				incidence = calculateFatalIncidence(riskFactorValue, ageValue,
+				incidence = calculateFatalIncidence(riskDurationValue, ageValue,
 						sexValue, fataldis + clusterStartsAtDiseaseNumber[c]);
 				for (int loc = 0; loc < nCombinations[c]; loc++) {
 
@@ -464,41 +464,41 @@ extends HealthStateManyToManyUpdateRule {
 		return rateMatrix;
 	}
 
-	private double calculateIncidence(float riskFactorValue, int ageValue,
+	private double calculateIncidence(float riskDurationValue, int ageValue,
 			int sexValue, int diseaseNumber) {
 		double incidence = 0;
 
 		incidence = baselineIncidence[diseaseNumber][ageValue][sexValue]
 				* ((relRiskBegin[diseaseNumber][ageValue][sexValue] - relRiskEnd[diseaseNumber][ageValue][sexValue])
-						* Math.exp(-riskFactorValue
+						* Math.exp(-riskDurationValue
 								* alfaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
 
 		return incidence;
 	}
 
-	private double calculateFatalIncidence(float riskFactorValue, int ageValue,
+	private double calculateFatalIncidence(float riskDurationValue, int ageValue,
 			int sexValue, int diseaseNumber) {
 		double incidence = 0;
 		incidence = baselineFatalIncidence[diseaseNumber][ageValue][sexValue]
 				* ((relRiskBegin[diseaseNumber][ageValue][sexValue] - relRiskEnd[diseaseNumber][ageValue][sexValue])
-						* Math.exp(-riskFactorValue
+						* Math.exp(-riskDurationValue
 								* alfaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
 
 		return incidence;
 	}
 
-	private double calculateOtherCauseSurvival(float riskFactorValue,
+	private double calculateOtherCauseSurvival(float riskDurationValue,
 			int ageValue, int sexValue) {
 		double otherCauseSurvival = 0;
 
 		otherCauseSurvival = Math
 				.exp((-baselineOtherMort[ageValue][sexValue]
-						* (relRiskOtherMortBegin[ageValue][sexValue] - relRiskOtherMortEnd[ageValue][sexValue])
+						*( (relRiskOtherMortBegin[ageValue][sexValue] - relRiskOtherMortEnd[ageValue][sexValue])
 
 						* Math.exp(
 
 						-alfaDuurOtherMort[ageValue][sexValue]
-								* riskFactorValue) + relRiskOtherMortEnd[ageValue][sexValue])
+								* riskDurationValue) + relRiskOtherMortEnd[ageValue][sexValue]))
 						* getTimeStep());
 
 		return otherCauseSurvival;

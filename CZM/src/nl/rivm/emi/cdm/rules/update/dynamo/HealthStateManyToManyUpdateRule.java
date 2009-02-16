@@ -178,7 +178,7 @@ public class HealthStateManyToManyUpdateRule extends
 	static protected String alfaDuurOtherMortFileNameLabel = "alfaRelRiskOtherMortFile";
 	static protected String relativeRiskBeginOtherMortFileNameLabel = "beginRelativeRiskOtherMortFile";
 	static protected String relativeRiskEndOtherMortFileNameLabel = "endRelativeRiskOtherMortFile";
-	
+
 	public HealthStateManyToManyUpdateRule() throws ConfigurationException,
 			CDMUpdateRuleException {
 		super();
@@ -704,6 +704,7 @@ public class HealthStateManyToManyUpdateRule extends
 
 			if (rootChild.getName() == diseaseLabel) {
 				diseaseRead = handleDiseaseInfo(rootChild, diseaseRead);
+				
 				/*
 				 * reads per disease: <disease> <ClusterNumber>0</ClusterNumber>
 				 * <diseaseNumberWithinCluster >1</diseaseNumberWithinCluster>
@@ -776,7 +777,6 @@ public class HealthStateManyToManyUpdateRule extends
 		}
 	}
 
-	
 	/**
 	 * this method reads in the number of categories of a categorical covariate
 	 * from the configurationfile
@@ -798,9 +798,6 @@ public class HealthStateManyToManyUpdateRule extends
 		}
 	}
 
-	
-	
-	
 	/**
 	 * this method reads in the riskTypenumber (categorical, continuous,
 	 * compound) from the configurationfile
@@ -950,23 +947,40 @@ public class HealthStateManyToManyUpdateRule extends
 				}
 
 				else if (diseaseElement.getName() == relRiskEndFileNameLabel) {
+					String value = (String) diseaseElement.getValue();
+					log.debug("Setting relRiskEndFileName to: " + value);
+					setRelRiskEndFileName(value, diseaseNo);
 					float[][] inputData2 = new float[96][2];
 					inputData2 = factory.manufactureOneDimArray(
 							getRelRiskEndFileName()[diseaseNo],
 							"relativeRisks", "relativeRisk", false);
+					setRelRiskEnd(inputData2, diseaseNo);
+					log.debug("reading relative risks end for disease "
+							+ diseaseNo);
+
 				} else if (diseaseElement.getName() == relRiskBeginFileNameLabel) {
+					String value = (String) diseaseElement.getValue();
+					log.debug("Setting relRiskBeginFileName to: " + value);
+					setRelRiskBeginFileName(value, diseaseNo);
+
 					float[][] inputData2 = new float[96][2];
-					setRelRiskOtherMortEnd(inputData2);
 					inputData2 = factory.manufactureOneDimArray(
 							getRelRiskBeginFileName()[diseaseNo],
 							"relativeRisks", "relativeRisk", false);
+					setRelRiskBegin(inputData2, diseaseNo);
+					log.debug("reading relative risks begin for disease "
+							+ diseaseNo);
+
 				} else if (diseaseElement.getName() == alfaDuurFileNameLabel) {
+					String value = (String) diseaseElement.getValue();
+					log.debug("Setting alfaDuurFileName for disease "+diseaseNo+" to: " + value);
+					setAlfaDuurFileName(value, diseaseNo);
 					float[][] inputData2 = new float[96][2];
-					setRelRiskOtherMortBegin(inputData2);
 					inputData2 = factory.manufactureOneDimArray(
 							getAlfaDuurFileName()[diseaseNo], "alfa", "alfa",
 							false);
-					setAlfaDuurOtherMort(inputData2);
+					setAlfaDuur(inputData2, diseaseNo);
+					log.debug("reading alfaduur for disease " + diseaseNo);
 
 				}
 
@@ -1173,10 +1187,10 @@ public class HealthStateManyToManyUpdateRule extends
 				setRelRiskOtherMortContinous(inputData2);
 			}
 			if (riskType == 3) {
-/* rr's for end */
+				/* rr's for end */
 				FileName = simulationConfiguration
-				
-						.getString(relativeRiskEndOtherMortFileNameLabel);
+
+				.getString(relativeRiskEndOtherMortFileNameLabel);
 				log.debug("Setting RelRiskEndOtherMortalityFilename to: "
 						+ FileName);
 				setRelRiskEndOtherMortFileName(FileName);
@@ -1185,24 +1199,24 @@ public class HealthStateManyToManyUpdateRule extends
 						getRelRiskOtherMortEndFileName(), "relativeRisks",
 						"relativeRisk", false);
 				setRelRiskOtherMortEnd(inputData2);
-				/* rr's for begin */		
-				
+				/* rr's for begin */
+
 				FileName = simulationConfiguration
 						.getString(relativeRiskBeginOtherMortFileNameLabel);
 				log.debug("Setting RelRiskBeginOtherMortalityFilename to: "
 						+ FileName);
 				setRelRiskBeginOtherMortFileName(FileName);
-				
+
 				inputData2 = factory.manufactureOneDimArray(
 						getRelRiskBeginOtherMortFileName(), "relativeRisks",
 						"relativeRisk", false);
 				setRelRiskOtherMortBegin(inputData2);
-				/* alfa  */	
-				
+				/* alfa */
+
 				FileName = simulationConfiguration
-				.getString(alfaDuurOtherMortFileNameLabel);
-		log.debug("Setting alfaOtherMortalityFilename to: " + FileName);
-		setAlfaOtherMortFileName(FileName);
+						.getString(alfaDuurOtherMortFileNameLabel);
+				log.debug("Setting alfaOtherMortalityFilename to: " + FileName);
+				setAlfaOtherMortFileName(FileName);
 				inputData2 = factory.manufactureOneDimArray(
 						getAlfaDuurOtherMortFileName(), "alfa", "alfa", false);
 				setAlfaDuurOtherMort(inputData2);
@@ -1220,7 +1234,6 @@ public class HealthStateManyToManyUpdateRule extends
 		}
 	}
 
-	
 	/**
 	 * @return
 	 */
@@ -1715,6 +1728,10 @@ public class HealthStateManyToManyUpdateRule extends
 		this.relRiskEnd = relRiskEnd;
 	}
 
+	public void setRelRiskEnd(float[][] relRiskEnd, int d) {
+		this.relRiskEnd[d] = relRiskEnd;
+	}
+
 	public float[][][] getRelRiskBegin() {
 		return relRiskBegin;
 	}
@@ -1723,12 +1740,20 @@ public class HealthStateManyToManyUpdateRule extends
 		this.relRiskBegin = relRiskBegin;
 	}
 
+	public void setRelRiskBegin(float[][] relRiskIn, int d) {
+		this.relRiskBegin[d] = relRiskIn;
+	}
+
 	public float[][][] getAlfaDuur() {
 		return alfaDuur;
 	}
 
 	public void setAlfaDuur(float[][][] alfaDuur) {
 		this.alfaDuur = alfaDuur;
+	}
+
+	public void setAlfaDuur(float[][] alfaDuur, int d) {
+		this.alfaDuur[d] = alfaDuur;
 	}
 
 	public float[][][] getAttributableMortality() {
@@ -1821,6 +1846,18 @@ public class HealthStateManyToManyUpdateRule extends
 
 	public void setRelRiskEndFileName(String[] relRiskEndFileName) {
 		this.relRiskEndFileName = relRiskEndFileName;
+	}
+
+	public void setRelRiskEndFileName(String relRiskEndFileName, int d) {
+		this.relRiskEndFileName[d] = relRiskEndFileName;
+	}
+
+	public void setRelRiskBeginFileName(String input, int d) {
+		this.relRiskBeginFileName[d] = input;
+	}
+
+	public void setAlfaDuurFileName(String input, int d) {
+		this.alfaDuurFileName[d] = input;
 	}
 
 	public String[] getRelRiskBeginFileName() {
