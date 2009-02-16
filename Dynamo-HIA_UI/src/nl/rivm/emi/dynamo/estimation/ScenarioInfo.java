@@ -39,6 +39,8 @@ public class ScenarioInfo {
 	private float[][][][] newPrevalence; /* indexes: scenario,age, sex, class
 	scenario starts at index 0 with the first alternative scenario info */
 	private float [][][] oldPrevalence=null; /* prevalence of reference situation; indexes: age sex class */
+	private float [][][] oldDurationClasses=null; /* prevalence of duration classes in the reference situation; indexes: age sex class */
+	
 	private float [][][] meanDrift=null;   
 	/* indexes: scenario,age, sex */// TODO volgende 3 inlezen en initialiseren
 	private float [][][][] [] alternativeTransitionMatrix;
@@ -56,7 +58,7 @@ public class ScenarioInfo {
 	private int referenceClass;
 	private int riskType;
 	private DiseaseClusterStructure[] structure;
-	
+	private int indexDurationClass;
 	private boolean details=false;
 	private float[] cutoffs=null;
 	/**
@@ -451,6 +453,19 @@ public void makeTestData1 (){
 	}
 	public boolean[] getZeroTransition() {
 		return zeroTransition;
+	}
+	public float[][][] getOldDurationClasses() {
+		
+		return oldDurationClasses;
+	}
+	public void setOldDurationClasses(float[][][] oldDurationClasses) {
+		this.oldDurationClasses = oldDurationClasses;
+	}
+	public int getIndexDurationClass() {
+		return indexDurationClass;
+	}
+	public void setIndexDurationClass(int indexDurationClass) {
+		this.indexDurationClass = indexDurationClass;
 	}
 	
 
