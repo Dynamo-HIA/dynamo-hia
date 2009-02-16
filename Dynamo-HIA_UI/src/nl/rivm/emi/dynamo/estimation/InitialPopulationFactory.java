@@ -41,7 +41,8 @@ import org.w3c.dom.Node;
 
 public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private int numberOfElements; 
+	private int numberOfElements;
+
 	/* number of disease states */
 
 	/**
@@ -68,9 +69,9 @@ public class InitialPopulationFactory {
 	public void writeInitialPopulation(ModelParameters parameters, int nSim,
 			String simulationName, int seed, boolean newborns,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
-		
+
 		numberOfElements = getNumberOfDiseaseStateElements(parameters);
-		
+
 		Population[] pop = manufactureInitialPopulation(parameters,
 				simulationName, nSim, seed, newborns, scenarioInfo);
 
@@ -78,7 +79,7 @@ public class InitialPopulationFactory {
 				"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 		String directoryName = baseDir + "Simulations\\" + simulationName;
 		String popFileName;
-		
+
 		if (newborns)
 			popFileName = directoryName + "\\modelconfiguration"
 					+ "\\newborns.xml";
@@ -256,7 +257,7 @@ public class InitialPopulationFactory {
 				if (parameters.getRiskType() == 1) {
 					// NB all statements here are copied to the next part
 					// (risktype==3)
-					// so any faulth found here should be mended there too.
+					// so any fault found here should be mended there too.
 					nSimPerClass = new int[nClasses];
 
 					int c = 0;
@@ -329,9 +330,8 @@ public class InitialPopulationFactory {
 				}
 
 				if (parameters.getRiskType() == 3) {
-					// NB all statements here are copied to the next part
-					// (risktype==3)
-					// so any faulth found here should be mended there too.
+					// NB all statements here are copied from (risktype==1)
+					// so any fault found here should be mended there too.
 					nSimPerClass = new int[nClasses];
 					nSimPerDurationClass = new int[nDuurClasses[a][g]];
 					int c = 0;
@@ -405,6 +405,12 @@ public class InitialPopulationFactory {
 						nSimPerDurationClass[c] = (int) Math.floor(parameters
 								.getDuurFreq()[a][g][c]
 								* nSimPerClass[parameters.getDurationClass()]);
+						/* if no cases in duration class, add an extra case */
+						if (nSimPerDurationClass[c] == 0) {
+							nSimPerDurationClass[c] = 1;
+							nSimNew[a][g]++;
+
+						}
 						restDuration[c] = parameters.getDuurFreq()[a][g][c]
 								- (float) nSimPerDurationClass[c]
 								/ (float) nSimPerClass[parameters
@@ -416,18 +422,41 @@ public class InitialPopulationFactory {
 							cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c];
 					}
 					totrest = 0;
+					totrestWithoutNegatives = 0;
 					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
 						totrest += restDuration[c2];
+						if (restDuration[c2] < 0)
+							restDuration[c2] = 0;
+						else
+							totrestWithoutNegatives += restDuration[c2];
 					}
+
 					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
-						restDuration[c2] = restDuration[c2] / totrest;
+						restDuration[c2] = restDuration[c2]
+								/ totrestWithoutNegatives;
+					}
+					/*
+					 * if extra points have been added (because otherwise
+					 * durations would not have been present), adjust the arrays
+					 * for the overall classes
+					 */
+					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1] != parameters
+							.getDurationClass()) {
+						nSimPerClass[parameters.getDurationClass()] = cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1];
+						for (c = 0; c < nClasses; c++) {
+
+							if (c > 0)
+								cumulativeNSimPerClass[c] = nSimPerClass[c]
+										+ cumulativeNSimPerClass[c - 1];
+							else
+								cumulativeNSimPerClass[c] = nSimPerClass[c];
+						}
 					}
 				}
 				/*
 				 * werktte niet omdat Class Individual protected; veranderd in
 				 * SOR code
 				 */
-				
 
 				/*****************************************************************************
 				 * 
@@ -531,10 +560,9 @@ public class InitialPopulationFactory {
 															.normInv((i + 0.5)
 																	/ nSim));
 
-							
 						}
-						currentIndividual.add(new FloatCharacteristicValue(
-								0, characteristicIndex, riskFactorValue));
+						currentIndividual.add(new FloatCharacteristicValue(0,
+								characteristicIndex, riskFactorValue));
 						characteristicIndex++;
 					}
 
@@ -596,15 +624,11 @@ public class InitialPopulationFactory {
 
 					/*
 					 * adding individuals to populations for scenario
-					
-					for continuous riskfactors:
-					 
+					 * 
+					 * for continuous riskfactors:
 					 */
 
-					
-					
-					
-					if (parameters.getRiskType() == 2 ) {
+					if (parameters.getRiskType() == 2) {
 						int currentscen = 0;
 						for (int population = 1; population < nPopulations; population++) {
 
@@ -624,13 +648,14 @@ public class InitialPopulationFactory {
 												(float) a));
 								currentIndividual
 										.add(new IntCharacteristicValue(0, 2, g));
-								
+
 								/*
-								 * for continuous risk factor we just give the new distribution,
-								 * meaning that everyone maintains his/her old ranking in the population
-								 * 
+								 * for continuous risk factor we just give the
+								 * new distribution, meaning that everyone
+								 * maintains his/her old ranking in the
+								 * population
 								 */
-								
+
 								if (parameters.getRiskTypeDistribution()
 										.compareToIgnoreCase("normal") == 0)
 									riskFactorValue = (scenarioInfo
@@ -658,47 +683,48 @@ public class InitialPopulationFactory {
 								currentIndividual
 										.add(new FloatCharacteristicValue(0, 3,
 												riskFactorValue));
-                                
-								/* newborns and zero year olds are not bothered disease histories, 
-								 * so their diseases are recalculated from the new risk factor state
-								 *  but not the others: they keep the disease probabilities based on
-								 *  their old risk factors (before intervention)
+
+								/*
+								 * newborns and zero year olds are not bothered
+								 * disease histories, so their diseases are
+								 * recalculated from the new risk factor state
+								 * but not the others: they keep the disease
+								 * probabilities based on their old risk factors
+								 * (before intervention)
 								 */
-								if (newborns || a==0) 
-                                	
-                                	CharValues = calculateDiseaseStates(parameters,
-										currentRiskValue, a, g, riskFactorValue,
-										currentDurationValue);
-								
-								
+								if (newborns || a == 0)
+
+									CharValues = calculateDiseaseStates(
+											parameters, currentRiskValue, a, g,
+											riskFactorValue,
+											currentDurationValue);
+
 								currentIndividual
 										.add(new CompoundCharacteristicValue(0,
 												characteristicIndex,
 												numberOfElements, CharValues));
-								
-									
+
 								initialPopulation[population]
-													.addIndividual(currentIndividual);
+										.addIndividual(currentIndividual);
 								currentscen++;
 							}
 						} // end loop over populations
-						
+
 					} // end for riskType==2
-					
-					 /*
-					 * for categorical covariates, but not for newborns /0 year old
-					 * as the latter will start "clean", that is without 
+
+					/*
+					 * for categorical covariates, but not for newborns /0 year
+					 * old as the latter will start "clean", that is without
 					 * having disease prevalences based on old history
-					 *				 
-					 * the label is an indicator of scenario for the "all in one"
-					 * scenario population for categorical riskfactors.
-					 * This gives the
-					 * old (baseline) value of the individual (0-9) plus the new
-					 * value (0-9) for categorical data
-					
-*/
+					 * 
+					 * the label is an indicator of scenario for the
+					 * "all in one" scenario population for categorical
+					 * riskfactors. This gives the old (baseline) value of the
+					 * individual (0-9) plus the new value (0-9) for categorical
+					 * data
+					 */
 					if (parameters.getRiskType() != 2
-							&& shouldChangeInto != null && a!=0 && !newborns) {
+							&& shouldChangeInto != null && a != 0 && !newborns) {
 						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 							if (shouldChangeInto[a][g][currentRiskValue][r]) {
 								currentIndividual = new Individual(
@@ -726,17 +752,21 @@ public class InitialPopulationFactory {
 									currentIndividual
 											.add(new FloatCharacteristicValue(
 													0, 4, 0));
-								/* newborns and zero year olds are not bothered disease histories, 
-								 * so their diseases are recalculated from the new risk factor state
-								 *  but not the others: they keep the disease probabilities based on
-								 *  their old risk factors (before intervention)
+								/*
+								 * newborns and zero year olds are not bothered
+								 * disease histories, so their diseases are
+								 * recalculated from the new risk factor state
+								 * but not the others: they keep the disease
+								 * probabilities based on their old risk factors
+								 * (before intervention)
 								 */
-								if (newborns || a==0) 
-                                	
-                                	CharValues = calculateDiseaseStates(parameters,
-										currentRiskValue, a, g, riskFactorValue,
-										currentDurationValue);
-								
+								if (newborns || a == 0)
+
+									CharValues = calculateDiseaseStates(
+											parameters, currentRiskValue, a, g,
+											riskFactorValue,
+											currentDurationValue);
+
 								currentIndividual
 										.add(new CompoundCharacteristicValue(0,
 												characteristicIndex,
@@ -749,54 +779,46 @@ public class InitialPopulationFactory {
 					}
 					/*
 					 * now the one year olds and newborns
-					 * 
-					 * 
 					 */
 					else if (parameters.getRiskType() != 2
-							&& shouldChangeInto != null && ( a==0 || newborns))
+							&& shouldChangeInto != null && (a == 0 || newborns))
 
-						
-						
-					for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
-						if (shouldChangeInto[a][g][currentRiskValue][r]) {
-							currentIndividual = new Individual(
-									"ind",
-									"ind_"
-											+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g]
-													* g) + "_"
-											+ currentRiskValue + "_" + r);
-							currentIndividual
-									.setRandomNumberGeneratorSeed(seed2);
-							currentIndividual
-									.add(new FloatCharacteristicValue(0, 1,
-											(float) a));
-							currentIndividual
-									.add(new IntCharacteristicValue(0, 2, g));
-							if (parameters.getRiskType() == 1
-									|| parameters.getRiskType() == 3)
+						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
+							if (shouldChangeInto[a][g][currentRiskValue][r]) {
+								currentIndividual = new Individual(
+										"ind",
+										"ind_"
+												+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g]
+														* g) + "_"
+												+ currentRiskValue + "_" + r);
 								currentIndividual
-										.add(new IntCharacteristicValue(0,
-												3, r));
-							// duration = 0, both for just stopped, and for
-							// other categories
-
-							if (parameters.getRiskType() == 3)
+										.setRandomNumberGeneratorSeed(seed2);
 								currentIndividual
-										.add(new FloatCharacteristicValue(
-												0, 4, 0));
+										.add(new FloatCharacteristicValue(0, 1,
+												(float) a));
+								currentIndividual
+										.add(new IntCharacteristicValue(0, 2, g));
+								if (parameters.getRiskType() == 1
+										|| parameters.getRiskType() == 3)
+									currentIndividual
+											.add(new IntCharacteristicValue(0,
+													3, r));
+								// duration = 0, both for just stopped, and for
+								// other categories
 
-							currentIndividual
-									.add(new CompoundCharacteristicValue(0,
-											characteristicIndex,
-											numberOfElements, CharValues));
-							initialPopulation[1]
-									.addIndividual(currentIndividual);
+								if (parameters.getRiskType() == 3)
+									currentIndividual
+											.add(new FloatCharacteristicValue(
+													0, 4, 0));
+
+								currentIndividual
+										.add(new CompoundCharacteristicValue(0,
+												characteristicIndex,
+												numberOfElements, CharValues));
+								initialPopulation[1]
+										.addIndividual(currentIndividual);
+							}
 						}
-					}
-
-				
-					
-					
 
 				}// end sim loop
 				;
@@ -819,26 +841,25 @@ public class InitialPopulationFactory {
 	private float[] calculateDiseaseStates(ModelParameters parameters,
 			int currentRiskValue, int a, int g, float riskFactorValue,
 			float currentDurationValue) {
-	
+
 		float[] CharValues = new float[numberOfElements];
-		
+
 		int elementIndex = 0;
 		for (int cluster = 0; cluster < parameters.getNCluster(); cluster++) {
 
 			/*
-			 * first make the logit of the probability for all
-			 * diseases in this cluster based only on riskfactor
-			 * information
+			 * first make the logit of the probability for all diseases in this
+			 * cluster based only on riskfactor information
 			 */
-			double[] logitDisease = new double[parameters
-					.getClusterStructure()[cluster].getNInCluster()];
+			double[] logitDisease = new double[parameters.getClusterStructure()[cluster]
+					.getNInCluster()];
 			Arrays.fill(logitDisease, 0);
 			for (int d = 0; d < parameters.getClusterStructure()[cluster]
 					.getNInCluster(); d++) {
 
 				/*
-				 * for each disease calculate its contribution to
-				 * the probability of the combination
+				 * for each disease calculate its contribution to the
+				 * probability of the combination
 				 */
 				// zie boven doe eerst een
 				// analyse van conditionele
@@ -850,9 +871,8 @@ public class InitialPopulationFactory {
 				if (parameters.getBaselinePrevalenceOdds()[a][g][dnumber] != 0)
 
 				{
-					logitDisease[d] = Math
-							.log(parameters
-									.getBaselinePrevalenceOdds()[a][g][dnumber]);
+					logitDisease[d] = Math.log(parameters
+							.getBaselinePrevalenceOdds()[a][g][dnumber]);
 					if (parameters.getRiskType() == 1)
 						logitDisease[d] += Math
 								.log(parameters.getRelRiskClass()[a][g][currentRiskValue][dnumber]);
@@ -860,34 +880,29 @@ public class InitialPopulationFactory {
 						logitDisease[d] += Math
 								.log(Math
 										.pow(
-												parameters
-														.getRelRiskContinue()[a][g][dnumber],
+												parameters.getRelRiskContinue()[a][g][dnumber],
 												riskFactorValue
 														- parameters
 																.getRefClassCont()));
 					if (parameters.getRiskType() == 3) {
-						if (currentRiskValue != parameters
-								.getDurationClass())
+						if (currentRiskValue != parameters.getDurationClass())
 							logitDisease[d] += Math
-									.log(parameters
-											.getRelRiskClass()[a][g][currentRiskValue][dnumber]);
+									.log(parameters.getRelRiskClass()[a][g][currentRiskValue][dnumber]);
 						else
 							logitDisease[d] += Math
-									.log((parameters
-											.getRelRiskDuurBegin()[a][g][dnumber] - parameters
+									.log((parameters.getRelRiskDuurBegin()[a][g][dnumber] - parameters
 											.getRelRiskDuurEnd()[a][g][dnumber])
 											* Math
 													.exp(-currentDurationValue
 															* parameters
 																	.getAlfaDuur()[a][g][dnumber])
-											+ parameters
-													.getRelRiskDuurEnd()[a][g][dnumber]);
+											+ parameters.getRelRiskDuurEnd()[a][g][dnumber]);
 					}
 				}
 			}
 			/*
-			 * CALCULATE PROBABILITY OF EACH COMBINATION OF DISEASES
-			 * number of combinations= 2^Ndiseases
+			 * CALCULATE PROBABILITY OF EACH COMBINATION OF DISEASES number of
+			 * combinations= 2^Ndiseases
 			 */
 			int nDiseases = parameters.getClusterStructure()[cluster]
 					.getNInCluster();
@@ -895,18 +910,16 @@ public class InitialPopulationFactory {
 				/*
 				 * loop over diseases in combi; p (D en E en G)=
 				 * P(D|E,G)P(E)P(G) (E en G onafhankelijk) log odds
-				 * (D=1|E=1,G=1)= logRR(D|E)+logRR(D|
-				 * G)+logoddsBaseline(D)--> P(D=1|E=1,G=1)
+				 * (D=1|E=1,G=1)= logRR(D|E)+logRR(D| G)+logoddsBaseline(D)-->
+				 * P(D=1|E=1,G=1)
 				 * 
-				 * Nu D is gemeenschappelijke oorzaak van E en G p
-				 * (D en E en G)= P(E|D)P(G|D)P(D) log odds
-				 * (E=1|D=1)= logRR(E|D)+logoddsBaseline(E)-->
-				 * P(E=1|D=1) log odds (G=1|D=1)=
-				 * logRR(G|D)+logoddsBaseline(G)--> P(G=1|D=1)
+				 * Nu D is gemeenschappelijke oorzaak van E en G p (D en E en
+				 * G)= P(E|D)P(G|D)P(D) log odds (E=1|D=1)=
+				 * logRR(E|D)+logoddsBaseline(E)--> P(E=1|D=1) log odds
+				 * (G=1|D=1)= logRR(G|D)+logoddsBaseline(G)--> P(G=1|D=1)
 				 * 
-				 * in het algemeen: p-combi= product [P(each dep
-				 * disease|all independent
-				 * diseases)]product[P(independent disease)] dus:
+				 * in het algemeen: p-combi= product [P(each dep disease|all
+				 * independent diseases)]product[P(independent disease)] dus:
 				 * GENERAL: product [p (disease |causes (if any)]
 				 */
 
@@ -915,30 +928,27 @@ public class InitialPopulationFactory {
 				// TODO: nog checken
 
 				/*
-				 * if this is a independent disease then this is all
-				 * // if dependent disease, then relative risks
-				 * should be // added for those causal disease that
-				 * are equal to 1 in the combi
+				 * if this is a independent disease then this is all // if
+				 * dependent disease, then relative risks should be // added for
+				 * those causal disease that are equal to 1 in the combi
 				 * 
-				 * // must be: probability conditional on not having
-				 * disease d // // we use RRextended and therefore
-				 * can consider all // disease as causes of each
-				 * other // as RR=1 if this is not the case // case
-				 * // TODO check if RRextended is made OK //
+				 * // must be: probability conditional on not having disease d
+				 * // // we use RRextended and therefore can consider all //
+				 * disease as causes of each other // as RR=1 if this is not the
+				 * case // case // TODO check if RRextended is made OK //
 				 */
 				/*
-				 * now loop throught all diseases in the combi, look
-				 * if they are zero or one and calculate the
-				 * probability given causal diseases
+				 * now loop throught all diseases in the combi, look if they are
+				 * zero or one and calculate the probability given causal
+				 * diseases
 				 */
 				for (int d1 = 0; d1 < nDiseases; d1++) {
 					int d1number = parameters.getClusterStructure()[cluster]
 							.getDiseaseNumber()[d1];
 					double probCurrent = 1; /*
-											 * probCurrent is the
-											 * probability of the
-											 * current disease in
-											 * the combination (d1)
+											 * probCurrent is the probability of
+											 * the current disease in the
+											 * combination (d1)
 											 */
 					/* look if d1 is one or zero in the combination */
 					if ((combi & (1 << d1)) == (1 << d1)) {
@@ -947,8 +957,7 @@ public class InitialPopulationFactory {
 
 						if (parameters.getClusterStructure()[cluster]
 								.getDependentDisease()[d1]) {
-							if (parameters
-									.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+							if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
 								double logitCurrent = logitDisease[d1];
 
 								for (int d2 = 0; d2 < parameters
@@ -968,8 +977,7 @@ public class InitialPopulationFactory {
 
 						} else
 							/* == independent disease */
-							probCurrent = 1 / (1 + Math
-									.exp(-logitDisease[d1]));
+							probCurrent = 1 / (1 + Math.exp(-logitDisease[d1]));
 
 					}/* end if disease d1 ==1 */else {
 						/* now if d1 is zero in combination */;
@@ -987,11 +995,9 @@ public class InitialPopulationFactory {
 												.log(parameters
 														.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
 								/*
-								 * NB now exp(+x) a this is 1-p in
-								 * stead of p
+								 * NB now exp(+x) a this is 1-p in stead of p
 								 */
-								probCurrent = 1 / (1 + Math
-										.exp(logitCurrent));
+								probCurrent = 1 / (1 + Math.exp(logitCurrent));
 							} else
 								probCurrent = 1 / (1 + Math
 										.exp(logitDisease[d1]));
@@ -1020,9 +1026,8 @@ public class InitialPopulationFactory {
 
 		if (elementIndex != numberOfElements)
 			log.warn("number of element written does not"
-					+ "fit number calculated, that is : "
-					+ elementIndex + " not equal "
-					+ numberOfElements);
+					+ "fit number calculated, that is : " + elementIndex
+					+ " not equal " + numberOfElements);
 		return CharValues;
 	}
 
@@ -1041,8 +1046,7 @@ public class InitialPopulationFactory {
 			else if (structure.isWithCuredFraction())
 				numberOfElements += 2;
 			else
-				numberOfElements += Math.pow(2, structure
-						.getNInCluster()) - 1;
+				numberOfElements += Math.pow(2, structure.getNInCluster()) - 1;
 		}
 		return numberOfElements;
 	}
