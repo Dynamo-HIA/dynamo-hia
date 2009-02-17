@@ -47,4 +47,5 @@ Require-Bundle: org.apache.commons.configuration,
  org.junit4,
  org.eclipse.core.runtime,
  javax.xml,
- org.junit
+ org.junit,
+ org.apache.log4j;bundle-version="1.2.9"
