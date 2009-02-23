@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,31 +13,31 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.estimation.DynamoSimulation;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
+import nl.rivm.emi.dynamo.estimation.Output_UI;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
-import nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule;
+
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.junit.After;
 import org.junit.Before;
@@ -52,7 +51,7 @@ public class TestAll {
 
 	// NB de directory moet ook worden aangepast in deze file //
 	
-	String simName = "simulation3";
+	String simName = "simulation1";
 	String directoryName = baseDir + "Simulations" + File.separator + simName;
 	String preCharConfig = directoryName + File.separator + "modelconfiguration"
 			+ File.separator +"charconfig.XML";
@@ -123,7 +122,7 @@ public class TestAll {
 	}
 
 	@Test
-	public void runSimulation() throws CDMRunException {
+	public void runSimulation()  {
 
 		try {
 			
@@ -157,7 +156,18 @@ public class TestAll {
 				if  (scen.getInitialPrevalenceType()[scennum]&&  (!scen.getTransitionType()[scennum])) nLoops--;
 			}
 			
-			Population[] pop=new Population[nLoops];
+			// Population[] pop=new Population[nLoops];
+			// Population [][] newbornPop;
+			
+			/* 
+			 * newborns[0] is null, as newborns at the beginning of the simulation (time=0) are
+			 * already included in the population.
+			 * for clarity we start numbering at 1
+			 */
+					
+			// if (scen.isWithNewBorns()) newbornPop=new Population[nLoops][scen.getYearsInRun()];
+			
+			Population[] pop=p.getInitialPopulation();
 			for (int scennum=0; scennum<nLoops;scennum++){
 			File simulationConfigurationFile;
 			if (scennum==0)simulationConfigurationFile= new File(simFileName+".xml");
@@ -167,64 +177,48 @@ public class TestAll {
 				assertTrue(CharacteristicsConfigurationMapSingleton
 						.getInstance().size() > 1);
 				// calculate frequency of risk factor values during simulation
-				// //
-			
 				
 				if (simulationConfigurationFile.exists()) {
 					simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
 					log.fatal("simulationconfuration made for scenario "+scennum);
-
+					
+                /* read the configuration file and make populations */
+					
+					
 					sim = SimulationFromXMLFactory
-							.manufacture_DOMPopulationTree(simulationConfiguration);
-					
-					pop[scennum] = sim.getPopulation();
-					
+							.manufacture_DOMPopulationTree(simulationConfiguration,false);
+					sim.setPopulation(pop[scennum]);
 					log.fatal("simulationFile loaded for scenario " + scennum);
+					// pop[scennum] = sim.getPopulation();
 					if (pop[scennum]==null) throw new CDMConfigurationException("no population found for scenario "+scennum);
-					log.fatal("starting run for scenario "+scennum);
+					log.fatal("starting run for population "+scennum);
+					DynamoSimulation sim2=new DynamoSimulation(sim);
+					sim2.runDynamo(scennum);
+					log.fatal("Run  complete for population "+scennum);
 					
-					sim.run();
-					log.fatal("Run  complete for scenario "+scennum);
 					
-					pop[scennum] = sim.getPopulation();
 					
 					
 				}
 			}
 				DynamoOutputFactory output = new DynamoOutputFactory(scen,simName);
-				
+				Output_UI ui= new Output_UI( scen,  simName, pop);
+				/*
 				output.extractArraysFromPopulations(pop);
-				output.makeSummaryArrays();
-				JFreeChart chart=output.makeSurvivalPlot("survival men",0);
-				chart=output.makeSurvivalPlot("survival women",1);
-				ChartFrame frame1 = new ChartFrame("Survival Chart", chart);
-				frame1.setVisible(true);
-				frame1.setSize(300, 300);
-				output.makeLifeExpectancyPlot();
+				output.makeArraysWithNumbers();
+			
 				output.makePrevalencePlots(0);
 				output.makePrevalencePlots(1);
-				output.makePopulationPyramidPlot(0,0);
+				
 				output.makeRiskFactorPlots(0); 
+				if (scen.getRiskType()==2) output.makeMeanPlots(0);
 				output.makePrevalenceByRiskFactorPlots(0); 
 				output.makePrevalenceByRiskFactorPlots(1); 
-				try {
-					output.writeOutput(scen);
-				} catch (XMLStreamException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-
-					ChartUtilities.saveChartAsJPEG(new File(
-							"C:\\hendriek\\java\\chart.jpg"), chart, 500, 300);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					System.out.println("Problem occurred creating chart.");
-				}
+				JFreeChart chart=output.makeSurvivalPlot(0);
+				chart=output.makeSurvivalPlot(1);
+				chart=output.makeSurvivalPlot(2);
+				output.makeLifeExpectancyPlot(0);*/
 				/*
 				for (int count = 1; count <= sim.getStepsInRun(); count++) {
 					File outFile = new File(baseDir + "out" + count + ".XML");
@@ -233,9 +227,7 @@ public class TestAll {
 				}*/
 				log.fatal("Result written.");
 
-			
-
-			/*
+					/*
 			for (int count = 1; count <= sim.getStepsInRun(); count++) {
 				File outFile = new File(baseDir + "out" + count + ".XML");
 				DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),
@@ -243,25 +235,43 @@ public class TestAll {
 			}*/
 			log.fatal("Result written.");
 
-		
-			
-			
-			
-			
-			
-			
+					output.writeOutput(scen);
+				} catch (XMLStreamException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				
+				
 		} catch (DynamoConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.fatal(e.getMessage());
 			assertNull(e); // Force error.
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			log.fatal(e.getMessage());
 			assertNull(e); // Force error.
+		} catch (DynamoScenarioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.fatal(e.getMessage());
+		} catch (DynamoOutputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.fatal(e.getMessage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.fatal(e.getMessage());
 		}
+	
 	}
-
-	/*
+	
+	
+	/* ***********************************
 	 * InitialPopulationFactory e2=new InitialPopulationFactory(); File f=new
 	 * File("c:/hendriek/java/workspace/dynamo/dynamoinput/test.xml");
 	 * 
