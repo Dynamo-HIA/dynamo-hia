@@ -341,7 +341,6 @@ public class DynamoLib {
 	 * @param sigma
 	 *            : the standard deviation on the linear (not on the logscale)
 	 *            of the lognormal distribution;
-	 * @throws Exception 
 	 */
 	static double logNormInv2(double p, double skewness, double mean, double std)
 			throws DynamoInconsistentDataException {
@@ -398,9 +397,9 @@ public class DynamoLib {
 	 * doen in find Root *implemented to check, bu
 	 * @param skew
 	 * @return
-	 * @throws Exception
+	
 	 */
-	protected static double findSigma(double skew) throws Exception {
+	protected static double findSigma(double skew)  {
 		double sigma=0; 
 		double hulp=0;
 		hulp=2/(2+Math.pow(skew,2)+Math.sqrt(4*Math.pow(skew,2)+Math.pow(skew,4)));

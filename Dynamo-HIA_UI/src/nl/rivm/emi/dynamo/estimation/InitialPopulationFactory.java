@@ -70,8 +70,6 @@ public class InitialPopulationFactory {
 			String simulationName, int seed, boolean newborns,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
 
-		numberOfElements = getNumberOfDiseaseStateElements(parameters);
-
 		Population[] pop = manufactureInitialPopulation(parameters,
 				simulationName, nSim, seed, newborns, scenarioInfo);
 
@@ -135,13 +133,18 @@ public class InitialPopulationFactory {
 
 	/**
 	 * this method manufactures initial populations for 1. the reference
-	 * situation 2. scenario's in case of categorical risk factors and
-	 * scenario's in which only the initial situation is changed, only a single
-	 * scenario population is manufactured, containing all subjects that are
-	 * potentially changed under the scenario The effect of each individual
-	 * scenario then is calculated by the post-processing (DynamoOutputfactory)
+	 * situation 2. scenario's <br>
+	 * In case of categorical risk factors with scenario's in which only the
+	 * initial situation is changed, only a single scenario population is
+	 * manufactured, containing all subjects that are potentially changed under
+	 * the scenario .<br>
+	 * The effect of each individual scenario then is calculated by the
+	 * post-processing (DynamoOutputfactory) <br>
+	 * nSim= number of simulated individuals per age and gender as given by the
+	 * user. This number is changed by the method in case zero cases would have
+	 * been generated for a particular riskfactor class or duration class.
 	 * 
-	 * nSim= number of simulated individuals per age and gender
+	 * 
 	 * */
 	/**
 	 * @param parameters
@@ -162,8 +165,14 @@ public class InitialPopulationFactory {
 			ModelParameters parameters, String simulationName, int nSim,
 			long seed, boolean newborns, ScenarioInfo scenarioInfo) {
 
-		/* at this moment: simulate all ages */
-		/* First make some indexes that are needed */
+		/*
+		 * at this moment:
+		 * 
+		 * the method should be run twice: once for the existing population, and
+		 * once for the newborns
+		 */
+		/* Make some indexes that are needed */
+		numberOfElements = getNumberOfDiseaseStateElements(parameters);
 		int nClasses = 1;
 		if (parameters.getRiskType() != 2)
 			nClasses = parameters.getPrevRisk()[0][0].length;
@@ -177,54 +186,81 @@ public class InitialPopulationFactory {
 		int currentRiskValue = 0;
 		int[][] nSimNew = new int[96][2];
 
-		DynamoLib.getInstance(nSim);
 		BaseDirectory baseDir = BaseDirectory.getInstance("c:");
 		Random rand = new Random(seed); // used to draw the initial population
-		MTRand rand2 = new MTRand(seed + 1); // used to generate seeds in
-		// update rules
-		// TODO inlezen baseDir aanpassen aan userinterface
+		MTRand rand2 = new MTRand(seed + 1); /*
+											 * used to generate seeds which are
+											 * entered as information with each
+											 * generated individual, and will be
+											 * used by the update rules // TODO
+											 * inlezen baseDir aanpassen aan
+											 * userinterface
+											 */
 
+		/* make a table of point from the inverse normal distribution */
+		if (parameters.getRiskType() == 2)
+			DynamoLib.getInstance(nSim);
+
+		/*
+		 * calculate the number of populations that should be generated
+		 * 
+		 * this is mostly: number of scenarios+ 1 (+1=+reference scenario).
+		 * However, in case of categorical risk factors with scenario's in which
+		 * only the initial situation is changed, only a single large scenario
+		 * population is manufactured (the "one-for-all" population), containing all subjects that are
+		 * potentially changed under each scenario.
+		 */
 		int nPopulations;
 		if (scenarioInfo.getNScenarios() == 0)
 			nPopulations = 1;
 		else if (parameters.getRiskType() != 2
 				&& scenarioInfo.isWithInitialChange())
-			nPopulations = 2;
+			nPopulations = 2 + scenarioInfo.getNScenarios()
+					- scenarioInfo.nWithInitialChange();
 		else
-			nPopulations = scenarioInfo.nWithInitialChange() + 1;
+			nPopulations = +scenarioInfo.getNScenarios() + 1;
 		Population[] initialPopulation = new Population[nPopulations];
+        /* initialize the ranges for the populations to generate */
+		
+		int agemax = scenarioInfo.getMaxSimAge();
+		if (agemax>95) agemax=95;
+		if (newborns)
+			agemax = 0;
+		int agemin = scenarioInfo.getMinSimAge();  
+		if (newborns)
+			agemin = 0;
+		if (newborns)
+			agemax = 0;
+		
+		/* initialize populations */
 
-		initialPopulation[0] = new Population(simulationName, null);
-		if (parameters.getRiskType() == 2)
-			for (int scen = 0; scen < nPopulations; scen++) {
-				initialPopulation[scen] = new Population(simulationName, null);
-			}
-
-		if (parameters.getRiskType() != 2 && scenarioInfo.getNScenarios() > 0
-				&& scenarioInfo.isWithInitialChange() && !newborns)
-			initialPopulation[1] = new Population(simulationName, null);
-
+		for (int scen = 0; scen < nPopulations; scen++) {
+			initialPopulation[scen] = new Population(simulationName, null);
+		}
+        /* see which riskfactor classes should be changed into another class in the one-for-all
+         * scenario population  
+         */
 		boolean[][][][] shouldChangeInto = null;
 		if (parameters.getRiskType() != 2
-				&& scenarioInfo.getInitialPrevalenceType()[0] && !newborns) {
+				&& scenarioInfo.getInitialPrevalenceType()[0] ) {
 			int nCat = parameters.getPrevRisk()[0][0].length;
 			float[] RR = new float[nCat];
-			shouldChangeInto = new boolean[96][2][nCat][nCat];
+			shouldChangeInto = new boolean[agemax+1][2][nCat][nCat];
 			// initialize arrays;
 			Arrays.fill(RR, 1);
-			for (int a = 0; a < 96; a++)
+			for (int a = agemin; a < agemax+1; a++)
 				for (int g = 0; g < 2; g++)
 					for (int r1 = 0; r1 < nCat; r1++)
 						for (int r2 = 0; r2 < nCat; r2++)
 							shouldChangeInto[a][g][r1][r2] = false;
 
-			for (int a = 0; a < 96; a++)
+			for (int a =agemin; a < agemax+1; a++)
 				for (int g = 0; g < 2; g++)
 					for (int s = 0; s < scenarioInfo.getNScenarios(); s++) {
 
 						float oldPrev[] = parameters.getPrevRisk()[a][g];
 						float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
-						float[][] trans = NettTransitionRates
+						float[][] trans = NettTransitionRateFactory
 								.makeNettTransitionRates(oldPrev, newPrev, 0,
 										RR);
 						for (int r1 = 0; r1 < nCat; r1++)
@@ -234,19 +270,29 @@ public class InitialPopulationFactory {
 							}
 
 					}
-		}
+		} 
 
-		int agemax = 96;
+		
+		/* a new cohort of newborns is generated for each step in the simulation, the existing population
+		 * needs to be generated only once 
+		 */
+		int generationMax = 1;
 		if (newborns)
-			agemax = 1;
+			generationMax = scenarioInfo.getYearsInRun();
+		
+		/* count the number of duration categories in each age class */
 		if (parameters.getRiskType() == 3) {
-			for (int a = 0; a < agemax; a++)
+			for (int a = agemin; a <= agemax; a++)
 				for (int g = 0; g < 2; g++) {
 					nDuurClasses[a][g] = parameters.getDuurFreq()[a][g].length;
 				}
 		}
-
-		for (int a = 0; a < agemax; a++)
+        /* calculate the numbers that will be in each riskfactor class. See the document "description of calculations"
+         * on Q:/projecten/emi-dynamohia/description of calculations/
+         * for the method used     * 
+         * 
+         */
+		for (int a = agemin; a <= agemax; a++)
 			for (int g = 0; g < 2; g++) {
 				nSimNew[a][g] = nSim;
 				// calculate the number of persons in each risk factor class
@@ -328,7 +374,9 @@ public class InitialPopulationFactory {
 					;
 
 				}
-
+/* repeat this for categorical riskfactors with duration, where the same "trick" is applied
+ * both to the categories, and the duration within categories
+ */
 				if (parameters.getRiskType() == 3) {
 					// NB all statements here are copied from (risktype==1)
 					// so any fault found here should be mended there too.
@@ -453,11 +501,13 @@ public class InitialPopulationFactory {
 						}
 					}
 				}
-				/*
-				 * werktte niet omdat Class Individual protected; veranderd in
-				 * SOR code
-				 */
-
+				
+				
+				
+				
+				
+				
+      
 				/*****************************************************************************
 				 * 
 				 * 
@@ -469,358 +519,457 @@ public class InitialPopulationFactory {
 				 * 
 				 */
 				/*****************************************************************************/
+				/*
+				 * in Dynamo the model the current population is always run to
+				 * the age of 105 , irrespective of the number of years(
+				 * scenarioInfo.getYearsInRun()) that the user indicates .
+				 * <br>
+				 * reason: this is needed for calculation of life-expectancy 
+				 * 
+				 * The newborns are only run for the number of years indicated
+				 * by the user.
+				 */
+				
+				/*
+				 * technically, the newborns are added as individuals with age -x, where x is the number
+				 * of simulated year before their birth. 
+				 */
 
-				for (int i = 0; i < nSimNew[a][g]; i++) {
-					Individual currentIndividual = new Individual("ind", "ind_"
-							+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g] * g)
-							+ "_bl");
-					long seed2 = (long) rand2.random();
-					currentIndividual.setRandomNumberGeneratorSeed(seed2);
+				/*
+				 * furthermore, when the individuals are created, one has to give the maximum number of times
+				 * that they will be updated. 
+				 * This is given by the variable stepsInSimulation
+				 */
+				int individualNumber=0;
+				int stepsInSimulation = 105 - a;
+				if (newborns)
+					stepsInSimulation = scenarioInfo.getYearsInRun();
 
-					/*
-					 * first characteristic is age if i==1 generate the
-					 * configuration of the characteristic and of the simulation
-					 */
-
-					/*
-					 * now generate the characteristic in the initial population
-					 */
-					currentIndividual.add(new FloatCharacteristicValue(0, 1,
-							(float) a));
-
-					// second characteristic is sex
-
-					currentIndividual.add(new IntCharacteristicValue(0, 2, g));
-
-					/*
-					 * 
-					 * 
-					 * generate risk factors
-					 */
-
-					/*
-					 * third and possibly fourth characteristic is risk factor
-					 * now use index for this
-					 */
-					int characteristicIndex = 3;
-					// if categorical then fill in proportionally;
-					// randomly draw the last elements needed to get
-					// exactly nSim persons
-					boolean flagForRandomlyAdded = false;
-					if (parameters.getRiskType() == 1
-							|| parameters.getRiskType() == 3) {
-
-						int c;
-
-						for (c = 0; c < nClasses; c++) {
-							if (i < cumulativeNSimPerClass[c])
-								break;
-						}
-						currentRiskValue = c;
+				/* for newborns repeat this for all generations */
+				for (int generation = 1; generation <= generationMax; generation++)
+					for (int i = 0; i < nSimNew[a][g]; i++) {
 						/*
-						 * if the loop was performed until the very end this
-						 * means that i is equal or above highest cumulative
-						 * value In that case we are going to draw randomly
+						 * werktte niet omdat Class Individual protected; veranderd in
+						 * SOR code
 						 */
-						if (c == nClasses) {
-							currentRiskValue = DynamoLib.draw(rest, rand);
-							/*
-							 * if a duration class value is draw, a duration
-							 * should also be drawn
-							 */
-							if (currentRiskValue == parameters
-									.getDurationClass())
-								flagForRandomlyAdded = true;
-						}
+/*						Individual currentIndividual = new Individual(
+								"ind",
+								"ind_"
+										+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g]
+												* g) + "_bl");*/
+						Individual currentIndividual = new Individual(
+								"ind",
+								"ind_"
+										+ individualNumber + "_ref");
+						individualNumber++;
+						long seed2 = (long) rand2.random();
+						currentIndividual.setRandomNumberGeneratorSeed(seed2);
 
-						currentIndividual.add(new IntCharacteristicValue(0,
-								characteristicIndex, currentRiskValue));
+						/*
+						 * first characteristic is age . generate the
+						 * configuration of the characteristic and of the
+						 * simulation
+						 */
 
-						characteristicIndex++;
-					}
+						/*
+						 * now generate the characteristic in the initial
+						 * population
+						 */
+						float agestart = a;
+						if (newborns)
+							agestart = -generation;
+						currentIndividual.luxeSet(1,new FloatCharacteristicValue(
+								stepsInSimulation, 1, agestart));
 
-					float riskFactorValue = 0;
-					if (parameters.getRiskType() == 2) {
-						if (parameters.getRiskTypeDistribution()
-								.compareToIgnoreCase("normal") == 0) {
+						// second characteristic is sex
 
-							// simulate equi-probable points
-							riskFactorValue = parameters.getMeanRisk()[a][g]
-									+ parameters.getStdDevRisk()[a][g]
-									* (float) DynamoLib.normInv((i + 0.5)
-											/ nSim);
-						} else {
-							riskFactorValue = (float) parameters
-									.getOffsetRisk()[a][g]
-									+ (float) Math
-											.exp(parameters.getMeanRisk()[a][g]
-													+ parameters
-															.getStdDevRisk()[a][g]
-													* (float) DynamoLib
-															.normInv((i + 0.5)
-																	/ nSim));
+						currentIndividual.luxeSet(2,new IntCharacteristicValue(
+								stepsInSimulation, 2, g));
 
-						}
-						currentIndividual.add(new FloatCharacteristicValue(0,
-								characteristicIndex, riskFactorValue));
-						characteristicIndex++;
-					}
+						/*
+						 * 
+						 * 
+						 * generate risk factors
+						 */
 
-					float currentDurationValue = 0;
-					if (parameters.getRiskType() == 3) {
-						if (flagForRandomlyAdded)
-							currentDurationValue = DynamoLib.draw(parameters
-									.getDuurFreq()[a][g], rand);
-						else {
-							int relativeI;
-							if (currentRiskValue == parameters
-									.getDurationClass()) {
-								int c;
-								if (parameters.getDurationClass() == 0)
-									relativeI = i;
-								else
-									relativeI = i
-											- cumulativeNSimPerClass[parameters
-													.getDurationClass() - 1];
-								for (c = 0; c < nDuurClasses[a][g]; c++) {
+						/*
+						 * third and possibly fourth characteristic is risk
+						 * factor now use index for this
+						 */
+						int characteristicIndex = 3;
+						// if categorical then fill in proportionally;
+						// randomly draw the last elements needed to get
+						// exactly nSim persons
+						boolean flagForRandomlyAdded = false;
+						if (parameters.getRiskType() == 1
+								|| parameters.getRiskType() == 3) {
 
-									if (relativeI < cumulativeNSimPerDurationClass[c])
-										break;
-								}
+							int c;
 
-								currentDurationValue = c;
-								if (c == nDuurClasses[a][g])
-									currentDurationValue = DynamoLib.draw(
-											restDuration, rand);
+							for (c = 0; c < nClasses; c++) {
+								if (i < cumulativeNSimPerClass[c])
+									break;
 							}
-							currentIndividual.add(new FloatCharacteristicValue(
-									0, characteristicIndex,
-									currentDurationValue));
+							currentRiskValue = c;
+							/*
+							 * if the loop was performed until the very end this
+							 * means that i is equal or above highest cumulative
+							 * value In that case we are going to draw randomly
+							 */
+							if (c == nClasses) {
+								currentRiskValue = DynamoLib.draw(rest, rand);
+								/*
+								 * if a duration class value is draw, a duration
+								 * should also be drawn
+								 */
+								if (currentRiskValue == parameters
+										.getDurationClass())
+									flagForRandomlyAdded = true;
+							}
+
+							currentIndividual.add(new IntCharacteristicValue(
+									stepsInSimulation, characteristicIndex,
+									currentRiskValue));
 
 							characteristicIndex++;
-
 						}
-					}
 
-					/*
-					 * 
-					 * DISEASES /HEALTH STATE CHARACTERISTIC
-					 * 
-					 * generate initial probabilities of each disease state and
-					 * put them in the array CharValues
-					 */
+						float riskFactorValue = 0;
+						if (parameters.getRiskType() == 2) {
+							if (parameters.getRiskTypeDistribution()
+									.compareToIgnoreCase("normal") == 0) {
 
-					/*
-					 * first calculate number of elements in the characteristic;
-					 */
-					float[] CharValues = calculateDiseaseStates(parameters,
-							currentRiskValue, a, g, riskFactorValue,
-							currentDurationValue);
-
-					currentIndividual.add(new CompoundCharacteristicValue(0,
-							characteristicIndex, numberOfElements, CharValues));
-
-					initialPopulation[0].addIndividual(currentIndividual);
-
-					/*
-					 * adding individuals to populations for scenario
-					 * 
-					 * for continuous riskfactors:
-					 */
-
-					if (parameters.getRiskType() == 2) {
-						int currentscen = 0;
-						for (int population = 1; population < nPopulations; population++) {
-
-							/* look for next scenario with initial type = true */
-							while (!scenarioInfo.getInitialPrevalenceType()[currentscen]
-									&& currentscen < scenarioInfo
-											.getNScenarios())
-								currentscen++;
-							if (currentscen < scenarioInfo.getNScenarios()) {
-								currentIndividual = new Individual("ind",
-										"ind_" + (i + a * nSim * 2 + nSim * g)
-												+ "_" + population);
-								currentIndividual
-										.setRandomNumberGeneratorSeed(seed2);
-								currentIndividual
-										.add(new FloatCharacteristicValue(0, 1,
-												(float) a));
-								currentIndividual
-										.add(new IntCharacteristicValue(0, 2, g));
-
-								/*
-								 * for continuous risk factor we just give the
-								 * new distribution, meaning that everyone
-								 * maintains his/her old ranking in the
-								 * population
-								 */
-
-								if (parameters.getRiskTypeDistribution()
-										.compareToIgnoreCase("normal") == 0)
-									riskFactorValue = (scenarioInfo
-											.getNewMean()[currentscen][a][g] + scenarioInfo
-											.getNewStd()[currentscen][a][g])
-
-											* (float) DynamoLib
-													.normInv((i + 0.5) / nSim);
 								// simulate equi-probable points
-								else {
-									riskFactorValue = (float) scenarioInfo
-											.getNewOffset()[currentscen][a][g]
-											+ (float) Math
-													.exp(scenarioInfo
-															.getNewMean()[currentscen][a][g]
-															+ scenarioInfo
-																	.getNewStd()[currentscen][a][g]
-															* (float) DynamoLib
-																	.normInv((i + 0.5)
-																			/ nSim));
-									;
+								riskFactorValue = parameters.getMeanRisk()[a][g]
+										+ parameters.getStdDevRisk()[a][g]
+										* (float) DynamoLib.normInv((i + 0.5)
+												/ nSim);
+							} else {
+								riskFactorValue = (float) parameters
+										.getOffsetRisk()[a][g]
+										+ (float) Math
+												.exp(parameters.getMeanRisk()[a][g]
+														+ parameters
+																.getStdDevRisk()[a][g]
+														* (float) DynamoLib
+																.normInv((i + 0.5)
+																		/ nSim));
 
+							}
+							currentIndividual.luxeSet(characteristicIndex,new FloatCharacteristicValue(
+									stepsInSimulation, characteristicIndex,
+									riskFactorValue));
+							characteristicIndex++;
+						}
+
+						float currentDurationValue = 0;
+						if (parameters.getRiskType() == 3) {
+							if (flagForRandomlyAdded)
+								currentDurationValue = DynamoLib.draw(
+										parameters.getDuurFreq()[a][g], rand);
+							else {
+								int relativeI;
+								if (currentRiskValue == parameters
+										.getDurationClass()) {
+									int c;
+									if (parameters.getDurationClass() == 0)
+										relativeI = i;
+									else
+										relativeI = i
+												- cumulativeNSimPerClass[parameters
+														.getDurationClass() - 1];
+									for (c = 0; c < nDuurClasses[a][g]; c++) {
+
+										if (relativeI < cumulativeNSimPerDurationClass[c])
+											break;
+									}
+
+									currentDurationValue = c;
+									if (c == nDuurClasses[a][g])
+										currentDurationValue = DynamoLib.draw(
+												restDuration, rand);
 								}
-
 								currentIndividual
-										.add(new FloatCharacteristicValue(0, 3,
-												riskFactorValue));
-
-								/*
-								 * newborns and zero year olds are not bothered
-								 * disease histories, so their diseases are
-								 * recalculated from the new risk factor state
-								 * but not the others: they keep the disease
-								 * probabilities based on their old risk factors
-								 * (before intervention)
-								 */
-								if (newborns || a == 0)
-
-									CharValues = calculateDiseaseStates(
-											parameters, currentRiskValue, a, g,
-											riskFactorValue,
-											currentDurationValue);
-
-								currentIndividual
-										.add(new CompoundCharacteristicValue(0,
+										.luxeSet(characteristicIndex,new FloatCharacteristicValue(
+												stepsInSimulation,
 												characteristicIndex,
-												numberOfElements, CharValues));
+												currentDurationValue));
 
-								initialPopulation[population]
-										.addIndividual(currentIndividual);
-								currentscen++;
-							}
-						} // end loop over populations
+								characteristicIndex++;
 
-					} // end for riskType==2
-
-					/*
-					 * for categorical covariates, but not for newborns /0 year
-					 * old as the latter will start "clean", that is without
-					 * having disease prevalences based on old history
-					 * 
-					 * the label is an indicator of scenario for the
-					 * "all in one" scenario population for categorical
-					 * riskfactors. This gives the old (baseline) value of the
-					 * individual (0-9) plus the new value (0-9) for categorical
-					 * data
-					 */
-					if (parameters.getRiskType() != 2
-							&& shouldChangeInto != null && a != 0 && !newborns) {
-						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
-							if (shouldChangeInto[a][g][currentRiskValue][r]) {
-								currentIndividual = new Individual(
-										"ind",
-										"ind_"
-												+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g]
-														* g) + "_"
-												+ currentRiskValue + "_" + r);
-								currentIndividual
-										.setRandomNumberGeneratorSeed(seed2);
-								currentIndividual
-										.add(new FloatCharacteristicValue(0, 1,
-												(float) a));
-								currentIndividual
-										.add(new IntCharacteristicValue(0, 2, g));
-								if (parameters.getRiskType() == 1
-										|| parameters.getRiskType() == 3)
-									currentIndividual
-											.add(new IntCharacteristicValue(0,
-													3, r));
-								// duration = 0, both for just stopped, and for
-								// other categories
-
-								if (parameters.getRiskType() == 3)
-									currentIndividual
-											.add(new FloatCharacteristicValue(
-													0, 4, 0));
-								/*
-								 * newborns and zero year olds are not bothered
-								 * disease histories, so their diseases are
-								 * recalculated from the new risk factor state
-								 * but not the others: they keep the disease
-								 * probabilities based on their old risk factors
-								 * (before intervention)
-								 */
-								if (newborns || a == 0)
-
-									CharValues = calculateDiseaseStates(
-											parameters, currentRiskValue, a, g,
-											riskFactorValue,
-											currentDurationValue);
-
-								currentIndividual
-										.add(new CompoundCharacteristicValue(0,
-												characteristicIndex,
-												numberOfElements, CharValues));
-								initialPopulation[1]
-										.addIndividual(currentIndividual);
 							}
 						}
 
-					}
-					/*
-					 * now the one year olds and newborns
-					 */
-					else if (parameters.getRiskType() != 2
-							&& shouldChangeInto != null && (a == 0 || newborns))
+						/*
+						 * 
+						 * DISEASES /HEALTH STATE CHARACTERISTIC
+						 * 
+						 * generate initial probabilities of each disease state
+						 * and put them in the array CharValues
+						 */
 
-						for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
-							if (shouldChangeInto[a][g][currentRiskValue][r]) {
-								currentIndividual = new Individual(
-										"ind",
-										"ind_"
-												+ (i + a * nSimNew[a][g] * 2 + nSimNew[a][g]
-														* g) + "_"
-												+ currentRiskValue + "_" + r);
-								currentIndividual
-										.setRandomNumberGeneratorSeed(seed2);
-								currentIndividual
-										.add(new FloatCharacteristicValue(0, 1,
-												(float) a));
-								currentIndividual
-										.add(new IntCharacteristicValue(0, 2, g));
-								if (parameters.getRiskType() == 1
-										|| parameters.getRiskType() == 3)
+						/*
+						 * first calculate number of elements in the
+						 * characteristic;
+						 */
+						float[] CharValues = calculateDiseaseStates(parameters,
+								currentRiskValue, a, g, riskFactorValue,
+								currentDurationValue);
+
+						currentIndividual.luxeSet(characteristicIndex,new CompoundCharacteristicValue(
+								stepsInSimulation, characteristicIndex,
+								numberOfElements, CharValues));
+
+						initialPopulation[0].addIndividual(currentIndividual);
+
+						
+						/*  **************************************************************
+						 * 
+						 * 
+						 *  GENERATE SCENARIO POPULATIONS
+						 * 
+						 * 
+						 *******************************************************************/
+						
+						/*
+						 * 
+						 * 
+						 * 1. for continuous riskfactors:
+						 */
+
+						if (parameters.getRiskType() == 2) {
+							int currentscen = 0;
+							for (int population = 1; population < nPopulations; population++) {
+
+								/*
+								 * look for next scenario with initial type =
+								 * true
+								 */
+								while (!scenarioInfo.getInitialPrevalenceType()[currentscen]
+										&& currentscen < scenarioInfo
+												.getNScenarios())
+									currentscen++;
+								if (currentscen < scenarioInfo.getNScenarios()) {
+									currentIndividual = new Individual("ind",
+											"ind_"
+													+ (i + a * nSim * 2 + nSim
+															* g) + "_"
+													+ population);
 									currentIndividual
-											.add(new IntCharacteristicValue(0,
-													3, r));
-								// duration = 0, both for just stopped, and for
-								// other categories
-
-								if (parameters.getRiskType() == 3)
+											.setRandomNumberGeneratorSeed(seed2);
 									currentIndividual
-											.add(new FloatCharacteristicValue(
-													0, 4, 0));
+											.luxeSet(1,new FloatCharacteristicValue(
+													stepsInSimulation, 1,
+													(float) agestart));
+									currentIndividual
+											.luxeSet(2,new IntCharacteristicValue(
+													stepsInSimulation, 2, g));
 
-								currentIndividual
-										.add(new CompoundCharacteristicValue(0,
-												characteristicIndex,
-												numberOfElements, CharValues));
-								initialPopulation[1]
-										.addIndividual(currentIndividual);
+									/*
+									 * for continuous risk factor we just give
+									 * the new distribution, meaning that
+									 * everyone maintains his/her old ranking in
+									 * the population
+									 */
+
+									if (parameters.getRiskTypeDistribution()
+											.compareToIgnoreCase("normal") == 0)
+										riskFactorValue = (scenarioInfo
+												.getNewMean()[currentscen][a][g] + scenarioInfo
+												.getNewStd()[currentscen][a][g])
+
+												* (float) DynamoLib
+														.normInv((i + 0.5)
+																/ nSim);
+									// simulate equi-probable points
+									else {
+										riskFactorValue = (float) scenarioInfo
+												.getNewOffset()[currentscen][a][g]
+												+ (float) Math
+														.exp(scenarioInfo
+																.getNewMean()[currentscen][a][g]
+																+ scenarioInfo
+																		.getNewStd()[currentscen][a][g]
+																* (float) DynamoLib
+																		.normInv((i + 0.5)
+																				/ nSim));
+										;
+
+									}
+
+									currentIndividual
+											.luxeSet(3,new FloatCharacteristicValue(
+													stepsInSimulation, 3,
+													riskFactorValue));
+
+									/*
+									 * newborns and zero year olds are not
+									 * bothered disease histories, so their
+									 * diseases are recalculated from the new
+									 * risk factor state but not the others:
+									 * they keep the disease probabilities based
+									 * on their old risk factors (before
+									 * intervention)
+									 */
+									if (newborns || a == 0)
+
+										CharValues = calculateDiseaseStates(
+												parameters, currentRiskValue,
+												a, g, riskFactorValue,
+												currentDurationValue);
+
+									currentIndividual
+											.luxeSet(characteristicIndex,new CompoundCharacteristicValue(
+													stepsInSimulation,
+													characteristicIndex,
+													numberOfElements,
+													CharValues));
+
+									initialPopulation[population]
+											.addIndividual(currentIndividual);
+									currentscen++;
+								}
+							} // end loop over populations
+
+						} // end for riskType==2
+
+						/*
+						 * 
+						 * 2. generation of SCENARIO POPULATION for the one-for-all population
+						 * 
+						 * 
+						 * 
+						 */
+						
+						/*
+						 * for categorical covariates, but not for newborns and 0
+						 * year old (=newborns in the existing population)
+						 * as the latter will start "clean", that is
+						 * without having disease prevalences based on old
+						 * history
+						 * 
+						 * the label is an indicator of scenario for the
+						 * "all in one" scenario population for categorical
+						 * riskfactors. This gives the old (baseline) value of
+						 * the individual (0-9) plus the new value (0-9) for
+						 * categorical data
+						 */
+						if (parameters.getRiskType() != 2
+								&& shouldChangeInto != null && a != 0
+								&& !newborns) {
+							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
+								if (shouldChangeInto[a][g][currentRiskValue][r]) {
+									currentIndividual = new Individual("ind",
+											"ind_"
+													+ (i + a * nSimNew[a][g]
+															* 2 + nSimNew[a][g]
+															* g) + "_"
+													+ currentRiskValue + "_"
+													+ r);
+									currentIndividual
+											.setRandomNumberGeneratorSeed(seed2);
+									currentIndividual
+											.luxeSet(1,new FloatCharacteristicValue(
+													stepsInSimulation, 1,
+													(float) agestart));
+									currentIndividual
+											.luxeSet(2,new IntCharacteristicValue(
+													stepsInSimulation, 2, g));
+									if (parameters.getRiskType() == 1
+											|| parameters.getRiskType() == 3)
+										currentIndividual
+												.luxeSet(3,new IntCharacteristicValue(
+														stepsInSimulation, 3, r));
+									// duration = 0, both for just stopped, and
+									// for
+									// other categories
+									characteristicIndex = 4;
+									if (parameters.getRiskType() == 3){
+										currentIndividual
+												.luxeSet(4,new FloatCharacteristicValue(
+														stepsInSimulation, 4, 0));
+										characteristicIndex = 5;
+									}
+									/*
+									 * newborns and zero year olds are not
+									 * bothered disease histories, so their
+									 * diseases are recalculated from the new
+									 * risk factor state but not the others:
+									 * they keep the disease probabilities based
+									 * on their old risk factors (before
+									 * intervention)
+									 */
+									if (newborns || a == 0)
+
+										CharValues = calculateDiseaseStates(
+												parameters, currentRiskValue,
+												a, g, riskFactorValue,
+												currentDurationValue);
+
+									currentIndividual
+											.luxeSet(characteristicIndex,new CompoundCharacteristicValue(
+													stepsInSimulation,
+													characteristicIndex,
+													numberOfElements,
+													CharValues));
+									initialPopulation[1]
+											.addIndividual(currentIndividual);
+								}
 							}
-						}
 
-				}// end sim loop
+						}
+						/*
+						 * now the one year olds and newborns
+						 */
+						else if (parameters.getRiskType() != 2
+								&& shouldChangeInto != null
+								&& (a == 0 || newborns))
+
+							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
+								if (shouldChangeInto[a][g][currentRiskValue][r]) {
+									currentIndividual = new Individual("ind",
+											"ind_"
+													+ (i + a * nSimNew[a][g]
+															* 2 + nSimNew[a][g]
+															* g) + "_"
+													+ currentRiskValue + "_"
+													+ r);
+									currentIndividual
+											.setRandomNumberGeneratorSeed(seed2);
+									currentIndividual
+											.luxeSet(1,new FloatCharacteristicValue(
+													stepsInSimulation, 1,
+													agestart));
+									currentIndividual
+											.luxeSet(2,new IntCharacteristicValue(
+													stepsInSimulation, 2, g));
+									if (parameters.getRiskType() == 1
+											|| parameters.getRiskType() == 3)
+										currentIndividual
+												.luxeSet(3,new IntCharacteristicValue(
+														stepsInSimulation, 3, r));
+									// duration = 0, both for just stopped, and
+									// for
+									// other categories
+									characteristicIndex = 4;
+									if (parameters.getRiskType() == 3){
+										currentIndividual
+												.luxeSet(4,new FloatCharacteristicValue(
+														stepsInSimulation, 4, 0));
+									characteristicIndex = 5;}
+
+									currentIndividual
+											.luxeSet(characteristicIndex,new CompoundCharacteristicValue(
+													stepsInSimulation,
+													characteristicIndex,
+													numberOfElements,
+													CharValues));
+									initialPopulation[1]
+											.addIndividual(currentIndividual);
+								}
+							}
+
+					}// end sim loop
 				;
 
 			}

@@ -49,9 +49,12 @@ public class InputData {
 	/* transtype: 0= null, 1= netto, 2= as inputted */
 	// now data per age and gender
 	// index 1 always age, 2 always gender
-	private float[][] stdDrift = new float[96][2];
+	
 	private  float[][] meanDrift = new float[96][2];
+	/* obsolete, but kept in case this is needed in future
+	private float[][] stdDrift = new float[96][2];
 	private float[][] offsetDrift = new float[96][2];
+	*/
 	private float[][][][] transitionMatrix = new float[96][2][][];
     private boolean withRRForMortality=true;
     private boolean withRRForDisability=true;
@@ -592,17 +595,20 @@ return returnarray;
 	public void setTransType(int transType) {
 		this.transType = transType;
 	}
-	public float[][] getStdDrift() {
-		return deepcopy(stdDrift);
-	}
-	public void setStdDrift(float[][] stdDrift) {
-		this.stdDrift = stdDrift;
-	}
+	
+	
 	public float[][] getMeanDrift() {
 		return deepcopy(meanDrift);
 	}
 	public void setMeanDrift(float[][] meanDrift) {
 		this.meanDrift = meanDrift;
+	}
+	/* obsolete, but kept for possible future use
+	public float[][] getStdDrift() {
+		return deepcopy(stdDrift);
+	}
+	public void setStdDrift(float[][] stdDrift) {
+		this.stdDrift = stdDrift;
 	}
 	public float[][] getOffsetDrift() {
 		return deepcopy(offsetDrift);
@@ -610,9 +616,18 @@ return returnarray;
 	public void setOffsetDrift(float[][] offsetDrift) {
 		this.offsetDrift = offsetDrift;
 	}
+	*/
 	public float[][][][] getTransitionMatrix() {
 		return transitionMatrix;
 	}
+	public float[][] getTransitionMatrix(int a,int s) {
+		return transitionMatrix[a][s];
+		
+	
+	}
+	
+	
+	
 	public void setTransitionMatrix(float[][][][] transitionMatrix) {
 		this.transitionMatrix = transitionMatrix;
 	}

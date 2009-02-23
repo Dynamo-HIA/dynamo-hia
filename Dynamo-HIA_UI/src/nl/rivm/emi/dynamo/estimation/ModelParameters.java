@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 
 import Jama.Matrix;
@@ -8,6 +9,8 @@ import Jama.Matrix;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
@@ -16,6 +19,11 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +55,7 @@ public class ModelParameters {
 	Log log = LogFactory.getLog(getClass().getName());
 	private int nSim = 100;
 	private int riskType = -1;
+
 	private String RiskTypeDistribution = null;// TODO
 	private int durationClass = -1;
 	private float refClassCont = -1;
@@ -87,9 +96,11 @@ public class ModelParameters {
 	private float[][][] alfaDuur = new float[96][2][];
 	private float[][][] duurFreq = new float[96][2][];
 	private float[][] meanDrift = new float[96][2];// TODO
+	private float[][] stdDrift = new float[96][2];// TODO
+	private float[][] offsetDrift = new float[96][2];// TODO
 	private float[][][][] transitionMatrix = new float[96][2][][];
 	private boolean zeroTransition;// TODO
-
+    private Population [] initialPopulation;
 	// empty Constructor
 
 	public ModelParameters() {
@@ -103,8 +114,9 @@ public class ModelParameters {
 	 * @param inputData
 	 *            Object that holds the input data
 	 * @throws DynamoInconsistentDataException
-	 *             which implies that the used should change the input data
+	 * 
 	 * @throws Exception
+	 *             : not yet handled (from net transition rates: to do
 	 * 
 	 * @returns ScenarioInfo: an object containing information that is needed
 	 *          for postprocessing
@@ -180,35 +192,124 @@ public class ModelParameters {
 		nCluster = inputData.getNCluster();
 		clusterStructure = inputData.clusterStructure;
 		durationClass = inputData.getIndexDuurClass();
-
+		int nRiskClasses;
+		if (riskType != 2)
+			nRiskClasses = inputData.getPrevRisk()[0][0].length;
+		else
+			nRiskClasses = 1;
 		log.fatal("before split");
 		splitCuredDiseases(inputData);
 		log.fatal("after split");
 		if (inputData.getRiskType() != 2)
-			transitionMatrix = new float[96][2][inputData.getPrevRisk()[0][0].length][inputData
+			transitionMatrix = new float[96][2][nRiskClasses][inputData
 					.getPrevRisk()[0][0].length];
-		for (int a = 0; a < 96; a++)
+		NettTransitionRateFactory factory = new NettTransitionRateFactory();
+		/* set up progress bar for this part of the calculations */
+		Display display = new Display();
+		Shell shell = new Shell(display);
+		shell.setText("Parameter estimation in progress .......");
+		shell.setLayout(new FillLayout());
+		shell.setSize(600, 50);
+
+		ProgressBar bar = new ProgressBar(shell, SWT.NULL);
+		bar.setBounds(10, 10, 200, 32);
+		bar.setMinimum(0);
+
+		shell.open();
+		bar.setMaximum(100);
+
+		for (int a = 0; a < 96; a++) {
+			bar.setSelection(a);
+
 			for (int g = 0; g < 2; g++) {
 				log.fatal("before first estimate");
 				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
 				log.fatal("parameters estimated for age " + a + " and gender "
 						+ g);
-				if (a > 0) {// TODO
+				if (a > 0) {
+					// TODO
 					/*
 					 * nog toevoegen: alleen als nettransition rates geschat
 					 * moeten worden
 					 */
 					if (inputData.getRiskType() != 2) {
-						transitionMatrix[a - 1][g] = NettTransitionRates
-								.makeNettTransitionRates(
-										getPrevRisk()[a - 1][g], inputData
-												.getPrevRisk()[a][g],
-										baselineMortality[a - 1][g], inputData
-												.getRelRiskMortCat()[a - 1][g]);
-						float[] temp = getPrevRisk()[a - 1][g];
+						if (inputData.getTransType() == 1) { /*
+															 * nett transition
+															 * rates
+															 */
+							transitionMatrix[a - 1][g] = factory
+									.makeNettTransitionRates(
+											getPrevRisk()[a - 1][g],
+											inputData.getPrevRisk()[a][g],
+											baselineMortality[a - 1][g],
+											inputData.getRelRiskMortCat()[a - 1][g]);
+						} else if (inputData.getTransType() == 2)
+							transitionMatrix[a - 1][g] = inputData
+									.getTransitionMatrix(a - 1, g);
+						else if (inputData.getTransType() == 1)
+							transitionMatrix[a - 1][g] = inputData
+									.getTransitionMatrix(a - 1, g);
+						else if (inputData.getTransType() == 0) {
+							/*
+							 * this matrix is not really used, but implemented
+							 * all the same in case a future programmer needs it
+							 */
+							float mat[][] = new float[nRiskClasses][nRiskClasses];
+							for (int r1 = 0; r1 < nRiskClasses; r1++)
+								for (int r2 = 0; r2 < nRiskClasses; r2++) {
+									if (r1 == r2)
+										mat[r1][r2] = 1;
+									else
+										mat[r1][r2] = 0;
+								}
+							transitionMatrix[a - 1][g] = mat;
+
+						}
 					}
 				}
 			}
+		}
+
+		bar.setSelection(96);
+		if (inputData.getRiskType() == 2) {
+			float drift[][][] = new float[3][96][2];
+			if (inputData.getTransType() == 2) { /* inputted rates */
+				drift = factory.makeUserGivenTransitionRates(inputData
+						.getMeanRisk(), inputData.getStdDevRisk(), inputData
+						.getSkewnessRisk(), baselineMortality, inputData
+						.getRelRiskMortCont(), refClassCont, inputData
+						.getMeanDrift());
+			}
+			if (inputData.getTransType() == 1) /* netto transitionrates */{
+				drift = factory.makeNettTransitionRates(
+						inputData.getMeanRisk(), inputData.getStdDevRisk(),
+						inputData.getSkewnessRisk(), baselineMortality,
+						inputData.getRelRiskMortCont(), refClassCont);
+			}
+			meanDrift = drift[0];
+			stdDrift = drift[1];
+			offsetDrift = drift[2];
+
+			if (inputData.getTransType() == 0) /*
+												 * zero transitionrates; not
+												 * really used but in case
+												 * someone expects the data
+												 */{
+				for (int a = 0; a < 96; a++)
+					for (int g = 0; g < 2; g++) {
+						meanDrift[a][g] = 0;
+						stdDrift[a][g] = 0;
+						offsetDrift[a][g] = 0;
+					}
+			}
+		}
+		bar.setSelection(97);
+		/*
+		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
+		 * display.sleep (); }
+		 */
+		shell.close();
+		display.dispose();
 
 	};
 
@@ -293,17 +394,34 @@ public class ModelParameters {
 		InitialPopulationFactory popFactory = new InitialPopulationFactory();
 		int seed = config.getRandomSeed();
 		int nSim = config.getSimPopSize();
-
+		
+		initialPopulation = popFactory.manufactureInitialPopulation(this,
+				simulationName, nSim, seed, false, scenInfo);
+		/*: obsolete: write
 		popFactory.writeInitialPopulation(this, nSim, simulationName, seed,
 				false, scenInfo);
-
-		/** * 5. writes a population of newborns (TODO) */
+  */
+		/** * 5. writes a population of newborns  */
+		
+		if (scenInfo.isWithNewBorns()){
+		Population[] newborns = popFactory.manufactureInitialPopulation(this,
+				simulationName, nSim, seed, true, scenInfo);
+		
+  /*: obsolete: write
 		if (scenInfo.isWithNewBorns())
 			popFactory.writeInitialPopulation(this, nSim, simulationName, seed,
-					true, scenInfo);
+					true, scenInfo); */
+		for (int p=0; p<initialPopulation.length;p++){
+			newborns[p].addAll(initialPopulation[p]);
+		initialPopulation[p]=newborns[p];
+		// initialPopulation[p].addAll(newborns[p]);
+		}}
 		return scenInfo;
 
 	}
+	
+	
+	
 
 	/**
 	 * 
@@ -312,7 +430,7 @@ public class ModelParameters {
 	 * "not cured" disease.
 	 * 
 	 * @param inputData
-	 *            : object with imput data
+	 *            : object with input data
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void splitCuredDiseases(InputData inputData)
@@ -509,7 +627,7 @@ public class ModelParameters {
 		int nDiseases = getNDiseases(inputData);
 
 		/* now copy data directly from DiseaseClusterData to parameter fields */
-		
+
 		attributableMortality[age][sex] = new float[nDiseases];
 		relRiskContinue[age][sex] = new float[nDiseases];
 		relRiskClass[age][sex] = new float[nRiskCat][nDiseases];
@@ -547,11 +665,10 @@ public class ModelParameters {
 				int dNumber = inputData.clusterStructure[c].getDiseaseNumber()[d];
 				if (riskType == 3) {
 					relRiskDuurEnd[age][sex][dNumber] = inputData
-							.getClusterData()[age][sex][c]
-							.getRelRiskDuurEnd()[d];
+							.getClusterData()[age][sex][c].getRelRiskDuurEnd()[d];
 					relRiskDuurBegin[age][sex][dNumber] = inputData
-					.getClusterData()[age][sex][c]
-					.getRelRiskDuurBegin()[d];
+							.getClusterData()[age][sex][c]
+							.getRelRiskDuurBegin()[d];
 					alfaDuur[age][sex][dNumber] = inputData.getClusterData()[age][sex][c]
 							.getAlpha()[d];
 
@@ -1740,9 +1857,9 @@ public class ModelParameters {
 					if (riskclass[i] == inputData.getIndexDuurClass()) {
 
 						sumRROtherMort += weight[i]
-						        * ((relRiskOtherMortBegin[age][sex] - relRiskOtherMortEnd[age][sex])
-						        * Math.exp(-alfaOtherMort[age][sex]* riskfactor[i])
-						        + relRiskOtherMortEnd[age][sex]);
+								* ((relRiskOtherMortBegin[age][sex] - relRiskOtherMortEnd[age][sex])
+										* Math.exp(-alfaOtherMort[age][sex]
+												* riskfactor[i]) + relRiskOtherMortEnd[age][sex]);
 
 					} else {
 
@@ -2556,6 +2673,30 @@ public class ModelParameters {
 
 	public void setZeroTransition(boolean zeroTransition) {
 		this.zeroTransition = zeroTransition;
+	}
+
+	public float[][] getStdDrift() {
+		return stdDrift;
+	}
+
+	public void setStdDrift(float[][] stdDrift) {
+		this.stdDrift = stdDrift;
+	}
+
+	public float[][] getOffsetDrift() {
+		return offsetDrift;
+	}
+
+	public void setOffsetDrift(float[][] offsetDrift) {
+		this.offsetDrift = offsetDrift;
+	}
+
+	public Population[] getInitialPopulation() {
+		return initialPopulation;
+	}
+
+	public void setInitialPopulation(Population[] initialPopulation) {
+		this.initialPopulation = initialPopulation;
 	}
 
 }

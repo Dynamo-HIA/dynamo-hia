@@ -46,7 +46,6 @@ public class SimulationConfigurationFactory {
 	 * information should be supplied by the user interface in the final version
 	 */
 	// private boolean isNullTransition = true;
-	
 
 	/**
 	 * this method writes the characteristicsConfigurationFile that is one of
@@ -101,16 +100,14 @@ public class SimulationConfigurationFactory {
 			ModelParameters parameters, ScenarioInfo scenInfo)
 			throws DynamoConfigurationException {
 
-		/* 
+		/*
 		 * 
-		 * write rule for riskfactor update 
-		 * 
-		 * */
+		 * write rule for riskfactor update
+		 */
 
 		String fileName = null;
 		int ruleNumber = 3;
 
-		
 		/**
 		 * implemented xml file for categorical risk factor: <?xml version="1.0"
 		 * encoding="UTF-8"?> <updateRuleConfiguration> <charID>3</charID>
@@ -129,14 +126,11 @@ public class SimulationConfigurationFactory {
 		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
 
 			String ConfigXMLfileName = null;
-			
-			/* 
+
+			/*
 			 * 
-			 * write rule for categorical risk factor 
-			 * 
-			 * 
-			 * 
-			 * */
+			 * write rule for categorical risk factor
+			 */
 			if (riskType == 1 || riskType == 3) {
 
 				if (scen == 0) {
@@ -163,11 +157,9 @@ public class SimulationConfigurationFactory {
 								.toString());
 				writeFinalElementToDom(rootElement, "durationClass",
 						((Integer) parameters.getDurationClass()).toString());
-/*
- *    NB : if zerotransitions, then write nullTransition=1
- * 
- * 
- */
+				/*
+				 * NB : if zerotransitions, then write nullTransition=1
+				 */
 				if (scen == 0) {
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
@@ -185,17 +177,17 @@ public class SimulationConfigurationFactory {
 								"transitionMatrix", "transitionRates", fileName);
 					}
 				} else {
-					if (scenInfo.isZeroTransition(scen - 1)||(!scenInfo.getTransitionType(scen-1) 
-							&& parameters.isZeroTransition())) {
+					if (scenInfo.isZeroTransition(scen - 1)
+							|| (!scenInfo.getTransitionType(scen - 1) && parameters
+									.isZeroTransition())) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
 						writeFinalElementToDom(rootElement, "transitionFile",
 								null);
-					} 
-					
-					
+					}
+
 					else
-					
+
 					{
 						fileName = directoryName
 								+ "\\parameters\\transitionrates_scen_" + scen
@@ -230,13 +222,10 @@ public class SimulationConfigurationFactory {
 
 			// TODO testing for duration
 			// TODO testing continuous risk factor
-			/* 
+			/*
 			 * 
-			 * write rule for continuous risk factor 
-			 * 
-			 * 
-			 * 
-			 * */
+			 * write rule for continuous risk factor
+			 */
 			else {
 				if (scen == 0) {
 					fileName = directoryName
@@ -279,64 +268,122 @@ public class SimulationConfigurationFactory {
 								"unknown distribution type for continuous risk factor"
 										+ parameters.getRiskTypeDistribution());
 				}
-				
-				
+
 				if (scen == 0) {
+					/* for some reason nullTransition=0 for a nulltransition */
 					if (!parameters.isZeroTransition()) {
-					writeFinalElementToDom(rootElement, "nullTransition", "0");
-					writeFinalElementToDom(rootElement, "meanDriftFileName", null);
-				} else {
-					writeFinalElementToDom(rootElement, "nullTransition", "1");
-					fileName = directoryName
-					+ "\\parameters\\meanDriftRiskFactor.xml";
-							writeFinalElementToDom(rootElement,
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"0");
+						writeFinalElementToDom(rootElement,
+								"meanDriftFileName", null);
+					} else {
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"1");
+						fileName = directoryName
+								+ "\\parameters\\meanDriftRiskFactor.xml";
+						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", fileName);
 						writeOneDimArray(parameters.getMeanDrift(),
-								"meandrift", "meandrift", fileName);}
+								"meandrift", "meandrift", fileName);
+						fileName = directoryName
+								+ "\\parameters\\stdDriftRiskFactor.xml";
+						writeFinalElementToDom(rootElement, "stdDriftFileName",
+								fileName);
+						writeOneDimArray(parameters.getStdDrift(), "stddrift",
+								"stddrift", fileName);
+
+						if (parameters.getRiskTypeDistribution()
+								.compareToIgnoreCase("LogNormal") == 0) {
+							fileName = directoryName
+									+ "\\parameters\\offsetDriftRiskFactor.xml";
+							writeFinalElementToDom(rootElement,
+									"offsetDriftFileName", fileName);
+							writeOneDimArray(parameters.getOffsetDrift(),
+									"offsetdrift", "offsetdrift", fileName);
+							
+							fileName = directoryName
+									+ "\\parameters\\offsetRiskFactor.xml";
+							writeFinalElementToDom(rootElement,
+									"offsetFileName", fileName);
+							writeOneDimArray(parameters.getOffsetRisk(),
+									"offset", "offset", fileName);
+
+						}
+
+					}
+				} else {
+					if (scenInfo.isZeroTransition(scen - 1)
+							|| (!scenInfo.getTransitionType(scen - 1) && parameters
+									.isZeroTransition())) {
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"1");
+						writeFinalElementToDom(rootElement,
+								"meanDriftFileName", null);
+
 					} else {
-						if (scenInfo.isZeroTransition(scen - 1)||(!scenInfo.getTransitionType(scen-1) 
-								&& parameters.isZeroTransition())) {
-							writeFinalElementToDom(rootElement, "nullTransition",
-							"1");
-					   writeFinalElementToDom(rootElement, "meanDriftFileName",
-							null);
-							
-						} else {
-							
-							
+
 						fileName = directoryName
 								+ "\\parameters\\meanDriftRiskFactor_scen_"
 								+ scen + ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
-						"1");
+								"1");
 						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", fileName);
 						if (scenInfo.getTransitionType(scen - 1))
-						writeOneDimArray(scenInfo
-								.getMeanDrift(scen-1),
-								"meandrift", "meandrift", fileName);
+							writeOneDimArray(scenInfo.getMeanDrift(scen - 1),
+									"meandrift", "meandrift", fileName);
 						else
 							writeOneDimArray(parameters.getMeanDrift(),
 									"meandrift", "meandrift", fileName);
-					}}
-								
-					
-					
-					/*
-					 * Remark: making changes in the standard deviation in a
-					 * deterministic way during simulation is all much more
-					 * complicated than can be handled with a single
-					 * characteristic as you need to have the population mean
-					 * availlable, and the population mean for a particular age
-					 * / sex combination changes during simulation so this is
-					 * not implemented
-					 */
-				
-				
-					writeFinalElementToDom(rootElement, "durationClass",
-							((Integer) parameters.getDurationClass())
-									.toString());
-					
+						
+						fileName = directoryName
+						+ "\\parameters\\stddriftRiskFactor"
+						 + ".xml";
+						writeFinalElementToDom(rootElement,
+								"stddriftFileName", fileName);
+						
+							writeOneDimArray(parameters.getStdDrift(),
+									"stddrift", "stddrift", fileName);
+						
+						
+						if (parameters.getRiskTypeDistribution()
+								.compareToIgnoreCase("LogNormal") == 0) {
+							
+							fileName = directoryName
+							+ "\\parameters\\offsetRiskFactor"
+							 + ".xml";
+							writeFinalElementToDom(rootElement,
+									"offsetFileName", fileName);
+							writeOneDimArray(parameters.getMeanDrift(),
+										"offset", "offset", fileName);
+							
+							fileName = directoryName
+							+ "\\parameters\\offsetDrift"
+							 + ".xml";
+							writeFinalElementToDom(rootElement,
+									"offsetDriftFileName", fileName);
+							writeOneDimArray(parameters.getMeanDrift(),
+										"offsetdrift", "offsetdrift", fileName);
+						}
+						
+						
+						
+						
+					}
+				}
+
+				/*
+				 * Remark: making changes in the standard deviation in a
+				 * deterministic way during simulation is all much more
+				 * complicated than can be handled with a single characteristic
+				 * as you need to have the population mean availlable, and the
+				 * population mean for a particular age / sex combination
+				 * changes during simulation so this is not implemented
+				 */
+
+				writeFinalElementToDom(rootElement, "durationClass",
+						((Integer) parameters.getDurationClass()).toString());
+
 				document.appendChild(rootElement);
 				writeDomToXML(ConfigXMLfileName, document);
 
@@ -367,7 +414,6 @@ public class SimulationConfigurationFactory {
 					.getPrevRisk()[0][0].length).toString());
 			writeFinalElementToDom(rootElement, "durationClass",
 					((Integer) parameters.getDurationClass()).toString());
-			
 
 			document.appendChild(rootElement);
 			writeDomToXML(ConfigXMLfileName, document);
@@ -654,8 +700,6 @@ public class SimulationConfigurationFactory {
 
 		/* set general info for simulation */
 
-		
-		 
 		String fileName = simFileName + ".xml";
 
 		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
@@ -665,8 +709,9 @@ public class SimulationConfigurationFactory {
 
 			Element rootElement = document.createElement("sim");
 			writeFinalElementToDom(rootElement, "lb", simulationName);
-			/* an alternative would be to use scenInfo.getStepSize()
-					 */
+			/*
+			 * an alternative would be to use scenInfo.getStepSize()
+			 */
 			writeFinalElementToDom(rootElement, "timestep", "1");
 			writeFinalElementToDom(rootElement, "runmode", "longitudinal");
 			/* this is not implemented yet */
@@ -679,12 +724,14 @@ public class SimulationConfigurationFactory {
 						+ "_scen_" + scen + ".xml");
 			else
 				writeFinalElementToDom(rootElement, "pop", popFileName + ".xml");
-			if (scenInfo.isWithNewBorns() ){
-				if( scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
-							writeFinalElementToDom(rootElement, "pop", newbornsFileName
-						+ "_scen_" + scen + ".xml");
-			else
-				writeFinalElementToDom(rootElement, "pop", newbornsFileName + ".xml");}
+			if (scenInfo.isWithNewBorns()) {
+				if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
+					writeFinalElementToDom(rootElement, "pop", newbornsFileName
+							+ "_scen_" + scen + ".xml");
+				else
+					writeFinalElementToDom(rootElement, "pop", newbornsFileName
+							+ ".xml");
+			}
 			int riskType = parameters.getRiskType();
 			// age+sex+riskfactor+diseasestate
 			int nRules = 4;

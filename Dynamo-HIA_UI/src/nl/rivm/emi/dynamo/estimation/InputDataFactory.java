@@ -185,33 +185,34 @@ public class InputDataFactory {
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
 	private static final String prefixRRdis = "relriskfrom";
 
-	/**
-	 * Extra constructor for injecting rootDirectoryName.
-	 * 
-	 * @param baseDirectoryPath
-	 * @param simName
-	 * @throws DynamoConfigurationException
-	 */
-	public InputDataFactory(String baseDirectoryPath, String simName)
-			throws DynamoConfigurationException {
-		baseDir = baseDirectoryPath;
-		doIt(simName);
-	}
+	
+		
+		
+		
+		/**
+		 * Extra constructor for injecting rootDirectoryName.
+		 * 
+		 * @param baseDirectoryPath
+		 * @param simName
+		 * @throws DynamoConfigurationException
+		 */
+		public InputDataFactory(String baseDirectoryPath, String simName)
+				throws DynamoConfigurationException {
+			baseDir = baseDirectoryPath;
+			doIt(simName);
+		}
 
-	public InputDataFactory(String simName) throws DynamoConfigurationException {
-		doIt(simName);
-	}
+		public InputDataFactory(String simName) throws DynamoConfigurationException {
+			doIt(simName);
+		}
 
-	private void doIt(String simName) throws DynamoConfigurationException {
-		;
-		// temporary for testing //;
-
+		private void doIt(String simName) throws DynamoConfigurationException {
+			;
+					
 		try {
-			String configurationPath = baseDir + File.separator + simulationDir
-					+ File.separator + simName + File.separator
-					+ "configuration.xml";
-			log.fatal("Starting doIt(), configurationPath: " + configurationPath);
-			configuration = new XMLConfiguration(configurationPath);
+			configuration = new XMLConfiguration(baseDir + File.separator
+					+ simulationDir + File.separator + simName + File.separator
+					+ "configuration.xml");
 		} catch (ConfigurationException e) {
 
 			e.printStackTrace();
@@ -301,6 +302,7 @@ public class InputDataFactory {
 		if (!rrPresent)
 			throw new DynamoConfigurationException(
 					" no valid information present " + "for relative risks ");
+
 	}
 
 	/**
@@ -1283,12 +1285,14 @@ public class InputDataFactory {
 				inputData.setMeanDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
 						"mean", true));
+				/* obsolete but kept for potential future use
 				inputData.setStdDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
 						"standarddevivation", true));
 				inputData.setOffsetDrift(factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
 						"skewness", true));
+						*/
 			}
 
 			else
@@ -1910,7 +1914,7 @@ public class InputDataFactory {
 														+ year[currentChild - 1]
 														+ " and "
 														+ year[currentChild]
-														+ " this is not allowed");
+														+ " this is not allowed");}
 									if ("number".equalsIgnoreCase(leafName)) {
 
 										number[currentChild] = getIntegerValue(
@@ -1919,7 +1923,7 @@ public class InputDataFactory {
 
 									}
 								}
-							}
+							
 
 						}
 						currentChild++;
