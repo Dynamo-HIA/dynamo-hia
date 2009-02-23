@@ -38,25 +38,9 @@ public class FloatCharacteristicValue extends CharacteristicValueBase {
 		super("ch", index );
 		rijtje = new float[numSteps+1];
 		rijtje[0] = value;
-	}
-	
-	/* extra constructor added by hendriek */
-	/**
-	 * Initiation of characteristic for newborns, where
-	 * the first steps are empty.
-	 * Multiple steps possible. Number is fixed after instantiation.
-	 * 
-	 * @param numSteps Number of steps to be preallocated for this value.
-	 * @param index The index of the Characteristic the value belongs to.
-	 * @param startstep The number of the first step to be filled.
-	 * @param value The value for the characteristic to be stored in the first step (at index 0).
-	
-	 */
-	public FloatCharacteristicValue(int numSteps, int index, int startStep, float value) {
-		super("ch", index );
-		rijtje = new float[numSteps+1];
-		rijtje[startStep] = value;
-		numberFilled = startStep;
+		/* next line added by Hendriek as it otherwise does not run */
+		numberFilled=1;
+		
 	}
 	
 	
@@ -92,7 +76,48 @@ public class FloatCharacteristicValue extends CharacteristicValueBase {
 			throw new CDMRunException("Step storage is empty, no newest value available.");
 		}
 	}
-
+	
+	/* added by Hendriek */
+	
+	public Float getPreviousValue() throws CDMRunException {
+		if (numberFilled > 1) {
+			return rijtje[numberFilled - 2];
+		} else {
+			log.warn("previous Steps are empty!");
+			throw new CDMRunException("Previous Step storage is empty, no newest value available.");
+		}
+	}
+/*
+ * added by Hendriek in order to initialize newborns
+ * but not needed
+ 
+	public void shiftFirstValue(int i) throws CDMRunException {
+		if (numberFilled > 0) {
+			float current = rijtje[numberFilled - 1];
+			rijtje[i]=current;
+			numberFilled=i+1;
+			for (int j=0;j<i;j++)
+				rijtje[j]=-1;
+			
+		} else {
+			log.warn("Steps are empty!");
+			throw new CDMRunException("Step storage is empty, no values available.");
+		}
+	}
+	* */
+	/*
+	 * added by Hendriek in order to stop the simulation of those older than 105
+	 * 
+	 * */
+	public boolean isFull() throws CDMRunException {
+		boolean full=false;
+		if (numberFilled == rijtje.length) full=true;
+		return full;
+	}
+	/*
+	 * end addition hendriek
+	 */
+	
 	public boolean appendFloatValue(String stringValue) throws CDMRunException {
 		String floatRegex = "^\\d++\\.?\\d*$";
 		Pattern pattern = Pattern.compile(floatRegex);

@@ -189,12 +189,14 @@ public class HealthStateManyToManyUpdateRule extends
 		float[] newValue = null;
 
 		try {
+			float[] oldValue = getValues(currentValues,
+					getCharacteristicIndex());
 			int ageValue = (int) getFloat(currentValues, getAgeIndex());
+			if (ageValue<0) { newValue=oldValue;  return newValue;} else {
 			int sexValue = getInteger(currentValues, getSexIndex());
 			if (ageValue > 95)
 				ageValue = 95;
-			float[] oldValue = getValues(currentValues,
-					getCharacteristicIndex());
+			
 			newValue = new float[oldValue.length];
 			float[] currentDiseaseStateValues = new float[oldValue.length];
 			/*
@@ -455,7 +457,7 @@ public class HealthStateManyToManyUpdateRule extends
 					* oldValue[currentStateNo];
 
 			return newValue;
-		} catch (CDMUpdateRuleException e) {
+		}} catch (CDMUpdateRuleException e) {
 			log.fatal(e.getMessage());
 			log
 					.fatal("this message was issued by HealthStateMultiToOneUpdateRule"

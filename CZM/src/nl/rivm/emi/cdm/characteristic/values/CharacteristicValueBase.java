@@ -31,5 +31,11 @@ abstract public class CharacteristicValueBase {
 	abstract public Object getValue(int step);
 
 	abstract public Object getCurrentValue() throws CDMRunException;
+	/* added by hendriek as this is needed for getting a not yet updated value 
+	 */
+	abstract public Object getPreviousValue() throws CDMRunException;
+	
+	 
+
 
 }

@@ -7,6 +7,9 @@ package nl.rivm.emi.cdm.characteristic.values;
  * @author Hendriek
  *
  */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 
@@ -30,6 +33,9 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	 *            : number of steps in the simulation
 	 * @param index
 	 *            : index of the characteristic in the individual
+	 * @param nChar
+	 *             : number of elements in the compound characteristic 
+	 
 	 */
 	public CompoundCharacteristicValue(int numSteps, int index, int nChar) {
 		super("ch", index);
@@ -54,13 +60,33 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	public CompoundCharacteristicValue(int numSteps, int index, int nChar,
 			float[] value) {
 		super("ch", index);
-		rijtje = new float[numSteps + 1][];
-		rijtje[0] = value;
+		rijtje = new float[numSteps + 1][value.length];
+		/* do deep copy for safety */
+		for (int i=0;i<value.length;i++)
+		rijtje[0][i] = value[i];
+		
+		numberFilled=1;
 	}
-
+	
 	public float[] getValue() {
 		return rijtje[0];
 	}
+	
+	
+		public void shiftFirstValue(int i) throws CDMRunException {
+			if (numberFilled > 0) {
+				float [] current = rijtje[numberFilled - 1];
+				rijtje[i]=current;
+				numberFilled=i+1;
+				for (int j=0;j<i;j++)
+					for (int ichar=0;ichar<rijtje.length;ichar++)
+					rijtje[j][ichar]=-1;
+				
+			} else {
+				log.warn("Steps are empty!");
+				throw new CDMRunException("Step storage is empty, no values available.");
+			}
+		}
 
 	public Float[] getValue(int step) {
 	Float[]	returnArray= new Float[rijtje[step].length];
@@ -100,18 +126,39 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 					+ " ) overflow, cannot append value.");
 		}
 	}
-
+	
 	public Float[] getCurrentValue() throws CDMRunException {
 		if (numberFilled > 0) {
+			
+			
 			Float[]	returnArray= new Float[rijtje[numberFilled - 1].length];
 	        for (int i=0;i<rijtje[numberFilled - 1].length;i++) returnArray[i]=rijtje[numberFilled - 1][i];
 			return returnArray;
+			
 		} else {
 			log.warn("Steps are empty!");
 			throw new CDMRunException(
 					"Step storage is empty, no newest value available.");
 		}
 	}
+	
+	
+	public Float[] getPreviousValue() throws CDMRunException {
+		if (numberFilled > 1) {
+			
+			
+			Float[]	returnArray= new Float[rijtje[numberFilled - 2].length];
+	        for (int i=0;i<rijtje[numberFilled - 2].length;i++) returnArray[i]=rijtje[numberFilled -2][i];
+			return returnArray;
+			
+		} else {
+			log.warn("previous Steps are empty!");
+			throw new CDMRunException(
+					"previous Step storage is empty, no newest value available.");
+		}
+	}
+	
+	
 	
 	
 
@@ -122,7 +169,10 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	 */
 	public float[] getCurrentWrapperlessValue() throws CDMRunException {
 		if (numberFilled > 0) {
+			
+			
 			return rijtje[numberFilled - 1];
+			
 		} else {
 			log.warn("Steps are empty!");
 			throw new CDMRunException(
@@ -147,4 +197,28 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 		
 		return rijtje[numberFilled-1][nElementFilled-1];
 	}
+
+	
+	
+/* this seems obsolete (could not find any references to it, so no version made for this new class 
+ * 
+ */
+	/*
+	public boolean appendDiseaseValue(String stringValue) throws CDMRunException {
+		String floatRegex = "^\\d++\\.?\\d*$";
+		Pattern pattern = Pattern.compile(floatRegex);
+		Matcher matcher = pattern.matcher(stringValue);
+		boolean success = matcher.matches();
+		try {
+			if (success) {
+				float numberToSet = Float.parseFloat(stringValue);
+				appendValue(numberToSet);
+			}
+			return success;
+			// The Regex should prevent this from happening.
+		} catch (NumberFormatException e) {
+			success = false;
+			return success;
+		}
+	} */
 }

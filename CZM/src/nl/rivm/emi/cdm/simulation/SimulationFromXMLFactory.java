@@ -42,6 +42,28 @@ public class SimulationFromXMLFactory {
 	/* next line added by hendriek */ 
 	public static final String newBornLabel = "newborns";
 
+	/* added by Hendriek: extra method with flag for whether the population should be read
+	 * from xml, or is set by the user (achterdeur constructie )
+	 */
+	public static Simulation manufacture_DOMPopulationTree(
+			HierarchicalConfiguration simulationConfiguration, boolean readPopulation)
+			throws ConfigurationException {
+		Simulation simulation = new Simulation();
+		handleLabel(simulationConfiguration, simulation);
+		handleTimestep(simulationConfiguration, simulation);
+		handleRunMode(simulationConfiguration, simulation);
+		handleStepsBetweenSaves(simulationConfiguration, simulation);
+		handleStepsInRun(simulationConfiguration, simulation);
+		handleStoppingCondition(simulationConfiguration, simulation);
+		/* if clause in next statement new */
+		if (readPopulation) handlePopulation_DOMTree(simulationConfiguration, simulation); 
+		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
+				.manufacture(simulationConfiguration, simulation));
+		return simulation;
+	}
+	
+	
+	
 	public static Simulation manufacture_DOMPopulationTree(
 			HierarchicalConfiguration simulationConfiguration)
 			throws ConfigurationException {
@@ -52,9 +74,16 @@ public class SimulationFromXMLFactory {
 		handleStepsBetweenSaves(simulationConfiguration, simulation);
 		handleStepsInRun(simulationConfiguration, simulation);
 		handleStoppingCondition(simulationConfiguration, simulation);
-		handlePopulation_DOMTree(simulationConfiguration, simulation);
-		/* added by Hendriek */
-		handleNewBorn_DOMTree(simulationConfiguration, simulation);
+		/* if clause in next statement added by Hendriek, 
+		 * as in Dynamo the population can also be set directly 
+		 * from the parameter estimation module, and not from xml
+		 */
+		
+		if (simulation.getPopulation() ==null) handlePopulation_DOMTree(simulationConfiguration, simulation); 
+		
+		
+		/* added by Hendriek but obsolete*/
+		//handleNewBorn_DOMTree(simulationConfiguration, simulation);
 		/* end addition */
 		simulation.setUpdateRuleStorage(UpdateRules4SimulationFromXMLFactory
 				.manufacture(simulationConfiguration, simulation));
@@ -111,6 +140,7 @@ public class SimulationFromXMLFactory {
 	}
 	
 	// added by Hendriek ;
+	/* however, not needed eventually
 	private static void handleNewBorn_DOMTree(
 			HierarchicalConfiguration simulationConfiguration,
 			Simulation simulation) throws ConfigurationException {
@@ -126,7 +156,7 @@ public class SimulationFromXMLFactory {
 		}
 	}
 	
-
+*/
 	private static void handleStoppingCondition(
 			HierarchicalConfiguration simulationConfiguration,
 			Simulation simulation) throws ConfigurationException {

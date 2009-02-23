@@ -15,6 +15,7 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
+import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
@@ -80,13 +81,6 @@ public class Simulation extends DomLevelTraverser {
 	 * Population to use.
 	 */
 	private Population population = null;
-	
-	/* added by Hendriek */
-	/**
-	 * Newborn Population to use.
-	 */
-	private Population newBorns = null;
-
 
 	/**
 	 * Configured updaterules.
@@ -219,56 +213,65 @@ public class Simulation extends DomLevelTraverser {
 		this.label = label;
 	}
 
-	
-
 	/* added by hendriek */
-	public void setNewBornPopulationByFileName_DOM(String populationFileName)
-	throws ConfigurationException {
-		setNewBornPopulationByFileName_DOM(populationFileName,0);
-		
-	}
-	
-	public void setNewBornPopulationByFileName_DOM(String populationFileName,int generation)
-	throws ConfigurationException {
-File populationFile = new File(populationFileName);
-if (populationFile.exists() && populationFile.isFile()
-		&& populationFile.canRead()) {
-	DOMBootStrap domBoot = new DOMBootStrap();
-	try {
-		newBorns = domBoot.process2PopulationTree(populationFile,
-				this.stepsInRun,generation);
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		throw new ConfigurationException(
-				"Error reading populationfile " + populationFileName
-						+ ", Exception thrown: "
-						+ e.getClass().getName() + " message "
-						+ e.getMessage());
-	}
-} else {
-	throw new ConfigurationException("Populationfile "
-			+ populationFileName + ", does not exist or is no file.");
+	/*
+	 * not needed public void setNewBornPopulationByFileName_DOM(String
+	 * populationFileName) throws ConfigurationException {
+	 * 
+	 * File populationFile = new File(populationFileName); if
+	 * (populationFile.exists() && populationFile.isFile() &&
+	 * populationFile.canRead()) { DOMBootStrap domBoot = new DOMBootStrap();
+	 * try { int Ngenerations = (int) Math.round(stepsInRun stepSize);
+	 * Population newBornPop = domBoot.process2PopulationTree( populationFile,
+	 * this.stepsInRun); Population[] newBorns = new Population[Ngenerations];
+	 * for (int generation = 1; generation < Ngenerations; generation++) {
+	 * newBorns[generation] = newBornPop.deepCopy(); Iterator<Individual>
+	 * individualIterator = newBorns[generation] .iterator(); while
+	 * (individualIterator.hasNext()) { Individual individual =
+	 * individualIterator.next(); Iterator<CharacteristicValueBase> charIterator
+	 * = individual .iterator(); while (charIterator.hasNext()) {
+	 * CharacteristicValueBase characteristic = charIterator .next(); if
+	 * (characteristic != null) if (characteristic instanceof
+	 * IntCharacteristicValue) { ((IntCharacteristicValue) characteristic)
+	 * .shiftFirstValue(generation);
+	 * 
+	 * } else if (characteristic instanceof FloatCharacteristicValue) {
+	 * ((FloatCharacteristicValue) characteristic) .shiftFirstValue(generation);
+	 * } else if (characteristic instanceof CompoundCharacteristicValue) {
+	 * ((CompoundCharacteristicValue) characteristic)
+	 * .shiftFirstValue(generation); } ; } } }
+	 * 
+	 * } catch (Exception e) {
+	 * 
+	 * e.printStackTrace(); throw new
+	 * ConfigurationException("Error reading newbornfile " + populationFileName
+	 * + ", Exception thrown: " + e.getClass().getName() + " message " +
+	 * e.getMessage()); } } else { throw new
+	 * ConfigurationException("NewBornfile " + populationFileName +
+	 * ", does not exist or is no file.");
+	 * 
+	 * } }
+	 * 
+	 * / end added by hendriek
+	 */
 
-}
-}
-
-	
-	/* end added by hendriek */
-	
 	public void setPopulationByFileName_DOM(String populationFileName)
 			throws ConfigurationException {
 		File populationFile = new File(populationFileName);
 		if (populationFile.exists() && populationFile.isFile()
 				&& populationFile.canRead()) {
 			DOMBootStrap domBoot = new DOMBootStrap();
-			/* changed by hendriek to include the generation (for use of newborns */
-			/* so process2PopulationTree takes an extra parameter
-			 * 0, for generation=0 
+			/*
+			 * changed by hendriek to include the generation (for use of
+			 * newborns
+			 */
+			/*
+			 * so process2PopulationTree takes an extra parameter 0, for
+			 * generation=0
 			 */
 			try {
 				population = domBoot.process2PopulationTree(populationFile,
-						this.stepsInRun,0);
+						this.stepsInRun);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -383,37 +386,33 @@ if (populationFile.exists() && populationFile.isFile()
 					+ individual.getLabel());
 			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 				processCharVals(individual);
+
 			}
 		}
-		
-		
-		
-	}
-	
-	/* added by Hendriek : also run the newborns*/
-	private void runNewborns() throws CDMRunException {
-		
-		
-		//TODO newborns: does not yet work
-		Iterator<Individual> individualIterator = population.iterator();
-		for (int nGeneration = 1; nGeneration < stepsInRun; nGeneration++) {
-			Population[] generation=new Population[stepsInRun-1];
-			// TODO random seeds should differ
-		Iterator<Individual> newbornIterator = generation[nGeneration].iterator();
-		while (individualIterator.hasNext()) {
-			Individual individual = individualIterator.next();
-			log.debug("Longitudinal: Processing individual "
-					+ individual.getLabel());
-			for (int stepCount = 0; stepCount < stepsInRun-nGeneration; stepCount++) {
-				processCharVals(individual);
-			}
-		}}
-		/* end added by Hendriek */	
-		
-		
-		
+
 	}
 
+	/*
+	 * added by Hendriek : also run the newborns: not used as other solution is
+	 * choosen
+	 */
+
+	/*
+	 * public void runNewborns() throws CDMRunException {
+	 * 
+	 * // TODO newborns: make work for stepSize not equal to 1;
+	 * 
+	 * int numberOfGenerations = (int) Math.floor(stepsInRun stepSize); for (int
+	 * nGeneration = 1; nGeneration < numberOfGenerations; nGeneration++) {
+	 * Iterator<Individual> individualIterator = newBorns[nGeneration]
+	 * .iterator(); while (individualIterator.hasNext()) { Individual individual
+	 * = individualIterator.next();
+	 * log.debug("Longitudinal: Processing individual " +
+	 * individual.getLabel()); for (int stepCount = 0; stepCount < stepsInRun -
+	 * nGeneration stepSize; stepCount++) { processCharVals(individual); } } }
+	 * 
+	 * } / end added by Hendriek
+	 */
 
 	private void runTransversal() throws CDMRunException {
 		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
@@ -427,7 +426,7 @@ if (populationFile.exists() && populationFile.isFile()
 		}
 	}
 
-	private void processCharVals(Individual individual) throws CDMRunException {
+	public void processCharVals(Individual individual) throws CDMRunException {
 		Iterator<CharacteristicValueBase> charValIterator = individual
 				.iterator();
 		while (charValIterator.hasNext()) {
@@ -480,28 +479,37 @@ if (populationFile.exists() && populationFile.isFile()
 					if (updateRule instanceof OneToOneUpdateRuleBase) {
 
 						int oldValue = intCharVal.getCurrentValue();
-						
-						
+
 						Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
-						.update(new Integer(oldValue));
-						
+								.update(new Integer(oldValue));
+
 						intCharVal.appendValue(newValue);
 						log.info("Updated charval at " + intCharVal.getIndex()
 								+ " for " + individual.getLabel() + " from "
 								+ oldValue + " to " + newValue);
 						keep = true;
-						/* next if clause added by Hendriek as  ManyToOneUpdateRule was not implemented for
-						 * integers
-						 * ii is a literal copy of the part for float characters, with all floats changed into integers
+						/*
+						 * next if clause added by Hendriek as
+						 * ManyToOneUpdateRule was not implemented for integers
+						 * ii is a literal copy of the part for float
+						 * characters, with all floats changed into integers
 						 */
-					} else if(updateRule instanceof ManyToOneUpdateRuleBase) {
+					} else if (updateRule instanceof ManyToOneUpdateRuleBase) {
 						Object[] charVals = new Object[individual.size()];
 						for (int count = 0; count < charVals.length; count++) {
 							CharacteristicValueBase charValBase = individual
 									.get(count);
 							if (charValBase != null) {
-								Object currValue = charValBase
-										.getCurrentValue();
+								/*
+								 * changed by Hendriek in order to make the
+								 * current values equal to the not yet updated
+								 * values
+								 */
+								Object currValue;
+								if (count < charValIndex)
+									currValue = charValBase.getPreviousValue();
+								else
+									currValue = charValBase.getCurrentValue();
 								charVals[count] = currValue;
 							} else {
 								charVals[count] = null;
@@ -509,17 +517,17 @@ if (populationFile.exists() && populationFile.isFile()
 						}
 						int oldValue = intCharVal.getCurrentValue();
 						// int index = floatCharVal.getIndex();
-						
-						
-						/* changed by Hendriek to include random number in update
-						 * was: 
-						Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
-								.update(charVals);
-						*/
-					
-						Long seed=individual.getRandomNumberGeneratorSeed();
+
+						/*
+						 * changed by Hendriek to include random number in
+						 * update was: Float newValue = (Float)
+						 * ((ManyToOneUpdateRuleBase) updateRule)
+						 * .update(charVals);
+						 */
+
+						Long seed = individual.getRandomNumberGeneratorSeed();
 						Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
-								.update(charVals,seed);
+								.update(charVals, seed);
 						individual.setRandomNumberGeneratorSeed(nextSeed(seed));
 						/* end change by Hendriek */
 						if (newValue != null) {
@@ -532,16 +540,27 @@ if (populationFile.exists() && populationFile.isFile()
 						} else {
 							throw new CDMRunException(
 									"ManyToOne update rule produced a null result, aborting.");
-						}}
-				 else{
+						}
+					} else {
 						if (updateRule instanceof ManyToManyUpdateRuleBase) {
 							Object[] charVals = new Object[individual.size()];
 							for (int count = 0; count < charVals.length; count++) {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
 								if (charValBase != null) {
-									Object currValue = charValBase
-											.getCurrentValue();
+									/*
+									 * changed by Hendriek in order to make the
+									 * current values equal to the not yet
+									 * updated values
+									 */
+									Object currValue;
+									if (count < charValIndex)
+										currValue = charValBase
+												.getPreviousValue();
+									else
+										currValue = charValBase
+												.getCurrentValue();
+
 									charVals[count] = currValue;
 								} else {
 									charVals[count] = null;
@@ -549,23 +568,24 @@ if (populationFile.exists() && populationFile.isFile()
 							}
 							float oldValue = intCharVal.getCurrentValue();
 							// int index = intCharVal.getIndex();
-							
-							
-							
-							/* changed by Hendriek to include random number in update
-							 * was: 
-							 
-							
-							
+
+							/*
+							 * changed by Hendriek to include random number in
+							 * update was:
+							 * 
+							 * 
+							 * 
+							 * Integer newValue = (Integer)
+							 * ((ManyToOneUpdateRuleBase) updateRule)
+							 * .update(charVals);
+							 */
+							Long seed = individual
+									.getRandomNumberGeneratorSeed();
 							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
-									.update(charVals);
-							
-							*/
-							Long seed=individual.getRandomNumberGeneratorSeed();
-							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
-									.update(charVals,seed);
-							individual.setRandomNumberGeneratorSeed(nextSeed(seed));
-							
+									.update(charVals, seed);
+							individual
+									.setRandomNumberGeneratorSeed(nextSeed(seed));
+
 							/* end change by Hendriek */
 							if (newValue != null) {
 								intCharVal.appendValue(newValue);
@@ -594,24 +614,28 @@ if (populationFile.exists() && populationFile.isFile()
 			return keep;
 		}
 	}
-/* added by Hendriek */
-	
-	
-	
+
+	/* added by Hendriek */
+
 	/**
-	 * method nextSeed generates a next seed with the same algoritm as used within util.Random
-		 * 
-	 * @param seed: Long value of seed
+	 * method nextSeed generates a next seed with the same algoritm as used
+	 * within util.Random
+	 * 
+	 * @param seed
+	 *            : Long value of seed
 	 * @return
 	 */
-	public Long nextSeed(Long seed){
-		/** method nextSeed generates a next seed with the same algoritm as used within util.Random
+	public Long nextSeed(Long seed) {
+		/**
+		 * method nextSeed generates a next seed with the same algoritm as used
+		 * within util.Random
 		 * */
-		 
-			seed = (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
-			
-			
-		return seed;}
+
+		seed = (seed * 0x5DEECE66DL + 0xBL) & ((1L << 48) - 1);
+
+		return seed;
+	}
+
 	/* end added by hendriek */
 	private boolean handleFloatCharVal(FloatCharacteristicValue floatCharVal,
 			Individual individual) throws CDMRunException {
@@ -647,9 +671,16 @@ if (populationFile.exists() && populationFile.isFile()
 							for (int count = 0; count < charVals.length; count++) {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
-								if (charValBase != null) {
-									Object currValue = charValBase
-											.getCurrentValue();
+								if (charValBase != null) {/*
+									 * changed by Hendriek in order to make the
+									 * current values equal to the not yet updated
+									 * values
+									 */
+									Object currValue;
+									if (count < charValIndex)
+										currValue = charValBase.getPreviousValue();
+									else
+										currValue = charValBase.getCurrentValue();
 									charVals[count] = currValue;
 								} else {
 									charVals[count] = null;
@@ -657,18 +688,20 @@ if (populationFile.exists() && populationFile.isFile()
 							}
 							float oldValue = floatCharVal.getCurrentValue();
 							// int index = floatCharVal.getIndex();
-							
-							
-							/* changed by Hendriek to include random number in update
-							 * was: 
+
+							/*
+							 * changed by Hendriek to include random number in
+							 * update was: Float newValue = (Float)
+							 * ((ManyToOneUpdateRuleBase) updateRule)
+							 * .update(charVals);
+							 */
+
+							Long seed = individual
+									.getRandomNumberGeneratorSeed();
 							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
-									.update(charVals);
-							*/
-						
-							Long seed=individual.getRandomNumberGeneratorSeed();
-							Float newValue = (Float) ((ManyToOneUpdateRuleBase) updateRule)
-									.update(charVals,seed);
-							individual.setRandomNumberGeneratorSeed(nextSeed(seed));
+									.update(charVals, seed);
+							individual
+									.setRandomNumberGeneratorSeed(nextSeed(seed));
 							/* end change by Hendriek */
 							if (newValue != null) {
 								floatCharVal.appendValue(newValue);
@@ -739,8 +772,12 @@ if (populationFile.exists() && populationFile.isFile()
 							CharacteristicValueBase charValBase = individual
 									.get(count);
 							if (charValBase != null) {
-								Object currValue = charValBase
-										.getCurrentValue();
+								
+								Object currValue;
+								if (count < charValIndex)
+									currValue = charValBase.getPreviousValue();
+								else
+									currValue = charValBase.getCurrentValue();
 								charVals[count] = currValue;
 							} else {
 								charVals[count] = null;
@@ -756,7 +793,11 @@ if (populationFile.exists() && populationFile.isFile()
 							log.info("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
-									+ oldValue + " to " + newValue);
+									+ oldValue[0] + " , " + oldValue[1] + " , "
+									+ oldValue[2] + " , " + oldValue[3]
+									+ " to " + newValue[0] + " , "
+									+ newValue[1] + " , " + newValue[2] + " , "
+									+ newValue[3]);
 							keep = true;
 						} else {
 							throw new CDMRunException(
@@ -800,43 +841,30 @@ if (populationFile.exists() && populationFile.isFile()
 	public void setStepsBetweenSaves(int stepsBetweenSaves) {
 		this.stepsBetweenSaves = stepsBetweenSaves;
 	}
-/* added by hendriek */
-	/* get Newborns returns a deepcopy of newBorns */
-	public Population getNewBorns() throws Exception{
-		
-		// deep copy via serialization
-       
-    
-            // serialize ArrayList into byte array
-    
-            ByteArrayOutputStream baos =
-                new ByteArrayOutputStream(1000);
-            ObjectOutputStream oos = new
-                            ObjectOutputStream(baos);
-            oos.writeObject(newBorns);
-            byte buf[] = baos.toByteArray();
-            oos.close();
-    
-            // deserialize byte array into ArrayList
-    
-            ByteArrayInputStream bais =
-                new ByteArrayInputStream(buf);
-            ObjectInputStream ois = new
-                             ObjectInputStream(bais);
-            ArrayList<Individual> newlist =
-                         (ArrayList)ois.readObject();
-            ois.close();
-    
-            return (Population) newlist;
-        }
-    
-		
-		
-		
-	
 
-	public void setNewBorns(Population newBorns) {
-		this.newBorns = newBorns;
-	}
-	/* end added by hendriek */
+	/* added by hendriek */
+	/* get Newborns returns a deepcopy of newBorns */
+	/*
+	 * not used public Population getNewBorns() throws Exception {
+	 * 
+	 * // deep copy via serialization
+	 * 
+	 * // serialize ArrayList into byte array
+	 * 
+	 * ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
+	 * ObjectOutputStream oos = new ObjectOutputStream(baos);
+	 * oos.writeObject(newBorns); byte buf[] = baos.toByteArray(); oos.close();
+	 * 
+	 * // deserialize byte array into ArrayList
+	 * 
+	 * ByteArrayInputStream bais = new ByteArrayInputStream(buf);
+	 * ObjectInputStream ois = new ObjectInputStream(bais);
+	 * ArrayList<Individual> newlist = (ArrayList) ois.readObject();
+	 * ois.close();
+	 * 
+	 * return (Population) newlist; }
+	 * 
+	 * public void setNewBorns(Population[] newBorns) { this.newBorns =
+	 * newBorns; } / end added by hendriek
+	 */
 }

@@ -106,6 +106,10 @@ extends HealthStateManyToManyUpdateRule {
 
 		try {
 			int ageValue = (int) getFloat(currentValues, getAgeIndex());
+			float[] oldValue = getValues(currentValues,
+					getCharacteristicIndex());
+			if (ageValue < 0) {
+				newValue = oldValue;  return newValue;} else {
 			int sexValue = getInteger(currentValues, getSexIndex());
 			if (ageValue > 95)
 				ageValue = 95;
@@ -116,8 +120,7 @@ extends HealthStateManyToManyUpdateRule {
 			// wellicht doordat setter in andere classe dan deze??
 			if (getCharacteristicIndex() > 0)
 				setCharacteristicIndex(5);
-			float[] oldValue = getValues(currentValues,
-					getCharacteristicIndex());
+			
 			newValue = new float[oldValue.length];
 			float[] currentDiseaseStateValues = new float[oldValue.length];
 			
@@ -404,7 +407,7 @@ extends HealthStateManyToManyUpdateRule {
 
 			}
 			return newValue;
-		} catch (CDMUpdateRuleException e) {
+		} }catch (CDMUpdateRuleException e) {
 			log.fatal(e.getMessage());
 			log
 					.fatal("this message was issued by HealthStateMultiToOneUpdateRule"

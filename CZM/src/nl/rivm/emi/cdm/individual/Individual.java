@@ -180,7 +180,7 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 
 	
 	
-/* added by Hendriek */
+/* added by Hendriek 
 	
 
 	public boolean isNewborn() {
@@ -189,7 +189,7 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	
 	public int getGeneration() {
 		return generation;
-	}
+	}*/
 	
 	public void updateCompoundCharacteristicValue(int characteristicIndex, float [] newValue)
 			throws CDMRunException {

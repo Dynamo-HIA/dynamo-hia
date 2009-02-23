@@ -58,7 +58,7 @@ public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 			Node myNode = findMyNodeAtThisLevel(node);
 			while (myNode != null) {
 				String label = tryToFindLabel(myNode);
-				Individual currentIndividual = new Individual("ind", label,newborns,generation);
+				Individual currentIndividual = new Individual("ind", label);		
 				log.info("Individual " + label);
 				Node childNode = myNode.getFirstChild();
 				PRngSeedFactory seedFactory = new PRngSeedFactory(

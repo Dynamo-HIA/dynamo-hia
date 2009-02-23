@@ -132,6 +132,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			else{
 			Integer newValue = null;
 			int ageValue = (int) getFloat(currentValues, ageIndex);
+			if (ageValue<0) { newValue=oldValue;  return newValue;} else {
 			int sexValue = getInteger(currentValues, sexIndex);
 			
 			float[] p = new float[nCat];
@@ -140,7 +141,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			
 			p = transitionMatrix[ageValue][sexValue][oldValue];
 			newValue = draw(p, pRandom);
-			return newValue;}
+			return newValue;}}
 		} catch (CDMUpdateRuleException e) {log.fatal(e.getMessage());
 		log.fatal("this message was issued by CategoricalRiskFactorMultiToOneUpdateRule"+
 		 " when updating characteristic number "+"characteristicIndex");
@@ -317,7 +318,8 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 				this.getClass().getSimpleName()+" : isNullTransitions should be either 0 or 1 but is "
 				+ isNullTransitions);
 	}
-
-
+	
+	
+	
 	
 }
