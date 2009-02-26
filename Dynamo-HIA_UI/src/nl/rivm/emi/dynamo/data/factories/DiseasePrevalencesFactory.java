@@ -17,6 +17,10 @@ import org.apache.commons.logging.LogFactory;
 public class DiseasePrevalencesFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File)
+	 */
+	@Override
 	public DiseasePrevalencesObject manufactureObservable(File configurationFile)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
@@ -25,6 +29,11 @@ public class DiseasePrevalencesFactory extends AgnosticFactory {
 		return result;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File)
+	 */
+	@Override
 	public DiseasePrevalencesObject manufacture(
 			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
