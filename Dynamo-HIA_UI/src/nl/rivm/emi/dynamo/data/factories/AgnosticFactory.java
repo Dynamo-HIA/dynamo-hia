@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.PopulationSizeObject;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.markers.LeafType;
@@ -74,42 +73,57 @@ abstract public class AgnosticFactory {
 			throws ConfigurationException;
 
 	/**
+	 * 
+	 * Retrieves the data contents from the given file by parsing 
+	 * 
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
 	 * 
+	 * @param configurationFile 
 	 * @param makeObservable
-	 *            TODO
+	 * 
+	 * @return TypedHashMap HashMap that contains the data of the given file and the type of the data
+	 * @throws ConfigurationException 
 	 * @throws DynamoInconsistentDataException 
 	 */
-	protected TypedHashMap manufacture(File configurationFile,
+	public TypedHashMap manufacture(File configurationFile,
 			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-			ConfigurationNode rootNode = configurationFromFile.getRootNode();
+
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);			
+			configurationFromFile.load();			
+			
+			ConfigurationNode rootNode = configurationFromFile.getRootNode();			
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
+				log.info("Handle rootChild: " + rootChild.getName());
 				underConstruction = handleRootChild(underConstruction,
 						rootChild, makeObservable);
 			} // for rootChildren
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			log.error("Caught Exception of type: " + e.getClass().getName()
-					+ " with message: " + e.getMessage());
+			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()
+			+ " with message: " + e.getMessage() 
+			+ " Cause" + e.getCause();			
+			log.error(errorMessageLogFile);
 			e.printStackTrace();
-			throw e;
-		} catch (Exception exception) {
-			log.error("Caught Exception of type: "
-					+ exception.getClass().getName() + " with message: "
-					+ exception.getMessage());
-			exception.printStackTrace();
-			throw new DynamoInconsistentDataException("Caught Exception of type: "
-					+ exception.getClass().getName() + " with message: "
-					+ exception.getMessage() + " inside " + this.getClass().getName());
+			// Show the error message and the nested cause of the error
+			String errorMessage;
+			if (!e.getCause().getMessage().contains(":")) {
+				errorMessage = "An error occured: " + e.getMessage() + "\n" 
+				+ "Cause: " + e.getCause().getMessage();
+			} else {
+				errorMessage = "An error occured: " + e.getMessage() + "\n" 
+				+ "Cause: " + e.getCause().getMessage().split(":")[1];
+			}
+				
+			throw new ConfigurationException(errorMessage);
 		}
 	}
 
@@ -271,6 +285,8 @@ abstract public class AgnosticFactory {
 	@SuppressWarnings("unchecked")
 	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
+
+		// TODO: Validation of contents (party already exists)
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
 		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel).getType();

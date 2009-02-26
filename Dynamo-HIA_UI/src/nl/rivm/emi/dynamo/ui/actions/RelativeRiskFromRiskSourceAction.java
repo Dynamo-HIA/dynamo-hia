@@ -82,14 +82,14 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			String chosenRootElementName = props.getRootElementName();
 			if (chosenRootElementName == null) {
 					theModal = new RelRiskFromOtherDiseaseModal(shell, file
-							.getAbsolutePath(), rootElementName,
+							.getAbsolutePath(), file.getAbsolutePath(), rootElementName,
 							node, props);
 			} else {
 				fillRootElementName(chosenRootElementName);
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 						.getNodeLabel().equals(chosenRootElementName)) {
 					theModal = new RelRiskFromRiskFactorCategoricalModal(
-							shell, file.getAbsolutePath(),
+							shell, file.getAbsolutePath(), file.getAbsolutePath(),
 							rootElementName, node, props);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_COMPOUND
@@ -100,7 +100,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 								.getNodeLabel().equals(
 										chosenRootElementName)) {
 							theModal = new RelRiskFromRiskFactorContinuousModal(
-									shell, file.getAbsolutePath(),
+									shell, file.getAbsolutePath(), file.getAbsolutePath(),
 									rootElementName, node, props);
 						} else {
 							throw new DynamoConfigurationException(

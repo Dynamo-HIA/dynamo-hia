@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.data.objects.layers;
 
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 
 /**
  * BaseClass for Dynamo-HIA configuration Object s/parts. 
@@ -14,7 +13,6 @@ public abstract class DualModeObjectBase {
 	protected boolean observable;
 
 	protected DualModeObjectBase(boolean observable) {
-		super();
 		this.observable = observable;
 	}
 

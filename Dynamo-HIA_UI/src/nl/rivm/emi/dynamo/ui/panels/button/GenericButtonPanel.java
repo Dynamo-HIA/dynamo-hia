@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
 import nl.rivm.emi.dynamo.ui.listeners.selection.CancelSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
@@ -15,8 +16,10 @@ import org.eclipse.swt.widgets.Shell;
 public class GenericButtonPanel extends Composite {
 
 	Button saveButton;
+	Button importButton;
 	DataAndFileContainer modalParent;
 
+	// TODO: implement import button listener and actions
 	public GenericButtonPanel(Shell shell) {
 		super(shell, SWT.NONE);
 		setSize(100, 35);
@@ -24,7 +27,7 @@ public class GenericButtonPanel extends Composite {
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		saveButton = putSaveButton(this);
-		Button importButton = putImportButton(this, saveButton);
+		importButton = putImportButton(this, saveButton);
 		Button cancelButton = putCancelButton(this, importButton);
 		cancelButton.addSelectionListener(new CancelSelectionListener(shell));
 		pack();
@@ -41,6 +44,7 @@ public class GenericButtonPanel extends Composite {
 	public void setModalParent(DataAndFileContainer theParent) {
 		modalParent = theParent;
 		saveButton.addSelectionListener(new SaveSelectionListener(modalParent));
+		importButton.addSelectionListener(new ImportSelectionListener(modalParent));
 	}
 
 	static private Button putSaveButton(Composite panel) {
@@ -58,7 +62,7 @@ public class GenericButtonPanel extends Composite {
 			Button leftNeighbour) {
 		FormData formData;
 		Button importButton = new Button(composite, SWT.PUSH);
-		importButton.setText("Import");
+		importButton.setText("Import");			
 		formData = new FormData();
 		formData.left = new FormAttachment(leftNeighbour, 15);
 		formData.bottom = new FormAttachment(100, -5);

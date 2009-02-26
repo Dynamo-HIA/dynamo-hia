@@ -2,13 +2,13 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
@@ -35,7 +35,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
-		String filePath = modalParent.getFilePath();
+		String filePath = modalParent.getConfigurationFilePath();
 		File configurationFile = new File(filePath);
 		try {
 			Object modelObject = modalParent
@@ -55,6 +55,9 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

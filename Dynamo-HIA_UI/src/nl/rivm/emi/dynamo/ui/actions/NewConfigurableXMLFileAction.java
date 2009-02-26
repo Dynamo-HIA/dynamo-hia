@@ -4,26 +4,17 @@ package nl.rivm.emi.dynamo.ui.actions;
  * DEvelop with populationSize as concrete implementation.
  */
 import java.io.File;
-import java.io.IOException;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.dispatch.DispatchEnum;
-import nl.rivm.emi.dynamo.data.factories.dispatch.DispatchMap;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class NewConfigurableXMLFileAction extends NewActionBase {
@@ -76,7 +67,7 @@ public class NewConfigurableXMLFileAction extends NewActionBase {
 		if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
 				rootElementName)) {
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
-					candidatePath + ".xml", rootElementName, null);
+					candidatePath + ".xml", candidatePath + ".xml", this.rootElementName, null);
 			popSizeModal.open();
 		} else {
 			log.fatal("What lse?");

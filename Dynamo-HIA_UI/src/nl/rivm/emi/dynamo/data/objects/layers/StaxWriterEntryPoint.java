@@ -9,12 +9,9 @@ import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.FactoryEntryPoint;
-import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 
 public abstract class StaxWriterEntryPoint extends FactoryEntryPoint {

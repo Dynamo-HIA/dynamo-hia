@@ -9,9 +9,11 @@ import org.eclipse.swt.widgets.Shell;
 
 public class TreeViewerPlusCustomMenu {
 
+	private static TreeViewer treeViewer = null; 
+	
 	public TreeViewerPlusCustomMenu(Shell shell,
 			StorageTreeContentProvider contentProvider) {
-		final TreeViewer treeViewer = new TreeViewer(shell);
+		treeViewer = new TreeViewer(shell);
 		treeViewer.setLabelProvider(new FileTreeLabelProvider());
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setSorter(new ViewerSorter());
@@ -20,5 +22,12 @@ public class TreeViewerPlusCustomMenu {
 		mgr.setRemoveAllWhenShown(true);
 		mgr.addMenuListener(new StorageTreeMenuListener(shell, treeViewer));
 		treeViewer.getControl().setMenu(mgr.createContextMenu(treeViewer.getControl()));
+	}
+	
+	/**
+	 * @return TreeViewer
+	 */
+	public static TreeViewer getTreeViewerInstance() {
+		return treeViewer;
 	}
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -25,21 +26,33 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * 
+ * StAX Writer that writes the data to a TypedHashMap
+ * 
+ * @author schutb
+ *
+ */
 public class StAXAgnosticTypedHashMapWriter {
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter");
 
+
 	/**
 	 * 
-	 * @param population
-	 * @param populationFile
+	 * Creates the xml file
+	 * 
+	 * @param fileControl
+	 * @param theModel
+	 * @param outputFile
 	 * @throws XMLStreamException
 	 * @throws UnexpectedFileStructureException
 	 * @throws IOException
+	 * @throws URISyntaxException 
 	 */
 	static public void produceFile(FileControlEnum fileControl,
 			TypedHashMap theModel, File outputFile) throws XMLStreamException,
-			UnexpectedFileStructureException, IOException {
+			UnexpectedFileStructureException, IOException, URISyntaxException {
 		if (theModel != null) {
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter = new FileWriter(outputFile);
@@ -53,13 +66,21 @@ public class StAXAgnosticTypedHashMapWriter {
 		}
 	}
 
+	/**
+	 * 
+	 * Writes the contents of the XML document
+	 * 
+	 * @param fileControl
+	 * @param hierarchicalConfiguration
+	 * @param writer
+	 * @param eventFactory
+	 * @throws XMLStreamException
+	 * @throws URISyntaxException 
+	 */	
 	static public void streamDocument(FileControlEnum fileControl,
 			TypedHashMap hierarchicalConfiguration, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException {
+			XMLEventFactory eventFactory) throws XMLStreamException, URISyntaxException {
 		XMLEvent event = eventFactory.createStartDocument();
-		writer.add(event);
-		event = eventFactory.createStartElement("", "", fileControl
-				.getRootElementName());
 		writer.add(event);
 		LinkedHashMap<String, Number> leafValueMap = new LinkedHashMap<String, Number>();
 		flattenLeafData(fileControl, hierarchicalConfiguration, leafValueMap,
@@ -152,7 +173,8 @@ public class StAXAgnosticTypedHashMapWriter {
 			writer.add(event);
 			event = eventFactory.createEndElement("", "", entry.getKey());
 			writer.add(event);
-			log.debug("Streamed element with name: " + entry.getKey() + " and valuestring: " + valueString);
+			log.debug("Streamed element with name: " + entry.getKey()
+					+ " and valuestring: " + valueString);
 		}
 		int level = leafValueMap.size();
 		String elementName = fileControl.getParameterType(level)
@@ -169,7 +191,8 @@ public class StAXAgnosticTypedHashMapWriter {
 		writer.add(event);
 		event = eventFactory.createEndElement("", "", elementName);
 		writer.add(event);
-		log.debug("Streamed element with name: " + elementName + " and valuestring: " + containedValue.toString());
+		log.debug("Streamed element with name: " + elementName
+				+ " and valuestring: " + containedValue.toString());
 		event = eventFactory.createEndElement("", "",
 				fileControl.rootChildElementName);
 		writer.add(event);

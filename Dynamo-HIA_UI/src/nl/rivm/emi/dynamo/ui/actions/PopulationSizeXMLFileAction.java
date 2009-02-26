@@ -49,7 +49,7 @@ public class PopulationSizeXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
-					file.getAbsolutePath(), rootElementName, node);
+					file.getAbsolutePath(), file.getAbsolutePath(), rootElementName, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = file.exists();

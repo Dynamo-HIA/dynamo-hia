@@ -47,17 +47,18 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	 * root-tagname.
 	 * 
 	 * @param modelObject
-	 *            TODO
-	 * @param makeObservable
-	 *            TODO
+	 * @param dataFilePath 
+	 *
+	 * @return ConfigurationObjectBase data of the parsed xml
+	 * @throws ConfigurationException 
 	 * @throws DynamoInconsistentDataException
 	 */
 	protected ConfigurationObjectBase manufacture(
-			ConfigurationObjectBase modelObject, String configurationFilePath)
+			ConfigurationObjectBase modelObject, String dataFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		synchronized (this) {
 			log.debug(" Starting manufacture.");
-			File configurationFile = new File(configurationFilePath);
+			File configurationFile = new File(dataFilePath);
 			if (!configurationFile.exists()) {
 				modelObject = handleRootChildren(modelObject, null);
 			} else {
@@ -75,6 +76,11 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 						try {
 							configurationFromFile = new XMLConfiguration(
 									configurationFile);
+							
+							// Validate the xml by xsd schema
+							configurationFromFile.setValidating(true);			
+							configurationFromFile.load();
+							
 							ConfigurationNode rootNode = configurationFromFile
 									.getRootNode();
 							List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
@@ -87,20 +93,16 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 									+ e.getClass().getName()
 									+ " with message: " + e.getMessage());
 							e.printStackTrace();
-							throw e;
-						} catch (Exception exception) {
-							log.error("Caught Exception of type: "
-									+ exception.getClass().getName()
-									+ " with message: "
-									+ exception.getMessage());
-							exception.printStackTrace();
-							throw new DynamoInconsistentDataException(
-									"Caught Exception of type: "
-											+ exception.getClass().getName()
-											+ " with message: "
-											+ exception.getMessage()
-											+ " inside "
-											+ this.getClass().getName());
+							// Show the error message and the nested cause of the error
+							String errorMessage;
+							if (!e.getCause().getMessage().contains(":")) {
+								errorMessage = "An error occured: " + e.getMessage() + "\n" 
+								+ "Cause: " + e.getCause().getMessage();
+							} else {
+								errorMessage = "An error occured: " + e.getMessage() + "\n" 
+								+ "Cause: " + e.getCause().getMessage().split(":")[1];
+							}							
+							throw new ConfigurationException(errorMessage);
 						}
 					}
 				}
@@ -117,7 +119,7 @@ abstract public class FactoryEntryPoint extends ConfigurationObjectBase {
 	 * @param makeObservable
 	 * @param rootChildren
 	 *            The direct children of the rootElement of the
-	 *            configurationfile. When null is passed an Object with default
+	 *            datafile. When null is passed an Object with default
 	 *            values must be constructed.
 	 * @return
 	 * @throws ConfigurationException

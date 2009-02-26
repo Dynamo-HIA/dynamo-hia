@@ -9,15 +9,26 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDisabilityContinuousModal extends AgnosticModal implements
-		Runnable, DataAndFileContainer {
+/**
+ * @author schutb
+ * 
+ */
+public class RelRiskForDisabilityContinuousModal extends AgnosticModal {
 
+	/**
+	 * @param parentShell
+	 * @param dataFilePath 
+	 * @param configurationFilePath
+	 * @param rootElementName
+	 * @param selectedNode
+	 */
 	public RelRiskForDisabilityContinuousModal(Shell parentShell,
-			String configurationFilePath, String rootElementName,
+			String dataFilePath, String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {
-		super(parentShell, configurationFilePath, rootElementName, selectedNode);
+		super(parentShell, dataFilePath, configurationFilePath, rootElementName, selectedNode);
 	}
 
+	@Override
 	protected String createCaption(BaseNode selectedNode2) {
 		return "Relative risk for disability, continuous,";
 	}
@@ -25,8 +36,9 @@ public class RelRiskForDisabilityContinuousModal extends AgnosticModal implement
 	@Override
 	protected void specializedOpenPart(Composite buttonPanel) {
 		RelativeRisksContinuousGroup relativeRiskForDisabilityGroup = new RelativeRisksContinuousGroup(
-				shell, modelObject, dataBindingContext, selectedNode, helpPanel);
-		relativeRiskForDisabilityGroup
-				.setFormData(helpPanel.getGroup(), buttonPanel);
+				this.shell, this.lotsOfData, this.dataBindingContext,
+				this.selectedNode, this.helpPanel);
+		relativeRiskForDisabilityGroup.setFormData(this.helpPanel.getGroup(),
+				buttonPanel);
 	}
 }

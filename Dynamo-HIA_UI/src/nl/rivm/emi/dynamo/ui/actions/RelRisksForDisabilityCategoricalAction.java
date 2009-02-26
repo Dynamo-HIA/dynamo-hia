@@ -81,7 +81,7 @@ public class RelRisksForDisabilityCategoricalAction extends ActionBase {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(configurationRootElementName)) {
 					theModal = new RelRiskForDisabilityCategoricalModal(
-							shell,
+							shell, file.getAbsolutePath(),
 							file.getAbsolutePath(),
 							RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
 									.getNodeLabel(), node);

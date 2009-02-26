@@ -82,16 +82,19 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 			if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 					.equals(selectedRootElementName)) {
 				theModal = new RiskFactorCategoricalModal(shell, file
+						.getAbsolutePath(), file
 						.getAbsolutePath(), selectedRootElementName, node);
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
 						.equals(selectedRootElementName)) {
 					theModal =  new RiskFactorContinuousModal(shell, file
+							.getAbsolutePath(), file
 							.getAbsolutePath(), selectedRootElementName, node);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 							.equals(selectedRootElementName)) {
 						theModal =  new RiskFactorCompoundModal(shell, file
+								.getAbsolutePath(), file
 								.getAbsolutePath(), selectedRootElementName, node);
 					} else {
 						throw new DynamoConfigurationException(

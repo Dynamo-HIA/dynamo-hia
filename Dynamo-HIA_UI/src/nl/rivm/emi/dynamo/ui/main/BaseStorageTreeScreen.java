@@ -1,10 +1,6 @@
 package nl.rivm.emi.dynamo.ui.main;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
@@ -52,7 +48,6 @@ public class BaseStorageTreeScreen {
 				}
 			});
 			baseDirectoryPath = selectBaseDirectory(baseDirectoryPath);
-			createMenuBar();
 			StorageTree testTree = new StorageTree(baseDirectoryPath);
 			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
 					testTree.getRootNode());
@@ -106,12 +101,12 @@ public class BaseStorageTreeScreen {
 	}
 
 	private void editEntry() {
-		FileDialog fileDialog = new FileDialog(shell);
+		FileDialog fileDialog = new FileDialog(this.shell);
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
 		DiseaseIncidencesModal dialog;
-		dialog = new DiseaseIncidencesModal(shell,
+		dialog = new DiseaseIncidencesModal(this.shell, selectedConfigurationFilePath,
 				selectedConfigurationFilePath, selectedConfigurationFilePath, null);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);

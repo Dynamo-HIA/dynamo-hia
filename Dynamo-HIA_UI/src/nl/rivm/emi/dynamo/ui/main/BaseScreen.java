@@ -61,12 +61,13 @@ public class BaseScreen {
 	}
 
 	private void editEntry() {
-		FileDialog fileDialog = new FileDialog(shell);
+		FileDialog fileDialog = new FileDialog(this.shell);
 		fileDialog.open();
 		String selectedConfigurationFilePath = fileDialog.getFilterPath()
 				+ File.separator + fileDialog.getFileName();
 		DiseaseIncidencesModal dialog = new DiseaseIncidencesModal(
-				shell, selectedConfigurationFilePath, selectedConfigurationFilePath, null);
+				this.shell, selectedConfigurationFilePath, 
+				selectedConfigurationFilePath, selectedConfigurationFilePath, null);
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 				dialog);
 	}

@@ -97,19 +97,19 @@ public class RiskFactorCompoundObject extends StaxWriterEntryPoint implements
 	/**
 	 * Create a modelObject from an XML configurationfile.
 	 * 
-	 * @param modelObject
-	 * @param configurationFile
-	 * @return
+	 * @param dataFilePath
+	 * @return RiskFactorCategoricalObject data representation of the xml
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	public RiskFactorCompoundObject manufacture(String configurationFilePath)
+	@Override
+	public RiskFactorCompoundObject manufacture(String dataFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		log.debug("Starting manufacture.");
-		manufacture(this, configurationFilePath);
+		this.log.debug("Starting manufacture.");
+		manufacture(this, dataFilePath);
 		return this;
 	}
-
+	
 	protected ConfigurationObjectBase handleRootChildren(
 			ConfigurationObjectBase modelObject,
 			List<ConfigurationNode> rootChildren) throws ConfigurationException {
@@ -136,12 +136,12 @@ public class RiskFactorCompoundObject extends StaxWriterEntryPoint implements
 	}
 
 	// write
+	@Override
 	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
-		event = eventFactory.createStartElement("", "", rootElement
-				.getNodeLabel());
+		event = eventFactory.createStartElement("", "", this.rootElement.getNodeLabel());
 		writer.add(event);
 		categoricalObjectImplementation.streamEvents(writer, eventFactory);
 		referenceCategoryObjectImplementation

@@ -81,7 +81,7 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(rootElementName)) {
 					theModal = new RiskFactorCategoricalPrevalencesModal(
-							shell,
+							shell, file.getAbsolutePath(),
 							file.getAbsolutePath(),
 							RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 									.getNodeLabel(), node);

@@ -4,15 +4,9 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import java.io.File;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,19 +17,16 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 public class RiskFactorTypeBulletsModal implements Runnable {
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private Shell shell;
-	private HelpGroup helpPanel;
 	private BaseNode selectedNode;
 	private String newFilePath = "";
 	/** Three type radiobuttons. */
@@ -44,20 +35,31 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 	private String selectedRootElementName = RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 			.getNodeLabel();
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param parentShell
+	 * @param configurationFilePath 
+	 * @param selectedNode
+	 */
 	public RiskFactorTypeBulletsModal(Shell parentShell,
 			String configurationFilePath, BaseNode selectedNode) {
 		this.selectedNode = selectedNode;
-		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
+		this.shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
-		shell.setText("Choose the risk factor type:");
+		this.shell.setText("Choose the risk factor type:");
 		FormLayout formLayout = new FormLayout();
-		shell.setLayout(formLayout);
+		this.shell.setLayout(formLayout);
 	}
 
+	/**
+	 * 
+	 */
 	public synchronized void open() {
-		radioButtons[0] = new Button(shell, SWT.RADIO);
-		radioButtons[0].setText("categorical");
-		radioButtons[0].addListener(SWT.Selection, new Listener() {
+		this.radioButtons[0] = new Button(this.shell, SWT.RADIO);
+		this.radioButtons[0].setText("categorical");
+		this.radioButtons[0].addListener(SWT.Selection, new Listener() {
 			RootElementNamesEnum myRootElementNamesEnum = RootElementNamesEnum.RISKFACTOR_CATEGORICAL;
 
 			public void handleEvent(Event arg0) {

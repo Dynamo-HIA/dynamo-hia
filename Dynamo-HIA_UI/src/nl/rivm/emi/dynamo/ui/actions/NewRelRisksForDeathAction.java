@@ -7,7 +7,6 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
-import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -83,7 +82,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(configurationRootElementName)) {
 					theModal = new RelRiskForDeathCategoricalModal(
-							shell,
+							shell, file.getAbsolutePath(),
 							file.getAbsolutePath(),
 							RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
 									.getNodeLabel(), node);
@@ -91,7 +90,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(configurationRootElementName)) {
 						theModal = new RelRiskForDeathContinuousModal(
-								shell,
+								shell, file.getAbsolutePath(),
 								file.getAbsolutePath(),
 								RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS
 										.getNodeLabel(), node);

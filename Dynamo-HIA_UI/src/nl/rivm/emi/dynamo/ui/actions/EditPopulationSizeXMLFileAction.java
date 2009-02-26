@@ -9,7 +9,6 @@ import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,7 +41,7 @@ public class EditPopulationSizeXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = candidateFile.exists();
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
-					candidatePath + ".xml", rootElementName, node);
+					candidatePath + ".xml", candidatePath + ".xml", rootElementName, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = candidateFile.exists();

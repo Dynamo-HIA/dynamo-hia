@@ -5,17 +5,12 @@ import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
-import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
-import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
-import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;

@@ -6,7 +6,6 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
-import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -50,7 +49,7 @@ public class OverallDALYWeightsXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			OverallMortalityModal popSizeModal = new OverallMortalityModal(shell,
-					file.getAbsolutePath(), rootElementName, node);
+					file.getAbsolutePath(), file.getAbsolutePath(), rootElementName, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = file.exists();

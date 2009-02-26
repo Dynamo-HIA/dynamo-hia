@@ -62,44 +62,46 @@ public class XMLFileAction extends ActionBase {
 		} else {
 			filePath = node.getPhysicalStorage().getAbsolutePath();
 		}
-		File file = new File(filePath);
-		processThroughModal(file);
+		File savedFile = new File(filePath);
+		
+		// Process the data and set the location of the file to be saved
+		processThroughModal(savedFile, savedFile);
 	}
 
-	private void processThroughModal(File file) {
+	public void processThroughModal(File dataFile, File savedFile) {
 		try {
-			boolean isOld = file.exists();
+			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
 			if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
 					rootElementName)) {
-				theModal = new PopulationSizeModal(shell, file
+				theModal = new PopulationSizeModal(shell, dataFile.getAbsolutePath(), savedFile
 						.getAbsolutePath(), rootElementName, node);
 			} else {
 				if (RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel()
 						.equals(rootElementName)) {
-					theModal = new OverallMortalityModal(shell, file
+					theModal = new OverallMortalityModal(shell, dataFile.getAbsolutePath(), savedFile
 							.getAbsolutePath(), rootElementName, node);
 				} else {
 					if (RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel()
 							.equals(rootElementName)) {
-						theModal = new OverallDALYWeightsModal(shell, file
+						theModal = new OverallDALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
 								.getAbsolutePath(), rootElementName, node);
 					} else {
 						if (RootElementNamesEnum.DISEASEINCIDENCES
 								.getNodeLabel().equals(rootElementName)) {
-							theModal = new DiseaseIncidencesModal(shell, file
+							theModal = new DiseaseIncidencesModal(shell, dataFile.getAbsolutePath(), savedFile
 									.getAbsolutePath(), rootElementName, node);
 						} else {
 							if (RootElementNamesEnum.DISEASEPREVALENCES
 									.getNodeLabel().equals(rootElementName)) {
 								theModal = new DiseasePrevalencesModal(shell,
-										file.getAbsolutePath(),
+										dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
 										rootElementName, node);
 							} else {
 								if (RootElementNamesEnum.DALYWEIGHTS
 										.getNodeLabel().equalsIgnoreCase(
 												rootElementName)) {
-									theModal = new DALYWeightsModal(shell, file
+									theModal = new DALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
 											.getAbsolutePath(),
 											rootElementName, node);
 								} else {
@@ -107,14 +109,14 @@ public class XMLFileAction extends ActionBase {
 											.getNodeLabel().equalsIgnoreCase(
 													rootElementName)) {
 										theModal = new RelRiskFromOtherDiseaseModal(
-												shell, file.getAbsolutePath(),
+												shell, dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
 												rootElementName, node, null);
 									} else {
 										if (RootElementNamesEnum.SIMULATION
 												.getNodeLabel().equals(
 														rootElementName)) {
 											theModal = new SimulationModal(
-													shell, file
+													shell, dataFile.getAbsolutePath(), savedFile
 															.getAbsolutePath(),
 													rootElementName, node);
 										} else {
@@ -124,7 +126,7 @@ public class XMLFileAction extends ActionBase {
 															rootElementName)) {
 												theModal = new RiskFactorCategoricalModal(
 														shell,
-														file.getAbsolutePath(),
+														dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
 														rootElementName, node);
 											} else {
 												if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
@@ -132,7 +134,7 @@ public class XMLFileAction extends ActionBase {
 														.equals(rootElementName)) {
 													theModal = new RiskFactorContinuousModal(
 															shell,
-															file
+															dataFile.getAbsolutePath(), savedFile
 																	.getAbsolutePath(),
 															rootElementName,
 															node);
@@ -143,7 +145,7 @@ public class XMLFileAction extends ActionBase {
 																	rootElementName)) {
 														theModal = new RiskFactorCompoundModal(
 																shell,
-																file
+																dataFile.getAbsolutePath(), savedFile
 																		.getAbsolutePath(),
 																rootElementName,
 																node);
@@ -154,7 +156,7 @@ public class XMLFileAction extends ActionBase {
 																		rootElementName)) {
 															theModal = new RelRiskFromRiskFactorCategoricalModal(
 																	shell,
-																	file
+																	dataFile.getAbsolutePath(), savedFile
 																			.getAbsolutePath(),
 																	rootElementName,
 																	node, null);
@@ -165,7 +167,7 @@ public class XMLFileAction extends ActionBase {
 																			rootElementName)) {
 																theModal = new RelRiskFromRiskFactorContinuousModal(
 																		shell,
-																		file
+																		dataFile.getAbsolutePath(), savedFile
 																				.getAbsolutePath(),
 																		rootElementName,
 																		node,
@@ -177,7 +179,7 @@ public class XMLFileAction extends ActionBase {
 																				rootElementName)) {
 																	theModal = new RiskFactorCompoundModal(
 																			shell,
-																			file
+																			dataFile.getAbsolutePath(), savedFile
 																					.getAbsolutePath(),
 																			rootElementName,
 																			node);
@@ -188,7 +190,7 @@ public class XMLFileAction extends ActionBase {
 																					rootElementName)) {
 																		theModal = new RiskFactorCategoricalPrevalencesModal(
 																				shell,
-																				file
+																				dataFile.getAbsolutePath(), savedFile
 																						.getAbsolutePath(),
 																				rootElementName,
 																				node);
@@ -199,7 +201,7 @@ public class XMLFileAction extends ActionBase {
 																						rootElementName)) {
 																			theModal = new RelRiskForDeathCategoricalModal(
 																					shell,
-																					file
+																					dataFile.getAbsolutePath(), savedFile
 																							.getAbsolutePath(),
 																					rootElementName,
 																					node);
@@ -210,7 +212,7 @@ public class XMLFileAction extends ActionBase {
 																							rootElementName)) {
 																				theModal = new RelRiskForDeathContinuousModal(
 																						shell,
-																						file
+																						dataFile.getAbsolutePath(), savedFile
 																								.getAbsolutePath(),
 																						rootElementName,
 																						node);
@@ -221,7 +223,7 @@ public class XMLFileAction extends ActionBase {
 																								rootElementName)) {
 																					theModal = new RelRiskForDisabilityCategoricalModal(
 																							shell,
-																							file
+																							dataFile.getAbsolutePath(), savedFile
 																									.getAbsolutePath(),
 																							rootElementName,
 																							node);
@@ -232,7 +234,7 @@ public class XMLFileAction extends ActionBase {
 																									rootElementName)) {
 																						theModal = new RelRiskForDisabilityContinuousModal(
 																								shell,
-																								file
+																								dataFile.getAbsolutePath(), savedFile
 																										.getAbsolutePath(),
 																								rootElementName,
 																								node);
@@ -262,17 +264,17 @@ public class XMLFileAction extends ActionBase {
 			}
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
-			boolean isPresentAfter = file.exists();
+			boolean isPresentAfter = savedFile.exists();
 			if (isPresentAfter && !isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
-						(ParentNode) node, file));
+						(ParentNode) node, savedFile));
 			}
 			theViewer.refresh();
 		} catch (Exception e) {
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
 					SWT.ERROR_ITEM_NOT_ADDED);
-			messageBox.setMessage("Creation of \"" + file.getName()
+			messageBox.setMessage("Creation of \"" + savedFile.getName()
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();

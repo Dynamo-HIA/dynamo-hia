@@ -1,8 +1,8 @@
 package nl.rivm.emi.dynamo.data.objects;
+
 /**
  * Model Object for the configuration of a categorical riskfactor.
  */
-import java.io.File;
 import java.util.List;
 
 import javax.xml.stream.XMLEventFactory;
@@ -38,8 +38,10 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 
 	public RiskFactorCategoricalObject(boolean makeObservable) {
 		super(RootElementNamesEnum.RISKFACTOR_CATEGORICAL, makeObservable);
-		categoricalObjectImplementation = new CategoricalObjectImplementation(makeObservable);
-		referenceCategoryObjectImplementation = new ReferenceCategoryObjectImplementation(makeObservable);
+		categoricalObjectImplementation = new CategoricalObjectImplementation(
+				makeObservable);
+		referenceCategoryObjectImplementation = new ReferenceCategoryObjectImplementation(
+				makeObservable);
 	}
 
 	public String getCategoryName(Integer index) {
@@ -58,8 +60,7 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 	 * NB makeObservable is a don't care here!
 	 */
 	public Object putCategory(Integer index, String name) {
-		return categoricalObjectImplementation.putCategory(index,
-				name);
+		return categoricalObjectImplementation.putCategory(index, name);
 	}
 
 	public Integer getReferenceCategory() {
@@ -67,58 +68,62 @@ public class RiskFactorCategoricalObject extends StaxWriterEntryPoint implements
 	}
 
 	public WritableValue getObservableReferenceCategory() {
-		return referenceCategoryObjectImplementation.getObservableReferenceCategory();
+		return referenceCategoryObjectImplementation
+				.getObservableReferenceCategory();
 	}
-	
+
 	public Object putReferenceCategory(Integer index) {
-		return referenceCategoryObjectImplementation.putReferenceCategory(
-				index);
+		return referenceCategoryObjectImplementation
+				.putReferenceCategory(index);
 	}
 
 	/**
 	 * Create a modelObject from an XML configurationfile.
 	 * 
-	 * @param modelObject
-	 * @param configurationFile
-	 * @return
+	 * @param dataFilePath
+	 * @return RiskFactorCategoricalObject data representation of the xml
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	 public RiskFactorCategoricalObject manufacture(String configurationFilePath)
-	 throws ConfigurationException, DynamoInconsistentDataException {
-	 log.debug("Starting manufacture.");
-	 manufacture(this, configurationFilePath);
-	 return this;
-	 }
+	@Override
+	public RiskFactorCategoricalObject manufacture(String dataFilePath)
+			throws ConfigurationException, DynamoInconsistentDataException {
+		this.log.debug("Starting manufacture.");
+		manufacture(this, dataFilePath);
+		return this;
+	}
+
 	protected ConfigurationObjectBase handleRootChildren(
 			ConfigurationObjectBase modelObject,
 			List<ConfigurationNode> rootChildren) throws ConfigurationException {
-	if(rootChildren != null){
-		for (ConfigurationNode rootChild : rootChildren) {
-			String childName = rootChild.getName();
-			log.debug("Handle rootChild: " + childName);
-			XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
-					childName);
-			if ((entity != null) && (entity instanceof IHandlerType)) {
-				modelObject = ((IHandlerType) entity).handle(modelObject,
-						rootChild);
-			} else {
-				throw new ConfigurationException("Unhandled rootChild element: " + childName);
+		if (rootChildren != null) {
+			for (ConfigurationNode rootChild : rootChildren) {
+				String childName = rootChild.getName();
+				log.debug("Handle rootChild: " + childName);
+				XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
+						childName);
+				if ((entity != null) && (entity instanceof IHandlerType)) {
+					modelObject = ((IHandlerType) entity).handle(modelObject,
+							rootChild);
+				} else {
+					throw new ConfigurationException(
+							"Unhandled rootChild element: " + childName);
+				}
 			}
+		} else {
+			categoricalObjectImplementation.manufactureDefault();
+			referenceCategoryObjectImplementation.manufactureDefault();
 		}
-	} else {
-		categoricalObjectImplementation.manufactureDefault();
-		referenceCategoryObjectImplementation.manufactureDefault();
-	}
 		return modelObject;
 	}
 
 	// write
+	@Override
 	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
-		event = eventFactory.createStartElement("", "", rootElement
+		event = eventFactory.createStartElement("", "", this.rootElement
 				.getNodeLabel());
 		writer.add(event);
 		categoricalObjectImplementation.streamEvents(writer, eventFactory);
