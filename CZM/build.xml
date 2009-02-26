@@ -10,8 +10,13 @@
 	
     <target name="clean">
         <delete dir="${build.dir}"/>
+    	<delete dir="${nl.rivm.emi.cdm.dir}/nl"/>
     </target>
 
+    <target name="clean-build">
+        <delete dir="${build.dir}"/>
+    </target>	
+	
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
         <!--javac srcdir="${src.dir}" destdir="${classes.dir}"	includes="*${lib.dir}/*.jar" /-->
@@ -21,7 +26,6 @@
     		<classpath>
     			<fileset dir="${lib.dir}" includes="*.jar"/>
 			</classpath>
-
     	</javac>
 
     	
@@ -47,8 +51,6 @@
 	<target name="run" depends="jar">
         <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
     </target>
-
-    <target name="clean-build" depends="clean"/>
 
     <target name="main" depends="clean,jar,nl.rivm.emi.cdm"/>
 
