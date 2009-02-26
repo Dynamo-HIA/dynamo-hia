@@ -1,0 +1,44 @@
+<project name="CZM_Main" basedir="." default="main">
+	
+	<!-- Copies the schema and linux86 jre into the installation dirs -->
+	
+	
+	<property name="schemas.dir"     value="schemas"/>
+	<property name="release.linux86.dir"     value="C:/dynamo/releases/linux.gtk.x86/eclipse/"/>
+	<property name="release.windows.dir"     value="C:/dynamo/releases/win32.win32.x86/eclipse/"/>
+	
+	<property name="jre.linux86.dir"     value="jre/"/>
+	
+	
+	
+    <target name="clean">
+    	<delete dir="${release.linux86.dir}${jre.linux86.dir}"/>
+    	<delete dir="${release.windows.dir}${schemas.dir}"/>
+    	<delete dir="${release.linux86.dir}${schemas.dir}"/>    	
+    </target>
+
+	<target name="createdirs" depends="createschemadirs,createlinux86jre"/>
+  	
+  	<target name="createschemadirs" depends="createwindowsschemadir,createlinux86schemadir"/>
+  	
+  	<target name="createlinux86jre">
+ 	  <copy todir="${release.linux86.dir}${jre.linux86.dir}">
+   	    <fileset dir="${jre.linux86.dir}"/>
+   	  </copy>
+  	</target>
+	
+  	<target name="createwindowsschemadir">
+ 	  <copy todir="${release.windows.dir}${schemas.dir}">
+   	    <fileset dir="${schemas.dir}"/>
+   	  </copy>  		  		
+  	</target>
+
+  	<target name="createlinux86schemadir">
+ 	  <copy todir="${release.linux86.dir}${schemas.dir}">
+   	    <fileset dir="${schemas.dir}"/>
+   	  </copy>  		
+  	</target>
+
+    <target name="main" depends="clean,createdirs"/>
+
+</project>
