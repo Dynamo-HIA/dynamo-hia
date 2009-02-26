@@ -21,4 +21,5 @@ Require-Bundle: org.apache.commons.collections,
  org.eclipse.core.runtime,
  org.apache.commons.lang,
  org.apache.ant,
- javax.xml
+ javax.xml,
+ org.eclipse.core.resources;bundle-version="3.4.1"

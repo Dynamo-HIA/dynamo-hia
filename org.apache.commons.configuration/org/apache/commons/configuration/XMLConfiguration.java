@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -46,6 +47,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.DOMException;
@@ -182,6 +188,18 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
     /** Constant for the delimiter for multiple attribute values.*/
     private static final char ATTR_VALUE_DELIMITER = '|';
 
+	private static final String DEV_DYNAMO_FILEPATH = "C:/dynamo/eclipse_workspaces/dynamo/Dynamo-HIA_UI/schemas/";
+
+	private static final String SCHEMAS_LOCATION = "schemas";
+
+	private static final String XSD_EXTENSION = ".xsd";
+
+	private static final String JAXP_SCHEMA_LANGUAGE_NAME = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+
+	private static final Object JAXP_SCHEMA_LANGUAGE_VALUE = "http://www.w3.org/2001/XMLSchema";
+
+	private static final String JAXP_SCHEMA_SOURCE_NAME = "http://java.sun.com/xml/jaxp/properties/schemaSource";
+
     /** The document from this configuration's data source. */
     private Document document;
 
@@ -205,7 +223,11 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 
     /** A flag whether attribute splitting is disabled.*/
     private boolean attributeSplittingDisabled;
+	
+	private File schemaFile;
 
+	private static Log log = LogFactory.getLog(XMLConfiguration.class);
+	
     /**
      * Creates a new instance of <code>XMLConfiguration</code>.
      */
@@ -251,10 +273,16 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
      * @throws ConfigurationException if an error occurs while loading the file
      */
     public XMLConfiguration(File file) throws ConfigurationException
-    {
-        super(file);
+    {    	
+    	super(file);
     }
 
+    public XMLConfiguration(File file, File schemaFile) throws ConfigurationException
+    {    	
+    	super(file);
+    	this.schemaFile = schemaFile;
+    }
+    
     /**
      * Creates a new instance of <code>XMLConfiguration</code>.
      * The configuration is loaded from the specified URL.
@@ -707,31 +735,55 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
      */
     protected DocumentBuilder createDocumentBuilder()
             throws ParserConfigurationException
-    {
+    {    	
         if (getDocumentBuilder() != null)
         {
             return getDocumentBuilder();
         }
         else
-        {
+        {                	
             DocumentBuilderFactory factory = DocumentBuilderFactory
                     .newInstance();
-            
-            
+                        
             // BS for RIVM 16-02-2009 Override of original XMLConfiguration
             // Added this to force the xml to validate by xsd schema
             // The xsd is provided in the xml by the attribute "xsi:noNamespaceSchemaLocation"
             factory.setNamespaceAware(true);
             factory.setValidating(isValidating());
-            factory.setAttribute( "http://java.sun.com/xml/jaxp/properties/schemaLanguage", 
-            "http://www.w3.org/2001/XMLSchema");
+            factory.setAttribute( JAXP_SCHEMA_LANGUAGE_NAME, 
+            		JAXP_SCHEMA_LANGUAGE_VALUE);
             
-            
-            DocumentBuilder result = factory.newDocumentBuilder();
+            // The parser uses the createDocumentBuilder twice:
+            // The first time the name of the root node does not exist
+			if (getRootNode().getName() != null) {			    
+					try {
+						File file = null;
+						if (ResourcesPlugin.getPlugin() == null) {
+							// In case of development
+							 file = new File(DEV_DYNAMO_FILEPATH 
+									 + getRootNode().getName() + XSD_EXTENSION);
+						} else {
+							// In case of a plugin and development
+							file = XMLConfiguration.fileFromPluginRoot(SCHEMAS_LOCATION 
+									+ File.separator + getRootNode().getName() + XSD_EXTENSION);							
+						}						
+						// Set the schema
+						factory.setAttribute( JAXP_SCHEMA_SOURCE_NAME, file);
+					} catch (IllegalArgumentException iae) {
+						log.fatal(iae.getStackTrace());
+						iae.getStackTrace();
+						throw new ParserConfigurationException(iae.getMessage() + " Cause: " + iae.getCause());
+					} catch (URISyntaxException urise) {
+						log.fatal(urise.getStackTrace());
+						urise.getStackTrace();
+						throw new ParserConfigurationException(urise.getMessage() + " Cause: " + urise.getCause());
+					} 		
+			}
+    		
+            DocumentBuilder result = factory.newDocumentBuilder();            
             result.setEntityResolver(this);
-
             if (isValidating())
-            {
+            {            	
                 // register an error handler which detects validation errors
                 result.setErrorHandler(new DefaultHandler()
                 {
@@ -746,6 +798,26 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
     }
 
     /**
+     * 
+     * Returns the schema file
+     * 
+     * @return File
+     */
+    public File getSchemaFile() {
+		return this.schemaFile;
+	}
+
+    /**
+     * 
+     * Sets the schema file
+     * 
+     * @return File
+     */
+    public void setSchemaFile(File schemaFile) {
+    	this.schemaFile = schemaFile;
+	}
+    
+	/**
      * Creates a DOM document from the internal tree of configuration nodes.
      *
      * @return the new document
@@ -1463,4 +1535,22 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
             XMLConfiguration.this.load(in);
         }
     }
+    
+	/**
+	 * 
+	 * Returns the file location absolute to the installation directory
+	 * of the Standalone plugin
+	 * 
+	 * @param filePath
+	 * @return File
+	 * @throws URISyntaxException
+	 */
+	public static File fileFromPluginRoot(String filePath)
+			throws URISyntaxException {
+		String pluginRootString = Platform.getInstallLocation().getURL()
+				.getPath() + filePath;
+		File pluginRoot = new Path(pluginRootString).toFile();
+		return pluginRoot;
+	}
+    
 }
