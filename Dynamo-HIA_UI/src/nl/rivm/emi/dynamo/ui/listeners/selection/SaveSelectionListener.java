@@ -57,9 +57,6 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 	}
