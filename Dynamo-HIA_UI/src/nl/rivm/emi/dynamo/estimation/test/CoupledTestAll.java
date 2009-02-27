@@ -29,6 +29,7 @@ import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -151,9 +152,12 @@ public class CoupledTestAll {
 
 			// output.makeOutput(pop);
 			output.extractArraysFromPopulations(pop);
+			
 			JFreeChart chart = output
-					.makeSurvivalPlot("survival scenario 0", 0);
-			chart = output.makeSurvivalPlot("survival scenario 1", 1);
+					.makeSurvivalPlot(0);
+			chart = output.makeSurvivalPlot(1);
+			/*
+			 * BS and HB 27-02-2009 Removed because it is being refactored in new version
 			ChartFrame frame1 = new ChartFrame("Survival Chart", chart);
 			frame1.setVisible(true);
 			frame1.setSize(300, 300);
@@ -163,7 +167,7 @@ public class CoupledTestAll {
 			output.makePopulationPyramidPlot(0, 0);
 			output.makeRiskFactorPlots(0);
 			output.makePrevalenceByRiskFactorPlots(0);
-			output.makePrevalenceByRiskFactorPlots(1);
+			output.makePrevalenceByRiskFactorPlots(1);*/
 			try {
 				output.writeOutput(scen);
 			} catch (XMLStreamException e1) {
@@ -208,6 +212,9 @@ public class CoupledTestAll {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
+		} catch (DynamoOutputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

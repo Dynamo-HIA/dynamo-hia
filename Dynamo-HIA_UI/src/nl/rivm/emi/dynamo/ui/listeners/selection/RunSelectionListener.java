@@ -58,11 +58,6 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 			messageBox.setMessage("Simulation run threw a " + e.getClass().getName() 
 					+ "\nwith message: " + e.getMessage());
 			messageBox.open();
-		} catch (DynamoOutputException e) {
-			MessageBox messageBox = new MessageBox(((SimulationModal)modalParent).getShell(), SWT.ERROR_FAILED_EXEC);
-			messageBox.setMessage("Simulation run threw a " + e.getClass().getName() 
-					+ "\nwith message: " + e.getMessage());
-			messageBox.open();
 		}
 	}
 

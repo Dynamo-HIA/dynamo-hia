@@ -14,7 +14,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -28,7 +27,6 @@ import nl.rivm.emi.dynamo.estimation.DynamoSimulation;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.Output_UI;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
-
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
@@ -38,7 +36,6 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.JFreeChart;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -249,15 +246,15 @@ public class TestAll {
 			e.printStackTrace();
 			log.fatal(e.getMessage());
 			assertNull(e); // Force error.
+		} catch (DynamoScenarioException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.fatal(e.getMessage());			 				
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			log.fatal(e.getMessage());
 			assertNull(e); // Force error.
-		} catch (DynamoScenarioException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.fatal(e.getMessage());
 		} catch (DynamoOutputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
