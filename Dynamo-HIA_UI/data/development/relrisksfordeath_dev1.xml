@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<relrisksfordeath_compound>
+	<relriskfordeath>
+		<age>0</age>
+		<sex>0</sex>
+		<cat>0</cat>
+		<begin>0.999</begin>
+		<alpha>1.999</alpha>
+		<end>2.999</end>
+	</relriskfordeath>
+	<relriskfordeath>
+		<age>0</age>
+		<sex>1</sex>
+		<cat>0</cat>
+		<begin>3.999</begin>
+		<alpha>4.999</alpha>
+		<end>5.999</end>
+	</relriskfordeath>
+	<relriskfordeath>
+		<age>1</age>
+		<sex>0</sex>
+		<cat>0</cat>
+		<begin>6.999</begin>
+		<alpha>7.999</alpha>
+		<end>8.999</end>
+	</relriskfordeath>
+	<relriskfordeath>
+		<age>1</age>
+		<sex>1</sex>
+		<cat>0</cat>
+		<begin>9.999</begin>
+		<alpha>10.999</alpha>
+		<end>11.999</end>
+	</relriskfordeath>
+</relrisksfordeath_compound>
