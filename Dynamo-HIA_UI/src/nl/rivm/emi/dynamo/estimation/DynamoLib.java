@@ -580,4 +580,112 @@ public class DynamoLib {
 		}
 
 	}
+
+	public static float[][] deepcopy(float[][] inarray) {
+		float[][] returnarray = new float[inarray.length][inarray[0].length];
+		for (int i = 0; i < inarray.length; i++)
+			System.arraycopy(inarray[i], 0, returnarray[i], 0,
+					inarray[0].length);
+		return returnarray;
+
+	}
+
+	public static float[][][] deepcopy(float[][][] inarray) {
+		float[][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
+		for (int i = 0; i < inarray.length; i++)
+			for (int j = 0; j < inarray[0].length; j++)
+				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
+						inarray[0][0].length);
+		return returnarray;
+
+	}
+
+	public static double[][][] deepcopy(double[][][] inarray) {
+		double[][][] returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
+		for (int i = 0; i < inarray.length; i++)
+			for (int j = 0; j < inarray[0].length; j++)
+				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
+						inarray[0][0].length);
+		return returnarray;
+
+	}
+
+	public static float[][][][] deepcopy(float[][][][] inarray) {
+		float[][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
+		for (int i = 0; i < inarray.length; i++)
+			for (int j = 0; j < inarray[0].length; j++)
+				for (int k = 0; k < inarray[0][0].length; k++)
+					System.arraycopy(inarray[i][j][k], 0, returnarray[i][j][k],
+							0, inarray[0][0][0].length);
+		return returnarray;
+
+	}
+
+	public static float[][][][][] deepcopy(float[][][][][] inarray) {
+		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length][inarray[0][0][0][0].length];
+		for (int i = 0; i < inarray.length; i++)
+			for (int j = 0; j < inarray[0].length; j++)
+				for (int k = 0; k < inarray[0][0].length; k++)
+					for (int l = 0; l < inarray[0][0][0].length; l++)
+						System.arraycopy(inarray[i][j][k][l], 0,
+								returnarray[i][j][k][l], 0,
+								inarray[0][0][0][0].length);
+		return returnarray;
+
+	}
+
+
+
+	/**
+	 * @param succesrate
+	 * @return
+	 */
+	public static float[] deepcopy(float[] inarray) {
+		float[] result=new float [inarray.length];
+		for (int i = 0; i < inarray.length; i++)
+			result[i]=inarray[i];
+		return result;
+	}
+
+
+
+	/**
+	 * @param newborns
+	 * @return
+	 */
+	public static int[] deepcopy(int[] inarray) {
+		int[] result=new int [inarray.length];
+		for (int i = 0; i < inarray.length; i++)
+			result[i]=inarray[i];
+		return result;
+	}
+
+
+
+	/**
+	 * @param zeroTransition
+	 * @return
+	 */
+	public static boolean[] deepcopy(boolean[] inarray) {
+		boolean[] result=new boolean [inarray.length];
+		for (int i = 0; i < inarray.length; i++)
+			result[i]=inarray[i];
+		return result;
+	}
+
+
+
+	/**
+	 * @param scenarioNames
+	 * @return
+	 */
+	public static String[] deepcopy(String[] inarray) {
+		String[] result=new String [inarray.length];
+		for (int i = 0; i < inarray.length; i++)
+			result[i]=inarray[i];
+		return result;
+	}
+
+	
+	
 }
