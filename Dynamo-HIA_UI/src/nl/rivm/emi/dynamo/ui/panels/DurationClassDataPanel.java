@@ -1,13 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.CategoryIndex;
+import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
-import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -35,7 +31,7 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	AtomicTypeBase<Integer> myType = new CategoryIndex();
+	AtomicTypeBase<Integer> myType = new DurationClass();
 
 	public DurationClassDataPanel(Composite parent, Composite topNeighbour,
 			IDurationClass referenceCategoryObject,

@@ -1,9 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
+import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.CategoryIndex;
+import nl.rivm.emi.dynamo.data.types.atomic.Index;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -24,15 +25,15 @@ import org.eclipse.swt.widgets.Text;
 
 public class ReferenceClassDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory.getLog(this.getClass().getName());
-	IReferenceCategory myReferenceCategoryObject;
+	IReferenceClass myReferenceCategoryObject;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	AtomicTypeBase<Integer> myType = new CategoryIndex();
+	AtomicTypeBase<Integer> myType = new ReferenceClass();
 
 	public ReferenceClassDataPanel(Composite parent, Composite topNeighbour,
-			IReferenceCategory referenceCategoryObject,
+			IReferenceClass referenceCategoryObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.myReferenceCategoryObject = referenceCategoryObject;
@@ -45,7 +46,7 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Referenceclass index:");
 			WritableValue observableObject = referenceCategoryObject
-					.getObservableReferenceCategory();
+					.getObservableReferenceClass();
 			if (observableObject != null) {
 				bindValue(observableObject);
 			} else {
