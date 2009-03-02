@@ -18,7 +18,7 @@ import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
  * 
  */
 public interface IStaxEventContributor {
-	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory) throws XMLStreamException,
+	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory) throws XMLStreamException,
 			UnexpectedFileStructureException, IOException;
 
 }
