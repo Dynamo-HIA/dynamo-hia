@@ -7,14 +7,14 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import nl.rivm.emi.dynamo.data.factories.XMLHandlingEntryPoint;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceValueObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class RiskFactorContinuousObject extends StaxWriterEntryPoint implements
+public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 		IStaxEventContributor, IReferenceValue {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -89,15 +89,15 @@ public class RiskFactorContinuousObject extends StaxWriterEntryPoint implements
 	}
 
 	// write
-	@Override
-	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
+	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartDocument();
-		writer.add(event);	
-		event = eventFactory.createStartElement("", "", this.rootElement.getNodeLabel());
+		writer.add(event);
+		event = eventFactory.createStartElement("", "", rootElement
+				.getNodeLabel());
 		writer.add(event);
 		referenceCategoryObjectImplementation
-				.streamEvents(writer, eventFactory);
+				.streamEvents(null, writer, eventFactory);
 		event = eventFactory.createEndElement("", "", rootElement
 				.getNodeLabel());
 		writer.add(event);
