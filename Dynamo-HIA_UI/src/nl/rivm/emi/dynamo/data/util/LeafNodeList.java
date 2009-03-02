@@ -5,7 +5,7 @@ import java.util.List;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -16,8 +16,7 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 	private static final long serialVersionUID = 4381230502193758915L;
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public int fill(ConfigurationNode rootChild)
-			throws ConfigurationException {
+	public int fill(ConfigurationNode rootChild) throws ConfigurationException {
 		int theLastContainer = 0;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
@@ -38,18 +37,32 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 					if (leafDataType.equals(Float.class)) {
 						valueNumber = Float.parseFloat(valueString);
 					} else {
-						throw new ConfigurationException(
-								"Unsupported data type "
-										+ leafDataType.getClass().getName());
+						if (leafDataType.equals(String.class)) {
+
+							valueNumber = null;
+						} else {
+							throw new ConfigurationException(
+									"Unsupported data type "
+											+ leafDataType.getClass().getName());
+						}
 					}
 				}
 				if (leafAtomicType instanceof ContainerType) {
 					theLastContainer++;
 				}
-				add(new AtomicTypeObjectTuple(leafAtomicType, valueNumber));
+				if (valueNumber != null) {
+					log.debug("Adding type: "
+							+ leafAtomicType.getClass().getName()
+							+ " with value: " + valueNumber);
+					add(new AtomicTypeObjectTuple(leafAtomicType, valueNumber));
+				} else {
+					log.debug("Adding type: "
+							+ leafAtomicType.getClass().getName()
+							+ " with string: " + valueString);
+					add(new AtomicTypeObjectTuple(leafAtomicType, valueString));
+				}
 			} else {
-				throw new ConfigurationException("Unexpected tag: "
-						+ leafName);
+				throw new ConfigurationException("Unexpected tag: " + leafName);
 			}
 
 		} // for leafChildren
@@ -78,15 +91,15 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 					"Supporting only XML with at least one dimension (eg. age) for now. LastContainer "
 							+ theLastContainer + report());
 		} else {
-			if (theLastContainer != size() - 1) {
-				throw new ConfigurationException(
-						"Supporting XML with single value only for now. LastContainer "
-								+ theLastContainer + report());
-			} else {
+//			if (theLastContainer != size() - 1) {
+//				throw new ConfigurationException(
+//						"Supporting XML with single value only for now. LastContainer "
+//								+ theLastContainer + report());
+//			} else {
 				log.debug("Handling rootchild. LastContainer "
 						+ theLastContainer + report());
 			}
-		}
+//		}
 		return theLastContainer;
 	}
 }

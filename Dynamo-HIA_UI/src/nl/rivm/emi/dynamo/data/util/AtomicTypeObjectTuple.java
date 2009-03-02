@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.data.util;
 
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 
 public class AtomicTypeObjectTuple {
@@ -18,5 +17,9 @@ public class AtomicTypeObjectTuple {
 
 	public Object getValue() {
 		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
 	}
 }
