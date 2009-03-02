@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 public class Sex extends NumberRangeTypeBase<Integer> implements ContainerType{

@@ -12,17 +12,16 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  * XML fragments.
  */
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class DurationClass extends XMLTagEntity implements IHandlerType {
+public class DurationClass extends Index implements IXMLHandlingLayer {
 
 	public DurationClass() {
-		super("durationclass");
+		super("durationclass", new Integer(1), hardUpperLimit);
 	}
 
 	public ConfigurationObjectBase handle(ConfigurationObjectBase modelObject,
@@ -33,14 +32,13 @@ public class DurationClass extends XMLTagEntity implements IHandlerType {
 					+ modelObject.getClass().getName());
 		}
 		Integer index = null;
-		if (XMLElementName.equals(node.getName())) {
+		if (getXMLElementName().equals(node.getName())) {
 			index = Integer.decode((String) node.getValue());
 		} else {
 			throw new ConfigurationException("Incorrect tag \""
 					+ node.getName() + "\" found, \"" + XMLElementName
 					+ "\" expected.");
 		}
-
 		if (index != null) {
 			((IDurationClass) modelObject).putDurationClass(index);
 		} else {

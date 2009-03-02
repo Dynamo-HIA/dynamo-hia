@@ -1,10 +1,12 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+
+
 public abstract class FlexibleUpperLimitNumberRangeTypeBase<T> extends
-		NumberRangeTypeBase<T> {
+		NumberRangeTypeBase<T>  {
 
 	protected FlexibleUpperLimitNumberRangeTypeBase(String elementName,
-			T minValue, T maxValue) {
+			T minValue, T maxValue){
 		super(elementName, minValue, maxValue);
 	}
 

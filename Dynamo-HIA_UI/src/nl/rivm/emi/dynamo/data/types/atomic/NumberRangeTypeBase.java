@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
+
+import org.apache.commons.configuration.ConfigurationException;
+
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
+
 /**
  * Base Class for types that have a range in which they are valid.
  * 
@@ -24,7 +29,10 @@ public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 
 	public abstract String toString(T inputValue);
 
-	public T getMIN_VALUE() {
+	public T getMIN_VALUE() throws ConfigurationException {
+		if((this instanceof ContainerType)&&(MIN_VALUE instanceof Number) && !MIN_VALUE.equals(0)){
+			throw new ConfigurationException("Lower range bound should be zero for ContainerTypes.");
+		}
 		return MIN_VALUE;
 	}
 

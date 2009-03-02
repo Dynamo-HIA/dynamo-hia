@@ -1,10 +1,11 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.LeafType;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-public class Probability extends NumberRangeTypeBase<Float> implements LeafType<Float> {
+public class Probability extends NumberRangeTypeBase<Float> implements PayloadType<Float> {
 	static final protected String XMLElementName = "prob";
 
 	public Probability(){

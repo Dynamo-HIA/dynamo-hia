@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 public abstract class AtomicTypeBase<T> extends XMLTagEntity{
-//	final protected String XMLElementName;
 	final protected T aValue;
 	protected UpdateValueStrategy modelUpdateValueStrategy;
 	protected UpdateValueStrategy viewUpdateValueStrategy;
@@ -26,18 +25,6 @@ public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 		this.aValue = aValue;
 	}
 
-//	public boolean isMyElement(String elementName) {
-//		boolean result = true;
-//		if (!XMLElementName.equalsIgnoreCase(elementName)) {
-//			result = false;
-//		}
-//		return result;
-//	}
-
-//	public String getXMLElementName() {
-//		return XMLElementName;
-//	}
-//
 	public T getType() {
 		return (T) aValue.getClass();
 	}
@@ -53,4 +40,6 @@ public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 	abstract public UpdateValueStrategy getModelUpdateValueStrategy();
 
 	abstract public UpdateValueStrategy getViewUpdateValueStrategy();
+
 }
+

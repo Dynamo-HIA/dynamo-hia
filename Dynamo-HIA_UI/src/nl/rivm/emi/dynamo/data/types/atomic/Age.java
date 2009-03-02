@@ -1,14 +1,15 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 public class Age extends NumberRangeTypeBase<Integer> implements ContainerType{
 	static final protected String XMLElementName = "age";
 
 	public Age(){
-		super("age", new Integer(0), new Integer(95));
+		super(XMLElementName, new Integer(0), new Integer(95));
 	}
 		
 	public boolean inRange(Integer testValue) {

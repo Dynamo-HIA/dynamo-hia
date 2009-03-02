@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /**
@@ -12,7 +13,7 @@ public class TransitionDestination extends
 		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType {
 	static final protected String XMLElementName = "to";
 
-	public TransitionDestination() {
+	public TransitionDestination(){
 		super(XMLElementName, new Integer(1), new Integer(Integer.MAX_VALUE));
 	}
 

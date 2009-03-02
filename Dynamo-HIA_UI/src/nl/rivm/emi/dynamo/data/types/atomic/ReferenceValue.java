@@ -13,12 +13,12 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  */
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class ReferenceValue extends XMLTagEntity implements IHandlerType {
+public class ReferenceValue extends XMLTagEntity implements IXMLHandlingLayer {
 
 	public ReferenceValue() {
 		super("referencevalue");

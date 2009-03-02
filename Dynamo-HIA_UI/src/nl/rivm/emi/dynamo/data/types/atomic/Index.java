@@ -1,22 +1,30 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
 
+import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /**
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
  * the range of categories the transitions can cover.
  */
-public class CategoryIndex extends
-		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType {
-	static final protected String XMLElementName = "from";
+ public class Index extends
+		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements
+		IXMLHandlingLayer<Integer>{
+	static final protected String XMLElementName = "index";
 
 	static final protected Integer hardUpperLimit = new Integer(9);
-
-	public CategoryIndex() {
-		super(XMLElementName, new Integer(1), hardUpperLimit);
+	
+	public Index(Integer lowerLimit, Integer upperLimit) throws ConfigurationException {
+		super(XMLElementName, lowerLimit, upperLimit);
 	}
+	
 
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
@@ -43,10 +51,6 @@ public class CategoryIndex extends
 
 	public String toString(Integer inputValue) {
 		return Integer.toString(inputValue.intValue());
-	}
-
-	static public String getElementName() {
-		return XMLElementName;
 	}
 
 	public boolean isMyElement(String elementName) {
@@ -89,5 +93,26 @@ public class CategoryIndex extends
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Integer handle(ConfigurationNode node) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isConfigurationOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

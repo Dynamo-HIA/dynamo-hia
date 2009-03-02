@@ -2,11 +2,12 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.markers.LeafType;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-public class Number extends NumberRangeTypeBase<Integer> implements LeafType<Integer>{
+public class Number extends NumberRangeTypeBase<Integer> implements PayloadType<Integer>{
 	static final protected String XMLElementName = "number";
 
 	/**

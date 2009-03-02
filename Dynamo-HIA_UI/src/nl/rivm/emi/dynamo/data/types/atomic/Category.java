@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.markers.ContainerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /*
@@ -11,7 +12,7 @@ public class Category extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 	static final protected String XMLElementName = "cat";
 
 	public Category(){
-		super(XMLElementName , new Integer(1), new Integer(9));
+		super(XMLElementName , new Integer(0), new Integer(9));
 	}
 		
 	public boolean inRange(Integer testValue) {

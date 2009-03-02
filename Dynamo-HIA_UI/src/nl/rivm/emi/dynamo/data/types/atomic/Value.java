@@ -5,12 +5,13 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentModelConverter;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentViewConverter;
-import nl.rivm.emi.dynamo.data.types.markers.LeafType;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 
-public class Value extends NumberRangeTypeBase<Float> implements LeafType<Float>{
+public class Value extends NumberRangeTypeBase<Float> implements PayloadType<Float>{
 	static final protected String XMLElementName = "value";
 
 	/**
@@ -21,7 +22,18 @@ public class Value extends NumberRangeTypeBase<Float> implements LeafType<Float>
 			.compile("^\\d*\\.?\\d*$");
 
 	public Value(){
-		super("value", 0F, Float.MAX_VALUE);
+		this(XMLElementName, 0F, Float.MAX_VALUE);
+	}
+
+	/**
+	 * Constructor for use by subclasses.
+	 * @param elementName
+	 * @param minimum
+	 * @param maximum
+	 * @throws ConfigurationException 
+	 */
+	public Value(String elementName, Float minimum, Float maximum){
+		super(elementName, minimum, maximum);
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();
 	}

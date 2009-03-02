@@ -2,14 +2,15 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.markers.LeafType;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.databinding.converters.ModelConverters;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 
 public class Percent extends NumberRangeTypeBase<Float> implements
-		LeafType<Float> {
+		PayloadType<Float> {
 	static final protected String XMLElementName = "percent";
 
 	/**
@@ -22,7 +23,7 @@ public class Percent extends NumberRangeTypeBase<Float> implements
 //	private UpdateValueStrategy modelUpdateValueStrategy;
 //	private UpdateValueStrategy viewUpdateValueStrategy;
 
-	public Percent() {
+	public Percent(){
 		super("percent", new Float(0), new Float(100));
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();
