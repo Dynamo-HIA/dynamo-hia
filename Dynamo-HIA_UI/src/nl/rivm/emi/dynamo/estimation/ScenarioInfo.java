@@ -103,8 +103,7 @@ public void makeTestData1 (){
 	 * @return
 	 */
 	public float[][][][] getTransitionMatrix(int scen) {
-		// TODO Auto-generated method stub
-		return null;
+		return DynamoLib.deepcopy(alternativeTransitionMatrix[scen]);
 	}
 	public void setReferenceClass(int referenceClass) {
 		this.referenceClass = referenceClass;
@@ -122,13 +121,13 @@ public void makeTestData1 (){
 		this.initialPrevalenceType = initialPrevalenceType;
 	}
 	public boolean [] getInitialPrevalenceType() {
-		return initialPrevalenceType;
+		return DynamoLib.deepcopy(initialPrevalenceType);
 	}
 	public void setTransitionType(boolean[] transitionType) {
 		this.transitionType = transitionType;
 	}
 	public boolean[] getTransitionType() {
-		return transitionType;
+		return DynamoLib.deepcopy(transitionType);
 	}
 	/** sets transitionType[i] to b
 	 * @param b: value to set 
@@ -156,28 +155,44 @@ public void makeTestData1 (){
 		
 	}
 	public float[] getSuccesrate() {
-		return succesrate;
+		return DynamoLib.deepcopy(succesrate);
 	}
 	public void setSuccesrate(float[] succesrate) {
-		this.succesrate = succesrate;
+		this.succesrate=new float [succesrate.length];
+		for (int i=0;i<succesrate.length;i++)
+		this.succesrate[i] = succesrate[i];
+	}
+	
+	public void setSuccesrate(float succesrate, int i) {
+			this.succesrate[i] = succesrate;
 	}
 	public float[] getMinAge() {
-		return minAge;
+		return DynamoLib.deepcopy(minAge);
 	}
 	public void setMinAge(float[] minAge) {
 		this.minAge = minAge;
 	}
+	public void setMinAge(float minAge ,int i) {
+		this.minAge[i] = minAge;
+	}
 	public float[] getMaxAge() {
-		return maxAge;
+		return DynamoLib.deepcopy(maxAge);
 	}
 	public void setMaxAge(float[] maxAge) {
 		this.maxAge = maxAge;
 	}
+	
+	public void setMaxAge(float maxAge,int i ) {
+		this.maxAge[i] = maxAge;
+	}
 	public String[] getScenarioNames() {
-		return scenarioNames;
+		return DynamoLib.deepcopy(scenarioNames);
 	}
 	public void setScenarioNames(String[] scenarioNames) {
 		this.scenarioNames = scenarioNames;
+	}
+	public void setScenarioNames(String scenarioNames,int i) {
+		this.scenarioNames[i] = scenarioNames;
 	}
 	public DiseaseClusterStructure[] getStructure() {
 		return structure;
@@ -185,8 +200,14 @@ public void makeTestData1 (){
 	public void setStructure(DiseaseClusterStructure[] structure) {
 		this.structure = structure;
 	}
+	public void setStructure(DiseaseClusterStructure structure,int i) {
+		this.structure[i] = structure;
+	}
+	
 	public float[] getCutoffs() {
-		return cutoffs;
+		if (cutoffs==null) return cutoffs;
+		else
+		return DynamoLib.deepcopy(cutoffs);
 	}
 	public void setCutoffs(float[] cutoffs) {
 		this.cutoffs = cutoffs;
@@ -194,30 +215,41 @@ public void makeTestData1 (){
 	public void setRiskType(int riskType) {
 		this.riskType = riskType;
 	}
+	
+	
+	
 	public int getRiskType() {
 		return riskType;
 	}
 	public void setNewborns(int[] input) {
 		this.newborns = input;
 	}
+
+	public void setNewborns(int input, int i) {
+		this.newborns[i] = input;
+	}
+	
+	
 	public int[] getNewborns() {
-		return newborns;
+		return DynamoLib.deepcopy(newborns);
 	}
 	public void setOverallDalyWeight(float[][] overallDalyWeight) {
 		this.overallDalyWeight = overallDalyWeight;
 	}
+	
 	public float[][] getOverallDalyWeight() {
-		return overallDalyWeight;
+		return DynamoLib.deepcopy(overallDalyWeight);
 	}
 	public void setZeroTransition(boolean[] zeroTransition) {
 		this.zeroTransition = zeroTransition;
 	}
 	
+	
 	public void setZeroTransition(boolean zeroTransition,int i) {
 		this.zeroTransition[i] = zeroTransition;
 	}
 	public boolean [] isZeroTransition() {
-		return zeroTransition;
+		return DynamoLib.deepcopy(zeroTransition);
 	}
 	public boolean  isZeroTransition(int i) {
 		return zeroTransition[i];
@@ -226,7 +258,7 @@ public void makeTestData1 (){
 		this.oldPrevalence = oldPrevalence;
 	}
 	public float [][][] getOldPrevalence() {
-		return oldPrevalence;
+		return DynamoLib.deepcopy(oldPrevalence);
 	}
 	
 	
@@ -241,12 +273,20 @@ public void makeTestData1 (){
 	public void setInMen(boolean[] inMen) {
 		this.inMen = inMen;
 	}
+	public void setInMen(boolean inMen, int i) {
+		this.inMen[i] = inMen;
+	}
 	public boolean[] getInMen() {
 		return inMen;
 	}
 	public void setInWomen(boolean[] inWomen) {
 		this.inWomen = inWomen;
 	}
+
+	public void setInWomen(boolean inWomen, int i) {
+		this.inWomen[i] = inWomen;
+	}
+	
 	public boolean[] getInWomen() {
 		return inWomen;
 	}
