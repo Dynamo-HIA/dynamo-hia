@@ -14,7 +14,7 @@ public abstract class ConfigurationObjectBase extends DualModeObjectBase{
 
 	protected ConfigurationObjectBase(RootElementNamesEnum rootElement,
 			boolean observable) {
-		super(observable);
+		super(observable, rootElement.getNodeLabel());
 		this.rootElement = rootElement;
 	}
 
