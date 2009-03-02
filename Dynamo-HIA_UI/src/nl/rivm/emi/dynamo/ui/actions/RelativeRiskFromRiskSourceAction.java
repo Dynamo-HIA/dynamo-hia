@@ -50,6 +50,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
 			String candidatePath = theModal.getNewFilePath();
+			if(candidatePath != null){
 			File file = new File(candidatePath);
 			if (file != null) {
 				if (file.exists()) {
@@ -64,6 +65,11 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
 				messageBox.setMessage("No new file could be created.");
+				messageBox.open();
+			}
+			} else {
+				MessageBox messageBox = new MessageBox(shell);
+				messageBox.setMessage("No valid filename created.");
 				messageBox.open();
 			}
 		} else {
