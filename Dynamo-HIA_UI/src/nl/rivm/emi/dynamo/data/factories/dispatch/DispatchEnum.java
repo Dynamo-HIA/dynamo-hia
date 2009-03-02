@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityContinuousFactory;
@@ -111,7 +112,7 @@ public enum DispatchEnum {
 	/* W23Cmp */
 	RELRISKFORDEATH_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
-			new DummyPlaceholderFactory(), null), // TODO
+			new RelRiskForDeathCompoundFactory(), null), 
 	/* W23Cat */
 	RELRISKFORDISABLITY_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
