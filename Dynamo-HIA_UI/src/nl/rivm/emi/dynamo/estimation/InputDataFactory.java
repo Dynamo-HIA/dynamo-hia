@@ -34,7 +34,7 @@ public class InputDataFactory {
 
 	/* Field containing the name of the base directory */
 	// temporary for testing;
-	public String baseDir = "c:\\hendriek\\java\\dynamohome";;
+	public String baseDir = BaseDirectory.getBaseDir();
 
 	/*
 	 * fields describing the labels of the XML configuration file (as made by
@@ -185,30 +185,15 @@ public class InputDataFactory {
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
 	private static final String prefixRRdis = "relriskfrom";
 
-	
+	public InputDataFactory(String simName) throws DynamoConfigurationException {
+		;
 		
-		
-		
-		/**
-		 * Extra constructor for injecting rootDirectoryName.
-		 * 
-		 * @param baseDirectoryPath
-		 * @param simName
-		 * @throws DynamoConfigurationException
-		 */
-		public InputDataFactory(String baseDirectoryPath, String simName)
-				throws DynamoConfigurationException {
-			baseDir = baseDirectoryPath;
-			doIt(simName);
-		}
 
-		public InputDataFactory(String simName) throws DynamoConfigurationException {
-			doIt(simName);
-		}
+		doIt(simName);
 
-		private void doIt(String simName) throws DynamoConfigurationException {
-			;
-					
+	}
+
+	private void doIt(String simName) throws DynamoConfigurationException {
 		try {
 			configuration = new XMLConfiguration(baseDir + File.separator
 					+ simulationDir + File.separator + simName + File.separator
@@ -302,7 +287,6 @@ public class InputDataFactory {
 		if (!rrPresent)
 			throw new DynamoConfigurationException(
 					" no valid information present " + "for relative risks ");
-
 	}
 
 	/**
@@ -830,16 +814,16 @@ public class InputDataFactory {
 
 		for (int scen = 0; scen < scenInfo.size(); scen++) {
 
-			scenarioInfo.scenarioNames[scen] = scenInfo.get(scen).name;
-			scenarioInfo.getMinAge()[scen] = scenInfo.get(scen).minAge;
-			scenarioInfo.getMaxAge()[scen] = scenInfo.get(scen).maxAge;
-			scenarioInfo.getSuccesrate()[scen] = scenInfo.get(scen).rate;
-			scenarioInfo.getInMen()[scen] = true;
-			scenarioInfo.getInWomen()[scen] = true;
+			scenarioInfo.setScenarioNames(scenInfo.get(scen).name,scen);
+			scenarioInfo.setMinAge( scenInfo.get(scen).minAge,scen);
+			scenarioInfo.setMaxAge( scenInfo.get(scen).maxAge,scen);
+			scenarioInfo.setSuccesrate(scenInfo.get(scen).rate,scen);
+			scenarioInfo.setInMen( true,scen);
+			scenarioInfo.setInWomen( true,scen);
 			if (scenInfo.get(scen).gender == 0)
-				scenarioInfo.getInWomen()[scen] = false;
+				scenarioInfo.setInWomen( false,scen);
 			if (scenInfo.get(scen).gender == 1)
-				scenarioInfo.getInMen()[scen] = false;
+				scenarioInfo.setInMen( false,scen);
 
 			/* reading and handling alternative prevalence information */
 
