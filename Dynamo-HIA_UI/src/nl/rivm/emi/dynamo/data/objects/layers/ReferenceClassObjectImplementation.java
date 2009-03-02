@@ -24,7 +24,7 @@ public class ReferenceClassObjectImplementation extends DualModeObjectBase
 		super(makeObservable, "bogus");
 	}
 
-	public Integer putReferenceClass(Integer index) {
+	public Integer putReferenceCategory(Integer index) {
 		Integer oldReferenceCategory = null;
 		if (observable) {
 			if (referenceClass != null) {
@@ -43,7 +43,7 @@ public class ReferenceClassObjectImplementation extends DualModeObjectBase
 		return oldReferenceCategory;
 	}
 
-	public Integer getReferenceClass() {
+	public Integer getReferenceCategory() {
 		Integer resultClass = null;
 		if (referenceClass instanceof Integer) {
 			resultClass = (Integer) referenceClass;

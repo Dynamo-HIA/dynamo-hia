@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IHasNewborns;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewbornsType;
@@ -23,11 +27,11 @@ public class StartingYearImpl extends StartingYearType implements IStartingYear 
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private StartingYearImpl() {
+	private StartingYearImpl()  throws ConfigurationException{
 
 	}
 
-	public StartingYearImpl(boolean isObservable) {
+	public StartingYearImpl(boolean isObservable)  throws ConfigurationException{
 		this.isObservable = isObservable;
 	}
 
@@ -99,5 +103,11 @@ public class StartingYearImpl extends StartingYearType implements IStartingYear 
 	@Override
 	public WritableValue getObservableValue() {
 		return observableStartingYear;
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

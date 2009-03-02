@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IMaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAgeType;
 
@@ -21,11 +25,11 @@ public class MaxAgeImpl extends MaxAgeType implements IMaxAge {
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private MaxAgeImpl() {
+	private MaxAgeImpl()  throws ConfigurationException{
 
 	}
 
-	public MaxAgeImpl(boolean isObservable) {
+	public MaxAgeImpl(boolean isObservable)  throws ConfigurationException{
 		this.isObservable = isObservable;
 	}
 
@@ -97,5 +101,11 @@ public class MaxAgeImpl extends MaxAgeType implements IMaxAge {
 	@Override
 	public WritableValue getObservableValue() {
 		return observableMaxAge;
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

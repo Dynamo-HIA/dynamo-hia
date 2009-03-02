@@ -5,13 +5,13 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 import java.io.File;
 
+
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;

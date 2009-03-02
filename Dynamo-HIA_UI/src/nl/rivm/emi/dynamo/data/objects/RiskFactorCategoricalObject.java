@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceClassObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;

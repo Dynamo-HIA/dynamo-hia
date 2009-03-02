@@ -18,7 +18,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class DurationClass extends Index implements IXMLHandlingLayer {
+public class DurationClass extends Index  {
 
 	public DurationClass() {
 		super("durationclass", new Integer(1), hardUpperLimit);

@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.ITimeStep;
 import nl.rivm.emi.dynamo.data.types.atomic.TimeStepType;
 
@@ -21,11 +25,11 @@ public class TimeStepImpl extends TimeStepType implements ITimeStep {
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private TimeStepImpl() {
+	private TimeStepImpl() throws ConfigurationException {
 
 	}
 
-	public TimeStepImpl(boolean isObservable) {
+	public TimeStepImpl(boolean isObservable) throws ConfigurationException {
 		this.isObservable = isObservable;
 	}
 
@@ -97,6 +101,12 @@ public class TimeStepImpl extends TimeStepType implements ITimeStep {
 	@Override
 	public WritableValue getObservableValue() {
 		return observableTimeStep;
+	}
+
+	public void streamEvents(Float value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

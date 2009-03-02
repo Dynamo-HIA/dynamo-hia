@@ -10,6 +10,7 @@ import javax.xml.stream.events.XMLEvent;
 import nl.rivm.emi.dynamo.data.factories.XMLHandlingEntryPoint;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceValueObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;

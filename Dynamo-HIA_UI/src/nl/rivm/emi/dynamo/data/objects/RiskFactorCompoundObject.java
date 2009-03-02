@@ -13,6 +13,7 @@ import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.DurationClassObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceClassObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
@@ -103,7 +104,7 @@ public class RiskFactorCompoundObject extends XMLHandlingEntryPoint implements
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	public RiskFactorCompoundObject manufacture(String configurationFilePath)
+	public RiskFactorCompoundObject manufacture(String dataFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		this.log.debug("Starting manufacture.");
 		manufacture(this, dataFilePath);

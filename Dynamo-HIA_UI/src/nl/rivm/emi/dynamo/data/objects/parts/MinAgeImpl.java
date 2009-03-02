@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IMinAge;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAgeType;
@@ -23,11 +27,11 @@ public class MinAgeImpl extends MinAgeType implements IMinAge {
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private MinAgeImpl() {
+	private MinAgeImpl() throws ConfigurationException{
 
 	}
 
-	public MinAgeImpl(boolean isObservable) {
+	public MinAgeImpl(boolean isObservable) throws ConfigurationException{
 		this.isObservable = isObservable;
 	}
 
@@ -99,5 +103,11 @@ public class MinAgeImpl extends MinAgeType implements IMinAge {
 	@Override
 	public WritableValue getObservableValue() {
 		return observableMinAge;
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

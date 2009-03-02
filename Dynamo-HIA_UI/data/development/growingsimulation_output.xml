@@ -1,0 +1,1 @@
+<?xml version="1.0"?><simulation><hasnewborns>true</hasnewborns><startingyear>2013</startingyear><numberofyears>12</numberofyears><simpopsize>101</simpopsize><minage>1</minage><maxage>15</maxage><timestep>1.0</timestep><randomseed>45.0</randomseed><resulttype>abstract</resulttype><popfilename>d:\piet</popfilename></simulation>

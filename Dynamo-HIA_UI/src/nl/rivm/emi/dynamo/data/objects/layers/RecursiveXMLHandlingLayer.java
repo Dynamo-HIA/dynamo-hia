@@ -203,12 +203,12 @@ abstract public class RecursiveXMLHandlingLayer implements IXMLHandlingLayer<Typ
 	 * @param currentLevel
 	 * @param makeObservable
 	 * @return
-	 * @throws DynamoConfigurationException
+	 * @throws ConfigurationException 
 	 */
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable)
-			throws DynamoConfigurationException {
+			throws ConfigurationException {
 		log.debug("Recursing, making default Object, currentLevel "
 				+ currentLevel);
 		AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList.get(

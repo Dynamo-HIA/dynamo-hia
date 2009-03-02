@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -20,7 +21,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;

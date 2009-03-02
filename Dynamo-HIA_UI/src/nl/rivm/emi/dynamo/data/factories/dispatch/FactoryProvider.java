@@ -6,12 +6,12 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
  */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 
 public class FactoryProvider {
 	static private Log log = LogFactory

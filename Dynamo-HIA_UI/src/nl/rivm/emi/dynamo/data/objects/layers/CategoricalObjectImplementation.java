@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.types.interfaces.IRecursiveXMLHandlingLayer;
+import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -145,5 +146,18 @@ RecursiveXMLHandlingLayer handler = new RecursiveXMLHandlingLayer();
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public TypedHashMap handle(TypedHashMap originalObject,
+			ConfigurationNode rootChild, boolean makeObservable)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
+			boolean makeObservable) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

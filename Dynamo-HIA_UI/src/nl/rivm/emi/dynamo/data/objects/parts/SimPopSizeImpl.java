@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IHasNewborns;
 import nl.rivm.emi.dynamo.data.interfaces.ISimPopSize;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
@@ -25,11 +29,11 @@ public class SimPopSizeImpl extends SimPopSizeType implements ISimPopSize {
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private SimPopSizeImpl() {
+	private SimPopSizeImpl() throws ConfigurationException{
 
 	}
 
-	public SimPopSizeImpl(boolean isObservable) {
+	public SimPopSizeImpl(boolean isObservable)  throws ConfigurationException{
 		this.isObservable = isObservable;
 	}
 
@@ -101,5 +105,11 @@ public class SimPopSizeImpl extends SimPopSizeType implements ISimPopSize {
 	@Override
 	public WritableValue getObservableValue() {
 		return observableSimPopSize;
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

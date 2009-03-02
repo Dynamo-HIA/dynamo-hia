@@ -45,7 +45,7 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	abstract protected void fillHandlers(boolean observable);
+	abstract protected void fillHandlers(boolean observable) throws ConfigurationException;
 	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.

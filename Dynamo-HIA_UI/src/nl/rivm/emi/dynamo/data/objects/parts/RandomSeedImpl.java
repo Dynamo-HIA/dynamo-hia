@@ -25,11 +25,11 @@ public class RandomSeedImpl extends RandomSeedType implements IRandomSeed {
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private RandomSeedImpl() {
+	private RandomSeedImpl() throws ConfigurationException {
 
 	}
 
-	public RandomSeedImpl(boolean isObservable) {
+	public RandomSeedImpl(boolean isObservable) throws ConfigurationException {
 		this.isObservable = isObservable;
 	}
 

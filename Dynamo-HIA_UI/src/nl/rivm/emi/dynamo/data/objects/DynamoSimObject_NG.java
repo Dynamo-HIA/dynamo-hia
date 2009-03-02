@@ -65,12 +65,12 @@ public class DynamoSimObject_NG extends XMLHandlingEntryPoint implements
 
 	TypedHashMap<IScenarioConfiguration> scenarios = new TypedHashMap<IScenarioConfiguration>(new ScenarioConfigurationData());
 
-	public DynamoSimObject_NG(boolean observable) {
+	public DynamoSimObject_NG(boolean observable) throws ConfigurationException {
 		super(rootElement, observable);
 		fillHandlers(observable);
 		}
 
-	protected void fillHandlers(boolean observable) {
+	protected void fillHandlers(boolean observable) throws ConfigurationException {
 		hasNewBorns = new HasNewBornsImpl(observable);
 		theHandlers.put(hasNewBorns.getXMLElementName(), hasNewBorns);
 		startingYear = new StartingYearImpl(observable);
