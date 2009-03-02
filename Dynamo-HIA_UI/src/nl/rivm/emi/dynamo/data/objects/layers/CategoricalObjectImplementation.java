@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.data.objects.layers;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import javax.xml.stream.XMLEventFactory;
@@ -10,25 +7,25 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
+import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
+import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.types.interfaces.IRecursiveXMLHandlingLayer;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
-import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.types.atomic.Classes;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
-
 public class CategoricalObjectImplementation extends DualModeObjectBase
-		implements IStaxEventContributor, ICategoricalObject,
-		IFactoryContributor {
-
-	LinkedHashMap<Integer, Object> theClasses = new LinkedHashMap<Integer, Object>();
+		implements ICategoricalObject, IRecursiveXMLHandlingLayer {
+	
+//	LinkedHashMap<Integer, Object> theClasses = new LinkedHashMap<Integer, Object>();
+TypedHashMap<String> theClasses = new TypedHashMap<String>("");
+RecursiveXMLHandlingLayer handler = new RecursiveXMLHandlingLayer();
 
 	public CategoricalObjectImplementation(boolean makeObservable) {
-		super(makeObservable);
+		super(makeObservable, "classes");
 	}
 
 	public Object putCategory(Integer index, String name) {
@@ -80,12 +77,6 @@ public class CategoricalObjectImplementation extends DualModeObjectBase
 		return theClasses.size();
 	}
 
-	// public ConfigurationObjectBase handle(ConfigurationObjectBase
-	// modelObject,
-	// ConfigurationNode node) throws ConfigurationException {
-	// return xmlTagHandler.handle(modelObject, node);
-	// }
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -133,5 +124,26 @@ public class CategoricalObjectImplementation extends DualModeObjectBase
 		for (int count = 1; count < 10; count++) {
 			putCategory(count, "");
 		}
+	}
+
+	public Object handle(ConfigurationNode node) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isConfigurationOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void streamEvents(Object value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }
