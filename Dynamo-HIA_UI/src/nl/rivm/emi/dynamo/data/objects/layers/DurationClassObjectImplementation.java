@@ -7,10 +7,10 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceCategory;
+import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
-import nl.rivm.emi.dynamo.data.types.markers.IHandlerType;
+import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -22,7 +22,7 @@ public class DurationClassObjectImplementation extends DualModeObjectBase
 	private Object durationClass = null;
 
 	public DurationClassObjectImplementation(boolean makeObservable) {
-		super(makeObservable);
+		super(makeObservable, "bogus");
 	}
 
 	public Object putDurationClass(Integer index) {
@@ -63,7 +63,7 @@ public class DurationClassObjectImplementation extends DualModeObjectBase
 		return resultCategory;
 	}
 
-	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
+	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartElement("", "",
 				"durationclass");

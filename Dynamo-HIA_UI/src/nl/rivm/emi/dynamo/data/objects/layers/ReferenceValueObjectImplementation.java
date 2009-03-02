@@ -17,7 +17,7 @@ public class ReferenceValueObjectImplementation extends DualModeObjectBase
 	private Object referenceValue = null;
 
 	public ReferenceValueObjectImplementation(boolean makeObservable) {
-		super(makeObservable);
+		super(makeObservable, "bogus");
 	}
 
 	public Float putReferenceValue(Float value) {
@@ -57,7 +57,7 @@ public class ReferenceValueObjectImplementation extends DualModeObjectBase
 		return resultCategory;
 	}
 
-	public void streamEvents(XMLEventWriter writer, XMLEventFactory eventFactory)
+	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		XMLEvent event = eventFactory.createStartElement("", "",
 				"referencevalue");
