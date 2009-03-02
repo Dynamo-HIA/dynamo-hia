@@ -56,6 +56,7 @@ public class StAXAgnosticTypedHashMapWriter {
 	static public void streamDocument(FileControlEnum fileControl,
 			TypedHashMap hierarchicalConfiguration, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
+		log.debug("Entering streamDocument.");
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
 		event = eventFactory.createStartElement("", "", fileControl
@@ -131,6 +132,7 @@ public class StAXAgnosticTypedHashMapWriter {
 			LinkedHashMap<String, Number> leafValueMap, Number containedValue,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
+		log.debug("Entering streamEntry");
 		XMLEvent event;
 		event = eventFactory.createStartElement("", "",
 				fileControl.rootChildElementName);
@@ -178,6 +180,7 @@ public class StAXAgnosticTypedHashMapWriter {
 	private static void streamIncidenceEvents(
 			TreeMap<String, String> contentMap, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
+		log.debug("Entering streamIncidenceEvents");
 		Set<String> keySet = contentMap.keySet();
 		Iterator<String> keyIterator = keySet.iterator();
 		XMLEvent event = eventFactory.createStartElement("", "", "incidence");
