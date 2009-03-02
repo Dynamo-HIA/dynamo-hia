@@ -7,7 +7,6 @@ import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
@@ -15,29 +14,16 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.CategoryItemLabelGenerator;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.CombinedDomainCategoryPlot;
+import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
@@ -50,13 +36,13 @@ import org.jfree.ui.RefineryUtilities;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
-
+import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import org.jfree.chart.plot.PlotOrientation;
-
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
+import org.jfree.chart.ChartPanel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -64,23 +50,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.Font;
+
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 
-/**
- * @author boshuizh
- *
- */
+
 public class DynamoOutputFactory {
 	private static final float[][][] nInSimulationByDurationByRiskClassByAge = null;
 
@@ -255,7 +238,7 @@ public class DynamoOutputFactory {
 	/**
 	 * succesrate is the successrate of the intervention can be reset at a
 	 * different value for obtaining new results without having to redo the
-	 * simulation
+	 * simulation. Set this value to the succesrate in percent (value between 0 and 100)
 	 */
 	private float[] succesrate = null;
 	/**
@@ -312,12 +295,14 @@ public class DynamoOutputFactory {
 		oneScenPopulation = false;
 		isOneScenPopulation = new boolean[nScen + 1];
 		popToScenIndex = new int[nScen + 1];
-		succesrate = scenInfo.getSuccesrate();
-		for (int i = 0; i < succesrate.length; i++)
-			succesrate[i] = succesrate[i] / 100;
+		setSuccesrate(scenInfo.getSuccesrate());
+		
 		minAge = scenInfo.getMinAge();
 		maxAge = scenInfo.getMaxAge();
-		scenarioNames = scenInfo.getScenarioNames();
+		scenarioNames = new String [scenInfo.getScenarioNames().length+1];
+		scenarioNames[0]="reference scenario"; 
+		for (int i=1;i<=scenInfo.getScenarioNames().length;i++)
+			scenarioNames[i] = scenInfo.getScenarioNames()[i-1];
 		cutoffs = scenInfo.getCutoffs();
 		popToScenIndex[0] = 0;
 		int currentPop = 1;
@@ -1104,6 +1089,59 @@ public class DynamoOutputFactory {
 		return diseaseArray;
 	}
 
+	
+	
+	/**
+	 * The array returns a 5 dimensional array (scenario, time, riskfactor, age, sex) of healthy persons
+	 * in the population
+	 * 
+	 * 
+	 * 
+	 * @return 4-dimensional array of healthy persons in the population by scenario, time, age and sex
+	 */
+	private double[][][][][] getNumberOfHealthyPersons() {
+		int currentDisease = 0;
+		
+		
+
+		double healthyPersons[][][][][] = new double[nScen+1][stepsInRun+1][nRiskFactorClasses][105][2];
+
+		for (int scen = 0; scen < nScen+1; scen++)
+			for (int stepCount = 0; stepCount < stepsInRun+1; stepCount++)
+		for (int a = 0; a < 105; a++)
+			for (int g = 0; g < 2; g++){
+				
+					
+			
+			for (int r = 0; r < nRiskFactorClasses; r++){
+				healthyPersons[scen][stepCount][r][a][g]=nPopByRiskClassByAge[scen][stepCount][r][a][g];	
+				int currentClusterStart = 0;
+				for (int c = 0; c < structure.length; c++) {
+             double nWithDisease=0;
+			
+
+				for (int state = 0; state < Math.pow(2, structure[c]
+						.getNInCluster()-1); state++) {
+					
+						/*
+						 * pDisease[thisScen][stepCount][currentDisease +
+						 * d][sexIndex] += compoundData[currentState + s - 1]
+						 * survival weight[riskFactor][ageIndex][ sexIndex]; if
+						 * (details)
+						 */
+						
+					nWithDisease+=	nDiseaseStateByRiskClassByAge[scen][stepCount][currentClusterStart
+													+ state ][r][a][g];
+					}
+				currentClusterStart += Math.pow(2, structure[c].getNInCluster()) - 1;
+				if (nPopByRiskClassByAge[scen][stepCount][r][a][g]>0)	healthyPersons[scen][stepCount][r][a][g]*=(nPopByRiskClassByAge[scen][stepCount][r][a][g]-nWithDisease)/nPopByRiskClassByAge[scen][stepCount][r][a][g];
+				else healthyPersons[scen][stepCount][r][a][g]=0;
+		}
+		}}
+		return healthyPersons;
+	}
+
+	
 	/**
 	 * @param pop
 	 */
@@ -1254,11 +1292,11 @@ public class DynamoOutputFactory {
 					} else {
 						/* for newborns (born during simulation ) */
 						if (s == 0) /* males */
-							originalNumber = newborns[stepCount - 1] * mfratio;
+							originalNumber = newborns[stepCount - 1] * mfratio/(1+mfratio);
 						else
 							/* females */
 							originalNumber = newborns[stepCount - 1]
-									* (1 - mfratio);
+									* (1 - mfratio/(1+mfratio));
 						originalAge = -stepCount;
 						if (nNewBornsInSimulationByAge[stepCount - 1][s] != 0)
 							ratio = originalNumber
@@ -2421,7 +2459,7 @@ public class DynamoOutputFactory {
 				"years of simulation", "survival", xyDataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
-		ChartFrame frame1 = new ChartFrame("Survival Chart " + label, chart);
+/*		ChartFrame frame1 = new ChartFrame("Survival Chart " + label, chart);
 		frame1.setVisible(true);
 		frame1.setSize(300, 300);
 		try {
@@ -2432,22 +2470,24 @@ public class DynamoOutputFactory {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.out.println("Problem occurred creating chart.");
-		}
+		}*/
 		return chart;
 	}
 
-	public void makePrevalencePlots(int thisScen) throws DynamoOutputException {
+	/**makes a plot of the prevalence of disease d mby gender with year on the axis for one scenario
+	 * 
+	 * @param thisScen: scenario number
+	 * @param d: disease number
+	 * @return
+	 * @throws DynamoOutputException
+	 */
+	public JFreeChart makeYearPrevalenceByGenderPlot(int thisScen, int d) throws DynamoOutputException {
 
-		for (int d = 0; d < nDiseases; d++) {
-
-			XYSeries menSeries = new XYSeries(diseaseNames[d]
-
+		 	XYSeries menSeries = new XYSeries(diseaseNames[d]
 			+ " prevalence in men");
 			XYSeries womenSeries = new XYSeries(diseaseNames[d]
-
 			+ " prevalence in women");
 			XYSeries totalSeries = new XYSeries(diseaseNames[d]
-
 			+ " overall prevalence");
 
 			for (int steps = 0; steps < stepsInRun; steps++) {
@@ -2474,15 +2514,13 @@ public class DynamoOutputFactory {
 						+ diseaseNames[d] + " in scenario " + thisScen,
 						"years of simulation", "prevalence rate", xyDataset,
 						PlotOrientation.VERTICAL, false, true, false);
-			ChartFrame frame1 = new ChartFrame(diseaseNames[d] + " prevalence",
-					chart);
-			frame1.setVisible(true);
-			frame1.setSize(300, 300);
-
-			final ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-
-			try {
+			/*
+			 * in the tryout phase of the project the charts were written to file,
+			 * but this is no longer needed as the plot can be saved by the
+			 * user with a standard menu from chartcomposite
+			 * Still this is kept here commented out in case of future return
+			 * 
+			 * try {
 				writeCategoryChart(baseDir + File.separator + "simulations"
 						+ File.separator + simulationName + File.separator
 						+ "results" + File.separator + "chartPrevalence" + d
@@ -2492,11 +2530,83 @@ public class DynamoOutputFactory {
 				System.out
 						.println("Problem occurred creating chart. for diseasenumber"
 								+ d);
-			}
+			}*/
 
-		}
+		
+		return chart;
+	}
+	/**makes a plot of the prevalence of disease d by gender with age on the axis for one scenario
+	 * 
+	 * @param thisScen: scenario number
+	 * @param d: disease number
+	 * @param year: year for which to plot
+	 * @return
+	 * @throws DynamoOutputException
+	 */
+	public JFreeChart makeAgePrevalenceByGenderPlot(int thisScen, int d, int year) throws DynamoOutputException {
+
+		 	XYSeries menSeries = new XYSeries(diseaseNames[d]
+			+ " prevalence in men");
+			XYSeries womenSeries = new XYSeries(diseaseNames[d]
+			+ " prevalence in women");
+			XYSeries totalSeries = new XYSeries(diseaseNames[d]
+			+ " overall prevalence");
+
+			double indat0=0; /* diseasenumbers for men */
+			double indat1=0;/* diseasenumbers for women */
+			double npop0=0;/* total numbers for women */
+			double npop1=0;/* total numbers for women */
+			double[][][][] nPopByAge = getNPopByAge();
+			double[][][][][] nDiseaseByAge = getNDiseaseByAge();
+			int nDim = nPopByAge[0][0].length;
+			
+			
+			/*
+			 * first calculate for men and women separately
+			 * 	
+			 */
+			
+			
+			for (int age = 0; age < nDim; age++) {
+					indat0 = applySuccesrate(
+							nDiseaseByAge[0][year][d][age][0],
+							nDiseaseByAge[thisScen][year][d][age][0],
+							thisScen, year, age);
+					npop0 = applySuccesrate(nPopByAge[0][year][age][0],
+							nPopByAge[thisScen][year][age][0], thisScen,
+							year, age);
+			if (npop0!=0) indat0 = indat0/npop0; else indat0=0;
+			 menSeries.add((double) age, indat0); 
+				indat1= applySuccesrate(
+						nDiseaseByAge[0][year][d][age][1],
+						nDiseaseByAge[thisScen][year][d][age][1],
+						thisScen, year, age);
+				npop1 = applySuccesrate(nPopByAge[0][year][age][1],
+						nPopByAge[thisScen][year][age][1], thisScen,
+						year, age);
+				if (npop1!=0) indat1 = indat1/npop1; else indat1=0;
+				womenSeries.add((double) age, indat1);
+				if (npop0+npop1!=0) 
+				totalSeries.add((double) age, ((indat1+indat0)/(npop1+npop0)));
+				}
+			
+			XYDataset xyDataset = new XYSeriesCollection(menSeries);
+			((XYSeriesCollection) xyDataset).addSeries(womenSeries);
+			((XYSeriesCollection) xyDataset).addSeries(totalSeries);
+			JFreeChart chart;
+			
+				chart = ChartFactory.createXYLineChart("prevalence of "
+						+ diseaseNames[d] + " in scenario " + scenarioNames[thisScen],
+						"age", "prevalence rate", xyDataset,
+						PlotOrientation.VERTICAL, true, true, false);
+			
+		
+		return chart;
 	}
 
+	
+	
+	
 	/**
 	 * method plots the mean value of the riskFactor
 	 * 
@@ -2516,7 +2626,7 @@ public class DynamoOutputFactory {
 				if (thisScen == 0) {
 					dataSeries = new XYSeries("reference scenario");
 				} else
-					dataSeries = new XYSeries("scenario " + thisScen);
+					dataSeries = new XYSeries("scenario " +  scenarioNames[thisScen]);
 				for (int age = 0; age < nDim; age++)
 
 					meandat += applySuccesrateToMean(
@@ -2540,7 +2650,7 @@ public class DynamoOutputFactory {
 				"mean value of riskfactor for sex=" + gender,
 				"years of simulation", "prevalence rate", xyDataset,
 				PlotOrientation.VERTICAL, true, true, false);
-
+/*
 		ChartFrame frame1 = new ChartFrame("RiskfactorAverage", chart);
 		frame1.setVisible(true);
 		frame1.setSize(300, 300);
@@ -2558,7 +2668,7 @@ public class DynamoOutputFactory {
 			System.out.println(e.getMessage());
 			System.out
 					.println("Problem occurred creating chart. for average of riskfactor");
-		}
+		}*/
 
 	}
 
@@ -2684,11 +2794,11 @@ public class DynamoOutputFactory {
 		return indat;
 	}
 
-	public void makePrevalenceByRiskFactorPlots(int thisScen)
+	public JFreeChart makeYearPrevalenceByRiskFactorPlots(int thisScen, int d)
 			throws DynamoOutputException {
 		XYDataset xyDataset = null;
 
-		for (int d = 0; d < nDiseases; d++) {
+		
 
 			for (int r = 0; r < nRiskFactorClasses; r++) {
 
@@ -2715,10 +2825,11 @@ public class DynamoOutputFactory {
 
 			}
 			JFreeChart chart = ChartFactory.createXYLineChart("prevalence of "
-					+ diseaseNames[d] + " in scenario " + thisScen,
+					+ diseaseNames[d] + " in scenario " +  scenarioNames[thisScen],
 					"years of simulation", "prevalence rate", xyDataset,
 					PlotOrientation.VERTICAL, true, true, false);
-			ChartFrame frame1 = new ChartFrame(diseaseNames[d]
+			return chart;
+		/*	ChartFrame frame1 = new ChartFrame(diseaseNames[d]
 					+ " prevalence by risk factor", chart);
 			frame1.setVisible(true);
 			frame1.setSize(300, 300);
@@ -2738,12 +2849,12 @@ public class DynamoOutputFactory {
 				System.out
 						.println("Problem occurred creating chart. for diseasenumber"
 								+ d);
-			}
+			}*/
 
-		}
+		
 	}
 
-	public void makeRiskFactorPlots(int thisScen) throws DynamoOutputException {
+	public  JFreeChart makeRiskFactorPlots(int thisScen) throws DynamoOutputException {
 
 		XYDataset xyDataset = null;
 		double[][][][] nPopByAge = getNPopByAge();
@@ -2803,10 +2914,10 @@ public class DynamoOutputFactory {
 		JFreeChart chart = ChartFactory.createXYLineChart("riskfactor",
 				"years of simulation", "prevalence rate", xyDataset,
 				PlotOrientation.VERTICAL, true, true, false);
-		ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
-		frame1.setVisible(true);
-		frame1.setSize(300, 300);
-
+	//	ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
+	//	frame1.setVisible(true);
+	//	frame1.setSize(300, 300);
+/*
 		final ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 
@@ -2819,7 +2930,8 @@ public class DynamoOutputFactory {
 			System.out.println(e.getMessage());
 			System.out
 					.println("Problem occurred creating chart. for riskfactor");
-		}
+		}*/
+		return chart;
 
 	}
 
@@ -2831,9 +2943,10 @@ public class DynamoOutputFactory {
 	 * when not life expectancy at birth); This means that everyone who survives
 	 * until age 105 is expected to die at age 105.
 	 * 
-	 * @param age
+	 * @param age: age at which the life expectancy is calculated
+	 * @throws DynamoOutputException 
 	 */
-	public void makeLifeExpectancyPlot(int age) {
+	public JFreeChart makeLifeExpectancyPlot(int age) throws DynamoOutputException {
 
 		/*
 		 * for (int steps = 0; steps < stepsInRun; steps++) { double indat = 0;
@@ -2872,16 +2985,27 @@ public class DynamoOutputFactory {
 					lifeExp[scenario][s] = 0;
 
 			}
-
+         String[] gender={"male","female"};
+         String[] legend=new String [nScen+1];
+         legend[0]="ref. scenario";
+         for (int scen=1;scen<nScen+1;scen++ )
+        	 legend[scen]="scenario "+scen;
 		CategoryDataset dataset = DatasetUtilities.createCategoryDataset(
-				"scenario ", "gender ", lifeExp);
+				legend, gender, lifeExp);
 
 		JFreeChart chart = ChartFactory.createBarChart("LifeExpectancy", "",
 				"years", dataset, PlotOrientation.VERTICAL, true, true, false);
-		ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
-		frame1.setVisible(true);
-		frame1.setSize(300, 300);
-
+		//ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
+		Plot plot=chart.getPlot();
+		/* assign a generator to a CategoryItemRenderer,*/
+			CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
+			CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+			"{2}", new DecimalFormat("0.00"));
+			renderer.setBaseItemLabelGenerator(generator);
+			renderer.setBaseItemLabelsVisible(true);
+	//	frame1.setVisible(true);
+	//	frame1.setSize(300, 300);
+       /* 
 		try {
 
 			writeCategoryChart(baseDir + File.separator + "simulations"
@@ -2892,16 +3016,22 @@ public class DynamoOutputFactory {
 			System.out.println(e.getMessage());
 			System.out
 					.println("Problem occurred creating chart. for lifeExpectancy");
-		}
+			throw new DynamoOutputException("Problem occurred creating chart. for lifeExpectancy with" +
+					" message: "+e.getMessage());
+		}*/
+		 return chart;
 	}
 
-	/**
-	 * @param thisScen
+	/** method makePyramidChart makes a population pyramid chart for scenario "thisScen" compared to the
+	 * reference scenario and
+	 * year "timestep"
+	 * @param thisScen: number of the scenario
 	 * @param timestep
 	 * @return
 	 */
 	public JFreeChart makePyramidChart(int thisScen, int timestep) {
 		
+
 		double[][] pyramidData1 = new double[2][100];
 		double[][] pyramidData2 = new double[2][100];
 		double[][] nPopByAge = new double[100][2];
@@ -2927,16 +3057,19 @@ public class DynamoOutputFactory {
 
 			// TODO hoe aanpakken als effect van richting verschilt per
 			// leeftijdsgroep
+			/* round as plot gives the numbers and integer persons are
+			 * strange to users
+			 */
 			if (nPopByAge[a][0] >= nRefPopByAge[a][0]) {
-				pyramidData1[0][99 - a] = nRefPopByAge[a][0];
-				pyramidData2[0][99 - a] = -nRefPopByAge[a][1];
-				pyramidData1[1][99 - a] = nPopByAge[a][0] - nRefPopByAge[a][0];
-				pyramidData2[1][99 - a] = -nPopByAge[a][1] + nRefPopByAge[a][1];
+				pyramidData1[0][99 - a] = Math.round(nRefPopByAge[a][0]);
+				pyramidData2[0][99 - a] = -Math.round(nRefPopByAge[a][1]);
+				pyramidData1[1][99 - a] = Math.round(nPopByAge[a][0] - nRefPopByAge[a][0]);
+				pyramidData2[1][99 - a] = -Math.round(nPopByAge[a][1] + nRefPopByAge[a][1]);
 			} else {
-				pyramidData1[0][99 - a] = nPopByAge[a][0];
-				pyramidData2[0][99 - a] = -nPopByAge[a][1];
-				pyramidData1[1][99 - a] = -nPopByAge[a][0] + nRefPopByAge[a][0];
-				pyramidData2[1][99 - a] = nPopByAge[a][1] - nRefPopByAge[a][1];
+				pyramidData1[0][99 - a] = Math.round(nPopByAge[a][0]);
+				pyramidData2[0][99 - a] = -Math.round(nPopByAge[a][1]);
+				pyramidData1[1][99 - a] = -Math.round(nPopByAge[a][0] + nRefPopByAge[a][0]);
+				pyramidData2[1][99 - a] = Math.round(nPopByAge[a][1] - nRefPopByAge[a][1]);
 			}
 		}
 		CategoryDataset dataset1 = DatasetUtilities.createCategoryDataset("",
@@ -2945,7 +3078,7 @@ public class DynamoOutputFactory {
 				"", pyramidData2);
 		/* the last three booleans are for: legend , ? , */
 		JFreeChart chart = ChartFactory.createStackedBarChart(
-				"Population pyramid for scenario " + thisScen + " versus" +
+				"Population pyramid for scenario " +  scenarioNames[thisScen] + " versus" +
 						" reference scenario at year "
 						+ (startYear + timestep), "", "population size",
 				dataset1, PlotOrientation.HORIZONTAL, false, true, true);
@@ -2973,11 +3106,225 @@ public class DynamoOutputFactory {
 		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		rangeAxis.setUpperMargin(0.10);
+		
 		plot.setRenderer(1, renderer);
 		plot.setRenderer(2, renderer);
 		return chart;
 	}
 
+	/**method find the largest populationnumbers
+	 * @return
+	 */
+	private int getMaxPop(){
+		int maximum=0;
+		for (int a=0;a<96;a++) for (int s=0;s<2;s++)
+			if (populationSize[a][s]>maximum) maximum=Math.round(populationSize[a][s]);
+		if (mfratio>1){
+		for (int y=0;y<newborns.length;y++)
+			if (newborns[y]*mfratio/(1+mfratio)>maximum) maximum=Math.round(newborns[y]*mfratio/(1+mfratio));
+		}else{
+				for (int y=0;y<newborns.length;y++)
+					if (newborns[y]/(1+mfratio)>maximum) maximum=Math.round(newborns[y]/(1+mfratio));
+		}
+		return maximum;
+	}
+
+	
+	double scaleRange=0;
+	
+	
+	
+	/** method makePyramidChart makes a population pyramid chart for scenario "thisScen" compared to the
+	 * reference scenario and
+	 * year "timestep", indication also the persons in the population with any modelled disease
+	 * @param thisScen: number of the scenario
+	 * @param timestep
+	 * @param diseaseNumber: number of the disease (not yet implemented
+	 * @return
+	 */
+	public JFreeChart makePyramidChartIncludingDisease(int thisScen, int timestep, int d) {
+		
+		double[][] pyramidData1 = new double[4][105];
+		double[][] pyramidData2 = new double[4][105];
+		double[][] nHealthyByAge = new double[105][2];
+		double[][] nRefHealthyByAge = new double[105][2];
+		double[][] nDiseaseByAge = new double[105][2];
+		double[][] nRefDiseaseByAge = new double[105][2];
+		double [][][][][] healthy= getNumberOfHealthyPersons();
+		String [] typeKey1={diseaseNames[d]+" men","scen-ref (disease)", "healthy men" ,"scen-ref (healthy)"};
+		String [] typeKey2={diseaseNames[d]+" women","scen-ref (disease)", "healthy women" ,"scen-ref (healthy)"};
+		
+		String [] ageKey=new String [105];
+		for (int a = 0; a < 105; a++) {
+			//if (Math.floor(a/5)==a)
+			ageKey[104-a]=((Integer) a).toString();
+			//else ageKey[104-a]="";
+			
+			for (int r = 0; r < nRiskFactorClasses; r++) {
+				nDiseaseByAge[a][0] += applySuccesrate(
+						nPopByRiskClassByAge[0][timestep][r][a][0]-healthy[0][timestep][r][a][0],
+						nPopByRiskClassByAge[thisScen][timestep][r][a][0]-healthy[thisScen][timestep][r][a][0],
+						thisScen, timestep, a);
+				nHealthyByAge[a][0] += applySuccesrate(
+						healthy[0][timestep][r][a][0],
+						healthy[thisScen][timestep][r][a][0],
+						thisScen, timestep, a);
+				nDiseaseByAge[a][1] += applySuccesrate(
+						nPopByRiskClassByAge[0][timestep][r][a][1]-healthy[0][timestep][r][a][1],
+						nPopByRiskClassByAge[thisScen][timestep][r][a][1]-healthy[thisScen][timestep][r][a][1],
+						thisScen, timestep, a);
+				nHealthyByAge[a][1] += applySuccesrate(
+						healthy[0][timestep][r][a][1],
+						healthy[thisScen][timestep][r][a][1],
+						thisScen, timestep, a);
+				
+				nRefDiseaseByAge[a][0] += nPopByRiskClassByAge[0][timestep][r][a][0]- healthy[0][timestep][r][a][0];
+				nRefDiseaseByAge[a][1] += nPopByRiskClassByAge[0][timestep][r][a][1]- healthy[0][timestep][r][a][1];
+				nRefHealthyByAge[a][0] += healthy[0][timestep][r][a][0];
+				nRefHealthyByAge[a][1] += healthy[0][timestep][r][a][1];
+
+			}
+			/*
+			 * as it is printed upside down we change the order in the dataset
+			 * by putting a in 99-a
+			 */
+
+			// TODO hoe aanpakken als effect van richting verschilt per
+			// leeftijdsgroep
+			/* round as plot gives the numbers and integer persons are
+			 * strange to users
+			 */
+			/* van binnen naar buiten plotten: disease voor ref, disease verschil, healthy ref-diseaseverschil,
+			 * pop verschil */
+			
+				
+			
+			if (nDiseaseByAge[a][0] >= nRefDiseaseByAge[a][0]) {
+				
+				pyramidData1[0][104 - a] = Math.round(nRefDiseaseByAge[a][0]);
+				pyramidData2[0][104 - a] = -Math.round(nRefDiseaseByAge[a][1]);
+				
+				pyramidData1[1][104 - a] = Math.round(nDiseaseByAge[a][0] - nRefDiseaseByAge[a][0]);
+				pyramidData2[1][104 - a] = -Math.round(nDiseaseByAge[a][1] - nRefDiseaseByAge[a][1]);
+				if (nHealthyByAge[a][0] >= nRefHealthyByAge[a][0]) {	
+				pyramidData1[2][104 - a] = Math.round( nRefHealthyByAge[a][0]-nDiseaseByAge[a][0]);
+				pyramidData2[2][104 - a] = -Math.round(nRefHealthyByAge[a][1]-nDiseaseByAge[a][1]);
+				 typeKey1[3]="scen - ref (healthy)";
+				 typeKey2[3]="scen - ref (healthy)";
+				pyramidData1[3][104 - a] = Math.round(nHealthyByAge[a][0] - nRefHealthyByAge[a][0]);
+				pyramidData2[3][104 - a] = -Math.round(nHealthyByAge[a][1] - nRefHealthyByAge[a][1]);
+				}else {
+					 typeKey1[3]="ref-scen (healthy)";
+					 typeKey2[3]="ref-scen (healthy)";
+					pyramidData1[2][104 - a] = Math.round( nHealthyByAge[a][0]-nDiseaseByAge[a][0]);
+					pyramidData2[2][104 - a] = -Math.round(nHealthyByAge[a][1]-nDiseaseByAge[a][1]);
+					
+					pyramidData1[3][104 - a] = Math.round(nRefHealthyByAge[a][0] - nHealthyByAge[a][0]);
+					pyramidData2[3][104 - a] = -Math.round(nRefHealthyByAge[a][1] - nHealthyByAge[a][1]);
+					
+					
+				}
+			} else {
+				
+				pyramidData1[0][104 - a] = Math.round(nDiseaseByAge[a][0]);
+				pyramidData2[0][104 - a] = -Math.round(nDiseaseByAge[a][1]);
+				 typeKey1[1]="ref- scen (disease)";
+				 typeKey2[1]="ref- scen (disease)";
+				pyramidData1[1][104 - a] = Math.round(nRefDiseaseByAge[a][0] - nDiseaseByAge[a][0]);
+				pyramidData2[1][104 - a] = -Math.round(nRefDiseaseByAge[a][1] - nDiseaseByAge[a][1]);
+				if (nHealthyByAge[a][0] >= nRefHealthyByAge[a][0]) {	
+				pyramidData1[2][104 - a] = Math.round( nRefHealthyByAge[a][0]-nRefDiseaseByAge[a][0]);
+				pyramidData2[2][104 - a] = -Math.round(nRefHealthyByAge[a][1]-nRefDiseaseByAge[a][1]);
+				 typeKey1[3]="ref-scen (healthy)";
+				 typeKey2[3]="ref-scen (healthy)";
+				pyramidData1[3][104 - a] = Math.round(nHealthyByAge[a][0] - nRefHealthyByAge[a][0]);
+				pyramidData2[3][104 - a] = -Math.round(nHealthyByAge[a][1] - nRefHealthyByAge[a][1]);
+				}else {
+					 typeKey1[3]="scen - ref (healthy)";
+					 typeKey2[3]="scen - ref (healthy)";
+					pyramidData1[2][104 - a] = Math.round( nHealthyByAge[a][0]-nRefDiseaseByAge[a][0]);
+					pyramidData2[2][104 - a] = -Math.round(nHealthyByAge[a][1]-nRefDiseaseByAge[a][1]);
+					
+					pyramidData1[3][104 - a] = Math.round(nRefHealthyByAge[a][0] - nHealthyByAge[a][0]);
+					pyramidData2[3][104 - a] = -Math.round(nRefHealthyByAge[a][1] - nHealthyByAge[a][1]);
+					
+					
+				}	}
+		}
+		
+		CategoryDataset dataset1 = DatasetUtilities.createCategoryDataset(typeKey1,ageKey, pyramidData1);
+		CategoryDataset dataset2 = DatasetUtilities.createCategoryDataset(typeKey2,ageKey, pyramidData2);
+		/* find the maximum value of the current population  */
+		/* assume that scenarios will not increase this by more than 50% */
+		
+		if ( scaleRange==0) {int maximumPopSize=getMaxPop();
+		scaleRange=  10000* Math.ceil(maximumPopSize*1.5/10000);
+		}
+		
+		
+		/* the last three booleans are for: legend , ? , */
+		
+		
+		JFreeChart chart = ChartFactory.createStackedBarChart(
+				"Population pyramid for scenario " + scenarioNames[thisScen] + " versus" +
+						" reference scenario at year "
+						+ (startYear + timestep), "", "population size",
+				dataset1, PlotOrientation.HORIZONTAL, true, true, true);
+		
+		
+		
+		CategoryPlot plot = chart.getCategoryPlot();
+		
+		CategoryAxis catAxis = (CategoryAxis) plot.getDomainAxis();
+		
+		//catAxis.setLabel(null);
+		catAxis.setTickLabelsVisible(true);
+		boolean [] show=new boolean[105];
+		for (int a=0;a<105;a++)
+			if (Math.floor(a)==a) show[a]=true; else show[a]=false;
+		// catAxis.setTickLabelPaint(show);
+		plot.setDataset(1, dataset2);
+		BarRenderer renderer = (BarRenderer) plot.getRenderer();
+		renderer.setItemMargin(0.0);
+		renderer.setDrawBarOutline(true);
+
+		// ChartFrame frame = new ChartFrame("LifeExpectancy Chart", chart);
+		final CategoryAxis domainAxis = new CategoryAxis("PopulationNumbers");
+		renderer.setItemMargin(0.0);
+
+		renderer.setItemLabelAnchorOffset(9.0);
+		renderer.setSeriesPaint(0, Color.pink);
+		renderer.setSeriesPaint(1, Color.red);
+		renderer.setSeriesPaint(2, Color.white);
+		renderer.setSeriesPaint(3, Color.gray);
+		renderer.setDrawBarOutline(true);
+		renderer.setBaseOutlinePaint(Color.black);
+		renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van de
+		// lijnen
+		CategoryAxis categoryAxis = plot.getDomainAxis();
+		categoryAxis.setCategoryMargin(0.0); // ruimte tussen de balken
+		categoryAxis.setUpperMargin(0.02); // ruimte boven bovenste balk
+		categoryAxis.setLowerMargin(0.02);// ruimte onder onderste balk
+		/* only show ages every 5 years 
+		 * make color white for years in between 
+		 */
+		 Paint background = chart.getBackgroundPaint();
+		for (int i=0;i<105;i++)
+		if (5*Math.floor(i/5)!=i) {categoryAxis.setTickLabelPaint(((Integer)i).toString(), background);
+		categoryAxis.setTickLabelFont(((Integer)i).toString(),new Font("SansSerif",Font.PLAIN,2))
+				;}
+		
+		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		rangeAxis.setRange(-scaleRange, scaleRange);
+		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		rangeAxis.setUpperMargin(0.10);
+		
+		plot.setRenderer(1, renderer);
+		plot.setRenderer(2, renderer);
+		return chart;
+	}
+
+	
 	public int getRiskType() {
 		return riskType;
 	}
@@ -3058,7 +3405,7 @@ public class DynamoOutputFactory {
 	}
 
 	public void writeCategoryChart(String fileName, JFreeChart chart)
-			throws Exception {
+			throws DynamoOutputException {
 		File outFile = new File(fileName);
 		String directoryName = outFile.getParent();
 		File directory = new File(directoryName);
@@ -3073,7 +3420,7 @@ public class DynamoOutputFactory {
 						500);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			throw new Exception(e.getMessage());
+			throw new DynamoOutputException(e.getMessage());
 		}
 	}
 
@@ -3099,11 +3446,18 @@ public class DynamoOutputFactory {
 	}
 
 	public float[] getSuccesrate() {
-		return succesrate;
+		float [] returnvalue=new float [succesrate.length];
+		for (int i=0;i<succesrate.length;i++)
+		returnvalue[i] = succesrate[i]*100;
+		return returnvalue;
 	}
 
 	public void setSuccesrate(float[] succesrate) {
-		this.succesrate = succesrate;
+		
+			this.succesrate=new float [succesrate.length];
+			for (int i=0;i<succesrate.length;i++)
+			this.succesrate[i] = succesrate[i]/100;
+		
 	}
 
 	public float[] getMinAge() {
@@ -3259,6 +3613,30 @@ public class DynamoOutputFactory {
 
 	public void setStartYear(int startYear) {
 		this.startYear = startYear;
+	}
+
+	public String[] getRiskClassnames() {
+		return riskClassnames;
+	}
+
+	public void setRiskClassnames(String[] riskClassnames) {
+		this.riskClassnames = riskClassnames;
+	}
+
+	public String[] getDiseaseNames() {
+		return diseaseNames;
+	}
+
+	public void setDiseaseNames(String[] diseaseNames) {
+		this.diseaseNames = diseaseNames;
+	}
+
+	public String[] getScenarioNames() {
+		return scenarioNames;
+	}
+
+	public void setScenarioNames(String[] scenarioNames) {
+		this.scenarioNames = scenarioNames;
 	}
 
 }
