@@ -8,6 +8,7 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.factories.XMLHandlingEntryPoint;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
@@ -46,7 +47,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					.getInstance().get(rootElementName),
 					(TypedHashMap) modelObject, configurationFile);
 			} else {
-				((StaxWriterEntryPoint)modelObject).writeToFile(configurationFile);
+				((XMLHandlingEntryPoint)modelObject).writeToFile(configurationFile);
 			}
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
