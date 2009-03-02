@@ -1,20 +1,39 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 
+import Jama.Matrix;
+
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.SubnodeConfiguration;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import Jama.Matrix;
+import java.io.File;
+import java.util.List;
+
+import javax.management.RuntimeErrorException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * @author Hendriek Boshuizen. ModelParameters estimates and holds the model
@@ -2354,59 +2373,6 @@ public class ModelParameters {
 		return notCuredPrev;
 	}
 
-	private float[][] deepcopy(float[][] inarray) {
-		float[][] returnarray = new float[inarray.length][inarray[0].length];
-		for (int i = 0; i < inarray.length; i++)
-			System.arraycopy(inarray[i], 0, returnarray[i], 0,
-					inarray[0].length);
-		return returnarray;
-
-	}
-
-	private float[][][] deepcopy(float[][][] inarray) {
-		float[][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);
-		return returnarray;
-
-	}
-
-	private double[][][] deepcopy(double[][][] inarray) {
-		double[][][] returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);
-		return returnarray;
-
-	}
-
-	private float[][][][] deepcopy(float[][][][] inarray) {
-		float[][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				for (int k = 0; k < inarray[0][0].length; k++)
-					System.arraycopy(inarray[i][j][k], 0, returnarray[i][j][k],
-							0, inarray[0][0][0].length);
-		return returnarray;
-
-	}
-
-	private float[][][][][] deepcopy(float[][][][][] inarray) {
-		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length][inarray[0][0][0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				for (int k = 0; k < inarray[0][0].length; k++)
-					for (int l = 0; l < inarray[0][0][0].length; l++)
-						System.arraycopy(inarray[i][j][k][l], 0,
-								returnarray[i][j][k][l], 0,
-								inarray[0][0][0][0].length);
-		return returnarray;
-
-	}
-
 	public int getRiskType() {
 		return riskType;
 	}
@@ -2456,7 +2422,7 @@ public class ModelParameters {
 	}
 
 	public float[][][][][] getRelRiskDiseaseOnDisease() {
-		return deepcopy(relRiskDiseaseOnDisease);
+		return DynamoLib.deepcopy(relRiskDiseaseOnDisease);
 	}
 
 	public void setRelRiskDiseaseOnDisease(
@@ -2465,7 +2431,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getBaselineIncidence() {
-		return deepcopy(baselineIncidence);
+		return DynamoLib.deepcopy(baselineIncidence);
 	}
 
 	public void setBaselineIncidence(float[][][] baselineIncidence) {
@@ -2473,7 +2439,7 @@ public class ModelParameters {
 	}
 
 	public double[][][] getBaselinePrevalenceOdds() {
-		return deepcopy(baselinePrevalenceOdds);
+		return DynamoLib.deepcopy(baselinePrevalenceOdds);
 	}
 
 	public void setBaselinePrevalenceOdds(double[][][] baselinePrevalenceOdds) {
@@ -2481,7 +2447,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getRelRiskOtherMort() {
-		return deepcopy(relRiskOtherMort);
+		return DynamoLib.deepcopy(relRiskOtherMort);
 	}
 
 	public void setRelRiskOtherMort(float[][][] relRiskOtherMort) {
@@ -2489,7 +2455,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getRelRiskOtherMortCont() {
-		return deepcopy(relRiskOtherMortCont);
+		return DynamoLib.deepcopy(relRiskOtherMortCont);
 	}
 
 	public void setRelRiskOtherMortCont(float[][] relRiskOtherMortCont) {
@@ -2497,7 +2463,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getRelRiskOtherMortEnd() {
-		return deepcopy(relRiskOtherMortEnd);
+		return DynamoLib.deepcopy(relRiskOtherMortEnd);
 	}
 
 	public void setRelRiskOtherMortEnd(float[][] relRiskOtherMortEnd) {
@@ -2505,7 +2471,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getRelRiskOtherMortBegin() {
-		return deepcopy(relRiskOtherMortBegin);
+		return DynamoLib.deepcopy(relRiskOtherMortBegin);
 	}
 
 	public void setRelRiskOtherMortBegin(float[][] relRiskOtherMortBegin) {
@@ -2513,7 +2479,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getAlfaOtherMort() {
-		return deepcopy(alfaOtherMort);
+		return DynamoLib.deepcopy(alfaOtherMort);
 	}
 
 	public void setAlfaOtherMort(float[][] alfaOtherMort) {
@@ -2521,7 +2487,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getBaselineOtherMortality() {
-		return deepcopy(baselineOtherMortality);
+		return DynamoLib.deepcopy(baselineOtherMortality);
 	}
 
 	public void setBaselineOtherMortality(float[][] baselineOtherMortality) {
@@ -2529,7 +2495,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getAttributableMortality() {
-		return deepcopy(attributableMortality);
+		return DynamoLib.deepcopy(attributableMortality);
 	}
 
 	public void setAttributableMortality(float[][][] attributableMortality) {
@@ -2537,7 +2503,7 @@ public class ModelParameters {
 	}
 
 	public float[][][][] getRelRiskClass() {
-		return deepcopy(relRiskClass);
+		return DynamoLib.deepcopy(relRiskClass);
 	}
 
 	public void setRelRiskClass(float[][][][] relRiskClass) {
@@ -2545,7 +2511,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getRelRiskContinue() {
-		return deepcopy(relRiskContinue);
+		return DynamoLib.deepcopy(relRiskContinue);
 	}
 
 	public void setRelRiskContinue(float[][][] relRiskContinue) {
@@ -2553,7 +2519,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getPrevRisk() {
-		return deepcopy(prevRisk);
+		return DynamoLib.deepcopy(prevRisk);
 	}
 
 	public void setPrevRisk(float[][][] prevRisk) {
@@ -2561,7 +2527,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getMeanRisk() {
-		return deepcopy(meanRisk);
+		return DynamoLib.deepcopy(meanRisk);
 	}
 
 	public void setMeanRisk(float[][] meanRisk) {
@@ -2569,7 +2535,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getStdDevRisk() {
-		return deepcopy(stdDevRisk);
+		return DynamoLib.deepcopy(stdDevRisk);
 	}
 
 	public void setStdDevRisk(float[][] stdDevRisk) {
@@ -2577,7 +2543,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getOffsetRisk() {
-		return deepcopy(offsetRisk);
+		return DynamoLib.deepcopy(offsetRisk);
 	}
 
 	public void setOffsetRisk(float[][] input) {
@@ -2585,7 +2551,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getRelRiskDuurBegin() {
-		return deepcopy(relRiskDuurBegin);
+		return DynamoLib.deepcopy(relRiskDuurBegin);
 	}
 
 	public void setRelRiskDuurBegin(float[][][] relRiskDuurBegin) {
@@ -2593,7 +2559,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getRelRiskDuurEnd() {
-		return deepcopy(relRiskDuurEnd);
+		return DynamoLib.deepcopy(relRiskDuurEnd);
 	}
 
 	public void setRelRiskDuurEnd(float[][][] relRiskDuurEnd) {
@@ -2601,7 +2567,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getAlfaDuur() {
-		return deepcopy(alfaDuur);
+		return DynamoLib.deepcopy(alfaDuur);
 	}
 
 	public void setAlfaDuur(float[][][] alfaDuur) {
@@ -2609,7 +2575,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getDuurFreq() {
-		return deepcopy(duurFreq);
+		return DynamoLib.deepcopy(duurFreq);
 	}
 
 	public void setDuurFreq(float[][][] duurFreq) {
@@ -2617,7 +2583,7 @@ public class ModelParameters {
 	}
 
 	public float[][] getMeanDrift() {
-		return deepcopy(meanDrift);
+		return DynamoLib.deepcopy(meanDrift);
 	}
 
 	public void setMeanDrift(float[][] meanDrift) {
@@ -2625,7 +2591,7 @@ public class ModelParameters {
 	}
 
 	public float[][][][] getTransitionMatrix() {
-		return deepcopy(transitionMatrix);
+		return DynamoLib.deepcopy(transitionMatrix);
 	}
 
 	public void setTransitionMatrix(float[][][][] transitionMatrix) {
@@ -2633,7 +2599,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getCuredFraction() {
-		return deepcopy(curedFraction);
+		return DynamoLib.deepcopy(curedFraction);
 	}
 
 	public void setCuredFraction(float[][][] curedFraction) {
@@ -2641,7 +2607,7 @@ public class ModelParameters {
 	}
 
 	public float[][][] getBaselineFatalIncidence() {
-		return deepcopy(baselineFatalIncidence);
+		return DynamoLib.deepcopy(baselineFatalIncidence);
 	}
 
 	public void setBaselineFatalIncidence(float[][][] baselineFatalIncidence) {
