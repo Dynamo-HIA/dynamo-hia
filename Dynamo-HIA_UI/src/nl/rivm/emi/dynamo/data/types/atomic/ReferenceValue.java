@@ -11,6 +11,10 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  * </classes>
  * XML fragments.
  */
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
@@ -46,5 +50,26 @@ public class ReferenceValue extends XMLTagEntity implements IXMLHandlingLayer {
 			throw new ConfigurationException("Incorrect \"" + XMLElementName + "\" tag.");
 		}
 		return modelObject;
+	}
+
+	public Object handle(ConfigurationNode node) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isConfigurationOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void streamEvents(Object value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

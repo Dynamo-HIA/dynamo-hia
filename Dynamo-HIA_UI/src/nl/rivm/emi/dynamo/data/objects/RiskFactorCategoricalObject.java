@@ -41,8 +41,8 @@ public class RiskFactorCategoricalObject extends XMLHandlingEntryPoint implement
 		super(RootElementNamesEnum.RISKFACTOR_CATEGORICAL, makeObservable);
 		categoricalObjectImplementation = new CategoricalObjectImplementation(
 				makeObservable);
-		referenceCategoryObjectImplementation = new ReferenceCategoryObjectImplementation(
-				makeObservable);
+//		referenceCategoryObjectImplementation = new ReferenceCategoryObjectImplementation(
+//				makeObservable);
 	}
 
 	public String getCategoryName(Integer index) {
@@ -65,18 +65,19 @@ public class RiskFactorCategoricalObject extends XMLHandlingEntryPoint implement
 				name);
 	}
 
-	public Integer getReferenceCategory() {
-		return referenceCategoryObjectImplementation.getReferenceCategory();
+	public Integer getReferenceClass() {
+		return referenceCategoryObjectImplementation.getReferenceClass();
 	}
 
 	public WritableValue getObservableReferenceCategory() {
-		return referenceCategoryObjectImplementation
-				.getObservableReferenceCategory();
+//		return referenceCategoryObjectImplementation
+//				.getObservableReferenceCategory();
+return null;
 	}
 	
-	public Object putReferenceCategory(Integer index) {
+	public Object putReferenceClass(Integer index) {
 		return referenceCategoryObjectImplementation
-				.putReferenceCategory(index);
+				.putReferenceClass(index);
 	}
 
 	/**
@@ -88,12 +89,12 @@ public class RiskFactorCategoricalObject extends XMLHandlingEntryPoint implement
 	 * @throws DynamoInconsistentDataException
 	 */
 	@Override
-	public RiskFactorCategoricalObject manufacture(String dataFilePath)
+	public void manufacture(String dataFilePath)
 	 throws ConfigurationException, DynamoInconsistentDataException {
-		this.log.debug("Starting manufacture.");
-		manufacture(this, dataFilePath);
-	 return this;
-	 }
+//		this.log.debug("Starting manufacture.");
+//		manufacture(this, dataFilePath);
+//	 return this;
+	}
 	protected ConfigurationObjectBase handleRootChildren(
 			ConfigurationObjectBase modelObject,
 			List<ConfigurationNode> rootChildren) throws ConfigurationException {
@@ -104,8 +105,8 @@ public class RiskFactorCategoricalObject extends XMLHandlingEntryPoint implement
 			XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
 					childName);
 			if ((entity != null) && (entity instanceof IXMLHandlingLayer)) {
-				modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
-						rootChild);
+//				modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
+//						rootChild);
 			} else {
 				throw new ConfigurationException("Unhandled rootChild element: " + childName);
 			}
@@ -149,6 +150,18 @@ public class RiskFactorCategoricalObject extends XMLHandlingEntryPoint implement
 	protected void fillHandlers(boolean observable) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	protected void handleRootChildren(List<ConfigurationNode> rootChildren)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public WritableValue getObservableReferenceClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

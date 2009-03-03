@@ -29,25 +29,25 @@ public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 		IStaxEventContributor, IReferenceValue {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	ReferenceValueObjectImplementation referenceCategoryObjectImplementation;
+	ReferenceValueObjectImplementation referenceValueObjectImplementation;
 
 	public RiskFactorContinuousObject(boolean makeObservable) {
 		super(RootElementNamesEnum.RISKFACTOR_CONTINUOUS, makeObservable);
-		referenceCategoryObjectImplementation = new ReferenceValueObjectImplementation(
+		referenceValueObjectImplementation = new ReferenceValueObjectImplementation(
 				makeObservable);
 	}
 
 	public Float getReferenceValue() {
-		return referenceCategoryObjectImplementation.getReferenceValue();
+		return referenceValueObjectImplementation.getReferenceValue();
 	}
 
 	public WritableValue getObservableReferenceValue() {
-		return referenceCategoryObjectImplementation
+		return referenceValueObjectImplementation
 				.getObservableReferenceValue();
 	}
 
 	public Object putReferenceValue(Float value) {
-		return referenceCategoryObjectImplementation.putReferenceValue(value);
+		return referenceValueObjectImplementation.putReferenceValue(value);
 	}
 
 	/**
@@ -59,11 +59,10 @@ public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 	 * @throws DynamoInconsistentDataException
 	 */
 	@Override
-	public RiskFactorContinuousObject manufacture(String dataFilePath)
+	public void manufacture(String dataFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		this.log.debug("Starting manufacture.");
-		manufacture(this, dataFilePath);
-		return this;
+		super.manufacture( dataFilePath);
 	}
 
 	protected ConfigurationObjectBase handleRootChildren(
@@ -75,16 +74,16 @@ public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 				log.debug("Handle rootChild: " + childName);
 				XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
 						childName);
-				if ((entity != null) && (entity instanceof IHandlerType)) {
-					modelObject = ((IHandlerType) entity).handle(modelObject,
-							rootChild);
-				} else {
-					throw new ConfigurationException(
-							"Unhandled rootChild element: " + childName);
-				}
+//				if ((entity != null) && (entity instanceof IHandlerType)) {
+//					modelObject = ((IHandlerType) entity).handle(modelObject,
+//							rootChild);
+//				} else {
+//					throw new ConfigurationException(
+//							"Unhandled rootChild element: " + childName);
+//				}
 			}
 		} else {
-			referenceCategoryObjectImplementation.manufactureDefault();
+			referenceValueObjectImplementation.manufactureDefault();
 		}
 		return modelObject;
 	}
@@ -97,13 +96,27 @@ public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 		event = eventFactory.createStartElement("", "", rootElement
 				.getNodeLabel());
 		writer.add(event);
-		referenceCategoryObjectImplementation
+		referenceValueObjectImplementation
 				.streamEvents(null, writer, eventFactory);
 		event = eventFactory.createEndElement("", "", rootElement
 				.getNodeLabel());
 		writer.add(event);
 		event = eventFactory.createEndDocument();
 		writer.add(event);
+	}
+
+	@Override
+	protected void fillHandlers(boolean observable)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleRootChildren(List<ConfigurationNode> rootChildren)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

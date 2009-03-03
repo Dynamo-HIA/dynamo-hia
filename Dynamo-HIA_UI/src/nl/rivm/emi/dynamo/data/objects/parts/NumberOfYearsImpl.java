@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.INumberOfYears;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberOfYearsType;
 
@@ -21,11 +25,11 @@ public class NumberOfYearsImpl extends NumberOfYearsType implements INumberOfYea
 	 * Block default construction.
 	 */
 	@SuppressWarnings("unused")
-	private NumberOfYearsImpl() {
+	private NumberOfYearsImpl() throws ConfigurationException {
 
 	}
 
-	public NumberOfYearsImpl(boolean isObservable) {
+	public NumberOfYearsImpl(boolean isObservable)  throws ConfigurationException {
 		this.isObservable = isObservable;
 	}
 
@@ -97,6 +101,12 @@ public class NumberOfYearsImpl extends NumberOfYearsType implements INumberOfYea
 	@Override
 	public WritableValue getObservableValue() {
 		return observableNumberOfYears;
+	}
+
+	public void streamEvents(Integer value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

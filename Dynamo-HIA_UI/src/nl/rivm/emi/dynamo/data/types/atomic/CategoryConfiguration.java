@@ -13,6 +13,10 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  */
 import java.util.List;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
@@ -22,7 +26,8 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class CategoryConfiguration extends XMLTagEntity implements IXMLHandlingLayer {
 	static final protected String XMLElementName = "class";
-
+Object localModelObject; // TODO Bogus bugfix.
+ConfigurationObjectBase modelObject; // TODO Bogus bugfix.
 	
 	public CategoryConfiguration() {
 		super(XMLElementName);
@@ -32,7 +37,7 @@ public class CategoryConfiguration extends XMLTagEntity implements IXMLHandlingL
 			throws ConfigurationException {
 		List<ConfigurationNode> children = node.getChildren();
 		for (ConfigurationNode child : children) {
-			localModelObject = handleClassTag(localModelObject, child);
+//			localModelObject = handleClassTag(localModelObject, child);
 		}
 		return modelObject;
 	}
@@ -59,10 +64,26 @@ public class CategoryConfiguration extends XMLTagEntity implements IXMLHandlingL
 			}
 		}
 		if ((index != null) && (name != null)) {
-			modelObject.putCategory(index, name);
+//			modelObject.putCategory(index, name);
 		} else {
 			throw new ConfigurationException("Incomplete \"class\" tag.");
 		}
-		return modelObject;
+		return (ICategoricalObject)modelObject;
+	}
+
+	public boolean isConfigurationOK() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void streamEvents(Object value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 }

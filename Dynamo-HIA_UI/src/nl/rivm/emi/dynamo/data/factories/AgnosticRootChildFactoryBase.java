@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AgnosticFactory {
+abstract public class AgnosticRootChildFactoryBase {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**

@@ -63,7 +63,7 @@ public class TransitionMatrixFactory extends AgnosticFactory implements
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
 		TransitionSource source = (TransitionSource) XMLTagEntitySingleton
-				.getInstance().get(TransitionSource.getElementName());
+				.getInstance().get("from");
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxSource = source.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(source, null));

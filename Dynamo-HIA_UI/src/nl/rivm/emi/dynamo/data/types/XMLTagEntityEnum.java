@@ -6,8 +6,10 @@ import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.Categories;
 import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
+import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.End;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
+import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
@@ -33,8 +35,8 @@ public enum XMLTagEntityEnum {
 	PERCENTAGE((XMLTagEntity) new Percent()),
 	PROBABILITY((XMLTagEntity)new Probability()),
 	CLASSES((XMLTagEntity)new Categories()),
-//	REFERENCECLASS((XMLTagEntity)new ReferenceClass()),
-//	DURATIONCLASS((XMLTagEntity)new DurationClass()),
+	REFERENCECLASS((XMLTagEntity)new ReferenceClass()),
+	DURATIONCLASS((XMLTagEntity)new DurationClass()),
 	REFERENCEVALUE((XMLTagEntity)new ReferenceValue()),
 	STANDARDVALUE((XMLTagEntity)new Value()),
 	BEGIN((XMLTagEntity)new Begin()),

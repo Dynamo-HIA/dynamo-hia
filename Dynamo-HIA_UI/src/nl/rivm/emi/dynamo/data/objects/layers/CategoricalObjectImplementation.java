@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.data.objects.layers;
 
-import java.util.LinkedHashMap;
-
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
@@ -9,8 +7,6 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
-import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.types.interfaces.IRecursiveXMLHandlingLayer;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 
@@ -23,7 +19,7 @@ public class CategoricalObjectImplementation extends DualModeObjectBase
 	
 //	LinkedHashMap<Integer, Object> theClasses = new LinkedHashMap<Integer, Object>();
 TypedHashMap<String> theClasses = new TypedHashMap<String>("");
-RecursiveXMLHandlingLayer handler = new RecursiveXMLHandlingLayer();
+// RecursiveXMLHandlingLayer handler = new RecursiveXMLHandlingLayer();
 
 	public CategoricalObjectImplementation(boolean makeObservable) {
 		super(makeObservable, "classes");

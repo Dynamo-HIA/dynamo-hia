@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
-import nl.rivm.emi.dynamo.databinding.converters.ModelConverters;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -56,10 +55,10 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 		return null;
 	}
 
-	public String getDefaultValue() {
-		// TODO Refactor 3-2-2009
-		return "";
-	}
+//	public String getDefaultValue() {
+//		// TODO Refactor 3-2-2009
+//		return "";
+//	}
 
 	static public String getElementName() {
 		return XMLElementName;
@@ -178,6 +177,11 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
+	}
+
+	public Float getDefaultValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

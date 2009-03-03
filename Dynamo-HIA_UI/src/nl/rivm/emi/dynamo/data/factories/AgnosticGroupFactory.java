@@ -1,16 +1,12 @@
 package nl.rivm.emi.dynamo.data.factories;
 
 /**
- * Base Factory for hierarchic configuration files.
- * Current limitations: Simple Object (Integer, Float) at the deepest level.
- * 
- * 20080918 Agestep fixed at 1. Ages are Integers. 
- * 20081111 Implementation from HashMapto LinkedHashMap to preserve ordering of the elements.
- * 20081117 Constructing of IObservables added.
- * 20081120 Made class abstract and external interface protected to force inheritance. 
+ * Base Factory for non-hierarchic configuration files.
  */
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
@@ -30,7 +26,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AgnosticFactory {
+
+abstract public class AgnosticGroupFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -41,7 +38,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufacture(File configurationFile)
+	abstract public HashMap<String, ?> manufacture(File configurationFile)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -52,7 +49,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufactureObservable(File configurationFile)
+	abstract public HashMap<String,?> manufactureObservable(File configurationFile)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -61,7 +58,7 @@ abstract public class AgnosticFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureDefault()
+	abstract public HashMap<String, ?> manufactureDefault()
 			throws ConfigurationException;
 
 	/**
@@ -70,7 +67,7 @@ abstract public class AgnosticFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureObservableDefault()
+	abstract public HashMap<String,?> manufactureObservableDefault()
 			throws ConfigurationException;
 
 	/**
@@ -83,10 +80,10 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException 
 	 * @throws DynamoInconsistentDataException 
 	 */
-	public TypedHashMap manufacture(File configurationFile,
+	public HashMap<String, ?> manufacture(File configurationFile,
 			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
-		TypedHashMap<?> underConstruction = null;
+		HashMap<String, ?> underConstruction = new LinkedHashMap<String, Object>();
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -99,7 +96,9 @@ abstract public class AgnosticFactory {
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
 			
 			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
+				String rootChildName = rootChild.getName();
+				log.debug("Handle rootChild: " + rootChildName);
+				RootChildSubFactoryEnum.
 				underConstruction = handleRootChild(underConstruction,
 						rootChild, makeObservable);
 			} // for rootChildren

@@ -104,11 +104,11 @@ public class RiskFactorCompoundObject extends XMLHandlingEntryPoint implements
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	public RiskFactorCompoundObject manufacture(String dataFilePath)
+	public void manufacture(String dataFilePath)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		this.log.debug("Starting manufacture.");
-		manufacture(this, dataFilePath);
-		return this;
+//		manufacture(this, dataFilePath);
+//		return this;
 	}
 	protected ConfigurationObjectBase handleRootChildren(
 			ConfigurationObjectBase modelObject,
@@ -120,8 +120,8 @@ public class RiskFactorCompoundObject extends XMLHandlingEntryPoint implements
 				XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
 						childName);
 				if ((entity != null) && (entity instanceof IXMLHandlingLayer)) {
-					modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
-							rootChild);
+//					modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
+//							rootChild);
 				} else {
 					throw new ConfigurationException(
 							"Unhandled rootChild element: " + childName);
@@ -153,5 +153,19 @@ public class RiskFactorCompoundObject extends XMLHandlingEntryPoint implements
 		writer.add(event);
 		event = eventFactory.createEndDocument();
 		writer.add(event);
+	}
+
+	@Override
+	protected void fillHandlers(boolean observable)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void handleRootChildren(List<ConfigurationNode> rootChildren)
+			throws ConfigurationException {
+		// TODO Auto-generated method stub
+		
 	}
 }

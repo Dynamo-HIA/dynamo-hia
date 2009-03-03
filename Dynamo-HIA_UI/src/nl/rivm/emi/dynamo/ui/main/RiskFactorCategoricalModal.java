@@ -61,10 +61,10 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 	 */
 	@Override	
 	public synchronized void open() {
-		try {
+//		try {
 			this.dataBindingContext = new DataBindingContext();
 			this.modelObject = new RiskFactorCategoricalObject(true);
-			this.modelObject = this.modelObject.manufacture(this.dataFilePath);
+//			this.modelObject = this.modelObject.manufacture(this.dataFilePath);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -81,17 +81,17 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
+//		} catch (ConfigurationException e) {
+//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+//			box.setText("Processing " + this.configurationFilePath);
+//			box.setMessage(e.getMessage());
+//			box.open();
+//		} catch (DynamoInconsistentDataException e) {
+//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+//			box.setText("Processing " + this.configurationFilePath);
+//			box.setMessage(e.getMessage());
+//			box.open();
+//		}
 	}
 
 	/* (non-Javadoc)

@@ -63,7 +63,7 @@ public abstract class RootType extends XMLTagEntity implements
 		} else {
 			throw new ConfigurationException("Incorrect tag for this handler.");
 		}
-		return result;
+		return  null ;//result;
 	}
 
  public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)

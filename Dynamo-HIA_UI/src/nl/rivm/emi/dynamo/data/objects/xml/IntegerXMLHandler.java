@@ -1,23 +1,12 @@
 package nl.rivm.emi.dynamo.data.objects.xml;
-
-/**
- * Handler for 
- * <classes>
- * 	<class>
- * 		<index>1</index>
- * 		<name>jan</name>
- * 	</class>
- * 	.......
- * </classes>
- * XML fragments.
- */
+// TODO remove.
 
 public class IntegerXMLHandler extends
 		BaseXMLHandler<Integer> {
 
 
 	public IntegerXMLHandler(String xmlElementName) {
-		super(xmlElementName);
+		super(xmlElementName, null);
 	}
 	
 	  protected  Integer convert(String valueString) {

@@ -22,7 +22,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class Categories extends XMLTagEntity implements IXMLHandlingLayer {
+public class Categories extends XMLTagEntity /* implements IXMLHandlingLayer */ {
 	static final protected String XMLElementName = "classes";
 
 	public Categories() {
@@ -44,7 +44,7 @@ public class Categories extends XMLTagEntity implements IXMLHandlingLayer {
 			HashMap<Integer, String> classData = null;
 			if("class".equals(child.getName())){
 				IXMLHandlingLayer tagHandler = (IXMLHandlingLayer)XMLTagEntitySingleton.getInstance().get(child.getName());
-				Object result = tagHandler.handle(modelObject, child);
+//				Object result = tagHandler.handle(modelObject, child);
 			localModelObject = handleClassTag(localModelObject, child);
 			} else {
 				throw new ConfigurationException("Unexpected xmltag: " + child.getName());

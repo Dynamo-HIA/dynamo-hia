@@ -1,26 +1,15 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-/**
- * Handler for 
- * <classes>
- * 	<class>
- * 		<index>1</index>
- * 		<name>jan</name>
- * 	</class>
- * 	.......
- * </classes>
- * XML fragments.
- */
 
-public class ReferenceClass {
-//extends
-//
-//Index implements IXMLHandlingLayer {
-//
-//	public ReferenceClass() {
-//		super("referenceclass", new Integer(1), hardUpperLimit);
-//	}
-//
+public class ReferenceClass extends Index {
+	static final protected String XMLElementName = "index";
+
+	static final protected Integer hardUpperLimit = new Integer(9);
+
+	public ReferenceClass(){
+		super("referenceclass", new Integer(1), hardUpperLimit);
+	}
+
 //	public ConfigurationObjectBase handle(ConfigurationObjectBase modelObject,
 //			ConfigurationNode node)
 //			throws ConfigurationException {

@@ -15,10 +15,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class DiseaseConfigurationsImpl extends PopFileNameType implements IDiseaseConfigurations, IXMLHandlingLayer<String> {
+public class DiseaseConfigurationsImpl extends PopFileNameType implements
+		IDiseaseConfigurations, IXMLHandlingLayer<String> {
 	Log log = LogFactory.getLog(this.getClass().getName());
-
-	TypedHashMap<IDiseaseConfiguration> diseaseConfigurations = new TypedHashMap<IDiseaseConfiguration>(new DiseaseConfigurationData());
+	Boolean isObservable = false; // TODO Bogus bugfix.
+	TypedHashMap<IDiseaseConfiguration> diseaseConfigurations = new TypedHashMap<IDiseaseConfiguration>(
+			new DiseaseConfigurationData());
 
 	/**
 	 * Block default construction.
@@ -44,7 +46,7 @@ public class DiseaseConfigurationsImpl extends PopFileNameType implements IDisea
 		if (!isObservable) {
 			result = "nix";
 		} else {
-			result = ((String)getObservableValue().doGetValue());
+			result = ((String) getObservableValue().doGetValue());
 		}
 		return result;
 	}
@@ -55,7 +57,7 @@ public class DiseaseConfigurationsImpl extends PopFileNameType implements IDisea
 
 	public String handle(ConfigurationNode node) throws ConfigurationException {
 		String result = super.handle(node);
-		setPopFileName(result);
+		// setPopFileName(result);
 		return result;
 	}
 
@@ -69,18 +71,19 @@ public class DiseaseConfigurationsImpl extends PopFileNameType implements IDisea
 						+ "\" contains a null value.");
 			}
 		} else {
-			if (observablePopFileName.doGetValue() != null) {
-				result = true;
-			} else {
-				log.error("Observable \"" + getXMLElementName()
-						+ "\" contains a null value.");
-			}
+//			if (observablePopFileName.doGetValue() != null) {
+//				result = true;
+//			} else {
+//				log.error("Observable \"" + getXMLElementName()
+//						+ "\" contains a null value.");
+//			}
 		}
 		return result;
 	}
 
 	public DiseaseConfigurationData getDiseaseConfigurationData(String name) {
-DiseaseConfigurationData theData = diseaseConfigurations.get((Object)name);
+//		DiseaseConfigurationData theData = diseaseConfigurations
+//				.get((Object) name);
 		return null;
 	}
 

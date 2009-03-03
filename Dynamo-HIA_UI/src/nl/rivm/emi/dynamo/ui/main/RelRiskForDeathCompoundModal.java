@@ -151,4 +151,39 @@ public class RelRiskForDeathCompoundModal implements Runnable,
 	public Object getRootElementName() {
 		return rootElementName;
 	}
+
+	public BaseNode getBaseNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getConfigurationFilePath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getDataFilePath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Shell getParentShell() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Shell getShell() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setConfigurationFilePath(String configurationFilePath) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDataFilePath(String dataFilePath) {
+		// TODO Auto-generated method stub
+		
+	}
 }

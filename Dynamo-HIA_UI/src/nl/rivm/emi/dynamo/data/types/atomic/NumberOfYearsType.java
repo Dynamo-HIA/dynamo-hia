@@ -15,16 +15,17 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-public abstract class NumberOfYearsType extends AbstractIntegerType implements
-		IXMLHandlingLayer {
+public abstract class NumberOfYearsType extends AbstractIntegerType /* implements
+		IXMLHandlingLayer*/ {
 	static final protected String XMLElementName = "numberofyears";
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
+	 * @throws ConfigurationException 
 	 */
 
-	public NumberOfYearsType() {
+	public NumberOfYearsType() throws ConfigurationException {
 		super(XMLElementName, 0, Integer.MAX_VALUE);
 	}
 

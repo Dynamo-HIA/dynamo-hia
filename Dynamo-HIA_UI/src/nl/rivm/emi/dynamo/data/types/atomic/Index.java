@@ -1,30 +1,40 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
-
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
 /**
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
  * the range of categories the transitions can cover.
  */
- public class Index extends
-		FlexibleUpperLimitNumberRangeTypeBase<Integer> implements
-		IXMLHandlingLayer<Integer>{
+public class Index extends FlexibleUpperLimitNumberRangeTypeBase<Integer>
+		/* implements IXMLHandlingLayer<Integer> */ {
 	static final protected String XMLElementName = "index";
 
 	static final protected Integer hardUpperLimit = new Integer(9);
-	
-	public Index(Integer lowerLimit, Integer upperLimit) throws ConfigurationException {
+
+	/**
+	 * Constructor for use at this level.
+	 * 
+	 * @param lowerLimit
+	 * @param upperLimit
+	 * @throws ConfigurationException
+	 */
+	public Index(Integer lowerLimit, Integer upperLimit){
+		this(XMLElementName, lowerLimit, upperLimit);
+	}
+
+	/**
+	 * Constructor used for overriding.
+	 * 
+	 * @param myElementName
+	 * @param lowerLimit
+	 * @param upperLimit
+	 * @throws ConfigurationException
+	 */
+	public Index(String myElementName, Integer lowerLimit, Integer upperLimit){
 		super(XMLElementName, lowerLimit, upperLimit);
 	}
-	
 
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
@@ -79,7 +89,7 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 
 	@Override
 	public String convert4View(Object modelValue) {
-		String viewValue = ((Integer)modelValue).toString();
+		String viewValue = ((Integer) modelValue).toString();
 		return viewValue;
 	}
 
@@ -93,26 +103,5 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public Integer handle(ConfigurationNode node) throws ConfigurationException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean isConfigurationOK() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void setDefault() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void streamEvents(Integer value, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException {
-		// TODO Auto-generated method stub
-		
 	}
 }

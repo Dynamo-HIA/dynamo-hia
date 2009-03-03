@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
+import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceClassObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
@@ -35,6 +36,8 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 
 	CategoricalObjectImplementation categoricalObjectImplementation;
 	ReferenceClassObjectImplementation referenceCategoryObjectImplementation;
+	Object localModelObject; // TODO Bogus bugfix.
+	ConfigurationObjectBase modelObject; // TODO Bogus bugfix.
 
 	public RiskFactorCategoricalObject_NG(boolean makeObservable) {
 		super(RootElementNamesEnum.RISKFACTOR_CATEGORICAL, makeObservable);
@@ -67,7 +70,8 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 	}
 
 	public WritableValue getObservableReferenceClass() {
-		return referenceCategoryObjectImplementation.getObservableReferenceClass();
+//		return referenceCategoryObjectImplementation.getObservableReferenceCategory();
+return null;
 	}
 	
 	public Object putReferenceClass(Integer index) {
@@ -80,15 +84,16 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 	 * 
 	 * @param modelObject
 	 * @param configurationFile
+	 * @return 
 	 * @return
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	 public RiskFactorCategoricalObject_NG manufacture(String configurationFilePath)
+	 public  void manufacture(String configurationFilePath)
 	 throws ConfigurationException, DynamoInconsistentDataException {
 	 log.debug("Starting manufacture.");
 	 manufacture(configurationFilePath);
-	 return this;
+//	 return null;
 	 }
 	 
 	protected void handleRootChildren(
@@ -100,8 +105,8 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 			XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
 					childName);
 			if ((entity != null) && (entity instanceof IXMLHandlingLayer)) {
-				modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
-						rootChild);
+//				modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
+//						rootChild);
 			} else {
 				throw new ConfigurationException("Unhandled rootChild element: " + childName);
 			}
@@ -110,7 +115,7 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 		categoricalObjectImplementation.manufactureDefault();
 		referenceCategoryObjectImplementation.manufactureDefault();
 	}
-		return modelObject;
+//		return modelObject;
 	}
 
 	// write

@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects.parts;
 
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import nl.rivm.emi.dynamo.data.interfaces.IHasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewbornsType;
 
@@ -13,6 +17,8 @@ public class HasNewBornsImpl extends HasNewbornsType implements IHasNewborns {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Boolean hasNewBorns = null;
 
+	
+	
 	WritableValue observableHasNewBorns = null;
 
 	boolean isObservable = false;
@@ -69,6 +75,7 @@ public class HasNewBornsImpl extends HasNewbornsType implements IHasNewborns {
 		setHasNewborns(false);
 	}
 
+	@Override
 	public Boolean handle(ConfigurationNode node) throws ConfigurationException {
 		Boolean result = super.handle(node);
 		setHasNewborns(result);
@@ -93,6 +100,12 @@ public class HasNewBornsImpl extends HasNewbornsType implements IHasNewborns {
 			}
 		}
 		return result;
+	}
+
+	public void streamEvents(Boolean value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

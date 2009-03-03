@@ -60,6 +60,7 @@ public class DynamoSimObject_NG extends XMLHandlingEntryPoint implements
 	PopFileNameImpl populationFileName;
 	IRiskFactorConfiguration riskFactor;
 
+	TypedHashMap<IDiseaseConfiguration> diseases = new TypedHashMap<IDiseaseConfiguration>(new DiseaseConfigurationData());
 
 	TypedHashMap<IRelativeRiskConfiguration> relativeRisks = new TypedHashMap<IRelativeRiskConfiguration>(new RelativeRiskConfigurationData());
 

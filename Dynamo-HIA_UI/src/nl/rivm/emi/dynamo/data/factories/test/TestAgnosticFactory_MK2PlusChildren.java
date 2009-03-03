@@ -41,29 +41,29 @@ public class TestAgnosticFactory_MK2PlusChildren {
 				+ File.separator + "riskfactor_categorical_config1_after.xml";
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
-		try {
+//		try {
 			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
-			Object result = theFactory.manufacture(configurationFile.getName());
-			assertNotNull(result);
-			try {
-		((RiskFactorCategoricalObject)result).writeToFile(outputFile);
-			} catch (XMLStreamException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			} catch (UnexpectedFileStructureException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			} catch (IOException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			}
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
-			assertNotNull(e); // Force error.
-		} catch (DynamoInconsistentDataException e) {
-			e.printStackTrace();
-			assertNull(e); // Force error.
-		}
+//			Object result = theFactory.manufacture(configurationFile.getName());
+//			assertNotNull(result);
+//			try {
+//		((RiskFactorCategoricalObject)result).writeToFile(outputFile);
+//			} catch (XMLStreamException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			} catch (UnexpectedFileStructureException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				assertNull(e); // Force error.
+//			}
+//		} catch (ConfigurationException e) {
+//			e.printStackTrace();
+//			assertNotNull(e); // Force error.
+//		} catch (DynamoInconsistentDataException e) {
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		}
 	}
 
 //	@Test
