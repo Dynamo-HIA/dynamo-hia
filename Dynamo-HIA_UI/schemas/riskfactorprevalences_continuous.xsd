@@ -23,21 +23,23 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="mean" />
+              <xs:element name="mean">
                 <xs:simpleType>
                   <xs:restriction base="xs:float">
                     <xs:minInclusive value="0" />
                     <xs:maxInclusive value="unbounded" />
                   </xs:restriction>
                 </xs:simpleType>
+              </xs:element>  
               <xs:element name="standarddeviation" type="xs:float" />
-              <xs:element name="skewness" />
+              <xs:element name="skewness">
                 <xs:simpleType>
                   <xs:restriction base="xs:float">
                     <xs:minInclusive value="0" />
                     <xs:maxInclusive value="unbounded" />
                   </xs:restriction>
                 </xs:simpleType>
+			  </xs:element>                
             </xs:sequence>
           </xs:complexType>
         </xs:element>

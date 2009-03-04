@@ -4,10 +4,10 @@
   <xs:element name="riskfactorprevalences_duration">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="4032" maxOccurs="4032" name="prevalence">
+        <xs:element minOccurs="192" maxOccurs="192" name="prevalence">
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="0" name="age">
+              <xs:element name="age">
                 <xs:simpleType>
                   <xs:restriction base="xs:int">
                     <xs:minInclusive value="0" />
