@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * Modal dialog to create and edit the population size XML files. 
@@ -110,18 +115,19 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 							+ this.rootElementName);
 		}
 		File riskFactorCategoricalPrevalencesFile = new File(
-				this.configurationFilePath);
+				this.dataFilePath);
 		if (riskFactorCategoricalPrevalencesFile.exists()) {
 			if (riskFactorCategoricalPrevalencesFile.isFile()
 					&& riskFactorCategoricalPrevalencesFile.canRead()) {
 				producedData = factory
-						.manufactureObservable(riskFactorCategoricalPrevalencesFile);
+						.manufactureObservable(riskFactorCategoricalPrevalencesFile, this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");
 				}
 			} else {
-				throw new ConfigurationException(this.configurationFilePath
+				// No file has been selected, continue without exceptions
+				throw new ConfigurationException(this.dataFilePath
 						+ " is no file or cannot be read.");
 			}
 		} else {

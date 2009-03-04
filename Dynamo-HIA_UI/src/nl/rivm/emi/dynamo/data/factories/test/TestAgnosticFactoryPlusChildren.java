@@ -64,7 +64,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PopulationSizeFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -103,7 +103,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PopulationSizeFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -145,7 +145,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new OverallMortalityFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -183,7 +183,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new OverallMortalityFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
 					.get(rootElementName), (HashMap<Integer, Object>) result,
@@ -220,7 +220,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new OverallDALYWeightsFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -270,7 +270,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -320,7 +320,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -370,7 +370,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -420,7 +420,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -468,7 +468,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -507,7 +507,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PrevalencesCategoricalFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
 					.get(rootElementName), (HashMap<Integer, Object>) result,
@@ -543,7 +543,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PrevalencesCategoricalFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton
@@ -581,7 +581,7 @@ public class TestAgnosticFactoryPlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new DiseaseIncidencesFactory()
-					.manufacture(configurationFile);
+					.manufacture(configurationFile, rootElementName);
 			// manufacture(configurationFile, false);
 			assertNotNull(result);
 			try {
@@ -632,7 +632,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -682,7 +682,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -730,7 +730,7 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -779,7 +779,8 @@ public class TestAgnosticFactoryPlusChildren {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile, 
+						rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),

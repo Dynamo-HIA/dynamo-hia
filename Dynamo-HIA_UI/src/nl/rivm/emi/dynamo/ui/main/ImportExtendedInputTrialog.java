@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -117,7 +122,6 @@ public class ImportExtendedInputTrialog extends Dialog {
             value = null;
             super.cancelPressed();
         }
-        //super.buttonPressed(buttonId);
     }
     
     @Override

@@ -29,18 +29,18 @@ public class PrevalencesCategoricalFactory extends AgnosticFactory implements Ca
 	}
 
 	public PrevalencesCategoricalObject manufactureObservable(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
 				producedMap);
 		return (result);
 	}
 
-	public PrevalencesCategoricalObject manufacture(File configurationFile)
+	public PrevalencesCategoricalObject manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
 				producedMap);
 		return (result);

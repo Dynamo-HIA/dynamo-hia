@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * Modal dialog to create and edit the population size XML files. 
@@ -148,7 +153,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		cancelButtonFormData.left = new FormAttachment(okButton, 15);
 		cancelButtonFormData.bottom = new FormAttachment(100, -15);
 		cancelButton.setLayoutData(cancelButtonFormData);
-		okButton.addSelectionListener(new SelectionListener() {
+		cancelButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -156,6 +161,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			}
 
 			public void widgetSelected(SelectionEvent arg0) {
+				log.debug("disposing small window");
 				shell.dispose();
 			}
 

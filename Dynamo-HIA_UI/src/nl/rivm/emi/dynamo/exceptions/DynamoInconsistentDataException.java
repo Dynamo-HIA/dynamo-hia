@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.exceptions;
 
 
 /**
- * 
+ * Handles DynamoInconsistentData Exceptions
  */
 
 /**
@@ -12,35 +12,32 @@ package nl.rivm.emi.dynamo.exceptions;
 public class DynamoInconsistentDataException extends Exception {
 	 static final long serialVersionUID=1 ;
 	/**
-	 * 
+	 * Default exception constructor
 	 */
 	public DynamoInconsistentDataException() {
-		// TODO Auto-generated constructor stub
+		// Continue with no message
 	}
 
 	/**
-	 * @param arg0
+	 * @param message
 	 */
-	public DynamoInconsistentDataException(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
+	public DynamoInconsistentDataException(String message) {
+		super(message);
 	}
 
 	/**
-	 * @param arg0
+	 * @param message
 	 */
-	public DynamoInconsistentDataException(Throwable arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
+	public DynamoInconsistentDataException(Throwable message) {
+		super(message);
 	}
 
 	/**
-	 * @param arg0
-	 * @param arg1
+	 * @param message
+	 * @param throwable exception
 	 */
-	public DynamoInconsistentDataException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
+	public DynamoInconsistentDataException(String message, Throwable throwable) {
+		super(message, throwable);
 	}
 
 }

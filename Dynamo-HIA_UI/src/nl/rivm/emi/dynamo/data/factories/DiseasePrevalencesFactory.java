@@ -21,10 +21,11 @@ public class DiseasePrevalencesFactory extends AgnosticFactory {
 	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File)
 	 */
 	@Override
-	public DiseasePrevalencesObject manufactureObservable(File configurationFile)
+	public DiseasePrevalencesObject manufactureObservable(File configurationFile,
+			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true, rootElementName);
 		DiseasePrevalencesObject result = new DiseasePrevalencesObject(manufacturedMap);
 		return result;
 	}
@@ -35,9 +36,9 @@ public class DiseasePrevalencesFactory extends AgnosticFactory {
 	 */
 	@Override
 	public DiseasePrevalencesObject manufacture(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap manufacturedMap = manufacture(configurationFile, false);
+		TypedHashMap manufacturedMap = manufacture(configurationFile, false, rootElementName);
 		DiseasePrevalencesObject result = new DiseasePrevalencesObject(manufacturedMap);
 		return (result); 
 	}

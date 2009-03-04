@@ -39,7 +39,7 @@ public class RelRisksForDisabilityCategoricalAction extends ActionBase {
 				String candidatePath = selectionPath + File.separator
 						+ "relriskfordisability.xml";
 				File file = new File(candidatePath);
-				if (file != null) {
+				if (file != null && !file.getName().isEmpty()) {
 					if (file.exists()) {
 						MessageBox alreadyExistsMessageBox = new MessageBox(
 								shell, SWT.ERROR_ITEM_NOT_ADDED);

@@ -49,7 +49,7 @@ public class Runnable4Manufacture_RiskFactorCategorical implements Runnable {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufactureObservable(configurationFile);
+				Object result = theFactory.manufactureObservable(configurationFile, "transitionmatrix");
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get( rootElementName),

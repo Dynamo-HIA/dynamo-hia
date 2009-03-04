@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.DALYWeightsGroup;

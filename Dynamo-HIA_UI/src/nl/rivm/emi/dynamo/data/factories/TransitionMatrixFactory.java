@@ -26,18 +26,21 @@ public class TransitionMatrixFactory extends AgnosticFactory implements
 		this.numberOfCategories = numberOfCategories;
 	}
 
-	public TransitionMatrixObject manufactureObservable(File configurationFile)
+	public TransitionMatrixObject manufactureObservable(File configurationFile,
+			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
+				rootElementName);
 		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
 		return (result);
 	}
 
-	public TransitionMatrixObject manufacture(File configurationFile)
+	public TransitionMatrixObject manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, 
+				rootElementName);
 		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
 		return (result);
 	}

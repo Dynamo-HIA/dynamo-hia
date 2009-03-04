@@ -57,16 +57,21 @@ public class ImportSelectionListener extends AbstractLoggingClass implements
 		
 		// Retrieve the import file path
 		String dataPath = this.getImportFile().getAbsolutePath();
-
-		// Destroy the existing data screen with 'old' data
-		this.modalParent.getShell().dispose();
 		
-		String rootElementName = (String) this.modalParent.getRootElementName();
-		XMLFileAction action = new XMLFileAction(this.modalParent.getParentShell(), TreeViewerPlusCustomMenu.getTreeViewerInstance(),
-				this.modalParent.getBaseNode(),
-				rootElementName, rootElementName);
+		File dataFile = new File(dataPath);
 		
-		action.processThroughModal(new File(dataPath), new File(this.modalParent.getConfigurationFilePath()));
+		// Check if a file has been selected
+		if (dataFile.isFile() && dataFile.canRead()) {
+			// Destroy the existing data screen with 'old' data
+			this.modalParent.getShell().dispose();
+			
+			String rootElementName = (String) this.modalParent.getRootElementName();
+			XMLFileAction action = new XMLFileAction(this.modalParent.getParentShell(), TreeViewerPlusCustomMenu.getTreeViewerInstance(),
+					this.modalParent.getBaseNode(),
+					rootElementName, rootElementName);
+			
+			action.processThroughModal(dataFile, new File(this.modalParent.getConfigurationFilePath()));
+		}
 	}
 
 	

@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * Modal dialog to create and edit the population size XML files. 
@@ -51,69 +56,74 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	}
 
 	public synchronized void open() {
+		
+		log.debug("Opening this thing: FreeNamePlusDropDownModal");
+		
 		try {
 			selectableRiskSourcePropertiesMap = RiskSourcePropertiesMapFactory
 					.make(selectedNode);
-		if ((selectableRiskSourcePropertiesMap != null) && (selectableRiskSourcePropertiesMap.size() != 0)) {
-			freePart = new Text(shell, SWT.BORDER);
-			FormData textFormData = new FormData();
-			textFormData.left = new FormAttachment(0, 15);
-			textFormData.right = new FormAttachment(100, -15);
-			textFormData.top = new FormAttachment(0, 10);
-			freePart.setLayoutData(textFormData);
-			dropDown = new Combo(shell, SWT.DROP_DOWN);
-			Set<String> keys = selectableRiskSourcePropertiesMap.keySet();
-			for (String item : keys) {
-				dropDown.add(item);
-			}
-			dropDown.select(0);
-			FormData comboFormData = new FormData();
-			comboFormData.left = new FormAttachment(0, 15);
-			comboFormData.right = new FormAttachment(100, -15);
-			comboFormData.top = new FormAttachment(freePart, 10);
-			dropDown.setLayoutData(comboFormData);
-			Button okButton = new Button(shell, SWT.PUSH);
-			okButton.setText("OK");
-			FormData okButtonFormData = new FormData();
-			okButtonFormData.left = new FormAttachment(0, 15);
-			okButtonFormData.right = new FormAttachment(0, 60);
-			okButtonFormData.bottom = new FormAttachment(100, -15);
-			okButton.setLayoutData(okButtonFormData);
-			okButton.addSelectionListener(new SelectionListener() {
-
-				public void widgetDefaultSelected(SelectionEvent arg0) {
-					// TODO Auto-generated method stub
-
+			if ((selectableRiskSourcePropertiesMap != null) && (selectableRiskSourcePropertiesMap.size() != 0)) {
+				freePart = new Text(shell, SWT.BORDER);
+				FormData textFormData = new FormData();
+				textFormData.left = new FormAttachment(0, 15);
+				textFormData.right = new FormAttachment(100, -15);
+				textFormData.top = new FormAttachment(0, 10);
+				freePart.setLayoutData(textFormData);
+				dropDown = new Combo(shell, SWT.DROP_DOWN);
+				Set<String> keys = selectableRiskSourcePropertiesMap.keySet();
+				for (String item : keys) {
+					dropDown.add(item);
 				}
-
-				public void widgetSelected(SelectionEvent arg0) {
-					newFilePath = selectedNode.getPhysicalStorage().getAbsolutePath() + File.separator
-							+ freePart.getText() + dropDown.getText() + ".xml";
-					rsProps = selectableRiskSourcePropertiesMap.get(dropDown.getText());
-					shell.dispose();
+				dropDown.select(0);
+				FormData comboFormData = new FormData();
+				comboFormData.left = new FormAttachment(0, 15);
+				comboFormData.right = new FormAttachment(100, -15);
+				comboFormData.top = new FormAttachment(freePart, 10);
+				dropDown.setLayoutData(comboFormData);
+				Button okButton = new Button(shell, SWT.PUSH);
+				okButton.setText("OK");
+				FormData okButtonFormData = new FormData();
+				okButtonFormData.left = new FormAttachment(0, 15);
+				okButtonFormData.right = new FormAttachment(0, 60);
+				okButtonFormData.bottom = new FormAttachment(100, -15);
+				okButton.setLayoutData(okButtonFormData);
+				okButton.addSelectionListener(new SelectionListener() {
+	
+					public void widgetDefaultSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+	
+					}
+	
+					public void widgetSelected(SelectionEvent arg0) {
+						log.debug("Creating newfilepath");
+						newFilePath = selectedNode.getPhysicalStorage().getAbsolutePath() + File.separator
+								+ freePart.getText() + dropDown.getText() + ".xml";
+						log.debug("Created newfilepath" + newFilePath);
+						rsProps = selectableRiskSourcePropertiesMap.get(dropDown.getText());
+						shell.dispose();
+					}
+	
+				});
+				Button cancelButton = new Button(shell, SWT.PUSH);
+				cancelButton.setText("Cancel");
+				FormData cancelButtonFormData = new FormData();
+				cancelButtonFormData.left = new FormAttachment(okButton, 15);
+				cancelButtonFormData.bottom = new FormAttachment(100, -15);
+				cancelButton.setLayoutData(cancelButtonFormData);
+				shell.pack();
+				// This is the first place this works.
+				shell.setSize(300, 200);
+				shell.open();
+				Display display = shell.getDisplay();
+				while (!shell.isDisposed()) {
+					if (!display.readAndDispatch())
+						display.sleep();
 				}
-
-			});
-			Button cancelButton = new Button(shell, SWT.PUSH);
-			cancelButton.setText("Cancel");
-			FormData cancelButtonFormData = new FormData();
-			cancelButtonFormData.left = new FormAttachment(okButton, 15);
-			cancelButtonFormData.bottom = new FormAttachment(100, -15);
-			cancelButton.setLayoutData(cancelButtonFormData);
-			shell.pack();
-			// This is the first place this works.
-			shell.setSize(300, 200);
-			shell.open();
-			Display display = shell.getDisplay();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
+			} else {
+				MessageBox messageBox = new MessageBox(shell);
+				messageBox.setMessage("No risk sources could be found.");
+				messageBox.open();
 			}
-		} else {
-			MessageBox messageBox = new MessageBox(shell);
-			messageBox.setMessage("No risk sources could be found.");
-			messageBox.open();
-		}
 		} catch (ConfigurationException e) {
 			MessageBox messageBox = new MessageBox(shell,SWT.ERROR_CANNOT_GET_SELECTION);
 			messageBox.setMessage("Could not collect data\nfrom risk factors.");

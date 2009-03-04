@@ -26,18 +26,18 @@ public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
 	}
 
 	public RiskFactorCategoricalPrevalencesObject manufactureObservable(
-			File configurationFile) throws ConfigurationException,
+			File configurationFile, String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return new RiskFactorCategoricalPrevalencesObject(manufacture(
-				configurationFile, true));
+				configurationFile, true, rootElementName));
 	}
 
 	public RiskFactorCategoricalPrevalencesObject manufacture(
-			File configurationFile) throws ConfigurationException,
+			File configurationFile, String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		RiskFactorCategoricalPrevalencesObject result = new RiskFactorCategoricalPrevalencesObject(
 				producedMap);
 		return (result);

@@ -53,7 +53,7 @@ public class RunnableCategoricalRiskfactorPrevalencesManufacturing implements Ru
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufactureObservable(configurationFile);
+				Object result = theFactory.manufactureObservable(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get( rootElementName),

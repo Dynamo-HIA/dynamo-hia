@@ -29,18 +29,19 @@ this.numberOfCategories = numberOfCategories;
 }
 
 	public RiskFactorPrevalencesDurationObject manufactureObservable(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
 		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
 				producedMap);
 		return (result);
 	}
 
-	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile)
+	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile,
+			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		RiskFactorPrevalencesDurationObject result = new RiskFactorPrevalencesDurationObject(
 				producedMap);
 		return (result);

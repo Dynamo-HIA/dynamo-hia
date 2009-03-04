@@ -81,8 +81,12 @@ public class InputDataFactory {
 	private static final String alternativePrevFileLabel = "prevfilename";
 
 	/* the object containing the content of the XML configuration file */
-	private HierarchicalConfiguration configuration;
+	//private HierarchicalConfiguration configuration;
 
+	// The XMLConfiguration instance contains XML configuration file contents
+	// and offers methods for validation	
+	private XMLConfiguration configuration;
+	
 	private ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 
 	private int riskFactorType;
@@ -195,9 +199,14 @@ public class InputDataFactory {
 
 	private void doIt(String simName) throws DynamoConfigurationException {
 		try {
-			configuration = new XMLConfiguration(baseDir + File.separator
+			this.configuration = new XMLConfiguration(baseDir + File.separator
 					+ simulationDir + File.separator + simName + File.separator
 					+ "configuration.xml");
+			
+			// Validate the xml by xsd schema
+			this.configuration.setValidating(true);			
+			this.configuration.load();			
+			
 		} catch (ConfigurationException e) {
 
 			e.printStackTrace();
@@ -901,10 +910,15 @@ public class InputDataFactory {
 
 		configFileName = baseDir + File.separator + referenceDataDir
 				+ File.separator + riskFactorDir + File.separator
-				+ riskFactorName + File.separator + riskfactorXMLname;
-		HierarchicalConfiguration config;
+				+ riskFactorName + File.separator + riskfactorXMLname;		
+		XMLConfiguration config;
 		try {
 			config = new XMLConfiguration(configFileName);
+			
+			// Validate the xml by xsd schema
+			config.setValidating(true);			
+			config.load();
+			
 		} catch (ConfigurationException e) {
 
 			e.printStackTrace();
@@ -1179,10 +1193,14 @@ public class InputDataFactory {
 			ScenarioInfo scenInfo, int scenNumber)
 			throws DynamoConfigurationException {
 
-		HierarchicalConfiguration config;
+		XMLConfiguration config;
 		if (riskFactorType != 2) {
 			try {
 				config = new XMLConfiguration(configFileName);
+							
+				// Validate the xml by xsd schema
+				config.setValidating(true);			
+				config.load();			
 			} catch (ConfigurationException e) {
 
 				e.printStackTrace();
@@ -1248,6 +1266,10 @@ public class InputDataFactory {
 
 			try {
 				config = new XMLConfiguration(configFileName);
+				
+				// Validate the xml by xsd schema
+				config.setValidating(true);			
+				config.load();			
 			} catch (ConfigurationException e) {
 
 				e.printStackTrace();
@@ -1659,6 +1681,10 @@ public class InputDataFactory {
 						XMLConfiguration config;
 						try {
 							config = new XMLConfiguration(configFileName);
+							
+							// Validate the xml by xsd schema
+							config.setValidating(true);			
+							config.load();			
 						} catch (ConfigurationException e) {
 
 							e.printStackTrace();
@@ -1843,7 +1869,7 @@ public class InputDataFactory {
 			throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
 
-		HierarchicalConfiguration config;
+		XMLConfiguration config;
 		/* make an array large enough for all cases */
 
 		int[] year = new int[200];
@@ -1851,6 +1877,10 @@ public class InputDataFactory {
 		int currentChild = 0;
 		try {
 			config = new XMLConfiguration(configFileName);
+			
+			// Validate the xml by xsd schema
+			config.setValidating(true);			
+			config.load();			
 		} catch (ConfigurationException e) {
 
 			e.printStackTrace();

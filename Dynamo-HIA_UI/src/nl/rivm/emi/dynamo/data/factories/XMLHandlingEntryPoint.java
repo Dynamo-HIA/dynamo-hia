@@ -50,12 +50,12 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
 	 * 
-	 * @param makeObservable
-	 *            TODO
+	 * @param configurationFilePath 
+	 * @throws ConfigurationException 
+	 * @throws DynamoInconsistentDataException 
 	 * 
-	 * @throws DynamoInconsistentDataException
 	 */
-	public void manufacture(String configurationFilePath)
+	public void manufacture(String configurationFilePath, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		synchronized (this) {
 			log.debug("Starting manufacture.");
@@ -77,31 +77,37 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 						try {
 							configurationFromFile = new XMLConfiguration(
 									configurationFile);
+							
+							// Validate the xml by xsd schema
+							configurationFromFile.setValidating(true);			
+							configurationFromFile.load();		
+							
 							ConfigurationNode rootNode = configurationFromFile
 									.getRootNode();
-							List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
-									.getChildren();
-							handleRootChildren(rootChildren);
+							
+							// Check if the name of the first element of the file
+							// is the same as that of the node name where the file is processes
+							if (rootNode.getName() != null && rootNode.getName().equalsIgnoreCase(rootElementName)) {							
+								List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+										.getChildren();
+								handleRootChildren(rootChildren);
+							} else {
+								// The start/first element of the imported file does not match the node name
+								throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
+							}							
 						} catch (ConfigurationException e) {
 							log.error("Caught Exception of type: "
 									+ e.getClass().getName()
 									+ " with message: " + e.getMessage());
 							e.printStackTrace();
-							throw e;
-						} catch (Exception exception) {
+							throw e;							
+						}/* catch (Exception exception) {
 							log.error("Caught Exception of type: "
 									+ exception.getClass().getName()
 									+ " with message: "
 									+ exception.getMessage());
 							exception.printStackTrace();
-							throw new DynamoInconsistentDataException(
-									"Caught Exception of type: "
-											+ exception.getClass().getName()
-											+ " with message: "
-											+ exception.getMessage()
-											+ " inside "
-											+ this.getClass().getName());
-						}
+						}*/
 					}
 				}
 			}

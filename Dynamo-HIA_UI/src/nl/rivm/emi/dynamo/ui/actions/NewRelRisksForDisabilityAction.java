@@ -40,7 +40,7 @@ public class NewRelRisksForDisabilityAction extends ActionBase {
 				String candidatePath = selectionPath + File.separator
 						+ "relriskfordisability.xml";
 				File file = new File(candidatePath);
-				if (file != null) {
+				if (file != null && !file.getName().isEmpty()) {
 					if (file.exists()) {
 						MessageBox alreadyExistsMessageBox = new MessageBox(
 								shell, SWT.ERROR_ITEM_NOT_ADDED);
@@ -69,6 +69,13 @@ public class NewRelRisksForDisabilityAction extends ActionBase {
 		}
 	}
 
+	/**
+	 * 
+	 * Handles the xml selected by starting the appropriate modal window
+	 * 
+	 * @param file
+	 * @param configurationRootElementName
+	 */
 	private void processThroughModal(File file, String configurationRootElementName) {
 		try {
 			boolean isOld = file.exists();

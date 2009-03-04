@@ -42,7 +42,8 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 					theModal);
 			String candidatePath = theModal.getNewFilePath();
 			File file = new File(candidatePath);
-			if (file != null) {
+						
+			if (file != null && !file.getName().isEmpty()) {
 				if (file.exists()) {
 					MessageBox alreadyExistsMessageBox = new MessageBox(shell,
 							SWT.ERROR_ITEM_NOT_ADDED);
@@ -70,6 +71,7 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 	}
 
 	private void processThroughModal(File file, String selectedRootElementName) {
+		log.debug("selectedRootElementNamexxx:" + selectedRootElementName );
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;

@@ -16,22 +16,18 @@ import org.apache.commons.logging.LogFactory;
 
 public class RelRiskFromRiskFactorContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
-	public RelRiskFromRiskFactorContinuousObject constructObservableAllZeroesModel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public RelRiskFromRiskFactorContinuousObject manufactureObservable(File configurationFile)
+	public RelRiskFromRiskFactorContinuousObject manufactureObservable(File configurationFile, 
+			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return  new RelRiskFromRiskFactorContinuousObject( manufacture(configurationFile, true));
+		return  new RelRiskFromRiskFactorContinuousObject( manufacture(configurationFile, true, rootElementName));
 	}
 
 	public RelRiskFromRiskFactorContinuousObject manufacture(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		RelRiskFromRiskFactorContinuousObject result = new RelRiskFromRiskFactorContinuousObject(producedMap);
 		return (result); 
 	}

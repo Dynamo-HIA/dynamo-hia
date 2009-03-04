@@ -146,7 +146,7 @@ public class Test_RecursiveXMLHandlingLayer {
 			AgnosticFactory factory = FactoryProvider
 					.getRelevantFactoryByRootNodeName(rootNodeName);
 			TypedHashMap<Age> model = (TypedHashMap<Age>) factory
-					.manufacture(new File(configurationFilePath));
+					.manufacture(new File(configurationFilePath), rootNodeName);
 			assertNotNull(model);
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -183,7 +183,8 @@ public class Test_RecursiveXMLHandlingLayer {
 						(HashMap<Integer, Object>) defaultResult,
 						configurationFile);
 				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile);
+				Object result = theFactory.manufacture(configurationFile,
+						rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),
@@ -232,7 +233,8 @@ public class Test_RecursiveXMLHandlingLayer {
 			// Create XML-file with defaults and write it to disk.
 			AgnosticFactory theFactory = FactoryProvider
 					.getRelevantFactoryByRootNodeName(rootElementName);
-			Object modelObject = theFactory.manufacture(configurationFile);
+			Object modelObject = theFactory.manufacture(configurationFile,
+					rootElementName);
 			FileControlSingleton instance = FileControlSingleton.getInstance();
 			FileControlEnum myEnum = instance.get(rootElementName);
 			StAXAgnosticWriter.produceFile(myEnum,

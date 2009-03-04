@@ -17,18 +17,19 @@ import org.apache.commons.logging.LogFactory;
 public class DiseaseIncidencesFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public DiseaseIncidencesObject manufactureObservable(File configurationFile)
+	public DiseaseIncidencesObject manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> manufacturedMap = manufacture(configurationFile, true, 
+				rootElementName);
 		DiseaseIncidencesObject result = new DiseaseIncidencesObject(manufacturedMap);
 		return result;
 	}
 
 	public DiseaseIncidencesObject manufacture(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap manufacturedMap = manufacture(configurationFile, false);
+		TypedHashMap manufacturedMap = manufacture(configurationFile, false, rootElementName);
 		DiseaseIncidencesObject result = new DiseaseIncidencesObject(manufacturedMap);
 		return (result); 
 	}

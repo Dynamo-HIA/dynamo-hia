@@ -27,16 +27,17 @@ public class RelRiskForDisabilityCategoricalFactory extends AgnosticFactory
 	}
 
 	public RelRiskForDisabilityCategoricalObject manufactureObservable(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return new RelRiskForDisabilityCategoricalObject(manufacture(
-				configurationFile, true));
+				configurationFile, true, rootElementName));
 	}
 
-	public RelRiskForDisabilityCategoricalObject manufacture(File configurationFile)
+	public RelRiskForDisabilityCategoricalObject manufacture(File configurationFile, 
+			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		RelRiskForDisabilityCategoricalObject result = new RelRiskForDisabilityCategoricalObject(
 				producedMap);
 		return (result);

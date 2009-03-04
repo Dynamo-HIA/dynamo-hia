@@ -38,7 +38,7 @@ public class RunnableOverallMortalityManufacturing implements Runnable {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new OverallMortalityFactory()
-					.manufactureObservable(configurationFile);
+					.manufactureObservable(configurationFile, rootElementName);
 			assertNotNull(result);
 			StAXAgnosticWriter.produceFile((FileControlSingleton.getInstance())
 					.get(rootElementName), (HashMap<Integer, Object>) result,

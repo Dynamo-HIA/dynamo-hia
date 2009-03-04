@@ -47,7 +47,7 @@ public class Manufacture_RiskFactorCategoricalObject {
 		try {
 			RiskFactorCategoricalObject theModel = new RiskFactorCategoricalObject(
 					false);
-			/* Object result = */ theModel.manufacture(configurationFilePath);
+			/* Object result = */ theModel.manufacture(configurationFilePath, "riskfactor_categorical");
 			//assertNotNull(result);
 //			try {
 			//	((RiskFactorCategoricalObject) result).writeToFile(outputFile);

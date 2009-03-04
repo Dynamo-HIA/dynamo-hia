@@ -7,14 +7,18 @@ package nl.rivm.emi.dynamo.exceptions;
  * @author schutb
  *
  */
-@SuppressWarnings("serial")
 public class DynamoOutputException extends Exception {
 
 	/**
-	 * @param string
+	 * 
 	 */
-	public DynamoOutputException(String string) {
-		super(string);
+	private static final long serialVersionUID = -4663216515410602278L;
+
+	/**
+	 * @param message
+	 */
+	public DynamoOutputException(String message) {
+		super(message);
 	}
 	
 }

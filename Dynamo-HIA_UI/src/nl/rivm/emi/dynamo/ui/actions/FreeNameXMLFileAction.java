@@ -1,5 +1,4 @@
 package nl.rivm.emi.dynamo.ui.actions;
-// TODO:IMPORT
 
 /**
  * Develop with populationSize as concrete implementation.
@@ -59,7 +58,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 	private String getNewFilePath() {
 		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
 		String newPath = null;
-		// TODO: create import button dialog
+		// Call the input trialog modal here (trialog includes input field, import, ok and cancel buttons)
 		ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(shell, "BasePath: "
 				+ selectionPath, "Enter name for a new xml file", "Name", null);
 		int openValue = inputDialog.open();
@@ -98,7 +97,6 @@ public class FreeNameXMLFileAction extends ActionBase {
 		return newPath;
 	}
 
-	// TODO: Refactor new import for other modals too
 	private void processThroughModal(File dataFile, File savedFile) {
 		try {
 			boolean isOld = savedFile.exists();

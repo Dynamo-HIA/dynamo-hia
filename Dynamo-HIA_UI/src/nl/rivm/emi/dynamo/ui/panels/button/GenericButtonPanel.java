@@ -19,16 +19,22 @@ public class GenericButtonPanel extends Composite {
 	Button importButton;
 	DataAndFileContainer modalParent;
 
-	// TODO: implement import button listener and actions
+	
+	/**
+	 * 
+	 * Constructs the panel with buttons
+	 * 
+	 * @param shell
+	 */
 	public GenericButtonPanel(Shell shell) {
 		super(shell, SWT.NONE);
 		setSize(100, 35);
 		setFormData();
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
-		saveButton = putSaveButton(this);
-		importButton = putImportButton(this, saveButton);
-		Button cancelButton = putCancelButton(this, importButton);
+		this.saveButton = putSaveButton(this);
+		this.importButton = putImportButton(this, this.saveButton);
+		Button cancelButton = putCancelButton(this, this.importButton);
 		cancelButton.addSelectionListener(new CancelSelectionListener(shell));
 		pack();
 	}
@@ -41,10 +47,16 @@ public class GenericButtonPanel extends Composite {
 		setLayoutData(formData);
 	}
 
+	/**
+	 * 
+	 * Sets the parent of the modal
+	 * 
+	 * @param theParent
+	 */
 	public void setModalParent(DataAndFileContainer theParent) {
-		modalParent = theParent;
-		saveButton.addSelectionListener(new SaveSelectionListener(modalParent));
-		importButton.addSelectionListener(new ImportSelectionListener(modalParent));
+		this.modalParent = theParent;
+		this.saveButton.addSelectionListener(new SaveSelectionListener(this.modalParent));
+		this.importButton.addSelectionListener(new ImportSelectionListener(this.modalParent));
 	}
 
 	static private Button putSaveButton(Composite panel) {
@@ -58,6 +70,15 @@ public class GenericButtonPanel extends Composite {
 		return saveButton;
 	}
 
+	
+	/**
+	 * 
+	 * Constructs an import button 
+	 * 
+	 * @param composite
+	 * @param leftNeighbour
+	 * @return Button An imput Button
+	 */
 	static private Button putImportButton(Composite composite,
 			Button leftNeighbour) {
 		FormData formData;

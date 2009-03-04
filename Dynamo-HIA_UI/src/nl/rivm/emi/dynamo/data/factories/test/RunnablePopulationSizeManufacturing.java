@@ -36,7 +36,7 @@ public class RunnablePopulationSizeManufacturing implements Runnable {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PopulationSizeFactory()
-					.manufactureObservable(configurationFile);
+					.manufactureObservable(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton

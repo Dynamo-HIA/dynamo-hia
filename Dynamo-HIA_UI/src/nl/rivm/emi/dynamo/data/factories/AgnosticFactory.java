@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -21,6 +20,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -41,7 +41,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufacture(File configurationFile)
+	abstract public TypedHashMap<?> manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -52,7 +52,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufactureObservable(File configurationFile)
+	abstract public TypedHashMap<?> manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -84,25 +84,33 @@ abstract public class AgnosticFactory {
 	 * @throws DynamoInconsistentDataException 
 	 */
 	public TypedHashMap manufacture(File configurationFile,
-			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
+			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap<?> underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
+
 			// Validate the xml by xsd schema
 			configurationFromFile.setValidating(true);			
 			configurationFromFile.load();			
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			List<?> list = rootNode.getChildren();
-			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
 			
-			for (ConfigurationNode rootChild : rootChildren) {
-				log.debug("Handle rootChild: " + rootChild.getName());
-				underConstruction = handleRootChild(underConstruction,
-						rootChild, makeObservable);
-			} // for rootChildren
+			// Check if the name of the first element of the file
+			// is the same as that of the node name where the file is processes
+			if (rootNode.getName() != null && rootNode.getName().equalsIgnoreCase(rootElementName)) {
+				List<?> list = rootNode.getChildren();
+				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
+				for (ConfigurationNode rootChild : rootChildren) {
+					log.info("Handle rootChild: " + rootChild.getName());
+					underConstruction = handleRootChild(underConstruction,
+							rootChild, makeObservable);
+				} // for rootChildren				
+			} else {
+				// The start/first element of the imported file does not match the node name
+				throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
+			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
 			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()
@@ -119,7 +127,6 @@ abstract public class AgnosticFactory {
 				errorMessage = "An error occured: " + e.getMessage() + "\n" 
 				+ "Cause: " + e.getCause().getMessage().split(":")[1];
 			}
-				
 			throw new ConfigurationException(errorMessage);
 		}
 	}

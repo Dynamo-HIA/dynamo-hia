@@ -4,16 +4,20 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 public class ConfigurationFileUtil {
 
+	private static Log log = LogFactory.getLog(ConfigurationFileUtil.class);
+	
 	static public String extractRootElementNameFromChildConfiguration(
 			BaseNode selectedNode) throws TreeStructureException {
 		String rootElementName = null;
@@ -59,6 +63,9 @@ public class ConfigurationFileUtil {
 				}
 			}
 		} catch (ConfigurationException e) {
+			// Exception is not thrown again
+			// because the application has to continue
+			log.warn(e);
 			e.printStackTrace();
 		} finally {
 			return rootElementName;
@@ -81,6 +88,7 @@ public class ConfigurationFileUtil {
 				}
 			}
 		} catch (ConfigurationException e) {
+			log.warn(e);
 			e.printStackTrace();
 		} finally {
 			return numberOfCategories;

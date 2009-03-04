@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
-
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
@@ -41,31 +45,40 @@ public class BaseStorageTreeScreen {
 
 	public Shell open(Display display) {
 		try {
-			shell = new Shell(display);
-			shell.setLayout(new FillLayout());
-			shell.addShellListener(new ShellAdapter() {
+			this.shell = new Shell(display);
+			this.shell.setLayout(new FillLayout());
+			this.shell.addShellListener(new ShellAdapter() {
 				public void shellClosed(ShellEvent e) {
 				}
 			});
-			baseDirectoryPath = selectBaseDirectory(baseDirectoryPath);
-			StorageTree testTree = new StorageTree(baseDirectoryPath);
+			this.baseDirectoryPath = selectBaseDirectory(this.baseDirectoryPath);
+			StorageTree testTree = new StorageTree(this.baseDirectoryPath);
 			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
 					testTree.getRootNode());
 			new TreeViewerPlusCustomMenu(shell, sTCP);
-			shell.open();
-			return shell;
-		} catch (StorageTreeException e) {
-			log.error("Caught " + e.getClass().getName() + " with message "
-					+ e.getMessage());
-			e.printStackTrace();
+			this.shell.open();
+			return this.shell;
+		} catch (StorageTreeException ste) {
+			this.log.error("Caught " + ste.getClass().getName() + " with message "
+					+ ste.getMessage());
+			handleErrorMessage(ste);
 			return null;
-		} catch (ConfigurationException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (ConfigurationException ce) {
+			handleErrorMessage(ce);
 			return null;
 		}
 	}
 
+	private void handleErrorMessage(Exception e) {
+		this.log.fatal(e);
+		e.printStackTrace();
+		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+		box.setText("Error occured during opening of base storage tree screen " 
+				+ e.getMessage());
+		box.setMessage(e.getMessage());
+		box.open();		
+	}
+	
 	/**
 	 * Creates the menu at the top of the shell where most of the programs
 	 * functionality is accessed.

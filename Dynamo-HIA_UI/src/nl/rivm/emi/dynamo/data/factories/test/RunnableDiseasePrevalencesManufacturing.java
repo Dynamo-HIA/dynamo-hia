@@ -44,7 +44,7 @@ public class RunnableDiseasePrevalencesManufacturing implements Runnable {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new PrevalencesCategoricalFactory()
-					.manufactureObservable(configurationFile);
+					.manufactureObservable(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton

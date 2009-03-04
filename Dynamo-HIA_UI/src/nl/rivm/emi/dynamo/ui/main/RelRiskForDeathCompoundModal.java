@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * Modal dialog to create and edit the population size XML files. 
@@ -31,159 +36,98 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathCompoundModal implements Runnable,
-		DataAndFileContainer {
+public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private Shell shell;
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
 	private TypedHashMap modelObject;
-	private DataBindingContext dataBindingContext = null;
-	private String configurationFilePath;
-	private String rootElementName;
-	private HelpGroup helpPanel;
-	private BaseNode selectedNode;
 
 	public RelRiskForDeathCompoundModal(Shell parentShell,
-			String configurationFilePath, String rootElementName,
+			String dataFilePath, String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {
-		this.configurationFilePath = configurationFilePath;
-		this.rootElementName = rootElementName;
-		this.selectedNode = selectedNode;
-		shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
-				| SWT.RESIZE);
-		shell.setText(createCaption((BaseNode) ((ChildNode) selectedNode)
-				.getParent()));
-		FormLayout formLayout = new FormLayout();
-		shell.setLayout(formLayout);
+		super(parentShell, dataFilePath, configurationFilePath,
+				rootElementName, selectedNode);
 	}
-
-	private String createCaption(BaseNode selectedNode2) {
+	
+	@Override
+	protected String createCaption(BaseNode selectedNode2) {
 		return "Relative risks for death from compound riskfactor";
 	}
 
+	@Override
 	public synchronized void open() {
 		try {
-			dataBindingContext = new DataBindingContext();
-			modelObject = manufactureModelObject();
-			Composite buttonPanel = new GenericButtonPanel(shell);
+			this.dataBindingContext = new DataBindingContext();
+			this.modelObject = manufactureModelObject();
+			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			helpPanel = new HelpGroup(shell, buttonPanel);
+			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			BaseNode riskSourceNode = null;
 			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
-					shell, modelObject, dataBindingContext, selectedNode, helpPanel);
-			relRiskForDeathCompoundGroup.setFormData(helpPanel.getGroup(),
+					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
+			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
-			shell.pack();
+			this.shell.pack();
 			// This is the first place this works.
-			shell.setSize(400, 400);
-			shell.open();
-			Display display = shell.getDisplay();
-			while (!shell.isDisposed()) {
+			this.shell.setSize(400, 400);
+			this.shell.open();
+			Display display = this.shell.getDisplay();
+			while (!this.shell.isDisposed()) {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
 		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + configurationFilePath);
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
 		}
 	}
 
-	private TypedHashMap manufactureModelObject()
+	@Override	
+	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
-		TypedHashMap producedData = null;
+		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = FactoryProvider
-				.getRelevantFactoryByRootNodeName(rootElementName);
+				.getRelevantFactoryByRootNodeName(this.rootElementName);
 		if (factory == null) {
 			throw new ConfigurationException(
-					"No Factory found for rootElementName: " + rootElementName);
+					"No Factory found for rootElementName: " + this.rootElementName);
 		}
-		File configurationFile = new File(configurationFilePath);
+		File configurationFile = new File(this.configurationFilePath);
 		if (configurationFile.exists()) {
 			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile);
+				producedData = factory.manufactureObservable(configurationFile, this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");
 				}
 			} else {
-				throw new ConfigurationException(configurationFilePath
+				throw new ConfigurationException(this.configurationFilePath
 						+ " is no file or cannot be read.");
 			}
 		} else {
 			int numberOfClasses = RiskSourcePropertiesMapFactory
-			.getNumberOfRiskFactorClasses(selectedNode);
+			.getNumberOfRiskFactorClasses(this.selectedNode);
 			((RelRiskForDeathCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
 	}
-
-	public void run() {
-		open();
-	}
-
-	static private void handlePlacementInContainer(Composite myComposite) {
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.top = new FormAttachment(0, -5);
-		myComposite.setLayoutData(formData);
-	}
-
+	
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
+	 */
+	@Override
 	public Object getData() {
-		return modelObject;
-	}
-
-	public String getFilePath() {
-		return configurationFilePath;
-	}
-
-	public Object getRootElementName() {
-		return rootElementName;
-	}
-
-	public BaseNode getBaseNode() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getConfigurationFilePath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getDataFilePath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Shell getParentShell() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Shell getShell() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setConfigurationFilePath(String configurationFilePath) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setDataFilePath(String dataFilePath) {
-		// TODO Auto-generated method stub
-		
+		return this.modelObject;
 	}
 }

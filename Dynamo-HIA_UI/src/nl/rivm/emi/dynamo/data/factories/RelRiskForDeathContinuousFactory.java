@@ -18,16 +18,16 @@ public class RelRiskForDeathContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public RelRiskForDeathContinuousObject manufactureObservable(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
 		return new RelRiskForDeathContinuousObject(producedMap);
 	}
 
-	public RelRiskForDeathContinuousObject manufacture(File configurationFile)
+	public RelRiskForDeathContinuousObject manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		RelRiskForDeathContinuousObject result = new RelRiskForDeathContinuousObject(
 				producedMap);
 		return (result);

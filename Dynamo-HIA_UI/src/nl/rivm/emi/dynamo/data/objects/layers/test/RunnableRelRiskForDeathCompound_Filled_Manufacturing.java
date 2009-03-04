@@ -51,7 +51,7 @@ public class RunnableRelRiskForDeathCompound_Filled_Manufacturing implements
 			AgnosticFactory theFactory = FactoryProvider
 					.getRelevantFactoryByRootNodeName(rootElementName);
 			Object modelObject = theFactory
-					.manufactureObservable(configurationFile);
+					.manufactureObservable(configurationFile, "relriskfordeathcompound");
 			FileControlSingleton instance = FileControlSingleton.getInstance();
 			FileControlEnum myEnum = instance.get(rootElementName);
 			StAXAgnosticWriter.produceFile(myEnum,

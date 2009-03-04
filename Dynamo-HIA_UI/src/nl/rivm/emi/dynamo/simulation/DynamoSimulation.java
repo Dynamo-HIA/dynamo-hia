@@ -51,7 +51,7 @@ public class DynamoSimulation {
 
 	File simOutput = new File(baseDir + "/sim_out.xml");
 
-	HierarchicalConfiguration simulationConfiguration;
+	XMLConfiguration simulationConfiguration;
 
 	Simulation sim;
 
@@ -65,8 +65,13 @@ public class DynamoSimulation {
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
 			if (simulationConfigurationFile.exists()) {
-				simulationConfiguration = new XMLConfiguration(
+				this.simulationConfiguration = new XMLConfiguration(
 						simulationConfigurationFile);
+
+				// Validate the xml by xsd schema
+				this.simulationConfiguration.setValidating(true);			
+				this.simulationConfiguration.load();		
+				
 				sim = SimulationFromXMLFactory
 						.manufacture_DOMPopulationTree(simulationConfiguration);
 			} else {

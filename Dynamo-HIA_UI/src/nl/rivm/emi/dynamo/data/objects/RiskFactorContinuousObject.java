@@ -59,10 +59,10 @@ public class RiskFactorContinuousObject extends XMLHandlingEntryPoint implements
 	 * @throws DynamoInconsistentDataException
 	 */
 	@Override
-	public void manufacture(String dataFilePath)
+	public void manufacture(String dataFilePath, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		this.log.debug("Starting manufacture.");
-		super.manufacture( dataFilePath);
+		super.manufacture( dataFilePath, rootElementName);
 	}
 
 	protected ConfigurationObjectBase handleRootChildren(

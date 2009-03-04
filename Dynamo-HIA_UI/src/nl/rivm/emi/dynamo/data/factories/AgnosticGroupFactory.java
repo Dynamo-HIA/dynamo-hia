@@ -81,7 +81,7 @@ abstract public class AgnosticGroupFactory {
 	 * @throws DynamoInconsistentDataException 
 	 */
 	public HashMap<String, ?> manufacture(File configurationFile,
-			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
+			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		HashMap<String, ?> underConstruction = new LinkedHashMap<String, Object>();
 		XMLConfiguration configurationFromFile;
@@ -92,16 +92,26 @@ abstract public class AgnosticGroupFactory {
 			configurationFromFile.load();			
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			List<?> list = rootNode.getChildren();
-			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
 			
-			for (ConfigurationNode rootChild : rootChildren) {
-				String rootChildName = rootChild.getName();
-				log.debug("Handle rootChild: " + rootChildName);
-				RootChildSubFactoryEnum.
-				underConstruction = handleRootChild(underConstruction,
-						rootChild, makeObservable);
-			} // for rootChildren
+			// Check if the name of the first element of the file
+			// is the same as that of the node name where the file is processes
+			if (rootNode.getName() != null && rootNode.getName().equalsIgnoreCase(rootElementName)) {
+				List<?> list = rootNode.getChildren();
+				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
+				
+				for (ConfigurationNode rootChild : rootChildren) {
+					String rootChildName = rootChild.getName();
+					log.debug("Handle rootChild: " + rootChildName);
+					/* TODO: Under construction as of 3-3-2009
+					RootChildSubFactoryEnum.
+					underConstruction = handleRootChild(underConstruction,
+							rootChild, makeObservable);
+							*/
+				} // for rootChildren				
+			} else {
+				// The start/first element of the imported file does not match the node name
+				throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
+			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
 			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()

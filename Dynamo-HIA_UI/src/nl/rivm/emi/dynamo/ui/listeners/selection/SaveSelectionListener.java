@@ -16,9 +16,11 @@ import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.MessageBox;
 
 public class SaveSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
@@ -43,23 +45,29 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					.getData();
 			if(!(modelObject instanceof IStaxEventContributor)){
 				Object rootElementName = modalParent.getRootElementName();
-			StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
+				StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
 					.getInstance().get(rootElementName),
 					(TypedHashMap) modelObject, configurationFile);
 			} else {
 				((XMLHandlingEntryPoint)modelObject).writeToFile(configurationFile);
 			}
 		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.handleErrorMessage(e);
 		} catch (UnexpectedFileStructureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.handleErrorMessage(e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			this.handleErrorMessage(e);
 		}
 
+	}
+
+	private void handleErrorMessage(Exception e) {
+		this.log.fatal(e);
+		e.printStackTrace();
+		MessageBox box = new MessageBox(this.modalParent.getShell(), SWT.ERROR_UNSPECIFIED);
+		box.setText("Error occured during save " + e.getMessage());
+		box.setMessage(e.getMessage());
+		box.open();		
 	}
 
 }

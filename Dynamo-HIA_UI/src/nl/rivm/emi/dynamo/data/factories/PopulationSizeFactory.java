@@ -17,18 +17,18 @@ import org.apache.commons.logging.LogFactory;
 public class PopulationSizeFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public PopulationSizeObject manufacture(File configurationFile)
+	public PopulationSizeObject manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
 		return (result);
 	}
 
-	public PopulationSizeObject manufactureObservable(File configurationFile)
+	public PopulationSizeObject manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
 		return result;
 	}

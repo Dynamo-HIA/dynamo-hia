@@ -55,7 +55,7 @@ public class Test_DynamoSimObject_NG {
 		try {
 			DynamoSimObject_NG theModel = new DynamoSimObject_NG(
 					false);
-			theModel.manufacture(configurationFilePath);
+			theModel.manufacture(configurationFilePath, "simulation");
 			assertTrue(theModel.isConfigurationOK());
 			try {
 				theModel.writeToFile(outputFile);
@@ -90,7 +90,7 @@ public class Test_DynamoSimObject_NG {
 		try {
 			DynamoSimObject_NG theModel = new DynamoSimObject_NG(
 					false);
-			theModel.manufacture(configurationFilePath);
+			theModel.manufacture(configurationFilePath, "simulation");
 			assertFalse(theModel.isConfigurationOK());
 			try {
 				theModel.writeToFile(outputFile);

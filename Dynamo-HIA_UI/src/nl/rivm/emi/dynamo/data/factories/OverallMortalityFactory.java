@@ -20,23 +20,18 @@ import org.apache.commons.logging.LogFactory;
 public class OverallMortalityFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public OverallMortalityObject constructObservableAllZeroesModel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public OverallMortalityObject manufactureObservable(File configurationFile)
+	public OverallMortalityObject manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
 		OverallMortalityObject result = new OverallMortalityObject(producedMap);
 		return (result); 
 	}
 
 	public OverallMortalityObject manufacture(
-			File configurationFile) throws ConfigurationException, DynamoInconsistentDataException {
+			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
 		OverallMortalityObject result = new OverallMortalityObject(producedMap);
 		return (result); 
 	}

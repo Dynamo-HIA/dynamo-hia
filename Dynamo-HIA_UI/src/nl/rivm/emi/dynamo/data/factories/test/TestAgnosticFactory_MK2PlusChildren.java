@@ -43,7 +43,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 //		try {
 			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
-//			Object result = theFactory.manufacture(configurationFile.getName());
+//			Object result = theFactory.manufacture(configurationFile.getName(), "riskfactor_categorical");
 //			assertNotNull(result);
 //			try {
 //		((RiskFactorCategoricalObject)result).writeToFile(outputFile);
@@ -77,7 +77,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			RelRiskFromRiskFactorCategoricalFactory theFactory = new RelRiskFromRiskFactorCategoricalFactory(); 
-			Object result = theFactory.manufacture(configurationFile);
+			Object result = theFactory.manufacture(configurationFile, "riskfactor_categorical");
 			assertNotNull(result);
 //			try {
 //				StAXAgnosticWriter.produceFile((FileControlSingleton

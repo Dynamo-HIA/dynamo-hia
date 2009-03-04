@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * BaseClass for Modal dialogs that are used to create and edit configuration 
@@ -101,10 +106,10 @@ abstract public class AgnosticModal extends AbstractDataModal {
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: " + this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile);
+		File dataFile = new File(this.dataFilePath);
+		if (dataFile.exists()) {
+			if (dataFile.isFile() && dataFile.canRead()) {
+				producedData = factory.manufactureObservable(dataFile, this.rootElementName);				
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");

@@ -5,6 +5,11 @@
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;

@@ -36,7 +36,7 @@ public class RunnableDiseaseIncidencesManufacturing implements Runnable {
 		log.debug(configurationFile.getAbsolutePath());
 		try {
 			Object result = new DiseaseIncidencesFactory()
-					.manufactureObservable(configurationFile);
+					.manufactureObservable(configurationFile, rootElementName);
 			assertNotNull(result);
 			try {
 				StAXAgnosticWriter.produceFile((FileControlSingleton

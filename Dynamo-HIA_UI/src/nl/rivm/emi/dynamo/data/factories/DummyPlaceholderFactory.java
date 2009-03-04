@@ -9,13 +9,13 @@ import org.apache.commons.configuration.ConfigurationException;
 
 public class DummyPlaceholderFactory extends AgnosticFactory {
 
-	public DALYWeightsObject manufactureObservable(File configurationFile)
+	public DALYWeightsObject manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException {
 	throw new ConfigurationException("This Factory has not been implemented yet.");
 	}
-
+	@Override
 	public DALYWeightsObject manufacture(
-			File configurationFile) throws ConfigurationException {
+			File configurationFile, String rootElementName) throws ConfigurationException {
 		throw new ConfigurationException("This Factory has not been implemented yet.");
 	}
 	public DALYWeightsObject manufactureDefault() throws ConfigurationException {
@@ -25,7 +25,6 @@ public class DummyPlaceholderFactory extends AgnosticFactory {
 	@Override
 	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

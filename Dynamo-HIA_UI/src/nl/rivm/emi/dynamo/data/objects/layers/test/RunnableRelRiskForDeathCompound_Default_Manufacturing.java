@@ -58,7 +58,7 @@ public class RunnableRelRiskForDeathCompound_Default_Manufacturing implements Ru
 						configurationFile);
 				// Read defaults file and write it out again.
 				Object result = theFactory
-						.manufactureObservable(configurationFile);
+						.manufactureObservable(configurationFile, rootElementName);
 				assertNotNull(result);
 				StAXAgnosticWriter.produceFile((FileControlSingleton
 						.getInstance()).get(rootElementName),

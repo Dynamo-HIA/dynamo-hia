@@ -4,14 +4,20 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.menu.StorageTreeMenuFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class StorageTreeMenuListener implements IMenuListener {
 
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
 	Shell shell;
 	TreeViewer treeViewer;
 	StorageTreeMenuFactory stmf; 
@@ -36,10 +42,19 @@ public class StorageTreeMenuListener implements IMenuListener {
 			BaseNode selectedNode = (BaseNode) selection.getFirstElement();
 			try {
 				stmf.createRelevantContextMenu(manager, selection, selectedNode);
-			} catch (TreeStructureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (TreeStructureException tse) {
+				handleErrorMessage(tse);
 			}
 		}
 	}
+	
+	private void handleErrorMessage(Exception e) {
+		this.log.fatal(e);
+		e.printStackTrace();
+		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+		box.setText("Error occured during save " + e.getMessage());
+		box.setMessage(e.getMessage());
+		box.open();		
+	}	
+	
 }

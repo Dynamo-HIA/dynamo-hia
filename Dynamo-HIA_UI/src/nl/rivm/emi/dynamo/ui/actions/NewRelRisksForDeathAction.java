@@ -40,7 +40,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 				String candidatePath = selectionPath + File.separator
 						+ "relriskfordeath.xml";
 				File file = new File(candidatePath);
-				if (file != null) {
+				if (file != null && !file.getName().isEmpty()) {
 					if (file.exists()) {
 						MessageBox alreadyExistsMessageBox = new MessageBox(
 								shell, SWT.ERROR_ITEM_NOT_ADDED);
@@ -69,6 +69,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 		}
 	}
 
+	// Add import file action here
 	private void processThroughModal(File file, String configurationRootElementName) {
 		try {
 			boolean isOld = file.exists();

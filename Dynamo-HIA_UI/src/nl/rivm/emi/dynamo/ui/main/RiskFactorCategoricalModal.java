@@ -1,4 +1,9 @@
 package nl.rivm.emi.dynamo.ui.main;
+/**
+ * 
+ * Exception handling OK
+ * 
+ */
 
 /**
  * Modal dialog to create and edit the population size XML files. 
@@ -25,6 +30,8 @@ import org.eclipse.swt.widgets.Shell;
  *
  */
 public class RiskFactorCategoricalModal extends AbstractDataModal {
+	private static final String RISKFACTOR_CATEGORICAL = "riskfactor_categorical";
+	
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
@@ -64,7 +71,7 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 //		try {
 			this.dataBindingContext = new DataBindingContext();
 			this.modelObject = new RiskFactorCategoricalObject(true);
-//			this.modelObject = this.modelObject.manufacture(this.dataFilePath);
+//			this.modelObject = this.modelObject.manufacture(this.dataFilePath, RISKFACTOR_CATEGORICAL);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
