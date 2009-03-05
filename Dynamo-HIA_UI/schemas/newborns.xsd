@@ -5,7 +5,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="sexratio" type="xs:float" />
-        <xs:element maxOccurs="unbounded" name="amount">
+        <xs:element minOccurs="30" maxOccurs="30" name="amount">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="year" type="xs:int" />

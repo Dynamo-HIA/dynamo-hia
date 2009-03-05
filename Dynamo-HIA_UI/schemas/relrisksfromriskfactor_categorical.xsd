@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="riskfactorprevalences_duration">
+  <xs:element name="relrisksfromriskfactor_categorical">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="4032" maxOccurs="4032" name="prevalence">
+        <xs:element minOccurs="192" maxOccurs="1920" name="relativerisk">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
@@ -23,20 +23,17 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="duration">
+              <xs:element name="cat">
                 <xs:simpleType>
                   <xs:restriction base="xs:int">
                     <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="20" />
+                    <xs:maxInclusive value="9" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="percent">
+              <xs:element name="value">
                 <xs:simpleType>
-                  <xs:restriction base="xs:float">
-                    <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="100" />
-                  </xs:restriction>
+                  <xs:restriction base="xs:float" />
                 </xs:simpleType>
               </xs:element>
             </xs:sequence>
