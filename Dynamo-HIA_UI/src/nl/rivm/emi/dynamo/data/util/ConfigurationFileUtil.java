@@ -13,7 +13,6 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 public class ConfigurationFileUtil {
 
 	private static Log log = LogFactory.getLog(ConfigurationFileUtil.class);
@@ -78,6 +77,7 @@ public class ConfigurationFileUtil {
 			String rootElementName = extractRootElementName(configurationFile);
 			if (rootElementName != null) {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
+						.equals(rootElementName)||RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 						.equals(rootElementName)) {
 					XMLConfiguration configurationFromFile = new XMLConfiguration(
 							configurationFile);
