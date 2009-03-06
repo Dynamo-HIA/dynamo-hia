@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Category;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.End;
+import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
@@ -41,7 +42,9 @@ public enum XMLTagEntityEnum {
 	STANDARDVALUE((XMLTagEntity)new Value()),
 	BEGIN((XMLTagEntity)new Begin()),
 	ALPHA((XMLTagEntity)new Alpha()),
-	END((XMLTagEntity)new End());
+	END((XMLTagEntity)new End()),
+	HASNEWBORNS((XMLTagEntity)new HasNewborns()),
+;
 	
 	private final XMLTagEntity theType;
 
