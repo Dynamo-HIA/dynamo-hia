@@ -60,7 +60,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
  */
 public class Output_UI {
 
-	Display display = new Display();
+	final Shell parentShell ;
 	Scale scale;
 	Text value;
 	JFreeChart pyramidChart;
@@ -70,8 +70,9 @@ public class Output_UI {
 	int startYear;
 	DynamoOutputFactory output;
 
-	public Output_UI(ScenarioInfo scen, String simName, Population[] pop) {
+	public Output_UI(Shell shell, ScenarioInfo scen, String simName, Population[] pop) {
 
+		parentShell=shell;
 		output = new DynamoOutputFactory(scen, simName);
 		stepsInRun = output.getStepsInRun();
 		startYear = output.getStartYear();
@@ -110,7 +111,7 @@ public class Output_UI {
 	 */
 	private void displayErrorMessage(Exception e) {
 
-		Shell shell = new Shell(display);
+		Shell shell = new Shell(parentShell);
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		messageBox
 				.setMessage("error while calculating output."
@@ -122,16 +123,12 @@ public class Output_UI {
 		}
 
 		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-		display.dispose();
-	}
+		
+			}
 
 	public void makeOutputDisplay() throws DynamoOutputException {
 
-		Shell shell = new Shell(display);
+		Shell shell = new Shell(parentShell);
 		shell.setText("Dynamo Output");
 		shell.setBounds(30, 30, 750, 650);
 		/* tab for pyramid plots */
@@ -161,12 +158,7 @@ public class Output_UI {
 		makeChangeScenarioTab(tabFolder1);
 
 		shell.open();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-		display.dispose();
-
+		
 	}
 
 	/* fields giving the selections made for the writing of files */
@@ -1495,72 +1487,5 @@ public class Output_UI {
 		item3.setControl(plotComp1);
 	}
 
-	public void makePopulationPyramidPlot() {
-
-		Display display = new Display();
-		Shell shell = new Shell(display);
-		RowLayout rowLayout = new RowLayout();
-		shell.setSize(600, 600);
-		shell.setLayout(rowLayout);
-		shell.setText("Population PyramidPlot");
-		shell.setLayout(rowLayout);
-
-		plottedScen = 1;
-		int timestep = 0;
-
-		scale = new Scale(shell, SWT.VERTICAL);
-		scale.setBounds(0, 0, 40, 200);
-		scale.setMaximum(stepsInRun);
-		scale.setMinimum(0);
-		scale.setIncrement(1);
-		scale.setPageIncrement(1);
-		scale.setSelection(stepsInRun);
-		RowData rowData2 = new RowData(40, 500);
-		scale.setLayoutData(rowData2);
-		scale.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				int perspectiveValue = scale.getMaximum()
-						- scale.getSelection() + scale.getMinimum();
-				value.setText("Year: "
-						+ (perspectiveValue + output.getStartYear()));
-				JFreeChart pyramidChart = output
-						.makePyramidChartIncludingDisease(plottedScen,
-								perspectiveValue, 0);
-				chartComposite.setChart(pyramidChart);
-				chartComposite.redraw();
-				chartComposite.forceRedraw();
-
-			}
-
-		});
-		value = new Text(shell, SWT.BORDER | SWT.SINGLE);
-
-		value.setEditable(false);
-		RowData rowData4 = new RowData(55, 25);
-		value.setLayoutData(rowData4);
-		JFreeChart pyramidChart = output.makePyramidChartIncludingDisease(
-				plottedScen, timestep, 0);
-		RowData rowData3 = new RowData(450, 500);
-		chartComposite = new ChartComposite(shell, SWT.NONE, pyramidChart, true);
-		chartComposite.setDisplayToolTips(true);
-		chartComposite.setHorizontalAxisTrace(false);
-		chartComposite.setVerticalAxisTrace(false);
-		chartComposite.setLayoutData(rowData3);
-
-		shell.open();
-
-		// ChartComposite.forceRedraw() to redraw
-
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
-		display.dispose();
-
-		// frame.setVisible(true);
-		// frame.setSize(200, 200);
-		// frame.pack();
-
-	}
-
+	
 }
