@@ -1,39 +1,19 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Random;
 
-import Jama.Matrix;
-
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
-import java.io.File;
-import java.util.List;
-
-import javax.management.RuntimeErrorException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import Jama.Matrix;
 
 /**
  * @author Hendriek Boshuizen. ModelParameters estimates and holds the model
@@ -103,8 +83,11 @@ public class ModelParameters {
     private Population [] initialPopulation;
 	// empty Constructor
 
-	public ModelParameters() {
-	};
+    private String globalBaseDir;
+    
+	public ModelParameters(String baseDir) {
+		this.globalBaseDir = baseDir;
+	}
 
 	/**
 	 * 
@@ -358,10 +341,11 @@ public class ModelParameters {
 		 * 
 		 */
 
-		BaseDirectory B = BaseDirectory
-				.getInstance("c:\\");
-		String BaseDir = B.getBaseDir();
-		InputDataFactory config = new InputDataFactory(simulationName);
+		//BaseDirectory B = BaseDirectory
+			//	.getInstance("c:\\");
+		//String BaseDir = B.getBaseDir();
+		
+		InputDataFactory config = new InputDataFactory(simulationName, this.globalBaseDir);
 		InputData inputData = new InputData();
 
 		ScenarioInfo scenInfo = new ScenarioInfo();
@@ -392,7 +376,7 @@ public class ModelParameters {
 
 		/** * 4. write the initial population file for all scenarios */
 
-		InitialPopulationFactory popFactory = new InitialPopulationFactory();
+		InitialPopulationFactory popFactory = new InitialPopulationFactory(this.globalBaseDir);
 		int seed = config.getRandomSeed();
 		int nSim = config.getSimPopSize();
 		

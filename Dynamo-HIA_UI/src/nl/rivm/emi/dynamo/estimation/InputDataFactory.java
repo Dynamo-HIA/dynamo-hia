@@ -34,7 +34,7 @@ public class InputDataFactory {
 
 	/* Field containing the name of the base directory */
 	// temporary for testing;
-	public String baseDir = "c:\\hendriek\\java\\dynamohome";;
+	public String baseDir;// = "c:\\hendriek\\java\\dynamohome";;
 
 	/*
 	 * fields describing the labels of the XML configuration file (as made by
@@ -189,7 +189,8 @@ public class InputDataFactory {
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
 	private static final String prefixRRdis = "relriskfrom";
 
-	public InputDataFactory(String simName) throws DynamoConfigurationException {
+	public InputDataFactory(String simName, String baseDir) throws DynamoConfigurationException {
+		this.baseDir = baseDir;
 		doIt(simName);
 
 	}

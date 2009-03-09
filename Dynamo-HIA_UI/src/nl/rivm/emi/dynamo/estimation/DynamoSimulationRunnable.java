@@ -117,10 +117,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	private void configureSimulation(String simName, String baseDir) {
 
 		/* make an instance of the basedirectory object that is a singleton containing the basedirectory */
-		BaseDirectory B = BaseDirectory
-		.getInstance(baseDir);
-		this.baseDir=baseDir;
-		this.simName=simName;
+		//BaseDirectory B = BaseDirectory
+		//.getInstance(baseDir);
+		this.baseDir = baseDir;
+		this.simName = simName;
 		/*
 		 * make the strings with the filenames of the files that are read by CDM
 		 * These have fixed names, and are in the directory with the
@@ -132,8 +132,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * preCharConfig is a file that contains the configuration of the
 		 * characteristics of each simulated individual
 		 */
-		String directoryName = baseDir + "Simulations" + File.separator
-		+ simName;
+		String directoryName = this.baseDir + "Simulations" + File.separator
+		+ this.simName;
 		preCharConfig = directoryName + File.separator
 				+ "modelconfiguration" + File.separator + "charconfig.XML";
 		/*
@@ -143,9 +143,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		 // to
 																		// add
-		p = new ModelParameters();
+		p = new ModelParameters(this.baseDir);
 		try {
-			scen = p.estimateModelParameters(simName, parentShell);
+			scen = p.estimateModelParameters(this.simName, this.parentShell);
 		} catch (ConfigurationException e3) {
 			displayErrorMessage(e3);
 			log.fatal(e3.getMessage());

@@ -42,6 +42,7 @@ import org.w3c.dom.Node;
 public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private int numberOfElements;
+	private String globalBaseDir;
 
 	/* number of disease states */
 
@@ -49,8 +50,9 @@ public class InitialPopulationFactory {
 	 * @author Boshuizh This class generates the initial population and
 	 *         populations of newborns
 	 */
-	public InitialPopulationFactory() {
-		super();
+	public InitialPopulationFactory(String baseDir) {
+		//super();
+		this.globalBaseDir = baseDir;
 	}
 
 	/**
@@ -73,8 +75,9 @@ public class InitialPopulationFactory {
 		Population[] pop = manufactureInitialPopulation(parameters,
 				simulationName, nSim, seed, newborns, scenarioInfo);
 
-		String baseDir = BaseDirectory.getInstance(
-				"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+		//String baseDir = BaseDirectory.getInstance(
+				//"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+		String baseDir = this.globalBaseDir; //BaseDirectory.getInstance().getBaseDir();
 		String directoryName = baseDir + "Simulations\\" + simulationName;
 		String popFileName;
 

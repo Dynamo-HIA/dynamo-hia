@@ -24,8 +24,12 @@ private static BaseDirectory instance=null;
 	private BaseDirectory(String name) {
 		BaseDir=name;
 	
-}
+	}
 
+	synchronized static public BaseDirectory getInstance() {
+		return instance;
+	}
+	
 	synchronized static public BaseDirectory getInstance(String name) {
 		if (instance == null) {
 			instance = new BaseDirectory(name);
