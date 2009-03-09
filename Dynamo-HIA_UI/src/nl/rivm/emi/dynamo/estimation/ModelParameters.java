@@ -1,20 +1,39 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Random;
 
+import Jama.Matrix;
+
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.dynamo.datahandling.DynamoConfigurationData;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.SubnodeConfiguration;
+import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import Jama.Matrix;
+import java.io.File;
+import java.util.List;
+
+import javax.management.RuntimeErrorException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * @author Hendriek Boshuizen. ModelParameters estimates and holds the model
@@ -95,6 +114,7 @@ public class ModelParameters {
 	 * @param inputData
 	 *            Object that holds the input data
 	 * @throws DynamoInconsistentDataException
+	 * @param parentShell: the shell that is the parent of the progress bar
 	 * 
 	 * @throws Exception
 	 *             : not yet handled (from net transition rates: to do
@@ -102,7 +122,7 @@ public class ModelParameters {
 	 * @returns ScenarioInfo: an object containing information that is needed
 	 *          for postprocessing
 	 */
-	public void estimateModelParameters(int nSim, InputData inputData)
+	public void estimateModelParameters(int nSim, InputData inputData, Shell parentShell)
 			throws DynamoInconsistentDataException {
 
 		// first initialize the fields that can be directly copied from the
@@ -186,8 +206,8 @@ public class ModelParameters {
 					.getPrevRisk()[0][0].length];
 		NettTransitionRateFactory factory = new NettTransitionRateFactory();
 		/* set up progress bar for this part of the calculations */
-		Display display = new Display();
-		Shell shell = new Shell(display);
+		
+		Shell shell = new Shell(parentShell);
 		shell.setText("Parameter estimation in progress .......");
 		shell.setLayout(new FillLayout());
 		shell.setSize(600, 50);
@@ -290,7 +310,7 @@ public class ModelParameters {
 		 * display.sleep (); }
 		 */
 		shell.close();
-		display.dispose();
+		
 
 	};
 
@@ -322,7 +342,7 @@ public class ModelParameters {
 	 *             could occur when users enter data directly in XML files.
 	 * 
 	 */
-	public ScenarioInfo estimateModelParameters(String simulationName)
+	public ScenarioInfo estimateModelParameters(String simulationName, Shell parentShell)
 			throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 
@@ -339,7 +359,7 @@ public class ModelParameters {
 		 */
 
 		BaseDirectory B = BaseDirectory
-				.getInstance("c:\\hendriek\\java\\dynamohome");
+				.getInstance("c:\\");
 		String BaseDir = B.getBaseDir();
 		InputDataFactory config = new InputDataFactory(simulationName);
 		InputData inputData = new InputData();
@@ -358,7 +378,7 @@ public class ModelParameters {
 		log.debug("disease info added");
 
 		/** * 2. uses the inputdata to estimate the model parameters */
-		estimateModelParameters(nSim, inputData);
+		estimateModelParameters(nSim, inputData, parentShell);
 		/** * 3. write xml files needed by the simulation module */
 
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
