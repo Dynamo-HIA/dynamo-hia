@@ -958,6 +958,20 @@ public class InitialPopulationFactory {
 														stepsInSimulation, 4, 0));
 									characteristicIndex = 5;}
 
+									/*
+									 * newborns and zero year olds are not
+									 * bothered disease histories, so their
+									 * diseases are recalculated from the new
+									 * risk factor state but not the others:
+									 * they keep the disease probabilities based
+									 * on their old risk factors (before
+									 * intervention)
+									 */
+									if (newborns || a == 0)
+										CharValues = calculateDiseaseStates(
+												parameters, r,
+												a, g, riskFactorValue,
+												currentDurationValue);
 									currentIndividual
 											.luxeSet(characteristicIndex,new CompoundCharacteristicValue(
 													stepsInSimulation,

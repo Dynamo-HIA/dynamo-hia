@@ -203,9 +203,9 @@ public class ModelParameters {
 			bar.setSelection(a);
 
 			for (int g = 0; g < 2; g++) {
-				log.fatal("before first estimate");
+				log.debug("before first estimate");
 				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
-				log.fatal("parameters estimated for age " + a + " and gender "
+				log.debug("parameters estimated for age " + a + " and gender "
 						+ g);
 				if (a > 0) {
 					// TODO
@@ -345,17 +345,17 @@ public class ModelParameters {
 		InputData inputData = new InputData();
 
 		ScenarioInfo scenInfo = new ScenarioInfo();
-		log.fatal("overall configuration read");
+		log.debug("overall configuration read");
 		config
 				.addPopulationInfoToInputData(simulationName, inputData,
 						scenInfo);
-		log.fatal("population info added");
+		log.debug("population info added");
 		config.addRiskFactorInfoToInputData(inputData, scenInfo);
-		log.fatal("risk factor info added");
+		log.debug("risk factor info added");
 		config.addDiseaseInfoToInputData(inputData, scenInfo);
 		config.addScenarioInfoToScenarioData(simulationName, scenInfo);
 
-		log.fatal("disease info added");
+		log.debug("disease info added");
 
 		/** * 2. uses the inputdata to estimate the model parameters */
 		estimateModelParameters(nSim, inputData);

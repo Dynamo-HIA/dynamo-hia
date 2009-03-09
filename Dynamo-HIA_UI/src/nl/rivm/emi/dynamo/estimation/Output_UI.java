@@ -3,10 +3,24 @@
  */
 package nl.rivm.emi.dynamo.estimation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.EventObject;
+
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLStreamException;
+
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
 
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,13 +33,20 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
@@ -95,6 +116,7 @@ public class Output_UI {
 				.setMessage("error while calculating output."
 						+ " Message given: " + e.getMessage()
 						+ ". Program will close.");
+		e.printStackTrace();
 		if (messageBox.open() == SWT.OK) {
 			shell.dispose();
 		}
@@ -129,12 +151,139 @@ public class Output_UI {
 		/* tab for plot3 */
 		makeLifeExpectancyTab(tabFolder1);
 
+		/* tab for plot4 */
+		makeMortalityTab(tabFolder1);
+
+		/* tab for output */
+		makeUITab(tabFolder1);
+
+		/* tab for output */
+		makeChangeScenarioTab(tabFolder1);
+
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
 		display.dispose();
+
+	}
+
+	/* fields giving the selections made for the writing of files */
+	boolean cohortStyle = false;
+
+	/**
+	 * @param tabFolder1
+	 */
+	private void makeUITab(TabFolder tabFolder1) {
+		Composite UIComposite = new Composite(tabFolder1, SWT.FILL);
+		TabItem item1 = new TabItem(tabFolder1, SWT.NONE);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		UIComposite.setLayout(gridLayout);
+
+		/*
+		 * the composite has two elements: - a column with control elements
+		 * where the user can make choices - a plot area
+		 */
+
+		/* create a composite that contains the control elements */
+
+		Composite controlComposite = new Composite(UIComposite, SWT.NONE);
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 1;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+
+		/*
+		 * first radio group
+		 */
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("files to write:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button yearButton = new Button(radiogroup1, SWT.RADIO);
+		yearButton.setText("per year of simulation");
+		yearButton.setSelection(true);
+
+		yearButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					cohortStyle = false;
+
+				}
+
+			}
+		}));
+		Button ageButton = new Button(radiogroup1, SWT.RADIO);
+		ageButton.setText("by cohort");
+		// ageButton.setBounds(10,50,20,100);
+		ageButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					cohortStyle = true;
+				}
+
+			}
+		}));
+		Button runButton = new Button(controlComposite, SWT.PUSH);
+		runButton.setText("Write data");
+		runButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (cohortStyle)
+					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+						String fileName = "c:\\hendriek\\java\\dynamohome\\"
+								+ File.separator + "excel_cohort_all_"
+								+ output.getScenarioNames()[scen] + ".xml";
+						try {
+							output.writeWorkBookXMLbyCohort(fileName, 2, scen);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (FactoryConfigurationError e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (XMLStreamException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (DynamoOutputException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+					}
+				else {
+					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+						String fileName = "c:\\hendriek\\java\\dynamohome\\"
+								+ File.separator + "excel_year_all_"
+								+ output.getScenarioNames()[scen] + ".xml";
+						try {
+							output.writeWorkBookXMLbyYear(fileName, 2, scen);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (FactoryConfigurationError e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (XMLStreamException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (DynamoOutputException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				}
+			}
+		});
+		item1.setText("Write output");
+		item1.setControl(UIComposite);
 
 	}
 
@@ -187,7 +336,7 @@ public class Output_UI {
 						+ (perspectiveValue + output.getStartYear()));
 				JFreeChart pyramidChart = output
 						.makePyramidChartIncludingDisease(plottedScen,
-								perspectiveValue, 0);
+								perspectiveValue, -1);
 				chartComposite.setChart(pyramidChart);
 				chartComposite.redraw();
 				chartComposite.forceRedraw();
@@ -201,7 +350,7 @@ public class Output_UI {
 		RowData rowData4 = new RowData(55, 25);
 		value.setLayoutData(rowData4);
 		JFreeChart pyramidChart = output.makePyramidChartIncludingDisease(
-				plottedScen, timestep, 0);
+				plottedScen, timestep, -1);
 		RowData rowData3 = new RowData(450, 500);
 		chartComposite = new ChartComposite(pyramidComposite, SWT.NONE,
 				pyramidChart, true);
@@ -226,10 +375,13 @@ public class Output_UI {
 	private int currentDisease;
 	private int currentYear;
 	private int plotType;
+	private int genderChoice;
 	/*
-	 * plotType=0: by sex plotType=1: by scenario plotType=2: by riskfactor
+	 * plotType=0: by riskType plotType=1: by scenario plotType=2: by riskfactor
 	 */
 	private boolean axisIsAge = false;
+	private boolean differencePlot = false;
+	private boolean numbers = false;
 
 	/*
 	 * if false, axis=year
@@ -249,10 +401,15 @@ public class Output_UI {
 		gridLayout.numColumns = 2;
 		plotComposite.setLayout(gridLayout);
 		currentScen = 0;
+		if (output.getNScen() > 0)
+			currentScen = 1;
 		currentDisease = 0;
 		currentYear = 0;
-		plotType = 0;
+		plotType = 1;
+		differencePlot = false;
 		axisIsAge = false;
+		numbers = false;
+		genderChoice = 2;
 		// plotComposite.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		Composite controlComposite = new Composite(plotComposite, SWT.NONE);
@@ -291,7 +448,8 @@ public class Output_UI {
 		yearButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					try {axisIsAge=false;
+					try {
+						axisIsAge = false;
 						JFreeChart chart = makeDiseaseChart();
 						chartComposite2.setChart(chart);
 						chartComposite2.forceRedraw();
@@ -299,9 +457,8 @@ public class Output_UI {
 						e1.printStackTrace();
 						displayErrorMessage(e1);
 					}
-				
+
 				}
-				
 
 			}
 		}));
@@ -311,7 +468,8 @@ public class Output_UI {
 		ageButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					try {axisIsAge=true;
+					try {
+						axisIsAge = true;
 						JFreeChart chart = makeDiseaseChart();
 						chartComposite2.setChart(chart);
 						chartComposite2.forceRedraw();
@@ -319,31 +477,141 @@ public class Output_UI {
 						e1.printStackTrace();
 						displayErrorMessage(e1);
 					}
-				
+
 				}
-				
+
 			}
 		}));
 
 		/*
 		 * second radio group
 		 */
+		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup2.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rateButton = new Button(radiogroup2, SWT.RADIO);
+		rateButton.setText("scenario prevalence");
+		rateButton.setSelection(true);
+
+		rateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					try {
+						differencePlot = false;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					} catch (DynamoOutputException e1) {
+						e1.printStackTrace();
+						displayErrorMessage(e1);
+					}
+
+				}
+
+			}
+		}));
+		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
+		differenceButton.setText("Difference with reference scenario");
+		// ageButton.setBounds(10,50,20,100);
+		differenceButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					try {
+						differencePlot = true;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					} catch (DynamoOutputException e1) {
+						e1.printStackTrace();
+						displayErrorMessage(e1);
+					}
+
+				}
+
+			}
+		}));
+
+		/*
+		 * third radio group
+		 */
 		Group radiogroup3 = new Group(controlComposite, SWT.VERTICAL);
 		// radiogroup.setBounds(10,10,200,150);
 
-		radiogroup3.setText("separate curves:");
+		radiogroup3.setText("Y-axis:");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+
 		radiogroup3.setLayout(new RowLayout(SWT.VERTICAL));
 		// yearButton.setBounds(10,10,20,100);
 
-		Button byRiskClassButton = new Button(radiogroup3, SWT.RADIO);
+		Button rate2Button = new Button(radiogroup3, SWT.RADIO);
+		rate2Button.setText("Prevalence rate");
+		rate2Button.setSelection(true);
+
+		rate2Button.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					try {
+						numbers = false;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					} catch (DynamoOutputException e1) {
+						e1.printStackTrace();
+						displayErrorMessage(e1);
+					}
+
+				}
+
+			}
+		}));
+		Button numberButton = new Button(radiogroup3, SWT.RADIO);
+		numberButton.setText("number of cases (not yet implemented)");
+		// ageButton.setBounds(10,50,20,100);
+		numberButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					try {
+						numbers = true;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					} catch (DynamoOutputException e1) {
+						e1.printStackTrace();
+						displayErrorMessage(e1);
+					}
+
+				}
+
+			}
+		}));
+
+		/*
+		 * fourth radio group
+		 */
+		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup4.setText("separate curves:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		GridLayout gridLayoutGroup4 = new GridLayout();
+		gridLayoutGroup4.numColumns = 2;
+		radiogroup4.setLayout(gridLayoutGroup4);
+		// yearButton.setBounds(10,10,20,100);
+
+		Button byRiskClassButton = new Button(radiogroup4, SWT.RADIO);
 		byRiskClassButton.setText("by riskclass");
 
 		byRiskClassButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				Button button = (Button) event.widget;
 				if (button.getSelection()) {
-					try {plotType=0;
+					try {
+						plotType = 0;
 						JFreeChart chart = makeDiseaseChart();
 						chartComposite2.setChart(chart);
 						chartComposite2.forceRedraw();
@@ -356,13 +624,15 @@ public class Output_UI {
 		}
 
 		));
-		Button byScenarioButton = new Button(radiogroup3, SWT.RADIO);
+		Button byScenarioButton = new Button(radiogroup4, SWT.RADIO);
 		byScenarioButton.setText("by scenario");
+		byScenarioButton.setSelection(true);
 		// ageButton.setBounds(10,50,20,100);
 		byScenarioButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					try {plotType=1;
+					try {
+						plotType = 1;
 						JFreeChart chart = makeDiseaseChart();
 						chartComposite2.setChart(chart);
 						chartComposite2.forceRedraw();
@@ -376,19 +646,20 @@ public class Output_UI {
 			}
 		}));
 
-		Button bySexButton = new Button(radiogroup3, SWT.RADIO);
+		Button bySexButton = new Button(radiogroup4, SWT.RADIO);
 		bySexButton.setText("by gender");
-		bySexButton.setSelection(true);
+
 		// ageButton.setBounds(10,50,20,100);
 		bySexButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					try {plotType=2;
+					try {
+						plotType = 2;
 						JFreeChart chart = makeDiseaseChart();
 						chartComposite2.setChart(chart);
 						chartComposite2.forceRedraw();
 					} catch (DynamoOutputException e1) {
-						
+
 						displayErrorMessage(e1);
 						e1.printStackTrace();
 					}
@@ -397,47 +668,32 @@ public class Output_UI {
 			}
 		}));
 
-		Button byNoneButton = new Button(radiogroup3, SWT.RADIO);
-		byNoneButton.setText("total");
-		// ageButton.setBounds(10,50,20,100);
-		byNoneButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						// TODO Auto-generated catch block: naar messagebox
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-				}
-				;// do plot
-			}
-		}));
 		/*
 		 * first list of choice
 		 */
 
-		Group listgroup1 = new Group(controlComposite, SWT.VERTICAL
-				| SWT.BORDER);
+		Group listgroup1 = new Group(controlComposite, SWT.VERTICAL);
 		listgroup1.setText("scenario:");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
 		listgroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo1 = new Combo(listgroup1, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
 
-		final List list1 = new List(listgroup1, SWT.SINGLE);
 		String[] scenNames = output.getScenarioNames();
-		list1.setItems(scenNames);
+		combo1.setItems(scenNames);
+		if (scenNames.length > 1)
+			combo1.select(1);
+		else
+			combo1.select(0);
 
 		/*
 		 * listeners for the lists
 		 */
 
-		list1.addSelectionListener(new SelectionAdapter() {
+		combo1.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				List list1 = (List) e.getSource();
-				currentScen = list1.getSelectionIndex();
+				Combo combo1 = (Combo) e.getSource();
+				currentScen = combo1.getSelectionIndex();
 
 				try {
 					JFreeChart chart = makeDiseaseChart();
@@ -452,10 +708,8 @@ public class Output_UI {
 			}
 		});
 
-		;
-
 		/*
-		 * second list of choice
+		 * 1 second lis of choice
 		 */
 
 		Group listgroup2 = new Group(controlComposite, SWT.VERTICAL);
@@ -464,13 +718,14 @@ public class Output_UI {
 		//    
 		listgroup2.setLayout(new RowLayout(SWT.VERTICAL));
 
-		final List list2 = new List(listgroup2, SWT.SINGLE | SWT.BORDER);
-		list2.setItems(output.getDiseaseNames());
-
-		list2.addSelectionListener(new SelectionAdapter() {
+		final Combo combo2 = new Combo(listgroup2, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		combo2.setItems(output.getDiseaseNames());
+		combo2.select(0);
+		combo2.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				List list2 = (List) e.getSource();
-				currentDisease = list2.getSelectionIndex();
+				Combo combo2 = (Combo) e.getSource();
+				currentDisease = combo2.getSelectionIndex();
 				JFreeChart chart = null;
 				try {
 					chart = makeDiseaseChart();
@@ -489,19 +744,26 @@ public class Output_UI {
 		 * third list of choices: year to be plotted. only needed for axis=age
 		 */
 
-		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL);
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
 		listgroup3.setText("year:");
-		listgroup3.setLayout(new RowLayout(SWT.VERTICAL));
-		final List list3 = new List(listgroup3, SWT.SINGLE | SWT.V_SCROLL);
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
 		String[] yearNames = new String[stepsInRun + 1];
 		for (int i = 0; i < stepsInRun + 1; i++)
 			yearNames[i] = ((Integer) (startYear + i)).toString();
-		list3.setItems(yearNames);
+		combo3.setItems(yearNames);
+		combo3.select(0);
 
-		list3.addSelectionListener(new SelectionAdapter() {
+		combo3.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				List list3 = (List) e.getSource();
-				currentYear = list3.getSelectionIndex();
+				Combo combo3 = (Combo) e.getSource();
+				currentYear = combo3.getSelectionIndex();
 				JFreeChart chart = null;
 				try {
 					chart = makeDiseaseChart();
@@ -514,6 +776,42 @@ public class Output_UI {
 					e1.printStackTrace();
 				}
 				chartComposite2.setChart(chart);
+
+			}
+		});
+		/*
+		 * forth list of choice
+		 */
+
+		Group listgroup4 = new Group(controlComposite, SWT.VERTICAL);
+		listgroup4.setText("gender (applies only to by scenario):");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		listgroup4.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo4 = new Combo(listgroup4, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] choices = { "men", "women", "both" };
+		combo4.setItems(choices);
+		combo4.select(2);
+
+		/*
+		 * listeners for the lists
+		 */
+
+		combo4.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo4 = (Combo) e.getSource();
+				genderChoice = combo4.getSelectionIndex();
+
+				try {
+					JFreeChart chart = makeDiseaseChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				} catch (DynamoOutputException e1) {
+
+					displayErrorMessage(e1);
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -557,24 +855,24 @@ public class Output_UI {
 			 * 
 			 * TODO
 			 */
-			if ((plotType == 0) && !axisIsAge)
-				chart = output.makeYearPrevalenceByGenderPlot(currentScen,
-						currentDisease);
-			if ((plotType == 1) && !axisIsAge)
-				chart = output.makeYearPrevalenceByGenderPlot(currentScen,
-						currentDisease);
 			if ((plotType == 2) && !axisIsAge)
+				chart = output.makeYearPrevalenceByGenderPlot(currentScen,
+						currentDisease, differencePlot, numbers);
+			if ((plotType == 1) && !axisIsAge)
+				chart = output.makeYearPrevalenceByScenarioPlots(genderChoice,
+						currentDisease, differencePlot, numbers);
+			if ((plotType == 0) && !axisIsAge)
 				chart = output.makeYearPrevalenceByRiskFactorPlots(currentScen,
-						currentDisease);
-			if ((plotType == 0) && axisIsAge)
-				chart = output.makeAgePrevalenceByGenderPlot(currentScen,
-						currentDisease, currentYear);
-			if ((plotType == 1) && axisIsAge)
-				chart = output.makeAgePrevalenceByGenderPlot(currentScen,
-						currentDisease, currentYear);
+						currentDisease, genderChoice, differencePlot, numbers);
 			if ((plotType == 2) && axisIsAge)
 				chart = output.makeAgePrevalenceByGenderPlot(currentScen,
-						currentDisease, currentYear);
+						currentDisease, currentYear, differencePlot, numbers);
+			if ((plotType == 1) && axisIsAge)
+				chart = output.makeAgePrevalenceByScenarioPlot(2,
+						currentDisease, currentYear, differencePlot, numbers);
+			if ((plotType == 0) && axisIsAge)
+				chart = output.makeAgePrevalenceByRiskFactorPlots(currentScen,
+						currentDisease, currentYear, differencePlot, numbers);
 
 			return chart;
 
@@ -583,6 +881,56 @@ public class Output_UI {
 			throw new DynamoOutputException(e1.getMessage());
 
 		}
+
+	}
+
+	/* fields for mortality plotting */
+	boolean mortAxisIsAge = false;
+	boolean mortNumbers = true;
+	boolean mortDifference = false;
+	boolean survival = false;
+	int mortPlotType = 0;
+
+	/* fields for riskfactor plotting */
+
+	private boolean differencePlot2;
+	private boolean numbers2;
+
+	private JFreeChart makeMortalityChart() {
+		JFreeChart chart = null;
+
+		/*
+		 * plotType= 0: by sex 1: by scenario 2: by risk class
+		 * 
+		 * TODO
+		 */
+		if ((mortPlotType == 2) && !mortAxisIsAge && !mortNumbers)
+			try {
+				chart = output.makeYearMortalityPlotByScenario(currentScen,
+						differencePlot, mortNumbers);
+
+				if ((mortPlotType == 1) && !mortAxisIsAge && !mortNumbers)
+					chart = output.makeYearMortalityPlotByScenario(currentScen,
+							differencePlot, mortNumbers);
+				if ((mortPlotType == 0) && !mortAxisIsAge && !mortNumbers)
+					chart = output.makeYearMortalityPlotByScenario(currentScen,
+							differencePlot, mortNumbers);
+				if ((mortPlotType == 2) && mortAxisIsAge && !mortNumbers)
+					chart = output.makeYearMortalityPlotByScenario(currentScen,
+							differencePlot, mortNumbers);
+				if ((mortPlotType == 1) && mortAxisIsAge && !mortNumbers)
+					chart = output.makeYearMortalityPlotByScenario(currentScen,
+							differencePlot, mortNumbers);
+				if ((mortPlotType == 0) && mortAxisIsAge && !mortNumbers)
+					chart = output.makeYearMortalityPlotByScenario(currentScen,
+							differencePlot, mortNumbers);
+
+				return chart;
+			} catch (DynamoOutputException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return chart;
 
 	}
 
@@ -609,14 +957,541 @@ public class Output_UI {
 	private void makeRiskFactorTab(TabFolder tabFolder1)
 			throws DynamoOutputException {
 		Composite plotComp1 = new Composite(tabFolder1, SWT.NONE);
-		List list2 = new List(plotComp1, SWT.MULTI);
-		list2.setItems(output.getRiskClassnames());
-		list2.setBounds(0, 0, 100, 200);
-		ChartComposite chartComposite3 = new ChartComposite(plotComp1,
-				SWT.NONE, output.makeRiskFactorPlots(1), true);
-		chartComposite3.setBounds(100, 0, 400, 500);
+		;
+		// plotComposite.setBounds(10,10,720,600);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		plotComp1.setLayout(gridLayout);
+		Composite controlComposite = new Composite(plotComp1, SWT.NONE);
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 1;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+		final ChartComposite chartComposite2 =  new ChartComposite(plotComp1,
+				SWT.NONE, output.makeYearRiskFactorByGenderPlot(1,
+						differencePlot2, numbers2), true);
+	
+		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL);
+		chartComposite2.setLayoutData(chartData);
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("X-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button yearButton = new Button(radiogroup1, SWT.RADIO);
+		yearButton.setText("Year");
+		yearButton.setSelection(true);
+
+		yearButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = false;
+					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+
+		}));
+		Button ageButton = new Button(radiogroup1, SWT.RADIO);
+		ageButton.setText("Age");
+		// ageButton.setBounds(10,50,20,100);
+		ageButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = true;
+					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+			}
+		}));
+		
+		/*
+		 * second radio group
+		 */
+		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup2.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rateButton = new Button(radiogroup2, SWT.RADIO);
+		rateButton.setText("scenario data");
+		rateButton.setSelection(true);
+
+		rateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortDifference = false;
+					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
+		differenceButton.setText("Difference with reference scenario");
+		// ageButton.setBounds(10,50,20,100);
+		differenceButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortDifference = true;
+					JFreeChart chart =output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+
+		/*
+		 * third radio group
+		 */
+		Group radiogroup3 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup3.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+
+		radiogroup3.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rate2Button = new Button(radiogroup3, SWT.RADIO);
+		rate2Button.setText("Prevalence rate");
+		rate2Button.setSelection(true);
+
+		rate2Button.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					numbers = false;
+					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+		Button numberButton = new Button(radiogroup3, SWT.RADIO);
+		numberButton.setText("number of cases (not yet implemented)");
+		// ageButton.setBounds(10,50,20,100);
+		numberButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					numbers = true;
+					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
+							differencePlot2, numbers2);
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+
+		
+		
+		
+		
 		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
 		item3.setText("risk factor plots");
+		item3.setControl(plotComp1);
+	}
+
+	/**
+	 * @param tabFolder1
+	 * @throws DynamoOutputException
+	 */
+
+	private void makeChangeScenarioTab(TabFolder tabFolder1)
+			throws DynamoOutputException {
+		Composite tabComposite = new Composite(tabFolder1, SWT.NONE);
+
+		// plotComposite.setBounds(10,10,720,600);
+		GridLayout gridLayout = new GridLayout(SWT.VERTICAL, axisIsAge);
+		gridLayout.numColumns = 7;
+		tabComposite.setLayout(gridLayout);
+		Label heading1 = new Label(tabComposite, SWT.NONE);
+		heading1.setText("Scenario:");
+
+		Label heading2 = new Label(tabComposite, SWT.NONE);
+		heading2.setText("Succes rate:");
+		GridData data2 = new GridData();
+		// data2.widthHint = 60;
+		data2.horizontalSpan = 2;
+		heading2.setLayoutData(data2);
+		Label heading3 = new Label(tabComposite, SWT.NONE);
+		heading3.setText("Minimum Age:");
+		GridData data3 = new GridData();
+		// data3.widthHint = 60;
+		data3.horizontalSpan = 2;
+		heading3.setLayoutData(data3);
+		Label heading4 = new Label(tabComposite, SWT.NONE);
+		heading4.setText("Maximum Age:");
+		GridData data4 = new GridData();
+		// data4.widthHint = 60;
+		data4.horizontalSpan = 2;
+		heading4.setLayoutData(data4);
+
+		Label[] label = new Label[output.getNScen()];
+		final Slider[] slider1 = new Slider[output.getNScen()];
+		final Text[] value1 = new Text[output.getNScen()];
+		final Text[] value2 = new Text[output.getNScen()];
+		final Text[] value3 = new Text[output.getNScen()];
+		final Slider[] slider2 = new Slider[output.getNScen()];
+		final Slider[] slider3 = new Slider[output.getNScen()];
+		for (int i = 0; i < output.getNScen(); i++) {
+			label[i] = new Label(tabComposite, SWT.NONE);
+			label[i].setText(output.getScenarioNames()[i + 1]);
+			
+			slider1[i] = new Slider(tabComposite, SWT.HORIZONTAL);
+			value1[i] = new Text(tabComposite, SWT.BORDER | SWT.SINGLE);
+			value1[i].setEditable(false);
+			slider1[i].setMaximum(110);/* the slider needs 10 for the thump */
+			slider1[i].setMinimum(0);
+			slider1[i].setIncrement(1);
+			slider1[i].setThumb(10);
+			slider1[i].setSelection((int) output.getSuccesrate()[i]);
+			value1[i].setText(((Float) output.getSuccesrate()[i]).toString());
+			value1[i].setLayoutData(fixedSpace());
+			slider1[i].setLayoutData(new GridData());
+
+			slider1[i].addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent event) {
+					Slider slider = (Slider) ((SelectionEvent) event)
+							.getSource();
+					int perspectiveValue = +slider.getSelection();
+					int currenti = 0;
+					for (int i = 0; i < output.getNScen(); i++) {
+						if (slider1[i] == slider)
+							currenti = i;
+					}
+
+					value1[currenti]
+							.setText(((Float) output.getSuccesrate()[currenti])
+									.toString());
+					output.setSuccesrate(perspectiveValue, currenti);
+
+				}
+
+				public void widgetDefaultSelected(SelectionEvent arg0) {
+
+				}
+			});
+			slider2[i] = new Slider(tabComposite, SWT.HORIZONTAL);
+			value2[i] = new Text(tabComposite, SWT.BORDER | SWT.SINGLE);
+			value2[i].setEditable(false);
+			value2[i].setLayoutData(fixedSpace());
+			slider2[i].setMaximum(105);/* 10 is needed for thumb */
+			slider2[i].setMinimum(0);
+			slider2[i].setIncrement(1);
+			slider2[i].setPageIncrement(1);
+			slider2[i].setThumb(10);
+			slider2[i].setSelection((int) output.getMinAge()[i]);
+			value2[i].setText(((Float) output.getMinAge()[i]).toString());
+
+			slider2[i].setLayoutData(new GridData());
+
+			slider2[i].addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent event) {
+					Slider slider = (Slider) ((SelectionEvent) event)
+							.getSource();
+					int perspectiveValue = slider.getSelection();
+					int currenti = 0;
+					for (int i = 0; i < output.getNScen(); i++) {
+						if (slider2[i] == slider)
+							currenti = i;
+					}
+
+					value2[currenti]
+							.setText(((Float) output.getMinAge()[currenti])
+									.toString());
+					output.setMinAge(perspectiveValue, currenti);
+
+				}
+
+				public void widgetDefaultSelected(SelectionEvent arg0) {
+
+				}
+			});
+			slider3[i] = new Slider(tabComposite, SWT.HORIZONTAL);
+			value3[i] = new Text(tabComposite, SWT.BORDER | SWT.SINGLE);
+			value3[i].setEditable(false);
+			value3[i].setLayoutData(fixedSpace());
+			slider3[i].setMaximum(105);
+			slider3[i].setMinimum(0);
+			slider3[i].setIncrement(1);
+			slider3[i].setPageIncrement(1);
+			slider3[i].setSelection((int) output.getMaxAge()[i]);
+			slider3[i].setThumb(10);
+			value3[i].setText(((Float) output.getMaxAge()[i]).toString());
+
+			slider3[i].setLayoutData(new GridData());
+
+			slider3[i].addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent event) {
+					Slider slider = (Slider) ((SelectionEvent) event)
+							.getSource();
+					int perspectiveValue = slider.getSelection();
+					int currenti = 0;
+					for (int i = 0; i < output.getNScen(); i++) {
+						if (slider3[i] == slider)
+							currenti = i;
+					}
+
+					value3[currenti]
+							.setText(((Float) output.getMaxAge()[currenti])
+									.toString());
+					output.setMaxAge(perspectiveValue, currenti);
+
+				}
+
+				public void widgetDefaultSelected(SelectionEvent arg0) {
+
+				}
+
+			});
+		}
+
+		/*
+		 * 
+		 * } GridData[] data1=new GridData[output.getNScen()+1]; Label[]
+		 * heading=new Label[output.getNScen()]; Label empty=new
+		 * Label(tabComposite,SWT.NONE);
+		 * 
+		 * for (int scen=0; scen<output.getNScen();scen++){ heading[scen]=new
+		 * Label(tabComposite,SWT.NONE);
+		 * heading[scen].setText(output.getScenarioNames()[scen]); } final
+		 * Text[] text1=new Text[output.getNScen()]; final Text[] text2=new
+		 * Text[output.getNScen()]; final Text[] text3=new
+		 * Text[output.getNScen()]; Label label1=new
+		 * Label(tabComposite,SWT.NONE); label1.setText("success rate"); for
+		 * (int scen=0; scen<output.getNScen();scen++){ text1[scen]= new
+		 * Text(tabComposite, SWT.BORDER | SWT.FILL);
+		 * text1[scen].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		 * text1[scen].setText(
+		 * ((Float)output.getSuccesrate()[scen]).toString());
+		 * text1[scen].setTextLimit(10); final int currentscen=scen;
+		 * text1[scen].addModifyListener(new ModifyListener() { public void
+		 * modifyText(ModifyEvent e) { float cValue = Float.parseFloat(((Text)
+		 * e.getSource()).getText()); output.setSuccesrate(cValue,currentscen);
+		 * ;} } );
+		 * 
+		 * text1[scen].addVerifyListener(new VerifyListener() { public void
+		 * verifyText(VerifyEvent e) { try { Float.parseFloat(e.text);
+		 * e.doit=true; } catch (NumberFormatException e1) { e.doit=false;
+		 * e.text="error"; } return; } }
+		 * 
+		 * ); } Label label2=newLabel(tabComposite,SWT.NONE);label2.setText(
+		 * "minimum age of intervention group"); for (int scen=0;
+		 * scen<output.getNScen();scen++){ text2[scen]= new Text(tabComposite,
+		 * SWT.BORDER| SWT.FILL); text2[scen].setText(
+		 * ((Float)output.getMinAge()[scen]).toString());
+		 * text2[scen].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		 * text2[scen].setTextLimit(10); } Label label3=new
+		 * Label(tabComposite,SWT
+		 * .NONE);label3.setText("maximum age of intervention group"); for (int
+		 * scen=0; scen<output.getNScen();scen++){ text3[scen]= new
+		 * Text(tabComposite, SWT.BORDER| SWT.FILL); text3[scen].setText(
+		 * ((Float)output.getMaxAge()[scen]).toString());
+		 * text3[scen].setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		 * text3[scen].setTextLimit(10); }
+		 */
+
+		TabItem item4 = new TabItem(tabFolder1, SWT.NONE);
+		item4.setText("change scenario settings");
+		item4.setControl(tabComposite);
+
+	}
+
+	private GridData fixedSpace() {
+		GridData data = new GridData();
+		data.widthHint = 30;
+		return data;
+	}
+
+	/**
+	 * @param tabFolder1
+	 * @throws DynamoOutputException
+	 */
+	
+
+	private void makeMortalityTab(TabFolder tabFolder1)
+			throws DynamoOutputException {
+		survival=false;
+		Composite plotComp1 = new Composite(tabFolder1, SWT.NONE);
+		;
+		// plotComposite.setBounds(10,10,720,600);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		plotComp1.setLayout(gridLayout);
+		Composite controlComposite = new Composite(plotComp1, SWT.NONE);
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 1;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+		final ChartComposite chartComposite2 = new ChartComposite(plotComp1,
+				SWT.NONE, output
+						.makeYearMortalityPlotByScenario(2, false, true), true);
+		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL);
+		chartComposite2.setLayoutData(chartData);
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("X-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button yearButton = new Button(radiogroup1, SWT.RADIO);
+		yearButton.setText("Year");
+		yearButton.setSelection(true);
+
+		yearButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = false;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+
+		}));
+		Button ageButton = new Button(radiogroup1, SWT.RADIO);
+		ageButton.setText("Age");
+		// ageButton.setBounds(10,50,20,100);
+		ageButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = true;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+			}
+		}));
+		
+		/*
+		 * second radio group
+		 */
+		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup2.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rateButton = new Button(radiogroup2, SWT.RADIO);
+		rateButton.setText("scenario data");
+		rateButton.setSelection(true);
+
+		rateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortDifference = false;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
+		differenceButton.setText("Difference with reference scenario");
+		// ageButton.setBounds(10,50,20,100);
+		differenceButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortDifference = true;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+
+		
+		/*
+		 * fourth radio group
+		 */
+		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup4.setText("outcome:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		GridLayout gridLayoutGroup4 = new GridLayout();
+		gridLayoutGroup4.numColumns = 2;
+		radiogroup4.setLayout(gridLayoutGroup4);
+		// yearButton.setBounds(10,10,20,100);
+
+		Button mortButton = new Button(radiogroup4, SWT.RADIO);
+		mortButton.setText("mortality");
+
+		mortButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				Button button = (Button) event.widget;
+				if (button.getSelection()) {
+					survival=false;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				}
+			}
+		}
+
+		));
+		Button survivalButton = new Button(radiogroup4, SWT.RADIO);
+		survivalButton.setText("survival");
+		survivalButton.setSelection(true);
+		// ageButton.setBounds(10,50,20,100);
+		survivalButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					survival=true;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				}
+				;// do plot
+			}
+		}));
+
+		
+		
+		
+		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
+		item3.setText("mortality/survival plots");
 		item3.setControl(plotComp1);
 	}
 
