@@ -2,8 +2,8 @@
  * 
  */
 package nl.rivm.emi.cdm.rules.update.base;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 /**
  * @author Hendriek

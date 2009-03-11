@@ -7,8 +7,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 

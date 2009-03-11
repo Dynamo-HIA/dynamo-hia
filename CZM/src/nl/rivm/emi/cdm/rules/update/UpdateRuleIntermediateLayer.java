@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.NeedsSeed;
@@ -14,10 +15,14 @@ import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implements
 		ConfigurationEntryPoint, NeedsSeed {
 
+	private Log log = LogFactory.getLog(getClass().getName());
+	
 	public TreeMap transitionConfiguration = null; // TODO remove public,
 
 	final int maxRandInt = 100000;
@@ -48,30 +53,49 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 		return newValue;
 	}
 
-	public boolean loadConfigurationFile(File configurationFile)
-			throws ConfigurationException {
+	public boolean loadConfigurationFile(File configurationFile) throws ConfigurationException
+			 {
 		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		List<SubnodeConfiguration> snConf = configurationFileConfiguration
-				.configurationsAt("transitionmatrix");
-		if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
-			throw new ConfigurationException(
-					String
-							.format(
-									CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
-									configurationFile.getName(), this
-											.getClass().getSimpleName()));
-		}
-		Object temp = handleLevel(snConf.get(0), 1);
-		if (temp instanceof TreeMap) {
-			if (consistencyCheck((TreeMap) temp, true, null)) {
-				transitionConfiguration = (TreeMap) temp;
+		XMLConfiguration configurationFileConfiguration;
+		try {
+			configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+		
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			List<SubnodeConfiguration> snConf = configurationFileConfiguration
+					.configurationsAt("transitionmatrix");
+			if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
+				throw new ConfigurationException(
+						String
+								.format(
+										CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
+										configurationFile.getName(), this
+												.getClass().getSimpleName()));
 			}
+			Object temp = handleLevel(snConf.get(0), 1);
+			if (temp instanceof TreeMap) {
+				if (consistencyCheck((TreeMap) temp, true, null)) {
+					transitionConfiguration = (TreeMap) temp;
+				}
+			}
+			return (transitionConfiguration != null);
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
 		}
 		return (transitionConfiguration != null);
 	}
 
+	
+	
 	private Object handleLevel(SubnodeConfiguration snConf, int levelNumber) {
 		Object resultObject = null;
 		List<SubnodeConfiguration> levelConfs = snConf.configurationsAt("level"

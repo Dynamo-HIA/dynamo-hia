@@ -9,9 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;

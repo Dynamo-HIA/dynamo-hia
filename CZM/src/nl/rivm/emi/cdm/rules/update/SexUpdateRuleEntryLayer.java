@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
@@ -51,25 +52,43 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
-		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		List<SubnodeConfiguration> snConf = configurationFileConfiguration
-				.configurationsAt("transitionmatrix");
-		if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
-			throw new ConfigurationException(
-					String
-							.format(
-									CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
-									configurationFile.getName(), this
-											.getClass().getSimpleName()));
-		}
-		log.info("Handling " + snConf.get(0).getRootNode().getName()
-				+ " at level " + 1);
-		Object temp = handleLevel(snConf.get(0), 1);
+		try {
+		
+			boolean success = false;
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			List<SubnodeConfiguration> snConf = configurationFileConfiguration
+					.configurationsAt("transitionmatrix");
+			if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
+				throw new ConfigurationException(
+						String
+								.format(
+										CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
+										configurationFile.getName(), this
+												.getClass().getSimpleName()));
+			}
+			log.info("Handling " + snConf.get(0).getRootNode().getName()
+					+ " at level " + 1);
+			Object temp = handleLevel(snConf.get(0), 1);
+			return (delegates != null);		
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+		}		
 		return (delegates != null);
 	}
 
+	
 	private Object handleLevel(SubnodeConfiguration snConf, int levelNumber) {
 		Object resultObject = null;
 		List<SubnodeConfiguration> levelConfs = snConf.configurationsAt("level"

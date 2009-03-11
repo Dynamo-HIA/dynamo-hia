@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -212,6 +213,23 @@ public class HealthStateCatManyToManyUpdateRule extends
 		try {
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
+			
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			*/
+			
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
 			if (configurationFileConfiguration.getRootElementName() != globalTagName)
@@ -371,7 +389,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 												double RR = 1;
 												for (int dCause = 0; dCause < getNDiseases(); dCause++)
 													if ((row & (1 << dCause)) == (1 << dCause))
-														RR *= relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
+														RR *= this.relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
 
 												rateMatrix[row][column] -= (RR * fatalIncidence[clusterStartsAtDiseaseNumber[c]
 														+ d]);
@@ -451,9 +469,9 @@ public class HealthStateCatManyToManyUpdateRule extends
 			success = true;
 			return success;
 		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
+			ErrorMessageUtil.handleErrorMessage(this.log, "", new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
-							+ nDiseasesLabel);
+					+ this.nDiseasesLabel), configurationFile.getAbsolutePath());
 		} catch (DynamoUpdateRuleConfigurationException e) {
 			log.fatal(e.getMessage());
 			// TODO Auto-generated catch block
@@ -462,4 +480,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 		return success;
 	}
 
+
+	
+	
 }

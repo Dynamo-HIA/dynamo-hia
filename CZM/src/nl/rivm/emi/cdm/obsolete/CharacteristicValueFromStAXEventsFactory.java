@@ -8,8 +8,8 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

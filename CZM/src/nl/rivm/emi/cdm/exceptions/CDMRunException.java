@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm;
+package nl.rivm.emi.cdm.exceptions;
 
 /**
  * Subclass of <code>Exception</code> for use with exceptional circumstances

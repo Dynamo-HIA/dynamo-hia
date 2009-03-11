@@ -10,8 +10,8 @@ package nl.rivm.emi.cdm.characteristic.values;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

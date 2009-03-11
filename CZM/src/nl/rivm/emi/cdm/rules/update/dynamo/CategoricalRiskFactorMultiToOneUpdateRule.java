@@ -6,6 +6,7 @@ import java.util.Random;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 
@@ -156,22 +157,46 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException{
 		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		//long seed = 21223445;
-		//randomGenerator = new java.util.Random(seed);
-		handleCharID(configurationFileConfiguration);
-		handleNCat(configurationFileConfiguration);
-		handleRandomSeed(configurationFileConfiguration);
-		handleTransitionMatrixFileName(configurationFileConfiguration);
-		handleIsNullTransition(configurationFileConfiguration);
-		if (! isNullTransitions)
-		setTransitionMatrix(loadTransitionMatrix(transitionMatrixFileName));
-	//	setTransitionMatrix(loadTransitionMatrix());
-		success=true;
-		return success;
+		try {			
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+			
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			*/
+			
+			//long seed = 21223445;
+			//randomGenerator = new java.util.Random(seed);
+			handleCharID(configurationFileConfiguration);
+			handleNCat(configurationFileConfiguration);
+			handleRandomSeed(configurationFileConfiguration);
+			handleTransitionMatrixFileName(configurationFileConfiguration);
+			handleIsNullTransition(configurationFileConfiguration);
+			if (! isNullTransitions)
+			setTransitionMatrix(loadTransitionMatrix(transitionMatrixFileName));
+		//	setTransitionMatrix(loadTransitionMatrix());
+			success=true;
+			return success;
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(this.log, "",
+					e, configurationFile.getAbsolutePath());
+		}
+		return success;			
 	}
-	public float[][][][] loadTransitionMatrix(String inputFile) throws CDMConfigurationException {
+			
+		public float[][][][] loadTransitionMatrix(String inputFile) throws CDMConfigurationException {
 		
 					float [][][][] transmat = new float[96][2][nCat][nCat];
 					ArraysFromXMLFactory factory=new ArraysFromXMLFactory();

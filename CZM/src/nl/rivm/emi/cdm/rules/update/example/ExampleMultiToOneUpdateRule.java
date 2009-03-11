@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 
@@ -61,48 +62,64 @@ public class ExampleMultiToOneUpdateRule extends ManyToOneUpdateRuleBase
 	 */
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
-		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		List<SubnodeConfiguration> snConf = configurationFileConfiguration
-				.configurationsAt("param");
-		if (!((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1)))) {
-			SubnodeConfiguration tagConf = snConf.get(0);
-			ConfigurationNode confNode = tagConf.getRootNode();
-			List children = confNode.getChildren();
-			if (children.size() == 4) {
-				for (int innerdex = 0; innerdex < children.size(); innerdex++) {
-					ConfigurationNode childNode = (ConfigurationNode) children
-							.get(innerdex);
-					String value = (String) childNode.getValue();
-					Integer intValue = Integer.parseInt(value);
-					switch (innerdex) {
-					case 0:
-						characteristicIndex1 = intValue;
-						break;
-					case 1:
-						parameter1 = intValue;
-						break;
-					case 2:
-						characteristicIndex2 = intValue;
-						break;
-					case 3:
-						parameter2 = intValue;
-						break;
+		try {
+			boolean success = false;
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			List<SubnodeConfiguration> snConf = configurationFileConfiguration
+					.configurationsAt("param");
+			if (!((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1)))) {
+				SubnodeConfiguration tagConf = snConf.get(0);
+				ConfigurationNode confNode = tagConf.getRootNode();
+				List children = confNode.getChildren();
+				if (children.size() == 4) {
+					for (int innerdex = 0; innerdex < children.size(); innerdex++) {
+						ConfigurationNode childNode = (ConfigurationNode) children
+								.get(innerdex);
+						String value = (String) childNode.getValue();
+						Integer intValue = Integer.parseInt(value);
+						switch (innerdex) {
+						case 0:
+							characteristicIndex1 = intValue;
+							break;
+						case 1:
+							parameter1 = intValue;
+							break;
+						case 2:
+							characteristicIndex2 = intValue;
+							break;
+						case 3:
+							parameter2 = intValue;
+							break;
+						}
 					}
 				}
+			} else {
+				throw new ConfigurationException(
+						String
+								.format(
+										CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
+										configurationFile.getName(), this
+												.getClass().getSimpleName()));
 			}
-		} else {
-			throw new ConfigurationException(
-					String
-							.format(
-									CDMConfigurationException.invalidUpdateRuleConfigurationFileFormatMessage,
-									configurationFile.getName(), this
-											.getClass().getSimpleName()));
-		}
+			return (false);			
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+		}						
 		return (false);
 	}
-
+	
 	@Override
 	public Object update(Object[] currentValues, Long seed)
 			throws CDMUpdateRuleException, CDMUpdateRuleException {

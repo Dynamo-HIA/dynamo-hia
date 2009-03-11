@@ -5,9 +5,9 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.logging.Log;

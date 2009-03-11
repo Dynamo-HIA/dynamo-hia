@@ -6,6 +6,7 @@ import java.util.Random;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 
@@ -117,18 +118,35 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException{
 		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		long seed = 21223445;
-		randomGenerator = new java.util.Random(seed);
-		handleNCat(configurationFileConfiguration);
-		handleNCat(configurationFileConfiguration);
-		handleTransitionMatrixFileName(configurationFileConfiguration);
-		loadTransitionMatrix(transitionMatrixFileName);
-		success=true;
-		return success;
+		try {			
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			long seed = 21223445;
+			randomGenerator = new java.util.Random(seed);
+			handleNCat(configurationFileConfiguration);
+			handleNCat(configurationFileConfiguration);
+			handleTransitionMatrixFileName(configurationFileConfiguration);
+			loadTransitionMatrix(transitionMatrixFileName);
+			success=true;
+			return success;			
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+		}					
+		return success;	
 	}
 
+		
 	public double[][][][] loadTransitionMatrix(String inputFile) {
 
 		if (inputFile != null) {

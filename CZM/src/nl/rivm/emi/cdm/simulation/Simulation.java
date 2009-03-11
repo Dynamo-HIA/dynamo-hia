@@ -13,7 +13,6 @@ import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -22,6 +21,7 @@ import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;

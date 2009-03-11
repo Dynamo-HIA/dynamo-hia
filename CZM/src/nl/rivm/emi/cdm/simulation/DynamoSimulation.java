@@ -9,9 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -38,7 +39,7 @@ public class DynamoSimulation {
 	File simOutput = new File(
 			baseDir+"/sim02_10_10_out.xml");
 	
-	HierarchicalConfiguration simulationConfiguration;
+	XMLConfiguration simulationConfiguration;
 
 
 	Simulation sim;
@@ -54,8 +55,19 @@ public class DynamoSimulation {
 				CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 						.getInstance();
 				if (simulationConfigurationFile.exists()) {
-					simulationConfiguration = new XMLConfiguration(
+					this.simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
+					
+					// Validate the xml by xsd schema
+					// WORKAROUND: clear() is put after the constructor (also calls load()). 
+					// The config cannot be loaded twice,
+					// because the contents will be doubled.
+					this.simulationConfiguration.clear();
+					
+					// Validate the xml by xsd schema
+					this.simulationConfiguration.setValidating(true);			
+					this.simulationConfiguration.load();
+					
 					sim = SimulationFromXMLFactory
 							.manufacture_DOMPopulationTree(simulationConfiguration);
 				} else {
@@ -64,8 +76,8 @@ public class DynamoSimulation {
 							simulationConfigurationFile.getAbsolutePath()));
 				}
 			} catch (ConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorMessageUtil.handleErrorMessage(this.log, "", e, 
+						this.simulationConfigurationFile.getAbsolutePath());
 				assertNull(e); // Force error.
 			} catch (ConversionException e1) {
 				e1.printStackTrace();
@@ -73,6 +85,7 @@ public class DynamoSimulation {
 			}
 		}
 
+	
 	@After
 	public void teardown() {
 	}

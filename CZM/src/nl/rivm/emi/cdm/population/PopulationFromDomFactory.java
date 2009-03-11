@@ -1,8 +1,8 @@
 package nl.rivm.emi.cdm.population;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.individual.IndividualFromDOMFactory;
 
 import org.apache.commons.logging.Log;

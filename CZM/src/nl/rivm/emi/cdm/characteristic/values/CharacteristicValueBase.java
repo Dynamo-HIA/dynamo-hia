@@ -1,6 +1,6 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
-import nl.rivm.emi.cdm.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -3,11 +3,11 @@ package nl.rivm.emi.cdm.individual;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

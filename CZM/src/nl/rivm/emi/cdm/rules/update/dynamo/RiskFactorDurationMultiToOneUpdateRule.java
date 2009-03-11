@@ -10,6 +10,7 @@ import Jama.Matrix;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
@@ -88,20 +89,35 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
-
 		boolean success = false;
-		XMLConfiguration configurationFileConfiguration;
-
-		configurationFileConfiguration = new XMLConfiguration(configurationFile);
-
-		handleCharID(configurationFileConfiguration);
-		handleDurationClass(configurationFileConfiguration);
-
-		success = true;
-
-		return success;
+		try {
+			XMLConfiguration configurationFileConfiguration;
+	
+			configurationFileConfiguration = new XMLConfiguration(configurationFile);
+	
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			handleCharID(configurationFileConfiguration);
+			handleDurationClass(configurationFileConfiguration);
+	
+			success = true;
+	
+			return success;			
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());			
+		}					
+		return success;			
 	}
 
+		
 	private void handleDurationClass(
 			HierarchicalConfiguration simulationConfiguration)
 			throws ConfigurationException {

@@ -3,9 +3,9 @@ package nl.rivm.emi.cdm.prngutil;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.individual.Individual;
 
 import org.apache.commons.logging.Log;

@@ -9,6 +9,7 @@ import Jama.Matrix;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 
@@ -209,48 +210,65 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
 		boolean success = false;
-		XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-				configurationFile);
-		// long seed = 21223445;
-		// randomGenerator = new java.util.Random(seed);
-
-		handleCharID(configurationFileConfiguration);
-		handleIsNullTransition(configurationFileConfiguration);
-		if (!isNullTransitions) {
-			handleIsNormal(configurationFileConfiguration);
-			handleMeanDriftFileName(configurationFileConfiguration);
-			setMeanDrift(loadData(meanDriftFileName, "meandrift", "meandrift"));
-			handleStdDriftFileName(configurationFileConfiguration);
-			setStdDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
-			if (!isNormal) {
-
-				handleOffsetDriftFileName(configurationFileConfiguration);
-				setOffsetDrift(loadData(offsetDriftFileName, "offsetdrift",
-						"offsetdrift"));
-				handleOffsetFileName(configurationFileConfiguration);
-				setOffset(loadData(offsetFileName, "offset", "offset"));
-
+		try {
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+					configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
+			// long seed = 21223445;
+			// randomGenerator = new java.util.Random(seed);
+	
+			handleCharID(configurationFileConfiguration);
+			handleIsNullTransition(configurationFileConfiguration);
+			if (!isNullTransitions) {
+				handleIsNormal(configurationFileConfiguration);
+				handleMeanDriftFileName(configurationFileConfiguration);
+				setMeanDrift(loadData(meanDriftFileName, "meandrift", "meandrift"));
+				handleStdDriftFileName(configurationFileConfiguration);
+				setStdDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
+				if (!isNormal) {
+	
+					handleOffsetDriftFileName(configurationFileConfiguration);
+					setOffsetDrift(loadData(offsetDriftFileName, "offsetdrift",
+							"offsetdrift"));
+					handleOffsetFileName(configurationFileConfiguration);
+					setOffset(loadData(offsetFileName, "offset", "offset"));
+	
+				}
+				/*
+				 * left out are reading of files needed for more complex update
+				 * rules that can not be realised in the current situation
+				 */
+				/*
+				 * 
+				 * handleMeanValueFileName(configurationFileConfiguration);
+				 * 
+				 * setMeanDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
+				 * if (!isNormal) {
+				 * 
+				 * 
+				 * } setAimValues();
+				 */
+	
 			}
-			/*
-			 * left out are reading of files needed for more complex update
-			 * rules that can not be realised in the current situation
-			 */
-			/*
-			 * 
-			 * handleMeanValueFileName(configurationFileConfiguration);
-			 * 
-			 * setMeanDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
-			 * if (!isNormal) {
-			 * 
-			 * 
-			 * } setAimValues();
-			 */
-
-		}
-		success = true;
-		return success;
+			success = true;
+			return success;			
+		} catch (ConfigurationException e) {
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+		}						
+		return success;			
 	}
-
+	
+	
 	/*
 	 * private void setAimValues() { meanByStepByAge = new float[200][96][2]; if
 	 * (!isNormal) offsetByStepByAge = new float[200][96][2]; for (int a = 0; a

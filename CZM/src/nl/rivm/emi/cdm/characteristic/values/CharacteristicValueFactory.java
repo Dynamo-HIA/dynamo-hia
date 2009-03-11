@@ -3,13 +3,13 @@ package nl.rivm.emi.cdm.characteristic.values;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.NumericalContinuousCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.individual.Individual;
 
 import org.apache.commons.logging.Log;

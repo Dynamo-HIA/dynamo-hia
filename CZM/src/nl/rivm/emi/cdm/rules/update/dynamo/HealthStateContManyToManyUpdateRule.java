@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -393,6 +394,17 @@ extends HealthStateManyToManyUpdateRule {
 		try {
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFileConfiguration.setValidating(true);			
+			configurationFileConfiguration.load();
+			
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
 			if (configurationFileConfiguration.getRootElementName() != globalTagName)
@@ -550,9 +562,9 @@ extends HealthStateManyToManyUpdateRule {
 			success = true;
 			return success;
 		} catch (NoSuchElementException e) {
-			throw new ConfigurationException(
+			ErrorMessageUtil.handleErrorMessage(this.log, "", new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
-							+ nDiseasesLabel);
+					+ this.nDiseasesLabel), configurationFile.getAbsolutePath());						
 		} catch (DynamoUpdateRuleConfigurationException e) {
 			log.fatal(e.getMessage());
 			// TODO Auto-generated catch block
@@ -561,4 +573,6 @@ extends HealthStateManyToManyUpdateRule {
 		return success;
 	}
 
+
+	
 }

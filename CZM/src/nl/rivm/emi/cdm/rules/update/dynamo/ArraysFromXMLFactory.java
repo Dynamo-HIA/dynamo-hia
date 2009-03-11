@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -84,7 +85,7 @@ public class ArraysFromXMLFactory {
 	 *            : tag of the element containing the value to be read
 	 *            (optional)
 	 * @return two dimensional array (float[96][2]) of parameters by age and sex
-	 * @throws DynamoConfigurationException
+	 * @throws ConfigurationException 
 	 */
 	public float[][] manufactureOneDimArray(String fileName,
 			String globalTagName, String tagName, String valueTagName,
@@ -105,6 +106,23 @@ public class ArraysFromXMLFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
+						
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);			
+			configurationFromFile.load();
+			*/
+			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
 			if (configurationFromFile.getRootElementName() != globalTagName)
@@ -138,15 +156,11 @@ public class ArraysFromXMLFactory {
 										+ age + " sex=" + sex);
 
 			return returnArray;
-
 		} catch (ConfigurationException e) {
-			log.error("Caught Exception of type: " + e.getClass().getName()
+			String cdmErrorMessage = "Caught Exception of type: " + e.getClass().getName()
 					+ " with message: " + e.getMessage() + "from file "
-					+ fileName);
-			e.printStackTrace();
-			throw new DynamoConfigurationException("Caught Exception of type: "
-					+ e.getClass().getName() + " with message: "
-					+ e.getMessage() + "from file " + fileName);
+					+ fileName;
+			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e, fileName);
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -157,8 +171,9 @@ public class ArraysFromXMLFactory {
 					+ exception.getMessage() + "from file " + fileName);
 
 		}
+		return returnArray;
 	}
-
+		
 	/**
 	 * the method reads in the most inner group of values when containing three
 	 * values (for making a two dimensional array)
@@ -307,9 +322,25 @@ public class ArraysFromXMLFactory {
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);			
+			configurationFromFile.load();
+			*/
+			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new DynamoConfigurationException(" Tagname "
+				throw new ConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
@@ -355,7 +386,7 @@ public class ArraysFromXMLFactory {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
 				if (!otherTags & rootChild.getName() != tagName)
-					throw new DynamoConfigurationException(" Tagname "
+					throw new ConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName()
 							+ "in file " + fileName);
@@ -398,23 +429,20 @@ public class ArraysFromXMLFactory {
 				returnArray = returnArray1;
 
 			return returnArray;
-		} catch (DynamoConfigurationException exception) {
-			log
-					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
-							+ " with message: "
-							+ exception.getMessage()
-							+ "from file " + fileName);
-			exception.printStackTrace();
-			return null;
-		} catch (ConfigurationException e) {
-			log.error("Caught Exception of type: " + e.getClass().getName()
-					+ " with message: " + e.getMessage() + "from file "
-					+ fileName);
-			e.printStackTrace();
-			throw new DynamoConfigurationException("Caught Exception of type: "
-					+ e.getClass().getName() + " with message: "
-					+ e.getMessage() + "from file " + fileName);
-
+		//} catch (DynamoConfigurationException exception) {
+		//	log
+		//			.error("Caught Exception of type: Dynamo XML-file configuration Exception"
+		//					+ " with message: "
+		//					+ exception.getMessage()
+		//					+ "from file " + fileName);
+		//	exception.printStackTrace();
+		//	return null;
+		} catch (ConfigurationException e) {			
+			String dynamoErrorMessage = "Caught Exception of type: "
+				+ e.getClass().getName() + " with message: "
+				+ e.getMessage() + "from file " + fileName;
+			log.debug(e.getMessage() + e.getCause());
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage, e, fileName);
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -422,6 +450,7 @@ public class ArraysFromXMLFactory {
 			exception.printStackTrace();
 			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -564,6 +593,16 @@ public class ArraysFromXMLFactory {
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);			
+			configurationFromFile.load();
+			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
 				throw new DynamoConfigurationException(" Tagname "
@@ -822,7 +861,23 @@ public class ArraysFromXMLFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-
+			
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+						
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+			
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);			
+			configurationFromFile.load();
+			*/
+			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
 				throw new DynamoConfigurationException(" Tagname "
