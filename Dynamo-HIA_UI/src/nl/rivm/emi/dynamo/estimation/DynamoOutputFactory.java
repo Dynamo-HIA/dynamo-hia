@@ -11,7 +11,6 @@ import org.jfree.chart.renderer.category.CategoryItemRendererState;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.dynamo.estimation.test.testFreeChart;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
@@ -4049,7 +4048,7 @@ public class DynamoOutputFactory {
 	 * @return
 	 */
 	public JFreeChart makePyramidChart(int thisScen, int timestep) {
-		testFreeChart test = new testFreeChart();
+	
 
 		double[][] pyramidData1 = new double[2][100];
 		double[][] pyramidData2 = new double[2][100];
@@ -4175,7 +4174,7 @@ public class DynamoOutputFactory {
 	 */
 	public JFreeChart makePyramidChartIncludingDisease(int thisScen,
 			int timestep, int d) {
-		testFreeChart test = new testFreeChart();
+	
 
 		/*
 		 * pyramid data 1 are the data for men, pyramiddata2 those for women;
