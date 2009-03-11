@@ -5,38 +5,29 @@ package nl.rivm.emi.dynamo.estimation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.EventObject;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.SWT;
+import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.rules.update.UpdateRules4SimulationFromXMLFactory;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
-import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
-
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
@@ -44,15 +35,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
-
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
 /**
  * @author boshuizh
@@ -70,7 +55,11 @@ public class Output_UI {
 	int startYear;
 	DynamoOutputFactory output;
 
-	public Output_UI(Shell shell, ScenarioInfo scen, String simName, Population[] pop) {
+	// Contains the base directory of the application data
+	private String baseDir;
+	// TODO baseDir
+	public Output_UI(Shell shell, ScenarioInfo scen, String simName, 
+			Population[] pop, String baseDir) {
 
 		parentShell=shell;
 		output = new DynamoOutputFactory(scen, simName);
@@ -230,7 +219,7 @@ public class Output_UI {
 			public void widgetSelected(SelectionEvent e) {
 				if (cohortStyle)
 					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-						String fileName = "c:\\hendriek\\java\\dynamohome\\"
+						String fileName = Output_UI.this.baseDir 
 								+ File.separator + "excel_cohort_all_"
 								+ output.getScenarioNames()[scen] + ".xml";
 						try {
@@ -252,7 +241,7 @@ public class Output_UI {
 					}
 				else {
 					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-						String fileName = "c:\\hendriek\\java\\dynamohome\\"
+						String fileName = Output_UI.this.baseDir
 								+ File.separator + "excel_year_all_"
 								+ output.getScenarioNames()[scen] + ".xml";
 						try {

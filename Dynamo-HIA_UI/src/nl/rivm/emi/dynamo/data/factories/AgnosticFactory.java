@@ -13,6 +13,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -92,6 +93,12 @@ abstract public class AgnosticFactory {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 
 			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+			
+			// Validate the xml by xsd schema
 			configurationFromFile.setValidating(true);			
 			configurationFromFile.load();			
 			
@@ -113,24 +120,13 @@ abstract public class AgnosticFactory {
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()
-			+ " with message: " + e.getMessage() 
-			+ " Cause" + e.getCause();			
-			log.error(errorMessageLogFile);
-			e.printStackTrace();
-			// Show the error message and the nested cause of the error
-			String errorMessage;
-			if (!e.getCause().getMessage().contains(":")) {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage();
-			} else {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage().split(":")[1];
-			}
-			throw new ConfigurationException(errorMessage);
+			ErrorMessageUtil.handleErrorMessage(this.log, "",
+					e, configurationFile.getAbsolutePath());
 		}
+		return underConstruction;
 	}
 
+	
 	/**
 	 * Currently each rootchild contains a group of XML-elements (leafnodes) of
 	 * which all but the last must be "container" datatypes. The result of
@@ -281,6 +277,8 @@ abstract public class AgnosticFactory {
 	@SuppressWarnings("unchecked")
 	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
+		log.debug("leafNodeListAGNOSTICFACTORY" + leafNodeList);
+		log.debug("leafNodeListAGNOSTICFACTORY.size()" + leafNodeList.size());
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
 		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
@@ -308,6 +306,7 @@ abstract public class AgnosticFactory {
 			int theLastContainer, int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
 		try {
+			log.debug("leafNodeList" + leafNodeList);
 			log.debug("Recursing, making default Object, currentLevel "
 					+ currentLevel);
 			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList
@@ -366,6 +365,11 @@ abstract public class AgnosticFactory {
 			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, int value)
 			throws DynamoConfigurationException {
+		log.debug("leafNodeList" 
+				+ leafNodeList);/*
+		log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))" 
+				+ ((PayloadType<Number>) leafNodeList.get(
+				currentLevel + 1)));*/
 		Number defaultValue = ((PayloadType<Number>) leafNodeList.get(
 				currentLevel + 1).getType()).getDefaultValue();
 		if (!makeObservable) {

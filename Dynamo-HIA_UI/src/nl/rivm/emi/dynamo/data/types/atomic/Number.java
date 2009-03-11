@@ -63,8 +63,8 @@ public class Number extends NumberRangeTypeBase<Integer> implements PayloadType<
 
 	@Override
 	public String convert4View(Object modelValue) {
-		// TODO Auto-generated method stub
-		return null;
+		String result = (String)viewUpdateValueStrategy.convert(modelValue);
+		return result.toString();
 	}
 
 	@Override

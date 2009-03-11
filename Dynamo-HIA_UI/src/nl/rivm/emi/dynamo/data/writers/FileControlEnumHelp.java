@@ -28,6 +28,8 @@ public class FileControlEnumHelp {
 	static final String[] overallMortalityStrings = { RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel(),
 			"mortality", "age", "sex", "value" };
 	/* W13 */
+	static final String[] newbornsStrings = { RootElementNamesEnum.NEWBORNS.getNodeLabel(),
+		"sexratio", "amount", "year", "number" };	
 	/* W14 */
 	static final String[] overallDALYWeightsStrings = {RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(),
 			"weight", "age", "sex", "percent" };
@@ -45,6 +47,10 @@ public class FileControlEnumHelp {
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
+	static final String[] transitionDriftStrings = { RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
+		"transition", "age", "sex", "mean" };
+	static final String[] transitionDriftNettoStrings = { RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
+		"transition", "trend" };
 	/* W22CatCom */
 	static final String[] riskFactorPrevalenceCatStrings = {RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL.getNodeLabel(),
 			"prevalence", "age", "sex", "cat", "percent" };
@@ -88,4 +94,6 @@ public class FileControlEnumHelp {
 	/* W?? */
 	static final String[] dALYWeightsStrings = {RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(),
 			"weight", "age", "sex", "percent" };
+	
+
 }

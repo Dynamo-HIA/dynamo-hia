@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -34,7 +35,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class FreeNameXMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private String rootElementName;
+	protected String rootElementName;
 
 	public FreeNameXMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String rootElementName) {
@@ -55,7 +56,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 		}
 	}
 
-	private String getNewFilePath() {
+	protected String getNewFilePath() {
 		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
 		String newPath = null;
 		// Call the input trialog modal here (trialog includes input field, import, ok and cancel buttons)
@@ -97,7 +98,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 		return newPath;
 	}
 
-	private void processThroughModal(File dataFile, File savedFile) {
+	protected void processThroughModal(File dataFile, File savedFile) {
 		try {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
@@ -116,10 +117,10 @@ public class FreeNameXMLFileAction extends ActionBase {
 						if (RootElementNamesEnum.DALYWEIGHTS.getNodeLabel().equals(rootElementName)) {
 							theModal = new DALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
 									.getAbsolutePath(), rootElementName, node);
-						} else {
+						} else {					
 							throw new DynamoConfigurationException(
-									"RootElementName " + rootElementName
-											+ " not implemented yet.");
+							"RootElementName " + rootElementName
+									+ " not implemented yet.");
 						}
 					}
 				}

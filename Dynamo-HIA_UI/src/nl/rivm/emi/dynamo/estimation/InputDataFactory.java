@@ -4,16 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
-import nl.rivm.emi.cdm.exceptions.DynamoUpdateRuleConfigurationException;
-import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
+import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -33,8 +32,7 @@ public class InputDataFactory {
 	 */
 
 	/* Field containing the name of the base directory */
-	// temporary for testing;
-	public String baseDir;// = "c:\\hendriek\\java\\dynamohome";;
+	public String baseDir;
 
 	/*
 	 * fields describing the labels of the XML configuration file (as made by
@@ -72,11 +70,11 @@ public class InputDataFactory {
 	private static final String isRRfromLabel = "isRRfrom";
 	private static final String isRRtoLabel = "isRRto";
 	private static final String isRRfileLabel = "isRRFile";
-	private static final String scenarioNameLabel = "scenName";
+	private static final String scenarioNameLabel = "name";
 	private static final String scenarioSuccessRateLabel = "successRate";
 	private static final String targetMinAgeLabel = "targetMinAge";
 	private static final String targetMaxAgeLabel = "targetMaxAge";
-	private static final String targetGenderLabel = "targetGender";
+	private static final String targetGenderLabel = "targetSex";
 	private static final String alternativeTransFileLabel = "transfilename";
 	private static final String alternativePrevFileLabel = "prevfilename";
 
@@ -162,15 +160,19 @@ public class InputDataFactory {
 	 * the names of the directories en standard filenames containing the
 	 * information on resp. riskfactors, diseases and relative risks
 	 */
-	private static final String riskFactorDir = "riskfactors";
-	private static final String diseasesDir = "diseases";
-	private static final String populationDir = "populations";
-	private static final String simulationDir = "Simulations";
-	private static final String RRriskDir = "Relative_Risks_From_Risk_Factor";
-	private static final String RRdiseaseDir = "Relative_Risks_From_Diseases";
-
-	private static final String referenceDataDir = "Reference_Data";
-
+	private static final String riskFactorDir = "Risk_Factors"; 
+	//CDM uses "riskfactors"; document uses "risk factors"; dynamo uses "Risk_Factors"!!!!
+	private static final String diseasesDir = "diseases"; //OK
+	private static final String populationDir = "populations"; //OK
+	private static final String simulationDir = "Simulations"; //OK //CDM uses "simulation"
+	private static final String RRriskDir = "Relative_Risks_From_Risk_Factor"; //OK
+	private static final String RRdiseaseDir = "Relative_Risks_From_Diseases"; //OK
+	private static final String DALYWeightsDir = "DALY_Weights"; //OK
+	private static final String prevalencesDir = "Prevalences"; //OK
+	private static final String incidencesDir = "Incidences"; //OK
+	private static final String excessMoratalitiesDir = "Excess_mortalities"; //OK
+	private static final String referenceDataDir = "Reference_Data"; //OK
+	
 	public static String populationName = "popFileName";
 	private static final String sizeXMLname = "size.xml";
 	private static final String allcauseXMLname = "overallmortality.xml";
@@ -189,6 +191,11 @@ public class InputDataFactory {
 	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
 	private static final String prefixRRdis = "relriskfrom";
 
+	private static final String rrDiseaseTagName = "relrisksfromdisease"; //"rrisksfromdisease"	
+	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";//"rrisksforriskfactor_continuous"
+	private static final String rrCategoricalTagName = "relrisksfromriskfactor_categorical";//"rrisksforriskfactor_categorical"
+	private static final String rrCompoundTagName = "relrisksfromriskfactor_compound";//"rrisksforriskfactor_compound"	
+	
 	public InputDataFactory(String simName, String baseDir) throws DynamoConfigurationException {
 		this.baseDir = baseDir;
 		doIt(simName);
@@ -203,22 +210,30 @@ public class InputDataFactory {
 		;
 		// temporary for testing //;
 
+		String fileName = this.baseDir + File.separator
+		+ simulationDir + File.separator + simName + File.separator
+		+ "configuration.xml";
 		try {
-			this.configuration = new XMLConfiguration(baseDir + File.separator
-					+ simulationDir + File.separator + simName + File.separator
-					+ "configuration.xml");
+			this.configuration = new XMLConfiguration(fileName);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			this.configuration.clear();
 			
 			// Validate the xml by xsd schema
 			this.configuration.setValidating(true);			
 			this.configuration.load();			
 			
 		} catch (ConfigurationException e) {
-
-			e.printStackTrace();
-			throw new DynamoConfigurationException("error reading file: "
-					+ baseDir + File.separator + simulationDir + File.separator
-					+ simName + File.separator + "configuration.xml"
-					+ " with message: " + e.getMessage());
+			String dynamoErrorMessage = "error reading file: "
+				+ fileName
+				+ " with message: " + e.getMessage() 
+				+ "\n"
+				+ "Root cause: ";
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+					e, fileName);
 		}
 		/* now read in all the data in the sequence of the user data document */
 		String yesno = getName(newbornLabel);
@@ -346,38 +361,55 @@ public class InputDataFactory {
 			boolean transPresent = false;
 			boolean prevPresent = false;
 
+			// HashMap<key, value> = <Local key, error message representation>
+			Map<String, String> missingParameters = new HashMap<String, String>();
+			missingParameters.put("namePresent", " name |");
+			missingParameters.put("ratePresent", " rate |");
+			missingParameters.put("minPresent", " min age |");
+			missingParameters.put("maxPresent", " max age |");
+			missingParameters.put("gPresent", " gender |");
+			missingParameters.put("transPresent", " trans file |");
+			missingParameters.put("prevPresent", " prev file |");
+						
 			for (ConfigurationNode leafChild : leafChildren) {
 
 				if (leafChild.getName() == scenarioNameLabel) {
 					scenData.name = getString(leafChild, scenarioNameLabel);
 					namePresent = true;
+					missingParameters.remove("namePresent");
 				}
 				if (leafChild.getName() == scenarioSuccessRateLabel) {
 					scenData.rate = getFloat(leafChild,
 							scenarioSuccessRateLabel);
 					ratePresent = true;
+					missingParameters.remove("ratePresent");
 				}
 				if (leafChild.getName() == targetMinAgeLabel) {
 					scenData.minAge = getInteger(leafChild, targetMinAgeLabel);
 					minPresent = true;
+					missingParameters.remove("minPresent");
 				}
 				if (leafChild.getName() == targetMaxAgeLabel) {
 					scenData.maxAge = getInteger(leafChild, targetMaxAgeLabel);
 					maxPresent = true;
+					missingParameters.remove("maxPresent");
 				}
 				if (leafChild.getName() == targetGenderLabel) {
 					scenData.gender = getInteger(leafChild, targetGenderLabel);
 					gPresent = true;
+					missingParameters.remove("gPresent");
 				}
 				if (leafChild.getName() == alternativeTransFileLabel) {
 					scenData.transFileName = getString(leafChild,
 							alternativeTransFileLabel);
 					transPresent = true;
+					missingParameters.remove("transPresent");
 				}
 				if (leafChild.getName() == alternativePrevFileLabel) {
 					scenData.prevFileName = getString(leafChild,
 							alternativePrevFileLabel);
 					prevPresent = true;
+					missingParameters.remove("prevPresent");
 				}
 
 			}
@@ -387,7 +419,7 @@ public class InputDataFactory {
 				scenInfo.add(scenData);
 			else
 				throw new DynamoConfigurationException(
-						"incomplete information for scenario in configuration file");
+						"incomplete information for scenario in configuration file" + missingParameters.toString());
 
 			flag = true; /* at least one scenario has been success full read */
 		}// end loop over scenarios
@@ -916,19 +948,23 @@ public class InputDataFactory {
 		configFileName = baseDir + File.separator + referenceDataDir
 				+ File.separator + riskFactorDir + File.separator
 				+ riskFactorName + File.separator + riskfactorXMLname;		
-		XMLConfiguration config;
+		XMLConfiguration config = null;
 		try {
+
 			config = new XMLConfiguration(configFileName);
 			
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			config.clear();
 			// Validate the xml by xsd schema
 			config.setValidating(true);			
 			config.load();
 			
-		} catch (ConfigurationException e) {
-
-			e.printStackTrace();
-			throw new DynamoConfigurationException(
-					"XML error encountered with message: " + e.getMessage());
+		} catch (ConfigurationException e) {			
+			String dynamoErrorMessage = "XML error encountered with message: " + e.getMessage();
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+					e, configFileName);			
 		}
 		String type = ((XMLConfiguration) config).getRootElementName();
 		if (type == "riskfactor_categorical") {
@@ -1198,21 +1234,26 @@ public class InputDataFactory {
 			ScenarioInfo scenInfo, int scenNumber)
 			throws DynamoConfigurationException {
 
-		XMLConfiguration config;
+		XMLConfiguration config = null;
 		if (riskFactorType != 2) {
 			try {
 				config = new XMLConfiguration(configFileName);
-							
+
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				config.clear();
+				
 				// Validate the xml by xsd schema
 				config.setValidating(true);			
 				config.load();			
 			} catch (ConfigurationException e) {
-
-				e.printStackTrace();
-				throw new DynamoConfigurationException(
-						"reading error encountered when reading file: "
-								+ configFileName + " with message: "
-								+ e.getMessage());
+				String dynamoErrorMessage = "reading error encountered when reading file: "
+					+ configFileName + " with message: "
+					+ e.getMessage(); 
+				ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+						e, configFileName);
 			}
 			if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_zero") {
 				if (inputData != null)
@@ -1271,17 +1312,22 @@ public class InputDataFactory {
 
 			try {
 				config = new XMLConfiguration(configFileName);
+
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				config.clear();
 				
 				// Validate the xml by xsd schema
 				config.setValidating(true);			
 				config.load();			
 			} catch (ConfigurationException e) {
-
-				e.printStackTrace();
-				throw new DynamoConfigurationException(
-						"error encountered while reading file: "
-								+ configFileName + " with message: "
-								+ e.getMessage());
+				String dynamoErrorMessage = "error encountered while reading file: "
+					+ configFileName + " with message: "
+					+ e.getMessage(); 
+				ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+						e, configFileName);
 			}
 			if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_zero") {
 				inputData.setTransType(0);
@@ -1583,8 +1629,9 @@ public class InputDataFactory {
 						+ File.separator + info.to + File.separator
 						+ RRdiseaseDir + File.separator + info.rrFileName
 						+ info.from + ".xml";
+								
 				info.rrDataDis = factory.manufactureOneDimArray(configFileName,
-						"rrisksfromdisease", "relativerisk", "value", false);
+						rrDiseaseTagName, "relativerisk", "value", false);
 
 			} else {
 				if (riskFactorType == 2) {
@@ -1594,7 +1641,7 @@ public class InputDataFactory {
 							+ RRriskDir + File.separator + info.rrFileName
 							+ info.from + ".xml";
 					info.rrDataCont = factory.manufactureOneDimArray(
-							configFileName, "rrisksforriskfactor_continuous",
+							configFileName, rrContinuousTagName,
 							"relativerisk", "value", false);
 				} else if (riskFactorType == 1) {
 
@@ -1604,7 +1651,7 @@ public class InputDataFactory {
 							+ RRriskDir + File.separator + info.rrFileName
 							+ info.from + ".xml";
 					info.rrDataCat = factory.manufactureTwoDimArray(
-							configFileName, "rrisksforriskfactor_categorical",
+							configFileName, rrCategoricalTagName,
 							"relativerisk", "cat", "value", false);
 				} else {
 					String configFileName = baseDir + File.separator
@@ -1614,17 +1661,17 @@ public class InputDataFactory {
 							+ info.from + ".xml";
 
 					info.rrDataCat = factory.manufactureTwoDimArray(
-							configFileName, "rrisksforriskfactor_compound",
+							configFileName, rrCompoundTagName,
 							"relativerisk", "cat", "value", true);
 					info.rrDataBegin = factory.selectOneDimArray(
-							configFileName, "rrisksforriskfactor_compound",
+							configFileName, rrCompoundTagName,
 							"relativerisk", "begin", "cat",
 							originalNumberDurationClass);
 					info.rrDataEnd = factory.selectOneDimArray(configFileName,
-							"rrisksforriskfactor_compound", "relativerisk",
+							rrCompoundTagName, "relativerisk",
 							"end", "cat", originalNumberDurationClass);
 					info.rrDataAlfa = factory.selectOneDimArray(configFileName,
-							"rrisksforriskfactor_compound", "relativerisk",
+							rrCompoundTagName, "relativerisk",
 							"alfa", "cat", originalNumberDurationClass);
 
 				}
@@ -1656,7 +1703,7 @@ public class InputDataFactory {
 						String configFileName = baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + "Prevalences"
+								+ File.separator + prevalencesDir
 								+ File.separator + info2.prevFileName + ".xml";
 						pData[d] = factory.manufactureOneDimArray(
 								configFileName, "diseaseprevalences",
@@ -1664,7 +1711,7 @@ public class InputDataFactory {
 						configFileName = baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + "Incidences"
+								+ File.separator + this.incidencesDir
 								+ File.separator + info2.incFileName + ".xml";
 						iData[d] = factory.manufactureOneDimArray(
 								configFileName, "diseaseincidences",
@@ -1672,7 +1719,7 @@ public class InputDataFactory {
 						configFileName = baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + "Excess_mortalities"
+								+ File.separator + this.excessMoratalitiesDir
 								+ File.separator + info2.emFileName + ".xml";
 						eData[d] = factory.manufactureOneDimArray(
 								configFileName, "excessmortality", "mortality",
@@ -1683,21 +1730,26 @@ public class InputDataFactory {
 						cData[d] = factory.manufactureOneDimArray(
 								configFileName, "excessmortality", "mortality",
 								"curedfraction", true);
-						XMLConfiguration config;
+						XMLConfiguration config = null;
 						try {
 							config = new XMLConfiguration(configFileName);
+							
+							// Validate the xml by xsd schema
+							// WORKAROUND: clear() is put after the constructor (also calls load()). 
+							// The config cannot be loaded twice,
+							// because the contents will be doubled.
+							config.clear();							
 							
 							// Validate the xml by xsd schema
 							config.setValidating(true);			
 							config.load();			
 						} catch (ConfigurationException e) {
-
-							e.printStackTrace();
-							throw new DynamoConfigurationException(
-									"error encountered when reading file: "
-											+ configFileName
-											+ " with message: "
-											+ e.getMessage());
+							String dynamoErrorMessage = "error encountered when reading file: "
+								+ configFileName
+								+ " with message: "
+								+ e.getMessage();
+							ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+									e, configFileName);
 						}
 						String unitType = getName("unittype", config);
 						if (unitType.compareToIgnoreCase("Median survival") == 0)
@@ -1707,7 +1759,7 @@ public class InputDataFactory {
 						configFileName = baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + "DALY_Weights"
+								+ File.separator + this.DALYWeightsDir
 								+ File.separator + info2.dalyFileName + ".xml";
 						dData[d] = factory.manufactureOneDimArray(
 								configFileName, "dalyweights", "weight",
@@ -1874,7 +1926,7 @@ public class InputDataFactory {
 			throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
 
-		XMLConfiguration config;
+		XMLConfiguration config = null;
 		/* make an array large enough for all cases */
 
 		int[] year = new int[200];
@@ -1882,28 +1934,32 @@ public class InputDataFactory {
 		int currentChild = 0;
 		try {
 			config = new XMLConfiguration(configFileName);
-			
-			// Validate the xml by xsd schema
-			config.setValidating(true);			
-			config.load();			
-		} catch (ConfigurationException e) {
 
-			e.printStackTrace();
-			throw new DynamoConfigurationException(
-					"reading error encountered when reading file: "
-							+ configFileName + " with message: "
-							+ e.getMessage());
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			config.clear();	
+			config.setValidating(true);
+			config.load();
+		} catch (ConfigurationException e) {
+			String dynamoErrorMessage = "Reading error encountered when reading file: "
+				+ configFileName + " with message: "
+				+ e.getMessage();
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+					e, configFileName);			
 		}
 
 		if (((XMLConfiguration) config).getRootElementName() == "newborns") {
 			if (scenInfo != null) {
+				log.debug("config.getFloat(sexratio)" + config.getFloat("sexratio"));
 				scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
 
 				ConfigurationNode rootNode = config.getRootNode();
-
+				
 				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 						.getChildren();
-
+				log.debug("rootChildren.size()222;" + rootChildren.size()); //24?
 				for (ConfigurationNode rootChild : rootChildren) {
 					if (rootChild.getName() != "amount"
 							&& rootChild.getName() != "sexratio")
@@ -1914,8 +1970,7 @@ public class InputDataFactory {
 
 					if (rootChild.getName() == "amount") {
 						List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
-								.getChildren();
-
+								.getChildren();						
 						for (ConfigurationNode leafChild : leafChildren) {
 							Object valueObject = leafChild.getValue();
 							String leafName = leafChild.getName();
@@ -1925,6 +1980,7 @@ public class InputDataFactory {
 
 									year[currentChild] = getIntegerValue(
 											valueString, "year");
+									log.debug("year array" + year[currentChild]);
 									if (currentChild > 0
 											&& year[currentChild] != year[currentChild - 1] + 1)
 										throw new DynamoInconsistentDataException(

@@ -58,25 +58,26 @@ public class SimulationConfigurationFactory {
 
 	public SimulationConfigurationFactory(String simName) {
 
-		directoryName = BaseDirectory.getBaseDir() + "Simulations\\" + simName;
-		charFileName = directoryName + "\\modelconfiguration"
-				+ "\\charconfig.XML";
-		simFileName = directoryName + "\\modelconfiguration" + "\\simulation"; // no
+		directoryName = BaseDirectory.getBaseDir() + File.separator  
+					+ "Simulations" + File.separator + simName;
+		charFileName = directoryName + File.separator + "modelconfiguration" + File.separator
+					+ "charconfig.XML";
+		simFileName = directoryName + File.separator + "modelconfiguration" + File.separator + "simulation"; // no
 		// .xml
 		// because
 		// different
 		// variants
 		// are
 		// needed
-		popFileName = directoryName + "\\modelconfiguration" + "\\population";// no
+		popFileName = directoryName + File.separator + "modelconfiguration" + File.separator + "population";// no
 		// .xml
 		// because
 		// different
 		// variants
 		// are
 		// needed
-		newbornsFileName = directoryName + "\\modelconfiguration"
-				+ "\\newborns.XML";
+		newbornsFileName = directoryName + File.separator + "modelconfiguration"
+					+ File.separator+ "newborns.XML";
 		;
 	}
 

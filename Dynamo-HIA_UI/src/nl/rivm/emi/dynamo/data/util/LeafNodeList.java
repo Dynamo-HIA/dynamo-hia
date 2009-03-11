@@ -81,8 +81,10 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 
 	public int checkContents() throws ConfigurationException {
 		int theLastContainer = 0;
+		log.debug("leafNodeList.LeafNodeList.size()" + this.size());
 		for (; theLastContainer < this.size(); theLastContainer++) {
 			if (!(get(theLastContainer).getType() instanceof ContainerType)) {
+				log.debug("theLastContainer" + theLastContainer);
 				break;
 			}
 		}

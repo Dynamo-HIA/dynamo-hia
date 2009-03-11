@@ -22,6 +22,8 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
@@ -45,14 +47,16 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	abstract protected void fillHandlers(boolean observable) throws ConfigurationException;
+	abstract protected void fillHandlers(boolean observable)
+			throws ConfigurationException;
+
 	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
 	 * 
-	 * @param configurationFilePath 
-	 * @throws ConfigurationException 
-	 * @throws DynamoInconsistentDataException 
+	 * @param configurationFilePath
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
 	 * 
 	 */
 	public void manufacture(String configurationFilePath, String rootElementName)
@@ -79,6 +83,12 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 									configurationFile);
 							
 							// Validate the xml by xsd schema
+							// WORKAROUND: clear() is put after the constructor (also calls load()). 
+							// The config cannot be loaded twice,
+							// because the contents will be doubled.
+							configurationFromFile.clear();
+							
+							// Validate the xml by xsd schema
 							configurationFromFile.setValidating(true);			
 							configurationFromFile.load();		
 							
@@ -96,11 +106,13 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 								throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
 							}							
 						} catch (ConfigurationException e) {
-							log.error("Caught Exception of type: "
-									+ e.getClass().getName()
-									+ " with message: " + e.getMessage());
-							e.printStackTrace();
-							throw e;							
+							String dynamoErrorMessage = "Caught Exception of type: "
+								+ e.getClass().getName()
+								+ " with message: " + e.getMessage();
+								e.printStackTrace();							
+							ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+									e, configurationFile.getAbsolutePath());
+							
 						}/* catch (Exception exception) {
 							log.error("Caught Exception of type: "
 									+ exception.getClass().getName()
@@ -113,6 +125,7 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 			}
 		}
 	}
+
 
 	/**
 	 * The concrete implementation is typespecific, so a callback to a lower
@@ -140,6 +153,6 @@ abstract public class XMLHandlingEntryPoint extends ConfigurationObjectBase {
 		writer.flush();
 	}
 
-	public abstract void streamEvents(String value,
-			XMLEventWriter writer, XMLEventFactory eventFactory) throws XMLStreamException;
+	public abstract void streamEvents(String value, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException;
 }

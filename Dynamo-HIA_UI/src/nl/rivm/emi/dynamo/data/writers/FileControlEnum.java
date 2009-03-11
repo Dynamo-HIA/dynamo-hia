@@ -27,7 +27,10 @@ import org.apache.commons.logging.LogFactory;
 public enum FileControlEnum {
 	POPULATIONSIZE(FileControlEnumHelp.populationSizeStrings), //
 	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings), //
+	NEWBORNS(FileControlEnumHelp.newbornsStrings), //
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings), //
+	TRANSITIONDRIFT(FileControlEnumHelp.transitionDriftStrings), //
+	TRANSITIONDRIFTNETTO(FileControlEnumHelp.transitionDriftNettoStrings), //
 	TRANSITIONMATRIX(FileControlEnumHelp.transitionMatrixStrings), //
 	RISKFACTORPREVALENCESCATEGORICAL(
 			FileControlEnumHelp.riskFactorPrevalenceCatStrings), //

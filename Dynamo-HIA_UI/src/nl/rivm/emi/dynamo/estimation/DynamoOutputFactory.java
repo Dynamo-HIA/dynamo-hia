@@ -1515,13 +1515,16 @@ public class DynamoOutputFactory {
 		String baseDir = BaseDirectory.getBaseDir();
 		// for (int scen = 0; scen < scenInfo.getNScenarios(); scen++) {
 		/* make a n=new directory if it does not yet exists */
-		String directoryName = baseDir + "Simulations" + File.separator
+		String directoryName = baseDir + File.separator 
+				+ "Simulations" + File.separator
 				+ simulationName + File.separator + "results";
+		log.debug("directoryName" + directoryName);
 		File directory = new File(directoryName);
 		boolean isNewDirectory = directory.mkdirs();
 
 		for (int scen = 0; scen <= nScen; scen++) {
-			String fileName = baseDir + "Simulations" + File.separator
+			String fileName = baseDir + File.separator + "Simulations" 
+					+ File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_year_male_scenario" + scen
 					+ ".xml";
@@ -1531,7 +1534,7 @@ public class DynamoOutputFactory {
 				// TODO Auto-generated catch block write warning message to user
 				e2.printStackTrace();
 			}
-			fileName = baseDir + "Simulations" + File.separator
+			fileName = baseDir + File.separator + "Simulations" + File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_year_female_scenario" + scen
 					+ ".xml";
@@ -1541,7 +1544,8 @@ public class DynamoOutputFactory {
 				// TODO Auto-generated catch block write warning message to user
 				e1.printStackTrace();
 			}
-			fileName = baseDir + "Simulations" + File.separator
+			fileName = baseDir + File.separator 
+					+ "Simulations" + File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_year_scenario" + scen + ".xml";
 			try {
@@ -1550,7 +1554,8 @@ public class DynamoOutputFactory {
 				// TODO Auto-generated catch block write warning message to user
 				e1.printStackTrace();
 			}
-			fileName = baseDir + "Simulations" + File.separator
+			fileName = baseDir + File.separator 
+					+ "Simulations" + File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_cohort_male_scenario" + scen
 					+ ".xml";
@@ -1562,7 +1567,8 @@ public class DynamoOutputFactory {
 
 				e.printStackTrace();
 			}
-			fileName = baseDir + "Simulations" + File.separator
+			fileName = baseDir + File.separator
+					+ "Simulations" + File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_cohort_female_scenario" + scen
 					+ ".xml";
@@ -1572,7 +1578,8 @@ public class DynamoOutputFactory {
 				// TODO Auto-generated catch block write warning message to user
 				e.printStackTrace();
 			}
-			fileName = baseDir + "Simulations" + File.separator
+			fileName = baseDir + File.separator
+					+ "Simulations" + File.separator
 					+ simulationName + File.separator + "results"
 					+ File.separator + "excel_cohort_scenario" + scen + ".xml";
 			try {

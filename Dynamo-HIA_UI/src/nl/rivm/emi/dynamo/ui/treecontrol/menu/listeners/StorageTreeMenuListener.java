@@ -43,12 +43,12 @@ public class StorageTreeMenuListener implements IMenuListener {
 			try {
 				stmf.createRelevantContextMenu(manager, selection, selectedNode);
 			} catch (TreeStructureException tse) {
-				handleErrorMessage(tse);
+				showErrorMessage(tse);
 			}
 		}
 	}
 	
-	private void handleErrorMessage(Exception e) {
+	private void showErrorMessage(Exception e) {
 		this.log.fatal(e);
 		e.printStackTrace();
 		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);

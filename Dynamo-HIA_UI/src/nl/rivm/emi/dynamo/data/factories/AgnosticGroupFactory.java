@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -87,6 +88,13 @@ abstract public class AgnosticGroupFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
+			
+			// Validate the xml by xsd schema
+			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+			
 			// Validate the xml by xsd schema
 			configurationFromFile.setValidating(true);			
 			configurationFromFile.load();			
@@ -114,24 +122,12 @@ abstract public class AgnosticGroupFactory {
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()
-			+ " with message: " + e.getMessage() 
-			+ " Cause" + e.getCause();			
-			log.error(errorMessageLogFile);
-			e.printStackTrace();
-			// Show the error message and the nested cause of the error
-			String errorMessage;
-			if (!e.getCause().getMessage().contains(":")) {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage();
-			} else {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage().split(":")[1];
-			}
-				
-			throw new ConfigurationException(errorMessage);
+			ErrorMessageUtil.handleErrorMessage(this.log, "",
+					e, configurationFile.getAbsolutePath());
 		}
+		return underConstruction;
 	}
+
 
 	/**
 	 * Currently each rootchild contains a group of XML-elements (leafnodes) of

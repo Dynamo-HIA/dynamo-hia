@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.data.util;
 
 import java.io.File;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
@@ -56,6 +58,17 @@ public class ConfigurationFileUtil {
 						XMLConfiguration configurationFromFile;
 						configurationFromFile = new XMLConfiguration(
 								configurationFile);
+						
+						// Validate the xml by xsd schema
+						// WORKAROUND: clear() is put after the constructor (also calls load()). 
+						// The config cannot be loaded twice,
+						// because the contents will be doubled.
+						configurationFromFile.clear();
+						
+						// Validate the xml by xsd schema
+						configurationFromFile.setValidating(true);			
+						configurationFromFile.load();
+						
 						rootElementName = configurationFromFile
 								.getRootElementName();
 					}
@@ -64,8 +77,7 @@ public class ConfigurationFileUtil {
 		} catch (ConfigurationException e) {
 			// Exception is not thrown again
 			// because the application has to continue
-			log.warn(e);
-			e.printStackTrace();
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
 		} finally {
 			return rootElementName;
 		}
@@ -81,6 +93,17 @@ public class ConfigurationFileUtil {
 						.equals(rootElementName)) {
 					XMLConfiguration configurationFromFile = new XMLConfiguration(
 							configurationFile);
+					
+					// Validate the xml by xsd schema
+					// WORKAROUND: clear() is put after the constructor (also calls load()). 
+					// The config cannot be loaded twice,
+					// because the contents will be doubled.
+					configurationFromFile.clear();
+					
+					// Validate the xml by xsd schema
+					configurationFromFile.setValidating(true);			
+					configurationFromFile.load();
+					
 					ConfigurationNode rootNode = configurationFromFile
 							.getRootNode();
 					ConfigurationNode ageNode = rootNode.getChild(0);
@@ -88,8 +111,9 @@ public class ConfigurationFileUtil {
 				}
 			}
 		} catch (ConfigurationException e) {
-			log.warn(e);
-			e.printStackTrace();
+			// Exception is not thrown again
+			// because the application has to continue
+			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
 		} finally {
 			return numberOfCategories;
 		}

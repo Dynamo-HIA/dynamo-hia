@@ -10,13 +10,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.individual.Individual;
@@ -58,8 +60,9 @@ public class DynamoSimulation {
 	@Before
 	public void setup() throws ConfigurationException {
 		System.out.println(preCharConfig);
+		File multipleCharacteristicsFile = null;
 		try {
-			File multipleCharacteristicsFile = new File(preCharConfig);
+			multipleCharacteristicsFile = new File(preCharConfig);
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
@@ -69,9 +72,16 @@ public class DynamoSimulation {
 						simulationConfigurationFile);
 
 				// Validate the xml by xsd schema
-				this.simulationConfiguration.setValidating(true);			
-				this.simulationConfiguration.load();		
-				
+				// WORKAROUND: clear() is put after the constructor (also calls
+				// load()).
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				this.simulationConfiguration.clear();
+
+				// Validate the xml by xsd schema
+				this.simulationConfiguration.setValidating(true);
+				this.simulationConfiguration.load();
+
 				sim = SimulationFromXMLFactory
 						.manufacture_DOMPopulationTree(simulationConfiguration);
 			} else {
@@ -80,8 +90,11 @@ public class DynamoSimulation {
 						simulationConfigurationFile.getAbsolutePath()));
 			}
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String dynamoErrorMessage = "Reading error encountered when reading file: "
+					+ multipleCharacteristicsFile.getAbsolutePath()
+					+ " with message: " + e.getMessage();
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+					e, simulationConfigurationFile.getAbsolutePath());
 			assertNull(e); // Force error.
 		} catch (ConversionException e1) {
 			e1.printStackTrace();
@@ -116,7 +129,6 @@ public class DynamoSimulation {
 				while ((ind = pop.nextIndividual()) != null) {
 					if (sum == null) {
 						sum = new double[96][2][ind.size()];
-						
 
 					}
 					/* count characteristics to make array */
@@ -127,9 +139,8 @@ public class DynamoSimulation {
 					 * charValiterator.next();}
 					 */
 
-					for(CharacteristicValueBase currentChar: ind){
-						
-					
+					for (CharacteristicValueBase currentChar : ind) {
+
 						if (currentChar instanceof IntCharacteristicValue) {
 
 							IntCharacteristicValue charVal = (IntCharacteristicValue) currentChar;
@@ -137,29 +148,30 @@ public class DynamoSimulation {
 								age = charVal.getCurrentValue();
 							} else if (charVal.getIndex() == 2) {
 								sex = charVal.getCurrentValue();
-							} else if (charVal .getIndex() != 1)
+							} else if (charVal.getIndex() != 1)
 								sum[age][sex][charVal.getIndex()] += (double) charVal
 										.getCurrentValue();
 
 						} else {
 							if (currentChar instanceof FloatCharacteristicValue) {
-								FloatCharacteristicValue charVal  = (FloatCharacteristicValue) currentChar;
-								if (charVal .getIndex() == 1) {
-									age = Math
-											.round(charVal .getCurrentValue());
-								} else if (charVal .getIndex() == 2) {
-									sex = Math
-											.round(charVal .getCurrentValue());
-									// dit nog aanpassen als age 1-ste characteristiek wordt
-								} else if (charVal .getIndex() != 1)
-									sum[age][sex][charVal .getIndex()] += (double) charVal 
+								FloatCharacteristicValue charVal = (FloatCharacteristicValue) currentChar;
+								if (charVal.getIndex() == 1) {
+									age = Math.round(charVal.getCurrentValue());
+								} else if (charVal.getIndex() == 2) {
+									sex = Math.round(charVal.getCurrentValue());
+									// dit nog aanpassen als age 1-ste
+									// characteristiek wordt
+								} else if (charVal.getIndex() != 1)
+									sum[age][sex][charVal.getIndex()] += (double) charVal
 											.getCurrentValue();
 
 							}
 						}
 					}
 					/* add count as first element */
-					for (int a=0;a<96;a++) for (int g=0;g<96;g++) sum[a][g][0]=count;
+					for (int a = 0; a < 96; a++)
+						for (int g = 0; g < 96; g++)
+							sum[a][g][0] = count;
 
 					DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),
 							count, interOut);

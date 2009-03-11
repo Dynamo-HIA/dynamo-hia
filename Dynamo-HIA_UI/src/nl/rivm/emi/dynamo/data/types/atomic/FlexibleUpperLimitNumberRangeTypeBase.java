@@ -14,4 +14,5 @@ public abstract class FlexibleUpperLimitNumberRangeTypeBase<T> extends
 		T oldUpperLimit = MAX_VALUE;
 		MAX_VALUE = newUpperLimit;
 		return oldUpperLimit;
-	}}
+	}
+}

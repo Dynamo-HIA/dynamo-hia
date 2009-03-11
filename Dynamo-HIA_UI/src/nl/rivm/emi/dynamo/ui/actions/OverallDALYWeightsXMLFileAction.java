@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
+import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -37,7 +38,7 @@ public class OverallDALYWeightsXMLFileAction extends ActionBase {
 		String filePath = "";
 		if (node instanceof DirectoryNode) {
 			filePath = node.getPhysicalStorage().getAbsolutePath()
-					+ File.separator + "overallmortality" + ".xml";
+					+ File.separator + "overalldalyweights" + ".xml";
 		} else {
 			filePath = node.getPhysicalStorage().getAbsolutePath();
 		}
@@ -48,10 +49,10 @@ public class OverallDALYWeightsXMLFileAction extends ActionBase {
 	private void processThroughModal(File file) {
 		try {
 			boolean isOld = file.exists();
-			OverallMortalityModal popSizeModal = new OverallMortalityModal(shell,
+			OverallDALYWeightsModal overDalyWeightsModal = new OverallDALYWeightsModal(shell,
 					file.getAbsolutePath(), file.getAbsolutePath(), rootElementName, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-					popSizeModal);
+					overDalyWeightsModal);
 			boolean isPresentAfter = file.exists();
 			if (isPresentAfter && !isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(

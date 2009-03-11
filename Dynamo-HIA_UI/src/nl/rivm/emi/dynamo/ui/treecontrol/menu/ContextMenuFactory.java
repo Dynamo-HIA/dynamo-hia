@@ -75,7 +75,7 @@ public class ContextMenuFactory {
 		ContextMenuEntry transitionDirectoryContextMenuEntry = new ContextMenuEntry(
 				shell, "Create transition directory", new NewDirectoryAction(
 						shell, treeViewer, (DirectoryNode) selectedNode, null,
-						"transition"));
+						"Transitions"));
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
 				.getNodeLabel(), transitionDirectoryContextMenuEntry);
 		ContextMenuEntry prevalenceFileContextMenuEntry = new ContextMenuEntry(

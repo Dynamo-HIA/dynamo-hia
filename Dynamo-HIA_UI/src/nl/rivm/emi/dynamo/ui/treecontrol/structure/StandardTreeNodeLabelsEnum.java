@@ -37,7 +37,7 @@ public enum StandardTreeNodeLabelsEnum {
 	PARAMETERS("Parameters"), //
 	RESULTS("Results"), //
 	CONFIGURATIONFILE("configuration"), //
-	TRANSITION("transition"), //
+	TRANSITION("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
 	DURATIONDISTRIBUTIONFILE("durationdistribution"), //
 	RELRISKFORDEATHFILE("relriskfordeath"), //

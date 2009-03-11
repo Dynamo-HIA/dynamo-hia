@@ -51,7 +51,6 @@ public class InitialPopulationFactory {
 	 *         populations of newborns
 	 */
 	public InitialPopulationFactory(String baseDir) {
-		//super();
 		this.globalBaseDir = baseDir;
 	}
 
@@ -75,10 +74,8 @@ public class InitialPopulationFactory {
 		Population[] pop = manufactureInitialPopulation(parameters,
 				simulationName, nSim, seed, newborns, scenarioInfo);
 
-		//String baseDir = BaseDirectory.getInstance(
-				//"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
-		String baseDir = this.globalBaseDir; //BaseDirectory.getInstance().getBaseDir();
-		String directoryName = baseDir + "Simulations\\" + simulationName;
+		String baseDir = this.globalBaseDir;
+		String directoryName = baseDir + File.separator + "Simulations\\" + simulationName;
 		String popFileName;
 
 		if (newborns)
@@ -189,7 +186,6 @@ public class InitialPopulationFactory {
 		int currentRiskValue = 0;
 		int[][] nSimNew = new int[96][2];
 
-		BaseDirectory baseDir = BaseDirectory.getInstance("c:");
 		Random rand = new Random(seed); // used to draw the initial population
 		MTRand rand2 = new MTRand(seed + 1); /*
 											 * used to generate seeds which are

@@ -20,14 +20,13 @@ import nl.rivm.emi.dynamo.data.interfaces.IDynamoSimulationConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IRelativeRiskConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IScenarioConfiguration;
-import nl.rivm.emi.dynamo.data.objects.parts.RelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.DiseaseConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.parts.HasNewBornsImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.MaxAgeImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.MinAgeImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.NumberOfYearsImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.PopFileNameImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.RandomSeedImpl;
+import nl.rivm.emi.dynamo.data.objects.parts.RelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.ResultTypeImpl;
 import nl.rivm.emi.dynamo.data.objects.parts.ScenarioConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.SimPopSizeImpl;
@@ -48,7 +47,6 @@ public class DynamoSimObject_NG extends XMLHandlingEntryPoint implements
 
 	static final RootElementNamesEnum rootElement = RootElementNamesEnum.SIMULATION;
 
-	HasNewBornsImpl hasNewBorns;
 	StartingYearImpl startingYear;
 	NumberOfYearsImpl numberOfYears;
 	SimPopSizeImpl simPopSize;
@@ -72,8 +70,9 @@ public class DynamoSimObject_NG extends XMLHandlingEntryPoint implements
 		}
 
 	protected void fillHandlers(boolean observable) throws ConfigurationException {
+		/* TODO: Reactivate (9-3-2009)
 		hasNewBorns = new HasNewBornsImpl(observable);
-		theHandlers.put(hasNewBorns.getXMLElementName(), hasNewBorns);
+		theHandlers.put(hasNewBorns.getXMLElementName(), hasNewBorns);*/
 		startingYear = new StartingYearImpl(observable);
 		theHandlers.put(startingYear.getXMLElementName(), startingYear);
 		numberOfYears = new NumberOfYearsImpl(observable);
@@ -144,14 +143,6 @@ public class DynamoSimObject_NG extends XMLHandlingEntryPoint implements
 			}
 		}
 		return true;
-	}
-
-	public boolean isHasNewborns() {
-		return hasNewBorns.isHasNewborns();
-	}
-
-	public void setHasNewborns(boolean newborns) {
-		hasNewBorns.setHasNewborns(newborns);
 	}
 
 	public Integer getStartingYear() {

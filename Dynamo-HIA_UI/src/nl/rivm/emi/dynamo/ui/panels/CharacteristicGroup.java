@@ -1,13 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.AgeSteppedContainer;
-import nl.rivm.emi.dynamo.data.BiGenderSteppedContainer;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.containers.AgeMap;
-import nl.rivm.emi.dynamo.data.containers.SexMap;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.IObservable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;

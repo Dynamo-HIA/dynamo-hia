@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -79,25 +80,35 @@ abstract public class AgnosticRootChildFactoryBase {
 	 * 
 	 * @param makeObservable
 	 * 
-	 * @return TypedHashMap HashMap that contains the data of the given file and the type of the data
-	 * @throws ConfigurationException 
-	 * @throws DynamoInconsistentDataException 
+	 * @return TypedHashMap HashMap that contains the data of the given file and
+	 *         the type of the data
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
 	 */
 	public TypedHashMap manufacture(File configurationFile,
-			boolean makeObservable) throws ConfigurationException, DynamoInconsistentDataException {
+			boolean makeObservable) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
 		TypedHashMap<?> underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
+
 			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();			
-			
+			// WORKAROUND: clear() is put after the constructor (also calls
+			// load()).
+			// The config cannot be loaded twice,
+			// because the contents will be doubled.
+			configurationFromFile.clear();
+
+			// Validate the xml by xsd schema
+			configurationFromFile.setValidating(true);
+			configurationFromFile.load();
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			List<?> list = rootNode.getChildren();
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
-			
+
 			for (ConfigurationNode rootChild : rootChildren) {
 				log.debug("Handle rootChild: " + rootChild.getName());
 				underConstruction = handleRootChild(underConstruction,
@@ -105,24 +116,12 @@ abstract public class AgnosticRootChildFactoryBase {
 			} // for rootChildren
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			String errorMessageLogFile = "Caught Exception of type: " + e.getClass().getName()
-			+ " with message: " + e.getMessage() 
-			+ " Cause" + e.getCause();			
-			log.error(errorMessageLogFile);
-			e.printStackTrace();
-			// Show the error message and the nested cause of the error
-			String errorMessage;
-			if (!e.getCause().getMessage().contains(":")) {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage();
-			} else {
-				errorMessage = "An error occured: " + e.getMessage() + "\n" 
-				+ "Cause: " + e.getCause().getMessage().split(":")[1];
-			}
-				
-			throw new ConfigurationException(errorMessage);
+			ErrorMessageUtil.handleErrorMessage(this.log, "",
+					e, configurationFile.getAbsolutePath());
 		}
+		return underConstruction;
 	}
+
 
 	/**
 	 * Currently each rootchild contains a group of XML-elements (leafnodes) of
@@ -326,7 +325,7 @@ abstract public class AgnosticRootChildFactoryBase {
 				} else {
 					log.debug("Number of payload nodes: "
 							+ (leafNodeList.size() - theLastContainer));
-					if ((leafNodeList.size() - theLastContainer) == 1) { 
+					if ((leafNodeList.size() - theLastContainer) == 1) {
 						// Existing functionality.
 						handleSinglePayload(priorLevel, leafNodeList,
 								currentLevel, makeObservable, value);

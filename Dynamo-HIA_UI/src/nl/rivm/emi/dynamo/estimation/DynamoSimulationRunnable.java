@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
@@ -35,6 +34,7 @@ import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
@@ -68,32 +68,29 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	private Simulation simulation;
 
 	private Shell parentShell;
-	
+
 	String preCharConfig;
 	String simName;
 	String baseDir;
-	 /*
-	 * model parameter is an object containing the
-	 * parameters of the model and the initial population. The parameters are 
-	 * written to XML files that are input-parameters for the model, and
-	 * the population is extracted directly and fed into the simulation.
-	 * There is also an option to write the intitial population to XML, but this is not
-	 * used here.
-	 * 
-	 */    
+	/*
+	 * model parameter is an object containing the parameters of the model and
+	 * the initial population. The parameters are written to XML files that are
+	 * input-parameters for the model, and the population is extracted directly
+	 * and fed into the simulation. There is also an option to write the
+	 * intitial population to XML, but this is not used here.
+	 */
 	private ModelParameters p;
- /*
-	 * object with all information needed both before
-	 * and after the running of the simulation
+	/*
+	 * object with all information needed both before and after the running of
+	 * the simulation
 	 */
 
-
 	private ScenarioInfo scen;
-	
+
 	private DynamoOutputFactory output;
 
-
-	public DynamoSimulationRunnable(Shell parentShell, String simName, String baseDir) {
+	public DynamoSimulationRunnable(Shell parentShell, String simName,
+			String baseDir) {
 		super();
 		configureSimulation(simName, baseDir);
 	}
@@ -116,9 +113,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 */
 	private void configureSimulation(String simName, String baseDir) {
 
-		/* make an instance of the basedirectory object that is a singleton containing the basedirectory */
-		//BaseDirectory B = BaseDirectory
-		//.getInstance(baseDir);
+		/*
+		 * make an instance of the basedirectory object that is a singleton
+		 * containing the basedirectory
+		 */
+		// BaseDirectory B = BaseDirectory
+		// .getInstance(baseDir);
 		this.baseDir = baseDir;
 		this.simName = simName;
 		/*
@@ -126,43 +126,41 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * These have fixed names, and are in the directory with the
 		 * simulationname
 		 */
-	
-		
+
+		log.debug("this.baseDir" + this.baseDir);
+		log.debug("this.simName" + this.simName);
 		/*
 		 * preCharConfig is a file that contains the configuration of the
 		 * characteristics of each simulated individual
 		 */
-		String directoryName = this.baseDir + "Simulations" + File.separator
-		+ this.simName;
-		preCharConfig = directoryName + File.separator
-				+ "modelconfiguration" + File.separator + "charconfig.XML";
+		String directoryName = this.baseDir + File.separator + "Simulations" 
+			+ File.separator + this.simName;
+		log.debug("directoryName" + directoryName);
+		preCharConfig = directoryName + File.separator + "modelconfiguration"
+				+ File.separator + "charconfig.XML";
 		/*
 		 * simFileName is a file that contains the configuration of the
 		 * simulation
 		 */
 
-		 // to
-																		// add
+		// to
+		// add
 		p = new ModelParameters(this.baseDir);
 		try {
-			scen = p.estimateModelParameters(this.simName, this.parentShell);
-		} catch (ConfigurationException e3) {
-			displayErrorMessage(e3);
+			scen = p.estimateModelParameters(this.simName, this.parentShell);					
+		} catch (DynamoConfigurationException e3) {
+			displayErrorMessage(e3, null);
 			log.fatal(e3.getMessage());
 			e3.printStackTrace();
-
-		
-			
-
-		}catch (DynamoInconsistentDataException e) {
+		} catch (DynamoInconsistentDataException e) {
 			// TODO Auto-generated catch blockdisplayErrorMessage(e3);
 			log.fatal(e.getMessage());
 			displayInconsistentDataMessage(e);
-			
+
 			e.printStackTrace();
 		}
-																		// " .XML";
-		 run();
+		// " .XML";
+		run();
 	}
 
 	/**
@@ -171,18 +169,20 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 * @param simFileName
 	 */
 	public void run() {
-		HierarchicalConfiguration simulationConfiguration;
+		XMLConfiguration simulationConfiguration;
+		String simulationFilePath = null;
 		try {
-		
-			String directoryName = baseDir + "Simulations" + File.separator
-			+ simName;
+
+			String directoryName = baseDir + File.separator 
+					+ "Simulations" + File.separator
+					+ simName;
 			String simFileName = directoryName + File.separator
-			+ "modelconfiguration" + File.separator + "simulation";
+					+ "modelconfiguration" + File.separator + "simulation";
 			/*
-			 * simulation is an object that contains the population
-			 * that is simulated and carries out the simulation
+			 * simulation is an object that contains the population that is
+			 * simulated and carries out the simulation
 			 */
-			simulation=new Simulation();
+			simulation = new Simulation();
 			log.info("ModelParameters estimated and written");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
@@ -206,17 +206,22 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 							&& (!scen.getTransitionType()[scennum]))
 						nPopulations--;
 				}
-			
+
 			/* get the initial population from the modelparameters object */
 			Population[] pop = p.getInitialPopulation();
+			
+			// Assemble the simulation file name
+			simulationFilePath = simFileName + ".xml";			
+			log.debug("simulationFilePath" + simulationFilePath);
+			
 			/* run the simulation for each population */
 			for (int scennum = 0; scennum < nPopulations; scennum++) {
 				File simulationConfigurationFile;
-				if (scennum == 0)
-					simulationConfigurationFile = new File(simFileName + ".xml");
-				else
-					simulationConfigurationFile = new File(simFileName
-							+ "_scen_" + scennum + ".xml");
+				if (scennum != 0)
+					simulationFilePath = simFileName
+							+ "_scen_" + scennum + ".xml";
+				
+				simulationConfigurationFile = new File(simulationFilePath);
 				log.info("simulationFile made for scenario " + scennum);
 
 				assertTrue(CharacteristicsConfigurationMapSingleton
@@ -229,46 +234,94 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					log.info("simulationconfuration made for scenario "
 							+ scennum);
 
-					/* read the configuration file  */
-					/* the false means that the initial population should not be read from xml file */
+					/**
+						TODO: VALIDATION IS FOR FUTURE USE 
+						NICE TO HAVE FEATURE
+						KEEP IT IN THE CODE
+											
+					// Validate the xml by xsd schema
+					// WORKAROUND: clear() is put after the constructor (also
+					// calls load()).
+					// The config cannot be loaded twice,
+					// because the contents will be doubled.
+					simulationConfiguration.clear();
+
+					// Validate the xml by xsd schema
+					simulationConfiguration.setValidating(true);
+					simulationConfiguration.load();
+					*/
 					
+					/* read the configuration file */
+					/*
+					 * the false means that the initial population should not be
+					 * read from xml file
+					 */
+
 					simulation = SimulationFromXMLFactory
 							.manufacture_DOMPopulationTree(
 									simulationConfiguration, false);
-					/* set the initial population to the population (taken earlier from the Modelparameter
-					 * object
+					/*
+					 * set the initial population to the population (taken
+					 * earlier from the Modelparameter object
 					 */
 					simulation.setPopulation(pop[scennum]);
-					
+
 					log.info("simulationFile loaded for scenario " + scennum);
-					
+
 					if (pop[scennum] == null)
 						throw new CDMConfigurationException(
 								"no population found for scenario " + scennum);
 					log.info("starting run for population " + scennum);
-					/* run the simulation for this population
-					 * This is done by the new Simulation Object DynamoSimulation that is a shell
-					 * around the "old" CDM Simulation Object (it contains the CDM-object as a field)
-					 * as for instance a progress bar could be added that way
-					 * 
+					/*
+					 * run the simulation for this population This is done by
+					 * the new Simulation Object DynamoSimulation that is a
+					 * shell around the "old" CDM Simulation Object (it contains
+					 * the CDM-object as a field) as for instance a progress bar
+					 * could be added that way
 					 */
-					
+
 					runScenario(scennum);
 					log.info("Run  complete for population " + scennum);
 
 				}
 			}
 			/* display the output */
-			
-			Output_UI ui = new Output_UI(parentShell, scen, simName, pop);
-		} catch (DynamoConfigurationException e) {
-			displayErrorMessage(e);
-			log.fatal(e.getMessage());
+
+			Output_UI ui = new Output_UI(parentShell, scen, simName, pop, this.baseDir);
+		} catch (DynamoConfigurationException e) {			
+			this.displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
-		}  catch (Exception e) {displayErrorMessage(e);
-			// TODO Auto-generated catch block
+		} catch (ConfigurationException e) {			
+			displayErrorMessage(e, simulationFilePath);
+		} catch (Exception e) {			
+			displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
 		}
+	}
+
+	private String handleErrorMessage(String cdmErrorMessage,
+			Exception e, String fileName) {
+		e.printStackTrace();
+		// Show the error message and the nested cause of the error
+		String errorMessage = "";		
+		if (e.getCause() != null) {
+			if (!e.getCause().getMessage().contains(":")) {
+				errorMessage = "An error occured: " + e.getMessage() + "\n"
+						+ "Cause: " + e.getCause().getMessage();
+			} else {
+				errorMessage = "An error occured: " + e.getMessage() + "\n"
+						+ "Cause: ";				
+				String[] splits = e.getCause().getMessage().split(":"); 				
+				for (int i = 1; i < splits.length; i++) {
+					errorMessage += splits[i];
+				}
+			}			
+			errorMessage += " related to file: " + fileName;
+		} else {
+			errorMessage = cdmErrorMessage;
+		}
+		this.log.error(errorMessage);
+		return errorMessage;
 	}
 
 	public void runScenario(int scennum) throws Exception {
@@ -278,7 +331,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		int size = population.size();
 
-		
 		Shell shell = new Shell(parentShell);
 		shell.setText("Simulation of scenario " + scennum + " running ....");
 		shell.setLayout(new FillLayout());
@@ -347,21 +399,25 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		}
 
 		shell.open();
-		
+
 	}
 
-	private void displayErrorMessage(Exception e) {
+	private void displayErrorMessage(Exception e, String simulationFilePath) {
 
 		Shell shell = new Shell(parentShell);
+		String cause = "";
+		if (e.getCause() != null) {
+			cause += this.handleErrorMessage("", e, simulationFilePath);
+		}
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		messageBox.setMessage("Errors during configuration of the model"
-				+ " Message given: " + e.getMessage());
+				+ " Message given: " + e.getMessage() + cause);
 		e.printStackTrace();
 		if (messageBox.open() == SWT.OK) {
 			shell.dispose();
 		}
 
 		shell.open();
-		}
+	}
 
 }

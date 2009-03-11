@@ -61,15 +61,15 @@ public class BaseStorageTreeScreen {
 		} catch (StorageTreeException ste) {
 			this.log.error("Caught " + ste.getClass().getName() + " with message "
 					+ ste.getMessage());
-			handleErrorMessage(ste);
+			showErrorMessage(ste);
 			return null;
 		} catch (ConfigurationException ce) {
-			handleErrorMessage(ce);
+			showErrorMessage(ce);
 			return null;
 		}
 	}
 
-	private void handleErrorMessage(Exception e) {
+	private void showErrorMessage(Exception e) {
 		this.log.fatal(e);
 		e.printStackTrace();
 		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);

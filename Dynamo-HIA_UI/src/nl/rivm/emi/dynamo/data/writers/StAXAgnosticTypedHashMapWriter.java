@@ -59,9 +59,13 @@ public class StAXAgnosticTypedHashMapWriter {
 		log.debug("Entering streamDocument.");
 		XMLEvent event = eventFactory.createStartDocument();
 		writer.add(event);
+		log.debug("event writer" + writer);
+		log.debug("event factory" + eventFactory);
+		log.debug("event fileControl" + fileControl);
 		event = eventFactory.createStartElement("", "", fileControl
 				.getRootElementName());
 		writer.add(event);
+
 		LinkedHashMap<String, Number> leafValueMap = new LinkedHashMap<String, Number>();
 		flattenLeafData(fileControl, hierarchicalConfiguration, leafValueMap,
 				writer, eventFactory);

@@ -4,12 +4,8 @@ import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 
-import nl.rivm.emi.dynamo.data.interfaces.IHasNewborns;
 import nl.rivm.emi.dynamo.data.interfaces.ISimPopSize;
-import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
-import nl.rivm.emi.dynamo.data.types.atomic.HasNewbornsType;
 import nl.rivm.emi.dynamo.data.types.atomic.SimPopSizeType;
-import nl.rivm.emi.dynamo.data.types.atomic.StartingYearType;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;

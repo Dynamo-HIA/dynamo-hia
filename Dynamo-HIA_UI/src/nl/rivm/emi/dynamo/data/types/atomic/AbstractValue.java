@@ -178,7 +178,6 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		return viewUpdateValueStrategy;
 	}
 
-	@Override
 	public Object getDefault() {
 		return 0F;
 	}
