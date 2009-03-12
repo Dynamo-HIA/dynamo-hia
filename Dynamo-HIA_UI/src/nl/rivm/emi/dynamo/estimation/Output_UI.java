@@ -885,32 +885,28 @@ public class Output_UI {
 		 * 
 		 * TODO
 		 */
-		if ((mortPlotType == 2) && !mortAxisIsAge && !mortNumbers)
-			try {
+		if ((mortPlotType == 2) && !mortAxisIsAge && !mortNumbers) {
+			chart = output.makeYearMortalityPlotByScenario(currentScen,
+					differencePlot, mortNumbers);
+
+			if ((mortPlotType == 1) && !mortAxisIsAge && !mortNumbers)
+				chart = output.makeYearMortalityPlotByScenario(currentScen,
+						differencePlot, mortNumbers);
+			if ((mortPlotType == 0) && !mortAxisIsAge && !mortNumbers)
+				chart = output.makeYearMortalityPlotByScenario(currentScen,
+						differencePlot, mortNumbers);
+			if ((mortPlotType == 2) && mortAxisIsAge && !mortNumbers)
+				chart = output.makeYearMortalityPlotByScenario(currentScen,
+						differencePlot, mortNumbers);
+			if ((mortPlotType == 1) && mortAxisIsAge && !mortNumbers)
+				chart = output.makeYearMortalityPlotByScenario(currentScen,
+						differencePlot, mortNumbers);
+			if ((mortPlotType == 0) && mortAxisIsAge && !mortNumbers)
 				chart = output.makeYearMortalityPlotByScenario(currentScen,
 						differencePlot, mortNumbers);
 
-				if ((mortPlotType == 1) && !mortAxisIsAge && !mortNumbers)
-					chart = output.makeYearMortalityPlotByScenario(currentScen,
-							differencePlot, mortNumbers);
-				if ((mortPlotType == 0) && !mortAxisIsAge && !mortNumbers)
-					chart = output.makeYearMortalityPlotByScenario(currentScen,
-							differencePlot, mortNumbers);
-				if ((mortPlotType == 2) && mortAxisIsAge && !mortNumbers)
-					chart = output.makeYearMortalityPlotByScenario(currentScen,
-							differencePlot, mortNumbers);
-				if ((mortPlotType == 1) && mortAxisIsAge && !mortNumbers)
-					chart = output.makeYearMortalityPlotByScenario(currentScen,
-							differencePlot, mortNumbers);
-				if ((mortPlotType == 0) && mortAxisIsAge && !mortNumbers)
-					chart = output.makeYearMortalityPlotByScenario(currentScen,
-							differencePlot, mortNumbers);
-
-				return chart;
-			} catch (DynamoOutputException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			return chart;
+		}
 		return chart;
 
 	}
