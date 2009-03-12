@@ -56,7 +56,7 @@ public class Number extends NumberRangeTypeBase<Integer> implements PayloadType<
 	}
 
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		// TODO Auto-generated method stub
 		return null;
 	}

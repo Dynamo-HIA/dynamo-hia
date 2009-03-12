@@ -17,12 +17,11 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class ReferenceValue extends XMLTagEntity implements IXMLHandlingLayer {
+public class ReferenceValue extends XMLTagEntity {
 
 	public ReferenceValue() {
 		super("referencevalue");

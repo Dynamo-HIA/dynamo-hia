@@ -16,15 +16,12 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class PopFileNameType extends FileChoiceTypeBase implements
-		IXMLHandlingLayer<String> {
+abstract public class PopFileNameType extends FileChoiceTypeBase {
 
 	
 	public PopFileNameType(String baseDirectory) {
@@ -41,7 +38,7 @@ abstract public class PopFileNameType extends FileChoiceTypeBase implements
 	abstract public WritableValue getObservableValue();
 
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		return viewString;
 	}
 

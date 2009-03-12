@@ -1,20 +1,33 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-/*
- * Nonnegative Integer without fixed upper limit.
+/**
+ * Nonnegative Integer without fixed upper limit. This to enable adjustment to
+ * the range of categories the transitions can cover.
  */
-public class Duration extends FlexibleUpperLimitNumberRangeTypeBase<Integer> implements ContainerType{
-	static final protected String XMLElementName = "duration";
+abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTypeBase<Integer>{
 
-	public Duration(){
-		super(XMLElementName , new Integer(0), new Integer(Integer.MAX_VALUE));
+	static final protected Integer hardUpperLimit = new Integer(9);
+
+
+	/**
+	 * Constructor used for overriding.
+	 * 
+	 * @param myElementName
+	 * @param lowerLimit
+	 * @param upperLimit
+	 * @throws ConfigurationException
+	 */
+	public AbstractClassIndex(String myElementName, Integer lowerLimit, Integer upperLimit){
+		super(myElementName, lowerLimit, upperLimit);
 	}
-		
+
+	public Integer getDefaultValue() {
+		return new Integer(0);
+	}
+	
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
@@ -42,10 +55,6 @@ public class Duration extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 		return Integer.toString(inputValue.intValue());
 	}
 
-	static public String getElementName() {
-		return XMLElementName;
-	}
-
 	public boolean isMyElement(String elementName) {
 		boolean result = true;
 		if (!XMLElementName.equalsIgnoreCase(elementName)) {
@@ -54,22 +63,26 @@ public class Duration extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 		return result;
 	}
 
-	public Integer setMAX_VALUE(Integer newUpperLimit){
-		Integer oldUpperLimit = MAX_VALUE;
-		MAX_VALUE = newUpperLimit;
+	public Integer setMAX_VALUE(Integer newUpperLimit) {
+		Integer oldUpperLimit = null;
+		if ((hardUpperLimit.compareTo(newUpperLimit) >= 0)
+				&& (MIN_VALUE.compareTo(newUpperLimit) < 0)) {
+			oldUpperLimit = MAX_VALUE;
+			MAX_VALUE = newUpperLimit;
+		}
 		return oldUpperLimit;
 	}
 
 	@Override
 	public Object convert4Model(String viewString) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer modelValue = Integer.decode(viewString);
+		return modelValue;
 	}
 
 	@Override
 	public String convert4View(Object modelValue) {
-		// TODO Auto-generated method stub
-		return null;
+		String viewValue = ((Integer) modelValue).toString();
+		return viewValue;
 	}
 
 	@Override
@@ -82,10 +95,5 @@ public class Duration extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public Integer getDefaultValue() {
-		return 0;
 	}
 }

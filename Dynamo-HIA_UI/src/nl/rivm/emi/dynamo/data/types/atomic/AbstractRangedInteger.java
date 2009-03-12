@@ -8,36 +8,25 @@ import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentViewConverter;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 
-public class AbstractValue extends NumberRangeTypeBase<Float> implements PayloadType<Float>{
+abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer> implements PayloadType<Integer>{
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
 	static final public Pattern matchPattern = Pattern
-			.compile("^\\d*\\.?\\d*$");
+			.compile("^\\d*$");
 
-	public AbstractValue(String XMLElementName){
-		this(XMLElementName, 0F, Float.MAX_VALUE);
+	public AbstractRangedInteger(String XMLElementName, Integer lowerLimit, Integer upperLimit){
+		super(XMLElementName, lowerLimit, upperLimit);
 	}
 
-	/**
-	 * Constructor for use by subclasses.
-	 * @param elementName
-	 * @param minimum
-	 * @param maximum
-	 * @throws ConfigurationException 
-	 */
-	public AbstractValue(String elementName, Float minimum, Float maximum){
-		super(elementName, minimum, maximum);
-		modelUpdateValueStrategy = assembleModelStrategy();
-		viewUpdateValueStrategy = assembleViewStrategy();
-	}
-	
-	public boolean inRange(Float testValue) {
+	public boolean inRange(Integer testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
 				&& !(MAX_VALUE.compareTo(testValue) < 0)) {
@@ -45,18 +34,27 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		}
 		return result;
 	}
-	public Float fromString(String inputString) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public String toString(Float inputValue) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public Integer fromString(String inputString) {
+		Integer result = null;
+		try {
+			result = Integer.decode(inputString);
+			if (!inRange(result)) {
+				result = null;
+			}
+			return result;
+		} catch (NumberFormatException e) {
+			result = null;
+			return result;
+		}
 	}
 
-	public Float getDefaultValue() {
-		return 0F;
+	public String toString(Integer inputValue) {
+		return Integer.toString(inputValue.intValue());
+	}
+
+	public Integer getDefaultValue() {
+		return 0;
 	}
 
 	 public String getElementName() {
@@ -96,7 +94,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	}
 
 	public class ValueModelConverter implements IConverter {
-		// Log log = LogFactory.getLog(this.getClass());
+		 Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
 
 		public ValueModelConverter(String debugString) {
@@ -104,20 +102,22 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		}
 
 		public Object convert(Object arg0) {
-			// log.debug(debugString + " convert(Object) entered with:" +
-			// arg0.toString());
+			log.debug(debugString + " convert(Object) entered with:" +
+			 arg0.toString());
 			try {
-				Float floatCandidate = 4711F;
-				if (arg0 instanceof String) {
-					if ("".equals(arg0)) {
-						floatCandidate = null;
-					} else {
-						floatCandidate = Float.parseFloat((String) arg0);
+				Integer result = null;
+				try {
+					result = Integer.decode(arg0.toString());
+					if (!inRange(result)) {
+						result = null;
 					}
+					return result;
+				} catch (NumberFormatException e) {
+					result = null;
+					return result;
 				}
-				return floatCandidate;
 			} catch (Exception e) {
-				return 4712F;
+				return 4712;
 			}
 		}
 
@@ -143,25 +143,25 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		public Object convert(Object arg0) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			String floatString = "NoFloat";
+			String integerString = "NoInteger";
 			try {
 				if (arg0 == null) {
-					floatString = "";
+					integerString = "";
 				} else {
-					if (arg0 instanceof Float) {
-						floatString = ((Float) arg0).toString();
+					if (arg0 instanceof Integer) {
+						integerString = ((Integer) arg0).toString();
 					}
 				}
-				return floatString;
+				return integerString;
 			} catch (Exception e) {
-				floatString = e.getClass().getName();
-				return floatString;
+				integerString = e.getClass().getName();
+				return integerString;
 			}
 		}
 
 		public Object getFromType() {
 			// log.debug(debugString + " getFromType() entered.");
-			return (Object) Float.class;
+			return (Object) Integer.class;
 		}
 
 		public Object getToType() {

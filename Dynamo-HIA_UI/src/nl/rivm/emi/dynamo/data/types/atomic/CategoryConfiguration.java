@@ -19,12 +19,11 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class CategoryConfiguration extends XMLTagEntity implements IXMLHandlingLayer {
+public class CategoryConfiguration extends XMLTagEntity  {
 	static final protected String XMLElementName = "class";
 Object localModelObject; // TODO Bogus bugfix.
 ConfigurationObjectBase modelObject; // TODO Bogus bugfix.

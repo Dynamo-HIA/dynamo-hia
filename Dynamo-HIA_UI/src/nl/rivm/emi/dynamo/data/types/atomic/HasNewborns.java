@@ -11,19 +11,11 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  * </classes>
  * XML fragments.
  */
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public abstract class HasNewborns extends AtomicTypeBase<Boolean> {
+public class HasNewborns extends AtomicTypeBase<Boolean> {
 
 	public HasNewborns() {
 		super("hasnewborns", Boolean.FALSE);
@@ -36,10 +28,9 @@ public abstract class HasNewborns extends AtomicTypeBase<Boolean> {
  *
  * @return
  */
-	abstract public WritableValue getObservableValue();
 	
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		Boolean result = Boolean.FALSE;
 		if ("1".equals(viewString)) {
 			result = Boolean.TRUE;
@@ -103,19 +94,8 @@ public abstract class HasNewborns extends AtomicTypeBase<Boolean> {
 		return result;
 	}
 
-	abstract public void setDefault();
-
-	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)
-			throws XMLStreamException {
-		XMLEvent event = eventFactory.createStartElement("", "", super
-				.getXMLElementName());
-		writer.add(event);
-		event = eventFactory.createCharacters(streamValue());
-		writer.add(event);
-		event = eventFactory
-				.createEndElement("", "", super.getXMLElementName());
-		writer.add(event);
+	@Override
+	public Boolean getDefaultValue() {
+		return Boolean.FALSE;
 	}
-
-	abstract protected String streamValue();
 }

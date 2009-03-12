@@ -48,7 +48,7 @@ public class Probability extends NumberRangeTypeBase<Float> implements PayloadTy
 	}
 
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		// TODO Auto-generated method stub
 		return null;
 	}

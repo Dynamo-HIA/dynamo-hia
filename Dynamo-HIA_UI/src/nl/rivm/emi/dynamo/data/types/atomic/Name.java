@@ -9,7 +9,7 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 /*
  * Nonnegative Integer without fixed upper limit.
  */
-public class Name extends AtomicTypeBase<String> implements PayloadType{
+public class Name extends AbstractString implements PayloadType{
 	static final protected String XMLElementName = "name";
 
 	/**
@@ -21,10 +21,10 @@ public class Name extends AtomicTypeBase<String> implements PayloadType{
 
 
 	public Name(){
-		super(XMLElementName, "");
+		super(XMLElementName);
 	}
 
-	static public String getElementName() {
+	public String getElementName() {
 		return XMLElementName;
 	}
 
@@ -34,29 +34,5 @@ public class Name extends AtomicTypeBase<String> implements PayloadType{
 			result = false;
 		}
 		return result;
-	}
-
-	@Override
-	Object convert4Model(String viewString) {
-		return viewString;
-	}
-
-	@Override
-	public String convert4View(Object modelValue) {
-		return (String)modelValue;
-	}
-
-	@Override
-	public UpdateValueStrategy getModelUpdateValueStrategy() {
-		return null;
-	}
-
-	@Override
-	public UpdateValueStrategy getViewUpdateValueStrategy() {
-		return null;
-	}
-
-	public Object getDefaultValue() {
-		return "";
 	}
 }

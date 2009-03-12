@@ -1,42 +1,14 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-/**
- * Handler for 
- * <classes>
- * 	<class>
- * 		<index>1</index>
- * 		<name>jan</name>
- * 	</class>
- * 	.......
- * </classes>
- * XML fragments.
- */
 
-public class DurationClass extends Index  {
+public class DurationClass extends AbstractClassIndex  {
+	static final protected String XMLElementName = "durationclass";
 
 	public DurationClass() {
-		super("durationclass", new Integer(1), hardUpperLimit);
+		super(XMLElementName, new Integer(1), hardUpperLimit);
 	}
 
-//	public ConfigurationObjectBase handle(ConfigurationObjectBase modelObject,
-//			ConfigurationNode node){
-//		if (!(modelObject instanceof IDurationClass)) {
-//			throw new ConfigurationException("Incorrect type of modelObject: "
-//					+ modelObject.getClass().getName());
-//		}
-//		Integer index = null;
-//		if (getXMLElementName().equals(node.getName())) {
-//			index = Integer.decode((String) node.getValue());
-//		} else {
-//			throw new ConfigurationException("Incorrect tag \""
-//					+ node.getName() + "\" found, \"" + XMLElementName
-//					+ "\" expected.");
-//		}
-//		if (index != null) {
-//			((IDurationClass) modelObject).putDurationClass(index);
-//		} else {
-//			throw new ConfigurationException("Incorrect \"" + XMLElementName + "\" tag.");
-//		}
-//		return modelObject;
-//	}
+	public Integer getDefaultValue() {
+			return new Integer(1);
+	}
 }

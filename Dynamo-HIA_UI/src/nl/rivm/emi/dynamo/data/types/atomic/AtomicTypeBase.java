@@ -33,9 +33,11 @@ public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 		return aValue;
 	}
 
+	abstract public T getDefaultValue();
+
 	abstract public String convert4View(Object modelValue);
 	
-	abstract Object convert4Model(String viewString);
+	abstract public Object convert4Model(String viewString);
 	
 	abstract public UpdateValueStrategy getModelUpdateValueStrategy();
 

@@ -2,16 +2,17 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 
-public class Age extends NumberRangeTypeBase<Integer> implements ContainerType{
+public class Age extends NumberRangeTypeBase<Integer> implements ContainerType {
 	static final protected String XMLElementName = "age";
+	static final public Integer MINAGE = 0;
+	static final public Integer MAXAGE = 95;
 
-	public Age(){
-		super(XMLElementName, new Integer(0), new Integer(95));
+	public Age() {
+		super(XMLElementName, MINAGE, MAXAGE);
 	}
-		
+
 	public boolean inRange(Integer testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
@@ -53,7 +54,7 @@ public class Age extends NumberRangeTypeBase<Integer> implements ContainerType{
 	}
 
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -75,5 +76,10 @@ public class Age extends NumberRangeTypeBase<Integer> implements ContainerType{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public Integer getDefaultValue() {
+		return 0;
+	}
+
 }
