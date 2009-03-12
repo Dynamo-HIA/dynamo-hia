@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -98,12 +99,12 @@ public class NewRelRisksForDeathAction extends ActionBase {
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(configurationRootElementName)) {
-							MessageBox messageBox = new MessageBox(shell,
-									SWT.ERROR_NOT_IMPLEMENTED);
-							messageBox.setMessage("\"" + configurationRootElementName
-									+ "\" not yet implemented.");
-							messageBox.open();
-						} else {
+							theModal = new RelRiskForDeathCompoundModal(
+									shell, file.getAbsolutePath(),
+									RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
+											.getNodeLabel(), RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
+											.getNodeLabel(), node);
+									} else {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_UNSUPPORTED_FORMAT);
 							messageBox.setMessage("\"" + configurationRootElementName
@@ -112,6 +113,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 						}
 					}
 				}
+				if(theModal != null){
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
@@ -120,6 +122,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 							(ParentNode) node, file));
 				}
 				theViewer.refresh();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
