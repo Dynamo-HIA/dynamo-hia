@@ -16,12 +16,10 @@ import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import nl.rivm.emi.dynamo.data.types.interfaces.IPureXMLHandlingLayer;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 
-public class BaseXMLHandler<T> implements IPureXMLHandlingLayer<T> {
+public class BaseXMLHandler<T> {
 
 	protected final XMLValueConverter<T> myConverter;
 	protected final String xmlElementName;
