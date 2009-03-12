@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
@@ -64,7 +65,7 @@ public class XMLFileAction extends ActionBase {
 			filePath = node.getPhysicalStorage().getAbsolutePath();
 		}
 		File savedFile = new File(filePath);
-		
+
 		// Process the data and set the location of the file to be saved
 		processThroughModal(savedFile, savedFile);
 	}
@@ -73,77 +74,100 @@ public class XMLFileAction extends ActionBase {
 		try {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
-			
+
 			log.debug("this.rootElementName" + this.rootElementName);
-			
+
 			if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
 					rootElementName)) {
-				theModal = new PopulationSizeModal(shell, dataFile.getAbsolutePath(), savedFile
-						.getAbsolutePath(), rootElementName, node);
+				theModal = new PopulationSizeModal(shell, dataFile
+						.getAbsolutePath(), savedFile.getAbsolutePath(),
+						rootElementName, node);
 			} else {
 				if (RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel()
 						.equals(rootElementName)) {
-					theModal = new OverallMortalityModal(shell, dataFile.getAbsolutePath(), savedFile
-							.getAbsolutePath(), rootElementName, node);
+					theModal = new OverallMortalityModal(shell, dataFile
+							.getAbsolutePath(), savedFile.getAbsolutePath(),
+							rootElementName, node);
 				} else {
-					if (RootElementNamesEnum.NEWBORNS.getNodeLabel()
-							.equals(rootElementName)) {
-						theModal = new NewbornsModal(shell, dataFile.getAbsolutePath(), savedFile
-								.getAbsolutePath(), rootElementName, node);
-					} else {					
-						if (RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel()
-								.equals(rootElementName)) {
-							theModal = new OverallDALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
-									.getAbsolutePath(), rootElementName, node);
+					if (RootElementNamesEnum.NEWBORNS.getNodeLabel().equals(
+							rootElementName)) {
+						theModal = new NewbornsModal(shell, dataFile
+								.getAbsolutePath(),
+								savedFile.getAbsolutePath(), rootElementName,
+								node);
+					} else {
+						if (RootElementNamesEnum.OVERALLDALYWEIGHTS
+								.getNodeLabel().equals(rootElementName)) {
+							theModal = new OverallDALYWeightsModal(shell,
+									dataFile.getAbsolutePath(), savedFile
+											.getAbsolutePath(),
+									rootElementName, node);
 						} else {
 							if (RootElementNamesEnum.DISEASEINCIDENCES
 									.getNodeLabel().equals(rootElementName)) {
-								theModal = new DiseaseIncidencesModal(shell, dataFile.getAbsolutePath(), savedFile
-										.getAbsolutePath(), rootElementName, node);
+								theModal = new DiseaseIncidencesModal(shell,
+										dataFile.getAbsolutePath(), savedFile
+												.getAbsolutePath(),
+										rootElementName, node);
 							} else {
 								if (RootElementNamesEnum.DISEASEPREVALENCES
 										.getNodeLabel().equals(rootElementName)) {
-									theModal = new DiseasePrevalencesModal(shell,
-											dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
+									theModal = new DiseasePrevalencesModal(
+											shell, dataFile.getAbsolutePath(),
+											savedFile.getAbsolutePath(),
 											rootElementName, node);
 								} else {
 									if (RootElementNamesEnum.DALYWEIGHTS
 											.getNodeLabel().equalsIgnoreCase(
 													rootElementName)) {
-										theModal = new DALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
-												.getAbsolutePath(),
+										theModal = new DALYWeightsModal(shell,
+												dataFile.getAbsolutePath(),
+												savedFile.getAbsolutePath(),
 												rootElementName, node);
 									} else {
 										if (RootElementNamesEnum.RELATIVERISKSFROMDISEASES
-												.getNodeLabel().equalsIgnoreCase(
+												.getNodeLabel()
+												.equalsIgnoreCase(
 														rootElementName)) {
 											theModal = new RelRiskFromOtherDiseaseModal(
-													shell, dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
+													shell,
+													dataFile.getAbsolutePath(),
+													savedFile.getAbsolutePath(),
 													rootElementName, node, null);
 										} else {
 											if (RootElementNamesEnum.SIMULATION
 													.getNodeLabel().equals(
 															rootElementName)) {
 												theModal = new SimulationModal(
-														shell, dataFile.getAbsolutePath(), savedFile
+														shell,
+														dataFile
+																.getAbsolutePath(),
+														savedFile
 																.getAbsolutePath(),
 														rootElementName, node);
 											} else {
 												// RiskFactorConfigurations.
 												if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-														.getNodeLabel().equals(
-																rootElementName)) {
+														.getNodeLabel()
+														.equals(rootElementName)) {
 													theModal = new RiskFactorCategoricalModal(
 															shell,
-															dataFile.getAbsolutePath(), savedFile.getAbsolutePath(),
-															rootElementName, node);
+															dataFile
+																	.getAbsolutePath(),
+															savedFile
+																	.getAbsolutePath(),
+															rootElementName,
+															node);
 												} else {
 													if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 															.getNodeLabel()
-															.equals(rootElementName)) {
+															.equals(
+																	rootElementName)) {
 														theModal = new RiskFactorContinuousModal(
 																shell,
-																dataFile.getAbsolutePath(), savedFile
+																dataFile
+																		.getAbsolutePath(),
+																savedFile
 																		.getAbsolutePath(),
 																rootElementName,
 																node);
@@ -154,7 +178,9 @@ public class XMLFileAction extends ActionBase {
 																		rootElementName)) {
 															theModal = new RiskFactorCompoundModal(
 																	shell,
-																	dataFile.getAbsolutePath(), savedFile
+																	dataFile
+																			.getAbsolutePath(),
+																	savedFile
 																			.getAbsolutePath(),
 																	rootElementName,
 																	node);
@@ -165,10 +191,13 @@ public class XMLFileAction extends ActionBase {
 																			rootElementName)) {
 																theModal = new RelRiskFromRiskFactorCategoricalModal(
 																		shell,
-																		dataFile.getAbsolutePath(), savedFile
+																		dataFile
+																				.getAbsolutePath(),
+																		savedFile
 																				.getAbsolutePath(),
 																		rootElementName,
-																		node, null);
+																		node,
+																		null);
 															} else {
 																if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
 																		.getNodeLabel()
@@ -176,7 +205,9 @@ public class XMLFileAction extends ActionBase {
 																				rootElementName)) {
 																	theModal = new RelRiskFromRiskFactorContinuousModal(
 																			shell,
-																			dataFile.getAbsolutePath(), savedFile
+																			dataFile
+																					.getAbsolutePath(),
+																			savedFile
 																					.getAbsolutePath(),
 																			rootElementName,
 																			node,
@@ -188,7 +219,9 @@ public class XMLFileAction extends ActionBase {
 																					rootElementName)) {
 																		theModal = new RiskFactorCompoundModal(
 																				shell,
-																				dataFile.getAbsolutePath(), savedFile
+																				dataFile
+																						.getAbsolutePath(),
+																				savedFile
 																						.getAbsolutePath(),
 																				rootElementName,
 																				node);
@@ -199,7 +232,9 @@ public class XMLFileAction extends ActionBase {
 																						rootElementName)) {
 																			theModal = new RiskFactorCategoricalPrevalencesModal(
 																					shell,
-																					dataFile.getAbsolutePath(), savedFile
+																					dataFile
+																							.getAbsolutePath(),
+																					savedFile
 																							.getAbsolutePath(),
 																					rootElementName,
 																					node);
@@ -210,7 +245,9 @@ public class XMLFileAction extends ActionBase {
 																							rootElementName)) {
 																				theModal = new RelRiskForDeathCategoricalModal(
 																						shell,
-																						dataFile.getAbsolutePath(), savedFile
+																						dataFile
+																								.getAbsolutePath(),
+																						savedFile
 																								.getAbsolutePath(),
 																						rootElementName,
 																						node);
@@ -221,37 +258,57 @@ public class XMLFileAction extends ActionBase {
 																								rootElementName)) {
 																					theModal = new RelRiskForDeathContinuousModal(
 																							shell,
-																							dataFile.getAbsolutePath(), savedFile
+																							dataFile
+																									.getAbsolutePath(),
+																							savedFile
 																									.getAbsolutePath(),
 																							rootElementName,
 																							node);
 																				} else {
-																					if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+																					if (RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
 																							.getNodeLabel()
 																							.equals(
 																									rootElementName)) {
-																						theModal = new RelRiskForDisabilityCategoricalModal(
+																						theModal = new RelRiskForDeathCompoundModal(
 																								shell,
-																								dataFile.getAbsolutePath(), savedFile
+																								dataFile
+																										.getAbsolutePath(),
+																								savedFile
 																										.getAbsolutePath(),
 																								rootElementName,
 																								node);
 																					} else {
-																						if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+																						if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
 																								.getNodeLabel()
 																								.equals(
 																										rootElementName)) {
-																							theModal = new RelRiskForDisabilityContinuousModal(
+																							theModal = new RelRiskForDisabilityCategoricalModal(
 																									shell,
-																									dataFile.getAbsolutePath(), savedFile
+																									dataFile
+																											.getAbsolutePath(),
+																									savedFile
 																											.getAbsolutePath(),
 																									rootElementName,
 																									node);
 																						} else {
-																							throw new DynamoConfigurationException(
-																									"RootElementName "
-																											+ rootElementName
-																											+ " not implemented yet.");
+																							if (RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+																									.getNodeLabel()
+																									.equals(
+																											rootElementName)) {
+																								theModal = new RelRiskForDisabilityContinuousModal(
+																										shell,
+																										dataFile
+																												.getAbsolutePath(),
+																										savedFile
+																												.getAbsolutePath(),
+																										rootElementName,
+																										node);
+																							} else {
+																								throw new DynamoConfigurationException(
+																										"RootElementName "
+																												+ rootElementName
+																												+ " not implemented yet.");
+																							}
 																						}
 																					}
 																				}
