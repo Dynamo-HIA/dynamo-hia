@@ -38,7 +38,7 @@ public class RelativeRisksCompoundParameterGroup {
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 
-		Composite parameterDataPanel = new ValuePerClassParameterDataPanel(
+		Composite parameterDataPanel = new ThreeValuesPerClassParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
 				helpGroup);
 

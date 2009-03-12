@@ -29,10 +29,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ValuePerClassParameterDataPanel extends Composite /*
-																 * implements
-																 * Runnable
-																 */{
+public class ThreeValuesPerClassParameterDataPanel extends Composite /*
+																	 * implements
+																	 * Runnable
+																	 */{
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
 	TypedHashMap lotsOfData;
@@ -42,9 +42,9 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 	HelpGroup theHelpGroup;
 	AtomicTypeBase myType;
 
-	public ValuePerClassParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
-			HelpGroup helpGroup) {
+	public ThreeValuesPerClassParameterDataPanel(Composite parent,
+			Text topNeighbour, TypedHashMap lotsOfData,
+			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
@@ -52,17 +52,11 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get(
 				"value");
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 4;
+		layout.numColumns = 8;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
-		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
-		Label classLabel = new Label(this, SWT.NONE);
-		classLabel.setText("Class");
-		Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
-		Label maleLabel = new Label(this, SWT.NONE);
-		maleLabel.setText("Male");
+		// Top line.
+		createHeader();
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);
 			TypedHashMap femaleClassHMap = (TypedHashMap) oneAgeMap
@@ -76,29 +70,34 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 				}
 				Label classCellLabel = new Label(this, SWT.NONE);
 				classCellLabel.setText(new Integer(classCount).toString());
-				bindValue(femaleClassHMap, classCount);
-				bindValue(maleClassHMap, classCount);
+				ArrayList<AtomicTypeObjectTuple> femaleList = (ArrayList<AtomicTypeObjectTuple>) femaleClassHMap
+				.get(classCount);
+				bindGenderValues(femaleList);
+				ArrayList<AtomicTypeObjectTuple> maleList = (ArrayList<AtomicTypeObjectTuple>) maleClassHMap
+				.get(classCount);
+				bindGenderValues(maleList);
 			}
 		}
 	}
 
-	public void handlePlacementInContainer(
-			ValuePerClassParameterDataPanel panel, Label topNeighbour) {
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 10);
-		formData.right = new FormAttachment(100, -10);
-		formData.bottom = new FormAttachment(100, -10);
-		formData.left = new FormAttachment(0, 10);
-		panel.setLayoutData(formData);
-	}
-
-	private void bindValue(TypedHashMap typedHashMap, int index) {
-		Text text = new Text(this, SWT.NONE);
+	private void bindGenderValues(ArrayList<AtomicTypeObjectTuple> tupleList) {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
+		for (int tupleIndex = 0; tupleIndex < tupleList.size(); tupleIndex++) {
+			AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) tupleList
+					.get(tupleIndex);
+			bindTuple(gridData, tuple);
+		}
+	}
+
+	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple) {
+		WritableValue modelObservableValue = (WritableValue) tuple
+				.getValue();
+		AtomicTypeBase modelType = (AtomicTypeBase) tuple.getType();
+		Text text = new Text(this, SWT.NONE);
 		text.setLayoutData(gridData);
-		String convertedText = ((Value) myType).convert4View(typedHashMap.get(
-				index).toString());
+		String convertedText = modelType.convert4View(modelObservableValue
+				.getValue());
 		text.setText(convertedText);
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -111,27 +110,42 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 			}
 
 		});
-		// Too early, see below. text.addVerifyListener(new
-		// StandardValueVerifyListener());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
-		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
-		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(index)).getValue();
-		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				((Value) myType).getModelUpdateValueStrategy(),
-				((Value) myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		IObservableValue textObservableValue = SWTObservables.observeText(
+				text, SWT.Modify);
+		dataBindingContext.bindValue(textObservableValue,
+				modelObservableValue, modelType
+						.getModelUpdateValueStrategy(), modelType
+						.getViewUpdateValueStrategy());
+		// text.addVerifyListener(new ValueVerifyListener());
 	}
 
-	private void bindTestValue(TypedHashMap sexMap, int index) {
-		Text text = new Text(this, SWT.NONE);
-		text.setText(sexMap.get(index).toString());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
-		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				ModelUpdateValueStrategies.getStrategy(modelObservableValue
-						.getValueType()), ViewUpdateValueStrategies
-						.getStrategy(modelObservableValue.getValueType()));
+	private void createHeader() {
+		Label spaceLabel_1_1 = new Label(this, SWT.NONE);
+		Label spaceLabel_1_2 = new Label(this, SWT.NONE);
+		Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
+		Label spaceLabel_1_4 = new Label(this, SWT.NONE);
+		Label spaceLabel_1_5 = new Label(this, SWT.NONE);
+		Label maleLabel = new Label(this, SWT.NONE);
+		maleLabel.setText("Male");
+		Label spaceLabel_1_7 = new Label(this, SWT.NONE);
+		Label spaceLabel_1_8 = new Label(this, SWT.NONE);
+		// Just above the values.
+		Label ageLabel = new Label(this, SWT.NONE);
+		ageLabel.setText("Age");
+		Label classLabel = new Label(this, SWT.NONE);
+		classLabel.setText("Class");
+		Label femaleBeginLabel = new Label(this, SWT.NONE);
+		femaleBeginLabel.setText("Begin");
+		Label femaleAlphaLabel = new Label(this, SWT.NONE);
+		femaleAlphaLabel.setText("Alpha");
+		Label femaleEndLabel = new Label(this, SWT.NONE);
+		femaleEndLabel.setText("End");
+		Label maleBeginLabel = new Label(this, SWT.NONE);
+		maleBeginLabel.setText("Begin");
+		Label maleAlphaLabel = new Label(this, SWT.NONE);
+		maleAlphaLabel.setText("Alpha");
+		Label maleEndLabel = new Label(this, SWT.NONE);
+		maleEndLabel.setText("End");
 	}
 }
