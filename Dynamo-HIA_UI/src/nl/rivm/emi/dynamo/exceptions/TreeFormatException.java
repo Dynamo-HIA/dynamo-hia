@@ -1,12 +1,5 @@
 package nl.rivm.emi.dynamo.exceptions;
 
-/**
- * 
- * Handles DynamoScenario Exceptions
- * 
- * @author schutb
- *
- */
 public class TreeFormatException extends Exception {
 
 	/**
