@@ -7,13 +7,8 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IFactoryContributor;
-import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class DurationClassObjectImplementation extends DualModeObjectBase

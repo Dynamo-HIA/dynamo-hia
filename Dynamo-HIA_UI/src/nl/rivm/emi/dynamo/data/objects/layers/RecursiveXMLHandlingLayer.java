@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
@@ -26,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class RecursiveXMLHandlingLayer implements IXMLHandlingLayer<TypedHashMap<?>> {
+abstract public class RecursiveXMLHandlingLayer  {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	/**

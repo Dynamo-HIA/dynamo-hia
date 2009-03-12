@@ -7,7 +7,6 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.types.interfaces.IRecursiveXMLHandlingLayer;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -15,7 +14,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class CategoricalObjectImplementation extends DualModeObjectBase
-		implements ICategoricalObject, IRecursiveXMLHandlingLayer {
+		implements ICategoricalObject {
 	
 //	LinkedHashMap<Integer, Object> theClasses = new LinkedHashMap<Integer, Object>();
 TypedHashMap<String> theClasses = new TypedHashMap<String>("");
