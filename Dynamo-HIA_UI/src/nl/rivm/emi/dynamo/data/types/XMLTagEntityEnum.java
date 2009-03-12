@@ -3,12 +3,13 @@ package nl.rivm.emi.dynamo.data.types;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Alpha;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
-import nl.rivm.emi.dynamo.data.types.atomic.Categories;
-import nl.rivm.emi.dynamo.data.types.atomic.Category;
+import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
+import nl.rivm.emi.dynamo.data.types.atomic.Classes;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.End;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
+import nl.rivm.emi.dynamo.data.types.atomic.Index;
 import nl.rivm.emi.dynamo.data.types.atomic.Mean;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
@@ -27,24 +28,26 @@ import nl.rivm.emi.dynamo.data.types.atomic.Year;
 
 public enum XMLTagEntityEnum {
 	AGE((XMLTagEntity)new Age()),
-	SEX((XMLTagEntity)new Sex()),
-	NUMBER((XMLTagEntity)new Number()),
-	NAME((XMLTagEntity)new Name()),
-	UNIQUENAME((XMLTagEntity)new UniqueName()),
-	CATEGORY((XMLTagEntity)new Category()),
+	ALPHA((XMLTagEntity)new Alpha()),
+	BEGIN((XMLTagEntity)new Begin()),
+	CLASS((XMLTagEntity)new DynamoClass()),
+	CLASSES((XMLTagEntity)new Classes()),
 	DURATION((XMLTagEntity)new Duration()),
-	TRANSITIONSOURCE((XMLTagEntity)new TransitionSource()),
-	TRANSITIONDESTINATION((XMLTagEntity)new TransitionDestination()),
+	DURATIONCLASS((XMLTagEntity)new DurationClass()),
+	END((XMLTagEntity)new End()),
+	HASNEWBORNS((XMLTagEntity)new HasNewborns()),
+	INDEX((XMLTagEntity)new Index()),
+	NAME((XMLTagEntity)new Name()),
+	NUMBER((XMLTagEntity)new Number()),
 	PERCENTAGE((XMLTagEntity) new Percent()),
 	PROBABILITY((XMLTagEntity)new Probability()),
-	CLASSES((XMLTagEntity)new Categories()),
 	REFERENCECLASS((XMLTagEntity)new ReferenceClass()),
-	DURATIONCLASS((XMLTagEntity)new DurationClass()),
 	REFERENCEVALUE((XMLTagEntity)new ReferenceValue()),
+	SEX((XMLTagEntity)new Sex()),
 	STANDARDVALUE((XMLTagEntity)new Value()),
-	BEGIN((XMLTagEntity)new Begin()),
-	ALPHA((XMLTagEntity)new Alpha()),
-	END((XMLTagEntity)new End()),
+	TRANSITIONDESTINATION((XMLTagEntity)new TransitionDestination()),
+	TRANSITIONSOURCE((XMLTagEntity)new TransitionSource()),
+	UNIQUENAME((XMLTagEntity)new UniqueName()),
 	//TODO Reactivate (9-3-2009): HASNEWBORNS((XMLTagEntity)new HasNewborns()),
 	YEAR((XMLTagEntity)new Year()),
 	MEAN((XMLTagEntity)new Mean());
