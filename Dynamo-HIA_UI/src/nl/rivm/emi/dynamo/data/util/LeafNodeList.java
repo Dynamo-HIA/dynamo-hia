@@ -15,9 +15,10 @@ import org.apache.commons.logging.LogFactory;
 public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 	private static final long serialVersionUID = 4381230502193758915L;
 	private Log log = LogFactory.getLog(this.getClass().getName());
+private int theLastContainer = -1;
 
 	public int fill(ConfigurationNode rootChild) throws ConfigurationException {
-		int theLastContainer = 0;
+		theLastContainer = 0;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		XMLTagEntitySingleton atomicTypesSingleton = XMLTagEntitySingleton
@@ -102,6 +103,10 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 						+ theLastContainer + report());
 			}
 //		}
+		return theLastContainer;
+	}
+
+	public int getTheLastContainer() {
 		return theLastContainer;
 	}
 }
