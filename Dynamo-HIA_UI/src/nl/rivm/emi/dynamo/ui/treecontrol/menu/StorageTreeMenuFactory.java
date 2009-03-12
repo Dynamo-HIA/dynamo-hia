@@ -9,6 +9,7 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
@@ -27,7 +28,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuManager;
@@ -529,7 +529,7 @@ public class StorageTreeMenuFactory {
 				log.debug("rootelementname" + nodeLabel);
 				/*
 				XMLFileAction action = new XMLFileAction(shell, treeViewer,
-						(BaseNode) node, "simulation", nodeLabel);
+						(BaseNode) node, /*"simulation" RootElementNamesEnum.SIMULATION.getNodeLabel(), nodeLabel);
 				action.setText("Edit");
 				manager.add(action);*/
 				if ("configuration".equals(nodeLabel)) {
@@ -566,7 +566,7 @@ public class StorageTreeMenuFactory {
 										parentNodeLabel)) {
 							XMLFileAction action = new XMLFileAction(shell,
 									treeViewer, (BaseNode) node, node
-											.toString(), "dalyweights");
+											.toString(), RootElementNamesEnum.DALYWEIGHTS.getNodeLabel());
 							action.setText("Edit");
 							manager.add(action);
 						} else {
