@@ -6,7 +6,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskFromRiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Category;
+import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -63,7 +63,7 @@ public class RelRiskFromRiskFactorCategoricalFactory extends AgnosticFactory
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		Category category = (Category) XMLTagEntitySingleton.getInstance().get(
+		CatContainer category = (CatContainer) XMLTagEntitySingleton.getInstance().get(
 				"cat");
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);

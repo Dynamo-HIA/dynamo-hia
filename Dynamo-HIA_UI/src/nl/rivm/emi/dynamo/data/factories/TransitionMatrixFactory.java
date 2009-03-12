@@ -71,7 +71,7 @@ public class TransitionMatrixFactory extends AgnosticFactory implements
 		Integer oldMaxSource = source.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(source, null));
 		TransitionDestination destination = (TransitionDestination) XMLTagEntitySingleton
-				.getInstance().get(TransitionDestination.getElementName());
+				.getInstance().get(TransitionDestination.XMLElementName);
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxDestination = destination
 				.setMAX_VALUE(numberOfCategories);

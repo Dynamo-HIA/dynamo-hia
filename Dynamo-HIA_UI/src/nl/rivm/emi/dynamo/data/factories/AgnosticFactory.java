@@ -31,7 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AgnosticFactory {
+abstract public class AgnosticFactory implements RootLevelFactory{
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -42,7 +42,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufacture(File configurationFile, String rootElementName)
+	abstract public TypedHashMap manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -53,7 +53,7 @@ abstract public class AgnosticFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufactureObservable(File configurationFile, String rootElementName)
+	abstract public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -62,7 +62,7 @@ abstract public class AgnosticFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureDefault()
+	abstract public TypedHashMap manufactureDefault()
 			throws ConfigurationException;
 
 	/**
@@ -71,7 +71,7 @@ abstract public class AgnosticFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureObservableDefault()
+	abstract public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException;
 
 	/**
@@ -87,7 +87,7 @@ abstract public class AgnosticFactory {
 	public TypedHashMap manufacture(File configurationFile,
 			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
-		TypedHashMap<?> underConstruction = null;
+		TypedHashMap underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -122,8 +122,8 @@ abstract public class AgnosticFactory {
 		} catch (ConfigurationException e) {
 			ErrorMessageUtil.handleErrorMessage(this.log, "",
 					e, configurationFile.getAbsolutePath());
+			return underConstruction;
 		}
-		return underConstruction;
 	}
 
 	
@@ -341,13 +341,19 @@ abstract public class AgnosticFactory {
 						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
 						for (int count = theLastContainer; count < leafNodeList
 								.size(); count++) {
-							AtomicTypeObjectTuple tuple = leafNodeList
+							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
 									.get(count);
-							XMLTagEntity type = tuple.getType();
+							XMLTagEntity type = leafNodeTuple.getType();
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
-							tuple.setValue(defaultValue);
-							payloadList.add(tuple);
+							AtomicTypeObjectTuple modelTuple = null;
+							if(!makeObservable){
+							modelTuple = new AtomicTypeObjectTuple(type,defaultValue);
+							} else {
+								WritableValue observable = new WritableValue(defaultValue, defaultValue.getClass());
+								modelTuple = new AtomicTypeObjectTuple(type, observable);
+							}
+							payloadList.add(modelTuple);
 						}
 						priorLevel.put(value, payloadList);
 					}

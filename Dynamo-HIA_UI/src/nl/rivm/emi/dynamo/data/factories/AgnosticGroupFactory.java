@@ -1,23 +1,22 @@
 package nl.rivm.emi.dynamo.data.factories;
 
 /**
- * Base Factory for non-hierarchic configuration files.
+ * Base Factory for not purely hierarchical configuration files.
  */
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
-import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
+import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
+import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChildFactory;
+import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
+import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.data.util.SchemaValidationSwitch;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -25,11 +24,14 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
-
-abstract public class AgnosticGroupFactory {
+public class AgnosticGroupFactory implements RootLevelFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
+	/**
+	 * Data structure to store the parts of the configuration produced by the
+	 * rootchild-factories the construction is delegated to.
+	 */
+	protected HashMap<String, Object> structure = null;
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -38,9 +40,13 @@ abstract public class AgnosticGroupFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
+	 * @throws ConfigurationException
 	 */
-	abstract public HashMap<String, ?> manufacture(File configurationFile)
-			throws ConfigurationException, DynamoInconsistentDataException;
+	public HashMap<String, Object> manufacture(File configurationFile,
+			String rootNodeName) throws DynamoInconsistentDataException,
+			ConfigurationException {
+		return manufacture(configurationFile, false, rootNodeName);
+	}
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -49,9 +55,13 @@ abstract public class AgnosticGroupFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
+	 * @throws ConfigurationException
 	 */
-	abstract public HashMap<String,?> manufactureObservable(File configurationFile)
-			throws ConfigurationException, DynamoInconsistentDataException;
+	public HashMap<String, Object> manufactureObservable(File configurationFile,
+			String rootNodeName) throws DynamoInconsistentDataException,
+			ConfigurationException {
+		return manufacture(configurationFile, true, rootNodeName);
+	}
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -59,8 +69,9 @@ abstract public class AgnosticGroupFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public HashMap<String, ?> manufactureDefault()
-			throws ConfigurationException;
+	public HashMap<String, Object> manufactureDefault() {
+		return manufactureDefault(structure, false);
+	}
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -68,8 +79,9 @@ abstract public class AgnosticGroupFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public HashMap<String,?> manufactureObservableDefault()
-			throws ConfigurationException;
+	public HashMap<String, Object> manufactureObservableDefault() {
+		return manufactureDefault(structure, true);
+	}
 
 	/**
 	 * Precondition is that a dispatcher has chosen this factory based on the
@@ -77,18 +89,24 @@ abstract public class AgnosticGroupFactory {
 	 * 
 	 * @param makeObservable
 	 * 
-	 * @return TypedHashMap HashMap that contains the data of the given file and the type of the data
-	 * @throws ConfigurationException 
-	 * @throws DynamoInconsistentDataException 
+	 * @return TypedHashMap HashMap that contains the data of the given file and
+	 *         the type of the data
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
 	 */
-	public HashMap<String, ?> manufacture(File configurationFile,
-			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
-		log.debug(this.getClass().getName() + " Starting manufacture.");
-		HashMap<String, ?> underConstruction = new LinkedHashMap<String, Object>();
-		XMLConfiguration configurationFromFile;
+	public HashMap<String, Object> manufacture(File configurationFile,
+			boolean makeObservable, String rootElementName)
+			throws ConfigurationException, DynamoInconsistentDataException {
 		try {
+		log.debug(" Starting manufacture.");
+			RootChildDispatchMap instance = RootChildDispatchMap.getInstance();
+			if (instance == null) {
+				log.fatal("RootCildDispatchMap not constructed.");
+			}
+			HashMap<String, Object> underConstruction = new LinkedHashMap<String, Object>();
+			XMLConfiguration configurationFromFile;
 			configurationFromFile = new XMLConfiguration(configurationFile);
-			
+		
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls load()). 
 			// The config cannot be loaded twice,
@@ -96,301 +114,105 @@ abstract public class AgnosticGroupFactory {
 			configurationFromFile.clear();
 			
 			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();			
+			if (SchemaValidationSwitch.VALIDATING) { // TODO enable validation.
+				configurationFromFile.setValidating(true);
+				configurationFromFile.load();
+			}
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			
 			// Check if the name of the first element of the file
 			// is the same as that of the node name where the file is processes
-			if (rootNode.getName() != null && rootNode.getName().equalsIgnoreCase(rootElementName)) {
+			if (rootNode.getName() != null
+					&& rootNode.getName().equalsIgnoreCase(rootElementName)) {
 				List<?> list = rootNode.getChildren();
 				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
-				
+				// Iteration-control entities.
+				String previousRootChildName = "";
+				List<ConfigurationNode> equallyNamedRootChildren = new LinkedList<ConfigurationNode>();
+				String rootChildName = null;
 				for (ConfigurationNode rootChild : rootChildren) {
-					String rootChildName = rootChild.getName();
-					log.debug("Handle rootChild: " + rootChildName);
-					/* TODO: Under construction as of 3-3-2009
-					RootChildSubFactoryEnum.
-					underConstruction = handleRootChild(underConstruction,
-							rootChild, makeObservable);
-							*/
-				} // for rootChildren				
+					rootChildName = rootChild.getName();
+					log.debug("Processing rootchild \"" + rootChildName + "\"");
+					if ("".equals(previousRootChildName)
+							|| previousRootChildName.equals(rootChildName)) {
+						equallyNamedRootChildren.add(rootChild);
+						// Only really usefull the first time.
+						previousRootChildName = rootChildName;
+					} else {
+						if (equallyNamedRootChildren.size() > 0) {
+							Object result = processPreviousRootChildren(
+									instance, previousRootChildName,
+									equallyNamedRootChildren);
+							underConstruction
+									.put(previousRootChildName, result);
+							equallyNamedRootChildren.clear();
+						}
+						equallyNamedRootChildren.add(rootChild);
+						previousRootChildName = rootChildName;
+					}
+				}
+				log.debug("Handle rootChild: " + rootChildName);
+				Object result = processPreviousRootChildren(instance,
+						previousRootChildName, equallyNamedRootChildren);
+				underConstruction.put(previousRootChildName, result);
 			} else {
-				// The start/first element of the imported file does not match the node name
-				throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
+				// The start/first element of the imported file does not match
+				// the node name
+				throw new DynamoInconsistentDataException(
+						"The contents of the imported file does not match the node name");
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
 			ErrorMessageUtil.handleErrorMessage(this.log, "",
 					e, configurationFile.getAbsolutePath());
-		}
-		return underConstruction;
-	}
-
-
-	/**
-	 * Currently each rootchild contains a group of XML-elements (leafnodes) of
-	 * which all but the last must be "container" datatypes. The result of
-	 * successfull processing is the addition of a single Object (wrapped in a
-	 * WritableValue when makeObservable is true) contained in a number of
-	 * levels of TypedHashMap.
-	 * 
-	 * @param originalObject
-	 * @param rootChild
-	 * @param makeObservable
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	private TypedHashMap<?> handleRootChild(TypedHashMap<?> originalObject,
-			ConfigurationNode rootChild, boolean makeObservable)
-			throws ConfigurationException {
-		LeafNodeList leafNodeList = new LeafNodeList();
-		int theLastContainer = leafNodeList.fill(rootChild);
-		log.debug("Handling rootchild. LastContainer " + theLastContainer
-				+ leafNodeList.report());
-		int currentLevel = 0;
-		TypedHashMap<?> updatedObject = makePath(originalObject, leafNodeList,
-				theLastContainer, currentLevel, makeObservable);
-		return updatedObject;
-	}
-
-	/**
-	 * Recurse through the leafnodes.
-	 * 
-	 * 
-	 * @param priorLevel
-	 * @param leafNodeList
-	 * @param theLastContainer
-	 * @param currentLevel
-	 * @param makeObservable
-	 * @return
-	 * @throws DynamoConfigurationException
-	 */
-	private TypedHashMap<?> makePath(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, int currentLevel, boolean makeObservable)
-			throws DynamoConfigurationException {
-		if (priorLevel == null) {
-			priorLevel = new TypedHashMap(leafNodeList.get(currentLevel)
-					.getType());
-		}
-		Integer currentLevelValue = (Integer) (leafNodeList.get(currentLevel)
-				.getValue());
-		log.debug("Recursing, currentLevel " + currentLevel + " value "
-				+ currentLevelValue);
-		if (currentLevel < theLastContainer - 1) {
-			handleContainerType(priorLevel, leafNodeList, theLastContainer,
-					currentLevel, makeObservable, currentLevelValue);
-		} else {
-			if (leafNodeList.size() - theLastContainer == 1) {
-				handlePayLoadType(priorLevel, leafNodeList, currentLevel,
-						makeObservable, currentLevelValue);
-			} else {
-				handleAggregatePayLoadTypes(priorLevel, leafNodeList,
-						currentLevel, makeObservable, currentLevelValue);
-			}
-		}
-		return priorLevel;
-	}
-
-	private void handleContainerType(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, int currentLevel, boolean makeObservable,
-			Integer currentLevelValue) throws DynamoConfigurationException {
-		TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
-				.get(currentLevelValue);
-		if (pathMap == null) {
-			XMLTagEntity theType = leafNodeList.get(currentLevel + 1).getType();
-			pathMap = new TypedHashMap(theType);
-		}
-		makePath(pathMap, leafNodeList, theLastContainer, currentLevel + 1,
-				makeObservable);
-		priorLevel.put(currentLevelValue, pathMap);
-	}
-
-	private void handlePayLoadType(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
-			boolean makeObservable, Integer currentLevelValue)
-			throws DynamoConfigurationException {
-		Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
-				.getValue());
-		if (!makeObservable) {
-			priorLevel.put(currentLevelValue, leafValue);
-		} else {
-			if (leafValue instanceof Integer) {
-				WritableValue writableValue = new WritableValue(leafValue,
-						Integer.class);
-				priorLevel.put(currentLevelValue, writableValue);
-			} else {
-				if (leafValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(leafValue,
-							Float.class);
-					priorLevel.put(currentLevelValue, writableValue);
-				} else {
-					throw new DynamoConfigurationException(
-							"Unsupported leafValueType for IObservable-s :"
-									+ leafValue.getClass().getName());
-				}
-			}
+			return null;
 		}
 	}
 
-	/**
-	 * Method for handling compound payload types.
-	 * 
-	 * @param priorLevel
-	 * @param leafNodeList
-	 * @param currentLevel
-	 * @param makeObservable
-	 * @param currentLevelValue
-	 * @throws DynamoConfigurationException
-	 */
-	private void handleAggregatePayLoadTypes(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
-			boolean makeObservable, Integer currentLevelValue)
-			throws DynamoConfigurationException {
-		// Remove ContainerTypes.
-		for (int count = 0; count <= currentLevel; count++) {
-			leafNodeList.remove(0);
-		}
-		// Transform to Observables.
-		if (makeObservable) {
-			for (AtomicTypeObjectTuple tuple : leafNodeList) {
-				Object theValue = tuple.getValue();
-				WritableValue observableValue = new WritableValue(theValue,
-						theValue.getClass());
-				tuple.setValue(observableValue);
-			}
-		}
-		priorLevel.put(currentLevelValue, leafNodeList);
-	}
-
-	/**
-	 * Creates an "empty" Object with all values of the ContainerTypes in their
-	 * respective ranges and the default values for the LeafTypes. Level 1:
-	 * Initial checks and recursion startup.
-	 * 
-	 * @param leafNodeList
-	 * @param makeObservable
-	 * @return the Object filled with default values.
-	 * @throws DynamoConfigurationException
-	 */
-	@SuppressWarnings("unchecked")
-	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
-			boolean makeObservable) throws ConfigurationException {
-		int theLastContainer = leafNodeList.checkContents();
-		int currentLevel = 0;
-		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
-				.getType();
-		TypedHashMap resultMap = new TypedHashMap(type);
-		makeDefaultPath(resultMap, leafNodeList, theLastContainer,
-				currentLevel, makeObservable);
-		return resultMap;
-	}
-
-	/**
-	 * Recurse through the leafnodes.
-	 * 
-	 * 
-	 * @param priorLevel
-	 * @param leafNodeList
-	 * @param theLastContainer
-	 * @param currentLevel
-	 * @param makeObservable
-	 * @return
-	 * @throws DynamoConfigurationException
-	 */
-	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList,
-			int theLastContainer, int currentLevel, boolean makeObservable)
-			throws DynamoConfigurationException {
-		try {
-			log.debug("Recursing, making default Object, currentLevel "
-					+ currentLevel);
-			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList
-					.get(currentLevel).getType();
-			int maxValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMAX_VALUE();
-			int minValue;
-			minValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
-					currentLevel).getType()).getMIN_VALUE();
-			for (int value = minValue; value <= maxValue; value++) {
-				TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
-						.get(value);
-				if (pathMap == null) {
-					pathMap = new TypedHashMap(leafNodeList.get(
-							currentLevel + 1).getType());
-				}
-				log.debug("Adding map at value " + value);
-				priorLevel.put(value, pathMap);
-				if (currentLevel < theLastContainer - 1) {
-					makeDefaultPath(pathMap, leafNodeList, theLastContainer,
-							currentLevel + 1, makeObservable);
-
-				} else {
-					log.debug("Number of payload nodes: "
-							+ (leafNodeList.size() - theLastContainer));
-					if ((leafNodeList.size() - theLastContainer) == 1) { 
-						// Existing functionality.
-						handleSinglePayload(priorLevel, leafNodeList,
-								currentLevel, makeObservable, value);
+	private Object processPreviousRootChildren(RootChildDispatchMap instance,
+			String previousRootChildName,
+			List<ConfigurationNode> equallyNamedRootChildren)
+			throws ConfigurationException, DynamoInconsistentDataException {
+		Object result = null;
+		Iterator<ConfigurationNode> iterator = equallyNamedRootChildren
+				.iterator();
+		// The only way to safely get the first element.
+		if (iterator.hasNext()) {
+			ConfigurationNode firstRootChild = iterator.next();
+			String rootChildName = firstRootChild.getName();
+			RootChildFactory theFactory = instance.get(rootChildName)
+					.getTheFactory();
+			if (equallyNamedRootChildren.size() == 1) {
+				if (theFactory != null) {
+					if (theFactory instanceof AgnosticSingleRootChildFactory) {
+						AtomicTypeObjectTuple tuple = ((AgnosticSingleRootChildFactory) theFactory)
+								.manufacture(firstRootChild);
+						result = tuple;
 					} else {
-						// Extended functionality.
-						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
-						for (int count = theLastContainer; count < leafNodeList
-								.size(); count++) {
-							AtomicTypeObjectTuple tuple = leafNodeList
-									.get(count);
-							XMLTagEntity type = tuple.getType();
-							Object defaultValue = ((PayloadType) type)
-									.getDefaultValue();
-							tuple.setValue(defaultValue);
-							payloadList.add(tuple);
-						}
-						priorLevel.put(value, payloadList);
+						List<ConfigurationNode> childObjects = (List<ConfigurationNode>)firstRootChild.getChildren();
+						Object modelObject = ((AgnosticHierarchicalRootChildFactory) theFactory)
+								.manufacture(childObjects);
+						result = modelObject;
 					}
-				}
-			}
-			return priorLevel;
-		} catch (ConfigurationException e) {
-			throw new DynamoConfigurationException("Rethrowing a "
-					+ e.getClass().getName() + "with message; "
-					+ e.getMessage());
-		}
-	}
-
-	private void handleSinglePayload(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
-			boolean makeObservable, int value)
-			throws DynamoConfigurationException {
-		Number defaultValue = ((PayloadType<Number>) leafNodeList.get(
-				currentLevel + 1).getType()).getDefaultValue();
-		if (!makeObservable) {
-			log.debug("Adding default leaf " + defaultValue + " at value "
-					+ value);
-			priorLevel.put(value, defaultValue);
-		} else {
-			if (defaultValue instanceof Integer) {
-				WritableValue writableValue = new WritableValue(defaultValue,
-						Integer.class);
-				log.debug("Adding default Writable Integer leaf "
-						+ defaultValue + " at value " + value);
-				priorLevel.put(value, writableValue);
-			} else {
-				if (defaultValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(
-							defaultValue, Float.class);
-					log.debug("Adding default Writable Float leaf "
-							+ defaultValue + " at value " + value);
-					priorLevel.put(value, writableValue);
 				} else {
-					throw new DynamoConfigurationException(
-							"Unsupported leafValueType for IObservable-s :"
-									+ defaultValue.getClass().getName());
+				String message = "No factory found for rootchild: \"" + rootChildName + "\"";
+					log
+							.fatal(message);
+					throw new ConfigurationException(message);
 				}
+			} else {
+				String message = "Can't handle multiple RootChildren with the same name";
+				log
+						.fatal(message);
+				throw new ConfigurationException( message);
 			}
 		}
+		equallyNamedRootChildren.clear();
+		return result;
 	}
 
+	protected HashMap<String, Object> manufactureDefault(
+			HashMap<String, Object> structure, Boolean makeObservable) {
+		return null; // TODO Implement.
+	}
 }

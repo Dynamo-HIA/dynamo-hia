@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskForDeathCompoundObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -14,8 +15,15 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForDeathCompoundFactory extends AgnosticFactory {
+public class RelRiskForDeathCompoundFactory extends AgnosticFactory implements
+		CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
+
+	Integer numberOfCategories = null;
+
+	public void setNumberOfCategories(Integer numberOfCategories) {
+		this.numberOfCategories = numberOfCategories;
+	}
 
 	public RelRiskForDeathCompoundObject manufactureObservable(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
@@ -53,8 +61,11 @@ public class RelRiskForDeathCompoundFactory extends AgnosticFactory {
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("cat"), null));
+		XMLTagEntitySingleton xmlTagEntitySingleton = XMLTagEntitySingleton.getInstance();
+		CatContainer category = (CatContainer) xmlTagEntitySingleton.get("cat");
+		// TODO Clone to make threadsafe. Category clone = category.
+		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories-1);
+		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("begin"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
