@@ -39,6 +39,9 @@ public class FileControlEnumHelp {
 		"classes", "class", "index", "name" };
 	/* W20Con */
 	/* W20Com */
+	/* TODO add referenceclass, durationclass. */
+	static final String[] riskFactorCompoundStrings = { RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
+		"classes", "class", "index", "name" };
 	/* W21TmId */
 	/* W21TmFp */
 	/* W21TmMA */
@@ -94,6 +97,6 @@ public class FileControlEnumHelp {
 	/* W?? */
 	static final String[] dALYWeightsStrings = {RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(),
 			"weight", "age", "sex", "percent" };
-	
-
+	/* Subtrees. */
+	static final String[] classesStrings = {"classes", "class", "index", "name" };
 }

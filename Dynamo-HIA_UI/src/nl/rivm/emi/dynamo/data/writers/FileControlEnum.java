@@ -49,7 +49,11 @@ public enum FileControlEnum {
 	RELRISKFORRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskForRiskfactorConStrings), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings), //
-	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings);
+	RISKFACTORCOMPOUND(
+			FileControlEnumHelp.riskFactorCompoundStrings), //
+	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings),
+	/* Subtrees in the configuration files. */
+	CLASSES(FileControlEnumHelp.classesStrings);
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
