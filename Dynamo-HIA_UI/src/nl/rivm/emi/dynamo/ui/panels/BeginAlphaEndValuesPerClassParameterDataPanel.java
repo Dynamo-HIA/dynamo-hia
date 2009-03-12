@@ -7,7 +7,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.Category;
+import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
@@ -83,7 +83,7 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 		maleEndLabel.setText("End");
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap<Sex> oneAgeMap = (TypedHashMap<Sex>) lotsOfData.get(ageCount);
-			TypedHashMap<Category> femaleClassHMap = (TypedHashMap<Category>) oneAgeMap
+			TypedHashMap<CatContainer> femaleClassHMap = (TypedHashMap<CatContainer>) oneAgeMap
 					.get(BiGender.FEMALE_INDEX);
 			TypedHashMap<Sex> maleClassHMap = (TypedHashMap<Sex>) oneAgeMap
 					.get(BiGender.MALE_INDEX);
