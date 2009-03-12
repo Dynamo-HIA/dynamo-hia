@@ -1,18 +1,16 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
-
+//TODO Hacked to ErrorLessNess.
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.factories.XMLHandlingEntryPoint;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
@@ -49,7 +47,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					.getInstance().get(rootElementName),
 					(TypedHashMap) modelObject, configurationFile);
 			} else {
-				((XMLHandlingEntryPoint)modelObject).writeToFile(configurationFile);
+//				((XMLHandlingEntryPoint)modelObject).writeToFile(configurationFile);
 			}
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);
@@ -57,9 +55,11 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			this.handleErrorMessage(e);
 		} catch (IOException e) {
 			this.handleErrorMessage(e);
+		} catch (DynamoOutputException e) {
+			this.handleErrorMessage(e);
 		}
-
 	}
+
 
 	private void handleErrorMessage(Exception e) {
 		this.log.fatal(e);
