@@ -38,7 +38,7 @@ public class ExampleMultiToOneUpdateRule extends ManyToOneUpdateRuleBase
 
 	int parameter2 = -1;
 
-	@Override
+	//@Override
 	/*
 	public Object update(Object[] currentValues) {
 		Integer newValue = null;
