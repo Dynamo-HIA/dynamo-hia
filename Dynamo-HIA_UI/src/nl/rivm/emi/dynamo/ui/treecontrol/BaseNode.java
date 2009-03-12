@@ -80,10 +80,10 @@ public class BaseNode {
 		boolean result = false;
 		if (physicalStorage.isFile()) {
 			String physicalStorageName = physicalStorage.getName();
-			int lastDotIndex = -1;
+			int lastDotIndex = lastDotIndex = physicalStorageName.lastIndexOf(".");
 			if ((physicalStorageName != null)
-					&& ((lastDotIndex = physicalStorageName.lastIndexOf(".")) != -1)
-					&& (lastDotIndex < physicalStorage.length())) {
+					&& (lastDotIndex != -1)
+					&& (lastDotIndex < physicalStorageName.length())) {
 				String extension = physicalStorageName.substring(
 						lastDotIndex + 1, physicalStorageName.length());
 				if ("xml".equalsIgnoreCase(extension)) {
