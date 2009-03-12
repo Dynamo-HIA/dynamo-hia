@@ -137,7 +137,6 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
 	 */
-	@Override
 	public Object getData() {
 		return this.lotsOfData;
 	}
@@ -147,7 +146,6 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getShell()
 	 */
-	@Override
 	public Shell getShell() {
 		return this.shell;
 	}
@@ -157,7 +155,6 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getBaseNode()
 	 */
-	@Override
 	public BaseNode getBaseNode() {
 		return this.selectedNode;
 	}
@@ -167,32 +164,26 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getParentShell()
 	 */
-	@Override
 	public Shell getParentShell() {
 		return this.parentShell;
 	}
 	
-	@Override
 	public String getConfigurationFilePath() {
 		return this.configurationFilePath;
 	}
 
-	@Override
 	public String getDataFilePath() {
 		return this.dataFilePath;
 	}
 
-	@Override
 	public Object getRootElementName() {
 		return this.rootElementName;
 	}
 
-	@Override
 	public void setConfigurationFilePath(String configurationFilePath) {
 		this.configurationFilePath = configurationFilePath;	
 	}
 
-	@Override
 	public void setDataFilePath(String dataFilePath) {
 		this.dataFilePath = dataFilePath;		
 	}	

@@ -10,10 +10,10 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 import java.io.File;
 
-
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -122,12 +122,18 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 		}
 		return producedData;
 	}
+
+	public void run() {
+		open();
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
 	 */
 	@Override
 	public Object getData() {
-		return this.modelObject;
+		return modelObject;
 	}
+	
 }
