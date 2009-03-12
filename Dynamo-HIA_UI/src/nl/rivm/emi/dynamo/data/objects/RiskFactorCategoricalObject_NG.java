@@ -2,25 +2,15 @@ package nl.rivm.emi.dynamo.data.objects;
 /**
  * Model Object for the configuration of a categorical riskfactor.
  */
-import java.io.File;
 import java.util.List;
 
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-
-import nl.rivm.emi.dynamo.data.factories.XMLHandlingEntryPoint;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
-import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
 import nl.rivm.emi.dynamo.data.objects.layers.ConfigurationObjectBase;
 import nl.rivm.emi.dynamo.data.objects.layers.ReferenceClassObjectImplementation;
-import nl.rivm.emi.dynamo.data.objects.layers.StaxWriterEntryPoint;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
-import nl.rivm.emi.dynamo.data.types.interfaces.IXMLHandlingLayer;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
@@ -30,8 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implements
-		/* IXMLHandlingLayer, */ IReferenceClass, ICategoricalObject {
+public class RiskFactorCategoricalObject_NG implements IReferenceClass, ICategoricalObject {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	CategoricalObjectImplementation categoricalObjectImplementation;
@@ -40,7 +29,7 @@ public class RiskFactorCategoricalObject_NG extends XMLHandlingEntryPoint implem
 	ConfigurationObjectBase modelObject; // TODO Bogus bugfix.
 
 	public RiskFactorCategoricalObject_NG(boolean makeObservable) {
-		super(RootElementNamesEnum.RISKFACTOR_CATEGORICAL, makeObservable);
+//		super(RootElementNamesEnum.RISKFACTOR_CATEGORICAL, makeObservable);
 		categoricalObjectImplementation = new CategoricalObjectImplementation(makeObservable);
 		referenceCategoryObjectImplementation = new ReferenceClassObjectImplementation(makeObservable);
 	}
@@ -104,12 +93,12 @@ return null;
 			log.debug("Handle rootChild: " + childName);
 			XMLTagEntity entity = XMLTagEntitySingleton.getInstance().get(
 					childName);
-			if ((entity != null) && (entity instanceof IXMLHandlingLayer)) {
+//			if ((entity != null) && (entity instanceof IXMLHandlingLayer)) {
 //				modelObject = ((IXMLHandlingLayer) entity).handle(modelObject,
 //						rootChild);
-			} else {
-				throw new ConfigurationException("Unhandled rootChild element: " + childName);
-			}
+//			} else {
+//				throw new ConfigurationException("Unhandled rootChild element: " + childName);
+//			}
 		}
 	} else {
 		categoricalObjectImplementation.manufactureDefault();
@@ -118,37 +107,4 @@ return null;
 //		return modelObject;
 	}
 
-	// write
-	public void streamEvents(String value, XMLEventWriter writer, XMLEventFactory eventFactory)
-			throws XMLStreamException {
-		XMLEvent event = eventFactory.createStartDocument();
-		writer.add(event);
-		event = eventFactory.createStartElement("", "", rootElement
-				.getNodeLabel());
-		writer.add(event);
-		categoricalObjectImplementation.streamEvents(writer, eventFactory);
-		referenceCategoryObjectImplementation
-				.streamEvents(null, writer, eventFactory);
-		event = eventFactory.createEndElement("", "", rootElement
-				.getNodeLabel());
-		writer.add(event);
-		event = eventFactory.createEndDocument();
-		writer.add(event);
-	}
-
-	public Float handle(ConfigurationNode node) throws ConfigurationException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setDefault() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void fillHandlers(boolean observable) {
-		// TODO Auto-generated method stub
-		
-	}
 }
