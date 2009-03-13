@@ -20,7 +20,7 @@ public class ConfigurationFileUtil {
 	private static Log log = LogFactory.getLog(ConfigurationFileUtil.class);
 	
 	static public String extractRootElementNameFromChildConfiguration(
-			BaseNode selectedNode) throws TreeStructureException {
+			BaseNode selectedNode) throws TreeStructureException, DynamoConfigurationException {
 		String rootElementName = null;
 		if (selectedNode instanceof ParentNode) {
 			Object[] children = ((ParentNode) selectedNode).getChildren();
@@ -49,7 +49,8 @@ public class ConfigurationFileUtil {
 		return rootElementName;
 	}
 
-	static public String extractRootElementName(File configurationFile) {
+	static public String extractRootElementName(File configurationFile) 
+			throws DynamoConfigurationException	{
 		String rootElementName = null;
 		try {
 			if (configurationFile.exists()) {
@@ -74,16 +75,17 @@ public class ConfigurationFileUtil {
 					}
 				}
 			}
+			return rootElementName;			
 		} catch (ConfigurationException e) {
 			// Exception is not thrown again
 			// because the application has to continue
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
-		} finally {
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), 
+					e, configurationFile.getAbsolutePath());
 			return rootElementName;
 		}
 	}
 
-	public static Integer extractNumberOfClasses(File configurationFile) {
+	public static Integer extractNumberOfClasses(File configurationFile) throws DynamoConfigurationException {
 		Integer numberOfCategories = null;
 		try {
 			String rootElementName = extractRootElementName(configurationFile);
@@ -110,11 +112,12 @@ public class ConfigurationFileUtil {
 					numberOfCategories = ageNode.getChildrenCount();
 				}
 			}
+			return numberOfCategories;
 		} catch (ConfigurationException e) {
 			// Exception is not thrown again
 			// because the application has to continue
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
-		} finally {
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), 
+					e, configurationFile.getAbsolutePath());
 			return numberOfCategories;
 		}
 	}
