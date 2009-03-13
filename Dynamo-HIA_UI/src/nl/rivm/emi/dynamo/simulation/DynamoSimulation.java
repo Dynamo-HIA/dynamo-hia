@@ -37,8 +37,11 @@ import org.junit.Test;
 public class DynamoSimulation {
 	Log log = LogFactory.getLog(getClass().getName());
 
-	// String baseDir="c:/hendriek/java/workspace/dynamo/dynamodata";
-	String baseDir = "n:/dynamo-hia/java/workspace/dynamo/dynamodata";
+	String baseDir;
+	
+	//String baseDir = "C:/Dynamo-HIA-test-standalone";
+	 //String baseDir="c:/hendriek/java/workspace/dynamo/dynamodata";
+	//String baseDir = "n:/dynamo-hia/java/workspace/dynamo/dynamodata";
 
 	// String preCharConfig = baseDir+"/charconf_hb.xml";
 
@@ -57,6 +60,11 @@ public class DynamoSimulation {
 
 	Simulation sim;
 
+	public DynamoSimulation(Simulation sim, String baseDir) {
+		this.sim = sim;
+		this.baseDir = baseDir;
+	}
+
 	@Before
 	public void setup() throws ConfigurationException {
 		System.out.println(preCharConfig);
@@ -67,6 +75,7 @@ public class DynamoSimulation {
 					multipleCharacteristicsFile);
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
+			log.fatal("simulationConfigurationFile.exists()" + simulationConfigurationFile.exists());
 			if (simulationConfigurationFile.exists()) {
 				this.simulationConfiguration = new XMLConfiguration(
 						simulationConfigurationFile);
@@ -168,9 +177,12 @@ public class DynamoSimulation {
 							}
 						}
 					}
+
 					/* add count as first element */
 					for (int a = 0; a < 96; a++)
-						for (int g = 0; g < 96; g++)
+						// TODO: Changed by Barend Schut 13-03-2009
+						// Changed from g < 96 (age) into g < 2 (sex)
+						for (int g = 0; g < 2; g++)
 							sum[a][g][0] = count;
 
 					DOMPopulationWriter.writeToXMLFile(sim.getPopulation(),

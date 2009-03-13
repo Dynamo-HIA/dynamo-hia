@@ -190,7 +190,7 @@ public class TestAll {
 					// pop[scennum] = sim.getPopulation();
 					if (pop[scennum]==null) throw new CDMConfigurationException("no population found for scenario "+scennum);
 					log.fatal("starting run for population "+scennum);
-					DynamoSimulation sim2=new DynamoSimulation();
+					DynamoSimulation sim2 = new DynamoSimulation(this.sim, this.baseDir);
 					sim2.runSimulation();
 					log.fatal("Run  complete for population "+scennum);
 					
