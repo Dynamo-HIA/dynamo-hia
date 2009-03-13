@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.InputDataFactory;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
@@ -9,14 +10,16 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-/*  test 1 tests several components of the program */
 
 public class test1 {
 	Log log = LogFactory.getLog(getClass().getName());
-
+	String baseDir;
+	
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");
+	baseDir = BaseDirectory.
+	getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 }
 
 @After
@@ -43,7 +46,7 @@ public void test() {
 
 		// first test categorical variables
 
-		ModelParameters E1 = new ModelParameters();
+		ModelParameters E1 = new ModelParameters(baseDir);
 
 		// test weighted regression
 
@@ -75,7 +78,7 @@ public void test() {
 		
 	/* to test the calculation of rates from median survival */
 		
-		InputDataFactory E2 = new InputDataFactory ("simulation1");
+		InputDataFactory E2 = new InputDataFactory ("simulation1", baseDir);
 		float [][] rate;
 		float [][] medianSurvival = new float [96][2];
 		for (int g = 0; g < 2; g++)

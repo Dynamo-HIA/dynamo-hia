@@ -75,8 +75,6 @@ public class XMLFileAction extends ActionBase {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
 
-			log.debug("this.rootElementName" + this.rootElementName);
-
 			if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
 					rootElementName)) {
 				theModal = new PopulationSizeModal(shell, dataFile
@@ -133,7 +131,7 @@ public class XMLFileAction extends ActionBase {
 													shell,
 													dataFile.getAbsolutePath(),
 													savedFile.getAbsolutePath(),
-													rootElementName, node, null);
+													rootElementName, node);
 										} else {
 											if (RootElementNamesEnum.SIMULATION
 													.getNodeLabel().equals(

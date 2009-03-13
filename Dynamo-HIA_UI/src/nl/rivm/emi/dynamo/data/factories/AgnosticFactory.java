@@ -42,7 +42,7 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap manufacture(File configurationFile, String rootElementName)
+	abstract public TypedHashMap<?> manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -53,7 +53,7 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
+	abstract public TypedHashMap<?> manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -62,7 +62,7 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap manufactureDefault()
+	abstract public TypedHashMap<?> manufactureDefault()
 			throws ConfigurationException;
 
 	/**
@@ -71,7 +71,7 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap manufactureObservableDefault()
+	abstract public TypedHashMap<?> manufactureObservableDefault()
 			throws ConfigurationException;
 
 	/**
@@ -85,9 +85,8 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @throws DynamoInconsistentDataException 
 	 */
 	public TypedHashMap manufacture(File configurationFile,
-			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
-		log.debug(this.getClass().getName() + " Starting manufacture.");
-		TypedHashMap underConstruction = null;
+			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {		
+		TypedHashMap<?> underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -120,9 +119,9 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, "",
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(),
 					e, configurationFile.getAbsolutePath());
-			return underConstruction;
+			return underConstruction;		
 		}
 	}
 
@@ -277,8 +276,6 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	@SuppressWarnings("unchecked")
 	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
-		log.debug("leafNodeListAGNOSTICFACTORY" + leafNodeList);
-		log.debug("leafNodeListAGNOSTICFACTORY.size()" + leafNodeList.size());
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
 		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
@@ -341,19 +338,13 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
 						for (int count = theLastContainer; count < leafNodeList
 								.size(); count++) {
-							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
+							AtomicTypeObjectTuple tuple = leafNodeList
 									.get(count);
-							XMLTagEntity type = leafNodeTuple.getType();
+							XMLTagEntity type = tuple.getType();
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
-							AtomicTypeObjectTuple modelTuple = null;
-							if(!makeObservable){
-							modelTuple = new AtomicTypeObjectTuple(type,defaultValue);
-							} else {
-								WritableValue observable = new WritableValue(defaultValue, defaultValue.getClass());
-								modelTuple = new AtomicTypeObjectTuple(type, observable);
-							}
-							payloadList.add(modelTuple);
+							tuple.setValue(defaultValue);
+							payloadList.add(tuple);
 						}
 						priorLevel.put(value, payloadList);
 					}

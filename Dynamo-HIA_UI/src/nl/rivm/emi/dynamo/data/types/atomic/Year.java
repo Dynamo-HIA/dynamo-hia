@@ -63,7 +63,7 @@ public class Year extends NumberRangeTypeBase<Integer> implements ContainerType{
 	}
 
 	@Override
-	Object convert4Model(String viewString) {
+	public Object convert4Model(String viewString) {
 		// TODO Auto-generated method stub
 		return null;
 	}

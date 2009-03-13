@@ -162,9 +162,9 @@ public class InputDataFactory {
 	 */
 	private static final String riskFactorDir = "Risk_Factors"; 
 	//CDM uses "riskfactors"; document uses "risk factors"; dynamo uses "Risk_Factors"!!!!
-	private static final String diseasesDir = "diseases"; //OK
-	private static final String populationDir = "populations"; //OK
-	private static final String simulationDir = "Simulations"; //OK //CDM uses "simulation"
+	private static final String diseasesDir = "Diseases"; //OK //CDM used "diseases"
+	private static final String populationDir = "Populations"; //OK //CDM used "populations"
+	private static final String simulationDir = "Simulations"; //OK //CDM used "simulation"
 	private static final String RRriskDir = "Relative_Risks_From_Risk_Factor"; //OK
 	private static final String RRdiseaseDir = "Relative_Risks_From_Diseases"; //OK
 	private static final String DALYWeightsDir = "DALY_Weights"; //OK
@@ -1959,7 +1959,7 @@ public class InputDataFactory {
 				
 				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 						.getChildren();
-				log.debug("rootChildren.size()222;" + rootChildren.size()); //24?
+
 				for (ConfigurationNode rootChild : rootChildren) {
 					if (rootChild.getName() != "amount"
 							&& rootChild.getName() != "sexratio")
@@ -1980,7 +1980,7 @@ public class InputDataFactory {
 
 									year[currentChild] = getIntegerValue(
 											valueString, "year");
-									log.debug("year array" + year[currentChild]);
+
 									if (currentChild > 0
 											&& year[currentChild] != year[currentChild - 1] + 1)
 										throw new DynamoInconsistentDataException(

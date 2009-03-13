@@ -18,6 +18,11 @@ import org.apache.commons.logging.LogFactory;
 
 public enum RootElementNamesEnum {
 
+	/**
+	 * This represents the list of root element names,
+	 * used in the xml, xsd, and application
+	 */
+	
 	SIMULATION("simulation", null), // Comment to block reformatting.
 	POPULATIONSIZE("populationsize", null), //
 	OVERALLMORTALITY("overallmortality", null), //
@@ -45,11 +50,11 @@ public enum RootElementNamesEnum {
 	DISEASEINCIDENCES("diseaseincidences", null), //
 	EXCESSMORTALITY("excessmortality", null), //
 	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL(
-			"relativerisksfromriskfactor_categorical", null), //
+			"relrisksfromriskfactor_categorical", null), //relativerisksfromriskfactor_categorical
 	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(
-			"relativerisksfromriskfactor_continuous", null), //
-	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relativerisksfromriskfactor_compound", null), //
-	RELATIVERISKSFROMDISEASES("relativerisksfromdiseases", null), //
+			"relrisksfromriskfactor_continuous", null), //relativerisksfromriskfactor_continuous
+	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relrisksfromriskfactor_compound", null), //relativerisksfromriskfactor_compound
+	RELATIVERISKSFROMDISEASES("relrisksfromdisease", null), //relativerisksfromdiseases
 	DALYWEIGHTS("dalyweights", null);
 
 	Log log = LogFactory.getLog(this.getClass().getName());

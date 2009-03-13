@@ -238,18 +238,21 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						TODO: VALIDATION IS FOR FUTURE USE 
 						NICE TO HAVE FEATURE
 						KEEP IT IN THE CODE
-											
-					// Validate the xml by xsd schema
-					// WORKAROUND: clear() is put after the constructor (also
-					// calls load()).
-					// The config cannot be loaded twice,
-					// because the contents will be doubled.
-					simulationConfiguration.clear();
-
-					// Validate the xml by xsd schema
-					simulationConfiguration.setValidating(true);
-					simulationConfiguration.load();
+						The following schemas are not validated:
+						sim.xsd 
 					*/
+					if (!"sim".equals(simulationConfiguration.getRootElementName())) {					
+						// Validate the xml by xsd schema
+						// WORKAROUND: clear() is put after the constructor (also
+						// calls load()).
+						// The config cannot be loaded twice,
+						// because the contents will be doubled.
+						simulationConfiguration.clear();
+	
+						// Validate the xml by xsd schema
+						simulationConfiguration.setValidating(true);
+						simulationConfiguration.load();
+					}										
 					
 					/* read the configuration file */
 					/*
@@ -393,13 +396,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						+ " Message given: "
 						+ e.getMessage()
 						+ ". Please change the input of the model.");
+		messageBox.open();
 		e.printStackTrace();
-		if (messageBox.open() == SWT.OK) {
-			shell.dispose();
-		}
-
-		shell.open();
-
 	}
 
 	private void displayErrorMessage(Exception e, String simulationFilePath) {
@@ -412,12 +410,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		messageBox.setMessage("Errors during configuration of the model"
 				+ " Message given: " + e.getMessage() + cause);
+		messageBox.open();
 		e.printStackTrace();
-		if (messageBox.open() == SWT.OK) {
-			shell.dispose();
-		}
-
-		shell.open();
 	}
 
 }

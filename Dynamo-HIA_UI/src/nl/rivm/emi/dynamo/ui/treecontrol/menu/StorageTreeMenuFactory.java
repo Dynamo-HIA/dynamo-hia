@@ -6,10 +6,10 @@ package nl.rivm.emi.dynamo.ui.treecontrol.menu;
  */
 import java.io.File;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
@@ -28,6 +28,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuManager;
@@ -50,7 +51,7 @@ public class StorageTreeMenuFactory {
 
 	public void createRelevantContextMenu(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode)
-			throws TreeStructureException {
+			throws TreeStructureException, DynamoConfigurationException {
 		int treeDepth = findTreeDepth(selectedNode);
 		log.debug("treeDepth" + treeDepth);
 		
@@ -449,9 +450,10 @@ public class StorageTreeMenuFactory {
 	 * xxxxxxxxxxxxxxxxxxxxxxsss
 	 * @param manager
 	 * @param selection
+	 * @throws DynamoConfigurationException 
 	 */
 	private void createMenu4Transitions(IMenuManager manager,
-			IStructuredSelection selection) {		
+			IStructuredSelection selection) throws DynamoConfigurationException {		
 
 		
 		
@@ -461,32 +463,22 @@ public class StorageTreeMenuFactory {
 		
 		
 		Object[] grandChildNodes = ((ParentNode) fileNode.getParent()).getChildren();
-		log.debug("basenode" + ((BaseNode) selection.getFirstElement()).getPhysicalStorage().getName());
-		log.debug("grandChildNodes.length" + grandChildNodes.length);
 		for (Object grandChildNode : grandChildNodes) {
 			String grandChildNodeLabel = ((BaseNode) grandChildNode)
 					.deriveNodeLabel();
-			log.debug("grandChildNodeLabel" + grandChildNodeLabel);
 			if ("configuration".equals(grandChildNodeLabel)) {
 				configurationFile = ((BaseNode) grandChildNode)
 						.getPhysicalStorage();
 			}
-		}
-		
-		log.debug(ConfigurationFileUtil.extractRootElementName(configurationFile));
-		
-		//log.debug(Util.deriveEntityLabelAndValueFromRiskSourceNode((DirectoryNode) selection.getFirstElement())[0]);
-		
+		}		
 		String riskFactorType = ConfigurationFileUtil.extractRootElementName(configurationFile);
 		
 		// TODO: Create a new Transition action class		
 		String transitionType;
 		if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel().
 				equalsIgnoreCase(riskFactorType)) {
-			log.debug("THE DRIFT");
 			transitionType =  RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel();
 		} else {
-			log.debug("THE MATRIX");
 			transitionType = RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel();
 		}
 		InputBulletsFreeXMLFileAction action = 
@@ -509,13 +501,14 @@ public class StorageTreeMenuFactory {
 	 * 
 	 * @param manager
 	 * @param selection
+	 * @throws DynamoConfigurationException 
 	 */
 	private void createMenu2EditXML(IMenuManager manager,
-			IStructuredSelection selection) {
+			IStructuredSelection selection) throws DynamoConfigurationException {
 		FileNode node = (FileNode) selection.getFirstElement();
 		String nodeLabel = node.toString();
 		ParentNode parentNode = node.getParent();
-		String parentNodeLabel = parentNode.toString();
+		String parentNodeLabel = parentNode.toString();		
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(
@@ -525,8 +518,6 @@ public class StorageTreeMenuFactory {
 			if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
 					.equalsIgnoreCase(
 							((BaseNode) grandParentNode).deriveNodeLabel())) {
-				
-				log.debug("rootelementname" + nodeLabel);
 				/*
 				XMLFileAction action = new XMLFileAction(shell, treeViewer,
 						(BaseNode) node, /*"simulation" RootElementNamesEnum.SIMULATION.getNodeLabel(), nodeLabel);

@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.menu.listeners;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.menu.StorageTreeMenuFactory;
@@ -39,9 +40,11 @@ public class StorageTreeMenuListener implements IMenuListener {
 		IStructuredSelection selection = (IStructuredSelection) treeViewer
 				.getSelection();
 		if (!selection.isEmpty()) {
-			BaseNode selectedNode = (BaseNode) selection.getFirstElement();
+			BaseNode selectedNode = (BaseNode) selection.getFirstElement();			
 			try {
 				stmf.createRelevantContextMenu(manager, selection, selectedNode);
+			} catch (DynamoConfigurationException dce) {
+				showErrorMessage(dce);
 			} catch (TreeStructureException tse) {
 				showErrorMessage(tse);
 			}
@@ -54,7 +57,7 @@ public class StorageTreeMenuListener implements IMenuListener {
 		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
 		box.setText("Error occured during save " + e.getMessage());
 		box.setMessage(e.getMessage());
-		box.open();		
+		box.open();
 	}	
 	
 }

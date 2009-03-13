@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,38 +12,27 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
-import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
-import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.widgets.MessageBox;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 public class CoupledTestAll {
 	Log log = LogFactory.getLog(getClass().getName());
@@ -154,8 +142,8 @@ public class CoupledTestAll {
 			output.extractArraysFromPopulations(pop);
 			
 			JFreeChart chart = output
-					.makeSurvivalPlot(0);
-			chart = output.makeSurvivalPlot(1);
+					.makeSurvivalPlotByScenario(0, false, false);
+			chart = output.makeSurvivalPlotByScenario(1, false, false);
 			/*
 			 * BS and HB 27-02-2009 Removed because it is being refactored in new version
 			ChartFrame frame1 = new ChartFrame("Survival Chart", chart);
@@ -212,16 +200,13 @@ public class CoupledTestAll {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.
-		} catch (DynamoOutputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
 	private void estimateModelParameters(String baseDirectoryPath, String simulationName) {
 		try {
-			p = new ModelParameters();
-			scen = p.estimateModelParameters(simulationName);
+			p = new ModelParameters(baseDirectoryPath);
+			scen = p.estimateModelParameters(simulationName, null);
 			log.fatal("ModelParameters estimated and written");
 		} catch (DynamoConfigurationException e) {
 			// TODO Auto-generated catch block

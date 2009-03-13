@@ -14,10 +14,14 @@ import org.junit.Test;
 
 public class testXMLwriter {
 	Log log = LogFactory.getLog(getClass().getName());
-
+	
+	String baseDir;
+	
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");
+	baseDir = BaseDirectory.
+		getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 }
 
 @After
@@ -34,17 +38,13 @@ public void test() {
 	
 
 	try {
-
-		
-
-	
-		ModelParameters p=new ModelParameters();
+		ModelParameters p=new ModelParameters(baseDir);
 		InputData i=new InputData();
 		i.makeTest1Data();
-		p.estimateModelParameters(100, i);
+		p.estimateModelParameters(100, i, null);
 		log.fatal("ModelParameters estimated ");
 		p.setRiskType(1);
-		String baseDir=BaseDirectory.getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+		
 		String simName="testsimulation";
 		SimulationConfigurationFactory s=new SimulationConfigurationFactory(simName);
 		

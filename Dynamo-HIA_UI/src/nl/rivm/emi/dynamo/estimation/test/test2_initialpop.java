@@ -1,8 +1,6 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
-import junit.framework.Assert;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
@@ -15,10 +13,13 @@ import org.junit.Test;
 
 public class test2_initialpop {
 	Log log = LogFactory.getLog(getClass().getName());
-
+	String baseDir;
+	
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");
+	baseDir = BaseDirectory.
+	getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 }
 
 @After
@@ -37,12 +38,12 @@ public void test() {
 	try {
 
 		
-		BaseDirectory baseDir=BaseDirectory.getInstance("c:\\hendriek\\test");
-		ModelParameters E1 = new ModelParameters();
+
+		ModelParameters E1 = new ModelParameters(baseDir);
 		InputData testdata = new InputData();
 		testdata.makeTest1Data();
-		E1.estimateModelParameters(100,testdata);
-		InitialPopulationFactory E2=new InitialPopulationFactory();
+		E1.estimateModelParameters(100,testdata, null);
+		InitialPopulationFactory E2=new InitialPopulationFactory(baseDir);
 		E2.manufactureInitialPopulation(E1,"simname",10, 111,true, null);
 		// test weighted regression
 

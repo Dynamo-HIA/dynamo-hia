@@ -4,35 +4,12 @@ package nl.rivm.emi.dynamo.estimation.test;
 
 	import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.util.Iterator;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
-import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.InputDataFactory;
-import nl.rivm.emi.dynamo.estimation.DiseaseClusterData;
-import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
-import nl.rivm.emi.dynamo.estimation.InputData;
-import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.InputData;
+import nl.rivm.emi.dynamo.estimation.InputDataFactory;
+import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -47,13 +24,14 @@ import org.junit.Test;
 	
 		Log log = LogFactory.getLog(getClass().getName());
 		
-		String baseDir="c:/hendriek/java/dynamohome";
+		String baseDir; //="c:/hendriek/java/dynamohome";
 		
 		String simulationName="simulation1";
 
 		@Before
 			public void setup() throws DynamoConfigurationException {
-				
+			baseDir = BaseDirectory.
+			getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 			}
 
 		@After
@@ -67,7 +45,8 @@ import org.junit.Test;
 				log.fatal("Starting test");
 
 					
-					InputDataFactory config= new InputDataFactory(simulationName);
+					InputDataFactory config= new InputDataFactory(simulationName, 
+							baseDir);
 					InputData i=new InputData();
 					InputData i2=new InputData();
 					i2.makeTest2Data();

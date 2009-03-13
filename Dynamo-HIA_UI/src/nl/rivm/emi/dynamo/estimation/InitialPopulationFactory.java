@@ -79,11 +79,11 @@ public class InitialPopulationFactory {
 		String popFileName;
 
 		if (newborns)
-			popFileName = directoryName + "\\modelconfiguration"
-					+ "\\newborns.xml";
+			popFileName = directoryName + File.separator + "modelconfiguration"
+					+ File.separator + "newborns.xml";
 		else
-			popFileName = directoryName + "\\modelconfiguration"
-					+ "\\population.xml";
+			popFileName = directoryName + File.separator + "modelconfiguration"
+					+ File.separator + "population.xml";
 		File initPopXMLfile = new File(popFileName);
 		try {
 			writeToXMLFile(pop[0], 0, initPopXMLfile);
@@ -102,8 +102,8 @@ public class InitialPopulationFactory {
 		}
 		if (pop.length > 1 && !newborns)
 			for (int scen = 1; scen < pop.length; scen++) {
-				popFileName = directoryName + "\\modelconfiguration"
-						+ "\\population_scen_" + scen + ".xml";
+				popFileName = directoryName + File.separator + "modelconfiguration"
+						+ File.separator + "population_scen_" + scen + ".xml";
 				initPopXMLfile = new File(popFileName);
 				if (pop[scen] != null)
 					try {

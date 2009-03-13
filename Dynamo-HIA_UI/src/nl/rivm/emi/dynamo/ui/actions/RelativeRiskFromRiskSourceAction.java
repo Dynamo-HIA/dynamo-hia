@@ -90,7 +90,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			if (chosenRootElementName == null) {
 					theModal = new RelRiskFromOtherDiseaseModal(shell, file
 							.getAbsolutePath(), file.getAbsolutePath(), rootElementName,
-							node, props);
+							node);
 			} else {
 				fillRootElementName(chosenRootElementName);
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL

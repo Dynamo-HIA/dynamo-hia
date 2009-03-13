@@ -16,7 +16,6 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChild
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.data.util.SchemaValidationSwitch;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -114,10 +113,8 @@ public class AgnosticGroupFactory implements RootLevelFactory {
 			configurationFromFile.clear();
 			
 			// Validate the xml by xsd schema
-			if (SchemaValidationSwitch.VALIDATING) { // TODO enable validation.
-				configurationFromFile.setValidating(true);
-				configurationFromFile.load();
-			}
+			configurationFromFile.setValidating(true);
+			configurationFromFile.load();
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			// Check if the name of the first element of the file
@@ -163,7 +160,7 @@ public class AgnosticGroupFactory implements RootLevelFactory {
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, "",
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(),
 					e, configurationFile.getAbsolutePath());
 			return null;
 		}

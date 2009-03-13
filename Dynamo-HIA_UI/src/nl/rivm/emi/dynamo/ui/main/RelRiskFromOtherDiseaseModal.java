@@ -47,7 +47,7 @@ public class RelRiskFromOtherDiseaseModal extends AbstractDataModal {
 	 */
 	public RelRiskFromOtherDiseaseModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode, RiskSourceProperties props) {
+			BaseNode selectedNode) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 	}

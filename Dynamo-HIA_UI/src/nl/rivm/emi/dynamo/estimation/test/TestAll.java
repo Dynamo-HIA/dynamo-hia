@@ -23,13 +23,13 @@ import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.estimation.DynamoSimulation;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.Output_UI;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
+import nl.rivm.emi.dynamo.simulation.DynamoSimulation;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -71,8 +71,8 @@ public class TestAll {
       
 		System.out.println(preCharConfig);
 		try {
-			p = new ModelParameters();
-			scen=p.estimateModelParameters(simName);
+			p = new ModelParameters(baseDir);
+			scen=p.estimateModelParameters(simName, null);
 			log.fatal("ModelParameters estimated and written");
 			
 			/* Below is obsolete
@@ -190,8 +190,8 @@ public class TestAll {
 					// pop[scennum] = sim.getPopulation();
 					if (pop[scennum]==null) throw new CDMConfigurationException("no population found for scenario "+scennum);
 					log.fatal("starting run for population "+scennum);
-					DynamoSimulation sim2=new DynamoSimulation(sim);
-					sim2.runDynamo(scennum);
+					DynamoSimulation sim2=new DynamoSimulation();
+					sim2.runSimulation();
 					log.fatal("Run  complete for population "+scennum);
 					
 					
@@ -200,7 +200,7 @@ public class TestAll {
 				}
 			}
 				DynamoOutputFactory output = new DynamoOutputFactory(scen,simName);
-				Output_UI ui= new Output_UI( scen,  simName, pop);
+				Output_UI ui= new Output_UI(null, scen,  simName, pop, baseDir);
 				/*
 				output.extractArraysFromPopulations(pop);
 				output.makeArraysWithNumbers();
@@ -255,10 +255,6 @@ public class TestAll {
 			e.printStackTrace();
 			log.fatal(e.getMessage());
 			assertNull(e); // Force error.
-		} catch (DynamoOutputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			log.fatal(e.getMessage());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,6 +4,8 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -16,6 +18,8 @@ public class RelativeRiskPanel {
 	Group group;
 	Label nameLabel;
 
+	Log log = LogFactory.getLog(this.getClass().getName());
+	
 	public RelativeRiskPanel(Composite parent, BaseNode riskSourceNode,
 			BaseNode selectedNode) throws ConfigurationException {
 		group = new Group(parent, SWT.NONE);

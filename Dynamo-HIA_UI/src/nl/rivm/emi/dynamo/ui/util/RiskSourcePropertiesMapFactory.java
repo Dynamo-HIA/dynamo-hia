@@ -8,6 +8,7 @@ import java.io.File;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -144,9 +145,10 @@ public class RiskSourcePropertiesMapFactory {
 	 * @param selectedNode
 	 * @param parentNode
 	 * @return
+	 * @throws DynamoConfigurationException 
 	 */
 	private static RiskSourcePropertiesMap fillMap(BaseNode selectedNode,
-			ParentNode riskSourceParentNode) {
+			ParentNode riskSourceParentNode) throws DynamoConfigurationException {
 		// A disease cannot influence itself through a relative risk.
 		boolean riskSourceIsADisease = isTheRiskSourceADisease(riskSourceParentNode);
 		RiskSourcePropertiesMap theMap = null;
@@ -169,7 +171,7 @@ public class RiskSourcePropertiesMapFactory {
 	}
 
 	private static RiskSourceProperties createRiskSourceProperties(
-			boolean riskSourceIsADisease, Object child) {
+			boolean riskSourceIsADisease, Object child) throws DynamoConfigurationException {
 		RiskSourceProperties properties = new RiskSourceProperties();
 		String name = ((BaseNode) child).deriveNodeLabel();
 		properties.setFileNameMainPart(name);
@@ -179,7 +181,7 @@ public class RiskSourcePropertiesMapFactory {
 		String parentFullName = parentNode.deriveNodeLabel();
 		String parentTrucatedName = parentFullName.substring(0, parentFullName
 				.length() - 1);
-		properties.setRiskSourceLabel(parentTrucatedName);
+		properties.setRiskSourceLabel(parentTrucatedName);		
 		if (!riskSourceIsADisease) {
 			addRiskFactorConfigurationFileInfo(child, properties);
 		}
@@ -191,9 +193,10 @@ public class RiskSourcePropertiesMapFactory {
 	 * 
 	 * @param child
 	 * @param properties
+	 * @throws DynamoConfigurationException 
 	 */
 	private static void addRiskFactorConfigurationFileInfo(Object child,
-			RiskSourceProperties properties) {
+			RiskSourceProperties properties) throws DynamoConfigurationException {
 		Object[] grandChildNodes = ((ParentNode) child).getChildren();
 		for (Object grandChildNode : grandChildNodes) {
 			String grandChildNodeLabel = ((BaseNode) grandChildNode)
@@ -269,7 +272,7 @@ public class RiskSourcePropertiesMapFactory {
 		return numberOfCategories;
 	}
 
-	private static Integer findNumberOfCategories(Object[] children) {
+	private static Integer findNumberOfCategories(Object[] children) throws DynamoConfigurationException {
 		Integer numberOfCategories = null;
 		for (Object childNode : children) {
 			String childNodeLabel = ((BaseNode) childNode).deriveNodeLabel();

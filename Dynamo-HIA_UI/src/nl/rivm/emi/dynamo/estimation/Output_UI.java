@@ -107,13 +107,8 @@ public class Output_UI {
 						+ " Message given: " + e.getMessage()
 						+ ". Program will close.");
 		e.printStackTrace();
-		if (messageBox.open() == SWT.OK) {
-			shell.dispose();
-		}
-
-		shell.open();
-		
-			}
+		messageBox.open();
+	}
 
 	public void makeOutputDisplay() throws DynamoOutputException {
 

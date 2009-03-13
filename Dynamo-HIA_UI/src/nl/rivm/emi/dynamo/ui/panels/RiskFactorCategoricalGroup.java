@@ -1,10 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -22,15 +22,17 @@ public class RiskFactorCategoricalGroup {
 
 	public RiskFactorCategoricalGroup(Shell shell, RiskFactorCategoricalObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws ConfigurationException {
 		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
+		
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
 				entityArray[0], entityArray[1]);
-		entityNameGroup.putInContainer();
+		entityNameGroup.putInContainer();		
+		
 		RiskFactorCategoricalParameterGroup parameterGroup = new RiskFactorCategoricalParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);

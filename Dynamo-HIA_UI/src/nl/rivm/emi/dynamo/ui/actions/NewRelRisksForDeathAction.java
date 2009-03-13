@@ -2,9 +2,11 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 import java.io.File;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
@@ -61,12 +63,12 @@ public class NewRelRisksForDeathAction extends ActionBase {
 						+ node.getPhysicalStorage().getName() + "\"");
 				messageBox.open();
 			}
-		} catch (TreeStructureException e) {
-			e.printStackTrace();
-			MessageBox messageBox = new MessageBox(shell,
-					SWT.ERROR_UNSUPPORTED_DEPTH);
-			messageBox.setMessage("Could not extract rootelementname.");
-			messageBox.open();
+		} catch (TreeStructureException tse) {			
+			ErrorMessageUtil.showErrorMessage(this.log, this.shell, tse, 
+					"Could not extract rootelementname.", SWT.ERROR_UNSUPPORTED_DEPTH);			
+		} catch (DynamoConfigurationException dce) {
+			ErrorMessageUtil.showErrorMessage(this.log, this.shell, dce, 
+					"Could not extract rootelementname.", SWT.ERROR_UNSPECIFIED);
 		}
 	}
 
@@ -113,7 +115,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 						}
 					}
 				}
-				if(theModal != null){
+				if(theModal != null){				
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
@@ -122,7 +124,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 							(ParentNode) node, file));
 				}
 				theViewer.refresh();
-				}
+				}				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

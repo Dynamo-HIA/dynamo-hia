@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 import junit.framework.Assert;
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 
@@ -13,9 +14,13 @@ import org.junit.Test;
 public class TestEstimation {
 	Log log = LogFactory.getLog(getClass().getName());
 
+	String baseDir;
+	
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");
+	baseDir = BaseDirectory.
+	getInstance("c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 }
 
 @After
@@ -42,7 +47,7 @@ public void test() {
 
 		// first test categorical variables
 
-		ModelParameters E1 = new ModelParameters();
+		ModelParameters E1 = new ModelParameters(baseDir);
 
 		// test weighted regression
 
@@ -85,7 +90,7 @@ public void test() {
 		
 		// test continuous risk factor
 		testdata.setRiskType(2);
-		ModelParameters E2 = new ModelParameters(); 
+		ModelParameters E2 = new ModelParameters(baseDir); 
 		E2.estimateModelParametersForSingleAgeGroup(100,testdata,0,0);
 		
 		log.fatal("end estimation continuous risk factor ");
@@ -128,7 +133,7 @@ public void test() {
 		testdata.getRelRiskDuurMortBegin()[0][0]=1.1F;  // also=1 for testing that begin=fixed value
 		testdata.getClusterData()[0][0][2].getRelRiskCat()[1][i]=1;
 		testdata.getClusterData()[0][0][2].getRelRiskCat()[2][i]=1;}
-		ModelParameters E3a = new ModelParameters();
+		ModelParameters E3a = new ModelParameters(baseDir);
 		//E3a.estimateModelParameters(100, testdata,0,0);
 		log.debug("relRiskOtherMortEnd "+E3a.getRelRiskOtherMortEnd()[0][0]+" relRiskOtherMortBegin "
 				+E3a.getRelRiskOtherMortBegin()
@@ -144,7 +149,7 @@ public void test() {
 		
 		InputData Testdata2 = new InputData();
 		Testdata2.makeTest2Data();
-		ModelParameters E4 = new ModelParameters();
+		ModelParameters E4 = new ModelParameters(baseDir);
 		E4.estimateModelParametersForSingleAgeGroup(100, Testdata2,0,0);
 
 		// print comparison with what should come out of it
@@ -159,7 +164,7 @@ public void test() {
 				+ E4.getAttributableMortality()[0][0][1] + "= ? ");
 		Testdata2.getClusterData()[0][0][0].getCaseFatality()[0] = 0;
 		Testdata2.getClusterData()[0][0][0].getCaseFatality()[1] = 0.5F;
-		ModelParameters E5 = new ModelParameters();
+		ModelParameters E5 = new ModelParameters(baseDir);
 		E5.estimateModelParametersForSingleAgeGroup(100, Testdata2,0,0);
 		// print comparison with what should come out of it
 		System.out.println("test resultaten 2 ziekte with casefat: "

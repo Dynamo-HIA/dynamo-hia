@@ -13,9 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.CDMRunException;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
+import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.population.Population;
@@ -25,7 +25,6 @@ import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
-import nl.rivm.emi.dynamo.estimation.SimulationConfigurationFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -67,11 +66,11 @@ public class TestClusterRun_3Char {
 
 		System.out.println(preCharConfig);
 		try {
-			p = new ModelParameters();
+			p = new ModelParameters(baseDir);
 			InputData i = new InputData();
 			// i.makeTest2Data();
 			i.makeTest1Data();
-			p.estimateModelParameters(100, i);
+			p.estimateModelParameters(100, i, null);
 			log.fatal("ModelParameters estimated ");
 			p.setRiskType(1);
 
@@ -116,7 +115,7 @@ public class TestClusterRun_3Char {
 		try {
 			Simulation sim;
 			log.fatal("Starting manufacturing initial population.");
-			InitialPopulationFactory E2 = new InitialPopulationFactory();
+			InitialPopulationFactory E2 = new InitialPopulationFactory(baseDir);
 			E2.writeInitialPopulation(p, 10, simName, 1111, false, null);
 			log.fatal("Starting run.");
 
