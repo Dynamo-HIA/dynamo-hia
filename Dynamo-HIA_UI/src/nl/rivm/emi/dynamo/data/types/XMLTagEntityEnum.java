@@ -3,10 +3,11 @@ package nl.rivm.emi.dynamo.data.types;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Alpha;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
-import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
+import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
+import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
 import nl.rivm.emi.dynamo.data.types.atomic.End;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
@@ -30,6 +31,7 @@ public enum XMLTagEntityEnum {
 	AGE((XMLTagEntity)new Age()),
 	ALPHA((XMLTagEntity)new Alpha()),
 	BEGIN((XMLTagEntity)new Begin()),
+	CAT((XMLTagEntity)new CatContainer()),
 	CLASS((XMLTagEntity)new DynamoClass()),
 	CLASSES((XMLTagEntity)new Classes()),
 	DURATION((XMLTagEntity)new Duration()),
