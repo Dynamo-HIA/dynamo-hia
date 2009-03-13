@@ -89,7 +89,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 			}
 			return (transitionConfiguration != null);
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e, configurationFile.getAbsolutePath());
 		}
 		return (transitionConfiguration != null);
 	}

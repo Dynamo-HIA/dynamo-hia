@@ -76,7 +76,7 @@ public class DynamoSimulation {
 							simulationConfigurationFile.getAbsolutePath()));
 				}
 			} catch (ConfigurationException e) {
-				ErrorMessageUtil.handleErrorMessage(this.log, "", e, 
+				ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e, 
 						this.simulationConfigurationFile.getAbsolutePath());
 				assertNull(e); // Force error.
 			} catch (ConversionException e1) {

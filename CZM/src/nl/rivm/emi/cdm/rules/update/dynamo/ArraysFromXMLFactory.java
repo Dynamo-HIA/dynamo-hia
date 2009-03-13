@@ -112,16 +112,29 @@ public class ArraysFromXMLFactory {
 			NICE TO HAVE FEATURE
 			KEEP IT IN THE CODE
 			
-			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
-			// The config cannot be loaded twice,
-			// because the contents will be doubled.
-			configurationFromFile.clear();
-
-			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();
+			The following schemas are not validated:
+			baselineOtherMortalities.xsd
+			baselineIncidences.xsd
+			baselineFatalIncidences.xsd
+			attributableMortalities.xsd
 			*/
+			
+			if (!"baselineOtherMortalities".equals(configurationFromFile.getRootElementName())
+					&& !"baselineIncidences".equals(configurationFromFile.getRootElementName())
+					&& !"baselineFatalIncidences".equals(configurationFromFile.getRootElementName())
+					&& !"attributableMortalities".equals(configurationFromFile.getRootElementName())
+			
+			) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFromFile.clear();
+	
+				// Validate the xml by xsd schema
+				configurationFromFile.setValidating(true);			
+				configurationFromFile.load();
+			}
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
@@ -321,22 +334,27 @@ public class ArraysFromXMLFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-
 			/**
 			TODO: VALIDATION IS FOR FUTURE USE 
 			NICE TO HAVE FEATURE
 			KEEP IT IN THE CODE
 			
-			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
-			// The config cannot be loaded twice,
-			// because the contents will be doubled.
-			configurationFromFile.clear();
+			The following schemas are not be validated:
+			relativeRisks.xsd
 			
-			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();
 			*/
+
+			if (!"relativeRisks".equals(configurationFromFile.getRootElementName())) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFromFile.clear();
+				
+				// Validate the xml by xsd schema
+				configurationFromFile.setValidating(true);			
+				configurationFromFile.load();							
+			}			
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
@@ -846,6 +864,7 @@ public class ArraysFromXMLFactory {
 	 *            : tag of the element containing the value to be read
 	 * @return four dimensional array (float[96][2][][]) of parameters by age
 	 *         and sex
+	 * @throws DynamoConfigurationException 
 	 * @throws ConfigurationException
 	 */
 	public float[][][][] manufactureThreeDimArray(String fileName,
@@ -854,7 +873,8 @@ public class ArraysFromXMLFactory {
 			throws DynamoConfigurationException {
 
 		File configurationFile = new File(fileName);
-
+		float[][][][] returnArray = null;
+		
 		log.debug("Starting manufacturing five Dimensional array from file "
 				+ fileName);
 
@@ -866,17 +886,21 @@ public class ArraysFromXMLFactory {
 			TODO: VALIDATION IS FOR FUTURE USE 
 			NICE TO HAVE FEATURE
 			KEEP IT IN THE CODE
-						
-			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
-			// The config cannot be loaded twice,
-			// because the contents will be doubled.
-			configurationFromFile.clear();
-			
-			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();
+			The following schemas are not be validated:
+			relativeRisks.xsd
 			*/
+			
+			if (!"relativeRisks".equals(configurationFromFile.getRootElementName())) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFromFile.clear();
+				
+				// Validate the xml by xsd schema
+				configurationFromFile.setValidating(true);			
+				configurationFromFile.load();
+			}
 			
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
@@ -918,7 +942,7 @@ public class ArraysFromXMLFactory {
 								+ " in file " + fileName);
 
 			/* now initialize the arrays */
-			float[][][][] returnArray = new float[96][2][maxIndex + 1][maxIndex + 1];
+			returnArray = new float[96][2][maxIndex + 1][maxIndex + 1];
 			checkArray = new float[96][2][maxIndex + 1][maxIndex + 1];
 
 			for (int sex = 0; sex < 2; sex++)
@@ -957,14 +981,16 @@ public class ArraysFromXMLFactory {
 						}
 			return returnArray;
 		} catch (ConfigurationException e) {
+			/*
 			log.error("Caught Exception of type: " + e.getClass().getName()
 					+ " with message: " + e.getMessage() + "from file "
 					+ fileName);
 			e.printStackTrace();
 			throw new DynamoConfigurationException("Caught Exception of type: "
 					+ e.getClass().getName() + " with message: "
-					+ e.getMessage() + "from file " + fileName);
-
+					+ e.getMessage() + "from file " + fileName);*/
+			ErrorMessageUtil.handleErrorMessage(log, "Caught Exception of type: ", e, fileName);
+			
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -972,6 +998,7 @@ public class ArraysFromXMLFactory {
 			exception.printStackTrace();
 			return null;
 		}
+		return returnArray;
 	}
 
 	/**

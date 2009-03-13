@@ -211,24 +211,29 @@ public class HealthStateCatManyToManyUpdateRule extends
 			throws ConfigurationException {
 		boolean success = false;
 		try {
+			
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
-			
+
 			/**
 			TODO: VALIDATION IS FOR FUTURE USE 
 			NICE TO HAVE FEATURE
 			KEEP IT IN THE CODE
+			The following schemas are not be validated:
+			updateRuleConfiguration.xsd
 			
-			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
-			// The config cannot be loaded twice,
-			// because the contents will be doubled.
-			configurationFileConfiguration.clear();
-			
-			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
-			configurationFileConfiguration.load();
 			*/
+			if (!"updateRuleConfiguration".equals(configurationFileConfiguration.getRootElementName())) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFileConfiguration.clear();
+				
+				// Validate the xml by xsd schema
+				configurationFileConfiguration.setValidating(true);			
+				configurationFileConfiguration.load();				
+			}
 			
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
@@ -469,13 +474,13 @@ public class HealthStateCatManyToManyUpdateRule extends
 			success = true;
 			return success;
 		} catch (NoSuchElementException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, "", new ConfigurationException(
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), 
+					new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
 					+ this.nDiseasesLabel), configurationFile.getAbsolutePath());
 		} catch (DynamoUpdateRuleConfigurationException e) {
-			log.fatal(e.getMessage());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e, 
+					configurationFile.getAbsolutePath());
 		}
 		return success;
 	}

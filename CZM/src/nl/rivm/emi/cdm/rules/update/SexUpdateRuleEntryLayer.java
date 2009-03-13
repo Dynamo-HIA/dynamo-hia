@@ -83,7 +83,7 @@ public class SexUpdateRuleEntryLayer extends ManyToOneUpdateRuleBase implements
 			Object temp = handleLevel(snConf.get(0), 1);
 			return (delegates != null);		
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e, configurationFile.getAbsolutePath());
 		}		
 		return (delegates != null);
 	}

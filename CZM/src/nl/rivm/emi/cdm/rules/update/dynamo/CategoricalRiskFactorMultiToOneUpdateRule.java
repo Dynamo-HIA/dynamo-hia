@@ -166,16 +166,22 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			NICE TO HAVE FEATURE
 			KEEP IT IN THE CODE
 			
-			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
-			// The config cannot be loaded twice,
-			// because the contents will be doubled.
-			configurationFileConfiguration.clear();
+			The following schemas are not be validated:
+			updateRuleConfiguration.xsd
 			
-			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
-			configurationFileConfiguration.load();
 			*/
+						
+			if (!"updateRuleConfiguration".equals(configurationFileConfiguration.getRootElementName())) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFileConfiguration.clear();
+				
+				// Validate the xml by xsd schema
+				configurationFileConfiguration.setValidating(true);			
+				configurationFileConfiguration.load();				
+			}			
 			
 			//long seed = 21223445;
 			//randomGenerator = new java.util.Random(seed);
@@ -190,10 +196,10 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			success=true;
 			return success;
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, "",
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(),
 					e, configurationFile.getAbsolutePath());
-		}
-		return success;			
+			return success;	
+		}		
 	}
 			
 		public float[][][][] loadTransitionMatrix(String inputFile) throws CDMConfigurationException {

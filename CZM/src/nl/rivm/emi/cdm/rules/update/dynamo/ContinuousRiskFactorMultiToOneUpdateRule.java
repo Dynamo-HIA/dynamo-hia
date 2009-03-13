@@ -263,9 +263,10 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 			success = true;
 			return success;			
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());
-		}						
-		return success;			
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), 
+					e, configurationFile.getAbsolutePath());
+			return success;	
+		}							
 	}
 	
 	

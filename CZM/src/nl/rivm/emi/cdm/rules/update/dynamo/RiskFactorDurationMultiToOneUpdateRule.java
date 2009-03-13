@@ -112,7 +112,7 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 	
 			return success;			
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(log, "", e, configurationFile.getAbsolutePath());			
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e, configurationFile.getAbsolutePath());			
 		}					
 		return success;			
 	}

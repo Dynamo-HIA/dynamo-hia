@@ -641,13 +641,12 @@ public class HealthStateManyToManyUpdateRule extends
 			success = true;
 			return success;
 		} catch (NoSuchElementException e) {			
-			ErrorMessageUtil.handleErrorMessage(this.log, "", new ConfigurationException(
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
 					+ this.nDiseasesLabel), configurationFile.getAbsolutePath());			
 		} catch (DynamoUpdateRuleConfigurationException e) {
-			log.fatal(e.getMessage());
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e, 
+					configurationFile.getAbsolutePath());
 		}
 		return success;
 	}

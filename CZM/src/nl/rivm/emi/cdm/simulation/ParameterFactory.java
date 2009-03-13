@@ -78,7 +78,7 @@ public class ParameterFactory {
 			}
 			return transitions;
 		} catch (ConfigurationException e) {			
-			ErrorMessageUtil.handleErrorMessage(this.log, "", e, 
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e, 
 					fln.getAbsolutePath());
 			return transitions;
 		}
