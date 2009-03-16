@@ -7,7 +7,9 @@
    </configIni>
 
    <launcherArgs>
+      <vmArgsLin>-Xms128M -Xmx256M -XX:MaxPermSize=128M -XX:SurvivorRatio=8</vmArgsLin>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsWin>-Xms128M -Xmx1024M -XX:MaxPermSize=128M -XX:SurvivorRatio=8</vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>

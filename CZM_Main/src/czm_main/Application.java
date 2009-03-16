@@ -36,28 +36,6 @@ public class Application implements IApplication {
 		String baseDirectoryPath = System.getProperty("user.dir")
 		+ File.separator + "data" + File.separator + "dynamobase";
 		
-		
-		
-		/*
-		Display display = PlatformUI.createDisplay();
-		
-		try {
-
-			int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
-			
-			BaseStorageTreeScreen application = new BaseStorageTreeScreen(baseDirectoryPath);
-			application.open(display);
-			
-			log.info("returnCode" + returnCode);
-			if (returnCode == PlatformUI.RETURN_RESTART)
-				return IApplication.EXIT_RESTART;
-			else
-				return IApplication.EXIT_OK;
-		} finally {
-			display.dispose();
-		}
-		*/
-		
 		BaseStorageTreeScreen application = new BaseStorageTreeScreen(
 				baseDirectoryPath);
 				shell = application.open(display);
@@ -76,21 +54,7 @@ public class Application implements IApplication {
 		
 		
 	}
-/*
-	public Object start(IApplicationContext context) {
-		Display display = PlatformUI.createDisplay();
-		try {
-			int returnCode = PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor());
-			if (returnCode == PlatformUI.RETURN_RESTART) {
-				return IApplication.EXIT_RESTART;
-			}
-			return IApplication.EXIT_OK;
-		} finally {
-			display.dispose();
-		}
-	}	
-	*/
-	
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.equinox.app.IApplication#stop()
 	 */
