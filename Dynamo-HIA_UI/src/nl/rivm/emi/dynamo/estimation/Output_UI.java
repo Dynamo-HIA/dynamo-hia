@@ -6,27 +6,30 @@ package nl.rivm.emi.dynamo.estimation;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.rules.update.UpdateRules4SimulationFromXMLFactory;
+
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
 import org.eclipse.swt.SWT;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -39,14 +42,16 @@ import org.eclipse.swt.widgets.Text;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+
 /**
  * @author boshuizh
  * 
  */
 public class Output_UI {
 
-	final Shell parentShell ;
-	Scale scale;
+	final Shell parentShell;
+	final Shell outputShell;
+	
 	Text value;
 	JFreeChart pyramidChart;
 	int plottedScen;
@@ -57,11 +62,15 @@ public class Output_UI {
 
 	// Contains the base directory of the application data
 	private String baseDir;
-	// TODO baseDir
-	public Output_UI(Shell shell, ScenarioInfo scen, String simName, 
+
+	
+	public Output_UI(Shell shell, ScenarioInfo scen, String simName,
 			Population[] pop, String baseDir) {
 
-		parentShell=shell;
+		this.parentShell = shell;
+		outputShell = new Shell(parentShell);
+		outputShell.setText("Dynamo Output");
+		outputShell.setBounds(30, 30, 750, 650);
 		output = new DynamoOutputFactory(scen, simName);
 		stepsInRun = output.getStepsInRun();
 		startYear = output.getStartYear();
@@ -75,7 +84,7 @@ public class Output_UI {
 			 * 
 			 * output.makeRiskFactorPlots(0);
 			 */
-			makeOutputDisplay();
+			makeOutputDisplay(outputShell);
 			/*
 			 * if (scen.getRiskType()==2) output.makeMeanPlots(0);
 			 * output.makePrevalenceByRiskFactorPlots(0);
@@ -101,20 +110,23 @@ public class Output_UI {
 	private void displayErrorMessage(Exception e) {
 
 		Shell shell = new Shell(parentShell);
+
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		messageBox
 				.setMessage("error while calculating output."
 						+ " Message given: " + e.getMessage()
 						+ ". Program will close.");
 		e.printStackTrace();
-		messageBox.open();
+		if (messageBox.open() == SWT.OK) {
+			shell.dispose();
+		}
+
+		shell.open();
+
 	}
 
-	public void makeOutputDisplay() throws DynamoOutputException {
+	public void makeOutputDisplay(Shell shell) throws DynamoOutputException {
 
-		Shell shell = new Shell(parentShell);
-		shell.setText("Dynamo Output");
-		shell.setBounds(30, 30, 750, 650);
 		/* tab for pyramid plots */
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
 		tabFolder1.setLayout(new FillLayout());
@@ -136,13 +148,13 @@ public class Output_UI {
 		makeMortalityTab(tabFolder1);
 
 		/* tab for output */
-		makeUITab(tabFolder1);
+		makeWriteDataTab(tabFolder1);
 
 		/* tab for output */
 		makeChangeScenarioTab(tabFolder1);
 
 		shell.open();
-		
+
 	}
 
 	/* fields giving the selections made for the writing of files */
@@ -151,7 +163,7 @@ public class Output_UI {
 	/**
 	 * @param tabFolder1
 	 */
-	private void makeUITab(TabFolder tabFolder1) {
+	private void makeWriteDataTab(TabFolder tabFolder1) {
 		Composite UIComposite = new Composite(tabFolder1, SWT.FILL);
 		TabItem item1 = new TabItem(tabFolder1, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -173,6 +185,294 @@ public class Output_UI {
 		controlComposite.setLayout(gridLayoutControl);
 		controlComposite.setLayoutData(controlData);
 
+		makeCohortStyleButton(controlComposite);
+		makeGenderOutputButton(controlComposite);
+		makeDiseaseStyleButton(controlComposite);
+		Button runButton = new Button(controlComposite, SWT.PUSH);
+		runButton.setText("Write data");
+		/*
+		 * make new scenarionames that are part of the standard file name which
+		 * do not contain any underscores any more
+		 */
+		final String[] scenarioNamesToWrite = cleanUpScenarioNames(output
+				.getScenarioNames());
+
+		runButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog fd = new FileDialog(outputShell, SWT.SAVE);
+
+				fd.setText("Give filename for reference scenario:");
+				// TODO: juiste basedir meegeven
+				fd.setFilterPath(Output_UI.this.baseDir + "simulation"
+						+ File.separator + "results" + File.separator
+						+ "excelcohortdata");
+				String[] filterExt = { "*.xml", "*.*" };
+				fd.setFilterExtensions(filterExt);
+				if (cohortStyle)
+					fd.setFileName("excelcohortdata");
+
+				if (!cohortStyle)
+					fd.setFileName("excelyeardata");
+
+				String path = fd.open();
+
+				if (path != null) {
+					/* remove the extension from the path */
+					path = cleanPath(path);
+
+					if (cohortStyle && singleFile)
+						for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+							String fileName = path + "_"
+									+ scenarioNamesToWrite[scen] + ".xml";
+							try {
+								output.writeWorkBookXMLbyCohort(fileName, 2,
+										scen);
+							} catch (FileNotFoundException e1) {
+								displayErrorMessage(e1);
+								e1.printStackTrace();
+							} catch (FactoryConfigurationError e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (XMLStreamException e1) {
+
+								displayErrorMessage(e1);
+							} catch (DynamoOutputException e1) {
+
+								displayErrorMessage(e1);
+							}
+
+						}
+					else {
+						if (!cohortStyle && singleFile)
+							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+								String fileName = path + "_"
+										+ scenarioNamesToWrite[scen] + ".xml";
+								try {
+									output.writeWorkBookXMLbyYear(fileName, 2,
+											scen);
+								} catch (FileNotFoundException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (FactoryConfigurationError e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (XMLStreamException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (DynamoOutputException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								}
+							}
+						else if (cohortStyle && !singleFile) {
+							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+								String fileName = path + "_men_"
+										+ output.getScenarioNames()[scen]
+										+ ".xml";
+								try {
+									output.writeWorkBookXMLbyCohort(fileName,
+											0, scen);
+
+									fileName = path + "_women_"
+											+ scenarioNamesToWrite[scen]
+											+ ".xml";
+
+									output.writeWorkBookXMLbyCohort(fileName,
+											1, scen);
+								} catch (FileNotFoundException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (FactoryConfigurationError e1) {
+									// TODO: handle this exception
+									e1.printStackTrace();
+								} catch (XMLStreamException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (DynamoOutputException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								}
+							}
+						} else if (!cohortStyle && !singleFile) {
+							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
+								String fileName = path + "_men_"
+										+ output.getScenarioNames()[scen]
+										+ ".xml";
+								try {
+									output.writeWorkBookXMLbyYear(fileName, 0,
+											scen);
+
+									fileName = path + "_women_"
+											+ scenarioNamesToWrite[scen]
+											+ ".xml";
+
+									output.writeWorkBookXMLbyYear(fileName, 1,
+											scen);
+								} catch (FileNotFoundException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (FactoryConfigurationError e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (XMLStreamException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								} catch (DynamoOutputException e1) {
+									displayErrorMessage(e1);
+									e1.printStackTrace();
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+			/**
+			 * @param path
+			 * @return
+			 */
+			private String cleanPath(String path) {
+				String delims = "[.]";
+				String[] tokens = path.split(delims);
+				path = tokens[0];
+				/* now remove the older references to scenario and gender */
+				/*
+				 * note that this might give unexpected results for the user in
+				 * case the selected files were not made earlier by the program,
+				 * or when scenarioNames have underscores in them therefore
+				 * alternative scenarionames are used without underscores
+				 */
+				delims = "[_]";
+				String[] tokens2 = path.split(delims);
+				/*
+				 * last part is the indication of scenario and should be left
+				 * out
+				 */
+				int numberToAdd = tokens2.length - 1;
+				/*
+				 * if the last part before that is a gender indicator, also
+				 * leave that out
+				 */
+
+				if (tokens2[numberToAdd].compareToIgnoreCase("men") == 0
+						|| tokens2[numberToAdd].compareToIgnoreCase("women") == 0)
+					numberToAdd--;
+				/*
+				 * of course when there is no last part left, then still take
+				 * the first part
+				 */
+
+				path = tokens2[0];
+				for (int j = 1; j < numberToAdd; j++) {
+
+					path = path + "_" + tokens2[j];
+				}
+				return path;
+			}
+		});
+		item1.setText("Write output");
+		item1.setControl(UIComposite);
+
+	}
+
+	/**
+	 * makes new scenarionames that are part of the standard file name which do
+	 * not contain any underscores or spaces any more
+	 * 
+	 * @param scenarioNamesToWrite
+	 */
+	private String[] cleanUpScenarioNames(String[] scenarioNames) {
+		String[] scenarioNamesToWrite = scenarioNames;
+		for (int i = 0; i < scenarioNames.length; i++) {
+			/*
+			 * remove any underscore and spaces from the file name as this will
+			 * give problems with respectively removing the added part from the
+			 * filename, or with the operation system
+			 */
+			String delims = "[_]";
+			String[] parts = scenarioNamesToWrite[i].split(delims);
+			if (parts.length > 1) {
+				scenarioNamesToWrite[i] = parts[0];
+				for (int j = 1; j < parts.length; j++) {
+					scenarioNamesToWrite[i] = scenarioNamesToWrite[i]
+							+ parts[j];
+				}
+			}
+
+			delims = "[ ]";
+			parts = scenarioNamesToWrite[i].split(delims);
+			if (parts.length > 1) {
+				scenarioNamesToWrite[i] = parts[0];
+				for (int j = 1; j < parts.length; j++) {
+					scenarioNamesToWrite[i] = scenarioNamesToWrite[i]
+							+ parts[j];
+				}
+			}
+		}
+		return scenarioNamesToWrite;
+	}
+
+	/**
+	 * makes a radio group for chosing the style of the output to write: by
+	 * cohort or by year
+	 * 
+	 * @param controlComposite
+	 */
+	private void makeDiseaseStyleButton(Composite controlComposite) {
+		/*
+		 * first radio group
+		 */
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("disease information to write:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button singleDiseaseButton = new Button(radiogroup1, SWT.RADIO);
+		singleDiseaseButton.setText("per disease");
+		if (output.isDetails())
+			singleDiseaseButton.setSelection(false);
+		else
+			singleDiseaseButton.setSelection(true);
+
+		singleDiseaseButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					output.setDetails(false);
+
+				}
+
+			}
+		}));
+		Button stateButton = new Button(radiogroup1, SWT.RADIO);
+		stateButton.setText("per combination of disease");
+		if (output.isDetails())
+			stateButton.setSelection(true);
+		else
+			stateButton.setSelection(false);
+
+		// ageButton.setBounds(10,50,20,100);
+		stateButton.addListener(SWT.Selection, (new Listener() {
+
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					output.setDetails(true);
+				}
+
+			}
+		}));
+	}
+
+	/**
+	 * makes a radio group for chosing the style of the output to write: by
+	 * cohort or by year
+	 * 
+	 * @param controlComposite
+	 */
+	private void makeCohortStyleButton(Composite controlComposite) {
 		/*
 		 * first radio group
 		 */
@@ -208,61 +508,60 @@ public class Output_UI {
 
 			}
 		}));
-		Button runButton = new Button(controlComposite, SWT.PUSH);
-		runButton.setText("Write data");
-		runButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (cohortStyle)
-					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-						String fileName = Output_UI.this.baseDir 
-								+ File.separator + "excel_cohort_all_"
-								+ output.getScenarioNames()[scen] + ".xml";
-						try {
-							output.writeWorkBookXMLbyCohort(fileName, 2, scen);
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (FactoryConfigurationError e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (XMLStreamException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (DynamoOutputException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-
-					}
-				else {
-					for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-						String fileName = Output_UI.this.baseDir
-								+ File.separator + "excel_year_all_"
-								+ output.getScenarioNames()[scen] + ".xml";
-						try {
-							output.writeWorkBookXMLbyYear(fileName, 2, scen);
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (FactoryConfigurationError e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (XMLStreamException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (DynamoOutputException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
-				}
-			}
-		});
-		item1.setText("Write output");
-		item1.setControl(UIComposite);
-
 	}
 
+	boolean singleFile = true;
+
+	/**
+	 * makes a radio group for chosing the style of the output to write: by
+	 * gender or combined
+	 * 
+	 * @param controlComposite
+	 */
+	private void makeGenderOutputButton(Composite controlComposite) {
+		/*
+		 * first radio group
+		 */
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("files to write:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button separateButton = new Button(radiogroup1, SWT.RADIO);
+		separateButton.setText("separate for men and women");
+		separateButton.setSelection(false);
+
+		separateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					singleFile = false;
+
+				}
+
+			}
+		}));
+		Button bothButton = new Button(radiogroup1, SWT.RADIO);
+		bothButton.setSelection(true);
+
+		bothButton.setText("total population");
+		// ageButton.setBounds(10,50,20,100);
+		bothButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					singleFile = true;
+				}
+
+			}
+		}));
+	}
+	
+	/** 
+	 * yearForPyramid indicates the year for which the population pyramid should be plotted
+	 */
+	int yearForPyramid = 0;
 	/**
 	 * method fills the tab with the pyramid plot
 	 * 
@@ -273,8 +572,10 @@ public class Output_UI {
 		/* create the overall composite within the tab */
 
 		Composite pyramidComposite = new Composite(tabFolder1, SWT.NONE);
-		TabItem item1 = new TabItem(tabFolder1, SWT.NONE);
-
+		
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		pyramidComposite.setLayout(gridLayout);
 		/*
 		 * the composite has two elements: - a column with control elements
 		 * where the user can make choices - a plot area
@@ -282,37 +583,48 @@ public class Output_UI {
 
 		/* create a composite that contains the control elements */
 		Composite controlComposite = new Composite(pyramidComposite, SWT.NONE);
-		controlComposite.setBounds(0, 0, 50, 300);
-
-		RowLayout rowLayout = new RowLayout();
-		controlComposite.setSize(600, 600);
-		controlComposite.setLayout(rowLayout);
-		/* create the plot composite */
-
-		pyramidComposite.setSize(600, 600);
-		pyramidComposite.setLayout(rowLayout);
+		
+		
+		
+		
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 2;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		controlData.grabExcessVerticalSpace=true;
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+	
+		
 
 		plottedScen = 1;
-		int timestep = 0;
+		
 
-		scale = new Scale(pyramidComposite, SWT.VERTICAL);
-		scale.setBounds(0, 0, 40, 200);
+		final Scale scale = new Scale(controlComposite, SWT.VERTICAL);
+		//scale.setBounds(0, 0, 40, 200);
 		scale.setMaximum(stepsInRun);
 		scale.setMinimum(0);
 		scale.setIncrement(1);
 		scale.setPageIncrement(1);
 		scale.setSelection(stepsInRun);
-		RowData rowData2 = new RowData(40, 500);
-		scale.setLayoutData(rowData2);
+		
+		GridData data3 = new GridData();
+		data3.verticalSpan = 3;
+		data3.grabExcessVerticalSpace=true;
+		scale.setLayoutData(data3);
+		//RowData rowData2 = new RowData(40, 500);
+		//scale.setLayoutData(rowData2);
 		scale.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				int perspectiveValue = scale.getMaximum()
 						- scale.getSelection() + scale.getMinimum();
 				value.setText("Year: "
 						+ (perspectiveValue + output.getStartYear()));
-				JFreeChart pyramidChart = output
-						.makePyramidChartIncludingDisease(plottedScen,
-								perspectiveValue, -1);
+				yearForPyramid=perspectiveValue;
+				 
+				JFreeChart pyramidChart;
+				if (pyramidDiseaseNumber==0) pyramidChart = output.makePyramidChart(plottedScen,yearForPyramid);else
+					pyramidChart=output.makePyramidChartIncludingDisease(plottedScen,yearForPyramid,pyramidDiseaseNumber-2 );
+
 				chartComposite.setChart(pyramidChart);
 				chartComposite.redraw();
 				chartComposite.forceRedraw();
@@ -320,20 +632,33 @@ public class Output_UI {
 			}
 
 		});
-		value = new Text(pyramidComposite, SWT.BORDER | SWT.SINGLE);
+		value = new Text(controlComposite, SWT.BORDER | SWT.SINGLE);
 
 		value.setEditable(false);
-		RowData rowData4 = new RowData(55, 25);
-		value.setLayoutData(rowData4);
+		//RowData rowData4 = new RowData(55, 25);
+		//value.setLayoutData(rowData4);
+		
+		
+		
+		
+		
 		JFreeChart pyramidChart = output.makePyramidChartIncludingDisease(
-				plottedScen, timestep, -1);
-		RowData rowData3 = new RowData(450, 500);
+				plottedScen, yearForPyramid, -1);
+		//RowData rowData3 = new RowData(450, 500);
 		chartComposite = new ChartComposite(pyramidComposite, SWT.NONE,
 				pyramidChart, true);
 		chartComposite.setDisplayToolTips(true);
 		chartComposite.setHorizontalAxisTrace(false);
 		chartComposite.setVerticalAxisTrace(false);
-		chartComposite.setLayoutData(rowData3);
+		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL);
+		chartComposite.setLayoutData(chartData);
+		//chartComposite.setLayoutData(rowData3);
+		makeScenarioChoiceGroupForPyramid(controlComposite,chartComposite);
+		makeDiseaseChoiceGroupForPyramid(controlComposite,chartComposite);
+		
+		TabItem item1 = new TabItem(tabFolder1, SWT.NONE);
 		item1.setText("Pyramid");
 		item1.setControl(pyramidComposite);
 
@@ -351,17 +676,10 @@ public class Output_UI {
 	private int currentDisease;
 	private int currentYear;
 	private int plotType;
+	private boolean differencePlot;
+	private boolean axisIsAge;
+	private boolean numbers;
 	private int genderChoice;
-	/*
-	 * plotType=0: by riskType plotType=1: by scenario plotType=2: by riskfactor
-	 */
-	private boolean axisIsAge = false;
-	private boolean differencePlot = false;
-	private boolean numbers = false;
-
-	/*
-	 * if false, axis=year
-	 */
 
 	/**
 	 * @param tabFolder1
@@ -375,6 +693,7 @@ public class Output_UI {
 		// plotComposite.setBounds(10,10,720,600);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
+
 		plotComposite.setLayout(gridLayout);
 		currentScen = 0;
 		if (output.getNScen() > 0)
@@ -392,9 +711,7 @@ public class Output_UI {
 		GridLayout gridLayoutControl = new GridLayout();
 		gridLayoutControl.numColumns = 1;
 		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		// controlData.widthHint = 100;
 
-		// controlComposite.setLayout(new RowLayout(SWT.VERTICAL));
 		controlComposite.setLayout(gridLayoutControl);
 		controlComposite.setLayoutData(controlData);
 
@@ -409,388 +726,45 @@ public class Output_UI {
 		/*
 		 * first radio group
 		 */
-		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
-
-		radiogroup1.setText("X-axis:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
-		// yearButton.setBounds(10,10,20,100);
-
-		Button yearButton = new Button(radiogroup1, SWT.RADIO);
-		yearButton.setText("Year");
-		yearButton.setSelection(true);
-
-		yearButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						axisIsAge = false;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
-		Button ageButton = new Button(radiogroup1, SWT.RADIO);
-		ageButton.setText("Age");
-		// ageButton.setBounds(10,50,20,100);
-		ageButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						axisIsAge = true;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
+		makeAgeYearChoiceGroup(controlComposite, chartComposite2);
 
 		/*
 		 * second radio group
 		 */
-		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
-
-		radiogroup2.setText("Y-axis:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
-		// yearButton.setBounds(10,10,20,100);
-
-		Button rateButton = new Button(radiogroup2, SWT.RADIO);
-		rateButton.setText("scenario prevalence");
-		rateButton.setSelection(true);
-
-		rateButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						differencePlot = false;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
-		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
-		differenceButton.setText("Difference with reference scenario");
-		// ageButton.setBounds(10,50,20,100);
-		differenceButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						differencePlot = true;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
+		makeDifferencePlotGroup(controlComposite, chartComposite2);
 
 		/*
 		 * third radio group
 		 */
-		Group radiogroup3 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
-
-		radiogroup3.setText("Y-axis:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-
-		radiogroup3.setLayout(new RowLayout(SWT.VERTICAL));
-		// yearButton.setBounds(10,10,20,100);
-
-		Button rate2Button = new Button(radiogroup3, SWT.RADIO);
-		rate2Button.setText("Prevalence rate");
-		rate2Button.setSelection(true);
-
-		rate2Button.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						numbers = false;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
-		Button numberButton = new Button(radiogroup3, SWT.RADIO);
-		numberButton.setText("number of cases (not yet implemented)");
-		// ageButton.setBounds(10,50,20,100);
-		numberButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						numbers = true;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-
-				}
-
-			}
-		}));
+		makeNumberRateChoiceGroup(controlComposite, chartComposite2);
 
 		/*
 		 * fourth radio group
 		 */
-		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
-
-		radiogroup4.setText("separate curves:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		GridLayout gridLayoutGroup4 = new GridLayout();
-		gridLayoutGroup4.numColumns = 2;
-		radiogroup4.setLayout(gridLayoutGroup4);
-		// yearButton.setBounds(10,10,20,100);
-
-		Button byRiskClassButton = new Button(radiogroup4, SWT.RADIO);
-		byRiskClassButton.setText("by riskclass");
-
-		byRiskClassButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				Button button = (Button) event.widget;
-				if (button.getSelection()) {
-					try {
-						plotType = 0;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						e1.printStackTrace();
-						displayErrorMessage(e1);
-					}
-				}
-			}
-		}
-
-		));
-		Button byScenarioButton = new Button(radiogroup4, SWT.RADIO);
-		byScenarioButton.setText("by scenario");
-		byScenarioButton.setSelection(true);
-		// ageButton.setBounds(10,50,20,100);
-		byScenarioButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						plotType = 1;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-						displayErrorMessage(e1);
-
-						e1.printStackTrace();
-					}
-				}
-				;// do plot
-			}
-		}));
-
-		Button bySexButton = new Button(radiogroup4, SWT.RADIO);
-		bySexButton.setText("by gender");
-
-		// ageButton.setBounds(10,50,20,100);
-		bySexButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					try {
-						plotType = 2;
-						JFreeChart chart = makeDiseaseChart();
-						chartComposite2.setChart(chart);
-						chartComposite2.forceRedraw();
-					} catch (DynamoOutputException e1) {
-
-						displayErrorMessage(e1);
-						e1.printStackTrace();
-					}
-				}
-				;// do plot
-			}
-		}));
+		makeChoiceByVariableGroup(controlComposite, chartComposite2);
 
 		/*
 		 * first list of choice
 		 */
 
-		Group listgroup1 = new Group(controlComposite, SWT.VERTICAL);
-		listgroup1.setText("scenario:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		listgroup1.setLayout(new RowLayout(SWT.VERTICAL));
-		final Combo combo1 = new Combo(listgroup1, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
-
-		String[] scenNames = output.getScenarioNames();
-		combo1.setItems(scenNames);
-		if (scenNames.length > 1)
-			combo1.select(1);
-		else
-			combo1.select(0);
-
-		/*
-		 * listeners for the lists
-		 */
-
-		combo1.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Combo combo1 = (Combo) e.getSource();
-				currentScen = combo1.getSelectionIndex();
-
-				try {
-					JFreeChart chart = makeDiseaseChart();
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
-				} catch (DynamoOutputException e1) {
-
-					displayErrorMessage(e1);
-					e1.printStackTrace();
-				}
-
-			}
-		});
+		makeScenarioChoiceGroup(controlComposite, chartComposite2);
 
 		/*
 		 * 1 second lis of choice
 		 */
 
-		Group listgroup2 = new Group(controlComposite, SWT.VERTICAL);
-
-		listgroup2.setText("disease:");
-		//    
-		listgroup2.setLayout(new RowLayout(SWT.VERTICAL));
-
-		final Combo combo2 = new Combo(listgroup2, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
-		combo2.setItems(output.getDiseaseNames());
-		combo2.select(0);
-		combo2.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Combo combo2 = (Combo) e.getSource();
-				currentDisease = combo2.getSelectionIndex();
-				JFreeChart chart = null;
-				try {
-					chart = makeDiseaseChart();
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
-				} catch (DynamoOutputException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				chartComposite2.setChart(chart);
-
-			}
-		});
+		makeDiseaseChoiceGroup(controlComposite, chartComposite2);
 
 		/*
 		 * third list of choices: year to be plotted. only needed for axis=age
 		 */
 
-		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
-				| SWT.V_SCROLL);
-		listgroup3.setText("year:");
-		GridLayout gridLayoutGroup3 = new GridLayout();
-		gridLayoutGroup3.numColumns = 3;
-		listgroup3.setLayout(gridLayoutGroup3);
-
-		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
-
-		String[] yearNames = new String[stepsInRun + 1];
-		for (int i = 0; i < stepsInRun + 1; i++)
-			yearNames[i] = ((Integer) (startYear + i)).toString();
-		combo3.setItems(yearNames);
-		combo3.select(0);
-
-		combo3.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Combo combo3 = (Combo) e.getSource();
-				currentYear = combo3.getSelectionIndex();
-				JFreeChart chart = null;
-				try {
-					chart = makeDiseaseChart();
-					;
-					chartComposite2.setChart(chart);
-
-					chartComposite2.forceRedraw();
-				} catch (DynamoOutputException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				chartComposite2.setChart(chart);
-
-			}
-		});
+		makeYearChoiceGroup(controlComposite, chartComposite2);
 		/*
 		 * forth list of choice
 		 */
 
-		Group listgroup4 = new Group(controlComposite, SWT.VERTICAL);
-		listgroup4.setText("gender (applies only to by scenario):");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		listgroup4.setLayout(new RowLayout(SWT.VERTICAL));
-		final Combo combo4 = new Combo(listgroup4, SWT.DROP_DOWN
-				| SWT.READ_ONLY);
-
-		String[] choices = { "men", "women", "both" };
-		combo4.setItems(choices);
-		combo4.select(2);
-
-		/*
-		 * listeners for the lists
-		 */
-
-		combo4.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Combo combo4 = (Combo) e.getSource();
-				genderChoice = combo4.getSelectionIndex();
-
-				try {
-					JFreeChart chart = makeDiseaseChart();
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
-				} catch (DynamoOutputException e1) {
-
-					displayErrorMessage(e1);
-					e1.printStackTrace();
-				}
-
-			}
-		});
+		makeGenderChoiceGroup(controlComposite, chartComposite2);
 
 		// list1.setSize(100,200);
 
@@ -819,135 +793,817 @@ public class Output_UI {
 		item2.setControl(plotComposite);
 	}
 
-	/*
-	 * this chooses the right chart to plot
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
 	 */
-	private JFreeChart makeDiseaseChart() throws DynamoOutputException {
-		JFreeChart chart = null;
-		try {
+	private void makeGenderChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup4 = new Group(controlComposite, SWT.VERTICAL);
+		listgroup4.setText("gender (applies only to by scenario):");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		listgroup4.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo4 = new Combo(listgroup4, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
 
-			/*
-			 * plotType= 0: by sex 1: by scenario 2: by risk class
-			 * 
-			 * TODO
-			 */
-			if ((plotType == 2) && !axisIsAge)
-				chart = output.makeYearPrevalenceByGenderPlot(currentScen,
-						currentDisease, differencePlot, numbers);
-			if ((plotType == 1) && !axisIsAge)
-				chart = output.makeYearPrevalenceByScenarioPlots(genderChoice,
-						currentDisease, differencePlot, numbers);
-			if ((plotType == 0) && !axisIsAge)
-				chart = output.makeYearPrevalenceByRiskFactorPlots(currentScen,
-						currentDisease, genderChoice, differencePlot, numbers);
-			if ((plotType == 2) && axisIsAge)
-				chart = output.makeAgePrevalenceByGenderPlot(currentScen,
-						currentDisease, currentYear, differencePlot, numbers);
-			if ((plotType == 1) && axisIsAge)
-				chart = output.makeAgePrevalenceByScenarioPlot(2,
-						currentDisease, currentYear, differencePlot, numbers);
-			if ((plotType == 0) && axisIsAge)
-				chart = output.makeAgePrevalenceByRiskFactorPlots(currentScen,
-						currentDisease, currentYear, differencePlot, numbers);
-
-			return chart;
-
-		} catch (DynamoOutputException e1) {
-			e1.printStackTrace();
-			throw new DynamoOutputException(e1.getMessage());
-
-		}
-
-	}
-
-	/* fields for mortality plotting */
-	boolean mortAxisIsAge = false;
-	boolean mortNumbers = true;
-	boolean mortDifference = false;
-	boolean survival = false;
-	int mortPlotType = 0;
-
-	/* fields for riskfactor plotting */
-
-	private boolean differencePlot2;
-	private boolean numbers2;
-
-	private JFreeChart makeMortalityChart() {
-		JFreeChart chart = null;
+		String[] choices = { "men", "women", "both" };
+		combo4.setItems(choices);
+		combo4.select(2);
 
 		/*
-		 * plotType= 0: by sex 1: by scenario 2: by risk class
-		 * 
-		 * TODO
+		 * listeners for the lists
 		 */
-		if ((mortPlotType == 2) && !mortAxisIsAge && !mortNumbers) {
-			chart = output.makeYearMortalityPlotByScenario(currentScen,
-					differencePlot, mortNumbers);
 
-			if ((mortPlotType == 1) && !mortAxisIsAge && !mortNumbers)
-				chart = output.makeYearMortalityPlotByScenario(currentScen,
-						differencePlot, mortNumbers);
-			if ((mortPlotType == 0) && !mortAxisIsAge && !mortNumbers)
-				chart = output.makeYearMortalityPlotByScenario(currentScen,
-						differencePlot, mortNumbers);
-			if ((mortPlotType == 2) && mortAxisIsAge && !mortNumbers)
-				chart = output.makeYearMortalityPlotByScenario(currentScen,
-						differencePlot, mortNumbers);
-			if ((mortPlotType == 1) && mortAxisIsAge && !mortNumbers)
-				chart = output.makeYearMortalityPlotByScenario(currentScen,
-						differencePlot, mortNumbers);
-			if ((mortPlotType == 0) && mortAxisIsAge && !mortNumbers)
-				chart = output.makeYearMortalityPlotByScenario(currentScen,
-						differencePlot, mortNumbers);
+		combo4.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo4 = (Combo) e.getSource();
+				// combo4.getParent()
+				genderChoice = combo4.getSelectionIndex();
 
-			return chart;
-		}
-		return chart;
+				
+					JFreeChart chart = makeDiseaseChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+			
 
+			}
+		});
+	}
+
+	private int genderChoiceForRiskFactor;
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeGenderChoiceGroupForRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup4 = new Group(controlComposite, SWT.VERTICAL);
+		listgroup4.setText("gender :");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		listgroup4.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo4 = new Combo(listgroup4, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] choices = { "men", "women", "both" };
+		combo4.setItems(choices);
+		combo4.select(2);
+
+		/*
+		 * listeners for the lists
+		 */
+
+		combo4.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo4 = (Combo) e.getSource();
+				// combo4.getParent()
+				genderChoiceForRiskFactor = combo4.getSelectionIndex();
+
+				JFreeChart chart = makeRiskFactorChart();
+				chartComposite2.setChart(chart);
+				chartComposite2.forceRedraw();
+
+			}
+		});
 	}
 
 	/**
-	 * @param tabFolder1
-	 * @throws DynamoOutputException
+	 * @param controlComposite
+	 * @param chartComposite2
 	 */
-	private void makeLifeExpectancyTab(TabFolder tabFolder1)
-			throws DynamoOutputException {
-		Composite plotComp2 = new Composite(tabFolder1, SWT.NONE);
+	private void makeMortGenderChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup4 = new Group(controlComposite, SWT.VERTICAL);
+		listgroup4.setText("gender :");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		listgroup4.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo4 = new Combo(listgroup4, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
 
-		ChartComposite chartComposite4 = new ChartComposite(plotComp2,
-				SWT.NONE, output.makeLifeExpectancyPlot(1), true);
-		chartComposite4.setBounds(0, 0, 400, 500);
-		TabItem item4 = new TabItem(tabFolder1, SWT.NONE);
-		item4.setText("life expectancy plots");
-		item4.setControl(plotComp2);
+		String[] choices = { "men", "women", "both" };
+		combo4.setItems(choices);
+		combo4.select(2);
+
+		/*
+		 * listeners for the lists
+		 */
+
+		combo4.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo4 = (Combo) e.getSource();
+				// combo4.getParent()
+				mortGenderChoice = combo4.getSelectionIndex();
+
+				JFreeChart chart = makeMortalityChart();
+				chartComposite2.setChart(chart);
+				chartComposite2.forceRedraw();
+
+			}
+		});
 	}
 
 	/**
-	 * @param tabFolder1
-	 * @throws DynamoOutputException
+	 * makes combo box for choice of yearsw for disease plot
+	 * 
+	 * @param controlComposite
+	 *            parent composite
+	 * @param chartComposite2
+	 *            composite with chart to plot
 	 */
-	private void makeRiskFactorTab(TabFolder tabFolder1)
-			throws DynamoOutputException {
-		Composite plotComp1 = new Composite(tabFolder1, SWT.NONE);
-		;
-		// plotComposite.setBounds(10,10,720,600);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
-		plotComp1.setLayout(gridLayout);
-		Composite controlComposite = new Composite(plotComp1, SWT.NONE);
-		GridLayout gridLayoutControl = new GridLayout();
-		gridLayoutControl.numColumns = 1;
-		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		controlComposite.setLayout(gridLayoutControl);
-		controlComposite.setLayoutData(controlData);
-		final ChartComposite chartComposite2 =  new ChartComposite(plotComp1,
-				SWT.NONE, output.makeYearRiskFactorByGenderPlot(1,
-						differencePlot2, numbers2), true);
+	private void makeYearChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
+		listgroup3.setText("year:");
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] yearNames = new String[stepsInRun + 1];
+		for (int i = 0; i < stepsInRun + 1; i++)
+			yearNames[i] = ((Integer) (startYear + i)).toString();
+		combo3.setItems(yearNames);
+		combo3.select(0);
+
+		combo3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo3 = (Combo) e.getSource();
+				currentYear = combo3.getSelectionIndex();
+				JFreeChart chart = null;
+				
+					chart = makeDiseaseChart();
+					;
+					chartComposite2.setChart(chart);
+
+					chartComposite2.forceRedraw();
+				
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	private int riskFactorYear;
+
+	/**
+	 * makes combo box for choice of year for riskfactor plot
+	 * 
+	 * @param controlComposite
+	 *            parent composite
+	 * @param chartComposite2
+	 *            composite with chart to plot
+	 */
+	private void makeYearChoiceGroupRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
+		listgroup3.setText("year:");
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] yearNames = new String[stepsInRun + 1];
+		for (int i = 0; i < stepsInRun + 1; i++)
+			yearNames[i] = ((Integer) (startYear + i)).toString();
+		combo3.setItems(yearNames);
+		combo3.select(0);
+		riskFactorYear = 0;
+
+		combo3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo3 = (Combo) e.getSource();
+				riskFactorYear = combo3.getSelectionIndex();
+				JFreeChart chart = null;
+
+				chart = makeRiskFactorChart();
+				;
+				chartComposite2.setChart(chart);
+
+				chartComposite2.forceRedraw();
+
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	/**
+	 * makes combo box for choice of year for riskfactor plot
+	 * 
+	 * @param controlComposite
+	 *            parent composite
+	 * @param chartComposite2
+	 *            composite with chart to plot
+	 */
+	private void makeRiskClassChoiceGroupRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
+		listgroup3.setText("riskClass:");
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] classNames = output.getRiskClassnames();
+
+		combo3.setItems(classNames);
+		combo3.select(0);
+		riskClassChoice = 0;
+
+		combo3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo3 = (Combo) e.getSource();
+				riskClassChoice = combo3.getSelectionIndex();
+				JFreeChart chart = null;
+
+				chart = makeRiskFactorChart();
+				;
+				chartComposite2.setChart(chart);
+
+				chartComposite2.forceRedraw();
+
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	/**
+	 * makes combo box for choice of year for mortality plot with age on axis
+	 * 
+	 * @param controlComposite
+	 *            parent composite
+	 * @param chartComposite2
+	 *            composite with chart to plot
+	 */
+	private void makeMortYearChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
+		listgroup3.setText("year:");
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		/*
+		 * mortality has one value less than most other arrays, as it is
+		 * calculated from the difference of two neighbouring steps
+		 */
+		String[] yearNames = new String[stepsInRun];
+		for (int i = 0; i < stepsInRun; i++)
+			yearNames[i] = ((Integer) (startYear + i)).toString();
+		combo3.setItems(yearNames);
+		combo3.select(0);
+		mortYearChoice = 0;
+		combo3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo3 = (Combo) e.getSource();
+				mortYearChoice = combo3.getSelectionIndex();
+				JFreeChart chart = null;
+
+				chart = makeMortalityChart();
+				;
+				chartComposite2.setChart(chart);
+
+				chartComposite2.forceRedraw();
+
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDiseaseChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup2 = new Group(controlComposite, SWT.VERTICAL);
+
+		listgroup2.setText("disease:");
+		//    
+		listgroup2.setLayout(new RowLayout(SWT.VERTICAL));
+
+		final Combo combo2 = new Combo(listgroup2, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		combo2.setItems(output.getDiseaseNames());
+		combo2.select(0);
+		combo2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo2 = (Combo) e.getSource();
+			
+
+				currentDisease = combo2.getSelectionIndex();
+				JFreeChart chart = null;
+				
+					chart = makeDiseaseChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+			
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
 	
-		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
-				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
-		chartComposite2.setLayoutData(chartData);
+	/**
+	 * LEwithoutDiseaseNumber gives the number selected for plotting lifeexpectancy without disease
+	 * 0=no disease
+	 * 1= all diseases
+	 * 2= disease 0
+	 * 3= disease 1 etc.
+	 */
+	int LEwithoutDiseaseNumber=0;
+	/**make a combibox to chose the disease for the life-expectancy plot
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDiseaseChoiceGroupForLEPlot(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup2 = new Group(controlComposite, SWT.VERTICAL);
+
+		listgroup2.setText("disease:");
+		//    
+		listgroup2.setLayout(new RowLayout(SWT.VERTICAL));
+
+		final Combo combo2 = new Combo(listgroup2, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		String[] items=new String [output.getNDiseases()+2];
+		String [] names=output.getDiseaseNames();
+		items[0]="none";
+			items[1]="all";
+		for (int i=0; i<names.length;i++)
+			items[i+2]=names[i];
+			
+		combo2.setItems(items);
+		combo2.select(0);
+		combo2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo2 = (Combo) e.getSource();
+			
+				LEwithoutDiseaseNumber = combo2.getSelectionIndex();
+				JFreeChart chart = null;
+				switch (LEwithoutDiseaseNumber) {
+				case 0: 
+					chart = output.makeLifeExpectancyPlot(lifeExpectancyAt);break;
+				default: chart=output.makeHealthyLifeExpectancyPlot(lifeExpectancyAt,LEwithoutDiseaseNumber-2 );
+				break;}
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	
+	/**
+	 * pyramidDiseaseNumber gives the number selected for plotting the disease part of the population pyramid
+	 * 0=no disease
+	 * 1= all diseases
+	 * 2= disease 0
+	 * 3= disease 1 etc.
+	 */
+	int pyramidDiseaseNumber=0;
+	/**make a combibox to chose the disease for the population pyramid plot
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDiseaseChoiceGroupForPyramid(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup2 = new Group(controlComposite, SWT.VERTICAL);
+
+		listgroup2.setText("disease:");
+		//    
+		listgroup2.setLayout(new RowLayout(SWT.VERTICAL));
+
+		final Combo combo2 = new Combo(listgroup2, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		String[] items=new String [output.getNDiseases()+2];
+		String [] names=output.getDiseaseNames();
+		items[0]="none";
+			items[1]="all";
+		for (int i=0; i<names.length;i++)
+			items[i+2]=names[i];
+			
+		combo2.setItems(items);
+		combo2.select(0);
+		combo2.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo2 = (Combo) e.getSource();
+				
+
+				pyramidDiseaseNumber = combo2.getSelectionIndex();
+				JFreeChart chart = null;
+				switch (pyramidDiseaseNumber) {
+				case 0: 
+					chart = output.makePyramidChart(plottedScen,yearForPyramid);break;
+				default: chart=output.makePyramidChartIncludingDisease(plottedScen,yearForPyramid,pyramidDiseaseNumber-2 );
+				break;}
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	
+	
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeScenarioChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group combigroup1 = new Group(controlComposite, SWT.VERTICAL);
+		combigroup1.setText("scenario:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		combigroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo1 = new Combo(combigroup1, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] scenNames = output.getScenarioNames();
+		combo1.setItems(scenNames);
+		if (scenNames.length > 1)
+			combo1.select(1);
+		else
+			combo1.select(0);
+
+		/*
+		 * listeners for the combobox
+		 */
+
+		combo1.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo1 = (Combo) e.getSource();
+				currentScen = combo1.getSelectionIndex();
+
+				
+					JFreeChart chart = makeDiseaseChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				
+
+			}
+		});
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeScenarioChoiceGroupForPyramid(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group combigroup1 = new Group(controlComposite, SWT.VERTICAL);
+		combigroup1.setText("scenario:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		combigroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		final Combo combo1 = new Combo(combigroup1, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+
+		String[] scenNames = output.getScenarioNames();
+		combo1.setItems(scenNames);
+		if (scenNames.length > 1)
+			combo1.select(1);
+		else
+			combo1.select(0);
+		
+		if (scenNames.length > 1) plottedScen=1; else plottedScen=0;
+
+		/*
+		 * listeners for the combobox
+		 */
+
+		combo1.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo1 = (Combo) e.getSource();
+				plottedScen = combo1.getSelectionIndex();
+
+				
+					JFreeChart chart ;
+					if (pyramidDiseaseNumber==0)chart = output.makePyramidChart(plottedScen,yearForPyramid);else
+				chart=output.makePyramidChartIncludingDisease(plottedScen,yearForPyramid,pyramidDiseaseNumber-2 );
+
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+				
+
+			}	
+		});
+	}
+
+	
+	
+	
+	
+	int lifeExpectancyAt = 0;
+
+	/**
+	 * makes combo box for choice of age for which to calculate the
+	 * lifeexpectancy
+	 * 
+	 * @param controlComposite
+	 *            parent composite
+	 * @param chartComposite2
+	 *            composite with chart to plot
+	 */
+
+	private void makeLifeExpectancyYearChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group listgroup3 = new Group(controlComposite, SWT.VERTICAL
+				| SWT.V_SCROLL);
+		listgroup3.setText("life expectancy at age:");
+		GridLayout gridLayoutGroup3 = new GridLayout();
+		gridLayoutGroup3.numColumns = 3;
+		listgroup3.setLayout(gridLayoutGroup3);
+
+		final Combo combo3 = new Combo(listgroup3, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
+		final int minA = output.getMinAgeInSimulation();
+		int length = output.getMaxAgeInSimulation()
+				- output.getMinAgeInSimulation() + 1;
+		String[] ageNames = new String[length];
+		if (minA == 0)
+			ageNames[0] = "at birth";
+		else
+			ageNames[0] = ((Integer) minA).toString();
+		for (int i = 1; i < length; i++)
+			ageNames[i] = ((Integer) (minA + i)).toString();
+		combo3.setItems(ageNames);
+		combo3.select(0);
+		lifeExpectancyAt=minA;
+		combo3.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Combo combo3 = (Combo) e.getSource();
+				lifeExpectancyAt = combo3.getSelectionIndex()+minA;
+				JFreeChart chart = null;
+				
+					if (LEwithoutDiseaseNumber==0) chart = output
+							.makeLifeExpectancyPlot(lifeExpectancyAt);
+					else chart=output.makeHealthyLifeExpectancyPlot(lifeExpectancyAt,LEwithoutDiseaseNumber-2);
+		 
+					;
+					chartComposite2.setChart(chart);
+
+					chartComposite2.forceRedraw();
+				
+				chartComposite2.setChart(chart);
+
+			}
+		});
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeChoiceByVariableGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup4.setText("separate curves:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		GridLayout gridLayoutGroup4 = new GridLayout();
+		gridLayoutGroup4.numColumns = 2;
+		radiogroup4.setLayout(gridLayoutGroup4);
+		// yearButton.setBounds(10,10,20,100);
+
+		Button byRiskClassButton = new Button(radiogroup4, SWT.RADIO);
+		byRiskClassButton.setText("by riskclass");
+
+		byRiskClassButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				Button button = (Button) event.widget;
+				if (button.getSelection()) {
+					
+						plotType = 0;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+				}
+			}
+		}
+
+		));
+		Button byScenarioButton = new Button(radiogroup4, SWT.RADIO);
+		byScenarioButton.setText("by scenario");
+		byScenarioButton.setSelection(true);
+		// ageButton.setBounds(10,50,20,100);
+		byScenarioButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					
+						plotType = 1;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+				}
+				;// do plot
+			}
+		}));
+
+		Button bySexButton = new Button(radiogroup4, SWT.RADIO);
+		bySexButton.setText("by gender");
+
+		// ageButton.setBounds(10,50,20,100);
+		bySexButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					
+						plotType = 2;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+				}
+				;// do plot
+			}
+		}));
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeNumberRateChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup3 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup3.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+
+		radiogroup3.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rate2Button = new Button(radiogroup3, SWT.RADIO);
+		rate2Button.setText("Prevalence rate");
+		rate2Button.setSelection(true);
+
+		rate2Button.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					
+						numbers = false;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+
+				}
+
+			}
+		}));
+		Button numberButton = new Button(radiogroup3, SWT.RADIO);
+		numberButton.setText("number of cases");
+		// ageButton.setBounds(10,50,20,100);
+		numberButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+				
+						numbers = true;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+				}
+
+			}
+		}));
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeMortNumberRateChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup3 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup3.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+
+		radiogroup3.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rate2Button = new Button(radiogroup3, SWT.RADIO);
+		rate2Button.setText("Prevalence rate");
+		rate2Button.setSelection(false);
+
+		rate2Button.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+
+					mortNumbers = false;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+		Button numberButton = new Button(radiogroup3, SWT.RADIO);
+		numberButton.setText("number of cases");
+		numberButton.setSelection(true);
+		// ageButton.setBounds(10,50,20,100);
+		numberButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+
+					mortNumbers = true;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDifferencePlotGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup2.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rateButton = new Button(radiogroup2, SWT.RADIO);
+		rateButton.setText("scenario prevalence");
+		rateButton.setSelection(true);
+
+		rateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					
+						differencePlot = false;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
+
+				}
+
+			}
+		}));
+		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
+		differenceButton.setText("Difference with reference scenario");
+		// ageButton.setBounds(10,50,20,100);
+		differenceButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					
+						differencePlot = true;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+				
+
+				}
+
+			}
+		}));
+	}
+
+	/**
+	 * makes a radiobutton group for the choice of output plotting by age on the
+	 * x-axis versus year on the x-axis
+	 * 
+	 * @param controlComposite
+	 *            : parent composite
+	 * @param chartComposite2
+	 *            : composite with plot
+	 */
+	private void makeAgeYearChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
 		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
 		// radiogroup.setBounds(10,10,200,150);
 
@@ -963,16 +1619,16 @@ public class Output_UI {
 		yearButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					mortAxisIsAge = false;
-					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
+					
+						axisIsAge = false;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+					
 
 				}
 
 			}
-
 		}));
 		Button ageButton = new Button(radiogroup1, SWT.RADIO);
 		ageButton.setText("Age");
@@ -980,61 +1636,215 @@ public class Output_UI {
 		ageButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					mortAxisIsAge = true;
-					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
+					
+						axisIsAge = true;
+						JFreeChart chart = makeDiseaseChart();
+						chartComposite2.setChart(chart);
+						chartComposite2.forceRedraw();
+				
 
 				}
+
 			}
 		}));
+	}
+
+	/**
+	 * this method choses the right disease plot to make using the fields
+	 * currentScen, currentDisease, differencePlot, numbers, plotType and
+	 * axisIsAge
+	 * 
+	 * @return chart with the right plot
+	 * @throws DynamoOutputException
+	 */
+	private JFreeChart makeDiseaseChart() {
+		JFreeChart chart = null;
+	
+			/*
+			 * plotType= 0: by sex 1: by scenario 2: by risk class
+			 * 
+			 * TODO
+			 */
+			if ((plotType == 2) && !axisIsAge)
+				chart = output.makeYearPrevalenceByGenderPlot(currentScen,
+						currentDisease, differencePlot, numbers);
+			if ((plotType == 1) && !axisIsAge)
+				chart = output.makeYearPrevalenceByScenarioPlots(genderChoice,
+						currentDisease, differencePlot, numbers);
+			if ((plotType == 0) && !axisIsAge)
+				chart = output.makeYearPrevalenceByRiskFactorPlots(genderChoice, currentScen,
+						currentDisease,  differencePlot, numbers);
+			if ((plotType == 2) && axisIsAge)
+				chart = output.makeAgePrevalenceByGenderPlot(currentScen,
+						currentDisease, currentYear, differencePlot, numbers);
+			if ((plotType == 1) && axisIsAge)
+				chart = output.makeAgePrevalenceByScenarioPlot(2,
+						currentDisease, currentYear, differencePlot, numbers);
+			if ((plotType == 0) && axisIsAge)
+				chart = output.makeAgePrevalenceByRiskFactorPlots(genderChoice, currentScen,
+						currentDisease, currentYear, differencePlot, numbers);
+
+			return chart;
+
 		
+
+	}
+
+	int riskClassChoice;
+
+	/**
+	 * this method choses the right riskfactor plot to make using the fields
+	 * ....RiskfactorYear,axisIsAgeForRiskFactor,differenceForRiskFactor,
+	 * numberForRiskFactor, riskClassChoice
+	 * 
+	 * @return chart with the right plot
+	 * @throws DynamoOutputException
+	 */
+	private JFreeChart makeRiskFactorChart() {
+		JFreeChart chart = null;
+
 		/*
-		 * second radio group
+		 * plotType= 0: by sex 1: by scenario 2: by risk class
+		 * 
+		 * TODO
 		 */
-		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
+		if (!axisIsAgeForRiskFactor)
+			chart = output.makeYearRiskFactorByScenarioPlot(
+					genderChoiceForRiskFactor, riskClassChoice,
+					differenceForRiskfactor, numbersForRiskFactor);
 
-		radiogroup2.setText("Y-axis:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
-		// yearButton.setBounds(10,10,20,100);
+		if (axisIsAgeForRiskFactor)
+			chart = output.makeAgeRiskFactorByScenarioPlot(riskFactorYear,
+					genderChoiceForRiskFactor, riskClassChoice,
+					differenceForRiskfactor, numbersForRiskFactor);
 
-		Button rateButton = new Button(radiogroup2, SWT.RADIO);
-		rateButton.setText("scenario data");
-		rateButton.setSelection(true);
+		return chart;
 
-		rateButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					mortDifference = false;
-					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
+	}
 
-				}
+	/* fields for mortality plotting */
+	boolean mortAxisIsAge = false;
+	boolean mortNumbers = true;
+	boolean mortDifference = false;
+	boolean survival = false;
+	int mortPlotType = 0;
 
-			}
-		}));
-		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
-		differenceButton.setText("Difference with reference scenario");
-		// ageButton.setBounds(10,50,20,100);
-		differenceButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					mortDifference = true;
-					JFreeChart chart =output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
+	
+	private JFreeChart makeMortalityChart() {
+		JFreeChart chart = null;
 
-				}
+		/*
+		 * plotType= 0: by sex 1: by scenario 2: by risk class
+		 * 
+		 * TODO
+		 */
+		if ((survival) && !mortAxisIsAge)
 
-			}
-		}));
+			chart = output.makeSurvivalPlotByScenario(mortGenderChoice,
+					mortDifference, mortNumbers);
 
+		if ((survival) && mortAxisIsAge)
+			chart = output.makeSurvivalPlotByScenario(mortGenderChoice,
+					mortDifference, mortNumbers);
+		if ((!survival) && mortAxisIsAge)
+			chart = output.makeAgeMortalityPlotByScenario(mortYearChoice,
+					mortGenderChoice, mortDifference, mortNumbers);
+		if ((!survival) && !mortAxisIsAge)
+			chart = output.makeYearMortalityPlotByScenario(mortGenderChoice,
+					mortDifference, mortNumbers);
+
+		return chart;
+
+	}
+
+	/**
+	 * @param tabFolder1
+	 * @throws DynamoOutputException
+	 */
+	private void makeLifeExpectancyTab(TabFolder tabFolder1)
+			throws DynamoOutputException {
+
+		Composite plotComposite = new Composite(tabFolder1, SWT.FILL);
+		// plotComposite.setBounds(10,10,720,600);
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+
+		plotComposite.setLayout(gridLayout);
+		final ChartComposite chartComposite4 = new ChartComposite(
+				plotComposite, SWT.NONE, output.makeLifeExpectancyPlot(1), true);
+
+		Composite controlComposite = new Composite(plotComposite, SWT.NONE);
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 1;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+
+		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL);
+		chartComposite4.setLayoutData(chartData);
+		makeDiseaseChoiceGroupForLEPlot(plotComposite, chartComposite4);
+		makeLifeExpectancyYearChoiceGroup(plotComposite, chartComposite4);
+		// chartComposite4.setBounds(0, 0, 400, 500);
+		TabItem item4 = new TabItem(tabFolder1, SWT.NONE);
+		item4.setText("life expectancy plots");
+		item4.setControl(plotComposite);
+	}
+
+	/**
+	 * @param tabFolder1
+	 * @throws DynamoOutputException
+	 */
+	private void makeRiskFactorTab(TabFolder tabFolder1)
+			throws DynamoOutputException {
+		Composite plotComp1 = new Composite(tabFolder1, SWT.NONE);
+		riskFactorYear = 0;
+		axisIsAgeForRiskFactor = false;
+		differenceForRiskfactor = false;
+		numbersForRiskFactor = false;
+		riskClassChoice = 0;
+
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		plotComp1.setLayout(gridLayout);
+		Composite controlComposite = new Composite(plotComp1, SWT.NONE);
+		GridLayout gridLayoutControl = new GridLayout();
+		gridLayoutControl.numColumns = 1;
+		GridData controlData = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		controlComposite.setLayout(gridLayoutControl);
+		controlComposite.setLayoutData(controlData);
+		final ChartComposite chartComposite2 = new ChartComposite(plotComp1,
+				SWT.NONE, output.makeYearRiskFactorByScenarioPlot(2, 0,
+						differenceForRiskfactor, numbersForRiskFactor), true);
+
+		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL);
+		chartComposite2.setLayoutData(chartData);
+		makeAgeYearChoiceButtonRiskFactor(controlComposite, chartComposite2);
+
+		makeDifferenceButtonRiskFactor(controlComposite, chartComposite2);
+
+		makeNumberButtonRiskFactor(controlComposite, chartComposite2);
+		makeGenderChoiceGroupForRiskFactor(controlComposite, chartComposite2);
+		makeRiskClassChoiceGroupRiskFactor(controlComposite, chartComposite2);
+		makeYearChoiceGroupRiskFactor(controlComposite, chartComposite2);
+
+		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
+		item3.setText("risk factor plots");
+		item3.setControl(plotComp1);
+	}
+
+	boolean numbersForRiskFactor;
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeNumberButtonRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
 		/*
 		 * third radio group
 		 */
@@ -1054,9 +1864,8 @@ public class Output_UI {
 		rate2Button.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					numbers = false;
-					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
+					numbersForRiskFactor = false;
+					JFreeChart chart = makeRiskFactorChart();
 					chartComposite2.setChart(chart);
 					chartComposite2.forceRedraw();
 
@@ -1070,9 +1879,8 @@ public class Output_UI {
 		numberButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					numbers = true;
-					JFreeChart chart = output.makeYearRiskFactorByGenderPlot(1,
-							differencePlot2, numbers2);
+					numbersForRiskFactor = true;
+					JFreeChart chart = makeRiskFactorChart();
 					chartComposite2.setChart(chart);
 					chartComposite2.forceRedraw();
 
@@ -1080,14 +1888,110 @@ public class Output_UI {
 
 			}
 		}));
+	}
 
-		
-		
-		
-		
-		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
-		item3.setText("risk factor plots");
-		item3.setControl(plotComp1);
+	boolean differenceForRiskfactor;
+
+	/**
+	 * mkae difference button for risk factor tab
+	 * 
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDifferenceButtonRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		/*
+		 * second radio group
+		 */
+		differenceForRiskfactor = false;
+		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup2.setText("Y-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup2.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button rateButton = new Button(radiogroup2, SWT.RADIO);
+		rateButton.setText("scenario data");
+		rateButton.setSelection(true);
+
+		rateButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					differenceForRiskfactor = false;
+					JFreeChart chart = makeRiskFactorChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
+		differenceButton.setText("Difference with reference scenario");
+		// ageButton.setBounds(10,50,20,100);
+		differenceButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					differenceForRiskfactor = true;
+					JFreeChart chart = makeRiskFactorChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+		}));
+	}
+
+	boolean axisIsAgeForRiskFactor;
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeAgeYearChoiceButtonRiskFactor(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("X-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button yearButton = new Button(radiogroup1, SWT.RADIO);
+		yearButton.setText("Year");
+		yearButton.setSelection(true);
+
+		yearButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					axisIsAgeForRiskFactor = false;
+					JFreeChart chart = makeRiskFactorChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+
+		}));
+		Button ageButton = new Button(radiogroup1, SWT.RADIO);
+		ageButton.setText("Age");
+		// ageButton.setBounds(10,50,20,100);
+		ageButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					axisIsAgeForRiskFactor = true;
+					JFreeChart chart = makeRiskFactorChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+			}
+		}));
 	}
 
 	/**
@@ -1135,7 +2039,7 @@ public class Output_UI {
 		for (int i = 0; i < output.getNScen(); i++) {
 			label[i] = new Label(tabComposite, SWT.NONE);
 			label[i].setText(output.getScenarioNames()[i + 1]);
-			
+
 			slider1[i] = new Slider(tabComposite, SWT.HORIZONTAL);
 			value1[i] = new Text(tabComposite, SWT.BORDER | SWT.SINGLE);
 			value1[i].setEditable(false);
@@ -1306,11 +2210,13 @@ public class Output_UI {
 	 * @param tabFolder1
 	 * @throws DynamoOutputException
 	 */
-	
 
 	private void makeMortalityTab(TabFolder tabFolder1)
 			throws DynamoOutputException {
-		survival=false;
+		survival = false;
+		mortGenderChoice = 2;
+		mortDifference = false;
+		mortNumbers = true;
 		Composite plotComp1 = new Composite(tabFolder1, SWT.NONE);
 		;
 		// plotComposite.setBounds(10,10,720,600);
@@ -1330,49 +2236,84 @@ public class Output_UI {
 				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
 				| GridData.GRAB_VERTICAL);
 		chartComposite2.setLayoutData(chartData);
-		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+
+		makeAgeYearChoiceMortality(controlComposite, chartComposite2);
+
+		makeDifferencePlotChoiceGroupMortality(controlComposite,
+				chartComposite2);
+
+		makeMortNumberRateChoiceGroup(controlComposite, chartComposite2);
+
+		makeSurvivalChoiceGroup(controlComposite, chartComposite2);
+
+		makeMortGenderChoiceGroup(controlComposite, chartComposite2);
+		makeMortYearChoiceGroup(controlComposite, chartComposite2);
+
+		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
+		item3.setText("mortality/survival plots");
+		item3.setControl(plotComp1);
+	}
+
+	private int mortGenderChoice;
+	private int mortYearChoice;
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+
+	private void makeSurvivalChoiceGroup(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
 		// radiogroup.setBounds(10,10,200,150);
 
-		radiogroup1.setText("X-axis:");
+		radiogroup4.setText("outcome:");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		GridLayout gridLayoutGroup4 = new GridLayout();
+		gridLayoutGroup4.numColumns = 2;
+		radiogroup4.setLayout(gridLayoutGroup4);
 		// yearButton.setBounds(10,10,20,100);
 
-		Button yearButton = new Button(radiogroup1, SWT.RADIO);
-		yearButton.setText("Year");
-		yearButton.setSelection(true);
-
-		yearButton.addListener(SWT.Selection, (new Listener() {
+		Button mortButton = new Button(radiogroup4, SWT.RADIO);
+		mortButton.setText("mortality");
+		mortButton.setSelection(true);
+		mortButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					mortAxisIsAge = false;
+				Button button = (Button) event.widget;
+				if (button.getSelection()) {
+					survival = false;
 					JFreeChart chart = makeMortalityChart();
 					chartComposite2.setChart(chart);
 					chartComposite2.forceRedraw();
-
 				}
-
 			}
+		}
 
-		}));
-		Button ageButton = new Button(radiogroup1, SWT.RADIO);
-		ageButton.setText("Age");
+		));
+		Button survivalButton = new Button(radiogroup4, SWT.RADIO);
+		survivalButton.setText("survival");
+		survivalButton.setSelection(false);
 		// ageButton.setBounds(10,50,20,100);
-		ageButton.addListener(SWT.Selection, (new Listener() {
+		survivalButton.addListener(SWT.Selection, (new Listener() {
+
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					mortAxisIsAge = true;
+					survival = true;
 					JFreeChart chart = makeMortalityChart();
 					chartComposite2.setChart(chart);
 					chartComposite2.forceRedraw();
-
 				}
+				;// do plot
 			}
 		}));
-		
-		/*
-		 * second radio group
-		 */
+	}
+
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeDifferencePlotChoiceGroupMortality(
+			Composite controlComposite, final ChartComposite chartComposite2) {
 		Group radiogroup2 = new Group(controlComposite, SWT.VERTICAL);
 		// radiogroup.setBounds(10,10,200,150);
 
@@ -1399,6 +2340,7 @@ public class Output_UI {
 		}));
 		Button differenceButton = new Button(radiogroup2, SWT.RADIO);
 		differenceButton.setText("Difference with reference scenario");
+		differenceButton.setSelection(false);
 		// ageButton.setBounds(10,50,20,100);
 		differenceButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
@@ -1412,60 +2354,54 @@ public class Output_UI {
 
 			}
 		}));
-
-		
-		/*
-		 * fourth radio group
-		 */
-		Group radiogroup4 = new Group(controlComposite, SWT.VERTICAL);
-		// radiogroup.setBounds(10,10,200,150);
-
-		radiogroup4.setText("outcome:");
-		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-		GridLayout gridLayoutGroup4 = new GridLayout();
-		gridLayoutGroup4.numColumns = 2;
-		radiogroup4.setLayout(gridLayoutGroup4);
-		// yearButton.setBounds(10,10,20,100);
-
-		Button mortButton = new Button(radiogroup4, SWT.RADIO);
-		mortButton.setText("mortality");
-
-		mortButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				Button button = (Button) event.widget;
-				if (button.getSelection()) {
-					survival=false;
-					JFreeChart chart = makeMortalityChart();
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
-				}
-			}
-		}
-
-		));
-		Button survivalButton = new Button(radiogroup4, SWT.RADIO);
-		survivalButton.setText("survival");
-		survivalButton.setSelection(true);
-		// ageButton.setBounds(10,50,20,100);
-		survivalButton.addListener(SWT.Selection, (new Listener() {
-			public void handleEvent(Event event) {
-				if (((Button) event.widget).getSelection()) {
-					survival=true;
-					JFreeChart chart = makeMortalityChart();
-					chartComposite2.setChart(chart);
-					chartComposite2.forceRedraw();
-				}
-				;// do plot
-			}
-		}));
-
-		
-		
-		
-		TabItem item3 = new TabItem(tabFolder1, SWT.NONE);
-		item3.setText("mortality/survival plots");
-		item3.setControl(plotComp1);
 	}
 
-	
+	/**
+	 * @param controlComposite
+	 * @param chartComposite2
+	 */
+	private void makeAgeYearChoiceMortality(Composite controlComposite,
+			final ChartComposite chartComposite2) {
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("X-axis:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button yearButton = new Button(radiogroup1, SWT.RADIO);
+		yearButton.setText("Year");
+		yearButton.setSelection(true);
+
+		yearButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = false;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+
+			}
+
+		}));
+		Button ageButton = new Button(radiogroup1, SWT.RADIO);
+		ageButton.setText("Age (only for mortality)");
+		ageButton.setSelection(false);
+		// ageButton.setBounds(10,50,20,100);
+		ageButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					mortAxisIsAge = true;
+					JFreeChart chart = makeMortalityChart();
+					chartComposite2.setChart(chart);
+					chartComposite2.forceRedraw();
+
+				}
+			}
+		}));
+	}
+
 }
