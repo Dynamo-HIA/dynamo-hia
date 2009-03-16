@@ -2,9 +2,7 @@ package nl.rivm.emi.cdm.population;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Random;
@@ -112,7 +110,8 @@ public class Generator {
 	}
 
 	private boolean loadAndCheckRNGClass() throws ClassNotFoundException {
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		ClassLoader classLoader =
+			Thread.currentThread().getContextClassLoader();		
 		Class randomNumberGenerator = classLoader.loadClass(rngClassName);
 		Class javaUtilRandom = classLoader.loadClass("java.util.Random");
 		boolean success = (randomNumberGenerator.asSubclass(javaUtilRandom) != null);

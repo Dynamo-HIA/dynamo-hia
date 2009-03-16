@@ -159,7 +159,8 @@ public class UpdateRules4SimulationFromXMLFactory {
 
 	static private UpdateRuleMarker loadAndCheckUpdateRuleClass(String className)
 			throws ConfigurationException {
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		ClassLoader classLoader =
+			Thread.currentThread().getContextClassLoader();
 		Class updateRuleClass = null;
 		UpdateRuleMarker instance = null;
 		try {
