@@ -1,12 +1,12 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
-
-import com.ibm.icu.util.Calendar;
 
 public class Year extends NumberRangeTypeBase<Integer> implements ContainerType{
 	static final protected String XMLElementName = "year";
