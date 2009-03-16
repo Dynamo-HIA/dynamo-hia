@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
+
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.RowData;
@@ -33,6 +34,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.SubCategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
@@ -42,18 +44,24 @@ import org.jfree.chart.plot.CombinedDomainCategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.title.Title;
+import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.general.PieDataset;
 import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.GradientPaintTransformer;
 import org.jfree.ui.RefineryUtilities;
+import org.jfree.ui.StandardGradientPaintTransformer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 
 import org.jfree.chart.plot.PlotOrientation;
@@ -75,6 +83,7 @@ import java.util.Iterator;
 import java.awt.*;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -220,6 +229,11 @@ public class DynamoOutputFactory {
 	private int nDiseases;
 	private int nRiskFactorClasses;
 	private int nDiseaseStates;
+	/**
+	 * details indicates whether information should be written on all disease
+	 * combinations (true) or only per disease (marginals, when false
+	 */
+
 	private boolean details;
 	private boolean[] scenInitial;
 	private boolean[] scenTrans;
@@ -273,6 +287,18 @@ public class DynamoOutputFactory {
 	 * results without having to redo the simulation
 	 */
 	private float[] maxAge = null;
+
+	/*
+	 * popToScenIndex indicates the first scenario that is simulated by a
+	 * particular population
+	 */
+	private int minAgeInSimulation = 100;
+	/**
+	 * minAge is the lower bound of the age that is affected by the
+	 * intervention. It can be reset at a different value for obtaining new
+	 * results without having to redo the simulation
+	 */
+	private int maxAgeInSimulation = 0;
 
 	/*
 	 * popToScenIndex indicates the first scenario that is simulated by a
@@ -522,6 +548,7 @@ public class DynamoOutputFactory {
 		nNewBornsInSimulationByAge = new int[stepsInRun][2];
 		nInSimulationByRiskClassByAge = new int[nRiskFactorClasses][nDim][2];
 		nInSimulationByRiskClassAndDurationByAge = new int[nRiskFactorClasses][100][nDim][2];
+
 		double weight[][][] = new double[nRiskFactorClasses][96][2];
 		double[][][] weight2 = new double[100][96][2];
 
@@ -934,7 +961,6 @@ public class DynamoOutputFactory {
 					 * calculate the transitions needed from old to new
 					 * prevalence
 					 */
-
 					for (int stepCount = 0; stepCount < stepsInRun + 1; stepCount++)
 						for (int a = 0; a < 96 + stepCount; a++)
 							for (int s = 0; s < 2; s++)
@@ -972,8 +998,14 @@ public class DynamoOutputFactory {
 										if (riskType > 1)
 											meanRiskByRiskClassByAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
 													* MeanRiskByRiskClassByAge_scen[stepCount][from][to][a][s];
-
-										if ((stepCount == 0 || a == 0)
+										/*
+										 * check if there are the required
+										 * persons in the "one-for-all-scenario"
+										 * situation do this only at step 0, as
+										 * they might legitimately be zero at
+										 * later times
+										 */
+										if ((stepCount == 0)
 												&& toChange[from][to] > 0
 												&& pSurvivalByRiskClassByAge_scen[stepCount][from][to][a][s] == 0) {
 											log
@@ -1079,19 +1111,22 @@ public class DynamoOutputFactory {
 					for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 						double denominator = 0;
 						double nominator = 0;
-
+						double personsAtnextAge = 0;
 						for (int r = 0; r < nRiskFactorClasses; r++) {
 							denominator += nPopByRiskClassByAge[scen][stepCount][r][a][g];
-							nominator += nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g]
-									- nPopByRiskClassByAge[scen][stepCount][r][a][g];
+							nominator += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									- nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g];
+							personsAtnextAge += nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g];
 						}
-						if (denominator != 0 && !numbers)
+
+						if (denominator != 0 && !numbers
+								&& personsAtnextAge > 0)
 							mortality[scen][stepCount][a][g] = nominator
 									/ denominator;
-						if (numbers)
+						if (denominator != 0 && personsAtnextAge > 0 && numbers)
 							mortality[scen][stepCount][a][g] = nominator;
-						if (denominator == 0)
-							mortality[scen][stepCount][a][g] = 0;
+						if (denominator == 0 || personsAtnextAge == 0)
+							mortality[scen][stepCount][a][g] = -1;
 
 					}
 		return mortality;
@@ -1100,8 +1135,8 @@ public class DynamoOutputFactory {
 	/**
 	 * makes an array of incidence by scenario, year,disease, age and sex It is
 	 * not possible to do so also by riskfactor as part of the postprocessing In
-	 * order to do so, this should be included as state in the update rule
-	 * This method is obsolete
+	 * order to do so, this should be included as state in the update rule This
+	 * method is obsolete
 	 * 
 	 * @numbers boolean indicating whether absolute numbers or yearly incidence
 	 *          (number/diseasefree persons at the beginning of the period)
@@ -1227,18 +1262,18 @@ public class DynamoOutputFactory {
 	}
 
 	/**
-	 * The array returns a 5 dimensional array (scenario, time, riskfactor, age,
-	 * sex) of healthy persons in the population
+	 * The array returns a 5 dimensional array (scenario, time, age, sex) of
+	 * healthy persons in the population
 	 * 
 	 * 
 	 * 
 	 * @return 4-dimensional array of healthy persons in the population by
 	 *         scenario, time, age and sex
 	 */
-	private double[][][][][] getNumberOfHealthyPersons() {
-		int currentDisease = 0;
+	private double[][][][] getNumberOfDiseasedPersons() {
 
-		double healthyPersons[][][][][] = new double[nScen + 1][stepsInRun + 1][nRiskFactorClasses][105][2];
+		double healthyPersonsByRiskClass[][][][][] = new double[nScen + 1][stepsInRun + 1][nRiskFactorClasses][105][2];
+		double diseasedPersons[][][][] = new double[nScen + 1][stepsInRun + 1][105][2];
 
 		for (int scen = 0; scen < nScen + 1; scen++)
 			for (int stepCount = 0; stepCount < stepsInRun + 1; stepCount++)
@@ -1246,7 +1281,7 @@ public class DynamoOutputFactory {
 					for (int g = 0; g < 2; g++) {
 
 						for (int r = 0; r < nRiskFactorClasses; r++) {
-							healthyPersons[scen][stepCount][r][a][g] = nPopByRiskClassByAge[scen][stepCount][r][a][g];
+							healthyPersonsByRiskClass[scen][stepCount][r][a][g] = nPopByRiskClassByAge[scen][stepCount][r][a][g];
 							int currentClusterStart = 0;
 							for (int c = 0; c < structure.length; c++) {
 								double nWithDisease = 0;
@@ -1254,28 +1289,66 @@ public class DynamoOutputFactory {
 								for (int state = 0; state < Math.pow(2,
 										structure[c].getNInCluster() - 1); state++) {
 
-									/*
-									 * pDisease[thisScen][stepCount][currentDisease
-									 * + d][sexIndex] +=
-									 * compoundData[currentState + s - 1]
-									 * survival weight[riskFactor][ageIndex][
-									 * sexIndex]; if (details)
-									 */
-
 									nWithDisease += nDiseaseStateByRiskClassByAge[scen][stepCount][currentClusterStart
 											+ state][r][a][g];
 								}
 								currentClusterStart += Math.pow(2, structure[c]
 										.getNInCluster()) - 1;
 								if (nPopByRiskClassByAge[scen][stepCount][r][a][g] > 0)
-									healthyPersons[scen][stepCount][r][a][g] *= (nPopByRiskClassByAge[scen][stepCount][r][a][g] - nWithDisease)
+									healthyPersonsByRiskClass[scen][stepCount][r][a][g] *= (nPopByRiskClassByAge[scen][stepCount][r][a][g] - nWithDisease)
 											/ nPopByRiskClassByAge[scen][stepCount][r][a][g];
 								else
-									healthyPersons[scen][stepCount][r][a][g] = 0;
+									healthyPersonsByRiskClass[scen][stepCount][r][a][g] = 0;
 							}
+							diseasedPersons[scen][stepCount][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									- healthyPersonsByRiskClass[scen][stepCount][r][a][g];
 						}
 					}
-		return healthyPersons;
+		return diseasedPersons;
+	}
+
+	private double[][][] getNumberOfOriDiseasedPersons(int age) {
+
+		double healthyPersons[][][][] = new double[nScen + 1][nDim][nRiskFactorClasses][2];
+		double diseasedPersons[][][] = new double[nScen + 1][nDim][2];
+
+		for (int scen = 0; scen < nScen + 1; scen++)
+			for (int steps = 0; steps < nDim; steps++)
+
+				for (int g = 0; g < 2; g++) {
+
+					for (int r = 0; r < nRiskFactorClasses; r++) {
+						double nWithDisease = 0;
+						healthyPersons[scen][steps][r][g] += nPopByOriRiskClassByOriAge[scen][steps][r][age][g];
+						int currentClusterStart = 0;
+						for (int c = 0; c < structure.length; c++) {
+
+							for (int state = 0; state < Math.pow(2,
+									structure[c].getNInCluster() - 1); state++) {
+
+								/*
+								 * pDisease[thisScen][stepCount][currentDisease
+								 * + d][sexIndex] += compoundData[currentState +
+								 * s - 1] survival weight[riskFactor][ageIndex][
+								 * sexIndex]; if (details)
+								 */
+
+								nWithDisease += nDiseaseStateByOriRiskClassByOriAge[scen][steps][currentClusterStart
+										+ state][r][age][g];
+							}
+							currentClusterStart += Math.pow(2, structure[c]
+									.getNInCluster()) - 1;
+							if (nPopByOriRiskClassByOriAge[scen][steps][r][age][g] > 0)
+								healthyPersons[scen][steps][r][g] *= (nPopByOriRiskClassByOriAge[scen][steps][r][age][g] - nWithDisease)
+										/ nPopByOriRiskClassByOriAge[scen][steps][r][age][g];
+							else
+								healthyPersons[scen][steps][r][g] = 0;
+						}
+						diseasedPersons[scen][steps][g] += nPopByOriRiskClassByOriAge[scen][steps][r][age][g]
+								- healthyPersons[scen][steps][r][g];
+					} // end loop over r
+				}
+		return diseasedPersons;
 	}
 
 	/**
@@ -1284,6 +1357,8 @@ public class DynamoOutputFactory {
 	private void extractNumberInSimulationFromPopulation(Population[] pop) {
 		int sexIndex;
 		int ageIndex;
+		minAgeInSimulation = 100;
+		maxAgeInSimulation = 0;
 		Iterator<Individual> individualIterator1 = pop[0].iterator();
 
 		while (individualIterator1.hasNext()) {
@@ -1292,6 +1367,10 @@ public class DynamoOutputFactory {
 			ageIndex = (int) Math
 					.round(((Float) individual.get(1).getValue(0)));
 			sexIndex = (int) (Integer) individual.get(2).getValue(0);
+			if (ageIndex > maxAgeInSimulation)
+				maxAgeInSimulation = ageIndex;
+			if (ageIndex < minAgeInSimulation)
+				minAgeInSimulation = ageIndex;
 
 			if (ageIndex < 0)
 				nNewBornsInSimulationByAge[ageIndex + stepsInRun][sexIndex]++;
@@ -1548,50 +1627,47 @@ public class DynamoOutputFactory {
 		String baseDir = BaseDirectory.getBaseDir();
 		// for (int scen = 0; scen < scenInfo.getNScenarios(); scen++) {
 		/* make a n=new directory if it does not yet exists */
-		String directoryName = baseDir + File.separator 
-				+ "Simulations" + File.separator
-				+ simulationName + File.separator + "results";
+		String directoryName = baseDir + File.separator + "Simulations"
+				+ File.separator + simulationName + File.separator + "results";
 		log.debug("directoryName" + directoryName);
 		File directory = new File(directoryName);
 		boolean isNewDirectory = directory.mkdirs();
 
 		for (int scen = 0; scen <= nScen; scen++) {
-			String fileName = baseDir + File.separator + "Simulations" 
-					+ File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_year_male_scenario" + scen
-					+ ".xml";
+			String fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator + "excel_year_male_scenario"
+					+ scen + ".xml";
 			try {
 				writeWorkBookXMLbyYear(fileName, 0, scen);
 			} catch (DynamoOutputException e2) {
 				// TODO Auto-generated catch block write warning message to user
 				e2.printStackTrace();
 			}
-			fileName = baseDir + File.separator + "Simulations" + File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_year_female_scenario" + scen
-					+ ".xml";
+			fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator + "excel_year_female_scenario"
+					+ scen + ".xml";
 			try {
 				writeWorkBookXMLbyYear(fileName, 1, scen);
 			} catch (DynamoOutputException e1) {
 				// TODO Auto-generated catch block write warning message to user
 				e1.printStackTrace();
 			}
-			fileName = baseDir + File.separator 
-					+ "Simulations" + File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_year_scenario" + scen + ".xml";
+			fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator + "excel_year_scenario" + scen
+					+ ".xml";
 			try {
 				writeWorkBookXMLbyYear(fileName, 2, scen);
 			} catch (DynamoOutputException e1) {
 				// TODO Auto-generated catch block write warning message to user
 				e1.printStackTrace();
 			}
-			fileName = baseDir + File.separator 
-					+ "Simulations" + File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_cohort_male_scenario" + scen
-					+ ".xml";
+			fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator + "excel_cohort_male_scenario"
+					+ scen + ".xml";
 			try {
 				writeWorkBookXMLbyCohort(fileName, 0, scen);
 			} catch (DynamoOutputException e) {
@@ -1600,21 +1676,20 @@ public class DynamoOutputFactory {
 
 				e.printStackTrace();
 			}
-			fileName = baseDir + File.separator
-					+ "Simulations" + File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_cohort_female_scenario" + scen
-					+ ".xml";
+			fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator
+					+ "excel_cohort_female_scenario" + scen + ".xml";
 			try {
 				writeWorkBookXMLbyCohort(fileName, 1, scen);
 			} catch (DynamoOutputException e) {
 				// TODO Auto-generated catch block write warning message to user
 				e.printStackTrace();
 			}
-			fileName = baseDir + File.separator
-					+ "Simulations" + File.separator
-					+ simulationName + File.separator + "results"
-					+ File.separator + "excel_cohort_scenario" + scen + ".xml";
+			fileName = baseDir + File.separator + "Simulations"
+					+ File.separator + simulationName + File.separator
+					+ "results" + File.separator + "excel_cohort_scenario"
+					+ scen + ".xml";
 			try {
 				writeWorkBookXMLbyCohort(fileName, 2, scen);
 			} catch (DynamoOutputException e) {
@@ -2284,6 +2359,9 @@ public class DynamoOutputFactory {
 	}
 
 	/**
+	 * applies the succesrate, minimum target age, maximum target age and target
+	 * gender (todo) to the
+	 * 
 	 * @param inputRef
 	 *            : value with data for reference scenario
 	 * @param inputRef
@@ -2295,7 +2373,8 @@ public class DynamoOutputFactory {
 	 *            maximum should be applied This should be zero for "ori" arrays
 	 * @param a
 	 *            : age: the current age of the cohort, or the age at start of
-	 *            simulation. In the last case, year above should be zero
+	 *            simulation (for "ori" arrays). In the last case, year above
+	 *            should be zero
 	 * @return the result for a scenario to which the successrates and
 	 *         min-maximum age have been applied
 	 * */
@@ -2633,7 +2712,8 @@ public class DynamoOutputFactory {
 								+ applySuccesrate(nPopByAge[0][steps][age][1],
 										nPopByAge[thisScen][steps][age][1],
 										thisScen, steps, age);
-						indatr += nPopByAge[0][steps][age][0]+nPopByAge[0][steps][age][1];
+						indatr += nPopByAge[0][steps][age][0]
+								+ nPopByAge[0][steps][age][1];
 					}
 
 				if (steps == 0)
@@ -2661,29 +2741,26 @@ public class DynamoOutputFactory {
 		String label;
 		String chartTitle = "survival ";
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers in population" 
+			chartTitle = "excess numbers in population"
 					+ " compared to ref scenario";
 		if (!numbers && differencePlot)
-			chartTitle = "excess survival"
-					+ " compared to ref scenario";
+			chartTitle = "excess survival" + " compared to ref scenario";
 		if (numbers && !differencePlot)
-			chartTitle = "numbers in population " ;
-		String yTitle = "survival (%)" ;
+			chartTitle = "numbers in population ";
+		String yTitle = "survival (%)";
 		if (differencePlot && !numbers)
-			yTitle = "excess survival (%)" ;
+			yTitle = "excess survival (%)";
 		if (!differencePlot && numbers)
-			yTitle = "population numbers" ;
+			yTitle = "population numbers";
 		if (differencePlot && numbers)
-			yTitle = "excess population numbers" ;
-		
+			yTitle = "excess population numbers";
+
 		if (gender == 0)
 			label = " for men";
 		else if (gender == 1)
 			label = " for women";
 		else
 			label = " for both sexes";
-		
-		
 
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle + label,
 				"years of simulation", yTitle, xyDataset,
@@ -2818,11 +2895,10 @@ public class DynamoOutputFactory {
 	 * 
 	 * 
 	 * @return
-	 * @throws DynamoOutputException
+	 * 
 	 */
 	public JFreeChart makeAgePrevalenceByGenderPlot(int thisScen, int d,
-			int year, boolean differencePlot, boolean numbers)
-			throws DynamoOutputException {
+			int year, boolean differencePlot, boolean numbers) {
 
 		XYSeries menSeries = new XYSeries("men");
 		XYSeries womenSeries = new XYSeries("women");
@@ -2954,11 +3030,10 @@ public class DynamoOutputFactory {
 	 *            (boolean) plot absolute numbers in stead of percentages
 	 * 
 	 * @return
-	 * @throws DynamoOutputException
+	 * 
 	 */
 	public JFreeChart makeAgePrevalenceByScenarioPlot(int gender, int d,
-			int year, boolean differencePlot, boolean numbers)
-			throws DynamoOutputException {
+			int year, boolean differencePlot, boolean numbers) {
 
 		XYSeries scenSeries[] = new XYSeries[nScen + 1];
 		XYDataset xyDataset = null;
@@ -3296,8 +3371,8 @@ public class DynamoOutputFactory {
 	 *            population
 	 * @return plot (JFreeChart)
 	 */
-	public JFreeChart makeYearPrevalenceByRiskFactorPlots(int thisScen, int d,
-			int gender, boolean differencePlot, boolean numbers) {
+	public JFreeChart makeYearPrevalenceByRiskFactorPlots(int gender,int thisScen, int d,
+			 boolean differencePlot, boolean numbers) {
 		XYDataset xyDataset = null;
 
 		for (int r = 0; r < nRiskFactorClasses; r++) {
@@ -3406,8 +3481,7 @@ public class DynamoOutputFactory {
 		XYDataset xyDataset = null;
 		XYSeries[] scenSeries = new XYSeries[nScen + 1];
 		for (int thisScen = 0; thisScen < nScen + 1; thisScen++) {
-			scenSeries[thisScen] = new XYSeries(diseaseNames[d]
-					+ " prevalence scenario: " + scenarioNames[thisScen]);
+			scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
 			for (int steps = 0; steps < stepsInRun + 1; steps++) {
 				double indat = 0;
 				double npop = 0;
@@ -3530,6 +3604,8 @@ public class DynamoOutputFactory {
 	 * 
 	 * @param gender
 	 *            : 0=men, 1=women, 2=both
+	 * @param thisScen
+	 *            : scenario for which to plot
 	 * @param d
 	 *            : diseasenumber
 	 * @param differencePlot
@@ -3541,22 +3617,17 @@ public class DynamoOutputFactory {
 	 * @return JFreeChart plot
 	 * 
 	 */
-	public JFreeChart makeAgePrevalenceByRiskFactorPlots(int thisScen, int d,
-			int year, boolean differencePlot, boolean numbers)
-			throws DynamoOutputException {
+	public JFreeChart makeAgePrevalenceByRiskFactorPlots(int gender,
+			int thisScen, int d, int year, boolean differencePlot,
+			boolean numbers) {
 		XYDataset xyDataset = null;
 		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(nDiseaseStateByRiskClassByAge);
 
 		for (int r = 0; r < nRiskFactorClasses; r++) {
 
-			XYSeries menSeries = new XYSeries(
-					 " men, risk factor class: "
-					+ riskClassnames[r]);
-			XYSeries womenSeries = new XYSeries(
-					 " women, risk factor class: "
-					+ riskClassnames[r]);
-			XYSeries totSeries = new XYSeries(diseaseNames[d]
-					+ " all, risk factor class: " + riskClassnames[r]);
+			XYSeries menSeries = new XYSeries(" men, " + riskClassnames[r]);
+			XYSeries womenSeries = new XYSeries(" women, " + riskClassnames[r]);
+			XYSeries totSeries = new XYSeries(riskClassnames[r]);
 			double mendat = 0;
 			double womendat = 0;
 			double menpop = 0;
@@ -3618,24 +3689,47 @@ public class DynamoOutputFactory {
 							- (womendatr + mendatr));
 
 			}
-
-			if (r == 0)
-				xyDataset = new XYSeriesCollection(totSeries);
-			else
-				((XYSeriesCollection) xyDataset).addSeries(totSeries);
+			switch (gender) {
+			case 0:
+				if (r == 0)
+					xyDataset = new XYSeriesCollection(menSeries);
+				else
+					((XYSeriesCollection) xyDataset).addSeries(menSeries);
+				break;
+			case 1:
+				if (r == 0)
+					xyDataset = new XYSeriesCollection(womenSeries);
+				else
+					((XYSeriesCollection) xyDataset).addSeries(womenSeries);
+				break;
+			case 2:
+				if (r == 0)
+					xyDataset = new XYSeriesCollection(totSeries);
+				else
+					((XYSeriesCollection) xyDataset).addSeries(totSeries);
+				break;
+			}
 
 		}
+		String label = "";
+		if (gender==0) label=" in men";
+
+		if (gender==1) label=" in women";
 		String chartTitle = "prevalence of " + diseaseNames[d]
-				+ " in scenario " + scenarioNames[thisScen];
+				+label+ " in scenario " + scenarioNames[thisScen];
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of " + diseaseNames[d]
-					+ " in scenario " + scenarioNames[thisScen];
+					+ label+" in scenario " + scenarioNames[thisScen];
 		if (!numbers && differencePlot)
 			chartTitle = "excess prevalence of " + diseaseNames[d]
+					+ label+" in scenario " + scenarioNames[thisScen];
+		if (numbers && !differencePlot) if (gender==0)
+			chartTitle = "number of men with " + diseaseNames[d]
 					+ " in scenario " + scenarioNames[thisScen];
-		if (numbers && !differencePlot)
-			chartTitle = "number of persons with " + diseaseNames[d]
-					+ " in scenario " + scenarioNames[thisScen];
+		else if (gender==1)chartTitle = "number of women with " + diseaseNames[d]
+		                                                     					+ " in scenario " + scenarioNames[thisScen];
+		else chartTitle = "number of persons with " + diseaseNames[d]
+		                                  					+ " in scenario " + scenarioNames[thisScen];
 		String yTitle = "prevalence rate (%) " + diseaseNames[d];
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + diseaseNames[d];
@@ -3644,9 +3738,8 @@ public class DynamoOutputFactory {
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + diseaseNames[d];
 
-		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
-				"years of simulation", yTitle, xyDataset,
-				PlotOrientation.VERTICAL, true, true, false);
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "age",
+				yTitle, xyDataset, PlotOrientation.VERTICAL, true, true, false);
 		return chart;
 		/*
 		 * ChartFrame frame1 = new ChartFrame(diseaseNames[d] +
@@ -3672,8 +3765,10 @@ public class DynamoOutputFactory {
 	 * print riskfactorclass data for a single scenario separate for men and
 	 * women
 	 * 
-	 * @param thisScen
-	 *            : scenario for which to plot
+	 * @param gender
+	 *            : 0=men, 1=women, 2=both
+	 * @param riskClass
+	 *            riskClass to plot
 	 * @param differencePlot
 	 *            : plot difference with reference scenario
 	 * @param numbers
@@ -3681,34 +3776,15 @@ public class DynamoOutputFactory {
 	 * @return
 	 * @throws DynamoOutputException
 	 */
-	public JFreeChart makeYearRiskFactorByGenderPlot(int thisScen,
-			boolean differencePlot, boolean numbers) {
+	public JFreeChart makeYearRiskFactorByScenarioPlot(int gender,
+			int riskClass, boolean differencePlot, boolean numbers) {
 
 		XYDataset xyDataset = null;
+		XYSeries[] scenSeries = new XYSeries[nScen + 1];
 		double[][][][] nPopByAge = getNPopByAge();
-		for (int r = 0; r < nRiskFactorClasses; r++) {
+		for (int thisScen = 0; thisScen < nScen + 1; thisScen++) {
 
-			XYSeries menSeries = new XYSeries(riskClassnames[r]
-					+ " prevalence in men");
-			XYSeries womenSeries = new XYSeries(riskClassnames[r]
-					+ " prevalence in women");
-			if (numbers && !differencePlot) {
-				menSeries = new XYSeries(riskClassnames[r] + " numbers (men)");
-				womenSeries = new XYSeries(riskClassnames[r]
-						+ " numbers (women)");
-			}
-			if (numbers && differencePlot) {
-				menSeries = new XYSeries(riskClassnames[r]
-						+ " difference in numbers with ref. scenario (men)");
-				womenSeries = new XYSeries(riskClassnames[r]
-						+ " difference in numbers with ref. scenario (women)");
-			}
-			if (numbers && !differencePlot) {
-				menSeries = new XYSeries(riskClassnames[r]
-						+ " prevalence difference  with ref. scenario (men)");
-				womenSeries = new XYSeries(riskClassnames[r]
-						+ " prevalence difference with ref. scenario (women)");
-			}
+			scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
 
 			for (int steps = 0; steps < stepsInRun + 1; steps++) {
 				double indat = 0;
@@ -3717,69 +3793,214 @@ public class DynamoOutputFactory {
 				double denominatorr = 0;
 				int nDim = nPopByAge[0][0].length;
 				for (int age = 0; age < nDim; age++) {
-					indat += applySuccesrate(
-							nPopByRiskClassByAge[0][steps][r][age][0],
-							nPopByRiskClassByAge[thisScen][steps][r][age][0],
-							thisScen, steps, age);
-					denominator += applySuccesrate(nPopByAge[0][steps][age][0],
-							nPopByAge[thisScen][steps][age][0], thisScen,
-							steps, age);
-					indatr += nPopByRiskClassByAge[0][steps][r][age][0];
-					denominatorr += nPopByAge[0][steps][age][0];
+					if (gender < 2) {
+						indat += applySuccesrate(
+								nPopByRiskClassByAge[0][steps][riskClass][age][gender],
+								nPopByRiskClassByAge[thisScen][steps][riskClass][age][gender],
+								thisScen, steps, age);
+						denominator += applySuccesrate(
+								nPopByAge[0][steps][age][gender],
+								nPopByAge[thisScen][steps][age][gender],
+								thisScen, steps, age);
+						indatr += nPopByRiskClassByAge[0][steps][riskClass][age][gender];
+						denominatorr += nPopByAge[0][steps][age][gender];
+					} else {
+						indat += applySuccesrate(
+								nPopByRiskClassByAge[0][steps][riskClass][age][0],
+								nPopByRiskClassByAge[thisScen][steps][riskClass][age][0],
+								thisScen, steps, age)
+								+ applySuccesrate(
+										nPopByRiskClassByAge[0][steps][riskClass][age][1],
+										nPopByRiskClassByAge[thisScen][steps][riskClass][age][1],
+										thisScen, steps, age);
+						;
+						denominator += applySuccesrate(
+								nPopByAge[0][steps][age][0],
+								nPopByAge[thisScen][steps][age][0], thisScen,
+								steps, age)
+								+ applySuccesrate(nPopByAge[0][steps][age][1],
+										nPopByAge[thisScen][steps][age][1],
+										thisScen, steps, age);
+						indatr += nPopByRiskClassByAge[0][steps][riskClass][age][0]
+								+ nPopByRiskClassByAge[0][steps][riskClass][age][1];
+						denominatorr += nPopByAge[0][steps][age][0]
+								+ nPopByAge[0][steps][age][1];
+					}
 
 				}
 				if (denominator != 0 && !numbers && !differencePlot)
-					menSeries.add((double) steps, indat / denominator);
+					scenSeries[thisScen].add((double) steps, indat
+							/ denominator);
 				if (denominator != 0 && denominatorr != 0 && !numbers
 						&& differencePlot)
-					menSeries.add((double) steps, (indat / denominator)
-							- (indatr / denominatorr));
+					scenSeries[thisScen].add((double) steps,
+							(indat / denominator) - (indatr / denominatorr));
 				if (denominator != 0 && numbers && !differencePlot)
-					menSeries.add((double) steps, indat);
+					scenSeries[thisScen].add((double) steps, indat);
 				if (denominator != 0 && denominatorr != 0 && numbers
 						&& differencePlot)
-					menSeries.add((double) steps, indat - indatr);
-
-				indat = 0;
-				denominator = 0;
-				indatr = 0;
-				denominatorr = 0;
-				for (int age = 0; age < nDim; age++) {
-					indat += applySuccesrate(
-							nPopByRiskClassByAge[0][steps][r][age][1],
-							nPopByRiskClassByAge[thisScen][steps][r][age][1],
-							thisScen, steps, age);
-					denominator += applySuccesrate(nPopByAge[0][steps][age][1],
-							nPopByAge[thisScen][steps][age][1], thisScen,
-							steps, age);
-					indatr += nPopByRiskClassByAge[0][steps][r][age][1];
-					denominatorr += nPopByAge[0][steps][age][1];
-				}
-
-				if (denominator != 0 && !numbers && !differencePlot)
-					womenSeries.add((double) steps, indat / denominator);
-				if (denominator != 0 && denominatorr != 0 && !numbers
-						&& differencePlot)
-					womenSeries.add((double) steps, (indat / denominator)
-							- (indatr / denominatorr));
-				if (denominator != 0 && numbers && !differencePlot)
-					womenSeries.add((double) steps, indat);
-				if (denominator != 0 && denominatorr != 0 && numbers
-						&& differencePlot)
-					womenSeries.add((double) steps, indat - indatr);
+					scenSeries[thisScen].add((double) steps, indat - indatr);
 
 			}
-			if (r == 0)
-				xyDataset = new XYSeriesCollection(menSeries);
+			if (thisScen == 0)
+				xyDataset = new XYSeriesCollection(scenSeries[thisScen]);
 			else
-				((XYSeriesCollection) xyDataset).addSeries(menSeries);
-			((XYSeriesCollection) xyDataset).addSeries(womenSeries);
+				((XYSeriesCollection) xyDataset)
+						.addSeries(scenSeries[thisScen]);
+
 		}
 
-		JFreeChart chart = ChartFactory.createXYLineChart(
-				"riskfactor scenario: " + scenarioNames[thisScen],
-				"years of simulation", "prevalence rate", xyDataset,
+		String chartTitle = "prevalence of " + riskClassnames[riskClass];
+		if (numbers && differencePlot)
+			chartTitle = "excess number of " + riskClassnames[riskClass]
+					+ " compared to ref scenario";
+		if (!numbers && differencePlot)
+			chartTitle = "excess prevalence of " + riskClassnames[riskClass]
+					+ " compared to ref scenario";
+		if (numbers && !differencePlot)
+			chartTitle = "number of " + riskClassnames[riskClass];
+		String yTitle = "prevalence rate (%) " + riskClassnames[riskClass];
+		if (differencePlot && !numbers)
+			yTitle = "excess prevalence rate (%) " + riskClassnames[riskClass];
+		if (!differencePlot && numbers)
+			yTitle = "number with " + riskClassnames[riskClass];
+		if (differencePlot && numbers)
+			yTitle = "excess number of " + riskClassnames[riskClass];
+
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+				"years of simulation", yTitle, xyDataset,
 				PlotOrientation.VERTICAL, true, true, false);
+		TextTitle title = chart.getTitle();
+		title.setFont(new Font("SansSerif", Font.BOLD, 14));
+		// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
+		// frame1.setVisible(true);
+		// frame1.setSize(300, 300);
+		/*
+		 * final ChartPanel chartPanel = new ChartPanel(chart);
+		 * chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+		 * 
+		 * try { writeCategoryChart(baseDir + File.separator + "simulations" +
+		 * File.separator + simulationName + File.separator + "results" +
+		 * File.separator + "chartRiskFactorPrevalence.jpg", chart); } catch
+		 * (Exception e) { System.out.println(e.getMessage()); System.out
+		 * .println("Problem occurred creating chart. for riskfactor"); }
+		 */
+		return chart;
+
+	}
+
+	/**
+	 * print riskfactorclass data for a single scenario separate for men and
+	 * women
+	 * 
+	 * @param gender
+	 *            : 0=men, 1=women, 2=both
+	 * @param riskClass
+	 *            : riskClass to plot
+	 * @param differencePlot
+	 *            : plot difference with reference scenario
+	 * @param numbers
+	 *            : plot absolute numbers
+	 * @return
+	 * @throws DynamoOutputException
+	 */
+	public JFreeChart makeAgeRiskFactorByScenarioPlot(int year, int gender,
+			int riskClass, boolean differencePlot, boolean numbers) {
+
+		XYDataset xyDataset = null;
+		XYSeries[] scenSeries = new XYSeries[nScen + 1];
+		double[][][][] nPopByAge = getNPopByAge();
+		for (int thisScen = 0; thisScen < nScen + 1; thisScen++) {
+
+			scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
+
+			double indat = 0;
+			double denominator = 0;
+			double indatR = 0;
+			double denominatorR = 0;
+			int nDim = nPopByAge[0][0].length;
+			for (int age = 0; age < nDim; age++) {
+				if (gender < 2) {
+					indat = applySuccesrate(
+							nPopByRiskClassByAge[0][year][riskClass][age][gender],
+							nPopByRiskClassByAge[thisScen][year][riskClass][age][gender],
+							thisScen, year, age);
+					denominator = applySuccesrate(
+							nPopByAge[0][year][age][gender],
+							nPopByAge[thisScen][year][age][gender], thisScen,
+							year, age);
+					indatR = nPopByRiskClassByAge[0][year][riskClass][age][gender];
+					denominatorR = nPopByAge[0][year][age][gender];
+				} else {
+					indat = applySuccesrate(
+							nPopByRiskClassByAge[0][year][riskClass][age][0],
+							nPopByRiskClassByAge[thisScen][year][riskClass][age][0],
+							thisScen, year, age)
+							+ applySuccesrate(
+									nPopByRiskClassByAge[0][year][riskClass][age][1],
+									nPopByRiskClassByAge[thisScen][year][riskClass][age][1],
+									thisScen, year, age);
+					;
+					denominator = applySuccesrate(nPopByAge[0][year][age][0],
+							nPopByAge[thisScen][year][age][0], thisScen, year,
+							age)
+							+ applySuccesrate(nPopByAge[0][year][age][1],
+									nPopByAge[thisScen][year][age][1],
+									thisScen, year, age);
+					indatR = nPopByRiskClassByAge[0][year][riskClass][age][0]
+							+ nPopByRiskClassByAge[0][year][riskClass][age][1];
+					denominatorR = nPopByAge[0][year][age][0]
+							+ nPopByAge[0][year][age][1];
+				}
+
+				if (denominator != 0 && !numbers && !differencePlot)
+					scenSeries[thisScen].add((double) age, indat / denominator);
+				if (denominator != 0 && denominatorR != 0 && !numbers
+						&& differencePlot)
+					scenSeries[thisScen].add((double) age,
+							(indat / denominator) - (indatR / denominatorR));
+				if (denominator != 0 && numbers && !differencePlot)
+					scenSeries[thisScen].add((double) age, indat);
+				if (denominator != 0 && denominatorR != 0 && numbers
+						&& differencePlot)
+					scenSeries[thisScen].add((double) age, indat - indatR);
+
+			}
+			if (thisScen == 0)
+				xyDataset = new XYSeriesCollection(scenSeries[thisScen]);
+			else
+				((XYSeriesCollection) xyDataset)
+						.addSeries(scenSeries[thisScen]);
+
+		}
+		String label = "";
+		if (gender == 0)
+			label = " (men)";
+		if (gender == 1)
+			label = " (women)";
+
+		String chartTitle = "prevalence of " + riskClassnames[riskClass]
+				+ " in " + (startYear + year);
+		if (numbers && differencePlot)
+			chartTitle = "excess number of " + riskClassnames[riskClass]
+					+ " compared to ref scenario" + " in " + (startYear + year);
+		if (!numbers && differencePlot)
+			chartTitle = "excess prevalence of " + riskClassnames[riskClass]
+					+ " compared to ref scenario" + " in " + (startYear + year);
+		if (numbers && !differencePlot)
+			chartTitle = "number of " + riskClassnames[riskClass] + " in "
+					+ (startYear + year);
+		chartTitle = chartTitle + label;
+		String yTitle = "prevalence rate (%) " + riskClassnames[riskClass];
+		if (differencePlot && !numbers)
+			yTitle = "excess prevalence rate (%) " + riskClassnames[riskClass];
+		if (!differencePlot && numbers)
+			yTitle = "number with " + riskClassnames[riskClass];
+		if (differencePlot && numbers)
+			yTitle = "excess number of " + riskClassnames[riskClass];
+
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "age",
+				yTitle, xyDataset, PlotOrientation.VERTICAL, true, true, false);
 		TextTitle title = chart.getTitle();
 		title.setFont(new Font("SansSerif", Font.BOLD, 14));
 		// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
@@ -3802,8 +4023,7 @@ public class DynamoOutputFactory {
 	// lklk;
 
 	public JFreeChart makeYearMortalityPlotByScenario(int gender,
-			boolean differencePlot, boolean numbers)
-			 {
+			boolean differencePlot, boolean numbers) {
 
 		XYDataset xyDataset = null;
 		double[][][][] mortality = makeMortalityArray(true);/*
@@ -3816,8 +4036,8 @@ public class DynamoOutputFactory {
 		XYSeries scenSeries[] = new XYSeries[nScen + 1];
 
 		for (int thisScen = 0; thisScen < nScen + 1; thisScen++) {
-			
-				scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
+
+			scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
 			/*
 			 * mortality is calculated from the difference between the previous
 			 * year and the current year therefor there is one less datapoint
@@ -3834,23 +4054,40 @@ public class DynamoOutputFactory {
 				double denominator1r = 0;
 
 				for (int age = 0; age < nDim; age++) {
-					indat0 += applySuccesrate(mortality[0][steps][age][0],
-							mortality[thisScen][steps][age][0], thisScen,
-							steps, age);
-					indat1 += applySuccesrate(mortality[0][steps][age][1],
-							mortality[thisScen][steps][age][1], thisScen,
-							steps, age);
-					denominator0 += applySuccesrate(
-							nPopByAge[0][steps][age][0],
-							nPopByAge[thisScen][steps][age][0], thisScen,
-							steps, age);
-					denominator1 += applySuccesrate(
-							nPopByAge[0][steps][age][1],
-							nPopByAge[thisScen][steps][age][1], thisScen,
-							steps, age);
-					indat0r += mortality[thisScen][steps][age][0];
-					indat1r += mortality[thisScen][steps][age][1];
-					denominator0r += nPopByAge[0][steps][age][0];
+					/*
+					 * check if mortality is present (next age in dataset)
+					 * mortality=-1 flags absence
+					 */
+
+					if (mortality[0][steps][age][0] >= 0
+							&& mortality[thisScen][steps][age][0] >= 0) {
+
+						indat0 += applySuccesrate(mortality[0][steps][age][0],
+								mortality[thisScen][steps][age][0], thisScen,
+								steps, age);
+
+						denominator0 += applySuccesrate(
+								nPopByAge[0][steps][age][0],
+								nPopByAge[thisScen][steps][age][0], thisScen,
+								steps, age);
+
+						indat0r += mortality[0][steps][age][0];
+						denominator0r += nPopByAge[0][steps][age][0];
+					}
+					if (mortality[0][steps][age][1] >= 0
+							&& mortality[thisScen][steps][age][1] >= 0)
+						denominator1 = 0;
+
+					{
+						indat1 += applySuccesrate(mortality[0][steps][age][1],
+								mortality[thisScen][steps][age][1], thisScen,
+								steps, age);
+						denominator1 += applySuccesrate(
+								nPopByAge[0][steps][age][1],
+								nPopByAge[thisScen][steps][age][1], thisScen,
+								steps, age);
+					}
+					indat1r += mortality[0][steps][age][1];
 					denominator1r += nPopByAge[0][steps][age][1];
 
 				}
@@ -3882,19 +4119,22 @@ public class DynamoOutputFactory {
 				 */
 				if (gender == 0 && denominator0 != 0 && denominator0r != 0
 						&& !numbers && differencePlot)
-					scenSeries[thisScen].add((double) steps, indat0
-							/ denominator0 - indat0r / denominator0r);
+					scenSeries[thisScen]
+							.add((double) steps, (indat0 / denominator0)
+									- (indat0r / denominator0r));
 				if (gender == 1 && denominator1 != 0 && denominator1r != 0
 						&& !numbers && differencePlot)
-					scenSeries[thisScen].add((double) steps, indat1
-							/ denominator1 - indat1r / denominator1r);
+					scenSeries[thisScen]
+							.add((double) steps, (indat1 / denominator1)
+									- (indat1r / denominator1r));
 				if (gender == 2 && (denominator0 + denominator1) != 0
 						&& (denominator0r + denominator1r) != 0 && !numbers
 						&& differencePlot)
-					scenSeries[thisScen].add((double) steps, (indat0 + indat1)
-							/ (denominator0 + denominator1)
-							- (indat0r + indat1r)
-							/ (denominator0r + denominator1r));
+					scenSeries[thisScen]
+							.add(
+									(double) steps,
+									((indat0 + indat1) / (denominator0 + denominator1))
+											- ((indat0r + indat1r) / (denominator0r + denominator1r)));
 				if (gender == 0 && denominator0 != 0 && denominator0r != 0
 						&& numbers && differencePlot)
 					scenSeries[thisScen].add((double) steps, indat0 - indat0r);
@@ -3923,29 +4163,185 @@ public class DynamoOutputFactory {
 			label = " for women";
 		else
 			label = " for both sexes";
-		
+
 		String chartTitle = "mortality";
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers of death" 
+			chartTitle = "excess numbers of death"
 					+ " compared to ref scenario";
 		if (!numbers && differencePlot)
-			chartTitle = "excess mortality rate"
-					+ " compared to ref scenario";
+			chartTitle = "excess mortality rate" + " compared to ref scenario";
 		if (numbers && !differencePlot)
-			chartTitle = "number of deaths " ;
-		String yTitle = "mortality rate" ;
+			chartTitle = "number of deaths ";
+		String yTitle = "mortality rate";
 		if (differencePlot && !numbers)
-			yTitle = "excess mortality rate" ;
+			yTitle = "excess mortality rate";
 		if (!differencePlot && numbers)
-			yTitle = "number of deaths" ;
+			yTitle = "number of deaths";
 		if (differencePlot && numbers)
-			yTitle = "excess number of deaths" ;
-		
-		
-		
-		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle+label,
+			yTitle = "excess number of deaths";
+
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle + label,
 				"years of simulation", yTitle, xyDataset,
 				PlotOrientation.VERTICAL, true, true, false);
+
+		return chart;
+
+	}
+
+	public JFreeChart makeAgeMortalityPlotByScenario(int year, int gender,
+			boolean differencePlot, boolean numbers) {
+
+		XYDataset xyDataset = null;
+		double[][][][] mortality = makeMortalityArray(true);/*
+															 * get number of
+															 * persons who died
+															 * during this year
+															 */
+		double[][][][] nPopByAge = getNPopByAge();
+
+		XYSeries scenSeries[] = new XYSeries[nScen + 1];
+		double indat0 = 0;
+		double denominator0 = 0;
+		double indat1 = 0;
+		double denominator1 = 0;
+		double indat0r = 0;
+		double denominator0r = 0;
+		double indat1r = 0;
+		double denominator1r = 0;
+		for (int thisScen = 0; thisScen < nScen + 1; thisScen++) {
+
+			scenSeries[thisScen] = new XYSeries(scenarioNames[thisScen]);
+			/*
+			 * mortality is calculated from the difference between the previous
+			 * year and the current year therefor there is one less datapoint
+			 * for mortality than for most other outcomes
+			 */
+
+			for (int age = 0; age < nDim; age++) {
+				/*
+				 * check if mortality is present (next age in dataset)
+				 * mortality=-1 flags absence
+				 */
+				if (mortality[0][year][age][0] >= 0
+						&& mortality[thisScen][year][age][0] >= 0) {
+
+					indat0 = applySuccesrate(mortality[0][year][age][0],
+							mortality[thisScen][year][age][0], thisScen, year,
+							age);
+					denominator0 = applySuccesrate(nPopByAge[0][year][age][0],
+							nPopByAge[thisScen][year][age][0], thisScen, year,
+							age);
+
+					indat0r = mortality[0][year][age][0];
+					denominator0r = nPopByAge[0][year][age][0];
+				}
+				if (mortality[0][year][age][1] >= 0
+						&& mortality[thisScen][year][age][1] >= 0)
+
+				{
+					indat1 = applySuccesrate(mortality[0][year][age][1],
+							mortality[thisScen][year][age][1], thisScen, year,
+							age);
+					denominator1 = applySuccesrate(nPopByAge[0][year][age][1],
+							nPopByAge[thisScen][year][age][1], thisScen, year,
+							age);
+					indat1r = mortality[0][year][age][1];
+
+					denominator1r = nPopByAge[0][year][age][1];
+
+				}
+
+				if (gender == 0 && denominator0 != 0 && !numbers
+						&& !differencePlot)
+					scenSeries[thisScen].add((double) age, indat0
+							/ denominator0);
+				if (gender == 1 && denominator1 != 0 && !numbers
+						&& !differencePlot)
+					scenSeries[thisScen].add((double) age, indat1
+							/ denominator1);
+				if (gender == 2 && (denominator0 + denominator1) != 0
+						&& !numbers && !differencePlot)
+					scenSeries[thisScen].add((double) age, (indat0 + indat1)
+							/ (denominator0 + denominator1));
+				if (gender == 0 && denominator0 != 0 && numbers
+						&& !differencePlot)
+					scenSeries[thisScen].add((double) age, indat0);
+				if (gender == 1 && denominator1 != 0 && numbers
+						&& !differencePlot)
+					scenSeries[thisScen].add((double) age, indat1);
+				if (gender == 2 && (denominator0 + denominator1) != 0
+						&& numbers && !differencePlot)
+					scenSeries[thisScen].add((double) age, (indat0 + indat1));
+
+				/*
+				 * repeat for difference plots
+				 */
+				if (gender == 0 && denominator0 != 0 && denominator0r != 0
+						&& !numbers && differencePlot)
+					scenSeries[thisScen]
+							.add((double) age, (indat0 / denominator0)
+									- (indat0r / denominator0r));
+				if (gender == 1 && denominator1 != 0 && denominator1r != 0
+						&& !numbers && differencePlot)
+					scenSeries[thisScen]
+							.add((double) age, (indat1 / denominator1)
+									- (indat1r / denominator1r));
+				if (gender == 2 && (denominator0 + denominator1) != 0
+						&& (denominator0r + denominator1r) != 0 && !numbers
+						&& differencePlot)
+					scenSeries[thisScen]
+							.add(
+									(double) age,
+									((indat0 + indat1) / (denominator0 + denominator1))
+											- ((indat0r + indat1r) / (denominator0r + denominator1r)));
+				if (gender == 0 && denominator0 != 0 && denominator0r != 0
+						&& numbers && differencePlot)
+					scenSeries[thisScen].add((double) age, indat0 - indat0r);
+				if (gender == 1 && denominator1 != 0 && denominator1r != 0
+						&& numbers && differencePlot)
+					scenSeries[thisScen].add((double) age, indat1 - indat1r);
+				if (gender == 2 && (denominator0 + denominator1) != 0
+						&& (denominator0r + denominator1r) != 0 && numbers
+						&& differencePlot)
+					scenSeries[thisScen].add((double) age, indat0 + indat1
+							- indat0r - indat1r);
+
+			}
+
+			if (thisScen == 0)
+				xyDataset = new XYSeriesCollection(scenSeries[thisScen]);
+			else
+				((XYSeriesCollection) xyDataset)
+						.addSeries(scenSeries[thisScen]);
+
+		} // end scenario loop
+		String label;
+		if (gender == 0)
+			label = " for men";
+		else if (gender == 1)
+			label = " for women";
+		else
+			label = " for both sexes";
+		String label2 = " in " + (startYear + year);
+		String chartTitle = "mortality";
+		if (numbers && differencePlot)
+			chartTitle = "excess numbers of death"
+					+ " compared to ref scenario";
+		if (!numbers && differencePlot)
+			chartTitle = "excess mortality rate" + " compared to ref scenario";
+		if (numbers && !differencePlot)
+			chartTitle = "number of deaths ";
+		String yTitle = "mortality rate";
+		if (differencePlot && !numbers)
+			yTitle = "excess mortality rate";
+		if (!differencePlot && numbers)
+			yTitle = "number of deaths";
+		if (differencePlot && numbers)
+			yTitle = "excess number of deaths";
+
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle + label
+				+ label2, "age", yTitle, xyDataset, PlotOrientation.VERTICAL,
+				true, true, false);
 
 		return chart;
 
@@ -3961,10 +4357,9 @@ public class DynamoOutputFactory {
 	 * 
 	 * @param age
 	 *            : age at which the life expectancy is calculated
-	 * @throws DynamoOutputException
+	 * 
 	 */
-	public JFreeChart makeLifeExpectancyPlot(int age)
-			throws DynamoOutputException {
+	public JFreeChart makeLifeExpectancyPlot(int age) {
 
 		/*
 		 * for (int steps = 0; steps < stepsInRun; steps++) { double indat = 0;
@@ -4010,9 +4405,13 @@ public class DynamoOutputFactory {
 			legend[scen] = "scenario " + scen;
 		CategoryDataset dataset = DatasetUtilities.createCategoryDataset(
 				legend, gender, lifeExp);
-
-		JFreeChart chart = ChartFactory.createBarChart("LifeExpectancy", "",
-				"years", dataset, PlotOrientation.VERTICAL, true, true, false);
+		String chartTitle = ("LifeExpectancy");
+		if (age == 0)
+			chartTitle = chartTitle + " at age " + age;
+		else
+			chartTitle = chartTitle + (" at birth");
+		JFreeChart chart = ChartFactory.createBarChart(chartTitle, "", "years",
+				dataset, PlotOrientation.VERTICAL, true, true, false);
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
 		Plot plot = chart.getPlot();
 		/* assign a generator to a CategoryItemRenderer, */
@@ -4039,6 +4438,183 @@ public class DynamoOutputFactory {
 	}
 
 	/**
+	 * the method produces a bargraph for life-expectancy in different
+	 * scenario's for those who have age a at baseline. This is a longitudinal
+	 * life-expectancy. It only gives proper results when the stepsize used in
+	 * the simulation is high enough. In Dynamo this is set at age 105 (105-age
+	 * when not life expectancy at birth); This means that everyone who survives
+	 * until age 105 is expected to die at age 105.
+	 * 
+	 * @param age
+	 *            : age at which the life expectancy is calculated
+	 * 
+	 */
+	public JFreeChart makeHealthyLifeExpectancyPlot(int age, int disease) {
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+		String[] genderLabel = { "men", "women" };
+		double[][] lifeExp = new double[(nScen + 1)][2];
+		double[][] withDiseaseExp = new double[(nScen + 1)][2];
+		double baselinePop = 0;
+		double[][][][] nPopByAge = getNPopByOriAge();
+
+		double[][][] diseased;
+		if (disease < 0)
+			diseased = getNumberOfOriDiseasedPersons(age);
+		else
+			diseased = getNDiseaseByOriAge(age, disease);
+
+		int scenGenderCombi = 0;
+		int yearsLeft = nDim - age;
+		for (int scenario = 0; scenario < nScen + 1; scenario++)
+
+			for (int s = 0; s < 2; s++) {
+
+				baselinePop = 0;
+				scenGenderCombi = s * (nScen + 1) + scenario + s;
+				for (int steps = 0; steps < yearsLeft; steps++) {
+					lifeExp[scenario][s] += applySuccesrate(
+							nPopByAge[0][steps][age][s],
+							nPopByAge[scenario][steps][age][s], scenario, 0,
+							age);
+					withDiseaseExp[scenario][s] += applySuccesrate(
+							diseased[0][steps][s],
+							diseased[scenario][steps][s], scenario, 0, age);
+					if (steps == 0)
+						baselinePop += applySuccesrate(
+								nPopByAge[0][steps][age][s],
+								nPopByAge[scenario][steps][age][s], scenario,
+								0, age);
+
+				}
+
+				if (baselinePop != 0) {
+					lifeExp[scenario][s] = lifeExp[scenario][s] / baselinePop;
+					withDiseaseExp[scenario][s] = withDiseaseExp[scenario][s]
+							/ baselinePop;
+				} else {
+					lifeExp[scenario][s] = 0;
+					withDiseaseExp[scenario][s] = 0;
+				}
+				/*
+				 * the legend plots the labels of scenario 0, so here we use a
+				 * general different label
+				 */
+				if (scenario == 0) {
+					dataset.addValue(lifeExp[scenario][s]
+							- withDiseaseExp[scenario][s], "healthy",
+							genderLabel[s]);
+					dataset.addValue(withDiseaseExp[scenario][s],
+							"with disease", genderLabel[s]);
+				} else {
+					dataset.addValue(lifeExp[scenario][s]
+							- withDiseaseExp[scenario][s],
+							scenarioNames[scenario] + "(healthy)",
+							genderLabel[s]);
+					dataset.addValue(withDiseaseExp[scenario][s],
+							scenarioNames[scenario] + "(withDisease)",
+							genderLabel[s]);
+				}
+			}
+
+		String[] legend = new String[2];
+		legend[0] = "healthy";
+		if (disease < 0)
+			legend[1] = "with disease";
+		else
+			legend[1] = "with " + diseaseNames[disease];
+
+		String chartTitle = ("LifeExpectancy with and without ");
+		if (disease < 0)
+			chartTitle = chartTitle + "disease";
+		else
+			chartTitle = chartTitle + diseaseNames[disease];
+		if (age == 0)
+			chartTitle = chartTitle + " at age " + age;
+		else
+			chartTitle = chartTitle + (" at birth");
+		JFreeChart chart = ChartFactory.createStackedBarChart(chartTitle, "",
+				"years", dataset, PlotOrientation.VERTICAL, true, true, false);
+
+		GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
+		KeyToGroupMap map = new KeyToGroupMap(scenarioNames[0]);
+		map.mapKeyToGroup("healthy", scenarioNames[0]);
+		map.mapKeyToGroup("with disease", scenarioNames[0]);
+
+		for (int scenario = 1; scenario < nScen + 1; scenario++)
+
+			for (int s = 0; s < 2; s++) {
+				map.mapKeyToGroup(scenarioNames[scenario] + "(healthy)",
+						scenarioNames[scenario]);
+				map.mapKeyToGroup(scenarioNames[scenario] + "(withDisease)",
+						scenarioNames[scenario]);
+			}
+		renderer.setSeriesToGroupMap(map);
+
+		SubCategoryAxis domainAxis = new SubCategoryAxis("");
+		domainAxis.setCategoryMargin(0.2); // gap between men and women: does
+											// not work
+		for (int scenario = 0; scenario < nScen + 1; scenario++)
+			domainAxis.addSubCategory(scenarioNames[scenario]);
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		plot.setDomainAxis(domainAxis);
+		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
+		renderer.setItemMargin(0.15); // between the scenarios;
+		int currentSeries = 0;
+		for (int scenario = 0; scenario < nScen + 1; scenario++)
+			for (int s = 0; s < 2; s++) {
+				renderer.setSeriesPaint(currentSeries, Color.pink);
+				renderer.setSeriesVisibleInLegend(currentSeries, false);
+				currentSeries++;
+				renderer.setSeriesPaint(currentSeries, Color.red);
+				renderer.setSeriesVisibleInLegend(currentSeries, false);
+				currentSeries++;
+
+			}
+		renderer.setSeriesVisibleInLegend(0, true);
+		renderer.setSeriesVisibleInLegend(1, true);
+
+		plot.setRenderer(renderer);
+		// plot.setFixedLegendItems(makeLegend(disease));
+
+		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+				"{2}", new DecimalFormat("0.00"));
+		StandardCategoryItemLabelGenerator generator2 = new StandardCategoryItemLabelGenerator(
+				"{2}", new DecimalFormat("0.00"));
+
+		/*
+		 * assign a generator to a CategoryItemRenderer, in order to show the
+		 * numbers
+		 */
+		CategoryItemRenderer renderer2 = ((CategoryPlot) plot).getRenderer();
+
+		renderer.setBaseItemLabelGenerator(generator);
+		renderer.setBaseItemLabelsVisible(true);
+
+		return chart;
+	}
+
+	private LegendItemCollection makeLegend(int disease) {
+
+		LegendItemCollection legend = new LegendItemCollection();
+		LegendItem item1 = new LegendItem("healthy");
+
+		legend.add(item1);
+		Paint paint1 = item1.getFillPaint();
+
+		LegendItem item2;
+
+		if (disease >= 0)
+			item2 = new LegendItem("with " + diseaseNames[disease]);
+		else
+			item2 = new LegendItem("with disease");
+		legend.add(item2);
+
+		return legend;
+	}
+
+	/**
 	 * method makePyramidChart makes a population pyramid chart for scenario
 	 * "thisScen" compared to the reference scenario and year "timestep"
 	 * 
@@ -4048,12 +4624,16 @@ public class DynamoOutputFactory {
 	 * @return
 	 */
 	public JFreeChart makePyramidChart(int thisScen, int timestep) {
-	
 
 		double[][] pyramidData1 = new double[2][100];
 		double[][] pyramidData2 = new double[2][100];
 		double[][] nPopByAge = new double[100][2];
 		double[][] nRefPopByAge = new double[100][2];
+		if (scaleRange == 0) {
+			/* do only once */
+			int maxPopulationSize = getMaxPop();
+			scaleRange = 10000 * Math.ceil(maxPopulationSize * 1.1 / 10000);
+		}
 		for (int a = 0; a < 100; a++) {
 			for (int r = 0; r < nRiskFactorClasses; r++) {
 				nPopByAge[a][0] += applySuccesrate(
@@ -4085,14 +4665,14 @@ public class DynamoOutputFactory {
 				pyramidData1[1][99 - a] = Math.round(nPopByAge[a][0]
 						- nRefPopByAge[a][0]);
 				pyramidData2[1][99 - a] = -Math.round(nPopByAge[a][1]
-						+ nRefPopByAge[a][1]);
+						- nRefPopByAge[a][1]);
 			} else {
 				pyramidData1[0][99 - a] = Math.round(nPopByAge[a][0]);
 				pyramidData2[0][99 - a] = -Math.round(nPopByAge[a][1]);
-				pyramidData1[1][99 - a] = -Math.round(nPopByAge[a][0]
+				pyramidData1[1][99 - a] = Math.round(-nPopByAge[a][0]
 						+ nRefPopByAge[a][0]);
-				pyramidData2[1][99 - a] = Math.round(nPopByAge[a][1]
-						- nRefPopByAge[a][1]);
+				pyramidData2[1][99 - a] = -Math.round(-nPopByAge[a][1]
+						+ nRefPopByAge[a][1]);
 			}
 		}
 		CategoryDataset dataset1 = DatasetUtilities.createCategoryDataset("",
@@ -4106,6 +4686,18 @@ public class DynamoOutputFactory {
 						+ (startYear + timestep), "", "population size",
 				dataset1, PlotOrientation.HORIZONTAL, false, true, true);
 		CategoryPlot plot = chart.getCategoryPlot();
+		CategoryAxis catAxis = (CategoryAxis) plot.getDomainAxis();
+
+		// catAxis.setLabel(null);
+		catAxis.setTickLabelsVisible(true);
+		boolean[] show = new boolean[105];
+		for (int a = 0; a < 105; a++)
+			if (Math.floor(a) == a)
+				show[a] = true;
+			else
+				show[a] = false;
+		// catAxis.setTickLabelPaint(show);
+
 		plot.setDataset(1, dataset2);
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
 		renderer.setItemMargin(0.0);
@@ -4117,7 +4709,7 @@ public class DynamoOutputFactory {
 
 		renderer.setItemLabelAnchorOffset(9.0);
 		renderer.setSeriesPaint(0, Color.white);
-		renderer.setSeriesPaint(1, Color.pink);
+		renderer.setSeriesPaint(1, Color.gray);
 		renderer.setDrawBarOutline(true);
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van de
@@ -4174,7 +4766,6 @@ public class DynamoOutputFactory {
 	 */
 	public JFreeChart makePyramidChartIncludingDisease(int thisScen,
 			int timestep, int d) {
-	
 
 		/*
 		 * pyramid data 1 are the data for men, pyramiddata2 those for women;
@@ -4185,7 +4776,12 @@ public class DynamoOutputFactory {
 		double[][] nRefHealthyByAge = new double[105][2];
 		double[][] nDiseaseByAge = new double[105][2];
 		double[][] nRefDiseaseByAge = new double[105][2];
-		double[][][][][] healthy = getNumberOfHealthyPersons();
+		double[][][][] withDisease;
+		if (d < 0)
+			withDisease = getNumberOfDiseasedPersons();
+		else
+			withDisease = getNDiseaseByAge(d);
+		double[][][][] nPopByAge = getNPopByAge();
 
 		/* the arrays with Key give the names of the columns in the plot */
 		String[] typeKey1 = { "with disease", "ref-scen (disease)",
@@ -4206,36 +4802,32 @@ public class DynamoOutputFactory {
 			ageKey[104 - a] = ((Integer) a).toString();
 			// else ageKey[104-a]="";
 
-			for (int r = 0; r < nRiskFactorClasses; r++) {
-				nDiseaseByAge[a][0] += applySuccesrate(
-						nPopByRiskClassByAge[0][timestep][r][a][0]
-								- healthy[0][timestep][r][a][0],
-						nPopByRiskClassByAge[thisScen][timestep][r][a][0]
-								- healthy[thisScen][timestep][r][a][0],
-						thisScen, timestep, a);
-				nHealthyByAge[a][0] += applySuccesrate(
-						healthy[0][timestep][r][a][0],
-						healthy[thisScen][timestep][r][a][0], thisScen,
-						timestep, a);
-				nDiseaseByAge[a][1] += applySuccesrate(
-						nPopByRiskClassByAge[0][timestep][r][a][1]
-								- healthy[0][timestep][r][a][1],
-						nPopByRiskClassByAge[thisScen][timestep][r][a][1]
-								- healthy[thisScen][timestep][r][a][1],
-						thisScen, timestep, a);
-				nHealthyByAge[a][1] += applySuccesrate(
-						healthy[0][timestep][r][a][1],
-						healthy[thisScen][timestep][r][a][1], thisScen,
-						timestep, a);
+			nDiseaseByAge[a][0] += applySuccesrate(
+					withDisease[0][timestep][a][0],
+					withDisease[thisScen][timestep][a][0], thisScen, timestep,
+					a);
+			nHealthyByAge[a][0] += applySuccesrate(nPopByAge[0][timestep][a][0]
+					- withDisease[0][timestep][a][0],
+					nPopByAge[thisScen][timestep][a][0]
+							- withDisease[thisScen][timestep][a][0], thisScen,
+					timestep, a);
+			nDiseaseByAge[a][1] += applySuccesrate(
+					withDisease[0][timestep][a][1],
+					withDisease[thisScen][timestep][a][1], thisScen, timestep,
+					a);
+			nHealthyByAge[a][1] += applySuccesrate(nPopByAge[0][timestep][a][1]
+					- withDisease[0][timestep][a][1],
+					nPopByAge[thisScen][timestep][a][1]
+							- withDisease[thisScen][timestep][a][1], thisScen,
+					timestep, a);
 
-				nRefDiseaseByAge[a][0] += nPopByRiskClassByAge[0][timestep][r][a][0]
-						- healthy[0][timestep][r][a][0];
-				nRefDiseaseByAge[a][1] += nPopByRiskClassByAge[0][timestep][r][a][1]
-						- healthy[0][timestep][r][a][1];
-				nRefHealthyByAge[a][0] += healthy[0][timestep][r][a][0];
-				nRefHealthyByAge[a][1] += healthy[0][timestep][r][a][1];
+			nRefDiseaseByAge[a][0] += withDisease[0][timestep][a][0];
+			nRefDiseaseByAge[a][1] += withDisease[0][timestep][a][1];
+			nRefHealthyByAge[a][0] += nPopByAge[0][timestep][a][0]
+					- withDisease[0][timestep][a][0];
+			nRefHealthyByAge[a][1] += nPopByAge[0][timestep][a][1]
+					- withDisease[0][timestep][a][1];
 
-			}
 			/*
 			 * as it is printed upside down we change the order in the dataset
 			 * by putting a in 99-a
@@ -4311,8 +4903,9 @@ public class DynamoOutputFactory {
 		/* assume that scenarios will not increase this by more than 50% */
 
 		if (scaleRange == 0) {
-			int maximumPopSize = getMaxPop();
-			scaleRange = 10000 * Math.ceil(maximumPopSize * 1.1 / 10000);
+			/* do only once */
+			int maxPopulationSize = getMaxPop();
+			scaleRange = 10000 * Math.ceil(maxPopulationSize * 1.1 / 10000);
 		}
 
 		/* the last three booleans are for: legend , ? , */
@@ -4623,6 +5216,20 @@ public class DynamoOutputFactory {
 		return nDiseaseByAge;
 	}
 
+	public double[][][][] getNDiseaseByAge(int disease) {
+		double[][][][] nDiseaseByAge = new double[nScen + 1][stepsInRun + 1][nDim][2];
+		;
+		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(nDiseaseStateByRiskClassByAge);
+		for (int r = 0; r < nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < nScen + 1; scen++)
+				for (int a = 0; a < nDim; a++)
+					for (int g = 0; g < 2; g++)
+						for (int stepCount = 0; stepCount < stepsInRun + 1; stepCount++)
+							nDiseaseByAge[scen][stepCount][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][disease][r][a][g];
+		return nDiseaseByAge;
+	}
+
 	public double[][] getNDiseaseByAge(int scen, int stepCount, int g) {
 		double[][] nDiseaseByAge = new double[nDiseases][nDim];
 		;
@@ -4636,17 +5243,32 @@ public class DynamoOutputFactory {
 	}
 
 	public double[][][][][] getNDiseaseByOriAge() {
-		double[][][][][] nDiseaseByAge = new double[nScen + 1][stepsInRun + 1][nDiseases][nDim][2];
+		double[][][][][] nDiseaseByAge = new double[nScen + 1][nDim][nDiseases][96][2];
 		;
 		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(nDiseaseStateByOriRiskClassByOriAge);
 		for (int r = 0; r < nRiskFactorClasses; r++)
 
 			for (int scen = 0; scen < nScen + 1; scen++)
-				for (int a = 0; a < nDim; a++)
+				for (int a = 0; a < 96; a++)
 					for (int g = 0; g < 2; g++)
 						for (int d = 0; d < nDiseases; d++)
-							for (int stepCount = 0; stepCount < stepsInRun + 1; stepCount++)
+							for (int stepCount = 0; stepCount < nDim; stepCount++)
 								nDiseaseByAge[scen][stepCount][d][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][d][r][a][g];
+		return nDiseaseByAge;
+	}
+
+	public double[][][] getNDiseaseByOriAge(int age, int d) {
+		double[][][] nDiseaseByAge = new double[nScen + 1][nDim - age][2];
+		;
+		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(nDiseaseStateByOriRiskClassByOriAge);
+		for (int r = 0; r < nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < nScen + 1; scen++)
+
+				for (int g = 0; g < 2; g++)
+
+					for (int stepCount = 0; stepCount < nDim - age; stepCount++)
+						nDiseaseByAge[scen][stepCount][g] += nDiseaseByRiskClassByAge[scen][stepCount][d][r][age][g];
 		return nDiseaseByAge;
 	}
 
@@ -4750,6 +5372,30 @@ public class DynamoOutputFactory {
 
 	public void setScenarioNames(String[] scenarioNames) {
 		this.scenarioNames = scenarioNames;
+	}
+
+	public boolean isDetails() {
+		return details;
+	}
+
+	public void setDetails(boolean details) {
+		this.details = details;
+	}
+
+	public int getMaxAgeInSimulation() {
+		return maxAgeInSimulation;
+	}
+
+	public void setMaxAgeInSimulation(int maxAgeInSimulation) {
+		this.maxAgeInSimulation = maxAgeInSimulation;
+	}
+
+	public int getMinAgeInSimulation() {
+		return minAgeInSimulation;
+	}
+
+	public void setMinAgeInSimulation(int minAgeInSimulation) {
+		this.minAgeInSimulation = minAgeInSimulation;
 	}
 
 }
