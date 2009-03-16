@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
