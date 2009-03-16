@@ -11,7 +11,7 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
-        <xs:element minOccurs="192" maxOccurs="192" name="mortality">
+        <xs:element minOccurs="768" maxOccurs="768" name="mortality">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">

@@ -156,11 +156,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// TODO Auto-generated catch blockdisplayErrorMessage(e3);
 			log.fatal(e.getMessage());
 			displayInconsistentDataMessage(e);
-
 			e.printStackTrace();
 		}
-		// " .XML";
-		run();
 	}
 
 	/**

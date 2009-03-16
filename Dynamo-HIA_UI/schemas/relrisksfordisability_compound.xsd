@@ -4,7 +4,7 @@
   <xs:element name="relrisksfordisability_compound">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="192" maxOccurs="1920" name="relriskfordisability">
+        <xs:element minOccurs="768" maxOccurs="768" name="relriskfordisability">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
@@ -26,8 +26,8 @@
               <xs:element name="cat">
                 <xs:simpleType>
                   <xs:restriction base="xs:int">
-                    <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="9" />
+                    <xs:minInclusive value="1" />
+                    <xs:maxInclusive value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>

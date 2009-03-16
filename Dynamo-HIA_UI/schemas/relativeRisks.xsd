@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="relrisksfordeath_categorical">
+  <xs:element name="relativeRisks">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="384" maxOccurs="384" name="relriskfordeath">
+        <xs:element minOccurs="384" maxOccurs="384" name="relativeRisk">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
@@ -31,11 +31,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="value">
-                <xs:simpleType>
-                  <xs:restriction base="xs:float" />
-                </xs:simpleType>
-              </xs:element>
+              <xs:element name="value" type="xs:float" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
