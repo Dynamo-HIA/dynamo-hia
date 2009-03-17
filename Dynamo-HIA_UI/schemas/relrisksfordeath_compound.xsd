@@ -31,13 +31,18 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="begin" type="xs:float" />
-              <xs:element name="alpha" type="xs:float" />
-              <xs:element name="end">
-                <xs:simpleType>
-                  <xs:restriction base="xs:float" />
-                </xs:simpleType>
-              </xs:element>
+              <xs:choice>
+              	<xs:element name="value" type="xs:float" />
+              	<xs:sequence>			                
+	              <xs:element name="begin" type="xs:float" />
+	              <xs:element name="alfa" type="xs:float" />
+	              <xs:element name="end">
+	                <xs:simpleType>
+	                  <xs:restriction base="xs:float" />
+	                </xs:simpleType>
+	              </xs:element>              	
+              	</xs:sequence>
+              </xs:choice>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

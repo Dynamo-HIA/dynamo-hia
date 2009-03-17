@@ -15,7 +15,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="sex" type="xs:int">
+              <xs:element name="sex">
                 <xs:simpleType>
                   <xs:restriction base="xs:int">
                     <xs:minInclusive value="0" />

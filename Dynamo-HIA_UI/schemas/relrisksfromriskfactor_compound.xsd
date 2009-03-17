@@ -4,7 +4,7 @@
   <xs:element name="relrisksfromriskfactor_compound">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="768" maxOccurs="768" name="relativerisk">
+        <xs:element minOccurs="7" maxOccurs="768" name="relativerisk">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
@@ -35,7 +35,7 @@
               	<xs:element name="value" type="xs:float" />
               	<xs:sequence>			                
 	              <xs:element name="begin" type="xs:float" />
-	              <xs:element name="alpha" type="xs:float" />
+	              <xs:element name="alfa" type="xs:float" />
 	              <xs:element name="end">
 	                <xs:simpleType>
 	                  <xs:restriction base="xs:float" />
