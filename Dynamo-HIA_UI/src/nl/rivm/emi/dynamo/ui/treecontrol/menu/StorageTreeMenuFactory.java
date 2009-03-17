@@ -10,6 +10,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
@@ -28,12 +29,12 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
 public class StorageTreeMenuFactory {
@@ -202,17 +203,27 @@ public class StorageTreeMenuFactory {
 											createMenu4RelRiskFromRiskFactor(
 													manager, selection);
 										} else {
+											/*
 											createDefaultMenu4UnimplementedNodes(
 													manager, selection,
 													treeDepth);
+											*/								
+											
+											ErrorMessageUtil.showErrorMessage(log, shell, new DynamoConfigurationException("Not implemented yet"), 
+											"", SWT.ERROR_UNSPECIFIED);				
+											
 										}
 									}
 								}
 							}
 						}
 					} else {
+						ErrorMessageUtil.showErrorMessage(log, shell, new DynamoConfigurationException("Not implemented yet"), 
+								"", SWT.ERROR_UNSPECIFIED);
+						/*
 						createDefaultMenu4UnimplementedNodes(manager,
 								selection, treeDepth);
+								*/
 					}
 				}
 			}
@@ -221,8 +232,12 @@ public class StorageTreeMenuFactory {
 			if (selectedNode.isXMLFile()) {
 				createMenu2EditXML(manager, selection);
 			} else {
+				/*
 				createDefaultMenu4UnimplementedNodes(manager, selection,
 						treeDepth);
+				*/				
+				ErrorMessageUtil.showErrorMessage(log, shell, new DynamoConfigurationException("No xml file found"), 
+						"", SWT.ERROR_UNSPECIFIED);				
 			}
 			break;
 		default:
