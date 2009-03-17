@@ -170,7 +170,7 @@ public class InputDataFactory {
 	private static final String DALYWeightsDir = "DALY_Weights"; //OK
 	private static final String prevalencesDir = "Prevalences"; //OK
 	private static final String incidencesDir = "Incidences"; //OK
-	private static final String excessMoratalitiesDir = "Excess_mortalities"; //OK
+	private static final String excessMoratalitiesDir = "Excess_Mortalities"; //OK
 	private static final String referenceDataDir = "Reference_Data"; //OK
 	
 	public static String populationName = "popFileName";

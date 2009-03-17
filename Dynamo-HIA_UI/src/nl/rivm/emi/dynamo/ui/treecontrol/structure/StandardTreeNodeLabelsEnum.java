@@ -32,7 +32,7 @@ public enum StandardTreeNodeLabelsEnum {
 	DALYWEIGHTS("DALY_Weights"), //
 	RELATIVERISKSFROMRISKFACTOR("Relative_Risks_From_Risk_Factor"), //
 	RELATIVERISKSFROMDISEASES("Relative_Risks_From_Diseases"), //
-	EXCESSMORTALITY("Excess_Mortality"), //
+	EXCESSMORTALITY("Excess_Mortalities"), //
 	MODELCONFIGURATION("Modelconfiguration"), //
 	PARAMETERS("Parameters"), //
 	RESULTS("Results"), //
