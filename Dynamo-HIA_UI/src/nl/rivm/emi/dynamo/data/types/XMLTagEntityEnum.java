@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.data.types;
 
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Alpha;
+import nl.rivm.emi.dynamo.data.types.atomic.Alfa;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
@@ -23,13 +23,14 @@ import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
+import nl.rivm.emi.dynamo.data.types.atomic.VirtualCutoffIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.atomic.Year;
 
 
 public enum XMLTagEntityEnum {
 	AGE((XMLTagEntity)new Age()),
-	ALPHA((XMLTagEntity)new Alpha()),
+	ALFA((XMLTagEntity)new Alfa()),
 	BEGIN((XMLTagEntity)new Begin()),
 	CAT((XMLTagEntity)new CatContainer()),
 	CLASS((XMLTagEntity)new DynamoClass()),
@@ -50,6 +51,7 @@ public enum XMLTagEntityEnum {
 	TRANSITIONDESTINATION((XMLTagEntity)new TransitionDestination()),
 	TRANSITIONSOURCE((XMLTagEntity)new TransitionSource()),
 	UNIQUENAME((XMLTagEntity)new UniqueName()),
+	VIRTUALCUTOFFINDEX((XMLTagEntity)new VirtualCutoffIndex()),
 	//TODO Reactivate (9-3-2009): HASNEWBORNS((XMLTagEntity)new HasNewborns()),
 	YEAR((XMLTagEntity)new Year()),
 	MEAN((XMLTagEntity)new Mean());

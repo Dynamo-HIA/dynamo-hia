@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.data.xml.structure;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Enum containing all possible rootelementnames in the dynamo-HIA configuration
  * files.
@@ -13,8 +10,12 @@ import org.apache.commons.logging.LogFactory;
  * vulnerability to refactoring resulting in inconsistent names across the codebase.
  * 
  * @author mondeelr
- * 
+ * 20090313 mondeelr Bij "*fromriskfactor*" en "*fromdisease*" "relative"prefix 
+ * teruggebracht naar "rel".
  */
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public enum RootElementNamesEnum {
 
@@ -50,11 +51,11 @@ public enum RootElementNamesEnum {
 	DISEASEINCIDENCES("diseaseincidences", null), //
 	EXCESSMORTALITY("excessmortality", null), //
 	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL(
-			"relrisksfromriskfactor_categorical", null), //relativerisksfromriskfactor_categorical
+			"relrisksfromriskfactor_categorical", null), //
 	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(
-			"relrisksfromriskfactor_continuous", null), //relativerisksfromriskfactor_continuous
-	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relrisksfromriskfactor_compound", null), //relativerisksfromriskfactor_compound
-	RELATIVERISKSFROMDISEASES("relrisksfromdisease", null), //relativerisksfromdiseases
+			"relrisksfromriskfactor_continuous", null), //
+	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relrisksfromriskfactor_compound", null), //
+	RELATIVERISKSFROMDISEASES("relrisksfromdiseases", null), //
 	DALYWEIGHTS("dalyweights", null);
 
 	Log log = LogFactory.getLog(this.getClass().getName());

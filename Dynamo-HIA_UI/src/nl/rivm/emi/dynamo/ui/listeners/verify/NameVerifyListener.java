@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
  * whether the input characters are going anywhere.
  */
 
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 
 import org.eclipse.swt.events.VerifyEvent;
@@ -26,7 +27,7 @@ public class NameVerifyListener implements VerifyListener {
 		if (candidateContent.length() == 0) {
 			myText.setBackground(new Color(null, 0xff, 0xff, 0xcc)); // Yellow
 		} else {
-			if(!(Name.matchPattern.matcher(candidateContent))
+			if(!(((Name)XMLTagEntityEnum.NAME.getTheType()).matchPattern.matcher(candidateContent))
 			.matches()){
 				arg0.doit = false;
 				myText.setBackground(new Color(null, 0xff, 0xbb, 0xbb));

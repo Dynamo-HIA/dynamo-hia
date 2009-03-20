@@ -25,9 +25,15 @@ import org.apache.commons.logging.LogFactory;
  */
 
 public enum FileControlEnum {
+	/* W01 */
+	DYNAMOSIMULATION(FileControlEnumHelp.dynamoSimulationStrings), //
+	/* W11 */
 	POPULATIONSIZE(FileControlEnumHelp.populationSizeStrings), //
+	/* W12 */
 	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings), //
+	/* W13 */
 	NEWBORNS(FileControlEnumHelp.newbornsStrings), //
+	/* W14 */
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings), //
 	TRANSITIONDRIFT(FileControlEnumHelp.transitionDriftStrings), //
 	TRANSITIONDRIFTNETTO(FileControlEnumHelp.transitionDriftNettoStrings), //
@@ -40,20 +46,26 @@ public enum FileControlEnum {
 	RELRISKFORDEATHCONTINUOUS(FileControlEnumHelp.relRiskForDeathContStrings), //
 	RELRISKFORDEATHCOMPOUND(FileControlEnumHelp.relRiskForDeathCompStrings), //
 	RISKFACTORCATEGORICAL(FileControlEnumHelp.riskFactorCategoricalStrings), //
-	RELRISKFORDISABILITYCATEGORICAL(FileControlEnumHelp.relRiskForDisabilityCatStrings), //
-	RELRISKFORDISABILITYCONTINUOUS(FileControlEnumHelp.relRiskForDisabilityContStrings), //
+	RELRISKFORDISABILITYCATEGORICAL(
+			FileControlEnumHelp.relRiskForDisabilityCatStrings), //
+	RELRISKFORDISABILITYCONTINUOUS(
+			FileControlEnumHelp.relRiskForDisabilityContStrings), //
 	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings), //
 	INCIDENCES(FileControlEnumHelp.incidencesStrings), //
 	RELRISKFORRISKFACTORCATEGORICAL(
-			FileControlEnumHelp.relRiskForRiskfactorCatStrings), //
+			FileControlEnumHelp.relRiskFromRiskfactorCatStrings), //
 	RELRISKFORRISKFACTORCONTINUOUS(
-			FileControlEnumHelp.relRiskForRiskfactorConStrings), //
+			FileControlEnumHelp.relRiskFromRiskfactorConStrings), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings), //
-	RISKFACTORCOMPOUND(
-			FileControlEnumHelp.riskFactorCompoundStrings), //
+	RISKFACTORCOMPOUND(FileControlEnumHelp.riskFactorCompoundStrings), //
 	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings),
 	/* Subtrees in the configuration files. */
-	CLASSES(FileControlEnumHelp.classesStrings);
+	CLASSES(FileControlEnumHelp.classesStrings), //
+	CUTOFFS(FileControlEnumHelp.cutoffsStrings), //
+	SCENARIOS(FileControlEnumHelp.scenariosStrings), DISEASES(
+			FileControlEnumHelp.diseasesStrings), //
+	RISKFACTOR(FileControlEnumHelp.riskfactorStrings), //
+	RRS(FileControlEnumHelp.rrsStrings);
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
@@ -61,9 +73,17 @@ public enum FileControlEnum {
 	String rootElementName;
 	String rootChildElementName;
 	AtomicTypeBase<Number>[] parameterTypes;
-	XMLTagEntity[] parameterTypes_MK2;
+	/**
+	 * Array of XMLTagEntities for use in the Group factory.
+	 */
+	XMLTagEntity[] parameterTypes4GroupFactory;
 
 	private FileControlEnum(String[] elementNames) {
+		fillParameterTypes(elementNames);
+		fillParameterTypes4GroupFactory(elementNames);
+	}
+
+	private void fillParameterTypes(String[] elementNames) {
 		/* Exceptions not allowed. */
 		if (elementNames.length < 4) {
 			if (elementNames.length == 0) {
@@ -79,7 +99,6 @@ public enum FileControlEnum {
 			rootElementName = elementNames[0];
 			rootChildElementName = elementNames[1];
 			parameterTypes = new AtomicTypeBase[elementNames.length - 2];
-			parameterTypes_MK2 = new XMLTagEntity[elementNames.length - 1];
 			XMLTagEntitySingleton ats = XMLTagEntitySingleton.getInstance();
 			for (int count = 2; count < elementNames.length; count++) {
 				XMLTagEntity intermediate = ats.get(elementNames[count]);
@@ -89,17 +108,38 @@ public enum FileControlEnum {
 					if (theValue instanceof Number) {
 						parameterTypes[count - 2] = (AtomicTypeBase<Number>) ats
 								.get(elementNames[count]);
-						parameterTypes_MK2[count - 1] = null;
 					} else {
 						parameterTypes[count - 2] = null;
-						parameterTypes_MK2[count - 1] = ats
-								.get(elementNames[count]);
 					}
 				} else {
 					parameterTypes[count - 2] = null;
-					parameterTypes_MK2[count - 1] = ats
-							.get(elementNames[count]);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Fill the parameterTypes.
+	 * 
+	 * @param elementNames
+	 */
+	private void fillParameterTypes4GroupFactory(String[] elementNames) {
+		/* Exceptions not allowed. */
+		if (elementNames.length < 2) {
+			if (elementNames.length == 0) {
+				log
+						.error("A FileControlEnum should be based on at least four Strings!");
+			} else {
+				log.error("Rootelementname: " + elementNames[0]
+						+ " This FileControlEnum contains no rootChild-names.");
+			}
+		} else {
+			rootElementName = elementNames[0];
+			parameterTypes4GroupFactory = new XMLTagEntity[elementNames.length - 1];
+			XMLTagEntitySingleton ats = XMLTagEntitySingleton.getInstance();
+			for (int count = 1; count < elementNames.length; count++) {
+				XMLTagEntity intermediate = ats.get(elementNames[count]);
+				parameterTypes4GroupFactory[count - 1] = intermediate;
 			}
 		}
 	}
@@ -116,7 +156,11 @@ public enum FileControlEnum {
 		return parameterTypes[index];
 	}
 
-	public XMLTagEntity getParameterType_MK2(int index) {
-		return parameterTypes_MK2[index];
+	public XMLTagEntity getParameterType4GroupFactory(int index) {
+		return parameterTypes4GroupFactory[index];
+	}
+
+	public int getNumberOfParameterTypes4GroupFactory() {
+		return parameterTypes4GroupFactory.length;
 	}
 }

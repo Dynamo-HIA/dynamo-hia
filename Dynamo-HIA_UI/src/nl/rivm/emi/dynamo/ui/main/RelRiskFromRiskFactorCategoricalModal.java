@@ -9,6 +9,7 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import java.io.File;
+import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
@@ -111,7 +112,7 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> producedData = null;
-		AgnosticFactory factory = FactoryProvider
+		AgnosticFactory factory = (AgnosticFactory)FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
 		if (factory == null) {
 			throw new ConfigurationException(

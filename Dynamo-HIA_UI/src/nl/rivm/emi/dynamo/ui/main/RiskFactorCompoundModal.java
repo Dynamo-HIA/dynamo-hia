@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -8,6 +9,7 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCompoundObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -29,9 +31,8 @@ import org.eclipse.swt.widgets.Shell;
  * @author schutb
  * 
  */
-public class RiskFactorCompoundModal extends AbstractDataModal {
-	private static final String RISKFACTOR_COMPOUND = "riskfactor_compound";
-	
+public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
+
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
@@ -49,9 +50,9 @@ public class RiskFactorCompoundModal extends AbstractDataModal {
 	 * @param rootElementName
 	 * @param selectedNode
 	 */
-	public RiskFactorCompoundModal(Shell parentShell,
-			String dataFilePath, String configurationFilePath, 
-			String rootElementName, BaseNode selectedNode) {
+	public RiskFactorCompoundModal(Shell parentShell, String dataFilePath,
+			String configurationFilePath, String rootElementName,
+			BaseNode selectedNode) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 	}
@@ -62,11 +63,9 @@ public class RiskFactorCompoundModal extends AbstractDataModal {
 	}
 
 	public synchronized void open() {
-//		try {
+		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = new RiskFactorCompoundObject(true);
-//			this.modelObject = this.modelObject
-//					.manufacture(this.dataFilePath, RISKFACTOR_COMPOUND);
+			this.modelObject = (RiskFactorCompoundObject)manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -85,20 +84,22 @@ public class RiskFactorCompoundModal extends AbstractDataModal {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
-//		} catch (ConfigurationException e) {
-//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-//			box.setText("Processing " + this.configurationFilePath);
-//			box.setMessage(e.getMessage());
-//			box.open();
-//		} catch (DynamoInconsistentDataException e) {
-//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-//			box.setText("Processing " + this.configurationFilePath);
-//			box.setMessage(e.getMessage());
-//			box.open();
-//		}
+		} catch (ConfigurationException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
 	 */
 	@Override

@@ -108,8 +108,8 @@ public class ConfigurationFileUtil {
 					
 					ConfigurationNode rootNode = configurationFromFile
 							.getRootNode();
-					ConfigurationNode ageNode = rootNode.getChild(0);
-					numberOfCategories = ageNode.getChildrenCount();
+					ConfigurationNode firstRootChild = rootNode.getChild(0);
+					numberOfCategories = firstRootChild.getChildrenCount();
 				}
 			}
 			return numberOfCategories;

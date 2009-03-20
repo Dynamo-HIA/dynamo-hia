@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
@@ -30,7 +31,7 @@ public class IntegerVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((Number.matchPattern.matcher(candidateContent))
+				if (((Number)XMLTagEntityEnum.NUMBER.getTheType()).matchPattern.matcher(candidateContent)
 						.matches()) {
 					Integer candidateInteger = Integer.valueOf(candidateContent);
 					if (myAtomicType.inRange(candidateInteger)) {

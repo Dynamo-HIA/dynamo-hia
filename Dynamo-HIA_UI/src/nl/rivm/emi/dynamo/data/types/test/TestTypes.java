@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.types.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 
@@ -25,7 +26,7 @@ public class TestTypes {
 
 	@Test
 	public void testAge() {
-		Age utilityAge = new Age();
+		AbstractAge utilityAge = new Age();
 		Integer minusTwoInteger = new Integer(-2);
 		Integer fourInteger = new Integer(4);
 		Integer oneOhOneInteger = new Integer(101);

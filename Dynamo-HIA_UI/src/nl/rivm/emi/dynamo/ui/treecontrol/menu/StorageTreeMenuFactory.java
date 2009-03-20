@@ -485,8 +485,13 @@ public class StorageTreeMenuFactory {
 				configurationFile = ((BaseNode) grandChildNode)
 						.getPhysicalStorage();
 			}
-		}		
-		String riskFactorType = ConfigurationFileUtil.extractRootElementName(configurationFile);
+		}
+		
+		log.debug(ConfigurationFileUtil.extractRootElementName(configurationFile));
+		
+		String riskFactorType;
+			riskFactorType = ConfigurationFileUtil.extractRootElementName(configurationFile);
+		
 		
 		// TODO: Create a new Transition action class		
 		String transitionType;
@@ -523,7 +528,7 @@ public class StorageTreeMenuFactory {
 		FileNode node = (FileNode) selection.getFirstElement();
 		String nodeLabel = node.toString();
 		ParentNode parentNode = node.getParent();
-		String parentNodeLabel = parentNode.toString();		
+		String parentNodeLabel = parentNode.toString();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(

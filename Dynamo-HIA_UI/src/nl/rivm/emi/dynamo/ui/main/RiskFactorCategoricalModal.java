@@ -29,7 +29,11 @@ import org.eclipse.swt.widgets.Shell;
  * @author schutb
  *
  */
-public class RiskFactorCategoricalModal extends AbstractDataModal {
+/**
+ * @author mondeelr
+ *
+ */
+public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal {
 	private static final String RISKFACTOR_CATEGORICAL = "riskfactor_categorical";
 	
 	@SuppressWarnings("unused")
@@ -55,22 +59,23 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 				rootElementName, selectedNode);		
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.AbstractMultiRootChildDataModal#createCaption(nl.rivm.emi.dynamo.ui.treecontrol.BaseNode)
+	 */
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
 		return "Categorical risk factor configuration";
 	}
 
+	
 	/* (non-Javadoc)
-	 * 
-	 * Opens the modal screen
-	 * 
-	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
+	 * @see nl.rivm.emi.dynamo.ui.main.AbstractMultiRootChildDataModal#open()
 	 */
 	@Override	
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = new RiskFactorCategoricalObject(true);
+			this.modelObject = new RiskFactorCategoricalObject(manufactureModelObject());
 //			this.modelObject = this.modelObject.manufacture(this.dataFilePath, RISKFACTOR_CATEGORICAL);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
@@ -81,7 +86,7 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 			riskFactorCategoricalGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(900, 700);
+			this.shell.setSize(500, 500);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {
@@ -93,11 +98,16 @@ public class RiskFactorCategoricalModal extends AbstractDataModal {
 			box.setText("Processing " + this.configurationFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
+	 * @see nl.rivm.emi.dynamo.ui.main.AbstractMultiRootChildDataModal#getData()
 	 */
 	@Override
 	public Object getData() {

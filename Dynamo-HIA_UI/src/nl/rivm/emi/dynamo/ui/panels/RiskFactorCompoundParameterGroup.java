@@ -18,7 +18,7 @@ public class RiskFactorCompoundParameterGroup {
 	Group theGroup;
 
 	public RiskFactorCompoundParameterGroup(Composite parent,
-			RiskFactorCompoundObject riskFactorCategoricalObject,
+			RiskFactorCompoundObject riskFactorCompoundObject,
 			DataBindingContext dataBindingContext, final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
@@ -29,7 +29,7 @@ public class RiskFactorCompoundParameterGroup {
 		scrolledContainer.setLayout(formLayout4Scroll);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 		Composite parameterDataPanel = placeDataPanel(
-				riskFactorCategoricalObject, dataBindingContext, helpGroup,
+				riskFactorCompoundObject, dataBindingContext, helpGroup,
 				scrolledContainer);
 		FormData scrolledContainerFormData = new FormData();
 		scrolledContainerFormData.top = new FormAttachment(0, 5);
@@ -46,7 +46,7 @@ public class RiskFactorCompoundParameterGroup {
 			controls[i].addListener(SWT.Activate, listener);
 		}
 		Composite referenceClassDataPanel = new ReferenceClassDataPanel(
-				theGroup, scrolledContainer, riskFactorCategoricalObject,
+				theGroup, scrolledContainer, riskFactorCompoundObject,
 				dataBindingContext, helpGroup);
 		FormData referenceClassFormData = new FormData();
 		referenceClassFormData.top = new FormAttachment(100, -44);
@@ -56,7 +56,7 @@ public class RiskFactorCompoundParameterGroup {
 		scrolledContainerFormData.bottom = new FormAttachment(referenceClassDataPanel, -2);
 		scrolledContainer.setLayoutData(scrolledContainerFormData);
 		Composite durationClassDataPanel = new DurationClassDataPanel(
-				theGroup, referenceClassDataPanel, riskFactorCategoricalObject,
+				theGroup, referenceClassDataPanel, riskFactorCompoundObject,
 				dataBindingContext, helpGroup);
 		FormData durationClassFormData = new FormData();
 		//referenceClassFormData.top = new FormAttachment(scrolledContainer, 2);

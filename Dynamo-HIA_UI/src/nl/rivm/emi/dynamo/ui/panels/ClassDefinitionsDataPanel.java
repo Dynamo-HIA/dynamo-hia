@@ -1,17 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
-import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
-import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,7 +53,8 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		classNameLabel.setText("Classname");
 		int found = 0;
 		int count = 1;
-		for (; found < iCategoricalObject.getNumberOfCategories(); count++) {
+		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
+		for (; found < numberOfCategories && count <= numberOfCategories; count++) {
 			WritableValue observableClassName = iCategoricalObject.getObservableCategoryName(count);
 			if(observableClassName != null){
 			found++;
@@ -72,7 +68,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 			box.open();
 			}
 		}
-		for (; count < 10; count++) {
+		for (; count <= numberOfCategories; count++) {
 			myCategoricalObject.putCategory(count, "");
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());

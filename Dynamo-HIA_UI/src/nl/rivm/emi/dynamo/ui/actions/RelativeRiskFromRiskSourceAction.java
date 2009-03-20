@@ -68,11 +68,13 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 				messageBox.setMessage("No new file could be created.");
 				messageBox.open();
 			}
-			} else {
-				MessageBox messageBox = new MessageBox(shell);
-				messageBox.setMessage("No valid filename created.");
-				messageBox.open();
-			}			
+			} 
+// This was already signalled to the user. 
+//			else {
+//				MessageBox messageBox = new MessageBox(shell);
+//				messageBox.setMessage("No valid filename created.");
+//				messageBox.open();
+//			}			
 		} else {
 			MessageBox messageBox = new MessageBox(shell);
 			messageBox.setMessage("\"" + this.getClass().getName()

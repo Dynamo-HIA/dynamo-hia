@@ -82,34 +82,59 @@ public class StAXAgnosticGroupWriter {
 			log.fatal("RootChildName: " + rootChildElementName);
 			streamRootChildStart(writer, eventFactory, rootChildElementName);
 			if (rootChildObject instanceof TypedHashMap<?>) {
-				FileControlEnum myEnum = FileControlSingleton.getInstance().get(rootChildElementName);
-				String wrapperElementName = "bogus";
-				XMLTagEntity rootChildEntity = XMLTagEntitySingleton.getInstance().get(rootChildElementName);
-				if(rootChildEntity instanceof WrapperType){
-					WrapperType nextType = ((WrapperType)rootChildEntity).getNextWrapper();
-				wrapperElementName =((XMLTagEntity)nextType).getXMLElementName();
-				}
-				 LinkedHashMap<String, Number> containerValuesMap = new
-				 LinkedHashMap<String, Number>();
-				 recurseLeafData((TypedHashMap<?>)rootChildObject, wrapperElementName,
-				 myEnum, containerValuesMap, writer, eventFactory);
+				handleHierarchicRootChildData(writer, eventFactory,
+						rootChildElementName, rootChildObject);
 			} else {
-				if (rootChildObject instanceof AtomicTypeObjectTuple) {
-					AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) rootChildObject;
-					XMLTagEntity theType = tuple.getType();
-					Object theValue = tuple.getValue();
-					String valueAsString = ((AtomicTypeBase)theType).convert4View(theValue);
-				XMLEvent event = eventFactory.createCharacters(valueAsString);
-					writer.add(event);
-				}
+				handleSolitaryRootChildData(writer, eventFactory,
+						rootChildElementName, rootChildObject);
 			}
 			streamRootChildEnd(writer, eventFactory, rootChildElementName);
 		}
 	}
 
+	private static void handleSolitaryRootChildData(XMLEventWriter writer,
+			XMLEventFactory eventFactory, String rootChildElementName,
+			Object rootChildObject) throws XMLStreamException {
+		Object object2Convert = rootChildObject;
+		if(rootChildObject instanceof AtomicTypeObjectTuple){
+			object2Convert = ((AtomicTypeObjectTuple)rootChildObject).getValue();
+		}
+		AtomicTypeBase myType = (AtomicTypeBase) XMLTagEntitySingleton
+				.getInstance().get(rootChildElementName);
+		if (myType != null) {
+			String valueAsString = myType.convert4File(object2Convert);
+			XMLEvent event = eventFactory.createCharacters(valueAsString);
+			writer.add(event);
+		} else {
+			log.fatal("No type found with name " + rootChildElementName);
+			XMLEvent event = eventFactory.createCharacters("Fatality, see logfile");
+			writer.add(event);
+		}
+	}
+
+	private static void handleHierarchicRootChildData(XMLEventWriter writer,
+			XMLEventFactory eventFactory, String rootChildElementName,
+			Object rootChildObject) throws XMLStreamException,
+			DynamoConfigurationException {
+		FileControlEnum myEnum = FileControlSingleton.getInstance().get(
+				rootChildElementName);
+		String wrapperElementName = "bogus";
+		XMLTagEntity rootChildEntity = XMLTagEntitySingleton.getInstance().get(
+				rootChildElementName);
+		if (rootChildEntity instanceof WrapperType) {
+			WrapperType nextType = ((WrapperType) rootChildEntity)
+					.getNextWrapper();
+			wrapperElementName = ((XMLTagEntity) nextType).getXMLElementName();
+		}
+		LinkedHashMap<String, Number> containerValuesMap = new LinkedHashMap<String, Number>();
+		recurseLeafData((TypedHashMap<?>) rootChildObject, wrapperElementName,
+				myEnum, containerValuesMap, writer, eventFactory);
+	}
+
 	private static void recurseLeafData(TypedHashMap<?> containerLevel,
-			String wrapperElementName,
-			FileControlEnum fileControl, LinkedHashMap<String, Number> containerValuesMap, XMLEventWriter writer, XMLEventFactory eventFactory)
+			String wrapperElementName, FileControlEnum fileControl,
+			LinkedHashMap<String, Number> containerValuesMap,
+			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoConfigurationException {
 		log.debug("Recursing at level " + containerValuesMap.size());
 		Set<Map.Entry<Integer, Object>> entrySet = containerLevel.entrySet();
@@ -121,47 +146,49 @@ public class StAXAgnosticGroupWriter {
 			String elementName = type.getXMLElementName();
 			containerValuesMap.put(elementName, entry.getKey());
 			if (entry.getValue() instanceof HashMap) {
-				recurseLeafData((TypedHashMap<?>) entry
-						.getValue(), wrapperElementName, fileControl, containerValuesMap, writer, eventFactory);
+				recurseLeafData((TypedHashMap<?>) entry.getValue(),
+						wrapperElementName, fileControl, containerValuesMap,
+						writer, eventFactory);
 			} else {
 				Object containedObject = entry.getValue();
-				streamWrapperStartPlusContainerEntries(containerValuesMap, wrapperElementName, writer, eventFactory);
+				streamWrapperStartPlusContainerEntries(containerValuesMap,
+						wrapperElementName, writer, eventFactory);
 				int containedLevel = containerValuesMap.size();
-				handleContainedObject( fileControl , containedLevel,
-						writer, eventFactory, containedObject);
+				handleContainedObject(fileControl, containedLevel, writer,
+						eventFactory, containedObject);
 				streamWrapperEnd(wrapperElementName, writer, eventFactory);
 			}
 			containerValuesMap.remove(elementName);
 		}
 	}
 
-	private static int handleContainedObject(
-			FileControlEnum fileControl, int level, XMLEventWriter writer,
-			XMLEventFactory eventFactory, Object containedObject) throws XMLStreamException,
+	private static int handleContainedObject(FileControlEnum fileControl,
+			int level, XMLEventWriter writer, XMLEventFactory eventFactory,
+			Object containedObject) throws XMLStreamException,
 			DynamoConfigurationException {
 		if (containedObject instanceof Number) {
 			Number containedNumber = (Number) containedObject;
-			level = streamEntry(containedNumber, level, writer,
-					eventFactory, fileControl);
+			level = streamEntry(containedNumber, level, writer, eventFactory,
+					fileControl);
 		} else {
 			if (containedObject instanceof String) {
 				String containedString = (String) containedObject;
-				level = streamEntry(containedString, level,
-						writer, eventFactory, fileControl);
+				level = streamEntry(containedString, level, writer,
+						eventFactory, fileControl);
 			} else {
 				if (containedObject instanceof ArrayList) {
 					for (Object entry : (ArrayList) containedObject) {
 						AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) entry;
 						Object containedPayloadObject = tuple.getValue();
-						level = handleContainedObject(fileControl,
-								level, writer, eventFactory, containedPayloadObject);
+						level = handleContainedObject(fileControl, level,
+								writer, eventFactory, containedPayloadObject);
 					}
 				} else {
 					if (containedObject instanceof WritableValue) {
 						Object writableValueContent = ((WritableValue) containedObject)
 								.doGetValue();
-						level = handleContainedObject(fileControl,
-								level, writer, eventFactory, writableValueContent);
+						level = handleContainedObject(fileControl, level,
+								writer, eventFactory, writableValueContent);
 					} else {
 						throw new DynamoConfigurationException(
 								"Unsupported Object type: "
@@ -184,18 +211,18 @@ public class StAXAgnosticGroupWriter {
 	private static void streamRootChildEnd(XMLEventWriter writer,
 			XMLEventFactory eventFactory, String rootChildElementName)
 			throws XMLStreamException {
-		XMLEvent event = eventFactory.createEndElement("", "", rootChildElementName);
+		XMLEvent event = eventFactory.createEndElement("", "",
+				rootChildElementName);
 		writer.add(event);
 	}
 
 	private static void streamWrapperStartPlusContainerEntries(
 			LinkedHashMap<String, Number> containerValuesMap,
-			String wrapperElementName, XMLEventWriter writer, XMLEventFactory eventFactory)
-			throws XMLStreamException {
+			String wrapperElementName, XMLEventWriter writer,
+			XMLEventFactory eventFactory) throws XMLStreamException {
 		log.debug("Entering streamContainerEntries.");
 		XMLEvent event;
-		event = eventFactory.createStartElement("", "",
-				wrapperElementName);
+		event = eventFactory.createStartElement("", "", wrapperElementName);
 		writer.add(event);
 		Iterator<Map.Entry<String, Number>> iterator = containerValuesMap
 				.entrySet().iterator();
@@ -210,18 +237,18 @@ public class StAXAgnosticGroupWriter {
 		}
 	}
 
-	private static void streamWrapperEnd(String wrapperElementName, XMLEventWriter writer, XMLEventFactory eventFactory)
+	private static void streamWrapperEnd(String wrapperElementName,
+			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException {
 		log.debug("Entering streamRootChildEnd.");
 		XMLEvent event;
-		event = eventFactory.createEndElement("", "",
-				wrapperElementName);
+		event = eventFactory.createEndElement("", "", wrapperElementName);
 		writer.add(event);
 	}
 
-	private static int streamEntry(Number containedValue,
-			int level, XMLEventWriter writer,
-			XMLEventFactory eventFactory, FileControlEnum fileControl) throws XMLStreamException {
+	private static int streamEntry(Number containedValue, int level,
+			XMLEventWriter writer, XMLEventFactory eventFactory,
+			FileControlEnum fileControl) throws XMLStreamException {
 		log.debug("Entering streamEntry.");
 		XMLEvent event;
 		String elementName = fileControl.getParameterType(level)
@@ -236,13 +263,13 @@ public class StAXAgnosticGroupWriter {
 		return level;
 	}
 
-	private static int streamEntry(String containedValue,
-			int level, XMLEventWriter writer,
-			XMLEventFactory eventFactory, FileControlEnum fileControl) throws XMLStreamException {
+	private static int streamEntry(String containedValue, int level,
+			XMLEventWriter writer, XMLEventFactory eventFactory,
+			FileControlEnum fileControl) throws XMLStreamException {
 		log.debug("Entering streamEntry.");
 		XMLEvent event;
-		String elementName = fileControl.getParameterType_MK2(level + 1)
-				.getXMLElementName();
+		String elementName = fileControl.getParameterType4GroupFactory(
+				level + 1).getXMLElementName();
 		event = eventFactory.createStartElement("", "", elementName);
 		writer.add(event);
 		event = eventFactory.createCharacters(containedValue.toString());

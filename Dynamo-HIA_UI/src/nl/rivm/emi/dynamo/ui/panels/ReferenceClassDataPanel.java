@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.Index;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;

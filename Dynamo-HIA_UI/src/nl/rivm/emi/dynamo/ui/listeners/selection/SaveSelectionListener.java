@@ -1,7 +1,10 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
+
 //TODO Hacked to ErrorLessNess.
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -9,7 +12,9 @@ import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
+import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
@@ -39,15 +44,22 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		String filePath = modalParent.getConfigurationFilePath();
 		File configurationFile = new File(filePath);
 		try {
-			Object modelObject = modalParent
-					.getData();
-			if(!(modelObject instanceof IStaxEventContributor)){
-				Object rootElementName = modalParent.getRootElementName();
+			Object modelObject = modalParent.getData();
+			String rootElementName = (String) modalParent.getRootElementName();
+			if (modelObject instanceof TypedHashMap) {
 				StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
-					.getInstance().get(rootElementName),
-					(TypedHashMap) modelObject, configurationFile);
+						.getInstance().get(rootElementName),
+						(TypedHashMap) modelObject, configurationFile);
 			} else {
-//				((XMLHandlingEntryPoint)modelObject).writeToFile(configurationFile);
+				if (modelObject instanceof LinkedHashMap) {
+					StAXAgnosticGroupWriter.produceFile(rootElementName,
+							(HashMap<String, Object>) modelObject,
+							configurationFile);
+				} else {
+					throw new DynamoConfigurationException(
+							"SaveSelectionListener - Unsupported modelObjectType: "
+									+ modelObject.getClass().getName());
+				}
 			}
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);
@@ -57,17 +69,19 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			this.handleErrorMessage(e);
 		} catch (DynamoOutputException e) {
 			this.handleErrorMessage(e);
+		} catch (DynamoConfigurationException e) {
+			this.handleErrorMessage(e);
 		}
 	}
-
 
 	private void handleErrorMessage(Exception e) {
 		this.log.fatal(e);
 		e.printStackTrace();
-		MessageBox box = new MessageBox(this.modalParent.getShell(), SWT.ERROR_UNSPECIFIED);
+		MessageBox box = new MessageBox(this.modalParent.getShell(),
+				SWT.ERROR_UNSPECIFIED);
 		box.setText("Error occured during save " + e.getMessage());
 		box.setMessage(e.getMessage());
-		box.open();		
+		box.open();
 	}
 
 }

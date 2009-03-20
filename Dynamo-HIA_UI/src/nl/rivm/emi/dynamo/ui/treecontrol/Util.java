@@ -33,6 +33,7 @@ public class Util {
 		return result;
 	}
 
+	
 	static public String[] deriveEntityLabelAndValueFromSelectedNode(
 			BaseNode selectedNode) throws ConfigurationException {
 		String foundName = null;

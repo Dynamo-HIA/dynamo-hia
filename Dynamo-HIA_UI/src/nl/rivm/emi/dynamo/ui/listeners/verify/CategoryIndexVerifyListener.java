@@ -1,6 +1,11 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.AbstractClassIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
+import nl.rivm.emi.dynamo.data.types.atomic.Index;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 
@@ -37,7 +42,7 @@ public class CategoryIndexVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((Number.matchPattern.matcher(candidateContent))
+				if ((((Index)XMLTagEntityEnum.INDEX.getTheType()). matchPattern.matcher(candidateContent))
 						.matches()) {
 					Integer candidateInteger = Integer.valueOf(candidateContent);
 					if (myAtomicType.inRange(candidateInteger)) {

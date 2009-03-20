@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
@@ -30,7 +31,7 @@ public class FloatValueVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((Value.matchPattern.matcher(candidateContent))
+				if ((((Value)XMLTagEntityEnum.STANDARDVALUE.getTheType()).matchPattern.matcher(candidateContent))
 						.matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
 					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>)XMLTagEntitySingleton.getInstance().get("value");
