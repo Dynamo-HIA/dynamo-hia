@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamException;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
@@ -43,7 +44,7 @@ public class TestRootChildFactories {
 	public void teardown() {
 	}
 
-//	@Test
+	// @Test
 	public void testHasNewBornsDefault() {
 		try {
 			AgnosticSingleRootChildFactory factory = (AgnosticSingleRootChildFactory) RootChildDispatchMap
@@ -61,18 +62,20 @@ public class TestRootChildFactories {
 		}
 	}
 
-//	@Test
+	// @Test
 	public void testHasNewBornsWithPrePproduction() {
 		try {
 			String configurationFilePath = "data" + File.separator
 					+ "development" + File.separator + "hasnewbornsonly.xml";
 			File configurationFile = new File(configurationFilePath);
 			AgnosticSingleRootChildFactory factory = (AgnosticSingleRootChildFactory) RootChildDispatchMap
-			.getInstance().get("hasnewborns").getTheFactory();
+					.getInstance().get("hasnewborns").getTheFactory();
 			assertNotNull(factory);
-			XMLConfiguration configurationFromFile = new XMLConfiguration(configurationFile);
+			XMLConfiguration configurationFromFile = new XMLConfiguration(
+					configurationFile);
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>)rootNode.getChildren();
+			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+					.getChildren();
 			assertEquals(1, rootChildren.size());
 			ConfigurationNode onlyChild = rootChildren.get(0);
 			Object result = factory.manufacture(onlyChild);
@@ -86,42 +89,80 @@ public class TestRootChildFactories {
 		}
 	}
 
-//	@Test
+	// @Test
 	public void testHasNewBornsWithAgnosticGroupFactory() {
-		try {
+//		try {
 			String configurationFilePath = "data" + File.separator
 					+ "development" + File.separator + "hasnewbornsonly.xml";
 			File configurationFile = new File(configurationFilePath);
-			AgnosticGroupFactory factory = new AgnosticGroupFactory();
-			assertNotNull(factory);
-			Object result = factory.manufacture(configurationFile, RootElementNamesEnum.SIMULATION.getNodeLabel());
-			assertNotNull(result);
-		} catch (DynamoInconsistentDataException e) {
-			e.printStackTrace();
-			assertNull(e); // Force error.
-		} catch (NestableException e) {
-			e.printStackTrace();
-			assertNull(e); // Force error.
-		}
+//			AgnosticGroupFactory factory = new AgnosticGroupFactory();
+//			assertNotNull(factory);
+//			Object result = factory.manufacture(configurationFile,
+//					RootElementNamesEnum.SIMULATION.getNodeLabel());
+//			assertNotNull(result);
+//		} catch (DynamoInconsistentDataException e) {
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		} catch (NestableException e) {
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		}
+	}
+
+//	@Test
+	public void testGrowingRiskFactorCompoundConfiguration() {
+//		try {
+			String configurationFilePath = "data" + File.separator
+					+ "development" + File.separator
+					+ "riskfactor_compoundconfig_test.xml";
+			String outputFilePath = "data" + File.separator + "development"
+					+ File.separator + "riskfactor_compoundconfig_test_rw.xml";
+			File configurationFile = new File(configurationFilePath);
+			File outputFile = new File(outputFilePath);
+//			AgnosticGroupFactory factory = new AgnosticGroupFactory();
+//			assertNotNull(factory);
+//			HashMap<String, Object> result = factory.manufacture(
+//					configurationFile, RootElementNamesEnum.RISKFACTOR_COMPOUND
+//							.getNodeLabel());
+//			assertNotNull(result);
+//			StAXAgnosticGroupWriter.produceFile(
+//					RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
+//					result, outputFile);
+//		} catch (DynamoInconsistentDataException e) {
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		} catch (NestableException e) {
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		} catch (XMLStreamException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		} catch (UnexpectedFileStructureException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			assertNull(e); // Force error.
+//		}
 	}
 
 	@Test
-	public void testGrowingRiskFactorCompoundConfiguration() {
+	public void testDefaultRiskFactorCompoundConfiguration() {
 		try {
-			String configurationFilePath = "data" + File.separator
-					+ "development" + File.separator + "riskfactor_compoundconfig_test.xml";
-			String outputFilePath = "data" + File.separator
-			+ "development" + File.separator + "riskfactor_compoundconfig_test_rw.xml";
-			File configurationFile = new File(configurationFilePath);
+			String outputFilePath = "data" + File.separator + "development"
+					+ File.separator
+					+ "riskfactor_compoundconfig_default_w.xml";
 			File outputFile = new File(outputFilePath);
-					AgnosticGroupFactory factory = new AgnosticGroupFactory();
+			RiskFactorCompoundFactory factory = new RiskFactorCompoundFactory();
 			assertNotNull(factory);
-			HashMap<String, Object> result = factory.manufacture(configurationFile, RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel());
+			HashMap<String, Object> result = factory.manufactureDefault();
 			assertNotNull(result);
-			StAXAgnosticGroupWriter.produceFile(RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), result, outputFile);
-		} catch (DynamoInconsistentDataException e) {
-			e.printStackTrace();
-			assertNull(e); // Force error.
+			StAXAgnosticGroupWriter.produceFile(
+					RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
+					result, outputFile);
 		} catch (NestableException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.
