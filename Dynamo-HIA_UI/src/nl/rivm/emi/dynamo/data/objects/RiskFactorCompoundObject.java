@@ -1,95 +1,96 @@
 package nl.rivm.emi.dynamo.data.objects;
 
-import java.io.IOException;
+/**
+ * The putters are designed to insert Observables only!!!!!!
+ */
+import java.util.LinkedHashMap;
 
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-
-import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
-import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
-import nl.rivm.emi.dynamo.data.objects.layers.CategoricalObjectImplementation;
-import nl.rivm.emi.dynamo.data.objects.layers.DurationClassObjectImplementation;
-import nl.rivm.emi.dynamo.data.objects.layers.ReferenceClassObjectImplementation;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.Index;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class RiskFactorCompoundObject implements
-		IStaxEventContributor, IReferenceClass, ICategoricalObject,
-		IDurationClass {
+public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLayer
+		implements ICategoricalObject, IReferenceClass, IDurationClass {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	CategoricalObjectImplementation categoricalObjectImplementation;
-	ReferenceClassObjectImplementation referenceCategoryObjectImplementation;
-	DurationClassObjectImplementation durationClassObjectImplementation;
-
-	public RiskFactorCompoundObject(boolean makeObservable) {
-//		super(RootElementNamesEnum.RISKFACTOR_COMPOUND, makeObservable);
-		categoricalObjectImplementation = new CategoricalObjectImplementation(
-				makeObservable);
-		referenceCategoryObjectImplementation = new ReferenceClassObjectImplementation(
-				makeObservable);
-		durationClassObjectImplementation = new DurationClassObjectImplementation(
-				makeObservable);
+	public RiskFactorCompoundObject(LinkedHashMap<String, Object> content) {
+		super();
+		super.putAll(content);
 	}
 
 	public String getCategoryName(Integer index) {
-		return categoricalObjectImplementation.getCategoryName(index);
+		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
+				.getElementName());
+		Object categoryNameObject = (String) wrappedObject.get(index);
+		String categoryName = "Empty";
+		if (categoryNameObject instanceof WritableValue) {
+			categoryName = (String) ((WritableValue) categoryNameObject)
+					.doGetValue();
+		} else {
+			categoryName = (String) categoryNameObject;
+		}
+		return categoryName;
 	}
 
 	public WritableValue getObservableCategoryName(Integer index) {
-		return categoricalObjectImplementation.getObservableCategoryName(index);
+		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
+				.getElementName());
+		Object categoryNameObject = wrappedObject.get(index);
+		WritableValue writableCategoryName = null;
+		if (categoryNameObject instanceof WritableValue) {
+			writableCategoryName = (WritableValue) categoryNameObject;
+		}
+		return writableCategoryName;
 	}
 
 	public int getNumberOfCategories() {
-		return categoricalObjectImplementation.getNumberOfCategories();
+		return ((TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
+				.getElementName())).size();
 	}
 
-	/**
-	 * NB makeObservable is a don't care here!
-	 */
 	public Object putCategory(Integer index, String name) {
-		return categoricalObjectImplementation.putCategory(index, name);
+		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
+				.getElementName());
+		WritableValue newName = new WritableValue(name, name.getClass());
+		return wrappedObject.put(index, newName);
 	}
 
 	public Integer getReferenceClass() {
-		return referenceCategoryObjectImplementation.getReferenceClass();
+		return getSingleRootChildIntegerValue(XMLTagEntityEnum.REFERENCECLASS
+				.getElementName());
 	}
 
 	public WritableValue getObservableReferenceClass() {
-		return referenceCategoryObjectImplementation
-				.getObservableReferenceClass();
+		return getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCECLASS
+				.getElementName());
 	}
 
 	public Object putReferenceClass(Integer index) {
-		return referenceCategoryObjectImplementation
-				.putReferenceClass(index);
+		return putSingleRootChildIntegerValue(XMLTagEntityEnum.REFERENCECLASS
+				.getElementName(), index);
 	}
 
 	public Integer getDurationClass() {
-		return durationClassObjectImplementation.getDurationClass();
+		return getSingleRootChildIntegerValue(XMLTagEntityEnum.DURATIONCLASS
+				.getElementName());
 	}
 
 	public WritableValue getObservableDurationClass() {
-		return durationClassObjectImplementation.getObservableDurationClass();
+		return getSingleRootChildWritableValue(XMLTagEntityEnum.DURATIONCLASS
+				.getElementName());
 	}
 
 	public Object putDurationClass(Integer index) {
-		Object result = durationClassObjectImplementation
-				.putDurationClass(index);
-		return result;
+		return putSingleRootChildIntegerValue(XMLTagEntityEnum.DURATIONCLASS
+				.getElementName(), index);
 	}
 
-	public void streamEvents(String value, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException,
-			UnexpectedFileStructureException, IOException {
-		// TODO Auto-generated method stub
-		
 	}
-
-}

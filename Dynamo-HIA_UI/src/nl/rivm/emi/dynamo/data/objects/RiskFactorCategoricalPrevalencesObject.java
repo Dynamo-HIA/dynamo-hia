@@ -1,7 +1,9 @@
 package nl.rivm.emi.dynamo.data.objects;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age> implements StandardObjectMarker{
@@ -12,7 +14,7 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age> im
 	 * @param manufacturedMap
 	 */
 		public RiskFactorCategoricalPrevalencesObject(TypedHashMap<Age> manufacturedMap) {
-			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
+			 super((Age)XMLTagEntityEnum.AGE.getTheType());
 			 putAll(manufacturedMap);
 		}
 }

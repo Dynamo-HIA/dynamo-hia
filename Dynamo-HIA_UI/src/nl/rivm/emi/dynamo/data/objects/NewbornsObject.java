@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.data.objects;
  */
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Year;
 
@@ -22,7 +23,7 @@ public class NewbornsObject  extends TypedHashMap<Year> implements StandardObjec
 	 * @param manufacturedMap
 	 */
 		public NewbornsObject(TypedHashMap<Year> manufacturedMap) {
-			 super((Year)XMLTagEntitySingleton.getInstance().get(Year.getElementName()));
+			 super((Year)XMLTagEntitySingleton.getInstance().get(((Year)XMLTagEntityEnum.YEAR.getTheType()).getElementName()));
 			 putAll(manufacturedMap);
 		}
 }

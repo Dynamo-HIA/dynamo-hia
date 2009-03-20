@@ -4,7 +4,9 @@ package nl.rivm.emi.dynamo.data.objects;
  * The Observable contains a nonegative Integer.
  */
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public class PopulationSizeObject  extends TypedHashMap<Age> implements StandardObjectMarker{
@@ -13,7 +15,7 @@ public class PopulationSizeObject  extends TypedHashMap<Age> implements Standard
 	 * @param manufacturedMap
 	 */
 		public PopulationSizeObject(TypedHashMap<Age> manufacturedMap) {
-			 super((Age)XMLTagEntitySingleton.getInstance().get(Age.getElementName()));
+			 super((Age)XMLTagEntityEnum.AGE.getTheType());
 			 putAll(manufacturedMap);
 		}
 }
