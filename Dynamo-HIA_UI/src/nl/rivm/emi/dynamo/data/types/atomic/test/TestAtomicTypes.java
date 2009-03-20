@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
@@ -31,7 +33,7 @@ public class TestAtomicTypes {
 
 	@Test
 	public void testAge() {
-		Age age;
+		AbstractAge age;
 		age = new Age();
 		assertNotNull(age);
 		assertTrue(age.inRange(new Integer(0)));
@@ -60,12 +62,12 @@ public class TestAtomicTypes {
 		assertTrue(percentage.inRange(new Float(0)));
 		assertTrue(percentage.inRange(100F));
 		assertFalse(percentage.inRange(101F));
-		assertFalse(Percent.matchPattern.matcher("3333").matches());
-		assertTrue(Percent.matchPattern.matcher(".").matches());
-		assertTrue(Percent.matchPattern.matcher("0.123").matches());
-		assertTrue(Percent.matchPattern.matcher("999.999").matches());
-		assertFalse(Percent.matchPattern.matcher("9999.999").matches());
-		assertFalse(Percent.matchPattern.matcher("9.999999999").matches());
+		assertFalse(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("3333").matches());
+		assertTrue(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher(".").matches());
+		assertTrue(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("0.123").matches());
+		assertTrue(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("999.999").matches());
+		assertFalse(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("9999.999").matches());
+		assertFalse(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("9.999999999").matches());
 	}
 
 	@Test
