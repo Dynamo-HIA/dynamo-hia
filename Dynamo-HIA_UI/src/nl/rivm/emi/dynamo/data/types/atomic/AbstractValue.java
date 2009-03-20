@@ -1,15 +1,13 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentModelConverter;
-import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentViewConverter;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class AbstractValue extends NumberRangeTypeBase<Float> implements PayloadType<Float>{
 
@@ -17,7 +15,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	static final public Pattern matchPattern = Pattern
+	final public Pattern matchPattern = Pattern
 			.compile("^\\d*\\.?\\d*$");
 
 	public AbstractValue(String XMLElementName){
@@ -81,14 +79,26 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		return result;
 	}
 
-	private UpdateValueStrategy assembleModelStrategy() {
+	@Override
+	public String convert4File(Object modelValue) {
+		Float nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue =  (Float)((WritableValue)modelValue).doGetValue();
+		} else {
+			nakedValue = (Float) modelValue;
+		}
+		String viewValue =  convert4View(nakedValue);
+		return viewValue;
+	}
+
+	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
 				"ValueModelConverter"));
 		return resultStrategy;
 	}
 
-	private UpdateValueStrategy assembleViewStrategy() {
+	protected UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueViewConverter(
 				"ValueViewConverter"));

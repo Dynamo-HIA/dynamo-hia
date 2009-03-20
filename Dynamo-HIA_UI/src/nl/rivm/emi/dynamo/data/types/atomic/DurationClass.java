@@ -1,7 +1,9 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-public class DurationClass extends AbstractClassIndex  {
+
+public class DurationClass extends AbstractClassIndex implements PayloadType<Integer> {
 	static final protected String XMLElementName = "durationclass";
 
 	public DurationClass() {

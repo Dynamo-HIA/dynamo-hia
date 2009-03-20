@@ -1,7 +1,10 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import java.util.regex.Pattern;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
@@ -9,7 +12,15 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
  */
 abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTypeBase<Integer>{
 
-	static final protected Integer hardUpperLimit = new Integer(9);
+
+	/**
+	 * Pattern for matching String input. Provides an initial validation that
+	 * should prevent subsequent conversions from blowing up.
+	 */
+	final public Pattern matchPattern = Pattern.compile("^\\d*$");
+
+	static final protected Integer hardLowerLimit = new Integer(1);
+	static final protected Integer hardUpperLimit = new Integer(10);
 
 
 	/**
@@ -21,11 +32,11 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	 * @throws ConfigurationException
 	 */
 	public AbstractClassIndex(String myElementName, Integer lowerLimit, Integer upperLimit){
-		super(myElementName, lowerLimit, upperLimit);
+		super(myElementName, Math.max(hardLowerLimit,lowerLimit), Math.min(hardUpperLimit,upperLimit));
 	}
 
 	public Integer getDefaultValue() {
-		return new Integer(0);
+		return new Integer(1);
 	}
 	
 	public boolean inRange(Integer testValue) {
@@ -83,6 +94,18 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	public String convert4View(Object modelValue) {
 		String viewValue = ((Integer) modelValue).toString();
 		return viewValue;
+	}
+
+	@Override
+	public String convert4File(Object modelValue) {
+		Integer nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue =  (Integer)((WritableValue)modelValue).doGetValue();
+		} else {
+			nakedValue = (Integer) modelValue;
+		}
+		String viewValue =  convert4View(nakedValue);
+			return viewValue;
 	}
 
 	@Override

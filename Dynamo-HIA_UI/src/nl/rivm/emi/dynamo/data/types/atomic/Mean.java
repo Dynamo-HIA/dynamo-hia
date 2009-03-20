@@ -14,7 +14,7 @@ public class Mean extends AbstractValue implements PayloadType<Float>{
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */	
-	static final public Pattern matchPattern = Pattern
+	final public Pattern matchPattern = Pattern
 			.compile("^\\d*\\.?\\d*$");
 
 	public Mean(){

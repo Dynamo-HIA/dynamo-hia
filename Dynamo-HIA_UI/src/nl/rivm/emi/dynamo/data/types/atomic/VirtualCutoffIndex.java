@@ -8,9 +8,9 @@ import org.apache.commons.configuration.ConfigurationException;
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
  * the range of categories the transitions can cover.
  */
-public class Index extends AbstractClassIndex implements ContainerType
+public class VirtualCutoffIndex extends AbstractRangedInteger implements ContainerType
 		/* implements IXMLHandlingLayer<Integer> */ {
-	static final protected String XMLElementName = "index";
+	static final protected String XMLElementName = "virtual_cutoff_index";
 
 	/**
 	 * Constructor for use at this level.
@@ -19,7 +19,7 @@ public class Index extends AbstractClassIndex implements ContainerType
 	 * @param upperLimit
 	 * @throws ConfigurationException
 	 */
-	public Index(){
-		super(XMLElementName, hardLowerLimit, hardUpperLimit);
+	public VirtualCutoffIndex(){
+		super(XMLElementName, 0, 7);
 	}
 }

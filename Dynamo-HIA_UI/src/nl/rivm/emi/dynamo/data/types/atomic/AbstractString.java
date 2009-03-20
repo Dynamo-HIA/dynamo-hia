@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
  * Pretty plain base-class for String type configuration items.
@@ -59,6 +60,18 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		return result;
 	}
 
+	@Override
+	public String convert4File(Object modelValue) {
+		String nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue = (String)((WritableValue)modelValue).doGetValue();
+		} else {
+			nakedValue = (String) modelValue;
+		}
+		String viewValue =  convert4View(nakedValue);
+			return viewValue;
+	}
+	
 	private UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(

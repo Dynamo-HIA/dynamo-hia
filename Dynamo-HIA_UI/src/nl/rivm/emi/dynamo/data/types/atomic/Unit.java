@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class Unit extends NumberRangeTypeBase<Float> implements
 		PayloadType<Float> {
@@ -16,7 +17,7 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	static final public Pattern matchPattern = Pattern
+	final public Pattern matchPattern = Pattern
 			.compile("^\\d{0,3}(\\.\\d{0,8}?)?$");
 
 //	private UpdateValueStrategy modelUpdateValueStrategy;
@@ -80,6 +81,18 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 	public Object convert4Model(String viewString) {
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
+	}
+
+	@Override
+	public String convert4File(Object modelValue) {
+		Float nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue =  (Float)((WritableValue)modelValue).doGetValue();
+		} else {
+			nakedValue = (Float) modelValue;
+		}
+		String viewValue =  convert4View(nakedValue);
+			return viewValue;
 	}
 
 	private UpdateValueStrategy assembleModelStrategy() {

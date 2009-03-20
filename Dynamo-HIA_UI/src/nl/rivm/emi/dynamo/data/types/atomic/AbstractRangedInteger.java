@@ -1,28 +1,26 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentModelConverter;
-import nl.rivm.emi.dynamo.data.types.atomic.Percent.PercentViewConverter;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer> implements PayloadType<Integer>{
+abstract public class AbstractRangedInteger extends
+		NumberRangeTypeBase<Integer> implements PayloadType<Integer> {
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	static final public Pattern matchPattern = Pattern
-			.compile("^\\d*$");
+	final public Pattern matchPattern = Pattern.compile("^\\d*$");
 
-	public AbstractRangedInteger(String XMLElementName, Integer lowerLimit, Integer upperLimit){
+	public AbstractRangedInteger(String XMLElementName, Integer lowerLimit,
+			Integer upperLimit) {
 		super(XMLElementName, lowerLimit, upperLimit);
 	}
 
@@ -57,7 +55,7 @@ abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer>
 		return 0;
 	}
 
-	 public String getElementName() {
+	public String getElementName() {
 		return XMLElementName;
 	}
 
@@ -70,13 +68,25 @@ abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer>
 	}
 
 	public String convert4View(Object modelValue) {
-		String result = (String)viewUpdateValueStrategy.convert(modelValue);
+		String result = (String) viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
-	
+
 	public Object convert4Model(String viewString) {
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
+	}
+
+	@Override
+	public String convert4File(Object modelValue) {
+		Integer nakedValue = null;
+		if (modelValue instanceof WritableValue) {
+			nakedValue = (Integer) ((WritableValue) modelValue).doGetValue();
+		} else {
+			nakedValue = (Integer) modelValue;
+		}
+		String viewValue = convert4View(nakedValue);
+		return viewValue;
 	}
 
 	private UpdateValueStrategy assembleModelStrategy() {
@@ -88,13 +98,13 @@ abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer>
 
 	private UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
-		resultStrategy.setConverter(new ValueViewConverter(
-				"ValueViewConverter"));
+		resultStrategy
+				.setConverter(new ValueViewConverter("ValueViewConverter"));
 		return resultStrategy;
 	}
 
 	public class ValueModelConverter implements IConverter {
-		 Log log = LogFactory.getLog(this.getClass());
+		Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
 
 		public ValueModelConverter(String debugString) {
@@ -102,8 +112,8 @@ abstract public class AbstractRangedInteger extends NumberRangeTypeBase<Integer>
 		}
 
 		public Object convert(Object arg0) {
-			log.debug(debugString + " convert(Object) entered with:" +
-			 arg0.toString());
+			log.debug(debugString + " convert(Object) entered with:"
+					+ arg0.toString());
 			try {
 				Integer result = null;
 				try {

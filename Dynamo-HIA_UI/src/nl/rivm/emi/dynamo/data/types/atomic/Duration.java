@@ -4,6 +4,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /*
  * Nonnegative Integer without fixed upper limit.
@@ -62,14 +63,26 @@ public class Duration extends FlexibleUpperLimitNumberRangeTypeBase<Integer> imp
 
 	@Override
 	public Object convert4Model(String viewString) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer modelValue = Integer.decode(viewString);
+		return modelValue;
 	}
 
 	@Override
 	public String convert4View(Object modelValue) {
-		// TODO Auto-generated method stub
-		return null;
+		String viewValue = ((Integer) modelValue).toString();
+		return viewValue;
+	}
+
+	@Override
+	public String convert4File(Object modelValue) {
+		Integer nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue =  (Integer)((WritableValue)modelValue).doGetValue();
+		} else {
+			nakedValue = (Integer) modelValue;
+		}
+		String viewValue =  convert4View(nakedValue);
+			return viewValue;
 	}
 
 	@Override

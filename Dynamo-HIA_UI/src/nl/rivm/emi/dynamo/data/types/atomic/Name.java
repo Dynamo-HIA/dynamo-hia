@@ -16,7 +16,7 @@ public class Name extends AbstractString implements PayloadType{
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	static final public Pattern matchPattern = Pattern
+	final public Pattern matchPattern = Pattern
 			.compile("^\\w*$");
 
 
