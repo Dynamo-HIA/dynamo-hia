@@ -1,7 +1,8 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
 /**

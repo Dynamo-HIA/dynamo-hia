@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.objects.layers;
 
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 /**
  * BaseClass for Dynamo-HIA configuration Object s/parts. 

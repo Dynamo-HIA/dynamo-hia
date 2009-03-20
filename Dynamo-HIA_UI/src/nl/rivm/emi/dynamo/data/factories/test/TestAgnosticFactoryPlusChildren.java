@@ -609,7 +609,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testRelRiskForRiskFactorCategorical() {
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCATEGORICAL
+		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCATEGORICAL
 				.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + rootElementName + "_default.xml";
@@ -659,7 +659,7 @@ public class TestAgnosticFactoryPlusChildren {
 
 	@Test
 	public void testRelRiskForRiskFactorContinuous() {
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCONTINUOUS
+		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCONTINUOUS
 				.getRootElementName();
 
 		String configurationFilePath = "data" + File.separator + "development"

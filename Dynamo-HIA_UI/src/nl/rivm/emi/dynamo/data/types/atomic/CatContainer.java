@@ -1,10 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractClassIndex;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
-/*
- * Nonnegative Integer without fixed upper limit.
- */
 public class CatContainer extends AbstractClassIndex implements ContainerType{
 	static final protected String XMLElementName = "cat";
 

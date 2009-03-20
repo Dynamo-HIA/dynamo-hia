@@ -6,7 +6,7 @@ package nl.rivm.emi.dynamo.data.factories.rootchild;
  * turned out to be empty so far and are thus unneeded.
  */
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 

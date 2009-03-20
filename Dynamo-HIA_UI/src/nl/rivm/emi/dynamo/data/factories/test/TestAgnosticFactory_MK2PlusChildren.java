@@ -4,14 +4,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
-import java.io.IOException;
-
-import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -42,7 +37,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 //		try {
-			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
+//			RiskFactorCategoricalObject theFactory = new RiskFactorCategoricalObject(false); 
 //			Object result = theFactory.manufacture(configurationFile.getName(), "riskfactor_categorical");
 //			assertNotNull(result);
 //			try {

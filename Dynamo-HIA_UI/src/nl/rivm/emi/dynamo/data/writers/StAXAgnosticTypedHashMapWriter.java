@@ -21,7 +21,7 @@ import javax.xml.stream.events.XMLEvent;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 

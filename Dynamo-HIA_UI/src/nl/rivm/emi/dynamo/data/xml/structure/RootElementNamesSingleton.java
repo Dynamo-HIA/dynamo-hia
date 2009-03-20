@@ -4,7 +4,7 @@ package nl.rivm.emi.dynamo.data.xml.structure;
  */
 import java.util.HashMap;
 
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 public class RootElementNamesSingleton extends HashMap<String,RootElementNamesEnum>{
 	private static RootElementNamesSingleton instance = null;

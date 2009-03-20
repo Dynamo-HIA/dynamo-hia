@@ -1,16 +1,18 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
- * Pretty plain base-class for String type configuration items.
+ * Nonnegative Integer without fixed upper limit. This to enable adjustment to
+ * the range of categories the transitions can cover.
  */
-abstract public class AbstractString extends AtomicTypeBase<String> {
+abstract public class AbstractYear extends AtomicTypeBase<Integer>{
 
 	/**
 	 * Constructor used for overriding.
@@ -20,22 +22,29 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 	 * @param upperLimit
 	 * @throws ConfigurationException
 	 */
-	public AbstractString(String myElementName) {
-		super(myElementName, new String());
+	public AbstractYear(String myElementName){
+		super(myElementName, new Integer(0));
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();
 	}
 
-	public String getDefaultValue() {
-		return new String("Emptyness2BFilled");
+	public Integer getDefaultValue() {
+		return new Integer(1999);
 	}
 
-	public String fromString(String inputString) {
-		return inputString;
+	public Integer fromString(String inputString) {
+		Integer result = null;
+		try {
+			result = Integer.decode(inputString);
+			return result;
+		} catch (NumberFormatException e) {
+			result = null;
+			return result;
+		}
 	}
 
-	public String toString(String inputString) {
-		return inputString;
+	public String toString(Integer inputValue) {
+		return Integer.toString(inputValue.intValue());
 	}
 
 	public boolean isMyElement(String elementName) {
@@ -46,32 +55,16 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		return result;
 	}
 
-	public String getElementName() {
-		return XMLElementName;
-	}
-
 	public String convert4View(Object modelValue) {
-		String result = (String) viewUpdateValueStrategy.convert(modelValue);
+		String result = (String)viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
-
+	
 	public Object convert4Model(String viewString) {
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
 
-	@Override
-	public String convert4File(Object modelValue) {
-		String nakedValue = null;
-		if(modelValue instanceof WritableValue){
-		nakedValue = (String)((WritableValue)modelValue).doGetValue();
-		} else {
-			nakedValue = (String) modelValue;
-		}
-		String viewValue =  convert4View(nakedValue);
-			return viewValue;
-	}
-	
 	private UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
@@ -81,8 +74,8 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 
 	private UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
-		resultStrategy
-				.setConverter(new ValueViewConverter("ValueViewConverter"));
+		resultStrategy.setConverter(new ValueViewConverter(
+				"ValueViewConverter"));
 		return resultStrategy;
 	}
 
@@ -90,26 +83,33 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
 		/**
-		 * Pattern for matching String input. Provides an initial validation
-		 * that should prevent subsequent conversions from blowing up.
+		 * Pattern for matching String input. Provides an initial validation that
+		 * should prevent subsequent conversions from blowing up.
 		 */
-		final public Pattern matchPattern = Pattern.compile("^\\d*$");
+		final public Pattern matchPattern = Pattern
+				.compile("^\\d*$");
 
 		public ValueModelConverter(String debugString) {
 			this.debugString = debugString;
 		}
 
-		/**
-		 * Very lenient convert for the moment.
-		 */
 		public Object convert(Object arg0) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			Object result = null;
-			if (arg0 instanceof String) {
-				result = arg0;
+			try {
+				Integer candidate = 4711;
+				if (arg0 instanceof String) {
+					Matcher matcher = matchPattern.matcher((String)arg0);
+					if (matcher.matches()) {
+						candidate = Integer.decode((String)arg0);
+					} else {
+						candidate = -4711;
+					}
+				}
+				return candidate;
+			} catch (Exception e) {
+				return 4712;
 			}
-			return result;
 		}
 
 		public Object getFromType() {
@@ -117,7 +117,7 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		}
 
 		public Object getToType() {
-			return (Object) String.class;
+			return (Object) Integer.class;
 		}
 	}
 
@@ -132,16 +132,25 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		public Object convert(Object arg0) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			Object result = null;
-			if (arg0 instanceof String) {
-				result = arg0;
+			String floatString = "NoFloat";
+			try {
+				if (arg0 == null) {
+					floatString = "";
+				} else {
+					if (arg0 instanceof Float) {
+						floatString = ((Float) arg0).toString();
+					}
+				}
+				return floatString;
+			} catch (Exception e) {
+				floatString = e.getClass().getName();
+				return floatString;
 			}
-			return result;
 		}
 
 		public Object getFromType() {
 			// log.debug(debugString + " getFromType() entered.");
-			return (Object) String.class;
+			return (Object) Float.class;
 		}
 
 		public Object getToType() {
@@ -158,4 +167,9 @@ abstract public class AbstractString extends AtomicTypeBase<String> {
 		return viewUpdateValueStrategy;
 	}
 
+	
+	
+	
+	
+	
 }

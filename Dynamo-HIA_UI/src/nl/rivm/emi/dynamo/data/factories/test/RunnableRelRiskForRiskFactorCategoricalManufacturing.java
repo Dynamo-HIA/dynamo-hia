@@ -33,7 +33,7 @@ public class RunnableRelRiskForRiskFactorCategoricalManufacturing implements Run
 
 	public void run() {
 		DataBindingContext dbc = new DataBindingContext();
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCATEGORICAL.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCATEGORICAL.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + rootElementName +"_default.xml";
 		File configurationFile = new File(configurationFilePath);

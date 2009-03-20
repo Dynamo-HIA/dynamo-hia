@@ -3,9 +3,9 @@ package nl.rivm.emi.dynamo.data.types.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractAge;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

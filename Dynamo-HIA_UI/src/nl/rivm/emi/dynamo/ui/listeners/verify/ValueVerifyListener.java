@@ -2,10 +2,10 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

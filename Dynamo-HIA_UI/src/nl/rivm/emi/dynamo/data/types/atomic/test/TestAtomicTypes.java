@@ -6,12 +6,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractAge;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

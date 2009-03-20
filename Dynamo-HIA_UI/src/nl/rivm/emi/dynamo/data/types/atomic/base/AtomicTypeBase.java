@@ -1,4 +1,5 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
+
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
 

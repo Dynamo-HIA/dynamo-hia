@@ -1,11 +1,11 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import org.apache.commons.configuration.ConfigurationException;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 
 public class StartingYear extends AbstractRangedInteger {
 	static final protected String XMLElementName = "startingyear";
 
-	public StartingYear() throws ConfigurationException {
+	public StartingYear(){
 		super(XMLElementName, 0, Integer.MAX_VALUE);
 	}
 }

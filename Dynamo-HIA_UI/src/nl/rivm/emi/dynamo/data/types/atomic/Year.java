@@ -1,8 +1,11 @@
+//  NB(mondeelr) This Class has been refactored by Barend.
+
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -81,6 +84,12 @@ public class Year extends NumberRangeTypeBase<Integer> implements ContainerType{
 
 	@Override
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String convert4File(Object modelValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}

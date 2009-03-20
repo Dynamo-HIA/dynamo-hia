@@ -34,7 +34,7 @@ public class RunnableRelRiskForRiskFactorContinuousManufacturing implements Runn
 
 	public void run() {
 		DataBindingContext dbc = new DataBindingContext();
-		String rootElementName = FileControlEnum.RELRISKFORRISKFACTORCONTINUOUS.getRootElementName();
+		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCONTINUOUS.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"
 				+ File.separator + "relriskforriskfactorcontinuous_default.xml";
 		File configurationFile = new File(configurationFilePath);

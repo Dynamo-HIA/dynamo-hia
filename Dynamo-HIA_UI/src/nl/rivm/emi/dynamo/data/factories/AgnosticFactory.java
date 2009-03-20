@@ -15,9 +15,9 @@ import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;

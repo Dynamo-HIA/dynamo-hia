@@ -18,9 +18,9 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChild
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCompoundObject;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 import nl.rivm.emi.dynamo.data.types.interfaces.WrapperType;

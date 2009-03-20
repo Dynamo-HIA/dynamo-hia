@@ -10,8 +10,8 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.util;
 
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 public class AtomicTypeObjectTuple {
 	XMLTagEntity type;

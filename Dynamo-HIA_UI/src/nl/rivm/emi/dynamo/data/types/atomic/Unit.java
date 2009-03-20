@@ -1,10 +1,12 @@
+//  NB(mondeelr) This Class has been refactored by Barend.
+
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.regex.Pattern;
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -23,7 +25,7 @@ public class Unit extends NumberRangeTypeBase<Float> implements
 //	private UpdateValueStrategy modelUpdateValueStrategy;
 //	private UpdateValueStrategy viewUpdateValueStrategy;
 
-	public Unit() throws ConfigurationException {
+	public Unit(){
 		super("percent", new Float(0), new Float(100));
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();

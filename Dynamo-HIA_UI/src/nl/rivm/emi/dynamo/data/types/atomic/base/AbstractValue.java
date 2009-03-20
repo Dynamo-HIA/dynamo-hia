@@ -1,30 +1,41 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AbstractRangedInteger extends
-		NumberRangeTypeBase<Integer> implements PayloadType<Integer> {
+public class AbstractValue extends NumberRangeTypeBase<Float> implements PayloadType<Float>{
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	final public Pattern matchPattern = Pattern.compile("^\\d*$");
+	final public Pattern matchPattern = Pattern
+			.compile("^\\d*\\.?\\d*$");
 
-	public AbstractRangedInteger(String XMLElementName, Integer lowerLimit,
-			Integer upperLimit) {
-		super(XMLElementName, lowerLimit, upperLimit);
+	public AbstractValue(String XMLElementName){
+		this(XMLElementName, 0F, Float.MAX_VALUE);
 	}
 
-	public boolean inRange(Integer testValue) {
+	/**
+	 * Constructor for use by subclasses.
+	 * @param elementName
+	 * @param minimum
+	 * @param maximum
+	 * @throws ConfigurationException 
+	 */
+	public AbstractValue(String elementName, Float minimum, Float maximum){
+		super(elementName, minimum, maximum);
+		modelUpdateValueStrategy = assembleModelStrategy();
+		viewUpdateValueStrategy = assembleViewStrategy();
+	}
+	
+	public boolean inRange(Float testValue) {
 		boolean result = false;
 		if (!(MIN_VALUE.compareTo(testValue) > 0)
 				&& !(MAX_VALUE.compareTo(testValue) < 0)) {
@@ -32,30 +43,21 @@ abstract public class AbstractRangedInteger extends
 		}
 		return result;
 	}
-
-	public Integer fromString(String inputString) {
-		Integer result = null;
-		try {
-			result = Integer.decode(inputString);
-			if (!inRange(result)) {
-				result = null;
-			}
-			return result;
-		} catch (NumberFormatException e) {
-			result = null;
-			return result;
-		}
+	public Float fromString(String inputString) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public String toString(Float inputValue) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public String toString(Integer inputValue) {
-		return Integer.toString(inputValue.intValue());
+	public Float getDefaultValue() {
+		return 0F;
 	}
 
-	public Integer getDefaultValue() {
-		return 0;
-	}
-
-	public String getElementName() {
+	 public String getElementName() {
 		return XMLElementName;
 	}
 
@@ -68,10 +70,10 @@ abstract public class AbstractRangedInteger extends
 	}
 
 	public String convert4View(Object modelValue) {
-		String result = (String) viewUpdateValueStrategy.convert(modelValue);
+		String result = (String)viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
-
+	
 	public Object convert4Model(String viewString) {
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
@@ -79,32 +81,32 @@ abstract public class AbstractRangedInteger extends
 
 	@Override
 	public String convert4File(Object modelValue) {
-		Integer nakedValue = null;
-		if (modelValue instanceof WritableValue) {
-			nakedValue = (Integer) ((WritableValue) modelValue).doGetValue();
+		Float nakedValue = null;
+		if(modelValue instanceof WritableValue){
+		nakedValue =  (Float)((WritableValue)modelValue).doGetValue();
 		} else {
-			nakedValue = (Integer) modelValue;
+			nakedValue = (Float) modelValue;
 		}
-		String viewValue = convert4View(nakedValue);
+		String viewValue =  convert4View(nakedValue);
 		return viewValue;
 	}
 
-	private UpdateValueStrategy assembleModelStrategy() {
+	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
 				"ValueModelConverter"));
 		return resultStrategy;
 	}
 
-	private UpdateValueStrategy assembleViewStrategy() {
+	protected UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
-		resultStrategy
-				.setConverter(new ValueViewConverter("ValueViewConverter"));
+		resultStrategy.setConverter(new ValueViewConverter(
+				"ValueViewConverter"));
 		return resultStrategy;
 	}
 
 	public class ValueModelConverter implements IConverter {
-		Log log = LogFactory.getLog(this.getClass());
+		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
 
 		public ValueModelConverter(String debugString) {
@@ -112,22 +114,20 @@ abstract public class AbstractRangedInteger extends
 		}
 
 		public Object convert(Object arg0) {
-			log.debug(debugString + " convert(Object) entered with:"
-					+ arg0.toString());
+			// log.debug(debugString + " convert(Object) entered with:" +
+			// arg0.toString());
 			try {
-				Integer result = null;
-				try {
-					result = Integer.decode(arg0.toString());
-					if (!inRange(result)) {
-						result = null;
+				Float floatCandidate = 4711F;
+				if (arg0 instanceof String) {
+					if ("".equals(arg0)) {
+						floatCandidate = null;
+					} else {
+						floatCandidate = Float.parseFloat((String) arg0);
 					}
-					return result;
-				} catch (NumberFormatException e) {
-					result = null;
-					return result;
 				}
+				return floatCandidate;
 			} catch (Exception e) {
-				return 4712;
+				return 4712F;
 			}
 		}
 
@@ -153,25 +153,25 @@ abstract public class AbstractRangedInteger extends
 		public Object convert(Object arg0) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			String integerString = "NoInteger";
+			String floatString = "NoFloat";
 			try {
 				if (arg0 == null) {
-					integerString = "";
+					floatString = "";
 				} else {
-					if (arg0 instanceof Integer) {
-						integerString = ((Integer) arg0).toString();
+					if (arg0 instanceof Float) {
+						floatString = ((Float) arg0).toString();
 					}
 				}
-				return integerString;
+				return floatString;
 			} catch (Exception e) {
-				integerString = e.getClass().getName();
-				return integerString;
+				floatString = e.getClass().getName();
+				return floatString;
 			}
 		}
 
 		public Object getFromType() {
 			// log.debug(debugString + " getFromType() entered.");
-			return (Object) Integer.class;
+			return (Object) Float.class;
 		}
 
 		public Object getToType() {

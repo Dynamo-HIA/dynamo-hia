@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
 /**
  * 
  */
@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
 import org.apache.commons.logging.Log;

@@ -1,24 +1,15 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractClassIndex;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
-
-import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
  * the range of categories the transitions can cover.
  */
-public class Index extends AbstractClassIndex implements ContainerType
-		/* implements IXMLHandlingLayer<Integer> */ {
+public class Index extends AbstractClassIndex implements ContainerType {
 	static final protected String XMLElementName = "index";
 
-	/**
-	 * Constructor for use at this level.
-	 * 
-	 * @param lowerLimit
-	 * @param upperLimit
-	 * @throws ConfigurationException
-	 */
 	public Index(){
 		super(XMLElementName, hardLowerLimit, hardUpperLimit);
 	}

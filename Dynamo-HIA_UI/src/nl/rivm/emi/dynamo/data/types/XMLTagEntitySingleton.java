@@ -8,7 +8,7 @@ import java.util.HashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 public class XMLTagEntitySingleton extends HashMap<String, XMLTagEntity> {
 	private static final long serialVersionUID = 3111726151725007942L;

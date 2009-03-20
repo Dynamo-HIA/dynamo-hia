@@ -1,8 +1,8 @@
 package nl.rivm.emi.dynamo.data.writers;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,9 +52,9 @@ public enum FileControlEnum {
 			FileControlEnumHelp.relRiskForDisabilityContStrings), //
 	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings), //
 	INCIDENCES(FileControlEnumHelp.incidencesStrings), //
-	RELRISKFORRISKFACTORCATEGORICAL(
+	RELRISKFROMRISKFACTORCATEGORICAL(
 			FileControlEnumHelp.relRiskFromRiskfactorCatStrings), //
-	RELRISKFORRISKFACTORCONTINUOUS(
+	RELRISKFROMRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskFromRiskfactorConStrings), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings), //
 	RISKFACTORCOMPOUND(FileControlEnumHelp.riskFactorCompoundStrings), //

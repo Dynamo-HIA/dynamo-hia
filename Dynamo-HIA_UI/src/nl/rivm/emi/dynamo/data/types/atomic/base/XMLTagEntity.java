@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.types.atomic;
+package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 
 public abstract class XMLTagEntity{
