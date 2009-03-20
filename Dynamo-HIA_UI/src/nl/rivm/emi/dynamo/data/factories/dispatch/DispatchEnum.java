@@ -5,7 +5,7 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
  * file and the Factory Object to turn it into a Configuration Model Object.
  */
 
-import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
@@ -22,8 +22,11 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
+import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
@@ -45,20 +48,18 @@ public enum DispatchEnum {
 			new OverallMortalityFactory(), null),
 	/* W13 */
 	NEWBORNS(RootElementNamesEnum.NEWBORNS.getNodeLabel(),
-	new NewbornsFactory(), null),
+			new NewbornsFactory(), null),
 	/* W14 */
 	OVERALLDALYWEIGHTS(RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(),
 			new OverallDALYWeightsFactory(), null), // TODO
 	/* W20Cat */
+	RISKFACTOR_CATEGORICAL(RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+			.getNodeLabel(), new RiskFactorCategoricalFactory(), null),
 	/* W20Con */
 	/* W20Cmp */
 	RISKFACTOR_COMPOUND(
-			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), /*
-																	 * new
-																	 * RiskFactorFactory
-																	 * ()
-																	 */
-			new DummyPlaceholderFactory(), null), // TODO
+			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
+			new RiskFactorCompoundFactory(), null),
 	/* W21TmId */
 	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO
 			.getNodeLabel(), /*
@@ -77,7 +78,7 @@ public enum DispatchEnum {
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
-	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), 
+	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
 			new TransitionDriftFactory(), null), // TODO
 	/* W22CatCom */
 
@@ -106,7 +107,7 @@ public enum DispatchEnum {
 	/* W23Cmp */
 	RELRISKFORDEATH_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
-			new RelRiskForDeathCompoundFactory(), null), 
+			new RelRiskForDeathCompoundFactory(), null),
 	/* W23Cat */
 	RELRISKFORDISABLITY_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
@@ -115,7 +116,8 @@ public enum DispatchEnum {
 	/* W23Con */
 	RELRISKFORDISABLITY_CONTINUOUS(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
-					.getNodeLabel(), new RelRiskForDisabilityContinuousFactory(), null),
+					.getNodeLabel(),
+			new RelRiskForDisabilityContinuousFactory(), null),
 	/* W23Cmp */
 	RELRISKFORDISABLITY_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
@@ -150,10 +152,10 @@ public enum DispatchEnum {
 			new DALYWeightsFactory(), null);
 
 	private final String rootNodeName;
-	private final AgnosticFactory theFactory;
+	private final RootLevelFactory theFactory;
 	private final Class theModalClass;
 
-	private DispatchEnum(String rootNodeName, AgnosticFactory theFactory,
+	private DispatchEnum(String rootNodeName, RootLevelFactory theFactory,
 			Class modalClass) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
@@ -164,7 +166,7 @@ public enum DispatchEnum {
 		return rootNodeName;
 	}
 
-	public AgnosticFactory getTheFactory() {
+	public RootLevelFactory getTheFactory() {
 		return theFactory;
 	}
 

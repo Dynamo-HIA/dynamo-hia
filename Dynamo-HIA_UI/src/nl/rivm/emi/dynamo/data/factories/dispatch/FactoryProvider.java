@@ -7,6 +7,7 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -19,9 +20,9 @@ public class FactoryProvider {
 
 	static final DispatchMap dispatchMap = DispatchMap.getInstance();
 
-	static public AgnosticFactory getRelevantFactoryByRootNodeName(
+	static public RootLevelFactory getRelevantFactoryByRootNodeName(
 			String rootNodeName) throws ConfigurationException {
-		AgnosticFactory theFactory = null;
+		RootLevelFactory theFactory = null;
 		theFactory = dispatchMap.get(rootNodeName).getTheFactory();
 		return theFactory;
 	}
