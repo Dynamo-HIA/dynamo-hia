@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 public class TransitionDriftFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public TransitionDriftObject manufactureObservable(File configurationFile, String rootElementName)
+	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
@@ -28,7 +28,7 @@ public class TransitionDriftFactory extends AgnosticFactory {
 		return (result); 
 	}
 
-	public TransitionDriftObject manufacture(
+	public TypedHashMap manufacture(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
@@ -36,11 +36,11 @@ public class TransitionDriftFactory extends AgnosticFactory {
 		return (result); 
 	}
 	
-	public TransitionDriftObject manufactureDefault() throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public TransitionDriftObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}

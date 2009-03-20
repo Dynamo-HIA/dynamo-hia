@@ -28,7 +28,7 @@ public void setNumberOfCategories(Integer numberOfCategories) {
 this.numberOfCategories = numberOfCategories;
 }
 
-	public RiskFactorPrevalencesDurationObject manufactureObservable(
+	public TypedHashMap manufactureObservable(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
@@ -37,7 +37,7 @@ this.numberOfCategories = numberOfCategories;
 		return (result);
 	}
 
-	public RiskFactorPrevalencesDurationObject manufacture(File configurationFile,
+	public TypedHashMap manufacture(File configurationFile,
 			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");

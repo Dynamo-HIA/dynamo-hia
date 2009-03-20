@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 public class NewbornsFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public NewbornsObject manufactureObservable(File configurationFile,
+	public TypedHashMap manufactureObservable(File configurationFile,
 			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
@@ -26,7 +26,7 @@ public class NewbornsFactory extends AgnosticFactory {
 		return result;
 	}
 
-	public NewbornsObject manufacture(
+	public TypedHashMap manufacture(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap manufacturedMap = manufacture(configurationFile, false, rootElementName);
@@ -35,11 +35,11 @@ public class NewbornsFactory extends AgnosticFactory {
 	}
 
 	@Override
-	public NewbornsObject manufactureDefault() throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public NewbornsObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}

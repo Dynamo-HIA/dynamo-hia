@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 public class OverallDALYWeightsFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public OverallDALYWeightsObject manufactureObservable(File configurationFile,
+	public TypedHashMap manufactureObservable(File configurationFile,
 			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
@@ -26,7 +26,7 @@ public class OverallDALYWeightsFactory extends AgnosticFactory {
 		return result;
 	}
 
-	public OverallDALYWeightsObject manufacture(
+	public TypedHashMap manufacture(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap manufacturedMap = manufacture(configurationFile, false, rootElementName);
@@ -35,11 +35,11 @@ public class OverallDALYWeightsFactory extends AgnosticFactory {
 	}
 
 	@Override
-	public OverallDALYWeightsObject manufactureDefault() throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public OverallDALYWeightsObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}

@@ -338,13 +338,19 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
 						for (int count = theLastContainer; count < leafNodeList
 								.size(); count++) {
-							AtomicTypeObjectTuple tuple = leafNodeList
+							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
 									.get(count);
-							XMLTagEntity type = tuple.getType();
+							XMLTagEntity type = leafNodeTuple.getType();
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
-							tuple.setValue(defaultValue);
-							payloadList.add(tuple);
+							AtomicTypeObjectTuple modelTuple = null;
+							if(!makeObservable){
+							modelTuple = new AtomicTypeObjectTuple(type,defaultValue);
+							} else {
+								WritableValue observable = new WritableValue(defaultValue, defaultValue.getClass());
+								modelTuple = new AtomicTypeObjectTuple(type, observable);
+							}
+							payloadList.add(modelTuple);
 						}
 						priorLevel.put(value, payloadList);
 					}

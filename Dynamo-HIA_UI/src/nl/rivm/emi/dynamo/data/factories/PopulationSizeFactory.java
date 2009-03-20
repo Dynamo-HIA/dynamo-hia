@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 public class PopulationSizeFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public PopulationSizeObject manufacture(File configurationFile, String rootElementName)
+	public TypedHashMap manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
@@ -25,7 +25,7 @@ public class PopulationSizeFactory extends AgnosticFactory {
 		return (result);
 	}
 
-	public PopulationSizeObject manufactureObservable(File configurationFile, String rootElementName)
+	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
@@ -33,12 +33,12 @@ public class PopulationSizeFactory extends AgnosticFactory {
 		return result;
 	}
 
-	public PopulationSizeObject manufactureDefault()
+	public TypedHashMap manufactureDefault()
 			throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public PopulationSizeObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}

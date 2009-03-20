@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 public class OverallMortalityFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public OverallMortalityObject manufactureObservable(File configurationFile, String rootElementName)
+	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
@@ -28,7 +28,7 @@ public class OverallMortalityFactory extends AgnosticFactory {
 		return (result); 
 	}
 
-	public OverallMortalityObject manufacture(
+	public TypedHashMap manufacture(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
@@ -36,11 +36,11 @@ public class OverallMortalityFactory extends AgnosticFactory {
 		return (result); 
 	}
 	
-	public OverallMortalityObject manufactureDefault() throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public OverallMortalityObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}

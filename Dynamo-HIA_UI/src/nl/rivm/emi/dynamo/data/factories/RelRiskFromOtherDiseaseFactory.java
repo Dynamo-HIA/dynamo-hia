@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 public class RelRiskFromOtherDiseaseFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public RelRiskFromOtherDiseaseObject manufactureObservable(
+	public TypedHashMap manufactureObservable(
 			File configurationFile, String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
@@ -25,7 +25,7 @@ public class RelRiskFromOtherDiseaseFactory extends AgnosticFactory {
 				true, rootElementName));
 	}
 
-	public RelRiskFromOtherDiseaseObject manufacture(File configurationFile, 
+	public TypedHashMap manufacture(File configurationFile, 
 			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");

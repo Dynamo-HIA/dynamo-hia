@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public RelRiskForDisabilityContinuousObject manufactureObservable(
+	public TypedHashMap manufactureObservable(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
@@ -26,7 +26,7 @@ public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 		return new RelRiskForDisabilityContinuousObject(producedMap);
 	}
 
-	public RelRiskForDisabilityContinuousObject manufacture(File configurationFile,
+	public TypedHashMap manufacture(File configurationFile,
 			String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
@@ -37,13 +37,13 @@ public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 	}
 
 	@Override
-	public RelRiskForDeathContinuousObject manufactureDefault()
+	public TypedHashMap manufactureDefault()
 			throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
 	@Override
-	public RelRiskForDeathContinuousObject manufactureObservableDefault()
+	public TypedHashMap manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
