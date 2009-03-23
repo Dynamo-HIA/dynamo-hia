@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousObject;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
