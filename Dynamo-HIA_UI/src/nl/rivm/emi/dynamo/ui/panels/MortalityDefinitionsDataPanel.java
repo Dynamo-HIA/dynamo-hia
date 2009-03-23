@@ -1,9 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.types.atomic.Name;
+import nl.rivm.emi.dynamo.data.interfaces.IMortalityObject;
+import nl.rivm.emi.dynamo.data.types.atomic.Unit;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,56 +20,59 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
-public class ClassDefinitionsDataPanel extends Composite /* implements Runnable */{
+public class MortalityDefinitionsDataPanel extends Composite /* implements Runnable */{
 	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
-	ICategoricalObject myCategoricalObject;
+			.getLog("nl.rivm.emi.dynamo.ui.panels.MortalityDefinitionsDataPanel");
+	IMortalityObject myMortalityObject;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	AtomicTypeBase myType = new Name();
+	AtomicTypeBase myType = new Unit();
 
-	public ClassDefinitionsDataPanel(Composite parent, Text topNeighbour,
-			ICategoricalObject iCategoricalObject,
+	public MortalityDefinitionsDataPanel(Composite parent, Text topNeighbour,
+			IMortalityObject iMortalityObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
-		this.myCategoricalObject = iCategoricalObject;
+		this.myMortalityObject = iMortalityObject;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
-		Label indexLabel = new Label(this, SWT.NONE);
-		indexLabel.setText("Index");
-		Label classNameLabel = new Label(this, SWT.NONE);
-		classNameLabel.setText("Classname");
-		int found = 0;
-		int count = 1;
-		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
-		for (; found < numberOfCategories && count <= numberOfCategories; count++) {
-			WritableValue observableClassName = iCategoricalObject.getObservableCategoryName(count);
-			if(observableClassName != null){
-			found++;
-			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
-			bindValue(observableClassName);
+		Label ageLabel = new Label(this, SWT.NONE);
+		ageLabel.setText("Age");
+		Label unitLabel = new Label(this, SWT.NONE);
+		unitLabel.setText("Unit");
+		Label acutelyFatalLabel = new Label(this, SWT.NONE);
+		acutelyFatalLabel.setText("Acutely Fatal");
+		Label curedFractionLabel = new Label(this, SWT.NONE);
+		curedFractionLabel.setText("Cured Fraction");
+		int numberOfAges = iMortalityObject.getNumberOfMortalities();
+		for (int count = 0; count < numberOfAges; count++) {
+			//WritableValue observableClassName = myMortalityObject.getObservableCategoryName(count);
+//			if(observableClassName != null){
+	//			Label label = new Label(this, SWT.NONE);
+		//		label.setText(new Integer(count).toString());
+		//		bindValue(observableClassName);
+				
+				myMortalityObject.putMortality(count, "");
+				Label label = new Label(this, SWT.NONE);
+				label.setText(new Integer(count).toString());
+				bindValue(myMortalityObject.getObservableUnit(count));
+				////TODO other values bindValue(myMortalityObject.getObservableAcutelyFatal(count));
+				////TODO other values bindValue(myMortalityObject.getObservableCuredFraction(count));				
+				
+				/*
 			} else {
-			MessageBox box = new MessageBox(parent.getShell());
-			box.setText("Class name error");
-			box.setMessage("Name at index " + count + " should not be empty.");
-			box.open();
-			}
-		}
-		for (; count <= numberOfCategories; count++) {
-			myCategoricalObject.putCategory(count, "");
-			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
-			bindValue(myCategoricalObject.getObservableCategoryName(count));
+				MessageBox box = new MessageBox(parent.getShell());
+				box.setText("Error creating matrix value");
+				box.setMessage("Matrix value at age " + count + " should not be empty.");
+				box.open();
+			}*/
 		}
 	}
 
@@ -93,7 +96,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType.getViewUpdateValueStrategy());
-		text.addVerifyListener(new NameVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener());
 	}
 
 	private Text createAndPlaceTextField() {
@@ -105,7 +108,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	}
 
 
-	public void handlePlacementInContainer(ClassDefinitionsDataPanel panel,
+	public void handlePlacementInContainer(MortalityDefinitionsDataPanel panel,
 			Label topNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 10);

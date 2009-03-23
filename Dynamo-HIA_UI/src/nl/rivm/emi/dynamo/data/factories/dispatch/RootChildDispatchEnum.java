@@ -14,8 +14,9 @@ public enum RootChildDispatchEnum {
 	REFERENCEVALUE("referencevalue", new AgnosticSingleRootChildFactory()),
 	DURATIONCLASS("durationclass", new AgnosticSingleRootChildFactory()),
 	HASNEWBORNS("hasnewborns", new AgnosticSingleRootChildFactory()),
-	CLASSES("classes", new AgnosticHierarchicalRootChildFactory());
-
+	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()),
+	UNITTYPE("unittype", new AgnosticSingleRootChildFactory()),
+	MORTALITY("mortality", new AgnosticHierarchicalRootChildFactory());
 
 	private final String rootChildNodeName;
 	private final RootChildFactory theFactory;

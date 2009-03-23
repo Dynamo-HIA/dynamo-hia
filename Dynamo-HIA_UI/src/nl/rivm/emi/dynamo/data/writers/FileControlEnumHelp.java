@@ -112,6 +112,9 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(), "incidence",
 			"age", "sex", "value" };
 	/* W33 */
+	static final String[] excessMortalityStrings = {
+		RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), "unittype", 
+			"mortality"	};
 	/* W34Cat */
 	static final String[] relRiskFromRiskfactorCatStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
@@ -145,4 +148,6 @@ public class FileControlEnumHelp {
 			"isRRfrom", "isRRto", "isRRfile" };
 // TODO(mondeelr) For version 1.1.
 	static final String[] cutoffsStrings = { "cutoffs", "cutoff" };
+	static final String[] mortalityStrings = { "mortality", "age", "sex", "unit",
+		"acutelyfatal", "curedfraction" };
 }

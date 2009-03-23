@@ -252,5 +252,9 @@ public class ImportExtendedInputTrialog extends Dialog {
 	protected int getInputTextStyle() {
 		return SWT.SINGLE | SWT.BORDER;
 	}
+
+	protected void setValue(String value) {
+		this.value = value;		
+	}
     
 }

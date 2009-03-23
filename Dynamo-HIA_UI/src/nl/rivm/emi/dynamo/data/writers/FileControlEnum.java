@@ -57,12 +57,15 @@ public enum FileControlEnum {
 	RELRISKFROMRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskFromRiskfactorConStrings), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings), //
-	RISKFACTORCONTINUOUS(FileControlEnumHelp.riskFactorContinuousStrings), //
+	RISKFACTORCONTINUOUS(FileControlEnumHelp.riskFactorContinuousStrings), //	
 	RISKFACTORCOMPOUND(FileControlEnumHelp.riskFactorCompoundStrings), //
 	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings),
+	/* W21 */
+	EXCESSMORTALITY(FileControlEnumHelp.riskFactorCategoricalStrings), //
 	/* Subtrees in the configuration files. */
 	CLASSES(FileControlEnumHelp.classesStrings), //
 	CUTOFFS(FileControlEnumHelp.cutoffsStrings), //
+	MORTALITY(FileControlEnumHelp.mortalityStrings), //
 	SCENARIOS(FileControlEnumHelp.scenariosStrings), DISEASES(
 			FileControlEnumHelp.diseasesStrings), //
 	RISKFACTOR(FileControlEnumHelp.riskfactorStrings), //

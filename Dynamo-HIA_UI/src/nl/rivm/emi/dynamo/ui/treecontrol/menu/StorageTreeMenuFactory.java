@@ -19,6 +19,7 @@ import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
+import nl.rivm.emi.dynamo.ui.actions.TransitionNoAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -485,15 +486,11 @@ public class StorageTreeMenuFactory {
 				configurationFile = ((BaseNode) grandChildNode)
 						.getPhysicalStorage();
 			}
-		}
+		}		
+		String riskFactorType = ConfigurationFileUtil.extractRootElementName(configurationFile);
 		
-		log.debug(ConfigurationFileUtil.extractRootElementName(configurationFile));
-		
-		String riskFactorType;
-			riskFactorType = ConfigurationFileUtil.extractRootElementName(configurationFile);
-		
-		
-		// TODO: Create a new Transition action class		
+		// If the riskfactor is continuous, the transition type is transitiondrift,
+		// if the riskfactor is compound or categorical, the transition type is transitionmatrix,
 		String transitionType;
 		if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel().
 				equalsIgnoreCase(riskFactorType)) {
@@ -501,13 +498,12 @@ public class StorageTreeMenuFactory {
 		} else {
 			transitionType = RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel();
 		}
+		// Create the action for the transition dialog (W21.1)
 		InputBulletsFreeXMLFileAction action = 
 			new InputBulletsFreeXMLFileAction(shell, treeViewer, 
 					(DirectoryNode) selection.getFirstElement(),
 					transitionType, Util.deriveEntityLabelAndValueFromRiskSourceNode((BaseNode)
-							selection.getFirstElement())[0], riskFactorType);
-
-		
+							selection.getFirstElement())[0], riskFactorType);		
 			
 		//DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
 		action.setText("New transitions file");
@@ -528,8 +524,20 @@ public class StorageTreeMenuFactory {
 		FileNode node = (FileNode) selection.getFirstElement();
 		String nodeLabel = node.toString();
 		ParentNode parentNode = node.getParent();
-		String parentNodeLabel = parentNode.toString();
+		String parentNodeLabel = parentNode.toString();		
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
+		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode).getParent();
+		
+		
+		// TODO: REMOVE: just for debugging
+		String rootElementNameDebug = ConfigurationFileUtil
+		.extractRootElementName(node
+				.getPhysicalStorage());
+		log.debug("nodeLabel" + nodeLabel); //e.g. transitionmatrix, transitiondrift
+		log.debug("rootElementNameDebug" + rootElementNameDebug); //e.g. transitionmatrix_zero, transitiondrift_zero		
+		// TODO: REMOVE: just for debugging
+				
+				
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(
 						((BaseNode) grandParentNode).deriveNodeLabel())) {
@@ -581,75 +589,53 @@ public class StorageTreeMenuFactory {
 							action.setText("Edit");
 							manager.add(action);
 						} else {
-							if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
+							if (StandardTreeNodeLabelsEnum.EXCESSMORTALITY
 									.getNodeLabel().equalsIgnoreCase(
 											parentNodeLabel)) {
-								String actualRootElementName = ConfigurationFileUtil
-										.extractRootElementName(node
-												.getPhysicalStorage());
 								XMLFileAction action = new XMLFileAction(shell,
 										treeViewer, (BaseNode) node, node
-												.toString(),
-										actualRootElementName);
+												.toString(), RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel());
 								action.setText("Edit");
 								manager.add(action);
-							} else {
-								if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+							} else {							
+								if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 										.getNodeLabel().equalsIgnoreCase(
 												parentNodeLabel)) {
 									String actualRootElementName = ConfigurationFileUtil
 											.extractRootElementName(node
 													.getPhysicalStorage());
-									XMLFileAction action = new XMLFileAction(
-											shell, treeViewer, (BaseNode) node,
-											node.toString(),
+									XMLFileAction action = new XMLFileAction(shell,
+											treeViewer, (BaseNode) node, node
+													.toString(),
 											actualRootElementName);
 									action.setText("Edit");
 									manager.add(action);
 								} else {
-									if (StandardTreeNodeLabelsEnum.RISKFACTORS
-											.getNodeLabel()
-											.equalsIgnoreCase(
-													((BaseNode) grandParentNode)
-															.deriveNodeLabel())) {
-										if ("configuration".equals(nodeLabel)) {
-											String rootElementName = ConfigurationFileUtil
-													.extractRootElementName(node
-															.getPhysicalStorage());
-											XMLFileAction action = new XMLFileAction(
-													shell, treeViewer,
-													(BaseNode) node, node
-															.toString(),
-													rootElementName);
-											action.setText("Edit");
-											manager.add(action);
-									
-											
-											// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-											// TODO: EDIT THE EXISTING FILE: Retrieve the  StandardTreeNodeLabelsEnum
-											// Here, the transition files (i.e. transitiondrift, transitiondrift_zero,
-											// transitiondrift_netto, transitionmatrix_zero, transitionmatrix_netto)
-											// have to be edited, "transitions" is a temporary dummy notation!
-											// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-											/*
-										} else {											
-											if ("transitions".equals(nodeLabel)) {
-												String rootElementName = ConfigurationFileUtil
-														.extractRootElementName(node
-																.getPhysicalStorage());
-												XMLFileAction action = new XMLFileAction(
-														shell, treeViewer,
-														(BaseNode) node, node
-																.toString(),
-														rootElementName);
-												action.setText("Edit");
-												manager.add(action);
-											
-										*/
-												
-												
-										} else {
-											if ("prevalence".equals(nodeLabel)) {
+									if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+											.getNodeLabel().equalsIgnoreCase(
+													parentNodeLabel)) {
+										String actualRootElementName = ConfigurationFileUtil
+												.extractRootElementName(node
+														.getPhysicalStorage());
+										XMLFileAction action = new XMLFileAction(
+												shell, treeViewer, (BaseNode) node,
+												node.toString(),
+												actualRootElementName);
+										action.setText("Edit");
+										manager.add(action);
+									} else {
+										// RISKFACTORS BLOCK
+										if (StandardTreeNodeLabelsEnum.RISKFACTORS
+												.getNodeLabel()
+												.equalsIgnoreCase(
+														((BaseNode) grandParentNode)
+																.deriveNodeLabel())||
+																StandardTreeNodeLabelsEnum.RISKFACTORS
+																.getNodeLabel()
+																.equalsIgnoreCase(
+																		((BaseNode) greatGrandParentNode)
+																				.deriveNodeLabel())															) {
+											if ("configuration".equals(nodeLabel)) {
 												String rootElementName = ConfigurationFileUtil
 														.extractRootElementName(node
 																.getPhysicalStorage());
@@ -661,27 +647,25 @@ public class StorageTreeMenuFactory {
 												action.setText("Edit");
 												manager.add(action);
 											} else {
-												if ("durationdistribution"
-														.equals(nodeLabel)) {
-													addDummy(manager,
-															selection,
-															"riskfactors-durationdistribution.xml");
+												if ("prevalence".equals(nodeLabel)) {
+													String rootElementName = ConfigurationFileUtil
+															.extractRootElementName(node
+																	.getPhysicalStorage());
+													XMLFileAction action = new XMLFileAction(
+															shell, treeViewer,
+															(BaseNode) node, node
+																	.toString(),
+															rootElementName);
+													action.setText("Edit");
+													manager.add(action);
 												} else {
-													if ("relriskfordeath"
+													if ("durationdistribution"
 															.equals(nodeLabel)) {
-														String rootElementName = ConfigurationFileUtil
-																.extractRootElementName(node
-																		.getPhysicalStorage());
-														XMLFileAction action = new XMLFileAction(
-																shell,
-																treeViewer,
-																(BaseNode) node,
-																node.toString(),
-																rootElementName);
-														action.setText("Edit");
-														manager.add(action);
+														addDummy(manager,
+																selection,
+																"riskfactors-durationdistribution.xml");
 													} else {
-														if ("relriskfordisability"
+														if ("relriskfordeath"
 																.equals(nodeLabel)) {
 															String rootElementName = ConfigurationFileUtil
 																	.extractRootElementName(node
@@ -690,23 +674,113 @@ public class StorageTreeMenuFactory {
 																	shell,
 																	treeViewer,
 																	(BaseNode) node,
-																	node
-																			.toString(),
+																	node.toString(),
 																	rootElementName);
-															action
-																	.setText("Edit");
+															action.setText("Edit");
 															manager.add(action);
 														} else {
-															addDummy(manager,
-																	selection,
-																	"Not implemented (yet)");
-														}
+															if ("relriskfordisability"
+																	.equals(nodeLabel)) {
+																String rootElementName = ConfigurationFileUtil
+																		.extractRootElementName(node
+																				.getPhysicalStorage());
+																XMLFileAction action = new XMLFileAction(
+																		shell,
+																		treeViewer,
+																		(BaseNode) node,
+																		node
+																				.toString(),
+																		rootElementName);
+																action
+																		.setText("Edit");
+																manager.add(action);
+	
+															// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+															// TODO: EDIT THE EXISTING FILE: Retrieve the  StandardTreeNodeLabelsEnum
+															// Here, the transition files (i.e. transitiondrift, transitiondrift_zero,
+															// transitiondrift_netto, transitionmatrix_zero, transitionmatrix_netto)
+															// have to be edited, "transitions" is a temporary dummy notation!
+															// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO														
+															} else {											
+																if ("transitiondrift".equals(ConfigurationFileUtil
+																				.extractRootElementName(node
+																						.getPhysicalStorage()))) {																
+																	String rootElementName = ConfigurationFileUtil
+																			.extractRootElementName(node
+																					.getPhysicalStorage());
+																	// TODO: Create screen W21 Transition Drift
+																	XMLFileAction action = new XMLFileAction(
+																			this.shell, this.treeViewer,
+																			(BaseNode) node, node
+																					.toString(),
+																			rootElementName);
+																	action.setText("Edit");
+																	manager.add(action);
+																} else {
+																	if ("transitiondrift_netto".equals(ConfigurationFileUtil
+																			.extractRootElementName(node
+																					.getPhysicalStorage()))) {																
+																		String rootElementName = ConfigurationFileUtil
+																				.extractRootElementName(node
+																						.getPhysicalStorage());
+																		// TODO: Create screen W21 Transition Drift Netto
+																		XMLFileAction action = new XMLFileAction(
+																				this.shell, this.treeViewer,
+																				(BaseNode) node, node
+																						.toString(),
+																				rootElementName);
+																		action.setText("Edit");
+																		manager.add(action);
+																	} else {																																
+																		if ("transitiondrift_zero".equals(ConfigurationFileUtil
+																				.extractRootElementName(node
+																						.getPhysicalStorage()))) {																		
+																			// File cannot be edited, only created, no further actions
+																			addTransactionNoAction(manager,
+																					selection,
+																					"Selected file cannot be edited");																																	
+																		} else {											
+																			if ("transitionmatrix".equals(ConfigurationFileUtil
+																							.extractRootElementName(node
+																									.getPhysicalStorage()))) {																		
+																				String rootElementName = ConfigurationFileUtil
+																						.extractRootElementName(node
+																								.getPhysicalStorage());
+																				XMLFileAction action = new XMLFileAction(
+																						this.shell, this.treeViewer,
+																						(BaseNode) node, node
+																								.toString(),
+																						rootElementName);
+																				action.setText("Edit");
+																				manager.add(action);
+																			} else {											
+																				if ("transitionmatrix_netto".equals(ConfigurationFileUtil
+																						.extractRootElementName(node
+																								.getPhysicalStorage())) || 
+																						"transitionmatrix_zero".equals(ConfigurationFileUtil
+																						.extractRootElementName(node
+																								.getPhysicalStorage()))) {
+																					// File cannot be edited, only created, no further actions
+																					addTransactionNoAction(manager,
+																							selection,
+																							"Selected file cannot be edited");																			
+																				} else {
+																					addDummy(manager,
+																							selection,
+																							"Not implemented (yet)");
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+													 	}
 													}
 												}
 											}
 										}
-										//}
 									}
+									// RISKFACTORS BLOCK
 								}
 							}
 						}
@@ -724,6 +798,16 @@ public class StorageTreeMenuFactory {
 				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);
 	}
+	
+	
+	public void addTransactionNoAction(IMenuManager manager, IStructuredSelection selection,
+			String facText) {
+		TransitionNoAction action = new TransitionNoAction(shell);
+		action.setText(facText);
+		action.setSelectionPath(((BaseNode) selection.getFirstElement())
+				.getPhysicalStorage().getAbsolutePath());
+		manager.add(action);
+	}	
 
 	private void handlePopulations(IMenuManager manager,
 			IStructuredSelection selection, FileNode node, String nodeLabel) {

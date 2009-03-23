@@ -1,5 +1,3 @@
-//  NB(mondeelr) This Class has been refactored by Barend.
-
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 import java.util.Calendar;

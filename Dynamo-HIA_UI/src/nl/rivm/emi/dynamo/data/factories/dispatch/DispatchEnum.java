@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DummyPlaceholderFactory;
+import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.NewbornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
@@ -57,11 +58,19 @@ public enum DispatchEnum {
 			.getNodeLabel(), new RiskFactorCategoricalFactory(), null),
 	/* W20Con */
 	RISKFACTOR_CONTINUOUS(RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-			.getNodeLabel(), new RiskFactorContinuousFactory(), null),
+			.getNodeLabel(), new RiskFactorContinuousFactory(), null),	
 	/* W20Cmp */
 	RISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
 			new RiskFactorCompoundFactory(), null),
+	/* W21TdMA */
+	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
+			new TransitionDriftFactory(), null), // TODO
+	/* W21TdId */// TODO
+	/* W21TdFp */// TODO
+	/* W21TmMA */
+	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
+			new TransitionMatrixFactory(), null),			
 	/* W21TmId */
 	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO
 			.getNodeLabel(), /*
@@ -74,16 +83,7 @@ public enum DispatchEnum {
 							 * new TransitionMatrixFactory()
 							 */
 	new DummyPlaceholderFactory(), null), // TODO
-	/* W21TmMA */
-	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
-			new TransitionMatrixFactory(), null),
-	/* W21TdId */
-	/* W21TdFp */
-	/* W21TdMA */
-	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
-			new TransitionDriftFactory(), null), // TODO
 	/* W22CatCom */
-
 	RISKFACTORPREVALENCES_CATEGORICAL(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 					.getNodeLabel(),
@@ -131,7 +131,7 @@ public enum DispatchEnum {
 			new DiseaseIncidencesFactory(), null),
 	/* W33 */
 	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
-			new DummyPlaceholderFactory(), null), // TODO
+			new ExcessMortalityFactory(), null), // TODO
 	/* W34Cat */
 	RRISKFORRISKFACTOR_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL

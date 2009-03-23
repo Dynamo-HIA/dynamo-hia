@@ -7,7 +7,7 @@
         <xs:element name="classes">
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="10" maxOccurs="10" name="class">
+              <xs:element minOccurs="1" maxOccurs="10" name="class">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="index">

@@ -4,19 +4,16 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
-import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
-import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
-import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionTrialog;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -53,7 +50,8 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
 		String newPath = null;
 		//Util.deriveEntityLabelAndValueFromRiskSourceNode(this.node)[0]
-		// Call the input trialog modal here (trialog includes input field, import, ok and cancel buttons)
+		// Call the input trialog modal here (trialog includes input field, 
+		// import, ok and cancel buttons)
 		TransitionTrialog inputDialog = new TransitionTrialog(shell, "BasePath: "
 				+ selectionPath, "Enter name for a new xml file", "Name", null, 
 				this.riskFactorName, this.riskFactorType
@@ -114,26 +112,19 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 					BulletButtonNamesEnum.USER_SPECIFIED.getBulletButtonName().equals(this.bulletButtonName)) {
 				theModal = new TransitionDriftModal(shell, dataFile.getAbsolutePath(), savedFile
 						.getAbsolutePath(), rootElementName, node);
-			} else {	
+			} else {					
 				if (RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel().equals(rootElementName) && 
-						BulletButtonNamesEnum.ZERO.getBulletButtonName().equals(this.bulletButtonName)) {
-					theModal = new TransitionDriftModal(shell, dataFile.getAbsolutePath(), savedFile
-							.getAbsolutePath(), rootElementName, node);
-				} else {						
-					if (RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel().equals(rootElementName) && 
-							BulletButtonNamesEnum.NETTO.getBulletButtonName().equals(this.bulletButtonName)) {
-						theModal = new TransitionDriftModal(shell, dataFile.getAbsolutePath(), savedFile
+						BulletButtonNamesEnum.NETTO.getBulletButtonName().equals(this.bulletButtonName)) {
+					theModal = new TransitionDriftNettoModal(shell, dataFile.getAbsolutePath(), savedFile
+							.getAbsolutePath(), this.bulletButtonName, node);
+				} else										
+					if (RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel().equals(rootElementName)) {
+						theModal = new TransitionMatrixModal(shell, dataFile.getAbsolutePath(), savedFile
 								.getAbsolutePath(), rootElementName, node);
-					} else {						
-						/* TODO
-						if (RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel().equals(rootElementName)) {
-							theModal = new TransitionMatrixModal(shell, dataFile.getAbsolutePath(), savedFile
-									.getAbsolutePath(), rootElementName, node);
-						} else {*/													
-									throw new DynamoConfigurationException(
-									"RootElementName " + rootElementName
-											+ " not implemented yet.");
-					}
+					} else {
+								throw new DynamoConfigurationException(
+								"RootElementName " + rootElementName
+										+ " not implemented yet.");
 				}
 			}
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),

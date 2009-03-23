@@ -67,6 +67,18 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return flag;
 	}
 
+	protected String getSingleRootChildStringValue(String rootChildName) {
+		Object flagObject = get(rootChildName);
+		String flag = null;
+		if (flagObject instanceof WritableValue) {
+			flag = (String) ((WritableValue) flagObject)
+					.doGetValue();
+		} else {
+			flag = (String) flagObject;
+		}
+		return flag;
+	}	
+	
 	protected WritableValue getSingleRootChildWritableValue(String rootChildName) {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) get(rootChildName);
 		Object classIndexObject = tuple.getValue();
@@ -88,6 +100,10 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 	protected Object putSingleRootChildBooleanValue(String rootChildName, Boolean flag) {
 		return putSingleRootChildObjectValue(rootChildName, flag);
 	}
+
+	protected Object putSingleRootChildStringValue(String rootChildName, String value) {
+		return putSingleRootChildObjectValue(rootChildName, value);
+	}	
 	
 	protected Object putSingleRootChildObjectValue(String rootChildName, Object value) {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) get(rootChildName);

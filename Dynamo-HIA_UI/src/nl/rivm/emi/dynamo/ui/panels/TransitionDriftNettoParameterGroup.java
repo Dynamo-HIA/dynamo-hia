@@ -1,8 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Mean;
+import nl.rivm.emi.dynamo.data.types.atomic.Trend;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -16,13 +15,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-public class TransitionDriftParameterGroup {
-	private static final String AGE = "Age";
-	private static final String MEAN = "Mean";
-	
+public class TransitionDriftNettoParameterGroup {
+	private static final String TREND = "Trend";
 	Group theGroup;
 
-	public TransitionDriftParameterGroup(Composite parent,
+	public TransitionDriftNettoParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
@@ -39,18 +36,15 @@ public class TransitionDriftParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-
+		
 		PanelMatrix panelMatrix = new PanelMatrix();
-		PanelMatrixItem panelMatrixItem = new PanelMatrixItem(AGE, AGE, 0, new Age());
-		panelMatrix.put(AGE, panelMatrixItem);
-		panelMatrixItem = new PanelMatrixItem(MEAN, MEAN, 1, new Mean());
-		panelMatrix.put(MEAN, panelMatrixItem);
+		PanelMatrixItem panelMatrixItem = new PanelMatrixItem(TREND, TREND, 0, new Trend());
+		panelMatrix.put(TREND, panelMatrixItem);
 		
-		Composite parameterDataPanel = new TransitionValueParameterDataPanel(
+		Composite parameterDataPanel = new TrendParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
-				helpGroup, panelMatrix);
-		
-		
+				helpGroup, panelMatrix);				
+				
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
 

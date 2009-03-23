@@ -3,14 +3,14 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-public class Unit extends AbstractValue implements PayloadType<Float>{
+public class AcutelyFatalType extends AbstractValue implements PayloadType<Float>{
 
-	static final protected String XMLElementName = "unit";
+	static final protected String XMLElementName = "acutelyfatal";
 
 	/**
 	 * Constructor
 	 */
-	public Unit(){
+	public AcutelyFatalType(){
 		super(XMLElementName, 0F, Float.MAX_VALUE);
 	}
 

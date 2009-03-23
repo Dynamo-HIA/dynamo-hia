@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="riskfactor_continuous">
     <xs:complexType>
       <xs:sequence>
@@ -9,19 +9,21 @@
             <xs:restriction base="xs:float"/>
           </xs:simpleType>
         </xs:element>
-<!--
+<!--        
         <xs:element name="cutoffs">
           <xs:complexType>
-            <xs:sequence minOccurs="8" maxOccurs="8">
+            <xs:sequence minOccurs="1" maxOccurs="8">
               <xs:element name="cutoff">
-                <xs:simpleType>
-                  <xs:restriction base="xs:float" />
-                </xs:simpleType>
+    			<xs:complexType>
+    			  <xs:sequence>		          	                
+					<xs:element name="value" type="xs:float" />
+				  </xs:sequence>        
+                </xs:complexType>
               </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
--->
+-->        
       </xs:sequence>
     </xs:complexType>
   </xs:element>

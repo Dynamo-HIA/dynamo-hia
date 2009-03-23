@@ -1,61 +1,57 @@
 package nl.rivm.emi.dynamo.data.factories;
 
+/**
+ * Factory to create the categorical, continuous and duration variations.
+ */
 import java.io.File;
+import java.util.LinkedHashMap;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.DALYWeightsObject;
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
+import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ExcessMortalityFactory extends AgnosticFactory {
+public class ExcessMortalityFactory extends AgnosticGroupFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
+	Integer numberOfMortalities = null;
+	FileControlEnum myEnum = FileControlEnum.EXCESSMORTALITY;
+
+	public void setNumberOfMortalities(Integer numberOfMortalities) {
+		this.numberOfMortalities = numberOfMortalities;
+	}
+
+	public ExcessMortalityObject manufacture(File configurationFile,
+			String rootNodeName) throws ConfigurationException,
+			DynamoInconsistentDataException {
+		LinkedHashMap<String, Object> modelMap = super.manufacture(configurationFile,false,
+				rootNodeName);
+		return new ExcessMortalityObject(modelMap);
+	}
+
+	public ExcessMortalityObject manufactureObservable(
+			File configurationFile, String rootNodeName)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
-		ExcessMortalityObject result = new ExcessMortalityObject(producedMap);
-		return (result); 
+		LinkedHashMap<String, Object> modelMap = super.manufacture(
+				configurationFile, true, rootNodeName);
+		return new ExcessMortalityObject(modelMap);
 	}
 
-	public TypedHashMap manufacture(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
-		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
-		ExcessMortalityObject result = new ExcessMortalityObject(producedMap);
-		return (result); 
+	public ExcessMortalityObject manufactureDefault()
+			throws DynamoConfigurationException {
+		LinkedHashMap<String, Object> modelMap = super.manufactureDefault(myEnum);
+		return new ExcessMortalityObject(modelMap);
 	}
 
-	@Override
-	public TypedHashMap manufactureDefault()
-			throws ConfigurationException {
-		return manufactureDefault(false);
+	public ExcessMortalityObject manufactureObservableDefault()
+			throws DynamoConfigurationException {
+		LinkedHashMap<String, Object> modelMap = super
+				.manufactureObservableDefault(myEnum);
+		return new ExcessMortalityObject(modelMap);
 	}
-
-	@Override
-	public TypedHashMap manufactureObservableDefault()
-			throws ConfigurationException { 
-		return manufactureDefault(true);
-	}
-
-	private ExcessMortalityObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
-		log.debug("Starting manufacture.");
-		LeafNodeList leafNodeList = new LeafNodeList();
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("age"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("percent"), null));
-		return new ExcessMortalityObject(super.manufactureDefault(leafNodeList, makeObservable));
-	}
-
 }

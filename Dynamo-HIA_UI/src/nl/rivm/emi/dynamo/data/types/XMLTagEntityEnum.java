@@ -1,12 +1,12 @@
 package nl.rivm.emi.dynamo.data.types;
 
+import nl.rivm.emi.dynamo.data.types.atomic.AcutelyFatalType;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Alfa;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
-import nl.rivm.emi.dynamo.data.types.atomic.Cutoff;
-import nl.rivm.emi.dynamo.data.types.atomic.Cutoffs;
+import nl.rivm.emi.dynamo.data.types.atomic.CuredFraction;
 import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.Disease;
 import nl.rivm.emi.dynamo.data.types.atomic.Diseases;
@@ -24,6 +24,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.IsRRTo;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.Mean;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
+import nl.rivm.emi.dynamo.data.types.atomic.Mortality;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberOfYears;
@@ -50,20 +51,25 @@ import nl.rivm.emi.dynamo.data.types.atomic.TimeStep;
 import nl.rivm.emi.dynamo.data.types.atomic.TransFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
+import nl.rivm.emi.dynamo.data.types.atomic.Trend;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.Unit;
+import nl.rivm.emi.dynamo.data.types.atomic.UnitType;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.VirtualCutoffIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.Year;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
+
 public enum XMLTagEntityEnum {
+	ACUTELYFATAL((XMLTagEntity)new AcutelyFatalType()),
 	AGE((XMLTagEntity) new Age()), //
 	ALFA((XMLTagEntity) new Alfa()), //
 	BEGIN((XMLTagEntity) new Begin()), //
 	CAT((XMLTagEntity) new CatContainer()), //
 	CLASS((XMLTagEntity) new DynamoClass()), //
 	CLASSES((XMLTagEntity) new Classes()), //
+	CUREDFRACTION((XMLTagEntity)new CuredFraction()),	
 /*	CUTOFF((XMLTagEntity) new Cutoff()), // NB(mondeelr)
 	CUTOFFS((XMLTagEntity) new Cutoffs()), // */
 	DALYWEIGHTSFILENAME((XMLTagEntity) new DALYWeightsFileName()), //
@@ -82,6 +88,7 @@ public enum XMLTagEntityEnum {
 	MAXAGE((XMLTagEntity) new MaxAge()), //
 	MEAN((XMLTagEntity) new Mean()), //
 	MINAGE((XMLTagEntity) new MinAge()), //
+	MORTALITY((XMLTagEntity)new Mortality()),
 	NAME((XMLTagEntity) new Name()), //
 	NUMBER((XMLTagEntity) new Number()), //
 	NUMBEROFYEARS((XMLTagEntity) new NumberOfYears()), //
@@ -109,12 +116,13 @@ public enum XMLTagEntityEnum {
 	TRANSFILENAME((XMLTagEntity) new TransFileName()), //
 	TRANSITIONDESTINATION((XMLTagEntity) new TransitionDestination()), //
 	TRANSITIONSOURCE((XMLTagEntity) new TransitionSource()), //
-	/* TREND((XMLTagEntity)new Trend()), // NB(mondeelr) */
+	TREND((XMLTagEntity)new Trend()),
 	UNIQUENAME((XMLTagEntity) new UniqueName()), //
 	UNIT((XMLTagEntity) new Unit()), //
+	UNITTYPE((XMLTagEntity)new UnitType()),
 	VIRTUALCUTOFFINDEX((XMLTagEntity) new VirtualCutoffIndex()), //
 	YEAR((XMLTagEntity) new Year());
-
+	
 	private final XMLTagEntity theType;
 
 	private XMLTagEntityEnum(XMLTagEntity type) {

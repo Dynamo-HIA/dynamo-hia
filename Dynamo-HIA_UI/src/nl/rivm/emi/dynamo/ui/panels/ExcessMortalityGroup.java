@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -16,12 +16,12 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 
-public class TransitionDriftGroup {
+public class ExcessMortalityGroup {
 	Group theGroup;
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public TransitionDriftGroup(Shell shell, TypedHashMap lotsOfData,
+	public ExcessMortalityGroup(Shell shell, ExcessMortalityObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
@@ -31,7 +31,7 @@ public class TransitionDriftGroup {
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
 				entityArray[0], entityArray[1]);
 		entityNameGroup.putInContainer();
-		TransitionDriftParameterGroup parameterGroup = new TransitionDriftParameterGroup(
+		ExcessMortalityParameterGroup parameterGroup = new ExcessMortalityParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 	}

@@ -103,20 +103,18 @@ public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 	private void createBulletsForBulletArea(Composite composite) {
 
 		// First radio button
-		//this.myBulletButtonNamesEnum = bulletButtonNamesEnum;
 		createRadioButton(composite, 0, bulletButtonNamesEnum);
 
 		// Second radio button
-		//this.myBulletButtonNamesEnum = this.bulletButtonNamesEnum2;
 		createRadioButton(composite, 1, bulletButtonNamesEnum2);
 
 		// Third radio button
-		//this.myBulletButtonNamesEnum = this.bulletButtonNamesEnum3;
 		createRadioButton(composite, 2, bulletButtonNamesEnum3);
 		
 		// Set the default radio button
 		this.radioButtons[0].setSelection(true);
-
+		
+		this.selectedBulletButtonName = BulletButtonNamesEnum.ZERO.getBulletButtonName();
 	}
 
 	// id is the radio button number
@@ -145,16 +143,6 @@ public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 				}
 			}
 		});		
-		
-		/* already defined in the grid
-		FormData radio1FormData = new FormData();
-		radio1FormData.left = new FormAttachment(0, 15);
-		radio1FormData.right = new FormAttachment(100, -15);
-		radio1FormData.top = new FormAttachment(0, 10);
-		this.radioButtons[id].setLayoutData(radio1FormData);
-		*/
-		
-		//this.radiobuttons.put(new Integer(id), button); // TODO????
 	}
 
 	

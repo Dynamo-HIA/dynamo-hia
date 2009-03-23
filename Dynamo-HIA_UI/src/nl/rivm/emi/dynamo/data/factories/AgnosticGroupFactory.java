@@ -218,10 +218,12 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		if (iterator.hasNext()) {
 			ConfigurationNode firstRootChild = iterator.next();
 			String rootChildName = firstRootChild.getName();
+			log.debug("rootChildName" + rootChildName);
 			RootChildFactory theFactory = instance.get(rootChildName)
 					.getTheFactory();
-			if (equallyNamedRootChildren.size() == 1) {
-				if (theFactory != null) {
+			// 
+			if (theFactory != null) {
+				if (equallyNamedRootChildren.size() == 1) {
 					if (theFactory instanceof AgnosticSingleRootChildFactory) {
 						AtomicTypeObjectTuple tuple = null;
 						if (makeObservable) {
@@ -246,13 +248,19 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 						result = modelObject;
 					}
 				} else {
-					String message = "No factory found for rootchild: \""
-							+ rootChildName + "\"";
-					log.fatal(message);
-					throw new ConfigurationException(message);
+					Object modelObject = null;
+					if (makeObservable) {
+						modelObject = ((AgnosticHierarchicalRootChildFactory) theFactory)
+								.manufactureObservable(equallyNamedRootChildren);
+					} else {
+						modelObject = ((AgnosticHierarchicalRootChildFactory) theFactory)
+								.manufacture(equallyNamedRootChildren);
+					}
+					result = modelObject;
 				}
 			} else {
-				String message = "Can't handle multiple RootChildren with the same name";
+				String message = "No factory found for rootchild: \""
+						+ rootChildName + "\"";
 				log.fatal(message);
 				throw new ConfigurationException(message);
 			}
@@ -282,10 +290,11 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			} else {
 				if (rootChildType instanceof PayloadType) {
 					Object defaultObject = manufactureDefaultSinglePayload(
-							(AtomicTypeBase) rootChildType,
-							makeObservable);
-					AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(rootChildType, defaultObject);
-					underConstruction.put(rootChildType.getXMLElementName(), tuple);
+							(AtomicTypeBase) rootChildType, makeObservable);
+					AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
+							rootChildType, defaultObject);
+					underConstruction.put(rootChildType.getXMLElementName(),
+							tuple);
 				} else {
 					DynamoConfigurationException e = new DynamoConfigurationException(
 							"Unexpected type: "
