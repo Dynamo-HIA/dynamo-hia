@@ -57,6 +57,7 @@ public enum FileControlEnum {
 	RELRISKFROMRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskFromRiskfactorConStrings), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings), //
+	RISKFACTORCONTINUOUS(FileControlEnumHelp.riskFactorContinuousStrings), //
 	RISKFACTORCOMPOUND(FileControlEnumHelp.riskFactorCompoundStrings), //
 	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings),
 	/* Subtrees in the configuration files. */

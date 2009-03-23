@@ -49,7 +49,7 @@ public class FileControlEnumHelp {
 	/* W20Con */
 	static final String[] riskFactorContinuousStrings = {
 			RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel(),
-			"referencevalue", "cutoffs", };
+			"referencevalue"};
 	/* W20Com */
 	static final String[] riskFactorCompoundStrings = {
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), "classes",
