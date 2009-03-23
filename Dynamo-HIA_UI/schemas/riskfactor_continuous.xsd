@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
   <xs:element name="riskfactor_continuous">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="referencevalue">
           <xs:simpleType>
-            <xs:restriction base="xs:float" />
+            <xs:restriction base="xs:float"/>
           </xs:simpleType>
         </xs:element>
+<!--
         <xs:element name="cutoffs">
           <xs:complexType>
             <xs:sequence minOccurs="8" maxOccurs="8">
@@ -20,6 +21,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+-->
       </xs:sequence>
     </xs:complexType>
   </xs:element>
