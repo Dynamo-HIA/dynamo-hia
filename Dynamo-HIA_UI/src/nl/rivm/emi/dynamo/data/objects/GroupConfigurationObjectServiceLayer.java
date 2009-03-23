@@ -43,6 +43,18 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return classIndex;
 	}
 
+	protected Float getSingleRootChildFloatValue(String rootChildName) {
+		Object floatValueObject = get(rootChildName);
+		Float floatValue = null;
+		if (floatValueObject instanceof WritableValue) {
+			floatValue = (Float) ((WritableValue) floatValueObject)
+					.doGetValue();
+		} else {
+			floatValue = (Float) floatValueObject;
+		}
+		return floatValue;
+	}
+
 	protected Boolean getSingleRootChildBooleanValue(String rootChildName) {
 		Object flagObject = get(rootChildName);
 		Boolean flag = null;
@@ -67,6 +79,10 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 
 	protected Object putSingleRootChildIntegerValue(String rootChildName, Integer index) {
 		return putSingleRootChildObjectValue(rootChildName, index);
+	}
+
+	protected Object putSingleRootChildFloatValue(String rootChildName, Float value) {
+		return putSingleRootChildObjectValue(rootChildName, value);
 	}
 
 	protected Object putSingleRootChildBooleanValue(String rootChildName, Boolean flag) {
