@@ -8,23 +8,28 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorContinuousGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author schutb
  *
  */
-public class RiskFactorContinuousModal extends AbstractDataModal {
+public class RiskFactorContinuousModal extends AbstractMultiRootChildDataModal {
 	private static final String RISKFACTOR_CONTINUOUS = "riskfactor_continuous";
 
 	@SuppressWarnings("unused")
@@ -57,18 +62,12 @@ public class RiskFactorContinuousModal extends AbstractDataModal {
 		return "Continuous risk factor configuration";
 	}
 
-	/* (non-Javadoc)
-	 * 
-	 * Opens the modal screen
-	 * 
-	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
-	 */
 	@Override
 	public synchronized void open() {
-//		try {
+		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = new RiskFactorContinuousObject(true);
-//			this.modelObject = this.modelObject.manufacture(this.dataFilePath, RISKFACTOR_CONTINUOUS);
+//			this.modelObject = new RiskFactorContinuousObject(true);
+			this.modelObject = (RiskFactorContinuousObject)manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -85,17 +84,17 @@ public class RiskFactorContinuousModal extends AbstractDataModal {
 				if (!display.readAndDispatch())
 					display.sleep();
 			}
-//		} catch (ConfigurationException e) {
-//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-//			box.setText("Processing " + this.configurationFilePath);
-//			box.setMessage(e.getMessage());
-//			box.open();
-//		} catch (DynamoInconsistentDataException e) {
-//			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-//			box.setText("Processing " + this.configurationFilePath);
-//			box.setMessage(e.getMessage());
-//			box.open();
-//		}
+		} catch (ConfigurationException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+		}
 	}
 
 	/* (non-Javadoc)
