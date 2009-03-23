@@ -5,7 +5,6 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
  * file and the Factory Object to turn it into a Configuration Model Object.
  */
 
-import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
@@ -25,12 +24,13 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 public enum DispatchEnum {
 	/* W01 */
@@ -42,7 +42,7 @@ public enum DispatchEnum {
 	new DummyPlaceholderFactory(), null), // TODO
 	/* W11 */
 	POPULATIONSIZE(RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(),
-			new PopulationSizeFactory(), PopulationSizeModal.class),
+			new PopulationSizeFactory(), null),
 	/* W12 */
 	OVERALLMORTALITY(RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel(),
 			new OverallMortalityFactory(), null),
@@ -56,6 +56,8 @@ public enum DispatchEnum {
 	RISKFACTOR_CATEGORICAL(RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 			.getNodeLabel(), new RiskFactorCategoricalFactory(), null),
 	/* W20Con */
+	RISKFACTOR_CONTINUOUS(RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+			.getNodeLabel(), new RiskFactorContinuousFactory(), null),
 	/* W20Cmp */
 	RISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
@@ -153,10 +155,10 @@ public enum DispatchEnum {
 
 	private final String rootNodeName;
 	private final RootLevelFactory theFactory;
-	private final Class theModalClass;
+	private final DataAndFileContainer theModalClass;
 
 	private DispatchEnum(String rootNodeName, RootLevelFactory theFactory,
-			Class modalClass) {
+			DataAndFileContainer modalClass) {
 		this.theFactory = theFactory;
 		this.rootNodeName = rootNodeName;
 		theModalClass = modalClass;
@@ -170,7 +172,7 @@ public enum DispatchEnum {
 		return theFactory;
 	}
 
-	public Class getTheModalClass() {
+	public DataAndFileContainer getTheModalClass() {
 		return theModalClass;
 	}
 }
