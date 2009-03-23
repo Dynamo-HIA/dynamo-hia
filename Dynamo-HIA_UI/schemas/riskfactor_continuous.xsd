@@ -9,7 +9,6 @@
             <xs:restriction base="xs:float"/>
           </xs:simpleType>
         </xs:element>
-<!--        
         <xs:element name="cutoffs">
           <xs:complexType>
             <xs:sequence minOccurs="1" maxOccurs="8">
@@ -22,8 +21,7 @@
               </xs:element>
             </xs:sequence>
           </xs:complexType>
-        </xs:element>
--->        
+        </xs:element>        
       </xs:sequence>
     </xs:complexType>
   </xs:element>

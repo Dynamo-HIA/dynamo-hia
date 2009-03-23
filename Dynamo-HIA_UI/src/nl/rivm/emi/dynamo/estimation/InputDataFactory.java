@@ -971,11 +971,23 @@ public class InputDataFactory {
 			riskFactorType = 1;
 		} else {
 			if (type == "riskfactor_continuous") {
-				riskFactorType = 2;
+				// TODO: Temporary build message: not yet implemented
+				// TODO: Reactivate code below for version 1.1
+				ErrorMessageUtil.handleErrorMessage(this.log, "The component Riskfactor Continuous has not yet been implemented",
+						new DynamoConfigurationException("The component Riskfactor Continuous has not yet been implemented"), 
+						configFileName);
+				// TODO: Reactivate code below for version 1.1
+				////riskFactorType = 2;
 			} else {
-				if (type == "riskfactor_compound")
+				if (type == "riskfactor_compound") {
+					// TODO: Temporary build message: not yet implemented
+					// TODO: Reactivate code below for version 1.1
+					ErrorMessageUtil.handleErrorMessage(this.log, "The component Riskfactor Continuous has not yet been implemented",
+							new DynamoConfigurationException("The component Riskfactor Compound has not yet been implemented"), 
+							configFileName);
+					// TODO: Reactivate code below for version 1.1					
 					riskFactorType = 3;
-				else
+				} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
 									+ type + " in XML file " + configFileName);

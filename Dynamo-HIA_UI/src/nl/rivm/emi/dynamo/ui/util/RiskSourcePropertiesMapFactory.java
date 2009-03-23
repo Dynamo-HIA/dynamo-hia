@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -20,8 +21,13 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class RiskSourcePropertiesMapFactory {
+	
+	private static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory");
+	
 	/* Context definition. */
 	static String referenceDataNodeName = StandardTreeNodeLabelsEnum.REFERENCEDATA
 			.getNodeLabel();
@@ -236,15 +242,36 @@ public class RiskSourcePropertiesMapFactory {
 							.extractRootElementName(configurationFile);
 					if (rootElementName != null) {
 						properties.setRootElementName(rootElementName);
+						
+						
+						
 						if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-								.getNodeLabel().equals(rootElementName)
-								|| RootElementNamesEnum.RISKFACTOR_COMPOUND
-										.getNodeLabel().equals(rootElementName)) {
+								.getNodeLabel().equals(rootElementName)) 
+								// TODO: Reactivate code below for version 1.1
+								////|| RootElementNamesEnum.RISKFACTOR_COMPOUND
+									////	.getNodeLabel().equals(rootElementName)) 
+								{
 							Integer numberOfCategories = ConfigurationFileUtil
 									.extractNumberOfClasses(configurationFile);
 							properties
-									.setNumberOfCategories(numberOfCategories);
+									.setNumberOfCategories(numberOfCategories);							
+						}						
+						else if (RootElementNamesEnum.RISKFACTOR_COMPOUND
+										.getNodeLabel().equals(rootElementName)) {							
+							// TODO: Temporary build message: not yet implemented
+							// TODO: Reactivate code below for version 1.1
+							ErrorMessageUtil.handleErrorMessage(log, "The component Riskfactor Continuous has not yet been implemented",
+									new DynamoConfigurationException("The component Riskfactor Compound has not yet been implemented"), 
+									null);
+						} else if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+								.getNodeLabel().equals(rootElementName)) {
+							// TODO: Temporary build message: not yet implemented
+							// TODO: Reactivate code below for version 1.1
+							ErrorMessageUtil.handleErrorMessage(log, "The component Riskfactor Continuous has not yet been implemented",
+									new DynamoConfigurationException("The component Riskfactor Continuous has not yet been implemented"), 
+									null);							
 						}
+						
 					}
 				}
 			}
