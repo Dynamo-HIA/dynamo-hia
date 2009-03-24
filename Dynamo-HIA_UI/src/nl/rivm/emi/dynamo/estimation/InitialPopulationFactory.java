@@ -839,7 +839,7 @@ public class InitialPopulationFactory {
 						 * 
 						 * 
 						 */
-						
+
 						/*
 						 * for categorical covariates, but not for newborns and 0
 						 * year old (=newborns in the existing population)
@@ -1015,7 +1015,7 @@ public class InitialPopulationFactory {
 			 */
 			double[] logitDisease = new double[parameters.getClusterStructure()[cluster]
 					.getNInCluster()];
-			Arrays.fill(logitDisease, 0);
+
 			for (int d = 0; d < parameters.getClusterStructure()[cluster]
 					.getNInCluster(); d++) {
 
@@ -1068,116 +1068,144 @@ public class InitialPopulationFactory {
 			 */
 			int nDiseases = parameters.getClusterStructure()[cluster]
 					.getNInCluster();
-			for (int combi = 1; combi < Math.pow(2, nDiseases); combi++) {
-				/*
-				 * loop over diseases in combi; p (D en E en G)=
-				 * P(D|E,G)P(E)P(G) (E en G onafhankelijk) log odds
-				 * (D=1|E=1,G=1)= logRR(D|E)+logRR(D| G)+logoddsBaseline(D)-->
-				 * P(D=1|E=1,G=1)
-				 * 
-				 * Nu D is gemeenschappelijke oorzaak van E en G p (D en E en
-				 * G)= P(E|D)P(G|D)P(D) log odds (E=1|D=1)=
-				 * logRR(E|D)+logoddsBaseline(E)--> P(E=1|D=1) log odds
-				 * (G=1|D=1)= logRR(G|D)+logoddsBaseline(G)--> P(G=1|D=1)
-				 * 
-				 * in het algemeen: p-combi= product [P(each dep disease|all
-				 * independent diseases)]product[P(independent disease)] dus:
-				 * GENERAL: product [p (disease |causes (if any)]
-				 */
+			int d1number;
 
-				double probCombi = 1;
+			if (!parameters.getClusterStructure()[cluster]
+					.isWithCuredFraction())
+				for (int combi = 1; combi < Math.pow(2, nDiseases); combi++) {
+					/*
+					 * loop over diseases in combi; p (D en E en G)=
+					 * P(D|E,G)P(E)P(G) (E en G onafhankelijk) log odds
+					 * (D=1|E=1,G=1)= logRR(D|E)+logRR(D|
+					 * G)+logoddsBaseline(D)--> P(D=1|E=1,G=1)
+					 * 
+					 * Nu D is gemeenschappelijke oorzaak van E en G p (D en E
+					 * en G)= P(E|D)P(G|D)P(D) log odds (E=1|D=1)=
+					 * logRR(E|D)+logoddsBaseline(E)--> P(E=1|D=1) log odds
+					 * (G=1|D=1)= logRR(G|D)+logoddsBaseline(G)--> P(G=1|D=1)
+					 * 
+					 * in het algemeen: p-combi= product [P(each dep disease|all
+					 * independent diseases)]product[P(independent disease)]
+					 * dus: GENERAL: product [p (disease |causes (if any)]
+					 */
 
-				// TODO: nog checken
+					double probCombi = 1;
 
-				/*
-				 * if this is a independent disease then this is all // if
-				 * dependent disease, then relative risks should be // added for
-				 * those causal disease that are equal to 1 in the combi
-				 * 
-				 * // must be: probability conditional on not having disease d
-				 * // // we use RRextended and therefore can consider all //
-				 * disease as causes of each other // as RR=1 if this is not the
-				 * case // case // TODO check if RRextended is made OK //
-				 */
-				/*
-				 * now loop throught all diseases in the combi, look if they are
-				 * zero or one and calculate the probability given causal
-				 * diseases
-				 */
-				for (int d1 = 0; d1 < nDiseases; d1++) {
-					int d1number = parameters.getClusterStructure()[cluster]
-							.getDiseaseNumber()[d1];
-					double probCurrent = 1; /*
-											 * probCurrent is the probability of
-											 * the current disease in the
-											 * combination (d1)
-											 */
-					/* look if d1 is one or zero in the combination */
-					if ((combi & (1 << d1)) == (1 << d1)) {
-						/* is one */
-						/* so add prob(=1) given causes */
+					// TODO: nog checken
 
-						if (parameters.getClusterStructure()[cluster]
-								.getDependentDisease()[d1]) {
-							if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
-								double logitCurrent = logitDisease[d1];
-
-								for (int d2 = 0; d2 < parameters
-										.getClusterStructure()[cluster]
-										.getNInCluster(); d2++) {
-									if ((combi & (1 << d2)) == (1 << d2)) {
-
-										logitCurrent += Math
-												.log(parameters
-														.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
-									}
-									probCurrent = 1 / (1 + Math
-											.exp(-logitCurrent));
-								}
-							} else
-								probCurrent = 0;
-
-						} else
-							/* == independent disease */
-							probCurrent = 1 / (1 + Math.exp(-logitDisease[d1]));
-
-					}/* end if disease d1 ==1 */else {
-						/* now if d1 is zero in combination */;
-						if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+					/*
+					 * if this is a independent disease then this is all // if
+					 * dependent disease, then relative risks should be // added
+					 * for those causal disease that are equal to 1 in the combi
+					 * 
+					 * // must be: probability conditional on not having disease
+					 * d // // we use RRextended and therefore can consider all
+					 * // disease as causes of each other // as RR=1 if this is
+					 * not the case // case // TODO check if RRextended is made
+					 * OK //
+					 */
+					/*
+					 * now loop throught all diseases in the combi, look if they
+					 * are zero or one and calculate the probability given
+					 * causal diseases
+					 */
+					for (int d1 = 0; d1 < nDiseases; d1++) {
+						d1number = parameters.getClusterStructure()[cluster]
+								.getDiseaseNumber()[d1];
+						double probCurrent = 1; /*
+												 * probCurrent is the
+												 * probability of the current
+												 * disease in the combination
+												 * (d1)
+												 */
+						/* look if d1 is one or zero in the combination */
+						if ((combi & (1 << d1)) == (1 << d1)) {
+							/* is one */
+							/* so add prob(=1) given causes */
 
 							if (parameters.getClusterStructure()[cluster]
 									.getDependentDisease()[d1]) {
-								double logitCurrent = logitDisease[d1];
+								if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+									double logitCurrent = logitDisease[d1];
 
-								for (int d2 = 0; d2 < parameters
-										.getClusterStructure()[cluster]
-										.getNInCluster(); d2++)
-									if ((combi & (1 << d2)) == (1 << d2))
-										logitCurrent += Math
-												.log(parameters
-														.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
-								/*
-								 * NB now exp(+x) a this is 1-p in stead of p
-								 */
-								probCurrent = 1 / (1 + Math.exp(logitCurrent));
+									for (int d2 = 0; d2 < parameters
+											.getClusterStructure()[cluster]
+											.getNInCluster(); d2++) {
+										if ((combi & (1 << d2)) == (1 << d2)) {
+
+											logitCurrent += Math
+													.log(parameters
+															.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
+										}
+										probCurrent = 1 / (1 + Math
+												.exp(-logitCurrent));
+									}
+								} else
+									probCurrent = 0;
+
 							} else
-								probCurrent = 1 / (1 + Math
-										.exp(logitDisease[d1]));
-						} else
+								/* == independent disease */
+								if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) probCurrent = 1 / (1 + Math
+										.exp(-logitDisease[d1]));
+								else probCurrent=0;
 
-						{
-							probCurrent = 1;
+						}/* end if disease d1 ==1 */else {
+							/* now if d1 is zero in combination */;
+							if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+
+								if (parameters.getClusterStructure()[cluster]
+										.getDependentDisease()[d1]) {
+									double logitCurrent = logitDisease[d1];
+
+									for (int d2 = 0; d2 < parameters
+											.getClusterStructure()[cluster]
+											.getNInCluster(); d2++)
+										if ((combi & (1 << d2)) == (1 << d2))
+											logitCurrent += Math
+													.log(parameters
+															.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
+									/*
+									 * NB now exp(+x) as this is 1-p in stead of
+									 * p
+									 */
+									probCurrent = 1 / (1 + Math
+											.exp(logitCurrent));
+								} else
+									probCurrent = 1 / (1 + Math
+											.exp(logitDisease[d1]));
+							} else
+
+							{
+								/* if baseline prevalence=0 than p-no-disease=1 */
+								probCurrent = 1;
+							}
+
 						}
+						probCombi *= probCurrent;
+					} // end loop over d1
+					float value = (float) probCombi;
 
-					}
-					probCombi *= probCurrent;
-				} // end loop over d1
-				float value = (float) probCombi;
+					CharValues[elementIndex] = value;
+					elementIndex++;
 
-				CharValues[elementIndex] = value;
+				} // end loop over combi
+			else {/* is withCuredFraction */
+				d1number = parameters.getClusterStructure()[cluster]
+						.getDiseaseNumber()[0];
+				if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0)
+					CharValues[elementIndex] = (float) (1 / (1 + Math
+							.exp(-logitDisease[0])));
+				else
+					CharValues[elementIndex] = 0;
+				elementIndex++;
+				if (parameters.getBaselinePrevalenceOdds()[a][g][d1number + 1] != 0)
+					CharValues[elementIndex] = (float) (1 / (1 + Math
+							.exp(-logitDisease[1])));
+				else
+					CharValues[elementIndex] = 0;
 				elementIndex++;
 
-			} // end loop over combi
+			}
 
 		} // end loop over clusters
 

@@ -208,7 +208,7 @@ public class InputDataFactory {
 	 */
 	private void doIt(String simName) throws DynamoConfigurationException {
 		;
-		// temporary for testing //;
+		
 
 		String fileName = this.baseDir + File.separator
 		+ simulationDir + File.separator + simName + File.separator
@@ -503,9 +503,30 @@ public class InputDataFactory {
 			else
 				throw new DynamoConfigurationException(
 						"incomplete information for disease in overall configuration file");
-
-			flag = true; /* at least one scenario has been successfully read */
-
+            
+			/* check if there are no double disease names, otherwise the program will not work */
+			
+			
+			
+			flag = true; /* at least one disease has been successfully read */
+			
+            int nDis=disInfo.size();
+            for (int i=0;i<nDis;i++)
+            	for (int j=i+1; j<nDis;j++){
+            		if 
+			
+					 (disInfo.get(i).name.compareToIgnoreCase(disInfo.get(j).name)==0) {
+						 throw 
+					new DynamoConfigurationException("two disease, "+disInfo.get(i).name+ " and "+
+							disInfo.get(j).name+ " have the same name. This is not allowed. Please change one of"
+							+" the names.");
+						
+					}
+				}
+				
+				
+			
+				
 		} // end loop over disease
 
 		return flag;
@@ -1840,10 +1861,10 @@ public class InputDataFactory {
 						clusterData[a][g][c].setIncidence(iData[d][a][g], d);
 						clusterData[a][g][c].setExcessMortality(eData[d][a][g],
 								d);
-						clusterData[a][g][c].setDisability(dData[d][a][g], d);
-						clusterData[a][g][c].setCuredFraction(cData[d][a][g],
+						clusterData[a][g][c].setDisability(dData[d][a][g]/100, d);
+						clusterData[a][g][c].setCuredFraction(cData[d][a][g]/100,
 								d, clusterStructure[c]);
-						clusterData[a][g][c].setCaseFatality(fData[d][a][g], d);
+						clusterData[a][g][c].setCaseFatality(fData[d][a][g]/100, d);
 
 						// initialize all rr values to 1 in case no rr's are
 						// read

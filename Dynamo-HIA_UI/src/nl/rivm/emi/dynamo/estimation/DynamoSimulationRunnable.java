@@ -51,6 +51,8 @@ import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.output.Output_UI;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -158,6 +160,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			displayInconsistentDataMessage(e);
 			e.printStackTrace();
 		}
+		// " .XML";
+		
 	}
 
 	/**
