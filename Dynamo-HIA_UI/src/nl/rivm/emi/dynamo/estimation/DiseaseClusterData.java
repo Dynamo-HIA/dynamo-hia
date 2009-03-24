@@ -116,6 +116,7 @@ public class DiseaseClusterData {
 		if (Input.length != prevalence.length)
 			System.out.println("unequal length in initialisation "
 					+ "of prevalences in DiseaseCluster");
+		prevalence=new float[Input.length];
 		for (int i = 0; i < Input.length; i++) {
 			prevalence[i] = Input[i];
 		}
@@ -190,7 +191,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[][] getRRdisExtended() {
-		return RRdisExtended;
+		return DynamoLib.deepcopy(RRdisExtended);
 	}
 
 	public void setRRdisExtended(float[][] rdisExtended) {
@@ -206,7 +207,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getPrevalence() {
-		return prevalence;
+		return DynamoLib.deepcopy(prevalence);
 	}
 
 	public static void main(String[] args) {
@@ -215,7 +216,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getRelRiskDuurBegin() {
-		return relRiskDuurBegin;
+		return DynamoLib.deepcopy(relRiskDuurBegin);
 	}
 
 	public void setRelRiskDuurBegin(float[] relRiskDuurBegin) {
@@ -227,7 +228,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getRelRiskDuurEnd() {
-		return relRiskDuurEnd;
+		return DynamoLib.deepcopy(relRiskDuurEnd);
 	}
 
 	public void setRrAlpha(float[] halfTime) {
@@ -239,7 +240,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getAlpha() {
-		return rrAlpha;
+		return DynamoLib.deepcopy(rrAlpha);
 	}
 
 	public void setRelRiskDuurEnd(float[] relRiskDuurEnd) {
@@ -251,7 +252,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getRelRiskCont() {
-		return relRiskCont;
+		return DynamoLib.deepcopy(relRiskCont);
 	}
 
 	public void setRelRiskCont(float[] relRiskCont) {
@@ -263,7 +264,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getExcessMortality() {
-		return excessMortality;
+		return DynamoLib.deepcopy(excessMortality);
 	}
 
 	public void setExcessMortality(float[] f) {
@@ -279,7 +280,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getCaseFatality() {
-		return caseFatality;
+		return DynamoLib.deepcopy(caseFatality);
 	}
 
 	public void setCaseFatality(float[] caseFatality) {
@@ -291,7 +292,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[][] getRelRiskCat() {
-		return relRiskCat;
+		return DynamoLib.deepcopy(relRiskCat);
 	}
 
 	public void setRelRiskCat(float[][] relRiskCat) {
@@ -330,7 +331,7 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getCuredFraction() {
-		return curedFraction;
+		return DynamoLib.deepcopy(curedFraction);
 	}
 
 	public void setCuredFraction(float[] curedFraction) {
@@ -351,11 +352,11 @@ public class DiseaseClusterData {
 	}
 
 	public float[] getIncidence() {
-		return incidence;
+		return DynamoLib.deepcopy(incidence);
 	}
 
 	public float[] getDisability() {
-		return disability;
+		return DynamoLib.deepcopy(disability);
 	}
 
 	public void setDisability(float[] disability) {
