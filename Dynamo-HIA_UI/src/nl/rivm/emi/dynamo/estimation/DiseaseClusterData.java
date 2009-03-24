@@ -191,58 +191,95 @@ public class DiseaseClusterData {
 	}
 
 	public float[][] getRRdisExtended() {
-		return DynamoLib.deepcopy(RRdisExtended);
+		return DynamoLib.deepcopy(this.RRdisExtended);
 	}
 
+	/**
+	 * @param rdisExtended
+	 */
 	public void setRRdisExtended(float[][] rdisExtended) {
-		RRdisExtended = rdisExtended;
+		this.RRdisExtended = rdisExtended;
 	}
 
+	/**
+	 * @param rdisExtended
+	 */
 	public void setRRdisExtended(float rdisExtended) {
-		RRdisExtended[0][0] = rdisExtended;
+		this.RRdisExtended[0][0] = rdisExtended;
 	}
 
+	/** setter for RRdisExtended
+	 * @param rdisExtended
+	 * @param index1
+	 * @param index2
+	 */
 	public void setRRdisExtended(float rdisExtended, int index1, int index2) {
-		RRdisExtended[index1][index1] = rdisExtended;
+		this.RRdisExtended[index1][index1] = rdisExtended;
 	}
 
+	/**
+	 * @return
+	 */
 	public float[] getPrevalence() {
 		return DynamoLib.deepcopy(prevalence);
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	
 
-	}
-
+	/**
+	 * @return
+	 */
 	public float[] getRelRiskDuurBegin() {
 		return DynamoLib.deepcopy(relRiskDuurBegin);
 	}
 
+	/**
+	 * @param relRiskDuurBegin
+	 */
 	public void setRelRiskDuurBegin(float[] relRiskDuurBegin) {
 		this.relRiskDuurBegin = relRiskDuurBegin;
 	}
 
+	/**
+	 * @param relRiskDuurBegin
+	 * @param d
+	 */
 	public void setRelRiskDuurBegin(float relRiskDuurBegin, int d) {
 		this.relRiskDuurBegin[d] = relRiskDuurBegin;
 	}
 
+	/**
+	 * @return
+	 */
 	public float[] getRelRiskDuurEnd() {
 		return DynamoLib.deepcopy(relRiskDuurEnd);
 	}
 
+	/**
+	 * @param halfTime
+	 */
 	public void setRrAlpha(float[] halfTime) {
 		this.rrAlpha = halfTime;
 	}
 
+	/**
+	 * @param halfTime
+	 * @param d
+	 */
 	public void setRrAlpha(float halfTime, int d) {
 		this.rrAlpha[d] = halfTime;
 	}
 
+	/**
+	 * @return
+	 */
 	public float[] getAlpha() {
 		return DynamoLib.deepcopy(rrAlpha);
 	}
 
+	/**
+	 * @param relRiskDuurEnd
+	 */
 	public void setRelRiskDuurEnd(float[] relRiskDuurEnd) {
 		this.relRiskDuurEnd = relRiskDuurEnd;
 	}
