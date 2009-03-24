@@ -19,7 +19,7 @@ public class ScenarioInfo {
 	private boolean withNewBorns;
 	private float stepsize;
 	private int simPopSize;
-	private int maxSimAge;
+	private int maxSimAge;/* maximum and minimum age in the simulation */
 	private int minSimAge;
 	private int yearsInRun;
 	private int startYear;
@@ -45,7 +45,7 @@ public class ScenarioInfo {
 	/* indexes: scenario,age, sex */// TODO volgende 3 inlezen en initialiseren
 	private float [][][][] [] alternativeTransitionMatrix;
 	private float [] succesrate = null;
-	private float [] minAge = null;
+	private float [] minAge = null; /* minimum and maximum target age of scenarios */
 	private float [] maxAge = null;
 	private boolean[] inMen = null;
 	private boolean[] inWomen = null;
@@ -166,23 +166,30 @@ public void makeTestData1 (){
 	public void setSuccesrate(float succesrate, int i) {
 			this.succesrate[i] = succesrate;
 	}
-	public float[] getMinAge() {
-		return DynamoLib.deepcopy(minAge);
+	public int[] getMinAge() {
+		int [] returnarray=new int [minAge.length];
+		for (int i=0;i<minAge.length;i++)
+		returnarray[i]=(int) minAge[i];
+		return returnarray;
 	}
 	public void setMinAge(float[] minAge) {
 		this.minAge = minAge;
 	}
-	public void setMinAge(float minAge ,int i) {
+	public void setMinAge(int minAge ,int i) {
 		this.minAge[i] = minAge;
 	}
-	public float[] getMaxAge() {
-		return DynamoLib.deepcopy(maxAge);
+	public int[] getMaxAge() {
+		int [] returnarray=new int [maxAge.length];
+		for (int i=0;i<maxAge.length;i++)
+		returnarray[i]=(int) maxAge[i];
+		return returnarray;
+		
 	}
 	public void setMaxAge(float[] maxAge) {
 		this.maxAge = maxAge;
 	}
 	
-	public void setMaxAge(float maxAge,int i ) {
+	public void setMaxAge(int maxAge,int i ) {
 		this.maxAge[i] = maxAge;
 	}
 	public String[] getScenarioNames() {
@@ -277,7 +284,10 @@ public void makeTestData1 (){
 		this.inMen[i] = inMen;
 	}
 	public boolean[] getInMen() {
-		return inMen;
+		boolean [] returnArray=new boolean[inMen.length];
+		for (int i=0;i<inMen.length;i++)
+			returnArray[i]=inMen[i];
+		return returnArray;
 	}
 	public void setInWomen(boolean[] inWomen) {
 		this.inWomen = inWomen;
@@ -288,7 +298,10 @@ public void makeTestData1 (){
 	}
 	
 	public boolean[] getInWomen() {
-		return inWomen;
+		boolean [] returnArray=new boolean[inWomen.length];
+		for (int i=0;i<inWomen.length;i++)
+			returnArray[i]=inWomen[i];
+		return returnArray;
 	}
 	public void setPopulationSize(float[][] populationSize) {
 		this.populationSize = populationSize;
