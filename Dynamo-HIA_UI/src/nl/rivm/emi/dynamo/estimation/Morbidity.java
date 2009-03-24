@@ -254,16 +254,20 @@ public class Morbidity {
 
 	/**
 	 * This method adds the terms related to the attributable mortality to the
-	 * matrix
+	 * matrix for a particular cluster
+	 * 
 	 * 
 	 * @param baseMat
-	 *            : matrix
+	 *            : matrix, over all diseases in the model, not only those in the cluster
 	 * @param weight
 	 *            : weight of the simulated datapoint
 	 * @param S
 	 *            : disease cluster structure
 	 * @param otherMort
 	 *            (boolean) is other mortality dependend on riskfactors
+	 *            
+	 * @param prevalence: the array with the overall prevalence : NB this is an array for all
+	 * diseases, not for only those in the cluster!!!           
 	 * @return
 	 */
 	public double[][] addBlock(double[][] baseMat, double weight,
@@ -287,7 +291,7 @@ public class Morbidity {
 				// probdisease (d1 & d2|i)-
 				// (probdisease(d1|i)*probdisease(d2|i))
 				// weighted for the probability of the riskfactor combination
-				if (prevalence[d1] != 0){
+				if (prevalence[d1+dStart] != 0 && prevalence[d2+dStart] != 0){
 				
 				if (otherMort)
 					baseMat[d1 + dStart][d2 + dStart] += weight/prevalence[d1]
