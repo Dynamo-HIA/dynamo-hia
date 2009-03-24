@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
@@ -20,10 +21,12 @@ public class Util {
 	private static final String RISK_FACTOR = "Risk_Factor";
 	private static final String TRANSITION = "Transition";
 
-	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(BaseNode selectedNode) {
+	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(BaseNode selectedNode) throws DynamoConfigurationException {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
+		} else {
+			throw new DynamoConfigurationException("No file has been selected");
 		}
 		String startLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
@@ -46,11 +49,14 @@ public class Util {
 	 * 
 	 * @param selectedNode
 	 * @return String []
+	 * @throws DynamoConfigurationException 
 	 */
-	static public String[] deriveEntityLabelAndValueFromTransitionSourceNode(BaseNode selectedNode) {
+	static public String[] deriveEntityLabelAndValueFromTransitionSourceNode(BaseNode selectedNode) throws DynamoConfigurationException {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
+		} else {
+			throw new DynamoConfigurationException("No file has been selected");
 		}
 		String transitionLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();		
@@ -65,7 +71,7 @@ public class Util {
 	}	
 		
 	static public String[] deriveEntityLabelAndValueFromSelectedNode(
-			BaseNode selectedNode) throws ConfigurationException {
+			BaseNode selectedNode) throws ConfigurationException {		
 		String foundName = null;
 		BaseNode riskSourceInstanceNode = null;
 		if (selectedNode instanceof FileNode) {
@@ -83,7 +89,9 @@ public class Util {
 					break;
 				}
 			}
-		}		
+		} else {
+			throw new DynamoConfigurationException("No name has been entered");
+		}
 		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode).toString();
 		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode).getParent();
 		String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode).toString();

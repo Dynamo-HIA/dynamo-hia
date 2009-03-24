@@ -21,6 +21,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -110,6 +111,13 @@ public class FreeNamePlusDropDownModal implements Runnable {
 				cancelButtonFormData.left = new FormAttachment(okButton, 15);
 				cancelButtonFormData.bottom = new FormAttachment(100, -15);
 				cancelButton.setLayoutData(cancelButtonFormData);
+				cancelButton.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent e) {
+						newFilePath = null;
+						rsProps = null;
+						shell.close();
+					}
+				});
 				shell.pack();
 				// This is the first place this works.
 				shell.setSize(300, 200);

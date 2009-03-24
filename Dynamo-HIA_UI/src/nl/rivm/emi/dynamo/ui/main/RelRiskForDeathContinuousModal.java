@@ -11,6 +11,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
@@ -43,7 +44,7 @@ public class RelRiskForDeathContinuousModal extends AgnosticModal {
 	}
 
 	@Override
-	protected void specializedOpenPart(Composite buttonPanel) {
+	protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException {
 		RelRisksForDeathContinuousGroup relativeRiskForDeathGroup = new RelRisksForDeathContinuousGroup(
 				this.shell, this.lotsOfData, this.dataBindingContext,
 				this.selectedNode, this.helpPanel);

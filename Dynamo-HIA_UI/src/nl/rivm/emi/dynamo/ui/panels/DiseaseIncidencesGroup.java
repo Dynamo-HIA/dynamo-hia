@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -18,7 +19,7 @@ public class DiseaseIncidencesGroup {
 
 	public DiseaseIncidencesGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

@@ -30,6 +30,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuManager;
@@ -53,7 +54,7 @@ public class StorageTreeMenuFactory {
 
 	public void createRelevantContextMenu(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode)
-			throws TreeStructureException, DynamoConfigurationException {
+			throws TreeStructureException, ConfigurationException {
 		int treeDepth = findTreeDepth(selectedNode);
 		log.debug("treeDepth" + treeDepth);
 		
@@ -466,10 +467,10 @@ public class StorageTreeMenuFactory {
 	 * xxxxxxxxxxxxxxxxxxxxxxsss
 	 * @param manager
 	 * @param selection
-	 * @throws DynamoConfigurationException 
+	 * @throws ConfigurationException 
 	 */
 	private void createMenu4Transitions(IMenuManager manager,
-			IStructuredSelection selection) throws DynamoConfigurationException {		
+			IStructuredSelection selection) throws ConfigurationException {		
 
 		
 		

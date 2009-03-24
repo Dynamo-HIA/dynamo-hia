@@ -95,7 +95,7 @@ abstract public class AgnosticModal extends AbstractDataModal {
 	 * 
 	 * @param buttonPanel
 	 */
-	abstract protected void specializedOpenPart(Composite buttonPanel);
+	abstract protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException;
 
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()

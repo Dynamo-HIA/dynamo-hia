@@ -55,7 +55,7 @@ public enum RootElementNamesEnum {
 	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(
 			"relrisksfromriskfactor_continuous", null), //
 	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relrisksfromriskfactor_compound", null), //
-	RELATIVERISKSFROMDISEASES("relrisksfromdiseases", null), //
+	RELATIVERISKSFROMDISEASES("relrisksfromdisease", null), //
 	DALYWEIGHTS("dalyweights", null);
 
 	Log log = LogFactory.getLog(this.getClass().getName());

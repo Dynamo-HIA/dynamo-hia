@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -18,7 +19,7 @@ public class RiskFactorContinuousGroup {
 
 	public RiskFactorContinuousGroup(Shell shell, RiskFactorContinuousObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
