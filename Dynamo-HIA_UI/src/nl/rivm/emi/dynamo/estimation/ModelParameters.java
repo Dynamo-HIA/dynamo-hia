@@ -2423,7 +2423,19 @@ public class ModelParameters {
 	}
 
 	public float[][][][][] getRelRiskDiseaseOnDisease() {
-		return DynamoLib.deepcopy(relRiskDiseaseOnDisease);
+		float[][][][][] returnarray = new float[96][2][nCluster][][];
+		for (int i = 0; i < 96; i++)
+			for (int j = 0; j < 2; j++)
+				for (int c = 0; c < nCluster; c++){
+					int dim=relRiskDiseaseOnDisease[i][j][c].length;
+					returnarray [i][j][c]=new float [dim][dim];
+					for (int l = 0; l < dim; l++)
+						for (int m = 0; m < dim; m++)
+						
+								returnarray[i][j][c][l][m]=
+									this.relRiskDiseaseOnDisease[i][j][c][l][m];}
+		return returnarray;
+		
 	}
 
 	public void setRelRiskDiseaseOnDisease(
