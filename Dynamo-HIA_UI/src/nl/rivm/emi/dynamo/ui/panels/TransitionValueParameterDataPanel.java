@@ -25,17 +25,6 @@ public class TransitionValueParameterDataPanel extends GenericParameterDataPanel
 		super(parent, topNeighbour, lotsOfData, dataBindingContext, helpGroup,
 				panelMatrix);
 	}
-
-	/*
-	public TransitionValueParameterDataPanel(Composite parent,
-			Text topNeighbour, TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
-		super(parent, topNeighbour, lotsOfData, dataBindingContext, helpGroup, 
-				new String[]{"Age", "Female" + "\n" + "Mean", "Male" + "\n" + "Mean"}, 
-				new int[]{BiGender.FEMALE_INDEX, BiGender.MALE_INDEX}, 
-				(AtomicTypeBase) XMLTagEntitySingleton.getInstance().get("mean"));
-	}*/
-
 	
 	@Override
 	protected void bindAbstractValue(TypedHashMap typedHashMap, int index, AtomicTypeBase myType) {
@@ -56,7 +45,7 @@ public class TransitionValueParameterDataPanel extends GenericParameterDataPanel
 			}
 
 		});
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+		// Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);

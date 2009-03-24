@@ -283,7 +283,7 @@ public class DynamoOutputFactory {
 	 * intervention. It can be reset at a different value for obtaining new
 	 * results without having to redo the simulation
 	 */
-	private float[] minAge = null;
+	private int[] minAge = null;
 	/**
 	 * in Men indicates if the intervention is applied to men. It can be reset
 	 * at a different value for obtaining new results without having to redo the
@@ -303,7 +303,7 @@ public class DynamoOutputFactory {
 	 * intervention. It can be reset at a different value for obtaining new
 	 * results without having to redo the simulation
 	 */
-	private float[] maxAge = null;
+	private int[] maxAge = null;
 
 	/*
 	 * popToScenIndex indicates the first scenario that is simulated by a
@@ -5858,11 +5858,11 @@ public class DynamoOutputFactory {
 
 	}
 
-	public float[] getMinAge() {
+	public int[] getMinAge() {
 		return minAge;
 	}
 
-	public void setMinAge(float[] minAge) {
+	public void setMinAge(int[] minAge) {
 		this.minAge = minAge;
 	}
 
@@ -5870,11 +5870,11 @@ public class DynamoOutputFactory {
 		this.minAge[i] = minAge;
 	}
 
-	public float[] getMaxAge() {
+	public int[] getMaxAge() {
 		return maxAge;
 	}
 
-	public void setMaxAge(float[] maxAge) {
+	public void setMaxAge(int[] maxAge) {
 		this.maxAge = maxAge;
 	}
 

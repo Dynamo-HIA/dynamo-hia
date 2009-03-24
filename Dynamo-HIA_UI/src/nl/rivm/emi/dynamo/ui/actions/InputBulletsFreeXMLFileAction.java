@@ -53,7 +53,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 		// Call the input trialog modal here (trialog includes input field, 
 		// import, ok and cancel buttons)
 		TransitionTrialog inputDialog = new TransitionTrialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for a new xml file", "Name", null, 
+				+ selectionPath, "Enter name for a new transition file", "Name", null, 
 				this.riskFactorName, this.riskFactorType
 				);
 		

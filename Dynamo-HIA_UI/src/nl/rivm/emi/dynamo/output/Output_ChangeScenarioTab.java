@@ -155,7 +155,7 @@ public class Output_ChangeScenarioTab {
 			value2[i].setEditable(false);
 		//	value2[i].setDigits(0);
 			value2[i].setLayoutData(fixedSpace2());
-			value2[i].setText(((Float)  output.getMinAge()[i]).toString());
+			value2[i].setText(((Integer)  output.getMinAge()[i]).toString());
 
 			slider2[i].addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -169,7 +169,7 @@ public class Output_ChangeScenarioTab {
 					}
 
 					value2[currenti]
-							.setText(((Float) output.getMinAge()[currenti])
+							.setText(((Integer) output.getMinAge()[currenti])
 									.toString());
 					output.setMinAge(value, currenti);
 
@@ -192,7 +192,7 @@ public class Output_ChangeScenarioTab {
 			value3[i] = new Text(tabComposite, SWT.BORDER | SWT.SINGLE);
 			value3[i].setEditable(false);
 			value3[i].setLayoutData(fixedSpace2());
-			value3[i].setText(((Float) output.getMaxAge()[i]).toString());
+			value3[i].setText(((Integer) output.getMaxAge()[i]).toString());
 
 			slider3[i].addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -206,7 +206,7 @@ public class Output_ChangeScenarioTab {
 					}
 
 					value3[currenti]
-							.setText(((Float) output.getMaxAge()[currenti])
+							.setText(((Integer) output.getMaxAge()[currenti])
 									.toString());
 					output.setMaxAge(value, currenti);
 

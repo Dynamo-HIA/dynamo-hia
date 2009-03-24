@@ -4,13 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Enum containing all possible  bullet button names in the dynamo-HIA configuration
- * files.
- * 
- * This Enum was created later on during development and has not been factored
- * in pervasively. All literal references to bullet button names should eventually
- * be changed to run through this Enum. This will greatly decrease the
- * vulnerability to refactoring resulting in inconsistent names across the codebase.
+ * Enum containing all possible  bullet button names in the DYNAMO-HIA configuration
+ * files: InputBulletsFreeXMLFileAction, InputBulletsTrialog
  * 
  * @author mondeelr
  * 
@@ -18,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 public enum BulletButtonNamesEnum {
 
-	ZERO("Zero", null), // Comment to block reformatting.
+	ZERO("Zero", null),
 	USER_SPECIFIED("User specified", null), //
 	NETTO("Netto", null);
 

@@ -17,6 +17,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class Util {
 	
+	private static final String RISK_FACTOR = "Risk_Factor";
+	private static final String TRANSITION = "Transition";
+
 	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(BaseNode selectedNode) {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
@@ -34,6 +37,33 @@ public class Util {
 	}
 
 	
+	/**
+	 * 
+	 * Retrieves the Risk Factor name (grand parent) and 
+	 * Transition name (parent) of the selected node
+	 * 
+	 * The selected node has to be a Transition (i.e. Drift, Matrix, Drift Netto)
+	 * 
+	 * @param selectedNode
+	 * @return String []
+	 */
+	static public String[] deriveEntityLabelAndValueFromTransitionSourceNode(BaseNode selectedNode) {
+		BaseNode startNode = selectedNode;
+		if (selectedNode instanceof FileNode) {
+			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
+		}
+		String transitionLabel = ((BaseNode) startNode).toString();
+		ParentNode containerNode = ((ChildNode) startNode).getParent();		
+		String riskFactorLabel = ((BaseNode) containerNode).toString();
+		
+		String[] result = new String[4];
+		result[0] = RISK_FACTOR;
+		result[1] = riskFactorLabel;
+		result[2] = TRANSITION;
+		result[3] = transitionLabel;
+		return result;
+	}	
+		
 	static public String[] deriveEntityLabelAndValueFromSelectedNode(
 			BaseNode selectedNode) throws ConfigurationException {
 		String foundName = null;

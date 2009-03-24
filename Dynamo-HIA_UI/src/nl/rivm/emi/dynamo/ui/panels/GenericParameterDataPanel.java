@@ -53,7 +53,6 @@ public abstract class GenericParameterDataPanel<T> extends Composite /* implemen
 		// Get the available keys and copy them into an array
 		Set<String> keys = panelMatrix.keySet();
 		String[] keysArray = (String[]) keys.toArray(new String[keys.size()]);
- 				
 		
 		// Iterate through the keys of the COLUMNS
 		for (String key: keysArray) {
@@ -63,14 +62,18 @@ public abstract class GenericParameterDataPanel<T> extends Composite /* implemen
 			
 			Label label = new Label(this, SWT.NONE);
 			label.setText(panelMatrixItem.getColumnHeader());
-						
-			// ROWS
-			for (int count = 0; count < lotsOfData.size(); count++) {
-				TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
-				Label labelRow = new Label(this, SWT.NONE);
-				labelRow.setText(new Integer(count).toString());
-				bindValue(tHMap, panelMatrixItem.getColumnIndex(), panelMatrixItem.getMyType());
-			}	
+
+			// The first column values (e.g. age, index) are not bound
+			if (key != null && !key.equals(keysArray[0])) {
+				// ROWS
+				for (int count = 0; count < lotsOfData.size(); count++) {
+					TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
+					Label labelRow = new Label(this, SWT.NONE);
+					labelRow.setText(new Integer(count).toString());
+					bindValue(tHMap, panelMatrixItem.getColumnIndex(), panelMatrixItem.getMyType());					
+				}				
+			}
+	
 		}
 		
 		

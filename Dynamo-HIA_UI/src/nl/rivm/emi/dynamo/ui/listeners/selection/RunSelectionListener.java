@@ -2,11 +2,8 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
 
-import nl.rivm.emi.cdm.exceptions.CDMRunException;
-import nl.rivm.emi.cdm.simulation.DynamoSimulation;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
-import nl.rivm.emi.dynamo.estimation.test.CoupledTestAll;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
@@ -14,14 +11,9 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class RunSelectionListener extends AbstractLoggingClass implements

@@ -67,7 +67,7 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
-			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
+			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), "transition",
 			"trend" };
 	/* W22CatCom */
 	static final String[] riskFactorPrevalenceCatStrings = {

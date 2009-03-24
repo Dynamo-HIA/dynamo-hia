@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -8,7 +10,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+
 public class EntityNamePanel{
+	Log log = LogFactory.getLog(this.getClass().getName());
+	
 	Group group;
 	Label nameLabel;
 	HelpGroup theHelpGroup;
@@ -41,10 +46,13 @@ public class EntityNamePanel{
 		group.setLayoutData(formData);
 	}
 
+	/**
+	 * 
+	 * Place the first group in the container
+	 * 
+	 * @param height
+	 */
 	public void putFirstInContainer(int height) {
-//		int hijgt = group.getParent().getBounds().height;
-//		int wis = group.getParent().getBounds().width;
-//		group.setText("Ouder-height: " + hijgt + " width: " + wis);
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(0, 5);
@@ -52,7 +60,30 @@ public class EntityNamePanel{
 		formData.bottom = new FormAttachment(0, 5 + height);
 		group.setLayoutData(formData);
 	}
+
+	/**
+	 * 
+	 * Place the middle group in the container
+	 * 
+	 * @param topNeighbour
+	 * @param height
+	 */
+	public void putMiddleInContainer(Composite topNeighbour, int height) {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(6, 5 + height);
+		group.setLayoutData(formData);
+	}	
 	
+	/**
+	 * 
+	 * Place the last (and second) group in the container
+	 * 
+	 * @param topNeighbour
+	 * @param height
+	 */
 	public void putLastInContainer(Composite topNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 5);

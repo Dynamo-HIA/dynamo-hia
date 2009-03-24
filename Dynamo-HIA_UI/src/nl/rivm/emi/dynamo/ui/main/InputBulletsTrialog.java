@@ -31,6 +31,8 @@ import org.eclipse.swt.widgets.Text;
  */
 public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 
+	private static final String TRANSITION_TYPE = "Transition type:";
+
 	protected Control bulletArea;
 
 	/** Three type radiobuttons. */
@@ -85,16 +87,19 @@ public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 0;
 		layout.makeColumnsEqualWidth = true;
-		layout.marginWidth = convertHorizontalDLUsToPixels(12);
-		layout.marginHeight = convertVerticalDLUsToPixels(12);
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels(9);
-		layout.verticalSpacing = convertVerticalDLUsToPixels(9);
+		layout.marginWidth = convertHorizontalDLUsToPixels(7);
+		layout.marginHeight = convertVerticalDLUsToPixels(5);
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels(5);
+		layout.verticalSpacing = convertVerticalDLUsToPixels(10);
 		composite.setLayout(layout);
-		GridData data = new GridData(132);
+		GridData data = new GridData(10);
 
 		composite.setLayoutData(data);
 		composite.setFont(parent.getFont());
 
+		// Create the "Transition type" label
+		createTypeLabel(composite);
+		// Create the bullets
 		createBulletsForBulletArea(composite);
 
 		return composite;
@@ -145,6 +150,11 @@ public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 		});		
 	}
 
+	private void createTypeLabel(Composite composite			) {
+		((GridLayout) composite.getLayout()).numColumns += 1;
+		Label riskFactorNameLabel = new Label(composite, SWT.NONE);
+		riskFactorNameLabel.setText(TRANSITION_TYPE);		
+	}
 	
 	/**
 	 * 

@@ -23,6 +23,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class TransitionTrialog extends InputBulletsTrialog {
 	
+	private static final String NAME = "Risk_Factor name:";
+	private static final String TYPE = "Risk_Factor type:";
+	
 	private String riskFactorName;
 	private String riskFactorType;
 
@@ -48,7 +51,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 		layout.marginWidth = 0;
 		layout.verticalSpacing = 0;
 		composite.setLayout(layout);
-		composite.setLayoutData(new GridData(1808));
+		composite.setLayoutData(new GridData(100));
 		applyDialogFont(composite);
 
 		initializeDialogUnits(composite);
@@ -68,12 +71,12 @@ public class TransitionTrialog extends InputBulletsTrialog {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 0;
 		layout.makeColumnsEqualWidth = true;
-		layout.marginWidth = convertHorizontalDLUsToPixels(10);
+		layout.marginWidth = convertHorizontalDLUsToPixels(7);
 		layout.marginHeight = convertVerticalDLUsToPixels(10);
 		layout.horizontalSpacing = convertHorizontalDLUsToPixels(7);
 		layout.verticalSpacing = convertVerticalDLUsToPixels(7);
 		composite.setLayout(layout);
-		GridData data = new GridData(132);
+		GridData data = new GridData(50);
 
 		composite.setLayoutData(data);
 		composite.setFont(parent.getFont());
@@ -93,7 +96,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 			String riskFactorName) {
 		((GridLayout) composite.getLayout()).numColumns += 1;
 		Label riskFactorNameLabel = new Label(composite, SWT.NONE);
-		riskFactorNameLabel.setText("Name");		
+		riskFactorNameLabel.setText(NAME);		
 		Label riskFactorNameValueLabel = new Label(composite, SWT.NONE);
 		riskFactorNameValueLabel.setText(this.riskFactorName);
 	}
@@ -102,7 +105,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 			String riskFactorType) {
 		((GridLayout) composite.getLayout()).numColumns += 1;
 		Label riskFactorTypeLabel = new Label(composite, SWT.NONE);
-		riskFactorTypeLabel.setText("Type");
+		riskFactorTypeLabel.setText(TYPE);
 		Label riskFactorTypeValueLabel = new Label(composite, SWT.NONE);
 		riskFactorTypeValueLabel.setText(this.riskFactorType);		
 	}

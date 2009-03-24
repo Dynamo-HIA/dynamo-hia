@@ -26,13 +26,18 @@ public class TransitionDriftGroup {
 			HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
-		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode); 		
+		theGroup.setLayout(formLayout);		
+		// Retrieve the Risk_Factor name and Transition name 
+		String[] entityArray = Util.deriveEntityLabelAndValueFromTransitionSourceNode(selectedNode);
+		EntityNamePanel riskSourcePanel = new EntityNamePanel(theGroup,
+		entityArray[0], entityArray[1]);
+		riskSourcePanel.putFirstInContainer(30);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
-		entityNameGroup.putInContainer();
+				entityArray[2], entityArray[3]);
+		entityNameGroup.putMiddleInContainer(riskSourcePanel.group, 30);
+		
 		TransitionDriftParameterGroup parameterGroup = new TransitionDriftParameterGroup(
-				theGroup, lotsOfData, dataBindingContext, helpGroup);
+				theGroup, lotsOfData, dataBindingContext, helpGroup);		
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 	}
 
