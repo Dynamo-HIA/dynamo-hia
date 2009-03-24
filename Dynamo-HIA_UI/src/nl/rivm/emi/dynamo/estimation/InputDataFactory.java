@@ -1457,6 +1457,7 @@ public class InputDataFactory {
 		String[] isRRfrom = new String[nDiseases * nDiseases];
 		String[] isRRto = new String[nDiseases * nDiseases];
 		int[] rrNumber = new int[nDiseases * nDiseases];
+	
 		RRInfo info;
 		int currentRR = 0;
 		for (int rr = 0; rr < rrInfo.size(); rr++) {
@@ -1560,10 +1561,12 @@ public class InputDataFactory {
 		int currentIndex = 0;
 		boolean hasSameNumber = false;
 		/*
-		 * first disease keeps old number search the number for the next
+		 * first disease keeps old number 
+		 * search the number for the next
 		 * diseases d=1 to end
 		 */
-		for (int d = 1; d < nDiseases; d++) {
+		for (int d = 1; d < nDiseases; d++) { 
+			hasSameNumber=false;
 			for (int d2 = 0; d2 < d; d2++) {
 
 				if (clusternumber[d] == clusternumber[d2]) {
@@ -1578,7 +1581,16 @@ public class InputDataFactory {
 				clusterIndex[d] = currentIndex;
 			}
 		}
+		
+		
 		int nClusters = currentIndex + 1;
+		/* this does not work  try again below*/
+		/* find number of clusters */
+		
+		
+		
+		
+		
 		/*
 		 * count number of diseases in each cluster and number of independent
 		 * (=causal) diseases
