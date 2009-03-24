@@ -265,7 +265,27 @@ public class DiseaseClusterStructure {
 	 * @param i
 	 */
 	public void setDiseaseName(String string, int i) {
+		if (i<diseaseName.size())
 		diseaseName.set(i,string);
+		else diseaseName.add(i,string);
+		
+	}
+
+	/**
+	 * @param b
+	 * @param i
+	 */
+	public void setDependentDisease(boolean b, int i) {
+		dependentDisease[i]=b;
+		
+	}
+
+	/**set indexIndependentDiseases[j] to i
+	 * @param i
+	 * @param j
+	 */
+	public void setIndexIndependentDiseases(int i, int j) {
+		indexIndependentDiseases[j]=i;
 		
 	}
 
