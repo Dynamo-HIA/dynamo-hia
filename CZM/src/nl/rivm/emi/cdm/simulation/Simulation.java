@@ -13,6 +13,7 @@ import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
+
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -793,11 +794,8 @@ public class Simulation extends DomLevelTraverser {
 							log.info("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
-									+ oldValue[0] + " , " + oldValue[1] + " , "
-									+ oldValue[2] + " , " + oldValue[3]
-									+ " to " + newValue[0] + " , "
-									+ newValue[1] + " , " + newValue[2] + " , "
-									+ newValue[3]);
+									+ oldValue[0] 
+									+ " to " + newValue[0] );
 							keep = true;
 						} else {
 							throw new CDMRunException(
