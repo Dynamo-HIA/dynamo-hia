@@ -19,22 +19,21 @@ import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.DynamoOutputFactory;
 
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
-import nl.rivm.emi.dynamo.estimation.Output_UI;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
+import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.output.Output_UI;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
@@ -58,7 +57,7 @@ public class testTotal {
 Log log = LogFactory.getLog(getClass().getName());
 	
 	String baseDir = BaseDirectory.getInstance(
-			"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
+			"c:\\hendriek\\java\\dynamohome").getBaseDir();
 
 	// NB de directory moet ook worden aangepast in deze file //
 	
