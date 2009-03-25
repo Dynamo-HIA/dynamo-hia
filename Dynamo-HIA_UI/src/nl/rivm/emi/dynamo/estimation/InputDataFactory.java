@@ -1625,7 +1625,7 @@ public class InputDataFactory {
 					if (clusterIndex[d] == c) {
 						DiseaseNamesForCluster[withinClusterNumber] = diseaseName[d];
 						if (!dependentDisease[d]) {
-							indexIndependentDiseasesForCluster[withinClusterNumber] = withinClusterIndependentNumber;
+							indexIndependentDiseasesForCluster[withinClusterIndependentNumber] =withinClusterNumber ;
 							withinClusterIndependentNumber++;
 						}
 						withinClusterNumber++;
@@ -1934,10 +1934,12 @@ public class InputDataFactory {
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
 				medianAge = a + medianSurvival[a][g];
-				yearOfMedian = a + Math.floor(medianAge);
-				sumRate = 0;
-				{
-					for (int aa = a + 1; aa < a + Math.ceil(medianAge); aa++) {
+				yearOfMedian = Math.floor(medianAge);
+				sumRate = 0;int upper;
+				if (Math.floor(medianAge)==Math.ceil(medianAge))  upper=(int)Math.floor(medianAge)+1;
+				else upper=(int) Math.ceil(medianAge);
+				
+					for (int aa = a + 1; aa < upper; aa++) {
 						if (aa > 95)
 							aaRate = drate[95][g];
 						else
@@ -1960,7 +1962,7 @@ public class InputDataFactory {
 										+ "check the data and make sure that survival does not decrease abruptly over age");
 					rate[a][g] = (float) drate[a][g];
 				}
-			}
+			
 		}
 
 		return rate;
