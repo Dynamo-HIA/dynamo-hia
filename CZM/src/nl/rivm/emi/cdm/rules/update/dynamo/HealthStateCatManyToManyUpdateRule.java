@@ -97,6 +97,9 @@ public class HealthStateCatManyToManyUpdateRule extends
 				float[][] currentTransMat;
 				for (int c = 0; c < nCluster; c++) {
 					currentTransMat = transMat[ageValue][sexValue][riskFactorValue][c];
+					
+					/* update single diseases */
+					
 					if (numberOfDiseasesInCluster[c] == 1) {
 
 						int d = clusterStartsAtDiseaseNumber[c];
@@ -112,8 +115,33 @@ public class HealthStateCatManyToManyUpdateRule extends
 
 						survivalFraction *= survival;
 						currentStateNo++;
-					} else // TODO if with cured fraction
-					{
+						/* update diseases with cured fraction */
+					} else if (withCuredFraction[c]) {
+						double currentHealthyState = (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1]);
+						survival = currentHealthyState
+								* (currentTransMat[0][0]
+										+ currentTransMat[1][0] + currentTransMat[2][0])
+								+ oldValue[currentStateNo]
+								* currentTransMat[1][1]
+								+ oldValue[currentStateNo + 1]
+								* currentTransMat[2][2];
+						double unconditionalNewValues0 = currentTransMat[1][0]
+								* currentHealthyState
+								+ oldValue[currentStateNo]
+								* currentTransMat[1][1];
+						double unconditionalNewValues1 = currentTransMat[2][0]
+								* currentHealthyState
+								+ oldValue[currentStateNo + 1]
+								* currentTransMat[2][2];
+						newValue[currentStateNo] = (float) (unconditionalNewValues0 / survival);
+						newValue[currentStateNo + 1] = (float) (unconditionalNewValues1 / survival);
+
+						survivalFraction *= survival;
+						currentStateNo++;
+						currentStateNo++;
+
+					} /* update cluster diseases */
+					else {
 
 						/*
 						 * Multiply the matrix with the old values (column
@@ -144,7 +172,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 										* oldValue[state2 - 1 + currentStateNo];
 						}
 						/* calculate survival */
-
+                        survival=0; 
 						for (int state = 0; state < nCombinations[c]; state++) {
 							survival += unconditionalNewValues[state];
 						}
@@ -214,6 +242,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 			
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
+
 
 			/**
 			TODO: VALIDATION IS FOR FUTURE USE 
