@@ -131,6 +131,8 @@ extends HealthStateManyToManyUpdateRule {
 			 *   UPDATE OF DURATION CLASS
 			 */
 			
+			//NB All transitions are [to][from]
+			
 			
 			
 			if (riskFactorValue == durationClass) {
@@ -147,7 +149,7 @@ extends HealthStateManyToManyUpdateRule {
 				double incidence2;
 				double atMort;
 				for (int c = 0; c < nCluster; c++) {
-
+                  /* update single diseases */
 					if (numberOfDiseasesInCluster[c] == 1) {
 
 						d = clusterStartsAtDiseaseNumber[c];
@@ -200,6 +202,7 @@ extends HealthStateManyToManyUpdateRule {
 									* expA)
 									/ (atMort - incidence);
 						currentStateNo++;
+						/* update diseases with cured fraction */
 					} else if (withCuredFraction[c]) {
 						d = clusterStartsAtDiseaseNumber[c];
 
@@ -284,7 +287,7 @@ extends HealthStateManyToManyUpdateRule {
 										* oldValue[state2 - 1 + currentStateNo];
 						}
 						/* calculate survival */
-
+                        survival=0; 
 						for (int state = 0; state < nCombinations[c]; state++) {
 							survival += unconditionalNewValues[state];
 						}
@@ -325,9 +328,9 @@ extends HealthStateManyToManyUpdateRule {
 						/* for a single disease we do not need the do loop (although it would work) */
 
 						survival = (1 - oldValue[currentStateNo])
-								* currentTransMat[0][0]
+								* (currentTransMat[1][0] +currentTransMat[0][0])
 								+ oldValue[currentStateNo]
-								* (currentTransMat[1][0] + currentTransMat[1][1]);
+								* (currentTransMat[1][1]);
 
 						newValue[currentStateNo] = (float) ((1 - oldValue[currentStateNo])
 								* (currentTransMat[1][0] + oldValue[currentStateNo]
@@ -336,26 +339,28 @@ extends HealthStateManyToManyUpdateRule {
 						survivalFraction *= survival;
 						currentStateNo++;
 					} else if (withCuredFraction[c]) {
-						int d = clusterStartsAtDiseaseNumber[c];
+						
 						
 						/* as some elements are zero here, this is faster than
 						 * using the more general implementation for clusterdiseases
 						 */
 
-						survival = (1 - oldValue[d]-oldValue[d + 1]) * currentTransMat[0][0]
+						survival = (1 - oldValue[currentStateNo]-oldValue[currentStateNo + 1]) *(currentTransMat[2][0]+currentTransMat[1][0]+ currentTransMat[0][0])
 						
-						 + oldValue[d]* (currentTransMat[1][0]+currentTransMat[1][1])
+						 + oldValue[currentStateNo]* (currentTransMat[1][1])
 						
-						+ oldValue[d + 1] *( currentTransMat[2][0]+currentTransMat[2][2]);
+						+ oldValue[currentStateNo + 1] *( currentTransMat[2][2]);
 								
-						newValue[currentStateNo] = (float) (((1 - oldValue[d] - oldValue[d + 1])
-								* currentTransMat[1][0] + oldValue[d]) / survival);
-						newValue[currentStateNo + 1] = (float) (((1 - oldValue[d] - oldValue[d + 1])
-								* currentTransMat[2][0] + oldValue[d + 1] ) / survival);
+						newValue[currentStateNo] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+								* currentTransMat[1][0] + oldValue[currentStateNo]* currentTransMat[1][1]) / survival);
+						newValue[currentStateNo + 1] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+								* currentTransMat[2][0] + oldValue[currentStateNo + 1]* currentTransMat[2][2] ) / survival);
 						/*
 						 * NB disease with cured fraction can not be fatal at
 						 * the same time
 						 */
+						currentStateNo++;
+						currentStateNo++;
 						survivalFraction *= survival;
 					} else {
 						/* cluster of dependent diseases */
@@ -825,6 +830,7 @@ extends HealthStateManyToManyUpdateRule {
 			} // end loop over age
 			success = true;
 			return success;
+		
 		} catch (NoSuchElementException e) {			
 			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), new ConfigurationException(
 					CDMConfigurationException.noConfigurationTagMessage
@@ -836,5 +842,5 @@ extends HealthStateManyToManyUpdateRule {
 		success=false;
 		return success;
 	}
-	
+
 }

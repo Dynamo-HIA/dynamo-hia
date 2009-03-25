@@ -200,6 +200,7 @@ extends HealthStateManyToManyUpdateRule {
 									* expA)
 									/ (atMort - incidence);
 						currentStateNo++;
+						/* update diseases with cured fraction */
 					} else if (withCuredFraction[c]) {
 						d = clusterStartsAtDiseaseNumber[c];
 						// TODO: change input with cured fraction in stead of
@@ -320,7 +321,7 @@ extends HealthStateManyToManyUpdateRule {
 										* oldValue[state2 - 1 + currentStateNo];
 						}
 						/* calculate survival */
-
+                        survival=0;
 						for (int state = 0; state < nCombinations[c]; state++) {
 							survival += unconditionalNewValues[state];
 						}
