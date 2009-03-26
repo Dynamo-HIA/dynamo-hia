@@ -4,7 +4,6 @@
 <age>0</age>
 <sex>0</sex>
 <cat>1</cat>
-<value>1</value>
 <begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
@@ -13,7 +12,7 @@
 <relativerisk>
 <age>0</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -22,7 +21,6 @@
 <age>1</age>
 <sex>0</sex>
 <cat>1</cat>
-<value>1</value>
 <begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
@@ -31,7 +29,7 @@
 <relativerisk>
 <age>1</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -39,7 +37,7 @@
 <relativerisk>
 <age>2</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -47,7 +45,7 @@
 <relativerisk>
 <age>2</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -55,7 +53,7 @@
 <relativerisk>
 <age>3</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -63,7 +61,7 @@
 <relativerisk>
 <age>3</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -71,7 +69,7 @@
 <relativerisk>
 <age>4</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -79,7 +77,7 @@
 <relativerisk>
 <age>4</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -87,7 +85,7 @@
 <relativerisk>
 <age>5</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -95,7 +93,7 @@
 <relativerisk>
 <age>5</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -103,7 +101,7 @@
 <relativerisk>
 <age>6</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -111,7 +109,7 @@
 <relativerisk>
 <age>6</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -119,7 +117,7 @@
 <relativerisk>
 <age>7</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -127,7 +125,7 @@
 <relativerisk>
 <age>7</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -135,7 +133,7 @@
 <relativerisk>
 <age>8</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -143,7 +141,7 @@
 <relativerisk>
 <age>8</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -151,7 +149,7 @@
 <relativerisk>
 <age>9</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -159,7 +157,7 @@
 <relativerisk>
 <age>9</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -167,7 +165,7 @@
 <relativerisk>
 <age>10</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -175,7 +173,7 @@
 <relativerisk>
 <age>10</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -183,7 +181,7 @@
 <relativerisk>
 <age>11</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -191,7 +189,7 @@
 <relativerisk>
 <age>11</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -199,7 +197,7 @@
 <relativerisk>
 <age>12</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -207,7 +205,7 @@
 <relativerisk>
 <age>12</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -215,7 +213,7 @@
 <relativerisk>
 <age>13</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -223,7 +221,7 @@
 <relativerisk>
 <age>13</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -231,7 +229,7 @@
 <relativerisk>
 <age>14</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -239,7 +237,7 @@
 <relativerisk>
 <age>14</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -247,7 +245,7 @@
 <relativerisk>
 <age>15</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -255,7 +253,7 @@
 <relativerisk>
 <age>15</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -263,7 +261,7 @@
 <relativerisk>
 <age>16</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -271,7 +269,7 @@
 <relativerisk>
 <age>16</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -279,7 +277,7 @@
 <relativerisk>
 <age>17</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -287,7 +285,7 @@
 <relativerisk>
 <age>17</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -295,7 +293,7 @@
 <relativerisk>
 <age>18</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -303,7 +301,7 @@
 <relativerisk>
 <age>18</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -311,7 +309,7 @@
 <relativerisk>
 <age>19</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -319,7 +317,7 @@
 <relativerisk>
 <age>19</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -327,7 +325,7 @@
 <relativerisk>
 <age>20</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -335,7 +333,7 @@
 <relativerisk>
 <age>20</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -343,7 +341,7 @@
 <relativerisk>
 <age>21</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -351,7 +349,7 @@
 <relativerisk>
 <age>21</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -359,7 +357,7 @@
 <relativerisk>
 <age>22</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -367,7 +365,7 @@
 <relativerisk>
 <age>22</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -375,7 +373,7 @@
 <relativerisk>
 <age>23</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -383,7 +381,7 @@
 <relativerisk>
 <age>23</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -391,7 +389,7 @@
 <relativerisk>
 <age>24</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -399,7 +397,7 @@
 <relativerisk>
 <age>24</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -407,7 +405,7 @@
 <relativerisk>
 <age>25</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -415,7 +413,7 @@
 <relativerisk>
 <age>25</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -423,7 +421,7 @@
 <relativerisk>
 <age>26</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -431,7 +429,7 @@
 <relativerisk>
 <age>26</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -439,7 +437,7 @@
 <relativerisk>
 <age>27</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -447,7 +445,7 @@
 <relativerisk>
 <age>27</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -455,7 +453,7 @@
 <relativerisk>
 <age>28</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -463,7 +461,7 @@
 <relativerisk>
 <age>28</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -471,7 +469,7 @@
 <relativerisk>
 <age>29</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -479,7 +477,7 @@
 <relativerisk>
 <age>29</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -487,7 +485,7 @@
 <relativerisk>
 <age>30</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -495,7 +493,7 @@
 <relativerisk>
 <age>30</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -503,7 +501,7 @@
 <relativerisk>
 <age>31</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -511,7 +509,7 @@
 <relativerisk>
 <age>31</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -519,7 +517,7 @@
 <relativerisk>
 <age>32</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -527,7 +525,7 @@
 <relativerisk>
 <age>32</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -535,7 +533,7 @@
 <relativerisk>
 <age>33</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -543,7 +541,7 @@
 <relativerisk>
 <age>33</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -551,7 +549,7 @@
 <relativerisk>
 <age>34</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -559,7 +557,7 @@
 <relativerisk>
 <age>34</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -567,7 +565,7 @@
 <relativerisk>
 <age>35</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -575,7 +573,7 @@
 <relativerisk>
 <age>35</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -583,7 +581,7 @@
 <relativerisk>
 <age>36</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -591,7 +589,7 @@
 <relativerisk>
 <age>36</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -599,7 +597,7 @@
 <relativerisk>
 <age>37</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -607,7 +605,7 @@
 <relativerisk>
 <age>37</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -615,7 +613,7 @@
 <relativerisk>
 <age>38</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -623,7 +621,7 @@
 <relativerisk>
 <age>38</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -631,7 +629,7 @@
 <relativerisk>
 <age>39</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -639,7 +637,7 @@
 <relativerisk>
 <age>39</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -647,7 +645,7 @@
 <relativerisk>
 <age>40</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -655,7 +653,7 @@
 <relativerisk>
 <age>40</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -663,7 +661,7 @@
 <relativerisk>
 <age>41</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -671,7 +669,7 @@
 <relativerisk>
 <age>41</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -679,7 +677,7 @@
 <relativerisk>
 <age>42</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -687,7 +685,7 @@
 <relativerisk>
 <age>42</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -695,7 +693,7 @@
 <relativerisk>
 <age>43</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -703,7 +701,7 @@
 <relativerisk>
 <age>43</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -711,7 +709,7 @@
 <relativerisk>
 <age>44</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -719,7 +717,7 @@
 <relativerisk>
 <age>44</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -727,7 +725,7 @@
 <relativerisk>
 <age>45</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -735,7 +733,7 @@
 <relativerisk>
 <age>45</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -743,7 +741,7 @@
 <relativerisk>
 <age>46</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -751,7 +749,7 @@
 <relativerisk>
 <age>46</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -759,7 +757,7 @@
 <relativerisk>
 <age>47</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -767,7 +765,7 @@
 <relativerisk>
 <age>47</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -775,7 +773,7 @@
 <relativerisk>
 <age>48</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -783,7 +781,7 @@
 <relativerisk>
 <age>48</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -791,7 +789,7 @@
 <relativerisk>
 <age>49</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -799,7 +797,7 @@
 <relativerisk>
 <age>49</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -807,7 +805,7 @@
 <relativerisk>
 <age>50</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -815,7 +813,7 @@
 <relativerisk>
 <age>50</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -823,7 +821,7 @@
 <relativerisk>
 <age>51</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -831,7 +829,7 @@
 <relativerisk>
 <age>51</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -839,7 +837,7 @@
 <relativerisk>
 <age>52</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -847,7 +845,7 @@
 <relativerisk>
 <age>52</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -855,7 +853,7 @@
 <relativerisk>
 <age>53</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -863,7 +861,7 @@
 <relativerisk>
 <age>53</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -871,7 +869,7 @@
 <relativerisk>
 <age>54</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -879,7 +877,7 @@
 <relativerisk>
 <age>54</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -887,7 +885,7 @@
 <relativerisk>
 <age>55</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -895,7 +893,7 @@
 <relativerisk>
 <age>55</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -903,7 +901,7 @@
 <relativerisk>
 <age>56</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -911,7 +909,7 @@
 <relativerisk>
 <age>56</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -919,7 +917,7 @@
 <relativerisk>
 <age>57</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -927,7 +925,7 @@
 <relativerisk>
 <age>57</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -935,7 +933,7 @@
 <relativerisk>
 <age>58</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -943,7 +941,7 @@
 <relativerisk>
 <age>58</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -951,7 +949,7 @@
 <relativerisk>
 <age>59</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -959,7 +957,7 @@
 <relativerisk>
 <age>59</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -967,7 +965,7 @@
 <relativerisk>
 <age>60</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -975,7 +973,7 @@
 <relativerisk>
 <age>60</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -983,7 +981,7 @@
 <relativerisk>
 <age>61</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -991,7 +989,7 @@
 <relativerisk>
 <age>61</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -999,7 +997,7 @@
 <relativerisk>
 <age>62</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1007,7 +1005,7 @@
 <relativerisk>
 <age>62</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1015,7 +1013,7 @@
 <relativerisk>
 <age>63</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1023,7 +1021,7 @@
 <relativerisk>
 <age>63</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1031,7 +1029,7 @@
 <relativerisk>
 <age>64</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1039,7 +1037,7 @@
 <relativerisk>
 <age>64</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1047,7 +1045,7 @@
 <relativerisk>
 <age>65</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1055,7 +1053,7 @@
 <relativerisk>
 <age>65</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1063,7 +1061,7 @@
 <relativerisk>
 <age>66</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1071,7 +1069,7 @@
 <relativerisk>
 <age>66</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1079,7 +1077,7 @@
 <relativerisk>
 <age>67</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1087,7 +1085,7 @@
 <relativerisk>
 <age>67</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1095,7 +1093,7 @@
 <relativerisk>
 <age>68</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1103,7 +1101,7 @@
 <relativerisk>
 <age>68</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1111,7 +1109,7 @@
 <relativerisk>
 <age>69</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1119,7 +1117,7 @@
 <relativerisk>
 <age>69</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1127,7 +1125,7 @@
 <relativerisk>
 <age>70</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1135,7 +1133,7 @@
 <relativerisk>
 <age>70</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1143,7 +1141,7 @@
 <relativerisk>
 <age>71</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1151,7 +1149,7 @@
 <relativerisk>
 <age>71</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1159,7 +1157,7 @@
 <relativerisk>
 <age>72</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1167,7 +1165,7 @@
 <relativerisk>
 <age>72</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1175,7 +1173,7 @@
 <relativerisk>
 <age>73</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1183,7 +1181,7 @@
 <relativerisk>
 <age>73</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1191,7 +1189,7 @@
 <relativerisk>
 <age>74</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1199,7 +1197,7 @@
 <relativerisk>
 <age>74</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1207,7 +1205,7 @@
 <relativerisk>
 <age>75</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1215,7 +1213,7 @@
 <relativerisk>
 <age>75</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1223,7 +1221,7 @@
 <relativerisk>
 <age>76</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1231,7 +1229,7 @@
 <relativerisk>
 <age>76</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1239,7 +1237,7 @@
 <relativerisk>
 <age>77</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1247,7 +1245,7 @@
 <relativerisk>
 <age>77</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1255,7 +1253,7 @@
 <relativerisk>
 <age>78</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1263,7 +1261,7 @@
 <relativerisk>
 <age>78</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1271,7 +1269,7 @@
 <relativerisk>
 <age>79</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1279,7 +1277,7 @@
 <relativerisk>
 <age>79</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1287,7 +1285,7 @@
 <relativerisk>
 <age>80</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1295,7 +1293,7 @@
 <relativerisk>
 <age>80</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1303,7 +1301,7 @@
 <relativerisk>
 <age>81</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1311,7 +1309,7 @@
 <relativerisk>
 <age>81</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1319,7 +1317,7 @@
 <relativerisk>
 <age>82</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1327,7 +1325,7 @@
 <relativerisk>
 <age>82</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1335,7 +1333,7 @@
 <relativerisk>
 <age>83</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1343,7 +1341,7 @@
 <relativerisk>
 <age>83</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1351,7 +1349,7 @@
 <relativerisk>
 <age>84</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1359,7 +1357,7 @@
 <relativerisk>
 <age>84</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1367,7 +1365,7 @@
 <relativerisk>
 <age>85</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1375,7 +1373,7 @@
 <relativerisk>
 <age>85</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1383,7 +1381,7 @@
 <relativerisk>
 <age>86</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1391,7 +1389,7 @@
 <relativerisk>
 <age>86</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1399,7 +1397,7 @@
 <relativerisk>
 <age>87</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1407,7 +1405,7 @@
 <relativerisk>
 <age>87</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1415,7 +1413,7 @@
 <relativerisk>
 <age>88</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1423,7 +1421,7 @@
 <relativerisk>
 <age>88</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1431,7 +1429,7 @@
 <relativerisk>
 <age>89</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1439,7 +1437,7 @@
 <relativerisk>
 <age>89</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1447,7 +1445,7 @@
 <relativerisk>
 <age>90</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1455,7 +1453,7 @@
 <relativerisk>
 <age>90</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1463,7 +1461,7 @@
 <relativerisk>
 <age>91</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1471,7 +1469,7 @@
 <relativerisk>
 <age>91</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1479,7 +1477,7 @@
 <relativerisk>
 <age>92</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1487,7 +1485,7 @@
 <relativerisk>
 <age>92</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1495,7 +1493,7 @@
 <relativerisk>
 <age>93</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1503,7 +1501,7 @@
 <relativerisk>
 <age>93</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1511,7 +1509,7 @@
 <relativerisk>
 <age>94</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1519,7 +1517,7 @@
 <relativerisk>
 <age>94</age>
 <sex>1</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1527,7 +1525,7 @@
 <relativerisk>
 <age>95</age>
 <sex>0</sex>
-<cat>1</cat><value>1</value><begin>2</begin>
+<cat>1</cat><begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
 </relativerisk>
@@ -1536,7 +1534,7 @@
 <age>95</age>
 <sex>1</sex>
 <cat>1</cat>
-<value>1</value>
+
 <begin>2</begin>
 <alfa>3</alfa>
 <end>1</end>
@@ -1546,15 +1544,15 @@
 <age>0</age>
 <sex>0</sex>
 <cat>2</cat>
-<value>2</value>
-<begin/><alfa/><end/>
+
+<begin>0</begin><alfa>0</alfa><end>0</end>
 </relativerisk>
 
 <relativerisk>
 <age>0</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1562,8 +1560,8 @@
 <relativerisk>
 <age>1</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1571,8 +1569,8 @@
 <relativerisk>
 <age>1</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1580,8 +1578,8 @@
 <relativerisk>
 <age>2</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1589,8 +1587,8 @@
 <relativerisk>
 <age>2</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1598,8 +1596,8 @@
 <relativerisk>
 <age>3</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1607,8 +1605,8 @@
 <relativerisk>
 <age>3</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1616,8 +1614,8 @@
 <relativerisk>
 <age>4</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1625,8 +1623,8 @@
 <relativerisk>
 <age>4</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1634,8 +1632,8 @@
 <relativerisk>
 <age>5</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1643,8 +1641,8 @@
 <relativerisk>
 <age>5</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1652,16 +1650,16 @@
 <relativerisk>
 <age>6</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 </relativerisk>
 
 
 <relativerisk>
 <age>6</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1669,8 +1667,8 @@
 <relativerisk>
 <age>7</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1678,8 +1676,8 @@
 <relativerisk>
 <age>7</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1687,8 +1685,8 @@
 <relativerisk>
 <age>8</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1696,8 +1694,8 @@
 <relativerisk>
 <age>8</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1705,8 +1703,8 @@
 <relativerisk>
 <age>9</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1714,8 +1712,8 @@
 <relativerisk>
 <age>9</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1723,8 +1721,8 @@
 <relativerisk>
 <age>10</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1732,8 +1730,8 @@
 <relativerisk>
 <age>10</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1741,8 +1739,8 @@
 <relativerisk>
 <age>11</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1750,8 +1748,8 @@
 <relativerisk>
 <age>11</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1759,8 +1757,8 @@
 <relativerisk>
 <age>12</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1768,8 +1766,8 @@
 <relativerisk>
 <age>12</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1777,8 +1775,8 @@
 <relativerisk>
 <age>13</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1786,8 +1784,8 @@
 <relativerisk>
 <age>13</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1795,8 +1793,8 @@
 <relativerisk>
 <age>14</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1804,8 +1802,8 @@
 <relativerisk>
 <age>14</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1813,8 +1811,8 @@
 <relativerisk>
 <age>15</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1822,8 +1820,8 @@
 <relativerisk>
 <age>15</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1831,8 +1829,8 @@
 <relativerisk>
 <age>16</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1840,8 +1838,8 @@
 <relativerisk>
 <age>16</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1849,8 +1847,8 @@
 <relativerisk>
 <age>17</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1858,8 +1856,8 @@
 <relativerisk>
 <age>17</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1867,8 +1865,8 @@
 <relativerisk>
 <age>18</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1876,8 +1874,8 @@
 <relativerisk>
 <age>18</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1885,8 +1883,8 @@
 <relativerisk>
 <age>19</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1894,8 +1892,8 @@
 <relativerisk>
 <age>19</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1903,8 +1901,8 @@
 <relativerisk>
 <age>20</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1912,8 +1910,8 @@
 <relativerisk>
 <age>20</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1921,8 +1919,8 @@
 <relativerisk>
 <age>21</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1930,8 +1928,8 @@
 <relativerisk>
 <age>21</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1939,8 +1937,8 @@
 <relativerisk>
 <age>22</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1948,8 +1946,8 @@
 <relativerisk>
 <age>22</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1957,8 +1955,8 @@
 <relativerisk>
 <age>23</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1966,8 +1964,8 @@
 <relativerisk>
 <age>23</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1975,8 +1973,8 @@
 <relativerisk>
 <age>24</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1984,8 +1982,8 @@
 <relativerisk>
 <age>24</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -1993,8 +1991,8 @@
 <relativerisk>
 <age>25</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2002,8 +2000,8 @@
 <relativerisk>
 <age>25</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2011,8 +2009,8 @@
 <relativerisk>
 <age>26</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2020,8 +2018,8 @@
 <relativerisk>
 <age>26</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2029,8 +2027,8 @@
 <relativerisk>
 <age>27</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2038,8 +2036,8 @@
 <relativerisk>
 <age>27</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2047,8 +2045,8 @@
 <relativerisk>
 <age>28</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2056,8 +2054,8 @@
 <relativerisk>
 <age>28</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2065,8 +2063,8 @@
 <relativerisk>
 <age>29</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2074,8 +2072,8 @@
 <relativerisk>
 <age>29</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2083,8 +2081,8 @@
 <relativerisk>
 <age>30</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2092,8 +2090,8 @@
 <relativerisk>
 <age>30</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2101,8 +2099,8 @@
 <relativerisk>
 <age>31</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2110,8 +2108,8 @@
 <relativerisk>
 <age>31</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2119,8 +2117,8 @@
 <relativerisk>
 <age>32</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2128,8 +2126,8 @@
 <relativerisk>
 <age>32</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2137,8 +2135,8 @@
 <relativerisk>
 <age>33</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2146,8 +2144,8 @@
 <relativerisk>
 <age>33</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2155,8 +2153,8 @@
 <relativerisk>
 <age>34</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2164,8 +2162,8 @@
 <relativerisk>
 <age>34</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2173,8 +2171,8 @@
 <relativerisk>
 <age>35</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2182,8 +2180,8 @@
 <relativerisk>
 <age>35</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2191,8 +2189,8 @@
 <relativerisk>
 <age>36</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2200,8 +2198,8 @@
 <relativerisk>
 <age>36</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2209,8 +2207,8 @@
 <relativerisk>
 <age>37</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2218,8 +2216,8 @@
 <relativerisk>
 <age>37</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2227,8 +2225,8 @@
 <relativerisk>
 <age>38</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2236,8 +2234,8 @@
 <relativerisk>
 <age>38</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2245,8 +2243,8 @@
 <relativerisk>
 <age>39</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2254,8 +2252,8 @@
 <relativerisk>
 <age>39</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2263,8 +2261,8 @@
 <relativerisk>
 <age>40</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2272,8 +2270,8 @@
 <relativerisk>
 <age>40</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2281,8 +2279,8 @@
 <relativerisk>
 <age>41</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2290,8 +2288,8 @@
 <relativerisk>
 <age>41</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2299,8 +2297,8 @@
 <relativerisk>
 <age>42</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2308,8 +2306,8 @@
 <relativerisk>
 <age>42</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2317,48 +2315,48 @@
 <relativerisk>
 <age>43</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
 <relativerisk>
 <age>43</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
 <relativerisk>
 <age>44</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
 <relativerisk>
 <age>44</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
 <relativerisk>
 <age>45</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
 <relativerisk>
 <age>45</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2366,8 +2364,8 @@
 <relativerisk>
 <age>46</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2375,8 +2373,8 @@
 <relativerisk>
 <age>46</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2384,8 +2382,8 @@
 <relativerisk>
 <age>47</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2393,8 +2391,8 @@
 <relativerisk>
 <age>47</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2402,8 +2400,8 @@
 <relativerisk>
 <age>48</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2411,8 +2409,8 @@
 <relativerisk>
 <age>48</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2420,8 +2418,8 @@
 <relativerisk>
 <age>49</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2429,8 +2427,8 @@
 <relativerisk>
 <age>49</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2438,8 +2436,8 @@
 <relativerisk>
 <age>50</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2447,8 +2445,8 @@
 <relativerisk>
 <age>50</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2456,8 +2454,8 @@
 <relativerisk>
 <age>51</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2465,8 +2463,8 @@
 <relativerisk>
 <age>51</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2474,8 +2472,8 @@
 <relativerisk>
 <age>52</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2483,8 +2481,8 @@
 <relativerisk>
 <age>52</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2492,8 +2490,8 @@
 <relativerisk>
 <age>53</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2501,8 +2499,8 @@
 <relativerisk>
 <age>53</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2510,8 +2508,8 @@
 <relativerisk>
 <age>54</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2519,8 +2517,8 @@
 <relativerisk>
 <age>54</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2528,8 +2526,8 @@
 <relativerisk>
 <age>55</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2537,8 +2535,8 @@
 <relativerisk>
 <age>55</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2546,8 +2544,8 @@
 <relativerisk>
 <age>56</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2555,8 +2553,8 @@
 <relativerisk>
 <age>56</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2564,8 +2562,8 @@
 <relativerisk>
 <age>57</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2573,8 +2571,8 @@
 <relativerisk>
 <age>57</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2582,8 +2580,8 @@
 <relativerisk>
 <age>58</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2591,8 +2589,8 @@
 <relativerisk>
 <age>58</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2600,8 +2598,8 @@
 <relativerisk>
 <age>59</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2609,8 +2607,8 @@
 <relativerisk>
 <age>59</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2618,8 +2616,8 @@
 <relativerisk>
 <age>60</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2627,8 +2625,8 @@
 <relativerisk>
 <age>60</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2636,8 +2634,8 @@
 <relativerisk>
 <age>61</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2645,8 +2643,8 @@
 <relativerisk>
 <age>61</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2654,8 +2652,8 @@
 <relativerisk>
 <age>62</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2663,8 +2661,8 @@
 <relativerisk>
 <age>62</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2672,8 +2670,8 @@
 <relativerisk>
 <age>63</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2681,8 +2679,8 @@
 <relativerisk>
 <age>63</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2690,8 +2688,8 @@
 <relativerisk>
 <age>64</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2699,8 +2697,8 @@
 <relativerisk>
 <age>64</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2708,8 +2706,8 @@
 <relativerisk>
 <age>65</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2717,8 +2715,8 @@
 <relativerisk>
 <age>65</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2726,8 +2724,8 @@
 <relativerisk>
 <age>66</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2735,8 +2733,8 @@
 <relativerisk>
 <age>66</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2744,8 +2742,8 @@
 <relativerisk>
 <age>67</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2753,8 +2751,8 @@
 <relativerisk>
 <age>67</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2762,8 +2760,8 @@
 <relativerisk>
 <age>68</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2771,8 +2769,8 @@
 <relativerisk>
 <age>68</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2780,8 +2778,8 @@
 <relativerisk>
 <age>69</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2789,8 +2787,8 @@
 <relativerisk>
 <age>69</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2798,8 +2796,8 @@
 <relativerisk>
 <age>70</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2807,8 +2805,8 @@
 <relativerisk>
 <age>70</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2816,8 +2814,8 @@
 <relativerisk>
 <age>71</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2825,8 +2823,8 @@
 <relativerisk>
 <age>71</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2834,8 +2832,8 @@
 <relativerisk>
 <age>72</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2843,8 +2841,8 @@
 <relativerisk>
 <age>72</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2852,8 +2850,8 @@
 <relativerisk>
 <age>73</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2861,8 +2859,8 @@
 <relativerisk>
 <age>73</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2870,8 +2868,8 @@
 <relativerisk>
 <age>74</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2879,8 +2877,8 @@
 <relativerisk>
 <age>74</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2888,8 +2886,8 @@
 <relativerisk>
 <age>75</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2897,8 +2895,8 @@
 <relativerisk>
 <age>75</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2906,8 +2904,8 @@
 <relativerisk>
 <age>76</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2915,8 +2913,8 @@
 <relativerisk>
 <age>76</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2924,8 +2922,8 @@
 <relativerisk>
 <age>77</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2933,8 +2931,8 @@
 <relativerisk>
 <age>77</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2942,8 +2940,8 @@
 <relativerisk>
 <age>78</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2951,8 +2949,8 @@
 <relativerisk>
 <age>78</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2960,8 +2958,8 @@
 <relativerisk>
 <age>79</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2969,8 +2967,8 @@
 <relativerisk>
 <age>79</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2978,8 +2976,8 @@
 <relativerisk>
 <age>80</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2987,8 +2985,8 @@
 <relativerisk>
 <age>80</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -2996,8 +2994,8 @@
 <relativerisk>
 <age>81</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3005,8 +3003,8 @@
 <relativerisk>
 <age>81</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3014,8 +3012,8 @@
 <relativerisk>
 <age>82</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3023,8 +3021,8 @@
 <relativerisk>
 <age>82</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3032,8 +3030,8 @@
 <relativerisk>
 <age>83</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3041,8 +3039,8 @@
 <relativerisk>
 <age>83</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3050,8 +3048,8 @@
 <relativerisk>
 <age>84</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3059,8 +3057,8 @@
 <relativerisk>
 <age>84</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3068,8 +3066,8 @@
 <relativerisk>
 <age>85</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3077,8 +3075,8 @@
 <relativerisk>
 <age>85</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3086,8 +3084,8 @@
 <relativerisk>
 <age>86</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3095,8 +3093,8 @@
 <relativerisk>
 <age>86</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3104,8 +3102,8 @@
 <relativerisk>
 <age>87</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3113,8 +3111,8 @@
 <relativerisk>
 <age>87</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3122,8 +3120,8 @@
 <relativerisk>
 <age>88</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3131,8 +3129,8 @@
 <relativerisk>
 <age>88</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3140,8 +3138,8 @@
 <relativerisk>
 <age>89</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3149,8 +3147,8 @@
 <relativerisk>
 <age>89</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3158,8 +3156,8 @@
 <relativerisk>
 <age>90</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3167,8 +3165,8 @@
 <relativerisk>
 <age>90</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3176,8 +3174,8 @@
 <relativerisk>
 <age>91</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3185,8 +3183,8 @@
 <relativerisk>
 <age>91</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3194,8 +3192,8 @@
 <relativerisk>
 <age>92</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3203,8 +3201,8 @@
 <relativerisk>
 <age>92</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3212,8 +3210,8 @@
 <relativerisk>
 <age>93</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3221,8 +3219,8 @@
 <relativerisk>
 <age>93</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3230,8 +3228,8 @@
 <relativerisk>
 <age>94</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3239,8 +3237,8 @@
 <relativerisk>
 <age>94</age>
 <sex>1</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3248,8 +3246,8 @@
 <relativerisk>
 <age>95</age>
 <sex>0</sex>
-<cat>2</cat><value>2</value>
-<begin/><alfa/><end/>
+<cat>2</cat>
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 
 </relativerisk>
@@ -3258,8 +3256,8 @@
 <age>95</age>
 <sex>1</sex>
 <cat>2</cat>
-<value>2</value>
-<begin/><alfa/><end/>
+
+<begin>0</begin><alfa>0</alfa><end>0</end>
 
 </relativerisk>
 
