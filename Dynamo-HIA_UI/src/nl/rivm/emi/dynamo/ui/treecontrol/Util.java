@@ -25,9 +25,9 @@ public class Util {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
-		} else {
+		} /* else {
 			throw new DynamoConfigurationException("No file has been selected");
-		}
+		}*/
 		String startLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String containerLabel = ((BaseNode) containerNode).toString();
@@ -55,9 +55,9 @@ public class Util {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
-		} else {
+		} /* else {
 			throw new DynamoConfigurationException("No file has been selected");
-		}
+		} */
 		String transitionLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();		
 		String riskFactorLabel = ((BaseNode) containerNode).toString();
