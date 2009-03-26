@@ -61,7 +61,7 @@ Log log = LogFactory.getLog(getClass().getName());
 
 	// NB de directory moet ook worden aangepast in deze file //
 	
-	String simName = "simulation1";
+	String simName = "simulation4";
 
 	@Before
 	public void setup() {}
