@@ -137,7 +137,7 @@ public class StandardDirectoryStructureHandler {
 				requiredNames
 						.add(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 								.getNodeLabel());
-				requiredNames.add(StandardTreeNodeLabelsEnum.EXCESSMORTALITY
+				requiredNames.add(StandardTreeNodeLabelsEnum.EXCESSMORTALITIES
 						.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
