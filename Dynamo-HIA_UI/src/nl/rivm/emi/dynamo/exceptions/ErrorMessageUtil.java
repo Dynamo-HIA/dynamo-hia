@@ -26,8 +26,8 @@ public class ErrorMessageUtil {
 		log.fatal(e);
 		e.printStackTrace();
 		MessageBox box = new MessageBox(shell, style);
-		box.setText(messagePrefix + e.getMessage());
-		box.setMessage(e.getMessage());
+		box.setText(messagePrefix);
+		box.setMessage(messagePrefix + e.getMessage());
 		box.open();		
 	}	
 	

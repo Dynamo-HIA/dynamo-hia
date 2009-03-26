@@ -58,6 +58,7 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 			RiskSourceProperties props) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		this.props = props;
 	}
 
 	@Override
@@ -132,6 +133,7 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
+			log.debug("props" + props);
 			((RelRiskFromRiskFactorCategoricalFactory)factory).setNumberOfCategories(props.getNumberOfCategories());
 			producedData = factory.manufactureObservableDefault();
 		}

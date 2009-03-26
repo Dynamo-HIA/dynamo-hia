@@ -11,6 +11,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
@@ -130,13 +131,10 @@ public class FreeNamePlusDropDownModal implements Runnable {
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
 				messageBox.setMessage("No risk sources could be found.");
-				messageBox.open();
+				messageBox.open();				
 			}
 		} catch (ConfigurationException e) {
-			MessageBox messageBox = new MessageBox(shell,SWT.ERROR_CANNOT_GET_SELECTION);
-			messageBox.setMessage("Could not collect data\nfrom risk factors.");
-			messageBox.open();
-			e.printStackTrace();
+			ErrorMessageUtil.showErrorMessage(log, shell, e, "Could not collect data from risk factors. \n", SWT.ERROR_CANNOT_GET_SELECTION);
 		}
 	}
 

@@ -63,9 +63,9 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 					.get(BiGender.FEMALE_INDEX);
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
-			for (int classCount = 0; classCount < femaleClassHMap.size(); classCount++) {
+			for (int classCount = 1; classCount < femaleClassHMap.size(); classCount++) {
 				Label ageCellLabel = new Label(this, SWT.NONE);
-				if (classCount == 0) {
+				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
 				}
 				Label classCellLabel = new Label(this, SWT.NONE);

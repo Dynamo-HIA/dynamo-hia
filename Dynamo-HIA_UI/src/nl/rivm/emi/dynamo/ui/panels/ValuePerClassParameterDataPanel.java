@@ -69,9 +69,9 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 					.get(BiGender.FEMALE_INDEX);
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
-			for (int classCount = 0; classCount < femaleClassHMap.size(); classCount++) {
+			for (int classCount = 1; classCount < femaleClassHMap.size(); classCount++) {
 				Label ageCellLabel = new Label(this, SWT.NONE);
-				if (classCount == 0) {
+				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
 				}
 				Label classCellLabel = new Label(this, SWT.NONE);
@@ -97,6 +97,11 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
+		log.debug("myType" + myType);
+		log.debug("typedHashMap" + typedHashMap);
+		log.debug("index" + index);
+		log.debug("typedHashMap.get(index)" + typedHashMap.get(
+				index));
 		String convertedText = ((Value) myType).convert4View(typedHashMap.get(
 				index).toString());
 		text.setText(convertedText);

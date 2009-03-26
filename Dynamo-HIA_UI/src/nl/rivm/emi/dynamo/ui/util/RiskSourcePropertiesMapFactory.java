@@ -242,36 +242,16 @@ public class RiskSourcePropertiesMapFactory {
 							.extractRootElementName(configurationFile);
 					if (rootElementName != null) {
 						properties.setRootElementName(rootElementName);
-						
-						
-						
 						if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-								.getNodeLabel().equals(rootElementName)) 
-								// TODO: Reactivate code below for version 1.1
-								////|| RootElementNamesEnum.RISKFACTOR_COMPOUND
-									////	.getNodeLabel().equals(rootElementName)) 
+								.getNodeLabel().equals(rootElementName) 
+								|| RootElementNamesEnum.RISKFACTOR_COMPOUND
+										.getNodeLabel().equals(rootElementName)) 
 								{
 							Integer numberOfCategories = ConfigurationFileUtil
 									.extractNumberOfClasses(configurationFile);
 							properties
 									.setNumberOfCategories(numberOfCategories);							
 						}						
-						else if (RootElementNamesEnum.RISKFACTOR_COMPOUND
-										.getNodeLabel().equals(rootElementName)) {							
-							// TODO: Temporary build message: not yet implemented
-							// TODO: Reactivate code below for version 1.1
-							ErrorMessageUtil.handleErrorMessage(log, "The component Riskfactor Continuous has not yet been implemented",
-									new DynamoConfigurationException("The component Riskfactor Compound has not yet been implemented"), 
-									null);
-						} else if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-								.getNodeLabel().equals(rootElementName)) {
-							// TODO: Temporary build message: not yet implemented
-							// TODO: Reactivate code below for version 1.1
-							ErrorMessageUtil.handleErrorMessage(log, "The component Riskfactor Continuous has not yet been implemented",
-									new DynamoConfigurationException("The component Riskfactor Continuous has not yet been implemented"), 
-									null);							
-						}
-						
 					}
 				}
 			}

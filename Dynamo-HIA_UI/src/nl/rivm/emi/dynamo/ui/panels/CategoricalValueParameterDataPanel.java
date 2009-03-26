@@ -59,10 +59,10 @@ public class CategoricalValueParameterDataPanel extends Composite {
 		maleLabel.setText("Male");
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
-			for (int classCount = 0; classCount < lotsOfData.size(); classCount++) {
+			for (int classCount = 1; classCount < lotsOfData.size(); classCount++) {
 				TypedHashMap cHMap = (TypedHashMap) tHMap.get(classCount);
 				Label label = new Label(this, SWT.NONE);
-				if (classCount == 0) {
+				if (classCount == 1) {
 					label.setText(new Integer(count).toString());
 				}
 				Label classLabel = new Label(this, SWT.NONE);

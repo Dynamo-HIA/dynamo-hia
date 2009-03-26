@@ -83,6 +83,9 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		radio1FormData.right = new FormAttachment(100, -15);
 		radio1FormData.top = new FormAttachment(0, 10);
 		radioButtons[0].setLayoutData(radio1FormData);
+		/*
+		 * TODO: Reactivate code above for version 1.1 BEGIN OF TEMPORARY DISABLED CODE
+		 * Compound and Continous Risk not part of scope 1.0		
 		radioButtons[1] = new Button(shell, SWT.RADIO);
 		radioButtons[1].setText("continuous");
 		radioButtons[1].addListener(SWT.Selection, new Listener() {
@@ -123,6 +126,9 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		radio3FormData.right = new FormAttachment(100, -15);
 		radio3FormData.top = new FormAttachment(radioButtons[1], 5);
 		radioButtons[2].setLayoutData(radio3FormData);
+		* TODO: Reactivate code above for version 1.1 END OF TEMPORARY DISABLED CODE 
+		*/		
+		
 		// Default.
 		radioButtons[0].setSelection(true);
 		Button okButton = new Button(shell, SWT.PUSH);
