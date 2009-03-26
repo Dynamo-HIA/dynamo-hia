@@ -33,7 +33,8 @@ import org.eclipse.swt.widgets.Shell;
 public class RelRiskFromOtherDiseaseModal extends AbstractDataModal {
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
-
+	private RiskSourceProperties props;
+	
 	/**
 	 * 
 	 * Constructor
@@ -47,9 +48,10 @@ public class RelRiskFromOtherDiseaseModal extends AbstractDataModal {
 	 */
 	public RelRiskFromOtherDiseaseModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+			BaseNode selectedNode, RiskSourceProperties props) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		this.props = props;
 	}
 
 	@Override
@@ -71,9 +73,13 @@ public class RelRiskFromOtherDiseaseModal extends AbstractDataModal {
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
+			BaseNode riskSourceNode = null;
+			if (this.props != null) {
+				riskSourceNode = this.props.getRiskSourceNode();
+			}
 			RelRisksFromOtherDiseaseGroup relRiskFromOtherDiseaseGroup = new RelRisksFromOtherDiseaseGroup(
 					this.shell, this.lotsOfData, this.dataBindingContext,
-					this.selectedNode, this.helpPanel);
+					this.selectedNode, riskSourceNode, this.helpPanel);
 			relRiskFromOtherDiseaseGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();

@@ -15,6 +15,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jfree.util.Log;
 
 public class Util {
 	
@@ -25,9 +26,7 @@ public class Util {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
-		} /* else {
-			throw new DynamoConfigurationException("No file has been selected");
-		}*/
+		}
 		String startLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String containerLabel = ((BaseNode) containerNode).toString();
@@ -55,9 +54,7 @@ public class Util {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
-		} /* else {
-			throw new DynamoConfigurationException("No file has been selected");
-		} */
+		}
 		String transitionLabel = ((BaseNode) startNode).toString();
 		ParentNode containerNode = ((ChildNode) startNode).getParent();		
 		String riskFactorLabel = ((BaseNode) containerNode).toString();
@@ -71,7 +68,8 @@ public class Util {
 	}	
 		
 	static public String[] deriveEntityLabelAndValueFromSelectedNode(
-			BaseNode selectedNode) throws ConfigurationException {		
+			BaseNode selectedNode) throws ConfigurationException {
+		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
 		String foundName = null;
 		BaseNode riskSourceInstanceNode = null;
 		if (selectedNode instanceof FileNode) {
@@ -89,9 +87,7 @@ public class Util {
 					break;
 				}
 			}
-		} else {
-			throw new DynamoConfigurationException("No name has been entered");
-		}
+		} 
 		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode).toString();
 		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode).getParent();
 		String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode).toString();

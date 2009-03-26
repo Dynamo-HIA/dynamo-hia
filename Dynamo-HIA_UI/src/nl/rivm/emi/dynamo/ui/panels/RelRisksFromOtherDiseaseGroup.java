@@ -18,11 +18,11 @@ public class RelRisksFromOtherDiseaseGroup {
 
 	public RelRisksFromOtherDiseaseGroup(Shell shell, TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws ConfigurationException {
+			BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		RelativeRiskPanel entityNameGroup = new RelativeRiskPanel(theGroup, null,
+		RelativeRiskPanel entityNameGroup = new RelativeRiskPanel(theGroup, riskSourceNode,
 				selectedNode);
 		entityNameGroup.handlePlacementInContainer();
 		RelRiskFromOtherDiseaseParameterGroup parameterGroup = new RelRiskFromOtherDiseaseParameterGroup(

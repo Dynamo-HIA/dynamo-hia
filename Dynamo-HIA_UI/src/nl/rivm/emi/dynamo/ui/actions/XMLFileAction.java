@@ -144,7 +144,7 @@ public class XMLFileAction extends ActionBase {
 														shell,
 														dataFile.getAbsolutePath(),
 														savedFile.getAbsolutePath(),
-														rootElementName, node);
+														rootElementName, node, null);
 											} else {
 												if (RootElementNamesEnum.SIMULATION
 														.getNodeLabel().equals(
