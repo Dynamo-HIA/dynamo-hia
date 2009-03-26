@@ -114,7 +114,10 @@ public class ModelParameters {
 
 	private String globalBaseDir;
 
-
+  /**contructor sets the baseDir;
+ * @param baseDir
+ */
+public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 
 	/**
 	 * 
