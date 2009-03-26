@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Shell;
 
 public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	private Shell shell;
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
