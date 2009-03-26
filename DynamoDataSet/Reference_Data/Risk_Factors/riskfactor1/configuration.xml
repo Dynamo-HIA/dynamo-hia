@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<riskfactor_categorical>
+<classes>
+<class>
+<index>1</index>
+<name>class 1</name>
+</class>
+<class>
+<index>2</index>
+<name>class 2</name>
+</class>
+</classes>
+<referenceclass>1</referenceclass>
+
+</riskfactor_categorical>

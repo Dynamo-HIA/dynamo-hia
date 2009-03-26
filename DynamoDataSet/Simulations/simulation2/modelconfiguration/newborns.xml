@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><pop><lb>simulation2</lb><ind lb="ind_0_bl"><rngseed vl="1555086749"/><ch id="1" vl="0.0"/><ch id="2" vl="0"/><ch id="3" vl="16.627552"/><ch id="4" vl="0.05237813"/><ch id="4" vl="0.12524235"/><ch id="4" vl="0.016275723"/><ch id="4" vl="1.0"/></ind>
+<ind lb="ind_1_bl"><rngseed vl="-1262235567"/><ch id="1" vl="0.0"/><ch id="2" vl="0"/><ch id="3" vl="23.372448"/><ch id="4" vl="0.07728505"/><ch id="4" vl="0.20004772"/><ch id="4" vl="0.04567464"/><ch id="4" vl="1.0"/></ind>
+<ind lb="ind_2_bl"><rngseed vl="1822613570"/><ch id="1" vl="0.0"/><ch id="2" vl="1"/><ch id="3" vl="16.627552"/><ch id="4" vl="0.05237813"/><ch id="4" vl="0.12524235"/><ch id="4" vl="0.016275723"/><ch id="4" vl="1.0"/></ind>
+<ind lb="ind_3_bl"><rngseed vl="-2088080131"/><ch id="1" vl="0.0"/><ch id="2" vl="1"/><ch id="3" vl="23.372448"/><ch id="4" vl="0.07728505"/><ch id="4" vl="0.20004772"/><ch id="4" vl="0.04567464"/><ch id="4" vl="1.0"/></ind>
+</pop>

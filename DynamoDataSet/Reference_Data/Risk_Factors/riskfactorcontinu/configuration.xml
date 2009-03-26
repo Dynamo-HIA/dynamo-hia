@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<riskfactor_continuous>
+<referencevalue>23</referencevalue>
+<cutoffs>
+<cutoff>
+<value>25</value>
+</cutoff>
+<cutoff>
+<value>30</value>
+</cutoff>
+</cutoffs>
+</riskfactor_continuous>
