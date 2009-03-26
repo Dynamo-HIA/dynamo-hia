@@ -34,7 +34,8 @@ public class MortalityDefinitionsDataPanel extends Composite /* implements Runna
 
 	public MortalityDefinitionsDataPanel(Composite parent, Text topNeighbour,
 			IMortalityObject iMortalityObject,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, 
+			HelpGroup helpGroup, String unitType) {
 		super(parent, SWT.NONE);
 		this.myMortalityObject = iMortalityObject;
 		this.dataBindingContext = dataBindingContext;
@@ -46,7 +47,7 @@ public class MortalityDefinitionsDataPanel extends Composite /* implements Runna
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 		Label unitLabel = new Label(this, SWT.NONE);
-		unitLabel.setText("Unit");
+		unitLabel.setText("Unit: " + unitType);
 		Label acutelyFatalLabel = new Label(this, SWT.NONE);
 		acutelyFatalLabel.setText("Acutely Fatal");
 		Label curedFractionLabel = new Label(this, SWT.NONE);
@@ -63,8 +64,8 @@ public class MortalityDefinitionsDataPanel extends Composite /* implements Runna
 				Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(myMortalityObject.getObservableUnit(count));
-				////TODO other values bindValue(myMortalityObject.getObservableAcutelyFatal(count));
-				////TODO other values bindValue(myMortalityObject.getObservableCuredFraction(count));				
+				////TODO REACTIVATE other values bindValue(myMortalityObject.getObservableAcutelyFatal(count));
+				////TODO REACTIVATE other values bindValue(myMortalityObject.getObservableCuredFraction(count));				
 				
 				/*
 			} else {

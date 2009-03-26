@@ -60,4 +60,8 @@ public class EntityInDefaultDirNamePanel implements HelpController{
 	public void setHelpGroup(HelpGroup helpGroup) {
 		theHelpGroup = helpGroup;		
 	}
+	
+	public Group getGroup(Group group) {
+		return this.group;		
+	}	
 }

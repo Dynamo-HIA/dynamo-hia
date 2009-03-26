@@ -18,7 +18,8 @@ public class EntityNamePanel{
 	Label nameLabel;
 	HelpGroup theHelpGroup;
 	
-	 public EntityNamePanel(Composite parent, String entityLabel, String entityValue) {
+	 public EntityNamePanel(Composite parent, String entityLabel, 
+			 String entityValue) {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);

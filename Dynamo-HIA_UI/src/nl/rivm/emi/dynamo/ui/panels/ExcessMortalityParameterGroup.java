@@ -21,7 +21,8 @@ public class ExcessMortalityParameterGroup {
 	// TODO: Drop down with UnitType
 	public ExcessMortalityParameterGroup(Composite parent,
 			ExcessMortalityObject excessMortalityObject,
-			DataBindingContext dataBindingContext, final HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, 
+			final HelpGroup helpGroup, String unitType) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -32,7 +33,7 @@ public class ExcessMortalityParameterGroup {
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 		Composite parameterDataPanel = new MortalityDefinitionsDataPanel(
 				scrolledContainer, null, excessMortalityObject,
-				dataBindingContext, helpGroup);
+				dataBindingContext, helpGroup, unitType);
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
 		parameterFormData.right = new FormAttachment(100, -5);

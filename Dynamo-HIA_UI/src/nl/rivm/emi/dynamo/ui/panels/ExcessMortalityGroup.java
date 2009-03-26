@@ -1,9 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,22 +20,37 @@ import org.eclipse.swt.widgets.Shell;
 
 
 public class ExcessMortalityGroup {
-	Group theGroup;
-
+	private static final String UNIT = "Unit";
+	private static final String MEDIAN_SURVIVAL = "Median Survival";
+	private static final String RATE = "Rate";
+	private Group theGroup;
+	
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public ExcessMortalityGroup(Shell shell, ExcessMortalityObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
+		Map<String, String> selectableExcessMortalityPropertiesMap = 
+			new LinkedHashMap<String, String>();		
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode); 		
-		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
-		entityNameGroup.putInContainer();
+		EntityInDefaultDirNamePanel entityNameGroup = 
+			new EntityInDefaultDirNamePanel(theGroup,
+				selectedNode, helpGroup);
+		String entityLabel = UNIT;
+		selectableExcessMortalityPropertiesMap.put(MEDIAN_SURVIVAL, 
+				MEDIAN_SURVIVAL);
+		selectableExcessMortalityPropertiesMap.put(RATE, RATE);
+		EntityDropDownPanel dropDownGroup = new EntityDropDownPanel(theGroup, entityLabel,
+				selectableExcessMortalityPropertiesMap);
+		
+		dropDownGroup.putFirstInContainer(30); 
+		dropDownGroup.putMiddleInContainer(entityNameGroup.group, 30);
+		
 		ExcessMortalityParameterGroup parameterGroup = new ExcessMortalityParameterGroup(
-				theGroup, lotsOfData, dataBindingContext, helpGroup);
+				theGroup, lotsOfData, dataBindingContext, 
+				helpGroup, dropDownGroup.getUnitType());
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 	}
 
