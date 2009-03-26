@@ -180,6 +180,16 @@ public class StorageTreeMenuFactory {
 				} else {
 					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
 							.equalsIgnoreCase(grandParentLabel)) {
+						if (StandardTreeNodeLabelsEnum.DALYWEIGHTS
+								.getNodeLabel().equalsIgnoreCase(
+										nodeLabel)) {
+							createMenu4DALY_Weights(manager, selection);
+						} else {
+							if (StandardTreeNodeLabelsEnum.EXCESSMORTALITIES
+									.getNodeLabel().equalsIgnoreCase(
+											nodeLabel)) {
+								createMenu4Excess_Mortalities(manager, selection);
+							} else {
 						if (StandardTreeNodeLabelsEnum.INCIDENCES
 								.getNodeLabel().equalsIgnoreCase(nodeLabel)) {
 							createMenu4Incidences(manager, selection);
@@ -188,11 +198,6 @@ public class StorageTreeMenuFactory {
 									.getNodeLabel().equalsIgnoreCase(nodeLabel)) {
 								createMenu4Prevalence(manager, selection);
 							} else {
-								if (StandardTreeNodeLabelsEnum.DALYWEIGHTS
-										.getNodeLabel().equalsIgnoreCase(
-												nodeLabel)) {
-									createMenu4DALY_Weights(manager, selection);
-								} else {
 									if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 											.getNodeLabel().equalsIgnoreCase(
 													nodeLabel)) {
@@ -218,7 +223,8 @@ public class StorageTreeMenuFactory {
 									}
 								}
 							}
-						}
+							}
+							}
 					} else {
 						ErrorMessageUtil.showErrorMessage(log, shell, new DynamoConfigurationException("Not implemented yet"), 
 								"", SWT.ERROR_UNSPECIFIED);
@@ -423,6 +429,22 @@ public class StorageTreeMenuFactory {
 	 * @param manager
 	 * @param selection
 	 */
+
+	private void createMenu4Excess_Mortalities(IMenuManager manager,
+			IStructuredSelection selection) {
+		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
+				treeViewer, (DirectoryNode) selection.getFirstElement(),
+				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel());
+		action.setText("New disease excess mortalities file");
+		manager.add(action);
+	}
+
+	/**
+	 * TODO
+	 * 
+	 * @param manager
+	 * @param selection
+	 */
 	private void createMenu4Incidences(IMenuManager manager,
 			IStructuredSelection selection) {
 		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
@@ -590,7 +612,7 @@ public class StorageTreeMenuFactory {
 							action.setText("Edit");
 							manager.add(action);
 						} else {
-							if (StandardTreeNodeLabelsEnum.EXCESSMORTALITY
+							if (StandardTreeNodeLabelsEnum.EXCESSMORTALITIES
 									.getNodeLabel().equalsIgnoreCase(
 											parentNodeLabel)) {
 								XMLFileAction action = new XMLFileAction(shell,
