@@ -61,14 +61,28 @@ public class InputData {
     private float [][] overallDalyWeight = new float [92][2];
 	private float [][][] ORforDisabilityCat =   new float [92][2][];
 	private float [][] ORforDisabilityCont =   new float [92][2];
+	
 	//TODO: filling the disability arrays
+	
 	/**
-	 * the constructor () fills the fields with test data
+	 * the constructor () is empty
 	 */
 	
 	
-	public InputData() {};
-	public void makeTest1Data() {
+	public InputData() {
+		/* empty constructor */
+		
+	};
+	
+	
+	
+	
+	
+	
+	/**make test data. Obsolete
+	 * @throws DynamoInconsistentDataException
+	 */
+	public void makeTest1Data() throws DynamoInconsistentDataException {
 
 		// fill RRdis only for clusters with more than one disease;
 		// otherwise it is not possible to use a matrix (not defined for 1 by 1
@@ -226,8 +240,9 @@ public class InputData {
 	/**
 	 * makeTest2() fills it with simple test data conform excel-spreadsheet
 	 * this is not needed for a final version
+	 * @throws DynamoInconsistentDataException 
 	 */
-	public void makeTest2Data() {
+	public void makeTest2Data() throws DynamoInconsistentDataException {
 
 		// this method files the object with test data for test2
 		nDisease = 2;
@@ -358,12 +373,8 @@ public class InputData {
 				
 			}
 	};
-	public void readData(String baseDir, String simulationName){//TODO
-		readSimulationConfiguration(baseDir,simulationName);};
+
 		
-		
-	public void readSimulationConfiguration(String baseDir, String simulationName){//TODO
-			readSimulationConfiguration(baseDir,simulationName);}
 
 	public int getRiskType() {
 		return riskType;
@@ -459,10 +470,31 @@ public class InputData {
 
 
 	public float[][][] getPrevRisk() {
+		
+		
+		
+		
 		return deepcopy(prevRisk);
 	}
 
-	public void setPrevRisk(float[][][] prevRisk) {
+	public void setPrevRisk(float[][][] prevRiskIn) throws DynamoInconsistentDataException {
+		
+		
+		float checksum=0;
+		
+		
+	for (int a=0;a<96;a++)
+		for (int g=0;g<2;g++){
+			checksum=0;
+			for (int r=0;r<prevRiskIn[0][0].length;r++){
+				
+				 this.prevRisk[a][g][r]=prevRiskIn[a][g][r];
+			checksum+=this.prevRisk[a][g][r];
+	;
+		}if (Math.abs(checksum-1)>0.00001) throw new DynamoInconsistentDataException (" risk factor prevalence does not" +
+				" sum to 100% for age="+a+" and gender:" + g + " but sums to "+ (checksum*100));
+			}
+		
 		this.prevRisk = prevRisk;
 	}
 
@@ -522,15 +554,33 @@ return returnarray;
 		return deepcopy(relRiskDuurMortBegin);
 	}
 
-	public void setRelRiskDuurMortBegin(float[][] relRiskDuurMortBegin) {
-		this.relRiskDuurMortBegin = deepcopy(relRiskDuurMortBegin);
+	public void setRelRiskDuurMortBegin(float[][] relRiskDuurMortBeginIn) throws DynamoInconsistentDataException {
+		
+			for (int a=0;a<96;a++)
+				for (int g=0;g<2;g++){
+			if (Math.abs(relRiskDuurMortBeginIn[a][g])<0.000001) throw new DynamoInconsistentDataException ("begin relative risk for " +
+					"mortality is 0 " +
+					"for age="+a+" and gender:" + g + " Zero relative risks for mortality are not allowed");
+				}	
+		this.relRiskDuurMortBegin = deepcopy(relRiskDuurMortBeginIn);
 	}
 
 	public float[][] getRelRiskDuurMortEnd() {
+		
+		
+		
+		
 		return relRiskDuurMortEnd;
 	}
 
-	public void setRelRiskDuurMortEnd(float[][] relRiskDuurMortEnd) {
+	public void setRelRiskDuurMortEnd(float[][] relRiskDuurMortEnd) throws DynamoInconsistentDataException {
+
+	for (int a=0;a<96;a++)
+		for (int g=0;g<2;g++){
+	if (Math.abs(relRiskDuurMortEnd[a][g])<0.000001) throw new DynamoInconsistentDataException ("end  relative risk for " +
+			"mortality is 0 " +
+			"for age="+a+" and gender:" + g + " Zero relative risks for mortality are not allowed");
+		}	
 		this.relRiskDuurMortEnd = relRiskDuurMortEnd;
 	}
 
@@ -565,28 +615,71 @@ return returnarray;
 	public float[][][] getRelRiskMortCat() {
 		return deepcopy(relRiskMortCat);
 	}
-	public void setRelRiskMortCat(float[][][] relRiskMortCat) {
-		this.relRiskMortCat = relRiskMortCat;
+	public void setRelRiskMortCat(float[][][] relRiskMortCatIn) throws DynamoInconsistentDataException {
+		
+		float checksum=0;
+		
+		
+	for (int a=0;a<96;a++)
+		for (int g=0;g<2;g++){
+			checksum=0;
+			for (int r=0;r<relRiskMortCatIn[0][0].length;r++){
+				
+			checksum+=relRiskMortCatIn[a][g][r];
+	;if (Math.abs(relRiskMortCatIn[a][g][r])<0.000001) throw new DynamoInconsistentDataException (" relative risk for " +
+			"mortality is 0 " +
+			"for age="+a+" and gender:" + g + " riskclass "+ r +". Zero relative risks for mortality are not allowed");
+		}
+		if (Math.abs(checksum)<0.00001) throw new DynamoInconsistentDataException (" all relative risks for " +
+				"mortality are (practically) 0 " +
+				"for age="+a+" and gender:" + g + ". Zero relative risks for mortality are not allowed");
+			}
+		
+		
+		
+		this.relRiskMortCat = relRiskMortCatIn;
 	}
 	public float[][] getRelRiskMortCont() {
 		return deepcopy(relRiskMortCont);
 	}
-	public void setRelRiskMortCont(float[][] relRiskMortCont) {
-		this.relRiskMortCont = relRiskMortCont;
+	
+	/**
+	 * @param relRiskMortContIn : input array [][] with RR for continuous riskfactor by age and gender
+	 * @throws DynamoInconsistentDataException when zero
+	 */
+	public void setRelRiskMortCont(float[][] relRiskMortContIn) throws DynamoInconsistentDataException {
+		
+		for (int a=0;a<96;a++)
+			for (int g=0;g<2;g++){
+				if (Math.abs(relRiskMortContIn[a][g])<0.000001) throw new DynamoInconsistentDataException (" relative risk for " +
+						"mortality is 0 " +
+						"for age="+a+" and gender:" + g  +". Zero relative risks for mortality are not allowed");
+					}
+				
+		
+		this.relRiskMortCont = relRiskMortContIn;
 	}
 	/**
 	 * @param input: array (float[][][]) of prevalence of risk factor (indexes: age, sex, risk category)
 	 * @param percent: boolean telling whether input is in percent
+	 * @throws DynamoInconsistentDataException 
 	 */
-	public void setPrevRisk(float[][][] input, boolean percent) {
-		if (percent){
+	public void setPrevRisk(float[][][] input, boolean percent) throws DynamoInconsistentDataException {
+		
+		float checksum=0;
+		
 			this.prevRisk=new float[96][2][input[0][0].length];
 		for (int a=0;a<96;a++)
-			for (int g=0;g<2;g++)
-				for (int r=0;r<input[0][0].length;r++)
-				this.prevRisk[a][g][r]=input[a][g][r]/100;}
-		else this.prevRisk=input;
-		
+			for (int g=0;g<2;g++){
+				checksum=0;
+				for (int r=0;r<input[0][0].length;r++){
+					if (percent)this.prevRisk[a][g][r]=input[a][g][r]/100;
+					else this.prevRisk[a][g][r]=input[a][g][r];
+				checksum+=this.prevRisk[a][g][r];
+		;
+			}if (Math.abs(checksum-1)>0.00001) throw new DynamoInconsistentDataException (" risk factor prevalence does not" +
+					" sum to 100% for age="+a+" and gender:" + g + " but sums to "+ (checksum*100));
+				}
 		
 	}
 	public int getTransType() {

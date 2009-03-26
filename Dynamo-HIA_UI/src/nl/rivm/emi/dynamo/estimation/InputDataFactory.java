@@ -20,6 +20,10 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author boshuizh
+ *
+ */
 public class InputDataFactory {
 
 	Log log = LogFactory.getLog(getClass().getName());
@@ -125,6 +129,10 @@ public class InputDataFactory {
 
 	public static ArrayList<DisInfo> disInfo;
 
+	/**
+	 * @author boshuizh
+	 *
+	 */
 	public class DisInfo {
 		int number;
 		String name;
@@ -957,18 +965,19 @@ public class InputDataFactory {
 	 * @param scenarioInfo
 	 *            : object ScenarioInfo to which the informaiton is added
 	 * @throws DynamoConfigurationException
+	 * @throws DynamoInconsistentDataException 
 	 */
 
 	public void addRiskFactorInfoToInputData(InputData inputData,
-			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
+			ScenarioInfo scenarioInfo) throws DynamoConfigurationException, DynamoInconsistentDataException {
 
 		// read and add risktype
 
 		String configFileName;
 
-		configFileName = baseDir + File.separator + referenceDataDir
+		configFileName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + riskFactorDir + File.separator
-				+ riskFactorName + File.separator + riskfactorXMLname;		
+				+ this.riskFactorName + File.separator + riskfactorXMLname;		
 		XMLConfiguration config = null;
 		try {
 
@@ -989,7 +998,7 @@ public class InputDataFactory {
 		}
 		String type = ((XMLConfiguration) config).getRootElementName();
 		if (type == "riskfactor_categorical") {
-			riskFactorType = 1;
+			this.riskFactorType = 1;
 		} else {
 			if (type == "riskfactor_continuous") {
 				// TODO: Temporary build message: not yet implemented
@@ -1007,7 +1016,7 @@ public class InputDataFactory {
 							new DynamoConfigurationException("The component Riskfactor Compound has not yet been implemented"), 
 							configFileName);
 					// TODO: Reactivate code below for version 1.1					
-					riskFactorType = 3;
+					this.riskFactorType = 3;
 				} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
@@ -1016,18 +1025,18 @@ public class InputDataFactory {
 
 		}
 
-		inputData.setRiskType(riskFactorType);
+		inputData.setRiskType(this.riskFactorType);
 
-		scenarioInfo.setRiskType(riskFactorType);
+		scenarioInfo.setRiskType(this.riskFactorType);
 		// make file name for riskfactor configurationfile
 
 		/* now read in all the data in the sequence of the user data document */
 
-		if (riskFactorType == 2)
+		if (this.riskFactorType == 2)
 			inputData.setRefClassCont(getFloat("referencevalue", config));
 		else
 			inputData.setRefClassCont(0);
-		if (riskFactorType == 3) {
+		if (this.riskFactorType == 3) {
 			inputData.setIndexDuurClass(getInteger("durationclass", config));
 			
 			/*
@@ -1035,10 +1044,10 @@ public class InputDataFactory {
 			 * this number the relative risks for duration
 			 */
 
-			originalNumberDurationClass = inputData.getIndexDuurClass();
+			this.originalNumberDurationClass = inputData.getIndexDuurClass();
 		} else
 			inputData.setIndexDuurClass(0);
-		if (riskFactorType != 2)
+		if (this.riskFactorType != 2)
 			scenarioInfo
 					.setReferenceClass(getInteger("referenceclass", config));
 		else
@@ -1049,7 +1058,7 @@ public class InputDataFactory {
 		 */
 
 		ConfigurationNode rootNode = config.getRootNode();
-		if (riskFactorType != 2) {
+		if (this.riskFactorType != 2) {
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 
@@ -1119,15 +1128,15 @@ public class InputDataFactory {
 		/* read transition information */
 		//
 		//
-		if (riskFactorType != 2)
-			configFileName = baseDir + File.separator + referenceDataDir
+		if (this.riskFactorType != 2)
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + riskFactorTransDirName
+					+ this.riskFactorName + File.separator + this.riskFactorTransDirName
 					+ File.separator + transMatXMLname;
 		else
-			configFileName = baseDir + File.separator + referenceDataDir
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + riskFactorTransDirName
+					+ this.riskFactorName + File.separator + this.riskFactorTransDirName
 					+ File.separator + transDriftXMLname;
 
 		readTransitionData(configFileName, inputData, null, 0);
@@ -1139,23 +1148,26 @@ public class InputDataFactory {
 		//
 		/* first for categorical/compound */
 		//
-		configFileName = baseDir + File.separator + referenceDataDir
+		configFileName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + riskFactorDir + File.separator
-				+ riskFactorName + File.separator + riskfactorPrevXMLname;
-		if (riskFactorType != 2) {
-			inputData.setPrevRisk(factory.manufactureTwoDimArray(
+				+ this.riskFactorName + File.separator + riskfactorPrevXMLname;
+		if (this.riskFactorType != 2) {
+			inputData.setPrevRisk(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_categorical",
 					"prevalence", "cat", "percent", false), true);
 			scenarioInfo.setOldPrevalence(inputData.getPrevRisk());
+			
+			
+			
 		} else {
 
-			inputData.setMeanRisk(factory.manufactureOneDimArray(
+			inputData.setMeanRisk(this.factory.manufactureOneDimArray(
 					configFileName, "riskfactorprevalences_continuous",
 					"prevalence", "mean", true));
-			inputData.setStdDevRisk(factory.manufactureOneDimArray(
+			inputData.setStdDevRisk(this.factory.manufactureOneDimArray(
 					configFileName, "riskfactorprevalences_continuous",
 					"prevalence", "standarddeviation", true));
-			inputData.setSkewnessRisk(factory.manufactureOneDimArray(
+			inputData.setSkewnessRisk(this.factory.manufactureOneDimArray(
 					configFileName, "riskfactorprevalences_continuous",
 					"prevalence", "skewness", true));
 			float[][] skewness = inputData.getSkewnessRisk();
@@ -1171,12 +1183,12 @@ public class InputDataFactory {
 				inputData.setRiskDistribution("LogNormal");
 		}
 		;
-		if (riskFactorType == 3) {
-			configFileName = baseDir + File.separator + referenceDataDir
+		if (this.riskFactorType == 3) {
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + durationXMLname;
+					+ this.riskFactorName + File.separator + durationXMLname;
 
-			inputData.setDuurFreq(factory.manufactureTwoDimArray(
+			inputData.setDuurFreq(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_duration",
 					"prevalence", "duration", "percent", false), true);
 			scenarioInfo.setOldDurationClasses(inputData.getDuurFreq());
@@ -1198,12 +1210,12 @@ public class InputDataFactory {
 
 			}
 		/* for categorical */
-		if (riskFactorType == 1) {
-			configFileName = baseDir + File.separator + referenceDataDir
+		if (this.riskFactorType == 1) {
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + allcauseRRXMLname;
+					+ this.riskFactorName + File.separator + allcauseRRXMLname;
 
-			inputData.setRelRiskMortCat(factory.manufactureTwoDimArray(
+			inputData.setRelRiskMortCat(this.factory.manufactureTwoDimArray(
 					configFileName, "relrisksfordeath_categorical",
 					"relriskfordeath", "cat", "value", false));
 			inputData.setRelRiskMortCont(data2dim);
@@ -1211,12 +1223,12 @@ public class InputDataFactory {
 		}
 		/* for continuous */
 
-		if (riskFactorType == 2) {
-			configFileName = baseDir + File.separator + referenceDataDir
+		if (this.riskFactorType == 2) {
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + allcauseRRXMLname;
+					+ this.riskFactorName + File.separator + allcauseRRXMLname;
 
-			inputData.setRelRiskMortCont(factory.manufactureOneDimArray(
+			inputData.setRelRiskMortCont(this.factory.manufactureOneDimArray(
 					configFileName, "relrisksfordeath_continuous",
 					"relriskfordeath", "value", false));
 			inputData.setRelRiskMortCat(data3dim);
@@ -1224,29 +1236,34 @@ public class InputDataFactory {
 		/*
 		 * for compound
 		 */
-		if (riskFactorType == 3) {
-			configFileName = baseDir + File.separator + referenceDataDir
+		if (this.riskFactorType == 3) {
+			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ riskFactorName + File.separator + allcauseRRXMLname;
+					+ this.riskFactorName + File.separator + allcauseRRXMLname;
 
-			inputData.setRelRiskMortCat(factory.manufactureTwoDimArray(
+			inputData.setRelRiskMortCat(this.factory.manufactureTwoDimArray(
 					configFileName, "relrisksfordeath_compound",
 					"relriskfordeath", "cat", "value", true));
-			inputData.setRelRiskDuurMortBegin(factory.selectOneDimArray(
+			
+					inputData.setRelRiskDuurMortBegin(this.factory.selectOneDimArray(
 					configFileName, "relrisksfordeath_compound",
 					"relriskfordeath", "begin", "cat",
-					originalNumberDurationClass));
-			inputData.setRelRiskDuurMortEnd(factory.selectOneDimArray(
+					this.originalNumberDurationClass));
+			inputData.setRelRiskDuurMortEnd(this.factory.selectOneDimArray(
 					configFileName, "relrisksfordeath_compound",
 					"relriskfordeath", "end", "cat",
-					originalNumberDurationClass));
-			inputData.setAlphaMort(factory.selectOneDimArray(configFileName,
+					this.originalNumberDurationClass));
+			inputData.setAlphaMort(this.factory.selectOneDimArray(configFileName,
 					"relrisksfordeath_compound", "relriskfordeath", "alfa",
-					"cat", originalNumberDurationClass));
+					"cat", this.originalNumberDurationClass));
 
 			;
 			inputData.setRelRiskMortCont(data2dim);
 		}
+		
+		
+		
+		
 
 	}
 

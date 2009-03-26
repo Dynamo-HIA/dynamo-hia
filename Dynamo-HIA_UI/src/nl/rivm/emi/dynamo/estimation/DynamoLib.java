@@ -49,6 +49,10 @@ public class DynamoLib {
 	
 	
 	
+	/**makes a table with CDF (cum. density function) of the normal distribution for NinTable points between -4 and +4
+	 * standard deviations. The points -4 and + 4 are not part of the table
+	 * @param NinTable
+	 */
 	public static void makeCDFTable(int NinTable) {
 	/* check whether the right CDF table has already  been made, in that case 
 	 * do not make it again	
@@ -69,9 +73,12 @@ public class DynamoLib {
 	};
 
 	/**
-	 * DynamoLib pietje = DynamoLib.getInstance();
+	 * DynamoLib is a singleton, and DynamoLib.getInstance() only makes a new instance if there is 
+	 * no earlier instance;
+	 * When called, a new CDF table is made with NinTable entries
+	 * @param NinTable : 
 	 * 
-	 * @return
+	 * @return instance of DynamoLib
 	 */
 	/* check whether the right CDF table has already  been made, in that case 
 	 * do not make it again	
@@ -84,6 +91,9 @@ public class DynamoLib {
 		return instance;
 	}
 
+	/**
+	 * @return table with CDF values from normal distribution between -4 and +4 standard deviations
+	 */
 	public double[] getCdfTable() {
 		return cdfTable;
 	}
@@ -91,10 +101,11 @@ public class DynamoLib {
 	/**
 	 * method draw generates a random draws from an array with percentages
 	 * 
-	 * @param double p: array with percentages
-	 * @param Random
-	 *            rand: a random value generator
+	 * @param  p : array with percentages
+	 * @param 
+	 *            rand : a random value generator
 	 * @author Hendriek
+	 * @return a random draw : a number between (and including) 0 and (length of p)-1
 	 */
 	public static int draw(float p[], Random rand) {
 		// Generates a random draws from an array with percentages
@@ -112,64 +123,27 @@ public class DynamoLib {
 
 	}
 
+	
 	/**
-	 * Method for Inverse Cumulative Standard Normal Distribution Function *
-	 * 
-	 * @param double p: (cumulative) probability
-	 * 
-	 * 
-	 *        This function returns an approximation of the inverse cumulative
-	 *        standard normal distribution function. I.e., given P, it returns
-	 *        an approximation to the X satisfying P = Pr{Z <= X} where Z is a
-	 *        random variable from the standard normal distribution.
-	 * 
-	 *        The algorithm uses a minimax approximation by rational functions
-	 *        and the result has a relative error whose absolute value is less
-	 *        than 1.15e-9.
-	 * 
-	 * @Author: Peter J. Acklam /Javascript version by Alankar Misra @ Digital
-	 *          Sutras (alankar@digitalsutras.com)) / JAVA version by Hendriek
-	 *          E-mail: pjacklam@online.no WWW URL:
-	 *          http://home.online.no/~pjacklam
-	 * 
-	 */
-
-	/**
-	 * 
-	 *This method calculates the normal cumulative distribution function.
-	 *<p>
-	 *It is based upon algorithm 5666 for the error function, from:
-	 * <p>
-	 * 
-	 * <pre>
-	 *       Hart, J.F. et al, 'Computer Approximations', Wiley 1968
-	 *</pre>
-	 *<p>
-	 * The FORTRAN programmer was Alan Miller. The documentation in the FORTRAN
-	 * code claims that the function is "accurate to 1.e-15."
-	 * <p>
-	 * Steve Verrill translated the FORTRAN code (the March 30, 1986 version)
-	 * into Java. This translation was performed on January 10, 2001.
-	 * 
 	 *@param z
 	 *            The method returns the value of the normal cumulative
 	 *            distribution function at z.
 	 * 
 	 *@version .5 --- January 10, 2001
 	 * 
+	 * 
+	 * @Author Peter J. Acklam /Javascript version by Alankar Misra @ Digital
+	 *          Sutras (alankar@digitalsutras.com)) / JAVA version by Hendriek
+	 *          E-mail: pjacklam@online.no WWW URL:
+	 *          http://home.online.no/~pjacklam
+	 *          
+	 *       
+	 * @return the method returns the value of the normal cumulative
+	 *            distribution function at z.
+	 * 
 	 */
 
-	/*
-	 * 
-	 * Here is a copy of the documentation in the FORTRAN code:
-	 * 
-	 * SUBROUTINE NORMP(Z, P, Q, PDF) C C Normal distribution probabilities
-	 * accurate to 1.e-15. C Z = no. of standard deviations from the mean. C P,
-	 * Q = probabilities to the left & right of Z. P + Q = 1. C PDF = the
-	 * probability density. C C Based upon algorithm 5666 for the error
-	 * function, from: C Hart, J.F. et al, 'Computer Approximations', Wiley 1968
-	 * C C Programmer: Alan Miller C C Latest revision - 30 March 1986 C
-	 */
+		
 
 	public static double normp(double z) {
 
@@ -199,7 +173,7 @@ public class DynamoLib {
 
 		zabs = Math.abs(z);
 
-		// |z| > 37
+	
 
 		if (z > 37.0) {
 
@@ -217,13 +191,13 @@ public class DynamoLib {
 
 		}
 
-		// |z| <= 37.
+	
 
 		expntl = Math.exp(-.5 * zabs * zabs);
 
 		pdf = expntl / root2pi;
 
-		// |z| < cutoff = 10/sqrt(2).
+		
 
 		if (zabs < cutoff) {
 
@@ -257,6 +231,59 @@ public class DynamoLib {
 
 	}
 
+	/**Inverse of the cumulative distribution of a normal
+	 * variable 
+	 * @param p cumulative probability distribution value
+	 * @return inverse value (z -value)
+	 * 
+	 * /**
+	 * Method for Inverse Cumulative Standard Normal Distribution Function *
+	 * 
+	 * 
+	 * 
+	 * 
+	 *        This function returns an approximation of the inverse cumulative
+	 *        standard normal distribution function. I.e., given P, it returns
+	 *        an approximation to the X satisfying P = Pr{Z <= X} where Z is a
+	 *        random variable from the standard normal distribution.
+	 * 
+	 *        The algorithm uses a minimax approximation by rational functions
+	 *        and the result has a relative error whose absolute value is less
+	 *        than 1.15e-9.
+	 *        
+	 *        
+	 *        
+	 * 
+	 *This method calculates the normal cumulative distribution function.
+	 *<p>
+	 *It is based upon algorithm 5666 for the error function, from:
+	 * <p>
+	 * 
+	 * <pre>
+	 *       Hart, J.F. et al, 'Computer Approximations', Wiley 1968
+	 *</pre>
+	 *<p>
+	 * The FORTRAN programmer was Alan Miller. The documentation in the FORTRAN
+	 * code claims that the function is "accurate to 1.e-15."
+	 * <p>
+	 * Steve Verrill translated the FORTRAN code (the March 30, 1986 version)
+	 * into Java. This translation was performed on January 10, 2001.
+	 * 
+	 * 
+	 * 
+	 * Here is a copy of the documentation in the FORTRAN code:
+	 * 
+	 * SUBROUTINE NORMP(Z, P, Q, PDF) C C Normal distribution probabilities
+	 * accurate to 1.e-15. C Z = no. of standard deviations from the mean. C P,
+	 * Q = probabilities to the left & right of Z. P + Q = 1. C PDF = the
+	 * probability density. C C Based upon algorithm 5666 for the error
+	 * function, from: C Hart, J.F. et al, 'Computer Approximations', Wiley 1968
+	 * C C Programmer: Alan Miller C C Latest revision - 30 March 1986 C
+	 
+	 */
+	 
+	
+	
 	static public double normInv(double p) {
 		// Coefficients in rational approximations
 		double[] a = { -3.969683028665376e+01, 2.209460984245205e+02,
@@ -345,8 +372,7 @@ public class DynamoLib {
 	static double logNormInv2(double p, double skewness, double mean, double std)
 			throws DynamoInconsistentDataException {
 
-		// TODO nakijken of deze formules correct zijn ; worden ook nog bij
-		// berekenen drift gebruikt//
+		
 		if (std <= 0)
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
@@ -382,7 +408,7 @@ public class DynamoLib {
 	 * 
 	 * @param f
 	 *            : value of which to check the sign
-	 * @return: -1 or 1 (f= positive or negative
+	 * @return -1 or 1 (f= positive or negative
 	 */
 	private static double Sign(double f) {
 		if (f < 0)
@@ -423,7 +449,7 @@ public class DynamoLib {
 	 * is sought, one can use this method also for finding roots of other
 	 * functions
 	 * 
-	 * @param double skew: the given value of the variable (skewness) for which
+	 * @param skew  the given value of the variable (skewness) for which
 	 *        the value of sigma should be found
 	 * @return double : the sigma value for which the function is zero
 	 */
@@ -522,14 +548,14 @@ public class DynamoLib {
 	/**
 	 * method regression(y,x) does a regression of array y on matrix x
 	 * 
-	 * @param double [] Y-values
-	 * @param double [][] X-values (including intercept)
+	 * @param y_array double [] Y-values
+	 * @param x_array double [][] X-values (including intercept)
 	 * @return double [] regression coefficients
 	 * */
 
 	/* no checking of dimensions is done */
 	// TODO exceptions for wrong dimensions
-	private double[] regression(double[] y_array, double[][] x_array) {
+	public static double[] regression(double[] y_array, double[][] x_array) {
 		Matrix X = new Matrix(x_array);
 		Matrix Y = new Matrix(y_array, y_array.length);
 		Matrix XT = X.transpose();
@@ -542,11 +568,11 @@ public class DynamoLib {
 		return coef;
 	};
 
-	/**
+	/**main was used for testing
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		float[] p = { 0.1F, 0.4F, 0.5F };
 		int int1;
 		Random rand1 = new Random(123);
@@ -581,6 +607,10 @@ public class DynamoLib {
 
 	}
 
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
 	public static float[][] deepcopy(float[][] inarray) {
 		float[][] returnarray = new float[inarray.length][inarray[0].length];
 		for (int i = 0; i < inarray.length; i++)
@@ -589,7 +619,10 @@ public class DynamoLib {
 		return returnarray;
 
 	}
-
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
 	public static float[][][] deepcopy(float[][][] inarray) {
 		float[][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
 		for (int i = 0; i < inarray.length; i++)
@@ -599,7 +632,10 @@ public class DynamoLib {
 		return returnarray;
 
 	}
-
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
 	public static double[][][] deepcopy(double[][][] inarray) {
 		double[][][] returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
 		for (int i = 0; i < inarray.length; i++)
@@ -609,7 +645,10 @@ public class DynamoLib {
 		return returnarray;
 
 	}
-
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
 	public static float[][][][] deepcopy(float[][][][] inarray) {
 		float[][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
 		for (int i = 0; i < inarray.length; i++)
@@ -620,7 +659,10 @@ public class DynamoLib {
 		return returnarray;
 
 	}
-
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
 	public static float[][][][][] deepcopy(float[][][][][] inarray) {
 		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length][inarray[0][0][0][0].length];
 		for (int i = 0; i < inarray.length; i++)
@@ -637,8 +679,8 @@ public class DynamoLib {
 
 
 	/**
-	 * @param succesrate
-	 * @return
+	 * @param inarray
+	 * @return deepcopy of input array
 	 */
 	public static float[] deepcopy(float[] inarray) {
 		float[] result=new float [inarray.length];
@@ -650,8 +692,8 @@ public class DynamoLib {
 
 
 	/**
-	 * @param newborns
-	 * @return
+	 * @param inarray
+	 * @return deepcopy of input array
 	 */
 	public static int[] deepcopy(int[] inarray) {
 		int[] result=new int [inarray.length];
@@ -663,8 +705,8 @@ public class DynamoLib {
 
 
 	/**
-	 * @param zeroTransition
-	 * @return
+	 * @param inarray
+	 * @return deepcopy of input array
 	 */
 	public static boolean[] deepcopy(boolean[] inarray) {
 		boolean[] result=new boolean [inarray.length];
@@ -676,8 +718,8 @@ public class DynamoLib {
 
 
 	/**
-	 * @param scenarioNames
-	 * @return
+	 * @param inarray
+	 * @return deepcopy of input array
 	 */
 	public static String[] deepcopy(String[] inarray) {
 		String[] result=new String [inarray.length];

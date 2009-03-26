@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
 /**
  * @author Hendriek DiseaseClusterData contains inputdata pertaining to a group
  *         of clustered diseases Fields are:
@@ -36,17 +38,9 @@ public class DiseaseClusterData {
 	private float[] disability;
 
 	/**
-	 * @param Name
-	 *            : name of disease cluster
-	 * @param StartN
-	 *            : disease number of first disease
-	 * @param N
-	 *            : Number of diseases in the cluster
-	 * @param Name2
-	 *            : names of the diseases in the cluster
-	 * @param NRIndependent
-	 *            : indexes (within this cluster) of the independent diseases
-	 * @param RRdis
+	 * @param Structure : cluster structure
+	 * @param nClasses: number of riskfactor classes 
+	  * @param RRdis
 	 *            table giving RR's of independent disease (first index) on
 	 *            dependent diseases (second index)
 	 * 
@@ -57,16 +51,16 @@ public class DiseaseClusterData {
 
 		setIncidence(new float[Structure.getNInCluster()]);
 
-		prevalence = new float[Structure.getNInCluster()];
-		disability = new float[Structure.getNInCluster()];
-		relRiskCont = new float[Structure.getNInCluster()];
-		excessMortality = new float[Structure.getNInCluster()];
-		caseFatality = new float[Structure.getNInCluster()];
-		curedFraction = new float[Structure.getNInCluster()];
-		relRiskDuurBegin = new float[Structure.getNInCluster()];
-		relRiskDuurEnd = new float[Structure.getNInCluster()];
-		rrAlpha = new float[Structure.getNInCluster()];
-		relRiskCat = new float[nClasses][Structure.getNInCluster()];
+		this.prevalence = new float[Structure.getNInCluster()];
+		this.disability = new float[Structure.getNInCluster()];
+		this.relRiskCont = new float[Structure.getNInCluster()];
+		this.excessMortality = new float[Structure.getNInCluster()];
+		this.caseFatality = new float[Structure.getNInCluster()];
+		this.curedFraction = new float[Structure.getNInCluster()];
+		this.relRiskDuurBegin = new float[Structure.getNInCluster()];
+		this.relRiskDuurEnd = new float[Structure.getNInCluster()];
+		this.rrAlpha = new float[Structure.getNInCluster()];
+		this.relRiskCat = new float[nClasses][Structure.getNInCluster()];
 
 		// this.RRdis = RRdis;
 		// RRdisExtended is a RR matrix for all diseases, as this make looking
@@ -74,9 +68,9 @@ public class DiseaseClusterData {
 		// right RR much easier;
 
 		if (RRdis.length == Structure.getNInCluster())
-			RRdisExtended = RRdis;
+			this.RRdisExtended = RRdis;
 		else {
-			RRdisExtended = new float[Structure.getNInCluster()][Structure
+			this.RRdisExtended = new float[Structure.getNInCluster()][Structure
 					.getNInCluster()];
 			int dd = 0;// dd contains number of current dependent disease;
 			int di = 0;// di contains number of current independent disease;
@@ -86,26 +80,29 @@ public class DiseaseClusterData {
 					dd = 0; // dd contains number of current dependent disease;
 					for (int d2 = 0; d2 < Structure.getNInCluster(); d2++)
 						if (Structure.getDependentDisease()[d2] == true) {
-							RRdisExtended[d1][d2] = RRdis[di][dd];
+							this.RRdisExtended[d1][d2] = RRdis[di][dd];
 							dd++;
 						} else {
-							RRdisExtended[d1][d2] = 1;
+							this.RRdisExtended[d1][d2] = 1;
 						}
 					di++;
 				} else
 					for (int d2 = 0; d2 < Structure.getNInCluster(); d2++) {
-						RRdisExtended[d1][d2] = 1;
+						this.RRdisExtended[d1][d2] = 1;
 					}
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public DiseaseClusterData() {
 		setIncidence(new float[1]);
-		prevalence = new float[1];
+		this.prevalence = new float[1];
 		// RRdis = new float [1][1];
-		RRdisExtended = new float[1][1];
+		this.RRdisExtended = new float[1][1];
 		// RRdis[0][0]=1;
-		RRdisExtended[0][0] = 1;
+		this.RRdisExtended[0][0] = 1;
 	}
 
 	/**
@@ -113,12 +110,12 @@ public class DiseaseClusterData {
 	 *            array with prevalence rates for this cluster
 	 */
 	public void setPrevalence(float[] Input) {
-		if (Input.length != prevalence.length)
+		if (Input.length != this.prevalence.length)
 			System.out.println("unequal length in initialisation "
 					+ "of prevalences in DiseaseCluster");
-		prevalence=new float[Input.length];
+		this.prevalence=new float[Input.length];
 		for (int i = 0; i < Input.length; i++) {
-			prevalence[i] = Input[i];
+			this.prevalence[i] = Input[i];
 		}
 	}
 
@@ -127,19 +124,17 @@ public class DiseaseClusterData {
 	 *            prevalence rate for single disease
 	 */
 	public void setPrevalence(float Input) {
-		if (prevalence.length != 1)
-			System.out.println("unequal length in initialisation "
-					+ "of prevalences in DiseaseCluster " + prevalence.length
-					+ "instead of 1");
-		prevalence[0] = Input;
+		
+		this.prevalence[0] = Input;
 	}
 
 	/**
-	 * @param Input
+	 
+	 * @param input
 	 *            array with incidence rates for this cluster
 	 */
 	public void setIncidence(float[] input) {
-		incidence = input;
+		this.incidence = input;
 	}
 
 	/**
@@ -150,7 +145,7 @@ public class DiseaseClusterData {
 	 */
 	public void setIncidence(float input, int d) {
 
-		incidence[d] = input;
+		this.incidence[d] = input;
 
 	}
 
@@ -162,7 +157,7 @@ public class DiseaseClusterData {
 	 */
 	public void setPrevalence(float input, int d) {
 
-		prevalence[d] = input;
+		this.prevalence[d] = input;
 
 	}
 
@@ -174,7 +169,7 @@ public class DiseaseClusterData {
 	 */
 	public void setExcessMortality(float input, int d) {
 
-		excessMortality[d] = input;
+		this.excessMortality[d] = input;
 
 	}
 
@@ -183,13 +178,14 @@ public class DiseaseClusterData {
 	 *            : incidence rate for this cluster
 	 */
 	public void setIncidence(float Input) {
-		if (incidence.length != 1)
-			System.out.println("unequal length in initialisation "
-					+ "of incidences in DiseaseCluster " + incidence.length
-					+ "instead of 1");
-		incidence[0] = Input;
+		
+		this.incidence[0] = Input;
 	}
 
+	/**
+	 * @return array [][] with the RR's for diseases on other diseases in the cluster of dimension n-diseases by n-diseases
+	 * indexes are from - to
+	 */
 	public float[][] getRRdisExtended() {
 		return DynamoLib.deepcopy(this.RRdisExtended);
 	}
@@ -208,29 +204,27 @@ public class DiseaseClusterData {
 		this.RRdisExtended[0][0] = rdisExtended;
 	}
 
-	/** setter for RRdisExtended
+	/**
 	 * @param rdisExtended
-	 * @param index1
-	 * @param index2
+	 * @param index1 : first index (from)
+	 * @param index2 : second index (to)
 	 */
 	public void setRRdisExtended(float rdisExtended, int index1, int index2) {
 		this.RRdisExtended[index1][index1] = rdisExtended;
 	}
 
 	/**
-	 * @return
+	 * @return array with prevalences of diseases
 	 */
 	public float[] getPrevalence() {
-		return DynamoLib.deepcopy(prevalence);
+		return DynamoLib.deepcopy(this.prevalence);
 	}
 
-	
-
 	/**
-	 * @return
+	 * @return array with relative risk for begin duration (array for different diseases in the cluster)
 	 */
 	public float[] getRelRiskDuurBegin() {
-		return DynamoLib.deepcopy(relRiskDuurBegin);
+		return DynamoLib.deepcopy(this.relRiskDuurBegin);
 	}
 
 	/**
@@ -243,16 +237,19 @@ public class DiseaseClusterData {
 	/**
 	 * @param relRiskDuurBegin
 	 * @param d
+	 * @throws DynamoInconsistentDataException when equal to zero
 	 */
-	public void setRelRiskDuurBegin(float relRiskDuurBegin, int d) {
+	public void setRelRiskDuurBegin(float relRiskDuurBegin, int d) throws DynamoInconsistentDataException {
 		this.relRiskDuurBegin[d] = relRiskDuurBegin;
+		if (relRiskDuurBegin<0.000001) throw new DynamoInconsistentDataException("begin relative risk for disease" +
+				"number "+d+" is zero. This is not allowed. Please change the input"); 
 	}
 
 	/**
-	 * @return
+	 * @return array with relative risk for end duration (array for different diseases in the cluster)
 	 */
 	public float[] getRelRiskDuurEnd() {
-		return DynamoLib.deepcopy(relRiskDuurEnd);
+		return DynamoLib.deepcopy(this.relRiskDuurEnd);
 	}
 
 	/**
@@ -271,10 +268,10 @@ public class DiseaseClusterData {
 	}
 
 	/**
-	 * @return
+	 * @return alfa (coefficient for the diminishing of the relative risk); array for all diseases in the cluster
 	 */
 	public float[] getAlpha() {
-		return DynamoLib.deepcopy(rrAlpha);
+		return DynamoLib.deepcopy(this.rrAlpha);
 	}
 
 	/**
@@ -284,79 +281,153 @@ public class DiseaseClusterData {
 		this.relRiskDuurEnd = relRiskDuurEnd;
 	}
 
+	/**
+	 * @param relRiskDuurEnd
+	 * @param d
+	 */
 	public void setRelRiskDuurEnd(float relRiskDuurEnd, int d) {
 		this.relRiskDuurEnd[d] = relRiskDuurEnd;
 	}
 
+	/**
+	 * @return array of relative risks for a continuous risk factor; array for all diseases in the cluster
+	 */
 	public float[] getRelRiskCont() {
-		return DynamoLib.deepcopy(relRiskCont);
+		return DynamoLib.deepcopy(this.relRiskCont);
 	}
 
-	public void setRelRiskCont(float[] relRiskCont) {
-		this.relRiskCont = relRiskCont;
+	/**
+	 * @param relRiskContIn
+	 * @throws DynamoInconsistentDataException
+	 */
+	public void setRelRiskCont(float[] relRiskContIn) throws DynamoInconsistentDataException {
+		
+		for (int d=0;d<relRiskContIn.length;d++)
+			if (relRiskContIn[d]<0.000001) throw new DynamoInconsistentDataException("relative risk for disease" +
+					"number "+d+" is zero. This is not allowed. Please change the input"); 
+		this.relRiskCont = relRiskContIn;
 	}
 
-	public void setRelRiskCont(float relRiskCont, int d) {
+	/**
+	 * @param relRiskCont
+	 * @param d
+	 * @throws DynamoInconsistentDataException 
+	 */
+	public void setRelRiskCont(float relRiskCont, int d) throws DynamoInconsistentDataException {
+		if (relRiskCont<0.000001) throw  new DynamoInconsistentDataException("relative risk for disease" +
+				"number "+d+" is zero. This is not allowed. Please change the input"); 
 		this.relRiskCont[d] = relRiskCont;
 	}
 
+	/**
+	 * @return array with excess mortalities; array for all diseases in the cluster
+	 */
+	
 	public float[] getExcessMortality() {
-		return DynamoLib.deepcopy(excessMortality);
+		return DynamoLib.deepcopy(this.excessMortality);
 	}
 
+	/**
+	 * @param f
+	 */
 	public void setExcessMortality(float[] f) {
 		this.excessMortality = f;
 	}
 
+	/**
+	 * @param Input
+	 */
+	/**
+	 * @param Input
+	 */
 	public void setExcessMortality(float Input) {
-		if (excessMortality.length != 1)
+		if (this.excessMortality.length != 1)
 			System.out.println("unequal length in initialisation "
 					+ "of excess mortality in DiseaseCluster; "
-					+ excessMortality.length + "instead of 1");
-		excessMortality[0] = Input;
+					+ this.excessMortality.length + "instead of 1");
+		this.excessMortality[0] = Input;
 	}
 
+	/**
+	 * @return array of casefatalities for the diseases in the cluster
+	 */
 	public float[] getCaseFatality() {
-		return DynamoLib.deepcopy(caseFatality);
+		return DynamoLib.deepcopy(this.caseFatality);
 	}
 
+	/**
+	 * @param caseFatality
+	 */
 	public void setCaseFatality(float[] caseFatality) {
 		this.caseFatality = caseFatality;
 	}
 
+	/**
+	 * @param caseFatality
+	 * @param d
+	 */
 	public void setCaseFatality(float caseFatality, int d) {
 		this.caseFatality[d] = caseFatality;
 	}
 
+	/**
+	 * @return array [][] with relative risks. first index riskfactor class, second disease
+	 */
 	public float[][] getRelRiskCat() {
-		return DynamoLib.deepcopy(relRiskCat);
+	
+		return DynamoLib.deepcopy(this.relRiskCat);
 	}
 
-	public void setRelRiskCat(float[][] relRiskCat) {
-		this.relRiskCat = relRiskCat;
-	}
-
-	public void setRelRiskCat(float[] relRiskCat, int d) {
-		for (int cat = 0; cat < relRiskCat.length; cat++)
-			this.relRiskCat[cat][d] = relRiskCat[cat];
+	/** Set the relative risks for diseases for a categorical riskfactor
+	 * @param relRiskCatIn
+	 * @throws DynamoInconsistentDataException
+	 */
+	public void setRelRiskCat(float[][] relRiskCatIn) throws DynamoInconsistentDataException {
+		this.relRiskCat=new float [relRiskCatIn.length][relRiskCatIn[0].length];
+	
+			for (int d = 0; d < relRiskCatIn[0].length; d++){
+				int checksum=0;
+		for (int cat = 0; cat < relRiskCatIn.length; cat++){
+			checksum+=relRiskCatIn[cat][d];
+			 this.relRiskCat[cat][d]=relRiskCatIn[cat][d];
+			}
+		if (Math.abs(checksum)<0.00001) throw new DynamoInconsistentDataException("all relative risks for disease nr "+d+
+				" are zero. This is not allowed.");
+			}
+		
+		
+		this.relRiskCat = relRiskCatIn;
 	}
 
 	/**
-	 * 
+	 * @param relRiskCat
+	 * @param d
+	 * @throws DynamoInconsistentDataException when all relRiskCats are (practically) zero
+	 */
+	public void setRelRiskCat(float[] relRiskCat, int d) throws DynamoInconsistentDataException {
+		double checksum=0;
+		for (int cat = 0; cat < relRiskCat.length; cat++){checksum+=relRiskCat[cat];
+			this.relRiskCat[cat][d] = relRiskCat[cat];}
+		if (checksum<0.0000001)throw new DynamoInconsistentDataException("all relative risks for disease nr "+d+
+		" are zero. This is not allowed.");
+	}
+
+	/**
+	 * sets all values of RelRiskCat to value i
 	 * @param i
 	 *            : input value with which to fill all values of RelRiskCat
 	 * @param d
 	 *            : disease for which to fill in these values
 	 */
 	public void setRelRiskCat(float i, int d) {
-		for (int cat = 0; cat < relRiskCat.length; cat++)
+		for (int cat = 0; cat < this.relRiskCat.length; cat++)
 			this.relRiskCat[cat][d] = i;
 
 	}
 
-	/**
+	/**set the relative Risk for category cat of a categorical risk factor with value f
 	 * @param f
-	 * @param i
+	 * @param cat 
 	 *            : input value with which to fill all values of RelRiskCat
 	 * @param d
 	 *            : disease for which to fill in these values
@@ -367,19 +438,34 @@ public class DiseaseClusterData {
 
 	}
 
+	/**
+	 * @return array with cured fractions for the diseases in the cluster
+	 */
 	public float[] getCuredFraction() {
-		return DynamoLib.deepcopy(curedFraction);
+		return DynamoLib.deepcopy(this.curedFraction);
 	}
 
+	/**
+	 * @param curedFraction
+	 */
 	public void setCuredFraction(float[] curedFraction) {
 		this.curedFraction = curedFraction;
 	}
 
+	/**
+	 * @param curedFraction
+	 * @param d
+	 */
 	public void setCuredFraction(float curedFraction, int d) {
 		this.curedFraction[d] = curedFraction;
 
 	}
 
+	/**
+	 * @param curedFraction
+	 * @param d
+	 * @param structure
+	 */
 	public void setCuredFraction(float curedFraction, int d,
 			DiseaseClusterStructure structure) {
 		this.curedFraction[d] = curedFraction;
@@ -388,18 +474,31 @@ public class DiseaseClusterData {
 
 	}
 
+	/**
+	 * @return array of incidences of the diseases in the cluster
+	 */
 	public float[] getIncidence() {
-		return DynamoLib.deepcopy(incidence);
+		return DynamoLib.deepcopy(this.incidence);
 	}
 
+	/**
+	 * @return array of disabilities percentages for the diseases in the cluster
+	 */
 	public float[] getDisability() {
-		return DynamoLib.deepcopy(disability);
+		return DynamoLib.deepcopy(this.disability);
 	}
 
+	/**
+	 * @param disability
+	 */
 	public void setDisability(float[] disability) {
 		this.disability = disability;
 	}
 
+	/**
+	 * @param disability
+	 * @param d
+	 */
 	public void setDisability(float disability, int d) {
 		this.disability[d] = disability;
 	}
