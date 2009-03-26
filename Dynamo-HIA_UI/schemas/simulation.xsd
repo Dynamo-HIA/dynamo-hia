@@ -52,6 +52,8 @@
           </xs:simpleType>
         </xs:element>
         <xs:element name="randomSeed" type="xs:int" />
+        <!-- resultType is Passive element: 
+        	will not be used in 1.0 -->
         <xs:element name="resultType">
           <xs:simpleType>
             <xs:restriction base="xs:string" />
