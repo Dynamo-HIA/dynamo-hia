@@ -98,21 +98,58 @@ public class InputDataFactory {
 	private String riskFactorTransDirName;
 
 	private int originalNumberDurationClass;
-
 	/* this are the public fields that contain the information from the XML file */
+	/**
+	 * whether to include newborns
+	 */
+	
 	public static boolean newborn = false;
+	/**
+	 * start year of simulation 
+	 */
 	public static int startingYear = 2000;
+	/**
+	 * number of years to run the simulation for the whole population (including newborns)
+	 * in order to calculate life expectancy, all persons in the simulation at the starting year are simulated
+	 * until age 105, irrespective of the value of numberOfyears
+	 */
 	public static int numberOfYears = 10;
+	/**
+	 * simulated population size for each age/gender combination.
+	 * This will be increased if not all risk factor categories can be covered with this number
+	 */
 	public static int simPopSize = 10;
+	/**
+	 * minimum age in the simulated population
+	 */
 	public static int minAge = 0;
+	/**
+	 * maximum age in the simulated population
+	 */
 	public static int maxAge = 95;
+	/**
+	 * time steps used in simulation. In DynamoHia this is fixed to 1. Other values have not been tested
+	 */
 	public static int timeStep = 1;
+	/**
+	 * randomSeed starting the simulation
+	 */
 	public static int randomSeed = 9;
+	/**
+	 * not used at moment. For future use 
+	 */
 	public static boolean details = false;
 
+	/**
+	 * object containing the information of each scenario
+	 */
 	/* now scenario info read */
 	public static ArrayList<ScenInfo> scenInfo;
 
+	/**
+	 * @author boshuizh
+	 * object containing the information of each scenario
+	 */
 	public class ScenInfo {
 
 		String name;
@@ -121,12 +158,20 @@ public class InputDataFactory {
 		int gender;
 		String transFileName;
 		String prevFileName;
-		public float rate;
+		
+		float rate;
 
-		public void ScenInfo() {
+		/**
+		 * 
+		 */
+		public ScenInfo() {
+			// no action necessary
 		}
 	};
 
+	/**
+	 * object containing the information of each disease
+	 */
 	public static ArrayList<DisInfo> disInfo;
 
 	/**
@@ -141,12 +186,22 @@ public class InputDataFactory {
 		String emFileName;
 		String dalyFileName;
 
-		public void DisInfo() {
+		/**
+		 * constructor
+		 */
+		public DisInfo() {
+			// no action necessary
 		}
 	};
-
+	/**
+	 * object containing the information of each relative risk
+	 */
 	public static ArrayList<RRInfo> rrInfo;
 
+	/**
+	 * @author boshuizh
+	 * * object containing the information of each relative risk
+	 */
 	public class RRInfo {
 		int number;
 		String from;
@@ -160,7 +215,11 @@ public class InputDataFactory {
 		float[][] rrDataEnd = null;
 		float[][] rrDataAlfa = null;
 
-		public void RRInfo() {
+		/**
+		 * constructor
+		 */
+		public RRInfo() {
+			// no action necessary
 		}
 	};
 
@@ -181,6 +240,9 @@ public class InputDataFactory {
 	private static final String excessMoratalitiesDir = "Excess_Mortalities"; //OK
 	private static final String referenceDataDir = "Reference_Data"; //OK
 	
+	/**
+	 * population name
+	 */
 	public static String populationName = "popFileName";
 	private static final String sizeXMLname = "size.xml";
 	private static final String allcauseXMLname = "overallmortality.xml";
@@ -188,22 +250,22 @@ public class InputDataFactory {
 	private static final String totDalyXMLname = "overalldalyweights.xml";
 
 	private static final String riskfactorXMLname = "configuration.xml";
-	private static final String classesXMLname = "classes.xml";
 	private static final String transMatXMLname = "transitionmatrix.xml";
 	private static final String transDriftXMLname = "transitiondrift.xml";
 	private static final String riskfactorPrevXMLname = "prevalence.xml";
 	private static final String durationXMLname = "durationdistribution.xml";
 	private static final String allcauseRRXMLname = "relriskofdeath.xml";
-	private static final String prefixRRcont = "continuousrelriskfrom";
-	private static final String prefixRRcat = "categoricalrelriskfrom";
-	private static final String prefixRRcompound = "compoundrelriskfrom.xml";
-	private static final String prefixRRdis = "relriskfrom";
-
+	
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; //"rrisksfromdisease"	
 	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";//"rrisksforriskfactor_continuous"
 	private static final String rrCategoricalTagName = "relrisksfromriskfactor_categorical";//"rrisksforriskfactor_categorical"
 	private static final String rrCompoundTagName = "relrisksfromriskfactor_compound";//"rrisksforriskfactor_compound"	
 	
+	/**
+	 * @param simName
+	 * @param baseDir
+	 * @throws DynamoConfigurationException
+	 */
 	public InputDataFactory(String simName, String baseDir) throws DynamoConfigurationException {
 		this.baseDir = baseDir;
 		doIt(simName);
@@ -214,6 +276,7 @@ public class InputDataFactory {
 	 * @param simName
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private void doIt(String simName) throws DynamoConfigurationException {
 		;
 		
@@ -267,7 +330,7 @@ public class InputDataFactory {
 		 */
 
 		if (timeStep != 1)
-			log.fatal("timestep given in configuration is " + timeStep
+			this.log.fatal("timestep given in configuration is " + timeStep
 					+ ". In Dynamo timestep should be "
 					+ " 1, thus it is changed to 1 ");
 		timeStep = 1;
@@ -285,13 +348,13 @@ public class InputDataFactory {
 		 * riskfactor,RR)
 		 */
 
-		ConfigurationNode rootNode = configuration.getRootNode();
+		ConfigurationNode rootNode = this.configuration.getRootNode();
 
-		if (((XMLConfiguration) configuration).getRootElementName() != mainTagLabel)
+		if (((XMLConfiguration)this. configuration).getRootElementName() != mainTagLabel)
 			throw new DynamoConfigurationException(" Tagname " + mainTagLabel
 					+ " expected in main simulation configuration file "
 					+ "but found tag "
-					+ ((XMLConfiguration) configuration).getRootElementName());
+					+ ((XMLConfiguration) this.configuration).getRootElementName());
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 				.getChildren();
 		boolean scenPresent = false;
@@ -441,6 +504,7 @@ public class InputDataFactory {
 	 * @return flag whether the info was read successfully
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean handleDiseaseInfo(ConfigurationNode node)
 			throws DynamoConfigurationException {
 
@@ -545,18 +609,18 @@ public class InputDataFactory {
 	 * @return flag whether the info was read successfully
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean handleRiskfactorInfo(ConfigurationNode node)
 			throws DynamoConfigurationException {
 
 		boolean flag = false;
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) node
 				.getChildren();
-		String type = null;
 		boolean namePresent = false;
 		boolean transPresent = false;
 		for (ConfigurationNode rootChild : rootChildren) {
 			if (rootChild.getName() == riskFactorNameLabel) {
-				riskFactorName = getString(rootChild, riskFactorNameLabel);
+				this.riskFactorName = getString(rootChild, riskFactorNameLabel);
 				namePresent = true;
 			}
 
@@ -566,8 +630,8 @@ public class InputDataFactory {
 			 * getString(rootChild, riskFactorPrevFileLabel); prevPresent =
 			 * true; }
 			 */
-			if (rootChild.getName() == riskFactorTransFileLabel) {
-				riskFactorTransDirName = getString(rootChild,
+			if (rootChild.getName() ==riskFactorTransFileLabel) {
+				this.riskFactorTransDirName = getString(rootChild,
 						riskFactorTransFileLabel);
 				transPresent = true;
 			}
@@ -589,6 +653,7 @@ public class InputDataFactory {
 	 * @return flag whether the info was read successfully
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean handleRRInfo(ConfigurationNode node)
 			throws DynamoConfigurationException {
 
@@ -657,43 +722,60 @@ public class InputDataFactory {
 		return flag;
 	}
 
-	public String getName(String Label)
+	/**
+	 * @param tag
+	 * @return string value of xml with given tag
+	 * @throws DynamoConfigurationException
+	 */
+	public String getName(String tag)
 
 	throws DynamoConfigurationException {
 
 		try {
-			String name = configuration.getString(Label);
+			String name = this.configuration.getString(tag);
 			if (name == null) {
-				throw new DynamoConfigurationException("empty " + Label
+				throw new DynamoConfigurationException("empty " + tag
 						+ " in XML file from window 1");
 			}
 			return name;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("no " + Label
+			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public String getName(String Label, HierarchicalConfiguration config)
+	/**
+	 * @param tag
+	 * @param config
+	 * @return string value of given tag in configuration
+	 * @throws DynamoConfigurationException
+	 */
+	public String getName(String tag, HierarchicalConfiguration config)
 
 	throws DynamoConfigurationException {
 
 		try {
-			String name = config.getString(Label);
+			String name = config.getString(tag);
 			if (name == null) {
-				throw new DynamoConfigurationException("empty " + Label
+				throw new DynamoConfigurationException("empty " + tag
 						+ " in XML file from window 1");
 			}
 			return name;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("no " + Label
+			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public String getString(ConfigurationNode node, String Label)
+	/**
+	 * @param node
+	 * @param tag
+	 * @return string value of given tag in node
+	 * @throws DynamoConfigurationException
+	 */
+	public String getString(ConfigurationNode node, String tag)
 
 	throws DynamoConfigurationException {
 
@@ -702,20 +784,26 @@ public class InputDataFactory {
 			String value = (String) node.getValue();
 
 			if (value == null) {
-				throw new DynamoConfigurationException("empty " + Label
+				throw new DynamoConfigurationException("empty " + tag
 						+ " in XML file from window 1");
 			}
 
 			returnString = (String) value;
 			return returnString;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("unreadable " + Label
+			throw new DynamoConfigurationException("unreadable " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public float getFloat(ConfigurationNode node, String Label)
+	/**
+	 * @param node
+	 * @param tag
+	 * @return float value in given tag in XML node
+	 * @throws DynamoConfigurationException
+	 */
+	public float getFloat(ConfigurationNode node, String tag)
 
 	throws DynamoConfigurationException {
 
@@ -724,22 +812,28 @@ public class InputDataFactory {
 			String value = (String) node.getValue();
 
 			if (value == null) {
-				throw new DynamoConfigurationException("empty " + Label
+				throw new DynamoConfigurationException("empty " + tag
 						+ " in XML file from window 1");
 			}
 			if (value.toString() == null)
 				throw new DynamoConfigurationException("no String value for  "
-						+ Label + " in XML file from window 1");
+						+ tag + " in XML file from window 1");
 			returnFloat = Float.parseFloat(value);
 			return returnFloat;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("unreadable " + Label
+			throw new DynamoConfigurationException("unreadable " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public int getInteger(ConfigurationNode node, String Label)
+	/**
+	 * @param node
+	 * @param tag
+	 * @return Node with given tage
+	 * @throws DynamoConfigurationException
+	 */
+	public int getInteger(ConfigurationNode node, String tag)
 
 	throws DynamoConfigurationException {
 
@@ -748,78 +842,102 @@ public class InputDataFactory {
 			String value = (String) node.getValue();
 
 			if (value == null) {
-				throw new DynamoConfigurationException("empty " + Label
+				throw new DynamoConfigurationException("empty " + tag
 						+ " in XML file from window 1");
 			}
 			if (value.toString() == null)
 				throw new DynamoConfigurationException("no String value for  "
-						+ Label + " in XML file from window 1");
+						+ tag + " in XML file from window 1");
 			returnInt = Integer.parseInt(value);
 			return returnInt;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("unreadable " + Label
+			throw new DynamoConfigurationException("unreadable " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public int getInteger(String Label)
+	/**
+	 * @param tag
+	 * @return integer value with given tag
+	 * @throws DynamoConfigurationException
+	 */
+	public int getInteger(String tag)
 
 	throws DynamoConfigurationException {
 
 		try {
-			int value = configuration.getInt(Label);
+			int value =this. configuration.getInt(tag);
 			if (value < 0) {
 				throw new DynamoConfigurationException("zero or negative "
-						+ Label + " in XML file from window 1");
+						+ tag + " in XML file from window 1");
 			}
 
 			return value;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("no " + Label
+			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public int getInteger(String Label, HierarchicalConfiguration config)
+	/**
+	 * @param tag
+	 * @param config
+	 * @return integer value with given tag
+	 * @throws DynamoConfigurationException
+	 */
+	public int getInteger(String tag, HierarchicalConfiguration config)
 
 	throws DynamoConfigurationException {
 
 		try {
-			int value = config.getInt(Label);
+			int value = config.getInt(tag);
 			if (value < 0) {
-				throw new DynamoConfigurationException("negative " + Label
+				throw new DynamoConfigurationException("negative " + tag
 						+ " in XML file from window 1");
 			}
 
 			return value;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("no " + Label
+			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
-	public float getFloat(String Label, HierarchicalConfiguration config)
+	/**
+	 * @param tag
+	 * @param config
+	 * @return float value with given tag
+	 * @throws DynamoConfigurationException
+	 */
+	public float getFloat(String tag, HierarchicalConfiguration config)
 
 	throws DynamoConfigurationException {
 
 		try {
-			float value = config.getFloat(Label);
+			float value = config.getFloat(tag);
 			if (value <= 0) {
 				throw new DynamoConfigurationException("zero or negative "
-						+ Label + " in XML file from window 1");
+						+ tag + " in XML file from window 1");
 			}
 
 			return value;
 		} catch (NoSuchElementException e) {
-			throw new DynamoConfigurationException("no " + Label
+			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
 		}
 
 	}
 
+	/**
+	 * @param simName
+	 * @param inputData
+	 * @param scenarioInfo
+	 * @throws DynamoConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	public void addPopulationInfoToInputData(String simName,
 			InputData inputData, ScenarioInfo scenarioInfo)
 			throws DynamoConfigurationException,
@@ -828,31 +946,37 @@ public class InputDataFactory {
 
 		;
 
-		String sizeName = baseDir + File.separator + referenceDataDir
+		String sizeName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + sizeXMLname;
-		String newbornName = baseDir + File.separator + referenceDataDir
+		String newbornName =this. baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + newbornXMLname;
-		String dalyName = baseDir + File.separator + referenceDataDir
+		String dalyName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + totDalyXMLname;
-		String mortName = baseDir + File.separator + referenceDataDir
+		String mortName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + allcauseXMLname;
 
-		scenarioInfo.setPopulationSize(factory.manufactureOneDimArray(sizeName,
+		scenarioInfo.setPopulationSize(this.factory.manufactureOneDimArray(sizeName,
 				"populationsize", "size", "number", false));
-		scenarioInfo.setOverallDalyWeight(factory.manufactureOneDimArray(
+		scenarioInfo.setOverallDalyWeight(this.factory.manufactureOneDimArray(
 				dalyName, "overalldalyweights", "weight", "percent", false));
 		/* put a copy in inputData */
 		inputData.setOverallDalyWeight(scenarioInfo.getOverallDalyWeight());
-		inputData.setMortTot(factory.manufactureOneDimArray(mortName,
+		inputData.setMortTot(this.factory.manufactureOneDimArray(mortName,
 				"overallmortality", "mortality", false));
 		readNewbornData(newbornName, scenarioInfo);
 
 	}
 
+	/**
+	 * @param simName
+	 * @param scenarioInfo
+	 * @throws DynamoConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	public void addScenarioInfoToScenarioData(String simName,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
@@ -907,24 +1031,24 @@ public class InputDataFactory {
 			else {
 				scenarioInfo.setInitialPrevalenceType(true, scen);
 
-				String completePrevFileName = baseDir + File.separator
+				String completePrevFileName = this.baseDir + File.separator
 						+ referenceDataDir + File.separator + riskFactorDir
-						+ File.separator + riskFactorName + File.separator
+						+ File.separator + this.riskFactorName + File.separator
 						+ scenInfo.get(scen).prevFileName + ".xml";
-				if (riskFactorType != 2)
-					scenarioInfo.setNewPrevalence(factory
+				if (this.riskFactorType != 2)
+					scenarioInfo.setNewPrevalence(this.factory
 							.manufactureTwoDimArray(completePrevFileName,
 									"riskfactorprevalences_categorical",
 									"prevalence", "cat", "percent", false),
 							scen);
 				else {
-					scenarioInfo.setNewMeanSTD(factory.manufactureOneDimArray(
+					scenarioInfo.setNewMeanSTD(this.factory.manufactureOneDimArray(
 							completePrevFileName,
 							"riskfactorprevalences_continuous", "prevalence",
-							"standarddeviation", true), factory
+							"standarddeviation", true), this.factory
 							.manufactureOneDimArray(completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalence", "mean", true), factory
+									"prevalence", "mean", true), this.factory
 							.manufactureOneDimArray(completePrevFileName,
 									"riskfactorprevalences_continuous",
 									"prevalence", "skewness", true), scen);
@@ -942,11 +1066,11 @@ public class InputDataFactory {
 				else {
 					scenarioInfo.setTransitionType(true, scen);
 
-					String completeTransFileName = baseDir + File.separator
+					String completeTransFileName = this.baseDir + File.separator
 							+ referenceDataDir + File.separator + riskFactorDir
-							+ File.separator + riskFactorName + File.separator
-							+ riskFactorTransDirName + File.separator
-							+ scenInfo.get(scen).transFileName + ".xml";
+							+ File.separator + this.riskFactorName + File.separator
+							+ this.riskFactorTransDirName + File.separator
+							+  scenInfo.get(scen).transFileName + ".xml";
 					readTransitionData(completeTransFileName, null,
 							scenarioInfo, 0);
 				}
@@ -968,6 +1092,7 @@ public class InputDataFactory {
 	 * @throws DynamoInconsistentDataException 
 	 */
 
+	@SuppressWarnings("unchecked")
 	public void addRiskFactorInfoToInputData(InputData inputData,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException, DynamoInconsistentDataException {
 
@@ -1285,7 +1410,7 @@ public class InputDataFactory {
 			throws DynamoConfigurationException {
 
 		XMLConfiguration config = null;
-		if (riskFactorType != 2) {
+		if (this.riskFactorType != 2) {
 			try {
 				config = new XMLConfiguration(configFileName);
 
@@ -1331,14 +1456,14 @@ public class InputDataFactory {
 				if (inputData != null) {
 					inputData.setTransType(2);
 
-					inputData.setTransitionMatrix(factory
+					inputData.setTransitionMatrix(this.factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
 									"to", "percent"));
 				}
 
 				else if (scenInfo != null)
-					scenInfo.getAlternativeTransitionMatrix()[scenNumber] = factory
+					scenInfo.getAlternativeTransitionMatrix()[scenNumber] = this.factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
 									"to", "percent");
@@ -1389,7 +1514,7 @@ public class InputDataFactory {
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift") {
 				inputData.setTransType(2);
-				inputData.setMeanDrift(factory.manufactureOneDimArray(
+				inputData.setMeanDrift(this.factory.manufactureOneDimArray(
 						configFileName, "transitionmatrix", "transition",
 						"mean", true));
 				/* obsolete but kept for potential future use
@@ -1426,8 +1551,7 @@ public class InputDataFactory {
 	 * @param scenarioInfo
 	 *            : object with scenario information
 	 * @throws DynamoInconsistentDataException
-	 * @throws nl.rivm.emi.cdm.rules.update.dynamo.DynamoConfigurationException
-	 * @throws DynamoConfigurationException
+	  * @throws DynamoConfigurationException
 	 */
 
 	public void addDiseaseInfoToInputData(InputData inputData,
@@ -1439,14 +1563,14 @@ public class InputDataFactory {
 		 * regarded as a single disease here They are split up into two
 		 * "diseases" in ModelParameters
 		 */
-		if ((riskFactorType == 1 || riskFactorType == 3)
+		if ((this.riskFactorType == 1 || this.riskFactorType == 3)
 				&& inputData.getPrevRisk() == null) {
 			addRiskFactorInfoToInputData(inputData, scenarioInfo);
 			if (inputData.getPrevRisk() == null)
 				throw new DynamoInconsistentDataException(
 						"no valid riskfactor information availlable in configuration ");
 		}
-		if ((riskFactorType == 2) && inputData.getMeanRisk() == null) {
+		if ((this.riskFactorType == 2) && inputData.getMeanRisk() == null) {
 			addRiskFactorInfoToInputData(inputData, scenarioInfo);
 			if (inputData.getMeanRisk() == null)
 				throw new DynamoInconsistentDataException(
@@ -1686,55 +1810,55 @@ public class InputDataFactory {
 			info = rrInfo.get(rr);
 
 			if (info.fromIsDisease) {
-				String configFileName = baseDir + File.separator
+				String configFileName =  this.baseDir + File.separator
 						+ referenceDataDir + File.separator + diseasesDir
 						+ File.separator + info.to + File.separator
 						+ RRdiseaseDir + File.separator + info.rrFileName
 						+ info.from + ".xml";
 								
-				info.rrDataDis = factory.manufactureOneDimArray(configFileName,
+				info.rrDataDis =  this.factory.manufactureOneDimArray(configFileName,
 						rrDiseaseTagName, "relativerisk", "value", false);
 
 			} else {
-				if (riskFactorType == 2) {
-					String configFileName = baseDir + File.separator
+				if ( this.riskFactorType == 2) {
+					String configFileName =  this.baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
 							+ info.from + ".xml";
-					info.rrDataCont = factory.manufactureOneDimArray(
+					info.rrDataCont =  this.factory.manufactureOneDimArray(
 							configFileName, rrContinuousTagName,
 							"relativerisk", "value", false);
-				} else if (riskFactorType == 1) {
+				} else if ( this.riskFactorType == 1) {
 
-					String configFileName = baseDir + File.separator
+					String configFileName =  this.baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
 							+ info.from + ".xml";
-					info.rrDataCat = factory.manufactureTwoDimArray(
+					info.rrDataCat =  this.factory.manufactureTwoDimArray(
 							configFileName, rrCategoricalTagName,
 							"relativerisk", "cat", "value", false);
 				} else {
-					String configFileName = baseDir + File.separator
+					String configFileName = this. baseDir + File.separator
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
 							+ info.from + ".xml";
 
-					info.rrDataCat = factory.manufactureTwoDimArray(
+					info.rrDataCat =  this.factory.manufactureTwoDimArray(
 							configFileName, rrCompoundTagName,
 							"relativerisk", "cat", "value", true);
-					info.rrDataBegin = factory.selectOneDimArray(
+					info.rrDataBegin =  this.factory.selectOneDimArray(
 							configFileName, rrCompoundTagName,
 							"relativerisk", "begin", "cat",
-							originalNumberDurationClass);
-					info.rrDataEnd = factory.selectOneDimArray(configFileName,
+							 this.originalNumberDurationClass);
+					info.rrDataEnd = this. factory.selectOneDimArray(configFileName,
 							rrCompoundTagName, "relativerisk",
-							"end", "cat", originalNumberDurationClass);
-					info.rrDataAlfa = factory.selectOneDimArray(configFileName,
+							"end", "cat", this. originalNumberDurationClass);
+					info.rrDataAlfa = this.factory.selectOneDimArray(configFileName,
 							rrCompoundTagName, "relativerisk",
-							"alfa", "cat", originalNumberDurationClass);
+							"alfa", "cat", this. originalNumberDurationClass);
 
 				}
 
@@ -1762,34 +1886,34 @@ public class InputDataFactory {
 					info2 = disInfo.get(dTot);
 					if (thisDisease == info2.name) {
 						// prevalence
-						String configFileName = baseDir + File.separator
+						String configFileName = this. baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
 								+ File.separator + prevalencesDir
 								+ File.separator + info2.prevFileName + ".xml";
-						pData[d] = factory.manufactureOneDimArray(
+						pData[d] =  this.factory.manufactureOneDimArray(
 								configFileName, "diseaseprevalences",
 								"prevalence", "percent", false);
-						configFileName = baseDir + File.separator
+						configFileName =  this.baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + this.incidencesDir
+								+ File.separator + incidencesDir
 								+ File.separator + info2.incFileName + ".xml";
-						iData[d] = factory.manufactureOneDimArray(
+						iData[d] =  this.factory.manufactureOneDimArray(
 								configFileName, "diseaseincidences",
 								"incidence", "value", false);
-						configFileName = baseDir + File.separator
+						configFileName =  this.baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + this.excessMoratalitiesDir
+								+ File.separator + excessMoratalitiesDir
 								+ File.separator + info2.emFileName + ".xml";
-						eData[d] = factory.manufactureOneDimArray(
+						eData[d] =  this.factory.manufactureOneDimArray(
 								configFileName, "excessmortality", "mortality",
 								"unit", true);
-						fData[d] = factory.manufactureOneDimArray(
+						fData[d] =this. factory.manufactureOneDimArray(
 								configFileName, "excessmortality", "mortality",
 								"acutelyfatal", true);
-						cData[d] = factory.manufactureOneDimArray(
+						cData[d] = this. factory.manufactureOneDimArray(
 								configFileName, "excessmortality", "mortality",
 								"curedfraction", true);
 						XMLConfiguration config = null;
@@ -1818,12 +1942,12 @@ public class InputDataFactory {
 
 							eData[d] = excessRate(eData[d], thisDisease);
 						// TODO nog een keer checken of omrekening klopt
-						configFileName = baseDir + File.separator
+						configFileName = this.baseDir + File.separator
 								+ referenceDataDir + File.separator
 								+ diseasesDir + File.separator + thisDisease
-								+ File.separator + this.DALYWeightsDir
+								+ File.separator + DALYWeightsDir
 								+ File.separator + info2.dalyFileName + ".xml";
-						dData[d] = factory.manufactureOneDimArray(
+						dData[d] = this.factory.manufactureOneDimArray(
 								configFileName, "dalyweights", "weight",
 								"percent", false);
 
@@ -1877,7 +2001,7 @@ public class InputDataFactory {
 
 					}
 					int nclasses = 1;
-					if (riskFactorType != 2)
+					if (this.riskFactorType != 2)
 						nclasses = inputData.getPrevRisk()[0][0].length;
 
 					clusterData[a][g][c] = new DiseaseClusterData(
@@ -1937,6 +2061,12 @@ public class InputDataFactory {
 		;
 	}// end method
 
+	/**
+	 * @param medianSurvival
+	 * @param diseaseLabel
+	 * @return excess rate (array) calculated from a list with median survival
+	 * @throws DynamoInconsistentDataException
+	 */
 	public float[][] excessRate(float[][] medianSurvival, String diseaseLabel)
 			throws DynamoInconsistentDataException {
 		float[][] rate = new float[96][2];
@@ -1986,6 +2116,7 @@ public class InputDataFactory {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void readNewbornData(String configFileName, ScenarioInfo scenInfo)
 			throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
@@ -2016,7 +2147,7 @@ public class InputDataFactory {
 
 		if (((XMLConfiguration) config).getRootElementName() == "newborns") {
 			if (scenInfo != null) {
-				log.debug("config.getFloat(sexratio)" + config.getFloat("sexratio"));
+				this.log.debug("config.getFloat(sexratio)" + config.getFloat("sexratio"));
 				scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
 
 				ConfigurationNode rootNode = config.getRootNode();
@@ -2089,6 +2220,12 @@ public class InputDataFactory {
 
 	}
 
+	/**
+	 * @param value
+	 * @param tag
+	 * @return integer with the value of the XML element with the given tag
+	 * @throws DynamoConfigurationException
+	 */
 	public int getIntegerValue(String value, String tag)
 			throws DynamoConfigurationException {
 		int returnvalue = 0;
@@ -2100,18 +2237,30 @@ public class InputDataFactory {
 
 	}
 
+	/**
+	 * @return randomSeed of simulation
+	 */
 	public int getRandomSeed() {
 		return randomSeed;
 	}
 
+	/**
+	 * @param randomSeed
+	 */
 	public static void setRandomSeed(int randomSeed) {
 		InputDataFactory.randomSeed = randomSeed;
 	}
 
+	/**
+	 * @return size of simulated population
+	 */
 	public int getSimPopSize() {
 		return simPopSize;
 	}
 
+	/**
+	 * @param simPopSize
+	 */
 	public static void setSimPopSize(int simPopSize) {
 		InputDataFactory.simPopSize = simPopSize;
 	}
