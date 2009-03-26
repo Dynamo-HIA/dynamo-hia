@@ -5,33 +5,19 @@ package nl.rivm.emi.dynamo.output;
 
 
 
-
-
-import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
-
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Text;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
@@ -42,12 +28,16 @@ public class Output_PyramidTab  {
 	
 	
 	private TabFolder tabFolder;
-	private DynamoOutputFactory output;
-	private ButtonStates plotInfo;
-	private PyramidChartFactory factory;
+	DynamoOutputFactory output;
+	ButtonStates plotInfo;
+	PyramidChartFactory factory;
 	ChartComposite chartComposite;
 	private Composite plotComposite;
 
+	/**
+	 * @param tabfolder
+	 * @param output
+	 */
 	public Output_PyramidTab(TabFolder tabfolder , DynamoOutputFactory output) {
 	this.tabFolder=tabfolder;
 	this.output=output;
@@ -57,16 +47,20 @@ public class Output_PyramidTab  {
 	makeIt();
 	}
 	
+	/**
+	 * makes the tabfolder
+	 */
 	public void makeIt(){
-		/* put the default plot information in the object plotInfo */
 		
-		this.plotComposite = new Composite(tabFolder, SWT.FILL);
-		
+		/*
+		 * the composite has two elements: - a column with control elements
+		 * where the user can make choices - a plot area
+		 */
+
+		this.plotComposite = new Composite(this.tabFolder, SWT.FILL);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		this.plotComposite.setLayout(gridLayout);
-		
-		
 		
 		/* create a composite that contains the control elements */
 		Composite controlComposite = new Composite(this.plotComposite, SWT.NONE);
@@ -78,13 +72,13 @@ public class Output_PyramidTab  {
 		controlComposite.setLayout(gridLayoutControl);
 		controlComposite.setLayoutData(controlData);
 
-		
+		/* put the default plot information in the object plotInfo */
 		this.plotInfo=new ButtonStates();
-		plotInfo.currentYear=0;
-		plotInfo.plotType=0;
-		plotInfo.currentDisease=1;
-		plotInfo.currentScen = 1;
-		if (output.getNScen()==0) plotInfo.currentScen=0;
+		this.plotInfo.currentYear=0;
+		this.plotInfo.plotType=0;
+		this.plotInfo.currentDisease=1;
+		this.plotInfo.currentScen = 1;
+		if (this.output.getNScen()==0) this.plotInfo.currentScen=0;
 
 		
 		
@@ -92,19 +86,15 @@ public class Output_PyramidTab  {
 		
 		
 		
-		/*
-		 * the composite has two elements: - a column with control elements
-		 * where the user can make choices - a plot area
-		 */
-
+		
 		
 		final Scale scale = new Scale(controlComposite, SWT.VERTICAL);
 		// scale.setBounds(0, 0, 40, 200);
-		scale.setMaximum(output.getStepsInRun());
+		scale.setMaximum(this.output.getStepsInRun());
 		scale.setMinimum(0);
 		scale.setIncrement(1);
 		scale.setPageIncrement(1);
-		scale.setSelection(output.getStepsInRun());
+		scale.setSelection(this.output.getStepsInRun());
 
 		GridData data3 = new GridData(GridData.FILL_VERTICAL);
 		data3.verticalSpan = 4;
@@ -115,7 +105,7 @@ public class Output_PyramidTab  {
 		
 		final StyledText value = new StyledText(controlComposite, SWT.SINGLE | SWT.BOLD|SWT.LONG);
         value.setText("Year: "
-						+  output.getStartYear());
+						+  this.output.getStartYear());
 		value.setEditable(false);
 		final StyleRange style1 = new StyleRange();
 	    style1.start = 0;
@@ -123,9 +113,9 @@ public class Output_PyramidTab  {
 	     
 	    
 	    style1.fontStyle = SWT.BOLD;
-	    style1. background = tabFolder.getBackground();
+	    style1. background = this.tabFolder.getBackground();
 	    ;
-	    Font font = new Font(tabFolder.getParent().getDisplay(), "SansSerif", 13, SWT.BOLD);
+	    Font font = new Font(this.tabFolder.getParent().getDisplay(), "SansSerif", 13, SWT.BOLD);
 	    value.setFont(font);
 
 	    value.setStyleRange(style1);
@@ -141,52 +131,55 @@ public class Output_PyramidTab  {
 				int userValue = scale.getMaximum()
 						- scale.getSelection() + scale.getMinimum();
 				value.setText("Year: "
-						+ (userValue + output.getStartYear()));
+						+ (userValue + Output_PyramidTab.this.output.getStartYear()));
 				value.setStyleRange(style1);
-				plotInfo.currentYear = userValue;
-				factory.drawChartAction(plotInfo, chartComposite );
+				Output_PyramidTab.this.plotInfo.currentYear = userValue;
+				Output_PyramidTab.this.factory.drawChartAction(Output_PyramidTab.this.plotInfo, Output_PyramidTab.this.chartComposite );
 				
 
 			}
 
 		});
 		
-		JFreeChart pyramidChart = output.makePyramidChartIncludingDisease(
-				plotInfo.currentScen, plotInfo.currentYear, -1);
+		JFreeChart pyramidChart = this.output.makePyramidChartIncludingDisease(
+				this.plotInfo.currentScen, this.plotInfo.currentYear, -1);
 		
 		// RowData rowData3 = new RowData(450, 500);
-	    chartComposite = new ChartComposite(this.plotComposite, SWT.NONE,
+	    this.chartComposite = new ChartComposite(this.plotComposite, SWT.NONE,
 				pyramidChart, true);
-		chartComposite.setDisplayToolTips(true);
-		chartComposite.setHorizontalAxisTrace(false);
-		chartComposite.setVerticalAxisTrace(false);
+	    this.chartComposite.setDisplayToolTips(true);
+	    this.chartComposite.setHorizontalAxisTrace(false);
+	    this.chartComposite.setVerticalAxisTrace(false);
 		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
 				| GridData.GRAB_VERTICAL);
-		chartComposite.setLayoutData(chartData);
+		this.chartComposite.setLayoutData(chartData);
 		// chartComposite.setLayoutData(rowData3);
-		new ScenarioChoiceGroup(controlComposite, chartComposite, factory, plotInfo, output.getScenarioNames());
+		new ScenarioChoiceGroup(controlComposite, this.chartComposite, this.factory, this.plotInfo, this.output.getScenarioNames());
 
-		String[] items = new String[output.getNDiseases() + 2];
-		String[] names = output.getDiseaseNames();
+		String[] items = new String[this.output.getNDiseases() + 2];
+		String[] names = this.output.getDiseaseNames();
 		items[0] = "none";
 		items[1] = "all";
 		for (int i = 0; i < names.length; i++)
 			items[i + 2] = names[i];
-		new DiseaseChoiceGroup(controlComposite, chartComposite, factory, plotInfo, items);
+		new DiseaseChoiceGroup(controlComposite, this.chartComposite,this. factory, this.plotInfo, items);
 
-		TabItem item = new TabItem(tabFolder, SWT.NONE);
+		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		item.setText("population Pyramid");
 		item.setControl(this.plotComposite);
 		
 		
        
 	}
+	/**
+	 * 
+	 */
 	public void redraw(){
 		
-		Control[] subcomp= plotComposite.getChildren();
-		factory.drawChartAction(plotInfo, (ChartComposite) subcomp[1]);
-		plotComposite.redraw();
+		Control[] subcomp= this.plotComposite.getChildren();
+		this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
+		this.plotComposite.redraw();
 		
 	}
 		}
