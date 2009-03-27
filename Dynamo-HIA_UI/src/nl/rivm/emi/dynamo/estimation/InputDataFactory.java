@@ -254,7 +254,7 @@ public class InputDataFactory {
 	private static final String transDriftXMLname = "transitiondrift.xml";
 	private static final String riskfactorPrevXMLname = "prevalence.xml";
 	private static final String durationXMLname = "durationdistribution.xml";
-	private static final String allcauseRRXMLname = "relriskofdeath.xml";
+	private static final String allcauseRRXMLname = "relriskfordeath.xml";
 	
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; //"rrisksfromdisease"	
 	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";//"rrisksforriskfactor_continuous"
