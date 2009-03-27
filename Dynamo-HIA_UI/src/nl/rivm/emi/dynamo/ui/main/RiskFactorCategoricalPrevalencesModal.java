@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -134,7 +134,7 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 		} else {
 			int numberOfClasses = RiskSourcePropertiesMapFactory
 					.getNumberOfRiskFactorClasses(this.selectedNode);
-			((RiskFactorCategoricalPrevalencesFactory) factory)
+			((RiskFactorPrevalencesCategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();
 		}

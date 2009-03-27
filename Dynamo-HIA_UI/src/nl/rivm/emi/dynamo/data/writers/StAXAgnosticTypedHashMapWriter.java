@@ -22,7 +22,9 @@ import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
 import org.apache.commons.logging.Log;
@@ -41,11 +43,23 @@ public class StAXAgnosticTypedHashMapWriter {
 	 * @throws UnexpectedFileStructureException
 	 * @throws IOException
 	 * @throws DynamoOutputException
+	 * @throws DynamoConfigurationException
 	 */
 	static public void produceFile(FileControlEnum fileControl,
 			TypedHashMap theModel, File outputFile) throws XMLStreamException,
 			UnexpectedFileStructureException, IOException,
-			DynamoOutputException {
+			DynamoOutputException, DynamoConfigurationException {
+		if (fileControl.isGroupEnum() || fileControl.isRootChildEnum()) {
+			throw new DynamoConfigurationException(
+					"FileControlEnum with first element: "
+							+ fileControl.getParameterType4GroupFactory(0)
+									.getXMLElementName()
+							+ " has isGroupEnum "
+							+ fileControl.isGroupEnum()
+							+ " and isRootChildEnum "
+							+ fileControl.isRootChildEnum()
+							+ ", both should be false when using this writer-entrypoint.");
+		}
 		if (theModel != null) {
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter = new FileWriter(outputFile);
@@ -82,31 +96,48 @@ public class StAXAgnosticTypedHashMapWriter {
 		writer.add(event);
 	}
 
-	static class LeafValueMap extends LinkedHashMap<String, Number>{
-		public void removeLast(){
+	static class LeafValueMap extends LinkedHashMap<String, String> {
+		public void removeLast() {
 			Set<String> keySet = keySet();
 			Iterator<String> iterator = keySet.iterator();
 			String key = null;
-			while(iterator.hasNext()){
+			while (iterator.hasNext()) {
 				key = iterator.next();
 			}
 			remove(key);
 		}
 	}
-	private static void flattenLeafData(FileControlEnum fileControl,
-			TypedHashMap configurationLevel,
-			LeafValueMap leafValueMap, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException,
-			DynamoOutputException {
+
+	/**
+	 * Also used from StAXAgnosticGroupWriter to write-out rootchildren that
+	 * have hierarchical data.
+	 * 
+	 * @param fileControl
+	 * @param configurationLevel
+	 * @param leafValueMap
+	 * @param writer
+	 * @param eventFactory
+	 * @throws XMLStreamException
+	 * @throws DynamoOutputException
+	 */
+	public static void flattenLeafData(FileControlEnum fileControl,
+			TypedHashMap configurationLevel, LeafValueMap leafValueMap,
+			XMLEventWriter writer, XMLEventFactory eventFactory)
+			throws XMLStreamException, DynamoOutputException {
 		log.error("Recursing at level " + leafValueMap.size());
 		Set<Map.Entry<Integer, Object>> entrySet = configurationLevel
 				.entrySet();
+		XMLTagEntity configurationLevelType = (XMLTagEntity) configurationLevel
+				.getType();
 		Iterator<Map.Entry<Integer, Object>> iterator = entrySet.iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<Integer, Object> entry = iterator.next();
 			String elementName = getElementName(fileControl, leafValueMap);
-			leafValueMap.put(elementName, entry.getKey());
-			log.debug("Level increased to " + leafValueMap.size());
+			leafValueMap.put(elementName,
+					((AtomicTypeBase) configurationLevelType)
+							.convert4File(entry.getKey()));
+			log.debug("Put element: " + elementName + " at level "
+					+ (leafValueMap.size() - 1) + " in the leafValueMap.");
 			if (entry.getValue() instanceof HashMap) {
 				flattenLeafData(fileControl, (TypedHashMap) entry.getValue(),
 						leafValueMap, writer, eventFactory);
@@ -115,32 +146,37 @@ public class StAXAgnosticTypedHashMapWriter {
 					handleAggregatePayload(fileControl, leafValueMap, writer,
 							eventFactory, entry);
 				} else {
-					Object containedValue = entry.getValue();
-					if (containedValue instanceof Number) {
-						Number containedNumber = (Number) containedValue;
-						elementName = getElementName(fileControl, leafValueMap);
-						leafValueMap.put(elementName, containedNumber);
-						streamEntry(fileControl, leafValueMap, containedNumber,
-								writer, eventFactory);
-					} else {
-						if (containedValue instanceof WritableValue) {
-							Object writableValueContent = ((WritableValue) containedValue)
-									.doGetValue();
-							if (writableValueContent instanceof Number) {
-								streamEntry(fileControl, leafValueMap,
-										(Number) writableValueContent, writer,
-										eventFactory);
-							} else {
-								log.error("Unsupported Object type: "
-										+ writableValueContent.getClass()
-												.getName());
-							}
-						} else {
-							log.error("Unsupported Object type: "
-									+ containedValue.getClass().getName());
-						}
-					}
-					leafValueMap.removeLast();
+					// No more naked lonely single leafvalues.
+					// Object containedValue = entry.getValue();
+					// if (containedValue instanceof Number) {
+					// Number containedNumber = (Number) containedValue;
+					// elementName = getElementName(fileControl, leafValueMap);
+					// leafValueMap.put(elementName, containedNumber);
+					// streamEntry(fileControl, leafValueMap, containedNumber,
+					// writer, eventFactory);
+					// } else {
+					// if (containedValue instanceof WritableValue) {
+					// Object writableValueContent = ((WritableValue)
+					// containedValue)
+					// .doGetValue();
+					// if (writableValueContent instanceof Number) {
+					// streamEntry(fileControl, leafValueMap,
+					// (Number) writableValueContent, writer,
+					// eventFactory);
+					// } else {
+					// log.error("Unsupported Object type: "
+					// + writableValueContent.getClass()
+					// .getName());
+					// }
+					// } else {
+					// log.error("Unsupported Object type: "
+					// + containedValue.getClass().getName());
+					// }
+					// }
+					// leafValueMap.removeLast();
+					log.error("Unsupported Object type: "
+							+ entry.getValue().getClass().getName());
+					// Change ends.
 				}
 			}
 		}
@@ -157,43 +193,74 @@ public class StAXAgnosticTypedHashMapWriter {
 		int tupleIndex = 0;
 		for (; tupleIndex < list.size(); tupleIndex++) {
 			AtomicTypeObjectTuple tuple = list.get(tupleIndex);
-			log.error("Got tuple, type \"" + tuple.getType().getXMLElementName() + "\"");
+			XMLTagEntity tupleType = tuple.getType();
+			log.error("Got tuple, type \""
+					+ tuple.getType().getXMLElementName() + "\"");
 			Object tupleValue = tuple.getValue();
 			if (tupleValue instanceof WritableValue) {
 				Object containedValue = ((WritableValue) tupleValue)
 						.doGetValue();
-				if (containedValue instanceof Number) {
-					Number containedNumber = (Number) containedValue;
-					elementName = getElementName(fileControl,
-							leafValueMap);
-					leafValueMap.put(elementName, containedNumber);
-					log.error("Added \"" + elementName + "\" with value \"" + containedNumber + "\", size: " +  leafValueMap.size() +".");
-		} else {
-					throw new DynamoOutputException(
-							"StAXWriter only handles Number-s for aggregate payloads.");
-				}
+				handleAggregatePayloadValue(fileControl, leafValueMap,
+						containedValue, tupleType);
 			} else {
-				throw new DynamoOutputException(
-						"StAXWriter only handles WritableValue-s for aggregate payloads.");
+				// throw new DynamoOutputException(
+				// "StAXWriter only handles WritableValue-s for aggregate payloads.");
+				handleAggregatePayloadValue(fileControl, leafValueMap,
+						tupleValue, tupleType);
 			}
 		}
-		streamEntries(fileControl, leafValueMap, writer,
-				eventFactory);
+		streamEntries(fileControl, leafValueMap, writer, eventFactory);
+		int numberOfWrapperEntries = fileControl.getWrapperCount();
 		for (; tupleIndex >= 0; tupleIndex--) {
-			String xmlElementName = ((AtomicTypeBase) fileControl
-					.getParameterType(leafValueMap.size()-1))
-					.getXMLElementName();
+			// String xmlElementName = ((AtomicTypeBase) fileControl
+			// .getParameterType(leafValueMap.size() - 1))
+			// .getXMLElementName();
+			log.error("Removing leafValue \"" + (leafValueMap.get(tupleIndex))
+					+ "\", size: " + leafValueMap.size() + ".");
 			leafValueMap.removeLast();
-			log.error("Removed \"" + xmlElementName + "\", size: " +  leafValueMap.size() +".");
 		}
 	}
 
+	private static void handleAggregatePayloadValue(
+			FileControlEnum fileControl, LeafValueMap leafValueMap,
+			Object containedValue, XMLTagEntity containedType)
+			throws DynamoOutputException {
+		// String elementName;
+		// if (containedValue instanceof Number) {
+		// Number containedNumber = (Number) containedValue;
+		// elementName = getElementName(fileControl,
+		// leafValueMap);
+		// leafValueMap.put(elementName, containedNumber);
+		// log.error("Added \"" + elementName + "\" with value \"" +
+		// containedNumber + "\", size: " + leafValueMap.size() +".");
+		// } else {
+		// throw new DynamoOutputException(
+		// "StAXWriter only handles Number-s for aggregate payloads.");
+		// }
+		String elementName = containedType.getXMLElementName();
+		String elementValue = ((AtomicTypeBase) containedType)
+				.convert4File(containedValue);
+		leafValueMap.put(elementName, elementValue);
+	}
+
 	private static String getElementName(FileControlEnum fileControl,
-			LinkedHashMap<String, Number> leafValueMap) {
+			LeafValueMap leafValueMap) {
 		int level = leafValueMap.size();
-		log.error("getElementName() level: " + level);
-		AtomicTypeBase<Number> type = fileControl.getParameterType(level);
+		int numberOfWrappers = 0;
+		// "Old"-type configurations do nothing with wrappers.
+		if(fileControl.isGroupEnum()||fileControl.isRootChildEnum()){
+			numberOfWrappers = fileControl.getWrapperCount();
+		}
+		AtomicTypeBase<Number> type = null;
+		if (numberOfWrappers == 0) {
+			type = fileControl.getParameterType(level);
+		} else {
+			type = (AtomicTypeBase<Number>) fileControl
+					.getParameterType4GroupFactory(level + numberOfWrappers);
+		}
+		log.debug("getElementName() level: " + level + " numberofwrappers: " + numberOfWrappers + " type: " + type);
 		String elementName = type.getXMLElementName();
+		log.debug("getElementName() level: " + level + " got: " + elementName);
 		return elementName;
 	}
 
@@ -203,8 +270,8 @@ public class StAXAgnosticTypedHashMapWriter {
 			throws XMLStreamException {
 		log.debug("Entering streamEntry");
 		XMLEvent event;
-		event = eventFactory.createStartElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createStartElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
 		Iterator<Map.Entry<String, Number>> iterator = leafValueMap.entrySet()
 				.iterator();
@@ -243,69 +310,43 @@ public class StAXAgnosticTypedHashMapWriter {
 		writer.add(event);
 		log.debug("Streamed element with name: " + elementName
 				+ " and valuestring: " + containedValue.toString());
-		event = eventFactory.createEndElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createEndElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
 	}
 
 	private static void streamEntries(FileControlEnum fileControl,
-			LinkedHashMap<String, Number> leafValueMap, XMLEventWriter writer,
+			LeafValueMap leafValueMap, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		log.debug("Entering streamEntriesSmarter");
 		XMLEvent event;
-		event = eventFactory.createStartElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createStartElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
-		Iterator<Map.Entry<String, Number>> iterator = leafValueMap.entrySet()
+		Iterator<Map.Entry<String, String>> iterator = leafValueMap.entrySet()
 				.iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<String, Number> entry = iterator.next();
+			Map.Entry<String, String> entry = iterator.next();
 			event = eventFactory.createStartElement("", "", entry.getKey());
 			writer.add(event);
-			Number value = entry.getValue();
-			String valueString = null;
-			if (value instanceof Integer) {
-				valueString = ((Integer) value).toString();
-			} else {
-				valueString = value.toString();
-			}
-			event = eventFactory.createCharacters(valueString);
+			// Number value = entry.getValue();
+			// String valueString = null;
+			// if (value instanceof Integer) {
+			// valueString = ((Integer) value).toString();
+			// } else {
+			// valueString = value.toString();
+			// }
+			// event = eventFactory.createCharacters(valueString);
+			event = eventFactory.createCharacters(entry.getValue());
 			writer.add(event);
 			event = eventFactory.createEndElement("", "", entry.getKey());
 			writer.add(event);
 			log.debug("Streamed element with name: " + entry.getKey()
-					+ " and valuestring: " + valueString);
+					+ " and valuestring: " + entry.getValue());
 		}
-		event = eventFactory.createEndElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createEndElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
 	}
 
-	private static void streamIncidenceEvents(
-			TreeMap<String, String> contentMap, XMLEventWriter writer,
-			XMLEventFactory eventFactory) throws XMLStreamException {
-		log.debug("Entering streamIncidenceEvents");
-		Set<String> keySet = contentMap.keySet();
-		Iterator<String> keyIterator = keySet.iterator();
-		XMLEvent event = eventFactory.createStartElement("", "", "incidence");
-		writer.add(event);
-		event = eventFactory.createCharacters("\n");
-		writer.add(event);
-		while (keyIterator.hasNext()) {
-			String key = keyIterator.next();
-			String value = contentMap.get(key);
-			event = eventFactory.createStartElement("", "", key);
-			writer.add(event);
-			event = eventFactory.createCharacters(value);
-			writer.add(event);
-			event = eventFactory.createEndElement("", "", key);
-			writer.add(event);
-			event = eventFactory.createCharacters("\n");
-			writer.add(event);
-		}
-		event = eventFactory.createEndElement("", "", "incidence");
-		writer.add(event);
-		event = eventFactory.createCharacters("\n");
-		writer.add(event);
-	}
 }

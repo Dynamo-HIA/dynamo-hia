@@ -16,7 +16,7 @@ public enum RootChildDispatchEnum {
 	HASNEWBORNS("hasnewborns", new AgnosticSingleRootChildFactory()),
 	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()),
 	UNITTYPE("unittype", new AgnosticSingleRootChildFactory()),
-	MORTALITY("mortality", new AgnosticHierarchicalRootChildFactory());
+	MORTALITIES("mortalities", new AgnosticHierarchicalRootChildFactory());
 
 	private final String rootChildNodeName;
 	private final RootChildFactory theFactory;

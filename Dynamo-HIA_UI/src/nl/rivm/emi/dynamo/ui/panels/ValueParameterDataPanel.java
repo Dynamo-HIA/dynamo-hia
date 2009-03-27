@@ -1,10 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import java.util.ArrayList;
+
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
@@ -78,7 +81,10 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		String convertedText = ((Value)myType).convert4View(typedHashMap.get(index).toString());
+		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
+		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(0)).getValue();
+		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0).getType();
+		String convertedText = theType.convert4View(modelObservableValue.doGetValue());
 		text.setText(convertedText);
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -94,7 +100,6 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 //	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				((Value)myType).getModelUpdateValueStrategy(), ((Value)myType).getViewUpdateValueStrategy());
 		text.addVerifyListener(new ValueVerifyListener());

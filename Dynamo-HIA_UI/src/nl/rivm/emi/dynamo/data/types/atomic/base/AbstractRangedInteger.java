@@ -11,7 +11,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 abstract public class AbstractRangedInteger extends
-		NumberRangeTypeBase<Integer> implements PayloadType<Integer> {
+		NumberRangeTypeBase<Integer>{
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
@@ -22,6 +22,8 @@ abstract public class AbstractRangedInteger extends
 	public AbstractRangedInteger(String XMLElementName, Integer lowerLimit,
 			Integer upperLimit) {
 		super(XMLElementName, lowerLimit, upperLimit);
+		modelUpdateValueStrategy = assembleModelStrategy();
+		viewUpdateValueStrategy = assembleViewStrategy();
 	}
 
 	public boolean inRange(Integer testValue) {

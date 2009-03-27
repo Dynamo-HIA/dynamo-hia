@@ -69,7 +69,7 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 					.get(BiGender.FEMALE_INDEX);
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
-			for (int classCount = 1; classCount < femaleClassHMap.size(); classCount++) {
+			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
@@ -97,13 +97,10 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		log.debug("myType" + myType);
-		log.debug("typedHashMap" + typedHashMap);
-		log.debug("index" + index);
-		log.debug("typedHashMap.get(index)" + typedHashMap.get(
-				index));
-		String convertedText = ((Value) myType).convert4View(typedHashMap.get(
-				index).toString());
+		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
+		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(0)).getValue();
+		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0).getType();
+		String convertedText = theType.convert4View(modelObservableValue.doGetValue());
 		text.setText(convertedText);
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -120,8 +117,6 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
-		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(index)).getValue();
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				((Value) myType).getModelUpdateValueStrategy(),
 				((Value) myType).getViewUpdateValueStrategy());

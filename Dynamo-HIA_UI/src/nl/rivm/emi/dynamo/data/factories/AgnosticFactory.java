@@ -180,13 +180,16 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 			handleContainerType(priorLevel, leafNodeList, theLastContainer,
 					currentLevel, makeObservable, currentLevelValue);
 		} else {
-			if (leafNodeList.size() - theLastContainer == 1) {
-				handlePayLoadType(priorLevel, leafNodeList, currentLevel,
-						makeObservable, currentLevelValue);
-			} else {
+
+// NB(mondeelr) 20090324 All leafEntries will be AtomicTypeObjectTuples.
+		
+//			if (leafNodeList.size() - theLastContainer == 1) {
+//				handlePayLoadType(priorLevel, leafNodeList, currentLevel,
+//						makeObservable, currentLevelValue);
+//			} else {
 				handleAggregatePayLoadTypes(priorLevel, leafNodeList,
 						currentLevel, makeObservable, currentLevelValue);
-			}
+//			}
 		}
 		return priorLevel;
 	}
@@ -329,11 +332,12 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 				} else {
 					log.debug("Number of payload nodes: "
 							+ (leafNodeList.size() - theLastContainer));
-					if ((leafNodeList.size() - theLastContainer) == 1) { 
-						// Existing functionality.
-						handleSinglePayload(priorLevel, leafNodeList,
-								currentLevel, makeObservable, value);
-					} else {
+					// NB(mondeelr) 20090324 All leafEntries will be AtomicTypeObjectTuples.
+//					if ((leafNodeList.size() - theLastContainer) == 1) { 
+//						// Existing functionality.
+//						handleSinglePayload(priorLevel, leafNodeList,
+//								currentLevel, makeObservable, value);
+//					} else {
 						// Extended functionality.
 						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
 						for (int count = theLastContainer; count < leafNodeList
@@ -351,7 +355,7 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 								modelTuple = new AtomicTypeObjectTuple(type, observable);
 							}
 							payloadList.add(modelTuple);
-						}
+//						}
 						priorLevel.put(value, payloadList);
 					}
 				}
@@ -401,5 +405,4 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 			}
 		}
 	}
-
 }

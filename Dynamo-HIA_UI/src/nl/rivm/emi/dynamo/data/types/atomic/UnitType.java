@@ -1,6 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-public class UnitType extends AbstractString {
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
+
+public class UnitType extends AbstractString implements PayloadType<String>{
 
 	static final protected String XMLElementName = "unittype";
 

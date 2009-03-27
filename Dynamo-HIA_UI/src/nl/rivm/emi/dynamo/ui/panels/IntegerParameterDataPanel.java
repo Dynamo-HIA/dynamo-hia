@@ -1,7 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import java.util.ArrayList;
+
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.IntegerVerifyListener;
@@ -94,7 +97,9 @@ public class IntegerParameterDataPanel extends Composite {
 		});
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
+// 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
+	AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) ((ArrayList)sexMap.get(index)).get(0);
+		WritableValue modelObservableValue = (WritableValue)tuple.getValue();
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies

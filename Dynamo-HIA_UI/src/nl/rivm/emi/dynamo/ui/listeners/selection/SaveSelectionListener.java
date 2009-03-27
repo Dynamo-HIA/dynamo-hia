@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
 
-//TODO Hacked to ErrorLessNess.
+//TODO(mondeelr) Hacked to ErrorLessNess.
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
@@ -47,8 +48,9 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			Object modelObject = modalParent.getData();
 			String rootElementName = (String) modalParent.getRootElementName();
 			if (modelObject instanceof TypedHashMap) {
-				StAXAgnosticTypedHashMapWriter.produceFile(FileControlSingleton
-						.getInstance().get(rootElementName),
+				FileControlEnum fileControl = FileControlSingleton
+				.getInstance().get(rootElementName);
+				StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 						(TypedHashMap) modelObject, configurationFile);
 			} else {
 				if (modelObject instanceof LinkedHashMap) {

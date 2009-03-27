@@ -275,18 +275,25 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		log.debug(" Starting manufacture.");
 		LinkedHashMap<String, Object> underConstruction = new LinkedHashMap<String, Object>();
 		int numberOfRootChildren = fileControl
-				.getNumberOfParameterTypes4GroupFactory();
-		for (int rootChildCount = 0; rootChildCount < numberOfRootChildren; rootChildCount++) {
+				.getNumberOfRootChildren();
+		for (int rootChildCount = 1; rootChildCount <= numberOfRootChildren; rootChildCount++) {
 			XMLTagEntity rootChildType = fileControl
 					.getParameterType4GroupFactory(rootChildCount);
 			log
 					.info("Handling rootchild: "
 							+ rootChildType.getXMLElementName());
 			if (rootChildType instanceof WrapperType) {
-				Object wrapperObject = handleWrapperType(makeObservable,
-						rootChildType);
+				TypedHashMap resultMap = null;
+				FileControlSingleton fileControlInstance = FileControlSingleton
+						.getInstance();
+				String xmlElementName = rootChildType.getXMLElementName();
+				FileControlEnum rootChildControlEnum = fileControlInstance
+						.get(xmlElementName);
+				int level = 1;
+				resultMap = handleWrapperType(rootChildType,
+						rootChildControlEnum, level, resultMap, makeObservable);
 				underConstruction.put(rootChildType.getXMLElementName(),
-						wrapperObject);
+						resultMap);
 			} else {
 				if (rootChildType instanceof PayloadType) {
 					Object defaultObject = manufactureDefaultSinglePayload(
@@ -307,27 +314,14 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return underConstruction;
 	}
 
-	private Object handleWrapperType(Boolean makeObservable,
-			XMLTagEntity rootChildType) throws DynamoConfigurationException {
-		String rootChildElementName = rootChildType.getXMLElementName();
-		FileControlSingleton instance = FileControlSingleton.getInstance();
-		FileControlEnum rootChildEnum = instance.get(rootChildElementName);
-		Object containedObject = produceObject(rootChildType, makeObservable);
-		// if (containedObject instanceof WrapperType) {
-
-		// }
-		return containedObject;
-	}
-
-	private Object produceObject(XMLTagEntity rootChildType,
-			Boolean makeObservable) throws DynamoConfigurationException {
-		TypedHashMap resultMap = null;
-		FileControlSingleton fileControlInstance = FileControlSingleton
-				.getInstance();
-		FileControlEnum rootChildControlEnum = fileControlInstance
-				.get(rootChildType.getXMLElementName());
-		int level = 1;
-		//
+	private TypedHashMap<?> handleWrapperType(XMLTagEntity wrapperType,
+			FileControlEnum rootChildControlEnum, int level,
+			TypedHashMap<?> resultMap, Boolean makeObservable)
+			throws DynamoConfigurationException {
+		if (level > 2) {
+			throw new DynamoConfigurationException(
+					"More than two Wrapped entities are not supported.");
+		}
 		XMLTagEntity wrappedEntity = rootChildControlEnum
 				.getParameterType4GroupFactory(level);
 		if (wrappedEntity instanceof ContainerType) {
@@ -335,15 +329,21 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 				resultMap = new TypedHashMap(wrappedEntity);
 				resultMap = makeDefaultPath(resultMap, rootChildControlEnum,
 						level, makeObservable);
+
 			} else {
 				throw new DynamoConfigurationException(
 						"Unsupported ContainerType: "
 								+ wrappedEntity.getXMLElementName());
 			}
 		} else {
-			throw new DynamoConfigurationException(
-					"Wrapped entities should have at least one ContainerType, \""
-							+ wrappedEntity.getXMLElementName() + "\" doesn't.");
+			if (wrappedEntity instanceof WrapperType) {
+				resultMap = handleWrapperType(wrappedEntity,
+						rootChildControlEnum, level + 1, resultMap,
+						makeObservable);
+			} else {
+				throw new DynamoConfigurationException("Unsupported Type: "
+						+ wrappedEntity.getXMLElementName());
+			}
 		}
 		return resultMap;
 	}
@@ -381,15 +381,16 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 							- currentLevel - 1;
 					log.debug("Number of payload nodes: "
 							+ numberOfPayloadNodes);
-					if (numberOfPayloadNodes == 1) {
-						// Existing functionality.
-						handleSinglePayload(priorLevel, fileControl,
-								currentLevel, makeObservable, value);
-					} else {
-						// Extended functionality.
-						handleMultiplePayLoads(priorLevel, fileControl,
-								currentLevel, makeObservable, value);
-					}
+					// NB(mondeelr) Difference removed.
+					// if (numberOfPayloadNodes == 1) {
+					// // Existing functionality.
+					// handleSinglePayload(priorLevel, fileControl,
+					// currentLevel, makeObservable, value);
+					// } else {
+					// Extended functionality.
+					handleMultiplePayLoads(priorLevel, fileControl,
+							currentLevel + 1, makeObservable, value);
+					// }
 				}
 			}
 			return priorLevel;
@@ -426,12 +427,11 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			FileControlEnum controlEnum, int currentLevel,
 			boolean makeObservable, int value)
 			throws DynamoConfigurationException {
-		log.debug("controlEnum" + controlEnum);/*
-												 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
-												 * + ((PayloadType<Number>)
-												 * leafNodeList.get(
-												 * currentLevel + 1)));
-												 */
+		log.debug("controlEnum" + controlEnum);
+		/*
+		 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
+		 * + ((PayloadType<Number>) leafNodeList.get( currentLevel + 1)));
+		 */
 		AtomicTypeBase payloadType = (AtomicTypeBase) controlEnum
 				.getParameterType4GroupFactory(currentLevel + 1);
 		Object defaultValue = payloadType.getDefaultValue();

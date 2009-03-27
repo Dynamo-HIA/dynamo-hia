@@ -8,6 +8,7 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.button.RunButtonPanel;
@@ -20,13 +21,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author schutb
- *
- */
-public class SimulationModal extends AbstractDataModal {
+public class SimulationModal extends AbstractMultiRootChildDataModal {
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
+
+	DynamoSimulationObject lotsOfData;
 
 	/**
 	 * @param parentShell
@@ -58,7 +57,7 @@ public class SimulationModal extends AbstractDataModal {
 	public synchronized void open() {
 		// try {
 		this.dataBindingContext = new DataBindingContext();
-		// lotsOfData = manufactureModelObject();
+		lotsOfData = manufactureModelObject();
 		Composite buttonPanel = new GenericButtonPanel(this.shell);
 		((GenericButtonPanel) buttonPanel)
 				.setModalParent((DataAndFileContainer) this);

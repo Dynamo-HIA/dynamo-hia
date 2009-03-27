@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.objects;
 /**
  * 
  */
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
@@ -10,6 +11,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +42,8 @@ public class RiskFactorCategoricalObject extends GroupConfigurationObjectService
 		public WritableValue getObservableCategoryName(Integer index) {
 			TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 					.getElementName());
-			Object categoryNameObject = wrappedObject.get(index);
+			ArrayList<AtomicTypeObjectTuple> categoryNameTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject.get(index);
+			Object categoryNameObject = categoryNameTupleList.get(0).getValue();
 			WritableValue writableCategoryName = null;
 			if (categoryNameObject instanceof WritableValue) {
 				writableCategoryName = (WritableValue) categoryNameObject;

@@ -23,6 +23,7 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -175,6 +176,10 @@ public class TestRootChildFactories {
 			e.printStackTrace();
 			assertNull(e); // Force error.
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoOutputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			assertNull(e); // Force error.

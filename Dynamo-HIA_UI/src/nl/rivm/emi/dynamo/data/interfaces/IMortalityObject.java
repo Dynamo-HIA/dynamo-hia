@@ -1,13 +1,9 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-import org.eclipse.core.databinding.observable.value.WritableValue;
+import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 
 public interface IMortalityObject {
-
-	public abstract int getNumberOfMortalities();
-
-	public abstract Object putMortality(Integer count, String value);
-
-	public abstract WritableValue getObservableUnit(int count);
+	public abstract TypedHashMap<Age> getMortalities();
 
 }

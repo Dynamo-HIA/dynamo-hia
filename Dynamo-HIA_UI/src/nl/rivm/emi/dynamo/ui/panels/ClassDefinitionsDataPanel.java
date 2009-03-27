@@ -65,12 +65,12 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 			box.open();
 			}
 		}
-		for (; count <= numberOfCategories; count++) {
-			myCategoricalObject.putCategory(count, "");
-			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
-			bindValue(myCategoricalObject.getObservableCategoryName(count));
-		}
+//		for (; count <= numberOfCategories; count++) {
+//			myCategoricalObject.putCategory(count, "");
+//			Label label = new Label(this, SWT.NONE);
+//			label.setText(new Integer(count).toString());
+//			bindValue(myCategoricalObject.getObservableCategoryName(count));
+//		}
 	}
 
 	private void bindValue(WritableValue observableClassName) {
@@ -104,14 +104,14 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		return text;
 	}
 
-
-	public void handlePlacementInContainer(ClassDefinitionsDataPanel panel,
-			Label topNeighbour) {
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 10);
-		formData.right = new FormAttachment(100, -10);
-		formData.bottom = new FormAttachment(100, -10);
-		formData.left = new FormAttachment(0, 10);
-		panel.setLayoutData(formData);
-	}
+//
+//	public void handlePlacementInContainer(ClassDefinitionsDataPanel panel,
+//			Label topNeighbour) {
+//		FormData formData = new FormData();
+//		formData.top = new FormAttachment(topNeighbour, 10);
+//		formData.right = new FormAttachment(100, -10);
+//		formData.bottom = new FormAttachment(100, -10);
+//		formData.left = new FormAttachment(0, 10);
+//		panel.setLayoutData(formData);
+//	}
 }

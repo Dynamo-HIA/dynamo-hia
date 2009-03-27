@@ -1,9 +1,10 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-public class StartingYear extends AbstractRangedInteger {
-	static final protected String XMLElementName = "startingyear";
+public class StartingYear extends AbstractRangedInteger implements PayloadType<Integer>{
+	static final protected String XMLElementName = "startingYear";
 
 	public StartingYear(){
 		super(XMLElementName, 0, Integer.MAX_VALUE);

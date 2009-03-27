@@ -42,7 +42,8 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 */
 	public TypedHashMap<?> manufacture(List<ConfigurationNode> node)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		return manufacture(node, false);
+		TypedHashMap<?> result = manufacture(node, false);
+		return result; 
 	}
 
 	public AtomicTypeObjectTuple manufactureObservable(ConfigurationNode node)
@@ -61,7 +62,8 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 */
 	public TypedHashMap<?> manufactureObservable(List<ConfigurationNode> node)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		return manufacture(node, true);
+		TypedHashMap<?> result = manufacture(node, true);
+		return result; 
 	}
 
 	/**
@@ -165,14 +167,14 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
 		Object result = null;
-		if (leafNodeList.size() - leafNodeList.getTheLastContainer() == 1) {
-			result = handleSinglePayLoadType(leafNodeList, currentLevel,
-					makeObservable);
-		} else {
-			// result = handleAggregatePayLoadTypes(leafNodeList, currentLevel,
-			// makeObservable);
-			throw new DynamoConfigurationException("handleAggregatePayLoadType not yet implemented here.");
-		}
+//		if (leafNodeList.size() - leafNodeList.getTheLastContainer() == 1) {
+//			result = handleSinglePayLoadType(leafNodeList, currentLevel,
+//					makeObservable);
+//		} else {
+			 result = handleAggregatePayLoadTypes(leafNodeList, currentLevel,
+			 makeObservable);
+//			throw new DynamoConfigurationException("handleAggregatePayLoadType not yet implemented here.");
+//		}
 		return result;
 	}
 
@@ -250,14 +252,14 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @param makeObservable
 	 * @throws DynamoConfigurationException
 	 */
-	private TypedHashMap<?> handleAggregatePayLoadTypes(
-			TypedHashMap<?> priorLevel, LeafNodeList leafNodeList,
+	private Object handleAggregatePayLoadTypes(
+			LeafNodeList leafNodeList,
 			int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
 		Integer indexInContainer = (Integer) (leafNodeList
 				.get(currentLevel - 1).getValue());
 		// Remove ContainerTypes.
-		for (int count = 0; count <= currentLevel; count++) {
+		for (int count = 0; count < currentLevel; count++) {
 			leafNodeList.remove(0);
 		}
 		// Transform to Observables.
@@ -269,8 +271,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 				tuple.setValue(observableValue);
 			}
 		}
-		priorLevel.put(indexInContainer, leafNodeList);
-		return priorLevel;
+		return leafNodeList;
 	}
 
 	/**

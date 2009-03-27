@@ -3,9 +3,14 @@ package nl.rivm.emi.dynamo.ui.panels;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
+import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -22,32 +27,36 @@ public class EntityDropDownPanel {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	private Group theGroup;
+	public Group group;
 	private Text freePart;
 	private Combo dropDown;
 	private HelpGroup theHelpGroup;
 	private Map selectableExcessMortalityPropertiesMap;
-
+private UnitTypeComboModifyListener unitTypeModifyListener;
 	private int selectedIndex;
 	
 	public EntityDropDownPanel(Composite parent, String entityLabel,
-			Map selectableExcessMortalityPropertiesMap) {
+			Map selectableExcessMortalityPropertiesMap, ExcessMortalityObject modelObject) {
 		this.selectableExcessMortalityPropertiesMap =
 			selectableExcessMortalityPropertiesMap;
-		theGroup = new Group(parent, SWT.NONE);
+		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
-		theGroup.setLayout(formLayout);
-		Label label = new Label(theGroup, SWT.LEFT);
+		group.setLayout(formLayout);
+		Label label = new Label(group, SWT.LEFT);
 		label.setText(entityLabel + ":");
-		
-		
-		freePart = new Text(theGroup, SWT.BORDER);
-		FormData textFormData = new FormData();
-		textFormData.left = new FormAttachment(0, 15);
-		textFormData.right = new FormAttachment(100, -15);
-		textFormData.top = new FormAttachment(0, 10);
-		freePart.setLayoutData(textFormData);
-		dropDown = new Combo(theGroup, SWT.DROP_DOWN);
+		FormData labelFormData = new FormData();
+		labelFormData.left = new FormAttachment(0, 2);
+		// labelFormData.right = new FormAttachment(100, -5);
+		labelFormData.top = new FormAttachment(0, 2);
+		labelFormData.bottom = new FormAttachment(100, -2);
+		label.setLayoutData(labelFormData);		
+//		freePart = new Text(group, SWT.BORDER);
+//		FormData textFormData = new FormData();
+//		textFormData.left = new FormAttachment(0, 15);
+//		textFormData.right = new FormAttachment(100, -15);
+//		textFormData.top = new FormAttachment(0, 10);
+//		freePart.setLayoutData(textFormData);
+		dropDown = new Combo(group, SWT.DROP_DOWN);
 		Set<String> keys = this.selectableExcessMortalityPropertiesMap.keySet();
 		int index = 0;
 		for (String item : keys) {
@@ -64,11 +73,14 @@ public class EntityDropDownPanel {
 				EntityDropDownPanel.this.selectedIndex = dropDown.getSelectionIndex();
 			}
 		});
+		this.unitTypeModifyListener = new UnitTypeComboModifyListener();
+		dropDown.addModifyListener(unitTypeModifyListener);
 		dropDown.select(0);
 		FormData comboFormData = new FormData();
-		comboFormData.left = new FormAttachment(0, 15);
-		comboFormData.right = new FormAttachment(100, -15);
-		comboFormData.top = new FormAttachment(freePart, 10);
+		comboFormData.left = new FormAttachment(label, 5);
+		comboFormData.right = new FormAttachment(100, -5);
+		comboFormData.top = new FormAttachment(0, 2);
+		comboFormData.bottom = new FormAttachment(100, -2);
 		dropDown.setLayoutData(comboFormData);		
 	}
 
@@ -82,7 +94,7 @@ public class EntityDropDownPanel {
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		theGroup.setLayoutData(formData);
+		group.setLayoutData(formData);
 	}
 
 	public void setHelpGroup(HelpGroup helpGroup) {
@@ -101,7 +113,7 @@ public class EntityDropDownPanel {
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(0, 5 + height);
-		theGroup.setLayoutData(formData);
+		group.setLayoutData(formData);
 	}
 	
 	public void putMiddleInContainer(Group topNeighbour, int height) {
@@ -111,7 +123,24 @@ public class EntityDropDownPanel {
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(6, 5 + height);
-		theGroup.setLayoutData(formData);		
+		group.setLayoutData(formData);		
+	}	
+	public void putNextInContainer(Group topNeighbour, int height) {
+		// TODO Auto-generated method stub
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+//		formData.bottom = new FormAttachment(topNeighbour, 5 + height);
+		group.setLayoutData(formData);		
+	}
+
+	public UnitTypeComboModifyListener getUnitTypeModifyListener() {
+		return unitTypeModifyListener;
+	}
+
+	public Combo getDropDown() {
+		return dropDown;
 	}	
 	
 }

@@ -23,7 +23,7 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalPrevalencesFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
@@ -31,6 +31,7 @@ import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 public enum DispatchEnum {
@@ -87,7 +88,7 @@ public enum DispatchEnum {
 	RISKFACTORPREVALENCES_CATEGORICAL(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 					.getNodeLabel(),
-			new RiskFactorCategoricalPrevalencesFactory(), null), // TODO
+			new RiskFactorPrevalencesCategoricalFactory(), null), // TODO
 	/* W22Con */
 	RISKFACTORPREVALENCES_CONTINUOUS(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
@@ -130,8 +131,8 @@ public enum DispatchEnum {
 	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(),
 			new DiseaseIncidencesFactory(), null),
 	/* W33 */
-	EXCESSMORTALITY(RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
-			new ExcessMortalityFactory(), null), // TODO
+	EXCESSMORTALITY(XMLTagEntityEnum.EXCESSMORTALITY.getElementName(),
+			new ExcessMortalityFactory(), null), 
 	/* W34Cat */
 	RRISKFORRISKFACTOR_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
@@ -147,7 +148,7 @@ public enum DispatchEnum {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
 					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
 	/* W35 */
-	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASES
+	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 			.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),
 	/* W?? */
 	DALYWEIGHTS(RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(),

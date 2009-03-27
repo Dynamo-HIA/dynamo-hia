@@ -15,7 +15,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
+public class RiskFactorPrevalencesCategoricalFactory extends AgnosticFactory
 		implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -69,7 +69,7 @@ public class RiskFactorCategoricalPrevalencesFactory extends AgnosticFactory
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+				.getInstance().get("percent"), null));
 		return new RiskFactorCategoricalPrevalencesObject(super
 				.manufactureDefault(leafNodeList, makeObservable));
 	}

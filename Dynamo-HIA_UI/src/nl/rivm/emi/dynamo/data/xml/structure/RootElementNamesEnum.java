@@ -33,7 +33,7 @@ import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDisabilityContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCompound;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorContinuous;
-import nl.rivm.emi.dynamo.data.types.root.RelativeRisksFromDiseases;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisksFromDisease;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorCompound;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesContinuous;
@@ -88,7 +88,7 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 			new RelativeRiskFromRiskFactorCategorical()), //
 	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(new RelativeRiskFromRiskFactorContinuous()), //
 	RELATIVERISKSFROMRISKFACTOR_COMPOUND(new RelativeRiskFromRiskFactorCompound()), //
-	RELATIVERISKSFROMDISEASES(new RelativeRisksFromDiseases()), //
+	RELATIVERISKSFROMDISEASE(new RelativeRisksFromDisease()), //
 	DALYWEIGHTS(new DALYWeights());
 
 	Log log = LogFactory.getLog(this.getClass().getName());

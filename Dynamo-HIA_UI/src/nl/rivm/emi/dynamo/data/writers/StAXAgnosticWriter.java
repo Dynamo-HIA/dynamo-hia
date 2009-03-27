@@ -44,6 +44,17 @@ public class StAXAgnosticWriter {
 			throws XMLStreamException, UnexpectedFileStructureException,
 			IOException, DynamoConfigurationException {
 		log.debug("Entering produceFile");
+		if (fileControl.isGroupEnum() || fileControl.isRootChildEnum()) {
+			throw new DynamoConfigurationException(
+					"FileControlEnum with first element: "
+							+ fileControl.getParameterType4GroupFactory(0)
+									.getXMLElementName()
+							+ " has isGroupEnum "
+							+ fileControl.isGroupEnum()
+							+ " and isRootChildEnum "
+							+ fileControl.isRootChildEnum()
+							+ ", they should both be false when using this writer.");
+		}
 		if (theModel != null) {
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter;
@@ -152,8 +163,8 @@ public class StAXAgnosticWriter {
 			throws XMLStreamException {
 		log.debug("Entering streamContainerEntries.");
 		XMLEvent event;
-		event = eventFactory.createStartElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createStartElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
 		Iterator<Map.Entry<String, Number>> iterator = containerValuesMap
 				.entrySet().iterator();
@@ -173,8 +184,8 @@ public class StAXAgnosticWriter {
 			throws XMLStreamException {
 		log.debug("Entering streamRootChildEnd.");
 		XMLEvent event;
-		event = eventFactory.createEndElement("", "",
-				fileControl.rootChildElementName);
+		event = eventFactory.createEndElement("", "", fileControl
+				.getRootChildElementName());
 		writer.add(event);
 	}
 

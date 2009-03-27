@@ -4,7 +4,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractAge;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
 public class MaxAge extends AbstractAge implements PayloadType<Integer> {
-	static final protected String XMLElementName = "maxage";
+	static final protected String XMLElementName = "maxAge";
 
 	public MaxAge() {
 		super(XMLElementName);

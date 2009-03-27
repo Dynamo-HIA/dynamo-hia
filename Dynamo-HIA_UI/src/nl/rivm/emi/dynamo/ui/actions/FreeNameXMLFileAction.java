@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.actions;
+
 // TODO:IMPORT
 
 /**
@@ -13,6 +14,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
@@ -60,13 +62,15 @@ public class FreeNameXMLFileAction extends ActionBase {
 	protected String getNewFilePath() {
 		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
 		String newPath = null;
-		// Call the input trialog modal here (trialog includes input field, import, ok and cancel buttons)
-		ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for a new xml file", "Name", null);
+		// Call the input trialog modal here (trialog includes input field,
+		// import, ok and cancel buttons)
+		ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
+				shell, "BasePath: " + selectionPath,
+				"Enter name for a new xml file", "Name", null);
 		int openValue = inputDialog.open();
-		
+
 		log.debug("OpenValue is: " + openValue);
-		
+
 		int returnCode = inputDialog.getReturnCode();
 
 		log.debug("ReturnCode is: " + returnCode);
@@ -76,16 +80,16 @@ public class FreeNameXMLFileAction extends ActionBase {
 					+ candidateName + ".xml";
 			File candidateFile = new File(candidatePath);
 			if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
-				newPath = candidateFile.getAbsolutePath();				
+				newPath = candidateFile.getAbsolutePath();
 				File savedFile = new File(newPath);
 				File dataFile = null;
-				// Supply the location of dataFile									
+				// Supply the location of dataFile
 				if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
-					dataFile = this.getImportFile(); 
+					dataFile = this.getImportFile();
 				} else {
 					dataFile = savedFile;
 				}
-				
+
 				// Process the modal
 				processThroughModal(dataFile, savedFile);
 			} else {
@@ -103,25 +107,43 @@ public class FreeNameXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
-			if (RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel().equals(rootElementName)) {
-				theModal = new DiseaseIncidencesModal(shell, dataFile.getAbsolutePath(), savedFile
-						.getAbsolutePath(), rootElementName, node);
+			if (RootElementNamesEnum.DALYWEIGHTS.getNodeLabel().equals(
+					rootElementName)) {
+				theModal = new DALYWeightsModal(shell, dataFile
+						.getAbsolutePath(), savedFile.getAbsolutePath(),
+						rootElementName, node);
 			} else {
-				if (RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel().equals(rootElementName)) {
-					theModal = new DiseasePrevalencesModal(shell, dataFile.getAbsolutePath(), savedFile
-							.getAbsolutePath(), rootElementName, node);
+				if (RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel().equals(
+						rootElementName)) {
+					theModal = new ExcessMortalityModal(shell, dataFile
+							.getAbsolutePath(), savedFile.getAbsolutePath(),
+							rootElementName, node);
 				} else {
-					if (RootElementNamesEnum.SIMULATION.getNodeLabel().equals(rootElementName)) {
-						theModal = new SimulationModal(shell, dataFile.getAbsolutePath(), savedFile
-								.getAbsolutePath(), rootElementName, node);
+					if (RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel()
+							.equals(rootElementName)) {
+						theModal = new DiseaseIncidencesModal(shell, dataFile
+								.getAbsolutePath(),
+								savedFile.getAbsolutePath(), rootElementName,
+								node);
 					} else {
-						if (RootElementNamesEnum.DALYWEIGHTS.getNodeLabel().equals(rootElementName)) {
-							theModal = new DALYWeightsModal(shell, dataFile.getAbsolutePath(), savedFile
-									.getAbsolutePath(), rootElementName, node);
-						} else {					
-							throw new DynamoConfigurationException(
-							"RootElementName " + rootElementName
-									+ " not implemented yet.");
+						if (RootElementNamesEnum.DISEASEPREVALENCES
+								.getNodeLabel().equals(rootElementName)) {
+							theModal = new DiseasePrevalencesModal(shell,
+									dataFile.getAbsolutePath(), savedFile
+											.getAbsolutePath(),
+									rootElementName, node);
+						} else {
+							if (RootElementNamesEnum.SIMULATION.getNodeLabel()
+									.equals(rootElementName)) {
+								theModal = new SimulationModal(shell, dataFile
+										.getAbsolutePath(), savedFile
+										.getAbsolutePath(), rootElementName,
+										node);
+							} else {
+								throw new DynamoConfigurationException(
+										"RootElementName " + rootElementName
+												+ " not implemented yet.");
+							}
 						}
 					}
 				}
@@ -144,15 +166,15 @@ public class FreeNameXMLFileAction extends ActionBase {
 			messageBox.open();
 		}
 	}
-	
+
 	/**
 	 * @return File The selected import file
 	 */
 	public File getImportFile() {
 		FileDialog fileDialog = new FileDialog(this.shell);
-		fileDialog.open();		
-		return new File(fileDialog.getFilterPath()
-				+ File.separator + fileDialog.getFileName());
-	}	
-	
+		fileDialog.open();
+		return new File(fileDialog.getFilterPath() + File.separator
+				+ fileDialog.getFileName());
+	}
+
 }

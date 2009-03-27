@@ -464,7 +464,7 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection) {
 		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.RELATIVERISKSFROMDISEASES.getNodeLabel());
+				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel());
 		action.setText("New relative risks from other disease file");
 		manager.add(action);
 	}

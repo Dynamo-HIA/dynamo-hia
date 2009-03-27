@@ -1,10 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import java.util.ArrayList;
+
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
@@ -61,10 +64,12 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 			TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
-			bindValue(tHMap, BiGender.FEMALE_INDEX);
+			for(int sexCount = 0; sexCount < 2; sexCount++ ){
+				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap.get(sexCount);
+				WritableValue thePercentageObservable = (WritableValue) list.get(0).getValue();  
+			bindValue(thePercentageObservable);
 //			bindTestValue(tHMap, BiGender.FEMALE_INDEX);
-			bindValue(tHMap, BiGender.MALE_INDEX);
-//			bindTestValue(tHMap, BiGender.MALE_INDEX);
+			}
 		}
 	}
 
@@ -78,12 +83,12 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(TypedHashMap typedHashMap, int index) {
+	private void bindValue(WritableValue thePercentage) {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		String convertedText = ((Percent)myType).convert4View(typedHashMap.get(index).toString());
+		String convertedText = ((Percent)myType).convert4View(thePercentage);
 		text.setText(convertedText);
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -99,8 +104,7 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 //	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);
-		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+		dataBindingContext.bindValue(textObservableValue, thePercentage,
 				((Percent)myType).getModelUpdateValueStrategy(), ((Percent)myType).getViewUpdateValueStrategy());
 		text.addVerifyListener(new PercentVerifyListener());
 	}

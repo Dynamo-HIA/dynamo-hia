@@ -72,7 +72,7 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = new ExcessMortalityObject(manufactureModelObject());
+			this.modelObject = (ExcessMortalityObject)manufactureModelObject();
 
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
@@ -83,7 +83,7 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 			excessMortalityGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(500, 500);
+			this.shell.setSize(600, 500);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {

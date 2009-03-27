@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.objects;
 /**
  * The putters are designed to insert Observables only!!!!!!
  */
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
@@ -11,7 +12,7 @@ import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,10 +44,15 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 	public WritableValue getObservableCategoryName(Integer index) {
 		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 				.getElementName());
-		Object categoryNameObject = wrappedObject.get(index);
+		Object payloadObject = wrappedObject.get(index);
 		WritableValue writableCategoryName = null;
-		if (categoryNameObject instanceof WritableValue) {
-			writableCategoryName = (WritableValue) categoryNameObject;
+//		if (categoryNameObject instanceof WritableValue) {
+//			writableCategoryName = (WritableValue) categoryNameObject;
+		if (payloadObject instanceof ArrayList) {
+			ArrayList<AtomicTypeObjectTuple> payloadArrayList = (ArrayList<AtomicTypeObjectTuple>)payloadObject;
+			writableCategoryName = (WritableValue)payloadArrayList.get(0).getValue();
+		} else {
+			log.fatal("Unexpected content: " + payloadObject.getClass().getName());
 		}
 		return writableCategoryName;
 	}

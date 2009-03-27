@@ -136,7 +136,7 @@ public class XMLFileAction extends ActionBase {
 										} else {
 											
 
-											if (RootElementNamesEnum.RELATIVERISKSFROMDISEASES
+											if (RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 													.getNodeLabel()
 													.equalsIgnoreCase(
 															rootElementName)) {
