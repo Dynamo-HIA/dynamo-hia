@@ -46,7 +46,8 @@ public class DynamoSimulationObject extends
 }
 
 	public void setHasNewborns(boolean newborns) {
-putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName(), newborns);
+		putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName(), 
+				newborns);
 	}
 
 	public Integer getMaxAge() {
@@ -229,4 +230,6 @@ putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName(), ne
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 }
