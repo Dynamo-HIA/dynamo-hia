@@ -52,16 +52,23 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			String candidatePath = theModal.getNewFilePath();
 			
 			if(candidatePath != null){
-			File file = new File(candidatePath);
-			if (file != null && !file.getName().isEmpty()) {
-				if (file.exists()) {
+			File candidateFile = new File(candidatePath);
+			if (candidateFile != null && !candidateFile.getName().isEmpty()) {
+				if (candidateFile.exists()) {
 					MessageBox alreadyExistsMessageBox = new MessageBox(shell,
 							SWT.ERROR_ITEM_NOT_ADDED);
 					alreadyExistsMessageBox.setMessage("\"" + candidatePath
 							+ "\"\n exists already.");
 					alreadyExistsMessageBox.open();
 				} else {
-					processThroughModal(file, theModal.getRsProps());
+					File dataFile;
+					String importFilePath = theModal.getDataFilePath();				
+					if (importFilePath == null) {
+						dataFile = candidateFile;
+					} else {
+						dataFile = new File(importFilePath);
+					}
+					processThroughModal(dataFile, candidateFile, theModal.getRsProps());
 				}
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
@@ -84,21 +91,21 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File file, RiskSourceProperties props) {
+	private void processThroughModal(File dataFile, File candidateFile, RiskSourceProperties props) {
 		try {
-			boolean isOld = file.exists();
+			boolean isOld = candidateFile.exists();
 			Runnable theModal = null;
 			String chosenRootElementName = props.getRootElementName();
 			if (chosenRootElementName == null) {
-					theModal = new RelRiskFromOtherDiseaseModal(shell, file
-							.getAbsolutePath(), file.getAbsolutePath(), rootElementName,
+					theModal = new RelRiskFromOtherDiseaseModal(shell, dataFile
+							.getAbsolutePath(), candidateFile.getAbsolutePath(), rootElementName,
 							node, props);
 			} else {
 				fillRootElementName(chosenRootElementName);
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 						.getNodeLabel().equals(chosenRootElementName)) {
 					theModal = new RelRiskFromRiskFactorCategoricalModal(
-							shell, file.getAbsolutePath(), file.getAbsolutePath(),
+							shell, dataFile.getAbsolutePath(), candidateFile.getAbsolutePath(),
 							rootElementName, node, props);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_COMPOUND
@@ -109,7 +116,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 								.getNodeLabel().equals(
 										chosenRootElementName)) {
 							theModal = new RelRiskFromRiskFactorContinuousModal(
-									shell, file.getAbsolutePath(), file.getAbsolutePath(),
+									shell, dataFile.getAbsolutePath(), candidateFile.getAbsolutePath(),
 									rootElementName, node, props);
 						} else {
 							throw new DynamoConfigurationException(
@@ -121,17 +128,17 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 			}
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
-			boolean isPresentAfter = file.exists();
+			boolean isPresentAfter = candidateFile.exists();
 			if (isPresentAfter && !isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
-						(ParentNode) node, file));
+						(ParentNode) node, candidateFile));
 			}
 			theViewer.refresh();
 		} catch (Exception e) {
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
 					SWT.ERROR_ITEM_NOT_ADDED);
-			messageBox.setMessage("Creation of \"" + file.getName()
+			messageBox.setMessage("Creation of \"" + candidateFile.getName()
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();

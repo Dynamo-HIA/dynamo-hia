@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -46,6 +47,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 	private RiskSourceProperties rsProps;
 	private Text freePart;
 	private Combo dropDown;
+	private String newDataFilePath;
 
 	public FreeNamePlusDropDownModal(Shell parentShell,
 			BaseNode selectedNode) {
@@ -82,11 +84,38 @@ public class FreeNamePlusDropDownModal implements Runnable {
 				comboFormData.right = new FormAttachment(100, -15);
 				comboFormData.top = new FormAttachment(freePart, 10);
 				dropDown.setLayoutData(comboFormData);
+				
+				Button importButton = new Button(shell, SWT.PUSH);
+				importButton.setText("Import");
+				FormData importButtonFormData = new FormData();
+				importButtonFormData.left = new FormAttachment(0, 15);
+				importButtonFormData.right = new FormAttachment(0, 60);
+				importButtonFormData.bottom = new FormAttachment(100, -15);
+				importButton.setLayoutData(importButtonFormData);
+				importButton.addSelectionListener(new SelectionListener() {
+	
+					public void widgetDefaultSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+					}
+	
+					public void widgetSelected(SelectionEvent arg0) {
+						// TODO insert import functionality here:
+						// getImportFile()
+						// Handle dataFile and newFile locations differently
+						newDataFilePath = getImportFilePath();
+						log.debug("Creating newfilepath");
+						newFilePath = selectedNode.getPhysicalStorage().getAbsolutePath() + File.separator
+								+ freePart.getText() + dropDown.getText() + ".xml";
+						log.debug("Created newfilepath" + newFilePath);
+						rsProps = selectableRiskSourcePropertiesMap.get(dropDown.getText());
+						shell.dispose();
+					}
+	
+				});				
 				Button okButton = new Button(shell, SWT.PUSH);
 				okButton.setText("OK");
 				FormData okButtonFormData = new FormData();
-				okButtonFormData.left = new FormAttachment(0, 15);
-				okButtonFormData.right = new FormAttachment(0, 60);
+				okButtonFormData.left = new FormAttachment(importButton, 15);
 				okButtonFormData.bottom = new FormAttachment(100, -15);
 				okButton.setLayoutData(okButtonFormData);
 				okButton.addSelectionListener(new SelectionListener() {
@@ -138,6 +167,15 @@ public class FreeNamePlusDropDownModal implements Runnable {
 		}
 	}
 
+	/**
+	 * @return File The selected import file
+	 */
+	protected String getImportFilePath() {
+		FileDialog fileDialog = new FileDialog(this.shell);
+		fileDialog.open();		
+		return fileDialog.getFilterPath() + File.separator + fileDialog.getFileName();
+	}	
+
 	public void run() {
 		open();
 	}
@@ -150,6 +188,10 @@ public class FreeNamePlusDropDownModal implements Runnable {
 		return newFilePath;
 	}
 
+	public String getDataFilePath() {
+		return newDataFilePath;
+	}
+	
 	public RiskSourceProperties getRsProps() {
 		return rsProps;
 	}
