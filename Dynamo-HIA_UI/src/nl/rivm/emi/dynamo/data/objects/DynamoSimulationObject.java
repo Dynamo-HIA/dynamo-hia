@@ -229,6 +229,4 @@ putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName(), ne
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-
 }
