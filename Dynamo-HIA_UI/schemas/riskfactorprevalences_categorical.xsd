@@ -4,7 +4,7 @@
   <xs:element name="riskfactorprevalences_categorical">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="384" maxOccurs="384" name="prevalence">
+        <xs:element minOccurs="1920" maxOccurs="1920" name="prevalence">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
