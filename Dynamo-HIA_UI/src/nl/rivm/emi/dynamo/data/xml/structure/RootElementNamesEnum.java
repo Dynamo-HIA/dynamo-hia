@@ -14,67 +14,104 @@ package nl.rivm.emi.dynamo.data.xml.structure;
  * teruggebracht naar "rel".
  */
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.interfaces.RootElementType;
+import nl.rivm.emi.dynamo.data.types.root.DALYWeights;
+import nl.rivm.emi.dynamo.data.types.root.DiseaseIncidences;
+import nl.rivm.emi.dynamo.data.types.root.DiseasePrevalences;
+import nl.rivm.emi.dynamo.data.types.root.ExcessMortality;
+import nl.rivm.emi.dynamo.data.types.root.Newborns;
+import nl.rivm.emi.dynamo.data.types.root.OverallDALYWeights;
+import nl.rivm.emi.dynamo.data.types.root.OverallMortality;
+import nl.rivm.emi.dynamo.data.types.root.PopulationSize;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathCompound;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDisabilityCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDisabilityCompound;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDisabilityContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCompound;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisksFromDiseases;
+import nl.rivm.emi.dynamo.data.types.root.RiskFactorCompound;
+import nl.rivm.emi.dynamo.data.types.root.RiskFactorContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesDuration;
+import nl.rivm.emi.dynamo.data.types.root.RiskfactorCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RiskfactorPrevalencesCategorical;
+import nl.rivm.emi.dynamo.data.types.root.Simulation;
+import nl.rivm.emi.dynamo.data.types.root.TransitionDrift;
+import nl.rivm.emi.dynamo.data.types.root.TransitionDriftNetto;
+import nl.rivm.emi.dynamo.data.types.root.TransitionDriftZero;
+import nl.rivm.emi.dynamo.data.types.root.TransitionMatrix;
+import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixNetto;
+import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixZero;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public enum RootElementNamesEnum {
+public enum RootElementNamesEnum /* implements RootElementType */{
 
 	/**
-	 * This represents the list of root element names,
-	 * used in the xml, xsd, and application
+	 * This represents the list of root element names, used in the xml, xsd, and
+	 * application
 	 */
-	
-	SIMULATION("simulation", null), // Comment to block reformatting.
-	POPULATIONSIZE("populationsize", null), //
-	OVERALLMORTALITY("overallmortality", null), //
-	NEWBORNS("newborns", null), //
-	OVERALLDALYWEIGHTS("overalldalyweights", null), //
-	RISKFACTOR_CATEGORICAL("riskfactor_categorical", "Categorical"), //
-	RISKFACTOR_CONTINUOUS("riskfactor_continuous", "Continuous"), //
-	RISKFACTOR_COMPOUND("riskfactor_compound", "Compound"), //
-	TRANSITIONMATRIX("transitionmatrix", null), //
-	TRANSITIONMATRIX_ZERO("transitionmatrix_zero", null), //
-	TRANSITIONMATRIX_NETTO("transitionmatrix_netto", null), //
-	TRANSITIONDRIFT("transitiondrift", null), //
-	TRANSITIONDRIFT_ZERO("transitiondrift_zero", null), //
-	TRANSITIONDRIFT_NETTO("transitiondrift_netto", null), //
-	RISKFACTORPREVALENCES_CATEGORICAL("riskfactorprevalences_categorical", null), //
-	RISKFACTORPREVALENCES_CONTINUOUS("riskfactorprevalences_continuous", null), //
-	RISKFACTORPREVALENCES_DURATION("riskfactorprevalences_duration", null), //
-	RELATIVERISKSFORDEATH_CATEGORICAL("relrisksfordeath_categorical", null), //
-	RELATIVERISKSFORDEATH_CONTINUOUS("relrisksfordeath_continuous", null), //
-	RELATIVERISKSFORDEATH_COMPOUND("relrisksfordeath_compound", null), //
-	RELATIVERISKSFORDISABILITY_CATEGORICAL("relrisksfordisability_categorical", null), //
-	RELATIVERISKSFORDISABILITY_CONTINUOUS("relrisksfordisability_continuous", null), //
-	RELATIVERISKSFORDISABILITY_COMPOUND("relrisksfordisability_compound", null), //
-	DISEASEPREVALENCES("diseaseprevalences", null), //
-	DISEASEINCIDENCES("diseaseincidences", null), //
-	EXCESSMORTALITY("excessmortality", null), //
+
+	SIMULATION(new Simulation()), // Comment to block reformatting.
+	POPULATIONSIZE(new PopulationSize()), //
+	OVERALLMORTALITY(new OverallMortality()), //
+	NEWBORNS(new Newborns()), //
+	OVERALLDALYWEIGHTS(new OverallDALYWeights()), //
+	RISKFACTOR_CATEGORICAL(new RiskfactorCategorical()), //
+	RISKFACTOR_CONTINUOUS(new RiskFactorContinuous()), //
+	RISKFACTOR_COMPOUND(new RiskFactorCompound()), //
+	TRANSITIONMATRIX(new TransitionMatrix()), //
+	TRANSITIONMATRIX_ZERO(new TransitionMatrixZero()), //
+	TRANSITIONMATRIX_NETTO(new TransitionMatrixNetto()), //
+	TRANSITIONDRIFT(new TransitionDrift()), //
+	TRANSITIONDRIFT_ZERO(new TransitionDriftZero()), //
+	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto()), //
+	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical()), //
+	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous()), //
+	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration()), //
+	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical()), //
+	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous()), //
+	RELATIVERISKSFORDEATH_COMPOUND(new RelativeRiskForDeathCompound()), //
+	RELATIVERISKSFORDISABILITY_CATEGORICAL(new RelativeRiskForDisabilityCategorical()), //
+	RELATIVERISKSFORDISABILITY_CONTINUOUS(new RelativeRiskForDisabilityContinuous()), //
+	RELATIVERISKSFORDISABILITY_COMPOUND(new RelativeRiskForDisabilityCompound()), //
+	DISEASEPREVALENCES(new DiseasePrevalences()), //
+	DISEASEINCIDENCES(new DiseaseIncidences()), //
+	EXCESSMORTALITY(new ExcessMortality()), //
 	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL(
-			"relrisksfromriskfactor_categorical", null), //
-	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(
-			"relrisksfromriskfactor_continuous", null), //
-	RELATIVERISKSFROMRISKFACTOR_COMPOUND("relrisksfromriskfactor_compound", null), //
-	RELATIVERISKSFROMDISEASES("relrisksfromdisease", null), //
-	DALYWEIGHTS("dalyweights", null);
+			new RelativeRiskFromRiskFactorCategorical()), //
+	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(new RelativeRiskFromRiskFactorContinuous()), //
+	RELATIVERISKSFROMRISKFACTOR_COMPOUND(new RelativeRiskFromRiskFactorCompound()), //
+	RELATIVERISKSFROMDISEASES(new RelativeRisksFromDiseases()), //
+	DALYWEIGHTS(new DALYWeights());
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
 	 */
-	private String rootElementName;
-	private String displayName;
+	// private String rootElementName;
+	// private RootElementNamesEnum(String theRootElementName) {
+	// this.rootElementName = theRootElementName;
+	// }
+	//
+	// public String getNodeLabel() {
+	// return rootElementName;
+	// }
+	XMLTagEntity theType;
 
-	private RootElementNamesEnum(String theRootElementName, String theDisplayName) {
-		this.rootElementName = theRootElementName;
-		this.displayName = theDisplayName;
+	private RootElementNamesEnum(XMLTagEntity type) {
+		theType = type;
 	}
 
 	public String getNodeLabel() {
-		return rootElementName;
-	}
-
-	public String getDisplayName() {
-		return displayName;
+		String nodeLabel = ((XMLTagEntity)theType).getXMLElementName();
+		log.debug("Returning nodeLabel: " + nodeLabel);
+		return nodeLabel;
 	}
 }
