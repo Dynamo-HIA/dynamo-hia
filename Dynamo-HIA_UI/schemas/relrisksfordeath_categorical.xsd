@@ -4,7 +4,7 @@
   <xs:element name="relrisksfordeath_categorical">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="384" maxOccurs="384" name="relriskfordeath">
+        <xs:element minOccurs="1920" maxOccurs="1920" name="relriskfordeath">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
