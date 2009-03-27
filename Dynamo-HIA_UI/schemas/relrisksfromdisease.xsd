@@ -4,7 +4,7 @@
   <xs:element name="relrisksfromdisease">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="192" maxOccurs="192" name="relativerisk">
+        <xs:element minOccurs="192" maxOccurs="1920" name="relativerisk">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
