@@ -18,7 +18,7 @@
 			<targetMaxAge>95</targetMaxAge>
 			<targetSex>2</targetSex>
 			<transfilename>none</transfilename>
-			<prevfilename>prev_scen1</prevfilename>
+			<prevfilename>prevalence</prevfilename>
 		</scenario>
 		<scenario>
 			<name>scenario 2</name>
@@ -27,7 +27,7 @@
 			<targetMaxAge>95</targetMaxAge>
 			<targetSex>2</targetSex>
 			<transfilename>none</transfilename>
-			<prevfilename>prev_scen1</prevfilename>
+			<prevfilename>prevalence</prevfilename>
 		</scenario>
 	</scenarios>
 	<diseases>
