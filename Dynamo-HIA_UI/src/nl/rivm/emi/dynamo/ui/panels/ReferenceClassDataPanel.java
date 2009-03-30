@@ -44,16 +44,16 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		setLayout(layout);
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Referenceclass index:");
-			WritableValue observableObject = referenceCategoryObject
-					.getObservableReferenceClass();
-			if (observableObject != null) {
-				bindValue(observableObject);
-			} else {
-				MessageBox box = new MessageBox(parent.getShell());
-				box.setText("Referenceclass error");
-				box.setMessage("Referenceclass is absent.");
-				box.open();
-			}
+		WritableValue observableObject = referenceCategoryObject
+				.getObservableReferenceClass();
+		if (observableObject != null) {
+			bindValue(observableObject);
+		} else {
+			MessageBox box = new MessageBox(parent.getShell());
+			box.setText("Referenceclass error");
+			box.setMessage("Referenceclass is absent.");
+			box.open();
+		}
 	}
 
 	private void bindValue(WritableValue observableObject) {

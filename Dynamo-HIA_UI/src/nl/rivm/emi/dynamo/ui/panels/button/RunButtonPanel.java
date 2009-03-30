@@ -9,44 +9,59 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-public class RunButtonPanel extends Composite {
+public class RunButtonPanel {
 
+	Group group;
 	Button runButton;
-	DataAndFileContainer modalParent;
 
-	public RunButtonPanel(Shell shell) {
-		super(shell, SWT.NONE);
-//		setSize(100, 35);
-//		setFormData();
+	public RunButtonPanel(Composite parent, 
+			DataAndFileContainer theModal) {
+		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
-		setLayout(formLayout);
-		runButton = putRunButton(this);
-		pack();
+		group.setLayout(formLayout);
+		runButton = putRunButton(group);
+		setModalParent(theModal);
+		setFormData();
 	}
 
-	public void setFormData(Composite rightNeighbour, Composite bottomNeighbour) {
+	public void setFormData() {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(rightNeighbour, -5);
-		formData.bottom = new FormAttachment(bottomNeighbour, -5);
-		setLayoutData(formData);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		runButton.setLayoutData(formData);
 	}
 
-	public void setModalParent(DataAndFileContainer theParent) {
-		modalParent = theParent;
-		runButton.addSelectionListener(new RunSelectionListener(modalParent));
+	public void setModalParent(DataAndFileContainer theModalParent) {
+		runButton.addSelectionListener(new RunSelectionListener(theModalParent));
 	}
 
-	static private Button putRunButton(Composite panel) {
+	static private Button putRunButton(Composite parent) {
 		FormData formData = new FormData();
-		Button runButton = new Button(panel, SWT.PUSH);
+		Button runButton = new Button(parent, SWT.PUSH);
 		runButton.setText("Run");
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 100);
 		formData.bottom = new FormAttachment(100, -200);
 		runButton.setLayoutData(formData);
 		return runButton;
+	}
+
+	/**
+	 * 
+	 * Place the last (and second) group in the container
+	 * 
+	 * @param topNeighbour
+	 */
+	public void putLastInContainer(Composite topNeighbour) {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		group.setLayoutData(formData);	
 	}
 }

@@ -1,0 +1,49 @@
+package nl.rivm.emi.dynamo.ui.panels.simulation;
+
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+
+public class DynamoSimulationParameterGroup {
+	Group group;	
+		
+	public DynamoSimulationParameterGroup(Composite parent,
+			DynamoSimulationObject dynamoSimulationObject,
+			DataBindingContext dataBindingContext, final HelpGroup helpGroup) {
+		group = new Group(parent, SWT.NONE); // parent group
+		FormLayout formLayout = new FormLayout();
+		group.setLayout(formLayout);
+				
+		//TODO: Create two subpanels/groups nested in parent 'group'
+		// Split up the data and distribute it through the two panels
+		
+		// Panel that contains the simulation header information
+		DynamoHeaderParameterGroup dynamoHeaderParameterGroup =
+			new DynamoHeaderParameterGroup(group, dynamoSimulationObject, 
+					dataBindingContext, helpGroup);	
+		dynamoHeaderParameterGroup.putFirstInContainer(150);
+		
+		// Panel that contains the tabs
+		DynamoTabsParameterGroup dynamoTabsParameterGroup =
+			new DynamoTabsParameterGroup(group, dynamoSimulationObject, 
+					dataBindingContext, helpGroup);
+		dynamoTabsParameterGroup.putLastInContainer(dynamoHeaderParameterGroup.group);
+	}
+
+	public void putFirstInContainer(int height) {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(0, 5 + height);
+		group.setLayoutData(formData);		
+	}
+
+}

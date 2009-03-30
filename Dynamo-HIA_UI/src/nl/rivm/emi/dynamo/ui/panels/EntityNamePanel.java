@@ -83,7 +83,6 @@ public class EntityNamePanel{
 	 * Place the last (and second) group in the container
 	 * 
 	 * @param topNeighbour
-	 * @param height
 	 */
 	public void putLastInContainer(Composite topNeighbour) {
 		FormData formData = new FormData();
