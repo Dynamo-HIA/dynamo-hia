@@ -4,7 +4,7 @@
   <xs:element name="riskfactorprevalences_continuous">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="576" maxOccurs="576" name="prevalence">
+        <xs:element minOccurs="192" maxOccurs="192" name="prevalence">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
