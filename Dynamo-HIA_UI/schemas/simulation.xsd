@@ -4,11 +4,11 @@
   <xs:element name="simulation">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="newborns">
+        <xs:element name="hasnewborns">
           <xs:simpleType>
             <xs:restriction base="xs:string">
-              <xs:enumeration value="no" />
-              <xs:enumeration value="yes" />
+              <xs:enumeration value="0" />
+              <xs:enumeration value="1" />
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
@@ -70,7 +70,7 @@
               <xs:element maxOccurs="unbounded" name="scenario">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="uniquename" type="xs:string" />
                     <xs:element name="successRate">
                       <xs:simpleType>
                         <xs:restriction base="xs:int">
@@ -117,7 +117,7 @@
               <xs:element maxOccurs="unbounded" name="disease">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="uniquename" type="xs:string" />
                     <xs:element name="prevfilename" type="xs:string" />
                     <xs:element name="incfilename" type="xs:string" />
                     <xs:element name="excessmortfilename" type="xs:string" />
@@ -131,7 +131,7 @@
         <xs:element minOccurs="0" name="riskfactor">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="name" type="xs:string" />
+              <xs:element name="uniquename" type="xs:string" />
               <xs:element name="riskfactortransfilename" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
@@ -142,6 +142,11 @@
               <xs:element minOccurs="0" maxOccurs="unbounded" name="RR">
                 <xs:complexType>
                   <xs:sequence>
+					<xs:element name="RRindex">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:int" />
+                      </xs:simpleType>
+                    </xs:element>
                     <xs:element name="isRRfrom">
                       <xs:simpleType>
                         <xs:restriction base="xs:string" />

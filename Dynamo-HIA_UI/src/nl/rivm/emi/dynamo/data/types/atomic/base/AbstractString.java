@@ -11,7 +11,7 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 /**
  * Pretty plain base-class for String type configuration items.
  */
-abstract public class AbstractString extends AtomicTypeBase<String> {
+public class AbstractString extends AtomicTypeBase<String> {
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation

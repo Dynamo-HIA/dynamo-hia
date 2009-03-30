@@ -54,15 +54,15 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		for (; found < numberOfCategories && count <= numberOfCategories; count++) {
 			WritableValue observableClassName = iCategoricalObject.getObservableCategoryName(count);
 			if(observableClassName != null){
-			found++;
-			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
-			bindValue(observableClassName);
+				found++;
+				Label label = new Label(this, SWT.NONE);
+				label.setText(new Integer(count).toString());
+				bindValue(observableClassName);
 			} else {
-			MessageBox box = new MessageBox(parent.getShell());
-			box.setText("Class name error");
-			box.setMessage("Name at index " + count + " should not be empty.");
-			box.open();
+				MessageBox box = new MessageBox(parent.getShell());
+				box.setText("Class name error");
+				box.setMessage("Name at index " + count + " should not be empty.");
+				box.open();
 			}
 		}
 //		for (; count <= numberOfCategories; count++) {

@@ -17,7 +17,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	 */
 	final public Pattern matchPattern = Pattern
 			.compile("^\\d*\\.?\\d*$");
-
+	
 	public AbstractValue(String XMLElementName){
 		this(XMLElementName, 0F, Float.MAX_VALUE);
 	}
