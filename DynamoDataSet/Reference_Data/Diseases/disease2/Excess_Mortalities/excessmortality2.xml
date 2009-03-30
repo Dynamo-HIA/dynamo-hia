@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <excessmortality>
 <unittype>rate</unittype>
+<mortalities>
 <mortality>
 <age>0</age>
 <sex>0</sex>
@@ -1536,5 +1537,5 @@
 <acutelyfatal>0</acutelyfatal>
 <curedfraction>0</curedfraction>
 </mortality>
-
+</mortalities>
 </excessmortality>
