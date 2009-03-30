@@ -34,7 +34,8 @@ public class DynamoSimulationGroup {
 		// Create the parameter group and place it in the screen container
 		// The parameter group of the simulation consists of two group parts
 		DynamoSimulationParameterGroup parameterGroup = new DynamoSimulationParameterGroup(
-				theGroup, dynamoSimulationObject, dataBindingContext, helpGroup);
+				theGroup, dynamoSimulationObject, dataBindingContext, 
+				selectedNode, helpGroup);
 		parameterGroup.putFirstInContainer(300);
 		
 		// The third panel that contains the Run button

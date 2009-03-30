@@ -2,7 +2,10 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -22,7 +25,8 @@ public class DynamoHeaderDataPanel extends Composite {
 	
 	public DynamoHeaderDataPanel(Composite parent, Composite bottomNeighbour,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, BaseNode selectedNode,
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		super(parent, SWT.NONE);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
@@ -35,8 +39,8 @@ public class DynamoHeaderDataPanel extends Composite {
 		// Follow the reading order (columns first)
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText( "Name: ");			
-		// Get the name value from the file node
-		//parent.g
+		// Get the name value from the file node (i.e. parent)
+		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 				
 
 		

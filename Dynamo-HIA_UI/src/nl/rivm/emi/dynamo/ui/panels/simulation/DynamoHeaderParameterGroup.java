@@ -1,8 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.ReferenceClassDataPanel;
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
@@ -18,7 +20,8 @@ public class DynamoHeaderParameterGroup {
 
 	public DynamoHeaderParameterGroup(Composite parent,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, BaseNode selectedNode,
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		// TODO Auto-generated constructor stub
 		
 		group = new Group(parent, SWT.NONE);
@@ -27,7 +30,7 @@ public class DynamoHeaderParameterGroup {
 
 		Composite dynamoHeaderDataPanel = new DynamoHeaderDataPanel(
 				group, null, dynamoSimulationObject,
-				dataBindingContext, helpGroup);
+				dataBindingContext, selectedNode, helpGroup);
 		FormData dynamoHeaderFormData = new FormData();
 		dynamoHeaderFormData.top = new FormAttachment(100, -22);
 		dynamoHeaderFormData.right = new FormAttachment(100, -5);
