@@ -31,7 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-abstract public class AgnosticFactory implements RootLevelFactory{
+abstract public class AgnosticFactory implements RootLevelFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -42,8 +42,9 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufacture(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException;
+	abstract public TypedHashMap<?> manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException;
 
 	/**
 	 * Abstract method to allow polymorphism.
@@ -53,7 +54,8 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufactureObservable(File configurationFile, String rootElementName)
+	abstract public TypedHashMap<?> manufactureObservable(
+			File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
@@ -80,52 +82,57 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 	 * 
 	 * @param makeObservable
 	 * 
-	 * @return TypedHashMap HashMap that contains the data of the given file and the type of the data
-	 * @throws ConfigurationException 
-	 * @throws DynamoInconsistentDataException 
+	 * @return TypedHashMap HashMap that contains the data of the given file and
+	 *         the type of the data
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
 	 */
 	public TypedHashMap manufacture(File configurationFile,
-			boolean makeObservable, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {		
+			boolean makeObservable, String rootElementName)
+			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 
 			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// WORKAROUND: clear() is put after the constructor (also calls
+			// load()).
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
 			configurationFromFile.clear();
-			
+
 			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
-			configurationFromFile.load();			
-			
+			configurationFromFile.setValidating(true);
+			configurationFromFile.load();
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			
+
 			// Check if the name of the first element of the file
 			// is the same as that of the node name where the file is processes
-			if (rootNode.getName() != null && rootNode.getName().equalsIgnoreCase(rootElementName)) {
+			if (rootNode.getName() != null
+					&& rootNode.getName().equalsIgnoreCase(rootElementName)) {
 				List<?> list = rootNode.getChildren();
 				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
 				for (ConfigurationNode rootChild : rootChildren) {
 					log.info("Handle rootChild: " + rootChild.getName());
 					underConstruction = handleRootChild(underConstruction,
 							rootChild, makeObservable);
-				} // for rootChildren				
+				} // for rootChildren
 			} else {
-				// The start/first element of the imported file does not match the node name
-				throw new DynamoInconsistentDataException("The contents of the imported file does not match the node name"); 
+				// The start/first element of the imported file does not match
+				// the node name
+				throw new DynamoInconsistentDataException(
+						"The contents of the imported file does not match the node name");
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(),
-					e, configurationFile.getAbsolutePath());
-			return underConstruction;		
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e,
+					configurationFile.getAbsolutePath());
+			return underConstruction;
 		}
 	}
 
-	
 	/**
 	 * Currently each rootchild contains a group of XML-elements (leafnodes) of
 	 * which all but the last must be "container" datatypes. The result of
@@ -181,15 +188,16 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 					currentLevel, makeObservable, currentLevelValue);
 		} else {
 
-// NB(mondeelr) 20090324 All leafEntries will be AtomicTypeObjectTuples.
-		
-//			if (leafNodeList.size() - theLastContainer == 1) {
-//				handlePayLoadType(priorLevel, leafNodeList, currentLevel,
-//						makeObservable, currentLevelValue);
-//			} else {
-				handleAggregatePayLoadTypes(priorLevel, leafNodeList,
-						currentLevel, makeObservable, currentLevelValue);
-//			}
+			// NB(mondeelr) 20090324 All leafEntries will be
+			// AtomicTypeObjectTuples.
+
+			// if (leafNodeList.size() - theLastContainer == 1) {
+			// handlePayLoadType(priorLevel, leafNodeList, currentLevel,
+			// makeObservable, currentLevelValue);
+			// } else {
+			handleAggregatePayLoadTypes(priorLevel, leafNodeList, currentLevel,
+					makeObservable, currentLevelValue);
+			// }
 		}
 		return priorLevel;
 	}
@@ -312,32 +320,35 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList
 					.get(currentLevel).getType();
 			int maxValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMAX_VALUE();
+					.getMaxNumberOfDefaultValues();
 			int minValue;
 			minValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
 					currentLevel).getType()).getMIN_VALUE();
-			for (int value = minValue; value <= maxValue; value++) {
-				TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
-						.get(value);
-				if (pathMap == null) {
-					pathMap = new TypedHashMap(leafNodeList.get(
-							currentLevel + 1).getType());
-				}
-				log.debug("Adding map at value " + value);
-				priorLevel.put(value, pathMap);
-				if (currentLevel < theLastContainer - 1) {
-					makeDefaultPath(pathMap, leafNodeList, theLastContainer,
-							currentLevel + 1, makeObservable);
+			if (minValue < maxValue) {
+				for (int value = minValue; value <= maxValue; value++) {
+					TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
+							.get(value);
+					if (pathMap == null) {
+						pathMap = new TypedHashMap(leafNodeList.get(
+								currentLevel + 1).getType());
+					}
+					log.debug("Adding map at value " + value);
+					priorLevel.put(value, pathMap);
+					if (currentLevel < theLastContainer - 1) {
+						makeDefaultPath(pathMap, leafNodeList,
+								theLastContainer, currentLevel + 1,
+								makeObservable);
 
-				} else {
-					log.debug("Number of payload nodes: "
-							+ (leafNodeList.size() - theLastContainer));
-					// NB(mondeelr) 20090324 All leafEntries will be AtomicTypeObjectTuples.
-//					if ((leafNodeList.size() - theLastContainer) == 1) { 
-//						// Existing functionality.
-//						handleSinglePayload(priorLevel, leafNodeList,
-//								currentLevel, makeObservable, value);
-//					} else {
+					} else {
+						log.debug("Number of payload nodes: "
+								+ (leafNodeList.size() - theLastContainer));
+						// NB(mondeelr) 20090324 All leafEntries will be
+						// AtomicTypeObjectTuples.
+						// if ((leafNodeList.size() - theLastContainer) == 1) {
+						// // Existing functionality.
+						// handleSinglePayload(priorLevel, leafNodeList,
+						// currentLevel, makeObservable, value);
+						// } else {
 						// Extended functionality.
 						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
 						for (int count = theLastContainer; count < leafNodeList
@@ -348,15 +359,19 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
 							AtomicTypeObjectTuple modelTuple = null;
-							if(!makeObservable){
-							modelTuple = new AtomicTypeObjectTuple(type,defaultValue);
+							if (!makeObservable) {
+								modelTuple = new AtomicTypeObjectTuple(type,
+										defaultValue);
 							} else {
-								WritableValue observable = new WritableValue(defaultValue, defaultValue.getClass());
-								modelTuple = new AtomicTypeObjectTuple(type, observable);
+								WritableValue observable = new WritableValue(
+										defaultValue, defaultValue.getClass());
+								modelTuple = new AtomicTypeObjectTuple(type,
+										observable);
 							}
 							payloadList.add(modelTuple);
-//						}
-						priorLevel.put(value, payloadList);
+							// }
+							priorLevel.put(value, payloadList);
+						}
 					}
 				}
 			}
@@ -372,11 +387,12 @@ abstract public class AgnosticFactory implements RootLevelFactory{
 			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, int value)
 			throws DynamoConfigurationException {
-		log.debug("leafNodeList" 
-				+ leafNodeList);/*
-		log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))" 
-				+ ((PayloadType<Number>) leafNodeList.get(
-				currentLevel + 1)));*/
+		log.debug("leafNodeList" + leafNodeList);/*
+												 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
+												 * + ((PayloadType<Number>)
+												 * leafNodeList.get(
+												 * currentLevel + 1)));
+												 */
 		Number defaultValue = ((PayloadType<Number>) leafNodeList.get(
 				currentLevel + 1).getType()).getDefaultValue();
 		if (!makeObservable) {

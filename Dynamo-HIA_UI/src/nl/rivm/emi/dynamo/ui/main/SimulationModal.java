@@ -78,7 +78,7 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 			simulationGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);			
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(400, 400);
+			this.shell.setSize(900, 700);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {

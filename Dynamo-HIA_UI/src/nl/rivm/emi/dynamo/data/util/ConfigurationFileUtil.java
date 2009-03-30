@@ -6,6 +6,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
@@ -19,6 +20,16 @@ public class ConfigurationFileUtil {
 
 	private static Log log = LogFactory.getLog(ConfigurationFileUtil.class);
 	
+	static public String extractRootElementNameFromSiblingConfiguration(
+			BaseNode selectedNode) throws TreeStructureException, DynamoConfigurationException {
+		String rootElementName = null;
+		if (selectedNode instanceof ChildNode) {
+			BaseNode parent = (BaseNode) ((ChildNode) selectedNode).getParent();
+			rootElementName = extractRootElementNameFromChildConfiguration(parent);
+		}
+			return rootElementName;
+	}
+
 	static public String extractRootElementNameFromChildConfiguration(
 			BaseNode selectedNode) throws TreeStructureException, DynamoConfigurationException {
 		String rootElementName = null;

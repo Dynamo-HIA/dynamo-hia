@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.writers;
-
+/**
+ * 20090330 mondeelr Changes to allow String type keys in TypedHashMap-s.
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -163,21 +165,21 @@ public class StAXAgnosticGroupWriter {
 				wrapperElementName = rootChildEntity.getXMLElementName();
 			}
 		}
-		LinkedHashMap<String, Number> containerValuesMap = new LinkedHashMap<String, Number>();
+		LinkedHashMap<String, Object> containerValuesMap = new LinkedHashMap<String, Object>();
 		recurseLeafData((TypedHashMap<?>) rootChildObject, wrapperElementName, numberOfWrappers,
 				myEnum, containerValuesMap, writer, eventFactory);
 	}
 
 	private static void recurseLeafData(TypedHashMap<?> containerLevel,
 			String wrapperElementName, int numberOfWrappers, FileControlEnum fileControl,
-			LinkedHashMap<String, Number> containerValuesMap,
+			LinkedHashMap<String, Object> containerValuesMap,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoConfigurationException {
 		log.debug("Recursing at level " + containerValuesMap.size());
-		Set<Map.Entry<Integer, Object>> entrySet = containerLevel.entrySet();
-		Iterator<Map.Entry<Integer, Object>> iterator = entrySet.iterator();
+		Set<Map.Entry<Object, Object>> entrySet = containerLevel.entrySet();
+		Iterator<Map.Entry<Object, Object>> iterator = entrySet.iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<Integer, Object> entry = iterator.next();
+			Map.Entry<Object, Object> entry = iterator.next();
 			int level = numberOfWrappers + containerValuesMap.size();
 			/*AtomicTypeBase<Number>*/ XMLTagEntity type = fileControl.getParameterType4GroupFactory(level);
 			String elementName = type.getXMLElementName();
@@ -239,17 +241,17 @@ public class StAXAgnosticGroupWriter {
 	}
 
 	private static void streamWrapperStartPlusContainerEntries(
-			LinkedHashMap<String, Number> containerValuesMap,
+			LinkedHashMap<String, Object> containerValuesMap,
 			String wrapperElementName, XMLEventWriter writer,
 			XMLEventFactory eventFactory) throws XMLStreamException {
 		log.debug("Entering streamContainerEntries.");
 		XMLEvent event;
 		event = eventFactory.createStartElement("", "", wrapperElementName);
 		writer.add(event);
-		Iterator<Map.Entry<String, Number>> iterator = containerValuesMap
+		Iterator<Map.Entry<String, Object>> iterator = containerValuesMap
 				.entrySet().iterator();
 		while (iterator.hasNext()) {
-			Map.Entry<String, Number> entry = iterator.next();
+			Map.Entry<String, Object> entry = iterator.next();
 			event = eventFactory.createStartElement("", "", entry.getKey());
 			writer.add(event);
 			event = eventFactory.createCharacters(entry.getValue().toString());

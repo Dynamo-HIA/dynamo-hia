@@ -43,7 +43,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	public TypedHashMap<?> manufacture(List<ConfigurationNode> node)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> result = manufacture(node, false);
-		return result; 
+		return result;
 	}
 
 	public AtomicTypeObjectTuple manufactureObservable(ConfigurationNode node)
@@ -63,7 +63,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	public TypedHashMap<?> manufactureObservable(List<ConfigurationNode> node)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> result = manufacture(node, true);
-		return result; 
+		return result;
 	}
 
 	/**
@@ -167,14 +167,15 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
 		Object result = null;
-//		if (leafNodeList.size() - leafNodeList.getTheLastContainer() == 1) {
-//			result = handleSinglePayLoadType(leafNodeList, currentLevel,
-//					makeObservable);
-//		} else {
-			 result = handleAggregatePayLoadTypes(leafNodeList, currentLevel,
-			 makeObservable);
-//			throw new DynamoConfigurationException("handleAggregatePayLoadType not yet implemented here.");
-//		}
+		// if (leafNodeList.size() - leafNodeList.getTheLastContainer() == 1) {
+		// result = handleSinglePayLoadType(leafNodeList, currentLevel,
+		// makeObservable);
+		// } else {
+		result = handleAggregatePayLoadTypes(leafNodeList, currentLevel,
+				makeObservable);
+		// throw new
+		// DynamoConfigurationException("handleAggregatePayLoadType not yet implemented here.");
+		// }
 		return result;
 	}
 
@@ -184,15 +185,16 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 		Object result = null;
 		try {
 			XMLTagEntity theType = leafNodeList.get(currentLevel).getType();
-			Object theTypeType = ((AtomicTypeBase<?>) theType).getDefaultValue();
-			
+			Object theTypeType = ((AtomicTypeBase<?>) theType)
+					.getDefaultValue();
+
 			if (theTypeType instanceof Number) {
 				result = handleNumberPayloadType(leafNodeList, currentLevel,
 						makeObservable);
 			} else {
-//				if (theTypeType instanceof String) {
+				// if (theTypeType instanceof String) {
 				if ("java.lang.String".equals(theTypeType.getClass().getName())) {
-									result = handleStringPayloadType(leafNodeList,
+					result = handleStringPayloadType(leafNodeList,
 							currentLevel, makeObservable);
 				}
 			}
@@ -252,8 +254,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @param makeObservable
 	 * @throws DynamoConfigurationException
 	 */
-	private Object handleAggregatePayLoadTypes(
-			LeafNodeList leafNodeList,
+	private Object handleAggregatePayLoadTypes(LeafNodeList leafNodeList,
 			int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
 		Integer indexInContainer = (Integer) (leafNodeList
@@ -317,44 +318,47 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) leafNodeList
 					.get(currentLevel).getType();
 			int maxValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMAX_VALUE();
+					.getMaxNumberOfDefaultValues();
 			int minValue;
 			minValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
 					currentLevel).getType()).getMIN_VALUE();
-			for (int value = minValue; value <= maxValue; value++) {
-				TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
-						.get(value);
-				if (pathMap == null) {
-					pathMap = new TypedHashMap(leafNodeList.get(
-							currentLevel + 1).getType());
-				}
-				log.debug("Adding map at value " + value);
-				priorLevel.put(value, pathMap);
-				if (currentLevel < theLastContainer - 1) {
-					makeDefaultPath(pathMap, leafNodeList, theLastContainer,
-							currentLevel + 1, makeObservable);
+			if (minValue < maxValue) {
+				for (int value = minValue; value <= maxValue; value++) {
+					TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
+							.get(value);
+					if (pathMap == null) {
+						pathMap = new TypedHashMap(leafNodeList.get(
+								currentLevel + 1).getType());
+					}
+					log.debug("Adding map at value " + value);
+					priorLevel.put(value, pathMap);
+					if (currentLevel < theLastContainer - 1) {
+						makeDefaultPath(pathMap, leafNodeList,
+								theLastContainer, currentLevel + 1,
+								makeObservable);
 
-				} else {
-					log.debug("Number of payload nodes: "
-							+ (leafNodeList.size() - theLastContainer));
-					if ((leafNodeList.size() - theLastContainer) == 1) {
-						// Existing functionality.
-						handleSinglePayload(priorLevel, leafNodeList,
-								currentLevel, makeObservable, value);
 					} else {
-						// Extended functionality.
-						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
-						for (int count = theLastContainer; count < leafNodeList
-								.size(); count++) {
-							AtomicTypeObjectTuple tuple = leafNodeList
-									.get(count);
-							XMLTagEntity type = tuple.getType();
-							Object defaultValue = ((PayloadType) type)
-									.getDefaultValue();
-							tuple.setValue(defaultValue);
-							payloadList.add(tuple);
+						log.debug("Number of payload nodes: "
+								+ (leafNodeList.size() - theLastContainer));
+						if ((leafNodeList.size() - theLastContainer) == 1) {
+							// Existing functionality.
+							handleSinglePayload(priorLevel, leafNodeList,
+									currentLevel, makeObservable, value);
+						} else {
+							// Extended functionality.
+							ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
+							for (int count = theLastContainer; count < leafNodeList
+									.size(); count++) {
+								AtomicTypeObjectTuple tuple = leafNodeList
+										.get(count);
+								XMLTagEntity type = tuple.getType();
+								Object defaultValue = ((PayloadType) type)
+										.getDefaultValue();
+								tuple.setValue(defaultValue);
+								payloadList.add(tuple);
+							}
+							priorLevel.put(value, payloadList);
 						}
-						priorLevel.put(value, payloadList);
 					}
 				}
 			}

@@ -147,7 +147,7 @@ public class FileControlEnumHelp {
 			"dalyweightsfilename" };
 	static final String[] riskfactorStrings = { "riskfactor", "uniquename",
 			"riskfactortransfilename" };
-	static final String[] rrsStrings = { "RRs", "RR", "isRRfrom", "isRRto",
+	static final String[] rrsStrings = { "RRs", "RR", "RRindex", "isRRfrom", "isRRto",
 			"isRRFile" };
 	// TODO(mondeelr) For version 1.1.
 	static final String[] cutoffsStrings = { "cutoffs", "cutoff" };

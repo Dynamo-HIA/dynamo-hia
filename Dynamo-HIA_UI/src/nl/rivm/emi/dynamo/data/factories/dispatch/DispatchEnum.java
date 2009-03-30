@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DummyPlaceholderFactory;
+import nl.rivm.emi.dynamo.data.factories.DynamoSimulationFactory;
 import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.NewbornsFactory;
 import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
@@ -36,12 +37,8 @@ import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 public enum DispatchEnum {
 	/* W01 */
-	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(), /*
-																 * new
-																 * SimulationFactory
-																 * ()
-																 */
-	new DummyPlaceholderFactory(), null), // TODO
+	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(), 
+			new	DynamoSimulationFactory(), null), 
 	/* W11 */
 	POPULATIONSIZE(RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(),
 			new PopulationSizeFactory(), null),

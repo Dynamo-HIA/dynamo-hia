@@ -31,6 +31,7 @@ public class StandardDirectoryStructureHandler {
 			theElements.add(new BaseDirectoryStructure());
 			theElements.add(new RefDataDirectoryStructure());
 			theElements.add(new DiseaseDirectoryStructure());
+			theElements.add(new RiskFactorDirectoryStructure());
 		}
 
 		public void process(DirectoryNode node) {
@@ -142,7 +143,8 @@ public class StandardDirectoryStructureHandler {
 				super.setRequiredNames(requiredNames);
 			}
 
-			@Override
+
+				@Override
 			public void process(DirectoryNode node) {
 				ParentNode parentNode = node.getParent();
 				if (parentNode instanceof DirectoryNode) {
@@ -157,5 +159,31 @@ public class StandardDirectoryStructureHandler {
 				}
 			}
 		}
+		static private class RiskFactorDirectoryStructure extends StructureElement {
+
+			public RiskFactorDirectoryStructure() {
+				super();
+				Set<String> requiredNames = new LinkedHashSet<String>();
+				requiredNames.add(StandardTreeNodeLabelsEnum.PREVALENCES
+						.getNodeLabel());
+				super.setRequiredNames(requiredNames);
+			}
+
+			@Override
+		public void process(DirectoryNode node) {
+			ParentNode parentNode = node.getParent();
+			if (parentNode instanceof DirectoryNode) {
+				log.fatal("Risk factors check, parentName: "
+						+ ((DirectoryNode) parentNode).getPhysicalStorage()
+								.getName());
+				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
+						((DirectoryNode) parentNode).getPhysicalStorage()
+								.getName())) {
+					checkAndCreateNames(node);
+				}
+			}
+		}
+	}
+
 	}
 }

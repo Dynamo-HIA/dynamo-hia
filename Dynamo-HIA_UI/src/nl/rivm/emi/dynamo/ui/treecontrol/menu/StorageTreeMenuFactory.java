@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
+import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
@@ -176,7 +177,12 @@ public class StorageTreeMenuFactory {
 						.deriveNodeLabel();
 				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
 						.equalsIgnoreCase(grandParentLabel)) {
+					if (StandardTreeNodeLabelsEnum.PREVALENCES
+							.getNodeLabel().equalsIgnoreCase(nodeLabel)) {
+						createMenu4RiskFactorPrevalence(manager, selection);
+					} else{		
 					createMenu4Transitions(manager, selection);
+				}
 				} else {
 					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
 							.equalsIgnoreCase(grandParentLabel)) {
@@ -354,6 +360,8 @@ public class StorageTreeMenuFactory {
 		manager.add(action5);
 	}
 
+	//** Risk Factors **
+	
 	/**
 	 * 
 	 * @param manager
@@ -380,7 +388,20 @@ public class StorageTreeMenuFactory {
 		contextMenuFactory.fillRiskFactorContextMenu(shell, treeViewer,
 				manager, selectedNode);
 	}
+	/**
+	 * @param manager
+	 * @param selection
+	 */
+	private void createMenu4RiskFactorPrevalence(IMenuManager manager,
+			IStructuredSelection selection) {
+		FreeName4RiskFactorXMLFileAction action = new FreeName4RiskFactorXMLFileAction(shell,
+				treeViewer, (DirectoryNode) selection.getFirstElement(),
+				"riskfactorprevalences");
+		action.setText("New risk factor prevalences file");
+		manager.add(action);
+	}
 
+	// ** DISEASES **
 	/**
 	 * 
 	 * @param manager
@@ -483,6 +504,7 @@ public class StorageTreeMenuFactory {
 		action.setText("New relative risks from risk factor file");
 		manager.add(action);
 	}
+
 
 	/**
 	 * TODO implement create new transitions file

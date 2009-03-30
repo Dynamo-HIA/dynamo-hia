@@ -11,7 +11,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 abstract public class AbstractRangedInteger extends
-		NumberRangeTypeBase<Integer>{
+		NumberRangeTypeBase<Integer> {
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that

@@ -41,5 +41,21 @@ public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 		return MAX_VALUE;
 	}
 
-
+	/**
+	 * Method that provides the upper limit of the counter that controls the
+	 * number of default values when the implementing type is a containertype.
+	 * 
+	 * This standard implementation provides the functionality that was used
+	 * before a different limit was needed.
+	 * 
+	 * @return
+	 * @throws ConfigurationException 
+	 */
+	public T getMaxNumberOfDefaultValues() throws ConfigurationException {
+		if((this instanceof ContainerType)&&(MAX_VALUE instanceof Number)){
+			throw new ConfigurationException("getMaxNumberOfDefaultValues"
+					+ " only makes sense for numeric containertypes.");
+		}
+		return getMAX_VALUE();
+	}
 }

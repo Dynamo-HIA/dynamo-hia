@@ -51,6 +51,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.ReferenceValue;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDeath;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDisability;
 import nl.rivm.emi.dynamo.data.types.atomic.RelativeRisk;
+import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.ResultType;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactor;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactorTransFileName;
@@ -160,6 +161,7 @@ public enum XMLTagEntityEnum {
 	RISKFACTOR((XMLTagEntity) new RiskFactor()), //
 	RISKFACTORTRANSFILENAME((XMLTagEntity) new RiskFactorTransFileName()), //
 	RR((XMLTagEntity) new RR()), //
+	RRINDEX((XMLTagEntity) new RelativeRiskIndex()), //
 	RRS((XMLTagEntity) new RRs()), //
 	SCENARIO((XMLTagEntity) new Scenario()), //
 	SCENARIOS((XMLTagEntity) new Scenarios()), //

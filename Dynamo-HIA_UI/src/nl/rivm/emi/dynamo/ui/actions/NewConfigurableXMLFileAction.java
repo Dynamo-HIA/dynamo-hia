@@ -70,7 +70,7 @@ public class NewConfigurableXMLFileAction extends NewActionBase {
 					candidatePath + ".xml", candidatePath + ".xml", this.rootElementName, null);
 			popSizeModal.open();
 		} else {
-			log.fatal("What lse?");
+			log.fatal("What else?");
 		}
 
 		// File candidateFile = new File(candidatePath + ".xml");

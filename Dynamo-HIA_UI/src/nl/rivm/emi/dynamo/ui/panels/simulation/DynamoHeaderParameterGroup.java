@@ -23,28 +23,25 @@ public class DynamoHeaderParameterGroup {
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		// TODO Auto-generated constructor stub
-		
+
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 
-		Composite dynamoHeaderDataPanel = new DynamoHeaderDataPanel(
-				group, null, dynamoSimulationObject,
-				dataBindingContext, selectedNode, helpGroup);
+		Composite dynamoHeaderDataPanel = new DynamoHeaderDataPanel(group,
+				null, dynamoSimulationObject, dataBindingContext, selectedNode,
+				helpGroup);
 		FormData dynamoHeaderFormData = new FormData();
 		dynamoHeaderFormData.top = new FormAttachment(100, -22);
 		dynamoHeaderFormData.right = new FormAttachment(100, -5);
 		dynamoHeaderFormData.left = new FormAttachment(0, 5);
 		dynamoHeaderFormData.bottom = new FormAttachment(100, -2);
 		dynamoHeaderDataPanel.setLayoutData(dynamoHeaderFormData);
-		
+
 		// TODO: CONTINUE HERE ON MONDAY
-		//ClassDefinitionsDataPanel
-		//ReferenceClassDataPanel
-		
-		
-		
-		
+		// ClassDefinitionsDataPanel
+		// ReferenceClassDataPanel
+
 	}
 
 	public void putFirstInContainer(int height) {
@@ -53,8 +50,7 @@ public class DynamoHeaderParameterGroup {
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(0, 5 + height);
-		group.setLayoutData(formData);		
+		group.setLayoutData(formData);
 	}
-
 
 }

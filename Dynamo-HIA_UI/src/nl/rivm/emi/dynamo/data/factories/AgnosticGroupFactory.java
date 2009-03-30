@@ -17,7 +17,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCompoundObject;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
@@ -325,7 +325,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		XMLTagEntity wrappedEntity = rootChildControlEnum
 				.getParameterType4GroupFactory(level);
 		if (wrappedEntity instanceof ContainerType) {
-			if (wrappedEntity instanceof NumberRangeTypeBase) {
+			if ((wrappedEntity instanceof NumberRangeTypeBase)||(wrappedEntity instanceof AbstractString)) {
 				resultMap = new TypedHashMap(wrappedEntity);
 				resultMap = makeDefaultPath(resultMap, rootChildControlEnum,
 						level, makeObservable);
@@ -352,15 +352,19 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			FileControlEnum fileControl, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
 		try {
+			AtomicTypeBase testType = (AtomicTypeBase<?>)fileControl
+			.getParameterType4GroupFactory(currentLevel);
+			if(!(testType instanceof AbstractString)){ 
 			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) fileControl
-					.getParameterType4GroupFactory(currentLevel);
-			log.info("Handling ContainerType: " + myType.getXMLElementName());
+			.getParameterType4GroupFactory(currentLevel);
+			log.info("Handling AtomicTypeBase<Integer> ContainerType: " + myType.getXMLElementName());
 
 			int maxValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMAX_VALUE();
+					.getMaxNumberOfDefaultValues();
 			int minValue = ((NumberRangeTypeBase<Integer>) myType)
 					.getMIN_VALUE();
-			for (int value = minValue; value <= maxValue; value++) {
+			if (minValue < maxValue) {
+	for (int value = minValue; value <= maxValue; value++) {
 				TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
 						.get(value);
 				if (pathMap == null) {
@@ -392,6 +396,8 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 							currentLevel + 1, makeObservable, value);
 					// }
 				}
+				}
+			}
 			}
 			return priorLevel;
 		} catch (ConfigurationException e) {
@@ -459,13 +465,17 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 					if (defaultValue instanceof String) {
 						result = new WritableValue(defaultValue, String.class);
 					} else {
+						if (defaultValue instanceof Boolean) {
+							result = new WritableValue(defaultValue, Boolean.class);
+						} else {
 						DynamoConfigurationException e = new DynamoConfigurationException(
 								"Unsupported leafValueType for IObservable-s :"
 										+ defaultValue.getClass().getName());
 						e.printStackTrace(); // TODO Remove after debugging.
 						throw e;
 					}
-				}
+					}
+					}
 			}
 		}
 		return result;

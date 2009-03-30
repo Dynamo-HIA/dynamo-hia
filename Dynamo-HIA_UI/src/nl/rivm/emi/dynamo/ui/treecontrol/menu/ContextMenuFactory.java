@@ -2,10 +2,8 @@ package nl.rivm.emi.dynamo.ui.treecontrol.menu;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
-import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.NewRelRisksForDeathAction;
 import nl.rivm.emi.dynamo.ui.actions.NewRelRisksForDisabilityAction;
@@ -78,11 +76,11 @@ public class ContextMenuFactory {
 						null));
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
 				.getNodeLabel(), transitionDirectoryContextMenuEntry);
-		ContextMenuEntry prevalenceFileContextMenuEntry = new ContextMenuEntry(
-				shell, "Create prevalences configuration",
-				new NewRiskFactorPrevalencesAction(shell, treeViewer, selectedNode));
-		contextMenuEntries.put(StandardTreeNodeLabelsEnum.PREVALENCEFILE
-				.getNodeLabel(), prevalenceFileContextMenuEntry);
+//		ContextMenuEntry prevalenceFileContextMenuEntry = new ContextMenuEntry(
+//				shell, "Create prevalences configuration",
+//				new NewRiskFactorPrevalencesAction(shell, treeViewer, selectedNode));
+//		contextMenuEntries.put(StandardTreeNodeLabelsEnum.PREVALENCEFILE
+//				.getNodeLabel(), prevalenceFileContextMenuEntry);
 		ContextMenuEntry relRiskForDeathFileContextMenuEntry = new ContextMenuEntry(
 				shell, "Create relative risks for death configuration",
 				new NewRelRisksForDeathAction(shell, treeViewer, selectedNode));
