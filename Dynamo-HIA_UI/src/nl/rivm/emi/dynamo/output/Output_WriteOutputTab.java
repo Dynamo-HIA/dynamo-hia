@@ -38,23 +38,38 @@ public class Output_WriteOutputTab  {
 	
 	
 	private TabFolder tabFolder;
-	private DynamoOutputFactory output;
-	private String baseDir;
+	DynamoOutputFactory output;
+	String baseDir;
 	Shell outputShell;
-	private boolean cohortStyle=false;
-	private boolean singleFile = true;
+	boolean singleFile = true;
+	boolean cohortStyle;
+	/* currentPath in first instance is the directory results in the simulation directory, 
+	 * but is changed to the directory given by the user
+	 */
+	String currentPath;
+	/**
+	 * @param outputShell
+	 * @param baseDir
+	 * @param tabfolder
+	 * @param output
+	 */
 	public Output_WriteOutputTab(Shell outputShell, String baseDir,TabFolder tabfolder , DynamoOutputFactory output) {
 	this.tabFolder=tabfolder;
 	this.output=output;
 	this.baseDir=baseDir;
 	this.outputShell=outputShell;
+	this.currentPath=this.baseDir + "simulation"
+	+ File.separator + "results" ;
 	
 	makeIt();
 	}
 	
+	/**
+	 * 
+	 */
 	public void makeIt(){
-		Composite UIComposite = new Composite(tabFolder, SWT.FILL);
-		TabItem item1 = new TabItem(tabFolder, SWT.NONE);
+		Composite UIComposite = new Composite(this.tabFolder, SWT.FILL);
+		TabItem item1 = new TabItem(this.tabFolder, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		UIComposite.setLayout(gridLayout);
@@ -83,134 +98,137 @@ public class Output_WriteOutputTab  {
 		 * make new scenarionames that are part of the standard file name which
 		 * do not contain any underscores any more
 		 */
-		final String[] scenarioNamesToWrite = cleanUpScenarioNames(output
+		final String[] scenarioNamesToWrite = cleanUpScenarioNames(this.output
 				.getScenarioNames());
 
 		runButton.addSelectionListener(new SelectionAdapter() {
-			private boolean cohortStyle;
+			
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
-				FileDialog fd = new FileDialog(outputShell, SWT.SAVE);
+				FileDialog fd = new FileDialog(Output_WriteOutputTab.this.outputShell, SWT.SAVE);
 
 				fd.setText("Give filename for reference scenario:");
 				// TODO: juiste basedir meegeven
-				fd.setFilterPath(baseDir + "simulation"
-						+ File.separator + "results" + File.separator
-						+ "excelcohortdata");
+				fd.setFilterPath(Output_WriteOutputTab.this.currentPath
+						);
 				String[] filterExt = { "*.xml", "*.*" };
 				fd.setFilterExtensions(filterExt);
-				if (cohortStyle)
+				if (Output_WriteOutputTab.this.cohortStyle)
 					fd.setFileName("excelcohortdata");
 
-				if (!cohortStyle)
+				if (!Output_WriteOutputTab.this.cohortStyle)
 					fd.setFileName("excelyeardata");
 
 				String path = fd.open();
 
 				if (path != null) {
+					
+					Output_WriteOutputTab.this.currentPath=fd.getFilterPath();
 					/* remove the extension from the path */
-					path = cleanPath(path);
+					String userFileName=fd.getFileName();
+					userFileName = cleanPath(userFileName);
 
-					if (cohortStyle && singleFile)
-						for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-							String fileName = path + "_"
+					if (Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
+						for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+							String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_"
 									+ scenarioNamesToWrite[scen] + ".xml";
 							try {
-								output.writeWorkBookXMLbyCohort(fileName, 2,
+								Output_WriteOutputTab.this.output.writeWorkBookXMLbyCohort(fileName, 2,
 										scen);
 							} catch (FileNotFoundException e1) {
-								new ErrorMessageWindow(e1, outputShell);
+								new ErrorMessageWindow(e1, Output_WriteOutputTab.this.outputShell);
 								e1.printStackTrace();
 							} catch (FactoryConfigurationError e1) {
-								new ErrorMessageWindow( e1, outputShell);
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							} catch (XMLStreamException e1) {
-								new ErrorMessageWindow( e1, outputShell);
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 								
 							} catch (DynamoOutputException e1) {
-								new ErrorMessageWindow( e1, outputShell);
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 								
 							}
 
 						}
 					else {
-						if (!cohortStyle && singleFile)
-							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-								String fileName = path + "_"
+						if (!Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
+							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_"
 										+ scenarioNamesToWrite[scen] + ".xml";
 								try {
-									output.writeWorkBookXMLbyYear(fileName, 2,
+									Output_WriteOutputTab.this.output.writeWorkBookXMLbyYear(fileName, 2,
 											scen);
 								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (FactoryConfigurationError e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								}
 							}
-						else if (cohortStyle && !singleFile) {
-							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-								String fileName = path + "_men_"
-										+ output.getScenarioNames()[scen]
+						else if (Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
+							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_men_"
+										+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
 										+ ".xml";
 								try {
-									output.writeWorkBookXMLbyCohort(fileName,
+									Output_WriteOutputTab.this.output.writeWorkBookXMLbyCohort(fileName,
 											0, scen);
 
-									fileName = path + "_women_"
+									fileName = userFileName + "_women_"
 											+ scenarioNamesToWrite[scen]
 											+ ".xml";
 
-									output.writeWorkBookXMLbyCohort(fileName,
+									Output_WriteOutputTab.this.output.writeWorkBookXMLbyCohort(fileName,
 											1, scen);
 								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (FactoryConfigurationError e1) {
 									// TODO: handle this exception
 									e1.printStackTrace();
 								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								}
 							}
-						} else if (!cohortStyle && !singleFile) {
-							for (int scen = 0; scen < output.getNScen() + 1; scen++) {
-								String fileName = path + "_men_"
-										+ output.getScenarioNames()[scen]
+						} else if (!Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
+							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_men_"
+										+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
 										+ ".xml";
 								try {
-									output.writeWorkBookXMLbyYear(fileName, 0,
+									Output_WriteOutputTab.this.output.writeWorkBookXMLbyYear(fileName, 0,
 											scen);
 
-									fileName = path + "_women_"
+									fileName = userFileName + "_women_"
 											+ scenarioNamesToWrite[scen]
 											+ ".xml";
 
-									output.writeWorkBookXMLbyYear(fileName, 1,
+									Output_WriteOutputTab.this.output.writeWorkBookXMLbyYear(fileName, 1,
 											scen);
 								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (FactoryConfigurationError e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, outputShell);
+									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 									e1.printStackTrace();
 								}
 							}
@@ -325,7 +343,7 @@ public class Output_WriteOutputTab  {
 
 		Button singleDiseaseButton = new Button(radiogroup1, SWT.RADIO);
 		singleDiseaseButton.setText("per disease");
-		if (output.isDetails())
+		if (this.output.isDetails())
 			singleDiseaseButton.setSelection(false);
 		else
 			singleDiseaseButton.setSelection(true);
@@ -333,7 +351,7 @@ public class Output_WriteOutputTab  {
 		singleDiseaseButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					output.setDetails(false);
+					Output_WriteOutputTab.this.output.setDetails(false);
 
 				}
 
@@ -341,7 +359,7 @@ public class Output_WriteOutputTab  {
 		}));
 		Button stateButton = new Button(radiogroup1, SWT.RADIO);
 		stateButton.setText("per combination of disease");
-		if (output.isDetails())
+		if (this.output.isDetails())
 			stateButton.setSelection(true);
 		else
 			stateButton.setSelection(false);
@@ -351,7 +369,7 @@ public class Output_WriteOutputTab  {
 
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					output.setDetails(true);
+					Output_WriteOutputTab.this.output.setDetails(true);
 				}
 
 			}
@@ -379,23 +397,29 @@ public class Output_WriteOutputTab  {
 		Button yearButton = new Button(radiogroup1, SWT.RADIO);
 		yearButton.setText("per year of simulation");
 		yearButton.setSelection(true);
+		
 
-		yearButton.addListener(SWT.Selection, (new Listener() {
+	
+	  yearButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					cohortStyle = false;
-
+					Output_WriteOutputTab.this.cohortStyle=false;
 				}
 
 			}
 		}));
+		
+		
 		Button ageButton = new Button(radiogroup1, SWT.RADIO);
 		ageButton.setText("by cohort");
 		// ageButton.setBounds(10,50,20,100);
+		
+		
+		
 		ageButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					cohortStyle = true;
+					Output_WriteOutputTab.this.cohortStyle=true;
 				}
 
 			}
@@ -429,7 +453,7 @@ public class Output_WriteOutputTab  {
 		separateButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					singleFile = false;
+					Output_WriteOutputTab.this.singleFile = false;
 
 				}
 
@@ -443,7 +467,7 @@ public class Output_WriteOutputTab  {
 		bothButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
-					singleFile = true;
+					Output_WriteOutputTab.this.singleFile = true;
 				}
 
 			}
