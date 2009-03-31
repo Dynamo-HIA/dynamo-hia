@@ -51,6 +51,8 @@
 	  <riskfactor>
 		<uniquename>riskfactor1</uniquename>
 		<transfilename>transition1</transfilename>
+		<prevfilename>prevalence1</prevfilename>
+		<transfilename>transition1</transfilename>
                 <prevfilename>prevalence</prevfilename>
 	  </riskfactor>
 	</riskfactors>
