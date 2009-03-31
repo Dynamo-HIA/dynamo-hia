@@ -18,7 +18,7 @@
 			<targetMaxAge>95</targetMaxAge>
 			<targetSex>2</targetSex>
 			<transfilename>none</transfilename>
-			<prevfilename>prevalence</prevfilename>
+			<prevfilename>prev_scen1</prevfilename>
 		</scenario>
 		<scenario>
 			<uniquename>scenario 2</uniquename>
@@ -27,7 +27,7 @@
 			<targetMaxAge>95</targetMaxAge>
 			<targetSex>2</targetSex>
 			<transfilename>none</transfilename>
-			<prevfilename>prevalence</prevfilename>
+			<prevfilename>prev_scen1</prevfilename>
 		</scenario>
 	</scenarios>
 	<diseases>
@@ -50,7 +50,8 @@
 	<riskfactors>
 	  <riskfactor>
 		<uniquename>riskfactor1</uniquename>
-		<riskfactortransfilename>transition1</riskfactortransfilename>
+		<transfilename>transition1</transfilename>
+                <prevfilename>prevalence</prevfilename>
 	  </riskfactor>
 	</riskfactors>
 	<RRs>
