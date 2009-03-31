@@ -55,6 +55,8 @@ public class ExcessMortalityGroup {
 				theGroup, lotsOfData, dataBindingContext, 
 				helpGroup, dropDownGroup.getUnitTypeModifyListener() );
 		parameterGroup.handlePlacementInContainer(dropDownGroup.group);
+
+		// Set the selected item from the stored values in the xml
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.UNITTYPE.getElementName());
 		WritableValue writableValue = (WritableValue) tuple.getValue();
 		String stringValue = (String) writableValue.doGetValue();
@@ -74,9 +76,11 @@ public class ExcessMortalityGroup {
 			(dropDownGroup.getDropDown()).setItems(newItems);
 			(dropDownGroup.getDropDown()).select(newItems.length-1);
 		} else {
-		(dropDownGroup.getDropDown()).select(count);
+			(dropDownGroup.getDropDown()).select(count);
 		}
-		}
+		
+		
+	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
 		FormData formData = new FormData();

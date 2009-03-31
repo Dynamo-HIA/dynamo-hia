@@ -35,7 +35,8 @@ public class DynamoSimulationParameterGroup {
 		
 		// Panel that contains the tabs
 		DynamoTabsParameterGroup dynamoTabsParameterGroup =
-			new DynamoTabsParameterGroup(group, dynamoSimulationObject, 
+			new DynamoTabsParameterGroup(group, selectedNode, 
+					dynamoSimulationObject,
 					dataBindingContext, helpGroup);
 		dynamoTabsParameterGroup.putLastInContainer(dynamoHeaderParameterGroup.group);
 	}
