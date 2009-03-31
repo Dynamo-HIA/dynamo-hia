@@ -47,10 +47,12 @@
 		</disease>
 		
 	</diseases>
-	<riskfactor>
+	<riskfactors>
+	  <riskfactor>
 		<uniquename>riskfactor1</uniquename>
 		<riskfactortransfilename>transition1</riskfactortransfilename>
-	</riskfactor>
+	  </riskfactor>
+	</riskfactors>
 	<RRs>
 		<RR>
 			<RRindex>1</RRindex>
