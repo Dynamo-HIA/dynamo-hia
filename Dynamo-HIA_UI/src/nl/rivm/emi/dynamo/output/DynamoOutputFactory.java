@@ -322,8 +322,8 @@ public class DynamoOutputFactory {
 		initializeClassInfo(scenInfo);
 		extractArraysFromPopulations(pop);
 		makeArraysWithNumbers();
-		writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
-		readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
+	//	writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
+	//	readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
 
 	}
 
@@ -4852,7 +4852,7 @@ public class DynamoOutputFactory {
 		else
 			label = "";
 
-		String chartTitle = "mortality";
+		String chartTitle = "mortality ";
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of death"
 					+ " compared to ref scenario";
