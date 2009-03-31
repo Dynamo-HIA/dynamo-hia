@@ -55,6 +55,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.ResultType;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactor;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactorTransFileName;
+import nl.rivm.emi.dynamo.data.types.atomic.RiskFactors;
 import nl.rivm.emi.dynamo.data.types.atomic.Scenario;
 import nl.rivm.emi.dynamo.data.types.atomic.Scenarios;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
@@ -63,6 +64,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.SimPopSize;
 import nl.rivm.emi.dynamo.data.types.atomic.Size;
 import nl.rivm.emi.dynamo.data.types.atomic.StartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
+import nl.rivm.emi.dynamo.data.types.atomic.TargetMaxAge;
+import nl.rivm.emi.dynamo.data.types.atomic.TargetMinAge;
 import nl.rivm.emi.dynamo.data.types.atomic.TargetSex;
 import nl.rivm.emi.dynamo.data.types.atomic.TimeStep;
 import nl.rivm.emi.dynamo.data.types.atomic.TransFileName;
@@ -159,6 +162,7 @@ public enum XMLTagEntityEnum {
 	RELATIVERISKFORDISABILITY((XMLTagEntity) new RelRiskForDisability()), //
 	RESULTTYPE((XMLTagEntity) new ResultType()), //
 	RISKFACTOR((XMLTagEntity) new RiskFactor()), //
+	RISKFACTORS((XMLTagEntity) new RiskFactors()), //
 	RISKFACTORTRANSFILENAME((XMLTagEntity) new RiskFactorTransFileName()), //
 	RR((XMLTagEntity) new RR()), //
 	RRINDEX((XMLTagEntity) new RelativeRiskIndex()), //
@@ -172,6 +176,8 @@ public enum XMLTagEntityEnum {
 	STANDARDVALUE((XMLTagEntity) new Value()), //
 	STARTINGYEAR((XMLTagEntity) new StartingYear()), //
 	SUCCESSRATE((XMLTagEntity) new SuccessRate()), //
+	TARGETMAXAGE((XMLTagEntity) new TargetMaxAge()), //
+	TARGETMINAGE((XMLTagEntity) new TargetMinAge()), //
 	TARGETSEX((XMLTagEntity) new TargetSex()), //
 	TIMESTEP((XMLTagEntity) new TimeStep()), //
 	TRANSFILENAME((XMLTagEntity) new TransFileName()), //

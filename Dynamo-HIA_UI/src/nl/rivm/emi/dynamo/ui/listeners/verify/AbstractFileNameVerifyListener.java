@@ -12,13 +12,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class AbstractFileNameVerifyListener implements VerifyListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private AtomicTypeBase type = null;
+	private AtomicTypeBase<?> type = null;
 	
-	public AbstractFileNameVerifyListener(AtomicTypeBase myType) {
-		this.type  = type;
+	public AbstractFileNameVerifyListener(AtomicTypeBase<?> typeParam) {
+		this.type  = typeParam;
 	}
 
-	@Override
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();

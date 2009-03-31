@@ -27,7 +27,7 @@ private int theLastContainer = -1;
 			log.debug("Handle leafChild: " + leafChild.getName());
 			String leafName = leafChild.getName();
 			String valueString = (String) leafChild.getValue();
-			AtomicTypeBase leafAtomicType = (AtomicTypeBase) atomicTypesSingleton
+			AtomicTypeBase<?> leafAtomicType = (AtomicTypeBase<?>) atomicTypesSingleton
 					.get(leafName);
 			if (leafAtomicType != null) {
 				Object leafDataType = leafAtomicType.getType();
@@ -84,7 +84,8 @@ private int theLastContainer = -1;
 		int theLastContainer = 0;
 		log.debug("leafNodeList.LeafNodeList.size()" + this.size());
 		for (; theLastContainer < this.size(); theLastContainer++) {
-			if (!(get(theLastContainer).getType() instanceof ContainerType)) {
+			AtomicTypeBase<?> theType = (AtomicTypeBase<?>) get(theLastContainer).getType();
+			if (!(theType instanceof ContainerType)) {
 				log.debug("theLastContainer" + theLastContainer);
 				break;
 			}

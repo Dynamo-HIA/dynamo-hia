@@ -34,13 +34,9 @@ public class TestDynamoSimulationFactory {
 	public void teardown() {
 	}
 
-	@Test
+//	@Test
 	public void testDynamoSimulationDefault() {
 		try {
-			// String configurationFilePath = "data" + File.separator +
-			// "development"
-			// + File.separator + "riskfactor_categorical_config1.xml";
-			// File configurationFile = new File(configurationFilePath);
 			String outputFilePath = "data" + File.separator + "development"
 					+ File.separator + "dynamosimulation_default_normal.xml";
 			File outputFile = new File(outputFilePath);
@@ -52,8 +48,49 @@ public class TestDynamoSimulationFactory {
 			assertNotNull(theFactory);
 			Object result = theFactory.manufactureDefault();
 			assertNotNull(result);
-			StAXAgnosticGroupWriter.produceFile(RootElementNamesEnum.SIMULATION.getNodeLabel(),
-					(HashMap<String, Object>)result, outputFile);
+			StAXAgnosticGroupWriter.produceFile(RootElementNamesEnum.SIMULATION
+					.getNodeLabel(), (HashMap<String, Object>) result,
+					outputFile);
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (UnexpectedFileStructureException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (IOException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (DynamoConfigurationException e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		} catch (Exception e) {
+			log.fatal(e.getClass().getName() + " cause: " + e.getCause());
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void testDynamoSimulationConstruction() {
+		try {
+			String configurationFilePath = "data" + File.separator
+					+ "development" + File.separator
+					+ "testset20090330_simulation1_configuration.xml";
+			File configurationFile = new File(configurationFilePath);
+			String outputFilePath = "data" + File.separator + "development"
+					+ File.separator + "dynamosimulation_default_normal.xml";
+			File outputFile = new File(outputFilePath);
+			DispatchMap rootLevelDispatchMap = DispatchMap.getInstance();
+			assertNotNull(rootLevelDispatchMap);
+			DynamoSimulationFactory theFactory = (DynamoSimulationFactory) rootLevelDispatchMap
+					.get(RootElementNamesEnum.SIMULATION.getNodeLabel())
+					.getTheFactory();
+			assertNotNull(theFactory);
+			Object result = theFactory.manufacture(configurationFile, RootElementNamesEnum.SIMULATION.getNodeLabel());
+			assertNotNull(result);
+			StAXAgnosticGroupWriter.produceFile(RootElementNamesEnum.SIMULATION
+					.getNodeLabel(), (HashMap<String, Object>) result,
+					outputFile);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 			assertNull(e); // Force error.

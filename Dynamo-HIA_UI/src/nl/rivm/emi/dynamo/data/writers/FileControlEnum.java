@@ -84,7 +84,7 @@ public enum FileControlEnum {
 	MORTALITY(FileControlEnumHelp.mortalityStrings, false, true), //
 	SCENARIOS(FileControlEnumHelp.scenariosStrings, false, true), //
 	DISEASES(FileControlEnumHelp.diseasesStrings, false, true), //
-	RISKFACTOR(FileControlEnumHelp.riskfactorStrings, false, true), //
+	RISKFACTORS(FileControlEnumHelp.riskfactorsStrings, false, true), //
 	RRS(FileControlEnumHelp.rrsStrings, false, true);
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**

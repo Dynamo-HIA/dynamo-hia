@@ -9,7 +9,7 @@ import org.apache.commons.configuration.ConfigurationException;
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to
  * the range of categories the transitions can cover.
  */
-public class RelativeRiskIndex extends AbstractRangedInteger implements ContainerType {
+public class RelativeRiskIndex extends AbstractRangedInteger implements ContainerType<Integer> {
 	static final protected String XMLElementName = "RRindex";
 
 	public RelativeRiskIndex(){

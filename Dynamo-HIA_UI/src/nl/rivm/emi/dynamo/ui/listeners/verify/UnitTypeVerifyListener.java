@@ -7,7 +7,6 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
  */
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.Unit;
 import nl.rivm.emi.dynamo.data.types.atomic.UnitType;
 
 import org.eclipse.swt.events.VerifyEvent;
@@ -17,7 +16,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class UnitTypeVerifyListener implements VerifyListener {
 	
-	@Override
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();

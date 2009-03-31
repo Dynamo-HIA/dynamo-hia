@@ -13,13 +13,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class AbstractRangedIntegerVerifyListener implements VerifyListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private AtomicTypeBase type = null;
+	private AtomicTypeBase<?> type = null;
 	
-	public AbstractRangedIntegerVerifyListener(AtomicTypeBase type) {
-		this.type = type;
+	public AbstractRangedIntegerVerifyListener(AtomicTypeBase<?> typeParam) {
+		this.type = typeParam;
 	}
 
-	@Override
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();

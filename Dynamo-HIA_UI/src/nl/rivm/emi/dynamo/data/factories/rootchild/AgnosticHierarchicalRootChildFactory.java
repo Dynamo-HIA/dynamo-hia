@@ -140,8 +140,11 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			myContainer = new TypedHashMap(currentLevelType);
 		}
 		if (currentLevelType instanceof ContainerType) {
-			Integer currentLevelValue = (Integer) (leafNodeList
-					.get(currentLevel).getValue());
+			// 20090331 mondeelr UniqueNames can be keys as well now.
+//			Integer currentLevelValue = (Integer) (leafNodeList
+//					.get(currentLevel).getValue());
+			Object currentLevelValue =  (leafNodeList
+				.get(currentLevel).getValue());
 			TypedHashMap<?> myObject = (TypedHashMap<?>) myContainer
 					.get(currentLevelValue);
 			if (currentLevel + 1 < leafNodeList.size()) {
@@ -257,8 +260,8 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	private Object handleAggregatePayLoadTypes(LeafNodeList leafNodeList,
 			int currentLevel, boolean makeObservable)
 			throws DynamoConfigurationException {
-		Integer indexInContainer = (Integer) (leafNodeList
-				.get(currentLevel - 1).getValue());
+//		Integer indexInContainer = (Integer) (leafNodeList
+//				.get(currentLevel - 1).getValue());
 		// Remove ContainerTypes.
 		for (int count = 0; count < currentLevel; count++) {
 			leafNodeList.remove(0);

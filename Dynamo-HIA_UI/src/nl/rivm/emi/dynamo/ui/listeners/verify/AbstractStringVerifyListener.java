@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 
 import org.apache.commons.logging.Log;
@@ -13,13 +12,12 @@ import org.eclipse.swt.widgets.Text;
 
 public class AbstractStringVerifyListener implements VerifyListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	private AtomicTypeBase type = null;
+	private AtomicTypeBase<?> type = null;
 	
-	public AbstractStringVerifyListener(AtomicTypeBase type) {
-		this.type  = type;
+	public AbstractStringVerifyListener(AtomicTypeBase<?> typeParam) {
+		this.type  = typeParam;
 	}
 	
-	@Override
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();

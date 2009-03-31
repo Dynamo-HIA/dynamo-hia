@@ -26,7 +26,7 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
 			"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
 			"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
-			"diseases", "riskfactor", "RRs" };
+			"diseases", "riskfactors", "RRs" };
 	/* W11 */
 	static final String[] populationSizeStrings = {
 			RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(), "size", "age",
@@ -139,13 +139,14 @@ public class FileControlEnumHelp {
 	static final String[] classesStrings = { "classes", "class", "index",
 			"name" };
 	// TODO(mondeelr) Change "name" and "sex" tags to unique values.
-	static final String[] scenariosStrings = { "scenarios", "scenario",
-			"uniquename", "successrate", "minage", "maxage", "targetsex",
-			"transfilename", "prevfilename" };
+	static final String[] scenariosStrings = { XMLTagEntityEnum.SCENARIOS.getElementName(), XMLTagEntityEnum.SCENARIO.getElementName(),
+		XMLTagEntityEnum.UNIQUENAME.getElementName(), XMLTagEntityEnum.SUCCESSRATE.getElementName(), XMLTagEntityEnum.TARGETMINAGE.getElementName(), 
+			XMLTagEntityEnum.TARGETMAXAGE.getElementName(), XMLTagEntityEnum.TARGETSEX.getElementName(),
+			XMLTagEntityEnum.TRANSFILENAME.getElementName(), XMLTagEntityEnum.PREVFILENAME.getElementName()};
 	static final String[] diseasesStrings = { "diseases", "disease",
 			"uniquename", "prevfilename", "incfilename", "excessmortfilename",
 			"dalyweightsfilename" };
-	static final String[] riskfactorStrings = { "riskfactor", "uniquename",
+	static final String[] riskfactorsStrings = {"riskfactors", "riskfactor", "uniquename",
 			"riskfactortransfilename" };
 	static final String[] rrsStrings = { "RRs", "RR", "RRindex", "isRRfrom", "isRRto",
 			"isRRFile" };

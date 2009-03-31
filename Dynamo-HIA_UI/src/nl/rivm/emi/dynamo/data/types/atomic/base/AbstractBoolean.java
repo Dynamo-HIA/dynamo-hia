@@ -124,7 +124,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 						+ " should be String!");
 			} else {
 				result = Boolean.FALSE;
-				if ("true".equals(viewString)) {
+				if (("true".equals(viewString))||("1".equals(viewString))) {
 					result = Boolean.TRUE;
 				}
 			}

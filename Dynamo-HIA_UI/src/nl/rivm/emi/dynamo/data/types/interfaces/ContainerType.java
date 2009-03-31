@@ -6,6 +6,6 @@ package nl.rivm.emi.dynamo.data.types.interfaces;
  *
  * @author mondeelr
  */
-public interface ContainerType {
+public interface ContainerType<T> {
 
 }
