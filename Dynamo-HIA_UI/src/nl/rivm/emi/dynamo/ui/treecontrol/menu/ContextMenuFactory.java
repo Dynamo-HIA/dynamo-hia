@@ -70,12 +70,12 @@ public class ContextMenuFactory {
 						(DirectoryNode) selectedNode));
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 				.getNodeLabel(), configurationFileContextMenuEntry);
-		ContextMenuEntry transitionDirectoryContextMenuEntry = new ContextMenuEntry(
-				shell, "Create transition directory", new NewDirectoryAction(
-						shell, treeViewer, (DirectoryNode) selectedNode, "transition",
-						null));
-		contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
-				.getNodeLabel(), transitionDirectoryContextMenuEntry);
+//		ContextMenuEntry transitionDirectoryContextMenuEntry = new ContextMenuEntry(
+//				shell, "Create transition directory", new NewDirectoryAction(
+//						shell, treeViewer, (DirectoryNode) selectedNode, "transition",
+//						null));
+//		contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
+//				.getNodeLabel(), transitionDirectoryContextMenuEntry);
 //		ContextMenuEntry prevalenceFileContextMenuEntry = new ContextMenuEntry(
 //				shell, "Create prevalences configuration",
 //				new NewRiskFactorPrevalencesAction(shell, treeViewer, selectedNode));

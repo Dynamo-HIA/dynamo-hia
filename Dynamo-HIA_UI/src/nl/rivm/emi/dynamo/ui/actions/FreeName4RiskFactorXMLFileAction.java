@@ -9,11 +9,12 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
+import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -25,11 +26,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -39,33 +40,46 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 	public FreeName4RiskFactorXMLFileAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName) {
 		super(shell, v, node, "riskfactor prevalences file");
-	}
-
+	}	
+	
 	@Override
 	public void run() {
 		try {
 			if (node instanceof DirectoryNode) {
+				String selectionPath = node.getPhysicalStorage()
+				.getAbsolutePath();
 				String rootElementName = ConfigurationFileUtil
 						.extractRootElementNameFromSiblingConfiguration(node);
 				log.debug("Creating prevalences file for rootelement: "
 						+ rootElementName);
+				
+				/**
+				 * 
+				 * TODO: REMOVE FOR VERSION 1.1
+				 * 
+				 * This condition is created to filter out 
+				 * RootElementNamesEnum.RISKFACTOR_COMPOUND and 
+				 * RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+				 * in version 1.0
+				 * 
+				 */
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-						.getNodeLabel().equals(rootElementName)) {
-					InputDialog inputDialog = new InputDialog(shell,
-							"Create file in the selected directory",
-							"Enter name for new " + abstractName, "Name", null);
+						.getNodeLabel().equals(rootElementName)) {					
+					// Call the input trialog modal here (trialog includes input field,
+					// import, ok and cancel buttons)
+					ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
+							shell, "Create file in the selected directory: " + selectionPath,
+							"Enter name for new " + abstractName, "Name", null);										
 					inputDialog.open();
 					int returnCode = inputDialog.getReturnCode();
 					log.fatal("ReturnCode is: " + returnCode);
 					if (returnCode != Window.CANCEL) {
-						String selectionPath = node.getPhysicalStorage()
-								.getAbsolutePath();
 						String candidateName = inputDialog.getValue();
 						String candidatePath = selectionPath + File.separator
 								+ candidateName + ".xml";
-						File file = new File(candidatePath);
-						if (file != null && !file.getName().isEmpty()) {
-							if (file.exists()) {
+						File candidateFile = new File(candidatePath);
+						if (candidateFile != null && !candidateFile.getName().isEmpty()) {
+							if (candidateFile.exists()) {
 								MessageBox alreadyExistsMessageBox = new MessageBox(
 										shell, SWT.ERROR_ITEM_NOT_ADDED);
 								alreadyExistsMessageBox.setMessage("\""
@@ -73,7 +87,19 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 										+ "\"\n exists already.");
 								alreadyExistsMessageBox.open();
 							} else {
-								processThroughModal(file, rootElementName);
+								String newPath = null;
+								newPath = candidateFile.getAbsolutePath();
+								File savedFile = new File(newPath);
+								File dataFile = null;
+								// Supply the location of dataFile
+								if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
+									dataFile = this.getImportFile();
+								} else {
+									dataFile = savedFile;
+								}								
+								
+								processThroughModal(dataFile, 
+										savedFile, rootElementName);
 							}
 						}
 					}
@@ -104,9 +130,9 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File file, String rootElementName) {
+	private void processThroughModal(File dataFile, File savedFile, String rootElementName) {
 		try {
-			boolean isOld = file.exists();
+			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
 			if (rootElementName == null) {
 				MessageBox messageBox = new MessageBox(shell,
@@ -118,8 +144,8 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						.equals(rootElementName)) {
 					theModal = new RiskFactorCategoricalPrevalencesModal(
 							shell,
-							file.getAbsolutePath(),
-							file.getAbsolutePath(),
+							dataFile.getAbsolutePath(),
+							savedFile.getAbsolutePath(),
 							RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 									.getNodeLabel(), node);
 				} else {
@@ -149,10 +175,10 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 				}
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
-				boolean isPresentAfter = file.exists();
+				boolean isPresentAfter = savedFile.exists();
 				if (isPresentAfter && !isOld) {
 					((ParentNode) node).addChild((ChildNode) new FileNode(
-							(ParentNode) node, file));
+							(ParentNode) node, savedFile));
 				}
 				theViewer.refresh();
 			}
@@ -160,10 +186,21 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
 					SWT.ERROR_ITEM_NOT_ADDED);
-			messageBox.setMessage("Creation of \"" + file.getName()
+			messageBox.setMessage("Creation of \"" + savedFile.getName()
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();
 		}
 	}
+
+	/**
+	 * @return File The selected import file
+	 */
+	public File getImportFile() {
+		FileDialog fileDialog = new FileDialog(this.shell);
+		fileDialog.open();
+		return new File(fileDialog.getFilterPath() + File.separator
+				+ fileDialog.getFileName());
+	}
+	
 }

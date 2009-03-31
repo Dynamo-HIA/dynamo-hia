@@ -82,6 +82,7 @@ public class BaseStorageTreeScreen {
 	/**
 	 * Creates the menu at the top of the shell where most of the programs
 	 * functionality is accessed.
+	 * @deprecated Not used anymore
 	 * 
 	 * @return The <code>Menu</code> widget that was created
 	 */

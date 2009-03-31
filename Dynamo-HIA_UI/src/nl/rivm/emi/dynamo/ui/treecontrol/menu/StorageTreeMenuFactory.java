@@ -617,8 +617,9 @@ public class StorageTreeMenuFactory {
 					action.setText("Edit");
 					manager.add(action);
 				} else {
-					if (StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel()
-							.equalsIgnoreCase(parentNodeLabel)) {
+					if (RootElementNamesEnum.DISEASEPREVALENCES.equals(ConfigurationFileUtil
+							.extractRootElementName(node
+									.getPhysicalStorage()))) {
 						XMLFileAction action = new XMLFileAction(shell,
 								treeViewer, (BaseNode) node, node.toString(),
 								"diseaseprevalences");
@@ -691,19 +692,7 @@ public class StorageTreeMenuFactory {
 														rootElementName);
 												action.setText("Edit");
 												manager.add(action);
-											} else {
-												if ("prevalence".equals(nodeLabel)) {
-													String rootElementName = ConfigurationFileUtil
-															.extractRootElementName(node
-																	.getPhysicalStorage());
-													XMLFileAction action = new XMLFileAction(
-															shell, treeViewer,
-															(BaseNode) node, node
-																	.toString(),
-															rootElementName);
-													action.setText("Edit");
-													manager.add(action);
-												} else {
+											} else {												
 													if ("durationdistribution"
 															.equals(nodeLabel)) {
 														addDummy(manager,
@@ -738,8 +727,54 @@ public class StorageTreeMenuFactory {
 																		rootElementName);
 																action
 																		.setText("Edit");
-																manager.add(action);
-	
+																manager.add(action);																
+															} else {
+																if (RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL.getNodeLabel().
+																		equals(ConfigurationFileUtil
+																		.extractRootElementName(node
+																				.getPhysicalStorage()))) {
+																	String rootElementName = ConfigurationFileUtil
+																			.extractRootElementName(node
+																					.getPhysicalStorage());
+																	XMLFileAction action = new XMLFileAction(
+																			shell, treeViewer,
+																			(BaseNode) node, node
+																					.toString(),
+																			rootElementName);
+																	action.setText("Edit");
+																	manager.add(action);
+																	/**
+																	 * TODO: REACTIVATE CODE BELOW FOR VERSION 1.1 
+																	 *       COMMENTED OUT FOR VERSION 1.0
+																	 *
+																} else {
+																	if (RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.equals(ConfigurationFileUtil
+																			.extractRootElementName(node
+																					.getPhysicalStorage()))) {
+																		String rootElementName = ConfigurationFileUtil
+																				.extractRootElementName(node
+																						.getPhysicalStorage());
+																		XMLFileAction action = new XMLFileAction(
+																				shell, treeViewer,
+																				(BaseNode) node, node
+																						.toString(),
+																				rootElementName);
+																		action.setText("Edit");
+																		manager.add(action);
+																	} else {
+																		if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS.equals(ConfigurationFileUtil
+																				.extractRootElementName(node
+																						.getPhysicalStorage()))) {
+																			String rootElementName = ConfigurationFileUtil
+																					.extractRootElementName(node
+																							.getPhysicalStorage());
+																			XMLFileAction action = new XMLFileAction(
+																					shell, treeViewer,
+																					(BaseNode) node, node
+																							.toString(),
+																					rootElementName);
+																			action.setText("Edit");
+																			manager.add(action);*/																										
 															// TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 															// TODO: EDIT THE EXISTING FILE: Retrieve the  StandardTreeNodeLabelsEnum
 															// Here, the transition files (i.e. transitiondrift, transitiondrift_zero,
