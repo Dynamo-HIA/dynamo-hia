@@ -96,7 +96,8 @@ public class Output_RiskFactorTab {
 		String[] yearNames = new String[output.getStepsInRun() + 1];
 		for (int i = 0; i < output.getStepsInRun() + 1; i++)
 			yearNames[i] = ((Integer) (output.getStartYear() + i)).toString();
-
+		new RiskClassChoiceGroup(controlComposite, chartComposite, factory,
+				plotInfo, output.getRiskClassnames());
 		new YearChoiceGroup(controlComposite, chartComposite, factory,
 				plotInfo, yearNames);
 		new GenderChoiceGroup(controlComposite, chartComposite, factory,
