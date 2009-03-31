@@ -43,6 +43,7 @@ public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private int numberOfElements;
 	private String globalBaseDir;
+	private boolean incidenceDebug=true;
 
 	/* number of disease states */
 
@@ -172,7 +173,10 @@ public class InitialPopulationFactory {
 		 * once for the newborns
 		 */
 		/* Make some indexes that are needed */
-		numberOfElements = getNumberOfDiseaseStateElements(parameters);
+		
+		this.numberOfElements = getNumberOfDiseaseStateElements(parameters);
+		/* in case of debugging, more elements are needed */
+		if (this.incidenceDebug) this.numberOfElements+=parameters.getNDiseases();
 		int nClasses = 1;
 		if (parameters.getRiskType() != 2)
 			nClasses = parameters.getPrevRisk()[0][0].length;
@@ -1214,7 +1218,7 @@ public class InitialPopulationFactory {
 		CharValues[elementIndex] = 1;
 		elementIndex++;
 
-		if (elementIndex != numberOfElements)
+		if (elementIndex != numberOfElements && !incidenceDebug)
 			log.warn("number of element written does not"
 					+ "fit number calculated, that is : " + elementIndex
 					+ " not equal " + numberOfElements);
