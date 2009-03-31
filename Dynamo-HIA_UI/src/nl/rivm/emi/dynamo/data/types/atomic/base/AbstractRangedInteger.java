@@ -140,7 +140,7 @@ abstract public class AbstractRangedInteger extends
 
 		public Object getToType() {
 			// log.debug(debugString + " getToType() entered.");
-			return (Object) Float.class;
+			return (Object) Integer.class;
 		}
 	}
 

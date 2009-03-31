@@ -16,9 +16,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractBooleanVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
@@ -114,27 +112,27 @@ public class DynamoHeaderDataPanel extends Composite {
 		
 		labelValue = STARTING_YEAR;
 		observable = 
-			dynamoSimulationObject.getObservableHasNewborns();
+			dynamoSimulationObject.getObservableStartingYear();
 		bindHeaderValue(observable, labelValue, new StartingYear());
 		
 		labelValue = NUMBER_OF_YEARS;
 		observable = 
-			dynamoSimulationObject.getObservableHasNewborns();
+			dynamoSimulationObject.getObservableNumberOfYears();
 		bindHeaderValue(observable, labelValue, new NumberOfYears());
 		
 		labelValue = MINIMUM_AGE;
 		observable = 
-			dynamoSimulationObject.getObservableHasNewborns();
+			dynamoSimulationObject.getObservableMinAge();
 		bindHeaderValue(observable, labelValue, new MinAge());
 		
 		labelValue = MAXIMUM_AGE;
 		observable = 
-			dynamoSimulationObject.getObservableHasNewborns();
+			dynamoSimulationObject.getObservableMaxAge();
 		bindHeaderValue(observable, labelValue, new MaxAge());
 		
 		labelValue = CALC_TIME_STEP;
 		observable = 
-			dynamoSimulationObject.getObservableHasNewborns();
+			dynamoSimulationObject.getObservableTimeStep();
 		bindHeaderValue(observable, labelValue, new TimeStep());
 	}
 
@@ -311,8 +309,8 @@ public class DynamoHeaderDataPanel extends Composite {
 		IObservableValue textObservableValue = 
 		SWTObservables.observeSelection(this.radioButtons[0]);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
-				myType.getModelUpdateValueStrategy(), myType
-						.getViewUpdateValueStrategy());
+				/* KISS first/ myType.getModelUpdateValueStrategy()*/ null, /* KISS first myType
+						.getViewUpdateValueStrategy()*/ null);
 
 	}
 	

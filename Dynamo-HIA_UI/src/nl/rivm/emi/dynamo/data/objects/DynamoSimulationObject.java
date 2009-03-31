@@ -27,10 +27,10 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class DynamoSimulationObject extends
-		GroupConfigurationObjectServiceLayer implements IHasNewborns,
-		IMaxAge, IMinAge, INumberOfYears, PopulationFileName,
-		ISimPopSize, IRandomSeed,  IStartingYear, ITimeStep,
-		IResultType, IRiskFactor, IDiseases, IRelativeRisks, IScenarios, IConfigurationCheck {
+		GroupConfigurationObjectServiceLayer implements IHasNewborns, IMaxAge,
+		IMinAge, INumberOfYears, PopulationFileName, ISimPopSize, IRandomSeed,
+		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases,
+		IRelativeRisks, IScenarios, IConfigurationCheck {
 
 	public DynamoSimulationObject(LinkedHashMap<String, Object> content) {
 		super();
@@ -38,25 +38,29 @@ public class DynamoSimulationObject extends
 	}
 
 	public boolean isHasNewborns() {
-				return getSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName());
+		return getSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS
+				.getElementName());
 	}
 
 	public WritableValue getObservableHasNewborns() {
-		return getSingleRootChildWritableValue(XMLTagEntityEnum.HASNEWBORNS.getElementName());
-}
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.HASNEWBORNS
+				.getElementName());
+		return result;
+	}
 
 	public void setHasNewborns(boolean newborns) {
-		putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS.getElementName(), 
-				newborns);
+		putSingleRootChildBooleanValue(XMLTagEntityEnum.HASNEWBORNS
+				.getElementName(), newborns);
 	}
 
 	public Integer getMaxAge() {
-		return getSingleRootChildIntegerValue(XMLTagEntityEnum.MAXAGE.getElementName());
+		return getSingleRootChildIntegerValue(XMLTagEntityEnum.MAXAGE
+				.getElementName());
 	}
 
 	public WritableValue getObservableMaxAge() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MAXAGE.getElementName());
+		return result;
 	}
 
 	public void setMaxAge(Integer maxAge) {
@@ -70,10 +74,9 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableMinAge() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MINAGE.getElementName());
+		return result;
 	}
-
 
 	public void setMinAge(Integer minAge) {
 		// TODO Auto-generated method stub
@@ -86,8 +89,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableNumberOfYears() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.NUMBEROFYEARS.getElementName());
+		return result;
 	}
 
 	public void setNumberOfYears(Integer numberOfYears) {
@@ -101,8 +104,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservablePopulationFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.POPFILENAME.getElementName());
+		return result;
 	}
 
 	public void setPopulationFileName(String populationFileName) {
@@ -116,8 +119,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableSimPopSize() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.SIMPOPSIZE.getElementName());
+		return result;
 	}
 
 	public void setSimPopSize(Integer simPopSize) {
@@ -131,8 +134,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableRandomSeed() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RANDOMSEED.getElementName());
+		return result;
 	}
 
 	public void setRandomSeed(Float randomSeed) {
@@ -146,8 +149,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableStartingYear() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR.getElementName());
+		return result;
 	}
 
 	public void setStartingYear(Integer startingYear) {
@@ -161,8 +164,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableTimeStep() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.TIMESTEP.getElementName());
+		return result;
 	}
 
 	public void setTimeStep(Float timeStep) {
@@ -176,8 +179,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableResultType() {
-		// TODO Auto-generated method stub
-		return null;
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RESULTTYPE.getElementName());
+		return result;
 	}
 
 	public void setResultType(String resultType) {
@@ -230,6 +233,5 @@ public class DynamoSimulationObject extends
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 }

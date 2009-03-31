@@ -1,12 +1,10 @@
 package nl.rivm.emi.dynamo.data.types.atomic.base;
+
 /**
- * 
+ * 20090331 Converters must convert from Boolean to Boolean when bound to a radiobutton.
  */
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
 import org.apache.commons.logging.Log;
@@ -14,10 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Text;
 
 public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		PayloadType<Boolean> {
@@ -35,11 +29,11 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 	}
 
 	public Boolean fromString(String inputString) {
-		return (Boolean)modelUpdateValueStrategy.convert(inputString);
+		return (Boolean) modelUpdateValueStrategy.convert(inputString);
 	}
 
 	public String toString(Boolean inputValue) {
-		return (String)viewUpdateValueStrategy.convert(inputValue);
+		return (String) viewUpdateValueStrategy.convert(inputValue);
 	}
 
 	@Override
@@ -114,26 +108,28 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 			this.debugString = debugString;
 		}
 
-		public Object convert(Object viewString) {
+		public Object convert(Object viewBoolean) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			Boolean result = null;
-			if (!(viewString instanceof String)) {
-				log.fatal("AbstractBoolean was fed wrong Object type: "
-						+ viewString.getClass().getName()
-						+ " should be String!");
-			} else {
-				result = Boolean.FALSE;
-				if (("true".equals(viewString))||("1".equals(viewString))) {
-					result = Boolean.TRUE;
-				}
-			}
-			return result;
+			// Boolean result = null;
+			// if (!(viewString instanceof String)) {
+			// log.fatal("AbstractBoolean was fed wrong Object type: "
+			// + viewString.getClass().getName()
+			// + " should be String!");
+			// } else {
+			// result = Boolean.FALSE;
+			// if (("true".equals(viewString))||("1".equals(viewString))) {
+			// result = Boolean.TRUE;
+			// }
+			// }
+			// return result;
+			return viewBoolean;
 		}
 
 		public Object getFromType() {
 			// log.debug(debugString + " getFromType() entered.");
-			return (Object) String.class;
+			// return (Object) String.class;
+			return (Object) Boolean.class;
 		}
 
 		public Object getToType() {
@@ -153,21 +149,20 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		public Object convert(Object arg0) {
 			// log.debug(debugString + " convert(Object) entered with:" +
 			// arg0.toString());
-			String result = null;
-			if (!(arg0 instanceof Boolean)) {
-				log.fatal("AbstractBoolean was fed wrong Object type: "
-						+ arg0.getClass().getName()
-						+ " should be Boolean.");
-			} else {
-				if(arg0.equals(Boolean.TRUE)){
-					result = "true";
-				} else {
-					result = "false";
-				}
-			}
-			return result;
-			}
-		
+			// String result = null;
+			// if (!(arg0 instanceof Boolean)) {
+			// log.fatal("AbstractBoolean was fed wrong Object type: "
+			// + arg0.getClass().getName() + " should be Boolean.");
+			// } else {
+			// if (arg0.equals(Boolean.TRUE)) {
+			// result = "true";
+			// } else {
+			// result = "false";
+			// }
+			// }
+			// return result;
+			return arg0;
+		}
 
 		public Object getFromType() {
 			// log.debug(debugString + " getFromType() entered.");
@@ -176,8 +171,8 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 		public Object getToType() {
 			// log.debug(debugString + " getToType() entered.");
-			return (Object) String.class;
+			// return (Object) String.class;
+			return (Object) Boolean.class;
 		}
 	}
-	
 }
