@@ -75,9 +75,7 @@ public class Output_UI {
 				e.printStackTrace();
 			}
 			
-			
-		
-
+	
 	}
 
 	
