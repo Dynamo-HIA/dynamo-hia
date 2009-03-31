@@ -53,7 +53,7 @@ public class InputDataFactory {
 	private static final String disTagSubLabel = "disease";
 	private static final String rrSubTagLabel = "RR";
 
-	private static final String newbornLabel = "newborns";
+	private static final String newbornLabel = "hasnewborns";
 	private static final String startingYearLabel = "startingYear";
 	private static final String numberOfYearsLabel = "numberOfYears";
 	private static final String simPopSizeLabel = "simPopSize";
@@ -63,18 +63,19 @@ public class InputDataFactory {
 	private static final String randomSeedLabel = "randomSeed";
 	private static final String resultTypeLabel = "resultType";
 	private static final String popFileNameLabel = "popFileName";
-	private static final String diseaseNameLabel = "name";
+	private static final String diseaseNameLabel = "uniquename";
 	private static final String diseasePrevFileLabel = "prevfilename";
 	private static final String diseaseIncFileLabel = "incfilename";
 	private static final String diseaseExcessMortFileLabel = "excessmortfilename";
 	private static final String diseaseDalyWeightLabel = "dalyweightsfilename";
-	private static final String riskFactorNameLabel = "name";
+	private static final String riskFactorNameLabel = "uniquename";
 	private static final String riskFactorTransFileLabel = "riskfactortransfilename";
-
+	
+	private static final String RRindexLabel = "RRindex";
 	private static final String isRRfromLabel = "isRRfrom";
 	private static final String isRRtoLabel = "isRRto";
 	private static final String isRRfileLabel = "isRRFile";
-	private static final String scenarioNameLabel = "name";
+	private static final String scenarioNameLabel = "uniquename";
 	private static final String scenarioSuccessRateLabel = "successRate";
 	private static final String targetMinAgeLabel = "targetMinAge";
 	private static final String targetMaxAgeLabel = "targetMaxAge";
@@ -254,7 +255,7 @@ public class InputDataFactory {
 	private static final String transDriftXMLname = "transitiondrift.xml";
 	private static final String riskfactorPrevXMLname = "prevalence.xml";
 	private static final String durationXMLname = "durationdistribution.xml";
-	private static final String allcauseRRXMLname = "relriskfordeath.xml";
+	private static final String allcauseRRXMLname = "relriskofdeath.xml";
 	
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; //"rrisksfromdisease"	
 	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";//"rrisksforriskfactor_continuous"
@@ -693,7 +694,10 @@ public class InputDataFactory {
 			boolean filePresent = false;
 
 			for (ConfigurationNode leafChild : leafChildren) {
-
+				if (leafChild.getName() == RRindexLabel) {
+					rrData.number = Integer.parseInt(getString(leafChild, RRindexLabel));
+					fromPresent = true;
+				}
 				if (leafChild.getName() == isRRfromLabel) {
 					rrData.from = getString(leafChild, isRRfromLabel);
 					fromPresent = true;
