@@ -31,7 +31,7 @@ public class DynamoSimulationParameterGroup {
 		DynamoHeaderParameterGroup dynamoHeaderParameterGroup =
 			new DynamoHeaderParameterGroup(group, dynamoSimulationObject, 
 					dataBindingContext, selectedNode, helpGroup);	
-		dynamoHeaderParameterGroup.putFirstInContainer(150);
+		dynamoHeaderParameterGroup.putFirstInContainer(250);
 		
 		// Panel that contains the tabs
 		DynamoTabsParameterGroup dynamoTabsParameterGroup =

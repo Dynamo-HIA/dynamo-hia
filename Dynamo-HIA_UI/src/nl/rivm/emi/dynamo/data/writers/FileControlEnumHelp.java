@@ -68,8 +68,8 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
-			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), "transition",
-			"trend" };
+			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(),
+			"transition", "trend" };
 	/* W22CatCom */
 	static final String[] riskFactorPrevalenceCatStrings = {
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
@@ -114,9 +114,11 @@ public class FileControlEnumHelp {
 			"age", "sex", "value" };
 	/* W33 */
 	static final String[] excessMortalityStrings = {
-			RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), "unittype",
-			/* Alternative, non-conforming layout. */ XMLTagEntityEnum.MORTALITIES.getElementName() 
-			/* XMLTagEntityEnum.MORTALITY.getElementName()*/};
+			RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
+			"unittype",
+			/* Alternative, non-conforming layout. */XMLTagEntityEnum.MORTALITIES
+					.getElementName()
+	/* XMLTagEntityEnum.MORTALITY.getElementName() */};
 	/* W34Cat */
 	static final String[] relRiskFromRiskfactorCatStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
@@ -139,17 +141,27 @@ public class FileControlEnumHelp {
 	static final String[] classesStrings = { "classes", "class", "index",
 			"name" };
 	// TODO(mondeelr) Change "name" and "sex" tags to unique values.
-	static final String[] scenariosStrings = { XMLTagEntityEnum.SCENARIOS.getElementName(), XMLTagEntityEnum.SCENARIO.getElementName(),
-		XMLTagEntityEnum.UNIQUENAME.getElementName(), XMLTagEntityEnum.SUCCESSRATE.getElementName(), XMLTagEntityEnum.TARGETMINAGE.getElementName(), 
-			XMLTagEntityEnum.TARGETMAXAGE.getElementName(), XMLTagEntityEnum.TARGETSEX.getElementName(),
-			XMLTagEntityEnum.TRANSFILENAME.getElementName(), XMLTagEntityEnum.PREVFILENAME.getElementName()};
+	static final String[] scenariosStrings = {
+			XMLTagEntityEnum.SCENARIOS.getElementName(),
+			XMLTagEntityEnum.SCENARIO.getElementName(),
+			XMLTagEntityEnum.UNIQUENAME.getElementName(),
+			XMLTagEntityEnum.SUCCESSRATE.getElementName(),
+			XMLTagEntityEnum.TARGETMINAGE.getElementName(),
+			XMLTagEntityEnum.TARGETMAXAGE.getElementName(),
+			XMLTagEntityEnum.TARGETSEX.getElementName(),
+			XMLTagEntityEnum.TRANSFILENAME.getElementName(),
+			XMLTagEntityEnum.PREVFILENAME.getElementName() };
 	static final String[] diseasesStrings = { "diseases", "disease",
 			"uniquename", "prevfilename", "incfilename", "excessmortfilename",
 			"dalyweightsfilename" };
-	static final String[] riskfactorsStrings = {"riskfactors", "riskfactor", "uniquename",
-			"riskfactortransfilename" };
-	static final String[] rrsStrings = { "RRs", "RR", "RRindex", "isRRfrom", "isRRto",
-			"isRRFile" };
+	static final String[] riskfactorsStrings = {
+			XMLTagEntityEnum.RISKFACTORS.getElementName(),
+			XMLTagEntityEnum.RISKFACTOR.getElementName(),
+			XMLTagEntityEnum.UNIQUENAME.getElementName(),
+			XMLTagEntityEnum.TRANSFILENAME.getElementName(),
+			XMLTagEntityEnum.PREVFILENAME.getElementName() };
+	static final String[] rrsStrings = { "RRs", "RR", "RRindex", "isRRfrom",
+			"isRRto", "isRRFile" };
 	// TODO(mondeelr) For version 1.1.
 	static final String[] cutoffsStrings = { "cutoffs", "cutoff" };
 	static final String[] mortalityStrings = {
@@ -159,13 +171,13 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.UNIT.getElementName(),
 			XMLTagEntityEnum.ACUTELYFATAL.getElementName(),
 			XMLTagEntityEnum.CUREDFRACTION.getElementName() };
-// Alternative, non-conforming structure.
+	// Alternative, non-conforming structure.
 	static final String[] mortalitiesStrings = {
-		XMLTagEntityEnum.MORTALITIES.getElementName(),
-		XMLTagEntityEnum.MORTALITY.getElementName(),
-		XMLTagEntityEnum.AGE.getElementName(),
-		XMLTagEntityEnum.SEX.getElementName(),
-		XMLTagEntityEnum.UNIT.getElementName(),
-		XMLTagEntityEnum.ACUTELYFATAL.getElementName(),
-		XMLTagEntityEnum.CUREDFRACTION.getElementName() };
+			XMLTagEntityEnum.MORTALITIES.getElementName(),
+			XMLTagEntityEnum.MORTALITY.getElementName(),
+			XMLTagEntityEnum.AGE.getElementName(),
+			XMLTagEntityEnum.SEX.getElementName(),
+			XMLTagEntityEnum.UNIT.getElementName(),
+			XMLTagEntityEnum.ACUTELYFATAL.getElementName(),
+			XMLTagEntityEnum.CUREDFRACTION.getElementName() };
 }

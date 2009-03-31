@@ -10,33 +10,27 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Shell;
 
 public class RunButtonPanel {
 
 	Group group;
 	Button runButton;
+	/**
+	 * Height of runbutton panel in pixels.
+	 */
+	int height = 50;
 
-	public RunButtonPanel(Composite parent, 
-			DataAndFileContainer theModal) {
+	public RunButtonPanel(Composite parent, DataAndFileContainer theModal) {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 		runButton = putRunButton(group);
 		setModalParent(theModal);
-		setFormData();
-	}
-
-	public void setFormData() {
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(100, -5);
-		runButton.setLayoutData(formData);
 	}
 
 	public void setModalParent(DataAndFileContainer theModalParent) {
-		runButton.addSelectionListener(new RunSelectionListener(theModalParent));
+		runButton
+				.addSelectionListener(new RunSelectionListener(theModalParent));
 	}
 
 	static private Button putRunButton(Composite parent) {
@@ -45,7 +39,7 @@ public class RunButtonPanel {
 		runButton.setText("Run");
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 100);
-		formData.bottom = new FormAttachment(100, -200);
+		formData.bottom = new FormAttachment(100, /*-200 */ -5);
 		runButton.setLayoutData(formData);
 		return runButton;
 	}
@@ -58,10 +52,11 @@ public class RunButtonPanel {
 	 */
 	public void putLastInContainer(Composite topNeighbour) {
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 5);
+//		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.top = new FormAttachment(100, -(5 + height));
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(100, -5);
-		group.setLayoutData(formData);	
+		group.setLayoutData(formData);
 	}
 }

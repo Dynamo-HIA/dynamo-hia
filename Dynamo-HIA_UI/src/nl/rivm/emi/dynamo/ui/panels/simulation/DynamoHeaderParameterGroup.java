@@ -32,10 +32,10 @@ public class DynamoHeaderParameterGroup {
 				null, dynamoSimulationObject, dataBindingContext, selectedNode,
 				helpGroup);
 		FormData dynamoHeaderFormData = new FormData();
-		dynamoHeaderFormData.top = new FormAttachment(100, -22);
-		dynamoHeaderFormData.right = new FormAttachment(100, -5);
-		dynamoHeaderFormData.left = new FormAttachment(0, 5);
-		dynamoHeaderFormData.bottom = new FormAttachment(100, -2);
+		dynamoHeaderFormData.top = new FormAttachment(0, 0);
+		dynamoHeaderFormData.right = new FormAttachment(100, 0);
+		dynamoHeaderFormData.left = new FormAttachment(0, 0);
+		dynamoHeaderFormData.bottom = new FormAttachment(100, 0);
 		dynamoHeaderDataPanel.setLayoutData(dynamoHeaderFormData);
 
 		// TODO: CONTINUE HERE ON MONDAY
