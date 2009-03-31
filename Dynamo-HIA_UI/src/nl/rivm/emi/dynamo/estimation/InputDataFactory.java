@@ -47,10 +47,11 @@ public class InputDataFactory {
 	private static final String mainTagLabel = "simulation";
 	private static final String scenTagLabel = "scenarios";
 	private static final String disTagLabel = "diseases";
-	private static final String riskfactorTagLabel = "riskfactor";
+	private static final String riskfactorTagLabel = "riskfactors";
 	private static final String rrTagLabel = "RRs";
 	private static final String scenTagSubLabel = "scenario";
 	private static final String disTagSubLabel = "disease";
+	private static final String riskfactorTagSubLabel = "disease";
 	private static final String rrSubTagLabel = "RR";
 
 	private static final String newbornLabel = "hasnewborns";
@@ -69,7 +70,8 @@ public class InputDataFactory {
 	private static final String diseaseExcessMortFileLabel = "excessmortfilename";
 	private static final String diseaseDalyWeightLabel = "dalyweightsfilename";
 	private static final String riskFactorNameLabel = "uniquename";
-	private static final String riskFactorTransFileLabel = "riskfactortransfilename";
+	private static final String riskFactorTransFileLabel = "transfilename";
+	private static final String riskFactorPrevFileLabel = "prevfilename";
 	
 	private static final String RRindexLabel = "RRindex";
 	private static final String isRRfromLabel = "isRRfrom";
@@ -96,7 +98,8 @@ public class InputDataFactory {
 
 	private String riskFactorName;
 
-	private String riskFactorTransDirName;
+	private String riskFactorTransFileName;
+	private String riskFactorPrevFileName;
 
 	private int originalNumberDurationClass;
 	/* this are the public fields that contain the information from the XML file */
@@ -240,6 +243,12 @@ public class InputDataFactory {
 	private static final String incidencesDir = "Incidences"; //OK
 	private static final String excessMoratalitiesDir = "Excess_Mortalities"; //OK
 	private static final String referenceDataDir = "Reference_Data"; //OK
+	private static final String riskFactorPrevalencesDir = "Prevalences"; //OK
+	private static final String riskFactorTransitionDir = "Transitions"; //OK
+	
+	
+	
+	/* standard names of files */
 	
 	/**
 	 * population name
@@ -251,11 +260,12 @@ public class InputDataFactory {
 	private static final String totDalyXMLname = "overalldalyweights.xml";
 
 	private static final String riskfactorXMLname = "configuration.xml";
-	private static final String transMatXMLname = "transitionmatrix.xml";
-	private static final String transDriftXMLname = "transitiondrift.xml";
-	private static final String riskfactorPrevXMLname = "prevalence.xml";
+	
+	
+	private static final String riskfactorPrevDir = "prevalences";
 	private static final String durationXMLname = "durationdistribution.xml";
-	private static final String allcauseRRXMLname = "relriskofdeath.xml";
+	private static final String allcauseRRXMLname = "relriskfordeath.xml";
+	private static final String dalyRRXMLname = "relriskfordisability.xml";
 	
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; //"rrisksfromdisease"	
 	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";//"rrisksforriskfactor_continuous"
@@ -295,7 +305,7 @@ public class InputDataFactory {
 			this.configuration.clear();
 			
 			// Validate the xml by xsd schema
-			this.configuration.setValidating(true);			
+		// TODO remove again	this.configuration.setValidating(true);			
 			this.configuration.load();			
 			
 		} catch (ConfigurationException e) {
@@ -617,9 +627,13 @@ public class InputDataFactory {
 		boolean flag = false;
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) node
 				.getChildren();
+		List<ConfigurationNode> nodeChildren = (List<ConfigurationNode>)rootChildren.get(0)
+		.getChildren();
+		
 		boolean namePresent = false;
 		boolean transPresent = false;
-		for (ConfigurationNode rootChild : rootChildren) {
+		boolean prevPresent = false;
+		for (ConfigurationNode rootChild : nodeChildren) {
 			if (rootChild.getName() == riskFactorNameLabel) {
 				this.riskFactorName = getString(rootChild, riskFactorNameLabel);
 				namePresent = true;
@@ -632,9 +646,16 @@ public class InputDataFactory {
 			 * true; }
 			 */
 			if (rootChild.getName() ==riskFactorTransFileLabel) {
-				this.riskFactorTransDirName = getString(rootChild,
+				this.riskFactorTransFileName = getString(rootChild,
 						riskFactorTransFileLabel);
 				transPresent = true;
+			}
+			
+			
+			if (rootChild.getName() ==riskFactorPrevFileLabel) {
+				this.riskFactorPrevFileName = getString(rootChild,
+						riskFactorPrevFileLabel);
+				prevPresent = true;
 			}
 			/*
 			 * redundant and thus deleted if (rootChild.getName() ==
@@ -643,7 +664,7 @@ public class InputDataFactory {
 			 * true; }
 			 */
 		}
-		if (namePresent /* && prevPresent */&& transPresent
+		if (namePresent && prevPresent && transPresent
 		/* && rrPresent */)
 			flag = true;
 		return flag;
@@ -1037,8 +1058,8 @@ public class InputDataFactory {
 
 				String completePrevFileName = this.baseDir + File.separator
 						+ referenceDataDir + File.separator + riskFactorDir
-						+ File.separator + this.riskFactorName + File.separator
-						+ scenInfo.get(scen).prevFileName + ".xml";
+						+ File.separator + this.riskFactorName + File.separator+ this.riskfactorPrevDir+
+						File.separator+ scenInfo.get(scen).prevFileName + ".xml";
 				if (this.riskFactorType != 2)
 					scenarioInfo.setNewPrevalence(this.factory
 							.manufactureTwoDimArray(completePrevFileName,
@@ -1073,7 +1094,7 @@ public class InputDataFactory {
 					String completeTransFileName = this.baseDir + File.separator
 							+ referenceDataDir + File.separator + riskFactorDir
 							+ File.separator + this.riskFactorName + File.separator
-							+ this.riskFactorTransDirName + File.separator
+							+ InputDataFactory.riskFactorTransitionDir  + File.separator
 							+  scenInfo.get(scen).transFileName + ".xml";
 					readTransitionData(completeTransFileName, null,
 							scenarioInfo, 0);
@@ -1257,16 +1278,12 @@ public class InputDataFactory {
 		/* read transition information */
 		//
 		//
-		if (this.riskFactorType != 2)
+	
 			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ this.riskFactorName + File.separator + this.riskFactorTransDirName
-					+ File.separator + transMatXMLname;
-		else
-			configFileName = this.baseDir + File.separator + referenceDataDir
-					+ File.separator + riskFactorDir + File.separator
-					+ this.riskFactorName + File.separator + this.riskFactorTransDirName
-					+ File.separator + transDriftXMLname;
+					+ this.riskFactorName + File.separator + riskFactorTransitionDir
+					+ File.separator + this.riskFactorTransFileName+".xml";
+		
 
 		readTransitionData(configFileName, inputData, null, 0);
 
@@ -1274,12 +1291,14 @@ public class InputDataFactory {
 		/* read prevalence information */
 		//
 		//
+	
+		configFileName = this.baseDir + File.separator + referenceDataDir
+				+ File.separator + riskFactorDir + File.separator
+				+ this.riskFactorName + File.separator + riskfactorPrevDir+File.separator+this.riskFactorPrevFileName+".xml";
+		
 		//
 		/* first for categorical/compound */
 		//
-		configFileName = this.baseDir + File.separator + referenceDataDir
-				+ File.separator + riskFactorDir + File.separator
-				+ this.riskFactorName + File.separator + riskfactorPrevXMLname;
 		if (this.riskFactorType != 2) {
 			inputData.setPrevRisk(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_categorical",
@@ -1911,14 +1930,14 @@ public class InputDataFactory {
 								+ diseasesDir + File.separator + thisDisease
 								+ File.separator + excessMoratalitiesDir
 								+ File.separator + info2.emFileName + ".xml";
-						eData[d] =  this.factory.manufactureOneDimArray(
-								configFileName, "excessmortality", "mortality",
+						eData[d] =  this.factory.manufactureOneDimArrayFromTreeLayeredXML(
+								configFileName, "excessmortality", "mortalities", "mortality",
 								"unit", true);
-						fData[d] =this. factory.manufactureOneDimArray(
-								configFileName, "excessmortality", "mortality",
+						fData[d] =this. factory.manufactureOneDimArrayFromTreeLayeredXML(
+								configFileName, "excessmortality", "mortalities","mortality",
 								"acutelyfatal", true);
-						cData[d] = this. factory.manufactureOneDimArray(
-								configFileName, "excessmortality", "mortality",
+						cData[d] = this. factory.manufactureOneDimArrayFromTreeLayeredXML(
+								configFileName, "excessmortality","mortalities", "mortality",
 								"curedfraction", true);
 						XMLConfiguration config = null;
 						try {
@@ -1931,7 +1950,7 @@ public class InputDataFactory {
 							config.clear();							
 							
 							// Validate the xml by xsd schema
-							config.setValidating(true);			
+				// TODO weer aanzetten			config.setValidating(true);			
 							config.load();			
 						} catch (ConfigurationException e) {
 							String dynamoErrorMessage = "error encountered when reading file: "

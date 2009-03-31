@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
@@ -111,7 +112,7 @@ public class ModelParameters {
 	private boolean zeroTransition;// TODO
 	private Population[] initialPopulation;
 	// empty Constructor
-
+	private Shell parentShell;
 	private String globalBaseDir;
 
   /**contructor sets the baseDir;
@@ -204,7 +205,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 
 		}
 		;
-
+        this.parentShell=parentShell;
 		this.nCluster = inputData.getNCluster();
 		this.clusterStructure = inputData.clusterStructure;
 		this.durationClass = inputData.getIndexDuurClass();
@@ -1734,36 +1735,55 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		// make design matrix for regression (including dummy variables
 		// for
 		// each risk class)
+		
+		/* in case there are zero prevalences, this point should be excluded
+		 * the indexDat translate the indexes of the regression data to the original classes
+		 */
 
 		double[][] xMatrix = new double[nSim][2];
-
+		
+		/* count number of valid categories */
+		int nValidCategories=0;
+		int [] indexForCategories=new int [nRiskCat];
+		for (int i = 0; i < nRiskCat; i++){
+			indexForCategories[nValidCategories]=i;
+			if( inputData.getPrevRisk()[age][sex][i]>0) nValidCategories++;
+			
+			;}
+			/* count number of valid rows */
+			int nValidRows=0;
+			int [] indexForRows=new int [nSim];
+		for (int i = 0; i < nSim; i++) {
+			indexForRows[nValidRows]=i;
+			if (weight[i]>0)  nValidRows++;
+		}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
-			xMatrix = new double[nSim][nRiskCat];
+			xMatrix = new double[nValidRows][nValidCategories];
 		// fourth loop over all persons i: fill the design matrix
-
+        int nrow=0;
 		for (int i = 0; i < nSim; i++) {
 
 			// add intercept
-			xMatrix[i][0] = 1.0;
+			
 			// add dummies except for the first class = reference
 			// category
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
-				for (int rc = 1; rc < nRiskCat; rc++) {
-					if (riskclass[i] == rc)
-						xMatrix[i][rc] = 1.0;
+				if (weight[i]>0) {xMatrix[nrow][0] = 1.0;
+				for (int rc = 1; rc < nValidCategories; rc++) {
+					if (riskclass[indexForCategories[i]] == rc)
+						xMatrix[nrow][rc] = 1.0;
 					else
-						xMatrix[i][rc] = 0.0;
-				}
-			}
+						xMatrix[nrow][rc] = 0.0;
+				} nrow++;
+			}}
 			;
 			// add continuous risk factor only for type=2
 			// for type=3 the compound part is dealt with separately
-			// for type=3 we here calculate the categorical part taking the
-			// duration part
-			// as a separate entity (taken together)
+			// here nrow==i;
 			if (inputData.getRiskType() == 2) {
 				xMatrix[i][xMatrix[i].length - 1] = riskfactor[i]
 						- inputData.getRefClassCont();
+				
 			}
 			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
 			for (int d = 0; d < nDiseases; d++) {
@@ -1784,20 +1804,23 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				nNegativeOtherMort += weight[i];
 			}
 		}
-
+        if (nValidRows <nSim)
+        	for (int i=0;i<nValidRows;i++)
+        		logOtherMort[i]=logOtherMort[indexForRows[i]];
+        
+        		
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
 		if (nNegativeOtherMort > 0.1) {
-			// TODO warnings for other mortality lower then 0 in window for
-			// user
-			this.log.fatal("negative other mortality  in  "
+			
+			displayWarningMessage("negative other mortality  in  "
 					+ (nNegativeOtherMort * 100) + " % of simulated cases");
 		}
-		if (nNegativeOtherMort > 0.4)
+		if (nNegativeOtherMort > 0.3)
 			throw new DynamoInconsistentDataException(
 					"Other mortality becomes negative in"
-							+ " more than 40% ( "
+							+ " more than 30% ( "
 							+ (nNegativeOtherMort * 100)
 							+ " %) of cases. The amount of disease specific mortality given to the model"
 							+ " exceeds the overall mortality given to the model.  Please lower excess mortality rates or"
@@ -2438,6 +2461,21 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		return notCuredPrev;
 	}
 
+	
+	
+	/**
+	 * @param e
+	 */
+	private void displayWarningMessage(String message) {
+		Shell shell = new Shell(this.parentShell);
+		MessageBox messageBox = new MessageBox(shell, SWT.OK);
+		messageBox
+				.setMessage(
+						 message
+						);
+		messageBox.open();
+		
+	}
 	/**
 	 * @return riskType (1=categorical, 2=continuous, 3=compound
 	 */
