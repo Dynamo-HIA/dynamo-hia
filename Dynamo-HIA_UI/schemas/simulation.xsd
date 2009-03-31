@@ -128,11 +128,17 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="riskfactors">
+          <xs:complexType>
+            <xs:sequence>
         <xs:element minOccurs="0" name="riskfactor">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="uniquename" type="xs:string" />
               <xs:element name="riskfactortransfilename" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
