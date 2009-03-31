@@ -40,7 +40,9 @@ public class SimulationConfigurationFactory {
 	private String newbornsFileName = null;
 	private int nRules;
 	private String simulationName;
-
+	
+	/* incidenceDebug= true means that the update rules will also store incidence information */
+	private boolean incidenceDebug=true;
 	/*
 	 * temporary some info needed for proper working of the class this
 	 * information should be supplied by the user interface in the final version
@@ -304,7 +306,7 @@ public class SimulationConfigurationFactory {
 
 						if (parameters.getRiskTypeDistribution()
 								.compareToIgnoreCase("LogNormal") == 0) {
-							fileName = directoryName + File.separator
+							fileName = this.directoryName + File.separator
 									+ "parameters" + File.separator 
 									+ "offsetDriftRiskFactor.xml";
 							writeFinalElementToDom(rootElement,
@@ -312,7 +314,7 @@ public class SimulationConfigurationFactory {
 							writeOneDimArray(parameters.getOffsetDrift(),
 									"offsetdrift", "offsetdrift", fileName);
 							
-							fileName = directoryName + File.separator
+							fileName = this.directoryName + File.separator
 									+ "parameters" + File.separator
 									+ "offsetRiskFactor.xml";
 							writeFinalElementToDom(rootElement,
@@ -461,6 +463,12 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(healthStateRootElement, "name", "healthState");
 		writeFinalElementToDom(healthStateRootElement, "riskType",
 				((Integer) riskType).toString());
+		if (this.incidenceDebug)
+		writeFinalElementToDom(healthStateRootElement, "storeIncidence",
+				((Integer) 1).toString());
+		else
+			writeFinalElementToDom(healthStateRootElement, "storeIncidence",
+					((Integer) 0).toString());
 		if (riskType != 2)
 			writeFinalElementToDom(healthStateRootElement, "nCat",
 					((Integer) parameters.getPrevRisk()[0][0].length)
@@ -926,10 +934,12 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(charElement, "lb", "healthState");
 		writeFinalElementToDom(charElement, "type", "compound");
 		int numberOfElements = 1;
+		int ndiseases=0;
 
 		for (int c = 0; c < parameters.getNCluster(); c++) {
 			DiseaseClusterStructure structure = parameters
 					.getClusterStructure()[c];
+			ndiseases+=structure.getNInCluster();
 			if (structure.getNInCluster() == 1)
 				numberOfElements++;
 			else if (structure.isWithCuredFraction())
@@ -937,9 +947,13 @@ public class SimulationConfigurationFactory {
 			else
 				numberOfElements += Math.pow(2, structure.getNInCluster()) - 1;
 		}
+		if (!this.incidenceDebug)
 		writeFinalElementToDom(charElement, "numberofelements",
 				((Integer) numberOfElements).toString());
 
+		else writeFinalElementToDom(charElement, "numberofelements",
+				((Integer) (numberOfElements+ndiseases)).toString());
+		
 		/* write to document */
 
 		document.appendChild(rootElement);

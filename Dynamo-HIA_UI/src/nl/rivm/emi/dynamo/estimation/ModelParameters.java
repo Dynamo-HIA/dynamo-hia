@@ -1213,15 +1213,16 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		 * 
 		 * The aim of this stage is: <br>
 		 * 1) estimation of the baseline incidence of the dependent diseases and <br>
-		 * 2) estimation of the OR's and baseline disability odds<br>
+		 * 2) estimation of the baseline disability "hazard"<br>
 		 * 3) the estimation of the attributable mortality: to be solved with a
 		 * matrix equation each row of the equation is for 1 disease. take
 		 * disease d as the row disease, and d1 ... dn as other diseases. See
 		 * the description of calculation document for a description of the
 		 * calculations. <br>
-		 * In short:
 		 * 
-		 * <br>
+		 */
+		/* <br>
+		 * In short:
 		 * left hand side of the equation: <br>
 		 * when other mortality depends on the riskfactor: <br>
 		 * mtot + (1-p(d))*E(d) - average(mtot(r)|d) + terms for case fatality <br>
@@ -1297,13 +1298,22 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			// index = d
 			boolean[] isCuredDisease = new boolean[nDiseases];
 			Arrays.fill(isCuredDisease, false);
+			/* prevalenceDiseaseStates gives the prevalence of each diseaseState (averaged over the
+			 * population)
+			 */
+			double [][] prevalenceDiseaseStates= new double [this.nCluster][];
 			// third loop over all persons
+			
 			for (int i = 0; i < nSim; i++) {
 
 				for (int c = 0; c < inputData.getNCluster(); c++) {
+					prevalenceDiseaseStates[c]=new double[(int) Math.pow(2,clusterStructure[c].getNInCluster())];
 					if (this.clusterStructure[c].isWithCuredFraction())
-						isCuredDisease[this.clusterStructure[c]
+					{	isCuredDisease[this.clusterStructure[c]
 								.getDiseaseNumber()[0]] = true;
+					prevalenceDiseaseStates[c]=new double[3];
+					
+					}
 
 					// now calculate comorbidity that contains the
 					// probability
@@ -1315,6 +1325,21 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 							.getClusterData()[age][sex][c],
 							inputData.clusterStructure[c], relRisk[i],
 							this.baselinePrevalenceOdds[age][sex]);
+					
+					if (inputData.clusterStructure[c].getNInCluster() == 1){
+						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[0][0];
+						prevalenceDiseaseStates[c][0]+=weight[i]*(1-probComorbidity[i][c].getProb()[0][0]);
+						
+					}
+					if (this.clusterStructure[c].isWithCuredFraction()){
+						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[0][0];
+						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[1][1];
+						prevalenceDiseaseStates[c][0]+=weight[i]*(1-probComorbidity[i][c].getProb()[0][0]-probComorbidity[i][c].getProb()[1][1]);
+						
+					}
+						
+						
+						
 					// extract the probDisease for the dependent diseases
 					if (inputData.clusterStructure[c].getNInCluster() > 1) {
 						for (int dd = 0; dd < inputData.clusterStructure[c]
@@ -1401,6 +1426,8 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 									sumRRinHealth[d] += weight[i] * probCombi
 											* RRcombi;
 								;
+								
+								prevalenceDiseaseStates[c][combi]+=probCombi;
 							}
 						}
 						;

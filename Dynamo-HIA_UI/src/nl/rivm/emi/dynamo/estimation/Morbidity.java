@@ -78,6 +78,8 @@ public class Morbidity {
 		 *== sum(over combi) of (P(combi)P(d1)P(d2)RR(d1|combi)*RR(d2|combi))
 		 * 
 		 */
+		
+		/* with cured fraction is only calculated for d1=d2, others are zero as it is either cured or not cured */
 
 		setProb(new double[nDis][nDis]);
 		// d1 , d2 , d3 are disease index within the current cluster
@@ -136,26 +138,26 @@ public class Morbidity {
 					}
 				}
 
-				else if (S.getDependentDisease()[d1] == false
-						& S.getDependentDisease()[d2] == false)
+				else if (!S.isWithCuredFraction() && S.getDependentDisease()[d1] == false
+						&& S.getDependentDisease()[d2] == false)
 					getProb()[d1][d2] = prob1 * prob2;
 
-				else if (S.getDependentDisease()[d1] == false
-						& S.getDependentDisease()[d2] == true)
+				else if (!S.isWithCuredFraction() && S.getDependentDisease()[d1] == false
+						&& S.getDependentDisease()[d2] == true)
 					getProb()[d1][d2] = prob1
 							* (D.getRRdisExtended()[d1][d2] * RR[d2 + dStart] * prevOdds0[d2
 									+ dStart])
 							/ (1 + D.getRRdisExtended()[d1][d2]
 									* RR[d2 + dStart] * prevOdds0[d2 + dStart]);
-				else if (S.getDependentDisease()[d1] == true
-						& S.getDependentDisease()[d2] == false)
+				else if (!S.isWithCuredFraction() && S.getDependentDisease()[d1] == true
+						&& S.getDependentDisease()[d2] == false)
 					getProb()[d1][d2] = prob2
 							* (D.getRRdisExtended()[d2][d1] * RR[d1 + dStart] * prevOdds0[d1
 									+ dStart])
 							/ (1 + D.getRRdisExtended()[d2][d1]
 									* RR[d1 + dStart] * prevOdds0[d1 + dStart]);
-				else if (S.getDependentDisease()[d1] == true
-						& S.getDependentDisease()[d2] == true)
+				else if (!S.isWithCuredFraction() && S.getDependentDisease()[d1] == true
+						&& S.getDependentDisease()[d2] == true)
 					// now we need to loop through all combinations of
 					// independent diseases
 					// each contributes p(combi)P(d1^d2|combi) to the overall
