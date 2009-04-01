@@ -186,7 +186,137 @@ public class ArraysFromXMLFactory {
 		}
 		return returnArray;
 	}
-		
+	/**
+	 * the method produces a two dimensional array from flat XML containing
+	 * particular model parameters by age, sex . In this case there are three tags "above" 
+	 * the data to read (in stead of two)
+	 * 
+	 * @param fileName
+	 *            : name of xml.file to be read (including the extension .xml)
+	 * @param globalTagName
+	 *            : root tag in the file
+	 * @param tagName1  : first nested  tag of the individual items in the file
+	 * @param tagName2 
+	
+	 *            : second nested tag of the individual items in the file
+	 * @param valueTagName
+	 *            : tag of the element containing the value to be read
+	 *            (optional)
+	 * @param otherTags 
+	 * @return two dimensional array (float[96][2]) of parameters by age and sex
+	 * @throws DynamoConfigurationException 
+	 * @throws ConfigurationException 
+	 */
+	@SuppressWarnings("unchecked")
+	
+	public float[][] manufactureOneDimArrayFromTreeLayeredXML(String fileName,
+			String globalTagName, String tagName1, String tagName2, String valueTagName,
+			boolean otherTags) throws DynamoConfigurationException {
+		float[][] returnArray = new float[96][2];
+		this.checkArray = new float[96][2][1][1];
+
+		for (int sex = 0; sex < 2; sex++)
+			for (int age = 0; age < 96; age++) {
+
+				returnArray[age][sex] = 0;
+				this.checkArray[age][sex][0][0] = 0;
+			}
+		File configurationFile = new File(fileName);
+
+		this.log.debug("Starting manufacture from file " + fileName);
+
+		XMLConfiguration configurationFromFile;
+		try {
+			configurationFromFile = new XMLConfiguration(configurationFile);
+						
+			/**
+			TODO: VALIDATION IS FOR FUTURE USE 
+			NICE TO HAVE FEATURE
+			KEEP IT IN THE CODE
+			
+			The following schemas are not validated:
+			baselineOtherMortalities.xsd
+			baselineIncidences.xsd
+			baselineFatalIncidences.xsd
+			attributableMortalities.xsd
+			*/
+			
+			if (!"baselineOtherMortalities".equals(configurationFromFile.getRootElementName())
+					&& !"baselineIncidences".equals(configurationFromFile.getRootElementName())
+					&& !"baselineFatalIncidences".equals(configurationFromFile.getRootElementName())
+					&& !"attributableMortalities".equals(configurationFromFile.getRootElementName())
+			
+			) {
+				// Validate the xml by xsd schema
+				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// The config cannot be loaded twice,
+				// because the contents will be doubled.
+				configurationFromFile.clear();
+	
+				// Validate the xml by xsd schema
+		// TODO: weer aanzetten		configurationFromFile.setValidating(true);			
+				configurationFromFile.load();
+			
+			
+			ConfigurationNode rootNode = configurationFromFile.getRootNode();
+
+			if (configurationFromFile.getRootElementName() != globalTagName)
+				throw new DynamoConfigurationException(" Tagname "
+						+ globalTagName + " expected in file " + fileName
+						+ " but found tag "
+						+ configurationFromFile.getRootElementName());
+			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+			.getChildren();
+			for (ConfigurationNode rootChild : rootChildren) {
+			if (rootChild.getName() == tagName1  )
+			{
+			List<ConfigurationNode> childChildren = (List<ConfigurationNode>) rootChild.getChildren();
+
+			for (ConfigurationNode childChild : childChildren) {
+				if (this.detailedDebug)
+					this.log.debug("Handle rootChild: " + childChild.getName());
+				if (childChild.getName() != tagName2 && !otherTags)
+					throw new DynamoConfigurationException(" Tagname "
+							+ tagName2 + " expected in file " + fileName
+							+ " but found tag " + childChild.getName());
+
+				if (childChild.getName() == tagName2)
+					returnArray = handleRootChild(childChild, returnArray,
+							valueTagName, otherTags);
+			} // end loop for childChildren
+			}
+			}// end loop for rootChildren
+			}
+			/* check if the input file was complete */
+			for (int sex = 0; sex < 2; sex++)
+				for (int age = 0; age < 96; age++)
+					if (this.checkArray[age][sex][0][0] != 1)
+						throw new DynamoConfigurationException(
+								"no value read in parameter file for age="
+										+ age + " sex=" + sex);
+
+			return returnArray;
+		} catch (ConfigurationException e) {
+			String cdmErrorMessage = "Caught Exception of type: " + e.getClass().getName()
+					+ " with message: " + e.getMessage() + "from file "
+					+ fileName;
+			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e, fileName);
+		} catch (Exception exception) {
+			this.log.error("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage() + "from file " + fileName);
+			exception.printStackTrace();
+			throw new DynamoConfigurationException("Caught Exception of type: "
+					+ exception.getClass().getName() + " with message: "
+					+ exception.getMessage() + "from file " + fileName);
+
+		}
+		return returnArray;
+	}
+			
+	
+	
+	
 	/**
 	 * the method reads in the most inner group of values when containing three
 	 * values (for making a two dimensional array)
