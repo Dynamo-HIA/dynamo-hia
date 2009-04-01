@@ -322,8 +322,8 @@ public class DynamoOutputFactory {
 		initializeClassInfo(scenInfo);
 		extractArraysFromPopulations(pop);
 		makeArraysWithNumbers();
-	//	writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
-	//	readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
+		// writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
+		// readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
 
 	}
 
@@ -1002,12 +1002,14 @@ public class DynamoOutputFactory {
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 
 										for (int state = 0; state < this.nDiseaseStates; state++)
-											this.pDiseaseStateByRiskClassByAge[scen + 1][stepCount][state][to][a][s] += toChange[from][to]
-													* pDiseaseStateByRiskClassByAge_scen[stepCount][state][from][to][a][s];
-
-										this.pSurvivalByRiskClassByAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
-												* pSurvivalByRiskClassByAge_scen[stepCount][from][to][a][s];
-										if (this.riskType > 1)
+											if (pDiseaseStateByRiskClassByAge_scen[stepCount][state][from][to][a][s] != 0)
+												this.pDiseaseStateByRiskClassByAge[scen + 1][stepCount][state][to][a][s] += toChange[from][to]
+														* pDiseaseStateByRiskClassByAge_scen[stepCount][state][from][to][a][s];
+										if (pSurvivalByRiskClassByAge_scen[stepCount][from][to][a][s] != 0)
+											this.pSurvivalByRiskClassByAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
+													* pSurvivalByRiskClassByAge_scen[stepCount][from][to][a][s];
+										if (this.riskType > 1
+												&& MeanRiskByRiskClassByAge_scen[stepCount][from][to][a][s] != 0)
 											this.meanRiskByRiskClassByAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
 													* MeanRiskByRiskClassByAge_scen[stepCount][from][to][a][s];
 										/*
@@ -1068,12 +1070,14 @@ public class DynamoOutputFactory {
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 
 										for (int state = 0; state < this.nDiseaseStates; state++)
+											
+											if(pDiseaseStateByOriRiskClassByAge_scen[stepCount][state][from][to][a][s]!=0)
 											this.pDiseaseStateByOriRiskClassByAge[scen + 1][stepCount][state][to][a][s] += toChange[from][to]
 													* pDiseaseStateByOriRiskClassByAge_scen[stepCount][state][from][to][a][s];
-
+										 if(pSurvivalByOriRiskClassByAge_scen[stepCount][from][to][a][s]!=0)
 										this.pSurvivalByOriRiskClassByAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
 												* pSurvivalByOriRiskClassByAge_scen[stepCount][from][to][a][s];
-										if (this.riskType > 1)
+										if (this.riskType > 1 && MeanRiskByOriRiskClassByAge_scen[stepCount][from][to][a][s]!=0)
 											this.meanRiskByOriRiskClassByOriAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
 													* MeanRiskByOriRiskClassByAge_scen[stepCount][from][to][a][s];
 
@@ -5800,7 +5804,7 @@ public class DynamoOutputFactory {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		for (int scen = 0; scen < this.nScen+1; scen++)
+		for (int scen = 0; scen < this.nScen + 1; scen++)
 
 			for (int r = 0; r < this.nRiskFactorClasses; r++)
 				for (int age = 0; age < 96; age++)
@@ -5827,8 +5831,8 @@ public class DynamoOutputFactory {
 						}
 					}
 
-		for (int scen = 0; scen < this.nScen+1; scen++)
-			for (int steps = 0; steps < this.stepsInRun+1; steps++)
+		for (int scen = 0; scen < this.nScen + 1; scen++)
+			for (int steps = 0; steps < this.stepsInRun + 1; steps++)
 				for (int r = 0; r < this.nRiskFactorClasses; r++)
 					for (int age = 0; age < this.nDim; age++)
 						for (int s = 0; s < 2; s++) {
@@ -5868,7 +5872,7 @@ public class DynamoOutputFactory {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		for (int scen = 0; scen < this.nScen+1; scen++)
+		for (int scen = 0; scen < this.nScen + 1; scen++)
 
 			for (int r = 0; r < this.nRiskFactorClasses; r++)
 				for (int age = 0; age < 96; age++)
@@ -5897,8 +5901,8 @@ public class DynamoOutputFactory {
 						}
 					}
 
-		for (int scen = 0; scen < this.nScen+1; scen++)
-			for (int steps = 0; steps < this.stepsInRun+1; steps++)
+		for (int scen = 0; scen < this.nScen + 1; scen++)
+			for (int steps = 0; steps < this.stepsInRun + 1; steps++)
 				for (int r = 0; r < this.nRiskFactorClasses; r++)
 					for (int age = 0; age < this.nDim; age++)
 						for (int s = 0; s < 2; s++) {
