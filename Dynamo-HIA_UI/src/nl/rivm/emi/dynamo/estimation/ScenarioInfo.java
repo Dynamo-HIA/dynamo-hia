@@ -351,9 +351,17 @@ public void makeTestData1 (){
 	public void setNewPrevalence(float[][][][] newPrevalence) {
 		this.newPrevalence = newPrevalence;
 	}
-	public void setNewPrevalence(float[][][] newPrevalence,int i) {
+	public void setNewPrevalence(float[][][] inPrevalence,int i, boolean percentage) {
+		if (percentage){
+			this.newPrevalence[i]=new float [inPrevalence.length][inPrevalence[0].length][inPrevalence[0].length];
 		
-		this.newPrevalence[i] = newPrevalence;
+			for (int k=0;k<inPrevalence.length;k++)
+				for (int l=0;l<inPrevalence[0].length;l++)
+				for (int j=0;j<inPrevalence[0][0].length;j++)
+					this.newPrevalence[i][k][l][j]=inPrevalence[k][l][j]/100;
+			
+		} else
+		this.newPrevalence[i] = inPrevalence;
 	}
 	
 	public boolean isWithInitialChange() {

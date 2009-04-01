@@ -1741,7 +1741,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		 */
 
 		double[][] xMatrix = new double[nSim][2];
-		
+		 double[] wVector=weight;
 		/* count number of valid categories */
 		int nValidCategories=0;
 		int [] indexForCategories=new int [nRiskCat];
@@ -1759,21 +1759,24 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
+		    wVector = new double[nValidRows];
 		// fourth loop over all persons i: fill the design matrix
         int nrow=0;
 		for (int i = 0; i < nSim; i++) {
-
+            
 			// add intercept
 			
 			// add dummies except for the first class = reference
 			// category
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
 				if (weight[i]>0) {xMatrix[nrow][0] = 1.0;
+				wVector[nrow]=weight[i];
 				for (int rc = 1; rc < nValidCategories; rc++) {
 					if (riskclass[indexForCategories[i]] == rc)
 						xMatrix[nrow][rc] = 1.0;
 					else
 						xMatrix[nrow][rc] = 0.0;
+					
 				} nrow++;
 			}}
 			;
@@ -1804,11 +1807,13 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				nNegativeOtherMort += weight[i];
 			}
 		}
-        if (nValidRows <nSim)
+		double [] yValue=logOtherMort;
+        if (nValidRows <nSim){
+        	yValue=new double [nValidRows];
         	for (int i=0;i<nValidRows;i++)
-        		logOtherMort[i]=logOtherMort[indexForRows[i]];
+        		yValue[i]=logOtherMort[indexForRows[i]];
         
-        		
+        }
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
@@ -1828,7 +1833,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		// carry out the regression of log other mortality on the risk
 		// factors;
 		try {
-			beta = weightedRegression(logOtherMort, xMatrix, weight);
+			beta = weightedRegression(yValue, xMatrix, wVector);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -1837,12 +1842,13 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 							+ " for age is " + age + "and sex is " + sex);
 			throw new RuntimeException(e.getMessage());
 		}
-		if (age == 0 && sex == 0)
+		if (age == 0 && sex == 0 && beta.length>1)
 			this.log.debug(" beta 0 and 1 :" + beta[0] + beta[1]);
 		// calculate relative risks from the regression coefficients
 
-		// first class has relative risk of 1
-		this.relRiskOtherMort[age][sex][0] = 1;
+		// first class has relative risk of 1; also default value for all other categories
+		Arrays.fill(this.relRiskOtherMort[age][sex], 1);
+
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
 			for (int j = 1; j < beta.length; j++)
 			// calculate the relative risk relative to the first
@@ -1850,7 +1856,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			// class
 			// //
 			{
-				this.relRiskOtherMort[age][sex][j] = (float) Math.exp(beta[j]);
+				this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) Math.exp(beta[j]);
 				// in case of duration class set rr to 1;
 				if (inputData.getRiskType() == 3
 						&& inputData.getIndexDuurClass() == j)

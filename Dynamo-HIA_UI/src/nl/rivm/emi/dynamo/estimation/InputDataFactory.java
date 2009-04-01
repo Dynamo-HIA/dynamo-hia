@@ -1065,7 +1065,7 @@ public class InputDataFactory {
 							.manufactureTwoDimArray(completePrevFileName,
 									"riskfactorprevalences_categorical",
 									"prevalence", "cat", "percent", false),
-							scen);
+							scen,true);
 				else {
 					scenarioInfo.setNewMeanSTD(this.factory.manufactureOneDimArray(
 							completePrevFileName,

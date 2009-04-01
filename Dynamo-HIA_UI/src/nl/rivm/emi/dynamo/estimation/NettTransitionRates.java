@@ -1,13 +1,15 @@
 package nl.rivm.emi.dynamo.estimation;
+
 /**
  * @author Hendriek Boshuizen
  * 
- * NB heb zitten rommelen met static: gaat dat wel goed???
+ *         NB heb zitten rommelen met static: gaat dat wel goed???
  * 
  */
 public class NettTransitionRates {
 	private double[][] transitionRates;
-	private double[][] drift; // TODO dit in een apart methode ergens anders stoppen,
+	private double[][] drift; // TODO dit in een apart methode ergens anders
+								// stoppen,
 
 	// drift consists of index age (first index) and type of value [second
 	// index]. Values are:
@@ -22,33 +24,39 @@ public class NettTransitionRates {
 
 	/**
 	 * 
-	 * constructor for continuous variables (to calculate drift)
+	 * method to calculate drift for continuous variables
 	 * 
-	 * @param meanRisk :
-	 *            array with mean values of riskfactor per age
-	 * @param stdRisk :
-	 *            array of standard deviation of riskfactor per age
-	 * @param skewRisk :
-	 *            array of skewness of riskfactor per age
-	 * @param baselineMort :
-	 *            baseline all cause mortality
-	 * @param RR :
-	 *            relative risk for all cause mortality
+	 * @param meanRisk
+	 *            : array with mean values of riskfactor per age
+	 * @param stdRisk
+	 *            : array of standard deviation of riskfactor per age
+	 * @param skewRisk
+	 *            : array of skewness of riskfactor per age
+	 * @param baselineMort
+	 *            : baseline all cause mortality
+	 * @param RR
+	 *            : relative risk for all cause mortality
 	 * 
-	 * For lognormal variables this is not very acurate: not even with 100000
-	 * simulated values per age This should be improved by some form of
-	 * calibration
+	 *            For lognormal variables this is not very acurate: not even
+	 *            with 100000 simulated values per age This should be improved
+	 *            by some form of calibration
 	 * 
-	 * @param refCat :
-	 *            reference category for risk factor (value of riskfactor for
+	 * @param refCat
+	 *            : reference category for risk factor (value of riskfactor for
 	 *            which the mortality is equal to the baseline mortality
+	 * @return drift[][] where index 1= age and index 2 =type of value . Values
+	 *         are: 0: drift in mean (for lognormal this is the mean on the
+	 *         logscale) (index 2=0), 1: relative increase in std (for lognormal
+	 *         this is again the std on the logscale) [index 2=1] and 2: (only
+	 *         for lognormal): increase in offset [index 2=2] the last on the
+	 *         normal/regular scale
 	 * @throws Exception
 	 *             in case the mean, std and skewness of lognormal distribution
 	 *             can not be recalculated into a mu, sigma and offset
 	 */
-	public void makeNettTransitionRates(double[] meanRisk, double[] stdRisk,
-			double[] skewRisk, double[] baselineMort, double[] RR, double refCat)
-			throws Exception {
+	public static double[][] makeNettTransitionRates(double[] meanRisk,
+			double[] stdRisk, double[] skewRisk, double[] baselineMort,
+			double[] RR, double refCat) throws Exception {
 		int nAgeGroups = meanRisk.length;
 		int nSim = 100;
 
@@ -82,7 +90,7 @@ public class NettTransitionRates {
 		boolean lognorm;
 		DynamoLib instance = DynamoLib.getInstance(100);
 		double[] pdfTable = instance.getCdfTable();
-		drift = new double[nAgeGroups][3];
+		double [][] drift = new double[nAgeGroups][3];
 		for (int a = 0; a < nAgeGroups; a++) {
 			// first calculate the distribution in survivors after one year;
 
@@ -95,7 +103,6 @@ public class NettTransitionRates {
 				lognorm = false;
 				for (int i = 0; i < nSim; i++) {
 
-					
 					riskfactor[i][a] = meanRisk[a] + stdRisk[a]
 							* (-4.0 + (8.0 / nSim) * (i + 0.5));
 
@@ -270,7 +277,8 @@ public class NettTransitionRates {
 
 			}
 		} // end loop over age
-	} // end constructor
+		return drift;
+	} // end method
 
 	// constructor for risk class variable (only for one age group
 
@@ -278,14 +286,14 @@ public class NettTransitionRates {
 	 * 
 	 * constructor for risk class variable (only for one age group)
 	 * 
-	 * @param oldPrev :
-	 *            prevalence rate of age to calculate transition rate in
-	 * @param newPrev :
-	 *            prevalence rate of next age
-	 * @param baselineMort :
-	 *            baseline all cause mortality
-	 * @param RR :
-	 *            relative risk for all cause mortality
+	 * @param oldPrev
+	 *            : prevalence rate of age to calculate transition rate in
+	 * @param newPrev
+	 *            : prevalence rate of next age
+	 * @param baselineMort
+	 *            : baseline all cause mortality
+	 * @param RR
+	 *            : relative risk for all cause mortality
 	 * 
 	 * 
 	 */
@@ -350,19 +358,23 @@ public class NettTransitionRates {
 	 * 3 2 1 0 : alles even goed.
 	 * 
 	 * Altijd: kosten van uiterste: < losse stappen om er tekomen
-	 * @return 
+	 * 
+	 * @return
 	 */
 
-	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal, float[] newPrev,
-			double baselineMort, float[] RR) {
+	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
+			float[] newPrev, double baselineMort, float[] RR) {
 
 		int nCat = oldPrevOriginal.length;
 		// first calculate oldPrev including selective mortality;
-		// first make a copy in the long way, otherwise despite being private etc. 
+		// first make a copy in the long way, otherwise despite being private
+		// etc.
 		// the value of riskPrev in INPUT data changes
-        float[] oldPrev=new float [nCat];
-        for (int i=0;i<nCat;i++){oldPrev[i]=oldPrevOriginal[i];}
-        
+		float[] oldPrev = new float[nCat];
+		for (int i = 0; i < nCat; i++) {
+			oldPrev[i] = oldPrevOriginal[i];
+		}
+
 		double survtot = 0;
 		for (int i = 0; i < nCat; i++) {
 			survtot += (1.0 - baselineMort * RR[i]) * oldPrev[i];
@@ -438,20 +450,19 @@ public class NettTransitionRates {
 		Simplx result = new Simplx(table, 2 * nCat, numVar, 0, 0, 2 * nCat);
 
 		// Extract transitionrates
-		float [][] transitionRates = new float[nCat][nCat];
+		float[][] transitionRates = new float[nCat][nCat];
 		for (int i = 0; i < nCat; i++)
 			for (int j = 0; j < nCat; j++) {
 				int variableNum = (i) * nCat + j + 1;
 				for (int k = 1; k <= 2 * nCat; k++)
 					if (result.iposv[k] == variableNum) {
-						transitionRates[i][j] =  result.a[k + 1][1]
-								/ oldPrev[i];
+						transitionRates[i][j] = result.a[k + 1][1] / oldPrev[i];
 						// K+1 WANT RIJ 1 BEVAT KOSTEN
 					}
 				;
 			}
 		return transitionRates;
-		
+
 	}
 
 	public NettTransitionRates() {
@@ -480,7 +491,6 @@ public class NettTransitionRates {
 	 * 
 	 * @param args
 	 */
-	
 
 	public static void display(double matrix[][]) {
 		int i;
