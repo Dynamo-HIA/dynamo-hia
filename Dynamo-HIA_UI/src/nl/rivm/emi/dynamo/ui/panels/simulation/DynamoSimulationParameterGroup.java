@@ -24,9 +24,6 @@ public class DynamoSimulationParameterGroup {
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 				
-		//TODO: Create two subpanels/groups nested in parent 'group'
-		// Split up the data and distribute it through the two panels
-		
 		// Panel that contains the simulation header information
 		DynamoHeaderParameterGroup dynamoHeaderParameterGroup =
 			new DynamoHeaderParameterGroup(group, dynamoSimulationObject, 
@@ -38,7 +35,7 @@ public class DynamoSimulationParameterGroup {
 			new DynamoTabsParameterGroup(group, selectedNode, 
 					dynamoSimulationObject,
 					dataBindingContext, helpGroup);
-		dynamoTabsParameterGroup.putLastInContainer(dynamoHeaderParameterGroup.group);
+		dynamoTabsParameterGroup.handleNextInContainer(dynamoHeaderParameterGroup.group);
 	}
 
 	public void putFirstInContainer(int height) {

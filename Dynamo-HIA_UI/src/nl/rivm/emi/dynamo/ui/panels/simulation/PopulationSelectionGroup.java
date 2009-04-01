@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.swt.SWT;
@@ -15,14 +14,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
-public class RiskFactorSelectionGroup {
+public class PopulationSelectionGroup {
 
-	private static final String RISK_FACTOR = "Risk Factor";
+	private static final String POPULATION = "Population";
 	protected Group group;
 	Composite plotComposite;
-	GenericComboModifyListener riskDropDownModifyListener;
 
-	public RiskFactorSelectionGroup(Composite plotComposite,
+	public PopulationSelectionGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup) {
 		this.plotComposite = plotComposite;
 		group = new Group(plotComposite, SWT.NONE);
@@ -50,19 +48,17 @@ public class RiskFactorSelectionGroup {
 		contentsMap.put("BMI2", "BMI2");
 		contentsMap.put("BMI3", "BMI3");
 		GenericDropDownPanel riskDropDownPanel = 
-			createDropDown(RISK_FACTOR, contentsMap);
-		this.riskDropDownModifyListener =
-			riskDropDownPanel.getGenericComboModifyListener();		
+			createDropDown(POPULATION, contentsMap);		
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
-		RiskFactorDataAction updateRiskFactorDataAction = 
-			new RiskFactorDataAction();
+		PopulationDataAction updatePopulationDataAction = PopulationDataAction();
 		return new GenericDropDownPanel(group, label,
-				selectablePropertiesMap, updateRiskFactorDataAction);		
+				selectablePropertiesMap, updatePopulationDataAction);		
 	}
-	
-	public GenericComboModifyListener getRiskDropDownModifyListener() {
-		return this.riskDropDownModifyListener;
+
+	private PopulationDataAction PopulationDataAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

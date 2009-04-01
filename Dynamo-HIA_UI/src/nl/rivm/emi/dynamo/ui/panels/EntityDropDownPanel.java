@@ -63,6 +63,7 @@ private UnitTypeComboModifyListener unitTypeModifyListener;
 			dropDown.add(item, index);
 			index ++;
 		}
+		/*
 		dropDown.addSelectionListener(new SelectionAdapter() {
 			// In case the user does not select anything
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -72,7 +73,7 @@ private UnitTypeComboModifyListener unitTypeModifyListener;
 			public void widgetSelected(SelectionEvent e) {
 				EntityDropDownPanel.this.selectedIndex = dropDown.getSelectionIndex();
 			}
-		});
+		});*/
 		this.unitTypeModifyListener = new UnitTypeComboModifyListener();
 		dropDown.addModifyListener(unitTypeModifyListener);
 		dropDown.select(0);

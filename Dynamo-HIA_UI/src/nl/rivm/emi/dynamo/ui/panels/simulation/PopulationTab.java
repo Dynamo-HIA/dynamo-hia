@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-public class RiskFactorTab  {
+public class PopulationTab  {
 	
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
@@ -31,14 +31,13 @@ public class RiskFactorTab  {
 	private BaseNode selectedNode;
 	
 	private TabFolder tabFolder;
-	//ChartComposite chartComposite;
 	private Composite plotComposite;
 
 	/**
 	 * @param tabfolder
 	 * @param output
 	 */
-	public RiskFactorTab(TabFolder tabfolder,
+	public PopulationTab(TabFolder tabfolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
@@ -60,18 +59,12 @@ public class RiskFactorTab  {
 		this.plotComposite.setLayout(formLayout);
 		this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
 		
-		RiskFactorSelectionGroup riskFactorSelectionGroup =
-			new RiskFactorSelectionGroup(this.plotComposite,
+		PopulationSelectionGroup populationSelectionGroup =
+			new PopulationSelectionGroup(this.plotComposite,
 					selectedNode, helpGroup);		
 		
-		RiskFactorResultGroup riskFactorResultGroup =
-			new RiskFactorResultGroup(this.plotComposite,
-					selectedNode, helpGroup,
-					riskFactorSelectionGroup.group,
-					riskFactorSelectionGroup.getRiskDropDownModifyListener());
-
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
-		item.setText("Risk Factor");
+		item.setText("Population");
 		item.setControl(this.plotComposite);
 		
 	}
@@ -79,10 +72,7 @@ public class RiskFactorTab  {
 	 * 
 	 */
 	public void redraw(){
-		log.debug("REDRAW THIS");
 		Control[] subcomp= this.plotComposite.getChildren();
-		////this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
-		this.plotComposite.redraw();
-		
+		this.plotComposite.redraw();		
 	}
 		}

@@ -22,8 +22,6 @@ public class DynamoHeaderParameterGroup {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
-		// TODO Auto-generated constructor stub
-
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
@@ -37,11 +35,6 @@ public class DynamoHeaderParameterGroup {
 		dynamoHeaderFormData.left = new FormAttachment(0, 0);
 		dynamoHeaderFormData.bottom = new FormAttachment(100, 0);
 		dynamoHeaderDataPanel.setLayoutData(dynamoHeaderFormData);
-
-		// TODO: CONTINUE HERE ON MONDAY
-		// ClassDefinitionsDataPanel
-		// ReferenceClassDataPanel
-
 	}
 
 	public void putFirstInContainer(int height) {

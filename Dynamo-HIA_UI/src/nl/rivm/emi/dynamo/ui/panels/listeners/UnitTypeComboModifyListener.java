@@ -18,6 +18,7 @@ public class UnitTypeComboModifyListener implements ModifyListener {
 		registeredLabels.remove(label);
 	}
 
+	@Override
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();
