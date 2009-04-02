@@ -115,10 +115,14 @@ public class ModelParameters {
 	private Shell parentShell;
 	private String globalBaseDir;
 
-  /**contructor sets the baseDir;
- * @param baseDir
- */
-public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
+	/**
+	 * contructor sets the baseDir;
+	 * 
+	 * @param baseDir
+	 */
+	public ModelParameters(String baseDir) {
+		this.globalBaseDir = baseDir;
+	}
 
 	/**
 	 * 
@@ -173,9 +177,11 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 
 					try {
 						float skew = inputData.getSkewnessRisk()[a][g];
-						this.stdDevRisk[a][g] = (float) DynamoLib.findSigma(skew);
+						this.stdDevRisk[a][g] = (float) DynamoLib
+								.findSigma(skew);
 
-						this.meanRisk[a][g] = (float) (0.5 * (Math.log(skew * skew)
+						this.meanRisk[a][g] = (float) (0.5 * (Math.log(skew
+								* skew)
 								- Math.log(Math.exp(this.stdDevRisk[a][g]
 										* stdDevRisk[a][g]) - 1) - this.stdDevRisk[a][g]
 								* this.stdDevRisk[a][g]));
@@ -205,7 +211,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 
 		}
 		;
-        this.parentShell=parentShell;
+		this.parentShell = parentShell;
 		this.nCluster = inputData.getNCluster();
 		this.clusterStructure = inputData.clusterStructure;
 		this.durationClass = inputData.getIndexDuurClass();
@@ -243,50 +249,49 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
 				this.log.debug("parameters estimated for age " + a
 						+ " and gender " + g);
-				
-				int anext=a+1;
-				if (a==95) anext=95;
-				
-					// TODO
-					/*
-					 * nog testen					 */
-					if (inputData.getRiskType() != 2) {
-						if (inputData.getTransType() == 1) { /*
-															 * nett transition
-															 * rates
-															 */
-							this.transitionMatrix[a][g] = NettTransitionRateFactory
-									.makeNettTransitionRates(
-											getPrevRisk()[a][g],
-											inputData.getPrevRisk()[anext][g],
-											this.baselineMortality[a][g],
-											inputData.getRelRiskMortCat()[a][g]);
-						} else if (inputData.getTransType() == 2)
-							this.transitionMatrix[a][g] = inputData
-									.getTransitionMatrix(a, g);
-						else if (inputData.getTransType() == 1)
-							this.transitionMatrix[a][g] = inputData
-									.getTransitionMatrix(a, g);
-						else if (inputData.getTransType() == 0) {
-							/*
-							 * this matrix is not really used, but implemented
-							 * all the same in case a future programmer needs it
-							 */
-							float mat[][] = new float[nRiskClasses][nRiskClasses];
-							for (int r1 = 0; r1 < nRiskClasses; r1++)
-								for (int r2 = 0; r2 < nRiskClasses; r2++) {
-									if (r1 == r2)
-										mat[r1][r2] = 1;
-									else
-										mat[r1][r2] = 0;
-								}
-							this.transitionMatrix[a][g] = mat;
 
-						}
+				int anext = a + 1;
+				if (a == 95)
+					anext = 95;
+
+				// TODO
+				/*
+				 * nog testen
+				 */
+				if (inputData.getRiskType() != 2) {
+					if (inputData.getTransType() == 1) { /*
+														 * nett transition rates
+														 */
+						this.transitionMatrix[a][g] = NettTransitionRateFactory
+								.makeNettTransitionRates(getPrevRisk()[a][g],
+										inputData.getPrevRisk()[anext][g],
+										this.baselineMortality[a][g], inputData
+												.getRelRiskMortCat()[a][g]);
+					} else if (inputData.getTransType() == 2)
+						this.transitionMatrix[a][g] = inputData
+								.getTransitionMatrix(a, g);
+					else if (inputData.getTransType() == 1)
+						this.transitionMatrix[a][g] = inputData
+								.getTransitionMatrix(a, g);
+					else if (inputData.getTransType() == 0) {
+						/*
+						 * this matrix is not really used, but implemented all
+						 * the same in case a future programmer needs it
+						 */
+						float mat[][] = new float[nRiskClasses][nRiskClasses];
+						for (int r1 = 0; r1 < nRiskClasses; r1++)
+							for (int r2 = 0; r2 < nRiskClasses; r2++) {
+								if (r1 == r2)
+									mat[r1][r2] = 1;
+								else
+									mat[r1][r2] = 0;
+							}
+						this.transitionMatrix[a][g] = mat;
+
 					}
 				}
 			}
-		
+		}
 
 		bar.setSelection(96);
 		if (inputData.getRiskType() == 2) {
@@ -918,19 +923,21 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 											* this.alfaDuur[age][sex][d])
 									+ this.relRiskDuurEnd[age][sex][d];
 
-							relRiskMort[i] = (inputData
-									.getRelRiskDuurMortBegin()[age][sex] - inputData
-									.getRelRiskDuurMortEnd()[age][sex])
-									* Math
-											.exp(-riskfactor[i]
-													* inputData
-															.getRrAlphaMort()[age][sex])
-									+ inputData.getRelRiskDuurMortEnd()[age][sex];
+							if (inputData.isWithRRForMortality())
+								relRiskMort[i] = (inputData
+										.getRelRiskDuurMortBegin()[age][sex] - inputData
+										.getRelRiskDuurMortEnd()[age][sex])
+										* Math
+												.exp(-riskfactor[i]
+														* inputData
+																.getRrAlphaMort()[age][sex])
+										+ inputData.getRelRiskDuurMortEnd()[age][sex];
 
 						} else {
 							relRisk[i][d] = this.relRiskClass[age][sex][riskclass[i]][d];
 
-							relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
+							if (inputData.isWithRRForMortality())
+								relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
 						}
 					} else
 
@@ -948,26 +955,32 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				if (inputData.getRiskType() == 3) {
 					if (riskclass[i] == inputData.getIndexDuurClass()) {
 
-						relRiskMort[i] = (inputData.getRelRiskDuurMortBegin()[age][sex] - inputData
-								.getRelRiskDuurMortEnd()[age][sex])
-								* Math.exp(-riskfactor[i]
-										* inputData.getAlphaMort()[age][sex])
-								+ inputData.getRelRiskDuurMortEnd()[age][sex];
+						if (inputData.isWithRRForMortality())
+							relRiskMort[i] = (inputData
+									.getRelRiskDuurMortBegin()[age][sex] - inputData
+									.getRelRiskDuurMortEnd()[age][sex])
+									* Math
+											.exp(-riskfactor[i]
+													* inputData.getAlphaMort()[age][sex])
+									+ inputData.getRelRiskDuurMortEnd()[age][sex];
 
 					} else {
 
-						relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
+						if (inputData.isWithRRForMortality())
+							relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
 					}
-				} else
+				} else if (inputData.isWithRRForMortality())
 					relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]]
 							* Math.pow(
 									inputData.getRelRiskMortCont()[age][sex],
 									(riskfactor[i] - inputData
 											.getRefClassCont()));
-				sumRRm += relRiskMort[i] * weight[i]; // sum of relRiskMort
+				if (inputData.isWithRRForMortality())
+					sumRRm += relRiskMort[i] * weight[i];
+				// sum of relRiskMort
 				// over all
 				// persons
-
+				else  relRiskMort[i] =1; // if not RR for mortality, this is 1;
 			} // end first loop over all individuals
 
 			// calculate a first estimate of baseline prevalence for the
@@ -980,7 +993,12 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 
 			calculateBaselinePrev(inputData, age, sex, sumRR, false);
 			calculateBaselineFatalIncidence(inputData, age, sex, sumRR, false);
-			this.baselineMortality[age][sex] = (float) (inputData.getMortTot()[age][sex] / sumRRm);
+			if (inputData.isWithRRForMortality())
+				this.baselineMortality[age][sex] = (float) (inputData
+						.getMortTot()[age][sex] / sumRRm);
+			else
+				this.baselineMortality[age][sex] = (float) (inputData
+						.getMortTot()[age][sex]);
 		}
 
 		/*
@@ -1225,32 +1243,25 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		 * calculations. <br>
 		 * 
 		 */
-		/* <br>
-		 * In short:
-		 * left hand side of the equation: <br>
-		 * when other mortality depends on the riskfactor: <br>
-		 * mtot + (1-p(d))*E(d) - average(mtot(r)|d) + terms for case fatality <br>
-		 * when other mortality does not depend on the riskfactor: <br>
-		 * (1-p(d))*E(d) + terms for case fatality <br>
-		 * <br>
-		 * Terms for case fatality: <br>
-		 * this is only relevant when case fatatity applies to a dependent
-		 * diseases. For the dependent diseases itself the following terms are
-		 * added to the lefthand side (one for each dependent disease, including
-		 * the disease itself): <br>
-		 * - average (over all R)
+		/*
+		 * <br> In short: left hand side of the equation: <br> when other
+		 * mortality depends on the riskfactor: <br> mtot + (1-p(d))E(d) -
+		 * average(mtot(r)|d) + terms for case fatality <br> when other
+		 * mortality does not depend on the riskfactor: <br> (1-p(d))E(d) +
+		 * terms for case fatality <br> <br> Terms for case fatality: <br> this
+		 * is only relevant when case fatatity applies to a dependent diseases.
+		 * For the dependent diseases itself the following terms are added to
+		 * the lefthand side (one for each dependent disease, including the
+		 * disease itself): <br> - average (over all R)
 		 * of[fatalbaselineinc-depNO(r)(RRdisNO-1){(P(intermed and dep given
-		 * R)-p(intermediate given R)*P(dependent given R)}]/P(dep) <br>
-		 * depNO stands for each dependent disease, <br>
-		 * dep is the disease of the equation. <br>
-		 * <br>
+		 * R)-p(intermediate given R)P(dependent given R)}]/P(dep) <br> depNO
+		 * stands for each dependent disease, <br> dep is the disease of the
+		 * equation. <br> <br>
 		 * 
 		 * For intermediate diseases the following terms are added to the
-		 * lefthand side (with minus sign): <br>
-		 * - Average(over all R) of
+		 * lefthand side (with minus sign): <br> - Average(over all R) of
 		 * [fatalbaselineinc_dep(R)(RRdis-1)(1-P(intermed given R))P(intermed
-		 * given R)]/P(intermed) <br>
-		 * <br>
+		 * given R)]/P(intermed) <br> <br>
 		 * 
 		 * 
 		 * The last term gives the mortality of a population in which the
@@ -1259,20 +1270,17 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		 * population has a probability probdisease(d) to have the disease. So
 		 * to obtain the distribution of riskfactors as in disease d, we will
 		 * have to weight each person with weight probdisease(d). So this can be
-		 * found by taking probdisease(d,i)*probmort(i) and average over the
-		 * population. probmort(i) is here RRm(i)*baseline mortality. Thus we
-		 * take the sum over RRm(i)*baseline mortality* probdisease(d,i),
-		 * divided by the sum over probdisease(d,i) (=sum of weights). <br>
-		 * <br>
-		 * The right hand side of the equation: this side has a term for each
+		 * found by taking probdisease(d,i)probmort(i) and average over the
+		 * population. probmort(i) is here RRm(i)baseline mortality. Thus we
+		 * take the sum over RRm(i)baseline mortality probdisease(d,i), divided
+		 * by the sum over probdisease(d,i) (=sum of weights). <br> <br> The
+		 * right hand side of the equation: this side has a term for each
 		 * disease, and thus is a matrix with the following entries for row d:
-		 * For disease d itself it is: <br>
-		 * 1-average(probdisease(d,i)^2)/p(d) For disease d1 it is:
-		 * average(probdisease (d
-		 * &d1,i))/p(d)-average(probdisease(d,i)*probdisease(d1,i))/p(d). <br>
-		 * <br>
-		 * This term is zero when two diseases are independent. Also the term
-		 * for d alone can be calculated with this formula <br>
+		 * For disease d itself it is: <br> 1-average(probdisease(d,i)^2)/p(d)
+		 * For disease d1 it is: average(probdisease (d
+		 * &d1,i))/p(d)-average(probdisease(d,i)probdisease(d1,i))/p(d). <br>
+		 * <br> This term is zero when two diseases are independent. Also the
+		 * term for d alone can be calculated with this formula <br>
 		 */
 
 		// initialize help variables for calculation of attributable
@@ -1302,21 +1310,23 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			// index = d
 			boolean[] isCuredDisease = new boolean[nDiseases];
 			Arrays.fill(isCuredDisease, false);
-			/* prevalenceDiseaseStates gives the prevalence of each diseaseState (averaged over the
-			 * population)
+			/*
+			 * prevalenceDiseaseStates gives the prevalence of each diseaseState
+			 * (averaged over the population)
 			 */
-			double [][] prevalenceDiseaseStates= new double [this.nCluster][];
+			double[][] prevalenceDiseaseStates = new double[this.nCluster][];
 			// third loop over all persons
-			
+
 			for (int i = 0; i < nSim; i++) {
 
 				for (int c = 0; c < inputData.getNCluster(); c++) {
-					prevalenceDiseaseStates[c]=new double[(int) Math.pow(2,clusterStructure[c].getNInCluster())];
-					if (this.clusterStructure[c].isWithCuredFraction())
-					{	isCuredDisease[this.clusterStructure[c]
+					prevalenceDiseaseStates[c] = new double[(int) Math.pow(2,
+							clusterStructure[c].getNInCluster())];
+					if (this.clusterStructure[c].isWithCuredFraction()) {
+						isCuredDisease[this.clusterStructure[c]
 								.getDiseaseNumber()[0]] = true;
-					prevalenceDiseaseStates[c]=new double[3];
-					
+						prevalenceDiseaseStates[c] = new double[3];
+
 					}
 
 					// now calculate comorbidity that contains the
@@ -1329,21 +1339,25 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 							.getClusterData()[age][sex][c],
 							inputData.clusterStructure[c], relRisk[i],
 							this.baselinePrevalenceOdds[age][sex]);
-					
-					if (inputData.clusterStructure[c].getNInCluster() == 1){
-						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[0][0];
-						prevalenceDiseaseStates[c][0]+=weight[i]*(1-probComorbidity[i][c].getProb()[0][0]);
-						
+
+					if (inputData.clusterStructure[c].getNInCluster() == 1) {
+						prevalenceDiseaseStates[c][1] += weight[i]
+								* probComorbidity[i][c].getProb()[0][0];
+						prevalenceDiseaseStates[c][0] += weight[i]
+								* (1 - probComorbidity[i][c].getProb()[0][0]);
+
 					}
-					if (this.clusterStructure[c].isWithCuredFraction()){
-						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[0][0];
-						prevalenceDiseaseStates[c][1]+=weight[i]*probComorbidity[i][c].getProb()[1][1];
-						prevalenceDiseaseStates[c][0]+=weight[i]*(1-probComorbidity[i][c].getProb()[0][0]-probComorbidity[i][c].getProb()[1][1]);
-						
+					if (this.clusterStructure[c].isWithCuredFraction()) {
+						prevalenceDiseaseStates[c][1] += weight[i]
+								* probComorbidity[i][c].getProb()[0][0];
+						prevalenceDiseaseStates[c][1] += weight[i]
+								* probComorbidity[i][c].getProb()[1][1];
+						prevalenceDiseaseStates[c][0] += weight[i]
+								* (1 - probComorbidity[i][c].getProb()[0][0] - probComorbidity[i][c]
+										.getProb()[1][1]);
+
 					}
-						
-						
-						
+
 					// extract the probDisease for the dependent diseases
 					if (inputData.clusterStructure[c].getNInCluster() > 1) {
 						for (int dd = 0; dd < inputData.clusterStructure[c]
@@ -1430,8 +1444,8 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 									sumRRinHealth[d] += weight[i] * probCombi
 											* RRcombi;
 								;
-								
-								prevalenceDiseaseStates[c][combi]+=probCombi;
+
+								prevalenceDiseaseStates[c][combi] += probCombi;
 							}
 						}
 						;
@@ -1738,50 +1752,58 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		// make design matrix for regression (including dummy variables
 		// for
 		// each risk class)
-		
-		/* in case there are zero prevalences, this point should be excluded
-		 * the indexDat translate the indexes of the regression data to the original classes
+
+		/*
+		 * in case there are zero prevalences, this point should be excluded the
+		 * indexDat translate the indexes of the regression data to the original
+		 * classes
 		 */
 
 		double[][] xMatrix = new double[nSim][2];
-		 double[] wVector=weight;
+		double[] wVector = weight;
 		/* count number of valid categories */
-		int nValidCategories=0;
-		int [] indexForCategories=new int [nRiskCat];
-		for (int i = 0; i < nRiskCat; i++){
-			indexForCategories[nValidCategories]=i;
-			if( inputData.getPrevRisk()[age][sex][i]>0) nValidCategories++;
-			
-			;}
-			/* count number of valid rows */
-			int nValidRows=0;
-			int [] indexForRows=new int [nSim];
+		int nValidCategories = 0;
+		int[] indexForCategories = new int[nRiskCat];
+		for (int i = 0; i < nRiskCat; i++) {
+			indexForCategories[nValidCategories] = i;
+			if (inputData.getPrevRisk()[age][sex][i] > 0)
+				nValidCategories++;
+
+			;
+		}
+		/* count number of valid rows */
+		int nValidRows = 0;
+		int[] indexForRows = new int[nSim];
 		for (int i = 0; i < nSim; i++) {
-			indexForRows[nValidRows]=i;
-			if (weight[i]>0)  nValidRows++;
+			indexForRows[nValidRows] = i;
+			if (weight[i] > 0)
+				nValidRows++;
 		}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
-		    wVector = new double[nValidRows];
+		wVector = new double[nValidRows];
 		// fourth loop over all persons i: fill the design matrix
-        int nrow=0;
+		int nrow = 0;
 		for (int i = 0; i < nSim; i++) {
-            
+
 			// add intercept
-			
+
 			// add dummies except for the first class = reference
 			// category
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
-				if (weight[i]>0) {xMatrix[nrow][0] = 1.0;
-				wVector[nrow]=weight[i];
-				for (int rc = 1; rc < nValidCategories; rc++) {
-					if (riskclass[indexForCategories[i]] == rc)
-						xMatrix[nrow][rc] = 1.0;
-					else
-						xMatrix[nrow][rc] = 0.0;
-					
-				} nrow++;
-			}}
+				if (weight[i] > 0) {
+					xMatrix[nrow][0] = 1.0;
+					wVector[nrow] = weight[i];
+					for (int rc = 1; rc < nValidCategories; rc++) {
+						if (riskclass[indexForCategories[i]] == rc)
+							xMatrix[nrow][rc] = 1.0;
+						else
+							xMatrix[nrow][rc] = 0.0;
+
+					}
+					nrow++;
+				}
+			}
 			;
 			// add continuous risk factor only for type=2
 			// for type=3 the compound part is dealt with separately
@@ -1789,7 +1811,7 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			if (inputData.getRiskType() == 2) {
 				xMatrix[i][xMatrix[i].length - 1] = riskfactor[i]
 						- inputData.getRefClassCont();
-				
+
 			}
 			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
 			for (int d = 0; d < nDiseases; d++) {
@@ -1810,22 +1832,22 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				nNegativeOtherMort += weight[i];
 			}
 		}
-		double [] yValue=logOtherMort;
-        if (nValidRows <nSim){
-        	yValue=new double [nValidRows];
-        	for (int i=0;i<nValidRows;i++)
-        		yValue[i]=logOtherMort[indexForRows[i]];
-        
-        }
+		double[] yValue = logOtherMort;
+		if (nValidRows < nSim) {
+			yValue = new double[nValidRows];
+			for (int i = 0; i < nValidRows; i++)
+				yValue[i] = logOtherMort[indexForRows[i]];
+
+		}
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
-		if (nNegativeOtherMort > 0.1) {
-			
+		if (nNegativeOtherMort > 0.1 && inputData.isWithRRForMortality()) {
+
 			displayWarningMessage("negative other mortality  in  "
 					+ (nNegativeOtherMort * 100) + " % of simulated cases");
 		}
-		if (nNegativeOtherMort > 0.3)
+		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
 			throw new DynamoInconsistentDataException(
 					"Other mortality becomes negative in"
 							+ " more than 30% ( "
@@ -1833,8 +1855,16 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 							+ " %) of cases. The amount of disease specific mortality given to the model"
 							+ " exceeds the overall mortality given to the model.  Please lower excess mortality rates or"
 							+ " case fatality rates or disease prevalence rates, or increase total mortality rates");
+		
+		if (sumOtherMort<0)
+			throw new DynamoInconsistentDataException(
+					"Attributable Mortality from diseases exceeds the overall mortality. "
+							+ "  Please lower excess mortality rates or"
+							+ " case fatality rates or disease prevalence rates, or increase total mortality rates");
+		
 		// carry out the regression of log other mortality on the risk
 		// factors;
+		if (inputData.isWithRRForMortality()){
 		try {
 			beta = weightedRegression(yValue, xMatrix, wVector);
 		} catch (Exception e) {
@@ -1845,11 +1875,12 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 							+ " for age is " + age + "and sex is " + sex);
 			throw new RuntimeException(e.getMessage());
 		}
-		if (age == 0 && sex == 0 && beta.length>1)
+		if (age == 0 && sex == 0 && beta.length > 1)
 			this.log.debug(" beta 0 and 1 :" + beta[0] + beta[1]);
 		// calculate relative risks from the regression coefficients
 
-		// first class has relative risk of 1; also default value for all other categories
+		// first class has relative risk of 1; also default value for all other
+		// categories
 		Arrays.fill(this.relRiskOtherMort[age][sex], 1);
 
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
@@ -1859,7 +1890,8 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			// class
 			// //
 			{
-				this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) Math.exp(beta[j]);
+				this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) Math
+						.exp(beta[j]);
 				// in case of duration class set rr to 1;
 				if (inputData.getRiskType() == 3
 						&& inputData.getIndexDuurClass() == j)
@@ -1924,6 +1956,12 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 			this.relRiskOtherMortEnd[age][sex] = (float) beta[1];
 			this.alfaOtherMort[age][sex] = (float) beta[2];
 
+		}} else /* if not rr for other mortality present */
+		{   Arrays.fill(this.relRiskOtherMort[age][sex], 1);
+			this.relRiskOtherMortCont[age][sex] = 1;
+			this.relRiskOtherMortBegin[age][sex]=1;
+			this.relRiskOtherMortEnd[age][sex] =1;
+			this.alfaOtherMort[age][sex] =1; // does not really matter
 		}
 
 		if (age == 0 && sex == 0)
@@ -2470,21 +2508,17 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 		return notCuredPrev;
 	}
 
-	
-	
 	/**
 	 * @param e
 	 */
 	private void displayWarningMessage(String message) {
 		Shell shell = new Shell(this.parentShell);
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
-		messageBox
-				.setMessage(
-						 message
-						);
+		messageBox.setMessage(message);
 		messageBox.open();
-		
+
 	}
+
 	/**
 	 * @return riskType (1=categorical, 2=continuous, 3=compound
 	 */
