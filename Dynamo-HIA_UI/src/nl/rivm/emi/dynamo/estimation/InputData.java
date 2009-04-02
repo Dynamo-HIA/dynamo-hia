@@ -56,11 +56,11 @@ public class InputData {
 	private float[][] offsetDrift = new float[96][2];
 	*/
 	private float[][][][] transitionMatrix = new float[96][2][][];
-    private boolean withRRForMortality=true;
-    private boolean withRRForDisability=true;
+    private boolean withRRForMortality=false;
+    private boolean withRRForDisability=false;
     private float [][] overallDalyWeight = new float [92][2];
-	private float [][][] ORforDisabilityCat =   new float [92][2][];
-	private float [][] ORforDisabilityCont =   new float [92][2];
+	private float [][][] RRforDisabilityCat =   new float [92][2][];
+	private float [][] RRforDisabilityCont =   new float [92][2];
 	
 	//TODO: filling the disability arrays
 	
@@ -767,17 +767,17 @@ return returnarray;
 	public void setWithRRForDisability(boolean withRRForDisability) {
 		this.withRRForDisability = withRRForDisability;
 	}
-	public float[][][] getORforDisabilityCat() {
-		return ORforDisabilityCat;
+	public float[][][] getRRforDisabilityCat() {
+		return RRforDisabilityCat;
 	}
-	public void setORforDisabilityCat(float[][][] rforDisabilityCat) {
-		ORforDisabilityCat = rforDisabilityCat;
+	public void setRRforDisabilityCat(float[][][] rforDisabilityCat) {
+		RRforDisabilityCat = rforDisabilityCat;
 	}
-	public float[][] getORforDisabilityCont() {
-		return ORforDisabilityCont;
+	public float[][] getRRforDisabilityCont() {
+		return RRforDisabilityCont;
 	}
-	public void setORforDisabilityCont(float[][] rforDisabilityCont) {
-		ORforDisabilityCont = rforDisabilityCont;
+	public void setRRforDisabilityCont(float[][] rforDisabilityCont) {
+		RRforDisabilityCont = rforDisabilityCont;
 	}
 
 	}
