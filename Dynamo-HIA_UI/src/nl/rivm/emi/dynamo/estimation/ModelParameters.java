@@ -243,7 +243,10 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
 				this.log.debug("parameters estimated for age " + a
 						+ " and gender " + g);
-				if (a > 0) {
+				
+				int anext=a+1;
+				if (a==95) anext=95;
+				
 					// TODO
 					/*
 					 * nog testen					 */
@@ -252,18 +255,18 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 															 * nett transition
 															 * rates
 															 */
-							this.transitionMatrix[a - 1][g] = NettTransitionRateFactory
+							this.transitionMatrix[a][g] = NettTransitionRateFactory
 									.makeNettTransitionRates(
-											getPrevRisk()[a - 1][g],
-											inputData.getPrevRisk()[a][g],
-											this.baselineMortality[a - 1][g],
-											inputData.getRelRiskMortCat()[a - 1][g]);
+											getPrevRisk()[a][g],
+											inputData.getPrevRisk()[anext][g],
+											this.baselineMortality[a][g],
+											inputData.getRelRiskMortCat()[a][g]);
 						} else if (inputData.getTransType() == 2)
-							this.transitionMatrix[a - 1][g] = inputData
-									.getTransitionMatrix(a - 1, g);
+							this.transitionMatrix[a][g] = inputData
+									.getTransitionMatrix(a, g);
 						else if (inputData.getTransType() == 1)
-							this.transitionMatrix[a - 1][g] = inputData
-									.getTransitionMatrix(a - 1, g);
+							this.transitionMatrix[a][g] = inputData
+									.getTransitionMatrix(a, g);
 						else if (inputData.getTransType() == 0) {
 							/*
 							 * this matrix is not really used, but implemented
@@ -277,13 +280,13 @@ public ModelParameters(String baseDir){this.globalBaseDir=baseDir;}
 									else
 										mat[r1][r2] = 0;
 								}
-							this.transitionMatrix[a - 1][g] = mat;
+							this.transitionMatrix[a][g] = mat;
 
 						}
 					}
 				}
 			}
-		}
+		
 
 		bar.setSelection(96);
 		if (inputData.getRiskType() == 2) {
