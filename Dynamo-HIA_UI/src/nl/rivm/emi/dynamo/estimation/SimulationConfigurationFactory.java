@@ -169,18 +169,20 @@ public class SimulationConfigurationFactory {
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
-						writeFinalElementToDom(rootElement, "transitionFile",
-								null);
-					} else {
 						fileName = directoryName + File.separator
-								+ "parameters" + File.separator 
-								+ "transitionrates.xml";
-						writeFinalElementToDom(rootElement, "nullTransition",
-								"1");
+						+ "parameters" + File.separator 
+						+ "transitionrates.xml";
 						writeFinalElementToDom(rootElement, "transitionFile",
 								fileName);
 						writeThreeDimArray(parameters.getTransitionMatrix(),
 								"transitionMatrix", "transitionRates", fileName);
+						
+					} else {
+						writeFinalElementToDom(rootElement, "transitionFile",
+								null);
+						writeFinalElementToDom(rootElement, "nullTransition",
+								"1");
+						
 					}
 				} else {
 					if (scenInfo.isZeroTransition(scen - 1)
