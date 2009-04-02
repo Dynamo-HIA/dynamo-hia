@@ -16,7 +16,7 @@ public class GenericComboModifyListener implements ModifyListener {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	private Set<Combo> registeredDropDowns = new HashSet<Combo>();						
-	private Map<String, Map> nestedContents = new HashMap<String, Map>();
+	private Map<Combo, Map> nestedContents = new HashMap<Combo, Map>();
 
 	public void setNestedContents(Map nestedContents) {
 		this.nestedContents = nestedContents;
@@ -38,18 +38,21 @@ public class GenericComboModifyListener implements ModifyListener {
 		
 		// Iterate through the registered drop downs of this 
 		for (Combo registerdCombo : registeredDropDowns) {
-			log.debug("registerdCombo" + registerdCombo);
+			log.debug("registerdCombo" + registerdCombo);						
 			// Clear the old contents first
 			registerdCombo.removeAll();
-			Map selectablePropertiesMap = (Map) nestedContents.get(newText);
 			
-			Set<String> keys = selectablePropertiesMap.keySet();
+			// Get the appropriate map for this Combo
+			Map<String, Map> selectableContentsMap = (Map<String, Map>) nestedContents.get(registerdCombo);
+			log.debug("selectableContentsMap" + selectableContentsMap);
+			Map<String, Map> selectablePropertiesMap = (Map<String, Map>) selectableContentsMap.get(newText);			
+			Set<String> keys = selectablePropertiesMap.keySet();						
 			int index = 0;
 			// Add the new contents
 			for (String item : keys) {
 				registerdCombo.add(item, index);
 				index ++;
-			}
+			}				
 			registerdCombo.select(0);
 		}
 	}

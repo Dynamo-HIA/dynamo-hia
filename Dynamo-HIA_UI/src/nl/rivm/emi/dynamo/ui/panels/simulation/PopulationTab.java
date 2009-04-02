@@ -65,8 +65,7 @@ public class PopulationTab  {
 		
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		item.setText("Population");
-		item.setControl(this.plotComposite);
-		
+		item.setControl(this.plotComposite);		
 	}
 	/**
 	 * 
@@ -75,4 +74,4 @@ public class PopulationTab  {
 		Control[] subcomp= this.plotComposite.getChildren();
 		this.plotComposite.redraw();		
 	}
-		}
+}

@@ -12,21 +12,11 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
-public class DiseasesTab extends TabPlatform {
+public class DiseaseTab extends NestedTab {
 	
-	private static final String DISEASES = "Diseases";
-
-	private static final String DISEASE = "Disease";
-
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	private DynamoSimulationObject modelObject;
@@ -34,24 +24,34 @@ public class DiseasesTab extends TabPlatform {
 	private HelpGroup helpGroup;
 	private BaseNode selectedNode;
 	
-	//private TabFolder tabFolder;
-	//private Composite plotComposite;
+	private TabFolder tabFolder;
+	private Composite plotComposite;
 
 	/**
 	 * @param tabfolder
 	 * @param output
 	 */
-	public DiseasesTab(TabFolder tabFolder,
+	public DiseaseTab(TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
 			HelpGroup helpGroup) {
-		super(tabFolder, DISEASES, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
+		super(tabfolder, tabName,
+				dynamoSimulationObject,
+				dataBindingContext, 
+				selectedNode,
+				helpGroup);
 	}
-
-	@Override
-	public NestedTab getNestedTab() {
-		log.debug("New disease tab is created");
-		return new DiseaseTab(this.getTabManager().getTabFolder(), DISEASE, modelObject, dataBindingContext, selectedNode, helpGroup);
+	
+	/**
+	 * Create the active contents of this tab
+	 */
+	public void makeIt(){	
+		/* TODO Add the active contents of the tab
+		DiseaseSelectionGroup diseaseSelectionGroup =
+			new DiseaseSelectionGroup(this.plotComposite,
+					selectedNode, helpGroup);*/
+										
 	}	
+	
 }
