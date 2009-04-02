@@ -35,7 +35,7 @@ public class StandardDirectoryStructureHandler {
 		}
 
 		public void process(DirectoryNode node) {
-			log.fatal("Processing: "
+			log.debug("Processing: "
 					+ node.getPhysicalStorage().getAbsolutePath());
 			for (StructureElement element : theElements) {
 				element.process(node);
@@ -148,7 +148,7 @@ public class StandardDirectoryStructureHandler {
 			public void process(DirectoryNode node) {
 				ParentNode parentNode = node.getParent();
 				if (parentNode instanceof DirectoryNode) {
-					log.fatal("Diseases check, parentName: "
+					log.debug("Diseases check, parentName: "
 							+ ((DirectoryNode) parentNode).getPhysicalStorage()
 									.getName());
 					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
@@ -166,6 +166,10 @@ public class StandardDirectoryStructureHandler {
 				Set<String> requiredNames = new LinkedHashSet<String>();
 				requiredNames.add(StandardTreeNodeLabelsEnum.PREVALENCES
 						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR
+						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
+						.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
@@ -173,7 +177,7 @@ public class StandardDirectoryStructureHandler {
 		public void process(DirectoryNode node) {
 			ParentNode parentNode = node.getParent();
 			if (parentNode instanceof DirectoryNode) {
-				log.fatal("Risk factors check, parentName: "
+				log.debug("Risk factors check, parentName: "
 						+ ((DirectoryNode) parentNode).getPhysicalStorage()
 								.getName());
 				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(

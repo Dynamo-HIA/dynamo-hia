@@ -70,29 +70,35 @@ public class ContextMenuFactory {
 						(DirectoryNode) selectedNode));
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 				.getNodeLabel(), configurationFileContextMenuEntry);
-//		ContextMenuEntry transitionDirectoryContextMenuEntry = new ContextMenuEntry(
-//				shell, "Create transition directory", new NewDirectoryAction(
-//						shell, treeViewer, (DirectoryNode) selectedNode, "transition",
-//						null));
-//		contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
-//				.getNodeLabel(), transitionDirectoryContextMenuEntry);
-//		ContextMenuEntry prevalenceFileContextMenuEntry = new ContextMenuEntry(
-//				shell, "Create prevalences configuration",
-//				new NewRiskFactorPrevalencesAction(shell, treeViewer, selectedNode));
-//		contextMenuEntries.put(StandardTreeNodeLabelsEnum.PREVALENCEFILE
-//				.getNodeLabel(), prevalenceFileContextMenuEntry);
-		ContextMenuEntry relRiskForDeathFileContextMenuEntry = new ContextMenuEntry(
-				shell, "Create relative risks for death configuration",
-				new NewRelRisksForDeathAction(shell, treeViewer, selectedNode));
-		contextMenuEntries.put(StandardTreeNodeLabelsEnum.RELRISKFORDEATHFILE
-				.getNodeLabel(), relRiskForDeathFileContextMenuEntry);
-		ContextMenuEntry relRiskForDisabilityFileContextMenuEntry = new ContextMenuEntry(
-				shell, "Create relative risks for disability configuration",
-				new NewRelRisksForDisabilityAction(shell, treeViewer, selectedNode));
-		contextMenuEntries.put(
-				StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYFILE
-						.getNodeLabel(),
-				relRiskForDisabilityFileContextMenuEntry);
+		// ContextMenuEntry transitionDirectoryContextMenuEntry = new
+		// ContextMenuEntry(
+		// shell, "Create transition directory", new NewDirectoryAction(
+		// shell, treeViewer, (DirectoryNode) selectedNode, "transition",
+		// null));
+		// contextMenuEntries.put(StandardTreeNodeLabelsEnum.TRANSITION
+		// .getNodeLabel(), transitionDirectoryContextMenuEntry);
+		// ContextMenuEntry prevalenceFileContextMenuEntry = new
+		// ContextMenuEntry(
+		// shell, "Create prevalences configuration",
+		// new NewRiskFactorPrevalencesAction(shell, treeViewer, selectedNode));
+		// contextMenuEntries.put(StandardTreeNodeLabelsEnum.PREVALENCEFILE
+		// .getNodeLabel(), prevalenceFileContextMenuEntry);
+		
+		// 20090402 Changed from single files to multiple files in a directory.
+		// ContextMenuEntry relRiskForDeathFileContextMenuEntry = new
+		// ContextMenuEntry(
+		// shell, "Create relative risks for death configuration",
+		// new NewRelRisksForDeathAction(shell, treeViewer, selectedNode));
+		// contextMenuEntries.put(StandardTreeNodeLabelsEnum.RELRISKFORDEATHFILE
+		// .getNodeLabel(), relRiskForDeathFileContextMenuEntry);
+		// ContextMenuEntry relRiskForDisabilityFileContextMenuEntry = new
+		// ContextMenuEntry(
+		// shell, "Create relative risks for disability configuration",
+		// new NewRelRisksForDisabilityAction(shell, treeViewer, selectedNode));
+		// contextMenuEntries.put(
+		// StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYFILE
+		// .getNodeLabel(),
+		// relRiskForDisabilityFileContextMenuEntry);
 		return contextMenuEntries;
 	}
 

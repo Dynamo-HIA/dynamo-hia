@@ -15,12 +15,15 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorStringConstantsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,40 +39,43 @@ import org.eclipse.swt.widgets.Shell;
 
 public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
+	RiskFactorStringConstantsEnum communicationEnum;
 
 	public FreeName4RiskFactorXMLFileAction(Shell shell, TreeViewer v,
-			BaseNode node, String rootElementName) {
-		super(shell, v, node, "riskfactor prevalences file");
-	}	
-	
+			BaseNode node, RiskFactorStringConstantsEnum communicationEnum) {
+		super(shell, v, node, communicationEnum.getMyPR());
+		this.communicationEnum = communicationEnum;
+	}
+
 	@Override
 	public void run() {
 		try {
 			if (node instanceof DirectoryNode) {
 				String selectionPath = node.getPhysicalStorage()
-				.getAbsolutePath();
+						.getAbsolutePath();
 				String rootElementName = ConfigurationFileUtil
 						.extractRootElementNameFromSiblingConfiguration(node);
 				log.debug("Creating prevalences file for rootelement: "
 						+ rootElementName);
-				
+
 				/**
 				 * 
 				 * TODO: REMOVE FOR VERSION 1.1
 				 * 
-				 * This condition is created to filter out 
-				 * RootElementNamesEnum.RISKFACTOR_COMPOUND and 
-				 * RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-				 * in version 1.0
+				 * This condition is created to filter out
+				 * RootElementNamesEnum.RISKFACTOR_COMPOUND and
+				 * RootElementNamesEnum.RISKFACTOR_CONTINUOUS in version 1.0
 				 * 
 				 */
-				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-						.getNodeLabel().equals(rootElementName)) {					
-					// Call the input trialog modal here (trialog includes input field,
+				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
+						.equals(rootElementName)) {
+					// Call the input trialog modal here (trialog includes input
+					// field,
 					// import, ok and cancel buttons)
 					ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
-							shell, "Create file in the selected directory: " + selectionPath,
-							"Enter name for new " + abstractName, "Name", null);										
+							shell, "Create file in the selected directory: "
+									+ selectionPath, "Enter name for new "
+									+ abstractName, "Name", null);
 					inputDialog.open();
 					int returnCode = inputDialog.getReturnCode();
 					log.fatal("ReturnCode is: " + returnCode);
@@ -78,7 +84,8 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						String candidatePath = selectionPath + File.separator
 								+ candidateName + ".xml";
 						File candidateFile = new File(candidatePath);
-						if (candidateFile != null && !candidateFile.getName().isEmpty()) {
+						if (candidateFile != null
+								&& !candidateFile.getName().isEmpty()) {
 							if (candidateFile.exists()) {
 								MessageBox alreadyExistsMessageBox = new MessageBox(
 										shell, SWT.ERROR_ITEM_NOT_ADDED);
@@ -96,10 +103,9 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 									dataFile = this.getImportFile();
 								} else {
 									dataFile = savedFile;
-								}								
-								
-								processThroughModal(dataFile, 
-										savedFile, rootElementName);
+								}
+								processThroughModal(dataFile, savedFile,
+										rootElementName);
 							}
 						}
 					}
@@ -130,7 +136,8 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File dataFile, File savedFile, String rootElementName) {
+	private void processThroughModal(File dataFile, File savedFile,
+			String rootElementName) {
 		try {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
@@ -142,12 +149,41 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(rootElementName)) {
-					theModal = new RiskFactorCategoricalPrevalencesModal(
-							shell,
-							dataFile.getAbsolutePath(),
-							savedFile.getAbsolutePath(),
-							RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
-									.getNodeLabel(), node);
+					if (communicationEnum
+							.equals(RiskFactorStringConstantsEnum.RISKFACTORPREVALENCES)) {
+						theModal = new RiskFactorCategoricalPrevalencesModal(
+								shell,
+								dataFile.getAbsolutePath(),
+								savedFile.getAbsolutePath(),
+								RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+										.getNodeLabel(), node);
+					} else {
+						if (communicationEnum
+								.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDEATH)) {
+							theModal = new RelRiskForDeathCategoricalModal(
+									shell,
+									dataFile.getAbsolutePath(),
+									savedFile.getAbsolutePath(),
+									RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
+											.getNodeLabel(), node);
+						} else {
+							if (communicationEnum
+									.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY)) {
+								theModal = new RelRiskForDisabilityCategoricalModal(
+										shell,
+										dataFile.getAbsolutePath(),
+										savedFile.getAbsolutePath(),
+										RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+												.getNodeLabel(), node);
+							} else {
+								MessageBox messageBox = new MessageBox(shell,
+										SWT.ERROR_UNSUPPORTED_FORMAT);
+								messageBox.setMessage("\"" + rootElementName
+										+ "\" not supported.");
+								messageBox.open();
+							}
+						}
+					}
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(rootElementName)) {
@@ -202,5 +238,5 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 		return new File(fileDialog.getFilterPath() + File.separator
 				+ fileDialog.getFileName());
 	}
-	
+
 }

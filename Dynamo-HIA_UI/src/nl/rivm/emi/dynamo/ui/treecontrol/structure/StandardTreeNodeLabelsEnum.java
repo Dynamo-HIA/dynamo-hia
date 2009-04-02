@@ -25,6 +25,10 @@ public enum StandardTreeNodeLabelsEnum {
 	SIMULATIONS("Simulations"), //
 	REFERENCEDATA("Reference_Data"), //
 	POPULATIONS("Populations"), //
+	POPULATIONSIZEFILE("size"), //
+	POPULATIONOVERALLMORTALITYFILE("overallmortality"), //
+	POPULATIONNEWBORNSFILE("newborns"), //
+	POPULATIONOVERALLDALYWEIGHTSFILE("overalldalyweights"), //
 	RISKFACTORS("Risk_Factors"), //
 	DISEASES("Diseases"), //
 	PREVALENCES("Prevalences"), //
@@ -40,8 +44,10 @@ public enum StandardTreeNodeLabelsEnum {
 	TRANSITION("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
 	DURATIONDISTRIBUTIONFILE("durationdistribution"), //
-	RELRISKFORDEATHFILE("relriskfordeath"), //
-	RELRISKFORDISABILITYFILE("relriskfordisability") //
+// 20090402 Not used anymore	RELRISKFORDEATHFILE("relriskfordeath"), //
+	RELRISKFORDEATHDIR("Relative_Risks_For_Death"), //
+// 20090402 RELRISKFORDISABILITYFILE("relriskfordisability"), //
+	RELRISKFORDISABILITYDIR("Relative_Risks_For_Disability") //
 	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
