@@ -437,10 +437,10 @@ public class NettTransitionRateFactory {
         
 		double survtot = 0;
 		for (int i = 0; i < nCat; i++) {
-			survtot += (1.0 - baselineMort * RR[i]) * oldPrev[i];
+			survtot += Math.exp( - baselineMort * RR[i]) * oldPrev[i];
 		}
 		for (int i = 0; i < nCat; i++) {
-			oldPrev[i] = (float) ((1.0 - baselineMort * RR[i]) * oldPrev[i] / survtot);
+			oldPrev[i] = (float) ( Math.exp( - baselineMort * RR[i]) * oldPrev[i] / survtot);
 		}
 
 		int numEq = 2 * nCat + 1; // numEq=number of equations
