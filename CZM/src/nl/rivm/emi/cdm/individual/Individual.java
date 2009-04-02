@@ -43,22 +43,12 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		this.randomNumberGeneratorSeed = randomNumberGeneratorSeed;
 	}
 
-	/* hendriek has added newborn and the generation of the newborn 
-	 * as fields and as part of a new constructor */
-	/* standard this is set to the value false and 0, and then everything acts like before */	
-		private boolean newborn=false;
-		private int generation=0;
-		/* generation gives the number of timesteps (thus not years) 
-		 * in which  this newborn enters the population
-		 * characteristics at timesteps before this moment are empty */
-		
-		
+	
 		public Individual(String elementName, String label, boolean isNewborn, int generation2) {
 			super();
 			this.elementName = elementName;
 			this.label = label;
-			this.newborn =isNewborn;
-			this.generation=generation2;
+			
 		}	
 	
 	
