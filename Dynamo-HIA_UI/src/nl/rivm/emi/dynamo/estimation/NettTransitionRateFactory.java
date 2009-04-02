@@ -36,15 +36,15 @@ public class NettTransitionRateFactory {
 	 * constructor for continuous variables (to calculate drift)
 	 * 
 	 * @param meanRisk :
-	 *            array with mean values of riskfactor per age
+	 *            array with mean values of riskfactor per age and sex
 	 * @param stdRisk :
 	 *            array of standard deviation of riskfactor per age
 	 * @param skewRisk :
-	 *            array of skewness of riskfactor per age
+	 *            array of skewness of riskfactor per age and sex
 	 * @param baselineMort :
-	 *            baseline all cause mortality
+	 *            baseline all cause mortality by age and sex
 	 * @param RR :
-	 *            relative risk for all cause mortality
+	 *            relative risk for all cause mortality by age and sex
 	 * 
 	 * For lognormal variables this is not very acurate: not even with 100000
 	 * simulated values per age This should be improved by some form of
@@ -57,7 +57,7 @@ public class NettTransitionRateFactory {
 	 *             in case the mean, std and skewness of lognormal distribution
 	 *             can not be recalculated into a mu, sigma and offset
 	 */
-	public float[][][] makeNettTransitionRates(float[][] meanRisk, float[][] stdRisk,
+	public  float[][][] makeNettTransitionRates(float[][] meanRisk, float[][] stdRisk,
 			float[][] skewRisk,float[][] baselineMort, float[][] RR, float refCat)
 			{
 		int nAgeGroups = meanRisk.length;
