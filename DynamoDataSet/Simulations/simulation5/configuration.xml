@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation>
-	<newborns>no</newborns>
+	<hasnewborns>no</hasnewborns>
 	<startingYear>2008</startingYear>
 	<numberOfYears>10</numberOfYears>
 	<simPopSize>2</simPopSize>
@@ -12,7 +12,8 @@
 	<popFileName>population1</popFileName>
 	<scenarios>
 		<scenario>
-			<name>scenario 1</name>
+		
+			<uniquename>scenario 1</uniquename>
 			<successRate>100</successRate>
 			<targetMinAge>0</targetMinAge>
 			<targetMaxAge>95</targetMaxAge>
@@ -21,7 +22,7 @@
 			<prevfilename>prevalence</prevfilename>
 		</scenario>
 		<scenario>
-			<name>scenario 2</name>
+			<uniquename>scenario 2</uniquename>
 			<successRate>50</successRate>
 			<targetMinAge>0</targetMinAge>
 			<targetMaxAge>95</targetMaxAge>
@@ -32,14 +33,14 @@
 	</scenarios>
 	<diseases>
 		<disease>
-			<name>disease1</name>
+			<uniquename>disease1</uniquename>
 			<prevfilename>prevalence1</prevfilename>
 			<incfilename>incidence1</incfilename>
 			<excessmortfilename>excessmortality1</excessmortfilename>
 			<dalyweightsfilename>Dalyweights1</dalyweightsfilename>
 		</disease>
 		<disease>
-			<name>disease2</name>
+			<uniquename>disease2</uniquename>
 			<prevfilename>prevalence2</prevfilename>
 			<incfilename>incidence2</incfilename>
 			<excessmortfilename>excessmortality2</excessmortfilename>
@@ -47,22 +48,26 @@
 		</disease>
 		
 	</diseases>
+	<riskfactors>
 	<riskfactor>
-		<name>riskfactor1</name>
-		<riskfactortransfilename>transition1</riskfactortransfilename>
+		<uniquename>riskfactor1</uniquename>
+		<transfilename>transition1</transfilename>
+		<prevfilename>prev_scen1</prevfilename>
 	</riskfactor>
+	</riskfactors>
 	<RRs>
-		<RR>
+		<RR><RRindex>1</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease1</isRRto>
 			<isRRFile>relrisk1</isRRFile>
 		</RR>
-		<RR>
+		<RR><RRindex>2</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease2</isRRto>
 			<isRRFile>relrisk2</isRRFile>
 		</RR>
                  <RR>
+                 <RRindex>3</RRindex>
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
 			<isRRFile>relrisk</isRRFile>

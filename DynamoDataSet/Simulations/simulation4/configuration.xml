@@ -3,7 +3,7 @@
 	<newborns>no</newborns>
 	<startingYear>2008</startingYear>
 	<numberOfYears>10</numberOfYears>
-	<simPopSize>2</simPopSize>
+	<simPopSize>50</simPopSize>
 	<minAge>0</minAge>
 	<maxAge>95</maxAge>
 	<timeStep>1</timeStep>
@@ -49,7 +49,7 @@
 	</diseases>
 	<riskfactor>
 		<name>riskfactor1</name>
-		<riskfactortransfilename>transition1</riskfactortransfilename>
+		<riskfactortransfilename>transition2</riskfactortransfilename>
 	</riskfactor>
 	<RRs>
 		<RR>
