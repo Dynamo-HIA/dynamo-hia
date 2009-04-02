@@ -1028,7 +1028,7 @@ public class ArraysFromXMLFactory {
 				configurationFromFile.clear();
 				
 				// Validate the xml by xsd schema
-				configurationFromFile.setValidating(true);			
+			//TODO: weer terugzetten	configurationFromFile.setValidating(true);			
 				configurationFromFile.load();
 			}
 			

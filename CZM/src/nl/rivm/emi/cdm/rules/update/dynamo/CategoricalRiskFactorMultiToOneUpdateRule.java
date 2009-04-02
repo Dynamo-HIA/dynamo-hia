@@ -202,6 +202,11 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 		}		
 	}
 			
+		/**
+		 * @param inputFile
+		 * @return
+		 * @throws CDMConfigurationException
+		 */
 		public float[][][][] loadTransitionMatrix(String inputFile) throws CDMConfigurationException {
 		
 					float [][][][] transmat = new float[96][2][nCat][nCat];
