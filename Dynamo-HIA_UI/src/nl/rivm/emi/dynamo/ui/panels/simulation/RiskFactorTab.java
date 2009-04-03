@@ -68,7 +68,7 @@ public class RiskFactorTab  {
 			new RiskFactorResultGroup(this.plotComposite,
 					selectedNode, helpGroup,
 					riskFactorSelectionGroup.group,
-					riskFactorSelectionGroup.getRiskDropDownModifyListener());
+					riskFactorSelectionGroup.getDropDownModifyListener());
 
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		item.setText("Risk Factor");

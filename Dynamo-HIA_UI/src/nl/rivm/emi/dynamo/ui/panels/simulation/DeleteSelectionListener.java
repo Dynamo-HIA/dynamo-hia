@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.TabItem;
 
 public class DeleteSelectionListener extends AbstractLoggingClass 
 	implements SelectionListener {
@@ -22,14 +23,9 @@ public class DeleteSelectionListener extends AbstractLoggingClass
 	}
 
 	@Override
-	public void widgetSelected(SelectionEvent arg0) {
-		// TODO FIRST SELECT THE NESTED TAB NUMBER THAT YOU WENT 
-		// TO REMOVE
-		// TEST: remove the last tab every time		
-		
-		// TODO Auto-generated method stub
-		this.tabPlatform.getTabManager().
-		deleteNestedTab(this.tabPlatform.getTabManager().getNumberOfTabs());
+	public void widgetSelected(SelectionEvent arg0) {		
+		// Remove the selected tab
+		this.tabPlatform.getTabManager().deleteNestedTab();
 	}
 
 }

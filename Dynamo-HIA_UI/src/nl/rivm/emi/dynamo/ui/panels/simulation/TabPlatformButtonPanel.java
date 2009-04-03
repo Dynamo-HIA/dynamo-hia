@@ -24,10 +24,10 @@ public class TabPlatformButtonPanel extends Composite {
 	 * 
 	 * @param parent
 	 */
-	public TabPlatformButtonPanel(Composite parent) {
+	public TabPlatformButtonPanel(Composite parent, Composite topNeighbour) {
 		super(parent, SWT.NONE);
 		setSize(100, 35);
-		setFormData();
+		setFormData(topNeighbour);
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		this.createButton = putCreateButton(this);
@@ -35,11 +35,12 @@ public class TabPlatformButtonPanel extends Composite {
 		pack();
 	}
 
-	private void setFormData() {
+	private void setFormData(Composite topNeighbour) {
 		FormData formData = new FormData();
+		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(100, -5);
+		//formData.bottom = new FormAttachment(100, -5);
 		setLayoutData(formData);
 	}
 
@@ -59,6 +60,7 @@ public class TabPlatformButtonPanel extends Composite {
 		Button createButton = new Button(parent, SWT.PUSH);
 		createButton.setText("create");
 		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		createButton.setLayoutData(formData);
@@ -80,6 +82,7 @@ public class TabPlatformButtonPanel extends Composite {
 		Button deleteButton = new Button(composite, SWT.PUSH);
 		deleteButton.setText("delete");			
 		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(leftNeighbour, 15);
 		formData.bottom = new FormAttachment(100, -5);
 		deleteButton.setLayoutData(formData);

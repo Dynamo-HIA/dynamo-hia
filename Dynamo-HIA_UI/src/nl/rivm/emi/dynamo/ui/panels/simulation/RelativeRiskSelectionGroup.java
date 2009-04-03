@@ -17,27 +17,29 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
-public class RiskFactorSelectionGroup {
+public class RelativeRiskSelectionGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private static final String RISK_FACTOR = "Risk Factor";
+	private static final String FROM = "From";
+	private static final String TO = "To";
 	protected Group group;
 	Composite plotComposite;
 	GenericComboModifyListener dropDownModifyListener;
 
-	public RiskFactorSelectionGroup(Composite plotComposite,
+	public RelativeRiskSelectionGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup) {
 		this.plotComposite = plotComposite;
-		log.debug("RiskFactorSelectionGroup::this.plotComposite: " + plotComposite);
-		group = new Group(plotComposite, SWT.NONE);
+		log.debug("relativeRiskFactorSelectionGroup::this.plotComposite: " + plotComposite);
+		group = new Group(plotComposite, SWT.FILL);
+		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
+		gridLayout.marginHeight = -3;
 		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
-		
-		log.debug("RiskFactorSelectionGroup" + group);
+		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		log.debug("relativeRiskFactorSelectionGroup" + group);
 		
 		createDropDownArea();
 	}
@@ -45,31 +47,40 @@ public class RiskFactorSelectionGroup {
 	private void createDropDownArea() {
 				
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 5);
+		formData.top = new FormAttachment(0, -5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(27, -5);
-		group.setLayoutData(formData);	
+		formData.bottom = new FormAttachment(44, 0);
+		group.setLayoutData(formData);			
 		
 		// TODO: Replace with real content
 		Map contentsMap = new LinkedHashMap();
 		contentsMap.put("BMI1", "BMI1");
 		contentsMap.put("BMI2", "BMI2");
 		contentsMap.put("BMI3", "BMI3");
-		GenericDropDownPanel riskDropDownPanel = 
-			createDropDown(RISK_FACTOR, contentsMap);
+		GenericDropDownPanel fromDropDownPanel = 
+			createDropDown(FROM, contentsMap);
 		this.dropDownModifyListener =
-			riskDropDownPanel.getGenericComboModifyListener();		
+			fromDropDownPanel.getGenericComboModifyListener();
+		
+		
+		// TODO: Replace with real content
+		GenericDropDownPanel toDropDownPanel = 
+			createDropDown(TO, contentsMap);
+		this.dropDownModifyListener =
+			toDropDownPanel.getGenericComboModifyListener();
+		
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
-		RiskFactorDataAction updateRiskFactorDataAction = 
-			new RiskFactorDataAction();
+		RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = 
+			new RelativeRiskFactorDataAction();
 		return new GenericDropDownPanel(group, label,
-				selectablePropertiesMap, updateRiskFactorDataAction);		
+				selectablePropertiesMap, updateRelativeRiskFactorDataAction);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {
+		// TODO Replace with getXXXXDropDownPanel to ask for the listener (not directly!!!)
 		return this.dropDownModifyListener;
 	}
 }

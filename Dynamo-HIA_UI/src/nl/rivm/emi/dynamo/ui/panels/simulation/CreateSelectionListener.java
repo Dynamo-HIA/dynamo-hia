@@ -25,7 +25,7 @@ public class CreateSelectionListener extends AbstractLoggingClass
 	public void widgetSelected(SelectionEvent arg0) {
 		// TODO Auto-generated method stub
 		this.tabPlatform.getTabManager().
-			createNestedTab(this.tabPlatform.getNestedTab());
+			createNestedTab();
 	}
 
 }

@@ -55,15 +55,19 @@ public class DynamoTabsDataPanel {
 				dataBindingContext, selectedNode, theHelpGroup);
 		final DiseasesTab tab2 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
+		final RelativeRisksTab tab3 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, theHelpGroup);		
 		
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
                 TabItem item = (TabItem) event.item;
 	            String tabId=item.getText();
 			    
+	            if (tabId=="Risk Factor") tab0.redraw();
 			    if (tabId=="Population") tab1.redraw();
 			    if (tabId=="Diseases") tab2.redraw();
-			    if (tabId=="Risk Factor") tab0.redraw();
+			    if (tabId=="Relative Risks") tab3.redraw();
+			    
         }
 
 	    });

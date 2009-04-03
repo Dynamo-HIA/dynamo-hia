@@ -1,13 +1,16 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 
 /**
@@ -23,11 +26,11 @@ import org.eclipse.swt.widgets.TabFolder;
 public abstract class TabPlatform extends Tab {
 
 	protected DynamoSimulationObject dynamoSimulationObject;
-	private Composite myParent = null;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
 	private BaseNode selectedNode;
 	protected TabManager tabManager;
+	private Composite tabFolder;
 	
 	public TabPlatform(TabFolder tabFolder, String tabName, 
 			BaseNode selectedNode,
@@ -35,14 +38,11 @@ public abstract class TabPlatform extends Tab {
 			DataBindingContext dataBindingContext,			
 			HelpGroup helpGroup) {
 		super(tabFolder, tabName);
-		this.myParent = tabFolder;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
 		this.selectedNode = selectedNode;
-		
-		// TODO: Create a Singleton here, there can be only one
-		this.tabManager = new TabManager(this.plotComposite, selectedNode, this.dynamoSimulationObject, dataBindingContext, this.theHelpGroup);
+
 	}
 
 	/**
@@ -50,12 +50,14 @@ public abstract class TabPlatform extends Tab {
 	 */
 	public void makeIt(){			
 		// Create the tabManager, it handles the subtabs
-		// TODO: add this.tabFolder???
-		
+		// TODO: Create a Singleton here, there can be only one
+		this.tabManager = 
+			new TabManager(plotComposite, selectedNode, this.dynamoSimulationObject, dataBindingContext, this.theHelpGroup, this);		
+
 		// Create the create and delete buttons and their listeners:
 		// add the tabManager methods		
 		TabPlatformButtonPanel buttonPanel 
-			= new TabPlatformButtonPanel(this.plotComposite);
+			= new TabPlatformButtonPanel(plotComposite, this.tabManager.getTabFolder());
 		((TabPlatformButtonPanel) buttonPanel)
 			.setSelectionListeners((TabPlatform) this);
 	}	
@@ -66,5 +68,5 @@ public abstract class TabPlatform extends Tab {
 
 	public abstract NestedTab getNestedTab();
 
-	
+	public abstract String getNestedTabPrefix();	
 }

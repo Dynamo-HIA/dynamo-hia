@@ -14,9 +14,9 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.TabFolder;
 
-public class DiseaseTab extends NestedTab {
+public class RelativeRiskTab extends NestedTab {
 	
-	private Log log = LogFactory.getLog("DiseaseTab");
+	private Log log = LogFactory.getLog("RelativeRiskTab");
 	
 	private DynamoSimulationObject modelObject;
 	private DataBindingContext dataBindingContext = null;
@@ -29,7 +29,7 @@ public class DiseaseTab extends NestedTab {
 	 * @param tabfolder
 	 * @param output
 	 */
-	public DiseaseTab(TabFolder tabfolder, String tabName,
+	public RelativeRiskTab(TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
@@ -46,14 +46,14 @@ public class DiseaseTab extends NestedTab {
 	 */	
 	@Override
 	public void makeIt(){		
-		DiseaseSelectionGroup diseaseSelectionGroup =
-			new DiseaseSelectionGroup(this.plotComposite,
+		RelativeRiskSelectionGroup relativeRiskSelectionGroup =
+			new RelativeRiskSelectionGroup(this.plotComposite,
 					selectedNode, helpGroup);
 		
-		DiseaseResultGroup DiseaseResultGroup =
-			new DiseaseResultGroup(this.plotComposite,
+		RelativeRiskResultGroup RelativeRiskResultGroup =
+			new RelativeRiskResultGroup(this.plotComposite,
 					selectedNode, helpGroup,
-					diseaseSelectionGroup.group,
-					diseaseSelectionGroup.getDropDownModifyListener());
+					relativeRiskSelectionGroup.group,
+					relativeRiskSelectionGroup.getDropDownModifyListener());
 	}	
 }

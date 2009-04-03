@@ -46,6 +46,7 @@ public class GenericDropDownPanel  {
 		dropDown = new Combo(group, SWT.DROP_DOWN);
 		GridData dropLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		dropLayoutData.horizontalSpan = 2;
+		//dropLayoutData.marginHeight = 0;
 		dropDown.setLayoutData(dropLayoutData);
 		Set<String> keys = this.selectablePropertiesMap.keySet();
 		int index = 0;
@@ -97,15 +98,6 @@ public class GenericDropDownPanel  {
 		} else {
 			dropDown.select(count);
 		}
-	}
-
-	public void handleNextInContainer(Group topNeighbour, int height) {
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 5);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(0, 15 + height);
-		group.setLayoutData(formData);		
 	}
 	
 	public GenericComboModifyListener getGenericComboModifyListener() {

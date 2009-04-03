@@ -21,12 +21,12 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-public class DiseasesTab extends TabPlatform {
+public class RelativeRisksTab extends TabPlatform {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private static final String DISEASES = "Diseases";
-	private static final String DISEASE = "Disease";
+	private static final String RELATIVE_RISKS = "Relative Risks";
+	private static final String RELATIVE_RISK = "Relative Risk";
 	
 	private DynamoSimulationObject modelObject;
 	private DataBindingContext dataBindingContext = null;
@@ -37,23 +37,23 @@ public class DiseasesTab extends TabPlatform {
 	 * @param tabfolder
 	 * @param output
 	 */
-	public DiseasesTab(TabFolder tabFolder,
+	public RelativeRisksTab(TabFolder tabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
 			HelpGroup helpGroup) {
-		super(tabFolder, DISEASES, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
+		super(tabFolder, RELATIVE_RISKS, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
 	}
 
 	@Override
 	public NestedTab getNestedTab() {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		return new DiseaseTab(this.getTabManager().getTabFolder(), DISEASE + newTabNumber, modelObject, dataBindingContext, selectedNode, helpGroup);
+		return new RelativeRiskTab(this.getTabManager().getTabFolder(), RELATIVE_RISK + newTabNumber, modelObject, dataBindingContext, selectedNode, helpGroup);
 	}	
 	
 	@Override
 	public String getNestedTabPrefix() {
-		return DISEASE;
+		return RELATIVE_RISK;
 	}
 	
 	
