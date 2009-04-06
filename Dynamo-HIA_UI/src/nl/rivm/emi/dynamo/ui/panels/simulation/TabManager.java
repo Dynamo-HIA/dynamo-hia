@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -58,7 +59,7 @@ public class TabManager {
 	}
 
 	// tabName is identifier for the nestedTab to be created
-	public void createNestedTab() {
+	public void createNestedTab() throws DynamoConfigurationException {
 		NestedTab nestedTab = this.platform.getNestedTab();
 		///this.platform.getNestedTab();
 		log.debug("nestedTab.getName()" + nestedTab.getName());

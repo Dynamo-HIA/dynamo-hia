@@ -14,25 +14,27 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 
-public class DiseaseResultGroup {
+public class ScenarioResultGroup {
 
 
-	private static final String DISEASE_PREVALENCE = "Disease Prevalence";
-	private static final String INCIDENCE = "Incidence";
-	private static final String EXCESS_MORTALITY = "Excess Mortality";
-	private static final String DALY_WEIGHTS = "DALY Weights";
+	private static final String RISK_FACTOR_PREVALENCE = "Risk Factor Prevalence";
+	private static final String TRANSITION = "Transition";
+	private static final String CHANGE_WITH_RESPECT_BASELINE_SIMULATION = 
+		"Change with respect to baseline simulation";
+	
 	protected Group group;
 	private Composite plotComposite;
-	private GenericComboModifyListener diseaseDropDownModifyListener;
+	private GenericComboModifyListener scenarioDropDownModifyListener;
 
-	public DiseaseResultGroup(Composite plotComposite,
+	public ScenarioResultGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup,
 			Composite topNeighbour, 
-			GenericComboModifyListener diseaseDropDownModifyListener
+			GenericComboModifyListener scenarioDropDownModifyListener
 			) {
 		this.plotComposite = plotComposite;
-		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
+		this.scenarioDropDownModifyListener = scenarioDropDownModifyListener;
 		group = new Group(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -45,11 +47,16 @@ public class DiseaseResultGroup {
 	private void createDropDownArea(Composite topNeighbour) {
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 0);
+		formData.top = new FormAttachment(topNeighbour, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(100, 0);
+		formData.bottom = new FormAttachment(78, -5);
 		group.setLayoutData(formData);
+		
+		Label label = new Label(group, SWT.LEFT);
+		label.setText(CHANGE_WITH_RESPECT_BASELINE_SIMULATION);
+		Label emptyLabel = new Label(group, SWT.RIGHT);
+		label.setText("");
 		
 		Map prevMap = new LinkedHashMap();
 		prevMap.put("Prev-BMI", "Prev-BMI");
@@ -72,11 +79,11 @@ public class DiseaseResultGroup {
 		nestedPrevContents.put("BMI2", prevMap2);
 		nestedPrevContents.put("BMI3", prevMap3);
 		
-		GenericDropDownPanel diseasePrevalenceDropDownPanel = 
-			createDropDown(DISEASE_PREVALENCE, prevMap);
-		this.diseaseDropDownModifyListener.
-			registerDropDown(diseasePrevalenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(diseasePrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
+		GenericDropDownPanel riskFactorPrevalenceDropDownPanel = 
+			createDropDown(RISK_FACTOR_PREVALENCE, prevMap);
+		this.scenarioDropDownModifyListener.
+			registerDropDown(riskFactorPrevalenceDropDownPanel.getDropDown());
+		nestedComboMapsContents.put(riskFactorPrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
 
 		Map transitionMap = new LinkedHashMap();
 		transitionMap.put("Trans-BMI", "Trans-BMI");
@@ -98,28 +105,14 @@ public class DiseaseResultGroup {
 		nestedTransitionContents.put("BMI2", transitionMap2);
 		nestedTransitionContents.put("BMI3", transitionMap3);
 
-		GenericDropDownPanel incidenceDropDownPanel = 
-			createDropDown(INCIDENCE, transitionMap);
-		this.diseaseDropDownModifyListener.
-			registerDropDown(incidenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(incidenceDropDownPanel.getDropDown(), nestedTransitionContents);
-		
-		
-		GenericDropDownPanel excessMortalityDropDownPanel = 
-			createDropDown(EXCESS_MORTALITY, transitionMap);
-		this.diseaseDropDownModifyListener.
-			registerDropDown(excessMortalityDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(excessMortalityDropDownPanel.getDropDown(), nestedTransitionContents);
-		
-		
-		GenericDropDownPanel dalyWeightsDropDownPanel = 
-			createDropDown(DALY_WEIGHTS, transitionMap);
-		this.diseaseDropDownModifyListener.
-			registerDropDown(dalyWeightsDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(dalyWeightsDropDownPanel.getDropDown(), nestedTransitionContents);
-				
+		GenericDropDownPanel transitionDropDownPanel = 
+			createDropDown(TRANSITION, transitionMap);
+		this.scenarioDropDownModifyListener.
+			registerDropDown(transitionDropDownPanel.getDropDown());
+		nestedComboMapsContents.put(transitionDropDownPanel.getDropDown(), nestedTransitionContents);
+
 		// Set the nested contents
-		this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
+		this.scenarioDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {

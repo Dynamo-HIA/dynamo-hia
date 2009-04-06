@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -19,7 +20,7 @@ public class DynamoTabsParameterGroup {
 
 	public DynamoTabsParameterGroup(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, HelpGroup helpGroup) throws DynamoConfigurationException {
 		group = new Group(parent, SWT.NONE);
 
 		FillLayout fillLayout = new FillLayout();

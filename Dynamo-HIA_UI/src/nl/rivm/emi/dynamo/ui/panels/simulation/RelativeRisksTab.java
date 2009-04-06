@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -36,17 +37,18 @@ public class RelativeRisksTab extends TabPlatform {
 	/**
 	 * @param tabfolder
 	 * @param output
+	 * @throws DynamoConfigurationException 
 	 */
 	public RelativeRisksTab(TabFolder tabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		super(tabFolder, RELATIVE_RISKS, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
 	}
 
 	@Override
-	public NestedTab getNestedTab() {
+	public NestedTab getNestedTab() throws DynamoConfigurationException {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		return new RelativeRiskTab(this.getTabManager().getTabFolder(), RELATIVE_RISK + newTabNumber, modelObject, dataBindingContext, selectedNode, helpGroup);
 	}	

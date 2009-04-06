@@ -18,21 +18,18 @@ import org.eclipse.swt.widgets.Group;
 public class RelativeRiskResultGroup {
 
 
-	private static final String DISEASE_PREVALENCE = "Disease Prevalence";
-	private static final String INCIDENCE = "Incidence";
-	private static final String EXCESS_MORTALITY = "Excess Mortality";
-	private static final String DALY_WEIGHTS = "DALY Weights";
+	private static final String RELATIVE_RISK = "Relative Risk";
 	protected Group group;
 	private Composite plotComposite;
-	private GenericComboModifyListener diseaseDropDownModifyListener;
+	private GenericComboModifyListener relativeRiskDropDownModifyListener;
 
 	public RelativeRiskResultGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup,
 			Composite topNeighbour, 
-			GenericComboModifyListener diseaseDropDownModifyListener
+			GenericComboModifyListener relativeRiskDropDownModifyListener
 			) {
 		this.plotComposite = plotComposite;
-		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
+		this.relativeRiskDropDownModifyListener = relativeRiskDropDownModifyListener;
 		group = new Group(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -51,35 +48,35 @@ public class RelativeRiskResultGroup {
 		formData.bottom = new FormAttachment(100, 0);
 		group.setLayoutData(formData);
 		
-		Map prevMap = new LinkedHashMap();
-		prevMap.put("Prev-BMI", "Prev-BMI");
-		prevMap.put("Prev-BMA", "Prev-BMA");
-		prevMap.put("Prev-BMB", "Prev-BMB");
+		Map relativeRiskMap = new LinkedHashMap();
+		relativeRiskMap.put("Prev-BMI", "Prev-BMI");
+		relativeRiskMap.put("Prev-BMA", "Prev-BMA");
+		relativeRiskMap.put("Prev-BMB", "Prev-BMB");
 		
-		Map prevMap2 = new LinkedHashMap();
-		prevMap2.put("Prev2-BMI", "Prev2-BMI");
-		prevMap2.put("Prev2-BMA", "Prev2-BMA");
-		prevMap2.put("Prev2-BMB", "Prev2-BMB");		
+		Map relativeRiskMap2 = new LinkedHashMap();
+		relativeRiskMap2.put("Prev2-BMI", "Prev2-BMI");
+		relativeRiskMap2.put("Prev2-BMA", "Prev2-BMA");
+		relativeRiskMap2.put("Prev2-BMB", "Prev2-BMB");		
 		
-		Map prevMap3 = new LinkedHashMap();
-		prevMap3.put("Prev3-BMI", "Prev3-BMI");
-		prevMap3.put("Prev3-BMA", "Prev3-BMA");
-		prevMap3.put("Prev3-BMB", "Prev3-BMB");
+		Map relativeRiskMap3 = new LinkedHashMap();
+		relativeRiskMap3.put("Prev3-BMI", "Prev3-BMI");
+		relativeRiskMap3.put("Prev3-BMA", "Prev3-BMA");
+		relativeRiskMap3.put("Prev3-BMB", "Prev3-BMB");
 		
 		Map<Combo, Map> nestedComboMapsContents = new LinkedHashMap<Combo, Map>();
-		Map<String, Map> nestedPrevContents = new LinkedHashMap<String, Map>();
-		nestedPrevContents.put("BMI1", prevMap);
-		nestedPrevContents.put("BMI2", prevMap2);
-		nestedPrevContents.put("BMI3", prevMap3);
+		Map<String, Map> nestedRelativeRiskContents = new LinkedHashMap<String, Map>();
+		nestedRelativeRiskContents.put("BMI1", relativeRiskMap);
+		nestedRelativeRiskContents.put("BMI2", relativeRiskMap2);
+		nestedRelativeRiskContents.put("BMI3", relativeRiskMap3);
 		
-		GenericDropDownPanel diseasePrevalenceDropDownPanel = 
-			createDropDown(DISEASE_PREVALENCE, prevMap);
-		this.diseaseDropDownModifyListener.
-			registerDropDown(diseasePrevalenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(diseasePrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
+		GenericDropDownPanel relativeRiskDropDownPanel = 
+			createDropDown(RELATIVE_RISK, relativeRiskMap);
+		this.relativeRiskDropDownModifyListener.
+			registerDropDown(relativeRiskDropDownPanel.getDropDown());
+		nestedComboMapsContents.put(relativeRiskDropDownPanel.getDropDown(), nestedRelativeRiskContents);
 				
 		// Set the nested contents
-		this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
+		this.relativeRiskDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {

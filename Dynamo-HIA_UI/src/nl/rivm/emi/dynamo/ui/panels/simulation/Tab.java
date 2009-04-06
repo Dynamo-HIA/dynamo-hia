@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -18,7 +20,7 @@ public abstract class Tab {
 	protected Composite plotComposite;
 	private Composite tabFolder;
 	
-	public Tab(TabFolder tabFolder, String tabName) {
+	public Tab(TabFolder tabFolder, String tabName) throws DynamoConfigurationException {
 		this.tabName = tabName;
 		this.setLayoutStyle(tabFolder);
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);	
@@ -39,7 +41,7 @@ public abstract class Tab {
 		this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));		
 	}
 
-	protected abstract void makeIt();
+	protected abstract void makeIt() throws DynamoConfigurationException;
 
 	/**
 	 * 

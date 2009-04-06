@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 public class DynamoHeaderDataPanel extends Composite {
-
+	private static final String NAME = "Name";
 	private static final String SIM_POP_SIZE = "Simulated population size";
 	private static final String RAND_SEED = "Random seed";
 	private static final String HAS_NEW_BORNS = "Newborns";
@@ -55,7 +55,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private static final String NUMBER_OF_YEARS = "Number of years";
 	private static final String MINIMUM_AGE = "Minimum age";
 	private static final String MAXIMUM_AGE = "Maximum age";
-	private static final String CALC_TIME_STEP = "Calculation time step";
+	private static final String CALC_TIME_STEP = "Calculation time step";	
 
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
@@ -84,7 +84,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		// Follow the reading order (columns first)
 		Label nameLabel = new Label(this, SWT.NONE);
 		// Get the name value from the file node (i.e. parent)
-		nameLabel.setText("Name:");
+		nameLabel.setText(NAME + ":");
 		Label nameStringLabel = new Label(this, SWT.NONE);
 		GridData ld = new GridData();
 		ld.horizontalSpan = 3;

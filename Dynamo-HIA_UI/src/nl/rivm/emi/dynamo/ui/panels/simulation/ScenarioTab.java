@@ -15,9 +15,9 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.TabFolder;
 
-public class DiseaseTab extends NestedTab {
+public class ScenarioTab extends NestedTab {
 	
-	private Log log = LogFactory.getLog("DiseaseTab");
+	private Log log = LogFactory.getLog("ScenarioTab");
 	
 	private DynamoSimulationObject modelObject;
 	private DataBindingContext dataBindingContext = null;
@@ -31,7 +31,7 @@ public class DiseaseTab extends NestedTab {
 	 * @param output
 	 * @throws DynamoConfigurationException 
 	 */
-	public DiseaseTab(TabFolder tabfolder, String tabName,
+	public ScenarioTab(TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
@@ -45,17 +45,18 @@ public class DiseaseTab extends NestedTab {
 	
 	/**
 	 * Create the active contents of this tab
+	 * @throws DynamoConfigurationException 
 	 */	
 	@Override
-	public void makeIt(){		
-		DiseaseSelectionGroup diseaseSelectionGroup =
-			new DiseaseSelectionGroup(this.plotComposite,
-					selectedNode, helpGroup);
+	public void makeIt() throws DynamoConfigurationException{		
+		ScenarioSelectionGroup scenarioSelectionGroup =
+			new ScenarioSelectionGroup(this.plotComposite,
+					modelObject, selectedNode, helpGroup);
 		
-		DiseaseResultGroup DiseaseResultGroup =
-			new DiseaseResultGroup(this.plotComposite,
+		ScenarioResultGroup ScenarioResultGroup =
+			new ScenarioResultGroup(this.plotComposite,
 					selectedNode, helpGroup,
-					diseaseSelectionGroup.group,
-					diseaseSelectionGroup.getDropDownModifyListener());
+					scenarioSelectionGroup.group,
+					scenarioSelectionGroup.getDropDownModifyListener());
 	}	
 }

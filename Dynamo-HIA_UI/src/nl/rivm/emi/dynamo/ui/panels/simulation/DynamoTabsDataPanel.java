@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -27,7 +28,7 @@ public class DynamoTabsDataPanel {
 	public DynamoTabsDataPanel(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		this.myParent = parent;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
@@ -39,9 +40,10 @@ public class DynamoTabsDataPanel {
 	
 	/**
 	 * Create the 5 tabfolders
+	 * @throws DynamoConfigurationException 
 	 * 
 	 */
-	public void makeDynamoTabsDisplay(Composite parent)  {
+	public void makeDynamoTabsDisplay(Composite parent) throws DynamoConfigurationException  {
 
 		/* tab for pyramid plots */
 		TabFolder tabFolder1 = new TabFolder(parent, SWT.FILL);
@@ -57,6 +59,9 @@ public class DynamoTabsDataPanel {
 				dataBindingContext, selectedNode, theHelpGroup);
 		final RelativeRisksTab tab3 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);		
+		final ScenariosTab tab4 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, theHelpGroup);			
+		
 		
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
@@ -67,6 +72,7 @@ public class DynamoTabsDataPanel {
 			    if (tabId=="Population") tab1.redraw();
 			    if (tabId=="Diseases") tab2.redraw();
 			    if (tabId=="Relative Risks") tab3.redraw();
+			    if (tabId=="Scenarios") tab4.redraw();
 			    
         }
 

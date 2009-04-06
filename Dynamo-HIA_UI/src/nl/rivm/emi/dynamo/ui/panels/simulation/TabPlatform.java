@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -36,7 +37,7 @@ public abstract class TabPlatform extends Tab {
 			BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		super(tabFolder, tabName);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
@@ -66,7 +67,7 @@ public abstract class TabPlatform extends Tab {
 		return this.tabManager;
 	}
 
-	public abstract NestedTab getNestedTab();
+	public abstract NestedTab getNestedTab() throws DynamoConfigurationException;
 
 	public abstract String getNestedTabPrefix();	
 }

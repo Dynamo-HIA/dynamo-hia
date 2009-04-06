@@ -19,7 +19,7 @@ public class RiskFactorResultGroup {
 
 	private static final String RISK_FACTOR_PREVALENCE = "Risk Factor Prevalence";
 	private static final String TRANSITION = "Transition";
-	private static final String REL_RISK_FOR_DEATH = "Relative Risk for death";
+	
 	protected Group group;
 	private Composite plotComposite;
 	private GenericComboModifyListener riskDropDownModifyListener;

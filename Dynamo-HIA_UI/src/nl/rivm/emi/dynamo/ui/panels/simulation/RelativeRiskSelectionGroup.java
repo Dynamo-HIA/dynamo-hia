@@ -80,7 +80,7 @@ public class RelativeRiskSelectionGroup {
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {
-		// TODO Replace with getXXXXDropDownPanel to ask for the listener (not directly!!!)
+		// TODO Replace with getXXXXDropDownPanel to ask for the corresponding listener (not directly!!!)
 		return this.dropDownModifyListener;
 	}
 }
