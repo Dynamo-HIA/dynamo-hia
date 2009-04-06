@@ -46,7 +46,7 @@ public class RiskFactorResultGroup {
 		formData.top = new FormAttachment(topNeighbour, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(78, -5);
+		formData.bottom = new FormAttachment(65, -5);
 		group.setLayoutData(formData);
 		
 		Map prevMap = new LinkedHashMap();

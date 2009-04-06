@@ -45,7 +45,7 @@ public class RelativeRiskResultGroup {
 		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(100, 0);
+		formData.bottom = new FormAttachment(67, 0);
 		group.setLayoutData(formData);
 		
 		Map relativeRiskMap = new LinkedHashMap();
