@@ -41,7 +41,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 
 	private static final String PERCENTAGE = "(%)";
 	
-	protected Group group;
+	protected Group scenarioDefGroup;
 	private Composite plotComposite;
 	private DynamoSimulationObject dynamoSimulationObject;
 	private BaseNode selectedNode;	
@@ -60,18 +60,24 @@ public class ScenarioSelectionGroup { //extends Composite {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() throws DynamoConfigurationException {
-		
+	private void createDropDownArea() throws DynamoConfigurationException {		
 		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
-		Group scenarioDefGroup = new Group(plotComposite, SWT.FILL);		
+		scenarioDefGroup = new Group(plotComposite, SWT.FILL);		
 		GridLayout scenarioGridLayout = new GridLayout();
 		scenarioGridLayout.makeColumnsEqualWidth = true;
 		scenarioGridLayout.numColumns = 6;
-		scenarioGridLayout.marginHeight = -13;
+		scenarioGridLayout.marginHeight = -5;
 		scenarioDefGroup.setLayout(scenarioGridLayout);	
 		scenarioDefGroup.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
-		log.debug("scenarioFactorSelectionGroup" + group);
-
+		log.debug("scenarioFactorSelectionGroup" + scenarioDefGroup);
+		
+		FormData scenarioFormData = new FormData();
+		scenarioFormData.top = new FormAttachment(0, 0);
+		scenarioFormData.left = new FormAttachment(0, 5);
+		scenarioFormData.right = new FormAttachment(100, -5);
+		scenarioFormData.bottom = new FormAttachment(53, 0);
+		scenarioDefGroup.setLayoutData(scenarioFormData);
+		
 		// Follow the reading order (columns first)
 		Label nameLabel = new Label(scenarioDefGroup, SWT.NONE);
 		// Get the name value from the file node (i.e. parent)
@@ -83,7 +89,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 		// Get the name value from the file node (i.e. parent)
 		////String[] entityArray = Util
 			////	.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		////nameStringLabel.setText(entityArray[1]);
+		nameStringLabel.setText("BMI scen1");
 		
 		Label successRateLabel = new Label(scenarioDefGroup, SWT.NONE);
 		successRateLabel.setText(SUCCESS_RATE + ":");
@@ -94,8 +100,9 @@ public class ScenarioSelectionGroup { //extends Composite {
 		GridData successRateLd = new GridData();
 		successRateLd.horizontalSpan = 1;
 		successRateStringLabel.setLayoutData(successRateLd);
-		
-		
+		successRateStringLabel.setText("20");
+
+		/*
 		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		group = new Group(plotComposite, SWT.FILL);		
 		GridLayout gridLayout = new GridLayout();
@@ -103,19 +110,22 @@ public class ScenarioSelectionGroup { //extends Composite {
 		gridLayout.numColumns = 6;
 		gridLayout.marginHeight = -13;
 		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		group.setBackground(new Color(null, 0xff, 0xff,0xff)); // ???		
 		log.debug("scenarioFactorSelectionGroup" + group);
+				
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, -5);
+		formData.top = new FormAttachment(scenarioDefGroup, -5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(23, 0);
+		formData.bottom = new FormAttachment(50, 0);
 		group.setLayoutData(formData);		
+	*/
 	
-		Label label = new Label(group, SWT.LEFT);
+		Label label = new Label(scenarioDefGroup, SWT.LEFT);
 		GridData ld = new GridData();
 		ld.horizontalSpan = 6;
+		ld.verticalIndent = 4;
 		label.setText(TARGET_OF_INTERVENTION);
 		label.setLayoutData(ld);
 		
@@ -147,12 +157,13 @@ public class ScenarioSelectionGroup { //extends Composite {
 			createDropDown(GENDER, genderMap, 1);
 		this.dropDownModifyListener =
 			genderDropDownPanel.getGenericComboModifyListener();
+			
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap, int columnSpan) {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = 
 			new ScenarioFactorDataAction();
-		return new GenericDropDownPanel(group, label, columnSpan,
+		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
 				selectablePropertiesMap, updateScenarioFactorDataAction);		
 	}
 	

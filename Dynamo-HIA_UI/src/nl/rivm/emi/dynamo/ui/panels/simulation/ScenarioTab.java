@@ -56,7 +56,7 @@ public class ScenarioTab extends NestedTab {
 		ScenarioResultGroup ScenarioResultGroup =
 			new ScenarioResultGroup(this.plotComposite,
 					selectedNode, helpGroup,
-					scenarioSelectionGroup.group,
+					scenarioSelectionGroup.scenarioDefGroup,
 					scenarioSelectionGroup.getDropDownModifyListener());
 	}	
 }

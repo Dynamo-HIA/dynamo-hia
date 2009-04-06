@@ -40,7 +40,7 @@ public class ScenarioResultGroup {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -13;
+		gridLayout.marginHeight = -15;
 		group.setLayout(gridLayout);			
 		createDropDownArea(topNeighbour);
 	}
@@ -48,10 +48,10 @@ public class ScenarioResultGroup {
 	private void createDropDownArea(Composite topNeighbour) {
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(83, -5);
+		formData.bottom = new FormAttachment(97, 5);
 		group.setLayoutData(formData);
 		
 		Label label = new Label(group, SWT.LEFT);		
