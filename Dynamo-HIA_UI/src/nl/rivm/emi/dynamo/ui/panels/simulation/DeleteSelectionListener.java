@@ -16,13 +16,11 @@ public class DeleteSelectionListener extends AbstractLoggingClass
 		this.tabPlatform = platform;
 	}
 
-	@Override
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetDefaultSelected callback.");		
 	}
 
-	@Override
 	public void widgetSelected(SelectionEvent arg0) {		
 		// Remove the selected tab
 		this.tabPlatform.getTabManager().deleteNestedTab();

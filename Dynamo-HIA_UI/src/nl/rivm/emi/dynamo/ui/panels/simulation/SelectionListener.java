@@ -20,7 +20,6 @@ public class SelectionListener implements Listener {
 		this.nestedTabs = nestedTabs;
 	}
 
-	@Override
     public void handleEvent(Event event) {
         TabItem item = (TabItem) event.item;
         String tabId = item.getText();

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.util;
+package nl.rivm.emi.dynamo.ui.support;
 
 /**
  * Class that generates a Map filled with useful data about the present instances 
@@ -26,10 +26,11 @@ public class SimulationConfigurationDiseasesSetFactory {
 			StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel(),
 			StandardTreeNodeLabelsEnum.EXCESSMORTALITIES.getNodeLabel(),
 			StandardTreeNodeLabelsEnum.INCIDENCES.getNodeLabel(),
-			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(),
-			StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES.getNodeLabel(),
-			StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-					.getNodeLabel() };
+			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel() //
+	//		, StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES.getNodeLabel(),
+	//		StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+	//				.getNodeLabel() 
+					};
 	
 	static final String[] namesOfSubDirectories4DropDownLists = {
 		StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel(),
@@ -58,7 +59,7 @@ public class SimulationConfigurationDiseasesSetFactory {
 		for (Object diseaseDirectoryNode : children) {
 			boolean valid = validateDiseaseDirectoryNode(diseaseDirectoryNode);
 			if (valid) {
-				HashMap<String, LinkedHashSet<String>> dropDowns = SimConDropdownCommon.createDropDowns(diseaseDirectoryNode, namesOfRequiredNonEmptySubDirectories);
+				HashMap<String, LinkedHashSet<String>> dropDowns = FactoryCommon.createDropDowns(diseaseDirectoryNode, namesOfRequiredNonEmptySubDirectories);
 				theMap.put(((BaseNode) diseaseDirectoryNode)
 						.deriveNodeLabel(), dropDowns);
 			}
@@ -79,7 +80,7 @@ public class SimulationConfigurationDiseasesSetFactory {
 				}
 			}
 		}
-		log.debug("Made RiskFactorsSet containing:\n"
+		log.debug("Made DiseasesSet containing:\n"
 				+ namesConcat.toString());
 		// Debugging code ends.
 		return theMap;

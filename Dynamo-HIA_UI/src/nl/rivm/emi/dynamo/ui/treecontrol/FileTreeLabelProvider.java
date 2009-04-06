@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.ui.treecontrol;
 
-import java.io.File;
-
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 

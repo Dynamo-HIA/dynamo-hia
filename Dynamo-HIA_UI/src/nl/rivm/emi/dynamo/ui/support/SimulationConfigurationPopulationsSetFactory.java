@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.util;
+package nl.rivm.emi.dynamo.ui.support;
 
 /**
  * Class that generates a Map filled with useful data about the present instances 
@@ -58,7 +58,7 @@ public class SimulationConfigurationPopulationsSetFactory {
 		for (String name : theSet) {
 			namesConcat.append(name + ", ");
 		}
-		log.fatal("Made PopulationsSet containing names: "
+		log.debug("Made PopulationsSet containing names: "
 				+ namesConcat.toString());
 		// Debugging code ends.
 

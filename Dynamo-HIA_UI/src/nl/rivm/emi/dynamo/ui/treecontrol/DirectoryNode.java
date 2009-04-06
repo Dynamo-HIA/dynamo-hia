@@ -2,9 +2,6 @@ package nl.rivm.emi.dynamo.ui.treecontrol;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
 

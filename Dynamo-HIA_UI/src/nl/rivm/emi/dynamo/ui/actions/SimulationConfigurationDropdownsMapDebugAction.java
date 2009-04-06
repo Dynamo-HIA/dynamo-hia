@@ -2,8 +2,9 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 import java.util.HashMap;
 
+import nl.rivm.emi.dynamo.ui.support.RelativeRisksCollection;
+import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.util.SimulationConfigurationDropdownsMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -30,12 +31,15 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 		try {
 			log.fatal("Starting test");
 			SimulationConfigurationDropdownsMapFactory a = new SimulationConfigurationDropdownsMapFactory();
-			HashMap<String, HashMap<?, ?>> product = SimulationConfigurationDropdownsMapFactory
+			HashMap<String, Object> product = SimulationConfigurationDropdownsMapFactory
 					.make(node);
-			MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
-			box.setText("Debug");
-			box.setMessage("Dropdowns Factory ran without blowing up.");
-			box.open();
+			// MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
+			// box.setText("Debug");
+			// box.setMessage("Dropdowns Factory ran without blowing up.");
+			// box.open();
+			RelativeRisksCollection collection = new RelativeRisksCollection(node);
+			collection.findAllRelativeRisks(node);
+			collection.dump4Debug();
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 			MessageBox box = new MessageBox(shell, SWT.ICON_ERROR);

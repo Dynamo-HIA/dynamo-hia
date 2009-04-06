@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.util;
+package nl.rivm.emi.dynamo.ui.support;
 
 /**
  * Class that generates a Map filled with useful data about the present instances 
@@ -55,7 +55,7 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 		for (Object riskFactorDirectoryNode : children) {
 			boolean valid = validateRiskFactorDirectoryNode(riskFactorDirectoryNode);
 			if (valid) {
-				HashMap<String, LinkedHashSet<String>> dropDowns = SimConDropdownCommon.createDropDowns(riskFactorDirectoryNode, namesOfRequiredNonEmptySubDirectories);
+				HashMap<String, LinkedHashSet<String>> dropDowns = FactoryCommon.createDropDowns(riskFactorDirectoryNode, namesOfRequiredNonEmptySubDirectories);
 				theMap.put(((BaseNode) riskFactorDirectoryNode)
 						.deriveNodeLabel(), dropDowns);
 			}
