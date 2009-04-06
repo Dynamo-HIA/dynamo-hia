@@ -98,4 +98,9 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 		}
 	}
 
+	@Override
+	public Object getData() {
+		return modelObject;
+	}
+
 }
