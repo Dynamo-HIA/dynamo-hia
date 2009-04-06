@@ -565,7 +565,8 @@ public class InitialPopulationFactory {
 								"ind_"
 										+ individualNumber + "_ref");
 						individualNumber++;
-						long seed2 = (long) rand2.random();
+						// long seed2 = (long) rand2.random();
+						long seed2 =(((long)rand2.random())<<32)+(long)rand2.random();
 						currentIndividual.setRandomNumberGeneratorSeed(seed2);
 
 						/*
