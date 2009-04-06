@@ -156,9 +156,7 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 		open();
 	}
 
-	public Object getData() {
-		return this.lotsOfData;
-	}
+	abstract public Object getData();
 
 	public Shell getShell() {
 		return this.shell;
