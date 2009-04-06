@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -39,7 +40,7 @@ public class ScenarioResultGroup {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -5;
+		gridLayout.marginHeight = -13;
 		group.setLayout(gridLayout);			
 		createDropDownArea(topNeighbour);
 	}
@@ -50,41 +51,17 @@ public class ScenarioResultGroup {
 		formData.top = new FormAttachment(topNeighbour, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(78, -5);
+		formData.bottom = new FormAttachment(83, -5);
 		group.setLayoutData(formData);
 		
-		Label label = new Label(group, SWT.LEFT);
+		Label label = new Label(group, SWT.LEFT);		
 		label.setText(CHANGE_WITH_RESPECT_BASELINE_SIMULATION);
-		Label emptyLabel = new Label(group, SWT.RIGHT);
-		label.setText("");
-		
-		Map prevMap = new LinkedHashMap();
-		prevMap.put("Prev-BMI", "Prev-BMI");
-		prevMap.put("Prev-BMA", "Prev-BMA");
-		prevMap.put("Prev-BMB", "Prev-BMB");
-		
-		Map prevMap2 = new LinkedHashMap();
-		prevMap2.put("Prev2-BMI", "Prev2-BMI");
-		prevMap2.put("Prev2-BMA", "Prev2-BMA");
-		prevMap2.put("Prev2-BMB", "Prev2-BMB");		
-		
-		Map prevMap3 = new LinkedHashMap();
-		prevMap3.put("Prev3-BMI", "Prev3-BMI");
-		prevMap3.put("Prev3-BMA", "Prev3-BMA");
-		prevMap3.put("Prev3-BMB", "Prev3-BMB");
-		
+		Label emptyLabel = new Label(group, SWT.LEFT);
+		emptyLabel.setText("");
+		Label emptyLabel2 = new Label(group, SWT.LEFT);
+		emptyLabel2.setText("");
+				
 		Map<Combo, Map> nestedComboMapsContents = new LinkedHashMap<Combo, Map>();
-		Map<String, Map> nestedPrevContents = new LinkedHashMap<String, Map>();
-		nestedPrevContents.put("BMI1", prevMap);
-		nestedPrevContents.put("BMI2", prevMap2);
-		nestedPrevContents.put("BMI3", prevMap3);
-		
-		GenericDropDownPanel riskFactorPrevalenceDropDownPanel = 
-			createDropDown(RISK_FACTOR_PREVALENCE, prevMap);
-		this.scenarioDropDownModifyListener.
-			registerDropDown(riskFactorPrevalenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(riskFactorPrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
-
 		Map transitionMap = new LinkedHashMap();
 		transitionMap.put("Trans-BMI", "Trans-BMI");
 		transitionMap.put("Trans-BMA", "Trans-BMA");
@@ -109,14 +86,40 @@ public class ScenarioResultGroup {
 			createDropDown(TRANSITION, transitionMap);
 		this.scenarioDropDownModifyListener.
 			registerDropDown(transitionDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(transitionDropDownPanel.getDropDown(), nestedTransitionContents);
+		nestedComboMapsContents.put(transitionDropDownPanel.getDropDown(), nestedTransitionContents);		
+		
+		Map prevMap = new LinkedHashMap();
+		prevMap.put("Prev-BMI", "Prev-BMI");
+		prevMap.put("Prev-BMA", "Prev-BMA");
+		prevMap.put("Prev-BMB", "Prev-BMB");
+		
+		Map prevMap2 = new LinkedHashMap();
+		prevMap2.put("Prev2-BMI", "Prev2-BMI");
+		prevMap2.put("Prev2-BMA", "Prev2-BMA");
+		prevMap2.put("Prev2-BMB", "Prev2-BMB");		
+		
+		Map prevMap3 = new LinkedHashMap();
+		prevMap3.put("Prev3-BMI", "Prev3-BMI");
+		prevMap3.put("Prev3-BMA", "Prev3-BMA");
+		prevMap3.put("Prev3-BMB", "Prev3-BMB");
+		
+		Map<String, Map> nestedPrevContents = new LinkedHashMap<String, Map>();
+		nestedPrevContents.put("BMI1", prevMap);
+		nestedPrevContents.put("BMI2", prevMap2);
+		nestedPrevContents.put("BMI3", prevMap3);
+		
+		GenericDropDownPanel riskFactorPrevalenceDropDownPanel = 
+			createDropDown(RISK_FACTOR_PREVALENCE, prevMap);
+		this.scenarioDropDownModifyListener.
+			registerDropDown(riskFactorPrevalenceDropDownPanel.getDropDown());
+		nestedComboMapsContents.put(riskFactorPrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
 
 		// Set the nested contents
 		this.scenarioDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, null);		
 	}
 }

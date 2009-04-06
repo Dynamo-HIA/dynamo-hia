@@ -53,7 +53,7 @@ public class PopulationSelectionGroup {
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
 		PopulationDataAction updatePopulationDataAction = PopulationDataAction();
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, updatePopulationDataAction);		
 	}
 

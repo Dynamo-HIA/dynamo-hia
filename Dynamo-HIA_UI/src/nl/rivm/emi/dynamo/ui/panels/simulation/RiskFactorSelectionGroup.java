@@ -65,7 +65,7 @@ public class RiskFactorSelectionGroup {
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
 		RiskFactorDataAction updateRiskFactorDataAction = 
 			new RiskFactorDataAction();
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, updateRiskFactorDataAction);		
 	}
 	

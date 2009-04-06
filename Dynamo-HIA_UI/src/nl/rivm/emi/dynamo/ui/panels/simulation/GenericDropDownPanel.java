@@ -32,7 +32,7 @@ public class GenericDropDownPanel  {
 	private GenericComboModifyListener genericComboModifyListener;
 	
 	public GenericDropDownPanel(Group group, String dropDownLabel,
-			Map selectablePropertiesMap, 
+			int columnSpan, Map selectablePropertiesMap, 
 			UpdateDataAction redrawGroupAndUpdateDataAction) {
 		
 		this.group = group;
@@ -45,7 +45,7 @@ public class GenericDropDownPanel  {
 		label.setLayoutData(layoutData);		
 		dropDown = new Combo(group, SWT.DROP_DOWN);
 		GridData dropLayoutData = new GridData(GridData.FILL_HORIZONTAL);
-		dropLayoutData.horizontalSpan = 2;
+		dropLayoutData.horizontalSpan = columnSpan;
 		//dropLayoutData.marginHeight = 0;
 		dropDown.setLayoutData(dropLayoutData);
 		Set<String> keys = this.selectablePropertiesMap.keySet();

@@ -66,7 +66,7 @@ public class DiseaseSelectionGroup {
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
 		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
 			new DiseaseFactorDataAction();
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, updateDiseaseFactorDataAction);		
 	}
 	

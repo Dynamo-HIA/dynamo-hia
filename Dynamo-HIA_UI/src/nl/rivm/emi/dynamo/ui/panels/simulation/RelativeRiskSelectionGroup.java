@@ -75,7 +75,7 @@ public class RelativeRiskSelectionGroup {
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
 		RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = 
 			new RelativeRiskFactorDataAction();
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, updateRelativeRiskFactorDataAction);		
 	}
 	

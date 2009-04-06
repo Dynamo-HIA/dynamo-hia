@@ -80,7 +80,7 @@ public class RelativeRiskResultGroup {
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesMap, null);		
 	}
 }

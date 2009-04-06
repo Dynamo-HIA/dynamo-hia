@@ -23,13 +23,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-public class ScenarioSelectionGroup extends Composite {
+public class ScenarioSelectionGroup { //extends Composite {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	private static final String NAME = "Name";
-	private static final String MIN_AGE = "Minimum Age";
-	private static final String MAX_AGE = "Maximum Age";
+	private static final String MIN_AGE = "Min. Age";
+	private static final String MAX_AGE = "Max. Age";
 	private static final String GENDER = "Gender";
 
 	private static final String TARGET_OF_INTERVENTION = 
@@ -52,54 +52,72 @@ public class ScenarioSelectionGroup extends Composite {
 	public ScenarioSelectionGroup(Composite plotComposite,
 			DynamoSimulationObject dynamoSimulationObject,
 			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
-		super(plotComposite, SWT.NONE);
+		//super(plotComposite, SWT.NONE);
 		this.plotComposite = plotComposite;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.selectedNode = selectedNode;
-		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
-		group = new Group(plotComposite, SWT.FILL);
-		
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.makeColumnsEqualWidth = true;
-		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -3;
-		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
-		log.debug("scenarioFactorSelectionGroup" + group);
 		
 		createDropDownArea();
 	}
 
 	private void createDropDownArea() throws DynamoConfigurationException {
-				
+		
+		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
+		Group scenarioDefGroup = new Group(plotComposite, SWT.FILL);		
+		GridLayout scenarioGridLayout = new GridLayout();
+		scenarioGridLayout.makeColumnsEqualWidth = true;
+		scenarioGridLayout.numColumns = 6;
+		scenarioGridLayout.marginHeight = -13;
+		scenarioDefGroup.setLayout(scenarioGridLayout);	
+		scenarioDefGroup.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		log.debug("scenarioFactorSelectionGroup" + group);
+
 		// Follow the reading order (columns first)
-		Label nameLabel = new Label(this, SWT.NONE);
+		Label nameLabel = new Label(scenarioDefGroup, SWT.NONE);
 		// Get the name value from the file node (i.e. parent)
 		nameLabel.setText(NAME + ":");
-		Label nameStringLabel = new Label(this, SWT.NONE);
-		GridData ld = new GridData();
-		ld.horizontalSpan = 3;
-		nameStringLabel.setLayoutData(ld);
+		Label nameStringLabel = new Label(scenarioDefGroup, SWT.NONE);
+		GridData nameLd = new GridData();
+		nameLd.horizontalSpan = 3;
+		nameStringLabel.setLayoutData(nameLd);
 		// Get the name value from the file node (i.e. parent)
 		////String[] entityArray = Util
 			////	.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		////nameStringLabel.setText(entityArray[1]);
-		String labelValue = SUCCESS_RATE;
+		
+		Label successRateLabel = new Label(scenarioDefGroup, SWT.NONE);
+		successRateLabel.setText(SUCCESS_RATE + ":");
 		////WritableValue observable = dynamoSimulationObject
 			////	.getObservableSimPopSize();
 		////TODO REACTIVATE bindHeaderValue(observable, labelValue + PERCENTAGE + SEMICOLON, new SuccessRate());
+		Label successRateStringLabel = new Label(scenarioDefGroup, SWT.NONE);
+		GridData successRateLd = new GridData();
+		successRateLd.horizontalSpan = 1;
+		successRateStringLabel.setLayoutData(successRateLd);
+		
+		
+		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
+		group = new Group(plotComposite, SWT.FILL);		
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.numColumns = 6;
+		gridLayout.marginHeight = -13;
+		group.setLayout(gridLayout);	
+		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		log.debug("scenarioFactorSelectionGroup" + group);
 		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, -5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(44, 0);
-		group.setLayoutData(formData);					
-		
+		formData.bottom = new FormAttachment(23, 0);
+		group.setLayoutData(formData);		
+	
 		Label label = new Label(group, SWT.LEFT);
+		GridData ld = new GridData();
+		ld.horizontalSpan = 6;
 		label.setText(TARGET_OF_INTERVENTION);
-		Label emptyLabel = new Label(group, SWT.RIGHT);
-		label.setText("");
+		label.setLayoutData(ld);
 		
 		// TODO: Replace with real content
 		Map ageMap = new LinkedHashMap();
@@ -109,13 +127,13 @@ public class ScenarioSelectionGroup extends Composite {
 		}
 
 		GenericDropDownPanel minAgeDropDownPanel = 
-			createDropDown(MIN_AGE, ageMap);
+			createDropDown(MIN_AGE, ageMap, 1);
 		this.dropDownModifyListener =
 			minAgeDropDownPanel.getGenericComboModifyListener();		
 		
 		// TODO: Replace with real content
 		GenericDropDownPanel maxAgeDropDownPanel = 
-			createDropDown(MAX_AGE, ageMap);
+			createDropDown(MAX_AGE, ageMap, 1);
 		this.dropDownModifyListener =
 			maxAgeDropDownPanel.getGenericComboModifyListener();
 
@@ -126,15 +144,15 @@ public class ScenarioSelectionGroup extends Composite {
 		
 		// TODO: Replace with real content
 		GenericDropDownPanel genderDropDownPanel = 
-			createDropDown(GENDER, genderMap);
+			createDropDown(GENDER, genderMap, 1);
 		this.dropDownModifyListener =
 			genderDropDownPanel.getGenericComboModifyListener();
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap, int columnSpan) {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = 
 			new ScenarioFactorDataAction();
-		return new GenericDropDownPanel(group, label,
+		return new GenericDropDownPanel(group, label, columnSpan,
 				selectablePropertiesMap, updateScenarioFactorDataAction);		
 	}
 	
