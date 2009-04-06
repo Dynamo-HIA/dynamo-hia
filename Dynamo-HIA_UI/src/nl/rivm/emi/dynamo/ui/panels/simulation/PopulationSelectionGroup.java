@@ -28,7 +28,7 @@ public class PopulationSelectionGroup {
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
 		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
+		//group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
 		
 		createDropDownArea();
 	}
@@ -48,7 +48,7 @@ public class PopulationSelectionGroup {
 		contentsMap.put("BMI2", "BMI2");
 		contentsMap.put("BMI3", "BMI3");
 		GenericDropDownPanel riskDropDownPanel = 
-			createDropDown(POPULATION, contentsMap);		
+			createDropDown(POPULATION, contentsMap);
 	}
 
 	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {

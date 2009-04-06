@@ -49,7 +49,7 @@ public class DynamoTabsDataPanel {
 		TabFolder tabFolder1 = new TabFolder(parent, SWT.FILL);
 
 		tabFolder1.setLayout(new FillLayout());
-		tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
+		//tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
 		
 		final RiskFactorTab tab0 = new RiskFactorTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);

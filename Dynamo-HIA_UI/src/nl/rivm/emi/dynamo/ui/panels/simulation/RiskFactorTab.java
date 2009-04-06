@@ -58,7 +58,7 @@ public class RiskFactorTab  {
 		this.plotComposite = new Group(this.tabFolder, SWT.FILL);
 		FormLayout formLayout = new FormLayout();
 		this.plotComposite.setLayout(formLayout);
-		this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
+		//this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
 		
 		RiskFactorSelectionGroup riskFactorSelectionGroup =
 			new RiskFactorSelectionGroup(this.plotComposite,

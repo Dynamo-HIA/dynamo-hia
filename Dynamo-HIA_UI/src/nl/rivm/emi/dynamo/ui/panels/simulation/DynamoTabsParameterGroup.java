@@ -25,7 +25,7 @@ public class DynamoTabsParameterGroup {
 
 		FillLayout fillLayout = new FillLayout();
 		group.setLayout(fillLayout);
-		group.setBackground(new Color(null, 0xbb, 0xbb,0xbb)); //gray
+		//group.setBackground(new Color(null, 0xbb, 0xbb,0xbb)); //gray
 		
 		DynamoTabsDataPanel dynamoTabsDataPanel = new DynamoTabsDataPanel(group,
 				selectedNode, dynamoSimulationObject, dataBindingContext,

@@ -37,7 +37,7 @@ public class DiseaseSelectionGroup {
 		gridLayout.numColumns = 3;
 		gridLayout.marginHeight = -3;
 		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		//group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
 		log.debug("diseaseFactorSelectionGroup" + group);
 		
 		createDropDownArea();

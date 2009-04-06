@@ -35,7 +35,7 @@ public class RiskFactorSelectionGroup {
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
 		group.setLayout(gridLayout);	
-		group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
+		//group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
 		
 		log.debug("RiskFactorSelectionGroup" + group);
 		

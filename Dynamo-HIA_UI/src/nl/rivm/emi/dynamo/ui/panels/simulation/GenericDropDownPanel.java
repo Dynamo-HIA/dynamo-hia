@@ -43,7 +43,7 @@ public class GenericDropDownPanel  {
 		label.setText(dropDownLabel + ":");
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(layoutData);		
-		dropDown = new Combo(group, SWT.DROP_DOWN);
+		dropDown = new Combo(group, SWT.READ_ONLY);
 		GridData dropLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		dropLayoutData.horizontalSpan = columnSpan;
 		//dropLayoutData.marginHeight = 0;

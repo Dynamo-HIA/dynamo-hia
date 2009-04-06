@@ -38,7 +38,7 @@ public abstract class Tab {
 		this.plotComposite = new Group(parent, SWT.FILL);
 		FormLayout formLayout = new FormLayout();
 		this.plotComposite.setLayout(formLayout);
-		this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));		
+		//this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));		
 	}
 
 	protected abstract void makeIt() throws DynamoConfigurationException;

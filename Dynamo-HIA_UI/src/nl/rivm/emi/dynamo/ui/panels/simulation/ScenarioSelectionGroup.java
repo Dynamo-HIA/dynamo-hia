@@ -57,22 +57,23 @@ public class ScenarioSelectionGroup { //extends Composite {
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.selectedNode = selectedNode;
 		
-		createDropDownArea();
-	}
-
-	private void createDropDownArea() throws DynamoConfigurationException {		
 		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		scenarioDefGroup = new Group(plotComposite, SWT.FILL);		
 		GridLayout scenarioGridLayout = new GridLayout();
 		scenarioGridLayout.makeColumnsEqualWidth = true;
 		scenarioGridLayout.numColumns = 6;
-		scenarioGridLayout.marginHeight = -5;
+		scenarioGridLayout.marginHeight = -3;
 		scenarioDefGroup.setLayout(scenarioGridLayout);	
-		scenarioDefGroup.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
+		//scenarioDefGroup.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
 		log.debug("scenarioFactorSelectionGroup" + scenarioDefGroup);
 		
+		createDropDownArea();
+	}
+
+	private void createDropDownArea() throws DynamoConfigurationException {		
+		
 		FormData scenarioFormData = new FormData();
-		scenarioFormData.top = new FormAttachment(0, 0);
+		scenarioFormData.top = new FormAttachment(0, -5);
 		scenarioFormData.left = new FormAttachment(0, 5);
 		scenarioFormData.right = new FormAttachment(100, -5);
 		scenarioFormData.bottom = new FormAttachment(53, 0);
@@ -148,9 +149,9 @@ public class ScenarioSelectionGroup { //extends Composite {
 			maxAgeDropDownPanel.getGenericComboModifyListener();
 
 		Map genderMap = new LinkedHashMap();
-		ageMap.put("Male", "Male");
-		ageMap.put("Female", "Female");
-		ageMap.put("Male and Female", "Male and Female");
+		genderMap.put("Male", "Male");
+		genderMap.put("Female", "Female");
+		genderMap.put("Male and Female", "Male and Female");
 		
 		// TODO: Replace with real content
 		GenericDropDownPanel genderDropDownPanel = 
