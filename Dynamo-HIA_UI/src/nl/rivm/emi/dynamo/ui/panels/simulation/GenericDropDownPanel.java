@@ -29,7 +29,7 @@ public class GenericDropDownPanel {
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
-			AtomicTypeObjectTuple tuple,
+			Object object,
 			UpdateDataAction redrawGroupAndUpdateDataAction) {		
 		this.parent = parent;
 		this.selectablePropertiesSet = selectablePropertiesSet;
@@ -46,9 +46,13 @@ public class GenericDropDownPanel {
 		dropDown.setLayoutData(dropLayoutData);
 		this.fill(selectablePropertiesSet);
 		
-		// Create 
-		WritableValue writableValue = (WritableValue) tuple.getValue();
-		this.genericComboModifyListener = new GenericComboModifyListener(writableValue);		
+		// Create the modify listener object
+		if (object instanceof WritableValue) {		
+			this.genericComboModifyListener = 
+				new GenericComboModifyListener((WritableValue) object);	
+		} else {
+			
+		}
 		dropDown.addModifyListener(genericComboModifyListener);
 
 		// Get the default value

@@ -36,7 +36,7 @@ public class RiskFactorSelectionGroup {
 	public RiskFactorSelectionGroup(Composite plotComposite,
 			ISimulationRiskFactorConfiguration riskFactorConfiguration,
 			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
-		configuration = riskFactorConfiguration;
+		this.configuration = riskFactorConfiguration;
 		this.plotComposite = plotComposite;
 		this.selectedNode = selectedNode;
 		log.debug("RiskFactorSelectionGroup::this.plotComposite: "
@@ -64,7 +64,9 @@ public class RiskFactorSelectionGroup {
 			theMap.addAll(riskFactorNames);
 			RiskFactorDataAction updateRiskFactorDataAction = new RiskFactorDataAction();
 			GenericDropDownPanel riskDropDownPanel = new GenericDropDownPanel(group, RISK_FACTOR, 2,
-					theMap, updateRiskFactorDataAction);
+					theMap,
+					this.configuration,
+					updateRiskFactorDataAction);
 			this.dropDownModifyListener = riskDropDownPanel
 					.getGenericComboModifyListener();
 	}

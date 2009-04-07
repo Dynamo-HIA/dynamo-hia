@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
@@ -17,12 +18,14 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
@@ -122,21 +125,19 @@ public class DynamoHeaderDataPanel extends Composite {
 		GridData layoutData = new GridData();
 		layoutData.horizontalSpan = 2;
 		fillLabel.setLayoutData(layoutData);*/
-
+		
 		
 		//String populationFileName = dynamoSimulationObject.getObservablePopulationFileName().doGetValue().toString();
 		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
-		Set<String> contentsSet = treeLists.getPopulations();		
+		DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
+		contentsSet.addAll(treeLists.getPopulations());		
 		log.debug("contentsSet" + contentsSet);
 		
-		//contentsMap.put(populationFileName, populationFileName);
-		//contentsMap.put("TEST", "TEST");
-		//contentsMap.put("TEST1", "TEST1");
-		
-		GenericDropDownPanel diseaseDropDownPanel = 
-			createDropDown(POP_FILE_NAME, contentsSet, 1);
+		WritableValue writeble = (WritableValue) dynamoSimulationObject.getObservablePopulationFileName();
+		GenericDropDownPanel populationDropDownPanel = 
+			createDropDown(POP_FILE_NAME, contentsSet, 1, writeble);
 		this.dropDownModifyListener =
-			diseaseDropDownPanel.getGenericComboModifyListener();
+			populationDropDownPanel.getGenericComboModifyListener();
 				
 		labelValue = STARTING_YEAR;
 		observable = dynamoSimulationObject.getObservableStartingYear();
@@ -339,11 +340,16 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	}
 	
-	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet, int columnSpan) {
-		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
-			new DiseaseFactorDataAction();
+	private GenericDropDownPanel createDropDown(String label, 
+			DropDownPropertiesSet selectablePropertiesSet, 
+			int columnSpan,
+			Object object) {
+		ScenarioFactorDataAction updateScenarioFactorDataAction = 
+			new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(this, label, columnSpan,
-				selectablePropertiesSet, updateDiseaseFactorDataAction);		
+				selectablePropertiesSet,				
+				object,
+				null);		
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {
