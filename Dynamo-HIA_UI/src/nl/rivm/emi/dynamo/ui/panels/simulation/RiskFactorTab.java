@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -37,12 +38,13 @@ public class RiskFactorTab  {
 	/**
 	 * @param tabfolder
 	 * @param output
+	 * @throws ConfigurationException 
 	 */
 	public RiskFactorTab(TabFolder tabfolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws ConfigurationException {
 		this.tabFolder = tabfolder;
 		this.dataBindingContext = dataBindingContext; 
 		this.modelObject = dynamoSimulationObject;
@@ -53,8 +55,9 @@ public class RiskFactorTab  {
 	
 	/**
 	 * makes the tabfolder
+	 * @throws ConfigurationException 
 	 */
-	public void makeIt(){
+	public void makeIt() throws ConfigurationException{
 		this.plotComposite = new Group(this.tabFolder, SWT.FILL);
 		FormLayout formLayout = new FormLayout();
 		this.plotComposite.setLayout(formLayout);

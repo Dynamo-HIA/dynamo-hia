@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation>
+	<hasnewborns>1</hasnewborns>
+	<startingYear>2008</startingYear>
+	<numberOfYears>10</numberOfYears>
+	<simPopSize>2</simPopSize>
+	<minAge>0</minAge>
+	<maxAge>95</maxAge>
+	<timeStep>1</timeStep>
+	<randomSeed>12345</randomSeed>
+	<resultType>detailed</resultType>
+	<popFileName>population1</popFileName>
+	<scenarios>
+		<scenario>
+			<uniquename>scenario 1</uniquename>
+			<successRate>100</successRate>
+			<targetMinAge>0</targetMinAge>
+			<targetMaxAge>95</targetMaxAge>
+			<targetSex>2</targetSex>
+			<transfilename>none</transfilename>
+			<prevfilename>prevalence</prevfilename>
+		</scenario>
+		<scenario>
+			<uniquename>scenario 2</uniquename>
+			<successRate>50</successRate>
+			<targetMinAge>0</targetMinAge>
+			<targetMaxAge>95</targetMaxAge>
+			<targetSex>2</targetSex>
+			<transfilename>none</transfilename>
+			<prevfilename>prevalence</prevfilename>
+		</scenario>
+	</scenarios>
+	<diseases>
+		<disease>
+			<uniquename>disease1</uniquename>
+			<prevfilename>prevalence1</prevfilename>
+			<incfilename>incidence1</incfilename>
+			<excessmortfilename>excessmortality1</excessmortfilename>
+			<dalyweightsfilename>dalyweights1</dalyweightsfilename>
+		</disease>
+		<disease>
+			<uniquename>disease2</uniquename>
+			<prevfilename>prevalence2</prevfilename>
+			<incfilename>incidence2</incfilename>
+			<excessmortfilename>excessmortality2</excessmortfilename>
+			<dalyweightsfilename>dalyweights2</dalyweightsfilename>
+		</disease>
+		
+	</diseases>
+	<riskfactors>
+	  <riskfactor>
+		<uniquename>riskfactor1</uniquename>
+		<transfilename>rf1transition1</transfilename>
+		<prevfilename>rf1prevalence1</prevfilename>
+	  </riskfactor>
+	</riskfactors>
+	<RRs>
+		<RR>
+			<RRindex>1</RRindex>
+			<isRRfrom>riskfactor1</isRRfrom>
+			<isRRto>disease1</isRRto>
+			<isRRFile>relrisk1</isRRFile>
+		</RR>
+		<RR>
+		    <RRindex>2</RRindex>
+			<isRRfrom>riskfactor1</isRRfrom>
+			<isRRto>disease2</isRRto>
+			<isRRFile>relrisk2</isRRFile>
+		</RR>
+        <RR>
+			<RRindex>3</RRindex>        
+			<isRRfrom>disease1</isRRfrom>
+			<isRRto>disease2</isRRto>
+			<isRRFile>relrisk</isRRFile>
+		</RR>
+	</RRs>
+</simulation>
+

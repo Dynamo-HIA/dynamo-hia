@@ -22,7 +22,6 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.ui.workbench_3.3.2.M20080207-0800.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.logging_1.0.4.v20080605-1930.jar"/>
-	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.lang_2.3.0.v200803061910.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.configuration_1.5.0.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.collections_3.2.0.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.jfree.chart_1.0.10.jar"/>
@@ -33,6 +32,8 @@
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.eclipse.core.runtime_3.4.0.v20080512.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.eclipse.osgi_3.4.2.R34x_v20080826-1230.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.eclipse.xsd_2.4.1.v200808251517.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/nl.rivm.emi.cdm_1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.lang_2.3.0.v200803061910.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CZM"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

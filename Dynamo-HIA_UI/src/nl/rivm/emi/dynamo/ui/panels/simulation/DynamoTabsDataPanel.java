@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -29,7 +30,7 @@ public class DynamoTabsDataPanel {
 	public DynamoTabsDataPanel(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException {
 		this.myParent = parent;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
@@ -41,10 +42,10 @@ public class DynamoTabsDataPanel {
 	
 	/**
 	 * Create the 5 tabfolders
-	 * @throws DynamoConfigurationException 
+	 * @throws ConfigurationException 
 	 * 
 	 */
-	public void makeDynamoTabsDisplay(Composite parent) throws DynamoConfigurationException  {
+	public void makeDynamoTabsDisplay(Composite parent) throws ConfigurationException  {
 
 		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
 		

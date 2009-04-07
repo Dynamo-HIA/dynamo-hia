@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -24,7 +25,7 @@ public class DynamoTabsParameterGroup {
 
 	public DynamoTabsParameterGroup(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) throws DynamoConfigurationException {
+			DataBindingContext dataBindingContext, HelpGroup helpGroup) throws ConfigurationException {
 		group = new Group(parent, SWT.NONE);
 
 		FillLayout fillLayout = new FillLayout();
