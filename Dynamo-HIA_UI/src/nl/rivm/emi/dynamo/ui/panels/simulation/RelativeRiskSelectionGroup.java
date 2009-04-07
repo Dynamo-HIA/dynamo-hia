@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -63,30 +64,32 @@ public class RelativeRiskSelectionGroup {
 		log.debug("contentsMap" + contentsMap);
 		
 		// TODO: Replace with real content
+		
+		Set<String> contentsFromSet = null; new LinkedHashMap();
 		/*
-		Map contentsMap = new LinkedHashMap();
 		contentsMap.put("BMI1", "BMI1");
 		contentsMap.put("BMI2", "BMI2");
 		contentsMap.put("BMI3", "BMI3");*/
 		GenericDropDownPanel fromDropDownPanel = 
-			createDropDown(FROM, contentsMap);
+			createDropDown(FROM, contentsFromSet);
 		this.dropDownModifyListener =
 			fromDropDownPanel.getGenericComboModifyListener();
 		
 		
 		// TODO: Replace with real content
+		Set<String> contentsToSet = null; new LinkedHashMap();
 		GenericDropDownPanel toDropDownPanel = 
-			createDropDown(TO, contentsMap);
+			createDropDown(TO, contentsToSet);
 		this.dropDownModifyListener =
 			toDropDownPanel.getGenericComboModifyListener();
 		
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = 
 			new RelativeRiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesMap, updateRelativeRiskFactorDataAction);		
+				selectablePropertiesSet, updateRelativeRiskFactorDataAction);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {

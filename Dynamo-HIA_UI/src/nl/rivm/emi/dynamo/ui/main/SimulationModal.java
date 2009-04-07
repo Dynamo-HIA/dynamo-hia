@@ -13,6 +13,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoSimulationGroup;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -72,7 +73,7 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel);	
+			this.helpPanel = new HelpGroup(this.shell, buttonPanel);  
 			DynamoSimulationGroup simulationGroup = new DynamoSimulationGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel,
 					this);

@@ -5,15 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 public class TreeAsDropdownLists extends HashMap<String, Object> {
 
-	static TreeAsDropdownLists instance = null;
-
-	Set<String> chosenDiseaseNames = new HashSet<String>();
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	private static TreeAsDropdownLists instance = null;
 
 	/**
 	 * Instantiate the singleton Object and initialize it based on the current
@@ -63,6 +65,13 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 * @return
 	 */
 	public Set<String> getPopulations() {
+		log.debug("getPopulations::TreeAsDropdownLists instance: " + this);
+		log.debug("StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel() " + 
+				StandardTreeNodeLabelsEnum.POPULATIONS
+				.getNodeLabel());
+		log.debug("TreeAsDropdownLists instance::GET POPULATIONS: " + 
+				(Set<String>) get(StandardTreeNodeLabelsEnum.POPULATIONS
+						.getNodeLabel()));
 		Set<String> populations = (Set<String>) get(StandardTreeNodeLabelsEnum.POPULATIONS
 				.getNodeLabel());
 		return populations;
@@ -83,32 +92,6 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 				.getNodeLabel());
 		Set<String> diseaseNames = diseasesMap.keySet();
 		return diseaseNames;
-	}
-
-	/**
-	 * This method returns a list with the names of the diseases in the tree
-	 * that have been correctly configured and can be chosen in a dropdown at
-	 * this point.
-	 * 
-	 * @return
-	 * @param currentDiseasesName
-	 *            the name that is currently chosen in the dropdown and should
-	 *            be able to be chosen again.
-	 * @return
-	 */
-	public Set<String> getChoosableDiseases(String currentDiseasesName) {
-		chosenDiseaseNames.remove(currentDiseasesName);
-		HashMap<String, Object> diseasesMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.DISEASES
-				.getNodeLabel());
-		Set<String> diseaseNames = diseasesMap.keySet();
-		for (String chosenName : chosenDiseaseNames) {
-			diseaseNames.remove(chosenName);
-		}
-		return diseaseNames;
-	}
-
-	public void setChosenDisease(String chosenDiseaseName) {
-		chosenDiseaseNames.add(chosenDiseaseName);
 	}
 
 	public Set<String> getDiseasePrevalences(String chosenDiseaseName) {

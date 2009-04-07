@@ -1,13 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberOfYears;
-import nl.rivm.emi.dynamo.data.types.atomic.PopFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.RandomSeed;
 import nl.rivm.emi.dynamo.data.types.atomic.SimPopSize;
 import nl.rivm.emi.dynamo.data.types.atomic.StartingYear;
@@ -18,16 +17,19 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -46,6 +48,9 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 public class DynamoHeaderDataPanel extends Composite {
+	
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
 	private static final String NAME = "Name";
 	private static final String SIM_POP_SIZE = "Simulated population size";
 	private static final String RAND_SEED = "Random seed";
@@ -70,7 +75,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	public DynamoHeaderDataPanel(Composite parent, Composite bottomNeighbour,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException {
 		super(parent, SWT.NONE);
 //		this.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		this.myParent = parent;
@@ -109,26 +114,30 @@ public class DynamoHeaderDataPanel extends Composite {
 
 		
 		
-		
+		/*
 		labelValue = POP_FILE_NAME;
 		observable = dynamoSimulationObject.getObservablePopulationFileName();
 		bindHeaderValue(observable, labelValue, new PopFileName());
 		Label fillLabel = new Label(this, SWT.NONE);
 		GridData layoutData = new GridData();
 		layoutData.horizontalSpan = 2;
-		fillLabel.setLayoutData(layoutData);
+		fillLabel.setLayoutData(layoutData);*/
 
-		/*
-		String populationFileName = dynamoSimulationObject.getObservablePopulationFileName().doGetValue().toString();
-		Map contentsMap = new LinkedHashMap<String, String>();
-		contentsMap.put(populationFileName, populationFileName);
+		
+		//String populationFileName = dynamoSimulationObject.getObservablePopulationFileName().doGetValue().toString();
+		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
+		Set<String> contentsSet = treeLists.getPopulations();		
+		log.debug("contentsSet" + contentsSet);
+		
+		//contentsMap.put(populationFileName, populationFileName);
+		//contentsMap.put("TEST", "TEST");
+		//contentsMap.put("TEST1", "TEST1");
 		
 		GenericDropDownPanel diseaseDropDownPanel = 
-			createDropDown(POP_FILE_NAME, contentsMap, 1);
+			createDropDown(POP_FILE_NAME, contentsSet, 1);
 		this.dropDownModifyListener =
-			diseaseDropDownPanel.getGenericComboModifyListener();*/
-		
-		
+			diseaseDropDownPanel.getGenericComboModifyListener();
+				
 		labelValue = STARTING_YEAR;
 		observable = dynamoSimulationObject.getObservableStartingYear();
 		bindHeaderValue(observable, labelValue, new StartingYear());
@@ -330,11 +339,11 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	}
 	
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap, int columnSpan) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet, int columnSpan) {
 		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
 			new DiseaseFactorDataAction();
-		return new GenericDropDownPanel(myParent, label, columnSpan,
-				selectablePropertiesMap, updateDiseaseFactorDataAction);		
+		return new GenericDropDownPanel(this, label, columnSpan,
+				selectablePropertiesSet, updateDiseaseFactorDataAction);		
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {

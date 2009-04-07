@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
@@ -10,7 +10,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
@@ -50,23 +49,23 @@ public class RiskFactorSelectionGroup {
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(27, -5);
 		group.setLayoutData(formData);	
-		
+				
 		// TODO: Replace with real content
-		Map contentsMap = new LinkedHashMap();
-		contentsMap.put("BMI1", "BMI1");
-		contentsMap.put("BMI2", "BMI2");
-		contentsMap.put("BMI3", "BMI3");
+		Set<String> contentsSet = new LinkedHashSet();		
+		contentsSet.add("BMI1");
+		contentsSet.add("BMI2");
+		contentsSet.add("BMI3");
 		GenericDropDownPanel riskDropDownPanel = 
-			createDropDown(RISK_FACTOR, contentsMap);
+			createDropDown(RISK_FACTOR, contentsSet);
 		this.dropDownModifyListener =
 			riskDropDownPanel.getGenericComboModifyListener();		
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		RiskFactorDataAction updateRiskFactorDataAction = 
 			new RiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesMap, updateRiskFactorDataAction);		
+				selectablePropertiesSet, updateRiskFactorDataAction);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {

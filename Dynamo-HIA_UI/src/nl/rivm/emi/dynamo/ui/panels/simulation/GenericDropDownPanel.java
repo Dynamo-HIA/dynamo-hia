@@ -16,24 +16,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-public class GenericDropDownPanel  {
+public class GenericDropDownPanel {
 
-	Log log = LogFactory.getLog(this.getClass().getName());
+	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public Composite parent;
 	private Combo dropDown;
-	private Map selectablePropertiesMap;
+	private Set<String> selectablePropertiesSet;
 	private int selectedIndex;
 	private UpdateDataAction redrawGroupAndUpdateDataAction;
 
 	private GenericComboModifyListener genericComboModifyListener;
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
-			int columnSpan, Map selectablePropertiesMap, 
-			UpdateDataAction redrawGroupAndUpdateDataAction) {
-		
+			int columnSpan, Set<String> selectablePropertiesSet, 
+			UpdateDataAction redrawGroupAndUpdateDataAction) {		
 		this.parent = parent;
-		this.selectablePropertiesMap = selectablePropertiesMap;
+		this.selectablePropertiesSet = selectablePropertiesSet;
 		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
 		
 		Label label = new Label(parent, SWT.LEFT);
@@ -45,9 +44,8 @@ public class GenericDropDownPanel  {
 		dropLayoutData.horizontalSpan = columnSpan;
 		//dropLayoutData.marginHeight = 0;
 		dropDown.setLayoutData(dropLayoutData);
-		Set<String> keys = this.selectablePropertiesMap.keySet();
 		int index = 0;
-		for (String item : keys) {
+		for (String item : this.selectablePropertiesSet) {
 			dropDown.add(item, index);
 			index ++;
 		}

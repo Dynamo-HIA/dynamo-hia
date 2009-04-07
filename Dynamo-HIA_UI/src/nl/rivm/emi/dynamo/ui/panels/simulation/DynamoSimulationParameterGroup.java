@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -19,7 +20,7 @@ public class DynamoSimulationParameterGroup {
 	public DynamoSimulationParameterGroup(Composite parent,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			final HelpGroup helpGroup) throws DynamoConfigurationException {
+			final HelpGroup helpGroup) throws ConfigurationException {
 		group = new Group(parent, SWT.NONE); // parent group
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);

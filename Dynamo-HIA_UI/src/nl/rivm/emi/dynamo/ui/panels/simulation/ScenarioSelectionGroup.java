@@ -1,20 +1,17 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -131,41 +128,42 @@ public class ScenarioSelectionGroup { //extends Composite {
 		label.setLayoutData(ld);
 		
 		// TODO: Replace with real content
-		Map ageMap = new LinkedHashMap();
+		Set<String> ageSet = new LinkedHashSet();
 		for  (int age = 0; age < 96; age++) {
 			String showAge = age + "";
-			ageMap.put(showAge, showAge);	
+			ageSet.add(showAge);	
 		}
 
 		GenericDropDownPanel minAgeDropDownPanel = 
-			createDropDown(MIN_AGE, ageMap, 1);
+			createDropDown(MIN_AGE, ageSet, 1);
 		this.dropDownModifyListener =
 			minAgeDropDownPanel.getGenericComboModifyListener();		
 		
 		// TODO: Replace with real content
 		GenericDropDownPanel maxAgeDropDownPanel = 
-			createDropDown(MAX_AGE, ageMap, 1);
+			createDropDown(MAX_AGE, ageSet, 1);
 		this.dropDownModifyListener =
 			maxAgeDropDownPanel.getGenericComboModifyListener();
 
-		Map genderMap = new LinkedHashMap();
+		Set<String> genderSet = null; /* = new LinkedHashMap();
 		genderMap.put("Male", "Male");
 		genderMap.put("Female", "Female");
-		genderMap.put("Male and Female", "Male and Female");
+		genderMap.put("Male and Female", "Male and Female");*/
 		
 		// TODO: Replace with real content
 		GenericDropDownPanel genderDropDownPanel = 
-			createDropDown(GENDER, genderMap, 1);
+			createDropDown(GENDER, genderSet, 1);
 		this.dropDownModifyListener =
 			genderDropDownPanel.getGenericComboModifyListener();
 			
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap, int columnSpan) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet, 
+			int columnSpan) {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = 
 			new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
-				selectablePropertiesMap, updateScenarioFactorDataAction);		
+				selectablePropertiesSet, updateScenarioFactorDataAction);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {

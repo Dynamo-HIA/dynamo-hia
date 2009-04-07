@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
@@ -48,29 +49,29 @@ public class RelativeRiskResultGroup {
 		formData.bottom = new FormAttachment(67, 0);
 		group.setLayoutData(formData);
 		
-		Map relativeRiskMap = new LinkedHashMap();
+		Set<String> relativeRiskSet = null; /* = new LinkedHashMap();
 		relativeRiskMap.put("Prev-BMI", "Prev-BMI");
 		relativeRiskMap.put("Prev-BMA", "Prev-BMA");
-		relativeRiskMap.put("Prev-BMB", "Prev-BMB");
+		relativeRiskMap.put("Prev-BMB", "Prev-BMB");*/
 		
-		Map relativeRiskMap2 = new LinkedHashMap();
+		Set<String> relativeRiskSet2 = null; /* = new LinkedHashMap();
 		relativeRiskMap2.put("Prev2-BMI", "Prev2-BMI");
 		relativeRiskMap2.put("Prev2-BMA", "Prev2-BMA");
-		relativeRiskMap2.put("Prev2-BMB", "Prev2-BMB");		
+		relativeRiskMap2.put("Prev2-BMB", "Prev2-BMB");*/		
 		
-		Map relativeRiskMap3 = new LinkedHashMap();
+		Set<String> relativeRiskSet3 = null; /* = new LinkedHashMap();
 		relativeRiskMap3.put("Prev3-BMI", "Prev3-BMI");
 		relativeRiskMap3.put("Prev3-BMA", "Prev3-BMA");
-		relativeRiskMap3.put("Prev3-BMB", "Prev3-BMB");
+		relativeRiskMap3.put("Prev3-BMB", "Prev3-BMB");*/
 		
-		Map<Combo, Map> nestedComboMapsContents = new LinkedHashMap<Combo, Map>();
-		Map<String, Map> nestedRelativeRiskContents = new LinkedHashMap<String, Map>();
-		nestedRelativeRiskContents.put("BMI1", relativeRiskMap);
-		nestedRelativeRiskContents.put("BMI2", relativeRiskMap2);
-		nestedRelativeRiskContents.put("BMI3", relativeRiskMap3);
+		Map<Combo, Map<String, Set<String>>> nestedComboMapsContents = new LinkedHashMap<Combo, Map<String, Set<String>>>();
+		Map<String, Set<String>> nestedRelativeRiskContents = new LinkedHashMap<String, Set<String>>();
+		nestedRelativeRiskContents.put("BMI1", relativeRiskSet);
+		nestedRelativeRiskContents.put("BMI2", relativeRiskSet2);
+		nestedRelativeRiskContents.put("BMI3", relativeRiskSet3);
 		
 		GenericDropDownPanel relativeRiskDropDownPanel = 
-			createDropDown(RELATIVE_RISK, relativeRiskMap);
+			createDropDown(RELATIVE_RISK, relativeRiskSet);
 		this.relativeRiskDropDownModifyListener.
 			registerDropDown(relativeRiskDropDownPanel.getDropDown());
 		nestedComboMapsContents.put(relativeRiskDropDownPanel.getDropDown(), nestedRelativeRiskContents);
@@ -79,8 +80,8 @@ public class RelativeRiskResultGroup {
 		this.relativeRiskDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesMap, null);		
+				selectablePropertiesSet, null);		
 	}
 }

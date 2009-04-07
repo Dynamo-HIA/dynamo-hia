@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
@@ -53,21 +54,21 @@ public class DiseaseSelectionGroup {
 		group.setLayoutData(formData);			
 		
 		// TODO: Replace with real content
-		Map contentsMap = new LinkedHashMap();
+		Set<String> contentsSet = null; /* new LinkedHashMap();
 		contentsMap.put("BMI1", "BMI1");
 		contentsMap.put("BMI2", "BMI2");
-		contentsMap.put("BMI3", "BMI3");
+		contentsMap.put("BMI3", "BMI3");*/
 		GenericDropDownPanel diseaseDropDownPanel = 
-			createDropDown(DISEASE, contentsMap);
+			createDropDown(DISEASE, contentsSet);
 		this.dropDownModifyListener =
 			diseaseDropDownPanel.getGenericComboModifyListener();		
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
 			new DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesMap, updateDiseaseFactorDataAction);		
+				selectablePropertiesSet, updateDiseaseFactorDataAction);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {

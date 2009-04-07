@@ -42,7 +42,7 @@ public abstract class Tab {
 		// Yes, make it here
 		makeIt();
 		
-		// The TabItem can only be created after makeIt()
+		// The TabItem can only be created AFTER makeIt()
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
 		item.setText(tabName);
 		item.setControl(this.plotComposite);

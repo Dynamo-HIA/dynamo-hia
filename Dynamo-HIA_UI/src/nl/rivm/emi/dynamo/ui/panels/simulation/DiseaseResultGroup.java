@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
@@ -51,23 +52,23 @@ public class DiseaseResultGroup {
 		formData.bottom = new FormAttachment(100, 0);
 		group.setLayoutData(formData);
 		
-		Map prevMap = new LinkedHashMap();
+		Set<String> prevMap = null; /* new LinkedHashMap();
 		prevMap.put("Prev-BMI", "Prev-BMI");
 		prevMap.put("Prev-BMA", "Prev-BMA");
-		prevMap.put("Prev-BMB", "Prev-BMB");
+		prevMap.put("Prev-BMB", "Prev-BMB");*/
 		
-		Map prevMap2 = new LinkedHashMap();
+		Set<String> prevMap2 = null; /* new LinkedHashMap();
 		prevMap2.put("Prev2-BMI", "Prev2-BMI");
 		prevMap2.put("Prev2-BMA", "Prev2-BMA");
-		prevMap2.put("Prev2-BMB", "Prev2-BMB");		
+		prevMap2.put("Prev2-BMB", "Prev2-BMB");*/		
 		
-		Map prevMap3 = new LinkedHashMap();
+		Set<String> prevMap3 = null; /* new LinkedHashMap();
 		prevMap3.put("Prev3-BMI", "Prev3-BMI");
 		prevMap3.put("Prev3-BMA", "Prev3-BMA");
-		prevMap3.put("Prev3-BMB", "Prev3-BMB");
+		prevMap3.put("Prev3-BMB", "Prev3-BMB");*/
 		
-		Map<Combo, Map> nestedComboMapsContents = new LinkedHashMap<Combo, Map>();
-		Map<String, Map> nestedPrevContents = new LinkedHashMap<String, Map>();
+		Map<Combo, Map<String, Set<String>>> nestedComboMapsContents = new LinkedHashMap<Combo, Map<String, Set<String>>>();
+		Map<String, Set<String>> nestedPrevContents = new LinkedHashMap<String, Set<String>>();
 		nestedPrevContents.put("BMI1", prevMap);
 		nestedPrevContents.put("BMI2", prevMap2);
 		nestedPrevContents.put("BMI3", prevMap3);
@@ -78,22 +79,22 @@ public class DiseaseResultGroup {
 			registerDropDown(diseasePrevalenceDropDownPanel.getDropDown());
 		nestedComboMapsContents.put(diseasePrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
 
-		Map transitionMap = new LinkedHashMap();
+		Set<String> transitionMap = null; /* = new LinkedHashMap();
 		transitionMap.put("Trans-BMI", "Trans-BMI");
 		transitionMap.put("Trans-BMA", "Trans-BMA");
-		transitionMap.put("Trans-BMB", "Trans-BMB");
+		transitionMap.put("Trans-BMB", "Trans-BMB");*/
 
-		Map transitionMap2 = new LinkedHashMap();
+		Set<String> transitionMap2 = null; /* = new LinkedHashMap();
 		transitionMap2.put("Trans-BMI2", "Trans-BMI2");
 		transitionMap2.put("Trans-BMA2", "Trans-BMA2");
-		transitionMap2.put("Trans-BMB2", "Trans-BMB2");
+		transitionMap2.put("Trans-BMB2", "Trans-BMB2");*/
 		
-		Map transitionMap3 = new LinkedHashMap();
+		Set<String> transitionMap3 = null; /* = new LinkedHashMap();
 		transitionMap3.put("Trans-BMI3", "Trans-BMI3");
 		transitionMap3.put("Trans-BMA3", "Trans-BMA3");
-		transitionMap3.put("Trans-BMB3", "Trans-BMB3");			
+		transitionMap3.put("Trans-BMB3", "Trans-BMB3");*/			
 		
-		Map<String, Map> nestedTransitionContents = new LinkedHashMap<String, Map>();
+		Map<String, Set<String>> nestedTransitionContents = new LinkedHashMap<String, Set<String>>();
 		nestedTransitionContents.put("BMI1", transitionMap);
 		nestedTransitionContents.put("BMI2", transitionMap2);
 		nestedTransitionContents.put("BMI3", transitionMap3);
@@ -122,8 +123,8 @@ public class DiseaseResultGroup {
 		this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap) {
+	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesMap, null);		
+				selectablePropertiesSet, null);		
 	}
 }
