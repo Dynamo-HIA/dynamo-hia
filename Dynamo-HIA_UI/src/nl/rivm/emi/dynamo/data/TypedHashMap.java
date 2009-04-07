@@ -17,7 +17,7 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 	 * Block untyped use.
 	 */
 	@SuppressWarnings("unused")
-	private TypedHashMap() {
+	public TypedHashMap() {
 
 	}
 
