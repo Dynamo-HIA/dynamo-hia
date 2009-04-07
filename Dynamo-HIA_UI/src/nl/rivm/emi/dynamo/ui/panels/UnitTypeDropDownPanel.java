@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +33,7 @@ public class UnitTypeDropDownPanel {
 	private Label label;
 	private Combo dropDown;
 	private HelpGroup theHelpGroup;
-	private DropDownPropertiesMap selectableExcessMortalityPropertiesMap;
+	private DropDownPropertiesSet selectableExcessMortalityPropertiesSet;
 	private UnitTypeComboModifyListener unitTypeModifyListener;
 	private int selectedIndex;
 
@@ -45,12 +46,12 @@ public class UnitTypeDropDownPanel {
 		layoutLabel();
 		dropDown = new Combo(group, SWT.DROP_DOWN|SWT.READ_ONLY);
 		createDropDownPropertiesMap();
-		selectableExcessMortalityPropertiesMap.fillDropDown(dropDown);
+		selectableExcessMortalityPropertiesSet.fillDropDown(dropDown);
 		this.unitTypeModifyListener = new UnitTypeComboModifyListener(
 				writableValue);
 		dropDown.addModifyListener(unitTypeModifyListener);
 		String currentValue = unitTypeModifyListener.getCurrentValue();
-		int currentIndex = selectableExcessMortalityPropertiesMap
+		int currentIndex = selectableExcessMortalityPropertiesSet
 				.getSelectedIndex(currentValue);
 		dropDown.select(currentIndex);
 		layoutDropDown(label);
@@ -58,14 +59,13 @@ public class UnitTypeDropDownPanel {
 	}
 
 	private void createDropDownPropertiesMap() {
-		selectableExcessMortalityPropertiesMap = new DropDownPropertiesMap();
-		selectableExcessMortalityPropertiesMap.put(MEDIAN_SURVIVAL,
-				MEDIAN_SURVIVAL);
-		selectableExcessMortalityPropertiesMap.put(RATE, RATE);
+		selectableExcessMortalityPropertiesSet = new DropDownPropertiesSet();
+		selectableExcessMortalityPropertiesSet.add(MEDIAN_SURVIVAL);
+		selectableExcessMortalityPropertiesSet.add(RATE);
 	}
 
 	public String getUnitType() {
-		return (String) selectableExcessMortalityPropertiesMap
+		return (String) selectableExcessMortalityPropertiesSet
 				.getSelectedString(this.selectedIndex);
 	}
 
@@ -88,37 +88,6 @@ public class UnitTypeDropDownPanel {
 		return dropDown;
 	}
 
-	static class DropDownPropertiesMap extends LinkedHashMap<String, Object> {
-		int defaultChoiceIndex = 0;
-
-		public void fillDropDown(Combo dropDown) {
-			Set<String> keys = keySet();
-			int index = 0;
-			for (String item : keys) {
-				dropDown.add(item, index);
-				index++;
-			}
-		}
-
-		public int getSelectedIndex(String value) {
-			Set<String> keys = keySet();
-			int index = 0;
-			for (String item : keys) {
-				if ((item != null) && (item.equals(value))) {
-					break;
-				}
-				index++;
-			}
-			if (index >= keys.size()) {
-				index = defaultChoiceIndex;
-			}
-			return index;
-		}
-
-		public String getSelectedString(int selectedIndex) {
-			return (String) get(selectedIndex);
-		}
-	}
 
 	/**
 	 * Layout stuff.
