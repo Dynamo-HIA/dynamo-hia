@@ -25,7 +25,6 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	private TreeAsDropdownLists(BaseNode selectedNode)
 			throws ConfigurationException {
 		super();
-		refresh(selectedNode);
 	}
 
 	/**
@@ -40,6 +39,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		if (instance == null) {
 			instance = new TreeAsDropdownLists(selectedNode);
 		}
+		instance.refresh(selectedNode);
 		return instance;
 	}
 
@@ -84,6 +84,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		Set<String> diseaseNames = diseasesMap.keySet();
 		return diseaseNames;
 	}
+
 	/**
 	 * This method returns a list with the names of the diseases in the tree
 	 * that have been correctly configured and can be chosen in a dropdown at
