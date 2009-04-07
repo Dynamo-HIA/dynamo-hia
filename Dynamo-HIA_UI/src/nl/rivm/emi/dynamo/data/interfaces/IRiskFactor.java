@@ -2,8 +2,8 @@ package nl.rivm.emi.dynamo.data.interfaces;
 
 public interface IRiskFactor {
 
-	public abstract IRiskFactorConfiguration getRiskFactor();
+	public abstract ISimulationRiskFactorConfiguration getRiskFactor();
 
-	public abstract void setRiskFactor(IRiskFactorConfiguration riskFactor);
+	public abstract void setRiskFactor(ISimulationRiskFactorConfiguration riskFactor);
 
 }

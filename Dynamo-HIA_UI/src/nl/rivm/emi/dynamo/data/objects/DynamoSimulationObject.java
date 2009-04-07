@@ -14,15 +14,18 @@ import nl.rivm.emi.dynamo.data.interfaces.IRandomSeed;
 import nl.rivm.emi.dynamo.data.interfaces.IRelativeRisks;
 import nl.rivm.emi.dynamo.data.interfaces.IResultType;
 import nl.rivm.emi.dynamo.data.interfaces.IRiskFactor;
-import nl.rivm.emi.dynamo.data.interfaces.IRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IScenarios;
 import nl.rivm.emi.dynamo.data.interfaces.ISimPopSize;
+import nl.rivm.emi.dynamo.data.interfaces.ISimulationRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
 import nl.rivm.emi.dynamo.data.interfaces.ITimeStep;
 import nl.rivm.emi.dynamo.data.interfaces.PopulationFileName;
 import nl.rivm.emi.dynamo.data.objects.parts.RelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.ScenarioConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.parts.SimulationRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
+import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
 
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
@@ -59,7 +62,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableMaxAge() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MAXAGE.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MAXAGE
+				.getElementName());
 		return result;
 	}
 
@@ -74,7 +78,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableMinAge() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MINAGE.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MINAGE
+				.getElementName());
 		return result;
 	}
 
@@ -89,7 +94,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableNumberOfYears() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.NUMBEROFYEARS.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.NUMBEROFYEARS
+				.getElementName());
 		return result;
 	}
 
@@ -104,7 +110,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservablePopulationFileName() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.POPFILENAME.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.POPFILENAME
+				.getElementName());
 		return result;
 	}
 
@@ -119,7 +126,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableSimPopSize() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.SIMPOPSIZE.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.SIMPOPSIZE
+				.getElementName());
 		return result;
 	}
 
@@ -134,7 +142,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableRandomSeed() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RANDOMSEED.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RANDOMSEED
+				.getElementName());
 		return result;
 	}
 
@@ -149,7 +158,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableStartingYear() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR
+				.getElementName());
 		return result;
 	}
 
@@ -164,7 +174,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableTimeStep() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.TIMESTEP.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.TIMESTEP
+				.getElementName());
 		return result;
 	}
 
@@ -179,7 +190,8 @@ public class DynamoSimulationObject extends
 	}
 
 	public WritableValue getObservableResultType() {
-		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RESULTTYPE.getElementName());
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RESULTTYPE
+				.getElementName());
 		return result;
 	}
 
@@ -188,14 +200,18 @@ public class DynamoSimulationObject extends
 
 	}
 
-	public IRiskFactorConfiguration getRiskFactor() {
-		// TODO Auto-generated method stub
-		return null;
+	public ISimulationRiskFactorConfiguration getRiskFactor() {
+		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
+				.getElementName());
+		SimulationRiskFactorConfigurationData data = new SimulationRiskFactorConfigurationData(
+				riskFactorMap);
+		return data;
 	}
 
-	public void setRiskFactor(IRiskFactorConfiguration riskFactor) {
-		// TODO Auto-generated method stub
-
+	public void setRiskFactor(ISimulationRiskFactorConfiguration riskFactor) {
+		TypedHashMap<UniqueName> riskFactorMap = riskFactor
+				.createTypedHashMap();
+		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorMap);
 	}
 
 	public TypedHashMap<IDiseaseConfiguration> getDiseases() {
