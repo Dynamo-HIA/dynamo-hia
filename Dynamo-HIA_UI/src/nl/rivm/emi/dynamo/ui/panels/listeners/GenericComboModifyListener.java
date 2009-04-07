@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Combo;
@@ -15,8 +16,18 @@ public class GenericComboModifyListener implements ModifyListener {
 	
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
+	/**
+	 * The value in the model-object to update.
+	 */
+	WritableValue writableValue;
+	
 	private Set<Combo> registeredDropDowns = new HashSet<Combo>();						
 	private Map<Combo, Map> nestedContents = new HashMap<Combo, Map>();
+
+	public GenericComboModifyListener(WritableValue writableValue) {
+		super();
+		this.writableValue = writableValue;
+	}
 
 	public void setNestedContents(Map nestedContents) {
 		this.nestedContents = nestedContents;
@@ -36,6 +47,11 @@ public class GenericComboModifyListener implements ModifyListener {
 
 		log.debug("newText" + newText);
 		
+		// Update the object model with the selected new value
+		if(writableValue!= null){
+			writableValue.doSetValue(newText);
+		}
+		
 		// Iterate through the registered drop downs of this 
 		for (Combo registerdCombo : registeredDropDowns) {
 			log.debug("registerdCombo" + registerdCombo);						
@@ -43,9 +59,11 @@ public class GenericComboModifyListener implements ModifyListener {
 			registerdCombo.removeAll();
 			
 			// Get the appropriate map for this Combo
-			Map<String, Map> selectableContentsMap = (Map<String, Map>) nestedContents.get(registerdCombo);
+			Map<String, Map> selectableContentsMap = 
+				(Map<String, Map>) nestedContents.get(registerdCombo);
 			log.debug("selectableContentsMap" + selectableContentsMap);
-			Map<String, Map> selectablePropertiesMap = (Map<String, Map>) selectableContentsMap.get(newText);			
+			Map<String, Map> selectablePropertiesMap = 
+				(Map<String, Map>) selectableContentsMap.get(newText);			
 			Set<String> keys = selectablePropertiesMap.keySet();						
 			int index = 0;
 			// Add the new contents
@@ -57,4 +75,7 @@ public class GenericComboModifyListener implements ModifyListener {
 		}
 	}
 
+	public String getCurrentValue(){
+		return (String) this.writableValue.doGetValue();
+	}
 }

@@ -46,7 +46,7 @@ public class UnitTypeDropDownPanel {
 		layoutLabel();
 		dropDown = new Combo(group, SWT.DROP_DOWN|SWT.READ_ONLY);
 		createDropDownPropertiesMap();
-		selectableExcessMortalityPropertiesSet.fillDropDown(dropDown);
+		this.fill(selectableExcessMortalityPropertiesSet);
 		this.unitTypeModifyListener = new UnitTypeComboModifyListener(
 				writableValue);
 		dropDown.addModifyListener(unitTypeModifyListener);
@@ -58,6 +58,14 @@ public class UnitTypeDropDownPanel {
 
 	}
 
+	public void fill(DropDownPropertiesSet set) {
+		int index = 0;
+		for (String item : set) {
+			dropDown.add(item, index);
+			index++;
+		}
+	}	
+	
 	private void createDropDownPropertiesMap() {
 		selectableExcessMortalityPropertiesSet = new DropDownPropertiesSet();
 		selectableExcessMortalityPropertiesSet.add(MEDIAN_SURVIVAL);

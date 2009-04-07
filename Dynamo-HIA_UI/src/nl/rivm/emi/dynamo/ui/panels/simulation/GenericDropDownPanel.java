@@ -1,10 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,7 +13,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 public class GenericDropDownPanel {
@@ -22,14 +21,15 @@ public class GenericDropDownPanel {
 	
 	public Composite parent;
 	private Combo dropDown;
-	private Set<String> selectablePropertiesSet;
+	private DropDownPropertiesSet selectablePropertiesSet;
 	private int selectedIndex;
 	private UpdateDataAction redrawGroupAndUpdateDataAction;
 
 	private GenericComboModifyListener genericComboModifyListener;
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
-			int columnSpan, Set<String> selectablePropertiesSet, 
+			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
+			AtomicTypeObjectTuple tuple,
 			UpdateDataAction redrawGroupAndUpdateDataAction) {		
 		this.parent = parent;
 		this.selectablePropertiesSet = selectablePropertiesSet;
@@ -44,56 +44,29 @@ public class GenericDropDownPanel {
 		dropLayoutData.horizontalSpan = columnSpan;
 		//dropLayoutData.marginHeight = 0;
 		dropDown.setLayoutData(dropLayoutData);
-		int index = 0;
-		for (String item : this.selectablePropertiesSet) {
-			dropDown.add(item, index);
-			index ++;
-		}
-		/*// For later use with other tab
-		dropDown.addSelectionListener(new SelectionAdapter() {
-			// In case the user does not select anything
-			public void widgetDefaultSelected(SelectionEvent e) {
-				//GenericDropDownPanel.this.selectedIndex = dropDown.getSelectionIndex();
-			}
-			// In case the user makes the selection
-			public void widgetSelected(SelectionEvent e) {				
-				Combo combo = (Combo) e.getSource();
-				int dropDownSelection = combo.getSelectionIndex();
-				log.debug("dropDownSelection" + dropDownSelection);
-				// (data, Composite)
-				GenericDropDownPanel.this.redrawGroupAndUpdateDataAction.updateData(dropDownSelection);
-			}
-		});*/
-		this.genericComboModifyListener = new GenericComboModifyListener();
-		dropDown.addModifyListener(genericComboModifyListener);
-		dropDown.select(0);		
-	}
-
-	// TODO: AtomicTypeObjectTuple OR prepared as String
-	private void setDefaultSelection(AtomicTypeObjectTuple tuple) {
-		// Set the selected item from the stored values in the xml		
-		WritableValue writableValue = (WritableValue) tuple.getValue();
-		String stringValue = (String) writableValue.doGetValue();
+		this.fill(selectablePropertiesSet);
 		
-		String[] items = dropDown.getItems();
-		String[] newItems = new String[items.length + 1];
-		int count = 0;
-		for(String item:items){
-			newItems[count] = items[count];
-			if(item.equals(stringValue)){
-				break;
-			}
-			count++;
-		}
-		// Nothing found.
-		if(count == items.length){
-			newItems[count] = stringValue;
-			dropDown.setItems(newItems);
-			dropDown.select(newItems.length-1);
-		} else {
-			dropDown.select(count);
-		}
+		// Create 
+		WritableValue writableValue = (WritableValue) tuple.getValue();
+		this.genericComboModifyListener = new GenericComboModifyListener(writableValue);		
+		dropDown.addModifyListener(genericComboModifyListener);
+
+		// Get the default value
+		String currentValue = genericComboModifyListener.getCurrentValue();
+		int currentIndex = selectablePropertiesSet
+				.getSelectedIndex(currentValue);
+		// Set the default value
+		dropDown.select(currentIndex);
+
 	}
+	
+	public void fill(DropDownPropertiesSet set) {
+		int index = 0;
+		for (String item : set) {
+			dropDown.add(item, index);
+			index++;
+		}
+	}	
 	
 	public GenericComboModifyListener getGenericComboModifyListener() {
 		return genericComboModifyListener;
@@ -102,4 +75,5 @@ public class GenericDropDownPanel {
 	public Combo getDropDown() {
 		return dropDown;
 	}
+	
 }
