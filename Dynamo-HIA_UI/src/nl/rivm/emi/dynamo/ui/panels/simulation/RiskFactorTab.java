@@ -62,7 +62,7 @@ public class RiskFactorTab  {
 		
 		RiskFactorSelectionGroup riskFactorSelectionGroup =
 			new RiskFactorSelectionGroup(this.plotComposite,
-					selectedNode, helpGroup);		
+					modelObject.getRiskFactor(), selectedNode, helpGroup);		
 		
 		RiskFactorResultGroup riskFactorResultGroup =
 			new RiskFactorResultGroup(this.plotComposite,
