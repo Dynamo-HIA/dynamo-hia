@@ -23,7 +23,7 @@ public class SimulationConfigurationPopulationsSetFactory {
 			.getLog("nl.rivm.emi.dynamo.ui.util.SimulationConfigurationPopulationsMapFactory");
 
 	static final String[] requiredPopulationFileNames = {
-			StandardTreeNodeLabelsEnum.POPULATIONNEWBORNSFILE.getNodeLabel(),
+// TODO (mondeelr) activate for 1.1. StandardTreeNodeLabelsEnum.POPULATIONNEWBORNSFILE.getNodeLabel(),
 			StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
 					.getNodeLabel(),
 			StandardTreeNodeLabelsEnum.POPULATIONOVERALLMORTALITYFILE
