@@ -68,6 +68,7 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 		 try {
 			this.dataBindingContext = new DataBindingContext();
 			this.modelObject = new DynamoSimulationObject(manufactureModelObject());
+			log.debug("modelObject" + modelObject);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);

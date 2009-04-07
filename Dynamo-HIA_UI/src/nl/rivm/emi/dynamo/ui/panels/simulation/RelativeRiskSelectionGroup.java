@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -24,12 +25,15 @@ public class RelativeRiskSelectionGroup {
 	private static final String FROM = "From";
 	private static final String TO = "To";
 	protected Group group;
-	Composite plotComposite;
-	GenericComboModifyListener dropDownModifyListener;
+	private Composite plotComposite;
+	private GenericComboModifyListener dropDownModifyListener;
+	private DynamoSimulationObject dynamoSimulationObject;
 
 	public RelativeRiskSelectionGroup(Composite plotComposite,
+			DynamoSimulationObject dynamoSimulationObject,
 			BaseNode selectedNode, HelpGroup helpGroup) {
 		this.plotComposite = plotComposite;
+		this.dynamoSimulationObject = dynamoSimulationObject;
 		log.debug("relativeRiskFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		group = new Group(plotComposite, SWT.FILL);
 		
@@ -53,11 +57,17 @@ public class RelativeRiskSelectionGroup {
 		formData.bottom = new FormAttachment(44, 0);
 		group.setLayoutData(formData);			
 		
+		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
+		
+		Map contentsMap = dynamoSimulationObject.getRelativeRisks();
+		log.debug("contentsMap" + contentsMap);
+		
 		// TODO: Replace with real content
+		/*
 		Map contentsMap = new LinkedHashMap();
 		contentsMap.put("BMI1", "BMI1");
 		contentsMap.put("BMI2", "BMI2");
-		contentsMap.put("BMI3", "BMI3");
+		contentsMap.put("BMI3", "BMI3");*/
 		GenericDropDownPanel fromDropDownPanel = 
 			createDropDown(FROM, contentsMap);
 		this.dropDownModifyListener =

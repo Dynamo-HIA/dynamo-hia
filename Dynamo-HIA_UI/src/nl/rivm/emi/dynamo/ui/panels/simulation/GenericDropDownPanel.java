@@ -10,12 +10,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
@@ -23,7 +20,7 @@ public class GenericDropDownPanel  {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public Group group;
+	public Composite parent;
 	private Combo dropDown;
 	private Map selectablePropertiesMap;
 	private int selectedIndex;
@@ -31,19 +28,19 @@ public class GenericDropDownPanel  {
 
 	private GenericComboModifyListener genericComboModifyListener;
 	
-	public GenericDropDownPanel(Group group, String dropDownLabel,
+	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, Map selectablePropertiesMap, 
 			UpdateDataAction redrawGroupAndUpdateDataAction) {
 		
-		this.group = group;
+		this.parent = parent;
 		this.selectablePropertiesMap = selectablePropertiesMap;
 		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
 		
-		Label label = new Label(group, SWT.LEFT);
+		Label label = new Label(parent, SWT.LEFT);
 		label.setText(dropDownLabel + ":");
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(layoutData);		
-		dropDown = new Combo(group, SWT.READ_ONLY);
+		dropDown = new Combo(parent, SWT.DROP_DOWN|SWT.READ_ONLY);
 		GridData dropLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		dropLayoutData.horizontalSpan = columnSpan;
 		//dropLayoutData.marginHeight = 0;

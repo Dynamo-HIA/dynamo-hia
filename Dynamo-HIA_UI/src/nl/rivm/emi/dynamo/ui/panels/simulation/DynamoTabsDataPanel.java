@@ -5,12 +5,11 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -19,6 +18,8 @@ import org.eclipse.swt.widgets.TabItem;
 
 public class DynamoTabsDataPanel {
 
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
 	private DataBindingContext dataBindingContext = null;
@@ -45,6 +46,8 @@ public class DynamoTabsDataPanel {
 	 */
 	public void makeDynamoTabsDisplay(Composite parent) throws DynamoConfigurationException  {
 
+		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
+		
 		/* tab for pyramid plots */
 		TabFolder tabFolder1 = new TabFolder(parent, SWT.FILL);
 

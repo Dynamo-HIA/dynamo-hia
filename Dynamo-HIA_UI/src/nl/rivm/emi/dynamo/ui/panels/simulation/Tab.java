@@ -1,9 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormLayout;
@@ -18,9 +22,19 @@ public abstract class Tab {
 	
 	private String tabName;
 	protected Composite plotComposite;
-	private Composite tabFolder;
+	protected DynamoSimulationObject dynamoSimulationObject;
+	protected DataBindingContext dataBindingContext;
+	protected HelpGroup helpGroup;
+	protected BaseNode selectedNode;
 	
-	public Tab(TabFolder tabFolder, String tabName) throws DynamoConfigurationException {
+	public Tab(TabFolder tabFolder, String tabName, 
+			DynamoSimulationObject dynamoSimulationObject, 
+			DataBindingContext dataBindingContext, 
+			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
+		this.dynamoSimulationObject = dynamoSimulationObject;
+		this.dataBindingContext = dataBindingContext;
+		this.helpGroup = helpGroup;
+		this.selectedNode = selectedNode;
 		this.tabName = tabName;
 		this.setLayoutStyle(tabFolder);
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);	

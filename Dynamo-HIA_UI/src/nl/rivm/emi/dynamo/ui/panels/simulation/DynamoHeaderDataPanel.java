@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Map;
+
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
@@ -22,6 +24,7 @@ import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListene
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -32,9 +35,6 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -62,7 +62,8 @@ public class DynamoHeaderDataPanel extends Composite {
 	private boolean open = false;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
-
+	private GenericComboModifyListener dropDownModifyListener;
+	
 	/** Two radiobuttons */
 	private Button[] radioButtons = new Button[2];
 
@@ -106,6 +107,9 @@ public class DynamoHeaderDataPanel extends Composite {
 		observable = dynamoSimulationObject.getObservableHasNewborns();
 		bindHeaderValue(observable, labelValue, new HasNewborns());
 
+		
+		
+		
 		labelValue = POP_FILE_NAME;
 		observable = dynamoSimulationObject.getObservablePopulationFileName();
 		bindHeaderValue(observable, labelValue, new PopFileName());
@@ -114,6 +118,17 @@ public class DynamoHeaderDataPanel extends Composite {
 		layoutData.horizontalSpan = 2;
 		fillLabel.setLayoutData(layoutData);
 
+		/*
+		String populationFileName = dynamoSimulationObject.getObservablePopulationFileName().doGetValue().toString();
+		Map contentsMap = new LinkedHashMap<String, String>();
+		contentsMap.put(populationFileName, populationFileName);
+		
+		GenericDropDownPanel diseaseDropDownPanel = 
+			createDropDown(POP_FILE_NAME, contentsMap, 1);
+		this.dropDownModifyListener =
+			diseaseDropDownPanel.getGenericComboModifyListener();*/
+		
+		
 		labelValue = STARTING_YEAR;
 		observable = dynamoSimulationObject.getObservableStartingYear();
 		bindHeaderValue(observable, labelValue, new StartingYear());
@@ -248,14 +263,6 @@ public class DynamoHeaderDataPanel extends Composite {
 			}
 		});
 
-		// Werkt niet in een grid-layout.
-		// FormData radio1FormData = new FormData();
-		// radio1FormData.left = new FormAttachment(0, 15);
-		// radio1FormData.right = new FormAttachment(100, -15);
-		// radio1FormData.top = new FormAttachment(0, 10);
-		// radioButtons[0].setLayoutData(radio1FormData);
-
-		// radioButtons[1] = new Button(this.myParent, SWT.RADIO);
 		radioButtons[1] = new Button(this, SWT.RADIO);
 		GridData layoutData = new GridData();
 		layoutData.horizontalSpan = 2;
@@ -322,5 +329,15 @@ public class DynamoHeaderDataPanel extends Composite {
 																	 */null);
 
 	}
+	
+	private GenericDropDownPanel createDropDown(String label, Map selectablePropertiesMap, int columnSpan) {
+		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
+			new DiseaseFactorDataAction();
+		return new GenericDropDownPanel(myParent, label, columnSpan,
+				selectablePropertiesMap, updateDiseaseFactorDataAction);		
+	}
 
+	public GenericComboModifyListener getDropDownModifyListener() {
+		return this.dropDownModifyListener;
+	}
 }

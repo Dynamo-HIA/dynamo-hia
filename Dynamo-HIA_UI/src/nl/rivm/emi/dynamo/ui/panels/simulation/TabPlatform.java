@@ -5,6 +5,8 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -26,10 +28,12 @@ import org.eclipse.swt.widgets.TabFolder;
  */
 public abstract class TabPlatform extends Tab {
 
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
 	protected DynamoSimulationObject dynamoSimulationObject;
-	private DataBindingContext dataBindingContext = null;
-	private HelpGroup theHelpGroup;
-	private BaseNode selectedNode;
+	protected DataBindingContext dataBindingContext = null;
+	protected HelpGroup theHelpGroup;
+	protected BaseNode selectedNode;
 	protected TabManager tabManager;
 	private Composite tabFolder;
 	
@@ -38,7 +42,11 @@ public abstract class TabPlatform extends Tab {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
 			HelpGroup helpGroup) throws DynamoConfigurationException {
-		super(tabFolder, tabName);
+		super(tabFolder, tabName, 
+				dynamoSimulationObject, 
+			    dataBindingContext, 
+				selectedNode, helpGroup);
+		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
@@ -53,7 +61,9 @@ public abstract class TabPlatform extends Tab {
 		// Create the tabManager, it handles the subtabs
 		// TODO: Create a Singleton here, there can be only one
 		this.tabManager = 
-			new TabManager(plotComposite, selectedNode, this.dynamoSimulationObject, dataBindingContext, this.theHelpGroup, this);		
+			new TabManager(this.plotComposite, this.selectedNode, 
+					this.dynamoSimulationObject, this.dataBindingContext, 
+					this.theHelpGroup, this);		
 
 		// Create the create and delete buttons and their listeners:
 		// add the tabManager methods		

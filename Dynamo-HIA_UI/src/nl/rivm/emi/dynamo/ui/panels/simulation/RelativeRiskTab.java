@@ -19,13 +19,6 @@ public class RelativeRiskTab extends NestedTab {
 	
 	private Log log = LogFactory.getLog("RelativeRiskTab");
 	
-	private DynamoSimulationObject modelObject;
-	private DataBindingContext dataBindingContext = null;
-	private HelpGroup helpGroup;
-	private BaseNode selectedNode;
-	
-	private TabFolder tabFolder;
-
 	/**
 	 * @param tabfolder
 	 * @param output
@@ -40,7 +33,7 @@ public class RelativeRiskTab extends NestedTab {
 				dynamoSimulationObject,
 				dataBindingContext, 
 				selectedNode,
-				helpGroup);
+				helpGroup);		
 	}
 	
 	/**
@@ -50,7 +43,7 @@ public class RelativeRiskTab extends NestedTab {
 	public void makeIt(){		
 		RelativeRiskSelectionGroup relativeRiskSelectionGroup =
 			new RelativeRiskSelectionGroup(this.plotComposite,
-					selectedNode, helpGroup);
+					dynamoSimulationObject, selectedNode, helpGroup);
 		
 		RelativeRiskResultGroup RelativeRiskResultGroup =
 			new RelativeRiskResultGroup(this.plotComposite,

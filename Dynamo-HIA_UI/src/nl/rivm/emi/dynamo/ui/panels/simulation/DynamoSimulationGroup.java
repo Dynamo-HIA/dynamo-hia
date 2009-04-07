@@ -26,6 +26,7 @@ public class DynamoSimulationGroup {
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup, SimulationModal simulationModal) 
 			throws ConfigurationException {
+		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
 		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

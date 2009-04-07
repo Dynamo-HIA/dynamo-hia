@@ -23,8 +23,8 @@ public class DiseaseSelectionGroup {
 	
 	private static final String DISEASE = "Disease";
 	protected Group group;
-	Composite plotComposite;
-	GenericComboModifyListener dropDownModifyListener;
+	private Composite plotComposite;
+	private GenericComboModifyListener dropDownModifyListener;
 
 	public DiseaseSelectionGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup) {

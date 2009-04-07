@@ -14,7 +14,10 @@ public abstract class NestedTab extends Tab {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
-		super(tabFolder, tabName);
+		super(tabFolder, tabName,
+				dynamoSimulationObject,
+				dataBindingContext, selectedNode,
+				helpGroup);
 	}
 	
 }

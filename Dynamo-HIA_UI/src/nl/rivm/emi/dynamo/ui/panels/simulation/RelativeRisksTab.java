@@ -29,10 +29,6 @@ public class RelativeRisksTab extends TabPlatform {
 	private static final String RELATIVE_RISKS = "Relative Risks";
 	private static final String RELATIVE_RISK = "Relative Risk";
 	
-	private DynamoSimulationObject modelObject;
-	private DataBindingContext dataBindingContext = null;
-	private HelpGroup helpGroup;
-	private BaseNode selectedNode;
 
 	/**
 	 * @param tabfolder
@@ -49,8 +45,9 @@ public class RelativeRisksTab extends TabPlatform {
 
 	@Override
 	public NestedTab getNestedTab() throws DynamoConfigurationException {
+		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		return new RelativeRiskTab(this.getTabManager().getTabFolder(), RELATIVE_RISK + newTabNumber, modelObject, dataBindingContext, selectedNode, helpGroup);
+		return new RelativeRiskTab(this.getTabManager().getTabFolder(), RELATIVE_RISK + newTabNumber, dynamoSimulationObject, dataBindingContext, selectedNode, theHelpGroup);
 	}	
 	
 	@Override
