@@ -30,12 +30,14 @@ import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
@@ -127,14 +129,15 @@ public class XMLFileAction extends ActionBase {
 												rootElementName, node);
 									} else {
 										if (RootElementNamesEnum.EXCESSMORTALITY
-												.getNodeLabel().equalsIgnoreCase(
+												.getNodeLabel()
+												.equalsIgnoreCase(
 														rootElementName)) {
-											theModal = new ExcessMortalityModal(shell,
+											theModal = new ExcessMortalityModal(
+													shell,
 													dataFile.getAbsolutePath(),
 													savedFile.getAbsolutePath(),
 													rootElementName, node);
 										} else {
-											
 
 											if (RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 													.getNodeLabel()
@@ -142,25 +145,32 @@ public class XMLFileAction extends ActionBase {
 															rootElementName)) {
 												theModal = new RelRiskFromOtherDiseaseModal(
 														shell,
-														dataFile.getAbsolutePath(),
-														savedFile.getAbsolutePath(),
-														rootElementName, node, null);
+														dataFile
+																.getAbsolutePath(),
+														savedFile
+																.getAbsolutePath(),
+														rootElementName, node,
+														null);
 											} else {
 												if (RootElementNamesEnum.SIMULATION
-														.getNodeLabel().equals(
-																rootElementName)) {
-													theModal = new SimulationModal(
-															shell,
-															dataFile
-																	.getAbsolutePath(),
-															savedFile
-																	.getAbsolutePath(),
-															rootElementName, node);
+														.getNodeLabel()
+														.equals(rootElementName)) {
+													if (simulationPreConditionsMet()) {
+														theModal = new SimulationModal(
+																shell,
+																dataFile
+																		.getAbsolutePath(),
+																savedFile
+																		.getAbsolutePath(),
+																rootElementName,
+																node);
+													}
 												} else {
 													// RiskFactorConfigurations.
 													if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 															.getNodeLabel()
-															.equals(rootElementName)) {
+															.equals(
+																	rootElementName)) {
 														theModal = new RiskFactorCategoricalModal(
 																shell,
 																dataFile
@@ -327,7 +337,7 @@ public class XMLFileAction extends ActionBase {
 																														.getAbsolutePath(),
 																												rootElementName,
 																												node);
-																									} else {			
+																									} else {
 																										if (RootElementNamesEnum.TRANSITIONDRIFT_NETTO
 																												.getNodeLabel()
 																												.equals(
@@ -340,11 +350,11 @@ public class XMLFileAction extends ActionBase {
 																															.getAbsolutePath(),
 																													rootElementName,
 																													node);
-																											} else {																									
-																										throw new DynamoConfigurationException(
-																												"RootElementName "
-																														+ rootElementName
-																														+ " not implemented yet.");
+																										} else {
+																											throw new DynamoConfigurationException(
+																													"RootElementName "
+																															+ rootElementName
+																															+ " not implemented yet.");
 																										}
 																									}
 																								}
@@ -369,14 +379,16 @@ public class XMLFileAction extends ActionBase {
 					}
 				}
 			}
-			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-					theModal);
-			boolean isPresentAfter = savedFile.exists();
-			if (isPresentAfter && !isOld) {
-				((ParentNode) node).addChild((ChildNode) new FileNode(
-						(ParentNode) node, savedFile));
+			if (theModal != null) {
+				Realm.runWithDefault(SWTObservables.getRealm(Display
+						.getDefault()), theModal);
+				boolean isPresentAfter = savedFile.exists();
+				if (isPresentAfter && !isOld) {
+					((ParentNode) node).addChild((ChildNode) new FileNode(
+							(ParentNode) node, savedFile));
+				}
+				theViewer.refresh();
 			}
-			theViewer.refresh();
 		} catch (Exception e) {
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
@@ -386,5 +398,44 @@ public class XMLFileAction extends ActionBase {
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();
 		}
+	}
+
+	/**
+	 * Method for checking the preconditions for making a new simulation
+	 * configuration. When this check fails a messagebox indicating the error(s)
+	 * is shown and false is returned.
+	 * 
+	 * @return true when creating a new simulation-configuration can go ahead.
+	 *         false when no further action should be taken.
+	 * @throws ConfigurationException
+	 */
+	private boolean simulationPreConditionsMet() throws ConfigurationException {
+		boolean allTestsOK = true;
+		StringBuffer errorMessage = new StringBuffer(
+				"Not all preconditions have been met:\n");
+		TreeAsDropdownLists instance = TreeAsDropdownLists.getInstance(node);
+		instance.refresh(node);
+		int numberOfPopulations = instance.getPopulations().size();
+		if (numberOfPopulations == 0) {
+			allTestsOK = false;
+			errorMessage.append("No valid population was found.\n");
+		}
+		int numberOfDiseases = instance.getValidDiseases().size();
+		if (numberOfDiseases == 0) {
+			allTestsOK = false;
+			errorMessage.append("No valid disease was found.\n");
+		}
+		int numberOfRiskFactors = instance.getRiskFactors().size();
+		if (numberOfRiskFactors == 0) {
+			allTestsOK = false;
+			errorMessage.append("No valid risk factor was found.\n");
+		}
+		if (!allTestsOK) {
+			MessageBox errorMessageBox = new MessageBox(shell,
+					SWT.ERROR_NULL_ARGUMENT);
+			errorMessageBox.setMessage(errorMessage.toString());
+			errorMessageBox.open();
+		}
+		return allTestsOK;
 	}
 }
