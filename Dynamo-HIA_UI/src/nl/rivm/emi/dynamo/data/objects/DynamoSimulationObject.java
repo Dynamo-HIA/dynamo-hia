@@ -1,6 +1,10 @@
 package nl.rivm.emi.dynamo.data.objects;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IConfigurationCheck;
@@ -20,13 +24,22 @@ import nl.rivm.emi.dynamo.data.interfaces.ISimulationRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
 import nl.rivm.emi.dynamo.data.interfaces.ITimeStep;
 import nl.rivm.emi.dynamo.data.interfaces.PopulationFileName;
+import nl.rivm.emi.dynamo.data.objects.parts.DiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.RelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.ScenarioConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.parts.SimulationRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
+import nl.rivm.emi.dynamo.data.types.atomic.ExessMortFileName;
+import nl.rivm.emi.dynamo.data.types.atomic.IncFileName;
+import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class DynamoSimulationObject extends
@@ -34,6 +47,8 @@ public class DynamoSimulationObject extends
 		IMinAge, INumberOfYears, PopulationFileName, ISimPopSize, IRandomSeed,
 		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases,
 		IRelativeRisks, IScenarios, IConfigurationCheck {
+
+	Log log = LogFactory.getLog(this.getClass().getName());
 
 	public DynamoSimulationObject(LinkedHashMap<String, Object> content) {
 		super();
@@ -214,14 +229,76 @@ public class DynamoSimulationObject extends
 		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorMap);
 	}
 
-	public TypedHashMap<IDiseaseConfiguration> getDiseases() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, IDiseaseConfiguration> getDiseaseConfigurations() {
+		TypedHashMap<UniqueName> diseasesMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.DISEASES
+				.getElementName());
+		Map<String, IDiseaseConfiguration> resultMap = new HashMap<String, IDiseaseConfiguration>();
+		Set<Object> keySet = diseasesMap.keySet();
+		for (Object key : keySet) {
+			String name = (String) key;
+			DiseaseConfigurationData data = new DiseaseConfigurationData();
+			data.setName(name);
+			ArrayList<AtomicTypeObjectTuple> diseaseModelData = (ArrayList<AtomicTypeObjectTuple>) diseasesMap
+					.get(key);
+			for (AtomicTypeObjectTuple tuple : diseaseModelData) {
+				XMLTagEntity type = tuple.getType();
+				if (type instanceof PrevFileName) {
+					data.setPrevalenceFileName((String) tuple.getValue());
+				} else {
+					if (type instanceof IncFileName) {
+						data.setIncidenceFileName((String) tuple.getValue());
+					} else {
+						if (type instanceof ExessMortFileName) {
+							data.setExcessMortalityFileName((String) tuple
+									.getValue());
+						} else {
+							if (type instanceof DALYWeightsFileName) {
+								data.setDalyWeightsFileName((String) tuple
+										.getValue());
+							} else {
+								log.fatal("Unexpected type \""
+										+ type.getXMLElementName()
+										+ "\" in getDiseasesConfigurations()");
+							}
+						}
+					}
+				}
+			}
+			resultMap.put(name, data);
+		}
+		return resultMap;
 	}
 
-	public void setDiseases(TypedHashMap<IDiseaseConfiguration> diseases) {
-		// TODO Auto-generated method stub
-
+	public void setDiseaseConfigurations(
+			Map<String, IDiseaseConfiguration> diseaseConfigurations) {
+		TypedHashMap<UniqueName> diseasesMap = new TypedHashMap<UniqueName>();
+		Set<String> nameSet = diseaseConfigurations.keySet();
+		for (String name : nameSet) {
+			DiseaseConfigurationData data = (DiseaseConfigurationData) diseaseConfigurations
+					.get(name);
+			ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
+			AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
+					XMLTagEntityEnum.PREVFILENAME.getTheType(),
+					new WritableValue(data.getPrevalenceFileName(),
+							String.class));
+			diseaseModelData.add(tuple);
+			tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.INCFILENAME
+					.getTheType(), new WritableValue(data
+					.getIncidenceFileName(), String.class));
+			diseaseModelData.add(tuple);
+			tuple = new AtomicTypeObjectTuple(
+					XMLTagEntityEnum.EXESSMORTFILENAME.getTheType(),
+					new WritableValue(data.getExcessMortalityFileName(),
+							String.class));
+			diseaseModelData.add(tuple);
+			tuple = new AtomicTypeObjectTuple(
+					XMLTagEntityEnum.DALYWEIGHTSFILENAME.getTheType(),
+					new WritableValue(data.getDalyWeightsFileName(),
+							String.class));
+			diseaseModelData.add(tuple);
+			diseasesMap.put(name, diseaseModelData);
+		}
+		put(XMLTagEntityEnum.DISEASES.getElementName(), diseasesMap);
 	}
 
 	public TypedHashMap<RelativeRiskConfigurationData> getRelativeRisks() {
