@@ -36,7 +36,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -243,18 +242,20 @@ public class DynamoSimulationObject extends
 			for (AtomicTypeObjectTuple tuple : diseaseModelData) {
 				XMLTagEntity type = tuple.getType();
 				if (type instanceof PrevFileName) {
-					data.setPrevalenceFileName((String) tuple.getValue());
+					data.setPrevalenceFileName( (String) ((WritableValue) 
+							tuple.getValue()).getValue());
 				} else {
 					if (type instanceof IncFileName) {
-						data.setIncidenceFileName((String) tuple.getValue());
+						data.setIncidenceFileName( (String) ((WritableValue) 
+								tuple.getValue()).getValue());
 					} else {
 						if (type instanceof ExessMortFileName) {
-							data.setExcessMortalityFileName((String) tuple
-									.getValue());
+							data.setExcessMortalityFileName( (String) ((WritableValue) 
+									tuple.getValue()).getValue());
 						} else {
 							if (type instanceof DALYWeightsFileName) {
-								data.setDalyWeightsFileName((String) tuple
-										.getValue());
+								data.setDalyWeightsFileName( (String) ((WritableValue) 
+										tuple.getValue()).getValue());
 							} else {
 								log.fatal("Unexpected type \""
 										+ type.getXMLElementName()
