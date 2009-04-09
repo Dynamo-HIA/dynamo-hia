@@ -20,14 +20,16 @@ import nl.rivm.emi.dynamo.data.interfaces.IResultType;
 import nl.rivm.emi.dynamo.data.interfaces.IRiskFactor;
 import nl.rivm.emi.dynamo.data.interfaces.IScenarios;
 import nl.rivm.emi.dynamo.data.interfaces.ISimPopSize;
-import nl.rivm.emi.dynamo.data.interfaces.ISimulationRiskFactorConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IStartingYear;
+import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabStoreConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITimeStep;
 import nl.rivm.emi.dynamo.data.interfaces.PopulationFileName;
-import nl.rivm.emi.dynamo.data.objects.parts.DiseaseConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.parts.RelativeRiskConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.parts.ScenarioConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.parts.SimulationRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabScenarioConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.ExessMortFileName;
@@ -214,18 +216,32 @@ public class DynamoSimulationObject extends
 
 	}
 
-	public ISimulationRiskFactorConfiguration getRiskFactor() {
+	public HashMap<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
-		SimulationRiskFactorConfigurationData data = new SimulationRiskFactorConfigurationData(
-				riskFactorMap);
-		return data;
+		HashMap<String, TabRiskFactorConfigurationData> theMap = new HashMap<String, TabRiskFactorConfigurationData>();
+		Set<Object> namesSet = riskFactorMap.keySet();
+		for (Object nameObject : namesSet) {
+			ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
+					.get(nameObject);
+			TabRiskFactorConfigurationData data = new TabRiskFactorConfigurationData();
+			data.initialize(nameObject, list);
+			theMap.put(data.getName(), data);
+		}
+		return theMap;
 	}
 
-	public void setRiskFactor(ISimulationRiskFactorConfiguration riskFactor) {
-		TypedHashMap<UniqueName> riskFactorMap = riskFactor
-				.createTypedHashMap();
-		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorMap);
+	public void setRiskFactorConfigurations(
+			HashMap<String, TabRiskFactorConfigurationData> riskFactorConfigurations) {
+		TypedHashMap<? extends XMLTagEntity> riskFactorsMap = new TypedHashMap<UniqueName>();
+		Set<String> nameSet = riskFactorConfigurations.keySet();
+		for (String name : nameSet) {
+			TabRiskFactorConfigurationData riskFactorConfiguration = riskFactorConfigurations
+					.get(name);
+			riskFactorsMap = riskFactorConfiguration
+					.putInTypedHashMap(riskFactorsMap);
+		}
+		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorsMap);
 	}
 
 	public Map<String, IDiseaseConfiguration> getDiseaseConfigurations() {
@@ -235,36 +251,10 @@ public class DynamoSimulationObject extends
 		Set<Object> keySet = diseasesMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
-			DiseaseConfigurationData data = new DiseaseConfigurationData();
-			data.setName(name);
 			ArrayList<AtomicTypeObjectTuple> diseaseModelData = (ArrayList<AtomicTypeObjectTuple>) diseasesMap
 					.get(key);
-			for (AtomicTypeObjectTuple tuple : diseaseModelData) {
-				XMLTagEntity type = tuple.getType();
-				if (type instanceof PrevFileName) {
-					data.setPrevalenceFileName( (String) ((WritableValue) 
-							tuple.getValue()).getValue());
-				} else {
-					if (type instanceof IncFileName) {
-						data.setIncidenceFileName( (String) ((WritableValue) 
-								tuple.getValue()).getValue());
-					} else {
-						if (type instanceof ExessMortFileName) {
-							data.setExcessMortalityFileName( (String) ((WritableValue) 
-									tuple.getValue()).getValue());
-						} else {
-							if (type instanceof DALYWeightsFileName) {
-								data.setDalyWeightsFileName( (String) ((WritableValue) 
-										tuple.getValue()).getValue());
-							} else {
-								log.fatal("Unexpected type \""
-										+ type.getXMLElementName()
-										+ "\" in getDiseasesConfigurations()");
-							}
-						}
-					}
-				}
-			}
+			TabDiseaseConfigurationData data = new TabDiseaseConfigurationData();
+			data.initialize(name, diseaseModelData);
 			resultMap.put(name, data);
 		}
 		return resultMap;
@@ -272,60 +262,59 @@ public class DynamoSimulationObject extends
 
 	public void setDiseaseConfigurations(
 			Map<String, IDiseaseConfiguration> diseaseConfigurations) {
-		TypedHashMap<UniqueName> diseasesMap = new TypedHashMap<UniqueName>();
+		TypedHashMap<? extends XMLTagEntity> diseasesMap = new TypedHashMap<UniqueName>();
 		Set<String> nameSet = diseaseConfigurations.keySet();
 		for (String name : nameSet) {
-			DiseaseConfigurationData data = (DiseaseConfigurationData) diseaseConfigurations
+			TabDiseaseConfigurationData data = (TabDiseaseConfigurationData) diseaseConfigurations
 					.get(name);
-			ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
-			AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
-					XMLTagEntityEnum.PREVFILENAME.getTheType(),
-					new WritableValue(data.getPrevalenceFileName(),
-							String.class));
-			diseaseModelData.add(tuple);
-			tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.INCFILENAME
-					.getTheType(), new WritableValue(data
-					.getIncidenceFileName(), String.class));
-			diseaseModelData.add(tuple);
-			tuple = new AtomicTypeObjectTuple(
-					XMLTagEntityEnum.EXESSMORTFILENAME.getTheType(),
-					new WritableValue(data.getExcessMortalityFileName(),
-							String.class));
-			diseaseModelData.add(tuple);
-			tuple = new AtomicTypeObjectTuple(
-					XMLTagEntityEnum.DALYWEIGHTSFILENAME.getTheType(),
-					new WritableValue(data.getDalyWeightsFileName(),
-							String.class));
-			diseaseModelData.add(tuple);
-			diseasesMap.put(name, diseaseModelData);
+		diseasesMap = data.putInTypedHashMap(diseasesMap);
 		}
 		put(XMLTagEntityEnum.DISEASES.getElementName(), diseasesMap);
 	}
 
-	public TypedHashMap<RelativeRiskConfigurationData> getRelativeRisks() {
+	public TypedHashMap<TabRelativeRiskConfigurationData> getRelativeRisks() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
 	public void setRelativeRisks(
-			TypedHashMap<RelativeRiskConfigurationData> relativeRisks) {
+			TypedHashMap<TabRelativeRiskConfigurationData> relativeRisks) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public TypedHashMap<ScenarioConfigurationData> getScenarios() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, ITabScenarioConfiguration> getScenarioConfigurations() {
+		TypedHashMap<UniqueName> scenariosMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.SCENARIOS
+				.getElementName());
+		Map<String,ITabScenarioConfiguration> resultMap = new HashMap<String, ITabScenarioConfiguration>();
+		Set<Object> keySet = scenariosMap.keySet();
+		for (Object key : keySet) {
+			String name = (String) key;
+			ArrayList<AtomicTypeObjectTuple> scenarioModelData = (ArrayList<AtomicTypeObjectTuple>) scenariosMap
+					.get(key);
+			ITabStoreConfiguration data = new TabScenarioConfigurationData();
+			data.initialize(name, scenarioModelData);
+			resultMap.put(name, (ITabScenarioConfiguration) data);
+		}
+		return resultMap;
 	}
 
-	public void setScenarios(TypedHashMap<ScenarioConfigurationData> scenarios) {
-		// TODO Auto-generated method stub
-
+	public void setScenarioConfigurations(
+			Map<String, ITabScenarioConfiguration> scenarioConfigurations) {
+		TypedHashMap<? extends XMLTagEntity> scenariosMap = new TypedHashMap<UniqueName>();
+		Set<String> nameSet = scenarioConfigurations.keySet();
+		for (String name : nameSet) {
+			TabScenarioConfigurationData data = (TabScenarioConfigurationData) scenarioConfigurations
+					.get(name);
+		scenariosMap = data.putInTypedHashMap(scenariosMap);
+		}
+		put(XMLTagEntityEnum.SCENARIOS.getElementName(), scenariosMap);
 	}
 
 	public boolean isConfigurationOK() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
+	
+}
 }
