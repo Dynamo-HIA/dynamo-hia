@@ -1,12 +1,11 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.objects.parts.ScenarioConfigurationData;
+import java.util.Map;
 
 public interface IScenarios {
 
-	public abstract TypedHashMap<ScenarioConfigurationData> getScenarios();
+	public abstract Map<String, ITabScenarioConfiguration> getScenarioConfigurations();
 
-	public abstract void setScenarios(
-			TypedHashMap<ScenarioConfigurationData> scenarios);
+	public abstract void setScenarioConfigurations(
+			Map<String, ITabScenarioConfiguration> scenarios);
 }

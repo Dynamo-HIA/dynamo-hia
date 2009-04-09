@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-public interface IRelativeRiskConfiguration {
+public interface ITabRelativeRisksConfiguration {
 
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.data.types.functional.IRelativeRiskConfigurationData#getFrom()

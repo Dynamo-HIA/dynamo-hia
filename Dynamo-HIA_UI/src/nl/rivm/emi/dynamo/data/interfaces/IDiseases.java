@@ -1,9 +1,6 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-import java.util.ArrayList;
 import java.util.Map;
-
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 
 public interface IDiseases {
 
