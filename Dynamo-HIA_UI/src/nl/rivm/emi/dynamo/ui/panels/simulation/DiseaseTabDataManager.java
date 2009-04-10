@@ -39,7 +39,6 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		this.singleConfiguration = this.configurations.get(getInitialName());		
 	}
 	
-	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException {
 		log.debug("HIERALOOK");
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
@@ -76,7 +75,6 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		return contents; 		
 	}
 
-	@Override
 	public String getCurrentValue(String name) {
 		//IDiseaseConfiguration singleConfiguration =
 			//configuration.get(getInitialName());
@@ -120,7 +118,6 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			String  chosenDiseaseName = 
 					(String) choosableDiseases.getFirstDiseaseOfSet(null, treeLists);
 			singleConfiguration.setName(chosenDiseaseName);
-			//singleConfiguration.setName("THISDISEASE");
 		}		
 		
 		//if (this.initialSelection != null) {
@@ -147,10 +144,11 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		this.configurations.put(singleConfiguration.getName(), 
 				singleConfiguration);
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
-				
+		
+		
 		
 		/**
-		 * TODO REMOVE: LOGGING BELOW
+		 * TODO REMOVE: LOGGING
 		 */
 		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
 		Set<String> keys = map.keySet();
@@ -162,11 +160,6 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			log.debug("conf.getDalyWeightsFileName()" + conf.getDalyWeightsFileName());
 		}
 		log.debug("configurations.size()" + configurations.size());
-		/**
-		 * TODO REMOVE: LOGGING ABOVE
-		 */
-		
-		
 	}
 
 	/**
