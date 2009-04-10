@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
+import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
@@ -20,19 +21,22 @@ import org.eclipse.swt.widgets.TabFolder;
 public class DiseaseTab extends NestedTab {
 	
 	private Log log = LogFactory.getLog("DiseaseTab");
+	private DiseaseSelectionGroup diseaseSelectionGroup;
 
 	/**
+	 * @param oldState 
 	 * @param defaultDisease 
 	 * @param tabfolder
 	 * @param output
 	 * @throws ConfigurationException 
 	 */
-	public DiseaseTab(Set<String> selectedDisease, TabFolder tabfolder, String tabName,
+	public DiseaseTab(Set<String> selectedDisease, Map<String, String> oldState, 
+			TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(selectedDisease, tabfolder, tabName,
+		super(selectedDisease, oldState, tabfolder, tabName,
 				dynamoSimulationObject,
 				dataBindingContext, 
 				selectedNode,
@@ -49,9 +53,10 @@ public class DiseaseTab extends NestedTab {
 		DynamoTabDataManager dynamoTabDataManager =
 			new DiseaseTabDataManager(tabName, selectedNode, 
 					dynamoSimulationObject,
-					this.selections);
+					this.selections, oldState);
 		
-		DiseaseSelectionGroup diseaseSelectionGroup =
+		//DiseaseSelectionGroup diseaseSelectionGroup =
+		this.diseaseSelectionGroup =
 			new DiseaseSelectionGroup(tabName, this.selections, this.plotComposite,
 					selectedNode, helpGroup,
 					dynamoTabDataManager
@@ -64,5 +69,9 @@ public class DiseaseTab extends NestedTab {
 					diseaseSelectionGroup.getDropDownModifyListener(),
 					dynamoTabDataManager
 					);
+	}
+	
+	public void refreshSelectionGroup() throws ConfigurationException {
+		this.diseaseSelectionGroup.refreshSelectionDropDown();
 	}
 }

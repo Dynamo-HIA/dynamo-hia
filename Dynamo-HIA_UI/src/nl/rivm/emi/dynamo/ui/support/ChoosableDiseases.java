@@ -1,8 +1,11 @@
 package nl.rivm.emi.dynamo.ui.support;
 
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -83,10 +86,10 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 		log.debug("Chosendiseases111AFTER: " + this);
 	}
 
-	public void removeChosenDisease(int index) {
+	public void removeChosenDisease(String name) {
 		log.debug("ChosendiseasesXXXBEFORE: " + this);
-		log.debug("index" + index);
-		String name = ((String) this.toArray()[index]);
+		//log.debug("index" + index);
+		//String name = ((String) this.toArray()[index]);
 		log.debug("removename:" + name);		
 		this.remove(name);
 		log.debug("ChosendiseasesXXXAFTER: " + this);
@@ -103,7 +106,7 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 */
 	public String getFirstDiseaseOfSet(String currentDiseasesName, TreeAsDropdownLists lists) throws ConfigurationException {
 		try {
-			log.debug("ChoosableDiseases222: " + this);
+			log.debug("ChosendiseasesEEEE: " + this);
 			return (String) this.getChoosableDiseases(currentDiseasesName, lists).iterator().next();	
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new disease is not available");

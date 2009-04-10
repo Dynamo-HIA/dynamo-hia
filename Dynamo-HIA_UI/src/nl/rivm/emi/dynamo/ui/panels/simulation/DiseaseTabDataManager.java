@@ -25,39 +25,60 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	private Map<String, IDiseaseConfiguration> configurations;
 	private IDiseaseConfiguration singleConfiguration;
 	private Set<String> initialSelection;
+	private Map<String, String> oldState;
 	private String tabName;
 	
 	public DiseaseTabDataManager(String tabName, BaseNode selectedNode, 
 			DynamoSimulationObject dynamoSimulationObject,
-			Set<String> initialSelection
+			Set<String> initialSelection,
+			Map<String, String> oldState
 			) throws ConfigurationException {
 		this.tabName = tabName;
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.configurations = this.dynamoSimulationObject.getDiseaseConfigurations();
 		this.initialSelection = initialSelection;
-		this.singleConfiguration = this.configurations.get(getInitialName());		
+		this.singleConfiguration = this.configurations.get(getInitialName());
+		this.oldState = oldState;
 	}
 	
+	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException {
-		log.debug("HIERALOOK");
+		log.debug("HIERALOOK");		
+		if (singleConfiguration == null && oldState != null) {
+			log.debug("RECREATING TAB");			
+			// A Tab is recreated, copy the old state into the new tab
+			createInDynamoSimulationObject();
+			singleConfiguration.setName(this.oldState.get(DiseaseSelectionGroup.DISEASE));
+			singleConfiguration.setPrevalenceFileName(this.oldState.get(DiseaseResultGroup.DISEASE_PREVALENCE));				
+			singleConfiguration.setIncidenceFileName(this.oldState.get(DiseaseResultGroup.INCIDENCE));				
+			singleConfiguration.setExcessMortalityFileName(this.oldState.get(DiseaseResultGroup.EXCESS_MORTALITY));				
+			singleConfiguration.setDalyWeightsFileName(this.oldState.get(DiseaseResultGroup.DALY_WEIGHTS));
+		}
+		
+		if (singleConfiguration != null && chosenDiseaseName == null) {
+			chosenDiseaseName = this.singleConfiguration.getName();
+			log.debug("chosenDiseaseName JUST CREATED" + chosenDiseaseName);
+		}
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
 		set.addAll(this.getContents(name, chosenDiseaseName));
 		return set;	
 	}
 
 	public Set<String> getContents(String name, String chosenDiseaseName) throws ConfigurationException {
+		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
 		ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
 		if (chosenDiseaseName == null) {
 			chosenDiseaseName = 
 				(String) choosableDiseases.getFirstDiseaseOfSet(chosenDiseaseName, treeLists);
 		}
-		//choosableDiseases.setChosenDisease(chosenDiseaseName);
-		log.debug("HIERO");		
+		log.debug("HIERO chosenDiseaseName DATAMANAGER: " + chosenDiseaseName);		
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
-			contents = this.treeLists.getValidDiseases();
-			//contents = choosableDiseases.getChoosableDiseases(chosenDiseaseName, treeLists);
+			//contents = this.treeLists.getValidDiseases();
+			contents = choosableDiseases.getChoosableDiseases(chosenDiseaseName, treeLists);
+			log.debug("getContents NAME: " + contents);
+			//choosableDiseases.setChosenDisease(chosenDiseaseName);
 		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
 			contents = this.treeLists.getDiseasePrevalences(chosenDiseaseName);
 			log.debug("contents1" + contents);
@@ -75,13 +96,17 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		return contents; 		
 	}
 
-	public String getCurrentValue(String name) {
+	@Override
+	public String getCurrentValue(String name) throws ConfigurationException {
+		log.debug("GET CURRENT VALUE");
 		//IDiseaseConfiguration singleConfiguration =
 			//configuration.get(getInitialName());
 		String value = null;
 		if (this.initialSelection != null) {
 			if (DiseaseSelectionGroup.DISEASE.equals(name)) {
 				value = singleConfiguration.getName();
+				ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
+				choosableDiseases.setChosenDisease(value);
 			} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
 				value = singleConfiguration.getPrevalenceFileName();
 				log.debug("value" + value);
@@ -111,13 +136,15 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	public void updateObjectState(String name, String selectedValue) throws ConfigurationException {
 		log.debug(name + ": " + selectedValue);
 		
-		if (this.initialSelection == null) {
+		log.debug("UPDATING OBJECT STATE");
+		if (this.initialSelection == null && singleConfiguration == null) {	
 			log.debug("CREATING NEW TAB");
 			createInDynamoSimulationObject();
 			ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
 			String  chosenDiseaseName = 
 					(String) choosableDiseases.getFirstDiseaseOfSet(null, treeLists);
 			singleConfiguration.setName(chosenDiseaseName);
+			//singleConfiguration.setName("THISDISEASE");
 		}		
 		
 		//if (this.initialSelection != null) {
@@ -144,11 +171,10 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		this.configurations.put(singleConfiguration.getName(), 
 				singleConfiguration);
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
-		
-		
+				
 		
 		/**
-		 * TODO REMOVE: LOGGING
+		 * TODO REMOVE: LOGGING BELOW
 		 */
 		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
 		Set<String> keys = map.keySet();
@@ -160,6 +186,11 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			log.debug("conf.getDalyWeightsFileName()" + conf.getDalyWeightsFileName());
 		}
 		log.debug("configurations.size()" + configurations.size());
+		/**
+		 * TODO REMOVE: LOGGING ABOVE
+		 */
+		
+		
 	}
 
 	/**
@@ -182,6 +213,10 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			}			
 		}
 		return chosenDiseaseName; 
+	}
+
+	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException {
+		return getDropDownSet(DiseaseSelectionGroup.DISEASE, null);
 	}
 	
 	

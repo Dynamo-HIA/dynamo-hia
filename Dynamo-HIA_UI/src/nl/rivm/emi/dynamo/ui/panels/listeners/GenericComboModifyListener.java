@@ -55,7 +55,7 @@ public class GenericComboModifyListener implements ModifyListener {
 		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
 			log.debug("registeredCombo" + registeredDropDown);						 
 			try {				
-				registeredDropDown.update(newText);				
+				registeredDropDown.update(newText);			
 			} catch (ConfigurationException ce) {
 				this.handleErrorMessage(ce, registeredDropDown);
 			}

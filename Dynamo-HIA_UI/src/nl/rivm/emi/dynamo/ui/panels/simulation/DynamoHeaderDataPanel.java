@@ -352,7 +352,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
 			int columnSpan,
-			DynamoTabDataManager dynamoTabDataManager) {
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = 
 			new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(this, label, columnSpan,

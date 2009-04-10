@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
@@ -12,11 +13,11 @@ import org.eclipse.swt.widgets.TabFolder;
 
 public abstract class NestedTab extends Tab {
 
-	public NestedTab(Set<String> selections, TabFolder tabFolder, String tabName,
+	public NestedTab(Set<String> selections, Map<String, String> oldState, TabFolder tabFolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(selections, tabFolder, tabName,
+		super(selections, oldState, tabFolder, tabName,
 				dynamoSimulationObject,
 				dataBindingContext, selectedNode,
 				helpGroup);		

@@ -35,6 +35,8 @@ public class DiseaseSelectionGroup {
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 
+	private GenericDropDownPanel diseaseDropDownPanel;
+
 	public DiseaseSelectionGroup(String tabName, Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, 
 			DynamoTabDataManager dynamoTabDataManager) 
@@ -83,7 +85,7 @@ public class DiseaseSelectionGroup {
 		//IDiseaseConfiguration diseaseConfiguration = configuration.get(chosenDiseaseName);
 		//diseaseConfiguration.getName();
 		
-		GenericDropDownPanel diseaseDropDownPanel = 
+		diseaseDropDownPanel = 
 			createDropDown(DISEASE, 
 					dynamoTabDataManager.
 					getDropDownSet(DISEASE, chosenDiseaseName), 
@@ -95,7 +97,7 @@ public class DiseaseSelectionGroup {
 
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
-			DynamoTabDataManager dynamoTabDataManager) {
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
 		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
 			new DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2, 
@@ -105,5 +107,9 @@ public class DiseaseSelectionGroup {
 	
 	public GenericComboModifyListener getDropDownModifyListener() {
 		return this.dropDownModifyListener;
+	}
+
+	public void refreshSelectionDropDown() throws ConfigurationException {
+		this.diseaseDropDownPanel.refresh();		
 	}
 }

@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.TabFolder;
  */
 public abstract class TabPlatform extends Tab {
 
-	private Log log = LogFactory.getLog(this.getClass().getName());
+	private Log log = LogFactory.getLog(this.getClass().getName()); 
 	
 	//protected DynamoSimulationObject dynamoSimulationObject;
 	//protected DataBindingContext dataBindingContext = null;
@@ -47,7 +47,7 @@ public abstract class TabPlatform extends Tab {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(null, tabFolder, tabName, 
+		super(null, null, tabFolder, tabName, 
 				dynamoSimulationObject, 
 			    dataBindingContext, 
 				selectedNode, helpGroup);
@@ -86,11 +86,11 @@ public abstract class TabPlatform extends Tab {
 	}
 
 	// Create a new abstract tab
-	public abstract NestedTab getNestedTab() throws DynamoConfigurationException, ConfigurationException;
+	public abstract NestedTab createNestedTab() throws DynamoConfigurationException, ConfigurationException;
 
 	public abstract String getNestedTabPrefix();
 
-	public abstract NestedTab getNestedDefaultTab(Set<String> defaultSelections) throws ConfigurationException;
+	public abstract NestedTab createNestedDefaultTab(Set<String> defaultSelections, Map<String, String> oldState) throws ConfigurationException;
 
 	/**
 	 * @return Set<Set<String>> Set of tabs that each contain the (Set of composed) primary key values
@@ -98,6 +98,8 @@ public abstract class TabPlatform extends Tab {
 	public abstract Set<String> getConfigurations();
 
 	// Delete an abstract tab
-	public abstract void deleteNestedTab(int index);
+	public abstract void deleteNestedTab(String name);
+
+	public abstract void refreshNestedTab(NestedTab nestedTab) throws ConfigurationException;
 	
 }

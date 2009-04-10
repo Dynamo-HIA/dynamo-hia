@@ -116,7 +116,7 @@ public class DiseaseResultGroup {
 
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
-			AtomicTypeObjectTuple tuple) {
+			AtomicTypeObjectTuple tuple) throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, 
 				null, this.dynamoTabDataManager);		

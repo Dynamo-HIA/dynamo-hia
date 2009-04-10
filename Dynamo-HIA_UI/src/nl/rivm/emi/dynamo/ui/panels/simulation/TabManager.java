@@ -20,21 +20,26 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 
 public class TabManager {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private Map<Integer, NestedTab> nestedTabs = 
-		new LinkedHashMap<Integer, NestedTab>();
+	public Map<String, NestedTab> nestedTabs;
 	
 	private TabFolder tabFolder = null;
 
 	private SelectionListener selectionListener;
 
 	private TabPlatform platform;
+
+	private SelectionListener listener;
 	
 	public TabManager(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
@@ -47,20 +52,56 @@ public class TabManager {
 		this.tabFolder = new TabFolder(parent, SWT.FILL);
 		this.tabFolder.setLayout(new FormLayout());
 		
+		nestedTabs = new LinkedHashMap<String, NestedTab>();
+		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 0);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(90, -5);
 		this.tabFolder.setLayoutData(formData);
-		//this.tabFolder.setBackground(new Color(null, 0xff, 0xff,0xff)); // white		
-		
-		
+		//this.tabFolder.setBackground(new Color(null, 0xff, 0xff,0xff)); // white
+
+		this.listener = 
+			new SelectionListener() {
+		      public void widgetSelected(SelectionEvent e) {
+		        log.debug("Selected item index = " + tabFolder.getSelectionIndex());
+		        log.debug("Selected item = " + (tabFolder.getSelection() == null ? "null" : tabFolder.getSelection()[0].toString()));
+		        
+	            try {
+	            	int selected = tabFolder.getSelectionIndex();
+	            	if (selected > -1) {
+	            		
+	            		//TabManager.this.reCreateNestedTab(TabManager.this.deleteNestedTab());
+	            		TabItem item = TabManager.this.getTabFolder().getItem(selected);
+	            		log.debug("item.getText()" + item.getText());
+	            		log.debug("TabManager.this.nestedTabs" + TabManager.this.nestedTabs.size());
+	            		TabManager.this.platform.
+	            			refreshNestedTab(TabManager.this.nestedTabs.
+	            					get(item.getText()));
+						//tabFolder.setSelection(selected);
+						
+	            	}
+				} catch (ConfigurationException ce) {
+					// TODO Auto-generated catch block
+					ce.printStackTrace();
+				}		        
+		      }
+
+		      public void widgetDefaultSelected(SelectionEvent e) {
+		        //widgetSelected(e);
+		      }
+		    };
+		    
 		//new DiseaseTab(this.getTabFolder(), "", null, dataBindingContext, selectedNode, helpGroup);
 		
 		// Initially, there are no nested tabs
 	//	this.selectionListener = new SelectionListener(nestedTabs);		
 	}
+/*
+	protected void reCreateNestedTab(Map<String, String> removedDisease) throws ConfigurationException {
+		this.platform.createtNestedDefaultTab(null, removedDisease);		
+	}*/
 
 	/**
 	 * 
@@ -73,7 +114,8 @@ public class TabManager {
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
-			this.platform.getNestedDefaultTab(keyValues);	
+			NestedTab nestedTab = this.platform.createNestedDefaultTab(keyValues, null);
+			this.nestedTabs.put(nestedTab.getName(), nestedTab);
 		}		
 		this.redraw();
 	}		
@@ -85,10 +127,11 @@ public class TabManager {
 	 * @throws ConfigurationException
 	 */
 	public void createNestedTab() throws ConfigurationException {
-		NestedTab nestedTab = this.platform.getNestedTab();
+		this.tabFolder.removeSelectionListener(this.listener);
+		NestedTab nestedTab = this.platform.createNestedTab();
 		// tabName is identifier for the nestedTab to be created
 		log.debug("nestedTab.getName()" + nestedTab.getName());
-		
+		nestedTabs.put(nestedTab.getName(), nestedTab);
 		// Create an unique number
 		//int tabNumber = this.nestedTabs.size();
 		// Create a new NestedTab on the TabPlatform		
@@ -100,6 +143,7 @@ public class TabManager {
 	}
 	
 	public void deleteNestedTab() throws ConfigurationException {
+		this.tabFolder.removeSelectionListener(this.listener);
 		// TODO REMOVE DEBUGGING:
 		TabItem[] tabItems = tabFolder.getItems();
 		log.debug("tabItems.length" + tabItems.length);		
@@ -108,15 +152,20 @@ public class TabManager {
 		// Remove the tab that is selected now		
 		int index = tabFolder.getSelectionIndex();
 		log.debug("index" + index);
+		NestedTab removedNestedTab;
 		// Tabs with index -1 or lower do not exist
 		if (index > -1) {
+			
 			TabItem tabItem = tabFolder.getItem(index);
+			removedNestedTab = nestedTabs.get(tabItem.getText());
 			tabItem.dispose();
+		
+			// Remove the data from the data object model
+			this.platform.deleteNestedTab(removedNestedTab.getName());
+			// The disease will be available to be chosen again 
+			ChoosableDiseases.getInstance().removeChosenDisease(removedNestedTab.getName());
 		}
-		// Remove the data from the data object model
-		this.platform.deleteNestedTab(index);
-		// The disease will be available to be chosen again 
-		//ChoosableDiseases.getInstance().removeChosenDisease(index);		
+		
 		// Remove the nestedTab from the TabPlatform		
 		//this.nestedTabs.remove(index);
 		//this.updateListener();
@@ -130,12 +179,16 @@ public class TabManager {
 	
 	
 	private void renumberAndRenameItems() {
+		Map<String, NestedTab> tempNestedTabs = this.nestedTabs;
+		this.nestedTabs.clear();
 		// Alternative: can we just do a renaming?
-		for (int index = 0; index < this.getTabFolder().getItemCount(); index++) {
+		for (int index = 0; index < this.getTabFolder().getItemCount(); index++) {			
 			TabItem item = this.getTabFolder().getItem(index);
+			String oldTabName = item.getText(); 
 			int newIndexName = index + 1;
 			String tabName = this.platform.getNestedTabPrefix() + newIndexName;
-			item.setText(tabName);
+			item.setText(tabName);		
+			this.nestedTabs.put(tabName, tempNestedTabs.get(oldTabName));
 		}
 		
 		/*
@@ -157,8 +210,14 @@ public class TabManager {
         */        
 	}
 
-	public void redraw() {
+	public void redraw() {		
 		this.tabFolder.redraw();
+		
+		
+		
+		this.tabFolder.addSelectionListener(		
+				this.listener);
+		
 	}	
 	
 	public void updateListener() {

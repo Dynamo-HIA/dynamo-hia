@@ -1,14 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import java.util.Map;
+
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -32,7 +31,7 @@ public class GenericDropDownPanel {
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
 			UpdateDataAction redrawGroupAndUpdateDataAction,
-			DynamoTabDataManager owner) {
+			DynamoTabDataManager owner) throws ConfigurationException {
 		this.parent = parent;
 		this.dropDownLabel = dropDownLabel;
 		this.selectablePropertiesSet = selectablePropertiesSet;
@@ -54,14 +53,19 @@ public class GenericDropDownPanel {
 		this.genericComboModifyListener = 
 			new GenericComboModifyListener(this);
 		dropDown.addModifyListener(genericComboModifyListener);
+
+		setDefaultValue();
+
+	}
+	
+	private void setDefaultValue() throws ConfigurationException {
 		// Get the default value
 		String currentValue = 
 			this.owner.getCurrentValue(this.getLabel());
 		// Set the default value
 		dropDown.select(getCurrentIndex(currentValue));
-
 	}
-	
+
 	private int getCurrentIndex(String currentValue) {
 		return selectablePropertiesSet
 		.getSelectedIndex(currentValue);
@@ -90,6 +94,19 @@ public class GenericDropDownPanel {
 		dropDown.select(0);
 	}
 
+	public void refresh() throws ConfigurationException {		
+		dropDown.removeModifyListener(this.genericComboModifyListener);
+		dropDown.removeAll();		
+		DropDownPropertiesSet set = 
+			this.owner.getRefreshedDropDownSet(this.getLabel());		
+		log.debug("SET" + set);
+		fill(set);
+		setDefaultValue();
+		dropDown.addModifyListener(this.genericComboModifyListener);		
+		// TODO: fire an event for the modify listener to update the dependend drop downs
+		
+	}
+	
 	public void updateDataObjectModel(String newText) throws ConfigurationException {
 		// TODO Auto-generated method stub
 		this.owner.updateObjectState(this.getLabel(), newText);

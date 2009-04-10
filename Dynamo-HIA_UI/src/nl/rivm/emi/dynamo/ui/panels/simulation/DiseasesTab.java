@@ -5,7 +5,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +26,7 @@ public class DiseasesTab extends TabPlatform {
 	
 	private static final String DISEASES = "Diseases";
 	private static final String DISEASE = "Disease";
-
+	
 	/**
 	 * @param tabfolder
 	 * @param output
@@ -41,16 +41,18 @@ public class DiseasesTab extends TabPlatform {
 	}
 
 	@Override
-	public NestedTab getNestedDefaultTab(Set<String> defaultSelections) throws ConfigurationException {
+	public NestedTab createNestedDefaultTab(Set<String> defaultSelections, 
+			Map<String, String> oldState) throws ConfigurationException {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
-				DISEASE + newTabNumber, dynamoSimulationObject, 
+		String tabName = DISEASE + newTabNumber;				
+		return new DiseaseTab(defaultSelections, oldState, this.getTabManager().getTabFolder(), 
+				tabName, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, helpGroup);		
 	}
 	
 	@Override
-	public NestedTab getNestedTab() throws ConfigurationException {
-		return getNestedDefaultTab(null);
+	public NestedTab createNestedTab() throws ConfigurationException {
+		return createNestedDefaultTab(null, null);
 	}	
 	
 	@Override
@@ -67,13 +69,31 @@ public class DiseasesTab extends TabPlatform {
 	}
 
 	@Override
-	public void deleteNestedTab(int index) {
+	public void deleteNestedTab(String name) {
+		//Map<tabName, IDiseaseConfiguration> tabConfiguration
 		// TODO Auto-generated method stub
+		//Map<String, String> oldState = new LinkedHashMap<String, String>();		
+		
+		
 		Map<String, IDiseaseConfiguration> configurations = 
 			this.dynamoSimulationObject.getDiseaseConfigurations();
 		
-		configurations.remove(getSelectedString(configurations, index));
-
+		/*
+		String removedDisease = getSelectedString(configurations, index);
+		IDiseaseConfiguration oldConfig = 
+			configurations.get(removedDisease);*/
+		
+		// Copy the contents of the old state before deletion
+		/*
+		oldState.put(DiseaseSelectionGroup.DISEASE, oldConfig.getName());
+		oldState.put(DiseaseResultGroup.DISEASE_PREVALENCE, oldConfig.getPrevalenceFileName());
+		oldState.put(DiseaseResultGroup.INCIDENCE, oldConfig.getExcessMortalityFileName());
+		oldState.put(DiseaseResultGroup.EXCESS_MORTALITY, oldConfig.getExcessMortalityFileName());
+		oldState.put(DiseaseResultGroup.DALY_WEIGHTS, oldConfig.getDalyWeightsFileName());
+		*/
+		//log.debug("removedDisease: " + removedDisease);
+		//configurations.remove(getSelectedString(configurations, index));
+		configurations.remove(name);
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
 	}
 	
@@ -81,6 +101,12 @@ public class DiseasesTab extends TabPlatform {
 		configurations, int selectedIndex) {
 		return (String) ((IDiseaseConfiguration) 
 				configurations.values().toArray()[selectedIndex]).getName();
+	}
+
+	@Override
+	public void refreshNestedTab(NestedTab nestedTab) throws ConfigurationException {
+		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
+		diseaseTab.refreshSelectionGroup();
 	}
 	
 	

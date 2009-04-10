@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
@@ -15,7 +16,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -30,8 +33,9 @@ public abstract class Tab {
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
 	protected Set<String> selections;
+	protected Map<String, String> oldState;
 	
-	public Tab(Set<String> selections, TabFolder tabFolder, String tabName, 
+	public Tab(Set<String> selections, Map<String, String> oldState, TabFolder tabFolder, String tabName, 
 			DynamoSimulationObject dynamoSimulationObject, 
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
@@ -41,6 +45,8 @@ public abstract class Tab {
 		this.helpGroup = helpGroup;
 		this.selectedNode = selectedNode;
 		this.tabName = tabName;
+		this.oldState = oldState;
+		
 		this.setLayoutStyle(tabFolder);
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);	
 		
@@ -51,6 +57,29 @@ public abstract class Tab {
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
 		item.setText(tabName);
 		item.setControl(this.plotComposite);
+		item.addListener(SWT.SELECTED, new Listener() {
+	        public void handleEvent(Event event) {
+                TabItem item = (TabItem) event.item;
+	            String tabId = item.getText();
+	            log.debug("THIS TAB IS SELECTED" + tabId);
+	            
+	            //try {
+	            	if (!tabId.isEmpty()) {
+						//TabManager.this.reCreateNestedTab(TabManager.this.deleteNestedTab());	            		
+	            	}
+				//} catch (ConfigurationException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				//}
+	        }
+	        });
+	            //TabManager.this.redraw();
+			    ////TODO: Reactivate if (tabId=="Risk Factor") tab0.redraw();
+			    ////TODO: Reactivate if (tabId=="Population") tab1.redraw();
+			    //if (tabId=="Diseases") tab2.redraw();
+			    ////TODO: Reactivate if (tabId=="Relative Risks") tab3.redraw();
+			    ////TODO: Reactivate if (tabId=="Scenarios") tab4.redraw();			    
+
 	}
 	
 	protected void setLayoutStyle(Composite parent) {
