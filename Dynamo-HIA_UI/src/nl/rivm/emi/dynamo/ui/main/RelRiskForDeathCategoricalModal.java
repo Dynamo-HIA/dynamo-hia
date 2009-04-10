@@ -73,7 +73,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = manufactureModelObject();
+			this.modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -86,7 +86,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 			// relRiskForDeathCategoricalGroup.setFormData(helpPanel.getGroup(),
 			// buttonPanel);
 			RelativeRisksCategoricalGroup relRiskForDeathCategoricalGroup = new RelativeRisksCategoricalGroup(
-					this.shell, this.lotsOfData, this.dataBindingContext, this.selectedNode,
+					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode,
 					this.helpPanel);
 			relRiskForDeathCategoricalGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);

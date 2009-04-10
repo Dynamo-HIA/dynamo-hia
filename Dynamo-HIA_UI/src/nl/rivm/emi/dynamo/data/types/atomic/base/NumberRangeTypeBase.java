@@ -36,6 +36,9 @@ public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
 		}
 		return MIN_VALUE;
 	}
+	public T getIKnowWhatImDoingMIN_VALUE(){
+		return MIN_VALUE;
+	}
 
 	public T getMAX_VALUE() {
 		return MAX_VALUE;

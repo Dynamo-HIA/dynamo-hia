@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
@@ -20,7 +19,6 @@ import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -133,6 +131,8 @@ public class StAXAgnosticTypedHashMapWriter {
 		while (iterator.hasNext()) {
 			Map.Entry<Integer, Object> entry = iterator.next();
 			String elementName = getElementName(fileControl, leafValueMap);
+			log.debug("Going to convert element: " + elementName + " at level "
+					+ leafValueMap.size() + " in the leafValueMap.");
 			leafValueMap.put(elementName,
 					((AtomicTypeBase) configurationLevelType)
 							.convert4File(entry.getKey()));
@@ -264,6 +264,15 @@ public class StAXAgnosticTypedHashMapWriter {
 		return elementName;
 	}
 
+/**
+ * @deprecated
+ * @param fileControl
+ * @param leafValueMap
+ * @param containedValue
+ * @param writer
+ * @param eventFactory
+ * @throws XMLStreamException
+ */
 	private static void streamEntry(FileControlEnum fileControl,
 			LinkedHashMap<String, Number> leafValueMap, Number containedValue,
 			XMLEventWriter writer, XMLEventFactory eventFactory)

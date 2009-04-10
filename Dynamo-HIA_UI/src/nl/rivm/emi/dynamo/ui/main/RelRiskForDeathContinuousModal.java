@@ -46,7 +46,7 @@ public class RelRiskForDeathContinuousModal extends AgnosticModal {
 	@Override
 	protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException {
 		RelRisksForDeathContinuousGroup relativeRiskForDeathGroup = new RelRisksForDeathContinuousGroup(
-				this.shell, this.lotsOfData, this.dataBindingContext,
+				this.shell, this.modelObject, this.dataBindingContext,
 				this.selectedNode, this.helpPanel);
 		relativeRiskForDeathGroup.setFormData(this.helpPanel.getGroup(),
 				buttonPanel);

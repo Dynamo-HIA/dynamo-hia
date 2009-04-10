@@ -62,14 +62,14 @@ public class NewbornsModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = manufactureModelObject();
-			log.debug("lotsOfData" + lotsOfData);
+			this.modelObject = manufactureModelObject();
+			log.debug("lotsOfData" + modelObject);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			NewbornsGroup newbornsGroup = new NewbornsGroup(
-					this.shell, this.lotsOfData, this.dataBindingContext,
+					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel);
 			newbornsGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);

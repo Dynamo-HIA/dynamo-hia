@@ -269,7 +269,7 @@ public class StorageTreeMenuFactory {
 				.equalsIgnoreCase(nodeLabel)) {
 			createMenu4RiskFactorPrevalence(manager, selection);
 		} else {
-			if (StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel()
+			if (StandardTreeNodeLabelsEnum.TRANSITIONSDIR.getNodeLabel()
 					.equalsIgnoreCase(nodeLabel)) {
 				createMenu4Transitions(manager, selection);
 			} else {
@@ -440,6 +440,71 @@ public class StorageTreeMenuFactory {
 	}
 
 	/**
+	 * TODO implement create new transitions file xxxxxxxxxxxxxxxxxxxxxxsss
+	 * 
+	 * @param manager
+	 * @param selection
+	 * @throws ConfigurationException
+	 */
+	private void createMenu4Transitions(IMenuManager manager,
+			IStructuredSelection selection) throws ConfigurationException {
+		FreeName4RiskFactorXMLFileAction action = new FreeName4RiskFactorXMLFileAction(
+				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+				RiskFactorStringConstantsEnum.RISKFACTORTRANSITIONS);
+		action.setText("New risk factor transitions file");
+		manager.add(action);
+
+		// Old implementation
+		//
+//		File configurationFile = null;
+//
+//		DirectoryNode fileNode = (DirectoryNode) selection.getFirstElement();
+//
+//		Object[] grandChildNodes = ((ParentNode) fileNode.getParent())
+//				.getChildren();
+//		for (Object grandChildNode : grandChildNodes) {
+//			String grandChildNodeLabel = ((BaseNode) grandChildNode)
+//					.deriveNodeLabel();
+//			if ("configuration".equals(grandChildNodeLabel)) {
+//				configurationFile = ((BaseNode) grandChildNode)
+//						.getPhysicalStorage();
+//			}
+//		}
+//		String riskFactorType = ConfigurationFileUtil
+//				.extractRootElementName(configurationFile);
+//
+//		// If the riskfactor is continuous, the transition type is
+//		// transitiondrift,
+//		// if the riskfactor is compound or categorical, the transition type is
+//		// transitionmatrix,
+//		String transitionType;
+//		if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+//				.equalsIgnoreCase(riskFactorType)) {
+//			transitionType = RootElementNamesEnum.TRANSITIONDRIFT
+//					.getNodeLabel();
+//		} else {
+//			transitionType = RootElementNamesEnum.TRANSITIONMATRIX
+//					.getNodeLabel();
+//		}
+//		// Create the action for the transition dialog (W21.1)
+//		InputBulletsFreeXMLFileAction action = new InputBulletsFreeXMLFileAction(
+//				shell,
+//				treeViewer,
+//				(DirectoryNode) selection.getFirstElement(),
+//				transitionType,
+//				Util
+//						.deriveEntityLabelAndValueFromRiskSourceNode((BaseNode) selection
+//								.getFirstElement())[0], riskFactorType);
+//
+//		// DynamoHIADummyDebugAction action = new
+//		// DynamoHIADummyDebugAction(shell);
+//		action.setText("New transitions file");
+//		// action.setSelectionPath(((BaseNode) selection.getFirstElement())
+//		// .getPhysicalStorage().getAbsolutePath());
+//		manager.add(action);
+	}
+
+	/**
 	 * @param manager
 	 * @param selection
 	 */
@@ -571,63 +636,6 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
-	/**
-	 * TODO implement create new transitions file xxxxxxxxxxxxxxxxxxxxxxsss
-	 * 
-	 * @param manager
-	 * @param selection
-	 * @throws ConfigurationException
-	 */
-	private void createMenu4Transitions(IMenuManager manager,
-			IStructuredSelection selection) throws ConfigurationException {
-
-		File configurationFile = null;
-
-		DirectoryNode fileNode = (DirectoryNode) selection.getFirstElement();
-
-		Object[] grandChildNodes = ((ParentNode) fileNode.getParent())
-				.getChildren();
-		for (Object grandChildNode : grandChildNodes) {
-			String grandChildNodeLabel = ((BaseNode) grandChildNode)
-					.deriveNodeLabel();
-			if ("configuration".equals(grandChildNodeLabel)) {
-				configurationFile = ((BaseNode) grandChildNode)
-						.getPhysicalStorage();
-			}
-		}
-		String riskFactorType = ConfigurationFileUtil
-				.extractRootElementName(configurationFile);
-
-		// If the riskfactor is continuous, the transition type is
-		// transitiondrift,
-		// if the riskfactor is compound or categorical, the transition type is
-		// transitionmatrix,
-		String transitionType;
-		if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
-				.equalsIgnoreCase(riskFactorType)) {
-			transitionType = RootElementNamesEnum.TRANSITIONDRIFT
-					.getNodeLabel();
-		} else {
-			transitionType = RootElementNamesEnum.TRANSITIONMATRIX
-					.getNodeLabel();
-		}
-		// Create the action for the transition dialog (W21.1)
-		InputBulletsFreeXMLFileAction action = new InputBulletsFreeXMLFileAction(
-				shell,
-				treeViewer,
-				(DirectoryNode) selection.getFirstElement(),
-				transitionType,
-				Util
-						.deriveEntityLabelAndValueFromRiskSourceNode((BaseNode) selection
-								.getFirstElement())[0], riskFactorType);
-
-		// DynamoHIADummyDebugAction action = new
-		// DynamoHIADummyDebugAction(shell);
-		action.setText("New transitions file");
-		// action.setSelectionPath(((BaseNode) selection.getFirstElement())
-		// .getPhysicalStorage().getAbsolutePath());
-		manager.add(action);
-	}
 
 	/**
 	 * TODO Precondition: The selected Node maps to an XML file.

@@ -1,9 +1,11 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.support.RelativeRisksCollection;
 import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -37,9 +39,21 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 			// box.setText("Debug");
 			// box.setMessage("Dropdowns Factory ran without blowing up.");
 			// box.open();
-			RelativeRisksCollection collection = new RelativeRisksCollection(node);
+			RelativeRisksCollection collection = new RelativeRisksCollection(
+					node);
 			collection.findAllRelativeRisks(node);
 			collection.dump4Debug();
+			TreeAsDropdownLists lists = TreeAsDropdownLists.getInstance(node);
+			log.debug("First call of getValidDiseases() through singleton.");
+			Set<String> validDiseaseNames = lists.getValidDiseases();
+			for (String diseaseName : validDiseaseNames) {
+				log.debug("Valid diseasename: " + diseaseName);
+			}
+			log.debug("Second call of getValidDiseases() through singleton.");
+			validDiseaseNames = lists.getValidDiseases();
+			for (String diseaseName : validDiseaseNames) {
+				log.debug("Valid diseasename: " + diseaseName);
+			}
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 			MessageBox box = new MessageBox(shell, SWT.ICON_ERROR);

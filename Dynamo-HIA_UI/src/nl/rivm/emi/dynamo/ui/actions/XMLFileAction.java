@@ -30,6 +30,7 @@ import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -325,11 +326,11 @@ public class XMLFileAction extends ActionBase {
 																											rootElementName,
 																											node);
 																								} else {
-																									if (RootElementNamesEnum.TRANSITIONDRIFT
+																									if (RootElementNamesEnum.TRANSITIONMATRIX
 																											.getNodeLabel()
 																											.equals(
 																													rootElementName)) {
-																										theModal = new TransitionDriftModal(
+																										theModal = new TransitionMatrixModal(
 																												shell,
 																												dataFile
 																														.getAbsolutePath(),
@@ -338,11 +339,11 @@ public class XMLFileAction extends ActionBase {
 																												rootElementName,
 																												node);
 																									} else {
-																										if (RootElementNamesEnum.TRANSITIONDRIFT_NETTO
+																										if (RootElementNamesEnum.TRANSITIONDRIFT
 																												.getNodeLabel()
 																												.equals(
 																														rootElementName)) {
-																											theModal = new TransitionDriftNettoModal(
+																											theModal = new TransitionDriftModal(
 																													shell,
 																													dataFile
 																															.getAbsolutePath(),
@@ -351,10 +352,24 @@ public class XMLFileAction extends ActionBase {
 																													rootElementName,
 																													node);
 																										} else {
-																											throw new DynamoConfigurationException(
-																													"RootElementName "
-																															+ rootElementName
-																															+ " not implemented yet.");
+																											if (RootElementNamesEnum.TRANSITIONDRIFT_NETTO
+																													.getNodeLabel()
+																													.equals(
+																															rootElementName)) {
+																												theModal = new TransitionDriftNettoModal(
+																														shell,
+																														dataFile
+																																.getAbsolutePath(),
+																														savedFile
+																																.getAbsolutePath(),
+																														rootElementName,
+																														node);
+																											} else {
+																												throw new DynamoConfigurationException(
+																														"RootElementName "
+																																+ rootElementName
+																																+ " not implemented yet.");
+																											}
 																										}
 																									}
 																								}

@@ -67,7 +67,7 @@ public class DiseasePrevalencesModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = super.manufactureModelObject();
+			this.modelObject = super.manufactureModelObject();
 			
 			// Create the Save, Import and Cancel buttons on the panel
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
@@ -76,7 +76,7 @@ public class DiseasePrevalencesModal extends AbstractDataModal {
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			DiseasePrevalencesGroup diseasePrevalencesGroup = new DiseasePrevalencesGroup(
-					this.shell, this.lotsOfData, this.dataBindingContext, this.selectedNode, this.helpPanel);
+					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			diseasePrevalencesGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.

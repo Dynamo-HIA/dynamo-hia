@@ -4,6 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
@@ -76,8 +77,9 @@ public class TransitionMatrixFactory extends AgnosticFactory implements
 		Integer oldMaxDestination = destination
 				.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(destination, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+//		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
+//				.getInstance().get("value"), null));
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.PERCENTAGE.getTheType(), null));
 		TransitionMatrixObject theObject = new TransitionMatrixObject(super
 				.manufactureDefault(leafNodeList, makeObservable));
 		source.setMAX_VALUE(oldMaxSource);

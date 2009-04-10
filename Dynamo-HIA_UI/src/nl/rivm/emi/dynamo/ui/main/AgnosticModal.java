@@ -61,7 +61,7 @@ abstract public class AgnosticModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = manufactureModelObject();
+			this.modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);

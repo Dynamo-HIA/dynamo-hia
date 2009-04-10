@@ -62,13 +62,13 @@ public class DALYWeightsModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = manufactureModelObject();
+			this.modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			DALYWeightsGroup dalyWeightsGroup = new DALYWeightsGroup(
-					this.shell, this.lotsOfData, this.dataBindingContext,
+					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel);
 			dalyWeightsGroup
 					.setFormData(this.helpPanel.getGroup(), buttonPanel);

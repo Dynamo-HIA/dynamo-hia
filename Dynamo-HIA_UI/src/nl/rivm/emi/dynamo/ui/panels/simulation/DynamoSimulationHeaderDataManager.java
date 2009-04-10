@@ -22,7 +22,6 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		this.configuration = configuration;
 	}
 	
-	@Override
 	public Set<String> getContents(String name, String chosenName) {
 		Set<String> contents = new LinkedHashSet<String>();
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(name)) {
@@ -31,7 +30,6 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		return contents;
 	}
 
-	@Override
 	public String getCurrentValue(String dropDownName) {		
 		String value = null;
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(dropDownName)) {			
@@ -40,24 +38,20 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		return value;
 	}
 
-	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String selection) {
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
 		set.addAll(this.getContents(name, selection));
 		return set;
 	}
 
-	@Override
 	public void createInDynamoSimulationObject() {
 		// Will not be used		
 	}
 
-	@Override
 	public void removeFromDynamoSimulationObject(String selectedValue) {
 		// Will not be used		
 	}
 
-	@Override
 	public void updateObjectState(String name, String selectedValue) {
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(name)) {			
 			configuration.setPopulationFileName(selectedValue);

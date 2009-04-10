@@ -69,7 +69,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 	@Override
 	public String convert4File(Object modelValue) {
-/*
+
   		Boolean nakedValue = null;
  
 		if (modelValue instanceof WritableValue) {
@@ -83,7 +83,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 			fileValue = "1";
 		}
 		return fileValue;
-*/
+/*
 		String nakedValue = null;
 		if (modelValue instanceof WritableValue) {
 			nakedValue =  (String) ((WritableValue) modelValue).doGetValue();
@@ -93,7 +93,8 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 //		String viewValue = convert4View(nakedValue);
 		String fileValue = nakedValue;
 		return fileValue;
-}
+*/
+		}
 
 	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();

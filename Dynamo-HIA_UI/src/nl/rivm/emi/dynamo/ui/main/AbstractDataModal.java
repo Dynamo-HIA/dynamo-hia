@@ -9,6 +9,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -59,7 +60,7 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 */
 	protected String configurationFilePath;
 	protected Shell shell;
-	protected TypedHashMap<?> lotsOfData;
+	protected TypedHashMap<?> modelObject;
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup helpPanel;
 	protected BaseNode selectedNode;
@@ -103,6 +104,11 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: " + this.rootElementName);
 		}
+		//
+		if(((Object)factory) instanceof CategoricalFactory){
+			((CategoricalFactory)factory).setNumberOfCategories(9);
+		}
+		//
 		File dataFile = new File(this.dataFilePath);
 		
 		if (dataFile.exists()) {
@@ -138,7 +144,7 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
 	 */
 	public Object getData() {
-		return this.lotsOfData;
+		return this.modelObject;
 	}
 
 	/*

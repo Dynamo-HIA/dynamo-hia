@@ -47,7 +47,8 @@ public enum StandardTreeNodeLabelsEnum {
 // 20090402 Not used anymore	RELRISKFORDEATHFILE("relriskfordeath"), //
 	RELRISKFORDEATHDIR("Relative_Risks_For_Death"), //
 // 20090402 RELRISKFORDISABILITYFILE("relriskfordisability"), //
-	RELRISKFORDISABILITYDIR("Relative_Risks_For_Disability") //
+	RELRISKFORDISABILITYDIR("Relative_Risks_For_Disability"), //
+	TRANSITIONSDIR("Transitions") //
 	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());

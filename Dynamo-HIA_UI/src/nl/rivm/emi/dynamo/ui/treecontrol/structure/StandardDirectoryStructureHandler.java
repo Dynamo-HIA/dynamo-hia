@@ -166,6 +166,8 @@ public class StandardDirectoryStructureHandler {
 				Set<String> requiredNames = new LinkedHashSet<String>();
 				requiredNames.add(StandardTreeNodeLabelsEnum.PREVALENCES
 						.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.TRANSITIONSDIR
+						.getNodeLabel());
 				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR
 						.getNodeLabel());
 				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR

@@ -12,12 +12,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public class HelpGroup {
+	Shell modalShell;
 	Group theGroup = null;
 	PreconfiguredHelpGroup windowHelpGroup;
 	PreconfiguredHelpGroup fieldHelpGroup;
 
 	public HelpGroup(Shell shell, Composite buttonPane) {
 		theGroup = new Group(shell, SWT.NONE);
+		modalShell = shell;
 		handlePlacementInContainer(theGroup, buttonPane);
 		FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
 		fillLayout.marginHeight = 2;
@@ -51,5 +53,9 @@ public class HelpGroup {
 
 	public PreconfiguredHelpGroup getFieldHelpGroup() {
 		return fieldHelpGroup;
+	}
+
+	public Shell getModalShell() {
+		return modalShell;
 	}
 }

@@ -18,6 +18,7 @@ import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -159,28 +160,39 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 										.getNodeLabel(), node);
 					} else {
 						if (communicationEnum
-								.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDEATH)) {
-							theModal = new RelRiskForDeathCategoricalModal(
+								.equals(RiskFactorStringConstantsEnum.RISKFACTORTRANSITIONS)) {
+							theModal = new TransitionMatrixModal(
 									shell,
 									dataFile.getAbsolutePath(),
 									savedFile.getAbsolutePath(),
-									RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
+									RootElementNamesEnum.TRANSITIONMATRIX
 											.getNodeLabel(), node);
 						} else {
 							if (communicationEnum
-									.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY)) {
-								theModal = new RelRiskForDisabilityCategoricalModal(
+									.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDEATH)) {
+								theModal = new RelRiskForDeathCategoricalModal(
 										shell,
 										dataFile.getAbsolutePath(),
 										savedFile.getAbsolutePath(),
-										RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+										RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
 												.getNodeLabel(), node);
 							} else {
-								MessageBox messageBox = new MessageBox(shell,
-										SWT.ERROR_UNSUPPORTED_FORMAT);
-								messageBox.setMessage("\"" + rootElementName
-										+ "\" not supported.");
-								messageBox.open();
+								if (communicationEnum
+										.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY)) {
+									theModal = new RelRiskForDisabilityCategoricalModal(
+											shell,
+											dataFile.getAbsolutePath(),
+											savedFile.getAbsolutePath(),
+											RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
+													.getNodeLabel(), node);
+								} else {
+									MessageBox messageBox = new MessageBox(
+											shell, SWT.ERROR_UNSUPPORTED_FORMAT);
+									messageBox.setMessage("\""
+											+ communicationEnum.name()
+											+ "\" not supported.");
+									messageBox.open();
+								}
 							}
 						}
 					}

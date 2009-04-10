@@ -54,7 +54,7 @@ public class RelRiskForDisabilityCategoricalModal extends AgnosticModal {
 	@Override
 	protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException {
 		RelativeRisksCategoricalGroup relRiskForDisabilityCategoricalGroup = new RelativeRisksCategoricalGroup(
-				this.shell, this.lotsOfData, this.dataBindingContext,
+				this.shell, this.modelObject, this.dataBindingContext,
 				this.selectedNode, this.helpPanel);
 		relRiskForDisabilityCategoricalGroup.setFormData(this.helpPanel
 				.getGroup(), buttonPanel);

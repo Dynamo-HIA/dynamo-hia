@@ -70,7 +70,7 @@ public class RelRiskFromRiskFactorContinuousModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.lotsOfData = manufactureModelObject();
+			this.modelObject = manufactureModelObject();
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
@@ -80,7 +80,7 @@ public class RelRiskFromRiskFactorContinuousModal extends AbstractDataModal {
 				riskSourceNode = this.props.getRiskSourceNode();
 			}
 			RelRisksFromRiskFactorContinuousGroup populationSizeGroup = new RelRisksFromRiskFactorContinuousGroup(
-					this.shell, this.lotsOfData, this.dataBindingContext,
+					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, riskSourceNode, this.helpPanel);
 			populationSizeGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
