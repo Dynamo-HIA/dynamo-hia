@@ -71,11 +71,17 @@ public class DiseasesTab extends TabPlatform {
 		// TODO Auto-generated method stub
 		Map<String, IDiseaseConfiguration> configurations = 
 			this.dynamoSimulationObject.getDiseaseConfigurations();
-		configurations.remove(index);
+		
+		configurations.remove(getSelectedString(configurations, index));
+
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
 	}
 	
-	
+	public String getSelectedString(Map<String, IDiseaseConfiguration> 
+		configurations, int selectedIndex) {
+		return (String) ((IDiseaseConfiguration) 
+				configurations.values().toArray()[selectedIndex]).getName();
+	}
 	
 	
 	
