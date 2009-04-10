@@ -59,10 +59,10 @@ public class PopulationTab  {
 		this.plotComposite.setLayout(formLayout);
 		//this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
 		
-		PopulationSelectionGroup populationSelectionGroup =
+	/*	PopulationSelectionGroup populationSelectionGroup =
 			new PopulationSelectionGroup(this.plotComposite,
 					selectedNode, helpGroup);		
-		
+		*/
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		item.setText("Population");
 		item.setControl(this.plotComposite);		

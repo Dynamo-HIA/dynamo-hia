@@ -1,10 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Set;
+
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -20,17 +23,19 @@ public abstract class Tab {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private String tabName;
+	protected String tabName;
 	protected Composite plotComposite;
 	protected DynamoSimulationObject dynamoSimulationObject;
 	protected DataBindingContext dataBindingContext;
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
+	protected Set<String> selections;
 	
-	public Tab(TabFolder tabFolder, String tabName, 
+	public Tab(Set<String> selections, TabFolder tabFolder, String tabName, 
 			DynamoSimulationObject dynamoSimulationObject, 
 			DataBindingContext dataBindingContext, 
-			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
+			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
+		this.selections = selections;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.helpGroup = helpGroup;
@@ -55,7 +60,7 @@ public abstract class Tab {
 		//this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));		
 	}
 
-	protected abstract void makeIt() throws DynamoConfigurationException;
+	protected abstract void makeIt() throws DynamoConfigurationException, ConfigurationException;
 
 	/**
 	 * 

@@ -121,8 +121,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public String getPopulationFileName() {
-		// TODO Auto-generated method stub
-		return null;
+		return (String)((WritableValue) getObservablePopulationFileName()).doGetValue();
 	}
 
 	public WritableValue getObservablePopulationFileName() {

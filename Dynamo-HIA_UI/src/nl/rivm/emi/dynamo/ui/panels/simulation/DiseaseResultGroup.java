@@ -1,39 +1,55 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+
 public class DiseaseResultGroup {
 
-
-	private static final String DISEASE_PREVALENCE = "Disease Prevalence";
-	private static final String INCIDENCE = "Incidence";
-	private static final String EXCESS_MORTALITY = "Excess Mortality";
-	private static final String DALY_WEIGHTS = "DALY Weights";
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	public static final String DISEASE_PREVALENCE = "Disease Prevalence";
+	public static final String INCIDENCE = "Incidence";
+	public static final String EXCESS_MORTALITY = "Excess Mortality";
+	public static final String DALY_WEIGHTS = "DALY Weights";
 	protected Group group;
 	private Composite plotComposite;
 	private GenericComboModifyListener diseaseDropDownModifyListener;
-
-	public DiseaseResultGroup(Composite plotComposite,
+	private BaseNode selectedNode;
+	private Map<String, IDiseaseConfiguration> configuration;
+	private Set<String> selections;
+	private DynamoTabDataManager dynamoTabDataManager;
+	
+	
+	public DiseaseResultGroup(Set<String> selections, Composite plotComposite, 
 			BaseNode selectedNode, HelpGroup helpGroup,
 			Composite topNeighbour, 
-			GenericComboModifyListener diseaseDropDownModifyListener
-			) {
+			GenericComboModifyListener diseaseDropDownModifyListener,
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
+		this.selections = selections;
+		//this.configuration = configuration;
+		this.selectedNode = selectedNode;
 		this.plotComposite = plotComposite;
 		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
+		this.dynamoTabDataManager = dynamoTabDataManager;
+		
 		group = new Group(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -43,8 +59,7 @@ public class DiseaseResultGroup {
 		createDropDownArea(topNeighbour);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) {
-		
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);
@@ -52,79 +67,59 @@ public class DiseaseResultGroup {
 		formData.bottom = new FormAttachment(100, 0);
 		group.setLayoutData(formData);
 		
-		Set<String> prevMap = null; /* new LinkedHashMap();
-		prevMap.put("Prev-BMI", "Prev-BMI");
-		prevMap.put("Prev-BMA", "Prev-BMA");
-		prevMap.put("Prev-BMB", "Prev-BMB");*/
-		
-		Set<String> prevMap2 = null; /* new LinkedHashMap();
-		prevMap2.put("Prev2-BMI", "Prev2-BMI");
-		prevMap2.put("Prev2-BMA", "Prev2-BMA");
-		prevMap2.put("Prev2-BMB", "Prev2-BMB");*/		
-		
-		Set<String> prevMap3 = null; /* new LinkedHashMap();
-		prevMap3.put("Prev3-BMI", "Prev3-BMI");
-		prevMap3.put("Prev3-BMA", "Prev3-BMA");
-		prevMap3.put("Prev3-BMB", "Prev3-BMB");*/
-		
-		Map<Combo, Map<String, Set<String>>> nestedComboMapsContents = new LinkedHashMap<Combo, Map<String, Set<String>>>();
-		Map<String, Set<String>> nestedPrevContents = new LinkedHashMap<String, Set<String>>();
-		nestedPrevContents.put("BMI1", prevMap);
-		nestedPrevContents.put("BMI2", prevMap2);
-		nestedPrevContents.put("BMI3", prevMap3);
-		
+		 
+		DropDownPropertiesSet prevSet = new DropDownPropertiesSet();
+		//chosenDiseaseName === default will be from IDiseaseConfiguration for Initialization!
+
+		String chosenDiseaseName = null;
+		if (this.selections != null) {
+			for (String chosenName : selections) {
+				chosenDiseaseName = chosenName;		
+			}
+		}
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = 
-			createDropDown(DISEASE_PREVALENCE, prevMap);
+			createDropDown(DISEASE_PREVALENCE, 
+					dynamoTabDataManager.getDropDownSet(DISEASE_PREVALENCE, chosenDiseaseName), 
+					null);
+		// Register with the drop down from the selector
 		this.diseaseDropDownModifyListener.
-			registerDropDown(diseasePrevalenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(diseasePrevalenceDropDownPanel.getDropDown(), nestedPrevContents);
-
-		Set<String> transitionMap = null; /* = new LinkedHashMap();
-		transitionMap.put("Trans-BMI", "Trans-BMI");
-		transitionMap.put("Trans-BMA", "Trans-BMA");
-		transitionMap.put("Trans-BMB", "Trans-BMB");*/
-
-		Set<String> transitionMap2 = null; /* = new LinkedHashMap();
-		transitionMap2.put("Trans-BMI2", "Trans-BMI2");
-		transitionMap2.put("Trans-BMA2", "Trans-BMA2");
-		transitionMap2.put("Trans-BMB2", "Trans-BMB2");*/
+			registerDropDown(diseasePrevalenceDropDownPanel);
 		
-		Set<String> transitionMap3 = null; /* = new LinkedHashMap();
-		transitionMap3.put("Trans-BMI3", "Trans-BMI3");
-		transitionMap3.put("Trans-BMA3", "Trans-BMA3");
-		transitionMap3.put("Trans-BMB3", "Trans-BMB3");*/			
 		
-		Map<String, Set<String>> nestedTransitionContents = new LinkedHashMap<String, Set<String>>();
-		nestedTransitionContents.put("BMI1", transitionMap);
-		nestedTransitionContents.put("BMI2", transitionMap2);
-		nestedTransitionContents.put("BMI3", transitionMap3);
-
+		//AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) diseaseObject.get(XMLTagEntityEnum.UNITTYPE.getElementName());
 		GenericDropDownPanel incidenceDropDownPanel = 
-			createDropDown(INCIDENCE, transitionMap);
+			createDropDown(INCIDENCE, 
+					dynamoTabDataManager.getDropDownSet(INCIDENCE, chosenDiseaseName), 
+					null);
 		this.diseaseDropDownModifyListener.
-			registerDropDown(incidenceDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(incidenceDropDownPanel.getDropDown(), nestedTransitionContents);
+			registerDropDown(incidenceDropDownPanel);
 		
 		
 		GenericDropDownPanel excessMortalityDropDownPanel = 
-			createDropDown(EXCESS_MORTALITY, transitionMap);
+			createDropDown(EXCESS_MORTALITY, 
+					dynamoTabDataManager.getDropDownSet(EXCESS_MORTALITY, chosenDiseaseName), 
+					null);
 		this.diseaseDropDownModifyListener.
-			registerDropDown(excessMortalityDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(excessMortalityDropDownPanel.getDropDown(), nestedTransitionContents);
+			registerDropDown(excessMortalityDropDownPanel);		
 		
-		
+		//AtomicTypeObjectTuple transitionTuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.UNITTYPE.getElementName());
 		GenericDropDownPanel dalyWeightsDropDownPanel = 
-			createDropDown(DALY_WEIGHTS, transitionMap);
+			createDropDown(DALY_WEIGHTS, 
+					dynamoTabDataManager.getDropDownSet(DALY_WEIGHTS, chosenDiseaseName), 
+					null);
 		this.diseaseDropDownModifyListener.
-			registerDropDown(dalyWeightsDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(dalyWeightsDropDownPanel.getDropDown(), nestedTransitionContents);
+			registerDropDown(dalyWeightsDropDownPanel);
 				
 		// Set the nested contents
-		this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
+		//this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
+	private GenericDropDownPanel createDropDown(String label, 
+			DropDownPropertiesSet selectablePropertiesSet, 
+			AtomicTypeObjectTuple tuple) {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null);		
+				selectablePropertiesSet, 
+				null, this.dynamoTabDataManager);		
 	}
+
 }

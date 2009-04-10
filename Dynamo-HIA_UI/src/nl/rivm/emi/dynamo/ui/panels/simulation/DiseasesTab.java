@@ -5,22 +5,20 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
+import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 public class DiseasesTab extends TabPlatform {
 
@@ -28,35 +26,57 @@ public class DiseasesTab extends TabPlatform {
 	
 	private static final String DISEASES = "Diseases";
 	private static final String DISEASE = "Disease";
-	
-	private DynamoSimulationObject modelObject;
-	private DataBindingContext dataBindingContext = null;
-	private HelpGroup helpGroup;
-	private BaseNode selectedNode;
 
 	/**
 	 * @param tabfolder
 	 * @param output
-	 * @throws DynamoConfigurationException 
+	 * @throws ConfigurationException 
 	 */
 	public DiseasesTab(TabFolder tabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException {
 		super(tabFolder, DISEASES, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
 	}
 
 	@Override
-	public NestedTab getNestedTab() throws DynamoConfigurationException {
+	public NestedTab getNestedDefaultTab(Set<String> defaultSelections) throws ConfigurationException {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		return new DiseaseTab(this.getTabManager().getTabFolder(), DISEASE + newTabNumber, modelObject, dataBindingContext, selectedNode, helpGroup);
+		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
+				DISEASE + newTabNumber, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, helpGroup);		
+	}
+	
+	@Override
+	public NestedTab getNestedTab() throws ConfigurationException {
+		return getNestedDefaultTab(null);
 	}	
 	
 	@Override
 	public String getNestedTabPrefix() {
 		return DISEASE;
 	}
+
+	@Override
+	//TODO: Upgrade for Relative Risks: public Set<Set<String>> getConfigurations() {
+	public Set<String> getConfigurations() {
+		Map<String, IDiseaseConfiguration> configurations = 
+			this.dynamoSimulationObject.getDiseaseConfigurations();
+		return configurations.keySet();
+	}
+
+	@Override
+	public void deleteNestedTab(int index) {
+		// TODO Auto-generated method stub
+		Map<String, IDiseaseConfiguration> configurations = 
+			this.dynamoSimulationObject.getDiseaseConfigurations();
+		configurations.remove(index);
+		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
+	}
+	
+	
+	
 	
 	
 }

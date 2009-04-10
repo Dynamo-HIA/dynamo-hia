@@ -52,8 +52,12 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 				.getInstance().get(rootElementName);
 				StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 						(TypedHashMap) modelObject, configurationFile);
-			} else {
+			}
+			else {
 				if (modelObject instanceof LinkedHashMap) {
+					log.debug("rootElementName" + rootElementName);
+					log.debug("modelObject" + modelObject);
+					log.debug("configurationFile" + configurationFile);
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							(HashMap<String, Object>) modelObject,
 							configurationFile);
@@ -63,6 +67,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 									+ modelObject.getClass().getName());
 				}
 			}
+			
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);
 		} catch (UnexpectedFileStructureException e) {

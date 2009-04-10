@@ -21,7 +21,7 @@ public class PopulationSelectionGroup {
 	private static final String POPULATION = "Population";
 	protected Group group;
 	Composite plotComposite;
-
+/*
 	public PopulationSelectionGroup(Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup) {
 		this.plotComposite = plotComposite;
@@ -56,11 +56,11 @@ public class PopulationSelectionGroup {
 	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
 		PopulationDataAction updatePopulationDataAction = PopulationDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, updatePopulationDataAction);		
+				null, selectablePropertiesSet, updatePopulationDataAction);		
 	}
 
 	private PopulationDataAction PopulationDataAction() {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 }

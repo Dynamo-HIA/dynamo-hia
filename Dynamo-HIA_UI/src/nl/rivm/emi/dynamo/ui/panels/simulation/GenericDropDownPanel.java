@@ -1,11 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Set;
-
+import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -24,16 +24,21 @@ public class GenericDropDownPanel {
 	private DropDownPropertiesSet selectablePropertiesSet;
 	private int selectedIndex;
 	private UpdateDataAction redrawGroupAndUpdateDataAction;
-
 	private GenericComboModifyListener genericComboModifyListener;
+	private DynamoTabDataManager owner;
+
+	private String dropDownLabel;
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
-			Object object,
-			UpdateDataAction redrawGroupAndUpdateDataAction) {		
+			UpdateDataAction redrawGroupAndUpdateDataAction,
+			DynamoTabDataManager owner) {
 		this.parent = parent;
+		this.dropDownLabel = dropDownLabel;
 		this.selectablePropertiesSet = selectablePropertiesSet;
 		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
+		this.owner = owner;
+		this.dropDownLabel = dropDownLabel;
 		
 		Label label = new Label(parent, SWT.LEFT);
 		label.setText(dropDownLabel + ":");
@@ -45,25 +50,23 @@ public class GenericDropDownPanel {
 		//dropLayoutData.marginHeight = 0;
 		dropDown.setLayoutData(dropLayoutData);
 		this.fill(selectablePropertiesSet);
-		
-		// Create the modify listener object
-		if (object instanceof WritableValue) {		
-			this.genericComboModifyListener = 
-				new GenericComboModifyListener((WritableValue) object);	
-		} else {
-			
-		}
-		dropDown.addModifyListener(genericComboModifyListener);
 
+		this.genericComboModifyListener = 
+			new GenericComboModifyListener(this);
+		dropDown.addModifyListener(genericComboModifyListener);
 		// Get the default value
-		String currentValue = genericComboModifyListener.getCurrentValue();
-		int currentIndex = selectablePropertiesSet
-				.getSelectedIndex(currentValue);
+		String currentValue = 
+			this.owner.getCurrentValue(this.getLabel());
 		// Set the default value
-		dropDown.select(currentIndex);
+		dropDown.select(getCurrentIndex(currentValue));
 
 	}
 	
+	private int getCurrentIndex(String currentValue) {
+		return selectablePropertiesSet
+		.getSelectedIndex(currentValue);
+	}
+
 	public void fill(DropDownPropertiesSet set) {
 		int index = 0;
 		for (String item : set) {
@@ -72,12 +75,41 @@ public class GenericDropDownPanel {
 		}
 	}	
 	
+	public void update(String newText) throws ConfigurationException {
+		updateRegisteredDropDown(newText);		
+	}
+
+	private void updateRegisteredDropDown(String newText) throws ConfigurationException {
+		dropDown.removeAll();
+		log.debug("newText" + newText);
+		log.debug("this.getLabel()" + this.getLabel());
+		DropDownPropertiesSet set = 
+			this.owner.getDropDownSet(this.getLabel(), newText);		
+		log.debug("SET" + set);
+		fill(set);
+		dropDown.select(0);
+	}
+
+	public void updateDataObjectModel(String newText) throws ConfigurationException {
+		// TODO Auto-generated method stub
+		this.owner.updateObjectState(this.getLabel(), newText);
+	}
+	
+	public String getLabel() {
+		return this.dropDownLabel;
+	}
+
 	public GenericComboModifyListener getGenericComboModifyListener() {
 		return genericComboModifyListener;
 	}
 	
 	public Combo getDropDown() {
 		return dropDown;
+	}
+	
+	public String getParentValue() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

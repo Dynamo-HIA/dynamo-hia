@@ -6,26 +6,48 @@ package nl.rivm.emi.dynamo.data.interfaces;
  * @author mondeelr
  * 
  */
-public interface IDiseaseConfiguration {
-	public abstract String getName();
+public interface IDiseaseConfiguration extends INameConfiguration {
 
-	public abstract void setName(String name);
+	/**
+	 * @return String The prevalence file name
+	 */
+	public String getPrevalenceFileName();
 
-	public abstract String getPrevalenceFileName();
+	/**
+	 * @param prevalenceFileName
+	 */
+	public void setPrevalenceFileName(String prevalenceFileName);
 
-	public abstract void setPrevalenceFileName(String prevalenceFileName);
+	/**
+	 * @return String The incidence file name
+	 */
+	public String getIncidenceFileName();
 
-	public abstract String getIncidenceFileName();
+	/**
+	 * @param incidenceFileName
+	 */
+	public void setIncidenceFileName(String incidenceFileName);
 
-	public abstract void setIncidenceFileName(String incidenceFileName);
+	/**
+	 * @return String The excess mortality file name
+	 */
+	public String getExcessMortalityFileName();
 
-	public abstract String getExcessMortalityFileName();
-
-	public abstract void setExcessMortalityFileName(
+	/**
+	 * @param excessMortalityFileName
+	 */
+	public void setExcessMortalityFileName(
 			String excessMortalityFileName);
 
-	public abstract String getDalyWeightsFileName();
+	/**
+	 * @return String daly weights file name
+	 */
+	public String getDalyWeightsFileName();
 
-	public abstract void setDalyWeightsFileName(String dalyWeightsFileName);
+	
+	/**
+	 * @param dalyWeightsFileName
+	 */
+	public void setDalyWeightsFileName(String dalyWeightsFileName);
 
 }

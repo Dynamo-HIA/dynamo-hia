@@ -27,6 +27,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	private TreeAsDropdownLists(BaseNode selectedNode)
 			throws ConfigurationException {
 		super();
+		
 	}
 
 	/**

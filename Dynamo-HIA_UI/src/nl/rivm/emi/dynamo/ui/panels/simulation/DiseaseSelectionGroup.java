@@ -4,10 +4,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -22,14 +27,25 @@ public class DiseaseSelectionGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private static final String DISEASE = "Disease";
+	public static final String DISEASE = "Disease";
 	protected Group group;
 	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
+	private BaseNode selectedNode;
+	private Set<String> selections;
+	private DynamoTabDataManager dynamoTabDataManager;
 
-	public DiseaseSelectionGroup(Composite plotComposite,
-			BaseNode selectedNode, HelpGroup helpGroup) {
+	public DiseaseSelectionGroup(String tabName, Set<String> selections, Composite plotComposite,
+			BaseNode selectedNode, HelpGroup helpGroup, 
+			DynamoTabDataManager dynamoTabDataManager) 
+			throws ConfigurationException {
+		this.selections = selections;
 		this.plotComposite = plotComposite;
+		
+		this.selectedNode = selectedNode;
+		this.dynamoTabDataManager = dynamoTabDataManager;
+		
+		log.debug("diseaseFactorSelectionGroup::selectedNode: " + selectedNode);
 		log.debug("diseaseFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		group = new Group(plotComposite, SWT.FILL);
 		
@@ -44,7 +60,7 @@ public class DiseaseSelectionGroup {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() {
+	private void createDropDownArea() throws ConfigurationException {
 				
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, -5);
@@ -53,22 +69,38 @@ public class DiseaseSelectionGroup {
 		formData.bottom = new FormAttachment(22, 0);
 		group.setLayoutData(formData);			
 		
-		// TODO: Replace with real content
-		Set<String> contentsSet = null; /* new LinkedHashMap();
-		contentsMap.put("BMI1", "BMI1");
-		contentsMap.put("BMI2", "BMI2");
-		contentsMap.put("BMI3", "BMI3");*/
+		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
+		DropDownPropertiesSet validDiseasesSet = new DropDownPropertiesSet();
+		validDiseasesSet.addAll(treeLists.getValidDiseases());
+		
+		String chosenDiseaseName = null;
+		if (this.selections != null) {
+			for (String chosenName : this.selections) {
+				chosenDiseaseName = chosenName;		
+			}			
+		}
+		
+		//IDiseaseConfiguration diseaseConfiguration = configuration.get(chosenDiseaseName);
+		//diseaseConfiguration.getName();
+		
 		GenericDropDownPanel diseaseDropDownPanel = 
-			createDropDown(DISEASE, contentsSet);
+			createDropDown(DISEASE, 
+					dynamoTabDataManager.
+					getDropDownSet(DISEASE, chosenDiseaseName), 
+					dynamoTabDataManager
+					);
 		this.dropDownModifyListener =
 			diseaseDropDownPanel.getGenericComboModifyListener();		
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
+	private GenericDropDownPanel createDropDown(String label, 
+			DropDownPropertiesSet selectablePropertiesSet, 
+			DynamoTabDataManager dynamoTabDataManager) {
 		DiseaseFactorDataAction updateDiseaseFactorDataAction = 
 			new DiseaseFactorDataAction();
-		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, updateDiseaseFactorDataAction);		
+		return new GenericDropDownPanel(group, label, 2, 
+				selectablePropertiesSet, 
+				null, dynamoTabDataManager);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {

@@ -1,13 +1,17 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -58,11 +62,33 @@ public class TabManager {
 	//	this.selectionListener = new SelectionListener(nestedTabs);		
 	}
 
-	// tabName is identifier for the nestedTab to be created
-	public void createNestedTab() throws DynamoConfigurationException {
+	/**
+	 * 
+	 * Creates the stored default NestedTabs on this TabFolder
+	 * 
+	 * @throws ConfigurationException
+	 */
+	public void createDefaultTabs() throws DynamoConfigurationException, ConfigurationException {
+		Set<String> defaultTabKeyValues = this.platform.getConfigurations();
+		for (String defaultTabKeyValue : defaultTabKeyValues) {
+			Set<String> keyValues = new LinkedHashSet<String>();
+			keyValues.add(defaultTabKeyValue);
+			this.platform.getNestedDefaultTab(keyValues);	
+		}		
+		this.redraw();
+	}		
+	
+	/**
+	 * 
+	 * Creates a new NestedTab on this TabFolder
+	 * 
+	 * @throws ConfigurationException
+	 */
+	public void createNestedTab() throws ConfigurationException {
 		NestedTab nestedTab = this.platform.getNestedTab();
-		///this.platform.getNestedTab();
+		// tabName is identifier for the nestedTab to be created
 		log.debug("nestedTab.getName()" + nestedTab.getName());
+		
 		// Create an unique number
 		//int tabNumber = this.nestedTabs.size();
 		// Create a new NestedTab on the TabPlatform		
@@ -73,12 +99,12 @@ public class TabManager {
 		this.redraw();
 	}
 	
-	public void deleteNestedTab() {
+	public void deleteNestedTab() throws ConfigurationException {
 		// TODO REMOVE DEBUGGING:
 		TabItem[] tabItems = tabFolder.getItems();
 		log.debug("tabItems.length" + tabItems.length);		
 		// TODO REMOVE DEBUGGING
-		
+
 		// Remove the tab that is selected now		
 		int index = tabFolder.getSelectionIndex();
 		log.debug("index" + index);
@@ -86,8 +112,11 @@ public class TabManager {
 		if (index > -1) {
 			TabItem tabItem = tabFolder.getItem(index);
 			tabItem.dispose();
-		}		
-
+		}
+		// Remove the data from the data object model
+		this.platform.deleteNestedTab(index);
+		// The disease will be available to be chosen again 
+		//ChoosableDiseases.getInstance().removeChosenDisease(index);		
 		// Remove the nestedTab from the TabPlatform		
 		//this.nestedTabs.remove(index);
 		//this.updateListener();
@@ -107,7 +136,7 @@ public class TabManager {
 			int newIndexName = index + 1;
 			String tabName = this.platform.getNestedTabPrefix() + newIndexName;
 			item.setText(tabName);
-		}	
+		}
 		
 		/*
 		TabItem[] tabItems = this.tabFolder.getItems();
@@ -140,11 +169,11 @@ public class TabManager {
 	}
 
 	public TabFolder getTabFolder() {
-		return tabFolder;
+		return this.tabFolder;
 	}
 
 	public int getNumberOfTabs() {
-		return tabFolder.getItemCount();
+		return this.tabFolder.getItemCount();
 		//return this.nestedTabs.size();
 	}
 	

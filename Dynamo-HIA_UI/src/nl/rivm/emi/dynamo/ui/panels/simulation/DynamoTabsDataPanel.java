@@ -55,28 +55,31 @@ public class DynamoTabsDataPanel {
 		tabFolder1.setLayout(new FillLayout());
 		//tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
 		
+	    /**TODO: Reactivate  
 		final RiskFactorTab tab0 = new RiskFactorTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
+				*/
 		//final PopulationTab tab1 = new PopulationTab(tabFolder1, dynamoSimulationObject, 
 			//	dataBindingContext, selectedNode, theHelpGroup);
 		final DiseasesTab tab2 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
+	    /**TODO: Reactivate 
 		final RelativeRisksTab tab3 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);		
 		final ScenariosTab tab4 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);			
-		
+		*/
 		
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
                 TabItem item = (TabItem) event.item;
 	            String tabId=item.getText();
 			    
-	            if (tabId=="Risk Factor") tab0.redraw();
-			    //if (tabId=="Population") tab1.redraw();
+			    ////TODO: Reactivate if (tabId=="Risk Factor") tab0.redraw();
+			    ////TODO: Reactivate if (tabId=="Population") tab1.redraw();
 			    if (tabId=="Diseases") tab2.redraw();
-			    if (tabId=="Relative Risks") tab3.redraw();
-			    if (tabId=="Scenarios") tab4.redraw();
+			    ////TODO: Reactivate if (tabId=="Relative Risks") tab3.redraw();
+			    ////TODO: Reactivate if (tabId=="Scenarios") tab4.redraw();
 			    
         }
 

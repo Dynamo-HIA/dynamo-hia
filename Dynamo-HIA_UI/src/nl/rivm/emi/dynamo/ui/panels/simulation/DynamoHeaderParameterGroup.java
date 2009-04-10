@@ -1,9 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.ReferenceClassDataPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -27,9 +25,11 @@ public class DynamoHeaderParameterGroup {
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 
+		DynamoTabDataManager dynamoTabDataManager =
+			new DynamoSimulationHeaderDataManager(selectedNode, dynamoSimulationObject);
 		Composite dynamoHeaderDataPanel = new DynamoHeaderDataPanel(group,
 				null, dynamoSimulationObject, dataBindingContext, selectedNode,
-				helpGroup);
+				helpGroup, dynamoTabDataManager);
 		FormData dynamoHeaderFormData = new FormData();
 		dynamoHeaderFormData.top = new FormAttachment(0, 0);
 		dynamoHeaderFormData.right = new FormAttachment(100, 0);

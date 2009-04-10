@@ -58,7 +58,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private static final String SIM_POP_SIZE = "Simulated population size";
 	private static final String RAND_SEED = "Random seed";
 	private static final String HAS_NEW_BORNS = "Newborns";
-	private static final String POP_FILE_NAME = "Population";
+	public static final String POP_FILE_NAME = "Population";
 	private static final String STARTING_YEAR = "Starting year";
 	private static final String NUMBER_OF_YEARS = "Number of years";
 	private static final String MINIMUM_AGE = "Minimum age";
@@ -71,6 +71,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
 	private GenericComboModifyListener dropDownModifyListener;
+	private DynamoTabDataManager dynamoTabDataManager;
 	
 	/** Two radiobuttons */
 	private Button[] radioButtons = new Button[2];
@@ -78,13 +79,17 @@ public class DynamoHeaderDataPanel extends Composite {
 	public DynamoHeaderDataPanel(Composite parent, Composite bottomNeighbour,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws ConfigurationException {
+			HelpGroup helpGroup,
+			DynamoTabDataManager dynamoTabDataManager
+	) throws ConfigurationException {
 		super(parent, SWT.NONE);
 //		this.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		this.myParent = parent;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
+		this.dynamoTabDataManager = dynamoTabDataManager;		
+		
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		layout.makeColumnsEqualWidth = /* false */true;
@@ -133,9 +138,13 @@ public class DynamoHeaderDataPanel extends Composite {
 		contentsSet.addAll(treeLists.getPopulations());		
 		log.debug("contentsSet" + contentsSet);
 		
-		WritableValue writeble = (WritableValue) dynamoSimulationObject.getObservablePopulationFileName();
+		//WritableValue writeble = (WritableValue) dynamoSimulationObject.getObservablePopulationFileName();
+		
+		
 		GenericDropDownPanel populationDropDownPanel = 
-			createDropDown(POP_FILE_NAME, contentsSet, 1, writeble);
+			createDropDown(POP_FILE_NAME, 
+					dynamoTabDataManager.getDropDownSet(POP_FILE_NAME, null), 1, 
+					dynamoTabDataManager);
 		this.dropDownModifyListener =
 			populationDropDownPanel.getGenericComboModifyListener();
 				
@@ -343,13 +352,12 @@ public class DynamoHeaderDataPanel extends Composite {
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
 			int columnSpan,
-			Object object) {
+			DynamoTabDataManager dynamoTabDataManager) {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = 
 			new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(this, label, columnSpan,
 				selectablePropertiesSet,				
-				object,
-				null);		
+				null, dynamoTabDataManager);
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {

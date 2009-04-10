@@ -1,16 +1,20 @@
 package nl.rivm.emi.dynamo.ui.panels.listeners;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
+import nl.rivm.emi.dynamo.ui.panels.simulation.GenericDropDownPanel;
+
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.MessageBox;
 
 public class GenericComboModifyListener implements ModifyListener {
 	
@@ -19,63 +23,58 @@ public class GenericComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
-	WritableValue writableValue;
+	private Set<GenericDropDownPanel> registeredDropDowns = 
+		new HashSet<GenericDropDownPanel>();
+
+	private DynamoTabDataManager dataManager;
+	private GenericDropDownPanel dropDown;						
 	
-	private Set<Combo> registeredDropDowns = new HashSet<Combo>();						
-	private Map<Combo, Map> nestedContents = new HashMap<Combo, Map>();
-
-	public GenericComboModifyListener(WritableValue writableValue) {
+	public GenericComboModifyListener(GenericDropDownPanel dropDown) {
 		super();
-		this.writableValue = writableValue;
+		this.dropDown = dropDown;
 	}
 
-	public void setNestedContents(Map nestedContents) {
-		this.nestedContents = nestedContents;
-	}
-
-	public void registerDropDown(Combo dropdown) {
+	public void registerDropDown(GenericDropDownPanel dropdown) {
 		registeredDropDowns.add(dropdown);
 	}
 
-	public void unRegisterDropDown(Combo dropdown) {
+	public void unRegisterDropDown(GenericDropDownPanel dropdown) {
 		registeredDropDowns.remove(dropdown);
 	}
 
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();		
-
-		log.debug("newText" + newText);
 		
-		// Update the object model with the selected new value
-		if(writableValue!= null){
-			writableValue.doSetValue(newText);
-		}
-		
+		log.debug("newText" + newText);		
+		// TODO REACTIVATE this.setCurrentValue(newText);
 		// Iterate through the registered drop downs of this 
-		for (Combo registerdCombo : registeredDropDowns) {
-			log.debug("registerdCombo" + registerdCombo);						
-			// Clear the old contents first
-			registerdCombo.removeAll();
-			
-			// Get the appropriate map for this Combo
-			Map<String, Map> selectableContentsMap = 
-				(Map<String, Map>) nestedContents.get(registerdCombo);
-			log.debug("selectableContentsMap" + selectableContentsMap);
-			Map<String, Map> selectablePropertiesMap = 
-				(Map<String, Map>) selectableContentsMap.get(newText);			
-			Set<String> keys = selectablePropertiesMap.keySet();						
-			int index = 0;
-			// Add the new contents
-			for (String item : keys) {
-				registerdCombo.add(item, index);
-				index ++;
-			}				
-			registerdCombo.select(0);
+		log.debug("this.registeredDropDowns.size()" 
+				+ this.registeredDropDowns.size());		
+		// Update the registered drop downs
+		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
+			log.debug("registeredCombo" + registeredDropDown);						 
+			try {				
+				registeredDropDown.update(newText);				
+			} catch (ConfigurationException ce) {
+				this.handleErrorMessage(ce, registeredDropDown);
+			}
+		}		
+		try {
+			this.dropDown.updateDataObjectModel(newText);
+		} catch (ConfigurationException ce) {
+			this.handleErrorMessage(ce, dropDown);
 		}
 	}
 
-	public String getCurrentValue(){
-		return (String) this.writableValue.doGetValue();
+	private void handleErrorMessage(Exception e, GenericDropDownPanel registeredDropDown) {
+		this.log.fatal(e);
+		e.printStackTrace();
+		MessageBox box = new MessageBox(registeredDropDown.parent.getShell(),
+				SWT.ERROR_UNSPECIFIED);
+		box.setText("Error occured during update of the drop down " + e.getMessage());
+		box.setMessage(e.getMessage());
+		box.open();
 	}
+	
 }

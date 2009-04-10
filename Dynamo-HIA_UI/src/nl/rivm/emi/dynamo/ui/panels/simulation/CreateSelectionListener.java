@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -24,12 +25,13 @@ public class CreateSelectionListener extends AbstractLoggingClass
 	}
 
 	public void widgetSelected(SelectionEvent arg0) {
-		// TODO Auto-generated method stub
 		try {
 			this.tabPlatform.getTabManager().
 				createNestedTab();
-		} catch (DynamoConfigurationException e) {
-			this.handleErrorMessage(e);
+		} catch (DynamoConfigurationException dce) {
+			this.handleErrorMessage(dce);
+		} catch (ConfigurationException ce) {
+			this.handleErrorMessage(ce);
 		}
 	}
 
