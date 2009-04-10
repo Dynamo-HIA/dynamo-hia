@@ -56,15 +56,17 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 * @return
 	 */
 	public Set<String> getChoosableDiseases(String currentDiseasesName, TreeAsDropdownLists lists) {
+		log.debug("currentDiseasesName: " + currentDiseasesName);
 		this.remove(currentDiseasesName);		
 		Set diseaseNames = lists.getValidDiseases();
 		log.debug("diseaseNames: " + diseaseNames);
-		log.debug("ChoosableDiseases-1-1-1: " + this);
+		log.debug("Chosendiseases-1-1-1: " + this);
 		for (String chosenName : (Set<String>)this) {
+			log.debug("REMVOVING CHOSENNAME: " + chosenName);	
 			diseaseNames.remove(chosenName);
 		}
 		log.debug("diseaseNames222: " + diseaseNames);
-		log.debug("ChoosableDiseases-2-2-2: " + this);
+		log.debug("Chosendiseases-2-2-2: " + this);
 		return diseaseNames;
 	}
 
@@ -76,15 +78,18 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 */
 	public void setChosenDisease(String chosenDiseaseName) {
 		log.debug("setChosenDisease" + chosenDiseaseName);
+		log.debug("Chosendiseases111BEFORE: " + this);
 		this.add(chosenDiseaseName);
-		log.debug("ChoosableDiseases111: " + this);
+		log.debug("Chosendiseases111AFTER: " + this);
 	}
 
 	public void removeChosenDisease(int index) {
+		log.debug("ChosendiseasesXXXBEFORE: " + this);
 		log.debug("index" + index);
 		String name = ((String) this.toArray()[index]);
-		log.debug("removename:" + name);
+		log.debug("removename:" + name);		
 		this.remove(name);
+		log.debug("ChosendiseasesXXXAFTER: " + this);
 	}
 	
 	/**
