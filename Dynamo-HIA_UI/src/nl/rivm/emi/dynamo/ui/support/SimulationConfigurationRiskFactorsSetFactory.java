@@ -28,14 +28,13 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 
 	static final String[] namesOfRequiredNonEmptySubDirectories = { //
 	StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel() //
-	// ,StandardTreeNodeLabelsEnum.TRANSITION .getNodeLabel()
-	};
+			, StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel() };
 	static final String[] namesOfSubDirectories4DropDownLists = {
 			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel() //
-			, StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel() //
-			, StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel()
-	// ,StandardTreeNodeLabelsEnum.TRANSITION .getNodeLabel()
-	};
+			// , StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel() //
+			// ,
+			// StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel()
+			, StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel() };
 
 	/**
 	 * Method that generates a RiskSourcePropertiesMap of sibling nodes
@@ -53,9 +52,14 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 		HashMap<String, HashMap<String, LinkedHashSet<String>>> theMap = new HashMap<String, HashMap<String, LinkedHashSet<String>>>();
 		Object[] children = riskFactorsNode.getChildren();
 		for (Object riskFactorDirectoryNode : children) {
+			log.debug("Checking out Risk Factor \""
+					+ ((BaseNode) riskFactorDirectoryNode).deriveNodeLabel()
+					+ "\".");
 			boolean valid = validateRiskFactorDirectoryNode(riskFactorDirectoryNode);
 			if (valid) {
-				HashMap<String, LinkedHashSet<String>> dropDowns = FactoryCommon.createDropDowns(riskFactorDirectoryNode, namesOfRequiredNonEmptySubDirectories);
+				HashMap<String, LinkedHashSet<String>> dropDowns = FactoryCommon
+						.createDropDowns(riskFactorDirectoryNode,
+								namesOfRequiredNonEmptySubDirectories);
 				theMap.put(((BaseNode) riskFactorDirectoryNode)
 						.deriveNodeLabel(), dropDowns);
 			}
@@ -76,8 +80,7 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 				}
 			}
 		}
-		log.debug("Made RiskFactorsSet containing:\n"
-				+ namesConcat.toString());
+		log.debug("Made RiskFactorsSet containing:\n" + namesConcat.toString());
 		// Debugging code ends.
 		return theMap;
 	}
@@ -88,13 +91,21 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 		if (riskFactorDirectoryNode instanceof DirectoryNode) {
 			valid = riskFactorSubDirectoriesAreComplete(riskFactorDirectoryNode);
 			if (valid) {
+				log.debug("Required directories for risk factor \""
+						+ riskFactorDirectoryNode + "\" are complete.");
 				valid = riskFactorDirectoryIsComplete(riskFactorDirectoryNode,
 						valid);
+				if (valid) {
+					log.debug("Required files for risk factor \""
+							+ riskFactorDirectoryNode + "\" are complete.");
+				}
 			}
 		} else {
 			// No error, RiskFactors contain a mix.
-			log.debug("Expected DirectoryNode, got: "
-					+ riskFactorDirectoryNode.getClass().getName());
+			log.debug("Expected DirectoryNode, got: \""
+					+ riskFactorDirectoryNode.getClass().getName()
+					+ "\" with name "
+					+ ((FileNode) riskFactorDirectoryNode).deriveNodeLabel());
 		}
 		return valid;
 	}
@@ -106,9 +117,15 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 				.getChildren();
 		boolean[] checkList = new boolean[namesOfRequiredNonEmptySubDirectories.length];
 		for (Object child : children) {
-			int index = findAndCheckRiskFactorSubDirectory((BaseNode) child);
+			int index = isRequiredRiskFactorSubDirectory((BaseNode) child);
 			if (index != -1) {
-				checkList[index] = true;
+				boolean ok = checkRiskFactorSubDirectory((BaseNode) child);
+				if ((index != -1) && ok) {
+					checkList[index] = true;
+					log.info("Directory: "
+							+ ((BaseNode) child).deriveNodeLabel()
+							+ " checks out.");
+				}
 			}
 		}
 		int count = 0;
@@ -119,33 +136,52 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 		}
 		if (count == checkList.length) {
 			valid = true;
+			log.info("Risk Factor: "
+					+ ((BaseNode) riskFactorDirectoryNode).deriveNodeLabel()
+					+ " checks out.");
 		}
 		return valid;
 	}
 
-	private static int findAndCheckRiskFactorSubDirectory(BaseNode childNode) {
-		int index = -1;
+	private static int isRequiredRiskFactorSubDirectory(BaseNode childNode) {
+		int foundAt = -1;
 		if (childNode instanceof DirectoryNode) {
 			for (int count = 0; count < namesOfRequiredNonEmptySubDirectories.length; count++) {
 				if (namesOfRequiredNonEmptySubDirectories[count]
 						.equals(childNode.deriveNodeLabel())) {
-					// At least one (configuration file ?) child.
-					Object[] children = ((ParentNode) childNode).getChildren();
-					if (children.length > 0) {
-						index = count;
-						break;
-					} else {
-						log.info("Missing configuration-file(s)in directory: "
-								+ ((BaseNode) childNode).deriveNodeLabel());
-					}
+					foundAt = count;
+					break;
 				}
+			}
+			if (foundAt == -1) {
+				log.debug(childNode.deriveNodeLabel()
+						+ " is NOT a required directory.");
+			} else {
+				log.debug(childNode.deriveNodeLabel()
+						+ " is a required directory.");
 			}
 		} else {
 			// No error.
 			log.debug("Expected DirectoryNode, got: "
-					+ childNode.getClass().getName());
+					+ childNode.getClass().getName() + "\" with name "
+					+ ((FileNode) childNode).deriveNodeLabel());
 		}
-		return index;
+		return foundAt;
+	}
+
+	private static boolean checkRiskFactorSubDirectory(BaseNode childNode) {
+		boolean valid = false;
+		log.debug("Checking Risk Factor subdirectory: "
+				+ childNode.deriveNodeLabel());
+		Object[] children = ((ParentNode) childNode).getChildren();
+		if (children.length > 0) {
+			valid = true;
+		} else {
+			log.info("Missing configuration-file(s)in directory: "
+					+ ((BaseNode) childNode).deriveNodeLabel());
+		}
+
+		return valid;
 	}
 
 	private static boolean riskFactorDirectoryIsComplete(
@@ -189,8 +225,9 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 				}
 			}
 		} else {
-			log.debug("Expected FileNode, got: "
-					+ childNode.getClass().getName());
+			log.debug("Expected FileNode, got \""
+					+ childNode.getClass().getName() + "\" with name "
+					+ ((DirectoryNode) childNode).deriveNodeLabel());
 		}
 		return index;
 	}

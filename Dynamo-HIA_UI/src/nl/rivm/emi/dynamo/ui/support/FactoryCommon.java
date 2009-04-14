@@ -61,7 +61,9 @@ public class FactoryCommon {
 						break;
 					}
 				}
-				map.put(childNodeLabel, fileNameTrunks);
+				if (fileNameTrunks != null) {
+					map.put(childNodeLabel, fileNameTrunks);
+				}
 			}
 		}
 		return map;
@@ -73,8 +75,11 @@ public class FactoryCommon {
 		Object[] children = ((ParentNode) childNode).getChildren();
 		if (children != null) {
 			for (Object childNodeObject : children) {
-				fileNameTrunks.add(((BaseNode) childNodeObject)
-						.deriveNodeLabel());
+				String fileNameTrunk = ((BaseNode) childNodeObject)
+				.deriveNodeLabel(); 
+				if(!"".equals(fileNameTrunk)){
+				fileNameTrunks.add(fileNameTrunk);
+				}
 			}
 		}
 		return fileNameTrunks;
