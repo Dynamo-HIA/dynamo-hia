@@ -1,13 +1,15 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
+import java.util.Map;
+
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 
 public interface IRelativeRisks {
 
-	public abstract TypedHashMap<TabRelativeRiskConfigurationData> getRelativeRisks();
+	public abstract Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations();
 
-	public abstract void setRelativeRisks(
-			TypedHashMap<TabRelativeRiskConfigurationData> relativeRisks);
+	public abstract void setRelativeRiskConfigurations(
+			Map<Integer, TabRelativeRiskConfigurationData> relativeRisks);
 
 }
