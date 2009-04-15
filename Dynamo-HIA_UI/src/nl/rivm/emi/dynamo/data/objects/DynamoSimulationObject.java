@@ -217,10 +217,10 @@ public class DynamoSimulationObject extends
 
 	}
 
-	public HashMap<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
+	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
-		HashMap<String, TabRiskFactorConfigurationData> theMap = new HashMap<String, TabRiskFactorConfigurationData>();
+		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		Set<Object> namesSet = riskFactorMap.keySet();
 		for (Object nameObject : namesSet) {
 			ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
@@ -233,7 +233,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public void setRiskFactorConfigurations(
-			HashMap<String, TabRiskFactorConfigurationData> riskFactorConfigurations) {
+			Map<String, TabRiskFactorConfigurationData> riskFactorConfigurations) {
 		TypedHashMap<? extends XMLTagEntity> riskFactorsMap = new TypedHashMap(XMLTagEntityEnum.UNIQUENAME.getTheType());
 		Set<String> nameSet = riskFactorConfigurations.keySet();
 		for (String name : nameSet) {
@@ -248,7 +248,7 @@ public class DynamoSimulationObject extends
 	public Map<String, IDiseaseConfiguration> getDiseaseConfigurations() {
 		TypedHashMap<UniqueName> diseasesMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.DISEASES
 				.getElementName());
-		Map<String, IDiseaseConfiguration> resultMap = new HashMap<String, IDiseaseConfiguration>();
+		Map<String, IDiseaseConfiguration> resultMap = new LinkedHashMap<String, IDiseaseConfiguration>();
 		Set<Object> keySet = diseasesMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
@@ -304,7 +304,7 @@ public class DynamoSimulationObject extends
 	public Map<String, ITabScenarioConfiguration> getScenarioConfigurations() {
 		TypedHashMap<UniqueName> scenariosMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.SCENARIOS
 				.getElementName());
-		Map<String,ITabScenarioConfiguration> resultMap = new HashMap<String, ITabScenarioConfiguration>();
+		Map<String,ITabScenarioConfiguration> resultMap = new LinkedHashMap<String, ITabScenarioConfiguration>();
 		Set<Object> keySet = scenariosMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
