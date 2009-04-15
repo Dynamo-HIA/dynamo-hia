@@ -56,6 +56,7 @@ public class Output_LifeExpTab  {
 		this.plotInfo.currentScen = 0;
 		this.plotInfo.currentDisease = 1;
 		this.plotInfo.currentYear = 0;
+		this.plotInfo.newborns=output.isWithNewborns();
 
 		Composite controlComposite = new Composite(this.plotComposite, SWT.NONE);
 		GridLayout gridLayoutControl = new GridLayout();
@@ -66,7 +67,7 @@ public class Output_LifeExpTab  {
 		controlComposite.setLayoutData(controlData);
 		
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, this.output.makeLifeExpectancyPlot(0), true);
+				this.plotComposite, SWT.NONE, this.output.makeCohortLifeExpectancyPlot(0), true);
 		
 		 GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 					| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
@@ -83,8 +84,9 @@ public class Output_LifeExpTab  {
 		
 		new DiseaseChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, items);
 		
-		
+		new SullivanChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 		final int minA = Math.max(0,this.output.getMinAgeInSimulation());
+		plotInfo.maxAge=this.output.getStepsInRun();
 		int length = this.output.getMaxAgeInSimulation()
 				- minA + 1;
 		String[] ageNames = new String[length];
@@ -94,7 +96,16 @@ public class Output_LifeExpTab  {
 			ageNames[0] = ((Integer) minA).toString();
 		for (int i = 1; i < length; i++)
 			ageNames[i] = ((Integer) (minA + i)).toString();
+		plotInfo.availlableAges=ageNames;
 		new AgeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, ageNames);
+		// chartComposite4.setBounds(0, 0, 400, 500);
+		int start=output.getStartYear();
+		int maxyears=output.getStepsInRun();
+		String[] yearNames=new String [maxyears];
+		for (int y=0;y<maxyears;y++)
+			yearNames[y] = ((Integer) y).toString();
+		
+		new YearChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, yearNames);
 		// chartComposite4.setBounds(0, 0, 400, 500);
 		TabItem item4 = new TabItem(this.tabFolder, SWT.NONE);
 		item4.setText("life expectancy plots");

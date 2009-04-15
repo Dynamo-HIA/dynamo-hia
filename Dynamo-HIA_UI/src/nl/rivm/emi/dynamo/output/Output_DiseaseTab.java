@@ -48,6 +48,7 @@ public class Output_DiseaseTab  {
 		
 		this.plotInfo.currentDisease = 0;
 		this.plotInfo.currentYear = 0;
+		this.plotInfo.currentAge = 0;
 		this.plotInfo.plotType = 1;
 		this.plotInfo.differencePlot = false;
 		this.plotInfo.axisIsAge = false;

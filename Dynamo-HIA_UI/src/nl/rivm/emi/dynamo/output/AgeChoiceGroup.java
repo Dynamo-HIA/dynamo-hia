@@ -25,6 +25,7 @@ public class AgeChoiceGroup {
 	PlotDrawer plotDrawer;
 	ButtonStates plotInfo;
 	Group listgroup ;
+
 	
 	public AgeChoiceGroup(final Composite controlComposite,
 			final ChartComposite chartComposite, final PlotDrawer plotDrawer, final ButtonStates plotInfo,String[] names) {
@@ -40,7 +41,7 @@ public class AgeChoiceGroup {
 			/* tooltip tekst is added to make it possible to select this widget for
 			 * disabling. Do not change this text
 			 */
-			this.listgroup.setToolTipText("choose year to plot");
+			this.listgroup.setToolTipText("choose age to plot");
 			this.listgroup.setEnabled(true);
 			GridLayout gridLayoutGroup = new GridLayout();
 			gridLayoutGroup.numColumns = 3;
@@ -57,8 +58,11 @@ public class AgeChoiceGroup {
 			combo.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					Combo combo = (Combo) e.getSource();
-					 plotInfo.currentYear = combo.getSelectionIndex();
-					 plotDrawer.drawChartAction(plotInfo,chartComposite);
+					 
+					if (plotInfo.Sullivan && !plotInfo.newborns) plotInfo.currentAge = combo.getSelectionIndex() +plotInfo.currentYear;
+					else plotInfo.currentAge = combo.getSelectionIndex();
+					
+					plotDrawer.drawChartAction(plotInfo,chartComposite);
 					 
 				}
 			});

@@ -50,6 +50,7 @@ public class Output_RiskFactorTab {
 			plotInfo.currentScen = 1;
 		plotInfo.currentDisease = 0;
 		plotInfo.currentYear = 0;
+		plotInfo.currentAge = 0;
 		plotInfo.plotType = 1;
 		plotInfo.differencePlot = false;
 		plotInfo.axisIsAge = false;

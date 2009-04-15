@@ -29,10 +29,13 @@ public final class LifeExpectancyChartFactory implements PlotDrawer {
 		JFreeChart chart = null;
 		switch (info.currentDisease) {
 		case 0:
-			chart = output.makeLifeExpectancyPlot(info.currentYear);
+			if (info.Sullivan) chart = output.makeYearLifeExpectancyPlot(info.currentYear, info.currentAge);
+			else chart = output.makeCohortLifeExpectancyPlot(info.currentYear);
 			break;
 		default:
-			chart = output.makeHealthyLifeExpectancyPlot(
+			if (info.Sullivan) chart =
+				output.makeYearHealthyLifeExpectancyPlot(info.currentYear, info.currentAge, info.currentDisease - 2);
+			else chart = output.makeCohortHealthyLifeExpectancyPlot(
 					info.currentYear, info.currentDisease - 2);
 			break;
 		}

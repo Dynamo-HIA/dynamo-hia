@@ -75,6 +75,7 @@ public class Output_PyramidTab  {
 		/* put the default plot information in the object plotInfo */
 		this.plotInfo=new ButtonStates();
 		this.plotInfo.currentYear=0;
+		this.plotInfo.currentAge=0;
 		this.plotInfo.plotType=0;
 		this.plotInfo.currentDisease=1;
 		this.plotInfo.currentScen = 1;

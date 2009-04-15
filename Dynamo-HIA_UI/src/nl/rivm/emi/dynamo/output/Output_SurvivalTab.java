@@ -89,18 +89,18 @@ public class Output_SurvivalTab  {
 		chartComposite.setLayoutData(chartData);
 /* draw the buttons */
 		
-		AxisChoiceGroup group1= new AxisChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
-		NumberChoiceGroup group2= new NumberChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
-		DifferenceChoiceGroup group3= new DifferenceChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
+		new AxisChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
+		 new NumberChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
+		 new DifferenceChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
 			
-        SurvivalChoiceGroup group4= new SurvivalChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
+        new SurvivalChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
         String[] yearNames = new String[output.getStepsInRun() + 1];
 		for (int i = 0; i < output.getStepsInRun() + 1; i++)
 			yearNames[i] = ((Integer) (output.getStartYear() + i)).toString();
 		
 		
-		YearChoiceGroup group7=new YearChoiceGroup(controlComposite, chartComposite, factory,plotInfo,yearNames);
-		GenderChoiceGroup group8=new GenderChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
+	new YearChoiceGroup(controlComposite, chartComposite, factory,plotInfo,yearNames);
+	new GenderChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
 		
 		
 

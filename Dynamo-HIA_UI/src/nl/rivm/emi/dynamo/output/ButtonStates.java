@@ -12,12 +12,16 @@ public class ButtonStates {
 	int currentScen;
 	int currentDisease;
 	 int currentYear;
+	 int currentAge;
 	 int plotType;
 	 int riskClassChoice;
 	 boolean differencePlot;
 	 boolean axisIsAge;
 	 boolean numbers;
 	 boolean survival;
-	
+	 boolean Sullivan;
+	 String [] availlableAges;
+	 int maxAge;
+	 boolean newborns;
 	 public ButtonStates(){}
 }
