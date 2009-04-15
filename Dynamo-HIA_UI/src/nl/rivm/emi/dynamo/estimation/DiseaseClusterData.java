@@ -35,7 +35,7 @@ public class DiseaseClusterData {
 	private float[] relRiskDuurEnd = { 1 };
 	private float[] rrAlpha = { 5 };
 	private float[][] relRiskCat = { { 1 } };
-	private float[] disability;
+	private float[] ability;
 
 	/**
 	 * @param Structure : cluster structure
@@ -52,7 +52,7 @@ public class DiseaseClusterData {
 		setIncidence(new float[Structure.getNInCluster()]);
 
 		this.prevalence = new float[Structure.getNInCluster()];
-		this.disability = new float[Structure.getNInCluster()];
+		this.ability = new float[Structure.getNInCluster()];
 		this.relRiskCont = new float[Structure.getNInCluster()];
 		this.excessMortality = new float[Structure.getNInCluster()];
 		this.caseFatality = new float[Structure.getNInCluster()];
@@ -484,23 +484,23 @@ public class DiseaseClusterData {
 	/**
 	 * @return array of disabilities percentages for the diseases in the cluster
 	 */
-	public float[] getDisability() {
-		return DynamoLib.deepcopy(this.disability);
+	public float[] getAbility() {
+		return DynamoLib.deepcopy(this.ability);
 	}
 
 	/**
 	 * @param disability
 	 */
-	public void setDisability(float[] disability) {
-		this.disability = disability;
+	public void setAbility(float[] ability1) {
+		this.ability = ability1;
 	}
 
 	/**
 	 * @param disability
 	 * @param d
 	 */
-	public void setDisability(float disability, int d) {
-		this.disability[d] = disability;
+	public void setAbility(float ability1, int d) {
+		this.ability[d] = ability1;
 	}
 
 }
