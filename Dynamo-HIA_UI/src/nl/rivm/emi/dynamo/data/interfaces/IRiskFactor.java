@@ -1,13 +1,13 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 
 public interface IRiskFactor {
 
-	public  HashMap<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations();
+	public  Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations();
 
-	public abstract void setRiskFactorConfigurations( HashMap<String, TabRiskFactorConfigurationData> riskFactor);
+	public abstract void setRiskFactorConfigurations( Map<String, TabRiskFactorConfigurationData> riskFactor);
 
 }
