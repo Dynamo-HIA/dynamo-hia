@@ -294,9 +294,12 @@ public class Morbidity {
 				// (probdisease(d1|i)*probdisease(d2|i))
 				// weighted for the probability of the riskfactor combination
 				if (prevalence[d1+dStart] != 0 && prevalence[d2+dStart] != 0){
-				
+				/* 
+				 * NB: prevalence is an array over all diseases (in all clusters), so add dStart to the index;
+				 * while the index of Prob is within the cluster
+				 */
 				if (otherMort)
-					baseMat[d1 + dStart][d2 + dStart] += weight/prevalence[d1]
+					baseMat[d1 + dStart][d2 + dStart] += weight/prevalence[d1+dStart]
 							* (this.getProb()[d1][d2] - this.getProb()[d1][d1]
 									* this.getProb()[d2][d2]);
 
@@ -304,8 +307,7 @@ public class Morbidity {
 					
 					
 					baseMat[d1 + dStart][d2 + dStart] += weight
-					* (this.getProb()[d1][d2]/ prevalence[d1+dStart]- (this.getProb()[d2][d2]-
-							 this.getProb()[d1][d2])/(1-prevalence[d2+dStart]));
+					* (this.getProb()[d1][d2]/ prevalence[d1+dStart]- this.getProb()[d2][d2]);
 				// TODO nog een keer checken of
 																// dit klopt
 				;

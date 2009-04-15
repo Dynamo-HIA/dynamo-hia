@@ -61,6 +61,9 @@ public class InputData {
     private float [][] overallDalyWeight = new float [92][2];
 	private float [][][] RRforDisabilityCat =   new float [92][2][];
 	private float [][] RRforDisabilityCont =   new float [92][2];
+	private float [][] RRforDisabilityBegin =   new float [92][2];
+	private float [][] RRforDisabilityEnd =   new float [92][2];
+	private float [][] alfaForDisability =   new float [92][2];
 	
 	//TODO: filling the disability arrays
 	
@@ -779,6 +782,66 @@ return returnarray;
 	public void setRRforDisabilityCont(float[][] rforDisabilityCont) {
 		RRforDisabilityCont = rforDisabilityCont;
 	}
+
+
+
+
+
+
+	public float[][] getRRforDisabilityBegin() {
+		return RRforDisabilityBegin;
+	}
+
+
+
+
+
+
+	public void setRRforDisabilityBegin(float[][] rforDisabilityBegin) {
+		RRforDisabilityBegin = rforDisabilityBegin;
+	}
+
+
+
+
+
+
+	public float[][] getRRforDisabilityEnd() {
+		return RRforDisabilityEnd;
+	}
+
+
+
+
+
+
+	public void setRRforDisabilityEnd(float[][] rforDisabilityEnd) {
+		RRforDisabilityEnd = rforDisabilityEnd;
+	}
+
+
+
+
+
+
+	public float[][] getAlfaForDisability() {
+		return alfaForDisability;
+	}
+
+
+
+
+
+
+	public void setAlfaForDisability(float[][] alfaForDisability) {
+		this.alfaForDisability = alfaForDisability;
+	}
+
+
+
+
+
+
 
 	}
 

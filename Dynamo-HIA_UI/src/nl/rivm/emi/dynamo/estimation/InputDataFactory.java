@@ -1155,7 +1155,7 @@ public class InputDataFactory {
 			// because the contents will be doubled.
 			config.clear();
 			// Validate the xml by xsd schema
-			config.setValidating(true);
+		//	config.setValidating(true);
 			config.load();
 
 		} catch (ConfigurationException e) {
@@ -1385,8 +1385,10 @@ public class InputDataFactory {
 
 		}
 
-		if (deathFileName !=null) readRRForDeath(inputData, deathFileName);
-		if (disabilityFileName !=null) readRRForDisability(inputData, disabilityFileName);
+	     readRRForDeath(inputData, deathFileName);
+		
+		
+		 readRRForDisability(inputData, disabilityFileName);
 	}
 
 	private void readRRForDeath(InputData inputData,
@@ -1394,14 +1396,6 @@ public class InputDataFactory {
 			throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 		String configFileName;
-		inputData.setWithRRForMortality(true);
-		//
-		/* read RR for all cause mortality or disability */
-		//
-		//
-		//
-		/* for categorical/compound */
-
 		float[][][] data3dim = new float[96][2][1];
 		float[][] data2dim = new float[96][2];
 		for (int a = 0; a < 96; a++)
@@ -1410,6 +1404,23 @@ public class InputDataFactory {
 				data2dim[a][g] = 1;
 
 			}
+		if (fileName==null) {inputData.setWithRRForMortality(false);
+		
+		inputData.setRelRiskMortCont(data2dim);
+		inputData.setRelRiskMortCat(data3dim);
+		inputData.setRelRiskDuurMortBegin(data2dim);
+		inputData.setRelRiskDuurMortEnd(data2dim);
+		inputData.setAlphaMort(data2dim);
+		}
+		else {inputData.setWithRRForMortality(true);
+		//
+		/* read RR for all cause mortality or disability */
+		//
+		//
+		//
+		/* for categorical/compound */
+
+		
 		/* for categorical */
 		if (this.riskFactorType == 1) {
 			
@@ -1424,6 +1435,9 @@ public class InputDataFactory {
 					configFileName, "relrisksfordeath_categorical",
 					"relriskfordeath", "cat", "value", false));
 			inputData.setRelRiskMortCont(data2dim);
+			inputData.setRelRiskDuurMortBegin(data2dim);
+			inputData.setRelRiskDuurMortEnd(data2dim);
+			inputData.setAlphaMort(data2dim);
 
 		}
 		/* for continuous */
@@ -1438,6 +1452,9 @@ public class InputDataFactory {
 					configFileName, "relrisksfordeath_continuous",
 					"relriskfordeath", "value", false));
 			inputData.setRelRiskMortCat(data3dim);
+			inputData.setRelRiskDuurMortBegin(data2dim);
+			inputData.setRelRiskDuurMortEnd(data2dim);
+			inputData.setAlphaMort(data2dim);
 		}
 		/*
 		 * for compound
@@ -1467,7 +1484,7 @@ public class InputDataFactory {
 
 			;
 			inputData.setRelRiskMortCont(data2dim);
-		}
+		}}
 	}
 
 	
@@ -1476,6 +1493,25 @@ public class InputDataFactory {
 			throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 		String configFileName;
+		
+		float[][][] data3dim = new float[96][2][1];
+		float[][] data2dim = new float[96][2];
+		for (int a = 0; a < 96; a++)
+			for (int g = 0; g < 2; g++) {
+				data3dim[a][g][0] = 1;
+				data2dim[a][g] = 1;
+
+			}
+		if (fileName==null) {inputData.setWithRRForMortality(false);
+		
+		inputData.setRRforDisabilityCont(data2dim);
+		inputData.setRRforDisabilityCat(data3dim);
+		inputData.setRRforDisabilityBegin(data2dim);
+		inputData.setRRforDisabilityEnd(data2dim);
+		inputData.setAlfaForDisability(data2dim);
+		}
+		else {
+		
 		inputData.setWithRRForDisability(true);
 		
 		//
@@ -1485,14 +1521,7 @@ public class InputDataFactory {
 		//
 		/* for categorical/compound */
 
-		float[][][] data3dim = new float[96][2][1];
-		float[][] data2dim = new float[96][2];
-		for (int a = 0; a < 96; a++)
-			for (int g = 0; g < 2; g++) {
-				data3dim[a][g][0] = 1;
-				data2dim[a][g] = 1;
-
-			}
+		
 		/* for categorical */
 		if (this.riskFactorType == 1) {
 			
@@ -1507,6 +1536,9 @@ public class InputDataFactory {
 					configFileName, "relrisksfordisability_categorical",
 					"relriskfordisability", "cat", "value", false));
 			inputData.setRRforDisabilityCont(data2dim);
+			inputData.setRRforDisabilityBegin(data2dim);
+			inputData.setRRforDisabilityEnd(data2dim);
+			inputData.setAlfaForDisability(data2dim);
 
 		}
 		/* for continuous */
@@ -1521,6 +1553,9 @@ public class InputDataFactory {
 					configFileName, "relrisksfordisability_continuous",
 					"relriskfordisability", "value", false));
 			inputData.setRRforDisabilityCat(data3dim);
+			inputData.setRRforDisabilityBegin(data2dim);
+			inputData.setRRforDisabilityEnd(data2dim);
+			inputData.setAlfaForDisability(data2dim);
 		}
 		/*
 		 * for compound
@@ -1551,7 +1586,7 @@ public class InputDataFactory {
 			;
 			inputData.setRRforDisabilityCont(data2dim);
 		}
-	}
+	}}
 
 	
 	/**
@@ -1584,7 +1619,7 @@ public class InputDataFactory {
 				config.clear();
 
 				// Validate the xml by xsd schema
-				config.setValidating(true);
+		//		config.setValidating(true);
 				config.load();
 			} catch (ConfigurationException e) {
 				String dynamoErrorMessage = "reading error encountered when reading file: "
@@ -1658,7 +1693,7 @@ public class InputDataFactory {
 				config.clear();
 
 				// Validate the xml by xsd schema
-				config.setValidating(true);
+		//		config.setValidating(true);
 				config.load();
 			} catch (ConfigurationException e) {
 				String dynamoErrorMessage = "error encountered while reading file: "
@@ -2180,7 +2215,8 @@ public class InputDataFactory {
 						clusterData[a][g][c].setIncidence(iData[d][a][g], d);
 						clusterData[a][g][c].setExcessMortality(eData[d][a][g],
 								d);
-						clusterData[a][g][c].setDisability(
+						// TODO checken of dit inderdaad datgene is wat wordt ingevoerd
+						clusterData[a][g][c].setAbility(
 								dData[d][a][g] / 100, d);
 						clusterData[a][g][c].setCuredFraction(
 								cData[d][a][g] / 100, d, clusterStructure[c]);
@@ -2307,7 +2343,7 @@ public class InputDataFactory {
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
 			config.clear();
-			config.setValidating(true);
+	//	config.setValidating(true);
 			config.load();
 		} catch (ConfigurationException e) {
 			String dynamoErrorMessage = "Reading error encountered when reading file: "
