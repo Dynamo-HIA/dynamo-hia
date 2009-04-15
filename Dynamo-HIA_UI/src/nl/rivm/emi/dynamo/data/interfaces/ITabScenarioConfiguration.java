@@ -5,6 +5,10 @@ public interface ITabScenarioConfiguration {
 
 	public void setName(String name);
 
+	public Integer getSuccessRate();
+
+	public void setSuccessRate(Integer successRate);
+	
 	public Integer getMinAge();
 
 	public void setMinAge(Integer minAge);
