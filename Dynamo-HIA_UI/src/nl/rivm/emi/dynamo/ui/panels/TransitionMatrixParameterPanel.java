@@ -13,6 +13,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
@@ -42,7 +43,12 @@ public class TransitionMatrixParameterPanel extends Composite /*
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	final private int NUMCOLUMNS = 10;
+	/**
+	 * Field that controls the width and breadth of the matrix. Initialized to
+	 * something painfull, so things should blow up when proper initialization
+	 * doesn't happen.
+	 */
+	private int numberOfCategories = -1;
 
 	// AtomicTypeBase myType = new Unit();
 
@@ -54,18 +60,18 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		layout.numColumns = NUMCOLUMNS;
+		numberOfCategories = transitionFromClassToClassObject.size();
+		layout.numColumns = numberOfCategories + 1;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		Label spaceLabel = new Label(this, SWT.NONE);
 		spaceLabel.setText(" ");
-		Label[] topLabels = new Label[9];
-		for (int count = 1; count < NUMCOLUMNS; count++) {
-			topLabels[count-1] = new Label(this, SWT.NONE);
-			topLabels[count-1].setText("T" + new Integer(count).toString());
+		Label[] topLabels = new Label[numberOfCategories];
+		for (int count = 1; count <= numberOfCategories; count++) {
+			topLabels[count - 1] = new Label(this, SWT.NONE);
+			topLabels[count - 1].setText("T" + new Integer(count).toString());
 		}
-		int numberOfSources = transitionFromClassToClassObject.size();
-		for (int sourceCount = 1; sourceCount <= numberOfSources; sourceCount++) {
+		for (int sourceCount = 1; sourceCount <= numberOfCategories; sourceCount++) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText("S" + new Integer(sourceCount).toString());
 			TypedHashMap<TransitionDestination> destinationMap = (TypedHashMap<TransitionDestination>) transitionFromClassToClassObject
@@ -73,12 +79,14 @@ public class TransitionMatrixParameterPanel extends Composite /*
 			int numberOfDestinations = destinationMap.size();
 			for (int destinationCount = 1; destinationCount <= numberOfDestinations; destinationCount++) {
 				ArrayList<AtomicTypeObjectTuple> parameterList = (ArrayList<AtomicTypeObjectTuple>) destinationMap
-				.get(destinationCount);
-				WritableValue observableValue = (WritableValue) parameterList.get(0).getValue();
-				AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) parameterList.get(0).getType();
+						.get(destinationCount);
+				WritableValue observableValue = (WritableValue) parameterList
+						.get(0).getValue();
+				AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) parameterList
+						.get(0).getType();
 				bindValue(observableValue, theType);
 			}
-			}
+		}
 		/*
 		 * } else { MessageBox box = new MessageBox(parent.getShell());
 		 * box.setText("Error creating matrix value");
@@ -89,7 +97,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 
 	private void bindValue(WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
-		Text text = new Text(this, SWT.NONE);  // createAndPlaceTextField();
+		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
 		text.setText("Bla"); // theType.convert4View(observableClassName.doGetValue()));
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -102,6 +110,10 @@ public class TransitionMatrixParameterPanel extends Composite /*
 			}
 
 		});
+		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
+		textLayoutData.minimumWidth = 35;
+		textLayoutData.horizontalAlignment = GridData.END;
+		text.setLayoutData(textLayoutData);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
@@ -110,7 +122,8 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		// text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new PercentVerifyListener());
 	}
 
 	private Text createAndPlaceTextField() {

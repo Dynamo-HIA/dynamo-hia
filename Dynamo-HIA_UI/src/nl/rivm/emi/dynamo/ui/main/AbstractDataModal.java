@@ -11,6 +11,9 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.Index;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -106,7 +109,10 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 		}
 		//
 		if(((Object)factory) instanceof CategoricalFactory){
-			((CategoricalFactory)factory).setNumberOfCategories(9);
+			Index categoryIndex = (Index) XMLTagEntityEnum.INDEX.getTheType();
+			int minIndex = categoryIndex.getMIN_VALUE();
+			int maxIndex = categoryIndex.getMAX_VALUE();
+			((CategoricalFactory)factory).setNumberOfCategories(maxIndex - minIndex + 1);
 		}
 		//
 		File dataFile = new File(this.dataFilePath);

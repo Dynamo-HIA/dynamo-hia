@@ -10,7 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.AgeGroup4TransitionMatrix;
+import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixAgeGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixOneAgeAndSexParameterGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -65,24 +65,16 @@ public class TransitionMatrixModal extends AbstractDataModal {
 			this.dataBindingContext = new DataBindingContext();
 			this.modelObject = manufactureModelObject();
 
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
+			GenericButtonPanel buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
-			Composite tempContainer = new Group(this.shell, SWT.NONE);
-			FormData layoutData = new FormData();
-			layoutData.top = new FormAttachment(0, 5);
-			layoutData.left = new FormAttachment(0, 5);
-			layoutData.right = new FormAttachment(helpPanel.getGroup(), -5);
-			layoutData.bottom = new FormAttachment(buttonPanel, -5);
-			tempContainer.setLayoutData(layoutData);
-			tempContainer.setLayout(new FormLayout());
-			AgeGroup4TransitionMatrix ageGroup = new AgeGroup4TransitionMatrix(
-					tempContainer, SWT.NONE, selectedNode, modelObject,
-					dataBindingContext, helpPanel);
+			TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
+					this.shell, SWT.NONE, selectedNode, modelObject,
+					dataBindingContext, helpPanel, buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(600, 500);
+			this.shell.setSize(1000, 400);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {
