@@ -1,14 +1,23 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
+import org.eclipse.core.databinding.observable.value.WritableValue;
+
+/**
+ * Interface to implement for Objects that shuttle information between the
+ * Simulation configuration screen and the DynamoSimulationObject.
+ * 
+ * @author mondeelr
+ * 
+ */
 public interface ITabScenarioConfiguration {
-	public String getName();
+	public WritableValue getName();
 
-	public void setName(String name);
+	public void setName(WritableValue name);
 
-	public Integer getSuccessRate();
+	public WritableValue getSuccessRate();
 
-	public void setSuccessRate(Integer successRate);
-	
+	public void setSuccessRate(WritableValue successRate);
+
 	public Integer getMinAge();
 
 	public void setMinAge(Integer minAge);

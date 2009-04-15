@@ -25,27 +25,27 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 public class TabScenarioConfigurationData implements ITabScenarioConfiguration, ITabStoreConfiguration {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	String name;
-	Integer successRate;
+	WritableValue name;
+	WritableValue successRate;
 	Integer minAge;
 	Integer maxAge;
 	Integer targetSex;
 	String altTransitionFileName;
 	String altPrevalenceFileName;
 
-	public String getName() {
+	public WritableValue getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(WritableValue name) {
 		this.name = name;
 	}
 
-	public Integer getSuccessRate() {
+	public WritableValue getSuccessRate() {
 		return successRate;
 	}
 
-	public void setSuccessRate(Integer successRate) {
+	public void setSuccessRate(WritableValue successRate) {
 		this.successRate = successRate;
 	}
 
@@ -90,12 +90,12 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 	}
 
 	public void initialize(Object name, ArrayList<AtomicTypeObjectTuple> list) {
-		setName((String) name);
+		setName(new WritableValue( name, String.class));
 		for (AtomicTypeObjectTuple tuple : list) {
 			XMLTagEntity type = tuple.getType();
 			if (type instanceof SuccessRate) {
-				setSuccessRate((Integer) ((WritableValue) 
-						tuple.getValue()).doGetValue());
+				setSuccessRate((WritableValue) 
+						tuple.getValue());
 			} else {
 				if (type instanceof TargetMinAge) {
 					setMinAge((Integer) ((WritableValue) 
@@ -133,8 +133,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> scenarioModelData = new ArrayList<AtomicTypeObjectTuple>();
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.SUCCESSRATE.getTheType(), new WritableValue(
-						getSuccessRate(), Integer.class));
+				XMLTagEntityEnum.SUCCESSRATE.getTheType(), getSuccessRate());
 		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TARGETMINAGE
 				.getTheType(), new WritableValue(getMinAge(),
@@ -156,7 +155,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 				.getTheType(), new WritableValue(getAltTransitionFileName(),
 				String.class));
 		scenarioModelData.add(tuple);
-		theMap.put(name, scenarioModelData);
+		theMap.put((String)name.doGetValue(), scenarioModelData);
 		return theMap;
 	}
 }
