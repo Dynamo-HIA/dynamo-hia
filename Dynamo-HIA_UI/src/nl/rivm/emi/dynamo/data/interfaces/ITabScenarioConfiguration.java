@@ -10,13 +10,17 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
  * 
  */
 public interface ITabScenarioConfiguration {
-	public WritableValue getName();
+	public String getName();
 
-	public void setName(WritableValue name);
+	public void setName(String name);
 
-	public WritableValue getSuccessRate();
+	public WritableValue getObservableName();
 
-	public void setSuccessRate(WritableValue successRate);
+	public void setObservableName(WritableValue name);
+
+	public WritableValue getObservableSuccessRate();
+
+	public void setObservableSuccessRate(WritableValue successRate);
 
 	public Integer getMinAge();
 
