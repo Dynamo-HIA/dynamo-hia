@@ -38,7 +38,7 @@ public class RunnableTransitionMatrixManufacturing implements Runnable {
 		try {
 			// Create XML-file with defaults and write it to disk.
 			TransitionMatrixFactory theFactory = new TransitionMatrixFactory();
-			int numberOfCategories = 6;
+			int numberOfCategories = 10;
 			theFactory.setNumberOfCategories(numberOfCategories);
 			Object defaultResult = theFactory.manufactureDefault();
 			try {
