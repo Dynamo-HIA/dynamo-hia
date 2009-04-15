@@ -2,17 +2,10 @@ package nl.rivm.emi.dynamo.data.objects.tabconfigs;
 
 import java.util.ArrayList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
-
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabStoreConfiguration;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
-import nl.rivm.emi.dynamo.data.types.atomic.ExessMortFileName;
-import nl.rivm.emi.dynamo.data.types.atomic.IncFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
@@ -22,10 +15,15 @@ import nl.rivm.emi.dynamo.data.types.atomic.TransFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 
-public class TabScenarioConfigurationData implements ITabScenarioConfiguration, ITabStoreConfiguration {
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+
+public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
+		ITabStoreConfiguration {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	WritableValue name;
+	WritableValue observableName;
 	WritableValue successRate;
 	Integer minAge;
 	Integer maxAge;
@@ -33,19 +31,27 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 	String altTransitionFileName;
 	String altPrevalenceFileName;
 
-	public WritableValue getName() {
-		return name;
+	public String getName() {
+		return (String) observableName.doGetValue();
 	}
 
-	public void setName(WritableValue name) {
-		this.name = name;
+	public void setName(String name) {
+		observableName.doSetValue(name);
 	}
 
-	public WritableValue getSuccessRate() {
+	public WritableValue getObservableName() {
+		return observableName;
+	}
+
+	public void setObservableName(WritableValue name) {
+		this.observableName = name;
+	}
+
+	public WritableValue getObservableSuccessRate() {
 		return successRate;
 	}
 
-	public void setSuccessRate(WritableValue successRate) {
+	public void setObservableSuccessRate(WritableValue successRate) {
 		this.successRate = successRate;
 	}
 
@@ -90,24 +96,23 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 	}
 
 	public void initialize(Object name, ArrayList<AtomicTypeObjectTuple> list) {
-		setName(new WritableValue( name, String.class));
+		setObservableName(new WritableValue(name, String.class));
 		for (AtomicTypeObjectTuple tuple : list) {
 			XMLTagEntity type = tuple.getType();
 			if (type instanceof SuccessRate) {
-				setSuccessRate((WritableValue) 
-						tuple.getValue());
+				setObservableSuccessRate((WritableValue) tuple.getValue());
 			} else {
 				if (type instanceof TargetMinAge) {
-					setMinAge((Integer) ((WritableValue) 
-							tuple.getValue()).doGetValue());
+					setMinAge((Integer) ((WritableValue) tuple.getValue())
+							.doGetValue());
 				} else {
 					if (type instanceof MaxAge) {
-						setMaxAge((Integer) ((WritableValue) 
-								tuple.getValue()).doGetValue());
+						setMaxAge((Integer) ((WritableValue) tuple.getValue())
+								.doGetValue());
 					} else {
 						if (type instanceof TargetSex) {
-							setTargetSex((Integer) ((WritableValue) 
-									tuple.getValue()).doGetValue());
+							setTargetSex((Integer) ((WritableValue) tuple
+									.getValue()).doGetValue());
 						} else {
 							if (type instanceof PrevFileName) {
 								setAltPrevalenceFileName((String) ((WritableValue) tuple
@@ -117,9 +122,10 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 									setAltTransitionFileName((String) ((WritableValue) tuple
 											.getValue()).doGetValue());
 								} else {
-									log.fatal("Unexpected type \""
-											+ type.getXMLElementName()
-											+ "\" in getDiseasesConfigurations()");
+									log
+											.fatal("Unexpected type \""
+													+ type.getXMLElementName()
+													+ "\" in getDiseasesConfigurations()");
 								}
 							}
 						}
@@ -133,19 +139,17 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> scenarioModelData = new ArrayList<AtomicTypeObjectTuple>();
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.SUCCESSRATE.getTheType(), getSuccessRate());
+				XMLTagEntityEnum.SUCCESSRATE.getTheType(),
+				getObservableSuccessRate());
 		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TARGETMINAGE
-				.getTheType(), new WritableValue(getMinAge(),
-				Integer.class));
+				.getTheType(), new WritableValue(getMinAge(), Integer.class));
 		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TARGETMAXAGE
-				.getTheType(), new WritableValue(getMaxAge(),
-				Integer.class));
+				.getTheType(), new WritableValue(getMaxAge(), Integer.class));
 		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TARGETSEX
-				.getTheType(), new WritableValue(getTargetSex(),
-				Integer.class));
+				.getTheType(), new WritableValue(getTargetSex(), Integer.class));
 		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.PREVFILENAME
 				.getTheType(), new WritableValue(getAltPrevalenceFileName(),
@@ -155,7 +159,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration, 
 				.getTheType(), new WritableValue(getAltTransitionFileName(),
 				String.class));
 		scenarioModelData.add(tuple);
-		theMap.put((String)name.doGetValue(), scenarioModelData);
+		theMap.put((String) observableName.doGetValue(), scenarioModelData);
 		return theMap;
 	}
 }
