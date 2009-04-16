@@ -59,7 +59,7 @@
 		<RR><RRindex>1</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease1</isRRto>
-			<isRRFile>relrisk1disease1</isRRFile>
+			<isRRFile>relrisk1riskfactor1</isRRFile>
 		</RR>
 		<RR><RRindex>1</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
@@ -69,13 +69,13 @@
 		<RR><RRindex>2</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk2disease2</isRRFile>
+			<isRRFile>relrisk2riskfactor1</isRRFile>
 		</RR>
                  <RR>
                  <RRindex>3</RRindex>
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relriskdisease2</isRRFile>
+			<isRRFile>relriskdisease1</isRRFile>
 		</RR>
 	</RRs>
 </simulation>
