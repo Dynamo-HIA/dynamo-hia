@@ -51,7 +51,7 @@
 	  <riskfactor>
 		<uniquename>riskfactor1</uniquename>
 		<transfilename>transition1</transfilename>
-		<prevfilename>prevalence</prevfilename>
+                <prevfilename>prevalence</prevfilename>
 	  </riskfactor>
 	</riskfactors>
 	<RRs>
@@ -59,19 +59,19 @@
 			<RRindex>1</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease1</isRRto>
-			<isRRFile>relrisk1</isRRFile>
+			<isRRFile>relrisk1disease1</isRRFile>
 		</RR>
 		<RR>
 		    <RRindex>2</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk2</isRRFile>
+			<isRRFile>relrisk2disease2</isRRFile>
 		</RR>
         <RR>
 			<RRindex>3</RRindex>        
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk</isRRFile>
+			<isRRFile>relriskdisease2</isRRFile>
 		</RR>
 	</RRs>
 </simulation>

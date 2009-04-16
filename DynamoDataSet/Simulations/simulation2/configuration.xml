@@ -55,17 +55,17 @@
 		<RR>
 			<isRRfrom>riskfactorcontinu</isRRfrom>
 			<isRRto>disease1</isRRto>
-			<isRRFile>relrisk1</isRRFile>
+			<isRRFile>relrisk1disease1</isRRFile>
 		</RR>
 		<RR>
 			<isRRfrom>riskfactorcontinu</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk2</isRRFile>
+			<isRRFile>relrisk2disease2</isRRFile>
 		</RR>
                  <RR>
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk</isRRFile>
+			<isRRFile>relriskdisease2</isRRFile>
 		</RR>
 	</RRs>
 </simulation>

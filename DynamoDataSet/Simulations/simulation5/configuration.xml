@@ -3,7 +3,7 @@
 	<hasnewborns>no</hasnewborns>
 	<startingYear>2008</startingYear>
 	<numberOfYears>10</numberOfYears>
-	<simPopSize>2</simPopSize>
+	<simPopSize>50</simPopSize>
 	<minAge>0</minAge>
 	<maxAge>95</maxAge>
 	<timeStep>1</timeStep>
@@ -19,7 +19,7 @@
 			<targetMaxAge>95</targetMaxAge>
 			<targetSex>2</targetSex>
 			<transfilename>none</transfilename>
-			<prevfilename>prevalence</prevfilename>
+			<prevfilename>prev_scen1</prevfilename>
 		</scenario>
 		<scenario>
 			<uniquename>scenario 2</uniquename>
@@ -51,26 +51,31 @@
 	<riskfactors>
 	<riskfactor>
 		<uniquename>riskfactor1</uniquename>
-		<transfilename>transition1</transfilename>
-		<prevfilename>prev_scen1</prevfilename>
+		<transfilename>transition2</transfilename>
+		<prevfilename>prevalence</prevfilename>
 	</riskfactor>
 	</riskfactors>
 	<RRs>
 		<RR><RRindex>1</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease1</isRRto>
-			<isRRFile>relrisk1</isRRFile>
+			<isRRFile>relrisk1disease1</isRRFile>
+		</RR>
+		<RR><RRindex>1</RRindex>
+			<isRRfrom>riskfactor1</isRRfrom>
+			<isRRto>death</isRRto>
+			<isRRFile>relriskfordeath</isRRFile>
 		</RR>
 		<RR><RRindex>2</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk2</isRRFile>
+			<isRRFile>relrisk2disease2</isRRFile>
 		</RR>
                  <RR>
                  <RRindex>3</RRindex>
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
-			<isRRFile>relrisk</isRRFile>
+			<isRRFile>relriskdisease2</isRRFile>
 		</RR>
 	</RRs>
 </simulation>
