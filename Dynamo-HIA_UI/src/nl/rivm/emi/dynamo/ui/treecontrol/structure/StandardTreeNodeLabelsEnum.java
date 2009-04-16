@@ -34,6 +34,8 @@ public enum StandardTreeNodeLabelsEnum {
 	PREVALENCES("Prevalences"), //
 	INCIDENCES("Incidences"), //
 	DALYWEIGHTS("DALY_Weights"), //
+	// Not in the tree, but anyway.
+	RELATIVERISKS("Relative_Risks"), //
 	RELATIVERISKSFROMRISKFACTOR("Relative_Risks_From_Risk_Factor"), //
 	RELATIVERISKSFROMDISEASES("Relative_Risks_From_Diseases"), //
 	EXCESSMORTALITIES("Excess_Mortalities"), //
