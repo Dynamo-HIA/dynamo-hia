@@ -14,7 +14,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 public class TreeAsDropdownLists extends HashMap<String, Object> {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+
 	private static TreeAsDropdownLists instance = null;
 
 	/**
@@ -27,7 +27,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	private TreeAsDropdownLists(BaseNode selectedNode)
 			throws ConfigurationException {
 		super();
-		
+
 	}
 
 	/**
@@ -57,6 +57,8 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		this.clear();
 		this.putAll(SimulationConfigurationDropdownsMapFactory
 				.make(selectedNode));
+		this.put(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel(),
+				new RelativeRisksCollection(selectedNode));
 	}
 
 	/**
@@ -67,11 +69,10 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 */
 	public Set<String> getPopulations() {
 		log.debug("getPopulations::TreeAsDropdownLists instance: " + this);
-		log.debug("StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel() " + 
-				StandardTreeNodeLabelsEnum.POPULATIONS
-				.getNodeLabel());
-		log.debug("TreeAsDropdownLists instance::GET POPULATIONS: " + 
-				(Set<String>) get(StandardTreeNodeLabelsEnum.POPULATIONS
+		log.debug("StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel() "
+				+ StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel());
+		log.debug("TreeAsDropdownLists instance::GET POPULATIONS: "
+				+ (Set<String>) get(StandardTreeNodeLabelsEnum.POPULATIONS
 						.getNodeLabel()));
 		Set<String> populations = (Set<String>) get(StandardTreeNodeLabelsEnum.POPULATIONS
 				.getNodeLabel());
@@ -172,5 +173,25 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 			}
 		}
 		return theSet;
+	}
+
+	public Set<String> getValidFromNames() {
+		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		return collection.getValidFromNames();
+	}
+
+	public Set<String> getValidToNames() {
+		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		return collection.getValidToNames();
+	}
+
+	public Set<String> getValidRelRiskFileNamesForFromName(String fromName) {
+		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		return collection.getValidRelRiskFileNamesForFromName(fromName);
+	}
+
+	public Set<String> getValidRelRiskFileNamesForToName(String toName) {
+		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		return collection.getValidRelRiskFileNamesForToName(toName);
 	}
 }

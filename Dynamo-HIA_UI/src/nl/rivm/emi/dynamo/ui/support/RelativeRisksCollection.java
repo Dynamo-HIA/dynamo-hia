@@ -36,21 +36,25 @@ public class RelativeRisksCollection {
 			throws ConfigurationException {
 		super();
 		tADL = TreeAsDropdownLists.getInstance(selectedNode);
-
+		findAllRelativeRisks(selectedNode);
 	}
 
-	public String[] getPossibleRelRiskSources(String targetName, String relRiskFileName){
-// TODO
-		return new String[1];		
+	public Set<String> getValidFromNames(){
+		return relRiskBySourceName.keySet();
 	}
-	public String[] getPossibleRelRiskTargets(String targetName, String relRiskFileName){
-// TODO
-		return new String[1];		
+
+	public Set<String> getValidToNames(){
+		return relRiskByTargetName.keySet();
 	}
-	public String[] getPossibleRelRiskFileNames(String targetName, String relRiskFileName){
-// TODO 
-		return new String[1];		
+
+	public Set<String> getValidRelRiskFileNamesForFromName(String fromName){
+		return relRiskBySourceName.get(fromName);
 	}
+
+	public Set<String> getValidRelRiskFileNamesForToName(String toName){
+		return relRiskByTargetName.get(toName);
+	}
+
 	// Initialization.
 	/**
 	 * Find all useable relative risks irrespective of the current simulation
@@ -237,10 +241,6 @@ public class RelativeRisksCollection {
 			throws DynamoConfigurationException {
 		if (tADL.getRiskFactors().contains(riskFactorName)) {
 			if (relRiskFileChild instanceof FileNode) {
-				// File relRiskFile = ((FileNode) relRiskFileChild)
-				// .getPhysicalStorage();
-				// String rootElementName = ConfigurationFileUtil
-				// .extractRootElementName(relRiskFile);
 				String relRiskName = ((BaseNode) relRiskFileChild)
 						.deriveNodeLabel();
 				String sourceName = riskFactorName;
