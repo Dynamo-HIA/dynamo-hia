@@ -2006,7 +2006,7 @@ public class InputDataFactory {
 						+ referenceDataDir + File.separator + diseasesDir
 						+ File.separator + info.to + File.separator
 						+ RRdiseaseDir + File.separator + info.rrFileName
-						+ info.from + ".xml";
+						 + ".xml";
 
 				info.rrDataDis = this.factory.manufactureOneDimArray(
 						configFileName, rrDiseaseTagName, "relativerisk",
@@ -2020,7 +2020,7 @@ public class InputDataFactory {
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
-							+ info.from + ".xml";
+							 + ".xml";
 					info.rrDataCont = this.factory.manufactureOneDimArray(
 							configFileName, rrContinuousTagName,
 							"relativerisk", "value", false);
@@ -2030,7 +2030,7 @@ public class InputDataFactory {
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
-							+ info.from + ".xml";
+							 + ".xml";
 					info.rrDataCat = this.factory.manufactureTwoDimArray(
 							configFileName, rrCategoricalTagName,
 							"relativerisk", "cat", "value", false);
@@ -2039,7 +2039,7 @@ public class InputDataFactory {
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
-							+ info.from + ".xml";
+							 + ".xml";
 
 					info.rrDataCat = this.factory.manufactureTwoDimArray(
 							configFileName, rrCompoundTagName, "relativerisk",
