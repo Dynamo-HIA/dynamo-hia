@@ -1,36 +1,44 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 public class RelativeRiskResultGroup {
 
 
-	private static final String RELATIVE_RISK = "Relative Risk";
+	public static final String RELATIVE_RISK = "Relative Risk";
 	protected Group group;
 	private Composite plotComposite;
 	private GenericComboModifyListener relativeRiskDropDownModifyListener;
 
-	public RelativeRiskResultGroup(Composite plotComposite,
+	
+	private BaseNode selectedNode;
+	
+	private Set<String> selections;
+	private DynamoTabDataManager dynamoTabDataManager;
+	
+	public RelativeRiskResultGroup(Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup,
 			Composite topNeighbour, 
-			GenericComboModifyListener relativeRiskDropDownModifyListener
-			) {
+			GenericComboModifyListener relativeRiskDropDownModifyListener, 
+			DynamoTabDataManager dynamoTabDataManager
+			) throws ConfigurationException {
+		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.relativeRiskDropDownModifyListener = relativeRiskDropDownModifyListener;
+		this.dynamoTabDataManager = dynamoTabDataManager;
 		group = new Group(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -40,7 +48,7 @@ public class RelativeRiskResultGroup {
 		createDropDownArea(topNeighbour);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) {
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {
 		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 0);
@@ -49,39 +57,25 @@ public class RelativeRiskResultGroup {
 		formData.bottom = new FormAttachment(67, 0);
 		group.setLayoutData(formData);
 		
-		Set<String> relativeRiskSet = null; /* = new LinkedHashMap();
-		relativeRiskMap.put("Prev-BMI", "Prev-BMI");
-		relativeRiskMap.put("Prev-BMA", "Prev-BMA");
-		relativeRiskMap.put("Prev-BMB", "Prev-BMB");*/
-		
-		Set<String> relativeRiskSet2 = null; /* = new LinkedHashMap();
-		relativeRiskMap2.put("Prev2-BMI", "Prev2-BMI");
-		relativeRiskMap2.put("Prev2-BMA", "Prev2-BMA");
-		relativeRiskMap2.put("Prev2-BMB", "Prev2-BMB");*/		
-		
-		Set<String> relativeRiskSet3 = null; /* = new LinkedHashMap();
-		relativeRiskMap3.put("Prev3-BMI", "Prev3-BMI");
-		relativeRiskMap3.put("Prev3-BMA", "Prev3-BMA");
-		relativeRiskMap3.put("Prev3-BMB", "Prev3-BMB");*/
-		
-		Map<Combo, Map<String, Set<String>>> nestedComboMapsContents = new LinkedHashMap<Combo, Map<String, Set<String>>>();
-		Map<String, Set<String>> nestedRelativeRiskContents = new LinkedHashMap<String, Set<String>>();
-		nestedRelativeRiskContents.put("BMI1", relativeRiskSet);
-		nestedRelativeRiskContents.put("BMI2", relativeRiskSet2);
-		nestedRelativeRiskContents.put("BMI3", relativeRiskSet3);
+		String chosenRiskFactorName = null;
+		if (this.selections != null) {
+			for (String chosenName : selections) {
+				chosenRiskFactorName = chosenName;		
+			}
+		}
 		
 		GenericDropDownPanel relativeRiskDropDownPanel = 
-			createDropDown(RELATIVE_RISK, relativeRiskSet);
+			createDropDown(RELATIVE_RISK, 
+					dynamoTabDataManager.
+					getDropDownSet(RELATIVE_RISK, chosenRiskFactorName));
 		this.relativeRiskDropDownModifyListener.
-			registerDropDown(relativeRiskDropDownPanel.getDropDown());
-		nestedComboMapsContents.put(relativeRiskDropDownPanel.getDropDown(), nestedRelativeRiskContents);
-				
-		// Set the nested contents
-		this.relativeRiskDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
+			registerDropDown(relativeRiskDropDownPanel);
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
+	private GenericDropDownPanel createDropDown(String label, 
+			DropDownPropertiesSet selectablePropertiesSet) throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null);		
+				selectablePropertiesSet, 
+				null, this.dynamoTabDataManager);
 	}
 }

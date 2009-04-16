@@ -47,7 +47,7 @@ public class GenericComboModifyListener implements ModifyListener {
 		String newText = myCombo.getText();		
 		
 		log.debug("newText" + newText);		
-		// TODO REACTIVATE this.setCurrentValue(newText);
+		//this.setCurrentValue(newText);
 		// Iterate through the registered drop downs of this 
 		log.debug("this.registeredDropDowns.size()" 
 				+ this.registeredDropDowns.size());		

@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
@@ -34,21 +34,19 @@ public class DiseaseSelectionGroup {
 	private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
-
 	private GenericDropDownPanel diseaseDropDownPanel;
+	private HelpGroup helpGroup;
 
 	public DiseaseSelectionGroup(String tabName, Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, 
 			DynamoTabDataManager dynamoTabDataManager) 
 			throws ConfigurationException {
 		this.selections = selections;
-		this.plotComposite = plotComposite;
-		
+		this.plotComposite = plotComposite;		
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.helpGroup = helpGroup;
 		
-		log.debug("diseaseFactorSelectionGroup::selectedNode: " + selectedNode);
-		log.debug("diseaseFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		group = new Group(plotComposite, SWT.FILL);
 		
 		GridLayout gridLayout = new GridLayout();
@@ -81,9 +79,6 @@ public class DiseaseSelectionGroup {
 				chosenDiseaseName = chosenName;		
 			}			
 		}
-		
-		//IDiseaseConfiguration diseaseConfiguration = configuration.get(chosenDiseaseName);
-		//diseaseConfiguration.getName();
 		
 		diseaseDropDownPanel = 
 			createDropDown(DISEASE, 

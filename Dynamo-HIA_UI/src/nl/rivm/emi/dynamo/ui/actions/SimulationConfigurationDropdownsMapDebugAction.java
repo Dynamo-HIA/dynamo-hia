@@ -39,9 +39,10 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 			// box.setText("Debug");
 			// box.setMessage("Dropdowns Factory ran without blowing up.");
 			// box.open();
+			TreeAsDropdownLists treeList = TreeAsDropdownLists.getInstance(node);
 			RelativeRisksCollection collection = new RelativeRisksCollection(
-					node);
-			collection.findAllRelativeRisks(node);
+					node, treeList);
+			collection.findAllRelativeRisks(node, treeList);
 			collection.dump4Debug();
 			TreeAsDropdownLists lists = TreeAsDropdownLists.getInstance(node);
 			log.debug("First call of getValidDiseases() through singleton.");

@@ -7,8 +7,11 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -23,18 +26,26 @@ public class RelativeRiskSelectionGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	private static final String FROM = "From";
-	private static final String TO = "To";
+	public static final String FROM = "From";
+	public static final String TO = "To";
 	protected Group group;
 	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
-	private DynamoSimulationObject dynamoSimulationObject;
+	private Set<String> selections;
+	private DynamoTabDataManager dynamoTabDataManager;
+	private GenericDropDownPanel fromDropDownPanel;
+	private GenericDropDownPanel toDropDownPanel;	
+	private HelpGroup helpGroup;
 
-	public RelativeRiskSelectionGroup(Composite plotComposite,
-			DynamoSimulationObject dynamoSimulationObject,
-			BaseNode selectedNode, HelpGroup helpGroup) {
+	public RelativeRiskSelectionGroup(String tabName, 
+			Set<String> set, Composite plotComposite,
+			BaseNode selectedNode, HelpGroup helpGroup, 
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
+		this.selections = selections;
 		this.plotComposite = plotComposite;
-		this.dynamoSimulationObject = dynamoSimulationObject;
+		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.helpGroup = helpGroup;
+		
 		log.debug("relativeRiskFactorSelectionGroup::this.plotComposite: " + plotComposite);
 		group = new Group(plotComposite, SWT.FILL);
 		
@@ -49,51 +60,59 @@ public class RelativeRiskSelectionGroup {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() {
+	private void createDropDownArea() throws ConfigurationException {
 				
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, -5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(44, 0);
-		group.setLayoutData(formData);			
+		group.setLayoutData(formData);					
 		
-		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
+		String chosenRiskFactorName = null;
+		if (this.selections != null) {
+			for (String chosenName : this.selections) {
+				chosenRiskFactorName = chosenName;		
+			}			
+		}
 		
-		Map contentsMap = dynamoSimulationObject.getRelativeRisks();
-		log.debug("contentsMap" + contentsMap);
-		
-		// TODO: Replace with real content
-		
-		Set<String> contentsFromSet = null; new LinkedHashMap();
-		/*
-		contentsMap.put("BMI1", "BMI1");
-		contentsMap.put("BMI2", "BMI2");
-		contentsMap.put("BMI3", "BMI3");*/
-		GenericDropDownPanel fromDropDownPanel = 
-			createDropDown(FROM, contentsFromSet);
+		this.fromDropDownPanel = 
+			createDropDown(FROM, dynamoTabDataManager.
+					getDropDownSet(FROM, chosenRiskFactorName), 
+					dynamoTabDataManager
+					);
 		this.dropDownModifyListener =
 			fromDropDownPanel.getGenericComboModifyListener();
 		
 		
-		// TODO: Replace with real content
-		Set<String> contentsToSet = null; new LinkedHashMap();
-		GenericDropDownPanel toDropDownPanel = 
-			createDropDown(TO, contentsToSet);
+		this.toDropDownPanel = 
+			createDropDown(TO, dynamoTabDataManager.
+					getDropDownSet(TO, chosenRiskFactorName), 
+					dynamoTabDataManager
+					);
 		this.dropDownModifyListener =
 			toDropDownPanel.getGenericComboModifyListener();
 		
 	}
 
-	private GenericDropDownPanel createDropDown(String label, Set<String> selectablePropertiesSet) {
+	private GenericDropDownPanel createDropDown(String label, 
+			DropDownPropertiesSet selectablePropertiesSet, 
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
 		RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = 
 			new RelativeRiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, updateRelativeRiskFactorDataAction);		
+				selectablePropertiesSet, 
+				null,
+				dynamoTabDataManager);		
 	}
 	
 	public GenericComboModifyListener getDropDownModifyListener() {
-		// TODO Replace with getXXXXDropDownPanel to ask for the corresponding listener (not directly!!!)
 		return this.dropDownModifyListener;
+	}
+	
+
+	public void refreshSelectionDropDown() throws ConfigurationException {
+		this.fromDropDownPanel.refresh();		
+		this.toDropDownPanel.refresh();
 	}
 }

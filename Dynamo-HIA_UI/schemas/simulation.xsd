@@ -38,8 +38,8 @@
         <xs:element name="maxAge">
           <xs:simpleType>
             <xs:restriction base="xs:int">
-              <xs:maxInclusive value="95"/>
               <xs:minInclusive value="1"/>
+              <xs:maxInclusive value="95"/>
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
@@ -90,7 +90,7 @@
                     <xs:element name="targetMaxAge">
                       <xs:simpleType>
                         <xs:restriction base="xs:int">
-                          <xs:minInclusive value="95"/>
+                          <xs:minInclusive value="0"/>
                           <xs:maxInclusive value="95"/>
                         </xs:restriction>
                       </xs:simpleType>
@@ -104,7 +104,7 @@
                       </xs:simpleType>
                     </xs:element>
                     <xs:element name="transfilename" type="xs:string"/>
-                    <xs:element name="prevfilename" type="xs:string"/>
+	                <xs:element name="prevfilename" type="xs:string"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>
@@ -135,8 +135,8 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element name="uniquename" type="xs:string"/>
-              <xs:element name="transfilename" type="xs:string"/>
-              <xs:element name="prevfilename" type="xs:string"/>
+			  <xs:element name="transfilename" type="xs:string"/>
+              <xs:element name="prevfilename" type="xs:string"/>			  
             </xs:sequence>
           </xs:complexType>
         </xs:element>

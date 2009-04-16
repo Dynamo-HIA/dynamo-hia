@@ -1,15 +1,14 @@
 package nl.rivm.emi.dynamo.ui.support;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
+
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 public class TreeAsDropdownLists extends HashMap<String, Object> {
 
@@ -58,7 +57,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		this.putAll(SimulationConfigurationDropdownsMapFactory
 				.make(selectedNode));
 		this.put(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel(),
-				new RelativeRisksCollection(selectedNode));
+				new RelativeRisksCollection(selectedNode, this));
 	}
 
 	/**

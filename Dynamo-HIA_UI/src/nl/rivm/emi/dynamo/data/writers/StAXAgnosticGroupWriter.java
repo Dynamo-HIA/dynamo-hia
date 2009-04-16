@@ -54,7 +54,8 @@ public class StAXAgnosticGroupWriter {
 			HashMap<String, Object> theModel, File outputFile)
 			throws XMLStreamException, UnexpectedFileStructureException,
 			IOException, DynamoConfigurationException, DynamoOutputException {
-		log.debug("Entering produceFile");
+		log.fatal("Entering produceFile");
+		log.fatal("theModel" + theModel);
 		if (theModel != null) { // We're in business.
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter;

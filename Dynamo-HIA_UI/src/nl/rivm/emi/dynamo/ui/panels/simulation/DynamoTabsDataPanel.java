@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -55,31 +54,28 @@ public class DynamoTabsDataPanel {
 		tabFolder1.setLayout(new FillLayout());
 		//tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
 		
-	    /**TODO: Reactivate  
+		
 		final RiskFactorTab tab0 = new RiskFactorTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
-				*/
-		//final PopulationTab tab1 = new PopulationTab(tabFolder1, dynamoSimulationObject, 
-			//	dataBindingContext, selectedNode, theHelpGroup);
-		final DiseasesTab tab2 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
+							
+		final DiseasesTab tab1 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
-	    /**TODO: Reactivate 
-		final RelativeRisksTab tab3 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
+		/*
+		final RelativeRisksTab tab2 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);		
-		final ScenariosTab tab4 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
-				dataBindingContext, selectedNode, theHelpGroup);			
 		*/
+		final ScenariosTab tab3 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, theHelpGroup);			
 		
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {
                 TabItem item = (TabItem) event.item;
 	            String tabId=item.getText();
 			    
-			    ////TODO: Reactivate if (tabId=="Risk Factor") tab0.redraw();
-			    ////TODO: Reactivate if (tabId=="Population") tab1.redraw();
-			    if (tabId=="Diseases") tab2.redraw();
-			    ////TODO: Reactivate if (tabId=="Relative Risks") tab3.redraw();
-			    ////TODO: Reactivate if (tabId=="Scenarios") tab4.redraw();
+			    if (tabId=="Risk Factor") tab0.redraw();
+			    if (tabId=="Diseases") tab1.redraw();
+			    ////TODO: Reactivate if (tabId=="Relative Risks") tab2.redraw();
+			    if (tabId=="Scenarios") tab3.redraw();
 			    
         }
 

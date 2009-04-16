@@ -30,12 +30,12 @@ public class TabRiskFactorConfigurationData implements
 			for (int count = 0; count < list.size(); count++) {
 				AtomicTypeObjectTuple tuple = list.get(count);
 				XMLTagEntity type = tuple.getType();
-				if (type instanceof PrevFileName) {
-					prevalenceFileName = (String) ((WritableValue) tuple
+				if (type instanceof TransFileName) {
+					transitionFileName = (String) ((WritableValue) tuple
 							.getValue()).doGetValue();
 				} else {
-					if (type instanceof TransFileName) {
-						transitionFileName = (String) ((WritableValue) tuple
+					if (type instanceof PrevFileName) {
+						prevalenceFileName = (String) ((WritableValue) tuple
 								.getValue()).doGetValue();
 					} else {
 						log.fatal("Unexpected type \""
@@ -53,13 +53,14 @@ public class TabRiskFactorConfigurationData implements
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
-		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.PREVFILENAME.getTheType(), new WritableValue(
-						getPrevalenceFileName(), String.class));
-		diseaseModelData.add(tuple);
+		AtomicTypeObjectTuple 
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TRANSFILENAME
 				.getTheType(), new WritableValue(getTransitionFileName(),
 				String.class));
+		diseaseModelData.add(tuple);		
+		tuple = new AtomicTypeObjectTuple(
+				XMLTagEntityEnum.PREVFILENAME.getTheType(), new WritableValue(
+						getPrevalenceFileName(), String.class));
 		diseaseModelData.add(tuple);
 		theMap.put(name, diseaseModelData);
 		return theMap;

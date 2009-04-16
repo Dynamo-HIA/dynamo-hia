@@ -8,7 +8,7 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IConfigurationCheck;
-import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.IDiseases;
 import nl.rivm.emi.dynamo.data.interfaces.IHasNewborns;
 import nl.rivm.emi.dynamo.data.interfaces.IMaxAge;
@@ -245,10 +245,10 @@ public class DynamoSimulationObject extends
 		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorsMap);
 	}
 
-	public Map<String, IDiseaseConfiguration> getDiseaseConfigurations() {
+	public Map<String, ITabDiseaseConfiguration> getDiseaseConfigurations() {
 		TypedHashMap<UniqueName> diseasesMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.DISEASES
 				.getElementName());
-		Map<String, IDiseaseConfiguration> resultMap = new LinkedHashMap<String, IDiseaseConfiguration>();
+		Map<String, ITabDiseaseConfiguration> resultMap = new LinkedHashMap<String, ITabDiseaseConfiguration>();
 		Set<Object> keySet = diseasesMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
@@ -262,7 +262,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public void setDiseaseConfigurations(
-			Map<String, IDiseaseConfiguration> diseaseConfigurations) {
+			Map<String, ITabDiseaseConfiguration> diseaseConfigurations) {
 		TypedHashMap<? extends XMLTagEntity> diseasesMap = new TypedHashMap(XMLTagEntityEnum.UNIQUENAME.getTheType());
 		Set<String> nameSet = diseaseConfigurations.keySet();
 		for (String name : nameSet) {

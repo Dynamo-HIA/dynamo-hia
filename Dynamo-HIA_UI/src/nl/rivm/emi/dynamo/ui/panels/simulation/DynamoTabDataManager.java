@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
@@ -22,10 +23,18 @@ public interface DynamoTabDataManager {
 	public String getCurrentValue(String dropDownName) throws ConfigurationException;
 	
 	public void updateObjectState(String name, String selectedValue) throws ConfigurationException;
-	
-	public void createInDynamoSimulationObject();
-	
-	public void removeFromDynamoSimulationObject(String selectedValue);
 
+	public void updateDynamoSimulationObject();
+	
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException;
+
+	public void removeFromDynamoSimulationObject() throws ConfigurationException;
+
+	public void setDefaultValue(String name, String selectedValue)
+			throws ConfigurationException;
+
+	public void removeOldDefaultValue(String label) throws ConfigurationException;
+
+	public WritableValue getCurrentWritableValue(String successRate);
+
 }

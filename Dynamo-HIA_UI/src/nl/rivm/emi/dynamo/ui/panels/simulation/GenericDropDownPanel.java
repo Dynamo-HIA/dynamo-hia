@@ -53,7 +53,6 @@ public class GenericDropDownPanel {
 		this.genericComboModifyListener = 
 			new GenericComboModifyListener(this);
 		dropDown.addModifyListener(genericComboModifyListener);
-
 		setDefaultValue();
 
 	}
@@ -62,13 +61,25 @@ public class GenericDropDownPanel {
 		// Get the default value
 		String currentValue = 
 			this.owner.getCurrentValue(this.getLabel());
+		log.debug("CURRENTVALUEDEF: " + currentValue);
+		log.debug("getCurrentIndex(currentValue)" + getCurrentIndex(currentValue));
+		
+		// Retrieve the index value
+		int index = getCurrentIndex(currentValue);		
+		
 		// Set the default value
-		dropDown.select(getCurrentIndex(currentValue));
+		dropDown.select(index);
+		if (currentValue != null) 
+			this.owner.setDefaultValue(this.getLabel(), currentValue);
 	}
 
 	private int getCurrentIndex(String currentValue) {
+		// No current value exists, select the first entry
+		if (currentValue == null)
+			return 0;
+		log.debug("selectablePropertiesSet" + selectablePropertiesSet);
 		return selectablePropertiesSet
-		.getSelectedIndex(currentValue);
+			.getSelectedIndex(currentValue);
 	}
 
 	public void fill(DropDownPropertiesSet set) {
@@ -83,32 +94,52 @@ public class GenericDropDownPanel {
 		updateRegisteredDropDown(newText);		
 	}
 
+	/**
+	 * 
+	 * Update the registered property sets after selection
+	 * 
+	 * @param newText
+	 * @throws ConfigurationException
+	 */
 	private void updateRegisteredDropDown(String newText) throws ConfigurationException {
 		dropDown.removeAll();
 		log.debug("newText" + newText);
 		log.debug("this.getLabel()" + this.getLabel());
-		DropDownPropertiesSet set = 
-			this.owner.getDropDownSet(this.getLabel(), newText);		
-		log.debug("SET" + set);
-		fill(set);
+		this.selectablePropertiesSet.clear();
+		this.selectablePropertiesSet.addAll( 
+			this.owner.getDropDownSet(this.getLabel(), newText));		
+		log.debug("SET" + this.selectablePropertiesSet);
+		fill(this.selectablePropertiesSet);
 		dropDown.select(0);
 	}
 
-	public void refresh() throws ConfigurationException {		
+	/**
+	 * 
+	 * Refresh list after tab change, only for the selection group
+	 * 
+	 * @throws ConfigurationException
+	 */
+	public void refresh() throws ConfigurationException {
+		log.debug("REFRESH");
 		dropDown.removeModifyListener(this.genericComboModifyListener);
 		dropDown.removeAll();		
-		DropDownPropertiesSet set = 
-			this.owner.getRefreshedDropDownSet(this.getLabel());		
-		log.debug("SET" + set);
-		fill(set);
+		this.selectablePropertiesSet.clear();
+		// Calls getChoosableDiseases!
+		this.selectablePropertiesSet.addAll( 
+			this.owner.getRefreshedDropDownSet(this.getLabel()));		
+		log.debug("AVAILABLE" + this.owner.getRefreshedDropDownSet(this.getLabel()));
+		log.debug("SET" + this.selectablePropertiesSet);
+		fill(this.selectablePropertiesSet);
 		setDefaultValue();
 		dropDown.addModifyListener(this.genericComboModifyListener);		
 		// TODO: fire an event for the modify listener to update the dependend drop downs
-		
 	}
 	
 	public void updateDataObjectModel(String newText) throws ConfigurationException {
-		// TODO Auto-generated method stub
+		// Remove old value (is choosable again)
+		this.owner.removeOldDefaultValue(this.getLabel());
+		// Add new value
+		//this.owner.setDefaultValue(this.getLabel(), newText);
 		this.owner.updateObjectState(this.getLabel(), newText);
 	}
 	

@@ -6,9 +6,9 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabStoreConfiguration;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
+import nl.rivm.emi.dynamo.data.types.atomic.TargetMaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.TargetMinAge;
 import nl.rivm.emi.dynamo.data.types.atomic.TargetSex;
 import nl.rivm.emi.dynamo.data.types.atomic.TransFileName;
@@ -24,7 +24,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	WritableValue observableName;
-	WritableValue successRate;
+	WritableValue observableSuccessRate;
 	Integer minAge;
 	Integer maxAge;
 	Integer targetSex;
@@ -36,6 +36,9 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 	}
 
 	public void setName(String name) {
+		if (this.observableName == null) {
+			setObservableName(new WritableValue(name, String.class));	
+		}
 		observableName.doSetValue(name);
 	}
 
@@ -43,16 +46,24 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		return observableName;
 	}
 
-	public void setObservableName(WritableValue name) {
+	public void setObservableName(WritableValue name) {		
 		this.observableName = name;
 	}
 
+	@Override
+	public void setSuccessRate(Integer successRate) {
+		if (this.observableSuccessRate == null) {
+			setObservableSuccessRate(new WritableValue(successRate, Integer.class));	
+		}
+		observableSuccessRate.doSetValue(successRate);		
+	}
+	
 	public WritableValue getObservableSuccessRate() {
-		return successRate;
+		return observableSuccessRate;
 	}
 
 	public void setObservableSuccessRate(WritableValue successRate) {
-		this.successRate = successRate;
+		this.observableSuccessRate = successRate;
 	}
 
 	public Integer getMinAge() {
@@ -106,7 +117,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 					setMinAge((Integer) ((WritableValue) tuple.getValue())
 							.doGetValue());
 				} else {
-					if (type instanceof MaxAge) {
+					if (type instanceof TargetMaxAge) {
 						setMaxAge((Integer) ((WritableValue) tuple.getValue())
 								.doGetValue());
 					} else {
@@ -114,12 +125,22 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 							setTargetSex((Integer) ((WritableValue) tuple
 									.getValue()).doGetValue());
 						} else {
-							if (type instanceof PrevFileName) {
-								setAltPrevalenceFileName((String) ((WritableValue) tuple
+							if (type instanceof TransFileName) {
+								
+								log.debug("((WritableValue) tuple.getValue()).doGetValue() " + 
+										((WritableValue) tuple
+										.getValue()).doGetValue());
+								
+								setAltTransitionFileName((String) ((WritableValue) tuple
 										.getValue()).doGetValue());
 							} else {
-								if (type instanceof TransFileName) {
-									setAltTransitionFileName((String) ((WritableValue) tuple
+								if (type instanceof PrevFileName) {
+	
+									log.debug("((WritableValue) tuple.getValue()).doGetValue() " + 
+											((WritableValue) tuple
+											.getValue()).doGetValue());
+									
+									setAltPrevalenceFileName((String) ((WritableValue) tuple
 											.getValue()).doGetValue());
 								} else {
 									log
@@ -151,15 +172,18 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TARGETSEX
 				.getTheType(), new WritableValue(getTargetSex(), Integer.class));
 		scenarioModelData.add(tuple);
-		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.PREVFILENAME
-				.getTheType(), new WritableValue(getAltPrevalenceFileName(),
-				String.class));
-		scenarioModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TRANSFILENAME
 				.getTheType(), new WritableValue(getAltTransitionFileName(),
 				String.class));
 		scenarioModelData.add(tuple);
-		theMap.put((String) observableName.doGetValue(), scenarioModelData);
+		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.PREVFILENAME
+				.getTheType(), new WritableValue(getAltPrevalenceFileName(),
+				String.class));
+		scenarioModelData.add(tuple);
+		
+		String name = (String) observableName.doGetValue();
+		theMap.put(name, scenarioModelData);
 		return theMap;
 	}
+	
 }

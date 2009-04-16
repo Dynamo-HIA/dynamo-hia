@@ -33,9 +33,8 @@ public abstract class Tab {
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
 	protected Set<String> selections;
-	protected Map<String, String> oldState;
 	
-	public Tab(Set<String> selections, Map<String, String> oldState, TabFolder tabFolder, String tabName, 
+	public Tab(Set<String> selections, TabFolder tabFolder, String tabName, 
 			DynamoSimulationObject dynamoSimulationObject, 
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
@@ -45,7 +44,6 @@ public abstract class Tab {
 		this.helpGroup = helpGroup;
 		this.selectedNode = selectedNode;
 		this.tabName = tabName;
-		this.oldState = oldState;
 		
 		this.setLayoutStyle(tabFolder);
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);	

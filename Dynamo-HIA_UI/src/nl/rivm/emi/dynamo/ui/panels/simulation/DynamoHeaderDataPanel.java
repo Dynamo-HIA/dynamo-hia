@@ -116,30 +116,14 @@ public class DynamoHeaderDataPanel extends Composite {
 		bindHeaderValue(observable, labelValue, new RandomSeed());
 
 		labelValue = HAS_NEW_BORNS;
-		// TODO: Create radioButtons here
-		observable = dynamoSimulationObject.getObservableHasNewborns();
-		bindHeaderValue(observable, labelValue, new HasNewborns());
 
+		observable = dynamoSimulationObject.getObservableHasNewborns();
+		bindHeaderValue(observable, labelValue, new HasNewborns());		
 		
-		
-		/*
-		labelValue = POP_FILE_NAME;
-		observable = dynamoSimulationObject.getObservablePopulationFileName();
-		bindHeaderValue(observable, labelValue, new PopFileName());
-		Label fillLabel = new Label(this, SWT.NONE);
-		GridData layoutData = new GridData();
-		layoutData.horizontalSpan = 2;
-		fillLabel.setLayoutData(layoutData);*/
-		
-		
-		//String populationFileName = dynamoSimulationObject.getObservablePopulationFileName().doGetValue().toString();
 		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
 		DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
 		contentsSet.addAll(treeLists.getPopulations());		
-		log.debug("contentsSet" + contentsSet);
-		
-		//WritableValue writeble = (WritableValue) dynamoSimulationObject.getObservablePopulationFileName();
-		
+		log.debug("contentsSet" + contentsSet);		
 		
 		GenericDropDownPanel populationDropDownPanel = 
 			createDropDown(POP_FILE_NAME, 

@@ -4,8 +4,8 @@ import java.util.Map;
 
 public interface IDiseases {
 
-	public abstract Map<String,IDiseaseConfiguration> getDiseaseConfigurations();
+	public abstract Map<String,ITabDiseaseConfiguration> getDiseaseConfigurations();
 
-	public abstract void setDiseaseConfigurations(Map<String, IDiseaseConfiguration> diseases);
+	public abstract void setDiseaseConfigurations(Map<String, ITabDiseaseConfiguration> diseases);
 
 }

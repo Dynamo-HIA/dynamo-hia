@@ -3,8 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -21,6 +20,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 
+/**
+ * 
+ * Shows the result drop downs of the diseases
+ * 
+ * @author schutb
+ *
+ */
 public class DiseaseResultGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
@@ -33,7 +39,7 @@ public class DiseaseResultGroup {
 	private Composite plotComposite;
 	private GenericComboModifyListener diseaseDropDownModifyListener;
 	private BaseNode selectedNode;
-	private Map<String, IDiseaseConfiguration> configuration;
+	private Map<String, ITabDiseaseConfiguration> configuration;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	
@@ -44,7 +50,6 @@ public class DiseaseResultGroup {
 			GenericComboModifyListener diseaseDropDownModifyListener,
 			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
 		this.selections = selections;
-		//this.configuration = configuration;
 		this.selectedNode = selectedNode;
 		this.plotComposite = plotComposite;
 		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
@@ -67,10 +72,7 @@ public class DiseaseResultGroup {
 		formData.bottom = new FormAttachment(100, 0);
 		group.setLayoutData(formData);
 		
-		 
-		DropDownPropertiesSet prevSet = new DropDownPropertiesSet();
-		//chosenDiseaseName === default will be from IDiseaseConfiguration for Initialization!
-
+		//chosenDiseaseName is retrieved from IDiseaseConfiguration for Initialization!
 		String chosenDiseaseName = null;
 		if (this.selections != null) {
 			for (String chosenName : selections) {
@@ -79,44 +81,34 @@ public class DiseaseResultGroup {
 		}
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = 
 			createDropDown(DISEASE_PREVALENCE, 
-					dynamoTabDataManager.getDropDownSet(DISEASE_PREVALENCE, chosenDiseaseName), 
-					null);
+					dynamoTabDataManager.getDropDownSet(DISEASE_PREVALENCE, chosenDiseaseName));
+		
 		// Register with the drop down from the selector
 		this.diseaseDropDownModifyListener.
 			registerDropDown(diseasePrevalenceDropDownPanel);
-		
-		
-		//AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) diseaseObject.get(XMLTagEntityEnum.UNITTYPE.getElementName());
+				
 		GenericDropDownPanel incidenceDropDownPanel = 
 			createDropDown(INCIDENCE, 
-					dynamoTabDataManager.getDropDownSet(INCIDENCE, chosenDiseaseName), 
-					null);
+					dynamoTabDataManager.getDropDownSet(INCIDENCE, chosenDiseaseName));
 		this.diseaseDropDownModifyListener.
 			registerDropDown(incidenceDropDownPanel);
 		
 		
 		GenericDropDownPanel excessMortalityDropDownPanel = 
 			createDropDown(EXCESS_MORTALITY, 
-					dynamoTabDataManager.getDropDownSet(EXCESS_MORTALITY, chosenDiseaseName), 
-					null);
+					dynamoTabDataManager.getDropDownSet(EXCESS_MORTALITY, chosenDiseaseName));
 		this.diseaseDropDownModifyListener.
 			registerDropDown(excessMortalityDropDownPanel);		
-		
-		//AtomicTypeObjectTuple transitionTuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.UNITTYPE.getElementName());
+
 		GenericDropDownPanel dalyWeightsDropDownPanel = 
 			createDropDown(DALY_WEIGHTS, 
-					dynamoTabDataManager.getDropDownSet(DALY_WEIGHTS, chosenDiseaseName), 
-					null);
+					dynamoTabDataManager.getDropDownSet(DALY_WEIGHTS, chosenDiseaseName));
 		this.diseaseDropDownModifyListener.
-			registerDropDown(dalyWeightsDropDownPanel);
-				
-		// Set the nested contents
-		//this.diseaseDropDownModifyListener.setNestedContents(nestedComboMapsContents);				
+			registerDropDown(dalyWeightsDropDownPanel);				
 	}
 
 	private GenericDropDownPanel createDropDown(String label, 
-			DropDownPropertiesSet selectablePropertiesSet, 
-			AtomicTypeObjectTuple tuple) throws ConfigurationException {
+			DropDownPropertiesSet selectablePropertiesSet) throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, 
 				null, this.dynamoTabDataManager);		

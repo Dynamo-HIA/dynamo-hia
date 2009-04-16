@@ -7,6 +7,6 @@ public class TargetSex extends AbstractRangedInteger implements PayloadType<Inte
 	static final protected String XMLElementName = "targetSex";
 
 	public TargetSex(){
-		super(XMLElementName, new Integer(0), new Integer(1));
+		super(XMLElementName, new Integer(0), new Integer(2));
 	}
 }

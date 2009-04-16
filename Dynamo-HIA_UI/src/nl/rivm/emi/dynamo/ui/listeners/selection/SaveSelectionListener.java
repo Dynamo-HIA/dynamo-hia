@@ -5,12 +5,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.interfaces.IStaxEventContributor;
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
@@ -46,6 +50,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		File configurationFile = new File(filePath);
 		try {
 			Object modelObject = modalParent.getData();
+			
 			String rootElementName = (String) modalParent.getRootElementName();
 			log.debug("rootElementName" + rootElementName + " modelObject"
 					+ modelObject + " configurationFile" + configurationFile);
@@ -56,6 +61,39 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						(TypedHashMap) modelObject, configurationFile);
 			} else {
 				if (modelObject instanceof LinkedHashMap) {
+					
+					/**
+					 * TODO REMOVE: LOGGING BELOW
+					 */
+					/*
+					Map map =  ((DynamoSimulationObject) modelObject).getDiseaseConfigurations();
+					Set<String> keys = map.keySet();
+					for (String key : keys) {
+						ITabDiseaseConfiguration conf = 
+							(ITabDiseaseConfiguration) map.get(key);
+						log.error("conf.getName()" + conf.getName());
+						log.error("conf.getPrevalenceFileName()" + conf.getPrevalenceFileName());
+						log.error("conf.getIncidenceFileName()" + conf.getIncidenceFileName());
+						log.error("conf.getExcessMortalityFileName()" + conf.getExcessMortalityFileName());
+						log.error("conf.getDalyWeightsFileName()" + conf.getDalyWeightsFileName());
+					}*/
+
+					Map map = ((DynamoSimulationObject) modelObject).getScenarioConfigurations();
+					Set<String> keys = map.keySet();
+					for (String key : keys) {
+						ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map.get(key);
+						log.error("conf.getName()" + conf.getName());
+						log.error("conf.getMinAge()" + conf.getMinAge());
+						log.error("conf.getMaxAge()" + conf.getMaxAge());
+						log.error("conf.getTargetSex()" + conf.getTargetSex());
+						log.error("conf.getAltTransitionFileName()" + conf.getAltTransitionFileName());
+						log.error("conf.getAltPrevalenceFileName()" + conf.getAltPrevalenceFileName());
+					}
+					/**
+					 * TODO REMOVE: LOGGING ABOVE
+					 */
+					
+					
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							(HashMap<String, Object>) modelObject,
 							configurationFile);

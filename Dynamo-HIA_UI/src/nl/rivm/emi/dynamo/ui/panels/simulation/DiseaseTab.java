@@ -22,21 +22,21 @@ public class DiseaseTab extends NestedTab {
 	
 	private Log log = LogFactory.getLog("DiseaseTab");
 	private DiseaseSelectionGroup diseaseSelectionGroup;
+	private DynamoTabDataManager dynamoTabDataManager;
 
-	/**
-	 * @param oldState 
+	/** 
 	 * @param defaultDisease 
 	 * @param tabfolder
 	 * @param output
 	 * @throws ConfigurationException 
 	 */
-	public DiseaseTab(Set<String> selectedDisease, Map<String, String> oldState, 
+	public DiseaseTab(Set<String> selectedDisease,  
 			TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(selectedDisease, oldState, tabfolder, tabName,
+		super(selectedDisease, tabfolder, tabName,
 				dynamoSimulationObject,
 				dataBindingContext, 
 				selectedNode,
@@ -50,19 +50,18 @@ public class DiseaseTab extends NestedTab {
 	@Override
 	public void makeIt() throws ConfigurationException{
 		
-		DynamoTabDataManager dynamoTabDataManager =
-			new DiseaseTabDataManager(tabName, selectedNode, 
+		this.dynamoTabDataManager =
+			new DiseaseTabDataManager(selectedNode, 
 					dynamoSimulationObject,
-					this.selections, oldState);
+					this.selections);
 		
-		//DiseaseSelectionGroup diseaseSelectionGroup =
 		this.diseaseSelectionGroup =
 			new DiseaseSelectionGroup(tabName, this.selections, this.plotComposite,
 					selectedNode, helpGroup,
 					dynamoTabDataManager
 					);
 		
-		DiseaseResultGroup DiseaseResultGroup =
+		DiseaseResultGroup diseaseResultGroup =
 			new DiseaseResultGroup(this.selections, this.plotComposite,					
 					selectedNode, helpGroup,
 					diseaseSelectionGroup.group,
@@ -73,5 +72,9 @@ public class DiseaseTab extends NestedTab {
 	
 	public void refreshSelectionGroup() throws ConfigurationException {
 		this.diseaseSelectionGroup.refreshSelectionDropDown();
+	}
+
+	public void removeTabDataObject() throws ConfigurationException {
+		this.dynamoTabDataManager.removeFromDynamoSimulationObject();
 	}
 }

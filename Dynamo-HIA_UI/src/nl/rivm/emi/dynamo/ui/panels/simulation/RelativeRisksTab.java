@@ -5,22 +5,24 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 
 public class RelativeRisksTab extends TabPlatform {
 
@@ -33,26 +35,55 @@ public class RelativeRisksTab extends TabPlatform {
 	/**
 	 * @param tabfolder
 	 * @param output
-	 * @throws DynamoConfigurationException 
+	 * @throws ConfigurationException 
 	 */
 	public RelativeRisksTab(TabFolder tabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException {
 		super(tabFolder, RELATIVE_RISKS, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
 	}
 
 	@Override
-	public NestedTab getNestedTab() throws DynamoConfigurationException {
+	public NestedTab createNestedDefaultTab(Set<String> defaultSelections) throws ConfigurationException {
 		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		return new RelativeRiskTab(this.getTabManager().getTabFolder(), RELATIVE_RISK + newTabNumber, dynamoSimulationObject, dataBindingContext, selectedNode, theHelpGroup);
+		String tabName = RELATIVE_RISK + newTabNumber;
+		return new RelativeRiskTab(defaultSelections, this.getTabManager().getTabFolder(), 
+				tabName, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, helpGroup);
 	}	
 	
 	@Override
 	public String getNestedTabPrefix() {
 		return RELATIVE_RISK;
+	}
+
+	@Override
+	public NestedTab createNestedTab() throws DynamoConfigurationException,
+			ConfigurationException {
+		return createNestedDefaultTab(null);
+	}
+
+	@Override
+	public void deleteNestedTab(NestedTab nestedTab)
+			throws ConfigurationException {
+		RelativeRiskTab relativeRiskTab = (RelativeRiskTab) nestedTab;
+		relativeRiskTab.removeTabDataObject();		
+	}
+
+	public Set<String> getConfigurations() {
+		LinkedHashMap<String, TabRiskFactorConfigurationData> configurations = 
+			(LinkedHashMap<String, TabRiskFactorConfigurationData>) this.dynamoSimulationObject.getRiskFactorConfigurations();
+		return configurations.keySet();
+	}
+
+	@Override
+	public void refreshNestedTab(NestedTab nestedTab)
+			throws ConfigurationException {
+		RelativeRiskTab relativeRiskTab = (RelativeRiskTab) nestedTab;
+		relativeRiskTab.refreshSelectionGroup();
 	}
 	
 	

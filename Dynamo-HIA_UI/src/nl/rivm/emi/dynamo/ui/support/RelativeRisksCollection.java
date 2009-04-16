@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class RelativeRisksCollection {
-	Log log = LogFactory.getLog(this.getClass().getName());
+	private Log log = LogFactory.getLog("RelativeRisksCollection");
 
 	TreeAsDropdownLists tADL;
 
@@ -32,11 +32,11 @@ public class RelativeRisksCollection {
 	HashMap<String, Set<String>> relRiskBySourceName = new HashMap<String, Set<String>>();
 	HashMap<String, Set<String>> relRiskByTargetName = new HashMap<String, Set<String>>();
 
-	public RelativeRisksCollection(BaseNode selectedNode)
+	public RelativeRisksCollection(BaseNode selectedNode, TreeAsDropdownLists treeAsDropdownLists)
 			throws ConfigurationException {
 		super();
-		tADL = TreeAsDropdownLists.getInstance(selectedNode);
-		findAllRelativeRisks(selectedNode);
+		tADL = treeAsDropdownLists;
+		findAllRelativeRisks(selectedNode, tADL);
 	}
 
 	public Set<String> getValidFromNames(){
@@ -59,22 +59,23 @@ public class RelativeRisksCollection {
 	/**
 	 * Find all useable relative risks irrespective of the current simulation
 	 * configuration.
+	 * @param  
 	 * 
 	 * @throws ConfigurationException
 	 */
-	public void findAllRelativeRisks(BaseNode selectedNode)
+	public void findAllRelativeRisks(BaseNode selectedNode, TreeAsDropdownLists treelist)
 			throws ConfigurationException {
 		ParentNode referenceDataNode = FactoryCommon
 				.findReferenceDataNode(selectedNode);
 		Object[] refDataChildNodes = referenceDataNode.getChildren();
-		TreeAsDropdownLists tADL = TreeAsDropdownLists
-				.getInstance(selectedNode);
+		//TreeAsDropdownLists tADL = TreeAsDropdownLists
+			//	.getInstance(selectedNode);
 		for (Object refDataChildNode : refDataChildNodes) {
 			String validParentNodeName = returnParentNodeNameWhenValid((BaseNode) refDataChildNode);
 			if (validParentNodeName != null) {
 				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
 						validParentNodeName)) {
-					Set<String> validDiseases = tADL.getValidDiseases();
+					Set<String> validDiseases = treelist.getValidDiseases();
 					Object[] diseaseChildren = ((ParentNode) refDataChildNode)
 							.getChildren();
 					for (Object diseaseChild : diseaseChildren) {
@@ -114,7 +115,7 @@ public class RelativeRisksCollection {
 				} else {
 					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
 							.equals(validParentNodeName)) {
-						Set<String> validRiskFactors = tADL.getRiskFactors();
+						Set<String> validRiskFactors = treelist.getRiskFactors();
 						Object[] riskFactorChildren = ((ParentNode) refDataChildNode)
 								.getChildren();
 						for (Object riskFactorChild : riskFactorChildren) {

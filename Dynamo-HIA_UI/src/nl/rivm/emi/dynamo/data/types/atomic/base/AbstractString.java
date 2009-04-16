@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -13,6 +15,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
  */
 public class AbstractString extends AtomicTypeBase<String> {
 
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
 	/**
 	 * Pattern for matching String input. Provides an initial validation
 	 * that should prevent subsequent conversions from blowing up.
@@ -82,7 +86,7 @@ public class AbstractString extends AtomicTypeBase<String> {
 			return viewValue;
 	}
 	
-	private UpdateValueStrategy assembleModelStrategy() {
+	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
 				"ValueModelConverter"));
@@ -107,8 +111,8 @@ public class AbstractString extends AtomicTypeBase<String> {
 		 * Very lenient convert for the moment.
 		 */
 		public Object convert(Object arg0) {
-			// log.debug(debugString + " convert(Object) entered with:" +
-			// arg0.toString());
+			log.debug(debugString + "AbstractString:  MODELVIEW convert(Object) entered with:" +
+			arg0.toString());
 			Object result = null;
 			if (arg0 instanceof String) {
 				result = arg0;
@@ -134,8 +138,8 @@ public class AbstractString extends AtomicTypeBase<String> {
 		}
 
 		public Object convert(Object arg0) {
-			// log.debug(debugString + " convert(Object) entered with:" +
-			// arg0.toString());
+			log.debug(debugString + "AbstractString: VALUEVIEW convert(Object) entered with:" +
+			arg0.toString());
 			Object result = null;
 			if (arg0 instanceof String) {
 				result = arg0;

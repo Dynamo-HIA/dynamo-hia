@@ -123,6 +123,9 @@ public class StAXAgnosticTypedHashMapWriter {
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoOutputException {
 		log.error("Recursing at level " + leafValueMap.size());
+		log.error("configurationLevel " + configurationLevel);
+		log.error("configurationLevel.size() " + configurationLevel.size());
+		
 		Set<Map.Entry<Integer, Object>> entrySet = configurationLevel
 				.entrySet();
 		XMLTagEntity configurationLevelType = (XMLTagEntity) configurationLevel
@@ -132,7 +135,8 @@ public class StAXAgnosticTypedHashMapWriter {
 			Map.Entry<Integer, Object> entry = iterator.next();
 			String elementName = getElementName(fileControl, leafValueMap);
 			log.debug("Going to convert element: " + elementName + " at level "
-					+ leafValueMap.size() + " in the leafValueMap.");
+					+ leafValueMap.size() + " in the leafValueMap." + entry.getValue() + entry.getKey()
+					+ configurationLevelType);
 			leafValueMap.put(elementName,
 					((AtomicTypeBase) configurationLevelType)
 							.convert4File(entry.getKey()));

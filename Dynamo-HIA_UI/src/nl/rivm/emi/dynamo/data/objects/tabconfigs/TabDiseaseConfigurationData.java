@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.objects.tabconfigs;
 import java.util.ArrayList;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.interfaces.IDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabStoreConfiguration;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
@@ -17,7 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class TabDiseaseConfigurationData implements IDiseaseConfiguration, ITabStoreConfiguration {
+public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration, ITabStoreConfiguration {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -71,6 +71,16 @@ public class TabDiseaseConfigurationData implements IDiseaseConfiguration, ITabS
 		setName((String) name);
 		for (AtomicTypeObjectTuple tuple : modelDiseaseData) {
 			XMLTagEntity type = tuple.getType();
+			
+			/*
+			
+			if (type instanceof UniqueName) {
+				setName( (String) ((WritableValue) 
+						tuple.getValue()).doGetValue());
+			} else {
+				
+				*/
+				
 			if (type instanceof PrevFileName) {
 				setPrevalenceFileName( (String) ((WritableValue) 
 						tuple.getValue()).doGetValue());
@@ -95,12 +105,26 @@ public class TabDiseaseConfigurationData implements IDiseaseConfiguration, ITabS
 				}
 			}
 		}
+		
+			
+		//}
+		
+		
 	}
 
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> diseasesMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
+		
+		//FIX: UNIQUE NAME HAS TO BE INCLUDED TOO
+		/*
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
+				XMLTagEntityEnum.UNIQUENAME.getTheType(),
+				new WritableValue(getPrevalenceFileName(),
+						String.class));
+		diseaseModelData.add(tuple);*/
+		AtomicTypeObjectTuple
+		tuple = new AtomicTypeObjectTuple(
 				XMLTagEntityEnum.PREVFILENAME.getTheType(),
 				new WritableValue(getPrevalenceFileName(),
 						String.class));

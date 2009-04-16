@@ -61,7 +61,11 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	public Set<String> getChoosableDiseases(String currentDiseasesName, TreeAsDropdownLists lists) {
 		log.debug("currentDiseasesName: " + currentDiseasesName);
 		this.remove(currentDiseasesName);		
-		Set diseaseNames = lists.getValidDiseases();
+		//TODO: FIX THIS PERMANENTLY!!!!
+		Set diseaseNames = new LinkedHashSet<String>();
+		diseaseNames.addAll(lists.getValidDiseases());		
+		//diseaseNames.add("disease2");
+		//diseaseNames.add("disease1");
 		log.debug("diseaseNames: " + diseaseNames);
 		log.debug("Chosendiseases-1-1-1: " + this);
 		for (String chosenName : (Set<String>)this) {

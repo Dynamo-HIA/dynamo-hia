@@ -42,4 +42,6 @@ public interface ITabScenarioConfiguration {
 
 	public abstract void setAltPrevalenceFileName(String altPrevalenceFileName);
 
+	public void setSuccessRate(Integer successRate);
+
 }

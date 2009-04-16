@@ -75,7 +75,8 @@ public class TabManager {
 	            		//TabManager.this.reCreateNestedTab(TabManager.this.deleteNestedTab());
 	            		TabItem item = TabManager.this.getTabFolder().getItem(selected);
 	            		log.debug("item.getText()" + item.getText());
-	            		log.debug("TabManager.this.nestedTabs" + TabManager.this.nestedTabs.size());
+	            		log.debug("TabManager.this.nestedTabs.size()" + TabManager.this.nestedTabs.size());
+	            		log.debug("TabManager.this.nestedTabs" + TabManager.this.nestedTabs);
 	            		TabManager.this.platform.
 	            			refreshNestedTab(TabManager.this.nestedTabs.
 	            					get(item.getText()));
@@ -110,11 +111,13 @@ public class TabManager {
 	 * @throws ConfigurationException
 	 */
 	public void createDefaultTabs() throws DynamoConfigurationException, ConfigurationException {
-		Set<String> defaultTabKeyValues = this.platform.getConfigurations();
+		Set<String> defaultTabKeyValues = (Set<String>) this.platform.getConfigurations();			
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
-			NestedTab nestedTab = this.platform.createNestedDefaultTab(keyValues, null);
+			log.debug("defaultTabKeyValues" + defaultTabKeyValues);
+			NestedTab nestedTab = this.platform.createNestedDefaultTab(keyValues);
+			log.debug("CREATING DEFAULT NESTEDTABS " + nestedTab);
 			this.nestedTabs.put(nestedTab.getName(), nestedTab);
 		}		
 		this.redraw();
@@ -123,15 +126,25 @@ public class TabManager {
 	/**
 	 * 
 	 * Creates a new NestedTab on this TabFolder
+	 * @throws ConfigurationException 
 	 * 
 	 * @throws ConfigurationException
 	 */
 	public void createNestedTab() throws ConfigurationException {
 		this.tabFolder.removeSelectionListener(this.listener);
-		NestedTab nestedTab = this.platform.createNestedTab();
-		// tabName is identifier for the nestedTab to be created
-		log.debug("nestedTab.getName()" + nestedTab.getName());
-		nestedTabs.put(nestedTab.getName(), nestedTab);
+		
+		NestedTab nestedTab = null;
+		try {
+			nestedTab = this.platform.createNestedTab();
+			// tabName is identifier for the nestedTab to be created
+			log.debug("CREATING NEW NESTEDTAB " + nestedTab);
+			nestedTabs.put(nestedTab.getName(), nestedTab);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			throw new ConfigurationException(e);
+		} finally {
+			this.redraw();	
+		}		
 		// Create an unique number
 		//int tabNumber = this.nestedTabs.size();
 		// Create a new NestedTab on the TabPlatform		
@@ -139,7 +152,7 @@ public class TabManager {
 		//this.nestedTabs.put(tabNumber, nestedTab);
 		//this.updateListener();
 		// Redraw the tabPlatform
-		this.redraw();
+		
 	}
 	
 	public void deleteNestedTab() throws ConfigurationException {
@@ -155,15 +168,12 @@ public class TabManager {
 		NestedTab removedNestedTab;
 		// Tabs with index -1 or lower do not exist
 		if (index > -1) {
-			
+			log.debug("EXISTING NestedTabs: " + this.nestedTabs);
 			TabItem tabItem = tabFolder.getItem(index);
 			removedNestedTab = nestedTabs.get(tabItem.getText());
-			tabItem.dispose();
-		
 			// Remove the data from the data object model
-			this.platform.deleteNestedTab(removedNestedTab.getName());
-			// The disease will be available to be chosen again 
-			ChoosableDiseases.getInstance().removeChosenDisease(removedNestedTab.getName());
+			this.platform.deleteNestedTab(removedNestedTab);		
+			tabItem.dispose();
 		}
 		
 		// Remove the nestedTab from the TabPlatform		
@@ -179,7 +189,9 @@ public class TabManager {
 	
 	
 	private void renumberAndRenameItems() {
-		Map<String, NestedTab> tempNestedTabs = this.nestedTabs;
+		Map<String, NestedTab> tempNestedTabs = new LinkedHashMap<String, NestedTab>();
+		tempNestedTabs.putAll(this.nestedTabs);
+		log.debug("OLDPRENUMB NestedTabs: " + tempNestedTabs);
 		this.nestedTabs.clear();
 		// Alternative: can we just do a renaming?
 		for (int index = 0; index < this.getTabFolder().getItemCount(); index++) {			
@@ -187,10 +199,13 @@ public class TabManager {
 			String oldTabName = item.getText(); 
 			int newIndexName = index + 1;
 			String tabName = this.platform.getNestedTabPrefix() + newIndexName;
-			item.setText(tabName);		
+			item.setText(tabName);
+			log.debug("OLDTABNAME: " + oldTabName);
+			log.debug("TEMPNESTEDTABS: " + tempNestedTabs);
+			log.debug("ADDING NESTEDTAB: " + tempNestedTabs.get(oldTabName));
 			this.nestedTabs.put(tabName, tempNestedTabs.get(oldTabName));
 		}
-		
+		log.debug("RENUMBERED: " + this.nestedTabs);
 		/*
 		TabItem[] tabItems = this.tabFolder.getItems();
 		
@@ -210,16 +225,22 @@ public class TabManager {
         */        
 	}
 
-	public void redraw() {		
+	public void redraw() throws ConfigurationException {
+		this.refreshSelectionDropDowns();
 		this.tabFolder.redraw();
-		
-		
-		
 		this.tabFolder.addSelectionListener(		
-				this.listener);
-		
+				this.listener);		
 	}	
 	
+	private void refreshSelectionDropDowns() throws ConfigurationException {
+		for (int index = 0; index < this.getTabFolder().getItemCount(); index++) {			
+			TabItem item = this.getTabFolder().getItem(index);
+			this.platform.
+			refreshNestedTab(this.nestedTabs.
+					get(item.getText()));			
+		}
+	}
+
 	public void updateListener() {
 		log.debug("HALLO IK BEN HIER");
 		//log.debug("Tab Size: " + this.nestedTabs.size());

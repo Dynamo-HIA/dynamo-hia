@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 
@@ -22,7 +23,6 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		this.configuration = configuration;
 	}
 	
-	@Override
 	public Set<String> getContents(String name, String chosenName) {
 		Set<String> contents = new LinkedHashSet<String>();
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(name)) {
@@ -48,16 +48,6 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 	}
 
 	@Override
-	public void createInDynamoSimulationObject() {
-		// Will not be used		
-	}
-
-	@Override
-	public void removeFromDynamoSimulationObject(String selectedValue) {
-		// Will not be used		
-	}
-
-	@Override
 	public void updateObjectState(String name, String selectedValue) {
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(name)) {			
 			configuration.setPopulationFileName(selectedValue);
@@ -67,6 +57,35 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 	@Override
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label)
 			throws ConfigurationException {
+		// Will not be used
+		return null;
+	}
+
+	@Override
+	public void removeFromDynamoSimulationObject()
+			throws ConfigurationException {
+		// Will not be used		
+	}
+
+	@Override
+	public void setDefaultValue(String name, String selectedValue)
+			throws ConfigurationException {
+		// Will not be used		
+	}
+
+	@Override
+	public void removeOldDefaultValue(String label)
+			throws ConfigurationException {
+		// Will not be used		
+	}
+
+	@Override
+	public void updateDynamoSimulationObject() {
+		// Will not be used		
+	}
+
+	@Override
+	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;
 	}

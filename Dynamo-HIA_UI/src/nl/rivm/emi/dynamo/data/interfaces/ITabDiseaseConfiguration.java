@@ -6,7 +6,7 @@ package nl.rivm.emi.dynamo.data.interfaces;
  * @author mondeelr
  * 
  */
-public interface IDiseaseConfiguration extends INameConfiguration {
+public interface ITabDiseaseConfiguration extends INameConfiguration {
 
 	/**
 	 * @return String The prevalence file name
