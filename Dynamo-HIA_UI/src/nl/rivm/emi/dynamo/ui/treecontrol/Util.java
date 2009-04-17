@@ -31,7 +31,7 @@ public class Util {
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String containerLabel = ((BaseNode) containerNode).toString();
 		containerLabel = containerLabel.substring(0,
-				containerLabel.length() - 1);
+				containerLabel.length());
 		String[] result = new String[2];
 		result[0] = containerLabel;
 		result[1] = startLabel;

@@ -36,37 +36,5 @@ public abstract class GenericParameterDataPanel<T>
 		this.theHelpGroup = helpGroup;
 		//this.myTypes = atomicTypeBases;
 		//this.myTypes = atomicTypeBases;
-
-		GridLayout layout = new GridLayout();
-		layout.numColumns = panelMatrix.size();
-		layout.makeColumnsEqualWidth = true;
-		setLayout(layout);
-				
-		// Process each panel matrix item
-		// Get the available keys and copy them into an array
-		Set<String> keys = panelMatrix.keySet();
-		String[] keysArray = (String[]) keys.toArray(new String[keys.size()]);
-		
-		// Iterate through the keys of the COLUMNS
-		for (String key: keysArray) {
-			
-			// Get the PanelMatrixItem
-			PanelMatrixItem panelMatrixItem = panelMatrix.get(key);
-			
-			Label label = new Label(this, SWT.NONE);
-			label.setText(panelMatrixItem.getColumnHeader());
-
-			// The first column values (e.g. age, index) are not bound
-			if (key != null && !key.equals(keysArray[0])) {
-				// ROWS
-				for (int count = 0; count < lotsOfData.size(); count++) {
-					TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
-					Label labelRow = new Label(this, SWT.NONE);
-					labelRow.setText(new Integer(count).toString());
-					super.bindValue(tHMap, panelMatrixItem.getColumnIndex(), panelMatrixItem.getMyType());					
-				}				
-			}
-	
-		}
 	}		
 }

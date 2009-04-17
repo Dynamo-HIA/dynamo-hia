@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Cutoffs;
 import nl.rivm.emi.dynamo.data.types.atomic.DALYWeightsFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.Disease;
 import nl.rivm.emi.dynamo.data.types.atomic.Diseases;
+import nl.rivm.emi.dynamo.data.types.atomic.DistributionType;
 import nl.rivm.emi.dynamo.data.types.atomic.Duration;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
@@ -42,6 +43,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.PopFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.Prevalence;
+import nl.rivm.emi.dynamo.data.types.atomic.Prevalences;
 import nl.rivm.emi.dynamo.data.types.atomic.Probability;
 import nl.rivm.emi.dynamo.data.types.atomic.RR;
 import nl.rivm.emi.dynamo.data.types.atomic.RRs;
@@ -62,6 +64,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.SexRatio;
 import nl.rivm.emi.dynamo.data.types.atomic.SimPopSize;
 import nl.rivm.emi.dynamo.data.types.atomic.Size;
+import nl.rivm.emi.dynamo.data.types.atomic.Skewness;
+import nl.rivm.emi.dynamo.data.types.atomic.StandardDeviation;
 import nl.rivm.emi.dynamo.data.types.atomic.StartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
 import nl.rivm.emi.dynamo.data.types.atomic.TargetMaxAge;
@@ -128,6 +132,7 @@ public enum XMLTagEntityEnum {
 	DALYWEIGHTSFILENAME((XMLTagEntity) new DALYWeightsFileName()), //
 	DISEASE((XMLTagEntity) new Disease()), //
 	DISEASES((XMLTagEntity) new Diseases()), //
+	DISTRIBUTIONTYPE((XMLTagEntity) new DistributionType()), //
 	DURATION((XMLTagEntity) new Duration()), //
 	DURATIONCLASS((XMLTagEntity) new DurationClass()), //
 	END((XMLTagEntity) new End()), //
@@ -152,6 +157,7 @@ public enum XMLTagEntityEnum {
 	PERCENTAGE((XMLTagEntity) new Percent()), // 
 	POPFILENAME((XMLTagEntity) new PopFileName()), //
 	PREVALENCE((XMLTagEntity) new Prevalence()), //
+	PREVALENCES((XMLTagEntity) new Prevalences()), //
 	PREVFILENAME((XMLTagEntity) new PrevFileName()), //
 	PROBABILITY((XMLTagEntity) new Probability()), // 
 	RANDOMSEED((XMLTagEntity) new RandomSeed()), //
@@ -173,7 +179,9 @@ public enum XMLTagEntityEnum {
 	SEXRATIO((XMLTagEntity) new SexRatio()), //
 	SIMPOPSIZE((XMLTagEntity) new SimPopSize()), //
 	SIZE((XMLTagEntity) new Size()), //
+	SKEWNESS((XMLTagEntity) new Skewness()), //
 	STANDARDVALUE((XMLTagEntity) new Value()), //
+	STANDARDDEVIATION((XMLTagEntity) new StandardDeviation()), //
 	STARTINGYEAR((XMLTagEntity) new StartingYear()), //
 	SUCCESSRATE((XMLTagEntity) new SuccessRate()), //
 	TARGETMAXAGE((XMLTagEntity) new TargetMaxAge()), //

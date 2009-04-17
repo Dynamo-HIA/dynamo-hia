@@ -29,25 +29,25 @@ import org.eclipse.swt.widgets.Text;
  * @author schutb
  * 
  */
-public class InputBulletsTrialog extends ImportExtendedInputTrialog {
+abstract public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 
 	private static final String TRANSITION_TYPE = "Transition type:";
 
 	protected Control bulletArea;
 
 	/** Three type radiobuttons. */
-	private Button[] radioButtons = new Button[3];
+	protected Button[] radioButtons = new Button[3];
 
 	/* Initialized separately because setSelection does not generate an event. */
-	private String selectedBulletButtonName;
+	protected String selectedBulletButtonName;
 
 	protected BulletButtonNamesEnum myBulletButtonNamesEnum;
 
-	private BulletButtonNamesEnum bulletButtonNamesEnum;
+	protected BulletButtonNamesEnum bulletButtonNamesEnum;
 
-	private BulletButtonNamesEnum bulletButtonNamesEnum2;
+	protected BulletButtonNamesEnum bulletButtonNamesEnum2;
 
-	private BulletButtonNamesEnum bulletButtonNamesEnum3;
+	protected BulletButtonNamesEnum bulletButtonNamesEnum3;
 
 	public InputBulletsTrialog(Shell parentShell, String dialogTitle,
 			String dialogMessage, String initialValue, IInputValidator validator, 
@@ -117,10 +117,19 @@ public class InputBulletsTrialog extends ImportExtendedInputTrialog {
 		createRadioButton(composite, 2, bulletButtonNamesEnum3);
 		
 		// Set the default radio button
-		this.radioButtons[0].setSelection(true);
-		
-		this.selectedBulletButtonName = BulletButtonNamesEnum.ZERO.getBulletButtonName();
+// TODO(mondeelr) reactivate
+//		this.radioButtons[0].setSelection(true);
+//		this.selectedBulletButtonName = BulletButtonNamesEnum.ZERO.getBulletButtonName();
+	initializeRadioButtons();
+	// TODO ends.
 	}
+	abstract protected void initializeRadioButtons();
+//	{
+//		this.radioButtons[0].setVisible(false);
+//		this.radioButtons[1].setSelection(true);	
+//		this.selectedBulletButtonName = BulletButtonNamesEnum.USER_SPECIFIED.getBulletButtonName();
+//		RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel().equals(rootElementName)		this.radioButtons[2].setVisible(false);
+//	}
 
 	// id is the radio button number
 	// label is "categorical"

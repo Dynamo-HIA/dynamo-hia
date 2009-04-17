@@ -74,7 +74,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 					dataBindingContext, helpPanel, buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(1000, 400);
+			this.shell.setSize(1100, 400);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {

@@ -61,6 +61,10 @@ public class FileControlEnumHelp {
 	static final String[] transitionMatrixStrings = {
 			RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(), "transition",
 			"age", "sex", "from", "to", "percent" };
+	static final String[] transitionMatrixZeroStrings = {
+		RootElementNamesEnum.TRANSITIONMATRIX_ZERO.getNodeLabel()};
+	static final String[] transitionMatrixNettoStrings = {
+		RootElementNamesEnum.TRANSITIONMATRIX_NETTO.getNodeLabel()};
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
@@ -69,13 +73,18 @@ public class FileControlEnumHelp {
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
 			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(),
-			"transition", "trend" };
+			"trend" };
+	static final String[] transitionDriftZeroStrings = {
+		RootElementNamesEnum.TRANSITIONDRIFT_ZERO.getNodeLabel()};
 	/* W22CatCom */
 	static final String[] riskFactorPrevalenceCatStrings = {
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 					.getNodeLabel(), "prevalence", "age", "sex", "cat",
 			"percent" };
 	/* W22Con */
+	static final String[] riskFactorPrevalenceConStrings = {
+		RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
+				.getNodeLabel(), XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName(), XMLTagEntityEnum.PREVALENCES.getElementName()};
 	/* W22ComDur */
 	static final String[] riskFactorPrevalenceDurStrings = {
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
@@ -140,7 +149,6 @@ public class FileControlEnumHelp {
 	/* Subtrees. */
 	static final String[] classesStrings = { "classes", "class", "index",
 			"name" };
-	// TODO(mondeelr) Change "name" and "sex" tags to unique values.
 	static final String[] scenariosStrings = {
 			XMLTagEntityEnum.SCENARIOS.getElementName(),
 			XMLTagEntityEnum.SCENARIO.getElementName(),
@@ -180,4 +188,12 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.UNIT.getElementName(),
 			XMLTagEntityEnum.ACUTELYFATAL.getElementName(),
 			XMLTagEntityEnum.CUREDFRACTION.getElementName() };
+	static final String[] prevalencesContinuousStrings = {
+		XMLTagEntityEnum.PREVALENCES.getElementName(),
+		XMLTagEntityEnum.PREVALENCE.getElementName(),
+		XMLTagEntityEnum.AGE.getElementName(),
+		XMLTagEntityEnum.SEX.getElementName(),
+		XMLTagEntityEnum.MEAN.getElementName(),
+		XMLTagEntityEnum.STANDARDDEVIATION.getElementName(),
+		XMLTagEntityEnum.SKEWNESS.getElementName()};
 }

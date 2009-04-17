@@ -64,16 +64,23 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		layout.numColumns = numberOfCategories + 1;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
-		Label spaceLabel = new Label(this, SWT.NONE);
-		spaceLabel.setText(" ");
+		Label fromLabel = new Label(this, SWT.NONE);
+		fromLabel.setText("From:");
 		Label[] topLabels = new Label[numberOfCategories];
 		for (int count = 1; count <= numberOfCategories; count++) {
 			topLabels[count - 1] = new Label(this, SWT.NONE);
-			topLabels[count - 1].setText("T" + new Integer(count).toString());
+			topLabels[count - 1].setText(new Integer(count).toString());
+		}
+		Label toLabel = new Label(this, SWT.NONE);
+		toLabel.setText("To");
+		Label[] blankLabels = new Label[numberOfCategories];
+		for (int count = 1; count <= numberOfCategories; count++) {
+			blankLabels[count - 1] = new Label(this, SWT.NONE);
+			blankLabels[count - 1].setText(" ");
 		}
 		for (int sourceCount = 1; sourceCount <= numberOfCategories; sourceCount++) {
 			Label label = new Label(this, SWT.NONE);
-			label.setText("S" + new Integer(sourceCount).toString());
+			label.setText(new Integer(sourceCount).toString());
 			TypedHashMap<TransitionDestination> destinationMap = (TypedHashMap<TransitionDestination>) transitionFromClassToClassObject
 					.get(sourceCount);
 			int numberOfDestinations = destinationMap.size();

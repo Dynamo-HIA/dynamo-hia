@@ -1,9 +1,17 @@
 package nl.rivm.emi.dynamo.ui.main;
 
+import java.io.File;
+
+import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementation;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
+import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
+import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionDriftNettoGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
+import nl.rivm.emi.dynamo.ui.panels.button.TransitionDriftNettoButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -21,9 +29,11 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class TransitionDriftNettoModal extends AbstractDataModal {
-	
+
 	Log log = LogFactory.getLog(this.getClass().getName());
-	
+
+	TransitionDriftNettoObject nonGenericModelObject;
+
 	/**
 	 * 
 	 * Constructor
@@ -33,12 +43,13 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
-	 */	
+	 */
 	public TransitionDriftNettoModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {
+		// Decoupled rootElementName because of Garbage in, Garbage out.
 		super(parentShell, dataFilePath, configurationFilePath,
-				rootElementName, selectedNode);
+				FileControlEnum.TRANSITIONDRIFTNETTO.getRootElementName(), selectedNode);
 	}
 
 	@Override
@@ -50,17 +61,17 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 	protected synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = manufactureModelObject();
+			this.nonGenericModelObject = nonGenericManufactureModelObject();
 
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
+			Composite buttonPanel = new TransitionDriftNettoButtonPanel(this.shell);
+			((TransitionDriftNettoButtonPanel) buttonPanel)
+					.setModalParent(this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			TransitionDriftNettoGroup transitionDriftNettoGroup = new TransitionDriftNettoGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel);
-			transitionDriftNettoGroup
-					.setFormData(this.helpPanel.getGroup(), buttonPanel);
+					this.shell, this.nonGenericModelObject,
+					this.dataBindingContext, this.selectedNode, this.helpPanel);
+			transitionDriftNettoGroup.setFormData(this.helpPanel.getGroup(),
+					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
 			this.shell.setSize(900, 700);
@@ -69,44 +80,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 			while (!this.shell.isDisposed()) {
 				if (!display.readAndDispatch())
 					display.sleep();
-			}			
-			
-			/*
-			// ALTERNATIVE CODE WITH THE TRIALOG
-			// Call the input trialog modal here (trialog includes input field, import, ok and cancel buttons)
-			ImportExtendedInputTrialog inputTrialog = new ImportExtendedInputTrialog(shell, 
-					"Transition Drift Netto", "Trend", null, null);
-			
-			// TODO handle content
-			
-			// Set the value of the inputTrialog 
-			// TODO Replace with lotsOfData field is same as setFormData
-			inputTrialog.setValue("TREND"); 
-			// Open the trialog
-			int openValue = inputTrialog.open();
-			
-			log.debug("OpenValue is: " + openValue);
-			
-			// Returncode is the option selected on the trialog
-			int returnCode = inputTrialog.getReturnCode();
-	
-			log.debug("ReturnCode is: " + returnCode);
-			// OK or import has been selected
-			if (returnCode != Window.CANCEL) {
-				//TODO
-				
-				String trend = inputTrialog.getValue();
-				// Import has been selected
-				if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
-					//dataFile = this.getImportFile(); 
-				} else {
-					//???dataFile = savedFile;
-				}
-				
-				// Create the xml file with the value				
 			}
-			*/
-			
 		} catch (ConfigurationException e) {
 			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
 			box.setText("Processing " + this.configurationFilePath);
@@ -117,6 +91,45 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 			box.setText("Processing " + this.configurationFilePath);
 			box.setMessage(e.getMessage());
 			box.open();
-		}		
+		}
+	}
+
+	private TransitionDriftNettoObject nonGenericManufactureModelObject()
+			throws ConfigurationException, DynamoInconsistentDataException {
+		TransitionDriftNettoObject object = null;
+		TransitionDriftNettoFactoryImplementation factory = (TransitionDriftNettoFactoryImplementation) FactoryProvider
+				.getRelevantFactoryByRootNodeName(rootElementName);
+		if (factory == null) {
+			throw new ConfigurationException(
+					"No Factory found for rootElementName: "
+							+ this.rootElementName);
+		}
+		File dataFile = new File(this.dataFilePath);
+
+		if (dataFile.exists()) {
+			// The configuration file with data already exists, fill the modal
+			// with existing data
+			if (dataFile.isFile() && dataFile.canRead()) {
+				object = factory.manufacture(dataFile, true,
+						this.rootElementName);
+				if (object == null) {
+					throw new ConfigurationException(
+							"DataModel could not be constructed.");
+				}
+			} else {
+				// No file has been selected, continue without exceptions
+				throw new ConfigurationException(this.dataFilePath
+						+ " is no file or cannot be read.");
+			}
+		} else {
+			// The configuration file with data does not yet exist, create a new
+			// screen object with default data
+			object = factory.manufactureDefault(true);
+		}
+		return object;
+	}
+
+	public TransitionDriftNettoObject getData() {
+		return nonGenericModelObject;
 	}
 }

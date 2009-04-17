@@ -18,6 +18,7 @@ import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -68,8 +69,10 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 				 * RootElementNamesEnum.RISKFACTOR_CONTINUOUS in version 1.0
 				 * 
 				 */
-				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
-						.equals(rootElementName)) {
+				if ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
+						.equals(rootElementName))
+						|| (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+								.getNodeLabel().equals(rootElementName))) {
 					// Call the input trialog modal here (trialog includes input
 					// field,
 					// import, ok and cancel buttons)
@@ -161,10 +164,9 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 					} else {
 						if (communicationEnum
 								.equals(RiskFactorStringConstantsEnum.RISKFACTORTRANSITIONS)) {
-							theModal = new TransitionMatrixModal(
-									shell,
-									dataFile.getAbsolutePath(),
-									savedFile.getAbsolutePath(),
+							theModal = new TransitionMatrixModal(shell,
+									dataFile.getAbsolutePath(), savedFile
+											.getAbsolutePath(),
 									RootElementNamesEnum.TRANSITIONMATRIX
 											.getNodeLabel(), node);
 						} else {
@@ -199,11 +201,21 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(rootElementName)) {
-						MessageBox messageBox = new MessageBox(shell,
-								SWT.ERROR_NOT_IMPLEMENTED);
-						messageBox.setMessage("\"" + rootElementName
-								+ "\" not yet implemented.");
-						messageBox.open();
+						if (communicationEnum
+								.equals(RiskFactorStringConstantsEnum.RISKFACTORPREVALENCES)) {
+							theModal = new RiskFactorContinuousPrevalencesModal(
+									shell,
+									dataFile.getAbsolutePath(),
+									savedFile.getAbsolutePath(),
+									RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
+											.getNodeLabel(), node);
+						} else {
+							MessageBox messageBox = new MessageBox(shell,
+									SWT.ERROR_NOT_IMPLEMENTED);
+							messageBox.setMessage("\"" + rootElementName
+									+ "\" not yet implemented.");
+							messageBox.open();
+						}
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName)) {

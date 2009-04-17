@@ -1,6 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -15,21 +17,17 @@ import org.eclipse.swt.widgets.Shell;
 public class TransitionDriftNettoGroup {
 	Group theGroup;
 
-	public TransitionDriftNettoGroup(Shell shell, TypedHashMap lotsOfData,
+	public TransitionDriftNettoGroup(Shell shell, TransitionDriftNettoObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		EntityInDefaultDirNamePanel entityNameGroup = new EntityInDefaultDirNamePanel(theGroup,
 				selectedNode, helpGroup);
 		entityNameGroup.handlePlacementInContainer();
-		
-		
 		TransitionDriftNettoParameterGroup parameterGroup = new TransitionDriftNettoParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
-		
-		
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
 	}
 

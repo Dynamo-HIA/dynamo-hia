@@ -73,7 +73,21 @@ public class StAXAgnosticGroupWriter {
 			writer.add(event);
 			writer.flush();
 		} else {
-			log.info("Model is null, nothing to write.");
+			log.debug("Model is null, writing an empty file for rootElementName: " + rootElementName + ".");
+			XMLOutputFactory factory = XMLOutputFactory.newInstance();
+			Writer fileWriter;
+			fileWriter = new FileWriter(outputFile);
+			XMLEventWriter writer = factory.createXMLEventWriter(fileWriter);
+			XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+			XMLEvent event = eventFactory.createStartDocument();
+			writer.add(event);
+			event = eventFactory.createStartElement("", "", rootElementName);
+			writer.add(event);
+			event = eventFactory.createEndElement("", "", rootElementName);
+			writer.add(event);
+			event = eventFactory.createEndDocument();
+			writer.add(event);
+			writer.flush();
 		}
 	}
 

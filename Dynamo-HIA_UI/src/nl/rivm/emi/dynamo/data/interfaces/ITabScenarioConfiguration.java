@@ -10,6 +10,7 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
  * 
  */
 public interface ITabScenarioConfiguration {
+
 	public String getName();
 
 	public void setName(String name);
@@ -41,6 +42,7 @@ public interface ITabScenarioConfiguration {
 	public abstract String getAltPrevalenceFileName();
 
 	public abstract void setAltPrevalenceFileName(String altPrevalenceFileName);
+
 
 	public void setSuccessRate(Integer successRate);
 

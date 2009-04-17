@@ -1,8 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Mean;
+
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
+import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
+import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -16,22 +17,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
-public class TransitionDriftParameterGroup {
-	private static final String AGE = "Age";
-	private static final String MEAN = "Mean";
-	
+public class RiskFactorContinuousPrevalencesParameterGroup {
 	Group theGroup;
 
-	public TransitionDriftParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
-			final HelpGroup helpGroup) {
+	public RiskFactorContinuousPrevalencesParameterGroup(Composite parent,
+			RiskFactorContinuousPrevalencesObject excessMortalityObject,
+			DataBindingContext dataBindingContext, 
+			final HelpGroup helpGroup, UnitTypeComboModifyListener unitTypeModifyListener){
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		FormData formData = new FormData();
+
+		// formData.top = new FormAttachment(label, 5);
 		formData.top = new FormAttachment(0, 5);
+
 		formData.right = new FormAttachment(100, 0);
 		formData.bottom = new FormAttachment(100, 0);
 		formData.left = new FormAttachment(0, 0);
@@ -39,25 +41,21 @@ public class TransitionDriftParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-
-//		PanelMatrix panelMatrix = new PanelMatrix();
-//		PanelMatrixItem panelMatrixItem = new PanelMatrixItem(AGE, AGE, 0, new Age());
-//		panelMatrix.put(AGE, panelMatrixItem);
-//		panelMatrixItem = new PanelMatrixItem(MEAN, MEAN, 1, new Mean());
-//		panelMatrix.put(MEAN, panelMatrixItem);
-		
-		Composite parameterDataPanel = new TransitionDriftParameterDataPanel(
-				scrolledContainer, null, lotsOfData, dataBindingContext,
-				helpGroup);
-		
-		
-				FormData parameterFormData = new FormData();
+		 Composite parameterDataPanel = new RiskFactorContinuousPrevalencesDataPanel(
+				scrolledContainer, null, excessMortalityObject,
+				dataBindingContext, helpGroup, unitTypeModifyListener);
+		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
-
 		parameterFormData.right = new FormAttachment(100, -5);
-		parameterFormData.bottom = new FormAttachment(100, -2);
 		parameterFormData.left = new FormAttachment(0, 5);
+		parameterFormData.bottom = new FormAttachment(100,
+				-2);
 		parameterDataPanel.setLayoutData(parameterFormData);
+		FormData scrolledContainerFormData = new FormData();
+		scrolledContainerFormData.top = new FormAttachment(0, 5);
+		scrolledContainerFormData.right = new FormAttachment(100, 0);
+		scrolledContainerFormData.left = new FormAttachment(0, 0);
+		scrolledContainerFormData.bottom = new FormAttachment(100, 0);
 		scrolledContainer.setContent(parameterDataPanel);
 		scrolledContainer.setExpandHorizontal(true);
 		scrolledContainer.setExpandVertical(true);

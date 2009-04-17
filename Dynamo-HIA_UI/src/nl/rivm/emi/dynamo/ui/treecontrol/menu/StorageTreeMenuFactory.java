@@ -48,7 +48,7 @@ public class StorageTreeMenuFactory {
 
 	Shell shell;
 	TreeViewer treeViewer;
-	ContextMenuFactory contextMenuFactory = new ContextMenuFactory();
+	RiskFactorContextMenuFactory contextMenuFactory = new RiskFactorContextMenuFactory();
 
 	public StorageTreeMenuFactory(Shell shell, TreeViewer treeViewer) {
 		this.shell = shell;
@@ -271,7 +271,7 @@ public class StorageTreeMenuFactory {
 		} else {
 			if (StandardTreeNodeLabelsEnum.TRANSITIONSDIR.getNodeLabel()
 					.equalsIgnoreCase(nodeLabel)) {
-				createMenu4Transitions(manager, selection);
+				createMenu4RiskFactorTransitions(manager, selection);
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR
 						.getNodeLabel().equalsIgnoreCase(nodeLabel)) {
@@ -446,62 +446,63 @@ public class StorageTreeMenuFactory {
 	 * @param selection
 	 * @throws ConfigurationException
 	 */
-	private void createMenu4Transitions(IMenuManager manager,
+	private void createMenu4RiskFactorTransitions(IMenuManager manager,
 			IStructuredSelection selection) throws ConfigurationException {
-		FreeName4RiskFactorXMLFileAction action = new FreeName4RiskFactorXMLFileAction(
-				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RiskFactorStringConstantsEnum.RISKFACTORTRANSITIONS);
-		action.setText("New risk factor transitions file");
-		manager.add(action);
+				// FreeName4RiskFactorXMLFileAction action = new
+		// FreeName4RiskFactorXMLFileAction(
+		// shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+		// RiskFactorStringConstantsEnum.RISKFACTORTRANSITIONS);
+		 String riskFactorType = getRiskFactorConfigurationRootElementName(
+				selection);
+		
+		 // If the riskfactor is continuous, the transition type is
+		 // transitiondrift,
+		 // if the riskfactor is compound or categorical, the transition type
+		 // is
+		 // transitionmatrix,
+		 String transitionType;
+		 if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+		 .equalsIgnoreCase(riskFactorType)) {
+		 transitionType = RootElementNamesEnum.TRANSITIONDRIFT
+		 .getNodeLabel();
+		 } else {
+		 transitionType = RootElementNamesEnum.TRANSITIONMATRIX
+		 .getNodeLabel();
+		 }
+		 // Create the action for the transition dialog (W21.1)
+		 InputBulletsFreeXMLFileAction action = new
+		 InputBulletsFreeXMLFileAction(
+		 shell,
+		 treeViewer,
+		 (DirectoryNode) selection.getFirstElement(),
+		 transitionType,
+		 Util
+		 .deriveEntityLabelAndValueFromRiskSourceNode((BaseNode) selection
+		 .getFirstElement())[0], riskFactorType);
+		
+		 action.setText("New transitions file");
+		 manager.add(action);
+	}
 
-		// Old implementation
-		//
-//		File configurationFile = null;
-//
-//		DirectoryNode fileNode = (DirectoryNode) selection.getFirstElement();
-//
-//		Object[] grandChildNodes = ((ParentNode) fileNode.getParent())
-//				.getChildren();
-//		for (Object grandChildNode : grandChildNodes) {
-//			String grandChildNodeLabel = ((BaseNode) grandChildNode)
-//					.deriveNodeLabel();
-//			if ("configuration".equals(grandChildNodeLabel)) {
-//				configurationFile = ((BaseNode) grandChildNode)
-//						.getPhysicalStorage();
-//			}
-//		}
-//		String riskFactorType = ConfigurationFileUtil
-//				.extractRootElementName(configurationFile);
-//
-//		// If the riskfactor is continuous, the transition type is
-//		// transitiondrift,
-//		// if the riskfactor is compound or categorical, the transition type is
-//		// transitionmatrix,
-//		String transitionType;
-//		if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
-//				.equalsIgnoreCase(riskFactorType)) {
-//			transitionType = RootElementNamesEnum.TRANSITIONDRIFT
-//					.getNodeLabel();
-//		} else {
-//			transitionType = RootElementNamesEnum.TRANSITIONMATRIX
-//					.getNodeLabel();
-//		}
-//		// Create the action for the transition dialog (W21.1)
-//		InputBulletsFreeXMLFileAction action = new InputBulletsFreeXMLFileAction(
-//				shell,
-//				treeViewer,
-//				(DirectoryNode) selection.getFirstElement(),
-//				transitionType,
-//				Util
-//						.deriveEntityLabelAndValueFromRiskSourceNode((BaseNode) selection
-//								.getFirstElement())[0], riskFactorType);
-//
-//		// DynamoHIADummyDebugAction action = new
-//		// DynamoHIADummyDebugAction(shell);
-//		action.setText("New transitions file");
-//		// action.setSelectionPath(((BaseNode) selection.getFirstElement())
-//		// .getPhysicalStorage().getAbsolutePath());
-//		manager.add(action);
+	private String getRiskFactorConfigurationRootElementName(
+			IStructuredSelection selection)
+			throws DynamoConfigurationException {
+		 File configurationFile = null;
+		DirectoryNode transitionsDirectoryNode = (DirectoryNode) selection.getFirstElement();
+		
+		 Object[] siblingNodes = ((ParentNode) transitionsDirectoryNode.getParent())
+		 .getChildren();
+		 for (Object siblingNode : siblingNodes) {
+		 String siblingNodeLabel = ((BaseNode) siblingNode)
+		 .deriveNodeLabel();
+		 if ("configuration".equals(siblingNodeLabel)) {
+		 configurationFile = ((BaseNode) siblingNode)
+		 .getPhysicalStorage();
+		 }
+		 }
+		 String riskFactorType = ConfigurationFileUtil
+		 .extractRootElementName(configurationFile);
+		return riskFactorType;
 	}
 
 	/**
@@ -636,7 +637,6 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
-
 	/**
 	 * TODO Precondition: The selected Node maps to an XML file.
 	 * 
@@ -725,8 +725,7 @@ public class StorageTreeMenuFactory {
 				action.setText("Edit");
 				manager.add(action);
 			} else {
-				addDummy(manager, selection,
-						"Unexpected rootelementname.");
+				addDummy(manager, selection, "Unexpected rootelementname.");
 			}
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
@@ -818,7 +817,8 @@ public class StorageTreeMenuFactory {
 														.equals(ConfigurationFileUtil
 																.extractRootElementName(node
 																		.getPhysicalStorage()))) {
-											// File cannot be edited, only created, no
+											// File cannot be edited, only
+											// created, no
 											// further actions
 											addTransactionNoAction(manager,
 													selection,

@@ -27,9 +27,11 @@ import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
+import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementation;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
@@ -37,8 +39,8 @@ import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 public enum DispatchEnum {
 	/* W01 */
-	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(), 
-			new	DynamoSimulationFactory(), null), 
+	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(),
+			new DynamoSimulationFactory(), null),
 	/* W11 */
 	POPULATIONSIZE(RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(),
 			new PopulationSizeFactory(), null),
@@ -56,7 +58,7 @@ public enum DispatchEnum {
 			.getNodeLabel(), new RiskFactorCategoricalFactory(), null),
 	/* W20Con */
 	RISKFACTOR_CONTINUOUS(RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-			.getNodeLabel(), new RiskFactorContinuousFactory(), null),	
+			.getNodeLabel(), new RiskFactorContinuousFactory(), null),
 	/* W20Cmp */
 	RISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
@@ -66,9 +68,13 @@ public enum DispatchEnum {
 			new TransitionDriftFactory(), null), // TODO
 	/* W21TdId */// TODO
 	/* W21TdFp */// TODO
+	TRANSITIONDRIFT_NETTO(RootElementNamesEnum.TRANSITIONDRIFT_NETTO
+			.getNodeLabel(), new TransitionDriftNettoFactoryImplementation(),
+			null), // 
 	/* W21TmMA */
+
 	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
-			new TransitionMatrixFactory(), null),			
+			new TransitionMatrixFactory(), null),
 	/* W21TmId */
 	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO
 			.getNodeLabel(), /*
@@ -89,7 +95,7 @@ public enum DispatchEnum {
 	/* W22Con */
 	RISKFACTORPREVALENCES_CONTINUOUS(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
-					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
+					.getNodeLabel(), new RiskFactorPrevalencesContinuousFactory(), null), // TODO
 	/* W22ComDur */
 	RISKFACTORPREVALENCES_DURATION(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
@@ -129,7 +135,7 @@ public enum DispatchEnum {
 			new DiseaseIncidencesFactory(), null),
 	/* W33 */
 	EXCESSMORTALITY(XMLTagEntityEnum.EXCESSMORTALITY.getElementName(),
-			new ExcessMortalityFactory(), null), 
+			new ExcessMortalityFactory(), null),
 	/* W34Cat */
 	RRISKFORRISKFACTOR_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL

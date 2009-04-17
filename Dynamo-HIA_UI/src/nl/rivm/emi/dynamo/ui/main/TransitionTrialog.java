@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.main;
 
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
 import org.eclipse.jface.dialogs.IInputValidator;
@@ -10,39 +11,70 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.jfree.util.Log;
 
 /**
  * 
  * Adds the Transition Panel to the InputBulletsTrialog modal.
  * 
- * The Transition Panel shows the risk factor name and type values.
- * (Risk Factor is the top panel!)
+ * The Transition Panel shows the risk factor name and type values. (Risk Factor
+ * is the top panel!)
  * 
  * @author schutb
  * 
  */
 public class TransitionTrialog extends InputBulletsTrialog {
-	
+
 	private static final String NAME = "Risk_Factor name:";
 	private static final String TYPE = "Risk_Factor type:";
-	
+
 	private String riskFactorName;
 	private String riskFactorType;
 
 	private Control riskFactorArea;
-	
+	private String rootElementName;
+
 	public TransitionTrialog(Shell parentShell, String dialogTitle,
-			String dialogMessage, String initialValue, IInputValidator validator,
-			String riskFactorName, String riskFactorType) {
+			String dialogMessage, String initialValue,
+			IInputValidator validator, String riskFactorName,
+			String riskFactorType) {
 		super(parentShell, dialogTitle, dialogMessage, initialValue, validator,
-				BulletButtonNamesEnum.ZERO, BulletButtonNamesEnum.USER_SPECIFIED, 
-				BulletButtonNamesEnum.NETTO
-				);
+				BulletButtonNamesEnum.ZERO,
+				BulletButtonNamesEnum.USER_SPECIFIED,
+				BulletButtonNamesEnum.NETTO);
 		this.riskFactorName = riskFactorName;
 		this.riskFactorType = riskFactorType;
 	}
 
-	
+	/**
+	 * Temporary constructor to allow selective disabling (well, hiding) of
+	 * radiobuttons.
+	 * 
+	 * @param parentShell
+	 * @param dialogTitle
+	 * @param dialogMessage
+	 * @param initialValue
+	 * @param validator
+	 * @param riskFactorName
+	 * @param riskFactorType
+	 * @param rootElementName
+	 */
+	public TransitionTrialog(Shell parentShell, String dialogTitle,
+			String dialogMessage, String initialValue,
+			IInputValidator validator, String riskFactorName,
+			String riskFactorType, String rootElementName) {
+		this(parentShell, dialogTitle, dialogMessage, initialValue, validator,
+				riskFactorName, riskFactorType);
+		this.rootElementName = rootElementName;
+	}
+
+	protected void initializeRadioButtons() {
+		Log.debug("RootElementName is: " + rootElementName);
+		radioButtons[1].setSelection(true);
+		selectedBulletButtonName = BulletButtonNamesEnum.USER_SPECIFIED
+				.getBulletButtonName();
+	}
+
 	@Override
 	protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, 0);
@@ -57,13 +89,13 @@ public class TransitionTrialog extends InputBulletsTrialog {
 		initializeDialogUnits(composite);
 
 		// Create the components of the bullet trialog
-		this.riskFactorArea = createRiskFactorArea(composite);		
+		this.riskFactorArea = createRiskFactorArea(composite);
 		this.dialogArea = createDialogArea(composite);
 		this.bulletArea = createBulletArea(composite);
 		this.buttonBar = createButtonBar(composite);
 
 		return composite;
-	}	
+	}
 
 	protected Control createRiskFactorArea(Composite parent) {
 		Composite composite = new Composite(parent, 0);
@@ -86,30 +118,25 @@ public class TransitionTrialog extends InputBulletsTrialog {
 		return composite;
 	}
 
-
 	private void createNameAndTypeOfRiskFactorArea(Composite composite) {
 		createRiskFactorName(composite, this.riskFactorName);
-		createRiskFactorType(composite, this.riskFactorType);		
+		createRiskFactorType(composite, this.riskFactorType);
 	}
 
-	private void createRiskFactorName(Composite composite,
-			String riskFactorName) {
+	private void createRiskFactorName(Composite composite, String riskFactorName) {
 		((GridLayout) composite.getLayout()).numColumns += 1;
 		Label riskFactorNameLabel = new Label(composite, SWT.NONE);
-		riskFactorNameLabel.setText(NAME);		
+		riskFactorNameLabel.setText(NAME);
 		Label riskFactorNameValueLabel = new Label(composite, SWT.NONE);
 		riskFactorNameValueLabel.setText(this.riskFactorName);
 	}
 
-	private void createRiskFactorType(Composite composite,
-			String riskFactorType) {
+	private void createRiskFactorType(Composite composite, String riskFactorType) {
 		((GridLayout) composite.getLayout()).numColumns += 1;
 		Label riskFactorTypeLabel = new Label(composite, SWT.NONE);
 		riskFactorTypeLabel.setText(TYPE);
 		Label riskFactorTypeValueLabel = new Label(composite, SWT.NONE);
-		riskFactorTypeValueLabel.setText(this.riskFactorType);		
+		riskFactorTypeValueLabel.setText(this.riskFactorType);
 	}
 
-	
-	
 }
