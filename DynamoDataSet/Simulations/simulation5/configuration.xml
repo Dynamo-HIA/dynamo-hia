@@ -56,7 +56,7 @@
 	</riskfactor>
 	</riskfactors>
 	<RRs>
-		<RR><RRindex>1</RRindex>
+		<RR><RRindex>0</RRindex>
 			<isRRfrom>riskfactor1</isRRfrom>
 			<isRRto>disease1</isRRto>
 			<isRRFile>relrisk1riskfactor1</isRRFile>

@@ -53,16 +53,19 @@
 	</riskfactor>
 	<RRs>
 		<RR>
+		    <RRindex>0</RRindex>
 			<isRRfrom>riskfactorcontinu</isRRfrom>
 			<isRRto>disease1</isRRto>
 			<isRRFile>relrisk1riskfactorcontinu</isRRFile>
 		</RR>
 		<RR>
+		    <RRindex>1</RRindex>
 			<isRRfrom>riskfactorcontinu</isRRfrom>
 			<isRRto>disease2</isRRto>
 			<isRRFile>relrisk2riskfactorcontinu</isRRFile>
 		</RR>
                  <RR>
+			<RRindex>2</RRindex>                 
 			<isRRfrom>disease1</isRRfrom>
 			<isRRto>disease2</isRRto>
 			<isRRFile>relriskdisease1</isRRFile>
