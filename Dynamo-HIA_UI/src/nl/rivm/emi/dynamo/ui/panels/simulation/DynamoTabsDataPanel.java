@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -71,13 +72,32 @@ public class DynamoTabsDataPanel {
 	        public void handleEvent(Event event) {
                 TabItem item = (TabItem) event.item;
 	            String tabId=item.getText();
-			    
-			    if (tabId=="Risk Factor") tab0.redraw();
-			    if (tabId=="Diseases") tab1.redraw();
-			    if (tabId=="Relative Risks") tab2.redraw();
-			    if (tabId=="Scenarios") tab3.redraw();
-			    
+
+		    	try {
+				    if (tabId=="Risk Factor") tab0.redraw();
+				    if (tabId=="Diseases") tab1.redraw();
+				    if (tabId=="Relative Risks") {			    	
+							tab2.refreshFirstTab();
+					    	tab2.redraw();			    	
+				    }
+				    if (tabId=="Scenarios") {
+							tab3.refreshFirstTab();
+					    	tab3.redraw();
+				    }
+				} catch (ConfigurationException ce) {
+					handleErrorMessage(ce);
+				}			    	
         }
+	        
+	        
+    	private void handleErrorMessage(Exception e) {    	
+    		e.printStackTrace();
+    		MessageBox box = new MessageBox(DynamoTabsDataPanel.this.myParent.getShell(),
+    				SWT.ERROR_UNSPECIFIED);
+    		box.setText("Error occured during creation of a new tab " + e.getMessage());
+    		box.setMessage(e.getMessage());
+    		box.open();
+    	}	        
 
 	    });
 

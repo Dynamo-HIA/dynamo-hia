@@ -23,7 +23,10 @@ public class ScenarioTab extends NestedTab {
 	private Log log = LogFactory.getLog("ScenarioTab");
 	
 	private ScenarioSelectionGroup scenarioSelectionGroup;
+	private ScenarioResultGroup scenarioResultGroup;
 	private DynamoTabDataManager dynamoTabDataManager;
+
+	
 
 	/**
 	 * @param defaultSelections 
@@ -64,7 +67,7 @@ public class ScenarioTab extends NestedTab {
 					this.dynamoSimulationObject
 					);
 		
-		ScenarioResultGroup ScenarioResultGroup =
+		this.scenarioResultGroup =
 			new ScenarioResultGroup(selections, this.plotComposite,
 					selectedNode, helpGroup,
 					scenarioSelectionGroup.scenarioDefGroup,
@@ -80,5 +83,12 @@ public class ScenarioTab extends NestedTab {
 
 	public void removeTabDataObject() throws ConfigurationException {
 		this.dynamoTabDataManager.removeFromDynamoSimulationObject();
-	}	
+	}
+
+	public void refreshResultGroup() throws ConfigurationException {
+		this.scenarioResultGroup.refreshGroupDropDown();
+		
+	}
+	
+	
 }

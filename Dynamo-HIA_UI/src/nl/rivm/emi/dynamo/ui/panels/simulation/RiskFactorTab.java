@@ -120,7 +120,7 @@ public class RiskFactorTab {
 	 */
 	public void redraw(){
 		log.debug("REDRAW THIS");
-		this.plotComposite.redraw();		
+		this.plotComposite.redraw();
 	}	
 	
 }

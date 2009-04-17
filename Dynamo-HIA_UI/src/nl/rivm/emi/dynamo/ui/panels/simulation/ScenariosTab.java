@@ -79,6 +79,11 @@ public class ScenariosTab extends TabPlatform {
 	public void refreshNestedTab(NestedTab nestedTab)
 			throws ConfigurationException {
 		ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
-		scenarioTab.refreshSelectionGroup();		
+		//scenarioTab.refreshSelectionGroup();
+		scenarioTab.refreshResultGroup();
 	}
+	
+	public void refreshFirstTab() throws ConfigurationException {
+		refreshNestedTab(this.getTabManager().nestedTabs.get(SCENARIO + "1"));
+	}	
 }

@@ -88,11 +88,11 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 		log.debug("setChosenToList111AFTER: " + this);
 	}
 
-	public void removeChosenFromList(String chosenToName) {
-		log.debug("removeChosenFromListChosendiseasesXXXBEFORE: " + this);
+	public void removeChosenToList(String chosenToName) {
+		log.debug("removeChosenToListChosendiseasesXXXBEFORE: " + this);
 		log.debug("removename:" + chosenToName);		
 		this.remove(chosenToName);
-		log.debug("removeChosenFromListXXXAFTER: " + this);
+		log.debug("removeChosenToListXXXAFTER: " + this);
 	}
 	
 	/**
@@ -108,8 +108,7 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 			Set<String> completeFromList) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
-			return (String) this.getChoosableFromNames(currentFromName, completeFromList) 
-				.iterator().next();	
+			return (String) this.getChoosableFromNames(currentFromName, completeFromList).iterator().next();	
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
 		}

@@ -33,6 +33,8 @@ public class ScenarioResultGroup {
 	private GenericComboModifyListener scenarioDropDownModifyListener;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
+	private GenericDropDownPanel transitionDropDownPanel;
+	private GenericDropDownPanel riskFactorPrevalenceDropDownPanel;
 	
 	public ScenarioResultGroup(Set<String> selections,
 			Composite plotComposite,
@@ -78,14 +80,14 @@ public class ScenarioResultGroup {
 			}
 		}
 		
-		GenericDropDownPanel transitionDropDownPanel = 
+		this.transitionDropDownPanel = 
 			createDropDown(TRANSITION, 
 					dynamoTabDataManager.getDropDownSet(
 							TRANSITION, chosenRiskFactorName));
 		this.scenarioDropDownModifyListener.
 			registerDropDown(transitionDropDownPanel);
 		
-		GenericDropDownPanel riskFactorPrevalenceDropDownPanel = 
+		this.riskFactorPrevalenceDropDownPanel = 
 			createDropDown(RISK_FACTOR_PREVALENCE, 
 					dynamoTabDataManager.getDropDownSet(
 					RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
@@ -102,5 +104,10 @@ public class ScenarioResultGroup {
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, 
 				null, this.dynamoTabDataManager);		
+	}
+
+	public void refreshGroupDropDown() throws ConfigurationException {
+		this.transitionDropDownPanel.refresh();
+		this.riskFactorPrevalenceDropDownPanel.refresh();		
 	}
 }

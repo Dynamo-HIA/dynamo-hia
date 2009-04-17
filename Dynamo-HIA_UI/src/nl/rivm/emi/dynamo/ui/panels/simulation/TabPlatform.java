@@ -52,9 +52,8 @@ public abstract class TabPlatform extends Tab {
 		this.tabManager = 
 			new TabManager(this.plotComposite, this.selectedNode, 
 					this.dynamoSimulationObject, this.dataBindingContext, 
-					this.helpGroup, this);		
-		
-		this.tabManager.createDefaultTabs();	
+					this.helpGroup, this);	
+		this.tabManager.createDefaultTabs();
 		
 		// Create the create and delete buttons and their listeners:
 		// add the tabManager methods		

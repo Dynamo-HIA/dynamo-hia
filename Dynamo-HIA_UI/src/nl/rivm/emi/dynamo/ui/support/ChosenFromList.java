@@ -58,7 +58,7 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 *            be able to be chosen again.
 	 * @return
 	 */
-	public Set<String> getChoosableFromNames(String currentToName, 
+	public Set<String> getChoosableToNames(String currentToName, 
 			Set<String> completeToList) {
 		log.debug("currentToName: " + currentToName);
 		this.remove(currentToName);
@@ -81,17 +81,17 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * 
 	 * @param chosenDiseaseName
 	 */
-	public void setChosenToList(String chosenToName) {
-		log.debug("setChosenToList" + chosenToName);
-		log.debug("setChosenToList111BEFORE: " + this);
-		this.add(chosenToName);
-		log.debug("setChosenToList111AFTER: " + this);
+	public void setChosenFromList(String chosenFromName) {
+		log.debug("setChosenFromList" + chosenFromName);
+		log.debug("setChosenFromList111BEFORE: " + this);
+		this.add(chosenFromName);
+		log.debug("setChosenFromList111AFTER: " + this);
 	}
 
-	public void removeChosenFromList(String chosenToName) {
+	public void removeChosenFromList(String chosenFromName) {
 		log.debug("removeChosenFromListChosendiseasesXXXBEFORE: " + this);
-		log.debug("removename:" + chosenToName);		
-		this.remove(chosenToName);
+		log.debug("removename:" + chosenFromName);		
+		this.remove(chosenFromName);
 		log.debug("removeChosenFromListXXXAFTER: " + this);
 	}
 	
@@ -108,8 +108,8 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 			Set<String> completeFromList) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
-			return (String) this.getChoosableFromNames(currentToName, completeFromList) 
-				.iterator().next();	
+			String result = this.getChoosableToNames(currentToName, completeFromList).iterator().next();
+			return result;
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
 		}
