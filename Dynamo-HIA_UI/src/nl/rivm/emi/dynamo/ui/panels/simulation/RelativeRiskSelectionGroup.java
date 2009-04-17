@@ -37,6 +37,10 @@ public class RelativeRiskSelectionGroup {
 	private GenericDropDownPanel toDropDownPanel;	
 	private HelpGroup helpGroup;
 
+	private GenericComboModifyListener fromDropDownModifyListener;
+
+	private GenericComboModifyListener toDropDownModifyListener;
+
 	public RelativeRiskSelectionGroup(String tabName, 
 			Set<String> set, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, 
@@ -69,28 +73,28 @@ public class RelativeRiskSelectionGroup {
 		formData.bottom = new FormAttachment(44, 0);
 		group.setLayoutData(formData);					
 		
-		String chosenRiskFactorName = null;
+		String chosenIndexSelection = null;
 		if (this.selections != null) {
-			for (String chosenName : this.selections) {
-				chosenRiskFactorName = chosenName;		
-			}			
+			for (String chosenIndex : selections) {
+				chosenIndexSelection = chosenIndex;		
+			}
 		}
 		
 		this.fromDropDownPanel = 
 			createDropDown(FROM, dynamoTabDataManager.
-					getDropDownSet(FROM, chosenRiskFactorName), 
+					getDropDownSet(FROM, chosenIndexSelection), 
 					dynamoTabDataManager
 					);
-		this.dropDownModifyListener =
+		this.fromDropDownModifyListener =
 			fromDropDownPanel.getGenericComboModifyListener();
 		
 		
 		this.toDropDownPanel = 
 			createDropDown(TO, dynamoTabDataManager.
-					getDropDownSet(TO, chosenRiskFactorName), 
+					getDropDownSet(TO, chosenIndexSelection), 
 					dynamoTabDataManager
 					);
-		this.dropDownModifyListener =
+		this.toDropDownModifyListener =
 			toDropDownPanel.getGenericComboModifyListener();
 		
 	}
@@ -106,13 +110,22 @@ public class RelativeRiskSelectionGroup {
 				dynamoTabDataManager);		
 	}
 	
+	/*
 	public GenericComboModifyListener getDropDownModifyListener() {
 		return this.dropDownModifyListener;
-	}
+	}*/
 	
 
 	public void refreshSelectionDropDown() throws ConfigurationException {
 		this.fromDropDownPanel.refresh();		
 		this.toDropDownPanel.refresh();
+	}
+
+	public GenericComboModifyListener getFromDropDownModifyListener() {
+		return this.fromDropDownModifyListener;
+	}
+
+	public GenericComboModifyListener getToDropDownModifyListener() {
+		return this.toDropDownModifyListener;
 	}
 }

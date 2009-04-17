@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
@@ -78,16 +79,17 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						log.error("conf.getDalyWeightsFileName()" + conf.getDalyWeightsFileName());
 					}*/
 
-					Map map = ((DynamoSimulationObject) modelObject).getScenarioConfigurations();
-					Set<String> keys = map.keySet();
-					for (String key : keys) {
-						ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map.get(key);
-						log.error("conf.getName()" + conf.getName());
-						log.error("conf.getMinAge()" + conf.getMinAge());
-						log.error("conf.getMaxAge()" + conf.getMaxAge());
-						log.error("conf.getTargetSex()" + conf.getTargetSex());
-						log.error("conf.getAltTransitionFileName()" + conf.getAltTransitionFileName());
-						log.error("conf.getAltPrevalenceFileName()" + conf.getAltPrevalenceFileName());
+					Map map = ((DynamoSimulationObject) modelObject).getRelativeRiskConfigurations();
+					Set<Integer> keys = map.keySet();
+					for (Integer key : keys) {
+						TabRelativeRiskConfigurationData conf = 
+							(TabRelativeRiskConfigurationData) map.get(key);
+						log.error("conf.getName()" + conf.getDataFileName());
+						if (conf.getDataFileName() == null
+								|| conf.getDataFileName().isEmpty()) {
+							throw new DynamoConfigurationException("The Relative Risk field" +
+									"is empty of Relative Risks is empty");
+						}
 					}
 					/**
 					 * TODO REMOVE: LOGGING ABOVE

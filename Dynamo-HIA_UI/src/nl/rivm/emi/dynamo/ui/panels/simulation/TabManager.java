@@ -111,11 +111,12 @@ public class TabManager {
 	 * @throws ConfigurationException
 	 */
 	public void createDefaultTabs() throws DynamoConfigurationException, ConfigurationException {
-		Set<String> defaultTabKeyValues = (Set<String>) this.platform.getConfigurations();			
+		Set<String> defaultTabKeyValues = this.platform.getConfigurations();
+		log.debug("defaultTabKeyValues111" + defaultTabKeyValues);
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
-			log.debug("defaultTabKeyValues" + defaultTabKeyValues);
+			log.debug("defaultTabKeyValue222" + defaultTabKeyValue);
 			NestedTab nestedTab = this.platform.createNestedDefaultTab(keyValues);
 			log.debug("CREATING DEFAULT NESTEDTABS " + nestedTab);
 			this.nestedTabs.put(nestedTab.getName(), nestedTab);

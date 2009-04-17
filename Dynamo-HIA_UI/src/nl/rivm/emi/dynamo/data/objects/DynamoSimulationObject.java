@@ -274,7 +274,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations() {
-		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RELATIVERISK
+		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
 		Set<Object> keySet = relativeRisksMap.keySet();
@@ -285,7 +285,7 @@ public class DynamoSimulationObject extends
 			TabRelativeRiskConfigurationData data = new TabRelativeRiskConfigurationData();
 			data.initialize(index, relativeRiskModelData);
 			resultMap.put(index, data);
-		}
+		}		
 		return resultMap;
 	}
 
@@ -298,7 +298,7 @@ public class DynamoSimulationObject extends
 					.get(index);
 		relativeRisksMap = data.putInTypedHashMap(relativeRisksMap);
 		}
-		put(XMLTagEntityEnum.RELATIVERISK.getElementName(), relativeRisksMap);
+		put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);
 	}
 	
 	public Map<String, ITabScenarioConfiguration> getScenarioConfigurations() {

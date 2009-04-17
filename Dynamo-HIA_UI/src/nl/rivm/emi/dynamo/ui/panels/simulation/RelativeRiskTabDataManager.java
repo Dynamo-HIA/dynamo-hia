@@ -27,9 +27,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
  */
 public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 
-	private static final String RELRISK_DEATH = "relriskfordeath";
-
-	private static final String RELRISK_DISABILITY = "relriskfordisability";
+	private static final String RELRISK_DEATH = "Death";
+	private static final String RELRISK_DISABILITY = "Disability";
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
@@ -55,7 +54,11 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.configurations = this.dynamoSimulationObject.getRelativeRiskConfigurations();
-		this.singleConfiguration = (TabRelativeRiskConfigurationData) this.configurations.get(getInitialName());
+		this.initialSelection = initialSelection;
+		log.debug("this.initialSelectionRelativeRiskTabDataManager" 
+				+ this.initialSelection);
+		this.singleConfiguration = (TabRelativeRiskConfigurationData) this.configurations.get(getInitialIndex());
+
 	}
 	
 	/* 
@@ -68,30 +71,40 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenName) throws ConfigurationException {
 		log.debug("HIERALOOK");
 		
-		String chosenRiskFactorName = null;
-		if (singleConfiguration != null && chosenRiskFactorName == null) {
-			// Check if already the chosenRiskFactorName exists and if it is the risk factor
-			if(this.getInitialRiskFactorName().equals(this.singleConfiguration.getFrom()) 
-					&& RelativeRiskSelectionGroup.FROM.equals(name)) {
-				chosenRiskFactorName =	this.singleConfiguration.getFrom();
-				log.debug("chosenRiskFactorName JUST CREATED" + chosenRiskFactorName);
-			}
-		} else {
+		String chosenFromName = null;
+		if (singleConfiguration != null) {
+			// Check if already the chosenFromName exists and if it is the risk factor
+			//if(this.getInitialRiskFactorName().equals(this.singleConfiguration.getFrom()) 
+				//	) {
+				chosenFromName = this.singleConfiguration.getFrom(); // Can also be a disease
+				log.debug("chosenFromName JUST CREATED" + chosenFromName);
+			//}
+				
+		} /* else {
+			// The chosenName should be a risk factor
 			if(this.getInitialRiskFactorName().equals(chosenName)) {
-				chosenRiskFactorName =	chosenName;
-			}
-		}
-		
+				chosenFromName =	chosenName;
+			} 
+		}*/
+
 		String chosenToName = null;
 		// The model object already exists, get the name
-		if (singleConfiguration != null && chosenToName == null) {
+		if (singleConfiguration != null) {
 			chosenToName = this.singleConfiguration.getTo();
 			log.debug("chosenToName JUST CREATED" + chosenToName);
 			setDefaultValue(RelativeRiskSelectionGroup.TO, chosenToName);
 		}
 		
-		DropDownPropertiesSet set = new DropDownPropertiesSet();
-		set.addAll(this.getContents(name, chosenName, chosenRiskFactorName, chosenToName));
+		Set<String> contents = 
+		this.getContents(name, chosenName, chosenFromName, chosenToName);
+		DropDownPropertiesSet set = new DropDownPropertiesSet();		
+		// Contents can never be empty
+		if (contents != null) {
+			set.addAll(contents);
+		} else {
+			throw new ConfigurationException("No entries found!" + "\n" + 
+			"Choose another option.");					
+		}
 		return set;	
 	}
 
@@ -103,12 +116,12 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 * 
 	 * @param name
 	 * @param chosenToName
-	 * @param chosenRiskFactorName
+	 * @param chosenFromName
 	 * @return Set<String> Set of chosen values
 	 * @throws ConfigurationException
 	 */
 	public Set<String> getContents(String name, String chosenName, 
-			String chosenRiskFactorName, String chosenToName) throws ConfigurationException {
+			String chosenFromName, String chosenToName) throws ConfigurationException {
 		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
 		//TODO FOR BOTH TO AND FROM LIST ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
@@ -134,23 +147,31 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 			//TODO FOR BOTH TO AND FROM LIST contents = choosableDiseases.getChoosableDiseases(chosenDiseaseName, treeLists);
 			log.debug("contents1" + contents);
 		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
-			contents = this.treeLists.getValidRelRiskFileNamesForFromName(chosenToName);
-			// Filter only for the allowed risk factor type (identified by the unique chosenRiskFactorName)
-			if (chosenRiskFactorName != null && chosenRiskFactorName.isEmpty()) {
-				filterByRiskFactorType(contents, chosenRiskFactorName);	
+			contents = this.treeLists.getValidRelRiskFileNamesForToName(chosenToName);
+			log.debug("contentsBEFOREFILTER: " + contents);
+			// Filter only for the allowed risk factor type (identified by the unique chosenFromName)
+			if (chosenFromName != null && !chosenFromName.isEmpty()
+					&& !RELRISK_DEATH.endsWith(chosenToName) 
+					&& !RELRISK_DISABILITY.endsWith(chosenToName)) {
+				contents = filterByRiskFactorType(contents, chosenFromName);
+				log.debug("contentsFILTER: " + contents);
 			}
 			log.debug("contents2" + contents);
 		}
 		log.debug("contentsLast" + contents);
-		return contents;		
+		return contents;
 	}
 
-	private void filterByRiskFactorType(Set<String> contents, String chosenRiskFactorName) {		
-		for (String relativeRisk: contents) {
-			if (!relativeRisk.contains(chosenRiskFactorName)) {				
-				contents.remove(relativeRisk);
+	private Set<String> filterByRiskFactorType(Set<String> contents, 
+			String chosenFromName) {
+		Set<String> newContents = new LinkedHashSet<String>();
+		newContents.addAll(contents);
+		for (String relativeRisk : contents) {
+			if (!relativeRisk.contains(chosenFromName)) {				
+				newContents.remove(relativeRisk);
 			}			
 		}
+		return newContents;
 	}
 
 	/* (non-Javadoc)
@@ -193,6 +214,7 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		if (this.initialSelection == null && singleConfiguration == null) {	
 			log.debug("CREATING NEW TAB");
 			createInDynamoSimulationObject();
+			singleConfiguration.setIndex(this.configurations.size());
 			//TODO FOR BOTH TO AND FROM LIST  ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
 			//TODO FOR BOTH TO AND FROM LIST  String  chosenDiseaseName = 
 			//TODO FOR BOTH TO AND FROM LIST 	(String) choosableDiseases.getFirstDiseaseOfSet(null, treeLists);
@@ -214,10 +236,11 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		log.error("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getFrom()" + singleConfiguration.getFrom());
-		log.debug("singleConfiguration.getFrom()" + singleConfiguration.getTo());
+		log.debug("singleConfiguration.getTo()" + singleConfiguration.getTo());
 		log.debug("singleConfiguration.getDataFileName()" 
 				+ singleConfiguration.getDataFileName());
 		
+		/*
 		// Set the finalIndex in case the entry does not exist yet
 		int finalIndex = this.configurations.size() - 1;
 		// Check the triple key of the stored object before being replaced 
@@ -229,16 +252,20 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 				finalIndex = index;
 			}				
 		}
+		
+		// TODO: Check voor saven moet wel!!!!
+		
 		// Store the object
-		this.configurations.put(finalIndex, singleConfiguration);
+		this.configurations.put(finalIndex, singleConfiguration);*/
+		this.configurations.put(singleConfiguration.getIndex(), singleConfiguration);
 		this.dynamoSimulationObject.setRelativeRiskConfigurations(configurations);
 		
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
-		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
-		Set<String> keys = map.keySet();
-		for (String key : keys) {
+		Map map = this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		Set<Integer> keys = map.keySet();
+		for (Integer key : keys) {
 			TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map.get(key);
 			log.error("conf.getFrom()" + conf.getFrom());
 			log.error("conf.getTo()" + conf.getTo());
@@ -261,27 +288,31 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		log.error("REMOVING OBJECT STATE");
 		//TODO For both to and from list !!! ChoosableDiseases.getInstance().removeChosenDisease(this.singleConfiguration.getTo());
 		 
+		/*
 		for (Integer index : configurations.keySet()) {
 			TabRelativeRiskConfigurationData config = this.configurations.get(index);
 			// Check the triple key of the stored object before being removed
 			if (config.getFrom().equals(this.singleConfiguration.getFrom())
 					&& config.getTo().equals(this.singleConfiguration.getTo()) 
 					&& config.getDataFileName().equals(this.singleConfiguration.getDataFileName())) {
-				this.configurations.remove(this.singleConfiguration);	
+					
 			}				
-		}
+		}*/
 		
+		this.configurations.remove(this.singleConfiguration.getIndex());		
 		this.dynamoSimulationObject.setRelativeRiskConfigurations(configurations);
 	}
 	
-	private String getInitialName() {
-		String chosenRelativeRiskName = null;
+	private Integer getInitialIndex() {
+		Integer chosenInitalIndex = null;
+		log.debug("initialSelection" + initialSelection);
 		if (this.initialSelection != null) {
-			for (String chosenName : this.initialSelection) {
-				chosenRelativeRiskName = chosenName;		
+			for (String chosenIndex : this.initialSelection) {
+				log.debug("chosenIndex" + chosenIndex);
+				chosenInitalIndex = new Integer(chosenIndex);		
 			}			
 		}
-		return chosenRelativeRiskName; 
+		return chosenInitalIndex; 
 	}
 
 	private String getInitialRiskFactorName() {

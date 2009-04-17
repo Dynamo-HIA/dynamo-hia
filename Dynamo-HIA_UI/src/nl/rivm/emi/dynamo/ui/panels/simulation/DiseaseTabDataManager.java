@@ -51,6 +51,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.configurations = this.dynamoSimulationObject.getDiseaseConfigurations();
 		this.initialSelection = initialSelection;
+		log.debug("this.initialSelectionDiseaseTabManager" + this.initialSelection);
 		this.singleConfiguration = this.configurations.get(getInitialName());
 	}
 	

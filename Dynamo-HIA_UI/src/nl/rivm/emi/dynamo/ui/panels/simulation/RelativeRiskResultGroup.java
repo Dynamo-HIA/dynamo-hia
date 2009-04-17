@@ -21,23 +21,22 @@ public class RelativeRiskResultGroup {
 	public static final String RELATIVE_RISK = "Relative Risk";
 	protected Group group;
 	private Composite plotComposite;
-	private GenericComboModifyListener relativeRiskDropDownModifyListener;
 
 	
 	private BaseNode selectedNode;
 	
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
+	private RelativeRiskSelectionGroup selectionGroup;
 	
 	public RelativeRiskResultGroup(Set<String> selections, Composite plotComposite,
-			BaseNode selectedNode, HelpGroup helpGroup,
-			Composite topNeighbour, 
-			GenericComboModifyListener relativeRiskDropDownModifyListener, 
+			BaseNode selectedNode, HelpGroup helpGroup,			
+			RelativeRiskSelectionGroup selectionGroup,
 			DynamoTabDataManager dynamoTabDataManager
 			) throws ConfigurationException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
-		this.relativeRiskDropDownModifyListener = relativeRiskDropDownModifyListener;
+		this.selectionGroup = selectionGroup;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		group = new Group(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -45,7 +44,7 @@ public class RelativeRiskResultGroup {
 		gridLayout.numColumns = 3;
 		gridLayout.marginHeight = -5;
 		group.setLayout(gridLayout);			
-		createDropDownArea(topNeighbour);
+		createDropDownArea(selectionGroup.group);
 	}
 
 	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {
@@ -57,19 +56,23 @@ public class RelativeRiskResultGroup {
 		formData.bottom = new FormAttachment(67, 0);
 		group.setLayoutData(formData);
 		
-		String chosenRiskFactorName = null;
+		String chosenIndexSelection = null;
 		if (this.selections != null) {
-			for (String chosenName : selections) {
-				chosenRiskFactorName = chosenName;		
+			for (String chosenIndex : selections) {
+				chosenIndexSelection = chosenIndex;		
 			}
 		}
 		
 		GenericDropDownPanel relativeRiskDropDownPanel = 
 			createDropDown(RELATIVE_RISK, 
 					dynamoTabDataManager.
-					getDropDownSet(RELATIVE_RISK, chosenRiskFactorName));
-		this.relativeRiskDropDownModifyListener.
+					getDropDownSet(RELATIVE_RISK, chosenIndexSelection));
+		this.selectionGroup.getFromDropDownModifyListener().
 			registerDropDown(relativeRiskDropDownPanel);
+
+		this.selectionGroup.getToDropDownModifyListener().
+		registerDropDown(relativeRiskDropDownPanel);
+		
 	}
 
 	private GenericDropDownPanel createDropDown(String label, 

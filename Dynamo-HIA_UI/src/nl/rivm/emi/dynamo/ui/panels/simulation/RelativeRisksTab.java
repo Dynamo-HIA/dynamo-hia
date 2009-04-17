@@ -5,15 +5,12 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -47,7 +44,6 @@ public class RelativeRisksTab extends TabPlatform {
 
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections) throws ConfigurationException {
-		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		String tabName = RELATIVE_RISK + newTabNumber;
 		return new RelativeRiskTab(defaultSelections, this.getTabManager().getTabFolder(), 
@@ -74,9 +70,14 @@ public class RelativeRisksTab extends TabPlatform {
 	}
 
 	public Set<String> getConfigurations() {
-		LinkedHashMap<String, TabRiskFactorConfigurationData> configurations = 
-			(LinkedHashMap<String, TabRiskFactorConfigurationData>) this.dynamoSimulationObject.getRiskFactorConfigurations();
-		return configurations.keySet();
+		Map<Integer, TabRelativeRiskConfigurationData> configurations = 
+			this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		// Conversion into a String keyset
+		Set<String> keySet = new LinkedHashSet<String>();
+		for (Integer index : configurations.keySet()) {
+			keySet.add(index.toString());
+		}
+		return keySet;
 	}
 
 	@Override

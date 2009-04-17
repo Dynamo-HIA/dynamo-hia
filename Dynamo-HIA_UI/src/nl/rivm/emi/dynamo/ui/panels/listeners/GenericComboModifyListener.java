@@ -47,11 +47,17 @@ public class GenericComboModifyListener implements ModifyListener {
 		String newText = myCombo.getText();		
 		
 		log.debug("newText" + newText);		
-		//this.setCurrentValue(newText);
+		
+		// First update the model
+		try {
+			this.dropDown.updateDataObjectModel(newText);
+		} catch (ConfigurationException ce) {
+			this.handleErrorMessage(ce, dropDown);
+		}		
 		// Iterate through the registered drop downs of this 
 		log.debug("this.registeredDropDowns.size()" 
 				+ this.registeredDropDowns.size());		
-		// Update the registered drop downs
+		// Update the registered (dependend) drop downs
 		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
 			log.debug("registeredCombo" + registeredDropDown);						 
 			try {				
@@ -59,11 +65,6 @@ public class GenericComboModifyListener implements ModifyListener {
 			} catch (ConfigurationException ce) {
 				this.handleErrorMessage(ce, registeredDropDown);
 			}
-		}		
-		try {
-			this.dropDown.updateDataObjectModel(newText);
-		} catch (ConfigurationException ce) {
-			this.handleErrorMessage(ce, dropDown);
 		}
 	}
 

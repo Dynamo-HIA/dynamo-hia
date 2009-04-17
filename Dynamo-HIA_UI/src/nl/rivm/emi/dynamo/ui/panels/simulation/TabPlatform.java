@@ -78,7 +78,7 @@ public abstract class TabPlatform extends Tab {
 	/**
 	 * @return Set<Set<String>> Set of tabs that each contain the (Set of composed) primary key values
 	 */
-	public abstract Set<?> getConfigurations();
+	public abstract Set<String> getConfigurations();
 
 	// Delete an abstract tab
 	public abstract void deleteNestedTab(NestedTab removedNestedTab) throws ConfigurationException;

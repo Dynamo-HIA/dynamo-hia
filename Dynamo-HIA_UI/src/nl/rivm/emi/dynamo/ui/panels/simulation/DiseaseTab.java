@@ -49,7 +49,6 @@ public class DiseaseTab extends NestedTab {
 	 */	
 	@Override
 	public void makeIt() throws ConfigurationException{
-		
 		this.dynamoTabDataManager =
 			new DiseaseTabDataManager(selectedNode, 
 					dynamoSimulationObject,

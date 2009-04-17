@@ -60,10 +60,10 @@ public class DynamoTabsDataPanel {
 							
 		final DiseasesTab tab1 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
-		/*
+		
 		final RelativeRisksTab tab2 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);		
-		*/
+		
 		final ScenariosTab tab3 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);			
 		
@@ -74,7 +74,7 @@ public class DynamoTabsDataPanel {
 			    
 			    if (tabId=="Risk Factor") tab0.redraw();
 			    if (tabId=="Diseases") tab1.redraw();
-			    ////TODO: Reactivate if (tabId=="Relative Risks") tab2.redraw();
+			    if (tabId=="Relative Risks") tab2.redraw();
 			    if (tabId=="Scenarios") tab3.redraw();
 			    
         }

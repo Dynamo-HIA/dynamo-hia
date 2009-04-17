@@ -22,18 +22,11 @@ public class FileControlEnumHelp {
 	 * Static constants for configuration.
 	 */
 	/* W01 */
-	/** 
-	 * TODO: REACTIVATE after test:
-	static final String[] dynamoSimulationStrings = {
-			RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
-			"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
-			"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
-			"diseases", "riskfactors", "RRs" };*/
 	static final String[] dynamoSimulationStrings = {
 		RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
 		"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
 		"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
-		"diseases", "riskfactors" };
+		"diseases", "riskfactors", "RRs" };
 	/* W11 */
 	static final String[] populationSizeStrings = {
 			RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(), "size", "age",

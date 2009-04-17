@@ -34,7 +34,8 @@ public class RelativeRiskTab extends NestedTab {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
-			HelpGroup helpGroup) throws ConfigurationException {
+			HelpGroup helpGroup
+			) throws ConfigurationException {
 		super(selectedRelativeRisk, tabfolder, tabName,
 				dynamoSimulationObject,
 				dataBindingContext, 
@@ -54,7 +55,7 @@ public class RelativeRiskTab extends NestedTab {
 					dynamoSimulationObject,
 					this.selections);
 		
-		RelativeRiskSelectionGroup relativeRiskSelectionGroup =
+		this.relativeRiskSelectionGroup =
 			new RelativeRiskSelectionGroup(tabName,
 					this.selections, 
 					this.plotComposite,
@@ -65,8 +66,7 @@ public class RelativeRiskTab extends NestedTab {
 			new RelativeRiskResultGroup(this.selections, 
 					this.plotComposite,
 					selectedNode, helpGroup,
-					relativeRiskSelectionGroup.group,
-					relativeRiskSelectionGroup.getDropDownModifyListener(),
+					relativeRiskSelectionGroup,
 					dynamoTabDataManager);
 	}
 	
