@@ -8,8 +8,7 @@
 	<property name="release.windows.dir"     value="C:/dynamo/releases/win32.win32.x86/eclipse/"/>
 	
 	<property name="jre.linux86.dir"     value="jre/"/>
-	
-	
+	<property name="winrun4j.dir"     value="WinRun4J/"/>	
 	
     <target name="clean">
     	<delete dir="${release.linux86.dir}${jre.linux86.dir}"/>
@@ -36,9 +35,18 @@
   	<target name="createlinux86schemadir">
  	  <copy todir="${release.linux86.dir}${schemas.dir}">
    	    <fileset dir="${schemas.dir}"/>
-   	  </copy>  		
+   	  </copy>
   	</target>
 
-    <target name="main" depends="clean,createdirs"/>
-
+	<target name="createdynamohiaexec">
+	  <delete file="${release.windows.dir}eclipse.exe"/>
+		<delete file="${release.windows.dir}eclipse.ini"/>
+	  <copy todir="${release.windows.dir}" overwrite="true">	  	
+	    <fileset dir="${winrun4j.dir}"/>
+	  </copy>
+	  <exec command="${release.windows.dir}DYNAMO-HIA --WinRun4J:SetIcon"/>
+	  <exec command="${release.windows.dir}DYNAMO-HIA --WinRun4J:RegisterFileAssociations"/>
+	</target>
+	
+    <target name="main" depends="clean,createdirs,createdynamohiaexec"/>
 </project>
