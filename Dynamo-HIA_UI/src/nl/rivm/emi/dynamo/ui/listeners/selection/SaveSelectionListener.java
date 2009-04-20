@@ -51,7 +51,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		File configurationFile = new File(filePath);
 		try {
 			Object modelObject = modalParent.getData();
-			
+
 			String rootElementName = (String) modalParent.getRootElementName();
 			log.debug("rootElementName" + rootElementName + " modelObject"
 					+ modelObject + " configurationFile" + configurationFile);
@@ -62,40 +62,49 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						(TypedHashMap) modelObject, configurationFile);
 			} else {
 				if (modelObject instanceof LinkedHashMap) {
-					
+
 					/**
 					 * TODO REMOVE: LOGGING BELOW
 					 */
 					/*
-					Map map =  ((DynamoSimulationObject) modelObject).getDiseaseConfigurations();
-					Set<String> keys = map.keySet();
-					for (String key : keys) {
-						ITabDiseaseConfiguration conf = 
-							(ITabDiseaseConfiguration) map.get(key);
-						log.error("conf.getName()" + conf.getName());
-						log.error("conf.getPrevalenceFileName()" + conf.getPrevalenceFileName());
-						log.error("conf.getIncidenceFileName()" + conf.getIncidenceFileName());
-						log.error("conf.getExcessMortalityFileName()" + conf.getExcessMortalityFileName());
-						log.error("conf.getDalyWeightsFileName()" + conf.getDalyWeightsFileName());
-					}*/
+					 * Map map = ((DynamoSimulationObject)
+					 * modelObject).getDiseaseConfigurations(); Set<String> keys
+					 * = map.keySet(); for (String key : keys) {
+					 * ITabDiseaseConfiguration conf =
+					 * (ITabDiseaseConfiguration) map.get(key);
+					 * log.error("conf.getName()" + conf.getName());
+					 * log.error("conf.getPrevalenceFileName()" +
+					 * conf.getPrevalenceFileName());
+					 * log.error("conf.getIncidenceFileName()" +
+					 * conf.getIncidenceFileName());
+					 * log.error("conf.getExcessMortalityFileName()" +
+					 * conf.getExcessMortalityFileName());
+					 * log.error("conf.getDalyWeightsFileName()" +
+					 * conf.getDalyWeightsFileName()); }
+					 */
 
-					Map map = ((DynamoSimulationObject) modelObject).getRelativeRiskConfigurations();
-					Set<Integer> keys = map.keySet();
-					for (Integer key : keys) {
-						TabRelativeRiskConfigurationData conf = 
-							(TabRelativeRiskConfigurationData) map.get(key);
-						log.error("conf.getName()" + conf.getDataFileName());
-						if (conf.getDataFileName() == null
-								|| conf.getDataFileName().isEmpty()) {
-							throw new DynamoConfigurationException("The Relative Risk field" +
-									"is empty of Relative Risks is empty");
+					if (modelObject instanceof DynamoSimulationObject) {
+						Map map = ((DynamoSimulationObject) modelObject)
+								.getRelativeRiskConfigurations();
+						Set<Integer> keys = map.keySet();
+						for (Integer key : keys) {
+							TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
+									.get(key);
+							log
+									.error("conf.getName()"
+											+ conf.getDataFileName());
+							if (conf.getDataFileName() == null
+									|| conf.getDataFileName().isEmpty()) {
+								throw new DynamoConfigurationException(
+										"The Relative Risk field"
+												+ "is empty of Relative Risks is empty");
+							}
 						}
 					}
 					/**
 					 * TODO REMOVE: LOGGING ABOVE
 					 */
-					
-					
+
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							(HashMap<String, Object>) modelObject,
 							configurationFile);
