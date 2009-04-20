@@ -21,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Application implements IApplication {
 
+	private static final String DYNAMO_HIA = "DYNAMO-HIA";
 	// Logger of this class
 	static Log log = LogFactory.getLog(Application.class);
 	
@@ -41,7 +42,8 @@ public class Application implements IApplication {
 				shell = application.open(display);
 				
 				// Run the thread
-				if (shell != null) {								 
+				if (shell != null) {
+					shell.setText(DYNAMO_HIA);
 					shell.open();
 					while (!shell.isDisposed()) {
 						if (!display.readAndDispatch())
