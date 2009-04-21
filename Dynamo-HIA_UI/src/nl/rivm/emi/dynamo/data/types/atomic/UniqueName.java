@@ -59,7 +59,10 @@ public class UniqueName extends AbstractString implements ContainerType{
 			if (arg0 instanceof String) {
 				result = arg0;
 				try {
+					
 					log.debug("result: MODELVIEW " + result);
+					// This is a workaround created to set the model value of "Name"
+					// in the Scenario tabs of Simulation Model
 					UniqueName.this.dynamoTabDataManager.updateObjectState(UniqueName.this.label, 
 							(String) result);
 				} catch (ConfigurationException ce) {					
