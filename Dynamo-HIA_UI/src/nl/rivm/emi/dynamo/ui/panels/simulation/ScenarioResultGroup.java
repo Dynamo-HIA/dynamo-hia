@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -13,13 +11,18 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * 
+ * Shows the result drop downs of the scenario tab
+ * 
+ * @author schutb
+ *
+ */
 public class ScenarioResultGroup {
 
 

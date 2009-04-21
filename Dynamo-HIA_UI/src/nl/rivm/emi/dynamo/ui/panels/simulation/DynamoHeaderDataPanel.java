@@ -1,9 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Set;
-
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
@@ -18,7 +15,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
@@ -50,6 +46,13 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * 
+ * Defines the header of the simulation panel
+ * 
+ * @author schutb
+ *
+ */
 public class DynamoHeaderDataPanel extends Composite {
 	
 	private Log log = LogFactory.getLog(this.getClass().getName());

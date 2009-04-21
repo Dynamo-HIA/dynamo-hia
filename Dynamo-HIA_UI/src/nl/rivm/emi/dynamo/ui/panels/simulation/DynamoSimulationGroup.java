@@ -18,6 +18,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * Defines the simulation panel header group 
+ * 
+ * @author schutb
+ *
+ */
 public class DynamoSimulationGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;

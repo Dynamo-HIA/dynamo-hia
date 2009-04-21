@@ -10,6 +10,13 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
+/**
+ * 
+ * Listener that creates a new nested tab
+ * 
+ * @author schutb
+ *
+ */
 public class CreateSelectionListener extends AbstractLoggingClass
 	implements SelectionListener {
 

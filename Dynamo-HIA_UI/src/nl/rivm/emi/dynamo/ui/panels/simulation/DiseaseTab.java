@@ -5,7 +5,6 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
@@ -18,6 +17,13 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.TabFolder;
 
+/**
+ * 
+ * Defines the nested disease tab
+ * 
+ * @author schutb
+ *
+ */
 public class DiseaseTab extends NestedTab {
 	
 	private Log log = LogFactory.getLog("DiseaseTab");

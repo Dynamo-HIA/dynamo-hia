@@ -11,6 +11,13 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * 
+ * Handles the simulation object data actions of the simulation panel header
+ * 
+ * @author schutb
+ *
+ */
 public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 
 	private TreeAsDropdownLists treeLists;

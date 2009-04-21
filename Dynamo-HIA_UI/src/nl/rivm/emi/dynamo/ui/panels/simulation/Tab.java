@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
@@ -13,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -59,25 +57,9 @@ public abstract class Tab {
 	        public void handleEvent(Event event) {
                 TabItem item = (TabItem) event.item;
 	            String tabId = item.getText();
-	            log.debug("THIS TAB IS SELECTED" + tabId);
-	            
-	            //try {
-	            	if (!tabId.isEmpty()) {
-						//TabManager.this.reCreateNestedTab(TabManager.this.deleteNestedTab());	            		
-	            	}
-				//} catch (ConfigurationException e) {
-					// TODO Auto-generated catch block
-					//e.printStackTrace();
-				//}
+	            log.debug("THIS TAB IS SELECTED" + tabId);	            
 	        }
 	        });
-	            //TabManager.this.redraw();
-			    ////TODO: Reactivate if (tabId=="Risk Factor") tab0.redraw();
-			    ////TODO: Reactivate if (tabId=="Population") tab1.redraw();
-			    //if (tabId=="Diseases") tab2.redraw();
-			    ////TODO: Reactivate if (tabId=="Relative Risks") tab3.redraw();
-			    ////TODO: Reactivate if (tabId=="Scenarios") tab4.redraw();			    
-
 	}
 	
 	protected void setLayoutStyle(Composite parent) {

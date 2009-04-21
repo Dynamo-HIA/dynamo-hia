@@ -19,6 +19,13 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.TabFolder;
 
+/**
+ * 
+ * Handles all actions of the nested disease tabs
+ * 
+ * @author schutb
+ *
+ */
 public class DiseasesTab extends TabPlatform {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());

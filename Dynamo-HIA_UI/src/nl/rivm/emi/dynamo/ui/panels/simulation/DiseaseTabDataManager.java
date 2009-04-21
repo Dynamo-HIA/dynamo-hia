@@ -19,7 +19,7 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
  * 
- * Handles the data actions of the disease tabs
+ * Handles the simulation object data actions of the disease tabs
  * 
  * @author schutb
  *

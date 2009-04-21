@@ -1,9 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -20,6 +18,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+/**
+ * 
+ * Shows the selection drop downs of the risk factor tab
+ * 
+ * @author schutb
+ *
+ */
 public class RiskFactorSelectionGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());

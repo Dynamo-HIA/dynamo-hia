@@ -1,18 +1,21 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import nl.rivm.emi.dynamo.ui.listeners.selection.CancelSelectionListener;
-import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
-import nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * Button panel for the tabplatfrom
+ * Contains the create and delete buttons
+ * for the nested tabs
+ * 
+ * @author schutb
+ *
+ */
 public class TabPlatformButtonPanel extends Composite {
 
 	Button createButton;

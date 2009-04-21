@@ -2,14 +2,15 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-
 /**
  * 
- * Handles the data management of contents drop downs 
+ * Defines an interface for the management of 
+ * the simulation object data of all tabs  
  * 
  * @author schutb
  *

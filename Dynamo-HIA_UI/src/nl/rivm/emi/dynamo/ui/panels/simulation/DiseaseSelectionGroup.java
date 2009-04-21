@@ -1,11 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -16,13 +12,19 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+/**
+ * 
+ * Shows the selection drop downs of the disease tab
+ * 
+ * @author schutb
+ *
+ */
 public class DiseaseSelectionGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());

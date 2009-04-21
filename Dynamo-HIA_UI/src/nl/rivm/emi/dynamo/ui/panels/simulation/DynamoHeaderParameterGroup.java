@@ -13,6 +13,13 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+/**
+ * 
+ * Defines the parameter fields on the simulation panel header
+ * 
+ * @author schutb
+ *
+ */
 public class DynamoHeaderParameterGroup {
 
 	public Group group;

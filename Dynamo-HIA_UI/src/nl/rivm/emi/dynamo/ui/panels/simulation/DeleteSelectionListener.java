@@ -8,8 +8,14 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.TabItem;
 
+/**
+ * 
+ * Listener that deletes an existing nested tab
+ * 
+ * @author schutb
+ *
+ */
 public class DeleteSelectionListener extends AbstractLoggingClass 
 	implements SelectionListener {
 

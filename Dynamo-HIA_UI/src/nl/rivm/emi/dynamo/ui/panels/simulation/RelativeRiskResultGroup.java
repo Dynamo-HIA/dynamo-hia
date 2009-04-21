@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -15,6 +14,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
+/**
+ * 
+ * Shows the result drop downs of the relative risks
+ * 
+ * @author schutb
+ *
+ */
 public class RelativeRiskResultGroup {
 
 

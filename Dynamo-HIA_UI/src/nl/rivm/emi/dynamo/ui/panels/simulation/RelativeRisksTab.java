@@ -83,8 +83,10 @@ public class RelativeRisksTab extends TabPlatform {
 	@Override
 	public void refreshNestedTab(NestedTab nestedTab)
 			throws ConfigurationException {
-		RelativeRiskTab relativeRiskTab = (RelativeRiskTab) nestedTab;
-		relativeRiskTab.refreshSelectionGroup();
+		if (nestedTab != null) {
+			RelativeRiskTab relativeRiskTab = (RelativeRiskTab) nestedTab;
+			relativeRiskTab.refreshSelectionGroup();			
+		}
 	}
 
 	public void refreshFirstTab() throws ConfigurationException {

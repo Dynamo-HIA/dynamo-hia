@@ -17,6 +17,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * 
+ * Handles the simulation object data actions of the scenario tabs
+ * 
+ * @author schutb
+ *
+ */
 public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());

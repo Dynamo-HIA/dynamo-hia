@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Group;
 
 /**
  * 
- * Shows the result drop downs of the diseases
+ * Shows the result drop downs of the disease tab
  * 
  * @author schutb
  *

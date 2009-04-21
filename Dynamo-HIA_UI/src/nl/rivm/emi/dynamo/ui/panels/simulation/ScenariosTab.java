@@ -78,9 +78,10 @@ public class ScenariosTab extends TabPlatform {
 	@Override
 	public void refreshNestedTab(NestedTab nestedTab)
 			throws ConfigurationException {
-		ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
-		//scenarioTab.refreshSelectionGroup();
-		scenarioTab.refreshResultGroup();
+		if (nestedTab != null) {
+			ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
+			scenarioTab.refreshResultGroup();			
+		}
 	}
 	
 	public void refreshFirstTab() throws ConfigurationException {

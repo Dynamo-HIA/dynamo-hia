@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Map;
-
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
@@ -14,6 +12,13 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * 
+ * The generic drop down present in all tabs
+ * 
+ * @author schutb
+ *
+ */
 public class GenericDropDownPanel {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
@@ -139,7 +144,6 @@ public class GenericDropDownPanel {
 		// Remove old value (is choosable again)
 		this.owner.removeOldDefaultValue(this.getLabel());
 		// Add new value
-		//this.owner.setDefaultValue(this.getLabel(), newText);
 		this.owner.updateObjectState(this.getLabel(), newText);
 	}
 	

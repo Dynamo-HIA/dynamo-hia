@@ -5,13 +5,10 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -28,6 +25,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+/**
+ * 
+ * Defines the nested risk factor tab
+ * 
+ * @author schutb
+ *
+ */
 public class RiskFactorTab {
 	
 	private Log log = LogFactory.getLog(this.getClass().getName());

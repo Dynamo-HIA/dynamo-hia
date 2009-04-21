@@ -1,21 +1,16 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
@@ -108,13 +103,7 @@ public class RelativeRiskSelectionGroup {
 				selectablePropertiesSet, 
 				null,
 				dynamoTabDataManager);		
-	}
-	
-	/*
-	public GenericComboModifyListener getDropDownModifyListener() {
-		return this.dropDownModifyListener;
-	}*/
-	
+	}	
 
 	public void refreshSelectionDropDown() throws ConfigurationException {
 		this.fromDropDownPanel.refresh();		

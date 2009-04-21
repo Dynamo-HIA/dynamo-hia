@@ -75,7 +75,8 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		String chosenFromName = null;
 		if (singleConfiguration != null) {
 			chosenFromName = this.singleConfiguration.getFrom(); // Can also be a disease
-			log.debug("chosenFromName JUST CREATED" + chosenFromName);				
+			log.debug("chosenFromName JUST CREATED" + chosenFromName);
+			setDefaultValue(RelativeRiskSelectionGroup.FROM, chosenFromName);
 		} 
 
 		String chosenToName = null;
@@ -118,16 +119,14 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		ChosenFromList chosenFromList = ChosenFromList.getInstance();
 		ChosenToList chosenToList = ChosenToList.getInstance();
 
+		// The chosenFromName is still empty
 		if (chosenFromName == null) {
-			chosenFromName = (String) chosenToList.getFirstFromNameOfSet(null, this.getInitialToList());
+			chosenFromName = (String) chosenToList.getFirstFromNameOfSet(null, this.getInitialFromList());
 		}
 		
-		// TODO !!!!!!! The name is still empty
+		// The chosenToName is still empty
 		if (chosenToName == null) {
-			//TODO FOR BOTH TO AND FROM LIST  chosenToName = 
-			//TODO FOR BOTH TO AND FROM LIST  (String) choosableDiseases.getFirstDiseaseOfSet(chosenToName, treeLists);
-			//TODO FOR BOTH TO AND FROM LIST  setDefaultValue(RelativeRiskSelectionGroup.TO, chosenToName);
-			chosenToName = (String) chosenFromList.getFirstToNameOfSet(null, this.getInitialFromList());
+			chosenToName = (String) chosenFromList.getFirstToNameOfSet(null, this.getInitialToList());
 		}
 		
 		//log.debug("HIERO chosenDiseaseName DATAMANAGER: " + chosenDiseaseName);		
@@ -139,11 +138,13 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
 			// This is the full list of available diseases + death + disability
 			//contents = this.getInitialToList();
-			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialFromList());
+			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialToList());
 			log.debug("contents1" + contents);
 		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
 			contents = this.treeLists.getValidRelRiskFileNamesForToName(chosenToName);
 			log.debug("contentsBEFOREFILTER: " + contents);
+			log.debug("contentsFromFILTER: " + chosenFromName);
+			log.debug("contentsToFILTER: " + chosenToName);
 			// Filter only for the allowed risk factor type (identified by the unique chosenFromName)
 			if (chosenFromName != null && !chosenFromName.isEmpty()
 					&& !RELRISK_DEATH.endsWith(chosenToName) 
@@ -302,9 +303,9 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		for (String key : keys) {			
 			TabDiseaseConfigurationData conf = (TabDiseaseConfigurationData) map.get(key);
 			log.error("conf.getName()" + conf.getName());
-			chosenDiseases.add(conf.getName());			
+			chosenDiseases.add(conf.getName());
 		}		  
-		return chosenDiseases; 
+		return chosenDiseases;
 	}
 	
 	// TODO: From list (composed of getInitial) 

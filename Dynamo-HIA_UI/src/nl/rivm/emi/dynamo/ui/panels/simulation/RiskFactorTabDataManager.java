@@ -4,12 +4,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.interfaces.ITabRiskFactorConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -45,7 +42,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		Set<String> contents = new LinkedHashSet<String>();
 		// The name is still empty
 		if (chosenRiskFactorName == null) {
-			// TODO
+			// No risk factor is chosen, get the first name from the treelist
+			chosenRiskFactorName = getFirstRiskFactorOfTreeList();
 		}
 		log.debug("HIERO chosenRiskFactorName DATAMANAGER: " + chosenRiskFactorName);		
 		if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
@@ -60,6 +58,10 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		}
 		log.debug("contentsLast" + contents);
 		return contents; 
+	}
+
+	private String getFirstRiskFactorOfTreeList() {
+		return (String) this.treeLists.getRiskFactors().iterator().next();
 	}
 
 	@Override
@@ -131,6 +133,16 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		log.debug(name + ": " + selectedValue);		
 		log.debug("UPDATING OBJECT STATE");
 		
+		log.debug("this.initialSelection" + this.initialSelection);
+		log.debug("this.singleConfiguration" + this.singleConfiguration);
+		
+		// In case a new Tab is created, no model exists yet
+		if (this.initialSelection.size() == 0 && 
+				this.singleConfiguration == null) {	
+			log.debug("CREATING NEW TAB");
+			createInDynamoSimulationObject();
+		}		
+		
 		if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
 			singleConfiguration.setName(selectedValue);
 		} else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
@@ -182,6 +194,10 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;
+	}
+	
+	private void createInDynamoSimulationObject() {
+		this.singleConfiguration = new TabRiskFactorConfigurationData();
 	}
 	
 }
