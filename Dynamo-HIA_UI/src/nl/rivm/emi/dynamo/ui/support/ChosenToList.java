@@ -108,7 +108,8 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 			Set<String> completeFromList) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
-			return (String) this.getChoosableFromNames(currentFromName, completeFromList).iterator().next();	
+			return (String) this.getChoosableFromNames(currentFromName, 
+					completeFromList).iterator().next();	
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
 		}

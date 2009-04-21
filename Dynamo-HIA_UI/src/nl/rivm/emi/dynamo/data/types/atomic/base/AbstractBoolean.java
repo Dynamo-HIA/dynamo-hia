@@ -75,9 +75,18 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		if (modelValue instanceof WritableValue) {
 			log.debug("((WritableValue) modelValue).doGetValue()" + 
 					((WritableValue) modelValue).doGetValue());
-			nakedValue = new Boolean ((String)((WritableValue) modelValue).doGetValue());
-		} else {
-			nakedValue = new Boolean((String) modelValue);
+			Object value = ((WritableValue) modelValue).doGetValue(); 
+			if (value instanceof Boolean) {
+				nakedValue = (Boolean)((WritableValue) modelValue).doGetValue();
+			} else if (value instanceof String) {
+				nakedValue = new Boolean ((String)((WritableValue) modelValue).doGetValue());	
+			}			
+		} else {			
+			if (modelValue instanceof Boolean) {
+				nakedValue = (Boolean) modelValue;	
+			} else if (modelValue instanceof String) {
+				nakedValue = new Boolean((String) modelValue);	
+			}			
 		}
 //		String viewValue = convert4View(nakedValue);
 		String fileValue = "0";

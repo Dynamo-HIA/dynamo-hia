@@ -105,10 +105,13 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @throws ConfigurationException 
 	 */
 	public String getFirstToNameOfSet(String currentToName, 
-			Set<String> completeFromList) throws ConfigurationException {
+			Set<String> completeToList) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
-			String result = this.getChoosableToNames(currentToName, completeFromList).iterator().next();
+			log.debug("completeToList: " + completeToList);
+			log.debug("currentToName: " + currentToName);
+			String result = this.getChoosableToNames(currentToName, 
+					completeToList).iterator().next();
 			return result;
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
