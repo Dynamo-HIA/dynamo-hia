@@ -24,6 +24,8 @@ import org.apache.commons.logging.LogFactory;
  * @author boshuizh
  * 
  */
+
+
 public class InputDataFactory {
 
 	Log log = LogFactory.getLog(getClass().getName());
@@ -325,7 +327,7 @@ public class InputDataFactory {
 		}
 		/* now read in all the data in the sequence of the user data document */
 		String yesno = getName(newbornLabel);
-		if (yesno.compareToIgnoreCase("no") == 0)
+		if (yesno.compareToIgnoreCase("no") == 0||yesno.compareToIgnoreCase("0") == 0)
 			newborn = false;
 		else
 			newborn = true;
@@ -392,20 +394,20 @@ public class InputDataFactory {
 				rrPresent = handleRRInfo(rootChild);
 		}
 
-		if (!scenPresent)
-			throw new DynamoConfigurationException(
-					" no valid information present " + "for scenarios ");
-		if (!disPresent)
-			throw new DynamoConfigurationException(
-					" no valid information present " + "for diseases ");
+//		if (!scenPresent)
+//			throw new DynamoConfigurationException(
+//					" no valid information present " + "for scenarios ");
+//		if (!disPresent)
+//			throw new DynamoConfigurationException(
+//					" no valid information present " + "for diseases ");
 
-		if (!riskfactorPresent)
-			throw new DynamoConfigurationException(
-					" no valid information present " + "for riskfactors ");
+//		if (!riskfactorPresent)
+//			throw new DynamoConfigurationException(
+//					" no valid information present " + "for riskfactors ");
 
-		if (!rrPresent)
-			throw new DynamoConfigurationException(
-					" no valid information present " + "for relative risks ");
+//		if (!rrPresent)
+//			throw new DynamoConfigurationException(
+//					" no valid information present " + "for relative risks ");
 	}
 
 	/**
@@ -997,10 +999,10 @@ public class InputDataFactory {
 
 		scenarioInfo.setPopulationSize(this.factory.manufactureOneDimArray(
 				sizeName, "populationsize", "size", "number", false));
-		scenarioInfo.setOverallDalyWeight(this.factory.manufactureOneDimArray(
-				dalyName, "overalldalyweights", "weight", "percent", false));
-		/* put a copy in inputData */
-		inputData.setOverallDalyWeight(scenarioInfo.getOverallDalyWeight());
+		inputData.setOverallDalyWeight(this.factory.manufactureOneDimArray(
+				dalyName, "overalldalyweights", "weight", "percent", false),true);
+		
+		
 		inputData.setMortTot(this.factory.manufactureOneDimArray(mortName,
 				"overallmortality", "mortality", false));
 		readNewbornData(newbornName, scenarioInfo);
@@ -1112,7 +1114,7 @@ public class InputDataFactory {
 							+ File.separator + scenInfo.get(scen).transFileName
 							+ ".xml";
 					readTransitionData(completeTransFileName, null,
-							scenarioInfo, 0);
+							scenarioInfo, scen); 
 				}
 
 			}
@@ -2030,7 +2032,7 @@ public class InputDataFactory {
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
-							 + ".xml";
+							+ ".xml";
 					info.rrDataCat = this.factory.manufactureTwoDimArray(
 							configFileName, rrCategoricalTagName,
 							"relativerisk", "cat", "value", false);
@@ -2039,7 +2041,7 @@ public class InputDataFactory {
 							+ referenceDataDir + File.separator + diseasesDir
 							+ File.separator + info.to + File.separator
 							+ RRriskDir + File.separator + info.rrFileName
-							 + ".xml";
+							+ ".xml";
 
 					info.rrDataCat = this.factory.manufactureTwoDimArray(
 							configFileName, rrCompoundTagName, "relativerisk",
@@ -2188,7 +2190,7 @@ public class InputDataFactory {
 
 										RRdisExtended[d2][d] = rrInfo
 												.get(rrNumber[rrDis]).rrDataDis[a][g];
-									break;
+									
 								}
 
 							}
@@ -2216,8 +2218,8 @@ public class InputDataFactory {
 						clusterData[a][g][c].setExcessMortality(eData[d][a][g],
 								d);
 						// TODO checken of dit inderdaad datgene is wat wordt ingevoerd
-						clusterData[a][g][c].setAbility(
-								dData[d][a][g] / 100, d);
+						clusterData[a][g][c].setAbility((100-
+								dData[d][a][g]) / 100, d);
 						clusterData[a][g][c].setCuredFraction(
 								cData[d][a][g] / 100, d, clusterStructure[c]);
 						clusterData[a][g][c].setCaseFatality(
