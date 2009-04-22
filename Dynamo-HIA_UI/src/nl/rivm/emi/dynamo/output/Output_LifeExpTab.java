@@ -54,7 +54,7 @@ public class Output_LifeExpTab  {
 		this.plotComposite.setLayout(gridLayout);
 		this.plotInfo=new ButtonStates();
 		this.plotInfo.currentScen = 0;
-		this.plotInfo.currentDisease = 1;
+		this.plotInfo.currentDisease = 2;
 		this.plotInfo.currentYear = 0;
 		this.plotInfo.newborns=output.isWithNewborns();
 
@@ -74,19 +74,20 @@ public class Output_LifeExpTab  {
 					| GridData.GRAB_VERTICAL);
 		
 		chartComposite.setLayoutData(chartData);
-		String[] items = new String[this.output.getNDiseases() + 2];
+		String[] items = new String[this.output.getNDiseases() + 3];
 		String[] names = this.output.getDiseaseNames();
 		items[0] = "none";
-		items[1] = "all";
+		items[1] = "disability";
+		items[2] = "total disease";
 		for (int i = 0; i < names.length; i++)
-			items[i + 2] = names[i];
+			items[i + 3] = names[i];
 
 		
 		new DiseaseChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, items);
 		
 		new SullivanChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 		final int minA = Math.max(0,this.output.getMinAgeInSimulation());
-		plotInfo.maxAge=this.output.getStepsInRun();
+		plotInfo.maxAge=this.output.getMaxAgeInSimulation();
 		int length = this.output.getMaxAgeInSimulation()
 				- minA + 1;
 		String[] ageNames = new String[length];
