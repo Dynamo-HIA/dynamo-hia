@@ -53,6 +53,7 @@ public class XMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private String fileNameTrunk;
 	private String rootElementName;
+	private boolean configurationFileExists;
 
 	public XMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String fileNameTrunk, String rootElementName) {
@@ -164,7 +165,7 @@ public class XMLFileAction extends ActionBase {
 																savedFile
 																		.getAbsolutePath(),
 																rootElementName,
-																node);
+																node, this.configurationFileExists);
 													}
 												} else {
 													// RiskFactorConfigurations.
@@ -452,5 +453,9 @@ public class XMLFileAction extends ActionBase {
 			errorMessageBox.open();
 		}
 		return allTestsOK;
+	}
+
+	public void setConfigurationFileExists(boolean configurationFileExists) {
+		this.configurationFileExists = configurationFileExists;		
 	}
 }

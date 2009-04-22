@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Group;
 public class RunButtonPanel {
 
 	Group group;
-	Button runButton;
+	public Button runButton;
 	/**
 	 * Height of runbutton panel in pixels.
 	 */

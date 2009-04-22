@@ -12,8 +12,6 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
-import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
@@ -24,6 +22,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -62,27 +61,6 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						(TypedHashMap) modelObject, configurationFile);
 			} else {
 				if (modelObject instanceof LinkedHashMap) {
-
-					/**
-					 * TODO REMOVE: LOGGING BELOW
-					 */
-					/*
-					 * Map map = ((DynamoSimulationObject)
-					 * modelObject).getDiseaseConfigurations(); Set<String> keys
-					 * = map.keySet(); for (String key : keys) {
-					 * ITabDiseaseConfiguration conf =
-					 * (ITabDiseaseConfiguration) map.get(key);
-					 * log.error("conf.getName()" + conf.getName());
-					 * log.error("conf.getPrevalenceFileName()" +
-					 * conf.getPrevalenceFileName());
-					 * log.error("conf.getIncidenceFileName()" +
-					 * conf.getIncidenceFileName());
-					 * log.error("conf.getExcessMortalityFileName()" +
-					 * conf.getExcessMortalityFileName());
-					 * log.error("conf.getDalyWeightsFileName()" +
-					 * conf.getDalyWeightsFileName()); }
-					 */
-
 					if (modelObject instanceof DynamoSimulationObject) {
 						Map map = ((DynamoSimulationObject) modelObject)
 								.getRelativeRiskConfigurations();
@@ -101,13 +79,17 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 							}
 						}
 					}
-					/**
-					 * TODO REMOVE: LOGGING ABOVE
-					 */
-
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							(HashMap<String, Object>) modelObject,
 							configurationFile);
+
+					if (modelObject instanceof LinkedHashMap) {
+						if (modelObject instanceof DynamoSimulationObject) {
+							((SimulationModal) modalParent).getRunButtonGroup().runButton.setVisible(true);
+						}
+					}
+					
+					
 				} else {
 					throw new DynamoConfigurationException(
 							"SaveSelectionListener - Unsupported modelObjectType: "

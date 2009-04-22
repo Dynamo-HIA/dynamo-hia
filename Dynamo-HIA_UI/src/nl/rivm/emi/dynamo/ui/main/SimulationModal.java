@@ -12,8 +12,8 @@ import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
+import nl.rivm.emi.dynamo.ui.panels.button.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoSimulationGroup;
-import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -37,19 +37,25 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private DynamoSimulationObject modelObject;	
+	private DynamoSimulationObject modelObject;
+
+	private boolean configurationFileExists;
+
+	private DynamoSimulationGroup simulationGroup;	
 	/**
 	 * @param parentShell
 	 * @param dataFilePath
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
+	 * @param configurationFileExists 
 	 */
 	public SimulationModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+			BaseNode selectedNode, boolean configurationFileExists) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		this.configurationFileExists = configurationFileExists;
 	}
 
 	@Override
@@ -74,9 +80,9 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);  
-			DynamoSimulationGroup simulationGroup = new DynamoSimulationGroup(
+			this.simulationGroup = new DynamoSimulationGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel,
-					this);
+					this, this.configurationFileExists);
 			simulationGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);			
 			this.shell.pack();
 			// This is the first place this works.
@@ -105,4 +111,8 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 		return modelObject;
 	}
 
+	public RunButtonPanel getRunButtonGroup() {
+		return simulationGroup.getRunButtonGroup();
+	}
+	
 }

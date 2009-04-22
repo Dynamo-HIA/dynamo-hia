@@ -28,10 +28,11 @@ import org.eclipse.swt.widgets.Shell;
 public class DynamoSimulationGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
+	private RunButtonPanel runButtonGroup;
 
 	public DynamoSimulationGroup(Shell shell, DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup, SimulationModal simulationModal) 
+			HelpGroup helpGroup, SimulationModal simulationModal, boolean configurationFileExists) 
 			throws ConfigurationException {
 		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
 		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
@@ -47,9 +48,14 @@ public class DynamoSimulationGroup {
 		parameterGroup.putFirstInContainer(550);
 		
 		// The third panel that contains the Run button
-		RunButtonPanel runButtonGroup = 
+		this.runButtonGroup = 
 			new RunButtonPanel(this.theGroup, simulationModal);
-		runButtonGroup.putLastInContainer(parameterGroup.group);
+		if (!configurationFileExists) {
+			this.runButtonGroup.runButton.setVisible(false);
+		} else {
+			this.runButtonGroup.runButton.setVisible(true);	
+		}	
+		this.runButtonGroup.putLastInContainer(parameterGroup.group);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
@@ -60,4 +66,9 @@ public class DynamoSimulationGroup {
 		formData.bottom = new FormAttachment(lowerNeighbour, -5);
 		theGroup.setLayoutData(formData);
 	}
+	
+	public RunButtonPanel getRunButtonGroup() {
+		return runButtonGroup;
+	}
+	
 }

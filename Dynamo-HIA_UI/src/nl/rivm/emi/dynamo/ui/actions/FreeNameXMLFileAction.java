@@ -138,7 +138,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 								theModal = new SimulationModal(shell, dataFile
 										.getAbsolutePath(), savedFile
 										.getAbsolutePath(), rootElementName,
-										node);
+										node, true);
 							} else {
 								throw new DynamoConfigurationException(
 										"RootElementName " + rootElementName

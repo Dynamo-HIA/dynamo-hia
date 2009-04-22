@@ -32,7 +32,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorStringConstantsEnum;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -314,13 +313,44 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4Simulation(final IMenuManager manager,
 			IStructuredSelection selection) {
-		XMLFileAction action = new XMLFileAction(shell, treeViewer,
-				(DirectoryNode) selection.getFirstElement(), "configuration",
-				RootElementNamesEnum.SIMULATION.getNodeLabel());
-		action.setText("New configuration");
-		manager.add(action);
+	    Object[] children = ((ParentNode) selection.getFirstElement()).getChildren();
+	    
+	    // The text "New configuration" will not be shown
+	    // if a configuration.xml file exists
+	    boolean configExists = false;
+		for (Object child : children) {		
+			if (child != null) {
+				String childLabel = ((BaseNode) child).deriveNodeLabel();
+				if (StandardTreeNodeLabelsEnum.CONFIGURATIONFILE.getNodeLabel()
+						.equals(childLabel)) {
+					configExists = true;
+				} else {
+					// Not needed
+				}				
+			} else {
+				// Not needed
+			}
+		}
+		if (!configExists) {
+			XMLFileAction action = new XMLFileAction(shell, treeViewer,
+					(DirectoryNode) selection.getFirstElement(), "configuration",
+					RootElementNamesEnum.SIMULATION.getNodeLabel());
+			action.setConfigurationFileExists(false);
+			action.setText("New configuration");
+			manager.add(action);			
+		}
 	}
 
+	/*		
+	private void createMenu4RiskFactor(IMenuManager manager,
+			IStructuredSelection selection) throws TreeStructureException {
+		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
+		contextMenuFactory.fillRiskFactorContextMenu(shell, treeViewer,
+				manager, selectedNode);
+	}
+	 */
+	
+	
 	/**
 	 * TODO
 	 * 
@@ -977,6 +1007,7 @@ public class StorageTreeMenuFactory {
 					.extractRootElementName(node.getPhysicalStorage());
 			XMLFileAction action = new XMLFileAction(shell, treeViewer,
 					(BaseNode) node, node.toString(), rootElementName);
+			action.setConfigurationFileExists(true);
 			action.setText("Edit");
 			manager.add(action);
 		}
