@@ -127,12 +127,12 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 			/* only the highest 32 bits are to be used */ 
 			double pRandom=(((int)(seed >>> 16))+2147483648.0)/4294967295.0;
 ;
-			int oldValue = getInteger(currentValues, characteristicIndex);
+			int oldValue = getInteger(currentValues, this.characteristicIndex);
 			if (isNullTransitions()){Integer newValue=oldValue; 
 			return newValue;}
 			else{
 			Integer newValue = null;
-			int ageValue = (int) getFloat(currentValues, ageIndex);
+			int ageValue = (int) getFloat(currentValues, this.ageIndex);
 			if (ageValue<0) { newValue=oldValue;  return newValue;} else {
 			int sexValue = getInteger(currentValues, sexIndex);
 			
