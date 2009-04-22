@@ -60,16 +60,20 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase {
 	public CompoundCharacteristicValue(int numSteps, int index, int nChar,
 			float[] value) {
 		super("ch", index);
-		rijtje = new float[numSteps + 1][value.length];
+		if (value.length>nChar) nChar=value.length;
+		this.rijtje = new float[numSteps + 1][nChar];
 		/* do deep copy for safety */
 		for (int i=0;i<value.length;i++)
-		rijtje[0][i] = value[i];
+		this.rijtje[0][i] = value[i];
 		
-		numberFilled=1;
+		this.numberFilled=1;
 	}
 	
+	/**
+	 * @return
+	 */
 	public float[] getValue() {
-		return rijtje[0];
+		return this.rijtje[0];
 	}
 	
 	
