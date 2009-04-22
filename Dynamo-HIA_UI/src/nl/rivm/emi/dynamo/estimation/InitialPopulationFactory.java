@@ -69,7 +69,7 @@ public class InitialPopulationFactory {
 	 * @throws TransformerException
 	 */
 	public void writeInitialPopulation(ModelParameters parameters, int nSim,
-			String simulationName, int seed, boolean newborns,
+			String simulationName, long seed, boolean newborns,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
 
 		Population[] pop = manufactureInitialPopulation(parameters,
@@ -213,13 +213,16 @@ public class InitialPopulationFactory {
 		 * population is manufactured (the "one-for-all" population), containing all subjects that are
 		 * potentially changed under each scenario.
 		 */
-		int nPopulations;
-		if (scenarioInfo.getNScenarios() == 0)
-			nPopulations = 1;
-		else if (parameters.getRiskType() != 2
-				&& scenarioInfo.isWithInitialChange())
-			nPopulations = 2 + scenarioInfo.getNScenarios()
-					- scenarioInfo.nWithInitialChange();
+		
+		int nPopulations = scenarioInfo.getNScenarios() + 1;
+
+		if (scenarioInfo.getRiskType() != 2)
+			for (int scennum = 1; scennum < scenarioInfo.getNScenarios(); scennum++) {
+				if (scenarioInfo.getInitialPrevalenceType()[scennum]
+						&& (!scenarioInfo.getTransitionType()[scennum]))
+					nPopulations--;
+			}
+	
 		else
 			nPopulations = +scenarioInfo.getNScenarios() + 1;
 		Population[] initialPopulation = new Population[nPopulations];
@@ -565,8 +568,17 @@ public class InitialPopulationFactory {
 								"ind_"
 										+ individualNumber + "_ref");
 						individualNumber++;
-						// long seed2 = (long) rand2.random();
-						long seed2 = (long) ( ((long)rand2.random() ) << 32)+ (long)rand2.random();
+						/* rand2.random returns an integer, while we need a long seed.
+						 * therefore we double the bits.
+						 * as the random generator 
+						 * that is build in in the update rule starts with making an integer
+						 * by shifting 16 to the right, this means that the numbers are
+						 * only used once, but in a different order. 
+						 * If this is not done, we get all values around 50% in our first draw.
+						 *  (long=64 bits, integer= 32 bits)
+						 * 
+						 */
+						long seed2 = (((long) rand2.random())<<32)+(long)rand2.random();
 						currentIndividual.setRandomNumberGeneratorSeed(seed2);
 
 						/*

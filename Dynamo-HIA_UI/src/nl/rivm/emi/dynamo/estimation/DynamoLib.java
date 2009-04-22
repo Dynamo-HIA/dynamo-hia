@@ -645,33 +645,38 @@ public class DynamoLib {
 		return returnarray;
 
 	}
-	/**
+	/** makes a deep copy of a four dimension array. The array is assumed to be regular (same size) with the exception
+	 * of the last two indexes, that can have different dimensions
 	 * @param inarray
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][] deepcopy(float[][][][] inarray) {
-		float[][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length];
+		float[][][][] returnarray = new float[inarray.length][inarray[0].length][][];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
-				for (int k = 0; k < inarray[0][0].length; k++)
+			{returnarray[i][j]= new float [inarray[i][j].length][inarray[i][j][0].length];
+				for (int k = 0; k < inarray[i][j].length; k++)
 					System.arraycopy(inarray[i][j][k], 0, returnarray[i][j][k],
-							0, inarray[0][0][0].length);
+							0, inarray[i][j][k].length);}
 		return returnarray;
 
 	}
-	/**
-	 * @param inarray
+	/** makes a deep copy of a five dimension array. The array is assumed to be regular (same size) with the exception
+	 * of the last two indexes, that can have different dimensions
+	 * @param inarray Input array
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][][] deepcopy(float[][][][][] inarray) {
-		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][inarray[0][0][0].length][inarray[0][0][0][0].length];
+		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][][];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
-				for (int k = 0; k < inarray[0][0].length; k++)
-					for (int l = 0; l < inarray[0][0][0].length; l++)
-						System.arraycopy(inarray[i][j][k][l], 0,
-								returnarray[i][j][k][l], 0,
-								inarray[0][0][0][0].length);
+				for (int c = 0; c < inarray[0][0].length; c++)
+					{returnarray[i][j][c]=new float [inarray[i][j][c].length][inarray[i][j][c][0].length];
+					for (int l = 0; l < inarray[i][j][c].length; l++)
+						for (int m = 0; m < inarray[i][j][c][0].length; m++)
+						
+								returnarray[i][j][c][l][m]=
+								inarray[i][j][c][l][m];}
 		return returnarray;
 
 	}

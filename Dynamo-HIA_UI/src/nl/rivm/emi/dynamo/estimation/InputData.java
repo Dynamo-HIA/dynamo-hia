@@ -764,6 +764,13 @@ return returnarray;
 	public void setOverallDalyWeight(float[][] overallDalyWeight) {
 		this.overallDalyWeight = overallDalyWeight;
 	}
+	public void setOverallDalyWeight(float[][] overallDalyWeight, boolean isPercent) {
+		
+		this.overallDalyWeight = overallDalyWeight;
+		if (isPercent)
+		for (int a=0;a<96;a++) for (int s=0;s<2;s++)
+			this.overallDalyWeight[a][s]=overallDalyWeight[a][s]/100;
+	}
 	public boolean isWithRRForDisability() {
 		return withRRForDisability;
 	}

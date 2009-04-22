@@ -42,7 +42,7 @@ public class ScenarioInfo {
 	private float [][][] oldDurationClasses=null; /* prevalence of duration classes in the reference situation; indexes: age sex class */
 	
 	private float [][][] meanDrift=null;   
-	/* indexes: scenario,age, sex */// TODO volgende 3 inlezen en initialiseren
+	/* indexes: scenario,age, sex + two dimention for matrix */// TODO volgende 3 inlezen en initialiseren
 	private float [][][][] [] alternativeTransitionMatrix;
 	private float [] succesrate = null;
 	private float [] minAge = null; /* minimum and maximum target age of scenarios */
@@ -50,7 +50,13 @@ public class ScenarioInfo {
 	private boolean[] inMen = null;
 	private boolean[] inWomen = null;
 	private  float[][] populationSize; // float as no reading method for integers is availlable at the moment
-	private  float[][] overallDalyWeight;
+	private  float[][] baselineAbility;
+	private float [][][] diseaseAbility;//
+	private float [][][] relRiskAbilityCat;
+	private float [][] relRiskAbilityCont;
+	private float [][] relRiskAbilityBegin;
+	private float [][] relRiskAbilityEnd;
+	private float [][] alfaAbility;
 	private int[] newborns; // index= year (0=startYearnewborns)
 	private int startYearNewborns;
 	private float maleFemaleRatio;
@@ -240,13 +246,7 @@ public void makeTestData1 (){
 	public int[] getNewborns() {
 		return DynamoLib.deepcopy(newborns);
 	}
-	public void setOverallDalyWeight(float[][] overallDalyWeight) {
-		this.overallDalyWeight = overallDalyWeight;
-	}
 	
-	public float[][] getOverallDalyWeight() {
-		return DynamoLib.deepcopy(overallDalyWeight);
-	}
 	public void setZeroTransition(boolean[] zeroTransition) {
 		this.zeroTransition = zeroTransition;
 	}
@@ -527,6 +527,48 @@ public void makeTestData1 (){
 	}
 	public void setIndexDurationClass(int indexDurationClass) {
 		this.indexDurationClass = indexDurationClass;
+	}
+	public float[][] getBaselineAbility() {
+		return DynamoLib.deepcopy(baselineAbility);
+	}
+	public void setBaselineAbility(float[][] overallAbility) {
+		this.baselineAbility = overallAbility;
+	}
+	public float[][][] getDiseaseAbility() {
+		return DynamoLib.deepcopy(diseaseAbility);
+	}
+	public void setDiseaseAbility(float[][][] diseaseAbility) {
+		this.diseaseAbility = diseaseAbility;
+	}
+	public float[][][] getRelRiskAbilityCat() {
+		return DynamoLib.deepcopy(relRiskAbilityCat);
+	}
+	public void setRelRiskAbilityCat(float[][][] input) {
+		this.relRiskAbilityCat = input;
+	}
+	public float[][] getRelRiskAbilityCont() {
+		return DynamoLib.deepcopy(relRiskAbilityCont);
+	}
+	public void setRelRiskAbilityCont(float[][] input) {
+		this.relRiskAbilityCont = input;
+	}
+	public float[][] getRelRiskAbilityBegin() {
+		return DynamoLib.deepcopy(relRiskAbilityBegin);
+	}
+	public void setRelRiskAbilityBegin(float[][] relRiskAbilityBegin) {
+		this.relRiskAbilityBegin = relRiskAbilityBegin;
+	}
+	public float[][] getRelRiskAbilityEnd() {
+		return DynamoLib.deepcopy(relRiskAbilityEnd);
+	}
+	public void setRelRiskAbilityEnd(float[][] relRiskAbilityEnd) {
+		this.relRiskAbilityEnd = relRiskAbilityEnd;
+	}
+	public float[][] getAlfaAbility() {
+		return DynamoLib.deepcopy(alfaAbility);
+	}
+	public void setAlfaAbility(float[][] alfaAbility) {
+		this.alfaAbility = alfaAbility;
 	}
 	
 

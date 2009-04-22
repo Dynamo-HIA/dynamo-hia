@@ -291,7 +291,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			}
 			/* display the output */
 
-			Output_UI ui = new Output_UI(parentShell, scen, simName, pop, this.baseDir);
+		Output_UI ui = new Output_UI(parentShell, scen, simName, pop, this.baseDir);
 		} catch (DynamoConfigurationException e) {			
 			this.displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
