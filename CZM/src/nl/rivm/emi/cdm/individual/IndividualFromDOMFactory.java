@@ -1,5 +1,6 @@
 package nl.rivm.emi.cdm.individual;
 
+
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueFactory;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -53,13 +54,13 @@ public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 		boolean noErrors = true;
 		int numberOfValidIndividuals = 0;
 		if (node != null) {
-			log.info("Passed Node, name: " + node.getNodeName() + " value: "
-					+ node.getNodeValue());
+		//	log.info("Passed Node, name: " + node.getNodeName() + " value: "
+		//			+ node.getNodeValue());
 			Node myNode = findMyNodeAtThisLevel(node);
 			while (myNode != null) {
 				String label = tryToFindLabel(myNode);
 				Individual currentIndividual = new Individual("ind", label);		
-				log.info("Individual " + label);
+			//	log.info("Individual " + label);
 				Node childNode = myNode.getFirstChild();
 				PRngSeedFactory seedFactory = new PRngSeedFactory(
 				"rngseed");
@@ -75,8 +76,8 @@ public class IndividualFromDOMFactory extends XMLConfiguredObjectFactory {
 					noErrors = false;
 				} else {
 					numberOfValidIndividuals++;
-					log.debug("Adding Individual " + numberOfValidIndividuals
-							+ " to Population");
+		//			log.debug("Adding Individual " + numberOfValidIndividuals
+		//					+ " to Population");
 					population.addIndividual(currentIndividual);
 				}
 				myNode = findMyNextNodeAtThisLevel(myNode);
