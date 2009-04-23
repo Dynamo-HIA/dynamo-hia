@@ -1779,6 +1779,8 @@ public class InputDataFactory {
 
 		int nDiseases = disInfo.size();
 		inputData.setNDisease(nDiseases);
+		if (nDiseases==0) inputData.setNCluster(0);
+		if (nDiseases>0){
 		/*
 		 * identification of diseases throughout is through their name as the
 		 * order is changed by creating clusters therefore, put disease names in
@@ -2264,7 +2266,7 @@ public class InputDataFactory {
 
 		}// end loop over clusters
 		inputData.setClusterData(clusterData);
-		;
+		;} // END IF NDISEASE>0
 	}// end method
 
 	/**

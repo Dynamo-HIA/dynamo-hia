@@ -129,15 +129,15 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * simulationname
 		 */
 
-		log.debug("this.baseDir" + this.baseDir);
-		log.debug("this.simName" + this.simName);
+		//log.debug("this.baseDir" + this.baseDir);
+		//log.debug("this.simName" + this.simName);
 		/*
 		 * preCharConfig is a file that contains the configuration of the
 		 * characteristics of each simulated individual
 		 */
 		String directoryName = this.baseDir + File.separator + "Simulations" 
 			+ File.separator + this.simName;
-		log.debug("directoryName" + directoryName);
+		//log.debug("directoryName" + directoryName);
 		preCharConfig = directoryName + File.separator + "modelconfiguration"
 				+ File.separator + "charconfig.XML";
 		/*
@@ -152,11 +152,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			scen = p.estimateModelParameters(this.simName, this.parentShell);					
 		} catch (DynamoConfigurationException e3) {
 			displayErrorMessage(e3, null);
-			log.fatal(e3.getMessage());
+		//	log.fatal(e3.getMessage());
 			e3.printStackTrace();
 		} catch (DynamoInconsistentDataException e) {
 			// TODO Auto-generated catch blockdisplayErrorMessage(e3);
-			log.fatal(e.getMessage());
+		//	log.fatal(e.getMessage());
 			displayInconsistentDataMessage(e);
 			e.printStackTrace();
 		}
@@ -184,16 +184,16 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * simulated and carries out the simulation
 			 */
 			simulation = new Simulation();
-			log.info("ModelParameters estimated and written");
+		//	log.info("ModelParameters estimated and written");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
-			log.info("charFile made.");
+		//	log.info("charFile made.");
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
-			log.info("charFile handled.");
+		//	log.info("charFile handled.");
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
-			log.info("empty charmap made");
+		//	log.info("empty charmap made");
 			/*
 			 * array pop contains the stimulated populations for the different
 			 * scenario's calculate the number of populations that are needed to
@@ -213,7 +213,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			
 			// Assemble the simulation file name
 			simulationFilePath = simFileName + ".xml";			
-			log.debug("simulationFilePath" + simulationFilePath);
+		//	log.debug("simulationFilePath" + simulationFilePath);
 			
 			/* run the simulation for each population */
 			for (int scennum = 0; scennum < nPopulations; scennum++) {
@@ -223,7 +223,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 							+ "_scen_" + scennum + ".xml";
 				
 				simulationConfigurationFile = new File(simulationFilePath);
-				log.info("simulationFile made for scenario " + scennum);
+	//			log.info("simulationFile made for scenario " + scennum);
 
 				assertTrue(CharacteristicsConfigurationMapSingleton
 						.getInstance().size() > 1);
@@ -232,8 +232,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				if (simulationConfigurationFile.exists()) {
 					simulationConfiguration = new XMLConfiguration(
 							simulationConfigurationFile);
-					log.info("simulationconfuration made for scenario "
-							+ scennum);
+		//			log.info("simulationconfuration made for scenario "
+		//					+ scennum);
 
 					/**
 						TODO: VALIDATION IS FOR FUTURE USE 
@@ -270,12 +270,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					 */
 					simulation.setPopulation(pop[scennum]);
 
-					log.info("simulationFile loaded for scenario " + scennum);
+		//			log.info("simulationFile loaded for scenario " + scennum);
 
 					if (pop[scennum] == null)
 						throw new CDMConfigurationException(
 								"no population found for scenario " + scennum);
-					log.info("starting run for population " + scennum);
+			//		log.info("starting run for population " + scennum);
 					/*
 					 * run the simulation for this population This is done by
 					 * the new Simulation Object DynamoSimulation that is a
@@ -285,7 +285,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					 */
 
 					runScenario(scennum);
-					log.info("Run  complete for population " + scennum);
+			//		log.info("Run  complete for population " + scennum);
 
 				}
 			}
@@ -356,8 +356,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		while (individualIterator.hasNext()) {
 			currentIndividual++;
 			Individual individual = individualIterator.next();
-			log.debug("Longitudinal: Processing individual "
-					+ individual.getLabel());
+	//		log.debug("Longitudinal: Processing individual "
+	//				+ individual.getLabel());
 			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 				/* check if the simulation for this person can be ended */
 				CharacteristicValueBase charValBase = individual.get(1);

@@ -612,10 +612,11 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static float[][] deepcopy(float[][] inarray) {
-		float[][] returnarray = new float[inarray.length][inarray[0].length];
+		float[][] returnarray = null;
+		if (inarray !=null) {returnarray=new float[inarray.length][inarray[0].length];
 		for (int i = 0; i < inarray.length; i++)
 			System.arraycopy(inarray[i], 0, returnarray[i], 0,
-					inarray[0].length);
+					inarray[0].length);}
 		return returnarray;
 
 	}
@@ -624,11 +625,12 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static float[][][] deepcopy(float[][][] inarray) {
-		float[][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
+		float[][][] returnarray = null;
+		if (inarray !=null) { returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
 				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);
+						inarray[0][0].length);}
 		return returnarray;
 
 	}
@@ -637,11 +639,13 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static double[][][] deepcopy(double[][][] inarray) {
-		double[][][] returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
+		
+		double[][][]  returnarray = null;
+		if (inarray !=null) { returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
 				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);
+						inarray[0][0].length);}
 		return returnarray;
 
 	}
@@ -651,13 +655,14 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][] deepcopy(float[][][][] inarray) {
-		float[][][][] returnarray = new float[inarray.length][inarray[0].length][][];
+		float[][][][]  returnarray = null;
+		if (inarray !=null) {returnarray = new float[inarray.length][inarray[0].length][][];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
 			{returnarray[i][j]= new float [inarray[i][j].length][inarray[i][j][0].length];
 				for (int k = 0; k < inarray[i][j].length; k++)
 					System.arraycopy(inarray[i][j][k], 0, returnarray[i][j][k],
-							0, inarray[i][j][k].length);}
+							0, inarray[i][j][k].length);}}
 		return returnarray;
 
 	}
@@ -667,7 +672,8 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][][] deepcopy(float[][][][][] inarray) {
-		float[][][][][] returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][][];
+		float[][][][][]  returnarray = null;
+		if (inarray !=null) {returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][][];
 		for (int i = 0; i < inarray.length; i++)
 			for (int j = 0; j < inarray[0].length; j++)
 				for (int c = 0; c < inarray[0][0].length; c++)
@@ -676,7 +682,7 @@ public class DynamoLib {
 						for (int m = 0; m < inarray[i][j][c][0].length; m++)
 						
 								returnarray[i][j][c][l][m]=
-								inarray[i][j][c][l][m];}
+								inarray[i][j][c][l][m];}}
 		return returnarray;
 
 	}
@@ -688,9 +694,10 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static float[] deepcopy(float[] inarray) {
-		float[] result=new float [inarray.length];
+		float[] result = null;
+		if (inarray !=null) { result=new float [inarray.length];
 		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];
+			result[i]=inarray[i];}
 		return result;
 	}
 
@@ -701,9 +708,10 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static int[] deepcopy(int[] inarray) {
-		int[] result=new int [inarray.length];
+		int[] result = null;
+		if (inarray !=null) {result=new int [inarray.length];
 		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];
+			result[i]=inarray[i];}
 		return result;
 	}
 
@@ -714,9 +722,10 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static boolean[] deepcopy(boolean[] inarray) {
-		boolean[] result=new boolean [inarray.length];
+		boolean[] result = null;
+		if (inarray !=null) {result=new boolean [inarray.length];
 		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];
+			result[i]=inarray[i];}
 		return result;
 	}
 
@@ -727,9 +736,11 @@ public class DynamoLib {
 	 * @return deepcopy of input array
 	 */
 	public static String[] deepcopy(String[] inarray) {
-		String[] result=new String [inarray.length];
+		String[] result = null;
+		if (inarray !=null) {
+	result=new String [inarray.length];
 		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];
+			result[i]=inarray[i];}
 		return result;
 	}
 
