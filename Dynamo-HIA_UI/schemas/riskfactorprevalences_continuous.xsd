@@ -4,6 +4,17 @@
   <xs:element name="riskfactorprevalences_continuous">
     <xs:complexType>
       <xs:sequence>
+ 	<xs:element minOccurs="1" maxOccurs="1" name="distributiontype">
+ <xs:simpleType>
+               <xs:restriction base="xs:string">
+<xs:enumeration value="Normal"/>
+<xs:enumeration value="Log normal"/>
+</xs:restriction>
+ </xs:simpleType>
+</xs:element>
+    <xs:element minOccurs="1" maxOccurs="1" name="prevalences">
+    <xs:complexType>
+      <xs:sequence>
         <xs:element minOccurs="192" maxOccurs="192" name="prevalence">
           <xs:complexType>
             <xs:sequence>
@@ -27,7 +38,6 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:float">
                     <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="unbounded" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>  
@@ -36,14 +46,16 @@
                 <xs:simpleType>
                   <xs:restriction base="xs:float">
                     <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="unbounded" />
                   </xs:restriction>
                 </xs:simpleType>
-			  </xs:element>                
+              </xs:element>                
             </xs:sequence>
           </xs:complexType>
         </xs:element>
       </xs:sequence>
     </xs:complexType>
-  </xs:element>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+   </xs:element>
 </xs:schema>
