@@ -424,7 +424,7 @@ public class DynamoOutputFactory {
 		this.diseaseNames = new String[this.nDiseases];
 		int currentDis = 0;
 		int currentState = 0;
-		for (int c = 0; c < this.structure.length; c++) {
+		if (this.nDiseases>0) for (int c = 0; c < this.structure.length; c++) {
 			if (this.structure[c].getNInCluster() > 1
 					&& !this.structure[c].isWithCuredFraction())
 				for (int i = 1; i < Math.pow(this.structure[c].getNInCluster(),
@@ -1197,7 +1197,7 @@ public class DynamoOutputFactory {
 		int age2 = Math.min(95, age);
 		int currentClusterStart = 0;
 		double ability = 1;
-		for (int c = 0; c < this.structure.length; c++) {
+		if (this.nDiseases>0) for (int c = 0; c < this.structure.length; c++) {
 			if (!this.structure[c].isWithCuredFraction()) {
 				double clusterAbility = 0;
 				for (int state = 0; state < Math.pow(2, this.structure[c]
@@ -6524,11 +6524,12 @@ public class DynamoOutputFactory {
 	 */
 	private void setNDiseases(DiseaseClusterStructure[] s) {
 		this.nDiseases = 0;
-		for (int i = 0; i < s.length; i++) {
+		// if no diseases are present, DiseaseClusterStructure=null
+		if (s!=null) for (int i = 0; i < s.length; i++) {
 			this.nDiseases += s[i].getNInCluster();
 
 		}
-		// TODO Auto-generated method stub
+	
 
 	}
 
@@ -6565,8 +6566,8 @@ public class DynamoOutputFactory {
 	 */
 	public void setNDiseaseStates(DiseaseClusterStructure[] s) {
 		this.nDiseaseStates = 1;
-
-		for (int i = 0; i < s.length; i++) {
+// if no diseases are present, s==null
+		if (s !=null) for (int i = 0; i < s.length; i++) {
 			if (s[i].getNInCluster() == 1)
 				this.nDiseaseStates++;
 			else if (s[i].isWithCuredFraction())

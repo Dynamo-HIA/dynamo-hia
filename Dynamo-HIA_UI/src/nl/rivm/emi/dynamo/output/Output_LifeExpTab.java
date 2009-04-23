@@ -54,7 +54,9 @@ public class Output_LifeExpTab  {
 		this.plotComposite.setLayout(gridLayout);
 		this.plotInfo=new ButtonStates();
 		this.plotInfo.currentScen = 0;
+		
 		this.plotInfo.currentDisease = 2;
+		if (this.output.getNDiseases()==0) this.plotInfo.currentDisease = 1;
 		this.plotInfo.currentYear = 0;
 		this.plotInfo.newborns=output.isWithNewborns();
 
@@ -67,21 +69,24 @@ public class Output_LifeExpTab  {
 		controlComposite.setLayoutData(controlData);
 		
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, this.output.makeCohortLifeExpectancyPlot(0), true);
+				this.plotComposite, SWT.NONE, this.output.makeCohortLifeExpectancyPlot( this.plotInfo.currentDisease ), true);
 		
 		 GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 					| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL);
 		
 		chartComposite.setLayoutData(chartData);
-		String[] items = new String[this.output.getNDiseases() + 3];
+		String[] items =new String[2];
+		
+		if (this.output.getNDiseases()>0){ items = new String[this.output.getNDiseases() + 3];
+		items[2] = "total disease";
 		String[] names = this.output.getDiseaseNames();
+		for (int i = 0; i < names.length; i++)
+			items[i + 3] = names[i];}
 		items[0] = "none";
 		items[1] = "disability";
-		items[2] = "total disease";
-		for (int i = 0; i < names.length; i++)
-			items[i + 3] = names[i];
-
+		
+	
 		
 		new DiseaseChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, items);
 		

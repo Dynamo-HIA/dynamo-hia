@@ -93,10 +93,13 @@ public class Output_DiseaseTab  {
 			
        new ByChoiceGroup(controlComposite, chartComposite,this. factory,this. plotInfo);
 		new ScenarioChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo,this.output.getScenarioNames());
-        String [] names=new String [this.output.getDiseaseNames().length+1];
+        
+		
+		String [] names=new String [1];
+		if (this.output.getNDiseases()>0){ names=new String[this.output.getDiseaseNames().length+1];
         for (int i=0; i<this.output.getDiseaseNames().length;i++)
-        names[i]=this.output.getDiseaseNames()[i];
-        names[this.output.getDiseaseNames().length]="disability";
+        names[i]=this.output.getDiseaseNames()[i];}
+        names[names.length-1]="disability";
         
 		new DiseaseChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo,names);
 		String[] yearNames = new String[this.output.getStepsInRun() + 1];

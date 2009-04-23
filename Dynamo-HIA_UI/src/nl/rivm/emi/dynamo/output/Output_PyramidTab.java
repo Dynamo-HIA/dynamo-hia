@@ -141,9 +141,10 @@ public class Output_PyramidTab  {
 			}
 
 		});
-		
+		int firstplotnumber=-2;
+		if (this.output.getNDiseases()>0)  firstplotnumber=-1;
 		JFreeChart pyramidChart = this.output.makePyramidChartIncludingDisease(
-				this.plotInfo.currentScen, this.plotInfo.currentYear, -1);
+				this.plotInfo.currentScen, this.plotInfo.currentYear, firstplotnumber);
 		
 		// RowData rowData3 = new RowData(450, 500);
 	    this.chartComposite = new ChartComposite(this.plotComposite, SWT.NONE,
@@ -157,13 +158,14 @@ public class Output_PyramidTab  {
 		this.chartComposite.setLayoutData(chartData);
 		// chartComposite.setLayoutData(rowData3);
 		new ScenarioChoiceGroup(controlComposite, this.chartComposite, this.factory, this.plotInfo, this.output.getScenarioNames());
-
-		String[] items = new String[this.output.getNDiseases() + 2];
+		String[] items = new String[2];
+		if (this.output.getNDiseases()>0)  items = new String[this.output.getNDiseases() + 3];
 		String[] names = this.output.getDiseaseNames();
 		items[0] = "none";
-		items[1] = "all";
+		items[1] = "disability";
+		if (items.length>2) {items[2] = "total disease";
 		for (int i = 0; i < names.length; i++)
-			items[i + 2] = names[i];
+			items[i + 3] = names[i];}
 		new DiseaseChoiceGroup(controlComposite, this.chartComposite,this. factory, this.plotInfo, items);
 
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
