@@ -249,7 +249,14 @@ public class DynamoSimulationObject extends
 		TypedHashMap<UniqueName> diseasesMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.DISEASES
 				.getElementName());
 		Map<String, ITabDiseaseConfiguration> resultMap = new LinkedHashMap<String, ITabDiseaseConfiguration>();
-		Set<Object> keySet = diseasesMap.keySet();
+		Set<Object> keySet;
+		if (diseasesMap == null) {
+			// No entries exists in the xml datafile, so we provide an empty (not null) map 
+			diseasesMap = new TypedHashMap(XMLTagEntityEnum.UNIQUENAME.getTheType());			
+			// Put the map into this dynamosimulationobject model
+			put(XMLTagEntityEnum.DISEASES.getElementName(), diseasesMap);			
+		}
+		keySet = diseasesMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
 			ArrayList<AtomicTypeObjectTuple> diseaseModelData = (ArrayList<AtomicTypeObjectTuple>) diseasesMap
@@ -277,7 +284,14 @@ public class DynamoSimulationObject extends
 		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
-		Set<Object> keySet = relativeRisksMap.keySet();
+		Set<Object> keySet;
+		if (relativeRisksMap == null) {
+			// No entries exists in the xml datafile, so we provide an empty (not null) map 
+			relativeRisksMap = new TypedHashMap(XMLTagEntityEnum.UNIQUENAME.getTheType());			
+			// Put the map into this dynamosimulationobject model
+			put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);			
+		}
+		keySet = relativeRisksMap.keySet();
 		for (Object key : keySet) {
 			Integer index = (Integer) key;
 			ArrayList<AtomicTypeObjectTuple> relativeRiskModelData = (ArrayList<AtomicTypeObjectTuple>) relativeRisksMap
@@ -305,7 +319,14 @@ public class DynamoSimulationObject extends
 		TypedHashMap<UniqueName> scenariosMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.SCENARIOS
 				.getElementName());
 		Map<String,ITabScenarioConfiguration> resultMap = new LinkedHashMap<String, ITabScenarioConfiguration>();
-		Set<Object> keySet = scenariosMap.keySet();
+		Set<Object> keySet;
+		if (scenariosMap == null) {
+			// No entries exists in the xml datafile, so we provide an empty (not null) map 
+			scenariosMap = new TypedHashMap(XMLTagEntityEnum.UNIQUENAME.getTheType());			
+			// Put the map into this dynamosimulationobject model
+			put(XMLTagEntityEnum.SCENARIOS.getElementName(), scenariosMap);			
+		}
+		keySet = scenariosMap.keySet();			
 		for (Object key : keySet) {
 			String name = (String) key;
 			ArrayList<AtomicTypeObjectTuple> scenarioModelData = (ArrayList<AtomicTypeObjectTuple>) scenariosMap

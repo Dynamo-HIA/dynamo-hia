@@ -67,7 +67,7 @@
         <xs:element name="scenarios">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="scenario">
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="scenario">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="uniquename" type="xs:string"/>
@@ -114,7 +114,7 @@
         <xs:element name="diseases">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="disease">
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="disease">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="uniquename" type="xs:string"/>
@@ -146,7 +146,7 @@
         <xs:element name="RRs">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" minOccurs="0" name="RR">
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="RR">
                 <xs:complexType>
                   <xs:sequence>
 					<xs:element name="RRindex">
