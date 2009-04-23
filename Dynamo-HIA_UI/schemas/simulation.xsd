@@ -38,7 +38,7 @@
         <xs:element name="maxAge">
           <xs:simpleType>
             <xs:restriction base="xs:int">
-              <xs:minInclusive value="1"/>
+              <xs:minInclusive value="0"/>
               <xs:maxInclusive value="95"/>
             </xs:restriction>
           </xs:simpleType>
