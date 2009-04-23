@@ -3,6 +3,7 @@ package nl.rivm.emi.cdm.characteristic.values;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 import nl.rivm.emi.cdm.XMLConfiguredObjectFactory;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -59,13 +60,13 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			CDMRunException {
 		boolean anyErrors = false;
 		if (node != null) {
-			log.debug("Passed Node, name: " + node.getNodeName() + " value: "
-					+ node.getNodeValue());
+	//		log.debug("Passed Node, name: " + node.getNodeName() + " value: "
+	//				+ node.getNodeValue());
 			// Single CharacteristicValue for now. TODO Extend.
 			Node myNode = findMyNodeAtThisLevel(node);
 			int numNodesFound = 0;
 			while (myNode != null) {
-				log.debug("Processing node " + myNode.getNodeName());
+		//		log.debug("Processing node " + myNode.getNodeName());
 				numNodesFound++;
 				if (!processMyNode(individual, myNode, numberOfSteps)) {
 					log.debug("Errors!");
@@ -97,7 +98,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 				}
 			}
 			String index = indexNode.getNodeValue();
-			log.debug("Node index " + index);
+	//		log.debug("Node index " + index);
 			CharacteristicsConfigurationMapSingleton charConfig = CharacteristicsConfigurationMapSingleton
 					.getInstance();
 			if (charConfig.isEmpty()) {
@@ -106,7 +107,6 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			}
 			Characteristic characteristic = charConfig
 					.getCharacteristic(Integer.parseInt(index));
-			try{
 			/* gewijzigd door Hendriek: compound type toegevoegd; */
 			if (!(characteristic.getType() instanceof NumericalContinuousCharacteristicType)
 					&& !(characteristic.getType() instanceof CompoundCharacteristicType)) {
@@ -118,14 +118,13 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 						myAttributes, index);
 
 			} else if (characteristic.getType() instanceof CompoundCharacteristicType) {
+
 				success = handleCompoundElementValue(individual, numberOfSteps,
 						success, myAttributes, index, characteristic
 								.getNumberOfElements());
+
 			}
-			} catch(NullPointerException e){
-				// Debugging location.
-				throw e;
-			}
+
 		} else {
 			throw new CDMConfigurationException(
 					"CharacteristicValue without attributes found.");
@@ -148,17 +147,23 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			}
 		}
 		String value = valueNode.getNodeValue();
-		log.debug("Node integer value " + value);
+	//	log.debug("Node integer value " + value);
 		matcher = posIntPattern.matcher(value);
 		boolean valueOK = matcher.matches();
 		if (indexOK && valueOK) {
-			IntCharacteristicValue intCharacteristicValue = new IntCharacteristicValue(
-					numberOfSteps, Integer.parseInt(index));
-			intCharacteristicValue.appendValue(Integer.parseInt(value));
-			log.debug("Setting CharacteristicValue "
-					+ intCharacteristicValue.getValue()
-					+ " in Individual at index "
-					+ +intCharacteristicValue.getIndex());
+
+			
+			IntCharacteristicValue intCharacteristicValue
+			 = new IntCharacteristicValue(
+						numberOfSteps, Integer.parseInt(index));
+				intCharacteristicValue.appendValue(Integer.parseInt(value));
+			
+
+			/* end changes */
+	//		log.debug("Setting CharacteristicValue "
+	//				+ intCharacteristicValue.getValue()
+	//				+ " in Individual at index "
+	//				+ +intCharacteristicValue.getIndex());
 			individual.luxeSet(Integer.parseInt(index), intCharacteristicValue);
 			success = true;
 		} else {
@@ -181,7 +186,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			}
 		}
 		String value = valueNode.getNodeValue();
-		log.debug("Node float value " + value);
+	//	log.debug("Node float value " + value);
 		// verwijderd door Hendriek omdat floatPattern geen exponentiele notatie
 		// aankan
 		// matcher = floatPattern.matcher(value);
@@ -189,13 +194,20 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 
 		// if (indexOK && valueOK) {
 		if (indexOK) {
+			/*
+			 * this has be changed by hendriek to adapt for including newborns
+			 */
 			FloatCharacteristicValue floatCharacteristicValue = new FloatCharacteristicValue(
-					numberOfSteps, Integer.parseInt(index));
-			floatCharacteristicValue.appendValue(Float.parseFloat(value));
-			log.debug("Setting CharacteristicValue "
-					+ floatCharacteristicValue.getValue()
-					+ " in Individual at index "
-					+ +floatCharacteristicValue.getIndex());
+						numberOfSteps, Integer.parseInt(index));
+				floatCharacteristicValue.appendValue(Float.parseFloat(value));
+			
+			;
+
+			/* end changes */
+		//	log.debug("Setting CharacteristicValue "
+		//			+ floatCharacteristicValue.getValue()
+		//			+ " in Individual at index "
+		//			+ +floatCharacteristicValue.getIndex());
 			individual.luxeSet(Integer.parseInt(index),
 					floatCharacteristicValue);
 			success = true;
@@ -221,9 +233,10 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			}
 		}
 		String value = valueNode.getNodeValue();
-		log.debug("Node float value " + value);
+	//	log.debug("Node float value " + value);
 
 		if (indexOK) {
+
 			if (Integer.parseInt(index) < individual.size()) {
 				CompoundCharacteristicValue compoundCharacteristicValue = (CompoundCharacteristicValue) individual
 						.get(Integer.parseInt(index));
@@ -231,22 +244,22 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 						.parseFloat(value));
 				individual.luxeSet(Integer.parseInt(index),
 						compoundCharacteristicValue);
-				log.debug("Setting CharacteristicValue "
-						+ compoundCharacteristicValue.getLastValue()
-						+ " in Individual at index "
-						+ compoundCharacteristicValue.getIndex());
+			//	log.debug("Setting CharacteristicValue "
+			//			+ compoundCharacteristicValue.getLastValue()
+			//			+ " in Individual at index "
+			//			+ compoundCharacteristicValue.getIndex());
 				success = true;
 			} else {
-
 				CompoundCharacteristicValue compoundCharacteristicValue = new CompoundCharacteristicValue(
 						numberOfSteps, Integer.parseInt(index),
 						numberOfElements);
 				compoundCharacteristicValue.appendInitialValue(Float
 						.parseFloat(value));
-				log.debug("Setting CharacteristicValue "
-						+ compoundCharacteristicValue.getLastValue()
-						+ " in Individual at index "
-						+ compoundCharacteristicValue.getIndex());
+
+			//	log.debug("Setting CharacteristicValue "
+			//			+ compoundCharacteristicValue.getLastValue()
+			//			+ " in Individual at index "
+			//			+ compoundCharacteristicValue.getIndex());
 				individual.luxeSet(Integer.parseInt(index),
 						compoundCharacteristicValue);
 				success = true;
