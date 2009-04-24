@@ -27,8 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RiskFactorTypeBulletsAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	public RiskFactorTypeBulletsAction(Shell shell, TreeViewer v,
-			BaseNode node) {
+	public RiskFactorTypeBulletsAction(Shell shell, TreeViewer v, BaseNode node) {
 		super(shell, v, node, "aBSTRACT");
 	}
 
@@ -42,7 +41,7 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 					theModal);
 			String candidatePath = theModal.getNewFilePath();
 			File file = new File(candidatePath);
-						
+
 			if (file != null && !file.getName().isEmpty()) {
 				if (file.exists()) {
 					MessageBox alreadyExistsMessageBox = new MessageBox(shell,
@@ -51,10 +50,7 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 							+ "\"\n exists already.");
 					alreadyExistsMessageBox.open();
 				} else {
-					MessageBox messageBox = new MessageBox(shell);
-					messageBox.setMessage(theModal.getSelectedRootElementName());
-					messageBox.open();
-					processThroughModal(file, theModal.getSelectedRootElementName());
+					processThroughModal(file, theModal);
 				}
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
@@ -70,8 +66,9 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File file, String selectedRootElementName) {
-		log.debug("selectedRootElementNamexxx:" + selectedRootElementName );
+	private void processThroughModal(File file, RiskFactorTypeBulletsModal previousModal) {
+			String selectedRootElementName = previousModal.getSelectedRootElementName();
+		log.debug("selectedRootElementNamexxx:" + selectedRootElementName);
 		try {
 			boolean isOld = file.exists();
 			Runnable theModal = null;
@@ -81,38 +78,43 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 				messageBox.setMessage("No rootelementname selected.");
 				messageBox.open();
 			} else {
-			if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
-					.equals(selectedRootElementName)) {
-				theModal = new RiskFactorCategoricalModal(shell, file
-						.getAbsolutePath(), file
-						.getAbsolutePath(), selectedRootElementName, node);
-			} else {
-				if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(selectedRootElementName)) {
-					theModal =  new RiskFactorContinuousModal(shell, file
-							.getAbsolutePath(), file
-							.getAbsolutePath(), selectedRootElementName, node);
+					int selectedNumberOfClasses = previousModal.getNumberOfClasses();
+					theModal = new RiskFactorCategoricalModal(shell, file
+							.getAbsolutePath(), file.getAbsolutePath(),
+							selectedRootElementName, node, selectedNumberOfClasses);
 				} else {
-					if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
-							.equals(selectedRootElementName)) {
-						theModal =  new RiskFactorCompoundModal(shell, file
-								.getAbsolutePath(), file
-								.getAbsolutePath(), selectedRootElementName, node);
+					int selectedNumberOfCutoffs = previousModal.getNumberOfCutoffs();
+					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+							.getNodeLabel().equals(selectedRootElementName)) {
+						theModal = new RiskFactorContinuousModal(shell, file
+								.getAbsolutePath(), file.getAbsolutePath(),
+								selectedRootElementName, node, selectedNumberOfCutoffs);
 					} else {
-						throw new DynamoConfigurationException(
-								"RootElementName " + selectedRootElementName
-										+ " not implemented.");
+						int selectedNumberOfCompoundClasses = previousModal.getNumberOfCompoundClasses();
+                        // TODO(mondeelr) Add variable number of classes here.
+						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
+								.getNodeLabel().equals(selectedRootElementName)) {
+							theModal = new RiskFactorCompoundModal(shell, file
+									.getAbsolutePath(), file.getAbsolutePath(),
+									selectedRootElementName, node);
+						} else {
+							throw new DynamoConfigurationException(
+									"RootElementName "
+											+ selectedRootElementName
+											+ " not implemented.");
+						}
 					}
 				}
-			}
-			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-					theModal);
-			boolean isPresentAfter = file.exists();
-			if (isPresentAfter && !isOld) {
-				((ParentNode) node).addChild((ChildNode) new FileNode(
-						(ParentNode) node, file));
-			}
-			theViewer.refresh();
+				Realm.runWithDefault(SWTObservables.getRealm(Display
+						.getDefault()), theModal);
+				boolean isPresentAfter = file.exists();
+				if (isPresentAfter && !isOld) {
+					((ParentNode) node).addChild((ChildNode) new FileNode(
+							(ParentNode) node, file));
+				}
+				theViewer.refresh();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

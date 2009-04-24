@@ -16,7 +16,9 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
@@ -210,11 +212,32 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 									RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
 											.getNodeLabel(), node);
 						} else {
-							MessageBox messageBox = new MessageBox(shell,
-									SWT.ERROR_NOT_IMPLEMENTED);
-							messageBox.setMessage("\"" + rootElementName
-									+ "\" not yet implemented.");
-							messageBox.open();
+							if (communicationEnum
+									.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDEATH)) {
+								theModal = new RelRiskForDeathContinuousModal(
+										shell,
+										dataFile.getAbsolutePath(),
+										savedFile.getAbsolutePath(),
+										RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS
+												.getNodeLabel(), node);
+							} else {
+								if (communicationEnum
+										.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY)) {
+									theModal = new RelRiskForDisabilityContinuousModal(
+											shell,
+											dataFile.getAbsolutePath(),
+											savedFile.getAbsolutePath(),
+											RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
+													.getNodeLabel(), node);
+								} else {
+									MessageBox messageBox = new MessageBox(
+											shell, SWT.ERROR_NOT_IMPLEMENTED);
+									messageBox.setMessage("\""
+											+ rootElementName
+											+ "\" not yet implemented.");
+									messageBox.open();
+								}
+							}
 						}
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
