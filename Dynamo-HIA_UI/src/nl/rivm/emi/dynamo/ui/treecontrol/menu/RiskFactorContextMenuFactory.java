@@ -1,5 +1,10 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.menu;
 
+/**
+ * This Class produces the context-menu for the Node that holds the RiskFactor name.
+ * There used to be here, but since all files but the configuration have disapeared 
+ * in subdirectories only the management of the configuration-file is left.
+ */
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
