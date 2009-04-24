@@ -17,8 +17,10 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.data.types.atomic.base.FlexibleUpperLimitNumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
@@ -39,6 +41,12 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
+	/**
+	 * Value used by "FlexibleUpperLimit" types. Limit is that only one
+	 * newUpperLimit is present, so it currently not possible to give multiple
+	 * wrapped types different upper limits. This is currently YAGNI.
+	 */
+	private Integer indexLimit = null;
 	/**
 	 * Data structure to store the parts of the configuration produced by the
 	 * rootchild-factories the construction is delegated to.
@@ -274,14 +282,14 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			throws DynamoConfigurationException {
 		log.debug(" Starting manufacture.");
 		LinkedHashMap<String, Object> underConstruction = new LinkedHashMap<String, Object>();
-		int numberOfRootChildren = fileControl
-				.getNumberOfRootChildren();
+		int numberOfRootChildren = fileControl.getNumberOfRootChildren();
 		for (int rootChildCount = 1; rootChildCount <= numberOfRootChildren; rootChildCount++) {
 			XMLTagEntity rootChildType = fileControl
 					.getParameterType4GroupFactory(rootChildCount);
 			log
 					.info("Handling rootchild: "
 							+ rootChildType.getXMLElementName());
+			// A Wrappertype has its own fileControl String-s.
 			if (rootChildType instanceof WrapperType) {
 				TypedHashMap resultMap = null;
 				FileControlSingleton fileControlInstance = FileControlSingleton
@@ -325,7 +333,13 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		XMLTagEntity wrappedEntity = rootChildControlEnum
 				.getParameterType4GroupFactory(level);
 		if (wrappedEntity instanceof ContainerType) {
-			if ((wrappedEntity instanceof NumberRangeTypeBase)||(wrappedEntity instanceof AbstractString)) {
+			if ((wrappedEntity instanceof NumberRangeTypeBase)
+					|| (wrappedEntity instanceof AbstractString)) {
+				if (wrappedEntity instanceof AbstractFlexibleUpperLimitInteger) {
+					log.debug("Setting MAX_VALUE of type " + wrappedEntity.getXMLElementName() + " to " + getIndexLimit());
+					((AbstractFlexibleUpperLimitInteger) wrappedEntity)
+							.setMAX_VALUE(getIndexLimit());
+				}
 				resultMap = new TypedHashMap(wrappedEntity);
 				resultMap = makeDefaultPath(resultMap, rootChildControlEnum,
 						level, makeObservable);
@@ -352,52 +366,55 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			FileControlEnum fileControl, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
 		try {
-			AtomicTypeBase testType = (AtomicTypeBase<?>)fileControl
-			.getParameterType4GroupFactory(currentLevel);
-			if(!(testType instanceof AbstractString)){ 
-			AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) fileControl
-			.getParameterType4GroupFactory(currentLevel);
-			log.info("Handling AtomicTypeBase<Integer> ContainerType: " + myType.getXMLElementName());
+			AtomicTypeBase testType = (AtomicTypeBase<?>) fileControl
+					.getParameterType4GroupFactory(currentLevel);
+			if (!(testType instanceof AbstractString)) {
+				AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) fileControl
+						.getParameterType4GroupFactory(currentLevel);
+				log.info("Handling AtomicTypeBase<Integer> ContainerType: "
+						+ myType.getXMLElementName());
 
-			int maxValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMaxNumberOfDefaultValues();
-			int minValue = ((NumberRangeTypeBase<Integer>) myType)
-					.getMIN_VALUE();
-			if (minValue < maxValue) {
-	for (int value = minValue; value <= maxValue; value++) {
-				TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
-						.get(value);
-				if (pathMap == null) {
-					pathMap = new TypedHashMap(fileControl
-							.getParameterType4GroupFactory(currentLevel + 1));
-				}
-				log.debug("Adding map at value " + value);
-				priorLevel.put(value, pathMap);
-				XMLTagEntity levelEntity = fileControl
-						.getParameterType4GroupFactory(currentLevel + 1);
-				if (levelEntity instanceof ContainerType) {
-					makeDefaultPath(pathMap, fileControl, currentLevel + 1,
-							makeObservable);
+				int maxValue = ((NumberRangeTypeBase<Integer>) myType)
+						.getMaxNumberOfDefaultValues();
+				int minValue = ((NumberRangeTypeBase<Integer>) myType)
+						.getMIN_VALUE();
+				log.debug("Type \"" + myType.getXMLElementName() + "\" minimumValue: " + minValue + " maximumValue: " + maxValue);
+				if (minValue < maxValue) {
+					for (int value = minValue; value <= maxValue; value++) {
+						TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
+								.get(value);
+						if (pathMap == null) {
+							pathMap = new TypedHashMap(
+									fileControl
+											.getParameterType4GroupFactory(currentLevel + 1));
+						}
+						log.debug("Adding map at value " + value);
+						priorLevel.put(value, pathMap);
+						XMLTagEntity levelEntity = fileControl
+								.getParameterType4GroupFactory(currentLevel + 1);
+						if (levelEntity instanceof ContainerType) {
+							makeDefaultPath(pathMap, fileControl,
+									currentLevel + 1, makeObservable);
 
-				} else {
-					int numberOfPayloadNodes = fileControl
-							.getNumberOfParameterTypes4GroupFactory()
-							- currentLevel - 1;
-					log.debug("Number of payload nodes: "
-							+ numberOfPayloadNodes);
-					// NB(mondeelr) Difference removed.
-					// if (numberOfPayloadNodes == 1) {
-					// // Existing functionality.
-					// handleSinglePayload(priorLevel, fileControl,
-					// currentLevel, makeObservable, value);
-					// } else {
-					// Extended functionality.
-					handleMultiplePayLoads(priorLevel, fileControl,
-							currentLevel + 1, makeObservable, value);
-					// }
+						} else {
+							int numberOfPayloadNodes = fileControl
+									.getNumberOfParameterTypes4GroupFactory()
+									- currentLevel - 1;
+							log.debug("Number of payload nodes: "
+									+ numberOfPayloadNodes);
+							// NB(mondeelr) Difference removed.
+							// if (numberOfPayloadNodes == 1) {
+							// // Existing functionality.
+							// handleSinglePayload(priorLevel, fileControl,
+							// currentLevel, makeObservable, value);
+							// } else {
+							// Extended functionality.
+							handleMultiplePayLoads(priorLevel, fileControl,
+									currentLevel + 1, makeObservable, value);
+							// }
+						}
+					}
 				}
-				}
-			}
 			}
 			return priorLevel;
 		} catch (ConfigurationException e) {
@@ -466,18 +483,27 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 						result = new WritableValue(defaultValue, String.class);
 					} else {
 						if (defaultValue instanceof Boolean) {
-							result = new WritableValue(defaultValue, Boolean.class);
+							result = new WritableValue(defaultValue,
+									Boolean.class);
 						} else {
-						DynamoConfigurationException e = new DynamoConfigurationException(
-								"Unsupported leafValueType for IObservable-s :"
-										+ defaultValue.getClass().getName());
-						e.printStackTrace(); // TODO Remove after debugging.
-						throw e;
+							DynamoConfigurationException e = new DynamoConfigurationException(
+									"Unsupported leafValueType for IObservable-s :"
+											+ defaultValue.getClass().getName());
+							e.printStackTrace(); // TODO Remove after debugging.
+							throw e;
+						}
 					}
-					}
-					}
+				}
 			}
 		}
 		return result;
+	}
+
+	public Integer getIndexLimit() {
+		return indexLimit;
+	}
+
+	public void setIndexLimit(Integer newIndexLimit) {
+		this.indexLimit = newIndexLimit;
 	}
 }

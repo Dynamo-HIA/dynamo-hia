@@ -13,12 +13,15 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 
-public class RiskFactorContinuousFactory extends AgnosticGroupFactory {
+public class RiskFactorContinuousFactory extends AgnosticGroupFactory implements CategoricalFactory{
 //	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	Integer numberOfCategories = null;
 	FileControlEnum myEnum = FileControlEnum.RISKFACTORCONTINUOUS;
 
+	public void setNumberOfCategories(Integer numberOfCategories) {
+		this.setIndexLimit(numberOfCategories);
+		
+	}
 	public RiskFactorContinuousObject manufacture(File configurationFile,
 			String rootNodeName) throws ConfigurationException,
 			DynamoInconsistentDataException {
