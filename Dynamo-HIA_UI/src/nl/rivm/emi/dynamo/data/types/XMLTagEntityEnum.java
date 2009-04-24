@@ -22,6 +22,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.DynamoClass;
 import nl.rivm.emi.dynamo.data.types.atomic.End;
 import nl.rivm.emi.dynamo.data.types.atomic.ExessMortFileName;
+import nl.rivm.emi.dynamo.data.types.atomic.FlexDex;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.IncFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.Incidence;
@@ -126,8 +127,8 @@ public enum XMLTagEntityEnum {
 	CAT((XMLTagEntity) new CatContainer()), //
 	CLASS((XMLTagEntity) new DynamoClass()), //
 	CLASSES((XMLTagEntity) new Classes()), //
-	CUREDFRACTION((XMLTagEntity) new CuredFraction()), CUTOFF(
-			(XMLTagEntity) new Cutoff()), // NB(mondeelr)
+	CUREDFRACTION((XMLTagEntity) new CuredFraction()), //
+	CUTOFF((XMLTagEntity) new Cutoff()), // NB(mondeelr)
 	CUTOFFS((XMLTagEntity) new Cutoffs()), //
 	DALYWEIGHTSFILENAME((XMLTagEntity) new DALYWeightsFileName()), //
 	DISEASE((XMLTagEntity) new Disease()), //
@@ -137,6 +138,7 @@ public enum XMLTagEntityEnum {
 	DURATIONCLASS((XMLTagEntity) new DurationClass()), //
 	END((XMLTagEntity) new End()), //
 	EXESSMORTFILENAME((XMLTagEntity) new ExessMortFileName()), //
+	FLEXDEX((XMLTagEntity) new FlexDex()), //
 	HASNEWBORNS((XMLTagEntity) new HasNewborns()), //
 	INCFILENAME((XMLTagEntity) new IncFileName()), //
 	INCIDENCE((XMLTagEntity) new Incidence()), //
