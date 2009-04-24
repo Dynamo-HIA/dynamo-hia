@@ -77,6 +77,21 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 										"The Relative Risk field"
 												+ "is empty of Relative Risks is empty");
 							}
+							
+							Map secondMap = ((DynamoSimulationObject) modelObject)
+							.getRelativeRiskConfigurations();
+							Set<Integer> secondKeys = secondMap.keySet();
+							for (Integer secondKey : secondKeys) {
+								TabRelativeRiskConfigurationData secondConf = (TabRelativeRiskConfigurationData) secondMap
+								.get(secondKey);	
+
+								if(secondConf.getFrom().equals(conf.getFrom())
+								&& secondConf.getTo().equals(conf.getTo()) 
+								&& !secondConf.getIndex().equals(conf.getIndex())) {
+									throw new DynamoConfigurationException(
+											"Two Relative Risks cannot contain the same to and from values");
+								}
+							}
 						}
 					}
 					StAXAgnosticGroupWriter.produceFile(rootElementName,

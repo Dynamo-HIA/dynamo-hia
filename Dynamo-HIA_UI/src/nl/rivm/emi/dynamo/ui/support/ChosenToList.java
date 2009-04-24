@@ -59,12 +59,11 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 	 *            be able to be chosen again.
 	 * @param map 
 	 * @param chosenToName 
+	 * @param integer 
 	 * @return
 	 */
 	public Set<String> getChoosableFromNames(String currentFromName, 
-			Set<String> completeFromList, 
-			String chosenToName, 
-			Map<Integer, TabRelativeRiskConfigurationData> configurations) {
+			Set<String> completeFromList) {
 		log.debug("currentDiseasesName: " + currentFromName);
 		this.remove(currentFromName);
 		Set fromNames = new LinkedHashSet<String>();
@@ -76,26 +75,6 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 			log.debug("REMVOVING CHOSENNAME: " + chosenName);	
 			fromNames.remove(chosenName);
 		}
-		/*
-		 *
-		if (currentFromName == null) {
-			currentFromName = (String) fromNames.iterator().next();
-			log.debug("currentFromName" + currentFromName);
-		}		
-		// Gemini DYNAMOHIA-540: Copies of FROM and TO pairs are not allowed for relative risks		
-		for (Integer index : configurations.keySet()) {
-			TabRelativeRiskConfigurationData config = configurations.get(index);
-
-			if (config.getFrom() != null && config.getTo() != null &&
-					config.getFrom().equals(currentFromName)
-					&& config.getTo().equals(chosenToName)) {
-				log.debug("chosenToNameEQUALSFromList" + chosenToName);
-				log.debug("currentFromsNameEQUALSFromList" + currentFromName);
-				fromNames.remove(currentFromName);	
-			}				
-		}*/
-		
-
 		log.debug("diseaseNames222: " + fromNames);
 		log.debug("Chosendiseases-2-2-2: " + this);
 		return fromNames;
@@ -133,13 +112,11 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 	 * @throws ConfigurationException 
 	 */
 	public String getFirstFromNameOfSet(String currentFromName, 
-			Set<String> completeFromList, 
-			String chosenToName, 
-			Map<Integer, TabRelativeRiskConfigurationData> configurations) throws ConfigurationException {
+			Set<String> completeFromList) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
 			return (String) this.getChoosableFromNames(currentFromName, 
-					completeFromList, chosenToName, configurations).iterator().next();	
+					completeFromList).iterator().next();	
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
 		}

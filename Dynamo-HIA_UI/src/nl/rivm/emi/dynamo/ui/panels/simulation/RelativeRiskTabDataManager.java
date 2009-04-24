@@ -121,32 +121,34 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		ChosenFromList chosenFromList = ChosenFromList.getInstance();
 		ChosenToList chosenToList = ChosenToList.getInstance();
 
+		Integer currentIndex = null;
+		if (this.singleConfiguration != null)
+			currentIndex = this.singleConfiguration.getIndex();
+		
 		// The chosenFromName is still empty
-		if (chosenFromName == null) {
+		if (chosenFromName == null) {				
 			chosenFromName = (String) chosenToList.getFirstFromNameOfSet(chosenFromName, 
-					this.getInitialFromList(), 
-					chosenToName, this.configurations);
+					this.getInitialFromList());
+			log.debug("getContents::chosenFromName" + chosenFromName);
 		}
 		
 		// The chosenToName is still empty
 		if (chosenToName == null) {
 			chosenToName = (String) chosenFromList.getFirstToNameOfSet(chosenToName, 
-					this.getInitialToList(), 
-					chosenFromName, this.configurations);
+					this.getInitialToList());
+			log.debug("getContents::chosenToName" + chosenToName);
 		}
 		
 		//log.debug("HIERO chosenDiseaseName DATAMANAGER: " + chosenDiseaseName);		
 		if (RelativeRiskSelectionGroup.FROM.equals(name)) {
 			// This is the full list of available diseases + relative risk
 			//contents = this.getInitialFromList();
-			contents = chosenToList.getChoosableFromNames(chosenFromName, this.getInitialFromList(),
-					chosenToName, this.configurations);
-			log.debug("getContents NAME: " + contents);
+			contents = chosenToList.getChoosableFromNames(chosenFromName, this.getInitialFromList());
+			log.debug("getContents0: " + contents);
 		} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
 			// This is the full list of available diseases + death + disability
 			//contents = this.getInitialToList();
-			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialToList(),
-					chosenFromName, this.configurations);
+			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialToList());
 			log.debug("contents1" + contents);
 		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
 			contents = this.treeLists.getValidRelRiskFileNamesForToName(chosenToName);
@@ -162,7 +164,7 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 			}
 			log.debug("contents2" + contents);
 		}
-		log.debug("contentsLast" + contents);
+		//log.debug("contentsLast" + contents);
 		return contents;
 	}
 

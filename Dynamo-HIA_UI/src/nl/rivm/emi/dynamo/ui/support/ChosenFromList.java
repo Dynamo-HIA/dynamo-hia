@@ -62,10 +62,8 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @return
 	 */
 	public Set<String> getChoosableToNames(String currentToName, 
-			Set<String> completeToList, 
-			String chosenFromName, 
-			Map<Integer, 
-			TabRelativeRiskConfigurationData> configurations) {
+			Set<String> completeToList
+			) {
 		log.debug("currentToName: " + currentToName);
 		this.remove(currentToName);
 		Set toNames = new LinkedHashSet<String>();
@@ -77,23 +75,6 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 			log.debug("REMVOVING CHOSENNAME: " + chosenName);	
 			toNames.remove(chosenName);
 		}
-		
-		/*
-		if (currentToName == null) {
-			currentToName = (String) toNames.iterator().next();
-			log.debug("currentToName" + currentToName);
-		}
-		// Gemini DYNAMOHIA-540: Copies of FROM and TO pairs are not allowed for relative risks		
-		for (Integer index : configurations.keySet()) {
-			TabRelativeRiskConfigurationData config = configurations.get(index);
-			if (config.getFrom()!= null && config.getTo() != null
-					&& config.getFrom().equals(chosenFromName)
-					&& config.getTo().equals(currentToName)) {
-				log.debug("chosenFromNameEQUALSFromList" + chosenFromName);
-				log.debug("currentToNameEQUALSFromList" + currentToName);
-				toNames.remove(currentToName);
-			}				
-		}*/
 		
 		log.debug("diseaseNames222: " + toNames);
 		log.debug("Chosendiseases-2-2-2: " + this);
@@ -132,17 +113,15 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @throws ConfigurationException 
 	 */
 	public String getFirstToNameOfSet(String currentToName, 
-			Set<String> completeToList, 
-			String chosenFromName, 
-			Map<Integer, TabRelativeRiskConfigurationData> configurations) throws ConfigurationException {
+			Set<String> completeToList
+			) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
 			log.debug("completeToList: " + completeToList);
 			log.debug("currentToName: " + currentToName);
 			String result = this.getChoosableToNames(currentToName, 
-					completeToList,
-					chosenFromName,
-					configurations).iterator().next();
+					completeToList
+					).iterator().next();
 			return result;
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
