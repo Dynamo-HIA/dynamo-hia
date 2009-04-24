@@ -23,10 +23,10 @@ public class FileControlEnumHelp {
 	 */
 	/* W01 */
 	static final String[] dynamoSimulationStrings = {
-		RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
-		"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
-		"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
-		"diseases", "riskfactors", "RRs" };
+			RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
+			"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
+			"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
+			"diseases", "riskfactors", "RRs" };
 	/* W11 */
 	static final String[] populationSizeStrings = {
 			RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(), "size", "age",
@@ -50,7 +50,8 @@ public class FileControlEnumHelp {
 	/* W20Con */
 	static final String[] riskFactorContinuousStrings = {
 			RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel(),
-			"referencevalue" };
+			XMLTagEntityEnum.REFERENCEVALUE.getElementName(),
+			XMLTagEntityEnum.CUTOFFS.getElementName() };
 	/* W20Com */
 	static final String[] riskFactorCompoundStrings = {
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(), "classes",
@@ -61,10 +62,10 @@ public class FileControlEnumHelp {
 	static final String[] transitionMatrixStrings = {
 			RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(), "transition",
 			"age", "sex", "from", "to", "percent" };
-	static final String[] transitionMatrixZeroStrings = {
-		RootElementNamesEnum.TRANSITIONMATRIX_ZERO.getNodeLabel()};
-	static final String[] transitionMatrixNettoStrings = {
-		RootElementNamesEnum.TRANSITIONMATRIX_NETTO.getNodeLabel()};
+	static final String[] transitionMatrixZeroStrings = { RootElementNamesEnum.TRANSITIONMATRIX_ZERO
+			.getNodeLabel() };
+	static final String[] transitionMatrixNettoStrings = { RootElementNamesEnum.TRANSITIONMATRIX_NETTO
+			.getNodeLabel() };
 	/* W21TdId */
 	/* W21TdFp */
 	/* W21TdMA */
@@ -72,10 +73,9 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
-			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(),
-			"trend" };
-	static final String[] transitionDriftZeroStrings = {
-		RootElementNamesEnum.TRANSITIONDRIFT_ZERO.getNodeLabel()};
+			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), "trend" };
+	static final String[] transitionDriftZeroStrings = { RootElementNamesEnum.TRANSITIONDRIFT_ZERO
+			.getNodeLabel() };
 	/* W22CatCom */
 	static final String[] riskFactorPrevalenceCatStrings = {
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
@@ -83,8 +83,10 @@ public class FileControlEnumHelp {
 			"percent" };
 	/* W22Con */
 	static final String[] riskFactorPrevalenceConStrings = {
-		RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
-				.getNodeLabel(), XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName(), XMLTagEntityEnum.PREVALENCES.getElementName()};
+			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
+					.getNodeLabel(),
+			XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName(),
+			XMLTagEntityEnum.PREVALENCES.getElementName() };
 	/* W22ComDur */
 	static final String[] riskFactorPrevalenceDurStrings = {
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
@@ -147,7 +149,7 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(), "weight", "age",
 			"sex", "percent" };
 	/* Subtrees. */
-	static final String[] classesStrings = { "classes", "class", "index",
+	static final String[] classesStrings = { "classes", "class", "flexdex",
 			"name" };
 	static final String[] scenariosStrings = {
 			XMLTagEntityEnum.SCENARIOS.getElementName(),
@@ -170,8 +172,11 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.PREVFILENAME.getElementName() };
 	static final String[] rrsStrings = { "RRs", "RR", "RRindex", "isRRfrom",
 			"isRRto", "isRRFile" };
-	// TODO(mondeelr) For version 1.1.
-	static final String[] cutoffsStrings = { "cutoffs", "cutoff" };
+	static final String[] cutoffsStrings = {
+			XMLTagEntityEnum.CUTOFFS.getElementName(),
+			XMLTagEntityEnum.CUTOFF.getElementName() ,
+			XMLTagEntityEnum.FLEXDEX.getElementName() ,
+			XMLTagEntityEnum.STANDARDVALUE.getElementName()};
 	static final String[] mortalityStrings = {
 			XMLTagEntityEnum.MORTALITY.getElementName(),
 			XMLTagEntityEnum.AGE.getElementName(),
@@ -189,11 +194,11 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.ACUTELYFATAL.getElementName(),
 			XMLTagEntityEnum.CUREDFRACTION.getElementName() };
 	static final String[] prevalencesContinuousStrings = {
-		XMLTagEntityEnum.PREVALENCES.getElementName(),
-		XMLTagEntityEnum.PREVALENCE.getElementName(),
-		XMLTagEntityEnum.AGE.getElementName(),
-		XMLTagEntityEnum.SEX.getElementName(),
-		XMLTagEntityEnum.MEAN.getElementName(),
-		XMLTagEntityEnum.STANDARDDEVIATION.getElementName(),
-		XMLTagEntityEnum.SKEWNESS.getElementName()};
+			XMLTagEntityEnum.PREVALENCES.getElementName(),
+			XMLTagEntityEnum.PREVALENCE.getElementName(),
+			XMLTagEntityEnum.AGE.getElementName(),
+			XMLTagEntityEnum.SEX.getElementName(),
+			XMLTagEntityEnum.MEAN.getElementName(),
+			XMLTagEntityEnum.STANDARDDEVIATION.getElementName(),
+			XMLTagEntityEnum.SKEWNESS.getElementName() };
 }
