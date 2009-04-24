@@ -35,7 +35,8 @@ public class EntityInDefaultDirNamePanel implements HelpController{
 		ParentNode containerClassDirNode = ((ChildNode)containerInstanceDirNode).getParent();
 		String containerClassDirLabel = ((BaseNode)containerClassDirNode).toString();
 		Label label = new Label(group, SWT.LEFT);
-		label.setText(containerClassDirLabel.substring(0, containerClassDirLabel.length()-1) + ":");
+		String labelText = containerClassDirLabel.substring(0, containerClassDirLabel.length()-1) + ":"; 
+		label.setText(labelText.replace('_' , ' '));
 		nameLabel = new Label(group, SWT.LEFT);
 		nameLabel.setText(containerInstanceDirLabel);
 		FormData labelFormData = new FormData();

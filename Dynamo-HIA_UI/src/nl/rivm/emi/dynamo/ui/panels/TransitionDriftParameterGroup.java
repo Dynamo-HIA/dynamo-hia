@@ -39,18 +39,9 @@ public class TransitionDriftParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-
-//		PanelMatrix panelMatrix = new PanelMatrix();
-//		PanelMatrixItem panelMatrixItem = new PanelMatrixItem(AGE, AGE, 0, new Age());
-//		panelMatrix.put(AGE, panelMatrixItem);
-//		panelMatrixItem = new PanelMatrixItem(MEAN, MEAN, 1, new Mean());
-//		panelMatrix.put(MEAN, panelMatrixItem);
-		
 		Composite parameterDataPanel = new TransitionDriftParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
 				helpGroup);
-		
-		
 				FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
 

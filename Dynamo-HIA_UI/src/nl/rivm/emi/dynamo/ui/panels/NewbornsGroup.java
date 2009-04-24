@@ -25,7 +25,7 @@ public class NewbornsGroup {
 		theGroup.setLayout(formLayout);
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
+				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
 		NewbornsParameterGroup parameterGroup = new NewbornsParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);

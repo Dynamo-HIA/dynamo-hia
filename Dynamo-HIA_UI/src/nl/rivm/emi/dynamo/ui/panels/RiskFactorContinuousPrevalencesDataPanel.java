@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.DistributionTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
 import org.apache.commons.logging.Log;
@@ -45,7 +46,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 	public RiskFactorContinuousPrevalencesDataPanel(Composite parent, Text topNeighbour,
 			IContinuousPrevalencesObject continuousPrevalencesObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup,
-			UnitTypeComboModifyListener unitTypeModifyListener) {
+			DistributionTypeComboModifyListener distributionTypeModifyListener) {
 		super(parent, SWT.NONE);
 		this.myPrevalencesObject = continuousPrevalencesObject;
 		this.dataBindingContext = dataBindingContext;
@@ -119,8 +120,9 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 
 	private Text createAndPlaceTextField() {
 		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.minimumWidth = 35;
+		gridData.horizontalAlignment = GridData.END;
 		text.setLayoutData(gridData);
 		return text;
 	}

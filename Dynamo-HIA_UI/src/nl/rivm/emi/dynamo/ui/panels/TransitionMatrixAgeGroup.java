@@ -42,6 +42,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 	TransitionMatrixOneAgeAndSexParameterGroup[] transMatGroups;
 	int currentAge = 0;
 	boolean grow = false;
+	private Point initialSize;
 
 	public TransitionMatrixAgeGroup(Shell parent, int style,
 			BaseNode selectedNode, TypedHashMap<?> modelObject,
@@ -70,6 +71,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 				- minGender + 1];
 		refreshTransitionMatrices(currentAge, ageDropDownPanel);
 		parent.pack(true);
+		initialSize = transMatGroups[0].theGroup.getSize();
 	}
 
 	private Group createAgeDropDownPanel(Composite parent, HelpGroup helpPanel) {
@@ -238,5 +240,9 @@ public class TransitionMatrixAgeGroup extends Composite {
 		// ((Button) arg0.widget).setText("Exception caught.");
 		// }
 		// }
+	}
+
+	public Point getInitialSize() {
+		return initialSize;
 	}
 }

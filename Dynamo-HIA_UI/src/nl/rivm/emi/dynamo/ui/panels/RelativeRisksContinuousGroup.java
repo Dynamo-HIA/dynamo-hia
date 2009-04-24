@@ -25,7 +25,7 @@ public class RelativeRisksContinuousGroup {
 		theGroup.setLayout(formLayout);
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
+				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
 		RelativeRisksContinuousParameterGroup parameterGroup = new RelativeRisksContinuousParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup);

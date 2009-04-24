@@ -25,7 +25,7 @@ public class RiskFactorContinuousGroup {
 		theGroup.setLayout(formLayout);
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
+				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
 		RiskFactorContinuousParameterGroup parameterGroup = new RiskFactorContinuousParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);

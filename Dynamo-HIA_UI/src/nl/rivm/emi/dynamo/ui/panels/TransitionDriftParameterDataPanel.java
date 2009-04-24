@@ -42,33 +42,34 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		layout.numColumns = 3; // TODO(mondeelr) Make generic.
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
-		GridData labelLayoutData = new GridData();
-		labelLayoutData.minimumWidth = 50;
+//		GridData labelLayoutData = new GridData();
+//		labelLayoutData.minimumWidth = 100;
 	//	labelLayoutData.grabExcessHorizontalSpace = true;
-		labelLayoutData.horizontalAlignment = GridData.END;
-		labelLayoutData.horizontalAlignment = SWT.FILL;
+//		labelLayoutData.horizontalAlignment = GridData.END;
+//		labelLayoutData.horizontalAlignment = SWT.FILL;
 		Label spaceLabel = new Label(this, SWT.NONE);
-		spaceLabel.setLayoutData(labelLayoutData);
+//		spaceLabel.setLayoutData(labelLayoutData);
 		Label femaleHeaderLabel = new Label(this, SWT.NONE);
-		femaleHeaderLabel.setLayoutData(labelLayoutData);
+//		femaleHeaderLabel.setLayoutData(labelLayoutData);
 		femaleHeaderLabel.setText("Female");
 		Label maleHeaderLabel = new Label(this, SWT.NONE);
-		maleHeaderLabel.setLayoutData(labelLayoutData);
+//		maleHeaderLabel.setLayoutData(labelLayoutData);
 		maleHeaderLabel.setText("Male");
 		Label ageHeaderLabel = new Label(this, SWT.NONE);
-		ageHeaderLabel.setLayoutData(labelLayoutData);
+//		ageHeaderLabel.setLayoutData(labelLayoutData);
 		ageHeaderLabel.setText("Age");
 		Label femaleMeanHeaderLabel = new Label(this, SWT.NONE);
-		femaleMeanHeaderLabel.setLayoutData(labelLayoutData);
+//		femaleMeanHeaderLabel.setLayoutData(labelLayoutData);
 		femaleMeanHeaderLabel.setText("Mean");
 		Label maleMeanHeaderLabel = new Label(this, SWT.NONE);
-		maleMeanHeaderLabel.setLayoutData(labelLayoutData);
+//		maleMeanHeaderLabel.setLayoutData(labelLayoutData);
 		maleMeanHeaderLabel.setText("Mean");
 		// ROWS
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(ageCount);
 			Label labelRow = new Label(this, SWT.NONE);
 			labelRow.setText(new Integer(ageCount).toString());
+//			labelRow.setLayoutData(labelLayoutData);
 			for (int genderCount = 0; genderCount < tHMap.size(); genderCount++) {
 				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap
 						.get(genderCount);
@@ -85,10 +86,10 @@ public class TransitionDriftParameterDataPanel extends Composite {
 	protected void bindAbstractValue(WritableValue modelObservableValue,
 			AtomicTypeBase type) {
 		Text text = new Text(this, SWT.NONE);
-		GridData textLayoutData = new GridData();
+		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		textLayoutData.minimumWidth = 50;
 		textLayoutData.horizontalAlignment = GridData.END;
-		textLayoutData.horizontalAlignment = SWT.FILL;
+//		textLayoutData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(textLayoutData);
 		String convertedText = ((Mean) type).convert4View(modelObservableValue
 				.doGetValue());

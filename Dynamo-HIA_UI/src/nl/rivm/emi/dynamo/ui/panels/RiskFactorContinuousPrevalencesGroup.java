@@ -41,11 +41,11 @@ public class RiskFactorContinuousPrevalencesGroup {
 		// Set the selected item from the stored values in the xml
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName());
 		WritableValue writableValue = (WritableValue) tuple.getValue();
-		UnitTypeDropDownPanel dropDownGroup = new UnitTypeDropDownPanel(theGroup, writableValue);
+		RiskFactorContinuousPrevalencesDropDownPanel dropDownGroup = new RiskFactorContinuousPrevalencesDropDownPanel(theGroup, writableValue);
 		dropDownGroup.putNextInContainer(entityNameGroup.group, 30);
 		RiskFactorContinuousPrevalencesParameterGroup parameterGroup = new RiskFactorContinuousPrevalencesParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, 
-				helpGroup, dropDownGroup.getUnitTypeModifyListener() );
+				helpGroup, dropDownGroup.getDistributionTypeModifyListener());
 		parameterGroup.handlePlacementInContainer(dropDownGroup.group);
 	}
 

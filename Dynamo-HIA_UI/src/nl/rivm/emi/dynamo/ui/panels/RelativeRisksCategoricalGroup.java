@@ -26,7 +26,7 @@ public class RelativeRisksCategoricalGroup {
 		String[] entityStrings = Util
 				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
-				entityStrings[0], entityStrings[1]);
+				entityStrings[0], entityStrings[1], null);
 		entityNamePanel.putInContainer();
 		RelativeRisksCategoricalParameterGroup parameterGroup = new RelativeRisksCategoricalParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup);

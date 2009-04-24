@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
+import nl.rivm.emi.dynamo.ui.panels.listeners.DistributionTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
@@ -23,7 +24,7 @@ public class RiskFactorContinuousPrevalencesParameterGroup {
 	public RiskFactorContinuousPrevalencesParameterGroup(Composite parent,
 			RiskFactorContinuousPrevalencesObject excessMortalityObject,
 			DataBindingContext dataBindingContext, 
-			final HelpGroup helpGroup, UnitTypeComboModifyListener unitTypeModifyListener){
+			final HelpGroup helpGroup, DistributionTypeComboModifyListener distributionTypeModifyListener){
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -43,7 +44,7 @@ public class RiskFactorContinuousPrevalencesParameterGroup {
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 		 Composite parameterDataPanel = new RiskFactorContinuousPrevalencesDataPanel(
 				scrolledContainer, null, excessMortalityObject,
-				dataBindingContext, helpGroup, unitTypeModifyListener);
+				dataBindingContext, helpGroup, distributionTypeModifyListener);
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
 		parameterFormData.right = new FormAttachment(100, -5);

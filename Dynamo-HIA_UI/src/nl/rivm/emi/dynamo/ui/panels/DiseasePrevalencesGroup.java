@@ -25,7 +25,7 @@ public class DiseasePrevalencesGroup {
 		theGroup.setLayout(formLayout);
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1]);
+				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
 		DiseasePrevalencesParameterGroup parameterGroup = new DiseasePrevalencesParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
