@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -56,20 +57,44 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @param currentToName
 	 *            the name that is currently chosen in the dropdown and should
 	 *            be able to be chosen again.
+	 * @param configurations 
+	 * @param chosenFromName 
 	 * @return
 	 */
 	public Set<String> getChoosableToNames(String currentToName, 
-			Set<String> completeToList) {
+			Set<String> completeToList, 
+			String chosenFromName, 
+			Map<Integer, 
+			TabRelativeRiskConfigurationData> configurations) {
 		log.debug("currentToName: " + currentToName);
 		this.remove(currentToName);
 		Set toNames = new LinkedHashSet<String>();
 		toNames.addAll(completeToList);		
 		log.debug("toNames: " + toNames);
 		log.debug("Chosendiseases-1-1-1: " + this);
+		
 		for (String chosenName : (Set<String>)this) {
 			log.debug("REMVOVING CHOSENNAME: " + chosenName);	
 			toNames.remove(chosenName);
 		}
+		
+		/*
+		if (currentToName == null) {
+			currentToName = (String) toNames.iterator().next();
+			log.debug("currentToName" + currentToName);
+		}
+		// Gemini DYNAMOHIA-540: Copies of FROM and TO pairs are not allowed for relative risks		
+		for (Integer index : configurations.keySet()) {
+			TabRelativeRiskConfigurationData config = configurations.get(index);
+			if (config.getFrom()!= null && config.getTo() != null
+					&& config.getFrom().equals(chosenFromName)
+					&& config.getTo().equals(currentToName)) {
+				log.debug("chosenFromNameEQUALSFromList" + chosenFromName);
+				log.debug("currentToNameEQUALSFromList" + currentToName);
+				toNames.remove(currentToName);
+			}				
+		}*/
+		
 		log.debug("diseaseNames222: " + toNames);
 		log.debug("Chosendiseases-2-2-2: " + this);
 		return toNames;
@@ -98,6 +123,8 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	/**
 	 * 
 	 * Retrieves the first name from the available disease list
+	 * @param map 
+	 * @param chosenFromName 
 	 * 
 	 * @param currentDiseasesName
 	 * @param lists
@@ -105,13 +132,17 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 	 * @throws ConfigurationException 
 	 */
 	public String getFirstToNameOfSet(String currentToName, 
-			Set<String> completeToList) throws ConfigurationException {
+			Set<String> completeToList, 
+			String chosenFromName, 
+			Map<Integer, TabRelativeRiskConfigurationData> configurations) throws ConfigurationException {
 		try {
 			log.debug("ChsdfasdfEEEE: " + this);
 			log.debug("completeToList: " + completeToList);
 			log.debug("currentToName: " + currentToName);
 			String result = this.getChoosableToNames(currentToName, 
-					completeToList).iterator().next();
+					completeToList,
+					chosenFromName,
+					configurations).iterator().next();
 			return result;
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
