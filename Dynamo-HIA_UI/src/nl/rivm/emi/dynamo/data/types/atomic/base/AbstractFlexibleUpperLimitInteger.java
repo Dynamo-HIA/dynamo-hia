@@ -19,9 +19,11 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 	 */
 	final public Pattern matchPattern = Pattern.compile("^\\d*$");
 
-	public AbstractFlexibleUpperLimitInteger(String XMLElementName, Integer lowerLimit,
-			Integer upperLimit) {
+	public AbstractFlexibleUpperLimitInteger(String XMLElementName,
+			Integer lowerLimit, Integer upperLimit) {
 		super(XMLElementName, lowerLimit, upperLimit);
+		this.modelUpdateValueStrategy = assembleModelStrategy();
+		this.viewUpdateValueStrategy = assembleViewStrategy();
 	}
 
 	public boolean inRange(Integer testValue) {
@@ -31,6 +33,10 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 			result = true;
 		}
 		return result;
+	}
+
+	public void setMAX_VALUE(Integer newMaxValue) {
+		MAX_VALUE = newMaxValue;
 	}
 
 	public Integer fromString(String inputString) {
