@@ -38,7 +38,6 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		return contents;
 	}
 
-	@Override
 	public String getCurrentValue(String dropDownName) {		
 		String value = null;
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(dropDownName)) {			
@@ -47,54 +46,45 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		return value;
 	}
 
-	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String selection) {
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
 		set.addAll(this.getContents(name, selection));
 		return set;
 	}
 
-	@Override
 	public void updateObjectState(String name, String selectedValue) {
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(name)) {			
 			configuration.setPopulationFileName(selectedValue);
 		}
 	}
 
-	@Override
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label)
 			throws ConfigurationException {
 		// Will not be used
 		return null;
 	}
 
-	@Override
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
 		// Will not be used		
 	}
 
-	@Override
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
 		// Will not be used		
 	}
 
-	@Override
 	public void removeOldDefaultValue(String label)
 			throws ConfigurationException {
 		// Will not be used		
 	}
 
-	@Override
 	public void updateDynamoSimulationObject() {
 		// Will not be used		
 	}
 
-	@Override
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;
 	}
-
 }
