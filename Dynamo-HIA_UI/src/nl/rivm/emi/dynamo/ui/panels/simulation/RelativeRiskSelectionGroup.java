@@ -90,8 +90,7 @@ public class RelativeRiskSelectionGroup {
 					dynamoTabDataManager
 					);
 		this.toDropDownModifyListener =
-			toDropDownPanel.getGenericComboModifyListener();
-		
+			toDropDownPanel.getGenericComboModifyListener();			
 	}
 
 	private GenericDropDownPanel createDropDown(String label, 

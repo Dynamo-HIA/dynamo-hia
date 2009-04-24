@@ -38,6 +38,7 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	private Map<Integer, TabRelativeRiskConfigurationData> configurations;
 	private TabRelativeRiskConfigurationData singleConfiguration;
 	private Set<String> initialSelection;
+	private RelativeRiskTab tab;
 
 	/**
 	 * 
@@ -50,12 +51,14 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 */
 	public RelativeRiskTabDataManager(BaseNode selectedNode, 
 			DynamoSimulationObject dynamoSimulationObject,
-			Set<String> initialSelection
+			Set<String> initialSelection,
+			RelativeRiskTab tab
 			) throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.configurations = this.dynamoSimulationObject.getRelativeRiskConfigurations();
 		this.initialSelection = initialSelection;
+		this.tab = tab;
 		log.debug("this.initialSelectionRelativeRiskTabDataManager" 
 				+ this.initialSelection);
 		this.singleConfiguration = (TabRelativeRiskConfigurationData) this.configurations.get(getInitialIndex());
@@ -75,7 +78,7 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		if (singleConfiguration != null) {
 			chosenFromName = this.singleConfiguration.getFrom(); // Can also be a disease
 			log.debug("chosenFromName JUST CREATED" + chosenFromName);
-			setDefaultValue(RelativeRiskSelectionGroup.FROM, chosenFromName);
+			setDefaultValue(RelativeRiskSelectionGroup.FROM, chosenFromName);			
 		} 
 
 		String chosenToName = null;
@@ -120,24 +123,30 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 
 		// The chosenFromName is still empty
 		if (chosenFromName == null) {
-			chosenFromName = (String) chosenToList.getFirstFromNameOfSet(null, this.getInitialFromList());
+			chosenFromName = (String) chosenToList.getFirstFromNameOfSet(chosenFromName, 
+					this.getInitialFromList(), 
+					chosenToName, this.configurations);
 		}
 		
 		// The chosenToName is still empty
 		if (chosenToName == null) {
-			chosenToName = (String) chosenFromList.getFirstToNameOfSet(null, this.getInitialToList());
+			chosenToName = (String) chosenFromList.getFirstToNameOfSet(chosenToName, 
+					this.getInitialToList(), 
+					chosenFromName, this.configurations);
 		}
 		
 		//log.debug("HIERO chosenDiseaseName DATAMANAGER: " + chosenDiseaseName);		
 		if (RelativeRiskSelectionGroup.FROM.equals(name)) {
 			// This is the full list of available diseases + relative risk
 			//contents = this.getInitialFromList();
-			contents = chosenToList.getChoosableFromNames(chosenFromName, this.getInitialFromList());
+			contents = chosenToList.getChoosableFromNames(chosenFromName, this.getInitialFromList(),
+					chosenToName, this.configurations);
 			log.debug("getContents NAME: " + contents);
 		} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
 			// This is the full list of available diseases + death + disability
 			//contents = this.getInitialToList();
-			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialToList());
+			contents = chosenFromList.getChoosableToNames(chosenToName, this.getInitialToList(),
+					chosenFromName, this.configurations);
 			log.debug("contents1" + contents);
 		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
 			contents = this.treeLists.getValidRelRiskFileNamesForToName(chosenToName);
@@ -214,9 +223,11 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		if (RelativeRiskSelectionGroup.FROM.equals(name)) {
 			singleConfiguration.setFrom(selectedValue);
 			setDefaultValue(RelativeRiskSelectionGroup.FROM, selectedValue);
+			this.tab.refreshSelectionGroup();
 		} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
 			singleConfiguration.setTo(selectedValue);
 			setDefaultValue(RelativeRiskSelectionGroup.TO, selectedValue);
+			this.tab.refreshSelectionGroup();
 		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
 			singleConfiguration.setDataFileName(selectedValue);				
 		}
@@ -360,11 +371,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 				ChosenToList.getInstance().setChosenToList(selectedValue);				
 			}			
 		}		
-		
-		
-		
-		
-		
 	}
 
 	/* (non-Javadoc)

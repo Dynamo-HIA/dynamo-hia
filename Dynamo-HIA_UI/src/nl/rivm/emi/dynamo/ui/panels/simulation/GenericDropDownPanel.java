@@ -129,12 +129,13 @@ public class GenericDropDownPanel {
 		dropDown.removeModifyListener(this.genericComboModifyListener);
 		dropDown.removeAll();		
 		this.selectablePropertiesSet.clear();
-		// Calls getChoosableDiseases!
 		this.selectablePropertiesSet.addAll( 
 			this.owner.getRefreshedDropDownSet(this.getLabel()));		
-		log.debug("AVAILABLE" + this.owner.getRefreshedDropDownSet(this.getLabel()));
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
+		// Remove old value (is choosable again)
+		this.owner.removeOldDefaultValue(this.getLabel());
+		// Set the new default (can be the same value as the removed one)
 		setDefaultValue();
 		dropDown.addModifyListener(this.genericComboModifyListener);		
 		// TODO: fire an event for the modify listener to update the dependend drop downs

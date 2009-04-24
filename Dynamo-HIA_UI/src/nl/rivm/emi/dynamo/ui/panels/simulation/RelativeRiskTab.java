@@ -52,7 +52,7 @@ public class RelativeRiskTab extends NestedTab {
 		this.dynamoTabDataManager =
 			new RelativeRiskTabDataManager(selectedNode, 
 					dynamoSimulationObject,
-					this.selections);
+					this.selections, this);
 		
 		this.relativeRiskSelectionGroup =
 			new RelativeRiskSelectionGroup(tabName,
@@ -71,7 +71,10 @@ public class RelativeRiskTab extends NestedTab {
 	
 	
 	public void refreshSelectionGroup() throws ConfigurationException {
-		this.relativeRiskSelectionGroup.refreshSelectionDropDown();
+		// Don't do this if first time object construction is going on
+		if (this.relativeRiskSelectionGroup != null) {
+			this.relativeRiskSelectionGroup.refreshSelectionDropDown();	
+		}		
 	}
 
 	public void removeTabDataObject() throws ConfigurationException {
