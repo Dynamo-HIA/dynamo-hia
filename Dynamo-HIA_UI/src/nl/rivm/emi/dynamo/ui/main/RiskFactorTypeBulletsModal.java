@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -16,15 +17,21 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
@@ -39,13 +46,16 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 	/* Initialized separately because setSelection does not generate an event. */
 	private String selectedRootElementName = RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 			.getNodeLabel();
+	private int numberOfClasses;
+	private int numberOfCutoffs;
+	private int numberOfCompoundClasses;
 
 	/**
 	 * 
 	 * Constructor
 	 * 
 	 * @param parentShell
-	 * @param configurationFilePath 
+	 * @param configurationFilePath
 	 * @param selectedNode
 	 */
 	public RiskFactorTypeBulletsModal(Shell parentShell,
@@ -62,31 +72,65 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 	 * 
 	 */
 	public synchronized void open() {
-		this.radioButtons[0] = new Button(this.shell, SWT.RADIO);
+		Group categoricalGroup = new Group(this.shell, SWT.NONE);
+//		categoricalGroup.setText("cat");
+		FormData catGroupFormData = new FormData();
+		catGroupFormData.left = new FormAttachment(0, 2);
+		catGroupFormData.right = new FormAttachment(100, -2);
+		catGroupFormData.top = new FormAttachment(0, 2);
+		categoricalGroup.setLayoutData(catGroupFormData);
+		GridLayout categoricalGroupLayout = new GridLayout();
+		categoricalGroupLayout.numColumns = 3;
+		categoricalGroupLayout.makeColumnsEqualWidth = true;
+		categoricalGroup.setLayout(categoricalGroupLayout);
+		this.radioButtons[0] = new Button(categoricalGroup, SWT.RADIO);
 		this.radioButtons[0].setText("categorical");
 		this.radioButtons[0].addListener(SWT.Selection, new Listener() {
 			RootElementNamesEnum myRootElementNamesEnum = RootElementNamesEnum.RISKFACTOR_CATEGORICAL;
-
 			public void handleEvent(Event arg0) {
 				Button myWidget = (Button) arg0.widget;
 				if (myWidget.getSelection()) {
 					selectedRootElementName = myRootElementNamesEnum
 							.getNodeLabel();
 					radioButtons[1].setSelection(false);
-					radioButtons[2].setSelection(false);
+					// radioButtons[2].setSelection(false);
 				}
 			}
 		});
+		Label numberOfClassesLabel = new Label(categoricalGroup, SWT.NONE);
+		numberOfClassesLabel.setText("Pick the number of classes:");
+		Combo numberOfClassesDropDown = new Combo(categoricalGroup,
+				SWT.DROP_DOWN);
+		numberOfClassesDropDown.add("2", 0);
+		numberOfClassesDropDown.add("3", 1);
+		numberOfClassesDropDown.add("4", 2);
+		numberOfClassesDropDown.add("5", 3);
+		numberOfClassesDropDown.add("6", 4);
+		numberOfClassesDropDown.add("7", 5);
+		numberOfClassesDropDown.add("8", 6);
+		numberOfClassesDropDown.add("9", 7);
+		numberOfClassesDropDown.add("10", 8);
+		numberOfClassesDropDown.select(0);
+		numberOfClasses = 2;
+		numberOfClassesDropDown.addModifyListener(new ModifyListener() {
 
-		FormData radio1FormData = new FormData();
-		radio1FormData.left = new FormAttachment(0, 15);
-		radio1FormData.right = new FormAttachment(100, -15);
-		radio1FormData.top = new FormAttachment(0, 10);
-		radioButtons[0].setLayoutData(radio1FormData);
-		/*
-		 * TODO: Reactivate code above for version 1.1 BEGIN OF TEMPORARY DISABLED CODE
-		 * Compound and Continous Risk not part of scope 1.0		
-		radioButtons[1] = new Button(shell, SWT.RADIO);
+			public void modifyText(ModifyEvent event) {
+				Combo myCombo = (Combo) event.widget;
+				numberOfClasses = myCombo.getSelectionIndex() + 2;
+			}
+		});
+		Group continuousGroup = new Group(this.shell, SWT.NONE);
+		FormData continuousGroupFormData = new FormData();
+		continuousGroupFormData.left = new FormAttachment(0, 2);
+		continuousGroupFormData.right = new FormAttachment(100, -2);
+		continuousGroupFormData.top = new FormAttachment(categoricalGroup, 2);
+		continuousGroup.setLayoutData(continuousGroupFormData);
+		GridLayout continuousGroupLayout = new GridLayout();
+		continuousGroupLayout.numColumns = 3;
+		continuousGroupLayout.makeColumnsEqualWidth = true;
+		continuousGroup.setLayout(continuousGroupLayout);
+
+		radioButtons[1] = new Button(continuousGroup, SWT.RADIO);
 		radioButtons[1].setText("continuous");
 		radioButtons[1].addListener(SWT.Selection, new Listener() {
 			RootElementNamesEnum myRootElementNamesEnum = RootElementNamesEnum.RISKFACTOR_CONTINUOUS;
@@ -97,38 +141,85 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 					selectedRootElementName = myRootElementNamesEnum
 							.getNodeLabel();
 					radioButtons[0].setSelection(false);
-					radioButtons[2].setSelection(false);
+					// radioButtons[2].setSelection(false);
 				}
 			}
 		});
-		FormData radio2FormData = new FormData();
-		radio2FormData.left = new FormAttachment(0, 15);
-		radio2FormData.right = new FormAttachment(100, -15);
-		radio2FormData.top = new FormAttachment(radioButtons[0], 5);
-		radioButtons[1].setLayoutData(radio2FormData);
-		radioButtons[2] = new Button(shell, SWT.RADIO);
-		radioButtons[2].setText("compound");
-		radioButtons[2].addListener(SWT.Selection, new Listener() {
-			RootElementNamesEnum myRootElementNamesEnum = RootElementNamesEnum.RISKFACTOR_COMPOUND;
-
-			public void handleEvent(Event arg0) {
-				Button myWidget = (Button) arg0.widget;
-				if (myWidget.getSelection()) {
-					selectedRootElementName = myRootElementNamesEnum
-							.getNodeLabel();
-					radioButtons[0].setSelection(false);
-					radioButtons[1].setSelection(false);
-				}
+		Label numberOfCutoffsLabel = new Label(continuousGroup, SWT.NONE);
+		numberOfCutoffsLabel.setText("Pick the number of cutoffs:");
+		Combo numberOfCutOffsDropDown = new Combo(continuousGroup,
+				SWT.DROP_DOWN);
+		numberOfCutOffsDropDown.add("0", 0);
+		numberOfCutOffsDropDown.add("1", 1);
+		numberOfCutOffsDropDown.add("2", 2);
+		numberOfCutOffsDropDown.add("3", 3);
+		numberOfCutOffsDropDown.add("4", 4);
+		numberOfCutOffsDropDown.add("5", 5);
+		numberOfCutOffsDropDown.add("6", 6);
+		numberOfCutOffsDropDown.add("7", 7);
+		numberOfCutOffsDropDown.add("8", 8);
+		numberOfCutOffsDropDown.add("9", 9);
+		// Initialize.
+		numberOfCutOffsDropDown.select(0);
+		numberOfCutoffs = 0;
+		numberOfCutOffsDropDown.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent event) {
+				Combo myCombo = (Combo) event.widget;
+				numberOfCutoffs = myCombo.getSelectionIndex();
 			}
 		});
-		FormData radio3FormData = new FormData();
-		radio3FormData.left = new FormAttachment(0, 15);
-		radio3FormData.right = new FormAttachment(100, -15);
-		radio3FormData.top = new FormAttachment(radioButtons[1], 5);
-		radioButtons[2].setLayoutData(radio3FormData);
-		* TODO: Reactivate code above for version 1.1 END OF TEMPORARY DISABLED CODE 
-		*/		
 		
+		Group compoundGroup = new Group(this.shell, SWT.NONE);
+		FormData compoundGroupFormData = new FormData();
+		compoundGroupFormData.left = new FormAttachment(0, 2);
+		compoundGroupFormData.right = new FormAttachment(100, -2);
+		compoundGroupFormData.top = new FormAttachment(continuousGroup, 2);
+		compoundGroup.setLayoutData(compoundGroupFormData);
+		GridLayout compoundGroupLayout = new GridLayout();
+		compoundGroupLayout.numColumns = 3;
+		compoundGroupLayout.makeColumnsEqualWidth = true;
+		compoundGroup.setLayout(compoundGroupLayout);
+		  radioButtons[2] = new Button(compoundGroup, SWT.RADIO);
+		  radioButtons[2].setText("compound (disabled!)");
+		  radioButtons[2].addListener(SWT.Selection, new Listener() {
+		  RootElementNamesEnum myRootElementNamesEnum =
+		  RootElementNamesEnum.RISKFACTOR_COMPOUND;
+		  
+		  public void handleEvent(Event arg0) { 
+			  Button myWidget = (Button)arg0.widget;
+			  if (myWidget.getSelection())
+			     {
+              // Disabling.
+//				  selectedRootElementName =  myRootElementNamesEnum .getNodeLabel();
+//		  radioButtons[0].setSelection(false);
+//		  radioButtons[1].setSelection(false);
+		  // Added for the disabling.
+		  radioButtons[2].setSelection(false); 
+				  } } }
+		  ); 
+			Label numberOfCompoundClassesLabel = new Label(compoundGroup, SWT.NONE);
+			numberOfCompoundClassesLabel.setText("Pick the number of classes:");
+			Combo numberOfCompoundClassesDropDown = new Combo(compoundGroup,
+					SWT.DROP_DOWN);
+			numberOfCompoundClassesDropDown.add("2", 0);
+			numberOfCompoundClassesDropDown.add("3", 1);
+			numberOfCompoundClassesDropDown.add("4", 2);
+			numberOfCompoundClassesDropDown.add("5", 3);
+			numberOfCompoundClassesDropDown.add("6", 4);
+			numberOfCompoundClassesDropDown.add("7", 5);
+			numberOfCompoundClassesDropDown.add("8", 6);
+			numberOfCompoundClassesDropDown.add("9", 7);
+			numberOfCompoundClassesDropDown.add("10", 8);
+			numberOfCompoundClassesDropDown.select(0);
+			numberOfCompoundClasses = 2;
+			numberOfCompoundClassesDropDown.addModifyListener(new ModifyListener() {
+
+				public void modifyText(ModifyEvent event) {
+					Combo myCombo = (Combo) event.widget;
+					numberOfCompoundClasses = myCombo.getSelectionIndex() + 2;
+				}
+			});
+
 		// Default.
 		radioButtons[0].setSelection(true);
 		Button okButton = new Button(shell, SWT.PUSH);
@@ -174,7 +265,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		});
 		shell.pack();
 		// This is the first place this works.
-		shell.setSize(300, 200);
+		shell.setSize(350, 250);
 		shell.open();
 		Display display = shell.getDisplay();
 		while (!shell.isDisposed()) {
@@ -207,4 +298,18 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		return selectedRootElementName;
 	}
 
+	public int getNumberOfClasses() {
+		log.debug("getNumberOfClasses() about to return " + numberOfClasses);
+		return numberOfClasses;
+	}
+
+	public int getNumberOfCutoffs() {
+		log.debug("getNumberOfCutoffs() about to return " + numberOfCutoffs);
+		return numberOfCutoffs;
+	}
+
+	public int getNumberOfCompoundClasses() {
+		log.debug("getNumberOfCompoundClasses() about to return " + numberOfCompoundClasses);
+		return numberOfCompoundClasses;
+	}
 }

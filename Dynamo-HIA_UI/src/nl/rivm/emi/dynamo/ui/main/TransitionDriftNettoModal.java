@@ -74,7 +74,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(900, 700);
+			this.shell.setSize(400, 250);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {

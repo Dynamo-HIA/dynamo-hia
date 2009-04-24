@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
+import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -117,6 +118,9 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 		LinkedHashMap<String, Object> producedData = null;
 		AgnosticGroupFactory factory = (AgnosticGroupFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
+		if(factory instanceof CategoricalFactory){
+			
+		}
 		if (factory == null) {
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: "

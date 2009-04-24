@@ -79,10 +79,10 @@ public class RelRiskFromRiskFactorContinuousModal extends AbstractDataModal {
 			if (this.props != null) {
 				riskSourceNode = this.props.getRiskSourceNode();
 			}
-			RelRisksFromRiskFactorContinuousGroup populationSizeGroup = new RelRisksFromRiskFactorContinuousGroup(
+			RelRisksFromRiskFactorContinuousGroup relRisksFromRiskFactorContinuousGroup = new RelRisksFromRiskFactorContinuousGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, riskSourceNode, this.helpPanel);
-			populationSizeGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
+			relRisksFromRiskFactorContinuousGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
 			this.shell.setSize(400, 400);
