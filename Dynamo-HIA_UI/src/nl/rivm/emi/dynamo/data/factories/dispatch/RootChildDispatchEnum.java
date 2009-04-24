@@ -11,13 +11,16 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 
 public enum RootChildDispatchEnum {
-	REFERENCECLASS("referenceclass", new AgnosticSingleRootChildFactory()), //
-	REFERENCEVALUE("referencevalue", new AgnosticSingleRootChildFactory()), //
+	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()), //
+	CUTOFFS(XMLTagEntityEnum.CUTOFFS.getElementName(), new AgnosticHierarchicalRootChildFactory()), //
+	DISTRIBUTIONTYPE("distributiontype", new AgnosticSingleRootChildFactory()), //
 	DURATIONCLASS("durationclass", new AgnosticSingleRootChildFactory()), //
 	HASNEWBORNS("hasnewborns", new AgnosticSingleRootChildFactory()), //
-	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()), //
+	REFERENCECLASS("referenceclass", new AgnosticSingleRootChildFactory()), //
+	REFERENCEVALUE("referencevalue", new AgnosticSingleRootChildFactory()), //
 	UNITTYPE("unittype", new AgnosticSingleRootChildFactory()), //
 	MORTALITIES("mortalities", new AgnosticHierarchicalRootChildFactory()), //
+	PREVALENCES("prevalences", new AgnosticHierarchicalRootChildFactory()), //
 	STARTINGYEAR(XMLTagEntityEnum.STARTINGYEAR.getElementName(),
 			new AgnosticSingleRootChildFactory()), // 
 	NUMBEROFYEARS(XMLTagEntityEnum.NUMBEROFYEARS.getElementName(),
