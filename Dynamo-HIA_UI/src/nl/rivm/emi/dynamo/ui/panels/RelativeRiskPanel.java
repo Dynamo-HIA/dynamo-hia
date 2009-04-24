@@ -15,6 +15,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 public class RelativeRiskPanel {
+	private static final String FROM = "From ";
+	private static final String TO = "To ";
 	Group group;
 	Label nameLabel;
 
@@ -33,12 +35,12 @@ public class RelativeRiskPanel {
 					.deriveEntityLabelAndValueFromSelectedNode(selectedNode);
 		}
 		EntityNamePanel riskSourcePanel = new EntityNamePanel(group,
-				entityArray[0], entityArray[1], "From (cause)");
+				entityArray[0], entityArray[1], FROM);
 		riskSourcePanel.putFirstInContainer(30);
 		String[] anotherEntityArray = Util
 				.deriveGrandParentEntityLabelAndValue(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(group,
-				anotherEntityArray[0], anotherEntityArray[1], "To ");
+				anotherEntityArray[0], anotherEntityArray[1], TO);
 		entityNameGroup.putLastInContainer(riskSourcePanel.group);
 	}
 
