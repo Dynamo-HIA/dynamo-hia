@@ -47,45 +47,20 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 				.getAbsolutePath();
 		@SuppressWarnings("unused")
 		BaseDirectory baseDirectory = BaseDirectory.getInstance(baseDirectoryPath);
-		
-		// TODO Doesn't work when launched from the configuration file.
 		String simulationName = parentName;
 		File configurationFile = new File(filePath);
-		// TODO: Integration replace with DynamoSimulationRunnable 
 		
 		// Run the dynamo simulation model (the CDM)
-		runDynamoSimulation(simulationName, baseDirectoryPath);
-				
-		//CoupledTestAll test = new CoupledTestAll();
-		/*
-		try{
-			// TODO: Integration replace with DynamoSimulationRunnable
-			//test.entryPoint(baseDirectoryPath, simulationName);
-		} catch(CDMRunException e){
-			MessageBox messageBox = new MessageBox(((SimulationModal)modalParent).getShell(), SWT.ERROR_FAILED_EXEC);
-			messageBox.setMessage("Simulation run threw a " + e.getClass().getName() 
-					+ "\nwith message: " + e.getMessage());
-			messageBox.open();
-		}*/
+		runDynamoSimulation(simulationName, baseDirectoryPath);			
 	}
 
 	private void runDynamoSimulation(String simName, String baseDir) {
-		//Runnable theSimulation = null;
-		// TODO: Use the parentShell in the Runnable and create the interface class: 
+		// Use the parentShell 
 		Shell parentShell = ((SimulationModal)modalParent).getParentShell();
-		//Shell shell = ((SimulationModal)modalParent).getShell();
 
 		DynamoSimulationRunnable theSimulation = 
 			new DynamoSimulationRunnable(parentShell, simName, baseDir);
-		theSimulation.run();			
-		
-		// TODO: Closing/stopping?
-		
-		// Gebruik Subclass van Realm (geen Realm/databinding nodig) 
-		//Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-			//	theSimulation);	
-
-		
+		theSimulation.run();					
 	}
 
 }
