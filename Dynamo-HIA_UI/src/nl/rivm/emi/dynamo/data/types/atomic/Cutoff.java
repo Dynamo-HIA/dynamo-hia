@@ -1,11 +1,14 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
-import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
+import nl.rivm.emi.dynamo.data.types.interfaces.WrapperType;
 
-public class Cutoff extends AbstractValue implements PayloadType<Float>{
+public class Cutoff extends XMLTagEntity implements WrapperType{
 	static final protected String XMLElementName = "cutoff";
 	public Cutoff(){
-		super(XMLElementName, new Float(0), Float.MAX_VALUE);
+		super(XMLElementName);
+	}
+	public WrapperType getNextWrapper() {
+		return null;
 	}
 }

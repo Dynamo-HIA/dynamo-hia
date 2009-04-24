@@ -13,6 +13,6 @@ public class Cutoffs extends XMLTagEntity implements WrapperType {
 	}
 
 	public WrapperType getNextWrapper() {
-		return (WrapperType) XMLTagEntitySingleton.getInstance().get(XMLTagEntityEnum.VIRTUALCUTOFFINDEX.getElementName());
+		return (WrapperType) XMLTagEntityEnum.CUTOFF.getTheType();
 	}
 }

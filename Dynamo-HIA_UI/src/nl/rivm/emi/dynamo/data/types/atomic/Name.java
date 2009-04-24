@@ -9,4 +9,10 @@ public class Name extends AbstractString implements PayloadType<String> {
 	public Name() {
 		super(XMLElementName);
 	}
+
+	@Override
+	public String getDefaultValue() {
+		return new String("Name");
+	}
+
 }
