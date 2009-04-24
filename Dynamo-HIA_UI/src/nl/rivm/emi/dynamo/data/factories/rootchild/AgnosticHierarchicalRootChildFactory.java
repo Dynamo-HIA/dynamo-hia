@@ -49,7 +49,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	public AtomicTypeObjectTuple manufactureObservable(ConfigurationNode node)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		throw new ConfigurationException(this.getClass().getName()
-				+ " is the wrong factory type for this type.");
+				+ " is the wrong factory type for a single Node.");
 	}
 
 	/**
@@ -290,6 +290,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 */
 	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
+		log.debug("manufactureDefault()");
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
 		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
@@ -325,6 +326,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			int minValue;
 			minValue = ((NumberRangeTypeBase<Integer>) leafNodeList.get(
 					currentLevel).getType()).getMIN_VALUE();
+			log.debug("Type \"" + myType.getXMLElementName() + "\" minimumValue: " + minValue + " maximumValue: " + maxValue);
 			if (minValue < maxValue) {
 				for (int value = minValue; value <= maxValue; value++) {
 					TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
