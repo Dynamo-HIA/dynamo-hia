@@ -48,7 +48,6 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		this.singleConfiguration = this.configurations.get(getInitialName());
 	}
 
-	@Override
 	public Set<String> getContents(String name, String chosenRiskFactorName)
 			throws ConfigurationException {
 		Set<String> contents = new LinkedHashSet<String>();
@@ -86,7 +85,6 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		return contents;
 	}
 
-	@Override
 	public String getCurrentValue(String name)
 			throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
@@ -137,7 +135,6 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		return writableValue;
 	}
 	
-	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenScenarioName)
 			throws ConfigurationException {
 		log.debug("HIERALOOK");
@@ -152,13 +149,11 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		return set;
 	}
 
-	@Override
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label)
 			throws ConfigurationException {
 		return getDropDownSet(label, null);
 	}
 
-	@Override
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
 		log.error("REMOVING OBJECT STATE");
@@ -166,21 +161,18 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
 	}
 
-	@Override
 	public void removeOldDefaultValue(String label)
 			throws ConfigurationException {
 		// Will not be used
 
 	}
 
-	@Override
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
 		// Will not be used
 
 	}
 
-	@Override
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
 		log.debug(name + ": " + selectedValue);
