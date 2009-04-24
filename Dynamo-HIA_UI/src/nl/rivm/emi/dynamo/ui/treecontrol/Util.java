@@ -31,7 +31,7 @@ public class Util {
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String containerLabel = ((BaseNode) containerNode).toString();
 		containerLabel = containerLabel.substring(0,
-				containerLabel.length());
+				containerLabel.length()-1);
 		String[] result = new String[2];
 		result[0] = containerLabel;
 		result[1] = startLabel;
@@ -99,6 +99,12 @@ public class Util {
 		return result;
 	}
 
+	/**
+	 * Shortended the result at index 0 by one to remove the "s".
+	 * 
+	 * @param selectedNode
+	 * @return
+	 */
 	static public String[] deriveGrandParentEntityLabelAndValue(
 			BaseNode selectedNode) {
 		BaseNode startNode = selectedNode;
@@ -110,7 +116,8 @@ public class Util {
 		ParentNode parentNode = ((ChildNode) startNode).getParent();
 		String parentLabel = ((BaseNode) parentNode).toString();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
-		String grandParentLabel = ((BaseNode) grandParentNode).toString();
+		String inBetween = ((BaseNode) grandParentNode).deriveNodeLabel();
+		String grandParentLabel = inBetween.substring(0, inBetween.length()-1);
 		String[] result = new String[2];
 		result[0] = grandParentLabel;
 		result[1] = parentLabel;
