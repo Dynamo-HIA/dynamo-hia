@@ -84,6 +84,7 @@ public enum FileControlEnum {
 	 * Subtrees in the configuration files. Should have the second parameter
 	 * flag set to true.
 	 */
+	AMOUNT(FileControlEnumHelp.amountStrings, false, true),
 	CLASSES(FileControlEnumHelp.classesStrings, false, true), //
 	CUTOFFS(FileControlEnumHelp.cutoffsStrings, false, true), //
 	MORTALITIES(FileControlEnumHelp.mortalitiesStrings, false, true), //
