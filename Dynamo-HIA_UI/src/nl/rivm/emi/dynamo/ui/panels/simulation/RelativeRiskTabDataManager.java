@@ -68,7 +68,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 * (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getDropDownSet(java.lang.String, java.lang.String)
 	 */
-	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenName) throws ConfigurationException {
 		log.debug("HIERALOOK");
 		
@@ -173,7 +172,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getCurrentValue(java.lang.String)
 	 */
-	@Override
 	public String getCurrentValue(String name) throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
 		log.debug("singleConfigurationXXX: " + singleConfiguration);
@@ -345,7 +343,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#setDefaultValue(java.lang.String, java.lang.String)
 	 */
-	@Override
 	public void setDefaultValue(String name, String selectedValue) throws ConfigurationException {
 		log.debug("SETDEFAULT: " + selectedValue);
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
@@ -373,7 +370,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#removeOldDefaultValue(java.lang.String)
 	 */
-	@Override
 	public void removeOldDefaultValue(String name) throws ConfigurationException {
 		if (this.singleConfiguration != null) {
 			log.debug("OLDDEFAULT: " + this.singleConfiguration.getTo());
@@ -387,14 +383,12 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		}
 	}
 
-	@Override
 	public Set<String> getContents(String name, String chosenDiseaseName)
 			throws ConfigurationException {
 		// Will not be used
 		return initialSelection;
 	}
 
-	@Override
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;
