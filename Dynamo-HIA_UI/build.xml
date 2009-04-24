@@ -9,8 +9,8 @@
 	<property name="plugins.dir"     value="C:/dynamo/eclipse341/plugins"/>
 	<property name="images.dir"     value="images"/>
 	<property name="schemas.dir"     value="schemas"/>
-	<property name="nl.rivm.emi.dynamo.dir"     value="C:/dynamo/eclipse_workspaces/dynamo/nl.rivm.emi.dynamo"/>
-	<property name="czm_main.dir"     value="C:/dynamo/eclipse_workspaces/dynamo/CZM_Main"/>
+	<property name="nl.rivm.emi.dynamo.dir"     value="../nl.rivm.emi.dynamo"/>
+	<property name="czm_main.dir"     value="../CZM_Main"/>
 		
     <target name="clean">
         <delete dir="${build.dir}"/>
