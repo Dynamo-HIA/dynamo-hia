@@ -50,7 +50,6 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		this.observableName = name;
 	}
 
-	@Override
 	public void setSuccessRate(Integer successRate) {
 		if (this.observableSuccessRate == null) {
 			setObservableSuccessRate(new WritableValue(successRate, Integer.class));	
