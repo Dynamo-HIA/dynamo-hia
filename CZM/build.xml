@@ -6,7 +6,7 @@
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir"     value="${build.dir}/jar"/>
 	<property name="lib.dir"     value="lib"/>
-	<property name="nl.rivm.emi.cdm.dir"     value="C:/dynamo/eclipse_workspaces/dynamo/nl.rivm.emi.cdm"/>
+	<property name="nl.rivm.emi.cdm.dir"     value="../nl.rivm.emi.cdm"/>
 	
     <target name="clean">
         <delete dir="${build.dir}"/>
