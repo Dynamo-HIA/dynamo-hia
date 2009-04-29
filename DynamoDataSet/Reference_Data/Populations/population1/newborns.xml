@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <newborns>
 <sexratio>1.05</sexratio>
+<startingYear>2008</startingYear>
+<amounts>
 <amount>
 <year>2008</year>
 <number>200000</number>
@@ -45,5 +47,5 @@
 <year>2018</year>
 <number>200000</number>
 </amount>
-
+</amounts>
 </newborns>
