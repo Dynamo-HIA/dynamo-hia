@@ -35,7 +35,7 @@ public enum FileControlEnum {
 	/* W12 */
 	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings, false, false), //
 	/* W13 */
-	NEWBORNS(FileControlEnumHelp.newbornsStrings, false, false), //
+	NEWBORNS(FileControlEnumHelp.newbornsStrings, true, false), //
 	/* W14 */
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings, false,
 			false), //
@@ -84,7 +84,7 @@ public enum FileControlEnum {
 	 * Subtrees in the configuration files. Should have the second parameter
 	 * flag set to true.
 	 */
-	AMOUNT(FileControlEnumHelp.amountStrings, false, true),
+	AMOUNTS(FileControlEnumHelp.amountsStrings, false, true),
 	CLASSES(FileControlEnumHelp.classesStrings, false, true), //
 	CUTOFFS(FileControlEnumHelp.cutoffsStrings, false, true), //
 	MORTALITIES(FileControlEnumHelp.mortalitiesStrings, false, true), //
@@ -279,12 +279,14 @@ public enum FileControlEnum {
 	public AtomicTypeBase<Number> getParameterType(int index) {
 		AtomicTypeBase<Number> result = null;
 		if (!((index + 2) >= parameterTypes4GroupFactory.length)) {
-		if (parameterTypes4GroupFactory[index + 2] instanceof AtomicTypeBase) {
-			result = (AtomicTypeBase<Number>) parameterTypes4GroupFactory[index + 2];
-			log.debug("AtomicTypeBase: " + result.getXMLElementName() +" found at index: " + (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
-		} else {
-			log.fatal("No AtomicTypeBase found at index: " + (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
-		}
+			if (parameterTypes4GroupFactory[index + 2] instanceof AtomicTypeBase) {
+				result = (AtomicTypeBase<Number>) parameterTypes4GroupFactory[index + 2];
+				log.debug("AtomicTypeBase: " + result.getXMLElementName() +" found at index: " 
+						+ (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
+			} else {
+				log.fatal("parameterTypes4GroupFactory[index + 2]" + parameterTypes4GroupFactory[index + 2]);
+				log.fatal("No AtomicTypeBase found at index: " + (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
+			}
 		} else {
 			log.fatal("Index: " + (index + 2) + " is past the end of the tags given for: " + parameterTypes4GroupFactory[0]);
 		}

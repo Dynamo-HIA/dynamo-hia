@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
@@ -17,19 +17,30 @@ import org.eclipse.swt.widgets.Shell;
 public class NewbornsGroup {
 	Group theGroup;
 
-	public NewbornsGroup(Shell shell, TypedHashMap lotsOfData,
+	public NewbornsGroup(Shell shell, NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
+		// Set the population file name
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
 				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
+
+		// Show the Sex Ratio and
+		// the Starting Year and 'Update' button				
+		SexRatioAndStartingYearPanel nestedGroup = 
+			new SexRatioAndStartingYearPanel(theGroup, newbornsObject,
+				dataBindingContext, helpGroup);
+		nestedGroup.putNextInContainer(entityNameGroup.group, 30, nestedGroup.group);
+		
+		// Show the Year-Number table
 		NewbornsParameterGroup parameterGroup = new NewbornsParameterGroup(
-				theGroup, lotsOfData, dataBindingContext, helpGroup);
-		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
+				theGroup, newbornsObject, dataBindingContext, helpGroup, 
+				nestedGroup.getStartingYearModifyListener());
+		parameterGroup.handlePlacementInContainer(nestedGroup.groupStartingYear);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
+import nl.rivm.emi.dynamo.ui.listeners.selection.StartingYearModifyListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -18,8 +19,9 @@ public class NewbornsParameterGroup {
 	Group theGroup;
 
 	public NewbornsParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
-			final HelpGroup helpGroup) {
+			NewbornsObject newbornsObject, DataBindingContext dataBindingContext,
+			final HelpGroup helpGroup, 
+			StartingYearModifyListener startingYearModifyListener) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -35,11 +37,10 @@ public class NewbornsParameterGroup {
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 		Composite parameterDataPanel = new YearGroupParameterDataPanel(
-				scrolledContainer, null, lotsOfData, dataBindingContext,
+				scrolledContainer, null, newbornsObject, dataBindingContext,
 				helpGroup);
 		FormData parameterFormData = new FormData();
 		parameterFormData.top = new FormAttachment(0, 2);
-
 		parameterFormData.right = new FormAttachment(100, -5);
 		parameterFormData.bottom = new FormAttachment(100, -2);
 		parameterFormData.left = new FormAttachment(0, 5);

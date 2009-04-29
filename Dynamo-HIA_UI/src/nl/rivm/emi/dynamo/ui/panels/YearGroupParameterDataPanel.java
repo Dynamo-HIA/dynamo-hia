@@ -1,12 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
-import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
-import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,14 +20,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
- * TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
- * TODO: THIS CLASS IS NOT FINISHED YET
- * TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
- * TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
+ * 
+ * Defines the Year parameter group in Newborns (screen W13)
+ * 
  * @author schutb
  *
  */
@@ -38,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 public class YearGroupParameterDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory
 			.getLog(this.getClass().getName());
-	TypedHashMap lotsOfData;
+	NewbornsObject lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
@@ -46,56 +42,57 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 	AtomicTypeBase myType;
 
 	public YearGroupParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData,
+			NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
-		this.lotsOfData = lotsOfData;
+		this.lotsOfData = newbornsObject;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get("number");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		Label yearLabel = new Label(this, SWT.NONE);
 		yearLabel.setText("Year");
 		Label numberLabel = new Label(this, SWT.NONE);
 		numberLabel.setText("Number");
-		log.debug("lotsOfData" + lotsOfData);
-		log.debug("lotsOfData.size()" + lotsOfData.size());
-		// TODO: replace start year with the first key of the hashmap
-		for (int count = 2009; count < lotsOfData.size() + 2009; count++) {
-			TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
-			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
-			////log.debug("tHMap" + tHMap);
-			// TODO: implement databinding validation
-			//bindValue(tHMap, NewBorn.YEAR); // TODO: If the user changes the start year, the binding will change automatically too!!!
-			//////bindValue(tHMap, 1);
-		}
-	}
-
-	public void handlePlacementInContainer(YearGroupParameterDataPanel panel,
-			Label topNeighbour) {
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 10);
-		formData.right = new FormAttachment(100, -10);
-		formData.bottom = new FormAttachment(100, -10);
-		formData.left = new FormAttachment(0, 10);
-		panel.setLayoutData(formData);
-	}
-
-	private void bindValue(TypedHashMap typedHashMap, int index) {
-		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		text.setLayoutData(gridData);
-		log.debug("myType" + myType);
-		log.debug("typedHashMap" + typedHashMap);
-		log.debug("typedHashMap.get(index)" + typedHashMap.get(index));
 		
-		String convertedText = ((Number)myType).convert4View(typedHashMap.get(index).toString());
-		text.setText(convertedText);
+		int numberOfNumbers = newbornsObject.getNumberOfNumbers();
+
+		WritableValue observableObject = newbornsObject.getObservableStartingYear();		
+		int startingYear = ((Integer) observableObject.doGetValue()).intValue();		
+
+		// Start year is the first key of the hashmap
+		for (int yearCount = startingYear; yearCount < (numberOfNumbers + startingYear); yearCount++) {
+			log.debug("yearCount" + yearCount);
+			// Set the year label
+			Label label = new Label(this, SWT.NONE);
+			label.setText(new Integer(yearCount).toString());				
+			
+			WritableValue observableClassName = newbornsObject.getObservableNumber(yearCount);
+			if(observableClassName != null){
+				bindAbstractRangedInteger(observableClassName, myType);
+			} else {
+				MessageBox box = new MessageBox(parent.getShell());
+				box.setText("Class name error");
+				box.setMessage("Name at year " + yearCount + " should not be empty.");
+				box.open();
+			}
+		}					
+	}
+
+	protected void bindAbstractRangedInteger(WritableValue observableObject,
+			AtomicTypeBase myType) {
+		Text text = getTextBinding(observableObject, myType);
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+	}
+
+	private Text getTextBinding(WritableValue observableObject,
+			AtomicTypeBase myType) {
+		Text text = createAndPlaceTextField();
+		text.setText((String) myType
+				.convert4View(observableObject.doGetValue()));
 		text.addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
 				theHelpGroup.getFieldHelpGroup().putHelpText(1);
@@ -103,16 +100,26 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 
 			public void focusLost(FocusEvent arg0) {
 				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-																	// range.
+				// range.
 			}
-
 		});
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);
-		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				((Number)myType).getModelUpdateValueStrategy(), ((Number)myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		dataBindingContext.bindValue(textObservableValue, observableObject,
+				myType.getModelUpdateValueStrategy(), myType
+						.getViewUpdateValueStrategy());
+		return text;
 	}
+
+	
+	private Text createAndPlaceTextField() {
+		final Text text = new Text(this, SWT.NONE);		
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		text.setLayoutData(gridData);
+		return text;
+	}
+	
+	
+	
 }

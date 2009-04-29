@@ -8,6 +8,15 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
+
+import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
+import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.NewbornsGroup;
@@ -24,14 +33,17 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+
 /**
  * @author schutb
  *
  */
-public class NewbornsModal extends AbstractDataModal {
+public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	private NewbornsObject modelObject;
+	
 	/**
 	 * @param parentShell
 	 * @param dataFilePath
@@ -62,7 +74,7 @@ public class NewbornsModal extends AbstractDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = manufactureModelObject();
+			this.modelObject = new NewbornsObject(manufactureModelObject());
 			log.debug("lotsOfData" + modelObject);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
@@ -93,6 +105,63 @@ public class NewbornsModal extends AbstractDataModal {
 			box.setMessage(e.getMessage());
 			box.open();
 		}
+	}
+
+	/**
+	 * This method constructs a model-object always containing Observables at
+	 * the deepest level because these are needed for the databinding to work.
+	 * 
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
+	protected LinkedHashMap<String, Object> manufactureModelObject()
+			throws ConfigurationException, DynamoInconsistentDataException {
+		LinkedHashMap<String, Object> producedData = null;
+		AgnosticGroupFactory factory = (AgnosticGroupFactory) FactoryProvider
+				.getRelevantFactoryByRootNodeName(this.rootElementName);
+		if(factory instanceof CategoricalFactory){
+			
+		}
+		if (factory == null) {
+			throw new ConfigurationException(
+					"No Factory found for rootElementName: "
+							+ this.rootElementName);
+		}
+		File dataFile = new File(this.dataFilePath);
+
+		if (dataFile.exists()) {
+			// The configuration file with data already exists, fill the modal
+			// with existing data
+			if (dataFile.isFile() && dataFile.canRead()) {
+				producedData = factory.manufactureObservable(dataFile,
+						this.rootElementName);
+				if (producedData == null) {
+					throw new ConfigurationException(
+							"DataModel could not be constructed.");
+				}
+			} else {
+				// No file has been selected, continue without exceptions
+				throw new ConfigurationException(this.dataFilePath
+						+ " is no file or cannot be read.");
+			}
+		} else {			
+			Date date = new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);			
+			Integer maxYear = new Integer(calendar.get(Calendar.YEAR) + 29);
+			// Set the limit to 30 years from the current year
+			factory.setIndexLimit(maxYear);
+			// The configuration file with data does not yet exist, create a new
+			// screen object with default data
+			producedData = factory.manufactureObservableDefault();
+		}
+		return producedData;
+	}	
+	
+	@Override
+	public Object getData() {
+		return this.modelObject;
 	}
 
 }

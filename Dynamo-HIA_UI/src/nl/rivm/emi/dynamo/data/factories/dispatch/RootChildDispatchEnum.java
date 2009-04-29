@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 
 public enum RootChildDispatchEnum {
+	AMOUNTS("amounts", new AgnosticHierarchicalRootChildFactory()), //
 	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()), //
 	CUTOFFS(XMLTagEntityEnum.CUTOFFS.getElementName(), new AgnosticHierarchicalRootChildFactory()), //
 	DISTRIBUTIONTYPE("distributiontype", new AgnosticSingleRootChildFactory()), //
@@ -46,7 +47,9 @@ public enum RootChildDispatchEnum {
 	RISKFACTORS(XMLTagEntityEnum.RISKFACTORS.getElementName(),
 			new AgnosticHierarchicalRootChildFactory()), //
 	RRS(XMLTagEntityEnum.RRS.getElementName(),
-			new AgnosticHierarchicalRootChildFactory());
+			new AgnosticHierarchicalRootChildFactory()),
+	SEXRATIO(XMLTagEntityEnum.SEXRATIO.getElementName(), 
+			new AgnosticSingleRootChildFactory()); //
 
 	private final String rootChildNodeName;
 	private final RootChildFactory theFactory;

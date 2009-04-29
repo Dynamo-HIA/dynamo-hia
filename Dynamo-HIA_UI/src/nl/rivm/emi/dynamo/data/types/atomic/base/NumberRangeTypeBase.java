@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
  * @param <T>
  */
 public abstract class NumberRangeTypeBase<T> extends AtomicTypeBase<T>{
-	final protected T MIN_VALUE;
+	protected T MIN_VALUE;
 	protected T MAX_VALUE;
 
 	protected NumberRangeTypeBase(String elementName, T minValue, T maxValue){

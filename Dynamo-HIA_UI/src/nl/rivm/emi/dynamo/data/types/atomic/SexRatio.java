@@ -1,13 +1,22 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
-import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
+import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
 
-public class SexRatio extends AbstractRangedInteger implements ContainerType{
+public class SexRatio extends AbstractValue implements PayloadType<Float>{
+
 	static final protected String XMLElementName = "sexratio";
 
+	/**
+	 * Constructor
+	 */
 	public SexRatio(){
-		// NB(mondeelr) Limits?
-		super(XMLElementName, new Integer(0), new Integer(10));
+		super(XMLElementName, 0F, Float.MAX_VALUE);
 	}
+	
+	@Override
+	public Float getDefaultValue() {
+		return 1.06F;
+	}	
+	
 }

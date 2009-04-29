@@ -135,7 +135,9 @@ public class StAXAgnosticTypedHashMapWriter {
 			Map.Entry<Integer, Object> entry = iterator.next();
 			String elementName = getElementName(fileControl, leafValueMap);
 			log.debug("Going to convert element: " + elementName + " at level "
-					+ leafValueMap.size() + " in the leafValueMap." + entry.getValue() + entry.getKey()
+					+ leafValueMap.size() + " in the leafValueMap." + "ENTRY VALUE: " 
+					+  entry.getValue() + "ENTRY KEY: " + entry.getKey() 
+					+ "CONFIGURATION LEVEL TYPE: "
 					+ configurationLevelType);
 			leafValueMap.put(elementName,
 					((AtomicTypeBase) configurationLevelType)

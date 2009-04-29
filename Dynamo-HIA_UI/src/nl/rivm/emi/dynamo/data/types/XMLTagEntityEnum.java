@@ -1,12 +1,10 @@
 package nl.rivm.emi.dynamo.data.types;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import nl.rivm.emi.dynamo.data.types.atomic.AcutelyFatalType;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Alfa;
 import nl.rivm.emi.dynamo.data.types.atomic.Amount;
+import nl.rivm.emi.dynamo.data.types.atomic.Amounts;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
@@ -118,11 +116,15 @@ import nl.rivm.emi.dynamo.data.types.root.TransitionMatrix;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixNetto;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixZero;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public enum XMLTagEntityEnum {
-	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), AGE(
-			(XMLTagEntity) new Age()), //
+	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), 
+	AGE((XMLTagEntity) new Age()), //
 	ALFA((XMLTagEntity) new Alfa()), //
 	AMOUNT((XMLTagEntity) new Amount()), //
+	AMOUNTS((XMLTagEntity) new Amounts()), //
 	BEGIN((XMLTagEntity) new Begin()), //
 	CAT((XMLTagEntity) new CatContainer()), //
 	CLASS((XMLTagEntity) new DynamoClass()), //

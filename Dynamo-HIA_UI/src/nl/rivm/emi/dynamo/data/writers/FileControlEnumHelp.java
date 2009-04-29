@@ -37,7 +37,10 @@ public class FileControlEnumHelp {
 			"age", "sex", "value" };
 	/* W13 */
 	static final String[] newbornsStrings = {
-			RootElementNamesEnum.NEWBORNS.getNodeLabel(), XMLTagEntityEnum.SEXRATIO.getElementName(), XMLTagEntityEnum.AMOUNT.getElementName()};
+			RootElementNamesEnum.NEWBORNS.getNodeLabel(), XMLTagEntityEnum.SEXRATIO.getElementName(), 
+			XMLTagEntityEnum.STARTINGYEAR.getElementName(),
+			XMLTagEntityEnum.AMOUNTS.getElementName()
+			};
 	/* W14 */
 	static final String[] overallDALYWeightsStrings = {
 			RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(), "weight",
@@ -200,8 +203,9 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.MEAN.getElementName(),
 			XMLTagEntityEnum.STANDARDDEVIATION.getElementName(),
 			XMLTagEntityEnum.SKEWNESS.getElementName() };
-	static final String[]amountStrings  = {
+	static final String[]amountsStrings  = {
+		XMLTagEntityEnum.AMOUNTS.getElementName(),
 		XMLTagEntityEnum.AMOUNT.getElementName(),
-		XMLTagEntityEnum.STARTINGYEAR.getElementName(),
+		XMLTagEntityEnum.YEAR.getElementName(),
 		XMLTagEntityEnum.NUMBER.getElementName()};
 }

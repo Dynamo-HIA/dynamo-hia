@@ -73,7 +73,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	public Integer getNumber(Integer index) {
-		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNT
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		Object numberObject = wrappedObject.get(index);
 		Integer number = -1;
@@ -87,17 +87,19 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 
 	public int getNumberOfNumbers() {
 		log.debug("getNumberOfNumbers() about to return "
-				+ ((TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNT
+				+ ((TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 						.getElementName())).size());
-		return ((TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNT
+		return ((TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName())).size();
 	}
 
 	public WritableValue getObservableNumber(Integer index) {
-		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNT
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
+		log.debug("index:: " + index 
+				+ "numberTupleList:: " + numberTupleList);
 		Object numberObject = numberTupleList.get(0).getValue();
 		WritableValue writableNumber = null;
 		if (numberObject instanceof WritableValue) {
@@ -107,7 +109,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	public Object putNumber(Integer index, Integer number) {
-		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNT
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
@@ -115,7 +117,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		Object currentNumber = numberTuple.getValue();
 		if (currentNumber == null) {
 			log
-					.fatal("!!!!!!!!!!putCategory() may not be used to add categories!!!!!!!!!!!!");
+					.fatal("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
 		WritableValue newNumber = new WritableValue(number, number.getClass());

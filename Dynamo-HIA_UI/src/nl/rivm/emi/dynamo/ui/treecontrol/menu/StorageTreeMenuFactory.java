@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
+import nl.rivm.emi.dynamo.ui.actions.NewbornsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
@@ -1052,6 +1053,11 @@ public class StorageTreeMenuFactory {
 					OverallDALYWeightsXMLFileAction action = new OverallDALYWeightsXMLFileAction(
 							shell, treeViewer, (BaseNode) node,
 							"overalldalyweights");
+					action.setText("Edit");
+					manager.add(action);
+				} if ("newborns".equals(nodeLabel)) {
+					NewbornsXMLFileAction action = new NewbornsXMLFileAction(
+							shell, treeViewer, (BaseNode) node, "newborns");
 					action.setText("Edit");
 					manager.add(action);
 				} else {
