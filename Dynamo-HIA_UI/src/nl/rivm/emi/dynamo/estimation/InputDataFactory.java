@@ -2368,47 +2368,51 @@ public class InputDataFactory {
 						.getChildren();
 
 				for (ConfigurationNode rootChild : rootChildren) {
-					if (rootChild.getName() != "amount"
-							&& rootChild.getName() != "sexratio")
+					if (rootChild.getName() != "amounts"
+							&& rootChild.getName() != "sexratio"
+								&& rootChild.getName() != "startingYear")
 						throw new DynamoConfigurationException(" Tagname "
-								+ "amount or sexratio expected in file "
+								+ "amounts, sexratio, startingYear expected in file "
 								+ configFileName + " but found tag "
 								+ rootChild.getName());
 
-					if (rootChild.getName() == "amount") {
-						List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
-								.getChildren();
-						for (ConfigurationNode leafChild : leafChildren) {
-							Object valueObject = leafChild.getValue();
-							String leafName = leafChild.getName();
-							if (valueObject instanceof String) {
-								String valueString = (String) valueObject;
-								if ("year".equalsIgnoreCase(leafName)) {
+					List<ConfigurationNode> nestedRootChildren = (List<ConfigurationNode>) rootChild.getChildren();
+					for (ConfigurationNode nestedRootChild : nestedRootChildren) {
+						if (rootChild.getName() == "amount") {
+							List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+									.getChildren();
+							for (ConfigurationNode leafChild : leafChildren) {
+								Object valueObject = leafChild.getValue();
+								String leafName = leafChild.getName();
+								if (valueObject instanceof String) {
+									String valueString = (String) valueObject;
+									if ("year".equalsIgnoreCase(leafName)) {
 
-									year[currentChild] = getIntegerValue(
-											valueString, "year");
+										year[currentChild] = getIntegerValue(
+												valueString, "year");
 
-									if (currentChild > 0
-											&& year[currentChild] != year[currentChild - 1] + 1)
-										throw new DynamoInconsistentDataException(
-												" years in file with newborns"
-														+ " have a gap between year "
-														+ year[currentChild - 1]
-														+ " and "
-														+ year[currentChild]
-														+ " this is not allowed");
+										if (currentChild > 0
+												&& year[currentChild] != year[currentChild - 1] + 1)
+											throw new DynamoInconsistentDataException(
+													" years in file with newborns"
+															+ " have a gap between year "
+															+ year[currentChild - 1]
+															+ " and "
+															+ year[currentChild]
+															+ " this is not allowed");
+									}
+									if ("number".equalsIgnoreCase(leafName)) {
+
+										number[currentChild] = getIntegerValue(
+												valueString, "number");
+										// TODO checken data completeness
+
+									}
 								}
-								if ("number".equalsIgnoreCase(leafName)) {
 
-									number[currentChild] = getIntegerValue(
-											valueString, "number");
-									// TODO checken data completeness
-
-								}
 							}
-
+							currentChild++;
 						}
-						currentChild++;
 					}
 				}
 
