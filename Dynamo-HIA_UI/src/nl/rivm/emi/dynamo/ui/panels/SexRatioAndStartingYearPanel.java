@@ -34,7 +34,6 @@ public class SexRatioAndStartingYearPanel {
 	private static final String STARTING_YEAR = "Starting year";
 	private static final String UPDATE = "Update";
 	
-	//public Group group;
 	private HelpGroup theHelpGroup;
 	private StartingYearModifyListener startingYearModifyListener;
 	private Composite myParent;
@@ -43,15 +42,19 @@ public class SexRatioAndStartingYearPanel {
 	private Button updateButton;
 	public Group groupStartingYear;
 	public Group group;
+	private DataAndFileContainer modalParent;
 
 	public SexRatioAndStartingYearPanel(Group parent,
 			NewbornsObject newbornsObject, 
 			DataBindingContext dataBindingContext, 
-			HelpGroup helpGroup) {
+			HelpGroup helpGroup,
+			DataAndFileContainer modalParent) {
 		this.myParent = parent;
 		this.newbornsObject = newbornsObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
+		this.modalParent = modalParent;
+		
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
@@ -70,15 +73,15 @@ public class SexRatioAndStartingYearPanel {
 		observable = newbornsObject.getObservableStartingYear();
 		text = bindHeaderValue(observable, labelValue, new StartingYear(), groupStartingYear);				
 				
-		updateButton = putUpdateButton(groupStartingYear, text);		
+		updateButton = putUpdateButton(groupStartingYear, text);
+		setModifyListener();
 	}
-	
-	
-	public void setModalParent(DataAndFileContainer theModalParent, WritableValue observable) {
+		
+	public void setModifyListener() {
 		this.startingYearModifyListener = new StartingYearModifyListener(
-				theModalParent, observable);		
+				this.modalParent);		
 		updateButton
-				.addSelectionListener(new StartingYearModifyListener(theModalParent, observable));
+				.addSelectionListener(this.startingYearModifyListener);
 	}
 
 	static private Button putUpdateButton(Composite group, 

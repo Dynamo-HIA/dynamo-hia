@@ -13,6 +13,7 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
@@ -23,7 +24,10 @@ import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
+import nl.rivm.emi.dynamo.ui.panels.NewbornsDialog;
 
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -97,14 +101,29 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							(HashMap<String, Object>) modelObject,
 							configurationFile);
-
-					if (modelObject instanceof LinkedHashMap) {
-						if (modelObject instanceof DynamoSimulationObject) {
-							((SimulationModal) modalParent).getRunButtonGroup().runButton.setVisible(true);
-						}
+					
+					if (modelObject instanceof DynamoSimulationObject) {
+						((SimulationModal) modalParent).getRunButtonGroup().runButton.setVisible(true);
 					}
-					
-					
+
+					if (modelObject instanceof NewbornsObject) {						
+						if (((NewbornsObject) modelObject).isContainsPostfixZeros()) {							
+							Dialog dialog = new NewbornsDialog(this.modalParent.getShell(),
+									"Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
+							dialog.open();
+							if (dialog.getReturnCode() != IDialogConstants.OK_ID) {
+								return;
+							}
+						}					
+						if(((NewbornsObject) modelObject).isContainsZeros()) {
+							Dialog dialog = new NewbornsDialog(this.modalParent.getShell(),
+									"Number values with 0 still exist. Do you want this to be saved?");
+							dialog.open();
+							if (dialog.getReturnCode() != IDialogConstants.OK_ID) {
+								return;
+							}							
+						}
+					}					
 				} else {
 					throw new DynamoConfigurationException(
 							"SaveSelectionListener - Unsupported modelObjectType: "

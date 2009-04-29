@@ -7,6 +7,7 @@ package nl.rivm.emi.dynamo.data.objects;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IAmount;
@@ -108,6 +109,13 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		return writableNumber;
 	}
 
+	
+	/**
+	 * 
+	 * Replaces/changes an existing Number with a new Number for the given year
+	 * 
+	 * @see nl.rivm.emi.dynamo.data.interfaces.IAmount#putNumber(java.lang.Integer, java.lang.Integer)
+	 */
 	public Object putNumber(Integer index, Integer number) {
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
@@ -127,4 +135,123 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		Object displacedObject = wrappedObject.put(index, numberTupleList);
 		return displacedObject;
 	}
+		
+
+	/**
+	 * 
+	 * Adds a new Number for the given year
+	 * 
+	 * @param index The given Year
+	 * @param number The Number
+	 * @param prefix true if the new value is added as first value
+	 *          of the TypedHashMap, false if the new value
+	 *          is added at the end of the TypedHashMap.
+	 *          This is needed because TypedHashMap is a
+	 *          LinkedHashMap, so the order of addition is relevant.
+	 *          
+	 * @return
+	 */
+	public Object addNumber(Integer index, Integer number, boolean prefix) {
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
+				.getElementName());
+		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
+				.get(index);
+		
+		if (numberTupleList == null) {
+			numberTupleList = new ArrayList<AtomicTypeObjectTuple>();
+			WritableValue newNumber = new WritableValue(number, number.getClass());
+			AtomicTypeObjectTuple numberTuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.NUMBER.getTheType(), newNumber);			
+			numberTupleList.add(0, numberTuple);
+		}
+		Object displacedObject = null;
+		if (!prefix) {
+			displacedObject = wrappedObject.put(index, numberTupleList);	
+		} else {
+			TypedHashMap<Year> tempMap = 
+				new TypedHashMap(XMLTagEntityEnum.YEAR.getTheType());			
+			tempMap.putAll(wrappedObject);
+			wrappedObject.clear();
+			displacedObject = wrappedObject.put(index, numberTupleList);
+			wrappedObject.putAll(tempMap);
+		}		
+		return displacedObject;
+	}
+	
+	
+	/**
+	 * 
+	 * Removes a Number for the given year
+	 * 
+	 * @param index
+	 * @param number
+	 * @return
+	 */
+	public Object removeNumber(Integer index) {
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
+				.getElementName());
+		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
+				.get(index);
+		Object displacedObject = null;
+		if (numberTupleList != null) {
+			AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
+			Object currentNumber = numberTuple.getValue();
+			if (currentNumber == null) {
+				log.fatal("!!!!!!!!!!removeNumber() may not be used to add numbers!!!!!!!!!!!!");
+			}
+			numberTupleList.remove(0); // Not really needed
+			displacedObject = wrappedObject.remove(index);
+		}
+		// Else nothing can be removed
+		return displacedObject;
+	}
+
+	public int getPreviousStartingYear() {
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
+				.getElementName());
+		return ((Integer) wrappedObject.keySet().iterator().next()).intValue();
+	}
+
+	public boolean isContainsPostfixZeros() {
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
+				.getElementName());
+		int startingYear = ((Integer) getObservableStartingYear().doGetValue()).intValue(); 
+		for (int index = (startingYear + 
+				 this.getNumberOfNumbers() - 1); index >= startingYear; index-- ) {
+			ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
+			.get(index);
+			if (numberTupleList != null) {
+				AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
+				Integer currentNumber = (Integer) ((WritableValue) numberTuple.getValue()).doGetValue();
+				if (index == (startingYear + 
+						 this.getNumberOfNumbers() - 1) && currentNumber.intValue() != 0) {
+					// No postfix 0s exist
+					return false;
+				}
+				if (currentNumber.intValue() == 0) {
+					return true;
+				}
+			}			
+		}
+		return false;
+	}
+
+	public boolean isContainsZeros() {
+		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
+				.getElementName());
+		Set keys = wrappedObject.keySet();		
+		for (Integer key : (Set<Integer>) keys) {
+			ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
+			.get(key);
+			if (numberTupleList != null) {
+				AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
+				Integer currentNumber = (Integer) ((WritableValue) numberTuple.getValue()).doGetValue();				
+				if (currentNumber.intValue() == 0) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}	
+	
+	
 }

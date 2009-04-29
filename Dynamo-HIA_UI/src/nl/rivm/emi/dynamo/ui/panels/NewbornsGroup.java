@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -19,7 +20,8 @@ public class NewbornsGroup {
 
 	public NewbornsGroup(Shell shell, NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup, DataAndFileContainer modalParent) 
+			throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -33,7 +35,7 @@ public class NewbornsGroup {
 		// the Starting Year and 'Update' button				
 		SexRatioAndStartingYearPanel nestedGroup = 
 			new SexRatioAndStartingYearPanel(theGroup, newbornsObject,
-				dataBindingContext, helpGroup);
+				dataBindingContext, helpGroup, modalParent);
 		nestedGroup.putNextInContainer(entityNameGroup.group, 30, nestedGroup.group);
 		
 		// Show the Year-Number table

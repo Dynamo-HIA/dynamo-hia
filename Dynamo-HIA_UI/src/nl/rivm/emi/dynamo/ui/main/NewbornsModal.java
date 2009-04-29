@@ -53,9 +53,10 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	 */
 	public NewbornsModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+			BaseNode selectedNode, NewbornsObject modelObject) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		this.modelObject = modelObject;
 	}
 
 	@Override
@@ -74,7 +75,10 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	public synchronized void open() {
 		try {
 			this.dataBindingContext = new DataBindingContext();
-			this.modelObject = new NewbornsObject(manufactureModelObject());
+			// If the modelObject != null, then the Update button has been used
+			if (this.modelObject == null) {
+				this.modelObject = new NewbornsObject(manufactureModelObject());	
+			}	
 			log.debug("lotsOfData" + modelObject);
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
@@ -82,7 +86,8 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			NewbornsGroup newbornsGroup = new NewbornsGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel);
+					this.selectedNode, this.helpPanel,
+					this);
 			newbornsGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();

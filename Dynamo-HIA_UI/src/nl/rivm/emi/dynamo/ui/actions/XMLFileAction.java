@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
+import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
@@ -55,6 +56,7 @@ public class XMLFileAction extends ActionBase {
 	private String fileNameTrunk;
 	private String rootElementName;
 	private boolean configurationFileExists;
+	private NewbornsObject modelObject;
 
 	public XMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String fileNameTrunk, String rootElementName) {
@@ -100,7 +102,7 @@ public class XMLFileAction extends ActionBase {
 						theModal = new NewbornsModal(shell, dataFile
 								.getAbsolutePath(),
 								savedFile.getAbsolutePath(), rootElementName,
-								node);
+								node, this.modelObject);
 					} else {
 						if (RootElementNamesEnum.OVERALLDALYWEIGHTS
 								.getNodeLabel().equals(rootElementName)) {
@@ -485,4 +487,9 @@ public class XMLFileAction extends ActionBase {
 	public void setConfigurationFileExists(boolean configurationFileExists) {
 		this.configurationFileExists = configurationFileExists;		
 	}
+	
+	public void setModelObject(NewbornsObject modelObject) {
+		this.modelObject = modelObject;
+	}	
+	
 }

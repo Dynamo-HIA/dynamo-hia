@@ -49,7 +49,8 @@ public class NewbornsXMLFileAction extends ActionBase {
 		try {
 			boolean isOld = file.exists();
 			NewbornsModal popSizeModal = new NewbornsModal(shell,
-					file.getAbsolutePath(), file.getAbsolutePath(), rootElementName, node);
+					file.getAbsolutePath(), file.getAbsolutePath(), 
+					rootElementName, node, null);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = file.exists();
