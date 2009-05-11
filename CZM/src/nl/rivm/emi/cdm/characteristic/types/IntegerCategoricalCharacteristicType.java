@@ -30,7 +30,7 @@ public class IntegerCategoricalCharacteristicType extends
 				Matcher integerMatcher = integerPattern.matcher((String) value);
 				boolean integerMatch = integerMatcher.matches();
 				if (integerMatch) {
-					Integer integerValue = Integer.decode((String) value);
+					Integer integerValue = Integer.valueOf((String) value);
 					if (!isValueValid(value)) {
 						possibleValues.add(integerValue);
 						success = true;

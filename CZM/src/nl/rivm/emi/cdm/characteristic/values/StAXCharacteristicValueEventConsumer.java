@@ -60,7 +60,7 @@ public class StAXCharacteristicValueEventConsumer extends
 							+ "\" element.");
 		}
 		String indexString = indexAttribute.getValue();
-		Integer indexInteger = Integer.decode(indexString);
+		Integer indexInteger = Integer.valueOf(indexString);
 
 		Attribute valueAttribute = ((StartElement) event)
 				.getAttributeByName(new QName("vl"));

@@ -86,7 +86,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 		try {
 			String characteristicIdAsString = currentValueNode
 					.getString(characteristicIdLabel);
-			Integer characteristicId = Integer.decode(characteristicIdAsString);
+			Integer characteristicId = Integer.valueOf(characteristicIdAsString);
 			if (characteristicId != null) {
 				characteristicIdUpdateRuleTuple = new CharacteristicIdUpdateRuleTuple();
 				characteristicIdUpdateRuleTuple

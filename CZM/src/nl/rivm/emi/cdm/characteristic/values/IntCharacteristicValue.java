@@ -125,7 +125,7 @@ public class IntCharacteristicValue extends CharacteristicValueBase {
 		boolean success = matcher.matches();
 		try {
 			if (success) {
-				int numberToSet = Integer.decode(stringValue);
+				int numberToSet = Integer.valueOf(stringValue);
 				appendValue(numberToSet);
 			}
 			return success;
