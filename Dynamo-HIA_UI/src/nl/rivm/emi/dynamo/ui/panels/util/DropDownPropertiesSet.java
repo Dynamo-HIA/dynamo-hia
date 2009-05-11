@@ -2,8 +2,6 @@ package nl.rivm.emi.dynamo.ui.panels.util;
 
 import java.util.LinkedHashSet;
 
-import org.eclipse.swt.widgets.Combo;
-
 public class DropDownPropertiesSet extends LinkedHashSet<String> {
 		int defaultChoiceIndex = 0;
 
@@ -19,6 +17,17 @@ public class DropDownPropertiesSet extends LinkedHashSet<String> {
 				index = defaultChoiceIndex;
 			}
 			return index;
+		}
+
+		public boolean contains(String value) {
+		boolean found = false;
+			for (String item : this) {
+				if ((item != null) && (item.equals(value))) {
+					found = true;
+					break;
+				}
+			}
+			return found;
 		}
 
 		public String getSelectedString(int selectedIndex) {

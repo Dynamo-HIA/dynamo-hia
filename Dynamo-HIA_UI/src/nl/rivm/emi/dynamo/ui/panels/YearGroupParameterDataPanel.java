@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
@@ -48,23 +49,31 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 		this.lotsOfData = newbornsObject;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
-		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get("number");
+		myType = (AtomicTypeBase) XMLTagEntityEnum.NUMBER.getTheType();
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		layout.makeColumnsEqualWidth = false;
+		layout.numColumns = 10;
+// Testing		layout.numColumns = 3;
+		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		Label yearLabel = new Label(this, SWT.NONE);
 		yearLabel.setText("Year");
 		Label numberLabel = new Label(this, SWT.NONE);
 		numberLabel.setText("Number");
+		GridData numberLabelGridData = new GridData();
+		numberLabelGridData.horizontalSpan = 2;
+		numberLabel.setLayoutData(numberLabelGridData);
+		Label spaceLabel = new Label(this, SWT.NONE);
+		GridData spaceLabelGridData = new GridData();
+		spaceLabelGridData.horizontalSpan = 7;
+		spaceLabel.setLayoutData(spaceLabelGridData);
 		
-		int numberOfNumbers = newbornsObject.getNumberOfNumbers();
+		int numberOfNumbers = newbornsObject.getNumberOfAmounts();
 
 		WritableValue observableObject = newbornsObject.getObservableStartingYear();		
 		int startingYear = ((Integer) observableObject.doGetValue()).intValue();		
 
 		// Start year is the first key of the hashmap
-		for (int yearCount = startingYear; yearCount < (numberOfNumbers + startingYear); yearCount++) {
+		for (int yearCount = startingYear; yearCount < startingYear + numberOfNumbers ; yearCount++) {
 			log.debug("yearCount" + yearCount);
 			// Set the year label
 			Label label = new Label(this, SWT.NONE);
@@ -73,6 +82,10 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 			WritableValue observableClassName = newbornsObject.getObservableNumber(yearCount);
 			if(observableClassName != null){
 				bindAbstractRangedInteger(observableClassName, myType);
+				Label deepSpaceLabel = new Label(this, SWT.NONE);
+				GridData deepSpaceLabelGridData = new GridData();
+				deepSpaceLabelGridData.horizontalSpan = 7;
+				deepSpaceLabel.setLayoutData(deepSpaceLabelGridData);
 			} else {
 				MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
@@ -86,11 +99,15 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+// Testing		Text testText = getTextBinding(observableObject, myType);
 	}
 
 	private Text getTextBinding(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = createAndPlaceTextField();
+		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
+		textGridData.horizontalSpan = 2;
+		text.setLayoutData(textGridData);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		text.addFocusListener(new FocusListener() {

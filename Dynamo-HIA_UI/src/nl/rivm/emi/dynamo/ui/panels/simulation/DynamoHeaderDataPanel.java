@@ -21,6 +21,8 @@ import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.PopulationFileNameComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -36,11 +38,17 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -51,12 +59,12 @@ import org.eclipse.swt.widgets.Text;
  * Defines the header of the simulation panel
  * 
  * @author schutb
- *
+ * 
  */
 public class DynamoHeaderDataPanel extends Composite {
-	
+
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+
 	private static final String NAME = "Name";
 	private static final String SIM_POP_SIZE = "Simulated population size";
 	private static final String RAND_SEED = "Random seed";
@@ -66,33 +74,32 @@ public class DynamoHeaderDataPanel extends Composite {
 	private static final String NUMBER_OF_YEARS = "Number of years";
 	private static final String MINIMUM_AGE = "Minimum age";
 	private static final String MAXIMUM_AGE = "Maximum age";
-	private static final String CALC_TIME_STEP = "Calculation time step";	
+	private static final String CALC_TIME_STEP = "Calculation time step";
 
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
 	private boolean open = false;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
-	private GenericComboModifyListener dropDownModifyListener;
+	private PopulationFileNameComboModifyListener dropDownModifyListener;
 	private DynamoTabDataManager dynamoTabDataManager;
-	
+
 	/** Two radiobuttons */
 	private Button[] radioButtons = new Button[2];
 
 	public DynamoHeaderDataPanel(Composite parent, Composite bottomNeighbour,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup,
-			DynamoTabDataManager dynamoTabDataManager
-	) throws ConfigurationException {
+			HelpGroup helpGroup, DynamoTabDataManager dynamoTabDataManager)
+			throws ConfigurationException {
 		super(parent, SWT.NONE);
-//		this.setBackground(new Color(null, 0xff, 0xff, 0xff));
+		// this.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		this.myParent = parent;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
-		this.dynamoTabDataManager = dynamoTabDataManager;		
-		
+		this.dynamoTabDataManager = dynamoTabDataManager;
+
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		layout.makeColumnsEqualWidth = /* false */true;
@@ -110,31 +117,38 @@ public class DynamoHeaderDataPanel extends Composite {
 		String[] entityArray = Util
 				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		nameStringLabel.setText(entityArray[1]);
+
+		TreeAsDropdownLists treeLists = TreeAsDropdownLists
+				.getInstance(selectedNode);
+		DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
+		contentsSet.addAll(treeLists.getPopulations());
+		log.debug("contentsSet" + contentsSet);
+
+		Label 			label = new Label(this, SWT.NONE);
+		label.setText(POP_FILE_NAME + ":");
+
+		WritableValue observablePopFileName = dynamoSimulationObject
+				.getObservablePopulationFileName();
+		PopFileNameDropDownPanel populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
+				this, observablePopFileName, dynamoTabDataManager
+						.getDropDownSet(POP_FILE_NAME, null));
+		this.dropDownModifyListener = populationFileNameDropDownPanel
+				.getPopulationFileNameComboModifyListener();
+
 		String labelValue = SIM_POP_SIZE;
 		WritableValue observable = dynamoSimulationObject
 				.getObservableSimPopSize();
 		bindHeaderValue(observable, labelValue, new SimPopSize());
-		labelValue = RAND_SEED;
-		observable = dynamoSimulationObject.getObservableRandomSeed();
-		bindHeaderValue(observable, labelValue, new RandomSeed());
 
 		labelValue = HAS_NEW_BORNS;
-
 		observable = dynamoSimulationObject.getObservableHasNewborns();
-		bindHeaderValue(observable, labelValue, new HasNewborns());		
-		
-		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
-		DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
-		contentsSet.addAll(treeLists.getPopulations());		
-		log.debug("contentsSet" + contentsSet);		
-		
-		GenericDropDownPanel populationDropDownPanel = 
-			createDropDown(POP_FILE_NAME, 
-					dynamoTabDataManager.getDropDownSet(POP_FILE_NAME, null), 1, 
-					dynamoTabDataManager);
-		this.dropDownModifyListener =
-			populationDropDownPanel.getGenericComboModifyListener();
-				
+		bindHeaderValue(observable, labelValue, new HasNewborns());
+
+		Label spaceLabel = new Label(this, SWT.NONE);
+		GridData spaceLabelData = new GridData();
+		spaceLabelData.horizontalSpan = 2;
+		spaceLabel.setLayoutData(spaceLabelData);
+
 		labelValue = STARTING_YEAR;
 		observable = dynamoSimulationObject.getObservableStartingYear();
 		bindHeaderValue(observable, labelValue, new StartingYear());
@@ -154,6 +168,10 @@ public class DynamoHeaderDataPanel extends Composite {
 		labelValue = CALC_TIME_STEP;
 		observable = dynamoSimulationObject.getObservableTimeStep();
 		bindHeaderValue(observable, labelValue, new TimeStep());
+
+		labelValue = RAND_SEED;
+		observable = dynamoSimulationObject.getObservableRandomSeed();
+		bindHeaderValue(observable, labelValue, new RandomSeed());
 	}
 
 	private void bindHeaderValue(WritableValue observable, String labelValue,
@@ -224,11 +242,11 @@ public class DynamoHeaderDataPanel extends Composite {
 	// Age is already covered by AbstractRangedInteger
 
 	private Text createAndPlaceTextField() {
-//		Text text = new Text(this, SWT.NONE);
-		final Text text = new Text(this, SWT.SINGLE|SWT.FILL|SWT.BORDER);
-			// Eerst ff zonder.
-		 GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		 text.setLayoutData(gridData);
+		// Text text = new Text(this, SWT.NONE);
+		final Text text = new Text(this, SWT.SINGLE | SWT.FILL | SWT.BORDER);
+		// Eerst ff zonder.
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		text.setLayoutData(gridData);
 		return text;
 	}
 
@@ -255,9 +273,14 @@ public class DynamoHeaderDataPanel extends Composite {
 		return text;
 	}
 
-	public void getCreateRadioButtonsBinding() {
+	public void getCreateRadioButtonsBinding(Composite radioButtonsContainer) {
 		// this.radioButtons[0] = new Button(this.myParent, SWT.RADIO);
-		this.radioButtons[0] = new Button(this, SWT.RADIO);
+		this.radioButtons[0] = new Button(radioButtonsContainer, SWT.RADIO);
+		radioButtons[0].setText("Yes");
+		FormData button0LayoutData = new FormData();
+		button0LayoutData.left = new FormAttachment(0, 2);
+		button0LayoutData.right = new FormAttachment(50, -2);
+		radioButtons[0].setLayoutData(button0LayoutData);
 		this.radioButtons[0].addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
@@ -269,10 +292,15 @@ public class DynamoHeaderDataPanel extends Composite {
 			}
 		});
 
-		radioButtons[1] = new Button(this, SWT.RADIO);
-		GridData layoutData = new GridData();
-		layoutData.horizontalSpan = 2;
-		radioButtons[1].setLayoutData(layoutData);
+		radioButtons[1] = new Button(radioButtonsContainer, SWT.RADIO);
+		radioButtons[1].setText("No");
+		FormData button1LayoutData = new FormData();
+		button1LayoutData.left = new FormAttachment(50, 2);
+		button1LayoutData.right = new FormAttachment(100, -2);
+		radioButtons[1].setLayoutData(button1LayoutData);
+		// GridData layoutData = new GridData();
+		// layoutData.horizontalSpan = 2;
+		// radioButtons[1].setLayoutData(layoutData);
 		radioButtons[1].addListener(SWT.Selection, new Listener() {
 
 			public void handleEvent(Event arg0) {
@@ -289,16 +317,25 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	private void getBooleanBinding(WritableValue observableObject,
 			AtomicTypeBase myType) {
+		Composite radioButtonsContainer = new Composite(this, SWT.NONE);
+		radioButtonsContainer.setBackground(new Color(null, 0xcc, 0xcc, 0xcc));
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		radioButtonsContainer.setLayoutData(gridData);
+		FormLayout rbContainerLayout = new FormLayout();
+		radioButtonsContainer.setLayout(rbContainerLayout);
 
 		// Create the radio buttons
-		this.getCreateRadioButtonsBinding();
+		this.getCreateRadioButtonsBinding(radioButtonsContainer);
 
 		// Set the selection
-		radioButtons[0].setSelection(new Boolean(myType
-				.convert4View(observableObject.doGetValue())).booleanValue());
-		radioButtons[1].setSelection(!new Boolean(myType
-				.convert4View(observableObject.doGetValue())).booleanValue());
-
+		String initialValue = (String) observableObject.doGetValue();
+		if (!"0".equals(initialValue)) {
+			radioButtons[0].setSelection(true);
+			radioButtons[1].setSelection(false);
+		} else {
+			radioButtons[0].setSelection(false);
+			radioButtons[1].setSelection(true);
+		}
 		// Add the helpgroups
 		radioButtons[0].addFocusListener(new FocusListener() {
 			public void focusGained(FocusEvent arg0) {
@@ -333,21 +370,89 @@ public class DynamoHeaderDataPanel extends Composite {
 																	 * getViewUpdateValueStrategy
 																	 * ()
 																	 */null);
-
 	}
-	
-	private GenericDropDownPanel createDropDown(String label, 
-			DropDownPropertiesSet selectablePropertiesSet, 
-			int columnSpan,
-			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
-		ScenarioFactorDataAction updateScenarioFactorDataAction = 
-			new ScenarioFactorDataAction();
+
+	private GenericDropDownPanel createDropDown(String label,
+			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
+			DynamoTabDataManager dynamoTabDataManager)
+			throws ConfigurationException {
+		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(this, label, columnSpan,
-				selectablePropertiesSet,				
-				null, dynamoTabDataManager);
+				selectablePropertiesSet, null, dynamoTabDataManager);
 	}
 
-	public GenericComboModifyListener getDropDownModifyListener() {
-		return this.dropDownModifyListener;
+	public class PopFileNameDropDownPanel {
+
+		Log log = LogFactory.getLog(this.getClass().getName());
+
+		private Combo dropDown;
+		private HelpGroup theHelpGroup;
+		private DropDownPropertiesSet selectablePopulationFileNamePropertiesSet;
+		private PopulationFileNameComboModifyListener populationFileNameModifyListener;
+		private int selectedIndex;
+
+		public PopFileNameDropDownPanel(Composite parent,
+				WritableValue writableValue, DropDownPropertiesSet theSet) {
+			selectablePopulationFileNamePropertiesSet = theSet;
+			dropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+			GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
+			dropDown.setLayoutData(dropDownGridData);
+			this.fill(selectablePopulationFileNamePropertiesSet);
+			int initialIndex = 0;
+			if (writableValue != null) {
+				String initialValue = (String) writableValue.doGetValue();
+				if (selectablePopulationFileNamePropertiesSet
+						.contains(initialValue)) {
+					initialIndex = selectablePopulationFileNamePropertiesSet
+							.getSelectedIndex(initialValue);
+				}
+			}
+			this.populationFileNameModifyListener = new PopulationFileNameComboModifyListener(
+					writableValue);
+			dropDown.addModifyListener(populationFileNameModifyListener);
+			dropDown.select(initialIndex);
+		}
+
+		public void fill(DropDownPropertiesSet set) {
+			int index = 0;
+			for (String item : set) {
+				dropDown.add(item, index);
+				index++;
+			}
+		}
+
+		public String getUnitType() {
+			return (String) selectablePopulationFileNamePropertiesSet
+					.getSelectedString(this.selectedIndex);
+		}
+
+		public void setHelpGroup(HelpGroup helpGroup) {
+			theHelpGroup = helpGroup;
+		}
+
+		/**
+		 * 
+		 * Place the first group in the container
+		 * 
+		 * @param height
+		 */
+
+		public PopulationFileNameComboModifyListener getPopulationFileNameComboModifyListener() {
+			return populationFileNameModifyListener;
+		}
+
+		public Combo getDropDown() {
+			return dropDown;
+		}
+
+		private void layoutDropDown(Label label) {
+			FormData comboFormData = new FormData();
+			comboFormData.left = new FormAttachment(label, 5);
+			comboFormData.right = new FormAttachment(100, -5);
+			comboFormData.top = new FormAttachment(0, 2);
+			comboFormData.bottom = new FormAttachment(100, -2);
+			dropDown.setLayoutData(comboFormData);
+		}
 	}
+
 }

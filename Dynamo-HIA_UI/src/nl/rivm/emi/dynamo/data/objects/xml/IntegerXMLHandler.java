@@ -11,7 +11,7 @@ public class IntegerXMLHandler extends
 	
 	  protected  Integer convert(String valueString) {
 		Integer result;
-		result = Integer.decode(valueString);
+		result = Integer.valueOf(valueString);
 		return result;
 	}
 

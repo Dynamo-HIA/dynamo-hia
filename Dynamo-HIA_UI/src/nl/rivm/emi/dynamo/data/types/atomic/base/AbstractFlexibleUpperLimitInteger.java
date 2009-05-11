@@ -42,7 +42,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 	public Integer fromString(String inputString) {
 		Integer result = null;
 		try {
-			result = Integer.decode(inputString);
+			result = Integer.valueOf(inputString);
 			if (!inRange(result)) {
 				result = null;
 			}
@@ -123,7 +123,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 			try {
 				Integer result = null;
 				try {
-					result = Integer.decode(arg0.toString());
+					result = Integer.valueOf(arg0.toString());
 					if (!inRange(result)) {
 						result = null;
 					}

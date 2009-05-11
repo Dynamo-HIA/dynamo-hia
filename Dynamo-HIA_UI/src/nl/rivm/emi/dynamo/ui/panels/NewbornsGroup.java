@@ -2,12 +2,14 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -21,7 +23,7 @@ public class NewbornsGroup {
 	public NewbornsGroup(Shell shell, NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup, DataAndFileContainer modalParent) 
-			throws DynamoConfigurationException {
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -36,13 +38,18 @@ public class NewbornsGroup {
 		SexRatioAndStartingYearPanel nestedGroup = 
 			new SexRatioAndStartingYearPanel(theGroup, newbornsObject,
 				dataBindingContext, helpGroup, modalParent);
-		nestedGroup.putNextInContainer(entityNameGroup.group, 30, nestedGroup.group);
+		// nestedGroup.putNextInContainer(entityNameGroup.group, 30, nestedGroup.group);
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(entityNameGroup.group, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		nestedGroup.group.setLayoutData(formData);
+//		nestedGroup.group.setBackground(new Color(null, 0x00, 0x00, 0x00));
 		
 		// Show the Year-Number table
 		NewbornsParameterGroup parameterGroup = new NewbornsParameterGroup(
-				theGroup, newbornsObject, dataBindingContext, helpGroup, 
-				nestedGroup.getStartingYearModifyListener());
-		parameterGroup.handlePlacementInContainer(nestedGroup.groupStartingYear);
+				theGroup, newbornsObject, dataBindingContext, helpGroup);
+		parameterGroup.handlePlacementInContainer(nestedGroup.group);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

@@ -987,15 +987,19 @@ public class InputDataFactory {
 		String sizeName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + sizeXMLname;
+		log.debug("PopulationSize filename: " + sizeName);
 		String newbornName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + newbornXMLname;
+		log.debug("NewBorns filename: " + newbornName);
 		String dalyName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + totDalyXMLname;
+		log.debug("DALY filename: " + dalyName);
 		String mortName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + populationDir + File.separator
 				+ populationName + File.separator + allcauseXMLname;
+		log.debug("Mortality filename: " + mortName);
 
 		scenarioInfo.setPopulationSize(this.factory.manufactureOneDimArray(
 				sizeName, "populationsize", "size", "number", false));

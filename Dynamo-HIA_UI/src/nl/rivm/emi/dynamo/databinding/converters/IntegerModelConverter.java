@@ -14,7 +14,7 @@ public class IntegerModelConverter implements IConverter {
 
 	public Object convert(Object arg0) {
 //		log.debug(debugString + " convert(Object) entered with:" + arg0.toString());
-		Integer integerCandidate = Integer.decode((String) arg0);
+		Integer integerCandidate = Integer.valueOf((String) arg0);
 		return integerCandidate;
 	}
 

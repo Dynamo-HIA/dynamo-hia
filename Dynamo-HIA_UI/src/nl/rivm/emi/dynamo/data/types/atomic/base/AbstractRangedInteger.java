@@ -9,9 +9,13 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Text;
 
 abstract public class AbstractRangedInteger extends
-		NumberRangeTypeBase<Integer> {
+		NumberRangeTypeBase<Integer> implements VerifyListener{
 
 	/**
 	 * Pattern for matching String input. Provides an initial validation that
@@ -38,7 +42,7 @@ abstract public class AbstractRangedInteger extends
 	public Integer fromString(String inputString) {
 		Integer result = null;
 		try {
-			result = Integer.decode(inputString);
+			result = Integer.valueOf(inputString);
 			if (!inRange(result)) {
 				result = null;
 			}
@@ -119,7 +123,9 @@ abstract public class AbstractRangedInteger extends
 			try {
 				Integer result = null;
 				try {
-					result = Integer.decode(arg0.toString());
+					// Doesn't work with prefix zeroes.
+//					result = Integer.decode(arg0.toString());
+					result = Integer.valueOf(arg0.toString());
 					if (!inRange(result)) {
 						result = null;
 					}
@@ -189,4 +195,39 @@ abstract public class AbstractRangedInteger extends
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}
+	
+	public void verifyText(VerifyEvent arg0) {
+		Text myText = (Text) arg0.widget;
+		String currentContent = myText.getText();
+		String candidateContent = currentContent.substring(0, arg0.start)
+				+ arg0.text
+				+ currentContent.substring(arg0.end, currentContent.length());
+//		log.debug("VerifyEvent with current content: " + currentContent + " , candidate content: " + candidateContent);
+		arg0.doit = false;
+		myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
+		try {
+			if (candidateContent.length() == 0) {
+				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
+				arg0.doit = true;
+			} else {
+				if (matchPattern.matcher(candidateContent)
+						.matches()) {
+					Integer candidateInteger = Integer.valueOf(candidateContent);
+					NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>)this;
+					if (myAtomicType.inRange(candidateInteger)) {
+						arg0.doit = true;
+						myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
+					}
+				} else {
+					arg0.doit = false;
+					myText.setBackground(new Color(null, 0xff, 0xbb, 0xbb));
+				}
+			}
+//			log.debug("verifyText, normal exit with doIt=" + arg0.doit);
+		} catch (Exception e) {
+			arg0.doit = false;
+//			log.debug("verifyText, exception exit with doIt=" + arg0.doit);
+		}
+	}
+
 }

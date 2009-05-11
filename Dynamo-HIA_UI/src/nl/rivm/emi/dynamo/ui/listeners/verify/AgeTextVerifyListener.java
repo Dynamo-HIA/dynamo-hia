@@ -27,7 +27,7 @@ public class AgeTextVerifyListener implements VerifyListener {
 		if (candidateContent.length() == 0) {
 			myText.setBackground(new Color(null, 0xff, 0xff, 0xcc)); // Yellow
 		} else {
-			Integer candidateInteger = /* AtomicTypesSingleton.getInstance().get("age") */ Integer.decode(candidateContent);
+			Integer candidateInteger = /* AtomicTypesSingleton.getInstance().get("age") */ Integer.valueOf(candidateContent);
 			if (candidateInteger == null) {
 				arg0.doit = false;
 			}

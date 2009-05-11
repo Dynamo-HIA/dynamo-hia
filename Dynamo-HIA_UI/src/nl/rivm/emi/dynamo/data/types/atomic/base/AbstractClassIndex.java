@@ -52,7 +52,7 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	public Integer fromString(String inputString) {
 		Integer result = null;
 		try {
-			result = Integer.decode(inputString);
+			result = Integer.valueOf(inputString);
 			if (!inRange(result)) {
 				result = null;
 			}
@@ -87,7 +87,7 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 
 	@Override
 	public Object convert4Model(String viewString) {
-		Integer modelValue = Integer.decode(viewString);
+		Integer modelValue = Integer.valueOf(viewString);
 		return modelValue;
 	}
 

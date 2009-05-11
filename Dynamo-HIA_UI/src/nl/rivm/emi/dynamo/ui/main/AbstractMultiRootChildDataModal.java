@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -22,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Shell;
 
@@ -118,8 +120,8 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 		LinkedHashMap<String, Object> producedData = null;
 		AgnosticGroupFactory factory = (AgnosticGroupFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
-		if(factory instanceof CategoricalFactory){
-			
+		if (factory instanceof CategoricalFactory) {
+
 		}
 		if (factory == null) {
 			throw new ConfigurationException(
@@ -192,5 +194,12 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 
 	public void setDataFilePath(String dataFilePath) {
 		this.dataFilePath = dataFilePath;
+	}
+
+	/**
+	 * Default implementation.
+	 */
+	public SideEffectProcessor getSavePreProcessor() {
+		return null;
 	}
 }

@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
-import nl.rivm.emi.dynamo.ui.listeners.selection.StartingYearModifyListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -20,8 +19,7 @@ public class NewbornsParameterGroup {
 
 	public NewbornsParameterGroup(Composite parent,
 			NewbornsObject newbornsObject, DataBindingContext dataBindingContext,
-			final HelpGroup helpGroup, 
-			StartingYearModifyListener startingYearModifyListener) {
+			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

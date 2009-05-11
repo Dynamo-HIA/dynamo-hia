@@ -10,5 +10,5 @@ public interface IAmount {
 
 	public abstract WritableValue getObservableNumber(Integer index);
 	
-	public abstract int getNumberOfNumbers();
+	public abstract int getNumberOfAmounts();
 }

@@ -21,6 +21,7 @@ import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
+import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
@@ -55,79 +56,100 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 		try {
 			Object modelObject = modalParent.getData();
 
-			String rootElementName = (String) modalParent.getRootElementName();
-			log.debug("rootElementName" + rootElementName + " modelObject"
-					+ modelObject + " configurationFile" + configurationFile);
-			if (modelObject instanceof TypedHashMap) {
-				FileControlEnum fileControl = FileControlSingleton
-						.getInstance().get(rootElementName);
-				StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
-						(TypedHashMap) modelObject, configurationFile);
-			} else {
-				if (modelObject instanceof LinkedHashMap) {
-					if (modelObject instanceof DynamoSimulationObject) {
-						Map map = ((DynamoSimulationObject) modelObject)
-								.getRelativeRiskConfigurations();
-						Set<Integer> keys = map.keySet();
-						for (Integer key : keys) {
-							TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
-									.get(key);
-							log
-									.error("conf.getName()"
-											+ conf.getDataFileName());
-							if (conf.getDataFileName() == null
-									|| conf.getDataFileName().isEmpty()) {
-								throw new DynamoConfigurationException(
-										"The Relative Risk field"
-												+ "is empty of Relative Risks is empty");
-							}
-							
-							Map secondMap = ((DynamoSimulationObject) modelObject)
-							.getRelativeRiskConfigurations();
-							Set<Integer> secondKeys = secondMap.keySet();
-							for (Integer secondKey : secondKeys) {
-								TabRelativeRiskConfigurationData secondConf = (TabRelativeRiskConfigurationData) secondMap
-								.get(secondKey);	
-
-								if(secondConf.getFrom().equals(conf.getFrom())
-								&& secondConf.getTo().equals(conf.getTo()) 
-								&& !secondConf.getIndex().equals(conf.getIndex())) {
+			// Modalparent dependent functionality added.
+			boolean doSave = true;
+			SideEffectProcessor preProcessorSelectionListener = modalParent
+					.getSavePreProcessor();
+			if (preProcessorSelectionListener != null) {
+				doSave = preProcessorSelectionListener.doIt();
+			}
+			// Allow vetoing by preprocessor.
+			if (doSave) {
+				String rootElementName = (String) modalParent
+						.getRootElementName();
+				log.debug("rootElementName" + rootElementName + " modelObject"
+						+ modelObject + " configurationFile"
+						+ configurationFile);
+				if (modelObject instanceof TypedHashMap) {
+					FileControlEnum fileControl = FileControlSingleton
+							.getInstance().get(rootElementName);
+					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
+							(TypedHashMap) modelObject, configurationFile);
+				} else {
+					if (modelObject instanceof LinkedHashMap) {
+						if (modelObject instanceof DynamoSimulationObject) {
+							Map map = ((DynamoSimulationObject) modelObject)
+									.getRelativeRiskConfigurations();
+							Set<Integer> keys = map.keySet();
+							for (Integer key : keys) {
+								TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
+										.get(key);
+								log.error("conf.getName()"
+										+ conf.getDataFileName());
+								if (conf.getDataFileName() == null
+										|| conf.getDataFileName().isEmpty()) {
 									throw new DynamoConfigurationException(
-											"Two Relative Risks cannot contain the same to and from values");
+											"The Relative Risk field"
+													+ "is empty of Relative Risks is empty");
+								}
+
+								Map secondMap = ((DynamoSimulationObject) modelObject)
+										.getRelativeRiskConfigurations();
+								Set<Integer> secondKeys = secondMap.keySet();
+								for (Integer secondKey : secondKeys) {
+									TabRelativeRiskConfigurationData secondConf = (TabRelativeRiskConfigurationData) secondMap
+											.get(secondKey);
+
+									if (secondConf.getFrom().equals(
+											conf.getFrom())
+											&& secondConf.getTo().equals(
+													conf.getTo())
+											&& !secondConf.getIndex().equals(
+													conf.getIndex())) {
+										throw new DynamoConfigurationException(
+												"Two Relative Risks cannot contain the same to and from values");
+									}
 								}
 							}
 						}
-					}
-					StAXAgnosticGroupWriter.produceFile(rootElementName,
-							(HashMap<String, Object>) modelObject,
-							configurationFile);
-					
-					if (modelObject instanceof DynamoSimulationObject) {
-						((SimulationModal) modalParent).getRunButtonGroup().runButton.setVisible(true);
-					}
+						StAXAgnosticGroupWriter.produceFile(rootElementName,
+								(HashMap<String, Object>) modelObject,
+								configurationFile);
 
-					if (modelObject instanceof NewbornsObject) {						
-						if (((NewbornsObject) modelObject).isContainsPostfixZeros()) {							
-							Dialog dialog = new NewbornsDialog(this.modalParent.getShell(),
-									"Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
-							dialog.open();
-							if (dialog.getReturnCode() != IDialogConstants.OK_ID) {
-								return;
-							}
-						}					
-						if(((NewbornsObject) modelObject).isContainsZeros()) {
-							Dialog dialog = new NewbornsDialog(this.modalParent.getShell(),
-									"Number values with 0 still exist. Do you want this to be saved?");
-							dialog.open();
-							if (dialog.getReturnCode() != IDialogConstants.OK_ID) {
-								return;
-							}							
+						if (modelObject instanceof DynamoSimulationObject) {
+							((SimulationModal) modalParent).getRunButtonGroup().runButton
+									.setVisible(true);
 						}
-					}					
-				} else {
-					throw new DynamoConfigurationException(
-							"SaveSelectionListener - Unsupported modelObjectType: "
-									+ modelObject.getClass().getName());
+
+						// if (modelObject instanceof NewbornsObject) {
+						// if (((NewbornsObject)
+						// modelObject).isContainsPostfixZeros()) {
+						// Dialog dialog = new
+						// NewbornsDialog(this.modalParent.getShell(),
+						// "Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
+						// dialog.open();
+						// if (dialog.getReturnCode() != IDialogConstants.OK_ID)
+						// {
+						// return;
+						// }
+						// }
+						// if(((NewbornsObject) modelObject).isContainsZeros())
+						// {
+						// Dialog dialog = new
+						// NewbornsDialog(this.modalParent.getShell(),
+						// "Number values with 0 still exist. Do you want this to be saved?");
+						// dialog.open();
+						// if (dialog.getReturnCode() != IDialogConstants.OK_ID)
+						// {
+						// return;
+						// }
+						// }
+						// }
+					} else {
+						throw new DynamoConfigurationException(
+								"SaveSelectionListener - Unsupported modelObjectType: "
+										+ modelObject.getClass().getName());
+					}
 				}
 			}
 		} catch (XMLStreamException e) {
