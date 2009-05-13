@@ -110,7 +110,16 @@ public class Output_WriteOutputTab  {
 
 				fd.setText("Give filename for reference scenario:");
 				// TODO: juiste basedir meegeven
-				fd.setFilterPath(Output_WriteOutputTab.this.currentPath
+				
+				String directoryName =Output_WriteOutputTab.this.currentPath;
+				File directory = new File(directoryName);
+				boolean isDirectory = directory.isDirectory();
+				if (!isDirectory) 				
+					directory.mkdirs();
+				boolean canWrite = directory.canWrite();
+				
+				
+				if (canWrite) fd.setFilterPath(Output_WriteOutputTab.this.currentPath
 						);
 				String[] filterExt = { "*.xml", "*.*" };
 				fd.setFilterExtensions(filterExt);

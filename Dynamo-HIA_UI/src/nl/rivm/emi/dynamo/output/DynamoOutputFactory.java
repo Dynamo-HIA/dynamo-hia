@@ -424,47 +424,61 @@ public class DynamoOutputFactory {
 		this.diseaseNames = new String[this.nDiseases];
 		int currentDis = 0;
 		int currentState = 0;
-		if (this.nDiseases>0) for (int c = 0; c < this.structure.length; c++) {
-			if (this.structure[c].getNInCluster() > 1
-					&& !this.structure[c].isWithCuredFraction())
-				for (int i = 1; i < Math.pow(this.structure[c].getNInCluster(),
-						2); i++) {
-					this.stateNames[currentState] = "";
-					for (int d1 = 0; d1 < this.structure[c].getNInCluster(); d1++) {
+		if (this.nDiseases > 0)
+			for (int c = 0; c < this.structure.length; c++) {
+				if (this.structure[c].getNInCluster() > 1
+						&& !this.structure[c].isWithCuredFraction())
+					for (int i = 1; i < Math.pow(this.structure[c]
+							.getNInCluster(), 2); i++) {
+						this.stateNames[currentState] = "";
+						for (int d1 = 0; d1 < this.structure[c].getNInCluster(); d1++) {
 
-						if ((i & (1 << d1)) == (1 << d1))
-							if (this.stateNames[currentState] == "")
-								this.stateNames[currentState] = this.structure[c]
-										.getDiseaseName().get(d1);
-							else
-								this.stateNames[currentState] = this.stateNames[currentState]
-										+ "+"
-										+ this.structure[c].getDiseaseName()
-												.get(d1);
+							if ((i & (1 << d1)) == (1 << d1))
+								if (this.stateNames[currentState] == "")
+									this.stateNames[currentState] = this.structure[c]
+											.getDiseaseName().get(d1);
+								else
+									this.stateNames[currentState] = this.stateNames[currentState]
+											+ "+"
+											+ this.structure[c]
+													.getDiseaseName().get(d1);
+						}
+						currentState++;
 					}
-					currentState++;
-				}
 
-			for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
-				this.diseaseNames[currentDis] = this.structure[c]
-						.getDiseaseName().get(d);
-				currentDis++;
-				if (this.structure[c].getNInCluster() == 1
-						|| this.structure[c].isWithCuredFraction()) {
-
-					this.stateNames[currentState] = this.structure[c]
+				for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
+					this.diseaseNames[currentDis] = this.structure[c]
 							.getDiseaseName().get(d);
-					currentState++;
-				}
+					currentDis++;
+					if (this.structure[c].getNInCluster() == 1
+							|| this.structure[c].isWithCuredFraction()) {
 
+						this.stateNames[currentState] = this.structure[c]
+								.getDiseaseName().get(d);
+						currentState++;
+					}
+
+				}
 			}
-		}
 
 		this.details = scenInfo.isDetails();
 
 		this.startYear = scenInfo.getStartYear();
 		this.populationSize = scenInfo.getPopulationSize();
 		this.newborns = scenInfo.getNewborns();
+		/*
+		 * in case the length of newborns is shorter than the number of newborn
+		 * generations needed, use the last newborn number for all further
+		 * generations
+		 */
+		if (this.stepsInRun > this.newborns.length) {
+			int[] temp = new int[this.stepsInRun];
+			for (int y = 0; y < this.newborns.length; y++)
+				temp[y] = this.newborns[y];
+			for (int y = this.newborns.length; y < this.stepsInRun; y++)
+				temp[y] = this.newborns[this.newborns.length - 1];
+			this.newborns = temp;
+		}
 		this.mfratio = scenInfo.getMaleFemaleRatio();
 		this.riskClassnames = scenInfo.getRiskClassnames();
 		if (this.riskType != 2) {
@@ -1026,6 +1040,9 @@ public class DynamoOutputFactory {
 			float[] dummy = new float[this.nRiskFactorClasses];
 			Arrays.fill(dummy, 1);
 			float[][] toChange;
+			int minSimAge=this.minAgeInSimulation;
+			int maxSimAge=this.maxAgeInSimulation;
+
 
 			for (int scen = 0; scen < this.nScen; scen++)
 				if (this.scenInitial[scen]) {
@@ -1033,8 +1050,9 @@ public class DynamoOutputFactory {
 					 * calculate the transitions needed from old to new
 					 * prevalence
 					 */
-					for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
-						for (int a = 0; a < 96 + stepCount; a++)
+					for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++) {
+						int amax = Math.min(maxSimAge+1 + stepCount, nDim);
+						for (int a = minSimAge+stepCount; a <amax; a++)
 							for (int s = 0; s < 2; s++)
 
 							{
@@ -1094,19 +1112,20 @@ public class DynamoOutputFactory {
 															+ ". No simulated information on changing riskfactor class "
 															+ from
 															+ " into class "
-															+ to);
+															+ to + " for age "+ a);
 											throw new DynamoScenarioException(
 													" not enough simulated information to calculate scenario "
 															+ scen
 															+ ". No simulated information on changing riskfactor class "
 															+ from
 															+ " into class "
-															+ to);
+															+ to+ " for age "+ a);
 										}
 
 									}// end to-from loop
 
-							}// end age , sex and stepCount loop
+							}
+					}// end age , sex and stepCount loop
 					/*
 					 * repeat
 					 * 
@@ -1115,7 +1134,7 @@ public class DynamoOutputFactory {
 					 */
 
 					for (int stepCount = 0; stepCount < this.nDim; stepCount++)
-						for (int a = 0; a < 96; a++)
+						for (int a = minSimAge; a < maxSimAge+1; a++)
 							for (int s = 0; s < 2; s++)
 
 							{
@@ -1197,46 +1216,47 @@ public class DynamoOutputFactory {
 		int age2 = Math.min(95, age);
 		int currentClusterStart = 0;
 		double ability = 1;
-		if (this.nDiseases>0) for (int c = 0; c < this.structure.length; c++) {
-			if (!this.structure[c].isWithCuredFraction()) {
-				double clusterAbility = 0;
-				for (int state = 0; state < Math.pow(2, this.structure[c]
-						.getNInCluster()); state++) {
-					double probState = 0;
-					if (state == 0) {
-						probState = 1;
-						for (int state2 = 0; state2 < (Math.pow(2,
-								this.structure[c].getNInCluster()) - 1); state2++)
-							probState -= compoundData[currentClusterStart
-									+ state2];
-					} else
-						probState = compoundData[currentClusterStart + state
-								- 1];
-					double abilityState = 1;
-					for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
+		if (this.nDiseases > 0)
+			for (int c = 0; c < this.structure.length; c++) {
+				if (!this.structure[c].isWithCuredFraction()) {
+					double clusterAbility = 0;
+					for (int state = 0; state < Math.pow(2, this.structure[c]
+							.getNInCluster()); state++) {
+						double probState = 0;
+						if (state == 0) {
+							probState = 1;
+							for (int state2 = 0; state2 < (Math.pow(2,
+									this.structure[c].getNInCluster()) - 1); state2++)
+								probState -= compoundData[currentClusterStart
+										+ state2];
+						} else
+							probState = compoundData[currentClusterStart
+									+ state - 1];
+						double abilityState = 1;
+						for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
 
-						if ((state & (1 << d)) == (1 << d))
-							abilityState *= diseaseAbility[age2][sex][this.structure[c]
-									.getDiseaseNumber()[d]];
+							if ((state & (1 << d)) == (1 << d))
+								abilityState *= diseaseAbility[age2][sex][this.structure[c]
+										.getDiseaseNumber()[d]];
+						}
+						clusterAbility += abilityState * probState;
+
 					}
-					clusterAbility += abilityState * probState;
+					currentClusterStart += Math.pow(2, this.structure[c]
+							.getNInCluster()) - 1;
+					ability *= clusterAbility;
+				} else {
+					/* with cured fraction */
 
+					double probDisease = compoundData[currentClusterStart]
+							+ compoundData[currentClusterStart + 1];
+					ability *= (1 - probDisease + probDisease
+							* diseaseAbility[age2][sex][this.structure[c]
+									.getDiseaseNumber()[0]]);
+					currentClusterStart += 2;
 				}
-				currentClusterStart += Math.pow(2, this.structure[c]
-						.getNInCluster()) - 1;
-				ability *= clusterAbility;
-			} else {
-				/* with cured fraction */
 
-				double probDisease = compoundData[currentClusterStart]
-						+ compoundData[currentClusterStart + 1];
-				ability *= (1 - probDisease + probDisease
-						* diseaseAbility[age2][sex][this.structure[c]
-								.getDiseaseNumber()[0]]);
-				currentClusterStart += 2;
 			}
-
-		}
 
 		// TODO including riskfactor
 		return (1 - this.baselineAbility[age2][sex] * ability);
@@ -1252,7 +1272,11 @@ public class DynamoOutputFactory {
 	 */
 	private double[][][][] makeMortalityArray(boolean numbers) {
 		double[][][][] mortality = new double[this.nScen + 1][this.stepsInRun][this.nDim][2];
-
+		/*
+		 * number of persons now and after a year are calculated for all
+		 * possible combinations of age and years, regardless of whether there
+		 * are persons available at a particular age and year combination
+		 */
 		for (int scen = 0; scen < this.nScen + 1; scen++)
 			for (int a = 0; a < this.nDim - 1; a++)
 				for (int g = 0; g < 2; g++)
@@ -1281,6 +1305,9 @@ public class DynamoOutputFactory {
 							mortality[scen][stepCount][a][g] = nominator;
 						if (denominator == 0 || personsAtnextAge == 0)
 							mortality[scen][stepCount][a][g] = -1;
+						/* also make mortality -1 for the highest age group as there is never
+						a higher age available with which to calculate mortality */
+						if( a==(this.nDim - 2)) mortality[scen][stepCount][this.nDim - 1][g]=-1;
 
 					}
 		return mortality;
@@ -1398,6 +1425,13 @@ public class DynamoOutputFactory {
 		return diseaseArray;
 	}
 
+	/**
+	 * @param stateArray
+	 * @param scen
+	 * @param stepCount
+	 * @param g
+	 * @return array [][][] of diseases, riskclass, age for the case scenario=scen, year=stepcount and gender=g
+	 */
 	private double[][][] makeDiseaseArray(double[][][][][][] stateArray,
 			int scen, int stepCount, int g) {
 		int currentDisease = 0;
@@ -1443,7 +1477,180 @@ public class DynamoOutputFactory {
 		}
 		return diseaseArray;
 	}
+	
+	/**
+	 * combines from the stateArray the contributions for disease with diseasenjumber disease , and selects only
+	 * those data from the simulated year given by stepCount
+	 * @param stateArray
+	 * @param disease: disease number
+     * @param stepCount
+	 * @return array [][][][] of scenario, riskclass, age, sex for the case  year=stepcount and diseasenumber=disease
+	 */
+	
+	
+	private double[][][][] makeDiseaseArray(double[][][][][][] stateArray,
+			int stepCount,  int disease) {
+		int currentDisease = 0;
+		int currentClusterStart = 0;
+		int dim6 = stateArray[0][0][0][0][0].length;
+		int dim4 = stateArray[0][0][0].length;
+		int dim5 = stateArray[0][0][0][0].length;
+		double diseaseArray[][][][] = new double[stateArray.length][dim4][dim5][dim6];
+        boolean diseaseFound=false;
+		for (int c = 0; c < this.structure.length; c++) {
+			if (!this.structure[c].isWithCuredFraction()) {
+				for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
+				if (this.structure[c].getDiseaseNumber()[d]==disease){
+					diseaseFound=true;
 
+					for (int state = 1; state < Math.pow(2, this.structure[c]
+							.getNInCluster()); state++) {
+
+						if ((state & (1 << d)) == (1 << d)) {
+							/*
+							 * pDisease[thisScen][stepCount][currentDisease +
+							 * d][sexIndex] += compoundData[currentState + s -
+							 * 1] survival weight[riskFactor][ageIndex][
+							 * sexIndex]; if (details)
+							 */
+							for (int scen = 0; scen < stateArray.length; scen++)
+							for (int r = 0; r < dim4; r++)
+								for (int a = 0; a < dim5; a++)
+									for (int g = 0; g < dim6; g++)
+									diseaseArray[scen][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+											+ state - 1][r][a][g];
+						}
+					 } 
+					break;}
+					currentDisease++;
+				}
+				currentClusterStart += Math.pow(2, this.structure[c]
+						.getNInCluster()) - 1;
+				if (diseaseFound) break;
+			} else {
+				
+				if (this.structure[c].getDiseaseNumber()[0]==disease){
+					diseaseFound=true;
+		
+				for (int scen = 0; scen < stateArray.length; scen++)
+					for (int r = 0; r < dim4; r++)
+						for (int a = 0; a < dim5; a++)
+							for (int g = 0; g < dim6; g++)
+							diseaseArray[scen][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+									][r][a][g];
+				}
+				if (this.structure[c].getDiseaseNumber()[1]==disease){
+					diseaseFound=true;
+		
+				for (int scen = 0; scen < stateArray.length; scen++)
+					for (int r = 0; r < dim4; r++)
+						for (int a = 0; a < dim5; a++)
+							for (int g = 0; g < dim6; g++)
+							diseaseArray[scen][r][a][g] = stateArray[scen][stepCount][currentClusterStart+1
+									][r][a][g];
+				}
+		
+				
+						currentDisease += 2;
+					
+				currentClusterStart += 2;
+                if (diseaseFound) break;
+			} // end if with cured fraction
+		}// end loop over clusters
+		return diseaseArray;
+	}
+	
+	
+	
+	/**
+	 * combines from the stateArray the contributions for disease with diseasenjumber disease , 
+	 * 
+	 * @param stateArray
+	 * @param disease: disease number
+    
+	 * @return array [][][][][] of scenario,year riskclass, age, sex for the case  diseasenumber=disease
+	 */
+	
+	
+	private double[][][][][] makeDiseaseArray(double[][][][][][] stateArray,
+			  int disease) {
+		int currentDisease = 0;
+		int currentClusterStart = 0;
+		int dim6 = stateArray[0][0][0][0][0].length;
+		int dim4 = stateArray[0][0][0].length;
+		int dim5 = stateArray[0][0][0][0].length;
+		int dim2 = stateArray[0].length;
+		double diseaseArray[][][][][] = new double[stateArray.length][dim2][dim4][dim5][dim6];
+        boolean diseaseFound=false;
+		for (int c = 0; c < this.structure.length; c++) {
+			if (!this.structure[c].isWithCuredFraction()) {
+				for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
+				if (this.structure[c].getDiseaseNumber()[d]==disease){
+					diseaseFound=true;
+
+					for (int state = 1; state < Math.pow(2, this.structure[c]
+							.getNInCluster()); state++) {
+
+						if ((state & (1 << d)) == (1 << d)) {
+							/*
+							 * pDisease[thisScen][stepCount][currentDisease +
+							 * d][sexIndex] += compoundData[currentState + s -
+							 * 1] survival weight[riskFactor][ageIndex][
+							 * sexIndex]; if (details)
+							 */
+							for (int scen = 0; scen < stateArray.length; scen++)
+							for (int r = 0; r < dim4; r++)
+								for (int stepCount = 0; stepCount < dim2; stepCount++)
+								for (int a = 0; a < dim5; a++)
+									for (int g = 0; g < dim6; g++)
+									diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+											+ state - 1][r][a][g];
+						}
+					 } 
+					break;}
+					currentDisease++;
+				}
+				currentClusterStart += Math.pow(2, this.structure[c]
+						.getNInCluster()) - 1;
+				if (diseaseFound) break;
+			} else {
+				
+				if (this.structure[c].getDiseaseNumber()[0]==disease){
+					diseaseFound=true;
+		
+				for (int scen = 0; scen < stateArray.length; scen++)
+					for (int r = 0; r < dim4; r++)
+						for (int stepCount = 0; stepCount < dim2; stepCount++)
+						for (int a = 0; a < dim5; a++)
+							for (int g = 0; g < dim6; g++)
+							diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+									][r][a][g];
+				}
+				if (this.structure[c].getDiseaseNumber()[1]==disease){
+					diseaseFound=true;
+		
+				for (int scen = 0; scen < stateArray.length; scen++)
+					for (int r = 0; r < dim4; r++)
+						for (int stepCount = 0; stepCount < dim2; stepCount++)
+						for (int a = 0; a < dim5; a++)
+							for (int g = 0; g < dim6; g++)
+							diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart+1
+									][r][a][g];
+				}
+		
+				
+						currentDisease += 2;
+					
+				currentClusterStart += 2;
+                if (diseaseFound) break;
+			} // end if with cured fraction
+		}// end loop over clusters
+		return diseaseArray;
+	}
+	
+	
+	
+	
 	/**
 	 * The array returns a 5 dimensional array (scenario, time, age, sex) of
 	 * healthy persons in the population
@@ -2569,7 +2776,8 @@ public class DynamoOutputFactory {
 	 *            : number of scenario
 	 * @param year
 	 *            : year (step): years after the age to which minimum and
-	 *            maximum should be applied. This should be zero for "ori" arrays
+	 *            maximum should be applied. This should be zero for "ori"
+	 *            arrays
 	 * @param a
 	 *            : age: the current age of the cohort, or the age at start of
 	 *            simulation (for "ori" arrays). In the last case, year above
@@ -3317,9 +3525,10 @@ public class DynamoOutputFactory {
 		((XYSeriesCollection) xyDataset).addSeries(totalSeries);
 		JFreeChart chart;
 
-		  String name="disability (average dalyweight)";
-	       if (d<nDiseases) name=this.diseaseNames[d];
-		String chartTitle = "prevalence of " +name;
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
+		String chartTitle = "prevalence of " + name;
 		if (numbers && differencePlot)
 			chartTitle = "Excess number with " + name
 					+ " compared to the ref scenario";
@@ -3335,7 +3544,7 @@ public class DynamoOutputFactory {
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
-			yTitle = "number with " +name;
+			yTitle = "number with " + name;
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + name;
 
@@ -3401,8 +3610,10 @@ public class DynamoOutputFactory {
 		double npop1r = 0;/* total numbers for women in reference scenario */
 		double[][][][] nPopByAge = getNPopByAge();
 		double[][][][] nDiseaseByAge = null;
-		if(d<this.nDiseases) nDiseaseByAge = getNDiseaseByAge(d);
-		else nDiseaseByAge=getNDisabledByAge();
+		if (d < this.nDiseases)
+			nDiseaseByAge = getNDiseaseByAge(d);
+		else
+			nDiseaseByAge = getNDisabledByAge();
 		int nDim = nPopByAge[0][0].length;
 
 		/*
@@ -3411,8 +3622,8 @@ public class DynamoOutputFactory {
 
 		for (int age = 0; age < nDim; age++) {
 			indat0 = applySuccesrate(nDiseaseByAge[0][year][age][0],
-					nDiseaseByAge[thisScen][year][age][0], thisScen, year,
-					age, 0);
+					nDiseaseByAge[thisScen][year][age][0], thisScen, year, age,
+					0);
 			npop0 = applySuccesrate(nPopByAge[0][year][age][0],
 					nPopByAge[thisScen][year][age][0], thisScen, year, age, 0);
 			indat0r = nDiseaseByAge[0][year][age][0];
@@ -3427,8 +3638,8 @@ public class DynamoOutputFactory {
 			if (npop0 != 0 && npop0r != 0 && differencePlot && numbers)
 				menSeries.add((double) age, (indat0) - (indat0r));
 			indat1 = applySuccesrate(nDiseaseByAge[0][year][age][1],
-					nDiseaseByAge[thisScen][year][age][1], thisScen, year,
-					age, 0);
+					nDiseaseByAge[thisScen][year][age][1], thisScen, year, age,
+					0);
 			npop1 = applySuccesrate(nPopByAge[0][year][age][1],
 					nPopByAge[thisScen][year][age][1], thisScen, year, age, 1);
 			indat1r = nDiseaseByAge[thisScen][year][age][1];
@@ -3471,8 +3682,9 @@ public class DynamoOutputFactory {
 		((XYSeriesCollection) xyDataset).addSeries(womenSeries);
 		((XYSeriesCollection) xyDataset).addSeries(totalSeries);
 		JFreeChart chart;
-		  String name="disability (average dalyweight)";
-	       if (d<nDiseases) name=this.diseaseNames[d];
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
 		String yTitle = "prevalence rate (%)" + name;
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
@@ -3540,8 +3752,10 @@ public class DynamoOutputFactory {
 		double npop1r = 0;/* total numbers for women in reference scenario */
 		double[][][][] nPopByAge = getNPopByAge();
 		double[][][][] nDiseaseByAge = null;
-		if (d<this.nDiseases) nDiseaseByAge = getNDiseaseByAge(d);
-		else nDiseaseByAge = getNDisabledByAge();
+		if (d < this.nDiseases)
+			nDiseaseByAge = getNDiseaseByAge(d);
+		else
+			nDiseaseByAge = getNDisabledByAge();
 		int nDim = nPopByAge[0][0].length;
 
 		/*
@@ -3572,15 +3786,13 @@ public class DynamoOutputFactory {
 					indat0r += nDiseaseByAge[0][year][age][gender];
 					npop0r += nPopByAge[0][year][age][gender];
 				} else {
-					indat0 += applySuccesrate(
-							nDiseaseByAge[0][year][age][0],
+					indat0 += applySuccesrate(nDiseaseByAge[0][year][age][0],
 							nDiseaseByAge[thisScen][year][age][0], thisScen,
 							year, age, 0);
 					npop0 += applySuccesrate(nPopByAge[0][year][age][0],
 							nPopByAge[thisScen][year][age][0], thisScen, year,
 							age, 0);
-					indat1 += applySuccesrate(
-							nDiseaseByAge[0][year][age][1],
+					indat1 += applySuccesrate(nDiseaseByAge[0][year][age][1],
 							nDiseaseByAge[thisScen][year][age][1], thisScen,
 							year, age, 1);
 					npop1 += applySuccesrate(nPopByAge[0][year][age][1],
@@ -3610,7 +3822,7 @@ public class DynamoOutputFactory {
 					if ((npop0 + npop1) != 0 && !differencePlot && !numbers)
 
 						scenSeries[thisScen].add((double) age,
-								(indat0 + indat1) / (npop0 + npop1));
+								100*(indat0 + indat1) / (npop0 + npop1));
 					if ((npop0 + npop1) != 0 && (npop0r + npop1r) != 0
 							&& differencePlot && !numbers)
 						scenSeries[thisScen].add((double) age, 100
@@ -3640,9 +3852,10 @@ public class DynamoOutputFactory {
 			label = " men; " + (this.startYear + year);
 		if (gender == 1)
 			label = " women; " + (this.startYear + year);
-		 String name="disability (average dalyweight)";
-		  if (d<nDiseases) name=this.diseaseNames[d];
-			
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
+
 		String chartTitle = "prevalence of " + name;
 		if (!numbers && differencePlot)
 			chartTitle = "excess prevalence of " + name
@@ -3758,61 +3971,64 @@ public class DynamoOutputFactory {
 	 * scenario
 	 * 
 	 * @param thisScen
-	 * @param d
+	
+	 * @param year
+	 *  * @param d
 	 *            : disease number
-	 * @param steps
+	 *            @param gender: gender: 0=male, 1=female, 2=both
+	 *            @param numbers: if true, return numbers in stead of prevalence
 	 * @return prevalence averaged over all age groups
 	 * 
 	 */
-	private double calculateAveragePrevalence(int thisScen, int steps, int d,
+	private double calculateAveragePrevalence(int thisScen, int year, int d,
 			int gender, boolean numbers) {
-		double indat = 0;
-		double npop = 0;
-		double[][][][] nPopByAge = getNPopByAge();
-		double[][][][] nDiseaseByAge = null;
-		if (d <this.nDiseases)
-			nDiseaseByAge = getNDiseaseByAge(d);
+		double nominator = 0;
+		double denominator = 0;
+		double[][][] nPopByAge = getNPopByAge(year);
+		double[][][] nDiseaseByAge = null;
+		if (d < this.nDiseases)
+			nDiseaseByAge = getNDiseaseByAge(d,year);
 		else
-			nDiseaseByAge = getNDisabledByAge();
+			nDiseaseByAge = getNDisabledByAge(year);
 
-		int nDim = nPopByAge[0][0].length;
-		indat = 0;
-		npop = 0;
+		int nDim = nPopByAge[0].length;
+		nominator = 0;
+		denominator = 0;
 		if (gender < 2) {
 			for (int age = 0; age < nDim; age++) {
-				indat += applySuccesrate(nDiseaseByAge[0][steps][age][gender],
-						nDiseaseByAge[thisScen][steps][age][gender], thisScen,
-						steps, age, gender);
-				npop += applySuccesrate(nPopByAge[0][steps][age][gender],
-						nPopByAge[thisScen][steps][age][gender], thisScen,
-						steps, age, gender);
+				nominator += applySuccesrate(nDiseaseByAge[0][age][gender],
+						nDiseaseByAge[thisScen][age][gender], thisScen,
+						year, age, gender);
+				denominator += applySuccesrate(nPopByAge[0][age][gender],
+						nPopByAge[thisScen][age][gender], thisScen,
+						year, age, gender);
 
 			}
 		} else {
 			for (int age = 0; age < nDim; age++) {
-				indat += applySuccesrate(nDiseaseByAge[0][steps][age][0],
-						nDiseaseByAge[thisScen][steps][age][0], thisScen,
-						steps, age, 0)
-						+ applySuccesrate(nDiseaseByAge[0][steps][age][1],
-								nDiseaseByAge[thisScen][steps][age][1],
-								thisScen, steps, age, 1);
+				nominator += applySuccesrate(nDiseaseByAge[0][age][0],
+						nDiseaseByAge[thisScen][age][0], thisScen,
+						year, age, 0)
+						+ applySuccesrate(nDiseaseByAge[0][age][1],
+								nDiseaseByAge[thisScen][age][1],
+								thisScen, year, age, 1);
 				;
-				npop += applySuccesrate(nPopByAge[0][steps][age][0],
-						nPopByAge[thisScen][steps][age][0], thisScen, steps,
+				denominator += applySuccesrate(nPopByAge[0][age][0],
+						nPopByAge[thisScen][age][0], thisScen, year,
 						age, 0)
-						+ applySuccesrate(nPopByAge[0][steps][age][1],
-								nPopByAge[thisScen][steps][age][1], thisScen,
-								steps, age, 1);
+						+ applySuccesrate(nPopByAge[0][age][1],
+								nPopByAge[thisScen][age][1], thisScen,
+								year, age, 1);
 			}
 
 		}
-		if (npop > 0 && !numbers)
-			indat = 100 * indat / npop;
+		if (denominator > 0 && !numbers)
+			nominator = 100 * nominator / denominator;
 
-		if (npop == 0)
-			indat = 0;
+		if (denominator == 0)
+			nominator = 0;
 
-		return indat;
+		return nominator;
 	}
 
 	/**
@@ -3821,6 +4037,7 @@ public class DynamoOutputFactory {
 	 * @param thisScen
 	 * @param d
 	 *            : disease number
+	 *             * @param r: riskfactor class
 	 * @param steps
 	 * @param numbers
 	 *            (boolean) indicates whether prevalences should be returned or
@@ -3828,41 +4045,40 @@ public class DynamoOutputFactory {
 	 * @return prevalence IN PERCENT averaged over all age groups, or absolute
 	 *         numbers
 	 */
-	private double calculateAveragePrevalenceByRiskClass(int thisScen, int d,
-			int r, int steps, int gender, boolean numbers) {
-		double indat;
-		double npop;
-		double[][][][] nPopByAge = getNPopByAge();
-		int nDim = nPopByAge[0][0].length;
-		indat = 0;
-		npop = 0;
-		double[][][][][]nDiseaseByRiskClassByAge=null;
-		if (d<this.nDiseases)nDiseaseByRiskClassByAge= getNDiseaseByRiskClassByAge(d);
-		else nDiseaseByRiskClassByAge=getNDisabledByRiskClassByAge();
-		
+	private double calculateAveragePrevalenceByRiskClass(int thisScen, int steps, int d,
+			int r, int gender, boolean numbers) {
+		double nominator=0;
+		double denominator = 0;
+		denominator = 0;
+double [][][][] nDiseaseByRiskClassByAge = null;
+		if (d < this.nDiseases)
+			nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge,steps,d);
+		else
+			nDiseaseByRiskClassByAge = getNDisabledByRiskClassByAge(steps);
+
 		if (gender < 2) {
-			for (int age = 0; age < nDim; age++) {
-				if (d>=0) indat += applySuccesrate(
-						nDiseaseByRiskClassByAge[0][steps][r][age][gender],
-						nDiseaseByRiskClassByAge[thisScen][steps][r][age][gender],
-						thisScen, steps, age, gender);
-				npop += applySuccesrate(
-						this.nPopByRiskClassByAge[0][steps][r][age][gender],
+			for (int age = 0; age < this.nDim; age++) {
+				if (d >= 0)
+					nominator += applySuccesrate(
+							nDiseaseByRiskClassByAge[0][r][age][gender],
+							nDiseaseByRiskClassByAge[thisScen][r][age][gender],
+							thisScen, steps, age, gender);
+				denominator += applySuccesrate(this.nPopByRiskClassByAge[0][steps][r][age][gender],
 						this.nPopByRiskClassByAge[thisScen][steps][r][age][gender],
 						thisScen, steps, age, gender);
 			}
 		} else {
-			for (int age = 0; age < nDim; age++) {
-				indat += applySuccesrate(
-						nDiseaseByRiskClassByAge[0][steps][r][age][0],
-						nDiseaseByRiskClassByAge[thisScen][steps][r][age][0],
+			for (int age = 0; age < this.nDim; age++) {
+				nominator += applySuccesrate(
+						nDiseaseByRiskClassByAge[0][r][age][0],
+						nDiseaseByRiskClassByAge[thisScen][r][age][0],
 						thisScen, steps, age, 0)
 						+ applySuccesrate(
-								nDiseaseByRiskClassByAge[0][steps][r][age][1],
-								nDiseaseByRiskClassByAge[thisScen][steps][r][age][1],
+								nDiseaseByRiskClassByAge[0][r][age][1],
+								nDiseaseByRiskClassByAge[thisScen][r][age][1],
 								thisScen, steps, age, 1);
 				;
-				npop += applySuccesrate(
+				denominator += applySuccesrate(
 						this.nPopByRiskClassByAge[0][steps][r][age][0],
 						this.nPopByRiskClassByAge[thisScen][steps][r][age][0],
 						thisScen, steps, age, 0)
@@ -3873,16 +4089,15 @@ public class DynamoOutputFactory {
 			}
 
 		}
-		if (npop > 0 && !numbers)
-			indat = 100 * indat / npop;
-		else if (npop == 0)
-			indat = 0;
+		if (denominator > 0 && !numbers)
+			nominator = 100 * nominator/ denominator;
+		else if (denominator == 0)
+			nominator = 0;
 		/*
-		 * else throw new DynamoOutputException(
-		 * "zero persons in initial population for risk factor class: " +r+
+denominator new DynamoOutdenominator		 * "zero persons in initial population for risk factor class: " +r+
 		 * "  no disease " + "prevalence can be calculated ");
 		 */
-		return indat;
+		return nominator;
 	}
 
 	/**
@@ -3916,10 +4131,10 @@ public class DynamoOutputFactory {
 				 * calculateAveragePrevalenceByRiskClass already multiplies the
 				 * prevalence rate with 100 to get percentages
 				 */
-				double indat0 = calculateAveragePrevalenceByRiskClass(thisScen,
-						d, r, steps, gender, numbers);
-				double refdat0 = calculateAveragePrevalenceByRiskClass(0, d, r,
-						steps, gender, numbers);
+				double indat0 = calculateAveragePrevalenceByRiskClass(thisScen, steps,
+						d, r, gender, numbers);
+				double refdat0 = calculateAveragePrevalenceByRiskClass(0, steps, d, r,
+						 gender, numbers);
 				if (!differencePlot && indat0 != 0)
 					series.add((double) steps, indat0);
 				if (differencePlot && indat0 != 0)
@@ -3938,28 +4153,29 @@ public class DynamoOutputFactory {
 			label = "men; " + this.scenarioNames[thisScen];
 		if (gender == 1)
 			label = "women; " + this.scenarioNames[thisScen];
-		 String name="disability (average dalyweight)";
-		  if (d<nDiseases) name=this.diseaseNames[d];
-		String chartTitle = "prevalence of " +  name;
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
+		String chartTitle = "prevalence of " + name;
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers of " +  name
+			chartTitle = "excess numbers of " + name
 					+ " compared to ref scenario";
 		if (!numbers && differencePlot)
-			chartTitle = "excess prevalence of " +  name
+			chartTitle = "excess prevalence of " + name
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot && gender == 0)
-			chartTitle = "number of men with " +  name;
+			chartTitle = "number of men with " + name;
 		if (numbers && !differencePlot && gender == 1)
-			chartTitle = "number of women with " +  name;
+			chartTitle = "number of women with " + name;
 		if (numbers && !differencePlot && gender == 2)
-			chartTitle = "number of persons with " +  name;
-		String yTitle = "prevalence rate (%)" +  name;
+			chartTitle = "number of persons with " + name;
+		String yTitle = "prevalence rate (%)" + name;
 		if (differencePlot && !numbers)
-			yTitle = "excess prevalence rate (%) " +  name;
+			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
-			yTitle = "number with " +  name;
+			yTitle = "number with " + name;
 		if (differencePlot && numbers)
-			yTitle = "excess number with " +  name;
+			yTitle = "excess number with " + name;
 
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
 				"years of simulation", yTitle, xyDataset,
@@ -4012,9 +4228,11 @@ public class DynamoOutputFactory {
 	public JFreeChart makeYearPrevalenceByScenarioPlots(int gender, int d,
 			boolean differencePlot, boolean numbers)
 	/* throws DynamoOutputException */{
-		double[][][][][] nDiseaseByRiskClassByAge =null;
-		if(d<this.nDiseases) nDiseaseByRiskClassByAge = getNDiseaseByRiskClassByAge(d);
-		else nDiseaseByRiskClassByAge = getNDisabledByRiskClassByAge();
+		double[][][][][] nDiseaseByRiskClassByAge = null;
+		if (d < this.nDiseases)
+			nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge, d);
+		else
+			nDiseaseByRiskClassByAge = getNDisabledByRiskClassByAge();
 		XYDataset xyDataset = null;
 		XYSeries[] scenSeries = new XYSeries[this.nScen + 1];
 		for (int thisScen = 0; thisScen < this.nScen + 1; thisScen++) {
@@ -4098,8 +4316,9 @@ public class DynamoOutputFactory {
 			label = "men";
 		if (gender == 1)
 			label = "women";
-       String name="disability (average dalyweight)";
-       if (d<nDiseases) name=this.diseaseNames[d];
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
 		String chartTitle = "prevalence of " + name;
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of " + name
@@ -4108,14 +4327,14 @@ public class DynamoOutputFactory {
 			chartTitle = "excess prevalence of " + name
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot)
-			chartTitle = "number of persons with " +name;
+			chartTitle = "number of persons with " + name;
 		String yTitle = "prevalence rate (%) " + name;
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
-			yTitle = "number with " +name;
+			yTitle = "number with " + name;
 		if (differencePlot && numbers)
-			yTitle = "excess number with "+ name;
+			yTitle = "excess number with " + name;
 
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
 				"years of simulation", yTitle, xyDataset,
@@ -4170,9 +4389,11 @@ public class DynamoOutputFactory {
 			int thisScen, int d, int year, boolean differencePlot,
 			boolean numbers) {
 		XYDataset xyDataset = null;
-		double[][][][][] nDiseaseByRiskClassByAge = null;
-		if (d<this.nDiseases) nDiseaseByRiskClassByAge = getNDiseaseByRiskClassByAge(d);
-		else nDiseaseByRiskClassByAge = getNDisabledByRiskClassByAge(); 
+		double[][][][] nDiseaseByRiskClassByAge = null;
+		if (d < this.nDiseases)
+			nDiseaseByRiskClassByAge =  makeDiseaseArray(this.nDiseaseStateByRiskClassByAge,year,d);
+		else
+			nDiseaseByRiskClassByAge = getNDisabledByRiskClassByAge(year);
 		for (int r = 0; r < this.nRiskFactorClasses; r++) {
 
 			XYSeries menSeries = new XYSeries(this.riskClassnames[r]);
@@ -4188,15 +4409,15 @@ public class DynamoOutputFactory {
 			double womenpopr = 0;
 			for (int age = 0; age < this.nDim; age++) {
 				mendat = applySuccesrate(
-						nDiseaseByRiskClassByAge[0][year][r][age][0],
-						nDiseaseByRiskClassByAge[thisScen][year][r][age][0],
+						nDiseaseByRiskClassByAge[0][r][age][0],
+						nDiseaseByRiskClassByAge[thisScen][r][age][0],
 						thisScen, year, age, 0);
-				
+
 				menpop = applySuccesrate(
 						this.nPopByRiskClassByAge[0][year][r][age][0],
 						this.nPopByRiskClassByAge[thisScen][year][r][age][0],
 						thisScen, year, age, 0);
-				mendatr = nDiseaseByRiskClassByAge[0][year][r][age][0];
+				mendatr = nDiseaseByRiskClassByAge[0][r][age][0];
 				menpopr = this.nPopByRiskClassByAge[0][year][r][age][0];
 				if (menpop != 0 && !differencePlot && !numbers)
 					menSeries.add((double) age, 100 * mendat / menpop);
@@ -4204,19 +4425,18 @@ public class DynamoOutputFactory {
 					menSeries.add((double) age, 100 * (mendat / menpop) - 100
 							* (mendatr / menpopr));
 				if (menpop != 0 && !differencePlot && numbers)
-					menSeries.add((double) age, mendat );
+					menSeries.add((double) age, mendat);
 				if (menpop != 0 && menpopr != 0 && differencePlot && numbers)
-					menSeries.add((double) age, ( mendat-
-							mendatr ));
+					menSeries.add((double) age, (mendat - mendatr));
 				womendat = applySuccesrate(
-						nDiseaseByRiskClassByAge[0][year][r][age][1],
-						nDiseaseByRiskClassByAge[thisScen][year][r][age][1],
+						nDiseaseByRiskClassByAge[0][r][age][1],
+						nDiseaseByRiskClassByAge[thisScen][r][age][1],
 						thisScen, year, age, 1);
 				womenpop = applySuccesrate(
 						this.nPopByRiskClassByAge[0][year][r][age][1],
 						this.nPopByRiskClassByAge[thisScen][year][r][age][1],
 						thisScen, year, age, 1);
-				womendatr = nDiseaseByRiskClassByAge[0][year][r][age][1];
+				womendatr = nDiseaseByRiskClassByAge[0][r][age][1];
 				womenpopr = this.nPopByRiskClassByAge[0][year][r][age][1];
 				if (womenpop != 0 && !numbers && !differencePlot)
 					womenSeries.add((double) age, 100 * womendat / womenpop);
@@ -4229,7 +4449,7 @@ public class DynamoOutputFactory {
 				if (womenpop != 0 && womenpopr != 0 && differencePlot
 						&& numbers)
 					womenSeries.add((double) age, (womendat - womendatr));
-			
+
 				if ((menpop + womenpop) != 0 && !differencePlot && !numbers)
 					totSeries.add((double) age, 100 * (womendat + mendat)
 							/ (menpop + womenpop));
@@ -4238,7 +4458,7 @@ public class DynamoOutputFactory {
 					totSeries.add((double) age, 100 * (womendat + mendat)
 							/ (menpop + womenpop) - 100 * (womendatr + mendatr)
 							/ (menpopr + womenpopr));
-					if ((menpop + womenpop) != 0 && !differencePlot && numbers)
+				if ((menpop + womenpop) != 0 && !differencePlot && numbers)
 					totSeries.add((double) age, (womendat + mendat));
 				if ((menpop + womenpop) != 0 && (menpopr + womenpopr) != 0
 						&& differencePlot && numbers)
@@ -4277,8 +4497,9 @@ public class DynamoOutputFactory {
 		if (gender == 1)
 			label = "women; " + this.scenarioNames[thisScen] + "; "
 					+ (this.startYear + year);
-		  String name="disability (average dalyweight)";
-	       if (d<nDiseases) name=this.diseaseNames[d];
+		String name = "disability (average dalyweight)";
+		if (d < nDiseases)
+			name = this.diseaseNames[d];
 		String chartTitle = "prevalence of " + name;
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of " + name
@@ -4288,12 +4509,12 @@ public class DynamoOutputFactory {
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot)
 			if (gender == 0)
-				chartTitle = "number of men with " +name;
+				chartTitle = "number of men with " + name;
 			else if (gender == 1)
 				chartTitle = "number of women with " + name;
 			else
 				chartTitle = "number of persons with " + name;
-		String yTitle = "prevalence rate (%) " +name;
+		String yTitle = "prevalence rate (%) " + name;
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
@@ -5287,21 +5508,36 @@ public class DynamoOutputFactory {
 		double baselinePop = 0;
 		double[][][][] nPopByAge = getNPopByOriAge();
 		int yearsLeft = this.nDim - age;
+		/*
+		 * age of the simulated population is the exact age , so everyone is assumed to have her/his birthday
+		 * For life-expectancy we have to integrate over all ages, also those in between. This is done using 
+		 * simple Euler integration, thus number in population between age 0 and 1 is taken as the
+		 * average of the numbers in simulation at age 0 and 1.. For age 1, this is the average between 1 and 2. 
+		 * So all ages are added twice with weight 0.5, thus alternatively added once with weight 1, except the first and the last, who are only
+		 * added 0.5 times.
+		 * 
+		 * Here we neglect what happens at the highest age, as this is already assuming that almost everyone will have died at
+		 * those ages. If not, we now implicitly assume that everyone at the last birthday in the simulation has a life-expectancy left of
+		 * 0.5 years 
+		 */
+				
 		for (int scenario = 0; scenario < this.nScen + 1; scenario++)
 
 			for (int s = 0; s < 2; s++) {
 				baselinePop = 0;
+				double ageWeight=0.5;
 				for (int steps = 0; steps < yearsLeft; steps++) {
-					lifeExp[scenario][s] += applySuccesrate(
+					lifeExp[scenario][s] += ageWeight*applySuccesrate(
 							nPopByAge[0][steps][age][s],
 							nPopByAge[scenario][steps][age][s], scenario, 0,
 							age, s);
-					if (steps == 0)
+					if (steps == 0){
 						baselinePop += applySuccesrate(
 								nPopByAge[0][steps][age][s],
 								nPopByAge[scenario][steps][age][s], scenario,
 								0, age, s);
-				}
+						ageWeight=1;
+				}}
 
 				if (baselinePop != 0)
 					lifeExp[scenario][s] = lifeExp[scenario][s] / baselinePop;
@@ -5365,57 +5601,91 @@ public class DynamoOutputFactory {
 
 	/**
 	 * the method produces a bargraph for calendar year cross-sectional
-	 * life-expectancy in different scenario's for those who have age a at
-	 * baseline. This is a longitudinal life-expectancy. It only gives proper
-	 * results when the stepsize used in the simulation is high enough. In
-	 * Dynamo this is set at age 105 (105-age when not life expectancy at
-	 * birth); This means that everyone who survives until age 105 is expected
-	 * to die at age 105.
+	 * life-expectancy in different scenario's for those who have ageOfLE a at
+	 * baseline. This is a Sullivan life-expectancy. It only gives proper
+	 * results when all ages up to age 95 are in the simulation. Dynamo does not
+	 * check for this.
 	 * 
-	 * @param age
+	 * @param year
+	 *            : year for which the life expectancy is calculated (0= first
+	 *            year of simulation)
+	 * @param ageOfLE
 	 *            : age at which the life expectancy is calculated
-	 * @return JFreeChart with bargraph for life-expectancy in different
-	 *         scenario's for those who have age a at baseline
+	 * 
+	 * @return a jfreechart with a bargraph for life-expectancy in different
+	 *         scenario's in year year for those who have ageOfLE a at baseline
 	 * 
 	 */
 	public JFreeChart makeYearLifeExpectancyPlot(int year, int ageOfLE) {
 
-		/*
-		 * for (int steps = 0; steps < stepsInRun; steps++) { double indat = 0;
-		 * 
-		 * for (int age = 0; age < nDim; age++) indat +=
-		 * applySuccesrate(pPopByAge[0][steps][age][gender],
-		 * pPopByAge[thisScen][steps][age][gender], thisScen, steps, age);
-		 * 
-		 * series.add((double) steps, indat / 95);
-		 */
-
-		// TODO throw exception if stepsInrun < 105-age
+		
+		
 		double[][] lifeExp = new double[this.nScen + 1][2];
+		String chartTitle = ("Cross-sectional life expectancy");
+		if (ageOfLE>95) chartTitle=(" no simulated persons of age 95 and younger in year "+(this.startYear+year));
+		else {
+		
 
 		double[][][][] mortality = makeMortalityArray(false);
-
-		double[][][] nPopByAge = new double[this.nScen + 1][96 + year][2];
-		int maxAge = 96 + year;
+		/* check the range of age values availlable */
+		
+		/* the possible maximum of maxAge is nDim-1 ,
+		 * as for the maximum age nDim it is not possible to calculate the mortality
+		 * as there are no data stored of higher ages that make it possible to
+		 * calculate the mortality from 
+		 */
+		 int [] maxAgeInSimulation= {-1,-1};
+			int maxAge = Math.min(96 + year, nDim-1);
+		for (int sex = 0; sex < 2; sex++) {
+			for (int age = ageOfLE ; age < maxAge; age++) {
+				if (mortality[0][year][age][sex]<0) break;
+				maxAgeInSimulation[sex]=age;
+			}
+			if (maxAgeInSimulation[sex]<0) maxAgeInSimulation[sex]=maxAge;
+		}
+		
+		/* complete possibilities although hopefully only the first is possible */
+       if ( maxAgeInSimulation[0]<95 || maxAgeInSimulation[1]<95){
+    	   if ( maxAgeInSimulation[0]== maxAgeInSimulation[1])
+    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+    			   maxAgeInSimulation[0]);
+    	   else if ( maxAgeInSimulation[0]<95 && maxAgeInSimulation[1]>=95)
+    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+    			   maxAgeInSimulation[0]+" (men) and total life expectancy at age "+ageOfLE+" (women)");
+    	   else if ( maxAgeInSimulation[0]>=95 && maxAgeInSimulation[1]<95)
+    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+    			   maxAgeInSimulation[1]+" (women) and total life expectancye at age "+ageOfLE+" (men)");
+    	   else chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+    			   maxAgeInSimulation[0]+" (men) and between age "+ageOfLE+" and age "+   maxAgeInSimulation[1]+ " (women)");
+     	  
+       }   
+	// TODO test if partial life-expectancy works , both in health expectancy and simple life expectancy
+		double[][][] nPopByAge = new double[this.nScen + 1][maxAge+1][2];
+		
 		for (int scenario = 0; scenario < this.nScen + 1; scenario++)
 			for (int sex = 0; sex < 2; sex++) {
 				nPopByAge[scenario][ageOfLE][sex] = 1;
 				lifeExp[scenario][sex] = 0;
-				for (int age = ageOfLE + 1; age < maxAge; age++) {
+				for (int age = ageOfLE + 1; age <= maxAgeInSimulation[sex]; age++) {
+				
 					nPopByAge[scenario][age][sex] = nPopByAge[scenario][age - 1][sex]
 							* (1 - mortality[scenario][year][age - 1][sex]);
 					lifeExp[scenario][sex] += 0.5 * (nPopByAge[scenario][age - 1][sex] + nPopByAge[scenario][age][sex]);
 				}
-				lifeExp[scenario][sex] += (nPopByAge[scenario][maxAge - 1][sex] / mortality[scenario][year][maxAge - 1][sex]);
+		/* add the life-expectancy of the non-simulated ages above age 95 using the assumption of constant mortality */		
+				if  (maxAgeInSimulation[sex]>=95) {
+					double rate=-Math.log(1- mortality[scenario][year][maxAgeInSimulation[sex]][sex]);
+					lifeExp[scenario][sex] += nPopByAge[scenario][maxAgeInSimulation[sex]][sex]/rate;
+				}
 			}
-
+		}
+		
 		String[] gender = { "men", "women" };
 		String[] legend = this.scenarioNames;
 
 		CategoryDataset dataset = DatasetUtilities.createCategoryDataset(
 				legend, gender, lifeExp);
-		String chartTitle = ("Cross-sectional life expectancy");
-
+		
 		JFreeChart chart = ChartFactory.createBarChart(chartTitle, "", "years",
 				dataset, PlotOrientation.VERTICAL, true, true, false);
 		TextTitle title = chart.getTitle();
@@ -5469,17 +5739,20 @@ public class DynamoOutputFactory {
 
 	/**
 	 * the method produces a bargraph for life-expectancy in different
-	 * scenario's for those who have age a at baseline. This is a longitudinal
-	 * life-expectancy. It only gives proper results when the stepsize used in
-	 * the simulation is high enough. In Dynamo this is set at age 105 (105-age
-	 * when not life expectancy at birth); This means that everyone who survives
-	 * until age 105 is expected to die at age 105.
+	 * scenario's for those who have age a at baseline. This is a Sullivan
+	 * life-expectancy. It only gives proper results when all ages up to age 95
+	 * are in the simulation. Dynamo does not check for this.
 	 * 
-	 * @param age
+	 * @param year
+	 *            : year for which the life expectancy is calculated (0= first
+	 *            year of simulation)
+	 * @param ageOfLE
 	 *            : age at which the life expectancy is calculated
+	 * 
 	 * @param disease
+	 *            : -2= disability, -1: all diseases
 	 * @return a jfreechart with a bargraph for life-expectancy in different
-	 *         scenario's for those who have age a at baseline
+	 *         scenario's in year year for those who have ageOfLE a at baseline
 	 * 
 	 */
 	@SuppressWarnings("deprecation")
@@ -5500,22 +5773,64 @@ public class DynamoOutputFactory {
 		else
 			diseased = getNDiseaseByAge(disease);
 
-		int maxAge = 96 + year;
 		if (!this.withNewborns && (ageOfLE < year))
 			ageOfLE = year;
+		
+		
+		String chartTitle = ("Cross-sectional life expectancy with and without");
+		if (ageOfLE>95) chartTitle=(" no simulated persons of age 95 and younger in year "+(this.startYear+year));
+		else {
+			double[][][][] mortality = makeMortalityArray(false);
+			/* check the range of age values availlable */
+			
+			/* the possible maximum of maxAge is nDim-1 ,
+			 * as for the maximum age nDim it is not possible to calculate the mortality
+			 * as there are no data stored of higher ages that make it possible to
+			 * calculate the mortality from 
+			 */
+			 int [] maxAgeInSimulation= {-1,-1};
+				int maxAge = Math.min(96 + year, nDim-1);
+			for (int sex = 0; sex < 2; sex++) {
+				for (int age = ageOfLE ; age < maxAge; age++) {
+					if (mortality[0][year][age][sex]<0) break;
+					maxAgeInSimulation[sex]=age;
+				}
+				if (maxAgeInSimulation[sex]<0) maxAgeInSimulation[sex]=maxAge;
+			}
+			
+			/* complete possibilities although hopefully only the first is possible */
+		       if ( maxAgeInSimulation[0]<95 || maxAgeInSimulation[1]<95){
+		    	   if ( maxAgeInSimulation[0]== maxAgeInSimulation[1])
+		    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+		    			   maxAgeInSimulation[0]+" with and without ");
+		    	   else if ( maxAgeInSimulation[0]<95 && maxAgeInSimulation[1]>=95)
+		    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+		    			   maxAgeInSimulation[0]+" (men) and total life expectancy at age "+ageOfLE+" (women)"+" with and without ");
+		    	   else if ( maxAgeInSimulation[0]>=95 && maxAgeInSimulation[1]<95)
+		    	   chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+		    			   maxAgeInSimulation[1]+" (women) and total life expectancye at age "+ageOfLE+" (men)"+" with and without ");
+		    	   else chartTitle = ("Cross-sectional partial life expectancy between age "+ageOfLE+" and age "+
+		    			   maxAgeInSimulation[0]+" (men) and between age "+ageOfLE+" and age "+   maxAgeInSimulation[1]+ " (women)"+" with and without ");
+		     	  
+		       }   
+		
+		
+		
 
-		double[][][][] mortality = makeMortalityArray(false);
+		
 		double[][][][] nPopByAge = getNPopByAge();
-		double[][][] nInLifeTable = new double[this.nScen + 1][96 + year][2];
+		double[][][] nInLifeTable = new double[this.nScen + 1][maxAge+1][2];
 		boolean errorFlag = false;
 		for (int scenario = 0; scenario < this.nScen + 1; scenario++)
 			for (int sex = 0; sex < 2; sex++) {
+					
 				double diseasePerc = 0;
 				double nPop;
 				nInLifeTable[scenario][ageOfLE][sex] = 1;
 				lifeExp[scenario][sex] = 0;
 				withDiseaseExp[scenario][sex] = 0;
-				for (int age = ageOfLE + 1; age < maxAge; age++) {
+				for (int age = ageOfLE + 1; age <= maxAgeInSimulation[sex]; age++) {
+				
 					nInLifeTable[scenario][age][sex] = nInLifeTable[scenario][age - 1][sex]
 							* (1 - mortality[scenario][year][age - 1][sex]);
 					lifeExp[scenario][sex] += 0.5 * (nInLifeTable[scenario][age - 1][sex] + nInLifeTable[scenario][age][sex]);
@@ -5535,11 +5850,26 @@ public class DynamoOutputFactory {
 							* diseasePerc;
 
 				}
-				lifeExp[scenario][sex] += (nInLifeTable[scenario][maxAge - 1][sex] / mortality[scenario][year][maxAge - 1][sex]);
-				withDiseaseExp[scenario][sex] += (nInLifeTable[scenario][maxAge - 1][sex] / mortality[scenario][year][maxAge - 1][sex])
-						* diseasePerc;
-
-				;
+				
+				if  (maxAgeInSimulation[sex]>=95) {
+					double rate=-Math.log(1- mortality[scenario][year][maxAgeInSimulation[sex]][sex]);
+					lifeExp[scenario][sex] +=nInLifeTable[scenario][maxAgeInSimulation[sex]][sex]/rate;
+					diseasePerc = applySuccesrate(diseased[0][year][maxAgeInSimulation[sex]][sex],
+							diseased[scenario][year][maxAgeInSimulation[sex]][sex], scenario, year,
+							maxAgeInSimulation[sex], sex);
+					nPop = applySuccesrate(nPopByAge[0][year][maxAgeInSimulation[sex]][sex],
+							nPopByAge[scenario][year][maxAgeInSimulation[sex]][sex], scenario,
+							year, maxAgeInSimulation[sex], sex);
+					if (nPop != 0)
+						diseasePerc = diseasePerc / nPop;
+					else
+						errorFlag = true;
+					withDiseaseExp[scenario][sex] += (nInLifeTable[scenario][maxAgeInSimulation[sex]][sex]/rate)* diseasePerc;
+				}
+				
+				
+				
+				
 
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
@@ -5563,7 +5893,8 @@ public class DynamoOutputFactory {
 							genderLabel[sex]);
 				}
 			}
-
+		}
+		
 		String[] legend = new String[2];
 		legend[0] = "healthy";
 		if (disease == -1)
@@ -5573,8 +5904,7 @@ public class DynamoOutputFactory {
 		else
 			legend[1] = "with " + this.diseaseNames[disease];
 
-		String chartTitle = ("Life expectancy with and without ");
-
+	
 		String label;
 		if (disease == -1)
 			chartTitle = chartTitle + "disease" + " (Sullivan Method)";
@@ -5713,19 +6043,36 @@ public class DynamoOutputFactory {
 			for (int s = 0; s < 2; s++) {
 
 				baselinePop = 0;
+		/*
+		 * age of the simulated population is the exact age , so everyone is assumed to have her/his birthday
+		 * For life-expectancy we have to integrate over all ages, also those in between. This is done using 
+		 * simple Euler integration, thus number in population between age 0 and 1 is taken as the
+		 * average of the numbers in simulation at age 0 and 1.. For age 1, this is the average between 1 and 2. 
+		 * So all ages are added twice with weight 0.5, thus alternatively added once with weight 1, except the first and the last, who are only
+		 * added 0.5 times.
+		 * 
+		 * Here we neglect what happens at the highest age, as this is already assuming that almost everyone will have died at
+		 * those ages. If not, we now implicitly assume that everyone at the last birthday in the simulation has a life-expectancy left of
+		 * 0.5 years 
+		 */
+				double ageWeight=0.5;
 				for (int steps = 0; steps < yearsLeft; steps++) {
-					lifeExp[scenario][s] += applySuccesrate(
+
+					lifeExp[scenario][s] +=ageWeight* applySuccesrate(
 							nPopByAge[0][steps][age][s],
 							nPopByAge[scenario][steps][age][s], scenario, 0,
 							age, s);
-					withDiseaseExp[scenario][s] += applySuccesrate(
+					withDiseaseExp[scenario][s] += ageWeight* applySuccesrate(
 							diseased[0][steps][s],
 							diseased[scenario][steps][s], scenario, 0, age, s);
-					if (steps == 0)
+                     if (steps == 0)
+                     {
 						baselinePop += applySuccesrate(
 								nPopByAge[0][steps][age][s],
 								nPopByAge[scenario][steps][age][s], scenario,
 								0, age, s);
+						ageWeight = 1;}
+					
 
 				}
 
@@ -6525,11 +6872,11 @@ public class DynamoOutputFactory {
 	private void setNDiseases(DiseaseClusterStructure[] s) {
 		this.nDiseases = 0;
 		// if no diseases are present, DiseaseClusterStructure=null
-		if (s!=null) for (int i = 0; i < s.length; i++) {
-			this.nDiseases += s[i].getNInCluster();
+		if (s != null)
+			for (int i = 0; i < s.length; i++) {
+				this.nDiseases += s[i].getNInCluster();
 
-		}
-	
+			}
 
 	}
 
@@ -6566,16 +6913,17 @@ public class DynamoOutputFactory {
 	 */
 	public void setNDiseaseStates(DiseaseClusterStructure[] s) {
 		this.nDiseaseStates = 1;
-// if no diseases are present, s==null
-		if (s !=null) for (int i = 0; i < s.length; i++) {
-			if (s[i].getNInCluster() == 1)
-				this.nDiseaseStates++;
-			else if (s[i].isWithCuredFraction())
-				this.nDiseaseStates += 2;
-			else
-				this.nDiseaseStates += Math.pow(2, s[i].getNInCluster()) - 1;
+		// if no diseases are present, s==null
+		if (s != null)
+			for (int i = 0; i < s.length; i++) {
+				if (s[i].getNInCluster() == 1)
+					this.nDiseaseStates++;
+				else if (s[i].isWithCuredFraction())
+					this.nDiseaseStates += 2;
+				else
+					this.nDiseaseStates += Math.pow(2, s[i].getNInCluster()) - 1;
 
-		}
+			}
 	}
 
 	/**
@@ -6808,6 +7156,31 @@ public class DynamoOutputFactory {
 							nDiseaseByAge[scen][stepCount][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][disease][r][a][g];
 		return nDiseaseByAge;
 	}
+	
+	
+	/**
+	 * gets number of persons with disease
+	 * 
+	 * @param disease
+	 *            : diseasenumber
+	 * @return array [][][] with number of persons with this disease (index:
+	 *         scenario, age,sex)
+	 */
+	public double[][][] getNDiseaseByAge(int disease,int stepCount) {
+		double[][][]nDiseaseByAge = new double[this.nScen + 1][this.nDim][2];
+		;
+		
+		
+		double[][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge, stepCount,disease);
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < this.nDim; a++)
+					for (int g = 0; g < 2; g++)
+					
+							nDiseaseByAge[scen][a][g] += nDiseaseByRiskClassByAge[scen][r][a][g];
+		return nDiseaseByAge;
+	}
 
 	/**
 	 * 
@@ -6834,6 +7207,32 @@ public class DynamoOutputFactory {
 	}
 
 	/**
+	 * @ param stepCount Year for which to get the 
+	 * @return array [][][] with numbers of disabled persons by scenario,
+	 *         , age and sex
+	 */
+	
+	public double[][][] getNDisabledByAge(int stepCount) {
+
+		double[][][] nDisabledByAge = new double[this.nScen + 1][this.nDim][2];
+
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < this.nDim; a++)
+					for (int g = 0; g < 2; g++)
+						
+							if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
+								nDisabledByAge[scen][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+										* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
+										/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
+							else
+								nDisabledByAge[scen][a][g] += 0;
+
+		return nDisabledByAge;
+	}
+	
+	
+	/**
 	 * 
 	 * @return array [][][][][] with numbers of disabled persons by scenario,
 	 *         years in follow-uo ,riskclass, age and sex
@@ -6853,6 +7252,30 @@ public class DynamoOutputFactory {
 										/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
 							else
 								nDisabledByAge[scen][stepCount][r][a][g] += 0;
+
+		return nDisabledByAge;
+	}
+	
+	/**
+	 * 
+	 * @return array [][][][] with numbers of disabled persons by scenario,
+	 *         ,riskclass, age and sex , selected for year=stepCount
+	 */
+	public double[][][][] getNDisabledByRiskClassByAge(int stepCount) {
+
+		double[][][][] nDisabledByAge = new double[this.nScen + 1][nRiskFactorClasses][this.nDim][2];
+
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < this.nDim; a++)
+					for (int g = 0; g < 2; g++)
+						
+							if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
+								nDisabledByAge[scen][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+										* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
+										/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
+							else
+								nDisabledByAge[scen][r][a][g] += 0;
 
 		return nDisabledByAge;
 	}
@@ -6913,15 +7336,11 @@ public class DynamoOutputFactory {
 		return nDiseaseByAge;
 	}
 
-	/**
-	 * @return
-	 */
-	public double[][][][][][] getNDiseaseByRiskClassByAge() {
-		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
+	
 
-		return nDiseaseByRiskClassByAge;
-	}
-
+	
+	
+	
 	/**
 	 * get the array of diseaseNumbers for disease d.
 	 * 
@@ -6930,24 +7349,17 @@ public class DynamoOutputFactory {
 	 * @return: array with diseaseNumbers. indexes scenario, year of follow-up,
 	 *          risk factorclass, age, sex
 	 */
-	public double[][][][][] getNDiseaseByRiskClassByAge(int d) {
-		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
-		double[][][][][] returnArray = new double[this.nScen + 1][this.stepsInRun + 1][this.nRiskFactorClasses][this.nDim][2];
-
-		for (int r = 0; r < this.nRiskFactorClasses; r++)
-			for (int scen = 0; scen < this.nScen + 1; scen++)
-				for (int g = 0; g < 2; g++)
-					for (int a = 0; a < nDim; a++)
-						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
-							returnArray[scen][stepCount][r][a][g] = nDiseaseByRiskClassByAge[scen][stepCount][d][r][a][g];
+	public double[][][][]getNDiseaseByRiskClassByAge(int steps, int d) {
+		
+		double[][][][] returnArray =   makeDiseaseArray(this.nDiseaseStateByRiskClassByAge,steps,d);
 
 		return returnArray;
 	}
-	
-	
+
 
 	/**
-	 * get the array of diseaseNumbers by age at start of simulation and riskclass at start of simulation for disease d.
+	 * get the array of diseaseNumbers by age at start of simulation and
+	 * riskclass at start of simulation for disease d.
 	 * 
 	 * @param d
 	 *            : diseasenumber of disease to return
@@ -6956,7 +7368,7 @@ public class DynamoOutputFactory {
 	 */
 	public double[][][][][] getNDiseaseByOriRiskClassByOriAge(int d) {
 		double[][][][][][] nDiseaseByOriRiskClassByOriAge = makeDiseaseArray(this.nDiseaseStateByOriRiskClassByOriAge);
-		double[][][][][] returnArray = new double[this.nScen + 1][this. nDim][this.nRiskFactorClasses][96][2];
+		double[][][][][] returnArray = new double[this.nScen + 1][this.nDim][this.nRiskFactorClasses][96][2];
 
 		for (int r = 0; r < this.nRiskFactorClasses; r++)
 			for (int scen = 0; scen < this.nScen + 1; scen++)
@@ -7000,7 +7412,27 @@ public class DynamoOutputFactory {
 		return nPopByAge;
 
 	}
+	/**
+	 * @return number in population by age in year stepCount
+	 */
+	public double[][][] getNPopByAge(int stepCount) {
 
+		double[][][]nPopByAge = new double[this.nScen + 1][this.nDim][2];
+
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < this.nDim; a++)
+					for (int g = 0; g < 2; g++)
+
+						
+							nPopByAge[scen][a][g] += this.nPopByRiskClassByAge[scen][stepCount][r][a][g];
+		return nPopByAge;
+
+	}
+
+	
+	
 	/**
 	 * @param scen
 	 * @param stepCount

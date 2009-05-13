@@ -93,6 +93,7 @@ public class Output_LifeExpTab  {
 		new SullivanChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 		final int minA = Math.max(0,this.output.getMinAgeInSimulation());
 		plotInfo.maxAge=this.output.getMaxAgeInSimulation();
+		plotInfo.currentAge=minA;
 		int length = this.output.getMaxAgeInSimulation()
 				- minA + 1;
 		String[] ageNames = new String[length];
@@ -102,14 +103,15 @@ public class Output_LifeExpTab  {
 			ageNames[0] = ((Integer) minA).toString();
 		for (int i = 1; i < length; i++)
 			ageNames[i] = ((Integer) (minA + i)).toString();
-		plotInfo.availlableAges=ageNames;
+		plotInfo.minAge=minA;
 		new AgeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, ageNames);
 		// chartComposite4.setBounds(0, 0, 400, 500);
 		int start=output.getStartYear();
 		int maxyears=output.getStepsInRun();
+		if (!this.output.isWithNewborns()) maxyears=Math.min(output.getStepsInRun(),95); 
 		String[] yearNames=new String [maxyears];
 		for (int y=0;y<maxyears;y++)
-			yearNames[y] = ((Integer) y).toString();
+			yearNames[y] = ((Integer) (y+start)).toString();
 		
 		new YearChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, yearNames);
 		// chartComposite4.setBounds(0, 0, 400, 500);

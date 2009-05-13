@@ -58,9 +58,12 @@ public class AgeChoiceGroup {
 			combo.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					Combo combo = (Combo) e.getSource();
-					 
-					if (plotInfo.Sullivan && !plotInfo.newborns) plotInfo.currentAge = combo.getSelectionIndex() +plotInfo.currentYear;
-					else plotInfo.currentAge = combo.getSelectionIndex();
+					String[] names= combo.getItems();
+					
+					plotInfo.currentAge = Integer.parseInt(names[combo.getSelectionIndex()]); 
+					
+					//if (plotInfo.Sullivan && !plotInfo.newborns) plotInfo.currentAge = names[combo.getSelectionIndex()].parseInteger(); +plotInfo.currentYear;
+					//else plotInfo.currentAge = combo.getSelectionIndex();
 					
 					plotDrawer.drawChartAction(plotInfo,chartComposite);
 					 

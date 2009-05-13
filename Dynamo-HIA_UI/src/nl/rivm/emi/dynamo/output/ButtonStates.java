@@ -20,8 +20,9 @@ public class ButtonStates {
 	 boolean numbers;
 	 boolean survival;
 	 boolean Sullivan;
-	 String [] availlableAges;
+	// String [] availlableAges;
 	 int maxAge;
+	 int minAge;
 	 boolean newborns;
 	 public ButtonStates(){}
 }

@@ -80,41 +80,78 @@ public class YearChoiceGroup {
 		for (int i = 0; i < otherControls.length; i++) {
 
 			if (otherControls[i].getToolTipText() == "choose age to plot") {
-				if (plotInfo.Sullivan && !plotInfo.newborns) {
+				
+				/*  age must be larger than year (because there are
+				 * no newborns, thus no persons below this age). Also the maximum is set at 95, as above 
+				 * the calculations are not based on simulation and thus not very useful; 
+				 * also the age must be in the range minage+year and min(maxage+year,95)
+				 */
+				int maxAgeHere=Math.min(plotInfo.currentYear+plotInfo.maxAge,95);
+				boolean noValues=false;
+				/* if there is a minimum age, and there are newborns coming in the cohort,
+				
+				* there is an empty part in the population (no persons between the minimum age and the
+				* first cohort of newborns.
+				* This is handled as if there are no newborns
+				*/
+				if (plotInfo.Sullivan && (!plotInfo.newborns|| plotInfo.minAge>0) ) {
+					if (plotInfo.currentAge < plotInfo.currentYear+plotInfo.minAge &&
+							plotInfo.currentYear+plotInfo.minAge <= maxAgeHere)
+			         plotInfo.currentAge = plotInfo.currentYear+plotInfo.minAge;
+					
+					if (plotInfo.currentAge > maxAgeHere  &&
+							maxAgeHere >= plotInfo.currentYear+plotInfo.minAge)
 
-					String[] names = new String[plotInfo.maxAge
-							- plotInfo.currentYear];
-					for (int age = plotInfo.currentYear; age < plotInfo.maxAge; age++) {
-						names[age - plotInfo.currentYear] = ((Integer) age)
-								.toString();
-						if (age == 0)
-							names[age - plotInfo.currentYear] = "at birth";
+						plotInfo.currentAge = maxAgeHere;
+					if ( plotInfo.currentYear+plotInfo.minAge >	maxAgeHere) noValues=true;
+					
+					
+					String[] names = new String[1];
+					names[0] = "no valid ages";
+					if (!noValues) {
+						names = new String[maxAgeHere
+								- plotInfo.currentYear -plotInfo.minAge+ 1];
+
+						for (int age = plotInfo.currentYear+plotInfo.minAge; age <= maxAgeHere; age++) {
+							names[age - plotInfo.currentYear-plotInfo.minAge] = ((Integer) age)
+									.toString();
+							if (age == 0)
+								names[age - plotInfo.currentYear-plotInfo.minAge] = "at birth";
+						}
 					}
-
 					Control[] childControls = ((Composite) otherControls[i])
 							.getChildren();
-					for (int j = 0; j < childControls.length; j++)
-					{	((Combo) childControls[j]).setItems(names);
-					((Combo) childControls[j]).select(0);}
+					for (int j = 0; j < childControls.length; j++) {
+						((Combo) childControls[j]).setItems(names);
+						if (names.length > 1)
+							
+							((Combo) childControls[j])
+									.select(plotInfo.currentAge
+											- plotInfo.currentYear-plotInfo.minAge);
+							
+						else
+						{	((Combo) childControls[j]).select(0);
+						plotInfo.currentAge=100;}
+					}
 
-				}
-				else 
-				{
+				} else {
 
 					String[] names = new String[plotInfo.maxAge];
-							
-					for (int age = 0; age < plotInfo.maxAge; age++) {
-						names[age] = ((Integer) age)
-								.toString();
+                     
+					int minimum=plotInfo.minAge;
+					
+					for (int age =minimum ; age < plotInfo.maxAge; age++) {
+						names[age-minimum] = ((Integer) age).toString();
 						if (age == 0)
-							names[age ] = "at birth";
+							names[age-minimum] = "at birth";
 					}
 
 					Control[] childControls = ((Composite) otherControls[i])
 							.getChildren();
-					for (int j = 0; j < childControls.length; j++){
+					for (int j = 0; j < childControls.length; j++) {
 						((Combo) childControls[j]).setItems(names);
-						((Combo) childControls[j]).select(0);}
+						((Combo) childControls[j]).select(plotInfo.currentAge);
+					}
 				}
 			}
 		}
