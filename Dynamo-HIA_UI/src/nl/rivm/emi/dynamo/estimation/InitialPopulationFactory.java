@@ -247,7 +247,7 @@ public class InitialPopulationFactory {
          * scenario population  
          */
 		boolean[][][][] shouldChangeInto = null;
-		if (parameters.getRiskType() != 2
+		if (nPopulations>1 && parameters.getRiskType() != 2
 				&& scenarioInfo.getInitialPrevalenceType()[0] ) {
 			int nCat = parameters.getPrevRisk()[0][0].length;
 			float[] RR = new float[nCat];
