@@ -58,6 +58,7 @@ public class InputDataFactory {
 
 	private static final String newbornLabel = "hasnewborns";
 	private static final String startingYearLabel = "startingYear";
+	private static final String startingYearLabel2 = "startingYear";
 	private static final String numberOfYearsLabel = "numberOfYears";
 	private static final String simPopSizeLabel = "simPopSize";
 	private static final String minAgeLabel = "minAge";
@@ -1177,15 +1178,15 @@ public class InputDataFactory {
 			if (type == "riskfactor_continuous") {
 				// TODO: Temporary build message: not yet implemented
 				// TODO: Reactivate code below for version 1.1
-				ErrorMessageUtil
-						.handleErrorMessage(
-								this.log,
-								"The component Riskfactor Continuous has not yet been implemented",
-								new DynamoConfigurationException(
-										"The component Riskfactor Continuous has not yet been implemented"),
-								configFileName);
+			//	ErrorMessageUtil
+			//			.handleErrorMessage(
+			//					this.log,
+			//					"The component Riskfactor Continuous has not yet been implemented",
+			//					new DynamoConfigurationException(
+			//							"The component Riskfactor Continuous has not yet been implemented"),
+			//					configFileName);
 				// TODO: Reactivate code below for version 1.1
-				// //riskFactorType = 2;
+				this.riskFactorType = 2;
 			} else {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
@@ -1260,9 +1261,9 @@ public class InputDataFactory {
 						List<ConfigurationNode> elements = (List<ConfigurationNode>) leafChild
 								.getChildren();
 						for (ConfigurationNode element : elements) {
-							if (element.getName() == "index")
+							if (element.getName() == "flexdex")
 								index[currentClass] = getInteger(element,
-										"index");
+										"flexdex");
 							index2[currentClass] = index[currentClass]; // make
 							// copy
 							// to
@@ -2365,6 +2366,7 @@ public class InputDataFactory {
 				this.log.debug("config.getFloat(sexratio)"
 						+ config.getFloat("sexratio"));
 				scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
+				scenInfo.setNewbornStartYear(config.getInt("startingYear"));
 
 				ConfigurationNode rootNode = config.getRootNode();
 
@@ -2376,47 +2378,44 @@ public class InputDataFactory {
 							&& rootChild.getName() != "sexratio"
 								&& rootChild.getName() != "startingYear")
 						throw new DynamoConfigurationException(" Tagname "
-								+ "amounts, sexratio, startingYear expected in file "
+								+ "amounts or sexratio or startingyear  expected in file "
 								+ configFileName + " but found tag "
 								+ rootChild.getName());
 
-					List<ConfigurationNode> nestedRootChildren = (List<ConfigurationNode>) rootChild.getChildren();
-					for (ConfigurationNode nestedRootChild : nestedRootChildren) {
-						if (rootChild.getName() == "amount") {
-							List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
-									.getChildren();
-							for (ConfigurationNode leafChild : leafChildren) {
-								Object valueObject = leafChild.getValue();
-								String leafName = leafChild.getName();
-								if (valueObject instanceof String) {
-									String valueString = (String) valueObject;
-									if ("year".equalsIgnoreCase(leafName)) {
+					if (rootChild.getName() == "amounts") {
+						List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+								.getChildren();
+						for (ConfigurationNode leafChild : leafChildren) {
+							Object valueObject = leafChild.getValue();
+							String leafName = leafChild.getName();
+							if (valueObject instanceof String) {
+								String valueString = (String) valueObject;
+								if ("year".equalsIgnoreCase(leafName)) {
 
-										year[currentChild] = getIntegerValue(
-												valueString, "year");
+									year[currentChild] = getIntegerValue(
+											valueString, "year");
 
-										if (currentChild > 0
-												&& year[currentChild] != year[currentChild - 1] + 1)
-											throw new DynamoInconsistentDataException(
-													" years in file with newborns"
-															+ " have a gap between year "
-															+ year[currentChild - 1]
-															+ " and "
-															+ year[currentChild]
-															+ " this is not allowed");
-									}
-									if ("number".equalsIgnoreCase(leafName)) {
-
-										number[currentChild] = getIntegerValue(
-												valueString, "number");
-										// TODO checken data completeness
-
-									}
+									if (currentChild > 0
+											&& year[currentChild] != year[currentChild - 1] + 1)
+										throw new DynamoInconsistentDataException(
+												" years in file with newborns"
+														+ " have a gap between year "
+														+ year[currentChild - 1]
+														+ " and "
+														+ year[currentChild]
+														+ " this is not allowed");
 								}
+								if ("number".equalsIgnoreCase(leafName)) {
 
+									number[currentChild] = getIntegerValue(
+											valueString, "number");
+									// TODO checken data completeness
+
+								}
 							}
-							currentChild++;
+
 						}
+						currentChild++;
 					}
 				}
 

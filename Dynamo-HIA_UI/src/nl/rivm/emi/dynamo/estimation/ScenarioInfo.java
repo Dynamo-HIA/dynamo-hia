@@ -23,6 +23,7 @@ public class ScenarioInfo {
 	private int minSimAge;
 	private int yearsInRun;
 	private int startYear;
+	private int newbornStartYear;
 	private int randomSeed;
 	
 	private int nScenarios=1; 
@@ -569,6 +570,12 @@ public void makeTestData1 (){
 	}
 	public void setAlfaAbility(float[][] alfaAbility) {
 		this.alfaAbility = alfaAbility;
+	}
+	public int getNewbornStartYear() {
+		return newbornStartYear;
+	}
+	public void setNewbornStartYear(int newbornStartYear) {
+		this.newbornStartYear = newbornStartYear;
 	}
 	
 
