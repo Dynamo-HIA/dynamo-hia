@@ -82,4 +82,22 @@ public class ErrorMessageWindow {
 		shell.open();
 	
 	}
+
+	/**
+	 * @param string
+	 * @param shell
+	 */
+	public ErrorMessageWindow(String string, Shell parentShell) {
+		Shell shell = new Shell(parentShell);
+
+		MessageBox messageBox = new MessageBox(shell, SWT.OK);
+		messageBox
+				.setMessage(string);
+		
+		if (messageBox.open() == SWT.OK) {
+			shell.dispose();
+		}
+
+		shell.open();
+	}
 }

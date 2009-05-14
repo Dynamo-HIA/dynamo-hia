@@ -73,6 +73,25 @@ public class Output_UI {
 			} catch (DynamoScenarioException e) {
 				new ErrorMessageWindow(e,shell);
 				e.printStackTrace();
+			} catch (DynamoOutputException e) {
+				// TODO let user enter new starting year and make new 
+				e.printStackTrace();
+				new ErrorMessageWindow("startingYear simulation is given as "+ scen.getStartYear()+
+						" while newborn data only present from year "+scen.getNewbornStartYear()+
+						". Therefor startYear of simulation is made "+ scen.getNewbornStartYear(),shell);
+				scen.setStartYear(scen.getNewbornStartYear());
+				try {
+					output = new DynamoOutputFactory(scen,  pop);
+				} catch (DynamoScenarioException e1) {
+					new ErrorMessageWindow(e1,shell);
+				
+					e1.printStackTrace();
+				} catch (DynamoOutputException e1) {
+					
+					new ErrorMessageWindow(e1,shell);
+					e1.printStackTrace();
+				}
+				makeOutputDisplay(outputShell);
 			}
 			
 	

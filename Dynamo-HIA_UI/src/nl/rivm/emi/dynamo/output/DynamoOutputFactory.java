@@ -331,9 +331,10 @@ public class DynamoOutputFactory {
 	 * @param pop
 	 *            simulated population
 	 * @throws DynamoScenarioException
+	 * @throws DynamoOutputException when newborns are not present with the right starting year 
 	 */
 	public DynamoOutputFactory(ScenarioInfo scenInfo, Population[] pop)
-			throws DynamoScenarioException {
+			throws DynamoScenarioException, DynamoOutputException {
 
 		/*
 		 * copy the information from scenInfo into the current object (as
@@ -351,8 +352,9 @@ public class DynamoOutputFactory {
 	/**
 	 * @param scenInfo
 	 * @param simName
+	 * @throws DynamoOutputException 
 	 */
-	private void initializeClassInfo(ScenarioInfo scenInfo) {
+	private void initializeClassInfo(ScenarioInfo scenInfo) throws DynamoOutputException {
 
 		setRiskType(scenInfo.getRiskType());
 		setNScen(scenInfo.getNScenarios());
@@ -465,7 +467,19 @@ public class DynamoOutputFactory {
 
 		this.startYear = scenInfo.getStartYear();
 		this.populationSize = scenInfo.getPopulationSize();
-		this.newborns = scenInfo.getNewborns();
+		int newbornStart= scenInfo.getNewbornStartYear();
+		if (newbornStart==this.startYear) this.newborns = scenInfo.getNewborns();
+		else if (newbornStart<this.startYear){
+			int nYears=scenInfo.getNewborns().length;
+			int difference=this.startYear-newbornStart;
+			this.newborns=new int [nYears-difference];
+			int [] oldData= scenInfo.getNewborns();
+						for (int year=0;year<scenInfo.getNewborns().length-difference;year++)
+							this.newborns[year]=oldData[year+difference];
+		}	
+		else if (newbornStart>this.startYear){
+			throw new DynamoOutputException("first year with newborns is larger than first year in simulation");
+			}
 		/*
 		 * in case the length of newborns is shorter than the number of newborn
 		 * generations needed, use the last newborn number for all further
@@ -1040,7 +1054,7 @@ public class DynamoOutputFactory {
 			float[] dummy = new float[this.nRiskFactorClasses];
 			Arrays.fill(dummy, 1);
 			float[][] toChange;
-			int minSimAge=this.minAgeInSimulation;
+			int minSimAge=Math.max(0, this.minAgeInSimulation);
 			int maxSimAge=this.maxAgeInSimulation;
 
 
