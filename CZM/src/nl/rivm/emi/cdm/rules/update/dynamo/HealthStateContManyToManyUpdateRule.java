@@ -403,7 +403,7 @@ extends HealthStateManyToManyUpdateRule {
 			configurationFileConfiguration.clear();
 			
 			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
+		// TODO weeraanzetten	configurationFileConfiguration.setValidating(true);			
 			configurationFileConfiguration.load();
 			
 			ConfigurationNode rootNode = configurationFileConfiguration

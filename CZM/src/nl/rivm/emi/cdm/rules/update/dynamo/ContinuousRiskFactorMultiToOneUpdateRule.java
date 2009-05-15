@@ -221,7 +221,8 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 			configurationFileConfiguration.clear();
 			
 			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
+			// TODO weer aanzetten
+		//	configurationFileConfiguration.setValidating(true);			
 			configurationFileConfiguration.load();
 			
 			// long seed = 21223445;
