@@ -2123,13 +2123,14 @@ public class ModelParameters {
 		/* count number of valid categories */
 		int nValidCategories = 0;
 		int[] indexForCategories = new int[nRiskCat];
-		for (int i = 0; i < nRiskCat; i++) {
+		if (riskType !=2) for (int i = 0; i < nRiskCat; i++) {
 			indexForCategories[nValidCategories] = i;
 			if (inputData.getPrevRisk()[age][sex][i] > 0)
 				nValidCategories++;
 
 			;
 		}
+		
 		/* count number of valid rows */
 		int nValidRows = 0;
 		int[] indexForRows = new int[nSim];

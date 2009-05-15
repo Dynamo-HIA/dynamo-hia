@@ -278,7 +278,7 @@ public class InputDataFactory {
 	private static final String dalyRRXMLname = "relriskfordisability.xml";
 
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; // "rrisksfromdisease"
-	private static final String rrContinuousTagName = "relrisksfromriskfactor_continous";// "rrisksforriskfactor_continuous"
+	private static final String rrContinuousTagName = "relrisksfromriskfactor_continuous";// "rrisksforriskfactor_continuous"
 	private static final String rrCategoricalTagName = "relrisksfromriskfactor_categorical";// "rrisksforriskfactor_categorical"
 	private static final String rrCompoundTagName = "relrisksfromriskfactor_compound";// "rrisksforriskfactor_compound"
 
@@ -1087,17 +1087,17 @@ public class InputDataFactory {
 							scen, true);
 				else {
 					scenarioInfo.setNewMeanSTD(this.factory
-							.manufactureOneDimArray(completePrevFileName,
+							.manufactureOneDimArrayFromTreeLayeredXML(completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalence", "standarddeviation", true),
-							this.factory.manufactureOneDimArray(
+									"prevalences","prevalence", "standarddeviation", true),
+							this.factory.manufactureOneDimArrayFromTreeLayeredXML(
 									completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalence", "mean", true), this.factory
-									.manufactureOneDimArray(
+									"prevalences","prevalence", "mean", true), this.factory
+									.manufactureOneDimArrayFromTreeLayeredXML(
 											completePrevFileName,
 											"riskfactorprevalences_continuous",
-											"prevalence", "skewness", true),
+											"prevalences","prevalence", "skewness", true),
 							scen);
 
 				}
@@ -1340,15 +1340,15 @@ public class InputDataFactory {
 
 		} else {
 
-			inputData.setMeanRisk(this.factory.manufactureOneDimArray(
+			inputData.setMeanRisk(this.factory.manufactureOneDimArrayFromTreeLayeredXML(
 					configFileName, "riskfactorprevalences_continuous",
-					"prevalence", "mean", true));
-			inputData.setStdDevRisk(this.factory.manufactureOneDimArray(
+					"prevalences","prevalence", "mean", true));
+			inputData.setStdDevRisk(this.factory.manufactureOneDimArrayFromTreeLayeredXML(
 					configFileName, "riskfactorprevalences_continuous",
-					"prevalence", "standarddeviation", true));
-			inputData.setSkewnessRisk(this.factory.manufactureOneDimArray(
+					"prevalences","prevalence", "standarddeviation", true));
+			inputData.setSkewnessRisk(this.factory.manufactureOneDimArrayFromTreeLayeredXML(
 					configFileName, "riskfactorprevalences_continuous",
-					"prevalence", "skewness", true));
+					"prevalences","prevalence", "skewness", true));
 			float[][] skewness = inputData.getSkewnessRisk();
 			boolean normal = true;
 			for (int a = 0; a < 96; a++)
