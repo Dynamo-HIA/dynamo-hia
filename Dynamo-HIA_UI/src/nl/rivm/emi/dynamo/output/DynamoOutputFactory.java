@@ -469,7 +469,7 @@ public class DynamoOutputFactory {
 		this.populationSize = scenInfo.getPopulationSize();
 		int newbornStart= scenInfo.getNewbornStartYear();
 		if (newbornStart==this.startYear) this.newborns = scenInfo.getNewborns();
-		else if (newbornStart<this.startYear){
+		else if (newbornStart<this.startYear && this.withNewborns){
 			int nYears=scenInfo.getNewborns().length;
 			int difference=this.startYear-newbornStart;
 			this.newborns=new int [nYears-difference];
@@ -477,7 +477,7 @@ public class DynamoOutputFactory {
 						for (int year=0;year<scenInfo.getNewborns().length-difference;year++)
 							this.newborns[year]=oldData[year+difference];
 		}	
-		else if (newbornStart>this.startYear){
+		else if (newbornStart>this.startYear && this.withNewborns){
 			throw new DynamoOutputException("first year with newborns is larger than first year in simulation");
 			}
 		/*
@@ -485,7 +485,7 @@ public class DynamoOutputFactory {
 		 * generations needed, use the last newborn number for all further
 		 * generations
 		 */
-		if (this.stepsInRun > this.newborns.length) {
+		if (this.withNewborns && this.stepsInRun > this.newborns.length  ) {
 			int[] temp = new int[this.stepsInRun];
 			for (int y = 0; y < this.newborns.length; y++)
 				temp[y] = this.newborns[y];
@@ -1965,7 +1965,7 @@ public class DynamoOutputFactory {
 									/ this.nInSimulationByAge[a - stepCount][s];
 						else
 							ratio = 0;
-					} else {
+					} else if (this.withNewborns) {
 						/* for newborns (born during simulation ) */
 						if (s == 0) /* males */
 							originalNumber = this.newborns[stepCount - 1]
@@ -1979,7 +1979,7 @@ public class DynamoOutputFactory {
 									/ this.nNewBornsInSimulationByAge[stepCount - 1][s];
 						else
 							ratio = 0;
-					}
+					} else ratio=0;
 
 					// TODO hierboven gok nog nagaan en zorgen dat alles goed
 					// geinitialiseerd is
@@ -4149,9 +4149,9 @@ denominator new DynamoOutdenominator		 * "zero persons in initial population for
 						d, r, gender, numbers);
 				double refdat0 = calculateAveragePrevalenceByRiskClass(0, steps, d, r,
 						 gender, numbers);
-				if (!differencePlot && indat0 != 0)
+				if (!differencePlot )
 					series.add((double) steps, indat0);
-				if (differencePlot && indat0 != 0)
+				if (differencePlot)
 					series.add((double) steps, (indat0 - refdat0));
 
 			}
@@ -6383,6 +6383,7 @@ denominator new DynamoOutdenominator		 * "zero persons in initial population for
 			for (int s = 0; s < 2; s++)
 				if (this.populationSize[a][s] > maximum)
 					maximum = Math.round(this.populationSize[a][s]);
+		if (this.withNewborns){
 		if (this.mfratio > 1) {
 			for (int y = 0; y < this.newborns.length; y++)
 				if (this.newborns[y] * this.mfratio / (1 + this.mfratio) > maximum)
@@ -6392,7 +6393,7 @@ denominator new DynamoOutdenominator		 * "zero persons in initial population for
 			for (int y = 0; y < this.newborns.length; y++)
 				if (this.newborns[y] / (1 + this.mfratio) > maximum)
 					maximum = Math.round(this.newborns[y] / (1 + this.mfratio));
-		}
+		}}
 		return maximum;
 	}
 
