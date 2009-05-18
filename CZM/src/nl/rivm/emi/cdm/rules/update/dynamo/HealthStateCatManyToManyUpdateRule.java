@@ -326,7 +326,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 								transMat[a][g][r][c][1][1] = (float) Math
 										.exp(-atMort[d] - fatalIncidence[d]);
 
-								if (Math.exp(incidence[d] - atMort[d]) > 1E-15)
+								if (Math.abs(incidence[d] - atMort[d]) > 1E-15)
 									transMat[a][g][r][c][1][0] = (float) (Math
 											.exp(-incidence[d] - atMort[d]
 													- fatalIncidence[d])

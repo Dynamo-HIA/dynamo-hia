@@ -743,7 +743,7 @@ extends HealthStateManyToManyUpdateRule {
 									transMat[a][g][r][c][1][1] = (float) Math
 											.exp(-attrMort[d] - fatalIncidence);
 
-									if (Math.exp(incidence - attrMort[d]) > 1E-15)
+									if (Math.abs(incidence - attrMort[d]) > 1E-15)
 										transMat[a][g][r][c][1][0] = (float) (Math
 												.exp(-incidence - attrMort[d]
 														- fatalIncidence)
