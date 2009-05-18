@@ -1403,11 +1403,14 @@ public class InputDataFactory {
 			throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 		String configFileName;
-		float[][][] data3dim = new float[96][2][1];
+		int nClasses;
+		if (this.riskFactorType!=2) nClasses= inputData.getPrevRisk()[0][0].length;
+		else nClasses=1;
+		float[][][] data3dim = new float[96][2][nClasses];
 		float[][] data2dim = new float[96][2];
 		for (int a = 0; a < 96; a++)
 			for (int g = 0; g < 2; g++) {
-				data3dim[a][g][0] = 1;
+				Arrays.fill(data3dim[a][g],1);
 				data2dim[a][g] = 1;
 
 			}
@@ -2150,7 +2153,7 @@ public class InputDataFactory {
 						String unitType = getName("unittype", config);
 						if (unitType.compareToIgnoreCase("Median survival") == 0)
 
-							eData[d] = excessRate(eData[d], thisDisease);
+							eData[d] = makeExcessRate(eData[d], thisDisease);
 						// TODO nog een keer checken of omrekening klopt
 						configFileName = this.baseDir + File.separator
 								+ referenceDataDir + File.separator
@@ -2280,7 +2283,7 @@ public class InputDataFactory {
 	 * @return excess rate (array) calculated from a list with median survival
 	 * @throws DynamoInconsistentDataException
 	 */
-	public float[][] excessRate(float[][] medianSurvival, String diseaseLabel)
+	public float[][] makeExcessRate(float[][] medianSurvival, String diseaseLabel)
 			throws DynamoInconsistentDataException {
 		float[][] rate = new float[96][2];
 		double log2 = Math.log(2);
@@ -2289,11 +2292,16 @@ public class InputDataFactory {
 		double aaRate;
 		double yearOfMedian;
 		double sumRate;
+		
 		for (int g = 0; g < 2; g++) {
+			if (medianSurvival[95][g]==0) throw new DynamoInconsistentDataException("median survival of zero is not" +
+					" possible: use the option 100% fatal fraction to model acutely fatal diseases");
 			drate[95][g] = (log2 / medianSurvival[95][g]);
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
-				medianAge = a + medianSurvival[a][g];
+				if (medianSurvival[a][g]==0) throw new DynamoInconsistentDataException("median survival of zero is not" +
+				" possible: use the option 100% fatal fraction to model acutely fatal diseases");
+				medianAge = a + medianSurvival[a][g]+0.5;
 				yearOfMedian = Math.floor(medianAge);
 				sumRate = 0;
 				int upper;
@@ -2312,7 +2320,7 @@ public class InputDataFactory {
 					else
 						sumRate += aaRate;
 				}
-				drate[a][g] = log2 - sumRate;
+				drate[a][g] = 2*log2 - sumRate;
 				if (drate[a][g] < 0)
 					throw new DynamoInconsistentDataException(
 							"median survival rates for age "
