@@ -14,67 +14,41 @@ import org.eclipse.swt.widgets.Shell;
 import org.jfree.util.Log;
 
 /**
+ * Trialog to enable the entering of a filename for plus the type of the
+ * duration distribution to be created. *
  * 
- * Adds the Transition Panel to the InputBulletsTrialog modal.
- * 
- * The Transition Panel shows the risk factor name and type values. (Risk Factor
- * is the top panel!)
- * 
- * @author schutb
+ * @author mondeelr
  * 
  */
-public class TransitionTrialog extends InputBulletsTrialog {
+public class DurationDistributionTrialog extends InputBulletsTrialog {
 
-	private static final String NAME = "Risk_Factor name:";
-	private static final String TYPE = "Risk_Factor type:";
+	private static final String NAME = "Risk Factor name:";
+	private static final String TYPE = "Risk Factor type:";
 
 	private String riskFactorName;
-	private String riskFactorType;
+	private String riskFactorType; // It is not "used", but is referenced. 
+	@SuppressWarnings("unused")
+/**
+ * 
+ */
+	private Composite riskFactorArea;
 
-	private Control riskFactorArea;
-	private String rootElementName;
-
-	public TransitionTrialog(Shell parentShell, String dialogTitle,
+	public DurationDistributionTrialog(Shell parentShell, String dialogTitle,
 			String dialogMessage, String initialValue,
 			IInputValidator validator, String riskFactorName,
 			String riskFactorType) {
 		super(parentShell, dialogTitle, dialogMessage, initialValue, validator,
-				"Transition type: ", new BulletButtonNamesEnum[] {
-						BulletButtonNamesEnum.TRANSITION_ZERO,
-						BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED,
-						BulletButtonNamesEnum.TRANSITION_NETTO });
+				"Distribution of duration: ", new BulletButtonNamesEnum[] {
+						BulletButtonNamesEnum.DURATION_UNIFORM,
+						BulletButtonNamesEnum.DURATION_USER_SPECIFIED});
 		this.riskFactorName = riskFactorName;
 		this.riskFactorType = riskFactorType;
 	}
 
-	/**
-	 * Temporary constructor to allow selective disabling (well, hiding) of
-	 * radiobuttons.
-	 * 
-	 * @param parentShell
-	 * @param dialogTitle
-	 * @param dialogMessage
-	 * @param initialValue
-	 * @param validator
-	 * @param riskFactorName
-	 * @param riskFactorType
-	 * @param rootElementName
-	 */
-	public TransitionTrialog(Shell parentShell, String dialogTitle,
-			String dialogMessage, String initialValue,
-			IInputValidator validator, String riskFactorName,
-			String riskFactorType, String rootElementName) {
-		this(parentShell, dialogTitle, dialogMessage, initialValue, validator,
-				riskFactorName, riskFactorType);
-		this.rootElementName = rootElementName;
-	}
-
 	protected void initializeRadioButtons() {
-		Log.debug("RootElementName is: " + rootElementName);
 		radioButtons[1].setSelection(true);
-//		selectedBulletButtonName = BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED
-//				.getBulletButtonName();
-		selectedBulletButtonIndex = 1; // Quick fix.
+		selectedBulletButtonIndex = 1;
+		deselectOtherRadioButtons(1);
 	}
 
 	@Override
@@ -99,7 +73,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 		return composite;
 	}
 
-	protected Control createRiskFactorArea(Composite parent) {
+	protected Composite createRiskFactorArea(Composite parent) {
 		Composite composite = new Composite(parent, 0);
 
 		GridLayout layout = new GridLayout();

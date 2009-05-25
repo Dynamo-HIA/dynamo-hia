@@ -45,7 +45,7 @@ public enum StandardTreeNodeLabelsEnum {
 	CONFIGURATIONFILE("configuration"), //
 	TRANSITION("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
-	DURATIONDISTRIBUTIONFILE("durationdistribution"), //
+	DURATIONDISTRIBUTIONSDIRECTORY("DurationDistributions"), //
 // 20090402 Not used anymore	RELRISKFORDEATHFILE("relriskfordeath"), //
 	RELRISKFORDEATHDIR("Relative_Risks_For_Death"), //
 // 20090402 RELRISKFORDISABILITYFILE("relriskfordisability"), //

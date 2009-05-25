@@ -6,14 +6,14 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractAge;
 
-public class RiskFactorPrevalencesDurationObject  extends TypedHashMap<Age> implements StandardObjectMarker{
-	private static final long serialVersionUID = 8666339552453771280L;
+public class RelRiskForDisabilityCompoundObject extends TypedHashMap<Age> implements StandardObjectMarker{
+	private static final long serialVersionUID = 2374485744776391715L;
 
 	/**
 	 * Initialize self and copy content.
 	 * @param manufacturedMap
 	 */
-		public RiskFactorPrevalencesDurationObject(TypedHashMap<Age> manufacturedMap) {
+		public RelRiskForDisabilityCompoundObject(TypedHashMap<Age> manufacturedMap) {
 			 super((Age)XMLTagEntityEnum.AGE.getTheType());
 			 putAll(manufacturedMap);
 		}

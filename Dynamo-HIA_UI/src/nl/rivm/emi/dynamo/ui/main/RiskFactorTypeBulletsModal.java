@@ -93,7 +93,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 					selectedRootElementName = myRootElementNamesEnum
 							.getNodeLabel();
 					radioButtons[1].setSelection(false);
-					// radioButtons[2].setSelection(false);
+					radioButtons[2].setSelection(false);
 				}
 			}
 		});
@@ -141,7 +141,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 					selectedRootElementName = myRootElementNamesEnum
 							.getNodeLabel();
 					radioButtons[0].setSelection(false);
-					// radioButtons[2].setSelection(false);
+					radioButtons[2].setSelection(false);
 				}
 			}
 		});
@@ -180,7 +180,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		compoundGroupLayout.makeColumnsEqualWidth = true;
 		compoundGroup.setLayout(compoundGroupLayout);
 		  radioButtons[2] = new Button(compoundGroup, SWT.RADIO);
-		  radioButtons[2].setText("compound (disabled!)");
+		  radioButtons[2].setText("compound (under construction!)");
 		  radioButtons[2].addListener(SWT.Selection, new Listener() {
 		  RootElementNamesEnum myRootElementNamesEnum =
 		  RootElementNamesEnum.RISKFACTOR_COMPOUND;
@@ -189,12 +189,12 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			  Button myWidget = (Button)arg0.widget;
 			  if (myWidget.getSelection())
 			     {
-              // Disabling.
-//				  selectedRootElementName =  myRootElementNamesEnum .getNodeLabel();
-//		  radioButtons[0].setSelection(false);
-//		  radioButtons[1].setSelection(false);
-		  // Added for the disabling.
-		  radioButtons[2].setSelection(false); 
+              // Disabling (Next three lines were commented out, now enabled for testing).
+				  selectedRootElementName =  myRootElementNamesEnum .getNodeLabel();
+		  radioButtons[0].setSelection(false);
+		  radioButtons[1].setSelection(false);
+		  // Added for the disabling (Next line was added for disabling, now removed for testing).
+		  // radioButtons[2].setSelection(false); 
 				  } } }
 		  ); 
 			Label numberOfCompoundClassesLabel = new Label(compoundGroup, SWT.NONE);

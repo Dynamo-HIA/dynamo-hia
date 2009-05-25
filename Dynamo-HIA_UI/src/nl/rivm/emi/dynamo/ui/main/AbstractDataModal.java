@@ -208,4 +208,11 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	public SideEffectProcessor getSavePreProcessor() {
 		return null;
 	}
+
+	/**
+	 * Default implementation.
+	 */
+	public SideEffectProcessor getSavePostProcessor() {
+		return null;
+	}
 }

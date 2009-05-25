@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DummyPlaceholderFactory;
+import nl.rivm.emi.dynamo.data.factories.DurationDistributionFactory;
 import nl.rivm.emi.dynamo.data.factories.DynamoSimulationFactory;
 import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.NewbornsFactory;
@@ -19,22 +20,22 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementation;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 public enum DispatchEnum {
@@ -99,7 +100,7 @@ public enum DispatchEnum {
 	/* W22ComDur */
 	RISKFACTORPREVALENCES_DURATION(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
-			new RiskFactorPrevalencesDurationFactory(), null),
+			new DurationDistributionFactory(), null),
 	/* W23Cat */
 	RELRISKFORDEATH_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
@@ -127,7 +128,7 @@ public enum DispatchEnum {
 	/* W23Cmp */
 	RELRISKFORDISABLITY_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
-					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
+					.getNodeLabel(), new RelRiskForDisabilityCompoundFactory(), null), // TODO
 	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
 			new DiseasePrevalencesFactory(), null), // TODO
 	/* W32 */

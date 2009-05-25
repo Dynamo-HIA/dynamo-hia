@@ -26,5 +26,6 @@ public interface DataAndFileContainer {
 	 * Possible extra functionality at "save" time.
 	 */
 	public SideEffectProcessor getSavePreProcessor();
+	public SideEffectProcessor getSavePostProcessor();
 	
 }

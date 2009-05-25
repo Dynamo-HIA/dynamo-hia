@@ -5,6 +5,8 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -15,21 +17,23 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class RelativeRisksCompoundGroup {
+	private Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
 
 	public RelativeRisksCompoundGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
+			BaseNode selectedNode, HelpGroup helpGroup, int durationClassIndex) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		String[] entityStrings = Util
-				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+				.deriveEntityLabelAndValueFromRiskSourceNode_Directories(selectedNode);
 		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
 				entityStrings[0], entityStrings[1], null);
 		entityNamePanel.putInContainer();
+		log.debug("Now for RelativeRisksCompoundParameterGroup");
 		RelativeRisksCompoundParameterGroup parameterGroup = new RelativeRisksCompoundParameterGroup(
-				theGroup, modelObject, dataBindingContext, helpGroup);
+				theGroup, modelObject, dataBindingContext, helpGroup, durationClassIndex);
 		parameterGroup.handlePlacementInContainer(entityNamePanel.group);
 	}
 

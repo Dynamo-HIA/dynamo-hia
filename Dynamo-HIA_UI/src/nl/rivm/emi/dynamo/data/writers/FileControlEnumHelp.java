@@ -117,6 +117,9 @@ public class FileControlEnumHelp {
 					.getNodeLabel(), "relriskfordisability", "age", "sex",
 			"value" };
 	/* W23Cmp */
+	static final String[] relRiskForDisabilityCompStrings = {
+		RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND.getNodeLabel(),
+		"relriskfordisability", "age", "sex", "cat", "begin", "alfa", "end" };
 	/* W31 */
 	static final String[] diseasePrevalencesStrings = {
 			RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),

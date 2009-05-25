@@ -13,27 +13,29 @@ import org.apache.commons.logging.LogFactory;
 
 public enum BulletButtonNamesEnum {
 
-	ZERO("Zero", null),
-	USER_SPECIFIED("User specified", null), //
-	NETTO("Netto", null);
+	TRANSITION_ZERO("Zero", null),
+	TRANSITION_USER_SPECIFIED("User specified", null), //
+	TRANSITION_NETTO("Netto", null), //
+	DURATION_USER_SPECIFIED("User specified", "riskfactorprevalences_duration"), //
+	DURATION_UNIFORM("Uniform", "riskfactorprevalences_duration_uniform");
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
 	 */
 	private String bulletButtonName;
-	private String displayName;
+	private String rootElementName;
 
-	private BulletButtonNamesEnum(String bulletButtonName, String theDisplayName) {
+	private BulletButtonNamesEnum(String bulletButtonName, String rootElementName) {
 		this.bulletButtonName = bulletButtonName;
-		this.displayName = theDisplayName;
+		this.rootElementName = rootElementName;
 	}
 
 	public String getBulletButtonName() {
 		return bulletButtonName;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public String getRootElementName() {
+		return rootElementName;
 	}
 }

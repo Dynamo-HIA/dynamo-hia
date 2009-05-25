@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -61,12 +62,15 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 						+ node.getPhysicalStorage().getName() + "\"");
 				messageBox.open();
 			}
-		} catch (TreeStructureException tse) {			
-			ErrorMessageUtil.showErrorMessage(this.log, this.shell, tse, 
-					"Could not extract rootelementname.", SWT.ERROR_UNSUPPORTED_DEPTH);			
+		} catch (TreeStructureException tse) {
+			ErrorMessageUtil.showErrorMessage(this.log, this.shell, tse,
+					"Could not extract rootelementname.",
+					SWT.ERROR_UNSUPPORTED_DEPTH);
 		} catch (DynamoConfigurationException dce) {
-			ErrorMessageUtil.showErrorMessage(this.log, this.shell, dce, 
-					"Could not extract rootelementname.", SWT.ERROR_UNSPECIFIED);
+			ErrorMessageUtil
+					.showErrorMessage(this.log, this.shell, dce,
+							"Could not extract rootelementname.",
+							SWT.ERROR_UNSPECIFIED);
 		}
 	}
 
@@ -83,7 +87,8 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(rootElementName)) {
 					theModal = new RiskFactorCategoricalPrevalencesModal(
-							shell, file.getAbsolutePath(),
+							shell,
+							file.getAbsolutePath(),
 							file.getAbsolutePath(),
 							RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 									.getNodeLabel(), node);
@@ -98,11 +103,12 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName)) {
-							MessageBox messageBox = new MessageBox(shell,
-									SWT.ERROR_NOT_IMPLEMENTED);
-							messageBox.setMessage("\"" + rootElementName
-									+ "\" not yet implemented.");
-							messageBox.open();
+							theModal = new RiskFactorCompoundPrevalencesModal(
+									shell,
+									file.getAbsolutePath(),
+									file.getAbsolutePath(),
+									RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+											.getNodeLabel(), node);
 						} else {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_UNSUPPORTED_FORMAT);

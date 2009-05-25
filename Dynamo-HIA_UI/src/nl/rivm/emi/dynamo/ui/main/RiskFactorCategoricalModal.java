@@ -17,10 +17,14 @@ import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal.SavePostProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -185,4 +189,35 @@ public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal 
 	public Object getData() {
 		return this.modelObject;
 	}
+	@Override
+	/*
+	 * Own implementation.
+	 */
+	public SideEffectProcessor getSavePostProcessor() {
+		return new SavePreProcessor();
+	}
+
+	public class SavePreProcessor implements SideEffectProcessor {
+
+		@SuppressWarnings("finally")
+		synchronized public boolean doIt() {
+			// New configuration-file about to be saved.
+			boolean doSave = false;
+			try {
+				if (selectedNode instanceof DirectoryNode) {
+					StandardDirectoryStructureHandler.process((DirectoryNode)selectedNode);
+					doSave = true;
+				} else {
+					// No processing, but saving is allowed.
+					doSave = true;
+				}
+			} catch (Exception e) {
+				log.error("Caught Exception " + e.getClass().getName()
+						+ " with message: \"" + e.getMessage() + "\".");
+			} finally {
+				return doSave;
+			}
+		}
+	}
+
 }

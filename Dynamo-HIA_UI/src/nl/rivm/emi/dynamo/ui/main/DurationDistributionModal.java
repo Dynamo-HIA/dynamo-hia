@@ -16,7 +16,9 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.panels.DurationDistributionGroup;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -33,16 +35,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathCompoundModal extends AbstractDataModal {
+public class DurationDistributionModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
 	private TypedHashMap modelObject;
-	int numberOfCategories;
 	int durationClassIndex;
 
-	public RelRiskForDeathCompoundModal(Shell parentShell, String dataFilePath,
+	public DurationDistributionModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {
 		super(parentShell, dataFilePath, configurationFilePath,
@@ -64,11 +65,11 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			BaseNode riskSourceNode = null;
-			log.debug("Now for RelativeRisksCompoundGroup");
-			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
+			log.debug("Now for DurationDistributionGroup");
+			DurationDistributionGroup durationDistributionGroup = new DurationDistributionGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel, this.durationClassIndex);
-			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
+			durationDistributionGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
@@ -119,15 +120,9 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			numberOfCategories = RiskSourcePropertiesMapFactory
-					.getNumberOfRiskFactorClasses(this.selectedNode);
-			log.debug("numberOfCategories: " + numberOfCategories);
 			durationClassIndex = RiskSourcePropertiesMapFactory
 			.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
-			((RelRiskForDeathCompoundFactory) factory)
-					.setNumberOfCategories(numberOfCategories);
-		((CategoricalFactory)factory).setNumberOfCategories(numberOfCategories);	
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

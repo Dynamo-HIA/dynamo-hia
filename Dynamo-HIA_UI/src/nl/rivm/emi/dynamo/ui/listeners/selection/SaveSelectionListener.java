@@ -60,6 +60,8 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 			boolean doSave = true;
 			SideEffectProcessor preProcessorSelectionListener = modalParent
 					.getSavePreProcessor();
+			SideEffectProcessor postProcessorSelectionListener = modalParent
+					.getSavePostProcessor();
 			if (preProcessorSelectionListener != null) {
 				doSave = preProcessorSelectionListener.doIt();
 			}
@@ -75,6 +77,9 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 							.getInstance().get(rootElementName);
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 							(TypedHashMap) modelObject, configurationFile);
+					if (postProcessorSelectionListener != null) {
+						doSave = postProcessorSelectionListener.doIt();
+					}
 				} else {
 					if (modelObject instanceof LinkedHashMap) {
 						if (modelObject instanceof DynamoSimulationObject) {
@@ -115,42 +120,30 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						StAXAgnosticGroupWriter.produceFile(rootElementName,
 								(HashMap<String, Object>) modelObject,
 								configurationFile);
+						if (postProcessorSelectionListener != null) {
+							doSave = postProcessorSelectionListener.doIt();
+						}
 
 						if (modelObject instanceof DynamoSimulationObject) {
 							((SimulationModal) modalParent).getRunButtonGroup().runButton
 									.setVisible(true);
 						}
 
-						// if (modelObject instanceof NewbornsObject) {
-						// if (((NewbornsObject)
-						// modelObject).isContainsPostfixZeros()) {
-						// Dialog dialog = new
-						// NewbornsDialog(this.modalParent.getShell(),
-						// "Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
-						// dialog.open();
-						// if (dialog.getReturnCode() != IDialogConstants.OK_ID)
-						// {
-						// return;
-						// }
-						// }
-						// if(((NewbornsObject) modelObject).isContainsZeros())
-						// {
-						// Dialog dialog = new
-						// NewbornsDialog(this.modalParent.getShell(),
-						// "Number values with 0 still exist. Do you want this to be saved?");
-						// dialog.open();
-						// if (dialog.getReturnCode() != IDialogConstants.OK_ID)
-						// {
-						// return;
-						// }
-						// }
-						// }
 					} else {
 						throw new DynamoConfigurationException(
 								"SaveSelectionListener - Unsupported modelObjectType: "
 										+ modelObject.getClass().getName());
 					}
 				}
+			} else {
+				MessageBox box = new MessageBox(this.modalParent.getShell(),
+						SWT.ERROR_UNSPECIFIED);
+				box
+						.setText("The preprocessor had a problem, saving didn't happen.");
+				box
+						.setMessage("The preprocessor had a problem, saving didn't happen.");
+				box.open();
+
 			}
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);

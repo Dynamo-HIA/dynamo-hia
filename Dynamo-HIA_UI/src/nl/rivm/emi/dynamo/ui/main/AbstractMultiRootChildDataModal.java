@@ -202,4 +202,11 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 	public SideEffectProcessor getSavePreProcessor() {
 		return null;
 	}
+
+	/**
+	 * Default implementation.
+	 */
+	public SideEffectProcessor getSavePostProcessor() {
+		return null;
+	}
 }

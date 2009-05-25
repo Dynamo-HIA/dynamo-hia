@@ -3,6 +3,8 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -15,11 +17,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
 public class RelativeRisksCompoundParameterGroup {
+	private Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
 
 	public RelativeRisksCompoundParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
-			final HelpGroup helpGroup) {
+			final HelpGroup helpGroup, int durationClassIndex) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
@@ -38,9 +41,10 @@ public class RelativeRisksCompoundParameterGroup {
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
 
+		log.debug("Now for ThreeValuesPerClassParameterDataPanel");
 		Composite parameterDataPanel = new ThreeValuesPerClassParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
-				helpGroup);
+				helpGroup, durationClassIndex);
 
 		FormData parameterFormData = new FormData();
 

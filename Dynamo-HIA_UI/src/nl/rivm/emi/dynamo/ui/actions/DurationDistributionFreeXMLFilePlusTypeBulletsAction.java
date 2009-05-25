@@ -7,6 +7,8 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
+import nl.rivm.emi.dynamo.ui.main.DurationDistributionTrialog;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
@@ -29,13 +31,13 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
+public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNameXMLFileAction {
 
 	private String bulletButtonName;
 	private String riskFactorName;
 	private String riskFactorType;
 
-	public InputBulletsFreeXMLFileAction(Shell shell, TreeViewer v,
+	public DurationDistributionFreeXMLFilePlusTypeBulletsAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName, String riskFactorName, 
 			String riskFactorType) {
 		super(shell, v, node, rootElementName);
@@ -57,9 +59,9 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 		//Util.deriveEntityLabelAndValueFromRiskSourceNode(this.node)[0]
 		// Call the input trialog modal here (trialog includes input field, 
 		// import, ok and cancel buttons)
-		TransitionTrialog inputDialog = new TransitionTrialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for a new transition file", "Name", null, 
-				this.riskFactorName, this.riskFactorType, rootElementName);
+		DurationDistributionTrialog inputDialog = new DurationDistributionTrialog(shell, "BasePath: "
+				+ selectionPath, "Enter name for the new duration distribution file:", "Name", null, 
+				this.riskFactorName, this.riskFactorType);
 		
 		///TODO Use Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode)
 		//to set the RF Name, create a new method to show RF type
@@ -92,7 +94,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 				}
 				
 				// Process the modal
-				processThroughModal(dataFile, savedFile);
+				processThroughModal(dataFile, savedFile, inputDialog.getSelectedRootElementName());
 			} else {
 				MessageBox messageBox = new MessageBox(shell,
 						SWT.ERROR_ITEM_NOT_ADDED);
@@ -105,71 +107,24 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 	
 	}
 	
-	@Override
-	protected void processThroughModal(File dataFile, File savedFile) {
+	protected void processThroughModal(File dataFile, File savedFile, String chosenRootElementName) {
 		try {
 			boolean isOld = savedFile.exists();
 			Runnable theModal = null;
-			log.debug("rootElementName" + rootElementName);
+			log.debug("rootElementName" + chosenRootElementName);
 			log.debug("this.bulletButtonName" + this.bulletButtonName);
-			if (RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel().equals(rootElementName)){ 
-					if(BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED.getBulletButtonName().equals(this.bulletButtonName)) {
-				theModal = new TransitionDriftModal(shell, dataFile.getAbsolutePath(), savedFile
-						.getAbsolutePath(), rootElementName, node);
+			if (RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel().equals(chosenRootElementName)){ 
+				theModal = new DurationDistributionModal(shell, dataFile.getAbsolutePath(), savedFile
+						.getAbsolutePath(), chosenRootElementName, node);
 			} else {					
-				if (BulletButtonNamesEnum.TRANSITION_NETTO.getBulletButtonName().equals(this.bulletButtonName)) {
-					theModal = new TransitionDriftNettoModal(shell, dataFile.getAbsolutePath(), savedFile
-							.getAbsolutePath(), this.bulletButtonName, node);
-				} else {					
-					if (BulletButtonNamesEnum.TRANSITION_ZERO.getBulletButtonName().equals(this.bulletButtonName)) {
-						String rootElementName = FileControlEnum.TRANSITIONDRIFTZERO.getRootElementName();
-						String caption = "Transition Drift Zero";
-						Set<String> messageLineSet = new LinkedHashSet();
-						messageLineSet.add("You have chosen to create a Transition Drift Zero file.");
-						messageLineSet.add("That kind of file contains no data, so editing it is not possible.");
-						messageLineSet.add("Click on \"Save\" to actually create the file.");
-						theModal = new DataLessMessageModal(shell, dataFile.getAbsolutePath(), savedFile
-								.getAbsolutePath(), rootElementName, node, caption, messageLineSet);
-					} else {
-						throw new DynamoConfigurationException(
-								"RadioButton " + bulletButtonName
-										+ " not implemented yet.");
-					}
-			}
-				}
-			} else {
-					if (RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel().equals(rootElementName)) {
-						if(BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED.getBulletButtonName().equals(this.bulletButtonName)) {
-										theModal = new TransitionMatrixModal(shell, dataFile.getAbsolutePath(), savedFile
-								.getAbsolutePath(), rootElementName, node);
-						} else {					
-							if (BulletButtonNamesEnum.TRANSITION_NETTO.getBulletButtonName().equals(this.bulletButtonName)) {
-								String rootElementName = FileControlEnum.TRANSITIONMATRIX_NETTO.getRootElementName();
-								String caption = "Transition Matrix Netto";
-								Set<String> messageLineSet = new LinkedHashSet();
-								messageLineSet.add("You have chosen to create a Transition Matrix Netto file.");
-								messageLineSet.add("That kind of file contains no data, so editing it is not possible.");
-								messageLineSet.add("Click on \"Save\" to actually create the file.");
-								theModal = new DataLessMessageModal(shell, dataFile.getAbsolutePath(), savedFile
-										.getAbsolutePath(), rootElementName, node, caption, messageLineSet);
-							} else {					
-								if (BulletButtonNamesEnum.TRANSITION_ZERO.getBulletButtonName().equals(this.bulletButtonName)) {
-									String rootElementName = FileControlEnum.TRANSITIONMATRIX_ZERO.getRootElementName();
-									String caption = "Transition Matrix Zero";
-									Set<String> messageLineSet = new LinkedHashSet();
-									messageLineSet.add("You have chosen to create a Transition Matrix Zero file.");
-									messageLineSet.add("That kind of file contains no data, so editing it is not possible.");
-									messageLineSet.add("Click on \"Save\" to actually create the file.");
-									theModal = new DataLessMessageModal(shell, dataFile.getAbsolutePath(), savedFile
-											.getAbsolutePath(), rootElementName, node, caption, messageLineSet);
-									} else {
-									throw new DynamoConfigurationException(
-											"RadioButton " + bulletButtonName
-													+ " not implemented yet.");
-								}
-						}
-							}
-						
+				if (RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION_UNIFORM.getNodeLabel().equals(chosenRootElementName)) {
+//					theModal = new TransitionDriftNettoModal(shell, dataFile.getAbsolutePath(), savedFile
+//							.getAbsolutePath(), this.bulletButtonName, node);
+					MessageBox messageBox = new MessageBox(shell,
+							SWT.ERROR_ITEM_NOT_ADDED);
+					messageBox.setMessage("RootElementName: \"" + chosenRootElementName
+							+ "\" has not been implemented yet.");
+					messageBox.open();
 						} else {
 								throw new DynamoConfigurationException(
 								"Unexpected rootElementName " + rootElementName);
@@ -193,6 +148,5 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 			messageBox.open();
 		}
 	}
-	
-	
+
 }

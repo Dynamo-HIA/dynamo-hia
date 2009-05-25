@@ -33,24 +33,26 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 																	 * implements
 																	 * Runnable
 																	 */{
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
+	Log log = LogFactory.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
 	AtomicTypeBase myType;
+	int durationClassIndex;
 
 	public ThreeValuesPerClassParameterDataPanel(Composite parent,
 			Text topNeighbour, TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			DataBindingContext dataBindingContext, HelpGroup helpGroup, int durationClassIndex) {
 		super(parent, SWT.NONE);
+		log.debug("Constructing ThreeValuesPerClassParameterDataPanel");
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get(
 				"value");
+		this.durationClassIndex = durationClassIndex;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 8;
 		layout.makeColumnsEqualWidth = true;
@@ -63,36 +65,41 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 					.get(BiGender.FEMALE_INDEX);
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
-			for (int classCount = 1; classCount < femaleClassHMap.size(); classCount++) {
+			log.debug("Aantal categorieën: " + femaleClassHMap.size());
+			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
 				}
+				boolean isDurationClass = (classCount == durationClassIndex);
 				Label classCellLabel = new Label(this, SWT.NONE);
 				classCellLabel.setText(new Integer(classCount).toString());
 				ArrayList<AtomicTypeObjectTuple> femaleList = (ArrayList<AtomicTypeObjectTuple>) femaleClassHMap
-				.get(classCount);
-				bindGenderValues(femaleList);
+						.get(classCount);
+				bindGenderValues(femaleList, isDurationClass);
 				ArrayList<AtomicTypeObjectTuple> maleList = (ArrayList<AtomicTypeObjectTuple>) maleClassHMap
-				.get(classCount);
-				bindGenderValues(maleList);
+						.get(classCount);
+				bindGenderValues(maleList, isDurationClass);
 			}
 		}
 	}
 
-	private void bindGenderValues(ArrayList<AtomicTypeObjectTuple> tupleList) {
+	private void bindGenderValues(ArrayList<AtomicTypeObjectTuple> tupleList, boolean isDurationClass) {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		for (int tupleIndex = 0; tupleIndex < tupleList.size(); tupleIndex++) {
+			if(isDurationClass || (tupleIndex == 0)){
 			AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) tupleList
 					.get(tupleIndex);
 			bindTuple(gridData, tuple);
+			} else {
+				Label spaceLabel = new Label(this, SWT.NONE);
+			}
 		}
 	}
 
 	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple) {
-		WritableValue modelObservableValue = (WritableValue) tuple
-				.getValue();
+		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
 		AtomicTypeBase modelType = (AtomicTypeBase) tuple.getType();
 		Text text = new Text(this, SWT.NONE);
 		text.setLayoutData(gridData);
@@ -110,11 +117,10 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 			}
 
 		});
-		IObservableValue textObservableValue = SWTObservables.observeText(
-				text, SWT.Modify);
-		dataBindingContext.bindValue(textObservableValue,
-				modelObservableValue, modelType
-						.getModelUpdateValueStrategy(), modelType
+		IObservableValue textObservableValue = SWTObservables.observeText(text,
+				SWT.Modify);
+		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+				modelType.getModelUpdateValueStrategy(), modelType
 						.getViewUpdateValueStrategy());
 		// text.addVerifyListener(new ValueVerifyListener());
 	}

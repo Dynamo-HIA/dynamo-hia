@@ -18,11 +18,12 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.jfree.util.Log;
 
 public class Util {
-	
+
 	private static final String RISK_FACTOR = "Risk_Factor";
 	private static final String TRANSITION = "Transition";
 
-	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(BaseNode selectedNode) throws DynamoConfigurationException {
+	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(
+			BaseNode selectedNode) throws DynamoConfigurationException {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
@@ -31,42 +32,73 @@ public class Util {
 		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String containerLabel = ((BaseNode) containerNode).toString();
 		containerLabel = containerLabel.substring(0,
-				containerLabel.length()-1);
+				containerLabel.length() - 1);
 		String[] result = new String[2];
 		result[0] = containerLabel;
 		result[1] = startLabel;
 		return result;
 	}
 
-	
+	/**
+	 * New functionality that is needed to handle the fact that the
+	 * configuration-files for RiskFactors have been moved down a level. They
+	 * now reside in a directory, so multiple files are possible instead of the
+	 * single instance that was foreseen before.
+	 * 
+	 * @param selectedNode
+	 * @return
+	 * @throws DynamoConfigurationException
+	 */
+	static public String[] deriveEntityLabelAndValueFromRiskSourceNode_Directories(
+			BaseNode selectedNode) throws DynamoConfigurationException {
+		BaseNode startNode = selectedNode;
+		if (selectedNode instanceof FileNode) {
+			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
+		}
+		// Extra step.
+		startNode = (BaseNode) ((ChildNode) startNode).getParent();
+		// Extra step ends.
+		String startLabel = ((BaseNode) startNode).toString();
+		ParentNode containerNode = ((ChildNode) startNode).getParent();
+		String containerLabel = ((BaseNode) containerNode).toString();
+		containerLabel = containerLabel.substring(0,
+				containerLabel.length() - 1);
+		String[] result = new String[2];
+		result[0] = containerLabel;
+		result[1] = startLabel;
+		return result;
+	}
+
 	/**
 	 * 
-	 * Retrieves the Risk Factor name (grand parent) and 
-	 * Transition name (parent) of the selected node
+	 * Retrieves the Risk Factor name (grand parent) and Transition name
+	 * (parent) of the selected node
 	 * 
-	 * The selected node has to be a Transition (i.e. Drift, Matrix, Drift Netto)
+	 * The selected node has to be a Transition (i.e. Drift, Matrix, Drift
+	 * Netto)
 	 * 
 	 * @param selectedNode
 	 * @return String []
-	 * @throws DynamoConfigurationException 
+	 * @throws DynamoConfigurationException
 	 */
-	static public String[] deriveEntityLabelAndValueFromTransitionSourceNode(BaseNode selectedNode) throws DynamoConfigurationException {
+	static public String[] deriveEntityLabelAndValueFromTransitionSourceNode(
+			BaseNode selectedNode) throws DynamoConfigurationException {
 		BaseNode startNode = selectedNode;
 		if (selectedNode instanceof FileNode) {
 			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
 		}
 		String transitionLabel = ((BaseNode) startNode).toString();
-		ParentNode containerNode = ((ChildNode) startNode).getParent();		
+		ParentNode containerNode = ((ChildNode) startNode).getParent();
 		String riskFactorLabel = ((BaseNode) containerNode).toString();
-		
+
 		String[] result = new String[4];
 		result[0] = RISK_FACTOR;
 		result[1] = riskFactorLabel;
 		result[2] = TRANSITION;
 		result[3] = transitionLabel;
 		return result;
-	}	
-		
+	}
+
 	static public String[] deriveEntityLabelAndValueFromSelectedNode(
 			BaseNode selectedNode) throws ConfigurationException {
 		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
@@ -83,13 +115,16 @@ public class Util {
 						&& (index == (selectedNodeLabel.length() - key.length()))) {
 					foundName = key;
 					RiskSourceProperties riskSourceProperties = map.get(key);
-					riskSourceInstanceNode = riskSourceProperties.getRiskSourceNode();
+					riskSourceInstanceNode = riskSourceProperties
+							.getRiskSourceNode();
 					break;
 				}
 			}
-		} 
-		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode).toString();
-		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode).getParent();
+		}
+		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode)
+				.toString();
+		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
+				.getParent();
 		String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode).toString();
 		riskSourceTypeLabel = riskSourceTypeLabel.substring(0,
 				riskSourceTypeLabel.length() - 1);
@@ -117,7 +152,8 @@ public class Util {
 		String parentLabel = ((BaseNode) parentNode).toString();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
 		String inBetween = ((BaseNode) grandParentNode).deriveNodeLabel();
-		String grandParentLabel = inBetween.substring(0, inBetween.length()-1);
+		String grandParentLabel = inBetween
+				.substring(0, inBetween.length() - 1);
 		String[] result = new String[2];
 		result[0] = grandParentLabel;
 		result[1] = parentLabel;
@@ -143,21 +179,25 @@ public class Util {
 	public static ImageRegistry getImageRegistry() {
 		if (image_registry == null) {
 			image_registry = new ImageRegistry();
-			
+
 			if (ResourcesPlugin.getPlugin() != null) {
-				// Test if the application is a (standalone) plug-in, if so load images by AbstractUIPlugin					
-				ImageDescriptor folderImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
-						DynamoPlugin.PLUGIN_ID, "/images/tsuite.gif");
+				// Test if the application is a (standalone) plug-in, if so load
+				// images by AbstractUIPlugin
+				ImageDescriptor folderImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/tsuite.gif");
 				image_registry.put("folder", folderImageDesriptor);
-				ImageDescriptor fileImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
-						DynamoPlugin.PLUGIN_ID, "/images/test.gif");
+				ImageDescriptor fileImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/test.gif");
 				image_registry.put("file", fileImageDesriptor);
-				ImageDescriptor errorImageDesriptor = AbstractUIPlugin.imageDescriptorFromPlugin(
-						DynamoPlugin.PLUGIN_ID, "/images/testerror.gif");
-				
-				image_registry.put("error", errorImageDesriptor);				
+				ImageDescriptor errorImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/testerror.gif");
+
+				image_registry.put("error", errorImageDesriptor);
 			} else {
-				// The application is not a standalone plugin; 
+				// The application is not a standalone plugin;
 				// The images are loaded by URL
 				image_registry = new ImageRegistry();
 				image_registry.put("folder", ImageDescriptor

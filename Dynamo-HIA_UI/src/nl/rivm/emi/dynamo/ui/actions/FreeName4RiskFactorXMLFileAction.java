@@ -16,10 +16,13 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -75,9 +78,6 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						.equals(rootElementName))
 						|| (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 								.getNodeLabel().equals(rootElementName))) {
-					// Call the input trialog modal here (trialog includes input
-					// field,
-					// import, ok and cancel buttons)
 					ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
 							shell, "Create file in the selected directory: "
 									+ selectionPath, "Enter name for new "
@@ -116,12 +116,54 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						}
 					}
 				} else {
-					MessageBox messageBox = new MessageBox(shell);
-					messageBox
-							.setMessage("The functionality for rootelementname: \""
-									+ rootElementName
-									+ "\" has not been implemented.");
-					messageBox.open();
+					if ((RootElementNamesEnum.RISKFACTOR_COMPOUND
+							.getNodeLabel().equals(rootElementName))) {
+						ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
+								shell,
+								"Create file in the selected directory: "
+										+ selectionPath, "Enter name for new "
+										+ abstractName, "Name", null);
+						inputDialog.open();
+						int returnCode = inputDialog.getReturnCode();
+						log.fatal("ReturnCode is: " + returnCode);
+						if (returnCode != Window.CANCEL) {
+							String candidateName = inputDialog.getValue();
+							String candidatePath = selectionPath
+									+ File.separator + candidateName + ".xml";
+							File candidateFile = new File(candidatePath);
+							if (candidateFile != null
+									&& !candidateFile.getName().isEmpty()) {
+								if (candidateFile.exists()) {
+									MessageBox alreadyExistsMessageBox = new MessageBox(
+											shell, SWT.ERROR_ITEM_NOT_ADDED);
+									alreadyExistsMessageBox.setMessage("\""
+											+ candidatePath
+											+ "\"\n exists already.");
+									alreadyExistsMessageBox.open();
+								} else {
+									String newPath = null;
+									newPath = candidateFile.getAbsolutePath();
+									File savedFile = new File(newPath);
+									File dataFile = null;
+									// Supply the location of dataFile
+									if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
+										dataFile = this.getImportFile();
+									} else {
+										dataFile = savedFile;
+									}
+									processThroughModal(dataFile, savedFile,
+											rootElementName);
+								}
+							}
+						}
+					} else {
+						MessageBox messageBox = new MessageBox(shell);
+						messageBox
+								.setMessage("The functionality for rootelementname: \""
+										+ rootElementName
+										+ "\" has not been implemented.");
+						messageBox.open();
+					}
 				}
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
@@ -242,11 +284,46 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName)) {
-							MessageBox messageBox = new MessageBox(shell,
-									SWT.ERROR_NOT_IMPLEMENTED);
-							messageBox.setMessage("\"" + rootElementName
-									+ "\" not yet implemented.");
-							messageBox.open();
+							// TODO Implement getting category-int-s.
+							int numberOfCategories = 3;
+							int durationCategoryIndex = 3;
+							if (communicationEnum
+									.equals(RiskFactorStringConstantsEnum.RISKFACTORPREVALENCES)) {
+								theModal = new RiskFactorCompoundPrevalencesModal(
+										shell,
+										dataFile.getAbsolutePath(),
+										savedFile.getAbsolutePath(),
+										RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+												.getNodeLabel(), node);
+							} else {
+								if (communicationEnum
+										.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDEATH)) {
+									theModal = new RelRiskForDeathCompoundModal(
+											shell,
+											dataFile.getAbsolutePath(),
+											savedFile.getAbsolutePath(),
+											RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
+													.getNodeLabel(), node);
+								} else {
+									if (communicationEnum
+											.equals(RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY)) {
+										theModal = new RelRiskForDisabilityCompoundModal(
+												shell,
+												dataFile.getAbsolutePath(),
+												savedFile.getAbsolutePath(),
+												RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
+														.getNodeLabel(), node);
+									} else {
+										MessageBox messageBox = new MessageBox(
+												shell,
+												SWT.ERROR_NOT_IMPLEMENTED);
+										messageBox.setMessage("\""
+												+ rootElementName
+												+ "\" not yet implemented.");
+										messageBox.open();
+									}
+								}
+							}
 						} else {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_UNSUPPORTED_FORMAT);

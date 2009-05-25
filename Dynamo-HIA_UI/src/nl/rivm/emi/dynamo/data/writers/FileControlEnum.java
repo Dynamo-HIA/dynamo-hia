@@ -40,17 +40,19 @@ public enum FileControlEnum {
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings, false,
 			false), //
 	TRANSITIONDRIFT(FileControlEnumHelp.transitionDriftStrings, false, false), //
-	TRANSITIONDRIFTZERO(FileControlEnumHelp.transitionDriftZeroStrings,
+	TRANSITIONDRIFTZERO(FileControlEnumHelp.transitionDriftZeroStrings, false,
+			false), //
+	TRANSITIONDRIFTNETTO(FileControlEnumHelp.transitionDriftNettoStrings,
 			false, false), //
-			TRANSITIONDRIFTNETTO(FileControlEnumHelp.transitionDriftNettoStrings,
-					false, false), //
 	TRANSITIONMATRIX(FileControlEnumHelp.transitionMatrixStrings, false, false), //
-	TRANSITIONMATRIX_ZERO(FileControlEnumHelp.transitionMatrixZeroStrings, false, false), //
-	TRANSITIONMATRIX_NETTO(FileControlEnumHelp.transitionMatrixNettoStrings, false, false), //
+	TRANSITIONMATRIX_ZERO(FileControlEnumHelp.transitionMatrixZeroStrings,
+			false, false), //
+	TRANSITIONMATRIX_NETTO(FileControlEnumHelp.transitionMatrixNettoStrings,
+			false, false), //
 	RISKFACTORPREVALENCESCATEGORICAL(
 			FileControlEnumHelp.riskFactorPrevalenceCatStrings, false, false), //
 	RISKFACTORPREVALENCESCONTINUOUS(
-					FileControlEnumHelp.riskFactorPrevalenceConStrings, true, false), //
+			FileControlEnumHelp.riskFactorPrevalenceConStrings, true, false), //
 	RISKFACTORPREVALENCESDURATION(
 			FileControlEnumHelp.riskFactorPrevalenceDurStrings, false, false), //
 	RELRISKFORDEATHCATEGORICAL(FileControlEnumHelp.relRiskForDeathCatStrings,
@@ -65,6 +67,8 @@ public enum FileControlEnum {
 			FileControlEnumHelp.relRiskForDisabilityCatStrings, false, false), //
 	RELRISKFORDISABILITYCONTINUOUS(
 			FileControlEnumHelp.relRiskForDisabilityContStrings, false, false), //
+	RELRISKFORDISABILITYCOMPOUND(
+			FileControlEnumHelp.relRiskForDisabilityCompStrings, false, false), //
 	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings, false, false), //
 	INCIDENCES(FileControlEnumHelp.incidencesStrings, false, false), //
 	RELRISKFROMRISKFACTORCATEGORICAL(
@@ -84,14 +88,15 @@ public enum FileControlEnum {
 	 * Subtrees in the configuration files. Should have the second parameter
 	 * flag set to true.
 	 */
-	AMOUNTS(FileControlEnumHelp.amountsStrings, false, true),
-	CLASSES(FileControlEnumHelp.classesStrings, false, true), //
+	AMOUNTS(FileControlEnumHelp.amountsStrings, false, true), CLASSES(
+			FileControlEnumHelp.classesStrings, false, true), //
 	CUTOFFS(FileControlEnumHelp.cutoffsStrings, false, true), //
 	MORTALITIES(FileControlEnumHelp.mortalitiesStrings, false, true), //
 	MORTALITY(FileControlEnumHelp.mortalityStrings, false, true), //
 	SCENARIOS(FileControlEnumHelp.scenariosStrings, false, true), //
 	DISEASES(FileControlEnumHelp.diseasesStrings, false, true), //
-	PREVALENCESCONTINUOUS(FileControlEnumHelp.prevalencesContinuousStrings, false, true), //
+	PREVALENCESCONTINUOUS(FileControlEnumHelp.prevalencesContinuousStrings,
+			false, true), //
 	RISKFACTORS(FileControlEnumHelp.riskfactorsStrings, false, true), //
 	RRS(FileControlEnumHelp.rrsStrings, false, true);
 	Log log = LogFactory.getLog(this.getClass().getName());
@@ -267,9 +272,9 @@ public enum FileControlEnum {
 	public String getRootChildElementName() {
 		// return rootChildElementName;
 		String result = null;
-//		if (!isRootChildEnum) {
-			result = parameterTypes4GroupFactory[1].getXMLElementName();
-//		}
+		// if (!isRootChildEnum) {
+		result = parameterTypes4GroupFactory[1].getXMLElementName();
+		// }
 		return result;
 	}
 
@@ -281,14 +286,21 @@ public enum FileControlEnum {
 		if (!((index + 2) >= parameterTypes4GroupFactory.length)) {
 			if (parameterTypes4GroupFactory[index + 2] instanceof AtomicTypeBase) {
 				result = (AtomicTypeBase<Number>) parameterTypes4GroupFactory[index + 2];
-				log.debug("AtomicTypeBase: " + result.getXMLElementName() +" found at index: " 
-						+ (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
+				log.debug("AtomicTypeBase: " + result.getXMLElementName()
+						+ " found at index: " + (index + 2)
+						+ " in the FileControlEnum for "
+						+ parameterTypes4GroupFactory[0]);
 			} else {
-				log.fatal("parameterTypes4GroupFactory[index + 2]" + parameterTypes4GroupFactory[index + 2]);
-				log.fatal("No AtomicTypeBase found at index: " + (index +2) + " in the FileControlEnum for " + parameterTypes4GroupFactory[0]);
+				log.fatal("parameterTypes4GroupFactory[index + 2]"
+						+ parameterTypes4GroupFactory[index + 2]);
+				log.fatal("No AtomicTypeBase found at index: " + (index + 2)
+						+ " in the FileControlEnum for "
+						+ parameterTypes4GroupFactory[0]);
 			}
 		} else {
-			log.fatal("Index: " + (index + 2) + " is past the end of the tags given for: " + parameterTypes4GroupFactory[0]);
+			log.fatal("Index: " + (index + 2)
+					+ " is past the end of the tags given for: "
+					+ parameterTypes4GroupFactory[0]);
 		}
 		return result;
 	}

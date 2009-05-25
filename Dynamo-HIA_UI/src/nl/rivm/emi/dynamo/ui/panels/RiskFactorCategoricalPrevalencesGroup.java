@@ -29,7 +29,7 @@ public class RiskFactorCategoricalPrevalencesGroup {
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		String[] entityStrings = Util
-				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+				.deriveEntityLabelAndValueFromRiskSourceNode_Directories(selectedNode);
 		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
 				entityStrings[0], entityStrings[1], null);
 		entityNamePanel.putInContainer();

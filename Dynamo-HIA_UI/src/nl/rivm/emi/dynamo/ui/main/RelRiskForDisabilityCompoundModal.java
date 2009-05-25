@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -33,7 +34,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathCompoundModal extends AbstractDataModal {
+public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * Must be "global"to be available to the save-listener.
@@ -42,7 +43,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	int numberOfCategories;
 	int durationClassIndex;
 
-	public RelRiskForDeathCompoundModal(Shell parentShell, String dataFilePath,
+	public RelRiskForDisabilityCompoundModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {
 		super(parentShell, dataFilePath, configurationFilePath,
@@ -51,7 +52,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for death from compound riskfactor";
+		return "Relative risks for disability from compound riskfactor";
 	}
 
 	@Override
@@ -65,10 +66,10 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
 			BaseNode riskSourceNode = null;
 			log.debug("Now for RelativeRisksCompoundGroup");
-			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
+			RelativeRisksCompoundGroup relRiskForDisabilityCompoundGroup = new RelativeRisksCompoundGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel, this.durationClassIndex);
-			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
+			relRiskForDisabilityCompoundGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
@@ -125,7 +126,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 			durationClassIndex = RiskSourcePropertiesMapFactory
 			.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
-			((RelRiskForDeathCompoundFactory) factory)
+			((RelRiskForDisabilityCompoundFactory) factory)
 					.setNumberOfCategories(numberOfCategories);
 		((CategoricalFactory)factory).setNumberOfCategories(numberOfCategories);	
 			producedData = factory.manufactureObservableDefault();

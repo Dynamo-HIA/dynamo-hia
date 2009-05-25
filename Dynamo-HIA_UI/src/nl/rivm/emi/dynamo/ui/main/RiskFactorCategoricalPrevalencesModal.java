@@ -77,10 +77,10 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
-			RiskFactorCategoricalPrevalencesGroup relRiskFromRiskFactorCategoricalGroup = new RiskFactorCategoricalPrevalencesGroup(
+			RiskFactorCategoricalPrevalencesGroup riskFactorCategoricalPrevalencesGroup = new RiskFactorCategoricalPrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode,
 					this.helpPanel);
-			relRiskFromRiskFactorCategoricalGroup.setFormData(this.helpPanel
+			riskFactorCategoricalPrevalencesGroup.setFormData(this.helpPanel
 					.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.

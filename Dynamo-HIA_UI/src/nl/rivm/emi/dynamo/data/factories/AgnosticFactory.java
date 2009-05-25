@@ -356,6 +356,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
 									.get(count);
 							XMLTagEntity type = leafNodeTuple.getType();
+							log.debug("Handling payloadSubType: " + type.getXMLElementName());
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
 							AtomicTypeObjectTuple modelTuple = null;

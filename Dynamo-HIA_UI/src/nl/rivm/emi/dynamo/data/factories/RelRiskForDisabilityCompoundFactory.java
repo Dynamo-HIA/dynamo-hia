@@ -4,6 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskForDeathCompoundObject;
+import nl.rivm.emi.dynamo.data.objects.RelRiskForDisabilityCompoundObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
@@ -16,7 +17,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForDeathCompoundFactory extends AgnosticFactory implements
+public class RelRiskForDisabilityCompoundFactory extends AgnosticFactory implements
 		CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -30,14 +31,14 @@ public class RelRiskForDeathCompoundFactory extends AgnosticFactory implements
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
-		return new RelRiskForDeathCompoundObject(producedMap);
+		return new RelRiskForDisabilityCompoundObject(producedMap);
 	}
 
 	public TypedHashMap manufacture(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
-		RelRiskForDeathCompoundObject result = new RelRiskForDeathCompoundObject(
+		RelRiskForDisabilityCompoundObject result = new RelRiskForDisabilityCompoundObject(
 				producedMap);
 		return (result);
 	}
@@ -54,7 +55,7 @@ public class RelRiskForDeathCompoundFactory extends AgnosticFactory implements
 		return manufactureDefault(true);
 	}
 
-	private RelRiskForDeathCompoundObject manufactureDefault(
+	private RelRiskForDisabilityCompoundObject manufactureDefault(
 			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
@@ -71,7 +72,7 @@ public class RelRiskForDeathCompoundFactory extends AgnosticFactory implements
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.END.getTheType(), null));
 		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(
 				leafNodeList, makeObservable);
-		RelRiskForDeathCompoundObject result = new RelRiskForDeathCompoundObject(
+		RelRiskForDisabilityCompoundObject result = new RelRiskForDisabilityCompoundObject(
 				manufacturedMap);
 		return result;
 	}

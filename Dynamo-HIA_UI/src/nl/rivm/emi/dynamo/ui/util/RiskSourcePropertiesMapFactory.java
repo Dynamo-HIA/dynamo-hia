@@ -17,6 +17,7 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -25,9 +26,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class RiskSourcePropertiesMapFactory {
-	
-	private static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory");
-	
+
+	private static Log log = LogFactory
+			.getLog("nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory");
+
 	/* Context definition. */
 	static String referenceDataNodeName = StandardTreeNodeLabelsEnum.REFERENCEDATA
 			.getNodeLabel();
@@ -53,8 +55,8 @@ public class RiskSourcePropertiesMapFactory {
 		ParentNode parentOfRiskSourceNodes = getParentNodeOfRelevantRiskSourceNodes(selectedNode);
 		if (parentOfRiskSourceNodes != null) {
 			theMap = fillMap(parentOfRiskSourceNodes);
-			if(theMap.size() > 0){
-			theMap = cleanMap(theMap, selectedNode);
+			if (theMap.size() > 0) {
+				theMap = cleanMap(theMap, selectedNode);
 			}
 		} else {
 			throw new ConfigurationException(
@@ -243,15 +245,14 @@ public class RiskSourcePropertiesMapFactory {
 					if (rootElementName != null) {
 						properties.setRootElementName(rootElementName);
 						if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-								.getNodeLabel().equals(rootElementName) 
+								.getNodeLabel().equals(rootElementName)
 								|| RootElementNamesEnum.RISKFACTOR_COMPOUND
-										.getNodeLabel().equals(rootElementName)) 
-								{
+										.getNodeLabel().equals(rootElementName)) {
 							Integer numberOfCategories = ConfigurationFileUtil
 									.extractNumberOfClasses(configurationFile);
 							properties
-									.setNumberOfCategories(numberOfCategories);							
-						}						
+									.setNumberOfCategories(numberOfCategories);
+						}
 					}
 				}
 			}
@@ -333,6 +334,67 @@ public class RiskSourcePropertiesMapFactory {
 			}
 		}
 		return numberOfCategories;
+	}
+
+	/**
+	 * Method that returns the index of the durationclass (if any). throws an
+	 * Exception if no durationclass is present (abuse of the method).
+	 * 
+	 * @param selectedNode
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	static public Integer getDurationCategoryIndex(BaseNode selectedNode)
+			throws ConfigurationException {
+		Integer durationCategoryIndex = null;
+		BaseNode startNode = null;
+		if (selectedNode instanceof FileNode) {
+			startNode = (BaseNode) ((ChildNode) selectedNode).getParent();
+		} else {
+			startNode = selectedNode;
+		}
+		ParentNode parentNode = ((ChildNode) startNode).getParent();
+		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
+		if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
+				((BaseNode) grandParentNode).deriveNodeLabel())) {
+			Object[] children = parentNode.getChildren();
+			durationCategoryIndex = findNumberOfCategories(children);
+		} else {
+			if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
+					((BaseNode) parentNode).deriveNodeLabel())) {
+				Object[] children = ((ParentNode) startNode).getChildren();
+				durationCategoryIndex = findNumberOfCategories(children);
+			} else {
+				throw new ConfigurationException(
+						"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
+								+ selectedNode.deriveNodeLabel());
+			}
+		}
+		return durationCategoryIndex;
+	}
+
+	private static Integer findDurationCategoryIndex(Object[] children)
+			throws DynamoConfigurationException {
+		Integer durationCategoryIndex = null;
+		for (Object childNode : children) {
+			String childNodeLabel = ((BaseNode) childNode).deriveNodeLabel();
+			if ("configuration".equals(childNodeLabel)) {
+				File configurationFile = ((BaseNode) childNode)
+						.getPhysicalStorage();
+				String rootElementName = ConfigurationFileUtil
+						.extractRootElementName(configurationFile);
+				if ((rootElementName != null)
+						&& (RootElementNamesEnum.RISKFACTOR_COMPOUND
+								.getNodeLabel().equals(rootElementName))) {
+					durationCategoryIndex = ConfigurationFileUtil
+							.extractNumberOfClasses(configurationFile);
+				} else {
+					durationCategoryIndex = new Integer(0);
+				}
+				break;
+			}
+		}
+		return durationCategoryIndex;
 	}
 
 	private static RiskSourcePropertiesMap cleanMap(

@@ -74,6 +74,7 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto()), //
 	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical()), //
 	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous()), //
+	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration()), //
 	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration()), //
 	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical()), //
 	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous()), //

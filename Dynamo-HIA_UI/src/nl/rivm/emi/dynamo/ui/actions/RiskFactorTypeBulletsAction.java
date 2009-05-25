@@ -66,8 +66,10 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 		}
 	}
 
-	private void processThroughModal(File file, RiskFactorTypeBulletsModal previousModal) {
-			String selectedRootElementName = previousModal.getSelectedRootElementName();
+	private void processThroughModal(File file,
+			RiskFactorTypeBulletsModal previousModal) {
+		String selectedRootElementName = previousModal
+				.getSelectedRootElementName();
 		log.debug("selectedRootElementNamexxx:" + selectedRootElementName);
 		try {
 			boolean isOld = file.exists();
@@ -80,25 +82,33 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(selectedRootElementName)) {
-					int selectedNumberOfClasses = previousModal.getNumberOfClasses();
+					int selectedNumberOfClasses = previousModal
+							.getNumberOfClasses();
 					theModal = new RiskFactorCategoricalModal(shell, file
 							.getAbsolutePath(), file.getAbsolutePath(),
-							selectedRootElementName, node, selectedNumberOfClasses);
+							selectedRootElementName, node,
+							selectedNumberOfClasses);
 				} else {
-					int selectedNumberOfCutoffs = previousModal.getNumberOfCutoffs();
+					int selectedNumberOfCutoffs = previousModal
+							.getNumberOfCutoffs();
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(selectedRootElementName)) {
 						theModal = new RiskFactorContinuousModal(shell, file
 								.getAbsolutePath(), file.getAbsolutePath(),
-								selectedRootElementName, node, selectedNumberOfCutoffs);
+								selectedRootElementName, node,
+								selectedNumberOfCutoffs);
 					} else {
-						int selectedNumberOfCompoundClasses = previousModal.getNumberOfCompoundClasses();
-                        // TODO(mondeelr) Add variable number of classes here.
+						int selectedNumberOfCompoundClasses = previousModal
+								.getNumberOfCompoundClasses();
+						log.debug("selectedNumberOfCompoundClasses: "
+								+ selectedNumberOfCompoundClasses);
+						// TODO(mondeelr) Add variable number of classes here.
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(selectedRootElementName)) {
 							theModal = new RiskFactorCompoundModal(shell, file
 									.getAbsolutePath(), file.getAbsolutePath(),
-									selectedRootElementName, node);
+									selectedRootElementName, node,
+									selectedNumberOfCompoundClasses, theViewer);
 						} else {
 							throw new DynamoConfigurationException(
 									"RootElementName "
@@ -113,8 +123,10 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 				if (isPresentAfter && !isOld) {
 					((ParentNode) node).addChild((ChildNode) new FileNode(
 							(ParentNode) node, file));
-				}
 				theViewer.refresh();
+				((DirectoryNode)node).updateStandardStructure();
+				theViewer.refresh();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

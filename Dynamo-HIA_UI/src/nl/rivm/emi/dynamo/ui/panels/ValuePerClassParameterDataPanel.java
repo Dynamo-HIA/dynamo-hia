@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Value;
+import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
-import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,12 +29,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ValuePerClassParameterDataPanel extends Composite /*
-																 * implements
-																 * Runnable
-																 */{
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
+public class ValuePerClassParameterDataPanel extends Composite{
+	Log log = LogFactory
+			.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
@@ -50,7 +47,7 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get(
-				"value");
+				"percent");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		layout.makeColumnsEqualWidth = true;
@@ -70,6 +67,7 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
+				log.debug("Going to bind fields for age: " + ageCount + " and category: " + classCount);
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
@@ -118,9 +116,9 @@ public class ValuePerClassParameterDataPanel extends Composite /*
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				((Value) myType).getModelUpdateValueStrategy(),
-				((Value) myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+				((Percent) myType).getModelUpdateValueStrategy(),
+				((Percent) myType).getViewUpdateValueStrategy());
+		text.addVerifyListener(new PercentVerifyListener());
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {

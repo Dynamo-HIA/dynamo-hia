@@ -17,8 +17,12 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 		log.info("Instantiating DirectoryNode, parent " + parentNode
 				+ " physical storage " + correspondingPhysicalStorage);
 		this.parent = parentNode;
-		StandardDirectoryStructureHandler.process(this);
+		updateStandardStructure();
 		populateChildren();
+	}
+
+	public void updateStandardStructure() throws StorageTreeException {
+		StandardDirectoryStructureHandler.process(this);
 	}
 
 	public int populateChildren() throws StorageTreeException {

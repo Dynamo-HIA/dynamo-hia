@@ -16,17 +16,16 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RiskFactorCompoundFactory extends AgnosticGroupFactory {
+public class RiskFactorCompoundFactory extends AgnosticGroupFactory implements CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	Integer numberOfCategories = null;
 	FileControlEnum myEnum = FileControlEnum.RISKFACTORCOMPOUND;
 
 	// String rootNodeName =
 	// RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel();
 
 	public void setNumberOfCategories(Integer numberOfCategories) {
-		this.numberOfCategories = numberOfCategories;
+		this.setIndexLimit(numberOfCategories);
 	}
 
 	public RiskFactorCompoundObject manufacture(File configurationFile,

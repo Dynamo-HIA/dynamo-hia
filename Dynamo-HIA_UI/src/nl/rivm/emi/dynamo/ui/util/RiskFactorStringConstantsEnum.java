@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.util;
  */
 public enum RiskFactorStringConstantsEnum {
 	RISKFACTORPREVALENCES("riskfactorprevalences", "risk factor prevalences file"),
+	RISKFACTORDURATIONDISTRIBUTION("riskfactordurationdistribution", "risk factor duration distribution file"),
 	RISKFACTORRELATIVERISKSFORDEATH("riskfactorrelativerisksfordeath", "risk factor relative risks for death file"),
 	RISKFACTORRELATIVERISKSFORDISABILITY("riskfactorrelativerisksfordisability", "risk factor relative risks for disability file"),
 	RISKFACTORTRANSITIONS("riskfactortransitions", "risk factor transitions file");

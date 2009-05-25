@@ -1,5 +1,4 @@
 package nl.rivm.emi.dynamo.ui.main;
-
 /**
  * 
  * Exception handling OK
@@ -13,12 +12,11 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
-import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
+import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
+import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalPrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
@@ -33,27 +31,42 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathCompoundModal extends AbstractDataModal {
+/**
+ * @author schutb
+ * 
+ */
+public class RiskFactorCompoundPrevalencesModal extends AbstractDataModal {
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	/**
-	 * Must be "global"to be available to the save-listener.
-	 */
-	private TypedHashMap modelObject;
-	int numberOfCategories;
-	int durationClassIndex;
 
-	public RelRiskForDeathCompoundModal(Shell parentShell, String dataFilePath,
-			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param parentShell
+	 * @param dataFilePath
+	 * @param configurationFilePath
+	 * @param rootElementName
+	 * @param selectedNode
+	 */
+	public RiskFactorCompoundPrevalencesModal(Shell parentShell,
+			String dataFilePath, String configurationFilePath,  
+			String rootElementName, BaseNode selectedNode) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 	}
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for death from compound riskfactor";
+		return "Prevalences for a compound riskfactor.";
 	}
 
+	/* (non-Javadoc)
+	 * 
+	 * Opens the modal screen
+	 * 
+	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
+	 */
 	@Override
 	public synchronized void open() {
 		try {
@@ -63,16 +76,14 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
 			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
-			BaseNode riskSourceNode = null;
-			log.debug("Now for RelativeRisksCompoundGroup");
-			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel, this.durationClassIndex);
-			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
-					buttonPanel);
+			RiskFactorCategoricalPrevalencesGroup relRiskFromRiskFactorCategoricalGroup = new RiskFactorCategoricalPrevalencesGroup(
+					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode,
+					this.helpPanel);
+			relRiskFromRiskFactorCategoricalGroup.setFormData(this.helpPanel
+					.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(600, 400);
+			this.shell.setSize(400, 400);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {
@@ -95,56 +106,37 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
-		durationClassIndex = RiskSourcePropertiesMapFactory
-		.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
-		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
+		AgnosticFactory factory = (AgnosticFactory)FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
 		if (factory == null) {
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: "
 							+ this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile,
-						this.rootElementName);
+		File riskFactorCategoricalPrevalencesFile = new File(
+				this.dataFilePath);
+		if (riskFactorCategoricalPrevalencesFile.exists()) {
+			if (riskFactorCategoricalPrevalencesFile.isFile()
+					&& riskFactorCategoricalPrevalencesFile.canRead()) {
+				producedData = factory
+						.manufactureObservable(riskFactorCategoricalPrevalencesFile, this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");
 				}
 			} else {
-				throw new ConfigurationException(this.configurationFilePath
+				// No file has been selected, continue without exceptions
+				throw new ConfigurationException(this.dataFilePath
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			numberOfCategories = RiskSourcePropertiesMapFactory
+			int numberOfClasses = RiskSourcePropertiesMapFactory
 					.getNumberOfRiskFactorClasses(this.selectedNode);
-			log.debug("numberOfCategories: " + numberOfCategories);
-			durationClassIndex = RiskSourcePropertiesMapFactory
-			.getDurationCategoryIndex(selectedNode);
-			log.debug("durationClassIndex: " + durationClassIndex);
-			((RelRiskForDeathCompoundFactory) factory)
-					.setNumberOfCategories(numberOfCategories);
-		((CategoricalFactory)factory).setNumberOfCategories(numberOfCategories);	
+			((RiskFactorPrevalencesCategoricalFactory) factory)
+					.setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
 	}
-
-	public void run() {
-		open();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
-	 */
-	@Override
-	public Object getData() {
-		return modelObject;
-	}
-
 }

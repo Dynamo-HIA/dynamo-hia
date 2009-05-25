@@ -5,37 +5,48 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class StandardDirectoryStructureHandler {
+	static Log log = LogFactory
+			.getLog("nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler");
 
 	static private StructureCollection theCollection = null;
 
-	synchronized static public void process(DirectoryNode node) {
+	synchronized static public void process(DirectoryNode node)
+			throws StorageTreeException {
 		if (theCollection == null) {
 			theCollection = new StandardDirectoryStructureHandler.StructureCollection();
 		}
+		log.debug("Before processing.");
 		theCollection.process(node);
 	}
 
 	static class StructureCollection {
-		Log log = LogFactory.getLog(this.getClass().getName());
 		Set<StructureElement> theElements = new HashSet<StructureElement>();
 
 		public StructureCollection() {
+			log.debug("Constructing StructureCollection");
 			theElements.add(new BaseDirectoryStructure());
 			theElements.add(new RefDataDirectoryStructure());
 			theElements.add(new DiseaseDirectoryStructure());
 			theElements.add(new RiskFactorDirectoryStructure());
+			theElements
+					.add(new CompoundRiskFactorDirectoryStructureExtension());
 		}
 
-		public void process(DirectoryNode node) {
-			log.debug("Processing: "
+		public void process(DirectoryNode node) throws StorageTreeException {
+			log.debug("StructureCollection Processing: "
 					+ node.getPhysicalStorage().getAbsolutePath());
 			for (StructureElement element : theElements) {
 				element.process(node);
@@ -43,7 +54,6 @@ public class StandardDirectoryStructureHandler {
 		}
 
 		static private abstract class StructureElement {
-			Log log = LogFactory.getLog(this.getClass().getName());
 			Set<String> requiredNames;
 
 			protected StructureElement() {
@@ -54,9 +64,12 @@ public class StandardDirectoryStructureHandler {
 				this.requiredNames = requiredNames;
 			}
 
-			abstract public void process(DirectoryNode theNode);
+			abstract public void process(DirectoryNode theNode)
+					throws StorageTreeException;
 
-			protected void checkAndCreateNames(DirectoryNode node) {
+			protected void checkAndCreateNames(DirectoryNode node)
+					throws StorageTreeException {
+				log.debug("StructureElement: Entering checkAndCreateNames()");
 				File theDirectory = node.getPhysicalStorage();
 				String[] dirArray = theDirectory.list();
 				HashSet<String> presentNames = new HashSet<String>();
@@ -66,13 +79,31 @@ public class StandardDirectoryStructureHandler {
 					}
 				}
 				for (String requiredName : requiredNames) {
+					log.debug("StructureElement: Checking required name: "
+							+ requiredName);
 					if (presentNames.contains(requiredName.toLowerCase())) {
 						continue;
 					}
 					File topRequiredDirectory = new File(theDirectory
 							.getAbsolutePath()
 							+ File.separator + requiredName);
-					topRequiredDirectory.mkdir();
+					if (!topRequiredDirectory.exists()) {
+						topRequiredDirectory.mkdir();
+						// TODO(mondeelr) Dirty hack, but nescessary to see the
+						// directory at once and not only after a restart.
+						if (StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY
+								.getNodeLabel().equals(requiredName)) {
+							node.addChild((ChildNode) new DirectoryNode(node,
+									topRequiredDirectory));
+						}
+						log.debug("StructureElement: Required directory: "
+								+ topRequiredDirectory.getAbsolutePath()
+								+ " added.");
+					} else {
+						log.debug("StructureElement: Required directory: "
+								+ topRequiredDirectory.getAbsolutePath()
+								+ " already present.");
+					}
 				}
 			}
 		}
@@ -91,7 +122,7 @@ public class StandardDirectoryStructureHandler {
 			}
 
 			@Override
-			public void process(DirectoryNode node) {
+			public void process(DirectoryNode node) throws StorageTreeException {
 				if (node.getParent() instanceof RootNode) {
 					checkAndCreateNames(node);
 				}
@@ -108,14 +139,15 @@ public class StandardDirectoryStructureHandler {
 						.getNodeLabel());
 				requiredNames.add(StandardTreeNodeLabelsEnum.RISKFACTORS
 						.getNodeLabel());
-				requiredNames.add(StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel());
+				requiredNames.add(StandardTreeNodeLabelsEnum.DISEASES
+						.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
 			@Override
-			public void process(DirectoryNode node) {
-				if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel().equals(
-						node.getPhysicalStorage().getName())) {
+			public void process(DirectoryNode node) throws StorageTreeException {
+				if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel()
+						.equals(node.getPhysicalStorage().getName())) {
 					checkAndCreateNames(node);
 				}
 			}
@@ -143,23 +175,26 @@ public class StandardDirectoryStructureHandler {
 				super.setRequiredNames(requiredNames);
 			}
 
-
-				@Override
-			public void process(DirectoryNode node) {
+			@Override
+			public void process(DirectoryNode node) throws StorageTreeException {
 				ParentNode parentNode = node.getParent();
 				if (parentNode instanceof DirectoryNode) {
-					log.debug("Diseases check, parentName: "
-							+ ((DirectoryNode) parentNode).getPhysicalStorage()
-									.getName());
-					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
-							((DirectoryNode) parentNode).getPhysicalStorage()
-									.getName())) {
+					log
+							.debug("DiseaseDirectoryStructure, checking parentName: "
+									+ ((DirectoryNode) parentNode)
+											.getPhysicalStorage().getName());
+					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
+							.equals(
+									((DirectoryNode) parentNode)
+											.getPhysicalStorage().getName())) {
 						checkAndCreateNames(node);
 					}
 				}
 			}
 		}
-		static private class RiskFactorDirectoryStructure extends StructureElement {
+
+		static private class RiskFactorDirectoryStructure extends
+				StructureElement {
 
 			public RiskFactorDirectoryStructure() {
 				super();
@@ -170,26 +205,90 @@ public class StandardDirectoryStructureHandler {
 						.getNodeLabel());
 				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR
 						.getNodeLabel());
-				requiredNames.add(StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
-						.getNodeLabel());
+				requiredNames
+						.add(StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
+								.getNodeLabel());
 				super.setRequiredNames(requiredNames);
 			}
 
 			@Override
-		public void process(DirectoryNode node) {
-			ParentNode parentNode = node.getParent();
-			if (parentNode instanceof DirectoryNode) {
-				log.debug("Risk factors check, parentName: "
-						+ ((DirectoryNode) parentNode).getPhysicalStorage()
-								.getName());
-				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
-						((DirectoryNode) parentNode).getPhysicalStorage()
-								.getName())) {
-					checkAndCreateNames(node);
+			public void process(DirectoryNode node) throws StorageTreeException {
+				ParentNode parentNode = node.getParent();
+				if (parentNode instanceof DirectoryNode) {
+					String parentNodeName = ((DirectoryNode) parentNode)
+							.getPhysicalStorage().getName();
+					log
+							.debug("RiskFactorDirectoryStructure, checking parentName: "
+									+ parentNodeName
+									+ " against "
+									+ StandardTreeNodeLabelsEnum.RISKFACTORS
+											.getNodeLabel());
+					// String configurationFileRootElementLabel =
+					// ConfigurationFileUtil
+					// .exceptionFreeExtractRootElementNameFromChildConfiguration(node);
+					// log
+					// .debug("RiskFactorDirectoryStructure, configurationFileRootElementLabel: "
+					// + configurationFileRootElementLabel);
+					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+							.equals(parentNodeName)
+					// && (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+					// .getNodeLabel().equals(
+					// configurationFileRootElementLabel)
+					// || RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+					// .getNodeLabel()
+					// .equals(
+					// configurationFileRootElementLabel) ||
+					// RootElementNamesEnum.RISKFACTOR_COMPOUND
+					// .getNodeLabel().equals(
+					// configurationFileRootElementLabel))
+					) {
+
+						checkAndCreateNames(node);
+					}
 				}
 			}
 		}
-	}
 
+		static private class CompoundRiskFactorDirectoryStructureExtension
+				extends StructureElement {
+
+			public CompoundRiskFactorDirectoryStructureExtension() {
+				super();
+				Set<String> requiredNames = new LinkedHashSet<String>();
+				requiredNames
+						.add(StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY
+								.getNodeLabel());
+				super.setRequiredNames(requiredNames);
+			}
+
+			@Override
+			public void process(DirectoryNode node) throws StorageTreeException {
+				ParentNode parentNode = node.getParent();
+				if (parentNode instanceof DirectoryNode) {
+					String parentName = ((DirectoryNode) parentNode)
+							.getPhysicalStorage().getName();
+					log
+							.debug("CompoundRiskFactorDirectoryStructureExtension, checking parentName: "
+									+ parentName
+									+ " against "
+									+ StandardTreeNodeLabelsEnum.RISKFACTORS
+											.getNodeLabel());
+					String rootElementName = ConfigurationFileUtil
+							.exceptionFreeExtractRootElementNameFromChildConfiguration(node);
+					log
+							.debug("CompoundRiskFactorDirectoryStructureExtension, AND checking parentName: "
+									+ rootElementName
+									+ " against "
+									+ RootElementNamesEnum.RISKFACTOR_COMPOUND
+											.getNodeLabel());
+					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+							.equals(parentName)
+							&& RootElementNamesEnum.RISKFACTOR_COMPOUND
+									.getNodeLabel().equals(rootElementName)) {
+						checkAndCreateNames(node);
+					}
+				}
+			}
+		}
 	}
 }
