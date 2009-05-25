@@ -4,9 +4,9 @@ public class BiGender {
 	static public int NUMBER_OF_CLASSES = 2;
 	static public int MINIMUM_VALUE = 0;
 	static public int MAXIMUM_VALUE = 1;
-	static public int FEMALE_INDEX = 0;
-	static public int MALE_INDEX = 1;
-	static public String labels[] = { "female", "male" };
+	static final public int FEMALE_INDEX = 0;
+	static final public int MALE_INDEX = 1;
+	static final public String labels[] = { "female", "male" };
 
 	private BiGender() {
 	}
