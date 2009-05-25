@@ -3,10 +3,12 @@
 <referencevalue>23</referencevalue>
 <cutoffs>
 <cutoff>
-<flexdex>25</flexdex>
+<flexdex>1</flexdex>
+<value>25</value>
 </cutoff>
 <cutoff>
-<flexdex>30</flexdex>
+<flexdex>2</flexdex>
+<value>30</value>
 </cutoff>
 </cutoffs>
 </riskfactor_continuous>
