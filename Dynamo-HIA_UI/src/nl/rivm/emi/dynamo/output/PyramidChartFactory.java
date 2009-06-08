@@ -33,7 +33,7 @@ public final class PyramidChartFactory implements PlotDrawer {
 			else
 				chart = output.makePyramidChartIncludingDisease(
 						info.currentScen ,
-						info.currentYear,info.currentDisease - 2);
+						info.currentYear,info.currentDisease - 3);
 
 			
 
