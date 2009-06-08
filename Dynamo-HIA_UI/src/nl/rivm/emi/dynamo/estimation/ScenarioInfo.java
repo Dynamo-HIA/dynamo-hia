@@ -354,7 +354,7 @@ public void makeTestData1 (){
 	}
 	public void setNewPrevalence(float[][][] inPrevalence,int i, boolean percentage) {
 		if (percentage){
-			this.newPrevalence[i]=new float [inPrevalence.length][inPrevalence[0].length][inPrevalence[0].length];
+			this.newPrevalence[i]=new float [inPrevalence.length][inPrevalence[0].length][inPrevalence[0][0].length];
 		
 			for (int k=0;k<inPrevalence.length;k++)
 				for (int l=0;l<inPrevalence[0].length;l++)
