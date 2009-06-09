@@ -294,7 +294,7 @@ public class ArraysFromXMLFactory {
 				for (int age = 0; age < 96; age++)
 					if (this.checkArray[age][sex][0][0] != 1)
 						throw new DynamoConfigurationException(
-								"no value read in parameter file for age="
+								"no value or multiple values read in parameter file for age="
 										+ age + " sex=" + sex);
 
 			return returnArray;
