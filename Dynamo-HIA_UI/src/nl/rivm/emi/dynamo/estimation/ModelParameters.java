@@ -1160,7 +1160,7 @@ public class ModelParameters {
 			totalAbilityFromRiskFactor += weight[i]*abilityFromRiskFactor[i] ;
 			
 		}
-			if (Math.abs(totalAbilityFromRiskFactor+inputData.getOverallDalyWeight()[age][sex])>0.0001) 
+			if (Math.abs(totalAbilityFromRiskFactor+inputData.getOverallDalyWeight()[age][sex]-1)>0.0001) 
 				log.fatal(" bug in program when calculating baseline disablity odds. Total disability given"
 						+ " bij user = "+inputData.getOverallDalyWeight()[age][sex]+" but calculated" +
 								"from baselineDisabilityOdds = "+(1-totalAbilityFromRiskFactor));
@@ -1765,7 +1765,11 @@ public class ModelParameters {
 
 							/*
 							 * here we calculate the fatalincidincidence in one
-							 * disease given the other
+							 * disease only in those persons where the other (given)
+							 * disease is present
+							 * 
+							 * We can here already divide by prevalence of E as this is a constant
+							 * 
 							 */
 							for (int e = 0; e < this.clusterStructure[c]
 									.getNInCluster(); e++) {
@@ -1793,7 +1797,8 @@ public class ModelParameters {
 
 				/*
 				 * now calculate fatal incidence given other disease for
-				 * diseases from other clusters
+				 * diseases from other clusters: as these are independent, this is equal to 
+				 * the unconditional fatal incidence
 				 */
 
 				for (int d = 0; d < this.clusterStructure[c].getNInCluster(); d++) {
@@ -1942,34 +1947,71 @@ public class ModelParameters {
 		}// end loop over i
 		// TODO other risktypes
 		// TODO fatal diseases
-		double[] incidence = new double[nDiseases];
+		
+		/* calculate the mortality from acutely fatal diseases */
+		/* this has two parts: 
+		 * part 1: the casefatality (summed over all the (fatal) diseases) given the index disease d
+		 * thus for each d (=row in matrix) the sum over fatalIncidence E given D (however found in
+		 * the variable called fatalIncidenceDgivenE, so the indexes here are the otherway round as in 
+		 * the name of the variable) 
+		/* and part 2: in case of RRothermort: we subtract from the matrix all the rows for risk factors,
+		 * each row multiplied by p(r|d)
+		 * A single row has terms CF given r, thus the sum is the sum over all CFs for a single riskfactor
+		 * level i. In terms over variables: sum over all diseases e of fatalIncidence [e]; the multiplication\
+		 * factor p(r|d)= p(d|r)*p(r)/p(d)  
+		 * In variables: p(r)=weigth p(d)=prevalence of d and p(d|r)=probDisease[i][d]
+		 */
+		
+		/* and part 2: in case of no othermort: we have to subtract the other mortality at the lefthand side
+		 * each row multiplied by p(r|d)
+		 * A single row has terms CF given r, thus the sum is the sum over all CFs for a single riskfactor
+		 * level i. In terms over variables: sum over all diseases e of fatalIncidence [e]; the multiplication\
+		 * factor p(r|d)= p(d|r)*p(r)/p(d)  
+		 * In variables: p(r)=weigth p(d)=prevalence of d and p(d|r)=probDisease[i][d]
+		 */
+		
+		
 		if (nDiseases>0)  for (int c = 0; c < inputData.getNCluster(); c++) {
-			for (int d = 0; d < this.clusterStructure[c].getNInCluster(); d++) {
-				incidence[clusterStructure[c].getDiseaseNumber()[d]] = inputData
-						.getClusterData()[age][sex][c].getIncidence()[d];
-
-			}
+			
+			/* d is within cluster number, but e is over all diseases */
 			for (int d = 0; d < this.clusterStructure[c].getNInCluster(); d++) {
 				{
-					for (int e = 0; e < nDiseases; e++) {
+					for (int e = 0; e < nDiseases;e++) {
 						sumForCF[d] += fatalIncidenceDgivenE[e][d];
 
-						if (!inputData.isWithRRForMortality()) {
+						if (inputData.isWithRRForMortality()) {
+							/* with rr this is 
+							 * sum of CF given d - sum over I of all CF|r *p(r|d)= cf(r)*p(d|r)*p(r)/p(d)
+							 * = cf(i)*p(d,i)*weight(i)/p(d) 
+							 * as p(d) does not depend on i, it can be applied outside the loop
+							 * */
+						
 							double sum = 0;
 							for (int i = 0; i < nSim; i++) {
-								sum -= fatalIncidence[i][e] * probDisease[i][d]
+								sum += fatalIncidence[i][e] * probDisease[i][d]
 										* weight[i];
 							}
 							if (diseasePrevalence[d] != 0)
-								sumForCF[d] += sum
+								sumForCF[d] -= sum
 										/ diseasePrevalence[d];
-							// TODO checken of klopt;
+							// TODO checken of klopt ; is al wel een extra keer gechecked
 
-						} else { // no rr
-							sumForCF[d] -= inputData.getClusterData()[age][sex][c]
-									.getIncidence()[e]
-									* inputData.getClusterData()[age][sex][c]
-											.getCaseFatality()[e];
+						} else { // without rr:
+							/* without RR (see later comments when calculating lefthand):
+							 * 
+							 * 	 sum of CF given d -sum over I of all CF 
+							 * 
+							 */
+							
+							
+							for (int i = 0; i < nSim; i++) {
+								sumForCF[d] -= fatalIncidence[i][e] * weight[i];
+							}
+							
+								
+			;
+							
+							
 						}
 					}
 
@@ -2072,8 +2114,8 @@ public class ModelParameters {
 
 			else
 				expectedMortality[d] = inputData.getMortTot()[age][sex];
-
-			/* mtot + (1-p(d))E(d) - average(mtot(r)|d) */
+			// with RR for mortality lefthand is md- sum cf terms - 
+			/* mtot + (1-p(d))E(d)  - average(mtot(r)|d) */
 			if (inputData.isWithRRForMortality() && !isCuredDisease[d])
 				lefthand[d] = inputData.getMortTot()[age][sex]
 						+ (1 - diseasePrevalence[d])
@@ -2081,9 +2123,30 @@ public class ModelParameters {
 						- sumForCF[d];
 			/* in cured diseases the attributable mortality is 0 */
 			else if (isCuredDisease[d])
+				/*
+				 * for cured disease the attributable mortality is by definition zero
+				 * we signal this by making the lefthand equal to zero
+				 * In that case a negative am is needed to compensate any other positive am's for other diseases
+				 * and in case of negative am this is made zero
+				 */
 				lefthand[d] = 0;
 			else
-				// TODO nog checken
+				// no RR for mortality
+				/* in this case the lefthand is equal to:
+				 * mortality from disease D - (othermortality excl attributable mortality terms) - sum of CF given this disease 
+				 * mortality from disease D = mort-tot + ExcessMort *(1-prevalence(D))
+				 * 
+				 * other mort = morttot - attributable terms -  sum over i of all CF
+				 * TODO nog checken
+				 * 
+				 * than the lefthand becomes:
+				 * excessmort*(1-prevalence(D)+ sum over I of all CF - sum of CF given d
+				 * 
+				 * 
+				 * basically, the expectedMortality based on riskfactor distribution here is equal to total mortality,
+				 * as riskfactors do not influence total mortality other than through disease and thus both
+				 * terms disappear
+				 */
 				lefthand[d] = (1 - diseasePrevalence[d])
 						* excessMortality[d] - sumForCF[d];
 		}
