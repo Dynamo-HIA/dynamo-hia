@@ -105,9 +105,9 @@ public class HealthStateCatManyToManyUpdateRule extends
 						int d = clusterStartsAtDiseaseNumber[c];
 
 						survival = (1 - oldValue[currentStateNo])
-								* currentTransMat[0][0]
+								* (currentTransMat[0][0]+currentTransMat[1][0])
 								+ oldValue[currentStateNo]
-								* (currentTransMat[1][0] + currentTransMat[1][1]);
+								* ( currentTransMat[1][1]);
 
 						newValue[currentStateNo] = (float) ((1 - oldValue[currentStateNo])
 								* (currentTransMat[1][0] + oldValue[currentStateNo]
