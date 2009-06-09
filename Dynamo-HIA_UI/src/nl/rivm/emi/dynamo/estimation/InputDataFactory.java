@@ -1512,7 +1512,7 @@ public class InputDataFactory {
 				data2dim[a][g] = 1;
 
 			}
-		if (fileName==null) {inputData.setWithRRForMortality(false);
+		if (fileName==null) {inputData.setWithRRForDisability(false);
 		
 		inputData.setRRforDisabilityCont(data2dim);
 		inputData.setRRforDisabilityCat(data3dim);
@@ -1576,19 +1576,19 @@ public class InputDataFactory {
 					+ this.riskFactorName + File.separator + RelriskForDisabilityDir
 					+ File.separator + fileName+".xml";
 
-			inputData.setRelRiskMortCat(this.factory.manufactureTwoDimArray(
+			inputData.setRRforDisabilityCat(this.factory.manufactureTwoDimArray(
 					configFileName, "relrisksfordisability_compound",
 					"relriskfordisability", "cat", "value", true));
 
-			inputData.setRelRiskDuurMortBegin(this.factory.selectOneDimArray(
+			inputData.setRRforDisabilityBegin(this.factory.selectOneDimArray(
 					configFileName, "relrisksfordisability_compound",
 					"relriskfordisability", "begin", "cat",
 					this.originalNumberDurationClass));
-			inputData.setRelRiskDuurMortEnd(this.factory.selectOneDimArray(
+			inputData.setRRforDisabilityEnd(this.factory.selectOneDimArray(
 					configFileName, "relrisksfordisability_compound",
 					"relriskfordisability", "end", "cat",
 					this.originalNumberDurationClass));
-			inputData.setAlphaMort(this.factory.selectOneDimArray(
+			inputData.setAlfaForDisability(this.factory.selectOneDimArray(
 					configFileName, "relrisksfordisability_compound",
 					"relriskfordisability", "alfa", "cat",
 					this.originalNumberDurationClass));
