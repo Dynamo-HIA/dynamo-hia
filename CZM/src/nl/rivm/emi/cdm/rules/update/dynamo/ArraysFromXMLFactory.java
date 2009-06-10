@@ -134,7 +134,10 @@ public class ArraysFromXMLFactory {
 				configurationFromFile.clear();
 	
 				// Validate the xml by xsd schema
-				configurationFromFile.setValidating(true);			
+				// TODO weer aanzetten, maar dan moeten alle schemas wel kloppen en dat
+				// doen ze zo niet, bijv relative risk kan zowel van continue als cat zijn, 
+				// terwijl schema alleen voor cat
+				// configurationFromFile.setValidating(true);			
 				configurationFromFile.load();
 			}
 			
@@ -256,7 +259,7 @@ public class ArraysFromXMLFactory {
 				configurationFromFile.clear();
 	
 				// Validate the xml by xsd schema
-		// TODO: weer aanzetten		configurationFromFile.setValidating(true);			
+			configurationFromFile.setValidating(true);			
 				configurationFromFile.load();
 			
 			
