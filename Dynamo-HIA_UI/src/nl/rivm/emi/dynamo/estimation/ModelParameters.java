@@ -2298,6 +2298,7 @@ public class ModelParameters {
 		double sumOtherMort = 0;
 
 		double[] beta;
+		
 		double otherMort[] = new double[nSim];
 		double logOtherMort[] = new double[nSim];
 		double abilityFromOtherCauses[] = new double[nSim];
@@ -2470,6 +2471,7 @@ public class ModelParameters {
 								+ " for age is " + age + "and sex is " + sex);
 				throw new RuntimeException(e.getMessage());
 			}
+			
 			if (age == 0 && sex == 0 && beta.length > 1)
 				this.log.debug(" beta 0 and 1 :" + beta[0] + beta[1]);
 			// calculate relative risks from the regression coefficients
@@ -2612,6 +2614,7 @@ public class ModelParameters {
 			this.riskFactorAbilityRRcont[age][sex] = (float) Math
 					.exp(beta[beta.length - 1]);
 		}
+		
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			this.riskFactorAbilityRRcont[age][sex] = 1;
 
