@@ -21,7 +21,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class Application implements IApplication {
 
-	private static final String DYNAMO_HIA = "DYNAMO-HIA";
+	private static final String DYNAMO_HIA = "DYNAMO-HIA release 1.08 20090612";
 	// Logger of this class
 	static Log log = LogFactory.getLog(Application.class);
 	
