@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -110,16 +111,19 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 		text.setLayoutData(textGridData);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+text.addFocusListener(
+//		new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//		}
+		focusListener);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, observableObject,

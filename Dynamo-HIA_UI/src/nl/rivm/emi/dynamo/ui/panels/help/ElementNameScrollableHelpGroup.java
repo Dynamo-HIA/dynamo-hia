@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels.help;
 
+/**
+ * First actual helptekst panel.
+ * Commented out from the working debug version.
+ */
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -28,51 +32,39 @@ public class ElementNameScrollableHelpGroup {
 		theGroup.setText(borderText);
 		FillLayout fillLayout = new FillLayout();
 		theGroup.setLayout(fillLayout);
-		setHelpText(null);
+		label = new Label(theGroup, SWT.WRAP);
+		doSetHelpText("Init");
 	}
 
-	private void setHelpText(String helpText) {
-		if (label != null) {
-			// label.dispose();
-			// theGroup.setLayout(null);
-			// theGroup.setLayout(new FillLayout());
-		} else {
-			label = new Label(theGroup, SWT.WRAP);
-		}
+	private void doSetHelpText(String helpText) {
 		Rectangle clientArea = theGroup.getClientArea();
-		// log.debug("PrePack: " + clientArea);
-		// theGroup.pack(true);
-		log.debug("PostPack: " + clientArea);
-		Point clientAreaSize = new Point(clientArea.width, clientArea.height);
-		log.debug("ClientArea size after early pack of group: "
-				+ clientAreaSize);
-		Point groupSize = theGroup.getSize();
-		log.debug("Group size: " + groupSize);
-		Point groupComp = theGroup.computeSize(0, 0);
-		log.debug("Computed group size: " + groupComp);
-		preferredSize = label.toControl(groupComp);
-		log.debug("Preferred size from computed group size: " + preferredSize);
-		preferredSize = label.toControl(clientArea.width, clientArea.height);
-		log.debug("Preferred size from positive inverted clientArea: "
-				+ preferredSize);
-		// label.setSize(preferredSize);
-		// label.setSize(new Point(clientArea.width, clientArea.height));// if
-		// (helpText == null) {
+		// log.debug("PostPack: " + clientArea);
+		// Point clientAreaSize = new Point(clientArea.width,
+		// clientArea.height);
+		// log.debug("ClientArea size after early pack of group: "
+		// + clientAreaSize);
+		// Point groupSize = theGroup.getSize();
+		// log.debug("Group size: " + groupSize);
+		// Point groupComp = theGroup.computeSize(0, 0);
+		// log.debug("Computed group size: " + groupComp);
+		// preferredSize = label.toControl(groupComp);
+		// log.debug("Preferred size from computed group size: " +
+		// preferredSize);
+		// preferredSize = label.toControl(clientArea.width, clientArea.height);
+		// log.debug("Preferred size from positive inverted clientArea: "
+		// + preferredSize);
 		label.setBounds(clientArea);
-		String labelOutput = "Clientarea: " + clientArea + helpText
-				+ " Count: " + count;
-		label.setText(labelOutput);
-		log.debug(labelOutput);
-		// } else {
-		// label.setText(helpText);
-		// log.debug(helpText);
-		// }
-		Point computedSize = label
-				.computeSize(preferredSize.x, preferredSize.y);
-		log.debug("Computed size after fill: " + computedSize);
-		groupComp = theGroup.computeSize(0, 0);
-		log.debug("Group size after fill: " + groupComp);
-		label.setBackground(new Color(null, 0xee, 0xee, 0x00));
+		// String labelOutput = "Clientarea: " + clientArea + helpText
+		// + " Count: " + count;
+		// label.setText(labelOutput);
+		label.setText(helpText);
+		// log.debug(labelOutput);
+		// Point computedSize = label
+		// .computeSize(preferredSize.x, preferredSize.y);
+		// log.debug("Computed size after fill: " + computedSize);
+		// groupComp = theGroup.computeSize(0, 0);
+		// log.debug("Group size after fill: " + groupComp);
+		// label.setBackground(new Color(null, 0xee, 0xee, 0x00));
 		label.update();
 		count++;
 	}
@@ -81,24 +73,19 @@ public class ElementNameScrollableHelpGroup {
 		return theGroup;
 	}
 
-	public void setHelpText(int id) {
-		Rectangle clientArea = theGroup.getClientArea();
-		String updatedLabelOutput = "x: "
-				+ clientArea.x
-				+ " y: "
-				+ clientArea.y
-				+ " h: "
-				+ clientArea.height
-				+ " w: "
-				+ clientArea.width
-				+ " Append Bots: "
-				+ id
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak."
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak."
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak."
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak."
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak."
-				+ " kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak kwak.";
-		setHelpText(updatedLabelOutput);
+	public void setHelpText(String elementName) {
+		String updatedLabelOutput;
+		if ("Blank".equals(elementName)) {
+			updatedLabelOutput = "Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
+					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
+					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
+					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
+					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
+					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two.";
+		} else {
+			// TODO Add indirection.
+			updatedLabelOutput = elementName;
+		}
+		doSetHelpText(updatedLabelOutput);
 	}
 }

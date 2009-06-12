@@ -2,9 +2,11 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.FloatValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,17 +81,20 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		text.setText(typedHashMap.get(index).toString());
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-																	// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.STANDARDVALUE.getTheType(),theHelpGroup);
+	text.addFocusListener(
+//			new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//																	// range.
+//			}
+//
+//		}
+		focusListener);
 //	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);

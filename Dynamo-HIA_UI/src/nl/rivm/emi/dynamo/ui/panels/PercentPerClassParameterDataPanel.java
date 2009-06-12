@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,9 +40,9 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 	HelpGroup theHelpGroup;
 	AtomicTypeBase myType;
 
-	public PercentPerClassParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
-			HelpGroup helpGroup) {
+	public PercentPerClassParameterDataPanel(Composite parent,
+			Text topNeighbour, TypedHashMap lotsOfData,
+			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
@@ -94,20 +95,23 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		String convertedText = ((Percent) myType).convert4View(typedHashMap.get(
-				index).toString());
+		String convertedText = ((Percent) myType).convert4View(typedHashMap
+				.get(index).toString());
 		text.setText(convertedText);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(myType, theHelpGroup);
+		text.addFocusListener(
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				//
+				// }
+				focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

@@ -66,6 +66,8 @@ public class StAXAgnosticTypedHashMapWriter {
 			streamDocument(fileControl, theModel, writer, eventFactory);
 			writer.flush();
 			fileWriter.flush();
+			// 20090608 clase() added.
+			fileWriter.close();
 		} else {
 			log.info("Model is null, nothing to write.");
 		}

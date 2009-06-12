@@ -4,6 +4,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICutoffs;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,17 +70,20 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 	private void bindValue(WritableValue observableClassName) {
 		Text text = createAndPlaceTextField();
 		text.setText(myType.convert4View(observableClassName.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+		text.addFocusListener(
+//				new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//
+//		}
+			focusListener	);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) observableClassName;

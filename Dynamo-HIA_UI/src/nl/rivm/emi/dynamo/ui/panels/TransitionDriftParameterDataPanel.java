@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -94,19 +95,22 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		String convertedText = ((Mean) type).convert4View(modelObservableValue
 				.doGetValue());
 		text.setText(convertedText);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				TransitionDriftParameterDataPanel.this.theHelpGroup
-						.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				TransitionDriftParameterDataPanel.this.theHelpGroup
-						.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(type,theHelpGroup);
+text.addFocusListener(
+//		new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				TransitionDriftParameterDataPanel.this.theHelpGroup
+//						.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				TransitionDriftParameterDataPanel.this.theHelpGroup
+//						.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//
+//		}
+		focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

@@ -48,7 +48,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 				+ " got widgetDefaultSelected callback.");
 	}
 
-	public void widgetSelected(SelectionEvent arg0) {
+	synchronized public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
 		String filePath = modalParent.getConfigurationFilePath();

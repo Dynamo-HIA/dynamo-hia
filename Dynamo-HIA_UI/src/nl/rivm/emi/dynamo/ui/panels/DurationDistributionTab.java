@@ -3,16 +3,8 @@
  */
 package nl.rivm.emi.dynamo.ui.panels;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
-import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.objects.RiskFactorCompoundObject;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -26,9 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 

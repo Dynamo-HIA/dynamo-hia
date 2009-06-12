@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -88,17 +89,20 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		String convertedText = modelType.convert4View(modelObservableValue
 				.getValue());
 		text.setText(convertedText);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+		text.addFocusListener(
+//				new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//
+//		}
+				focusListener);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

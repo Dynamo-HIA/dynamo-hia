@@ -1,36 +1,70 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.ui.panels.help.PreconfiguredHelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.help.ElementNameScrollableHelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpScrolledComposite;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 public class HelpGroup {
 	Shell modalShell;
 	Group theGroup = null;
-	PreconfiguredHelpGroup windowHelpGroup;
-	PreconfiguredHelpGroup fieldHelpGroup;
+	ElementNameScrollableHelpGroup windowHelpGroup;
+	ElementNameScrollableHelpGroup fieldHelpGroup;
+//	HelpScrolledComposite tryTwo;
 
 	public HelpGroup(Shell shell, Composite buttonPane) {
 		theGroup = new Group(shell, SWT.NONE);
 		modalShell = shell;
 		handlePlacementInContainer(theGroup, buttonPane);
-		FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
-		fillLayout.marginHeight = 2;
-		fillLayout.marginWidth = 2;
-		theGroup.setLayout(fillLayout);
+
+		// FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
+		// fillLayout.marginHeight = 2;
+		// fillLayout.marginWidth = 2;
+		// theGroup.setLayout(fillLayout);
+		// RowLayout rowLayout = createRowLayout();
+		GridLayout layout = createGridLayout();
+		theGroup.setLayout(layout);
 		theGroup.setText("Help");
-		String[] windowTexts = {"Hellepie."};
-		windowHelpGroup = new PreconfiguredHelpGroup(theGroup, "Window", windowTexts);
-		String[] fieldTexts = {"FieldText0","FieldText1","FieldText2","FieldText3","FieldText4"};
-		fieldHelpGroup = new PreconfiguredHelpGroup(theGroup, "Field", fieldTexts);
+		GridData layoutData = new GridData(GridData.FILL_BOTH
+				| GridData.GRAB_VERTICAL);
+		windowHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
+				"Window", "element");
+		windowHelpGroup.theGroup.setLayoutData(layoutData);
+
+		 fieldHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
+		 "Field",
+		 "field");
+		 fieldHelpGroup.theGroup.setLayoutData(layoutData);
+//		tryTwo = new HelpScrolledComposite(theGroup, "Border", "field");
+//		tryTwo.setLayoutData(layoutData);
 		theGroup.pack();
+	}
+
+	private RowLayout createRowLayout() {
+		RowLayout rowLayout = new RowLayout();
+		rowLayout.type = SWT.VERTICAL;
+		rowLayout.fill = true;
+		rowLayout.marginWidth = 3;
+		rowLayout.marginHeight = 3;
+		rowLayout.pack = true;
+		rowLayout.wrap = true;
+		return rowLayout;
+	}
+
+	private GridLayout createGridLayout() {
+		GridLayout rowLayout = new GridLayout();
+		rowLayout.numColumns = 1;
+		rowLayout.marginWidth = 3;
+		rowLayout.marginHeight = 3;
+		return rowLayout;
 	}
 
 	public Group getGroup() {
@@ -47,11 +81,11 @@ public class HelpGroup {
 		myComposite.setLayoutData(formData);
 	}
 
-	public PreconfiguredHelpGroup getWindowHelpGroup() {
+	public ElementNameScrollableHelpGroup getWindowHelpGroup() {
 		return windowHelpGroup;
 	}
 
-	public PreconfiguredHelpGroup getFieldHelpGroup() {
+	public ElementNameScrollableHelpGroup getFieldHelpGroup() {
 		return fieldHelpGroup;
 	}
 

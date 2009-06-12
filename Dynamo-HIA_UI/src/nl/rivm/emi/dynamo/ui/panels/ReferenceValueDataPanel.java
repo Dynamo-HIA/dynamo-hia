@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrateg
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.FloatValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,32 +54,37 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		setLayout(layout);
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Reference value:");
-			WritableValue observableObject = referenceValueObject
-					.getObservableReferenceValue();
-			if (observableObject != null) {
-				bindValue(observableObject);
-			} else {
-				MessageBox box = new MessageBox(parent.getShell());
-				box.setText("Reference value error");
-				box.setMessage("Reference value is invalid.");
-				box.open();
-			}
+		WritableValue observableObject = referenceValueObject
+				.getObservableReferenceValue();
+		if (observableObject != null) {
+			bindValue(observableObject);
+		} else {
+			MessageBox box = new MessageBox(parent.getShell());
+			box.setText("Reference value error");
+			box.setMessage("Reference value is invalid.");
+			box.open();
+		}
 	}
 
 	private void bindValue(WritableValue observableObject) {
 		Text text = createAndPlaceTextField();
-		text.setText((String) myType.convert4View(observableObject.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		text.setText((String) myType
+				.convert4View(observableObject.doGetValue()));
+		FocusListener focusListener = new TypedFocusListener(myType,
+				theHelpGroup);
+		text.addFocusListener(
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				//
+				// }
+				focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

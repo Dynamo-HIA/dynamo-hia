@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -22,7 +23,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -225,16 +225,19 @@ public class ScenarioSelectionGroup { //extends Composite {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				helpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				helpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,helpGroup);
+	text.addFocusListener(
+//			new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				helpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				helpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//		}
+			focusListener);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, observableObject,

@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,9 +30,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class ValuePerClassParameterDataPanel extends Composite{
-	Log log = LogFactory
-			.getLog(this.getClass().getName());
+public class ValuePerClassParameterDataPanel extends Composite {
+	Log log = LogFactory.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
@@ -67,7 +67,8 @@ public class ValuePerClassParameterDataPanel extends Composite{
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
-				log.debug("Going to bind fields for age: " + ageCount + " and category: " + classCount);
+				log.debug("Going to bind fields for age: " + ageCount
+						+ " and category: " + classCount);
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
@@ -95,22 +96,30 @@ public class ValuePerClassParameterDataPanel extends Composite{
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
-		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(0)).getValue();
-		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0).getType();
-		String convertedText = theType.convert4View(modelObservableValue.doGetValue());
+		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
+				.get(index);
+		WritableValue modelObservableValue = (WritableValue) ((AtomicTypeObjectTuple) list
+				.get(0)).getValue();
+		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0)
+				.getType();
+		String convertedText = theType.convert4View(modelObservableValue
+				.doGetValue());
 		text.setText(convertedText);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(theType,
+				theHelpGroup);
+		text.addFocusListener(
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				//
+				// }
+				focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

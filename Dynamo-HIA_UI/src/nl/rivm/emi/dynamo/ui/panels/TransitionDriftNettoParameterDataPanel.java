@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,17 +57,20 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		text.setLayoutData(gridData);
 		String convertedText = myType.convert4View(modelObservableValue);
 		text.setText(convertedText);
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
-						.putHelpText(1);
-			}
-			public void focusLost(FocusEvent arg0) {
-				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
-						.putHelpText(48); // Out of
-				// range.
-			}
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+text.addFocusListener(
+//		new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
+//						.setHelpText("1");
+//			}
+//			public void focusLost(FocusEvent arg0) {
+//				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
+//						.setHelpText("48"); // Out of
+//				// range.
+//			}
+//		}
+		focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

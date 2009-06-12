@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.data.writers;
+
 /**
  * 20090330 mondeelr Changes to allow String type keys in TypedHashMap-s.
  */
@@ -48,7 +49,7 @@ public class StAXAgnosticGroupWriter {
 	 * @throws UnexpectedFileStructureException
 	 * @throws IOException
 	 * @throws DynamoConfigurationException
-	 * @throws DynamoOutputException 
+	 * @throws DynamoOutputException
 	 */
 	static public void produceFile(String rootElementName,
 			HashMap<String, Object> theModel, File outputFile)
@@ -73,7 +74,9 @@ public class StAXAgnosticGroupWriter {
 			writer.add(event);
 			writer.flush();
 		} else {
-			log.debug("Model is null, writing an empty file for rootElementName: " + rootElementName + ".");
+			log
+					.debug("Model is null, writing an empty file for rootElementName: "
+							+ rootElementName + ".");
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter;
 			fileWriter = new FileWriter(outputFile);
@@ -93,7 +96,8 @@ public class StAXAgnosticGroupWriter {
 
 	static public void streamRootChildren(HashMap<String, Object> theModel,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
-			throws XMLStreamException, DynamoConfigurationException, DynamoOutputException {
+			throws XMLStreamException, DynamoConfigurationException,
+			DynamoOutputException {
 		log.debug("Entering streamRootChildren.");
 		Iterator<String> rootChildNameIterator = theModel.keySet().iterator();
 		while (rootChildNameIterator.hasNext()) {
@@ -102,16 +106,16 @@ public class StAXAgnosticGroupWriter {
 			log.fatal("RootChildName: " + rootChildElementName);
 			streamRootChildStart(writer, eventFactory, rootChildElementName);
 			if (rootChildObject instanceof TypedHashMap<?>) {
-//				handleHierarchicRootChildData(writer, eventFactory,
-//						rootChildElementName, rootChildObject);
+				// handleHierarchicRootChildData(writer, eventFactory,
+				// rootChildElementName, rootChildObject);
 
 				LeafValueMap leafValueMap = new LeafValueMap();
-				FileControlEnum myEnum = FileControlSingleton.getInstance().get(
-						rootChildElementName);
-				StAXAgnosticTypedHashMapWriter.flattenLeafData(myEnum, (TypedHashMap)rootChildObject, leafValueMap,
-						writer, eventFactory);
+				FileControlEnum myEnum = FileControlSingleton.getInstance()
+						.get(rootChildElementName);
+				StAXAgnosticTypedHashMapWriter.flattenLeafData(myEnum,
+						(TypedHashMap) rootChildObject, leafValueMap, writer,
+						eventFactory);
 
-				
 			} else {
 				handleSolitaryRootChildData(writer, eventFactory,
 						rootChildElementName, rootChildObject);
@@ -128,12 +132,17 @@ public class StAXAgnosticGroupWriter {
 			object2Convert = ((AtomicTypeObjectTuple) rootChildObject)
 					.getValue();
 		}
-		AtomicTypeBase myType = (AtomicTypeBase) XMLTagEntitySingleton
-				.getInstance().get(rootChildElementName);
-		if (myType != null) {
-			String valueAsString = myType.convert4File(object2Convert);
-			XMLEvent event = eventFactory.createCharacters(valueAsString);
-			writer.add(event);
+		// Some extra handling to handle empty RootChildren ("cutoffs" more specifically).
+		XMLTagEntity myTagEntity = XMLTagEntitySingleton.getInstance().get(
+				rootChildElementName);
+		AtomicTypeBase<?> myType = null;
+		if (myTagEntity != null) {
+			if (myTagEntity instanceof AtomicTypeBase) {
+				myType = (AtomicTypeBase<?>) myTagEntity;
+				String valueAsString = myType.convert4File(object2Convert);
+				XMLEvent event = eventFactory.createCharacters(valueAsString);
+				writer.add(event);
+			}
 		} else {
 			log.fatal("No type found with name " + rootChildElementName);
 			XMLEvent event = eventFactory
@@ -181,12 +190,14 @@ public class StAXAgnosticGroupWriter {
 			}
 		}
 		LinkedHashMap<String, Object> containerValuesMap = new LinkedHashMap<String, Object>();
-		recurseLeafData((TypedHashMap<?>) rootChildObject, wrapperElementName, numberOfWrappers,
-				myEnum, containerValuesMap, writer, eventFactory);
+		recurseLeafData((TypedHashMap<?>) rootChildObject, wrapperElementName,
+				numberOfWrappers, myEnum, containerValuesMap, writer,
+				eventFactory);
 	}
 
 	private static void recurseLeafData(TypedHashMap<?> containerLevel,
-			String wrapperElementName, int numberOfWrappers, FileControlEnum fileControl,
+			String wrapperElementName, int numberOfWrappers,
+			FileControlEnum fileControl,
 			LinkedHashMap<String, Object> containerValuesMap,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoConfigurationException {
@@ -196,20 +207,21 @@ public class StAXAgnosticGroupWriter {
 		while (iterator.hasNext()) {
 			Map.Entry<Object, Object> entry = iterator.next();
 			int level = numberOfWrappers + containerValuesMap.size();
-			/*AtomicTypeBase<Number>*/ XMLTagEntity type = fileControl.getParameterType4GroupFactory(level);
+			/* AtomicTypeBase<Number> */XMLTagEntity type = fileControl
+					.getParameterType4GroupFactory(level);
 			String elementName = type.getXMLElementName();
 			containerValuesMap.put(elementName, entry.getKey());
 			if (entry.getValue() instanceof HashMap) {
 				recurseLeafData((TypedHashMap<?>) entry.getValue(),
-						wrapperElementName, numberOfWrappers,  fileControl, containerValuesMap,
-						writer, eventFactory);
+						wrapperElementName, numberOfWrappers, fileControl,
+						containerValuesMap, writer, eventFactory);
 			} else {
 				Object containedObject = entry.getValue();
 				streamWrapperStartPlusContainerEntries(containerValuesMap,
 						wrapperElementName, writer, eventFactory);
-//				int containedLevel = containerValuesMap.size();
-				int containedLevel = containerValuesMap.size()+1;
-							handleContainedObject(fileControl, containedLevel, writer,
+				// int containedLevel = containerValuesMap.size();
+				int containedLevel = containerValuesMap.size() + 1;
+				handleContainedObject(fileControl, containedLevel, writer,
 						eventFactory, containedObject);
 				streamWrapperEnd(wrapperElementName, writer, eventFactory);
 			}
@@ -289,9 +301,11 @@ public class StAXAgnosticGroupWriter {
 			XMLEventWriter writer, XMLEventFactory eventFactory,
 			FileControlEnum fileControl) throws XMLStreamException {
 		XMLEvent event;
-		XMLTagEntity parameterType = fileControl.getParameterType4GroupFactory(level);
+		XMLTagEntity parameterType = fileControl
+				.getParameterType4GroupFactory(level);
 		String elementName = parameterType.getXMLElementName();
-		log.debug("Entering streamEntry for Number and elementname: "+ elementName + ".");
+		log.debug("Entering streamEntry for Number and elementname: "
+				+ elementName + ".");
 		event = eventFactory.createStartElement("", "", elementName);
 		writer.add(event);
 		event = eventFactory.createCharacters(containedValue.toString());
@@ -307,9 +321,11 @@ public class StAXAgnosticGroupWriter {
 			FileControlEnum fileControl) throws XMLStreamException {
 		level++;
 		XMLEvent event;
-		XMLTagEntity parameterType = fileControl.getParameterType4GroupFactory(level);
+		XMLTagEntity parameterType = fileControl
+				.getParameterType4GroupFactory(level);
 		String elementName = parameterType.getXMLElementName();
-		log.debug("Entering streamEntry for String and elementname: "+ elementName + ".");
+		log.debug("Entering streamEntry for String and elementname: "
+				+ elementName + ".");
 		event = eventFactory.createStartElement("", "", elementName);
 		writer.add(event);
 		event = eventFactory.createCharacters(containedValue.toString());

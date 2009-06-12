@@ -5,6 +5,8 @@ package nl.rivm.emi.dynamo.ui.treecontrol.menu;
  * 
  */
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
@@ -346,15 +348,15 @@ public class StorageTreeMenuFactory {
 				// Not needed
 			}
 		}
-		if (!configExists) {
-			XMLFileAction action = new XMLFileAction(shell, treeViewer,
-					(DirectoryNode) selection.getFirstElement(),
-					"configuration", RootElementNamesEnum.SIMULATION
-							.getNodeLabel());
-			action.setConfigurationFileExists(false);
-			action.setText("New configuration");
-			manager.add(action);
-		}
+		// if (!configExists) {
+		XMLFileAction action = new XMLFileAction(shell, treeViewer,
+				(DirectoryNode) selection.getFirstElement(), "configuration",
+				RootElementNamesEnum.SIMULATION.getNodeLabel());
+		action.setConfigurationFileExists(false);
+		action.setText("New configuration");
+		action.setEnabled(!configExists);
+		manager.add(action);
+		// }
 	}
 
 	/*
@@ -401,13 +403,35 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4Population(IMenuManager manager,
 			IStructuredSelection selection) {
-
+		Set<String> allPossibleChildren = new HashSet<String>();
+		allPossibleChildren.add(StandardTreeNodeLabelsEnum.POPULATIONSIZEFILE
+				.getNodeLabel());
+		allPossibleChildren
+				.add(StandardTreeNodeLabelsEnum.POPULATIONOVERALLMORTALITYFILE
+						.getNodeLabel());
+		allPossibleChildren
+				.add(StandardTreeNodeLabelsEnum.POPULATIONNEWBORNSFILE
+						.getNodeLabel());
+		allPossibleChildren
+				.add(StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
+						.getNodeLabel());
+		DirectoryNode parentNode = (DirectoryNode) selection.getFirstElement();
+		Object[] childNodes = parentNode.getChildren();
+		for (Object childNode : childNodes) {
+			if (childNode instanceof FileNode) {
+				String fileNodeLabel = ((BaseNode) childNode).deriveNodeLabel();
+				allPossibleChildren.remove(fileNodeLabel);
+			}
+		}
 		// Calling screen W11
 		XMLFileAction action = new XMLFileAction(this.shell, this.treeViewer,
 				(DirectoryNode) selection.getFirstElement(),
 				StandardTreeNodeLabelsEnum.POPULATIONSIZEFILE.getNodeLabel(),
 				"populationsize");
 		action.setText("New populationsize");
+		action.setEnabled(allPossibleChildren
+				.contains(StandardTreeNodeLabelsEnum.POPULATIONSIZEFILE
+						.getNodeLabel()));
 		manager.add(action);
 
 		// Calling screen W12
@@ -417,6 +441,10 @@ public class StorageTreeMenuFactory {
 				StandardTreeNodeLabelsEnum.POPULATIONOVERALLMORTALITYFILE
 						.getNodeLabel());
 		action2.setText("New overall mortality");
+		action2
+				.setEnabled(allPossibleChildren
+						.contains(StandardTreeNodeLabelsEnum.POPULATIONOVERALLMORTALITYFILE
+								.getNodeLabel()));
 		manager.add(action2);
 
 		// Calling screen W13
@@ -425,6 +453,9 @@ public class StorageTreeMenuFactory {
 				StandardTreeNodeLabelsEnum.POPULATIONNEWBORNSFILE
 						.getNodeLabel());
 		action3.setText("New newborns");
+		action3.setEnabled(allPossibleChildren
+				.contains(StandardTreeNodeLabelsEnum.POPULATIONNEWBORNSFILE
+						.getNodeLabel()));
 		manager.add(action3);
 
 		// Calling screen W14
@@ -434,11 +465,16 @@ public class StorageTreeMenuFactory {
 				StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
 						.getNodeLabel());
 		action4.setText("New overall DALY weights");
+		action4
+				.setEnabled(allPossibleChildren
+						.contains(StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
+								.getNodeLabel()));
 		manager.add(action4);
-		SimulationConfigurationDropdownsMapDebugAction action5 = new SimulationConfigurationDropdownsMapDebugAction(
-				this.shell, (DirectoryNode) selection.getFirstElement());
-		action5.setText("Dropdowns map debugging");
-		manager.add(action5);
+		// SimulationConfigurationDropdownsMapDebugAction action5 = new
+		// SimulationConfigurationDropdownsMapDebugAction(
+		// this.shell, (DirectoryNode) selection.getFirstElement());
+		// action5.setText("Dropdowns map debugging");
+		// manager.add(action5);
 	}
 
 	// ** Risk Factors **
@@ -922,11 +958,13 @@ public class StorageTreeMenuFactory {
 			manager.add(action);
 		} else {
 			if (
-					/* BUG! RootElementNamesEnum.DISEASEPREVALENCES
-					.equals(ConfigurationFileUtil.extractRootElementName(node
-							.getPhysicalStorage()))*/
-			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equals(parentNodeLabel)		
-			) {
+			/*
+			 * BUG! RootElementNamesEnum.DISEASEPREVALENCES
+			 * .equals(ConfigurationFileUtil.extractRootElementName(node
+			 * .getPhysicalStorage()))
+			 */
+			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equals(
+					parentNodeLabel)) {
 				XMLFileAction action = new XMLFileAction(shell, treeViewer,
 						(BaseNode) node, node.toString(), "diseaseprevalences");
 				action.setText("Edit");

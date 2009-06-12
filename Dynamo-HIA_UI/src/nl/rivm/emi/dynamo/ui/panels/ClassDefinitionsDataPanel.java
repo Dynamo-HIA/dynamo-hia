@@ -1,9 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,17 +72,21 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	private void bindValue(WritableValue observableClassName) {
 		Text text = createAndPlaceTextField();
 		text.setText((String)observableClassName.doGetValue());
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-																	// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.CLASS.getTheType(), theHelpGroup);
+		text.addFocusListener(
+//				new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//																	// range.
+//			}
+//
+//		}
+focusListener
+		);
 //	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);

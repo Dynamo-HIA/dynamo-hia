@@ -58,10 +58,11 @@ public class RiskFactorContinuousObject extends
 	}
 
 	public int getNumberOfCutoffs() {
-		log.debug("getNumberOfCutoffs() about to return " + ((TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
-				.getElementName())).size());
-		return ((TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
-				.getElementName())).size();
+		TypedHashMap<FlexDex> cutoffs =((TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
+				.getElementName()));
+		int numberOfCutoffs = ((cutoffs == null)? 0 : cutoffs.size());
+		log.debug("getNumberOfCutoffs() about to return " + numberOfCutoffs);
+		return numberOfCutoffs;
 }
 
 	public WritableValue getObservableCutoffValue(Integer index) {

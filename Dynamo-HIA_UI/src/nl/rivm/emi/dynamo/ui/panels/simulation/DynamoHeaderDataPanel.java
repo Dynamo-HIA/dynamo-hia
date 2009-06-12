@@ -22,6 +22,7 @@ import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.PopulationFileNameComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
@@ -124,7 +125,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		contentsSet.addAll(treeLists.getPopulations());
 		log.debug("contentsSet" + contentsSet);
 
-		Label 			label = new Label(this, SWT.NONE);
+		Label label = new Label(this, SWT.NONE);
 		label.setText(POP_FILE_NAME + ":");
 
 		WritableValue observablePopFileName = dynamoSimulationObject
@@ -255,16 +256,20 @@ public class DynamoHeaderDataPanel extends Composite {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,
+				theHelpGroup);
+		text.addFocusListener(
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				// }
+				focusListener);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
@@ -337,28 +342,33 @@ public class DynamoHeaderDataPanel extends Composite {
 			radioButtons[1].setSelection(true);
 		}
 		// Add the helpgroups
-		radioButtons[0].addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
-		radioButtons[1].addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,
+				theHelpGroup);
+		radioButtons[0].addFocusListener(
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				// }
+				focusListener);
+		FocusListener focusListener2 = new TypedFocusListener(myType,theHelpGroup);
+		radioButtons[1].addFocusListener(
+//				new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//		}
+				focusListener2);
 		// Only the value of one radio button (the first one) is reminded
 		IObservableValue textObservableValue = SWTObservables
 				.observeSelection(this.radioButtons[0]);

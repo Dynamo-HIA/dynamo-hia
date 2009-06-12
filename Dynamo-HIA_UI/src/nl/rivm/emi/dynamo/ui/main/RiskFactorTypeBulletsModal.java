@@ -180,7 +180,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		compoundGroupLayout.makeColumnsEqualWidth = true;
 		compoundGroup.setLayout(compoundGroupLayout);
 		  radioButtons[2] = new Button(compoundGroup, SWT.RADIO);
-		  radioButtons[2].setText("compound (under construction!)");
+		  radioButtons[2].setText("compound");
 		  radioButtons[2].addListener(SWT.Selection, new Listener() {
 		  RootElementNamesEnum myRootElementNamesEnum =
 		  RootElementNamesEnum.RISKFACTOR_COMPOUND;

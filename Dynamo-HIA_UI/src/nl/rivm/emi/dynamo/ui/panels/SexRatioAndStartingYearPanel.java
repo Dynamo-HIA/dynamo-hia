@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.ui.listeners.selection.StartingYearUpdateButtonSelecti
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.panels.listeners.TypedFocusListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
@@ -133,16 +134,19 @@ public class SexRatioAndStartingYearPanel {
 		Text text = createAndPlaceTextField(group, label);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		text.addFocusListener(new FocusListener() {
-			public void focusGained(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(1);
-			}
-
-			public void focusLost(FocusEvent arg0) {
-				theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out of
-				// range.
-			}
-		});
+		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+		text.addFocusListener(
+		// new FocusListener() {
+//			public void focusGained(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//			}
+//
+//			public void focusLost(FocusEvent arg0) {
+//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// range.
+//			}
+//		}
+		focusListener);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
@@ -193,17 +197,20 @@ public class SexRatioAndStartingYearPanel {
 			startingYearText.setText(startingYearType
 					.convert4View(startingYear));
 			startingYearText.addVerifyListener(startingYearType);
-			startingYearText.addFocusListener(new FocusListener() {
-				public void focusGained(FocusEvent arg0) {
-					theHelpGroup.getFieldHelpGroup().putHelpText(1);
-				}
-
-				public void focusLost(FocusEvent arg0) {
-					theHelpGroup.getFieldHelpGroup().putHelpText(48); // Out
-					// of
-					// range.
-				}
-			});
+			FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.STARTINGYEAR.getTheType(),theHelpGroup);
+		startingYearText.addFocusListener(
+//				new FocusListener() {
+//				public void focusGained(FocusEvent arg0) {
+//					theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//				}
+//
+//				public void focusLost(FocusEvent arg0) {
+//					theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out
+//					// of
+//					// range.
+//				}
+//			}
+			focusListener);
 		}
 
 		private void setupUpdateButton() {
