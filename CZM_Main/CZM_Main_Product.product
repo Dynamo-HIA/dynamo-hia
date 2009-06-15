@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="RCP Application" id="CZM_Main.product" application="CZM_Main.application" version="1.0.0" useFeatures="false">
+<product name="RCP Application" id="CZM_Main.product" application="CZM_Main.application" version="1.0.8" useFeatures="false">
 
    <configIni use="default">
    </configIni>
