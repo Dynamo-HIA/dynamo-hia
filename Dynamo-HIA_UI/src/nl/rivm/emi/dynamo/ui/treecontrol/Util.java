@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
@@ -99,8 +100,8 @@ public class Util {
 		return result;
 	}
 
-	static public String[] deriveEntityLabelAndValueFromSelectedNode(
-			BaseNode selectedNode) throws ConfigurationException {
+	static public String[] deriveRiskSourceTypeAndLabelFromSelectedNode(
+			BaseNode selectedNode) throws ConfigurationException, DynamoInconsistentDataException {
 		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
 		String foundName = null;
 		BaseNode riskSourceInstanceNode = null;
@@ -118,9 +119,10 @@ public class Util {
 					riskSourceInstanceNode = riskSourceProperties
 							.getRiskSourceNode();
 					break;
-				}
+								}
 			}
 		}
+		if(riskSourceInstanceNode != null){
 		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode)
 				.toString();
 		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
@@ -132,6 +134,9 @@ public class Util {
 		result[0] = riskSourceTypeLabel;
 		result[1] = riskSourceInstanceLabel;
 		return result;
+		} else {
+			throw new DynamoInconsistentDataException("RiskSource not found for filename: \"" + selectedNode.deriveNodeLabel() + "\"");
+		}
 	}
 
 	/**
