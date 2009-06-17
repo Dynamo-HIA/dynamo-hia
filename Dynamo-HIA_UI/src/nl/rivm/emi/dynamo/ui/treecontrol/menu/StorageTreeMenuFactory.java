@@ -71,154 +71,188 @@ public class StorageTreeMenuFactory {
 			break;
 		case 2:
 			// Simulations, ReferenceData
-			if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
-					.equalsIgnoreCase(nodeLabel)) {
-				createMenu4Simulations(manager, selection);
-			} else {
-				if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel()
-						.equalsIgnoreCase(nodeLabel)) {
-					;
-				} else {
-					createErrorMenu4UnexpectedNodes(manager, selection,
-							treeDepth);
-				}
-			}
+			handleLevel2(manager, selection, treeDepth, nodeLabel);
 			break;
 		case 3:
 			// <Simulation-name>, Populations, RiskFactors, Diseases.
-			if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
-					.equalsIgnoreCase(nodeLabel)) {
-				createMenu4Populations(manager, selection);
-			} else {
-				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-						.equalsIgnoreCase(nodeLabel)) {
-					createMenu4RiskFactors(manager, selection);
-				} else {
-					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
-							.equalsIgnoreCase(nodeLabel)) {
-						createMenu4Diseases(manager, selection);
-					} else {
-						ParentNode parentNode = ((ChildNode) selectedNode)
-								.getParent();
-						String parentLabel = ((BaseNode) parentNode)
-								.deriveNodeLabel();
-						if (StandardTreeNodeLabelsEnum.SIMULATIONS
-								.getNodeLabel().equalsIgnoreCase(parentLabel)) {
-							createMenu4Simulation(manager, selection);
-
-						} else {
-							createErrorMenu4UnexpectedNodes(manager, selection,
-									treeDepth);
-						}
-					}
-				}
-			}
+			handleLevel3(manager, selection, selectedNode, treeDepth,
+						nodeLabel);
 			break;
 		case 4:
 			// Modelconfiguration, Parameters, Results, <Scenario-name>,
 			// <Population-name>, <RiskFactor-name>,
 			// <Disease-name>.
-			if (StandardTreeNodeLabelsEnum.MODELCONFIGURATION.getNodeLabel()
-					.equalsIgnoreCase(nodeLabel)) {
-				createInformationMenu4UnimplementedNodes(manager, selection,
-						treeDepth);
-			} else {
-				if (StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel()
-						.equalsIgnoreCase(nodeLabel)) {
-					createInformationMenu4UnimplementedNodes(manager,
-							selection, treeDepth);
-				} else {
-					if (StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
-							.equalsIgnoreCase(nodeLabel)) {
-						createInformationMenu4UnimplementedNodes(manager,
-								selection, treeDepth);
-					} else {
-						ParentNode parentNode = ((ChildNode) selectedNode)
-								.getParent();
-						String parentLabel = ((BaseNode) parentNode)
-								.deriveNodeLabel();
-						if (StandardTreeNodeLabelsEnum.POPULATIONS
-								.getNodeLabel().equalsIgnoreCase(parentLabel)) {
-							createMenu4Population(manager, selection);
-						} else {
-							if (StandardTreeNodeLabelsEnum.RISKFACTORS
-									.getNodeLabel().equalsIgnoreCase(
-											parentLabel)) {
-								createMenu4RiskFactor(manager, selection);
-							} else {
-								if (StandardTreeNodeLabelsEnum.DISEASES
-										.getNodeLabel().equalsIgnoreCase(
-												parentLabel)) {
-									// createMenu4Disease(manager, selection);
-								} else {
-									ParentNode grandParentNode = ((ChildNode) parentNode)
-											.getParent();
-									String grandParentLabel = ((BaseNode) grandParentNode)
-											.deriveNodeLabel();
-									if (StandardTreeNodeLabelsEnum.SIMULATIONS
-											.getNodeLabel().equalsIgnoreCase(
-													grandParentLabel)) {
-										createMenu2EditXML(manager, selection);
-										// createMenu4Scenario(manager,
-										// selection);
-									} else {
-										createErrorMenu4UnexpectedNodes(
-												manager, selection, treeDepth);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			handleLevel4(manager, selection, selectedNode, treeDepth,
+						nodeLabel);
 			break;
 		case 5:
-			if (selectedNode.isXMLFile()) {
-				createMenu2EditXML(manager, selection);
-			} else {
-				ParentNode parentNode = ((ChildNode) selectedNode).getParent();
-				ParentNode grandParentNode = ((ChildNode) parentNode)
-						.getParent();
-				String grandParentLabel = ((BaseNode) grandParentNode)
-						.deriveNodeLabel();
-				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-						.equalsIgnoreCase(grandParentLabel)) {
-					buildRiskFactorsMenus(manager, selection, nodeLabel);
-				} else {
-					if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
-							.equalsIgnoreCase(grandParentLabel)) {
-						buildDiseasesMenus(manager, selection, nodeLabel);
-					} else {
-						ErrorMessageUtil.showErrorMessage(log, shell,
-								new DynamoConfigurationException(
-										"Not implemented yet"), "",
-								SWT.ERROR_UNSPECIFIED);
-						/*
-						 * createDefaultMenu4UnimplementedNodes(manager,
-						 * selection, treeDepth);
-						 */
-					}
-				}
-			}
+			handleLevel5(manager, selection, selectedNode, nodeLabel);
 			break;
 		case 6:
-			if (selectedNode.isXMLFile()) {
-				createMenu2EditXML(manager, selection);
-			} else {
-				/*
-				 * createDefaultMenu4UnimplementedNodes(manager, selection,
-				 * treeDepth);
-				 */
-				ErrorMessageUtil.showErrorMessage(log, shell,
-						new DynamoConfigurationException("No xml file found"),
-						"", SWT.ERROR_UNSPECIFIED);
-			}
+			handleLevel6(manager, selection, selectedNode);
 			break;
 		default:
 			createErrorMenu4UnexpectedNodes(manager, selection, treeDepth);
 			break;
 		}
 	}
+
+	private void handleLevel2(IMenuManager manager,
+			IStructuredSelection selection, int treeDepth, String nodeLabel) {
+		if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
+				.equalsIgnoreCase(nodeLabel)) {
+			createMenu4Simulations(manager, selection);
+		} else {
+			if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel()
+					.equalsIgnoreCase(nodeLabel)) {
+				;
+			} else {
+				createErrorMenu4UnexpectedNodes(manager, selection,
+						treeDepth);
+			}
+		}
+	}
+
+	private void handleLevel3(IMenuManager manager,
+			IStructuredSelection selection, BaseNode selectedNode,
+			int treeDepth, String nodeLabel) {
+		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
+				.equalsIgnoreCase(nodeLabel)) {
+			createMenu4Populations(manager, selection);
+		} else {
+			if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+					.equalsIgnoreCase(nodeLabel)) {
+				createMenu4RiskFactors(manager, selection);
+			} else {
+				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
+						.equalsIgnoreCase(nodeLabel)) {
+					createMenu4Diseases(manager, selection);
+				} else {
+					ParentNode parentNode = ((ChildNode) selectedNode)
+							.getParent();
+					String parentLabel = ((BaseNode) parentNode)
+							.deriveNodeLabel();
+					if (StandardTreeNodeLabelsEnum.SIMULATIONS
+							.getNodeLabel().equalsIgnoreCase(parentLabel)) {
+						createMenu4Simulation(manager, selection);
+
+					} else {
+						createErrorMenu4UnexpectedNodes(manager, selection,
+								treeDepth);
+					}
+				}
+			}
+		}
+	}
+
+	private void handleLevel4(IMenuManager manager,
+			IStructuredSelection selection, BaseNode selectedNode,
+			int treeDepth, String nodeLabel) throws TreeStructureException,
+			DynamoConfigurationException {
+		if (StandardTreeNodeLabelsEnum.MODELCONFIGURATION.getNodeLabel()
+				.equalsIgnoreCase(nodeLabel)) {
+			createInformationMenu4UnimplementedNodes(manager, selection,
+					treeDepth);
+		} else {
+			if (StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel()
+					.equalsIgnoreCase(nodeLabel)) {
+				createInformationMenu4UnimplementedNodes(manager,
+						selection, treeDepth);
+			} else {
+				if (StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+						.equalsIgnoreCase(nodeLabel)) {
+					createInformationMenu4UnimplementedNodes(manager,
+							selection, treeDepth);
+				} else {
+					ParentNode parentNode = ((ChildNode) selectedNode)
+							.getParent();
+					String parentLabel = ((BaseNode) parentNode)
+							.deriveNodeLabel();
+					if (StandardTreeNodeLabelsEnum.POPULATIONS
+							.getNodeLabel().equalsIgnoreCase(parentLabel)) {
+						createMenu4Population(manager, selection);
+					} else {
+						if (StandardTreeNodeLabelsEnum.RISKFACTORS
+								.getNodeLabel().equalsIgnoreCase(
+										parentLabel)) {
+							createMenu4RiskFactor(manager, selection);
+						} else {
+							if (StandardTreeNodeLabelsEnum.DISEASES
+									.getNodeLabel().equalsIgnoreCase(
+											parentLabel)) {
+								// createMenu4Disease(manager, selection);
+							} else {
+								ParentNode grandParentNode = ((ChildNode) parentNode)
+										.getParent();
+								String grandParentLabel = ((BaseNode) grandParentNode)
+										.deriveNodeLabel();
+								if (StandardTreeNodeLabelsEnum.SIMULATIONS
+										.getNodeLabel().equalsIgnoreCase(
+												grandParentLabel)) {
+									createMenu2EditXML(manager, selection);
+									// createMenu4Scenario(manager,
+									// selection);
+								} else {
+									createErrorMenu4UnexpectedNodes(
+											manager, selection, treeDepth);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void handleLevel5(IMenuManager manager,
+			IStructuredSelection selection, BaseNode selectedNode,
+			String nodeLabel) throws DynamoConfigurationException,
+			ConfigurationException {
+		if (selectedNode.isXMLFile()) {
+			createMenu2EditXML(manager, selection);
+		} else {
+			ParentNode parentNode = ((ChildNode) selectedNode).getParent();
+			ParentNode grandParentNode = ((ChildNode) parentNode)
+					.getParent();
+			String grandParentLabel = ((BaseNode) grandParentNode)
+					.deriveNodeLabel();
+			if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+					.equalsIgnoreCase(grandParentLabel)) {
+				buildRiskFactorsMenus(manager, selection, nodeLabel);
+			} else {
+				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
+						.equalsIgnoreCase(grandParentLabel)) {
+					buildDiseasesMenus(manager, selection, nodeLabel);
+				} else {
+					ErrorMessageUtil.showErrorMessage(log, shell,
+							new DynamoConfigurationException(
+									"Not implemented yet"), "",
+							SWT.ERROR_UNSPECIFIED);
+					/*
+					 * createDefaultMenu4UnimplementedNodes(manager,
+					 * selection, treeDepth);
+					 */
+				}
+			}
+		}
+	}
+
+	private void handleLevel6(IMenuManager manager,
+			IStructuredSelection selection, BaseNode selectedNode)
+			throws DynamoConfigurationException {
+		if (selectedNode.isXMLFile()) {
+			createMenu2EditXML4Level6(manager, selection);
+		} else {
+			/*
+			 * createDefaultMenu4UnimplementedNodes(manager, selection,
+			 * treeDepth);
+			 */
+			ErrorMessageUtil.showErrorMessage(log, shell,
+					new DynamoConfigurationException("No xml file found"),
+					"", SWT.ERROR_UNSPECIFIED);
+		}
+	}
+
 
 	private void buildDiseasesMenus(IMenuManager manager,
 			IStructuredSelection selection, String nodeLabel) {
@@ -339,7 +373,7 @@ public class StorageTreeMenuFactory {
 			if (child != null) {
 				String childLabel = ((BaseNode) child).deriveNodeLabel();
 				if (StandardTreeNodeLabelsEnum.CONFIGURATIONFILE.getNodeLabel()
-						.equals(childLabel)) {
+						.equalsIgnoreCase(childLabel)) {
 					configExists = true;
 				} else {
 					// Not needed
@@ -762,11 +796,75 @@ public class StorageTreeMenuFactory {
 							((BaseNode) grandParentNode).deriveNodeLabel())) {
 				createEditMenu4XML4Simulations(manager, node, nodeLabel);
 			} else {
-				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
+/* Level 6				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
 						((BaseNode) greatGrandParentNode).deriveNodeLabel())) {
 					createEditMenu4XML4Diseases(manager, node, parentNodeLabel);
 				} else {
-					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+			*/
+				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+							.equalsIgnoreCase(
+									((BaseNode) grandParentNode)
+											.deriveNodeLabel())) {
+						if ("configuration".equals(nodeLabel)) {
+							handleRiskFactorRelRisksForDeathXMLs(manager, node);
+						} else {
+						}
+	/* Level 6				} else {
+						if (StandardTreeNodeLabelsEnum.RISKFACTORS
+								.getNodeLabel().equalsIgnoreCase(
+										((BaseNode) greatGrandParentNode)
+												.deriveNodeLabel())) {
+							createEditMenu4NonConfigXML4RiskFactors(manager, selection,
+									node, nodeLabel);
+	*/					}
+					}
+				}
+//			}
+//		}
+	}
+	
+	/**
+	 * TODO Precondition: The selected Node maps to an XML file.
+	 * 
+	 * @param manager
+	 * @param selection
+	 * @throws DynamoConfigurationException
+	 */
+	private void createMenu2EditXML4Level6(IMenuManager manager,
+			IStructuredSelection selection) throws DynamoConfigurationException {
+		FileNode node = (FileNode) selection.getFirstElement();
+		String nodeLabel = node.toString();
+		ParentNode parentNode = node.getParent();
+		String parentNodeLabel = parentNode.toString();
+		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
+		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
+				.getParent();
+
+		// TODO: REMOVE: just for debugging
+		String rootElementNameDebug = ConfigurationFileUtil
+				.extractRootElementName(node.getPhysicalStorage());
+		log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
+		// transitiondrift
+		log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
+		// transitionmatrix_zero,
+		// transitiondrift_zero
+		// TODO: REMOVE: just for debugging
+/* Level 5
+		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
+				.equalsIgnoreCase(
+						((BaseNode) grandParentNode).deriveNodeLabel())) {
+			createEditMenu4XML4Populations(manager, selection, node, nodeLabel);
+		} else {
+		if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
+					.equalsIgnoreCase(
+							((BaseNode) grandParentNode).deriveNodeLabel())) {
+				createEditMenu4XML4Simulations(manager, node, nodeLabel);
+			} else {
+	*/				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equalsIgnoreCase(
+						((BaseNode) greatGrandParentNode).deriveNodeLabel())) {
+					createEditMenu4XML4Diseases(manager, node, parentNodeLabel);
+				} else {
+/*	Level 5				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
 							.equalsIgnoreCase(
 									((BaseNode) grandParentNode)
 											.deriveNodeLabel())) {
@@ -782,78 +880,44 @@ public class StorageTreeMenuFactory {
 						} else {
 						}
 					} else {
-						if (StandardTreeNodeLabelsEnum.RISKFACTORS
+*/
+					if (StandardTreeNodeLabelsEnum.RISKFACTORS
 								.getNodeLabel().equalsIgnoreCase(
 										((BaseNode) greatGrandParentNode)
 												.deriveNodeLabel())) {
-							createEditMenu4XML4RiskFactors(manager, selection,
+							createEditMenu4NonConfigXML4RiskFactors(manager, selection,
 									node, nodeLabel);
 						}
 					}
-				}
-			}
-		}
+//				}
+//			}
+//		}
 	}
 
-	private void createEditMenu4XML4RiskFactors(IMenuManager manager,
+	private void createEditMenu4NonConfigXML4RiskFactors(IMenuManager manager,
 			IStructuredSelection selection, FileNode node, String nodeLabel)
 			throws DynamoConfigurationException {
 		ParentNode parentNode = node.getParent();
 		String parentNodeLabel = ((BaseNode) parentNode).deriveNodeLabel();
-		if (StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equals(
+		if (StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equalsIgnoreCase(
 				parentNodeLabel)) {
-			if (RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
-					.getNodeLabel().equals(
-							ConfigurationFileUtil.extractRootElementName(node
-									.getPhysicalStorage()))) {
-				String rootElementName = ConfigurationFileUtil
-						.extractRootElementName(node.getPhysicalStorage());
-				XMLFileAction action = new XMLFileAction(shell, treeViewer,
-						(BaseNode) node, node.toString(), rootElementName);
-				action.setText("Edit");
-				manager.add(action);
-			} else {
-				if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
-						.getNodeLabel().equals(
-								ConfigurationFileUtil
-										.extractRootElementName(node
-												.getPhysicalStorage()))) {
-					String rootElementName = ConfigurationFileUtil
-							.extractRootElementName(node.getPhysicalStorage());
-					XMLFileAction action = new XMLFileAction(shell, treeViewer,
-							(BaseNode) node, node.toString(), rootElementName);
-					action.setText("Edit");
-					manager.add(action);
-				} else {
-					addDummy(manager, selection, "Unexpected rootelementname.");
-				}
-			}
+			handleRiskFactorPrevalencesXMLs(manager, selection, node);
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
-					.equals(parentNodeLabel)) {
-				String rootElementName = ConfigurationFileUtil
-						.extractRootElementName(node.getPhysicalStorage());
-				XMLFileAction action = new XMLFileAction(shell, treeViewer,
-						(BaseNode) node, node.toString(), rootElementName);
-				action.setText("Edit");
-				manager.add(action);
+					.equalsIgnoreCase(parentNodeLabel)) {
+				handleRiskFactorRelRisksForDeathXMLs(manager, node);
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
-						.getNodeLabel().equals(parentNodeLabel)) {
-					String rootElementName = ConfigurationFileUtil
-							.extractRootElementName(node.getPhysicalStorage());
-					XMLFileAction action = new XMLFileAction(shell, treeViewer,
-							(BaseNode) node, node.toString(), rootElementName);
-					action.setText("Edit");
-					manager.add(action);
+						.getNodeLabel().equalsIgnoreCase(parentNodeLabel)) {
+					handleRiskFactorRelRisksForDeathXMLs(manager, node);
 				} else {
-					if (StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel()
-							.equals(parentNodeLabel)) {
-						handleRiskFactorTransitions(manager, selection, node);
+					if (StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel()
+							.equalsIgnoreCase(parentNodeLabel)) {
+						handleRiskFactorTransitionsXMLs(manager, selection, node);
 					} else {
 						if (StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY
-								.getNodeLabel().equals(parentNodeLabel)) {
-							handleRiskFactorDurationDistributions(manager,
+								.getNodeLabel().equalsIgnoreCase(parentNodeLabel)) {
+							handleRiskFactorDurationDistributionXMLs(manager,
 									selection, node);
 						}
 					}
@@ -862,7 +926,38 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
-	private void handleRiskFactorTransitions(IMenuManager manager,
+	private void handleRiskFactorRelRisksForDeathXMLs(IMenuManager manager,
+			FileNode node) throws DynamoConfigurationException {
+		String rootElementName = ConfigurationFileUtil
+				.extractRootElementName(node.getPhysicalStorage());
+		XMLFileAction action = new XMLFileAction(shell, treeViewer,
+				(BaseNode) node, node.toString(), rootElementName);
+		action.setText("Edit");
+		manager.add(action);
+	}
+
+	private void handleRiskFactorPrevalencesXMLs(IMenuManager manager,
+			IStructuredSelection selection, FileNode node)
+			throws DynamoConfigurationException {
+		if (RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
+				.getNodeLabel().equals(
+						ConfigurationFileUtil.extractRootElementName(node
+								.getPhysicalStorage()))) {
+			handleRiskFactorRelRisksForDeathXMLs(manager, node);
+		} else {
+			if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
+					.getNodeLabel().equals(
+							ConfigurationFileUtil
+									.extractRootElementName(node
+											.getPhysicalStorage()))) {
+				handleRiskFactorRelRisksForDeathXMLs(manager, node);
+			} else {
+				addDummy(manager, selection, "Unexpected rootelementname.");
+			}
+		}
+	}
+
+	private void handleRiskFactorTransitionsXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
 		if ("transitiondrift".equals(ConfigurationFileUtil
@@ -936,7 +1031,7 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
-	private void handleRiskFactorDurationDistributions(IMenuManager manager,
+	private void handleRiskFactorDurationDistributionXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
 		String rootElementName = ConfigurationFileUtil
@@ -963,7 +1058,7 @@ public class StorageTreeMenuFactory {
 			 * .equals(ConfigurationFileUtil.extractRootElementName(node
 			 * .getPhysicalStorage()))
 			 */
-			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equals(
+			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel().equalsIgnoreCase(
 					parentNodeLabel)) {
 				XMLFileAction action = new XMLFileAction(shell, treeViewer,
 						(BaseNode) node, node.toString(), "diseaseprevalences");
@@ -990,27 +1085,13 @@ public class StorageTreeMenuFactory {
 						if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 								.getNodeLabel().equalsIgnoreCase(
 										parentNodeLabel)) {
-							String actualRootElementName = ConfigurationFileUtil
-									.extractRootElementName(node
-											.getPhysicalStorage());
-							XMLFileAction action = new XMLFileAction(shell,
-									treeViewer, (BaseNode) node, node
-											.toString(), actualRootElementName);
-							action.setText("Edit");
-							manager.add(action);
+							handleRiskFactorRelRisksForDeathXMLs(manager, node);
 						} else {
 							if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
 									.getNodeLabel().equalsIgnoreCase(
 											parentNodeLabel)) {
-								String actualRootElementName = ConfigurationFileUtil
-										.extractRootElementName(node
-												.getPhysicalStorage());
-								XMLFileAction action = new XMLFileAction(shell,
-										treeViewer, (BaseNode) node, node
-												.toString(),
-										actualRootElementName);
-								action.setText("Edit");
-								manager.add(action);
+								handleRiskFactorRelRisksForDeathXMLs(manager,
+										node);
 							}
 						}
 					}
