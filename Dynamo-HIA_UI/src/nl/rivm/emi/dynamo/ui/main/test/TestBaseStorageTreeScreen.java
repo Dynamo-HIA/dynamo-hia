@@ -2,9 +2,6 @@ package nl.rivm.emi.dynamo.ui.main.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import java.io.File;
-
 import nl.rivm.emi.dynamo.ui.main.BaseStorageTreeScreen;
 
 import org.apache.commons.logging.Log;
