@@ -9,6 +9,7 @@
 	<property name="plugins.dir"     value="C:/dynamo/eclipse341/plugins"/>
 	<property name="images.dir"     value="images"/>
 	<property name="schemas.dir"     value="schemas"/>
+	<property name="help.dir"     value="help"/>
 	<property name="nl.rivm.emi.dynamo.dir"     value="../nl.rivm.emi.dynamo"/>
 	<property name="czm_main.dir"     value="../CZM_Main"/>
 		
@@ -17,6 +18,7 @@
     	<delete dir="${nl.rivm.emi.dynamo.dir}/nl"/>
     	<delete dir="${czm_main.dir}/images"/>
     	<delete dir="${czm_main.dir}/schemas"/>
+    	<delete dir="${czm_main.dir}/help"/>
     </target>
 
     <target name="clean-build">
@@ -61,6 +63,9 @@
 	  <copy todir="${czm_main.dir}/schemas" overwrite="true">
 	    <fileset dir="${schemas.dir}" />
 	  </copy>		
+		  <copy todir="${czm_main.dir}/help" overwrite="true">
+		    <fileset dir="${help.dir}" />
+		  </copy>		
 	</target>
 	
 	<target name="run" depends="jar">
