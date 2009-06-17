@@ -77,7 +77,7 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
+			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
 			ExcessMortalityGroup excessMortalityGroup = new ExcessMortalityGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			excessMortalityGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);

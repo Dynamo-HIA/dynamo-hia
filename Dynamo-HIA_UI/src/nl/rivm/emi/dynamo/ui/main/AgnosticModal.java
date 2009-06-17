@@ -65,7 +65,7 @@ abstract public class AgnosticModal extends AbstractDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
+			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
 			specializedOpenPart(buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.

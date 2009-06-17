@@ -77,7 +77,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel);
+			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
 			BaseNode riskSourceNode = null;
 			// RelRisksForDeathCategoricalGroup relRiskForDeathCategoricalGroup
 			// = new RelRisksForDeathCategoricalGroup(
