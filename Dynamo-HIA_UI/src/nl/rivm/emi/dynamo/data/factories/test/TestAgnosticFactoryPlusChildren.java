@@ -19,10 +19,9 @@ import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
@@ -311,56 +310,6 @@ public class TestAgnosticFactoryPlusChildren {
 			PrevalencesCategoricalFactory theFactory = new PrevalencesCategoricalFactory();
 			int numberOfCategories = 6;
 			theFactory.setNumberOfCategories(numberOfCategories);
-			Object defaultResult = theFactory.manufactureDefault();
-			try {
-				FileControlSingleton instance = FileControlSingleton
-						.getInstance();
-				FileControlEnum myEnum = instance.get(rootElementName);
-				StAXAgnosticWriter.produceFile(myEnum,
-						(HashMap<Integer, Object>) defaultResult,
-						configurationFile);
-				// Read defaults file and write it out again.
-				Object result = theFactory.manufacture(configurationFile, rootElementName);
-				assertNotNull(result);
-				StAXAgnosticWriter.produceFile((FileControlSingleton
-						.getInstance()).get(rootElementName),
-						(HashMap<Integer, Object>) result, outputFile);
-				// assertEquals( 0, outputFile.compareTo(configurationFile));
-			} catch (XMLStreamException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			} catch (UnexpectedFileStructureException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			} catch (IOException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			} catch (DynamoInconsistentDataException e) {
-				e.printStackTrace();
-				assertNull(e); // Force error.
-			}
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
-			assertNotNull(e); // Force error.
-		}
-	}
-
-	@Test
-	public void testDurationRiskFactorPrevalences() {
-		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESDURATION
-				.getRootElementName();
-		String configurationFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName + "_default.xml";
-		File configurationFile = new File(configurationFilePath);
-		String outputFilePath = "data" + File.separator + "development"
-				+ File.separator + rootElementName + "_read_written.xml";
-		File outputFile = new File(outputFilePath);
-		log.debug(configurationFile.getAbsolutePath());
-		try {
-			// Create XML-file with defaults and write it to disk.
-			RiskFactorPrevalencesDurationFactory theFactory = new RiskFactorPrevalencesDurationFactory();
-			int numDurations = 20;
-			theFactory.setNumberOfCategories(numDurations);
 			Object defaultResult = theFactory.manufactureDefault();
 			try {
 				FileControlSingleton instance = FileControlSingleton

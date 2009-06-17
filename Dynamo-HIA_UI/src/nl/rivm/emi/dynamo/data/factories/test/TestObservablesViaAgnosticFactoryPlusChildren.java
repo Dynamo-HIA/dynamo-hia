@@ -58,13 +58,6 @@ public class TestObservablesViaAgnosticFactoryPlusChildren {
 	}
 
 	@Test
-	public void testDurationRiskFactorPrevalences() {
-		RunnableDurationRiskfactorPrevalencesManufacturing runableMan = new RunnableDurationRiskfactorPrevalencesManufacturing();
-		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
-				runableMan);
-	}
-
-	@Test
 	public void testRelRiskForDeathCategorical() {
 		RunnableRelRiskForDeathCategoricalManufacturing runableMan = new RunnableRelRiskForDeathCategoricalManufacturing();
 		Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),

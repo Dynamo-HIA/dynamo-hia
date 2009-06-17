@@ -10,13 +10,7 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.OverallDALYWeightsFactory;
-import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
-import nl.rivm.emi.dynamo.data.factories.PrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesDurationFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
