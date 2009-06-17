@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -18,11 +19,11 @@ public class RelRisksFromRiskFactorCategoricalGroup {
 
 	public RelRisksFromRiskFactorCategoricalGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException {
+			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		RelativeRiskPanel relRiskPanel = new RelativeRiskPanel(theGroup,
+		RelativeRiskContextPanel relRiskPanel = new RelativeRiskContextPanel(theGroup,
 				riskSourceNode,selectedNode);
 		relRiskPanel.handlePlacementInContainer();
 		RelRisksFromRiskFactorCategoricalParameterGroup parameterGroup = new RelRisksFromRiskFactorCategoricalParameterGroup(

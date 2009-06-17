@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import java.io.File;
+
 import nl.rivm.emi.dynamo.ui.panels.help.ElementNameScrollableHelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.help.HelpScrolledComposite;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -14,37 +15,29 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class HelpGroup {
-	Shell modalShell;
+	private Shell modalShell;
 	Group theGroup = null;
-	ElementNameScrollableHelpGroup windowHelpGroup;
-	ElementNameScrollableHelpGroup fieldHelpGroup;
-//	HelpScrolledComposite tryTwo;
+	private ElementNameScrollableHelpGroup windowHelpGroup;
+	private ElementNameScrollableHelpGroup fieldHelpGroup;
 
-	public HelpGroup(Shell shell, Composite buttonPane) {
+	public HelpGroup(Shell shell, Composite buttonPane, String rootElementName) {
 		theGroup = new Group(shell, SWT.NONE);
 		modalShell = shell;
 		handlePlacementInContainer(theGroup, buttonPane);
-
-		// FillLayout fillLayout = new FillLayout(SWT.VERTICAL);
-		// fillLayout.marginHeight = 2;
-		// fillLayout.marginWidth = 2;
-		// theGroup.setLayout(fillLayout);
-		// RowLayout rowLayout = createRowLayout();
+		String helpDirectoryPath = System.getProperty("user.dir") + File.separator + "help";
 		GridLayout layout = createGridLayout();
 		theGroup.setLayout(layout);
 		theGroup.setText("Help");
 		GridData layoutData = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_VERTICAL);
 		windowHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
-				"Window", "element");
+				"Window", rootElementName, helpDirectoryPath);
 		windowHelpGroup.theGroup.setLayoutData(layoutData);
 
 		 fieldHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
 		 "Field",
-		 "field");
+		 "fieldInit", helpDirectoryPath);
 		 fieldHelpGroup.theGroup.setLayoutData(layoutData);
-//		tryTwo = new HelpScrolledComposite(theGroup, "Border", "field");
-//		tryTwo.setLayoutData(layoutData);
 		theGroup.pack();
 	}
 

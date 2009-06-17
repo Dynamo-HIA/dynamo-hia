@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -14,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-public class RelativeRiskPanel {
+public class RelativeRiskContextPanel {
 	private static final String FROM = "From ";
 	private static final String TO = "To ";
 	Group group;
@@ -22,8 +23,8 @@ public class RelativeRiskPanel {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public RelativeRiskPanel(Composite parent, BaseNode riskSourceNode,
-			BaseNode selectedNode) throws ConfigurationException {
+	public RelativeRiskContextPanel(Composite parent, BaseNode riskSourceNode,
+			BaseNode selectedNode) throws ConfigurationException, DynamoInconsistentDataException {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
@@ -32,16 +33,16 @@ public class RelativeRiskPanel {
 			entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(riskSourceNode);
 		} else {
 			entityArray = Util
-					.deriveEntityLabelAndValueFromSelectedNode(selectedNode);
+					.deriveRiskSourceTypeAndLabelFromSelectedNode(selectedNode);
 		}
-		EntityNamePanel riskSourcePanel = new EntityNamePanel(group,
-				entityArray[0], entityArray[1], FROM);
-		riskSourcePanel.putFirstInContainer(30);
 		String[] anotherEntityArray = Util
-				.deriveGrandParentEntityLabelAndValue(selectedNode);
+		.deriveGrandParentEntityLabelAndValue(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(group,
-				anotherEntityArray[0], anotherEntityArray[1], TO);
-		entityNameGroup.putLastInContainer(riskSourcePanel.group);
+				anotherEntityArray[0], anotherEntityArray[1], "");
+		entityNameGroup.putFirstInContainer(30);
+		EntityNamePanel riskSourcePanel = new EntityNamePanel(group,
+				entityArray[0], entityArray[1], "");
+		riskSourcePanel.putLastInContainer(entityNameGroup.group);
 	}
 
 	public void handlePlacementInContainer() {
