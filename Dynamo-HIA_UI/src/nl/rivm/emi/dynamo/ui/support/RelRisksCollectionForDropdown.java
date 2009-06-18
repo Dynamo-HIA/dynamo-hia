@@ -78,12 +78,12 @@ public class RelRisksCollectionForDropdown<String> extends
 
 		Set<String> validFromValues = new LinkedHashSet<String>();
 		Set<String> validToValues = new LinkedHashSet<String>();
-		Map<String, TabRiskFactorConfigurationData> rfc = dynamoSimulationObject
-		.getRiskFactorConfigurations();
+		Map<String, TabRiskFactorConfigurationData> rfc = (Map<String, TabRiskFactorConfigurationData>) dynamoSimulationObject
+				.getRiskFactorConfigurations();
 		Set<String> riskfactors = rfc.keySet();
 		if (riskfactors != null)
 			validFromValues.addAll(riskfactors);
-		Set<String> diseases = dynamoSimulationObject
+		Set<String> diseases = (Set<String>) dynamoSimulationObject
 				.getDiseaseConfigurations().keySet();
 		if (diseases != null)
 			validToValues.addAll(diseases);
@@ -97,8 +97,9 @@ public class RelRisksCollectionForDropdown<String> extends
 		 * first get all possible relative risk based on the availlable XML
 		 * files in the selected Node location
 		 */
+		Object tmp = treeLists.getValidRelRisk();
 
-		this.availlableRelRisks = treeLists.getValidRelRisk();
+		this.availlableRelRisks = (HashMap<String, HashMap<String, Set<String>>>) tmp;
 
 		Set<String> fromList = (Set<String>) availlableRelRisks.keySet();
 
@@ -131,9 +132,11 @@ public class RelRisksCollectionForDropdown<String> extends
 	/**
 	 * 
 	 * Removes the relative risks that are not possible due to selections of
-	 * relative risks
+	 * relative risks. To do this the method should know which entries are disease
+	 * names as it checks that dependent diseases can not be causal diseases
 	 * 
-	 * @param chosenDiseaseName
+	 * @param selectedRelRisk (field from DynamoSimulationObject)
+	 * @param selectedDiseaseNames (field from DynamoSimulationObject)
 	 */
 	public void removeSelected(
 			Map<Integer, TabRelativeRiskConfigurationData> selectedRelRisks,
@@ -191,29 +194,72 @@ public class RelRisksCollectionForDropdown<String> extends
 		}
 	};
 
-// TODO methods that return the dropdown set that are necessary 
-
+	// TODO methods that return the dropdown set that are necessary
 	/**
-	 * this method updates the list directly from the DynamoSimulationObject
-	 * author: hendriek
+	 * method returns the set of possible choice for the target of a relative
+	 * risk belonging to a particular from value
 	 * 
-	 * @param dynamoSimulationObject
-	 *            : the DynamoSimulationObject
+	 * @param ChosenFrom
+	 *            : the from value for which to make this list
+	 * @return
 	 */
-	public void updateChosenToList(DynamoSimulationObject dynamoSimulationObject) {
+	public Set<String> updateToList(String ChosenFrom) {
 
-		Map<Integer, TabRelativeRiskConfigurationData> relRiskConfiguration = dynamoSimulationObject
-				.getRelativeRiskConfigurations();
-		TabRelativeRiskConfigurationData singleRRconfiguration;
-		this.clear();
-		for (Integer key : relRiskConfiguration.keySet())
-
-		{
-			singleRRconfiguration = relRiskConfiguration.get(key);
-			this.add((String) singleRRconfiguration.getTo());
-
-		}
+		Set<String> toNamesToReturn = null;
+		for (String key : this.availlableRelRisks.keySet())
+			if (key == ChosenFrom)
+				toNamesToReturn = this.availlableRelRisks.get(key).keySet();
+		return toNamesToReturn;
 
 	}
+
+	/**
+	 * method returns the set of possible choice for the source of a relative
+	 * risk belonging to a particular to value
+	 * 
+	 * @param ChosenTo
+	 *            : the "to" value for which to make this list
+	 * @return list of
+	 */
+	public Set<String> updateFromList(String ChosenTo) {
+
+		Set<String> toNamesToReturn = new LinkedHashSet<String>();
+		for (String key : this.availlableRelRisks.keySet())
+			if (this.availlableRelRisks.get(key).keySet().contains(ChosenTo))
+				toNamesToReturn.add(key);
+		if (toNamesToReturn.isEmpty())
+			toNamesToReturn = null;
+		return toNamesToReturn;
+
+	}
+
+	/**
+	 * method returns the set of possible choice for the relative risks with as
+	 * source "ChosenFrom" and target "chosenTo"
+	 * 
+	 * @param ChosenFrom
+	 *            : the "from" value for which to make this list
+	 * @param ChosenTo
+	 *            : the "to" value for which to make this list
+	 * @return list of filenames with RR data
+	 */
+	public Set<String> updateRRFileList(String chosenFrom, String chosenTo) {
+
+		Set<String> toNamesToReturn = new LinkedHashSet<String>();
+		for (String fromKey : this.availlableRelRisks.keySet())
+			if (fromKey == chosenFrom) {
+				HashMap<String, Set<String>> toList = this.availlableRelRisks
+						.get(fromKey);
+				for (String toKey : toList.keySet())
+					if (toKey == chosenTo)
+						toNamesToReturn = toList.get(toKey);
+			}
+		if (toNamesToReturn.isEmpty())
+			toNamesToReturn = null;
+		return toNamesToReturn;
+
+	}
+
+	
 
 }
