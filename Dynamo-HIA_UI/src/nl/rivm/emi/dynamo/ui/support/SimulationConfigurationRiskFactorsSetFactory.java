@@ -28,13 +28,13 @@ public class SimulationConfigurationRiskFactorsSetFactory {
 
 	static final String[] namesOfRequiredNonEmptySubDirectories = { //
 	StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel() //
-			, StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel() };
+			, StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel() };
 	static final String[] namesOfSubDirectories4DropDownLists = {
 			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel() //
 			// , StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel() //
 			// ,
 			// StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel()
-			, StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel() };
+			, StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel() };
 
 	/**
 	 * Method that generates a RiskSourcePropertiesMap of sibling nodes

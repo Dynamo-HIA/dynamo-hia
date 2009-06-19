@@ -20,6 +20,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -40,7 +41,7 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNa
 	public DurationDistributionFreeXMLFilePlusTypeBulletsAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName, String riskFactorName, 
 			String riskFactorType) {
-		super(shell, v, node, rootElementName);
+		super(shell, v, node, rootElementName, null);
 		this.riskFactorName = riskFactorName;
 		this.riskFactorType = riskFactorType;
 	}
@@ -60,7 +61,7 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNa
 		// Call the input trialog modal here (trialog includes input field, 
 		// import, ok and cancel buttons)
 		DurationDistributionTrialog inputDialog = new DurationDistributionTrialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for the new duration distribution file:", "Name", null, 
+				+ selectionPath, "Enter name for the new duration distribution file:", "Name", new FileAndDirectoryNameInputValidator(), 
 				this.riskFactorName, this.riskFactorType);
 		
 		///TODO Use Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode)

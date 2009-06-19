@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,9 +44,12 @@ public class DiseasesNewAction extends Action {
 	@Override
 	public void run() {
 		try {
+			MessageBox massageBox = new MessageBox(shell,SWT.ERROR_ITEM_NOT_ADDED);
+			massageBox.setMessage("Just a debugBox!");
+			massageBox.open();
 			InputDialog inputDialog = new InputDialog(shell, "BasePath: "
 					+ selectionPath, "Enter name for new disease",
-					"Name", null);
+					"Name", /* null */ new FileAndDirectoryNameInputValidator());
 			inputDialog.open();
 			int returnCode = inputDialog.getReturnCode();
 			log.debug("ReturnCode is: " + returnCode);

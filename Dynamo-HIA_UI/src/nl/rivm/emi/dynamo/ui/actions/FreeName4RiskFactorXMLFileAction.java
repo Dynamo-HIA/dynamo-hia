@@ -31,6 +31,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorStringConstantsEnum;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,7 +82,7 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 					ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
 							shell, "Create file in the selected directory: "
 									+ selectionPath, "Enter name for new "
-									+ abstractName, "Name", null);
+									+ abstractName, "Name", new FileAndDirectoryNameInputValidator());
 					inputDialog.open();
 					int returnCode = inputDialog.getReturnCode();
 					log.fatal("ReturnCode is: " + returnCode);
@@ -122,7 +123,7 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 								shell,
 								"Create file in the selected directory: "
 										+ selectionPath, "Enter name for new "
-										+ abstractName, "Name", null);
+										+ abstractName, "Name", new FileAndDirectoryNameInputValidator());
 						inputDialog.open();
 						int returnCode = inputDialog.getReturnCode();
 						log.fatal("ReturnCode is: " + returnCode);

@@ -101,7 +101,8 @@ public class Util {
 	}
 
 	static public String[] deriveRiskSourceTypeAndLabelFromSelectedNode(
-			BaseNode selectedNode) throws ConfigurationException, DynamoInconsistentDataException {
+			BaseNode selectedNode) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
 		String foundName = null;
 		BaseNode riskSourceInstanceNode = null;
@@ -119,23 +120,26 @@ public class Util {
 					riskSourceInstanceNode = riskSourceProperties
 							.getRiskSourceNode();
 					break;
-								}
+				}
 			}
 		}
-		if(riskSourceInstanceNode != null){
-		String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode)
-				.toString();
-		ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
-				.getParent();
-		String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode).toString();
-		riskSourceTypeLabel = riskSourceTypeLabel.substring(0,
-				riskSourceTypeLabel.length() - 1);
-		String[] result = new String[2];
-		result[0] = riskSourceTypeLabel;
-		result[1] = riskSourceInstanceLabel;
-		return result;
+		if (riskSourceInstanceNode != null) {
+			String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode)
+					.toString();
+			ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
+					.getParent();
+			String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode)
+					.toString();
+			riskSourceTypeLabel = riskSourceTypeLabel.substring(0,
+					riskSourceTypeLabel.length() - 1);
+			String[] result = new String[2];
+			result[0] = riskSourceTypeLabel;
+			result[1] = riskSourceInstanceLabel;
+			return result;
 		} else {
-			throw new DynamoInconsistentDataException("RiskSource not found for filename: \"" + selectedNode.deriveNodeLabel() + "\"");
+			throw new DynamoInconsistentDataException(
+					"RiskSource not found for filename: \""
+							+ selectedNode.deriveNodeLabel() + "\"");
 		}
 	}
 
@@ -175,7 +179,14 @@ public class Util {
 		}
 	}
 
-	/**
+static final public String imageRegistryFolderKey = "folder";
+static final public String imageRegistryFileKey = "file";
+static final public String imageRegistryUnsupportedXMLFileKey = "unsupportedXMLfile";
+static final public String imageRegistrySupportedXMLFileRightPlaceKey = "supportedfile_rightplace";
+static final public String imageRegistrySupportedXMLFileWrongPlaceKey = "supportedfile_wrongplace";
+static final public String imageRegistryErrorKey = "error";
+
+/**
 	 * 
 	 * Returns the imageRegistry of this plugin
 	 * 
@@ -188,29 +199,55 @@ public class Util {
 			if (ResourcesPlugin.getPlugin() != null) {
 				// Test if the application is a (standalone) plug-in, if so load
 				// images by AbstractUIPlugin
+				// folder
 				ImageDescriptor folderImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/tsuite.gif");
-				image_registry.put("folder", folderImageDesriptor);
+				image_registry.put(imageRegistryFolderKey, folderImageDesriptor);
+				// Just a non-XML file.
 				ImageDescriptor fileImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/test.gif");
-				image_registry.put("file", fileImageDesriptor);
+				image_registry.put(imageRegistryFileKey, fileImageDesriptor);
+				// An unsupported xml-file.
+				ImageDescriptor unsupportedXMLFileImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/testfail.gif");
+				image_registry.put(imageRegistryUnsupportedXMLFileKey,
+				fileImageDesriptor);
+				// Supported xml-file at the right place.
+				ImageDescriptor supportedFileRightPlaceImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/testok.gif");
+				image_registry.put(imageRegistrySupportedXMLFileRightPlaceKey,
+						fileImageDesriptor);
+				// Supported xml-file at the wrong place.
+				ImageDescriptor supportedFileWrongPlaceImageDesriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/testerr.gif");
+				image_registry.put(imageRegistrySupportedXMLFileWrongPlaceKey,
+						fileImageDesriptor);
+				// Error
 				ImageDescriptor errorImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
-								"/images/testerror.gif");
-
+								"/images/tsuiteerror.gif");
 				image_registry.put("error", errorImageDesriptor);
 			} else {
 				// The application is not a standalone plugin;
 				// The images are loaded by URL
 				image_registry = new ImageRegistry();
-				image_registry.put("folder", ImageDescriptor
+				image_registry.put(imageRegistryFolderKey, ImageDescriptor
 						.createFromURL(newURL("file:images/tsuite.gif")));
-				image_registry.put("file", ImageDescriptor
+				image_registry.put(imageRegistryFileKey, ImageDescriptor
 						.createFromURL(newURL("file:images/test.gif")));
+				image_registry.put(imageRegistryUnsupportedXMLFileKey, ImageDescriptor
+						.createFromURL(newURL("file:images/testfail.gif")));
+				image_registry.put(imageRegistrySupportedXMLFileRightPlaceKey, ImageDescriptor
+						.createFromURL(newURL("file:images/testok.gif")));
+				image_registry.put(imageRegistrySupportedXMLFileWrongPlaceKey, ImageDescriptor
+						.createFromURL(newURL("file:images/testerr.gif")));
 				image_registry.put("error", ImageDescriptor
-						.createFromURL(newURL("file:images/testerror.gif")));
+						.createFromURL(newURL("file:images/tsuiteerror.gif")));
 			}
 		}
 		return image_registry;

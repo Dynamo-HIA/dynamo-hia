@@ -58,7 +58,7 @@ abstract public class AbstractRangedInteger extends
 	}
 
 	public Integer getDefaultValue() {
-		return 0;
+		return MIN_VALUE;
 	}
 
 	public String getElementName() {

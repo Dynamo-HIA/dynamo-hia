@@ -47,6 +47,8 @@ import nl.rivm.emi.dynamo.data.types.root.TransitionDriftZero;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrix;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixNetto;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixZero;
+import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,61 +60,56 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	 * application
 	 */
 
-	SIMULATION(new Simulation()), // Comment to block reformatting.
-	POPULATIONSIZE(new PopulationSize()), //
-	OVERALLMORTALITY(new OverallMortality()), //
-	NEWBORNS(new Newborns()), //
-	OVERALLDALYWEIGHTS(new OverallDALYWeights()), //
-	RISKFACTOR_CATEGORICAL(new RiskfactorCategorical()), //
-	RISKFACTOR_CONTINUOUS(new RiskFactorContinuous()), //
-	RISKFACTOR_COMPOUND(new RiskFactorCompound()), //
-	TRANSITIONMATRIX(new TransitionMatrix()), //
-	TRANSITIONMATRIX_ZERO(new TransitionMatrixZero()), //
-	TRANSITIONMATRIX_NETTO(new TransitionMatrixNetto()), //
-	TRANSITIONDRIFT(new TransitionDrift()), //
-	TRANSITIONDRIFT_ZERO(new TransitionDriftZero()), //
-	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto()), //
-	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical()), //
-	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous()), //
-	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration()), //
-	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration()), //
-	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical()), //
-	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous()), //
-	RELATIVERISKSFORDEATH_COMPOUND(new RelativeRiskForDeathCompound()), //
-	RELATIVERISKSFORDISABILITY_CATEGORICAL(new RelativeRiskForDisabilityCategorical()), //
-	RELATIVERISKSFORDISABILITY_CONTINUOUS(new RelativeRiskForDisabilityContinuous()), //
-	RELATIVERISKSFORDISABILITY_COMPOUND(new RelativeRiskForDisabilityCompound()), //
-	DISEASEPREVALENCES(new DiseasePrevalences()), //
-	DISEASEINCIDENCES(new DiseaseIncidences()), //
-	EXCESSMORTALITY(new ExcessMortality()), //
+	SIMULATION(new Simulation(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel(), null), // Comment to block reformatting.
+	POPULATIONSIZE(new PopulationSize(), null, StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel(), null), //
+	OVERALLMORTALITY(new OverallMortality(), null, StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel(), null), //
+	NEWBORNS(new Newborns(), null, StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel(), null), //
+	OVERALLDALYWEIGHTS(new OverallDALYWeights(), null, StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel(), null), //
+	RISKFACTOR_CATEGORICAL(new RiskfactorCategorical(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel(), null), //
+	RISKFACTOR_CONTINUOUS(new RiskFactorContinuous(), null,StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel(), null), //
+	RISKFACTOR_COMPOUND(new RiskFactorCompound(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel(), null), //
+	TRANSITIONMATRIX(new TransitionMatrix(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	TRANSITIONMATRIX_ZERO(new TransitionMatrixZero(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	TRANSITIONMATRIX_NETTO(new TransitionMatrixNetto(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	TRANSITIONDRIFT(new TransitionDrift(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	TRANSITIONDRIFT_ZERO(new TransitionDriftZero(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDEATH_COMPOUND(new RelativeRiskForDeathCompound(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDISABILITY_CATEGORICAL(new RelativeRiskForDisabilityCategorical(), StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDISABILITY_CONTINUOUS(new RelativeRiskForDisabilityContinuous(), StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RELATIVERISKSFORDISABILITY_COMPOUND(new RelativeRiskForDisabilityCompound(), StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	DISEASEPREVALENCES(new DiseasePrevalences(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	DISEASEINCIDENCES(new DiseaseIncidences(), StandardTreeNodeLabelsEnum.INCIDENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	EXCESSMORTALITY(new ExcessMortality(), StandardTreeNodeLabelsEnum.EXCESSMORTALITIES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
 	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL(
-			new RelativeRiskFromRiskFactorCategorical()), //
-	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(new RelativeRiskFromRiskFactorContinuous()), //
-	RELATIVERISKSFROMRISKFACTOR_COMPOUND(new RelativeRiskFromRiskFactorCompound()), //
-	RELATIVERISKSFROMDISEASE(new RelativeRisksFromDisease()), //
-	DALYWEIGHTS(new DALYWeights());
+			new RelativeRiskFromRiskFactorCategorical(), StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS(new RelativeRiskFromRiskFactorContinuous(), StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	RELATIVERISKSFROMRISKFACTOR_COMPOUND(new RelativeRiskFromRiskFactorCompound(), StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	RELATIVERISKSFROMDISEASE(new RelativeRisksFromDisease(), StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()), //
+	DALYWEIGHTS(new DALYWeights(), StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel());
 
 	Log log = LogFactory.getLog(this.getClass().getName());
-	/**
-	 * The enum
-	 */
-	// private String rootElementName;
-	// private RootElementNamesEnum(String theRootElementName) {
-	// this.rootElementName = theRootElementName;
-	// }
-	//
-	// public String getNodeLabel() {
-	// return rootElementName;
-	// }
-	XMLTagEntity theType;
 
-	private RootElementNamesEnum(XMLTagEntity type) {
+	XMLTagEntity theType;
+	FileLocationTest fileLocationTest;
+
+	private RootElementNamesEnum(XMLTagEntity type, String expectedParentNodeLabel, String expectedGrandParentNodeLabel, String expectedGreatGrandParentNodeLabel) {
 		theType = type;
+		fileLocationTest = new FileLocationTest(expectedParentNodeLabel, expectedGrandParentNodeLabel, expectedGreatGrandParentNodeLabel);
 	}
 
 	public String getNodeLabel() {
 		String nodeLabel = ((XMLTagEntity)theType).getXMLElementName();
 		log.debug("Returning nodeLabel: " + nodeLabel);
 		return nodeLabel;
+	}
+	public boolean isLocationOK(FileNode node){
+		return fileLocationTest.test(node);
 	}
 }

@@ -40,7 +40,7 @@ public class RiskFactorContextMenuFactory {
 				log.fatal("No menu entry found for child: " + childLabel);
 			} else {
 				if (StandardTreeNodeLabelsEnum.CONFIGURATIONFILE.getNodeLabel()
-						.equals(childLabel)) {
+						.equalsIgnoreCase(childLabel)) {
 					noConfig = false;
 					entry.setActive(false);
 				} else {

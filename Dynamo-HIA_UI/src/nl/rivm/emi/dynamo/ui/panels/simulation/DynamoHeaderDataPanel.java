@@ -86,7 +86,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private DynamoTabDataManager dynamoTabDataManager;
 
 	/** Two radiobuttons */
-	private Button[] radioButtons = new Button[2];
+	private final Button[] radioButtons = new Button[2];
 
 	public DynamoHeaderDataPanel(Composite parent, Composite bottomNeighbour,
 			DynamoSimulationObject dynamoSimulationObject,
@@ -168,7 +168,8 @@ public class DynamoHeaderDataPanel extends Composite {
 
 		labelValue = CALC_TIME_STEP;
 		observable = dynamoSimulationObject.getObservableTimeStep();
-		bindHeaderValue(observable, labelValue, new TimeStep());
+//		bindHeaderValue(observable, labelValue, new TimeStep());
+		calcTimeStepDummy(observable, labelValue, new TimeStep());
 
 		labelValue = RAND_SEED;
 		observable = dynamoSimulationObject.getObservableRandomSeed();
@@ -201,6 +202,13 @@ public class DynamoHeaderDataPanel extends Composite {
 		} else if (myType instanceof AbstractFileName) {
 			bindAbstractFileName(observable, myType);
 		}
+	}
+	private void calcTimeStepDummy(WritableValue observable, String labelValue,
+			AtomicTypeBase myType) {
+			Label label = new Label(this, SWT.NONE);
+			label.setText(labelValue + ": ");
+			Label valueLabel = new Label(this, SWT.NONE);
+			valueLabel.setText(" 1 ");
 	}
 
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
@@ -278,48 +286,6 @@ public class DynamoHeaderDataPanel extends Composite {
 		return text;
 	}
 
-	public void getCreateRadioButtonsBinding(Composite radioButtonsContainer) {
-		// this.radioButtons[0] = new Button(this.myParent, SWT.RADIO);
-		this.radioButtons[0] = new Button(radioButtonsContainer, SWT.RADIO);
-		radioButtons[0].setText("Yes");
-		FormData button0LayoutData = new FormData();
-		button0LayoutData.left = new FormAttachment(0, 2);
-		button0LayoutData.right = new FormAttachment(50, -2);
-		radioButtons[0].setLayoutData(button0LayoutData);
-		this.radioButtons[0].addListener(SWT.Selection, new Listener() {
-
-			public void handleEvent(Event arg0) {
-				Button myWidget = (Button) arg0.widget;
-				if (myWidget.getSelection()) {
-					// radioButtons[0].setSelection(true);
-					radioButtons[1].setSelection(false);
-				}
-			}
-		});
-
-		radioButtons[1] = new Button(radioButtonsContainer, SWT.RADIO);
-		radioButtons[1].setText("No");
-		FormData button1LayoutData = new FormData();
-		button1LayoutData.left = new FormAttachment(50, 2);
-		button1LayoutData.right = new FormAttachment(100, -2);
-		radioButtons[1].setLayoutData(button1LayoutData);
-		// GridData layoutData = new GridData();
-		// layoutData.horizontalSpan = 2;
-		// radioButtons[1].setLayoutData(layoutData);
-		radioButtons[1].addListener(SWT.Selection, new Listener() {
-
-			public void handleEvent(Event arg0) {
-				Button myWidget = (Button) arg0.widget;
-				if (myWidget.getSelection()) {
-					radioButtons[0].setSelection(false);
-					// radioButtons[1].setSelection(true);
-				}
-			}
-		});
-		// Default.
-		radioButtons[0].setSelection(true);
-	}
-
 	private void getBooleanBinding(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Composite radioButtonsContainer = new Composite(this, SWT.NONE);
@@ -329,18 +295,13 @@ public class DynamoHeaderDataPanel extends Composite {
 		FormLayout rbContainerLayout = new FormLayout();
 		radioButtonsContainer.setLayout(rbContainerLayout);
 
-		// Create the radio buttons
-		this.getCreateRadioButtonsBinding(radioButtonsContainer);
-
 		// Set the selection
-		String initialValue = (String) observableObject.doGetValue();
-		if (!"0".equals(initialValue)) {
-			radioButtons[0].setSelection(true);
-			radioButtons[1].setSelection(false);
-		} else {
-			radioButtons[0].setSelection(false);
-			radioButtons[1].setSelection(true);
-		}
+		Object value= observableObject.doGetValue();
+		log.debug("Got value from observableObject, type: " + value.getClass().getName() + " value: " + value);
+		Boolean initialValue = (Boolean) observableObject.doGetValue();
+		// Create the radio buttons
+		this.getPutAndRigBinaryRadioButtons(radioButtonsContainer, initialValue);
+
 		// Add the helpgroups
 		FocusListener focusListener = new TypedFocusListener(myType,
 				theHelpGroup);
@@ -356,18 +317,19 @@ public class DynamoHeaderDataPanel extends Composite {
 				// }
 				// }
 				focusListener);
-		FocusListener focusListener2 = new TypedFocusListener(myType,theHelpGroup);
+		FocusListener focusListener2 = new TypedFocusListener(myType,
+				theHelpGroup);
 		radioButtons[1].addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//		}
+		// new FocusListener() {
+				// public void focusGained(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+				// }
+				//
+				// public void focusLost(FocusEvent arg0) {
+				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+				// // range.
+				// }
+				// }
 				focusListener2);
 		// Only the value of one radio button (the first one) is reminded
 		IObservableValue textObservableValue = SWTObservables
@@ -380,8 +342,47 @@ public class DynamoHeaderDataPanel extends Composite {
 																	 * getViewUpdateValueStrategy
 																	 * ()
 																	 */null);
+		radioButtonsContainer.update();
 	}
 
+
+	public void getPutAndRigBinaryRadioButtons(Composite radioButtonsContainer, Boolean initialValue) {
+		radioButtons[0] = new Button(radioButtonsContainer, SWT.RADIO);
+		radioButtons[0].setText("Yes");
+		radioButtons[0].setSelection(initialValue);
+		FormData button0LayoutData = new FormData();
+		button0LayoutData.left = new FormAttachment(0, 2);
+		button0LayoutData.right = new FormAttachment(50, -2);
+		radioButtons[0].setLayoutData(button0LayoutData);
+		radioButtons[0].addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event arg0) {
+				Button myWidget = (Button) arg0.widget;
+				if (myWidget.getSelection()) {
+					// radioButtons[0].setSelection(true);
+					radioButtons[1].setSelection(false);
+				}
+			}
+		});
+
+		radioButtons[1] = new Button(radioButtonsContainer, SWT.RADIO);
+		radioButtons[1].setText("No");
+		radioButtons[1].setSelection(!initialValue);
+		FormData button1LayoutData = new FormData();
+		button1LayoutData.left = new FormAttachment(50, 2);
+		button1LayoutData.right = new FormAttachment(100, -2);
+		radioButtons[1].setLayoutData(button1LayoutData);
+		radioButtons[1].addListener(SWT.Selection, new Listener() {
+
+			public void handleEvent(Event arg0) {
+				Button myWidget = (Button) arg0.widget;
+				if (myWidget.getSelection()) {
+					radioButtons[0].setSelection(false);
+					// radioButtons[1].setSelection(true);
+				}
+			}
+		});
+	}
+	
 	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
 			DynamoTabDataManager dynamoTabDataManager)

@@ -23,11 +23,13 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -39,11 +41,13 @@ import org.eclipse.swt.widgets.Shell;
 public class FreeNameXMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	protected String rootElementName;
+	protected IInputValidator theValidator = null;
 
 	public FreeNameXMLFileAction(Shell shell, TreeViewer v, BaseNode node,
-			String rootElementName) {
+			String rootElementName, IInputValidator theValidator) {
 		super(shell, v, node, rootElementName);
 		this.rootElementName = rootElementName;
+		this.theValidator = theValidator;
 	}
 
 	@Override
@@ -66,7 +70,7 @@ public class FreeNameXMLFileAction extends ActionBase {
 		// import, ok and cancel buttons)
 		ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
 				shell, "BasePath: " + selectionPath,
-				"Enter name for a new xml file", "Name", null);
+				"Enter name for a new xml file", "Name", theValidator);
 		int openValue = inputDialog.open();
 
 		log.debug("OpenValue is: " + openValue);

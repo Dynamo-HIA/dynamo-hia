@@ -8,4 +8,7 @@ abstract public class AbstractAge extends AbstractRangedInteger {
 	public AbstractAge(String xmlElementName) {
 		super(xmlElementName, AbstractAge.MINAGE, AbstractAge.MAXAGE);
 	}
+	protected AbstractAge(String xmlElementName, Integer minAge, Integer maxAge) {
+		super(xmlElementName, minAge, maxAge);
+	}
 }

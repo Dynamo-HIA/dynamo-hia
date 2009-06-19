@@ -154,7 +154,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	}
 
 	public Set<String> getTransitions(String chosenRiskFactorName) {
-		String name = StandardTreeNodeLabelsEnum.TRANSITION.getNodeLabel();
+		String name = StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel();
 		Set<String> theSet = getRiskFactorSet(chosenRiskFactorName, name);
 		return theSet;
 	}

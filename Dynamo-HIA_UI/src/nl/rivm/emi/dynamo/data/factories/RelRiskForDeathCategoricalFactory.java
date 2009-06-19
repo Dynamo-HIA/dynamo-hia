@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.objects.RelRiskForDeathCategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -21,22 +22,24 @@ public class RelRiskForDeathCategoricalFactory extends AgnosticFactory
 
 	Integer numberOfCategories = null;
 
-
 	public void setNumberOfCategories(Integer numberOfCategories) {
 		this.numberOfCategories = numberOfCategories;
 	}
 
-	public TypedHashMap manufactureObservable(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		return new RelRiskForDeathCategoricalObject(manufacture(
 				configurationFile, true, rootElementName));
 	}
 
-	public TypedHashMap manufacture(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		RelRiskForDeathCategoricalObject result = new RelRiskForDeathCategoricalObject(
 				producedMap);
 		return (result);
@@ -61,13 +64,14 @@ public class RelRiskForDeathCategoricalFactory extends AgnosticFactory
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		CatContainer category = (CatContainer) XMLTagEntitySingleton.getInstance().get(
-				"cat");
+		CatContainer category = (CatContainer) XMLTagEntitySingleton
+				.getInstance().get("cat");
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+		Value customValue = new Value();
+		customValue.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customValue, null));
 		return new RelRiskForDeathCategoricalObject(super.manufactureDefault(
 				leafNodeList, makeObservable));
 	}

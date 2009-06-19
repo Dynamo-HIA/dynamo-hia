@@ -43,7 +43,7 @@ public enum StandardTreeNodeLabelsEnum {
 	PARAMETERS("Parameters"), //
 	RESULTS("Results"), //
 	CONFIGURATIONFILE("configuration"), //
-	TRANSITION("Transitions"), //
+	TRANSITIONS("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
 	DURATIONDISTRIBUTIONSDIRECTORY("DurationDistributions"), //
 // 20090402 Not used anymore	RELRISKFORDEATHFILE("relriskfordeath"), //

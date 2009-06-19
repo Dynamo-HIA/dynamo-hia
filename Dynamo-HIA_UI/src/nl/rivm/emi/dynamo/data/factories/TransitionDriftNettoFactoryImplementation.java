@@ -77,7 +77,8 @@ public class TransitionDriftNettoFactoryImplementation implements
 				// The start/first element of the imported file does not match
 				// the node name
 				throw new DynamoInconsistentDataException(
-						"The contents of the imported file does not match the node name");
+						//					"The contents of the imported file does not match the node name");
+				"The format of the imported file does not match the prescribed format needed by this screen");
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {

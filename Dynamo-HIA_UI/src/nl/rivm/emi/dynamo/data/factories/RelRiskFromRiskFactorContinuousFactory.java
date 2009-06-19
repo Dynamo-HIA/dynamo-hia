@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskFromRiskFactorContinuousObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -17,24 +18,27 @@ import org.apache.commons.logging.LogFactory;
 public class RelRiskFromRiskFactorContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TypedHashMap manufactureObservable(File configurationFile, 
-			String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return  new RelRiskFromRiskFactorContinuousObject( manufacture(configurationFile, true, rootElementName));
+		return new RelRiskFromRiskFactorContinuousObject(manufacture(
+				configurationFile, true, rootElementName));
 	}
 
-	public TypedHashMap manufacture(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
-		RelRiskFromRiskFactorContinuousObject result = new RelRiskFromRiskFactorContinuousObject(producedMap);
-		return (result); 
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
+		RelRiskFromRiskFactorContinuousObject result = new RelRiskFromRiskFactorContinuousObject(
+				producedMap);
+		return (result);
 	}
 
 	@Override
-	public TypedHashMap manufactureDefault()
-			throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
@@ -43,15 +47,21 @@ public class RelRiskFromRiskFactorContinuousFactory extends AgnosticFactory {
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
-	public RelRiskFromRiskFactorContinuousObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
+
+	public RelRiskFromRiskFactorContinuousObject manufactureDefault(
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
-		return new RelRiskFromRiskFactorContinuousObject(super.manufactureDefault(leafNodeList, makeObservable));
+		// leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
+		// .getInstance().get("value"), null));
+		Value customValue = new Value();
+		customValue.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customValue, null));
+		return new RelRiskFromRiskFactorContinuousObject(super
+				.manufactureDefault(leafNodeList, makeObservable));
 	}
 }

@@ -60,6 +60,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 	@Override
 	public String convert4View(Object modelValue) {
+		log.debug("convert4View(" + modelValue + ")"); 
 		String result = "0";
 		if (Boolean.TRUE.equals(modelValue)) {
 			result = "1";
@@ -69,29 +70,32 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 	@Override
 	public String convert4File(Object modelValue) {
-
   		Boolean nakedValue = null;
- 
+		log.debug("convert4File(" + modelValue + ")"); 
 		if (modelValue instanceof WritableValue) {
-			log.debug("((WritableValue) modelValue).doGetValue()" + 
+			log.debug("Type WritableValue: " + 
 					((WritableValue) modelValue).doGetValue());
 			Object value = ((WritableValue) modelValue).doGetValue(); 
 			if (value instanceof Boolean) {
+				log.debug("Type Boolean"); 
 				nakedValue = (Boolean)((WritableValue) modelValue).doGetValue();
 			} else if (value instanceof String) {
+				log.debug("Type String"); 
 				nakedValue = new Boolean ((String)((WritableValue) modelValue).doGetValue());	
 			}			
 		} else {			
 			if (modelValue instanceof Boolean) {
+				log.debug("Type Boolean"); 
 				nakedValue = (Boolean) modelValue;	
 			} else if (modelValue instanceof String) {
+				log.debug("Type String"); 
 				nakedValue = new Boolean((String) modelValue);	
 			}			
 		}
 //		String viewValue = convert4View(nakedValue);
-		String fileValue = "0";
+		String fileValue = "false";
 		if(nakedValue){
-			fileValue = "1";
+			fileValue = "true";
 		}
 		return fileValue;
 /*
@@ -134,73 +138,71 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 		public ValueModelConverter(String debugString) {
 			this.debugString = debugString;
+			log.debug(debugString + " Initializing.");
 		}
 
-		public Object convert(Object viewBoolean) {
-			// log.debug(debugString + " convert(Object) entered with:" +
-			// arg0.toString());
-			// Boolean result = null;
-			// if (!(viewString instanceof String)) {
-			// log.fatal("AbstractBoolean was fed wrong Object type: "
-			// + viewString.getClass().getName()
-			// + " should be String!");
-			// } else {
-			// result = Boolean.FALSE;
-			// if (("true".equals(viewString))||("1".equals(viewString))) {
-			// result = Boolean.TRUE;
-			// }
-			// }
-			// return result;
-			return viewBoolean;
+		public Object convert(Object viewObject) {
+			 log.debug(debugString + " convert(Object) entered with a: " + viewObject.getClass().getName() + " value: "
+			 + viewObject);
+			 Boolean result = null;
+			 if (!(viewObject instanceof String)) {
+			 log.fatal("AbstractBoolean was fed wrong Object type: "
+			 + viewObject.getClass().getName()
+			 + " should be String!");
+			 } else {
+			 result = Boolean.FALSE;
+			 if (("true".equals(viewObject))||("1".equals(viewObject))) {
+			 result = Boolean.TRUE;
+			 }
+			 }
+			 return result;
 		}
 
 		public Object getFromType() {
-			// log.debug(debugString + " getFromType() entered.");
-			// return (Object) String.class;
+			 log.debug(debugString + " getFromType() entered.");
 			return (Object) Boolean.class;
 		}
 
 		public Object getToType() {
-			// log.debug(debugString + " getToType() entered.");
-			return (Object) Boolean.class;
+			 log.debug(debugString + " getToType() entered.");
+			return (Object) String.class;
 		}
 	}
 
 	public class ValueViewConverter implements IConverter {
-		// Log log = LogFactory.getLog(this.getClass());
+		Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
 
 		public ValueViewConverter(String debugString) {
 			this.debugString = debugString;
+			log.debug(debugString + " Initializing.");
 		}
 
-		public Object convert(Object arg0) {
-			// log.debug(debugString + " convert(Object) entered with:" +
-			// arg0.toString());
-			// String result = null;
-			// if (!(arg0 instanceof Boolean)) {
-			// log.fatal("AbstractBoolean was fed wrong Object type: "
-			// + arg0.getClass().getName() + " should be Boolean.");
-			// } else {
-			// if (arg0.equals(Boolean.TRUE)) {
-			// result = "true";
-			// } else {
-			// result = "false";
-			// }
-			// }
-			// return result;
-			return arg0;
+		public Object convert(Object modelObject) {
+			 log.debug(debugString + " convert(Object) entered with:" +
+					 modelObject.toString());
+			 String result = null;
+			 if (!(modelObject instanceof Boolean)) {
+			 log.fatal("AbstractBoolean was fed wrong Object type: "
+			 + modelObject.getClass().getName() + " should be Boolean.");
+			 } else {
+			 if (modelObject.equals(Boolean.TRUE)) {
+			 result = "1";
+			 } else {
+			 result = "0";
+			 }
+			 }
+			 return result;
 		}
 
 		public Object getFromType() {
-			// log.debug(debugString + " getFromType() entered.");
+			 log.debug(debugString + " getFromType() entered.");
 			return (Object) Boolean.class;
 		}
 
 		public Object getToType() {
-			// log.debug(debugString + " getToType() entered.");
-			// return (Object) String.class;
-			return (Object) Boolean.class;
+			 log.debug(debugString + " getToType() entered.");
+			 return (Object) String.class;
 		}
 	}
 }

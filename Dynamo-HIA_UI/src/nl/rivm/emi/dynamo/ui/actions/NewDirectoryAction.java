@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +41,8 @@ public class NewDirectoryAction extends NewActionBase {
 			if (directoryName == null) {
 				InputDialog inputDialog = new InputDialog(shell,
 						"Create directory below selected one.",
-						"Enter name for new " + abstractName, "Name", null);
+						"Enter name for new " + abstractName, "Name",
+						new FileAndDirectoryNameInputValidator());
 				inputDialog.open();
 				int returnCode = inputDialog.getReturnCode();
 				log.fatal("ReturnCode is: " + returnCode);
@@ -51,20 +53,20 @@ public class NewDirectoryAction extends NewActionBase {
 							+ File.separator + candidateName;
 					handleCreation(candidateName, candidatePath);
 				}
-//				else {
-//					MessageBox messageBox = new MessageBox(shell);
-//					messageBox.setMessage("New cancelled.");
-//					messageBox.open();
-//				}
+				// else {
+				// MessageBox messageBox = new MessageBox(shell);
+				// messageBox.setMessage("New cancelled.");
+				// messageBox.open();
+				// }
 			} else {
 				String candidatePath = node.getPhysicalStorage()
 						.getAbsolutePath()
 						+ File.separator + directoryName;
 				handleCreation(directoryName, candidatePath);
-//				MessageBox messageBox = new MessageBox(shell);
-//				messageBox.setMessage("Directory: " + directoryName
-//						+ " created.");
-//				messageBox.open();
+				// MessageBox messageBox = new MessageBox(shell);
+				// messageBox.setMessage("Directory: " + directoryName
+				// + " created.");
+				// messageBox.open();
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();

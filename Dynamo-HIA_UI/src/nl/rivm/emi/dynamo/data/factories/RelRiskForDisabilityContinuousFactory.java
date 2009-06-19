@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.objects.RelRiskForDeathContinuousObject;
 import nl.rivm.emi.dynamo.data.objects.RelRiskForDisabilityContinuousObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -18,8 +19,9 @@ import org.apache.commons.logging.LogFactory;
 public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TypedHashMap manufactureObservable(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
 				rootElementName);
@@ -27,18 +29,18 @@ public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 	}
 
 	public TypedHashMap manufacture(File configurationFile,
-			String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		RelRiskForDisabilityContinuousObject result = new RelRiskForDisabilityContinuousObject(
 				producedMap);
 		return (result);
 	}
 
 	@Override
-	public TypedHashMap manufactureDefault()
-			throws ConfigurationException {
+	public TypedHashMap manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
@@ -56,8 +58,11 @@ public class RelRiskForDisabilityContinuousFactory extends AgnosticFactory {
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+		// leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
+		// .getInstance().get("value"), null));
+		Value customValue = new Value();
+		customValue.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customValue, null));
 		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(
 				leafNodeList, makeObservable);
 		RelRiskForDeathContinuousObject result = new RelRiskForDeathContinuousObject(

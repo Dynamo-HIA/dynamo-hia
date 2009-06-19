@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.objects.RelRiskForDisabilityCategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -67,8 +68,9 @@ public class RelRiskForDisabilityCategoricalFactory extends AgnosticFactory
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+		Value customValue = new Value();
+		customValue.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customValue, null));
 		return new RelRiskForDisabilityCategoricalObject(super.manufactureDefault(
 				leafNodeList, makeObservable));
 	}

@@ -114,21 +114,7 @@ public class ValuePerClassParameterDataPanel extends Composite {
 			FocusListener focusListener = new TypedFocusListener(theType,
 					theHelpGroup);
 			text.addFocusListener(
-			// new FocusListener() {
-					// public void focusGained(FocusEvent arg0) {
-					// theHelpGroup.getFieldHelpGroup().setHelpText("1");
-					// }
-					//
-					// public void focusLost(FocusEvent arg0) {
-					// theHelpGroup.getFieldHelpGroup().setHelpText("48"); //
-					// Out of
-					// // range.
-					// }
-					//
-					// }
 					focusListener);
-			// Too early, see below. text.addVerifyListener(new
-			// StandardValueVerifyListener());
 			IObservableValue textObservableValue = SWTObservables.observeText(
 					text, SWT.Modify);
 			dataBindingContext.bindValue(textObservableValue,

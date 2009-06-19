@@ -18,6 +18,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -38,7 +39,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 	public InputBulletsFreeXMLFileAction(Shell shell, TreeViewer v,
 			BaseNode node, String rootElementName, String riskFactorName, 
 			String riskFactorType) {
-		super(shell, v, node, rootElementName);
+		super(shell, v, node, rootElementName, new FileAndDirectoryNameInputValidator());
 		this.riskFactorName = riskFactorName;
 		this.riskFactorType = riskFactorType;
 	}

@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.RelRiskFromOtherDiseaseObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -56,8 +57,9 @@ public class RelRiskFromOtherDiseaseFactory extends AgnosticFactory {
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-				.getInstance().get("value"), null));
+		Value customValue = new Value();
+		customValue.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customValue, null));
 		return new RelRiskFromOtherDiseaseObject(super.manufactureDefault(
 				leafNodeList, makeObservable));
 	}

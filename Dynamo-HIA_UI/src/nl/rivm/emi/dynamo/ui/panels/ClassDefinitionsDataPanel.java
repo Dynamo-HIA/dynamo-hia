@@ -43,13 +43,19 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		layout.makeColumnsEqualWidth = false;
-		setLayout(layout);
+//		layout.numColumns = 2;
+		layout.numColumns = 5;
+//			layout.makeColumnsEqualWidth = false;
+		layout.makeColumnsEqualWidth = true;
+			setLayout(layout);
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
 		Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Classname");
+		Label emptyLabel = new Label(this, SWT.NONE);
+		GridData layoutData = new GridData();
+		layoutData.horizontalSpan = 3;
+		emptyLabel.setLayoutData(layoutData);
 		int found = 1;
 		int count = 1;
 		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
@@ -60,7 +66,8 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 				Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(observableClassName);
-			} else {
+				Label anotherEmptyLabel = new Label(this, SWT.NONE);
+							} else {
 				MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
 				box.setMessage("Name at index " + count + " should not be empty.");
@@ -72,6 +79,9 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	private void bindValue(WritableValue observableClassName) {
 		Text text = createAndPlaceTextField();
 		text.setText((String)observableClassName.doGetValue());
+		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+		layoutData.horizontalSpan = 3;
+		text.setLayoutData(layoutData);
 		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.CLASS.getTheType(), theHelpGroup);
 		text.addFocusListener(
 //				new FocusListener() {

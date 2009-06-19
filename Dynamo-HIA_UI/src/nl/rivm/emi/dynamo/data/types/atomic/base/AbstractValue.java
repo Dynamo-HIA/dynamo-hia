@@ -18,6 +18,8 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	final public Pattern matchPattern = Pattern
 			.compile("^\\d*\\.?\\d*$");
 	
+	private Float defaultValue = 0F;
+	
 	public AbstractValue(String XMLElementName){
 		this(XMLElementName, 0F, Float.MAX_VALUE);
 	}
@@ -54,7 +56,10 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	}
 
 	public Float getDefaultValue() {
-		return 0F;
+		return defaultValue;
+	}
+	public void setDefaultValue(Float newDefault) {
+		defaultValue = newDefault;
 	}
 
 	 public String getElementName() {

@@ -8,7 +8,9 @@ import nl.rivm.emi.dynamo.data.objects.RelRiskForDisabilityCompoundObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
+import nl.rivm.emi.dynamo.data.types.atomic.End;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -67,9 +69,15 @@ public class RelRiskForDisabilityCompoundFactory extends AgnosticFactory impleme
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);
 		log.debug("Set Category. MAX_VALUE to: " + numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.BEGIN.getTheType(), null));
+		//leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.BEGIN.getTheType(), null));
+		Begin customBegin = new Begin();
+		customBegin.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customBegin, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.ALFA.getTheType(), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.END.getTheType(), null));
+//		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.END.getTheType(), null));
+		End customEnd = new End();
+		customEnd.setDefaultValue(1F);
+		leafNodeList.add(new AtomicTypeObjectTuple(customEnd, null));
 		TypedHashMap<Age> manufacturedMap = super.manufactureDefault(
 				leafNodeList, makeObservable);
 		RelRiskForDisabilityCompoundObject result = new RelRiskForDisabilityCompoundObject(
