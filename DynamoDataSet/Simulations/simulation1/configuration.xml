@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation>
-	<hasnewborns>1</hasnewborns>
+	<hasnewborns>true</hasnewborns>
 	<startingYear>2008</startingYear>
 	<numberOfYears>10</numberOfYears>
 	<simPopSize>2</simPopSize>
