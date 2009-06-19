@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="RCP Application" id="CZM_Main.product" application="CZM_Main.application" version="1.0.8" useFeatures="false">
+<product name="RCP Application" id="CZM_Main.product" application="CZM_Main.application" version="1.0.9" useFeatures="false">
+
 
    <configIni use="default">
    </configIni>
@@ -22,6 +23,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
       <linux>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6</linux>
