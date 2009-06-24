@@ -328,7 +328,9 @@ public class InputDataFactory {
 		}
 		/* now read in all the data in the sequence of the user data document */
 		String yesno = getName(newbornLabel);
-		if (yesno.compareToIgnoreCase("no") == 0||yesno.compareToIgnoreCase("0") == 0)
+		if (yesno.compareToIgnoreCase("false") == 0||yesno.compareToIgnoreCase("f") == 0
+				 ||yesno.compareToIgnoreCase("no") == 0 ||yesno.compareToIgnoreCase("n") == 0
+				 ||yesno.compareToIgnoreCase("0") == 0)
 			newborn = false;
 		else
 			newborn = true;
