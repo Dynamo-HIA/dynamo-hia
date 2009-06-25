@@ -103,7 +103,7 @@ focusListener
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType.getViewUpdateValueStrategy());
-		text.addVerifyListener(new NameVerifyListener());
+		text.addVerifyListener(new NameVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {

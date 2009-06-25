@@ -35,11 +35,11 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
-public class SaveSelectionListener extends AbstractLoggingClass implements
+public class SaveAndCloseSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
 	DataAndFileContainer modalParent;
 
-	public SaveSelectionListener(DataAndFileContainer modalParent) {
+	public SaveAndCloseSelectionListener(DataAndFileContainer modalParent) {
 		this.modalParent = modalParent;
 	}
 
@@ -135,7 +135,8 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 										+ modelObject.getClass().getName());
 					}
 				}
-				modalParent.setChanged(false);
+				// Saving has succeeded, dispose of the window.
+				modalParent.getShell().dispose();
 			} else {
 				MessageBox box = new MessageBox(this.modalParent.getShell(),
 						SWT.ERROR_UNSPECIFIED);
@@ -144,7 +145,6 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 				box
 						.setMessage("The preprocessor had a problem, saving didn't happen.");
 				box.open();
-
 			}
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);

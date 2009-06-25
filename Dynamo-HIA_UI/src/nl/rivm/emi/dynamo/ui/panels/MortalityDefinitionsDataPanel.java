@@ -104,20 +104,9 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 			AtomicTypeBase<Float> theType) {
 		Text text = createAndPlaceTextField();
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
-text.addFocusListener(
-//		new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
-		focusListener);
+		FocusListener focusListener = new TypedFocusListener(theType,
+				theHelpGroup);
+		text.addFocusListener(focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
@@ -126,7 +115,8 @@ text.addFocusListener(
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {
@@ -136,14 +126,4 @@ text.addFocusListener(
 		text.setLayoutData(gridData);
 		return text;
 	}
-
-//	public void handlePlacementInContainer(MortalityDefinitionsDataPanel panel,
-//			Label topNeighbour) {
-//		FormData formData = new FormData();
-//		formData.top = new FormAttachment(topNeighbour, 10);
-//		formData.right = new FormAttachment(100, -10);
-//		formData.bottom = new FormAttachment(100, -10);
-//		formData.left = new FormAttachment(0, 10);
-//		panel.setLayoutData(formData);
-//	}
 }

@@ -103,7 +103,7 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies
 						.getStrategy(modelObservableValue.getValueType()));
-		text.addVerifyListener(new FloatValueVerifyListener());
+		text.addVerifyListener(new FloatValueVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {

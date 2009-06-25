@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import java.io.File;
 
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.help.ElementNameScrollableHelpGroup;
 
 import org.eclipse.swt.SWT;
@@ -9,20 +10,21 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class HelpGroup {
 	private Shell modalShell;
+	private DataAndFileContainer theModal;
 	Group theGroup = null;
 	private ElementNameScrollableHelpGroup windowHelpGroup;
 	private ElementNameScrollableHelpGroup fieldHelpGroup;
 
-	public HelpGroup(Shell shell, Composite buttonPane, String rootElementName) {
-		theGroup = new Group(shell, SWT.NONE);
-		modalShell = shell;
+	public HelpGroup(DataAndFileContainer theModal, Composite buttonPane) {
+		modalShell = theModal.getShell();
+		theGroup = new Group(modalShell, SWT.NONE);
+		this.theModal = theModal;
 		handlePlacementInContainer(theGroup, buttonPane);
 		String helpDirectoryPath = System.getProperty("user.dir") + File.separator + "help";
 		GridLayout layout = createGridLayout();
@@ -31,7 +33,7 @@ public class HelpGroup {
 		GridData layoutData = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_VERTICAL);
 		windowHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
-				"Window", rootElementName, helpDirectoryPath);
+				"Window", this.theModal.getRootElementName(), helpDirectoryPath);
 		windowHelpGroup.theGroup.setLayoutData(layoutData);
 
 		 fieldHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
@@ -39,17 +41,6 @@ public class HelpGroup {
 		 "fieldInit", helpDirectoryPath);
 		 fieldHelpGroup.theGroup.setLayoutData(layoutData);
 		theGroup.pack();
-	}
-
-	private RowLayout createRowLayout() {
-		RowLayout rowLayout = new RowLayout();
-		rowLayout.type = SWT.VERTICAL;
-		rowLayout.fill = true;
-		rowLayout.marginWidth = 3;
-		rowLayout.marginHeight = 3;
-		rowLayout.pack = true;
-		rowLayout.wrap = true;
-		return rowLayout;
 	}
 
 	private GridLayout createGridLayout() {
@@ -84,5 +75,9 @@ public class HelpGroup {
 
 	public Shell getModalShell() {
 		return modalShell;
+	}
+
+	public DataAndFileContainer getTheModal() {
+		return theModal;
 	}
 }

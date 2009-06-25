@@ -92,7 +92,7 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new FloatValueVerifyListener());
+		text.addVerifyListener(new FloatValueVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {

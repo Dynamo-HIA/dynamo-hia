@@ -35,8 +35,8 @@ import org.eclipse.swt.widgets.Shell;
  * (configurationFilePath)
  * 
  */
-public abstract class AbstractMultiRootChildDataModal implements Runnable,
-		DataAndFileContainer {
+public abstract class AbstractMultiRootChildDataModal extends
+		DataAndFileContainer implements Runnable {
 
 	/**
 	 * Abstract class with for the data model screen
@@ -50,31 +50,9 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	/*
-	 * The element name of the xml root
-	 */
-	protected String rootElementName;
-
 	private Shell parentShell;
 
-	/*
-	 * Path of the file that contains the data Must be "global" to be available
-	 * to the save-listener.
-	 */
-	protected String dataFilePath;
-
-	/*
-	 * Path of the file where the data will be written to or has been written
-	 * Note that in case of an Import action the dataFilePath and
-	 * configurationFilePath differ, and in case of an Save action they are
-	 * equal
-	 * 
-	 * Must be "global" to be available to the save-listener.
-	 */
-	protected String configurationFilePath;
 	protected Shell shell;
-	protected HashMap<String, Object> lotsOfData;
-	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup helpPanel;
 	protected BaseNode selectedNode;
 
@@ -91,12 +69,11 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 	public AbstractMultiRootChildDataModal(Shell parentShell,
 			String dataFilePath, String configurationFilePath,
 			String rootElementName, BaseNode selectedNode) {
-		this.dataFilePath = dataFilePath;
-		this.configurationFilePath = configurationFilePath;
-		this.rootElementName = rootElementName;
+		super(rootElementName, dataFilePath, configurationFilePath);
 		this.parentShell = parentShell;
 		this.selectedNode = selectedNode;
-		this.shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
+		this.shell = new Shell(parentShell, /* SWT.DIALOG_TRIM */SWT.BORDER
+				| SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText(createCaption(selectedNode));
 		FormLayout formLayout = new FormLayout();
@@ -184,7 +161,7 @@ public abstract class AbstractMultiRootChildDataModal implements Runnable,
 		return this.dataFilePath;
 	}
 
-	public Object getRootElementName() {
+	public String getRootElementName() {
 		return this.rootElementName;
 	}
 

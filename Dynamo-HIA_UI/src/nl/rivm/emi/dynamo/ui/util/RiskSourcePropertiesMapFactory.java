@@ -241,7 +241,7 @@ public class RiskSourcePropertiesMapFactory {
 					File configurationFile = ((BaseNode) grandChildNode)
 							.getPhysicalStorage();
 					String rootElementName = ConfigurationFileUtil
-							.extractRootElementName(configurationFile);
+							.extractRootElementNameIncludingSchemaCheck(configurationFile);
 					if (rootElementName != null) {
 						properties.setRootElementName(rootElementName);
 						if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
@@ -320,7 +320,7 @@ public class RiskSourcePropertiesMapFactory {
 				File configurationFile = ((BaseNode) childNode)
 						.getPhysicalStorage();
 				String rootElementName = ConfigurationFileUtil
-						.extractRootElementName(configurationFile);
+						.extractRootElementNameIncludingSchemaCheck(configurationFile);
 				if ((rootElementName != null)
 						&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 								.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
@@ -382,7 +382,7 @@ public class RiskSourcePropertiesMapFactory {
 				File configurationFile = ((BaseNode) childNode)
 						.getPhysicalStorage();
 				String rootElementName = ConfigurationFileUtil
-						.extractRootElementName(configurationFile);
+						.extractRootElementNameIncludingSchemaCheck(configurationFile);
 				if ((rootElementName != null)
 						&& (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName))) {

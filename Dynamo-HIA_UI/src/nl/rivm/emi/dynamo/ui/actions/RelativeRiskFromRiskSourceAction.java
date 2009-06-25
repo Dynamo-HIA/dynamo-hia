@@ -10,22 +10,27 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.DropDownTrialog;
 import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
+import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
+import nl.rivm.emi.dynamo.ui.main.TransitionTrialog;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
+import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -91,6 +96,70 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 		}
 	}
 
+
+	/**
+	 * Opens the transitions trialog and retrieves the xml file name, either as
+	 * new name or imported
+	 * 
+	 * @return String the fileName
+	 */
+/* 	@Override
+	protected String getNewFilePath() {
+		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
+		String newPath = null;
+		// Util.deriveEntityLabelAndValueFromRiskSourceNode(this.node)[0]
+		// Call the input trialog modal here (trialog includes input field,
+		// import, ok and cancel buttons)
+		DropDownTrialog inputDialog = new DropDownTrialog(shell,
+				"BasePath: " + selectionPath,
+				"Enter name for a new relative risks file", "Name",
+				new FileAndDirectoryNameInputValidator(), this.node);
+
+		// /TODO Use
+		// Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode)
+		// to set the RF Name, create a new method to show RF type
+
+		int openValue = inputDialog.open();
+
+		log.debug("OpenValue is: " + openValue);
+
+		int returnCode = inputDialog.getReturnCode();
+
+		this.bulletButtonName = inputDialog.getSelectedBulletButtonName();
+		log.debug("bulletButtonName: " + this.bulletButtonName);
+
+		log.debug("ReturnCode is: " + returnCode);
+
+		if (returnCode != Window.CANCEL) {
+			String candidateName = inputDialog.getValue();
+			String candidatePath = selectionPath + File.separator
+					+ candidateName + ".xml";
+			File candidateFile = new File(candidatePath);
+			if (!candidateFile.exists()/* && candidateFile.createNewFile() *//*) {
+				newPath = candidateFile.getAbsolutePath();
+				File savedFile = new File(newPath);
+				File dataFile = null;
+				// Supply the location of dataFile
+				if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
+					dataFile = this.getImportFile();
+				} else {
+					dataFile = savedFile;
+				}
+
+				// Process the modal
+				processThroughModal(dataFile, savedFile);
+			} else {
+				MessageBox messageBox = new MessageBox(shell,
+						SWT.ERROR_ITEM_NOT_ADDED);
+				messageBox.setMessage("\"" + candidateName
+						+ "\"\n exists already.");
+				messageBox.open();
+			}
+		}
+		return newPath;
+
+	}
+*/
 	private void processThroughModal(File dataFile, File candidateFile, RiskSourceProperties props) {
 		try {
 			boolean isOld = candidateFile.exists();

@@ -99,17 +99,6 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
 		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
 		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
 		focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -119,7 +108,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {

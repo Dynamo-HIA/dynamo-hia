@@ -72,17 +72,6 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		text.setText(myType.convert4View(observableClassName.doGetValue()));
 		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
 		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
 			focusListener	);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -90,8 +79,7 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-//		text.addVerifyListener(new ValueVerifyListener());
-		text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup.getTheModal()));
 		}
 
 	private Text createAndPlaceTextField() {

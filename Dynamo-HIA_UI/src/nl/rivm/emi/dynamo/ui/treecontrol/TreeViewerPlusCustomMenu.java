@@ -22,6 +22,8 @@ public class TreeViewerPlusCustomMenu {
 		mgr.setRemoveAllWhenShown(true);
 		mgr.addMenuListener(new StorageTreeMenuListener(shell, treeViewer));
 		treeViewer.getControl().setMenu(mgr.createContextMenu(treeViewer.getControl()));
+		// Open the tree at startup upto simulation-level.
+		treeViewer.expandToLevel(3);
 	}
 	
 	/**

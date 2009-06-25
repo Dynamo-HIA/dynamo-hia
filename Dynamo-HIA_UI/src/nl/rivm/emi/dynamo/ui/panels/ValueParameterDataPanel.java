@@ -31,8 +31,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class ValueParameterDataPanel extends Composite /* implements Runnable */{
-	Log log = LogFactory
-			.getLog(this.getClass().getName());
+	Log log = LogFactory.getLog(this.getClass().getName());
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
@@ -41,13 +40,14 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 	AtomicTypeBase myType;
 
 	public ValueParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
-		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get("value");
+		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get(
+				"value");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
 		layout.makeColumnsEqualWidth = true;
@@ -59,7 +59,7 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
+			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
 			bindValue(tHMap, BiGender.FEMALE_INDEX);
@@ -82,31 +82,27 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>)typedHashMap.get(index);
-		WritableValue modelObservableValue = (WritableValue)((AtomicTypeObjectTuple)list.get(0)).getValue();
-		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0).getType();
-		String convertedText = theType.convert4View(modelObservableValue.doGetValue());
+		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
+				.get(index);
+		WritableValue modelObservableValue = (WritableValue) ((AtomicTypeObjectTuple) list
+				.get(0)).getValue();
+		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0)
+				.getType();
+		String convertedText = theType.convert4View(modelObservableValue
+				.doGetValue());
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
-text.addFocusListener(
-//		new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//																	// range.
-//			}
-//
-//		}
-		focusListener);
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+		FocusListener focusListener = new TypedFocusListener(theType,
+				theHelpGroup);
+		text.addFocusListener(focusListener);
+		// Too early, see below. text.addVerifyListener(new
+		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				((Value)myType).getModelUpdateValueStrategy(), ((Value)myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+				((Value) myType).getModelUpdateValueStrategy(),
+				((Value) myType).getViewUpdateValueStrategy());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {

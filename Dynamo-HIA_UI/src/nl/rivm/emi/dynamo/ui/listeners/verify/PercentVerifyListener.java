@@ -6,6 +6,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +15,11 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 
-public class PercentVerifyListener implements VerifyListener {
+public class PercentVerifyListener extends AbstractNonSAPVerifyListener {
+	public PercentVerifyListener(DataAndFileContainer encompassingModal) {
+		super(encompassingModal);
+	}
+
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	public void verifyText(VerifyEvent arg0) {
@@ -23,7 +28,8 @@ public class PercentVerifyListener implements VerifyListener {
 		String candidateContent = currentContent.substring(0, arg0.start)
 				+ arg0.text
 				+ currentContent.substring(arg0.end, currentContent.length());
-		log.debug("VerifyEvent with current content: " + currentContent + " , candidate content: " + candidateContent);
+		log.debug("VerifyEvent with current content: " + currentContent
+				+ " , candidate content: " + candidateContent);
 		arg0.doit = false;
 		myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		try {
@@ -32,10 +38,11 @@ public class PercentVerifyListener implements VerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher(candidateContent))
-						.matches()) {
+				if ((((Percent) XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern
+						.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
-					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>)XMLTagEntitySingleton.getInstance().get("percent");
+					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>) XMLTagEntitySingleton
+							.getInstance().get("percent");
 					if (type.inRange(candidateFloat)) {
 						arg0.doit = true;
 						myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
@@ -50,7 +57,10 @@ public class PercentVerifyListener implements VerifyListener {
 			arg0.doit = false;
 			myText.setBackground(new Color(null, 0xff, 0xaa, 0xaa));
 			log.debug("verifyText, exception exit with doIt=" + arg0.doit);
+		} finally {
+			if (arg0.doit) {
+				encompassingModal.setChanged(true);
+			}
 		}
 	}
-
 }

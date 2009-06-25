@@ -23,10 +23,14 @@ public class DiseasePrevalencesGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1], null);
-		entityNameGroup.putInContainer();
+//		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+//		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
+//				entityArray[0], entityArray[1], null);
+//		entityNameGroup.putInContainer();
+		EntityInDefaultDirNamePanel entityNameGroup = 
+			new EntityInDefaultDirNamePanel(theGroup,
+				selectedNode, helpGroup);
+		entityNameGroup.handlePlacementInContainer();
 		DiseasePrevalencesParameterGroup parameterGroup = new DiseasePrevalencesParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);

@@ -8,14 +8,18 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.UnitType;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 
-public class UnitTypeVerifyListener implements VerifyListener {
-	
+public class UnitTypeVerifyListener extends AbstractNonSAPVerifyListener {
+
+	public UnitTypeVerifyListener(DataAndFileContainer encompassingModal) {
+		super(encompassingModal);
+	}
+
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();
@@ -27,12 +31,14 @@ public class UnitTypeVerifyListener implements VerifyListener {
 		if (candidateContent.length() == 0) {
 			myText.setBackground(new Color(null, 0xff, 0xff, 0xcc)); // Yellow
 		} else {
-			if(!(((UnitType)XMLTagEntityEnum.UNITTYPE.getTheType()).matchPattern.matcher(candidateContent))
-			.matches()){
+			if (!(((UnitType) XMLTagEntityEnum.UNITTYPE.getTheType()).matchPattern
+					.matcher(candidateContent)).matches()) {
 				arg0.doit = false;
 				myText.setBackground(new Color(null, 0xff, 0xbb, 0xbb));
 			}
 		}
+		if (arg0.doit) {
+			encompassingModal.setChanged(true);
+		}
 	}
-
 }

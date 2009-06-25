@@ -118,14 +118,14 @@ public class SexRatioAndStartingYearPanel {
 	protected Text bindAbstractRangedInteger(WritableValue observableObject,
 			AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
 		return text;
 	}
 
 	protected Text bindAbstractValue(WritableValue observableObject,
 			AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
-		text.addVerifyListener(new AbstractValueVerifyListener(myType));
+		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup.getTheModal(), myType));
 		return text;
 	}
 

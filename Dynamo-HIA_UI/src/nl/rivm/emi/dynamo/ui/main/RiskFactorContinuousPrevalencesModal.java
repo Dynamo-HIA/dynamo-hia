@@ -74,7 +74,7 @@ public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChild
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			RiskFactorContinuousPrevalencesGroup riskFactorContinuousPrevalencesGroup = new RiskFactorContinuousPrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			riskFactorContinuousPrevalencesGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);

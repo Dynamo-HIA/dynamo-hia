@@ -83,7 +83,7 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new CategoryIndexVerifyListener((NumberRangeTypeBase<Integer>)myType));
+		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup.getTheModal(), (NumberRangeTypeBase<Integer>)myType));
 	}
 
 	private Text createAndPlaceTextField() {

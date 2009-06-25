@@ -13,18 +13,16 @@ import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
+import nl.rivm.emi.dynamo.ui.listeners.shell.MyShellListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Shell;
 
@@ -36,37 +34,14 @@ import org.eclipse.swt.widgets.Shell;
  * one for the configured application file (configurationFilePath)
  * 
  */	
-public abstract class AbstractDataModal implements Runnable, DataAndFileContainer {
+public abstract class AbstractDataModal extends DataAndFileContainer implements Runnable{
 	
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	/*
-	 * The element name of the xml root
-	 */
-	protected String rootElementName;
 
 	private Shell parentShell;
-
-	/*
-	 * Path of the file that contains the data
-	 * Must be "global" to be available to the save-listener.
-	 */
-	protected String dataFilePath;
-	
-	/*
-	 * Path of the file where the data will be written to
-	 * or has been written
-	 * Note that in case of an Import action the dataFilePath and configurationFilePath
-	 * differ, and in case of an Save action they are equal
-	 *
-	 * Must be "global" to be available to the save-listener.
-	 * 
-	 */
-	protected String configurationFilePath;
 	protected Shell shell;
-	protected TypedHashMap<?> modelObject;
-	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup helpPanel;
 	protected BaseNode selectedNode;
 	
@@ -84,18 +59,19 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 	public AbstractDataModal(Shell parentShell, String dataFilePath, 
 			String configurationFilePath,
 			String rootElementName, BaseNode selectedNode) {
+		super(rootElementName, dataFilePath, configurationFilePath);
 		this.dataFilePath = dataFilePath;
 		this.configurationFilePath = configurationFilePath;
 		this.rootElementName = rootElementName;		
 		this.parentShell = parentShell;
 		this.selectedNode = selectedNode;
-		this.shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
+		this.shell = new Shell(parentShell, /* SWT.DIALOG_TRIM */ SWT.BORDER | SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText(createCaption(selectedNode));
+		this.shell.addShellListener(new MyShellListener());
 		FormLayout formLayout = new FormLayout();
 		this.shell.setLayout(formLayout);		
 	}
-
 	protected abstract String createCaption(BaseNode selectedNode2);
 
 	protected abstract void open();
@@ -190,7 +166,7 @@ public abstract class AbstractDataModal implements Runnable, DataAndFileContaine
 		return this.dataFilePath;
 	}
 
-	public Object getRootElementName() {
+	public String getRootElementName() {
 		return this.rootElementName;
 	}
 

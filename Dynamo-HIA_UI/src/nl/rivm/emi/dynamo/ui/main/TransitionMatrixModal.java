@@ -76,7 +76,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 			GenericButtonPanel buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
 					this.shell, SWT.NONE, selectedNode, modelObject,
 					dataBindingContext, helpPanel, buttonPanel);

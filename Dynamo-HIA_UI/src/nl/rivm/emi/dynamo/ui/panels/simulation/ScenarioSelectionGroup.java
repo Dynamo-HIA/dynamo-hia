@@ -210,7 +210,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(layoutData);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(helpGroup.getTheModal(), myType));
 	}
 
 	// Binds values that are subclass types of AbstractString

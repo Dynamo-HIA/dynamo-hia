@@ -92,7 +92,7 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			NewbornsGroup newbornsGroup = new NewbornsGroup(this.shell,
 					this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel, this);

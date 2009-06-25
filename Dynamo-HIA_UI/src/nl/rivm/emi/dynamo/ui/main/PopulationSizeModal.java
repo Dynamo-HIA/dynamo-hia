@@ -66,7 +66,7 @@ public class PopulationSizeModal extends AbstractDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			PopulationSizeGroup populationSizeGroup = new PopulationSizeGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel);

@@ -35,7 +35,7 @@ public class FileTreeLabelProvider extends LabelProvider {
 					if (hasXMLExtension(fileName)) {
 						String rootElementName;
 						rootElementName = ConfigurationFileUtil
-								.extractRootElementName(physicalStorage);
+								.extractRootElementNameIncludingSchemaCheck(physicalStorage);
 						RootElementNamesSingleton singleton = RootElementNamesSingleton.getInstance();
 						RootElementNamesEnum renEnum = singleton.get(rootElementName);
 						if (renEnum != null) {

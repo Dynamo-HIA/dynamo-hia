@@ -1,7 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
-import nl.rivm.emi.dynamo.ui.listeners.selection.CancelSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.selection.SaveAndCloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
@@ -15,8 +16,10 @@ import org.eclipse.swt.widgets.Shell;
 
 public class GenericButtonPanel extends Composite {
 
-	Button saveButton;
 	Button importButton;
+	Button saveButton;
+	Button saveAndCloseButton;
+	Button closeButton;
 	DataAndFileContainer modalParent;
 
 	
@@ -32,10 +35,10 @@ public class GenericButtonPanel extends Composite {
 		setFormData();
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
-		this.saveButton = putSaveButton(this);
-		this.importButton = putImportButton(this, this.saveButton);
-		Button cancelButton = putCancelButton(this, this.importButton);
-		cancelButton.addSelectionListener(new CancelSelectionListener(shell));
+		this.importButton = putImportButton(this);
+		this.saveButton = putSaveButton(this, this.importButton);
+		this.saveAndCloseButton = putSaveAndCloseButton(this, this.saveButton);
+		this.closeButton = putCloseButton(this,this.saveAndCloseButton);
 		pack();
 	}
 
@@ -55,19 +58,10 @@ public class GenericButtonPanel extends Composite {
 	 */
 	public void setModalParent(DataAndFileContainer theParent) {
 		this.modalParent = theParent;
-		this.saveButton.addSelectionListener(new SaveSelectionListener(this.modalParent));
 		this.importButton.addSelectionListener(new ImportSelectionListener(this.modalParent));
-	}
-
-	static private Button putSaveButton(Composite panel) {
-		FormData formData = new FormData();
-		Button saveButton = new Button(panel, SWT.PUSH);
-		saveButton.setText("Save");
-		formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.bottom = new FormAttachment(100, -5);
-		saveButton.setLayoutData(formData);
-		return saveButton;
+		this.saveButton.addSelectionListener(new SaveSelectionListener(this.modalParent));
+		this.saveAndCloseButton.addSelectionListener(new SaveAndCloseSelectionListener(this.modalParent));
+		this.closeButton.addSelectionListener(new CloseSelectionListener(theParent));
 	}
 
 	
@@ -79,27 +73,48 @@ public class GenericButtonPanel extends Composite {
 	 * @param leftNeighbour
 	 * @return Button An imput Button
 	 */
-	static private Button putImportButton(Composite composite,
-			Button leftNeighbour) {
+	static private Button putImportButton(Composite composite) {
 		FormData formData;
 		Button importButton = new Button(composite, SWT.PUSH);
 		importButton.setText("Import");			
 		formData = new FormData();
-		formData.left = new FormAttachment(leftNeighbour, 15);
+		formData.left = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		importButton.setLayoutData(formData);
 		return importButton;
 	}
-
-	private static Button putCancelButton(Composite composite,
-			Button leftNeighbour) {
-		FormData formData;
-		Button cancelButton = new Button(composite, SWT.PUSH);
-		cancelButton.setText("Cancel");
+ 
+	static private Button putSaveButton(Composite panel, Button leftNeighbour) {
+		FormData formData = new FormData();
+		Button saveButton = new Button(panel, SWT.PUSH);
+		saveButton.setText("Save");
 		formData = new FormData();
 		formData.left = new FormAttachment(leftNeighbour, 15);
 		formData.bottom = new FormAttachment(100, -5);
-		cancelButton.setLayoutData(formData);
-		return cancelButton;
+		saveButton.setLayoutData(formData);
+		return saveButton;
+	}
+
+	static private Button putSaveAndCloseButton(Composite panel, Button leftNeighbour) {
+		FormData formData = new FormData();
+		Button saveAndCloseButton = new Button(panel, SWT.PUSH);
+		saveAndCloseButton.setText("Save and close");
+		formData = new FormData();
+		formData.left = new FormAttachment(leftNeighbour, 15);
+		formData.bottom = new FormAttachment(100, -5);
+		saveAndCloseButton.setLayoutData(formData);
+		return saveAndCloseButton;
+	}
+
+	private static Button putCloseButton(Composite composite,
+			Button leftNeighbour) {
+		FormData formData;
+		Button closeButton = new Button(composite, SWT.PUSH);
+		closeButton.setText("Close");
+		formData = new FormData();
+		formData.left = new FormAttachment(leftNeighbour, 15);
+		formData.bottom = new FormAttachment(100, -5);
+		closeButton.setLayoutData(formData);
+		return closeButton;
 	}
 }

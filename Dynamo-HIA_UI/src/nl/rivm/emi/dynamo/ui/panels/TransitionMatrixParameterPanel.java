@@ -134,7 +134,7 @@ text.addFocusListener(
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
 		// text.addVerifyListener(new ValueVerifyListener());
-		text.addVerifyListener(new PercentVerifyListener());
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {

@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,7 +14,11 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
 
-public class IntegerVerifyListener implements VerifyListener {
+public class IntegerVerifyListener extends AbstractNonSAPVerifyListener{
+	public IntegerVerifyListener(DataAndFileContainer encompassingModal) {
+		super(encompassingModal);
+	}
+
 	Log log = LogFactory.getLog(this.getClass().getName());
 	NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>)XMLTagEntitySingleton.getInstance().get("number");
 
@@ -48,6 +53,10 @@ public class IntegerVerifyListener implements VerifyListener {
 			arg0.doit = false;
 			log.debug("verifyText, exception exit with doIt=" + arg0.doit);
 		}
+		finally{
+			if(arg0.doit){
+				encompassingModal.setChanged(true);
+			}
+		}
 	}
-
 }

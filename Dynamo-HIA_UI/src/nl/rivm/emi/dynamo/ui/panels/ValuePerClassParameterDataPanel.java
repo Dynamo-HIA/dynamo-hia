@@ -121,7 +121,7 @@ public class ValuePerClassParameterDataPanel extends Composite {
 					modelObservableValue, ((Percent) myType)
 							.getModelUpdateValueStrategy(), ((Percent) myType)
 							.getViewUpdateValueStrategy());
-			text.addVerifyListener(new PercentVerifyListener());
+			text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
 		} catch (NullPointerException e) {
 			log.error(e.getClass().getName() + " age: " + ageCount + " sex: " + genderCount + " class: " + index);
 			// Do not change functionality.

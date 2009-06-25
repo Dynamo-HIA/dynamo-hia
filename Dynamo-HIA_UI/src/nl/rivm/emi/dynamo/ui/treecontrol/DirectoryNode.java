@@ -34,7 +34,10 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 					if (childFile.isDirectory()) {
 						children.add(new DirectoryNode(this, childFile));
 					} else {
-						children.add(new FileNode(this, childFile));
+						FileNode newChildNode = new FileNode(this, childFile);
+						if (NodeFilter.putInTreeButSuppressLargeFiles(newChildNode)) {
+							children.add(newChildNode);
+						}
 					}
 				}
 				numberOfChildren = children.size();
@@ -56,6 +59,19 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 		}
 	}
 
+	@Override
+	public int removeChild(ChildNode storageTreeNode) {
+		int numberRemoved = 0;
+		for (int count = 0; count < children.size(); count++) {
+			ChildNode childNode = children.get(count);
+			if ((childNode != null) && (childNode.equals(storageTreeNode))) {
+				children.remove(count);
+				numberRemoved++;
+				break;
+			}
+		}
+		return numberRemoved;
+	}
 
 	public int numberOfChildren() {
 		return children.size();
@@ -66,12 +82,13 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 	}
 
 	public void addChild(ChildNode childNode) throws StorageTreeException {
-		children.add(childNode);
+		if (NodeFilter.putInTreeButSuppressLargeFiles(childNode)) {
+			children.add(childNode);
+		}
 	}
 
 	public ParentNode getParent() {
 		return parent;
 	}
-	
 
 }

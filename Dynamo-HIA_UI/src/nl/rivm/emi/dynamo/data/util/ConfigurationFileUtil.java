@@ -64,7 +64,7 @@ public class ConfigurationFileUtil {
 					if (((BaseNode) childNode).deriveNodeLabel()
 							.equalsIgnoreCase("configuration")) {
 						if (childNode instanceof FileNode) {
-							rootElementName = extractRootElementName(((BaseNode) childNode)
+							rootElementName = extractRootElementNameIncludingSchemaCheck(((BaseNode) childNode)
 									.getPhysicalStorage());
 						} else {
 							throw new TreeStructureException(
@@ -84,8 +84,33 @@ public class ConfigurationFileUtil {
 		return rootElementName;
 	}
 
-	static public String extractRootElementName(File configurationFile)
+	static public String justExtractRootElementName(File configurationFile)
 			throws DynamoConfigurationException {
+		String rootElementName = null;
+		try {
+			if (configurationFile.exists()) {
+				if (configurationFile.isFile()) {
+					if (configurationFile.canRead()) {
+						XMLConfiguration configurationFromFile;
+						configurationFromFile = new XMLConfiguration(
+								configurationFile);
+						rootElementName = configurationFromFile
+								.getRootElementName();
+					}
+				}
+			}
+			return rootElementName;
+		} catch (ConfigurationException e) {
+			// Exception is not thrown again
+			// because the application has to continue
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
+					configurationFile.getAbsolutePath());
+			return rootElementName;
+		}
+	}
+
+	static public String extractRootElementNameIncludingSchemaCheck(
+			File configurationFile) throws DynamoConfigurationException {
 		String rootElementName = null;
 		try {
 			if (configurationFile.exists()) {
@@ -125,7 +150,7 @@ public class ConfigurationFileUtil {
 			throws DynamoConfigurationException {
 		Integer numberOfCategories = null;
 		try {
-			String rootElementName = extractRootElementName(configurationFile);
+			String rootElementName = extractRootElementNameIncludingSchemaCheck(configurationFile);
 			if (rootElementName != null) {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(rootElementName)
@@ -165,7 +190,7 @@ public class ConfigurationFileUtil {
 			throws DynamoConfigurationException {
 		Integer durationCategoryIndex = null;
 		try {
-			String rootElementName = extractRootElementName(configurationFile);
+			String rootElementName = extractRootElementNameIncludingSchemaCheck(configurationFile);
 			if (rootElementName != null) {
 				if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 						.equals(rootElementName)) {

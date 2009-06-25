@@ -121,7 +121,7 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				((Percent) myType).getModelUpdateValueStrategy(),
 				((Percent) myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new PercentVerifyListener());
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {

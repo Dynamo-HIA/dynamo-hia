@@ -106,6 +106,6 @@ public class CategoricalValueParameterDataPanel extends Composite {
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				((Value) myType).getModelUpdateValueStrategy(),
 				((Value) myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup.getTheModal()));
 	}
 }

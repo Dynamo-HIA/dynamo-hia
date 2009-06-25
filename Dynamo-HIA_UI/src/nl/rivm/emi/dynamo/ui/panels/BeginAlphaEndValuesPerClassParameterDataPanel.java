@@ -138,7 +138,7 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 					modelObservableValue, ((Value) myType)
 							.getModelUpdateValueStrategy(), ((Value) myType)
 							.getViewUpdateValueStrategy());
-			text.addVerifyListener(new ValueVerifyListener());
+			text.addVerifyListener(new ValueVerifyListener(theHelpGroup.getTheModal()));
 		}
 	}
 

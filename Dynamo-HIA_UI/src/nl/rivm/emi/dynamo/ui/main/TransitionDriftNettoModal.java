@@ -66,7 +66,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 			Composite buttonPanel = new TransitionDriftNettoButtonPanel(this.shell);
 			((TransitionDriftNettoButtonPanel) buttonPanel)
 					.setModalParent(this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			TransitionDriftNettoGroup transitionDriftNettoGroup = new TransitionDriftNettoGroup(
 					this.shell, this.nonGenericModelObject,
 					this.dataBindingContext, this.selectedNode, this.helpPanel);

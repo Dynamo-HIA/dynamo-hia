@@ -74,7 +74,7 @@ public class DiseasePrevalencesModal extends AbstractDataModal {
 			
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			DiseasePrevalencesGroup diseasePrevalencesGroup = new DiseasePrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			diseasePrevalencesGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);

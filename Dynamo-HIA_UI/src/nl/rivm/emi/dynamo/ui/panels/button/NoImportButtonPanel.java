@@ -1,8 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
-import nl.rivm.emi.dynamo.ui.listeners.selection.CancelSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveSelectionListener;
+import nl.rivm.emi.dynamo.ui.listeners.selection.SimpleCancelSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.TransitionDriftNettoSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.AbstractHelplessModal;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
@@ -18,8 +19,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NoImportButtonPanel extends Composite {
 	Button saveButton;
+	Button cancelButton;
 	AbstractHelplessModal modalParent;
-
+	
 	/**
 	 * 
 	 * Constructs the panel with buttons
@@ -33,8 +35,7 @@ public class NoImportButtonPanel extends Composite {
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		this.saveButton = putSaveButton(this);
-		Button cancelButton = putCancelButton(this, this.saveButton);
-		cancelButton.addSelectionListener(new CancelSelectionListener(shell));
+		cancelButton = putCancelButton(this, this.saveButton);
 		pack();
 	}
 
@@ -55,6 +56,7 @@ public class NoImportButtonPanel extends Composite {
 	public void setModalParent(AbstractHelplessModal theParent) {
 		this.modalParent = theParent;
 		this.saveButton.addSelectionListener(new NoDataSaveSelectionListener(this.modalParent));
+		cancelButton.addSelectionListener(new SimpleCancelSelectionListener(this.getShell()));
 	}
 	static private Button putSaveButton(Composite panel) {
 		FormData formData = new FormData();

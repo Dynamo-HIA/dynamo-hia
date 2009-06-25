@@ -216,20 +216,20 @@ public class DynamoHeaderDataPanel extends Composite {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(layoutData);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
 	}
 
 	protected void bindAbstractValue(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractValueVerifyListener(myType));
+		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup.getTheModal(), myType));
 	}
 
 	// Binds values that are subclass types of AbstractString
 	protected void bindAbstractString(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractStringVerifyListener(myType));
+		text.addVerifyListener(new AbstractStringVerifyListener(theHelpGroup.getTheModal(), myType));
 	}
 
 	// Binds values that are subclass types of AbstractBoolean
@@ -243,7 +243,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	protected void bindAbstractFileName(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractFileNameVerifyListener(myType));
+		text.addVerifyListener(new AbstractFileNameVerifyListener(theHelpGroup.getTheModal(), myType));
 	}
 
 	// Year is already covered by AbstractRangedInteger

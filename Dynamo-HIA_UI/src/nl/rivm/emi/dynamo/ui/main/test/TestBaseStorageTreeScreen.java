@@ -74,7 +74,6 @@ public class TestBaseStorageTreeScreen {
 //			String baseDirectoryPath = System.getProperty("user.dir")
 			/* + File.separator + "data" + File.separator + "dynamobase" */;
 			String baseDirectoryPath = determineDataDirectory();
-
 			BaseStorageTreeScreen application = new BaseStorageTreeScreen(
 					baseDirectoryPath);
 			shell = application.open(display);

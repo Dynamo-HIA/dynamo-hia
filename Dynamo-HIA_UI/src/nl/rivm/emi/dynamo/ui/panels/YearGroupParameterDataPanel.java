@@ -99,7 +99,7 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
 // Testing		Text testText = getTextBinding(observableObject, myType);
 	}
 

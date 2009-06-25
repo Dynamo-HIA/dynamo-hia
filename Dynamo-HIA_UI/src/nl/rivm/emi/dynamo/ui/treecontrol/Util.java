@@ -23,6 +23,14 @@ public class Util {
 	private static final String RISK_FACTOR = "Risk_Factor";
 	private static final String TRANSITION = "Transition";
 
+
+	static final public String imageRegistryFolderKey = "folder";
+	static final public String imageRegistryFileKey = "file";
+	static final public String imageRegistryUnsupportedXMLFileKey = "unsupportedXMLfile";
+	static final public String imageRegistrySupportedXMLFileRightPlaceKey = "supportedfile_rightplace";
+	static final public String imageRegistrySupportedXMLFileWrongPlaceKey = "supportedfile_wrongplace";
+	static final public String imageRegistryErrorKey = "error";
+
 	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(
 			BaseNode selectedNode) throws DynamoConfigurationException {
 		BaseNode startNode = selectedNode;
@@ -179,13 +187,6 @@ public class Util {
 		}
 	}
 
-static final public String imageRegistryFolderKey = "folder";
-static final public String imageRegistryFileKey = "file";
-static final public String imageRegistryUnsupportedXMLFileKey = "unsupportedXMLfile";
-static final public String imageRegistrySupportedXMLFileRightPlaceKey = "supportedfile_rightplace";
-static final public String imageRegistrySupportedXMLFileWrongPlaceKey = "supportedfile_wrongplace";
-static final public String imageRegistryErrorKey = "error";
-
 /**
 	 * 
 	 * Returns the imageRegistry of this plugin
@@ -214,19 +215,19 @@ static final public String imageRegistryErrorKey = "error";
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/testfail.gif");
 				image_registry.put(imageRegistryUnsupportedXMLFileKey,
-				fileImageDesriptor);
+						unsupportedXMLFileImageDesriptor);
 				// Supported xml-file at the right place.
 				ImageDescriptor supportedFileRightPlaceImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/testok.gif");
 				image_registry.put(imageRegistrySupportedXMLFileRightPlaceKey,
-						fileImageDesriptor);
+						supportedFileRightPlaceImageDesriptor);
 				// Supported xml-file at the wrong place.
 				ImageDescriptor supportedFileWrongPlaceImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/testerr.gif");
 				image_registry.put(imageRegistrySupportedXMLFileWrongPlaceKey,
-						fileImageDesriptor);
+						supportedFileWrongPlaceImageDesriptor);
 				// Error
 				ImageDescriptor errorImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,

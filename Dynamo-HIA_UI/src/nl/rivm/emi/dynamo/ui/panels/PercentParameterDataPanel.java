@@ -110,7 +110,7 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, thePercentage,
 				((Percent)myType).getModelUpdateValueStrategy(), ((Percent)myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new PercentVerifyListener());
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {

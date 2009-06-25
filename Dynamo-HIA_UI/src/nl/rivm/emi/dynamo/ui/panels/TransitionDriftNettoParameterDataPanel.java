@@ -29,9 +29,10 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup theHelpGroup;
 
-	public TransitionDriftNettoParameterDataPanel(Composite parent, Text topNeighbour,
-			TransitionDriftNettoObject lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) throws DynamoConfigurationException {
+	public TransitionDriftNettoParameterDataPanel(Composite parent,
+			Text topNeighbour, TransitionDriftNettoObject lotsOfData,
+			DataBindingContext dataBindingContext, HelpGroup helpGroup)
+			throws DynamoConfigurationException {
 		super(parent, SWT.NONE);
 		myParent = parent;
 		this.dataBindingContext = dataBindingContext;
@@ -46,10 +47,11 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		label.setLayoutData(gridData);
 		label.setText("Trend: ");
 		WritableValue observableTrend = lotsOfData.getObservableTrend();
-		bindAbstractValue(observableTrend, (AtomicTypeBase) XMLTagEntityEnum.TREND.getTheType());
+		bindAbstractValue(observableTrend,
+				(AtomicTypeBase) XMLTagEntityEnum.TREND.getTheType());
 	}
 
-	protected void bindAbstractValue(WritableValue modelObservableValue, 
+	protected void bindAbstractValue(WritableValue modelObservableValue,
 			AtomicTypeBase myType) {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -57,20 +59,9 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		text.setLayoutData(gridData);
 		String convertedText = myType.convert4View(modelObservableValue);
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-text.addFocusListener(
-//		new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
-//						.setHelpText("1");
-//			}
-//			public void focusLost(FocusEvent arg0) {
-//				TransitionDriftNettoParameterDataPanel.this.theHelpGroup.getFieldHelpGroup()
-//						.setHelpText("48"); // Out of
-//				// range.
-//			}
-//		}
-		focusListener);
+		FocusListener focusListener = new TypedFocusListener(myType,
+				theHelpGroup);
+		text.addFocusListener(focusListener);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
@@ -78,6 +69,7 @@ text.addFocusListener(
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener());
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 }

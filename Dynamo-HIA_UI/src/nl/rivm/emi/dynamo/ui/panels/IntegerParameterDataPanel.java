@@ -109,7 +109,7 @@ public class IntegerParameterDataPanel extends Composite {
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies
 						.getStrategy(modelObservableValue.getValueType()));
-		text.addVerifyListener(new IntegerVerifyListener());
+		text.addVerifyListener(new IntegerVerifyListener(theHelpGroup.getTheModal()));
 	}
 
 	private void bindTestValue(TypedHashMap sexMap, int index) {
@@ -122,6 +122,6 @@ public class IntegerParameterDataPanel extends Composite {
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
 						.getValueType()), ViewUpdateValueStrategies
 						.getStrategy(modelObservableValue.getValueType()));
-		text.addVerifyListener(new IntegerVerifyListener());
+		text.addVerifyListener(new IntegerVerifyListener(theHelpGroup.getTheModal()));
 	}
 }

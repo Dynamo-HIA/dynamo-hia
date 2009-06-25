@@ -25,46 +25,50 @@ public class ImportSelectionListener extends AbstractLoggingClass implements
 				+ " got widgetDefaultSelected callback.");
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * Handles the import file event
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected(SelectionEvent arg0) {
-		this.log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
+		this.log.info("Control "
+				+ ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
-		
+
 		// Retrieve the import file path
 		String dataPath = this.getImportFile().getAbsolutePath();
-		
+
 		File dataFile = new File(dataPath);
-		
+
 		// Check if a file has been selected
 		if (dataFile.isFile() && dataFile.canRead()) {
 			// Destroy the existing data screen with 'old' data
 			this.modalParent.getShell().dispose();
-			
-			String rootElementName = (String) this.modalParent.getRootElementName();
-			XMLFileAction action = new XMLFileAction(this.modalParent.getParentShell(), TreeViewerPlusCustomMenu.getTreeViewerInstance(),
-					this.modalParent.getBaseNode(),
+			String rootElementName = (String) this.modalParent
+					.getRootElementName();
+			XMLFileAction action = new XMLFileAction(this.modalParent
+					.getParentShell(), TreeViewerPlusCustomMenu
+					.getTreeViewerInstance(), this.modalParent.getBaseNode(),
 					rootElementName, rootElementName);
-			
-			action.processThroughModal(dataFile, new File(this.modalParent.getConfigurationFilePath()));
+			// Assume a different file has been imported.
+			this.modalParent.setChanged(true);
+			action.processThroughModal(dataFile, new File(this.modalParent
+					.getConfigurationFilePath()));
 		}
 	}
 
-	
 	/**
 	 * @return File The selected import file
 	 */
 	public File getImportFile() {
 		FileDialog fileDialog = new FileDialog(this.modalParent.getShell());
-		fileDialog.open();		
-		return new File(fileDialog.getFilterPath()
-				+ File.separator + fileDialog.getFileName());
-	}	
-	
-	
+		fileDialog.open();
+		return new File(fileDialog.getFilterPath() + File.separator
+				+ fileDialog.getFileName());
+	}
+
 }

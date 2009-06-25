@@ -60,9 +60,11 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNa
 		//Util.deriveEntityLabelAndValueFromRiskSourceNode(this.node)[0]
 		// Call the input trialog modal here (trialog includes input field, 
 		// import, ok and cancel buttons)
-		DurationDistributionTrialog inputDialog = new DurationDistributionTrialog(shell, "BasePath: "
-				+ selectionPath, "Enter name for the new duration distribution file:", "Name", new FileAndDirectoryNameInputValidator(), 
-				this.riskFactorName, this.riskFactorType);
+		DurationDistributionTrialog inputDialog = new DurationDistributionTrialog(
+				shell, "BasePath: " + selectionPath,
+				"Enter name for the new duration distribution file:", "Name",
+				new FileAndDirectoryNameInputValidator(), this.riskFactorName,
+				this.riskFactorType);
 		
 		///TODO Use Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode)
 		//to set the RF Name, create a new method to show RF type

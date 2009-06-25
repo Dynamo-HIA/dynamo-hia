@@ -9,7 +9,6 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import java.io.File;
-import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
@@ -77,7 +76,7 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			BaseNode riskSourceNode = null;
 			if (this.props != null) {
 				riskSourceNode = this.props.getRiskSourceNode();

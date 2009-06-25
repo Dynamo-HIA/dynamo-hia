@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.treecontrol;
+
 /**
  * The RootNode does not correspond to a physical directory. 
  * It's only child is the base directory of the Dynamo-HIA configuration.
@@ -32,11 +33,13 @@ public class RootNode extends BaseNode implements ParentNode {
 	}
 
 	public void addChild(ChildNode storageTreeNode) throws StorageTreeException {
+		if(NodeFilter.putInTreeButSuppressLargeFiles(storageTreeNode)){
 		if (children.size() == 0) {
 			children.add(storageTreeNode);
 		} else {
 			throw new StorageTreeException(
 					"RootNode may only have a single child.");
+		}
 		}
 	}
 
@@ -56,15 +59,30 @@ public class RootNode extends BaseNode implements ParentNode {
 		return children.toArray();
 	}
 
-	/** 
+	/**
 	 * A RootNode must have exactly one child, the basedirectory.
-	 */ 
+	 */
 	public int populateChildren() throws StorageTreeException {
-	if(children.size() == 1){
-		((DirectoryNode)children.get(0)).populateChildren();
+		if (children.size() == 1) {
+			((DirectoryNode) children.get(0)).populateChildren();
 		} else {
-		throw new StorageTreeException("A RootNode must have exactly one child.");
+			throw new StorageTreeException(
+					"A RootNode must have exactly one child.");
 		}
 		return 1;
+	}
+
+	@Override
+	public int removeChild(ChildNode storageTreeNode) {
+	int numberRemoved = 0;
+		for (int count = 0; count < children.size(); count++) {
+			ChildNode childNode = children.get(count);
+			if ((childNode != null) && (childNode.equals(storageTreeNode))) {
+				children.remove(count);
+				numberRemoved++;
+				break;
+			}
+		}
+		return numberRemoved;
 	}
 }

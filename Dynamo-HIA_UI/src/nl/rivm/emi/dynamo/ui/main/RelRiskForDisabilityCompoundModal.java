@@ -63,7 +63,7 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 			Composite buttonPanel = new GenericButtonPanel(this.shell);
 			((GenericButtonPanel) buttonPanel)
 					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this.shell, buttonPanel, rootElementName);
+			this.helpPanel = new HelpGroup(this, buttonPanel);
 			BaseNode riskSourceNode = null;
 			log.debug("Now for RelativeRisksCompoundGroup");
 			RelativeRisksCompoundGroup relRiskForDisabilityCompoundGroup = new RelativeRisksCompoundGroup(
