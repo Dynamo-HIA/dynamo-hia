@@ -22,30 +22,32 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-
 public class RiskFactorContinuousPrevalencesGroup {
 	private Group theGroup;
-	
+
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
-	public RiskFactorContinuousPrevalencesGroup(Shell shell, RiskFactorContinuousPrevalencesObject lotsOfData,
+
+	public RiskFactorContinuousPrevalencesGroup(Shell shell,
+			RiskFactorContinuousPrevalencesObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		EntityInDefaultDirNamePanel entityNameGroup = 
-			new EntityInDefaultDirNamePanel(theGroup,
-				selectedNode, helpGroup);
+		EntityInDefaultDirNamePanel entityNameGroup = new EntityInDefaultDirNamePanel(
+				theGroup, selectedNode, helpGroup);
 		entityNameGroup.handlePlacementInContainer();
 		// Set the selected item from the stored values in the xml
-		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName());
+		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData
+				.get(XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName());
 		WritableValue writableValue = (WritableValue) tuple.getValue();
-		RiskFactorContinuousPrevalencesDropDownPanel dropDownGroup = new RiskFactorContinuousPrevalencesDropDownPanel(theGroup, writableValue);
+		RiskFactorContinuousPrevalencesDropDownPanel dropDownGroup = new RiskFactorContinuousPrevalencesDropDownPanel(
+				theGroup, writableValue);
+		dropDownGroup.setHelpGroup(helpGroup);
 		dropDownGroup.putNextInContainer(entityNameGroup.group, 30);
 		RiskFactorContinuousPrevalencesParameterGroup parameterGroup = new RiskFactorContinuousPrevalencesParameterGroup(
-				theGroup, lotsOfData, dataBindingContext, 
-				helpGroup, dropDownGroup.getDistributionTypeModifyListener());
+				theGroup, lotsOfData, dataBindingContext, helpGroup,
+				dropDownGroup.getDistributionTypeModifyListener());
 		parameterGroup.handlePlacementInContainer(dropDownGroup.group);
 	}
 

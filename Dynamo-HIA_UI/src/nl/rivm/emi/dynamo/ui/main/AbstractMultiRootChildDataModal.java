@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -54,6 +55,7 @@ public abstract class AbstractMultiRootChildDataModal extends
 
 	protected Shell shell;
 	protected HelpGroup helpPanel;
+	protected GenericButtonPanel buttonPanel;
 	protected BaseNode selectedNode;
 
 	/**
@@ -82,7 +84,13 @@ public abstract class AbstractMultiRootChildDataModal extends
 
 	protected abstract String createCaption(BaseNode selectedNode2);
 
-	protected abstract void open();
+	protected void open(){
+		this.dataBindingContext = new DataBindingContext();
+		buttonPanel = new GenericButtonPanel(this.shell);
+		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
+		((GenericButtonPanel) buttonPanel)
+		.setModalParent((DataAndFileContainer) this);
+	}
 
 	/**
 	 * This method constructs a model-object always containing Observables at
@@ -185,5 +193,8 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 */
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
+	}
+	public HelpGroup getHelpGroup(){
+		return helpPanel;
 	}
 }

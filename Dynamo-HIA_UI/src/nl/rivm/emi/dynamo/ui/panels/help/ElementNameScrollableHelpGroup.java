@@ -45,8 +45,9 @@ public class ElementNameScrollableHelpGroup {
 	}
 
 	private void doSetHelpText(String helpText) {
-		String helpContent = "Initial";
+		String helpContent = "";
 		try {
+			if(!helpContent.equalsIgnoreCase(helpText)){
 			String helpFilePath = helpDirectoryPath + File.separator + helpText
 					+ ".txt";
 			File helpFile = new File(helpFilePath);
@@ -70,6 +71,7 @@ public class ElementNameScrollableHelpGroup {
 				helpContent = "Helpfile for: \"" + helpText
 						+ "\" does not exist.(Searched at: " + helpFile.getAbsolutePath() + ")";
 			}
+			}
 		} catch (FileNotFoundException e) {
 			helpContent = "Exception! Helpfile for: \"" + helpText
 			+ "\" could not be found.";
@@ -91,12 +93,7 @@ public class ElementNameScrollableHelpGroup {
 	public void setHelpText(String elementName) {
 		String updatedLabelOutput;
 		if ("Blank".equals(elementName)) {
-			updatedLabelOutput = "Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
-					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
-					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
-					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
-					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two."
-					+ " Testing one two. Testing one two. Testing one two. Testing one two. Testing one two.";
+			updatedLabelOutput = "";
 		} else {
 			// TODO Add indirection.
 			updatedLabelOutput = elementName;

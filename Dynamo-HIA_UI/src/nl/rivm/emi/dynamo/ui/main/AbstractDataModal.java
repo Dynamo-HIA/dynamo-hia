@@ -17,13 +17,16 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.listeners.shell.MyShellListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -43,6 +46,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	private Shell parentShell;
 	protected Shell shell;
 	protected HelpGroup helpPanel;
+	protected GenericButtonPanel buttonPanel;
 	protected BaseNode selectedNode;
 	
 
@@ -74,7 +78,13 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	}
 	protected abstract String createCaption(BaseNode selectedNode2);
 
-	protected abstract void open();
+	protected void open(){
+		this.dataBindingContext = new DataBindingContext();
+		buttonPanel = new GenericButtonPanel(this.shell);
+		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
+		((GenericButtonPanel) buttonPanel)
+		.setModalParent((DataAndFileContainer) this);
+	}
 
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
@@ -190,5 +200,9 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	 */
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
+	}
+	
+	public HelpGroup getHelpGroup(){
+		return helpPanel;
 	}
 }

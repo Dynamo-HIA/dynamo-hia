@@ -71,12 +71,8 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 	@Override
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = manufactureModelObject();
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			RiskFactorCategoricalPrevalencesGroup riskFactorCategoricalPrevalencesGroup = new RiskFactorCategoricalPrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode,
 					this.helpPanel);

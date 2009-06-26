@@ -5,6 +5,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.DistributionTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -83,7 +85,8 @@ public class RiskFactorContinuousPrevalencesDropDownPanel {
 
 	public void setHelpGroup(HelpGroup helpGroup) {
 		theHelpGroup = helpGroup;
-	}
+		dropDown.addFocusListener(new TypedFocusListener(XMLTagEntityEnum.DISTRIBUTIONTYPE.getTheType(), theHelpGroup));
+}
 
 	/**
 	 * 

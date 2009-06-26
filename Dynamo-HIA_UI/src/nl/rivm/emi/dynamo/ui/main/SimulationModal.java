@@ -73,13 +73,9 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 	@Override
 	public synchronized void open() {
 		 try {
-			this.dataBindingContext = new DataBindingContext();
+				super.open();
 			this.modelObject = new DynamoSimulationObject(manufactureModelObject());
 			log.debug("modelObject" + modelObject);
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);  
 			this.simulationGroup = new DynamoSimulationGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel,
 					this, this.configurationFileExists);

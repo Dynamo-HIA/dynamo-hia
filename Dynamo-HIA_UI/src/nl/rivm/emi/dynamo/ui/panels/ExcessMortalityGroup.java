@@ -41,6 +41,7 @@ public class ExcessMortalityGroup {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData.get(XMLTagEntityEnum.UNITTYPE.getElementName());
 		WritableValue writableValue = (WritableValue) tuple.getValue();
 		UnitTypeDropDownPanel dropDownGroup = new UnitTypeDropDownPanel(theGroup, writableValue);
+		dropDownGroup.setHelpGroup(helpGroup);
 		dropDownGroup.putNextInContainer(entityNameGroup.group, 30);
 		ExcessMortalityParameterGroup parameterGroup = new ExcessMortalityParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, 

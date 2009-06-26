@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -61,12 +62,8 @@ public class DALYWeightsModal extends AbstractDataModal {
 	@Override
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = manufactureModelObject();
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
 			DALYWeightsGroup dalyWeightsGroup = new DALYWeightsGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel);

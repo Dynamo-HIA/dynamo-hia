@@ -60,13 +60,8 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 	@Override
 	protected synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
-			this.nonGenericModelObject = nonGenericManufactureModelObject();
-
-			Composite buttonPanel = new TransitionDriftNettoButtonPanel(this.shell);
-			((TransitionDriftNettoButtonPanel) buttonPanel)
-					.setModalParent(this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
+			super.open();
+			this.modelObject = manufactureModelObject();
 			TransitionDriftNettoGroup transitionDriftNettoGroup = new TransitionDriftNettoGroup(
 					this.shell, this.nonGenericModelObject,
 					this.dataBindingContext, this.selectedNode, this.helpPanel);

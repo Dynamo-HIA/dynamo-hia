@@ -10,6 +10,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -123,4 +124,10 @@ abstract public class DataAndFileContainer {
 	abstract public Shell getParentShell();
 
 	abstract public BaseNode getBaseNode();
+
+	/**
+	 * Too high up the inheritance tree, but anyway. Used to link the buttons to
+	 * the helpsystem.
+	 */
+	abstract public HelpGroup getHelpGroup();
 }

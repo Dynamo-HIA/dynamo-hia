@@ -83,16 +83,11 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	@Override
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			// If the modelObject != null, then the Update button has been used
 			if (this.modelObject == null) {
 				this.modelObject = new NewbornsObject(manufactureModelObject());
 			}
-			log.debug("lotsOfData" + modelObject);
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			NewbornsGroup newbornsGroup = new NewbornsGroup(this.shell,
 					this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel, this);

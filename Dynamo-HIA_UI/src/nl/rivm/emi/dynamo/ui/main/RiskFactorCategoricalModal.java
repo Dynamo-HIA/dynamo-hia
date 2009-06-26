@@ -99,7 +99,7 @@ public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal 
 	@Override
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = new RiskFactorCategoricalObject(
 					manufactureModelObject());
 			// this.modelObject =

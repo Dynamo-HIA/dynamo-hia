@@ -57,12 +57,8 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	@Override
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = manufactureModelObject();
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			BaseNode riskSourceNode = null;
 			log.debug("Now for RelativeRisksCompoundGroup");
 			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(

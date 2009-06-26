@@ -68,13 +68,8 @@ public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChild
 	@Override	
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = (RiskFactorContinuousPrevalencesObject)manufactureModelObject();
-
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			RiskFactorContinuousPrevalencesGroup riskFactorContinuousPrevalencesGroup = new RiskFactorContinuousPrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			riskFactorContinuousPrevalencesGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);

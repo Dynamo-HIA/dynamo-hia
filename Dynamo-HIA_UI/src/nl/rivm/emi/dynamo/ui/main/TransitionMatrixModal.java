@@ -70,16 +70,11 @@ public class TransitionMatrixModal extends AbstractDataModal {
 	@Override
 	protected void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = manufactureModelObject();
-
-			GenericButtonPanel buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
 					this.shell, SWT.NONE, selectedNode, modelObject,
-					dataBindingContext, helpPanel, buttonPanel);
+					dataBindingContext, this.helpPanel, this.buttonPanel);
 			// Refactoring to variable startup-size.
 			Point leftMatrixPanelInitialSize = ageGroup.getInitialSize();
 			int horizontalSize = leftMatrixPanelInitialSize.x * 2

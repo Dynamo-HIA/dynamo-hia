@@ -71,13 +71,8 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	@Override	
 	public synchronized void open() {
 		try {
-			this.dataBindingContext = new DataBindingContext();
+			super.open();
 			this.modelObject = (ExcessMortalityObject)manufactureModelObject();
-
-			Composite buttonPanel = new GenericButtonPanel(this.shell);
-			((GenericButtonPanel) buttonPanel)
-					.setModalParent((DataAndFileContainer) this);
-			this.helpPanel = new HelpGroup(this, buttonPanel);
 			ExcessMortalityGroup excessMortalityGroup = new ExcessMortalityGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
 			excessMortalityGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);

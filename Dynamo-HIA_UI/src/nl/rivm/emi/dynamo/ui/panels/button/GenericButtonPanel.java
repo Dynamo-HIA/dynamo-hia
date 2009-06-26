@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
+import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveAndCloseSelectionListener;
@@ -59,9 +60,13 @@ public class GenericButtonPanel extends Composite {
 	public void setModalParent(DataAndFileContainer theParent) {
 		this.modalParent = theParent;
 		this.importButton.addSelectionListener(new ImportSelectionListener(this.modalParent));
+		this.importButton.addFocusListener(new ButtonFocusListener(importButton,theParent.getHelpGroup()));
 		this.saveButton.addSelectionListener(new SaveSelectionListener(this.modalParent));
+		this.saveButton.addFocusListener(new ButtonFocusListener(saveButton,theParent.getHelpGroup()));
 		this.saveAndCloseButton.addSelectionListener(new SaveAndCloseSelectionListener(this.modalParent));
+		this.saveAndCloseButton.addFocusListener(new ButtonFocusListener(saveAndCloseButton,theParent.getHelpGroup()));
 		this.closeButton.addSelectionListener(new CloseSelectionListener(theParent));
+		this.closeButton.addFocusListener(new ButtonFocusListener(closeButton,theParent.getHelpGroup()));
 	}
 
 	
