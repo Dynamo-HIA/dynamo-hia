@@ -15,6 +15,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
@@ -53,6 +55,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -100,7 +103,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-
+		try {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
 		layout.makeColumnsEqualWidth = /* false */true;
@@ -130,12 +133,20 @@ public class DynamoHeaderDataPanel extends Composite {
 
 		WritableValue observablePopFileName = dynamoSimulationObject
 				.getObservablePopulationFileName();
-		PopFileNameDropDownPanel populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
-				this, observablePopFileName, dynamoTabDataManager
-						.getDropDownSet(POP_FILE_NAME, null));
-		this.dropDownModifyListener = populationFileNameDropDownPanel
-				.getPopulationFileNameComboModifyListener();
+		PopFileNameDropDownPanel populationFileNameDropDownPanel;
+		
+			try {
+				populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
+						this, observablePopFileName, dynamoTabDataManager
+								.getDropDownSet(POP_FILE_NAME, null));
+			
+			this.dropDownModifyListener = populationFileNameDropDownPanel
+			.getPopulationFileNameComboModifyListener();
 
+			} catch (DynamoNoValidDataException e) {
+				throw new  ConfigurationException(e.getMessage());				
+			}
+		
 		String labelValue = SIM_POP_SIZE;
 		WritableValue observable = dynamoSimulationObject
 				.getObservableSimPopSize();
@@ -174,6 +185,20 @@ public class DynamoHeaderDataPanel extends Composite {
 		labelValue = RAND_SEED;
 		observable = dynamoSimulationObject.getObservableRandomSeed();
 		bindHeaderValue(observable, labelValue, new RandomSeed());
+		} catch (NoMoreDataException e) {
+			Shell messageShell=new Shell(parent.getDisplay());
+			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
+			messageBox.setMessage("no valid population data"+
+					"/n no configuration can be made");
+				
+			
+			if (messageBox.open() == SWT.OK) {
+				messageShell.dispose();
+			}
+
+			messageShell.open();
+			
+		}
 	}
 
 	private void bindHeaderValue(WritableValue observable, String labelValue,
