@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
@@ -120,6 +121,31 @@ public class ChosenToList <String> extends LinkedHashSet<String> {
 		} catch(NoSuchElementException nse) {
 			throw new ConfigurationException("A new entry is not available");
 		}
+			
+	}
+
+	/** this method updates the list directly from the DynamoSimulationObject
+	 * author: hendriek
+	 * @param dynamoSimulationObject: the DynamoSimulationObject
+	
+	 */
+	public void updateChosenToList(DynamoSimulationObject dynamoSimulationObject) {
+			
+		Map<Integer,TabRelativeRiskConfigurationData> relRiskConfiguration =
+		dynamoSimulationObject.getRelativeRiskConfigurations();
+		TabRelativeRiskConfigurationData singleRRconfiguration;
+		this.clear();
+		for (Integer key : relRiskConfiguration.keySet())
+
+		{singleRRconfiguration=relRiskConfiguration.get(key);
+			this.add((String) singleRRconfiguration.getTo()) ;
+			
+	        }
+
+		
+		
+		
+		
 			
 	}
 	

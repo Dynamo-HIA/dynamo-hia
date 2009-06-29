@@ -140,6 +140,21 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 * 
 	 * @return
 	 */
+	public Set<String> get2RiskFactors() {
+		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
+				.getNodeLabel());
+		Set<String> riskFactorNames = riskFactorsMap.keySet();
+		return riskFactorNames;
+	}
+	
+	
+	
+	/**
+	 * This method returns an object containing the names of the relative risks in the tree
+	 * that have been correctly configured.
+	 * 
+	 * @return
+	 */
 	public Set<String> getRiskFactors() {
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
@@ -183,6 +198,14 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
 		return collection.getValidToNames();
 	}
+	
+
+	public HashMap<String, HashMap<String, Set<String>>> getValidRelativeRiskCollection() {
+		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		return collection.getConfiguredRelRisks();
+	}
+	
+	
 
 	public Set<String> getValidRelRiskFileNamesForFromName(String fromName) {
 		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());

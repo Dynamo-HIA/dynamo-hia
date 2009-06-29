@@ -5,7 +5,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -128,5 +131,33 @@ public class ChosenFromList <String> extends LinkedHashSet<String> {
 		}
 			
 	}
+	
+	/** this method updates the list directly from the DynamoSimulationObject
+	 * author: hendriek
+	 * @param dynamoSimulationObject: the DynamoSimulationObject
+	
+	 */
+	public void updateChosenFromList(DynamoSimulationObject dynamoSimulationObject) {
+			
+		Map<Integer,TabRelativeRiskConfigurationData> relRiskConfiguration =
+		dynamoSimulationObject.getRelativeRiskConfigurations();
+		TabRelativeRiskConfigurationData singleRRconfiguration;
+		this.clear();
+		for (Integer key : relRiskConfiguration.keySet())
+
+		{singleRRconfiguration=relRiskConfiguration.get(key);
+		   
+			this.add((String) singleRRconfiguration.getFrom()) ;
+			
+	        }
+
+		
+		
+		
+		
+			
+	}
+	
+	
 	
 }

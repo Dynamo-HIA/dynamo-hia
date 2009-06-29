@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -105,13 +106,14 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 * @param lists
 	 * @return String
 	 * @throws ConfigurationException 
+	 * @throws NoMoreDataException 
 	 */
-	public String getFirstDiseaseOfSet(String currentDiseasesName, TreeAsDropdownLists lists) throws ConfigurationException {
+	public String getFirstDiseaseOfSet(String currentDiseasesName, TreeAsDropdownLists lists) throws ConfigurationException, NoMoreDataException {
 		try {
 			log.debug("ChosendiseasesEEEE: " + this);
 			return (String) this.getChoosableDiseases(currentDiseasesName, lists).iterator().next();	
 		} catch(NoSuchElementException nse) {
-			throw new ConfigurationException("A new disease is not available");
+			throw new NoMoreDataException("A new disease is not available");
 		}
 			
 	}
