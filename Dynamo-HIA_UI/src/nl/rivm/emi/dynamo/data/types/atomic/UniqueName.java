@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -52,7 +53,7 @@ public class UniqueName extends AbstractString implements ContainerType{
 		}
 
 		@Override
-		public Object convert(Object arg0) {
+		public Object convert(Object arg0)  {
 			log.debug("UniqueName: Override convert(Object) entered with:" +
 			arg0.toString());
 			Object result = null;
@@ -67,6 +68,9 @@ public class UniqueName extends AbstractString implements ContainerType{
 							(String) result);
 				} catch (ConfigurationException ce) {					
 					this.handleErrorMessage(ce);
+				} catch (NoMoreDataException e) {
+					
+					this.handleErrorMessage(e);
 				}
 			}
 			return result;
