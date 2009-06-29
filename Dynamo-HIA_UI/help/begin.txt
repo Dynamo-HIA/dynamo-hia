@@ -1,0 +1,1 @@
+enter relative risk that applies at the moment of entering the riskfactor class where the risk depends on the duration of being in this class 
