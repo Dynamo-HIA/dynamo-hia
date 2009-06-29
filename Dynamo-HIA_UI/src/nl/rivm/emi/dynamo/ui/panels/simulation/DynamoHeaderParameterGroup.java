@@ -22,21 +22,28 @@ import org.eclipse.swt.widgets.Group;
  */
 public class DynamoHeaderParameterGroup {
 
-	public Group group;
+	public Composite group;
 
 	public DynamoHeaderParameterGroup(Composite parent,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		group = new Group(parent, SWT.NONE);
+		group = new Composite(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 
 		DynamoTabDataManager dynamoTabDataManager =
 			new DynamoSimulationHeaderDataManager(selectedNode, dynamoSimulationObject);
-		Composite dynamoHeaderDataPanel = new DynamoHeaderDataPanel(group,
-				null, dynamoSimulationObject, dataBindingContext, selectedNode,
-				helpGroup, dynamoTabDataManager);
+		Composite dynamoHeaderDataPanel;
+		
+			dynamoHeaderDataPanel = new DynamoHeaderDataPanel(group,
+					null, dynamoSimulationObject, dataBindingContext, selectedNode,
+					helpGroup, dynamoTabDataManager);
+		
+			
+			
+			
+			
 		FormData dynamoHeaderFormData = new FormData();
 		dynamoHeaderFormData.top = new FormAttachment(0, 0);
 		dynamoHeaderFormData.right = new FormAttachment(100, 0);

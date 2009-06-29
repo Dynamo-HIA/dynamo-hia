@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -31,7 +33,7 @@ public class ScenarioResultGroup {
 	private static final String CHANGE_WITH_RESPECT_BASELINE_SIMULATION = 
 		"Change with respect to baseline simulation";
 	
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener scenarioDropDownModifyListener;
 	private Set<String> selections;
@@ -45,13 +47,13 @@ public class ScenarioResultGroup {
 			Composite topNeighbour, 
 			GenericComboModifyListener scenarioDropDownModifyListener, 
 			DynamoTabDataManager dynamoTabDataManager
-			) throws ConfigurationException {
+			) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.scenarioDropDownModifyListener = scenarioDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		
-		group = new Group(plotComposite, SWT.NONE);
+		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
@@ -60,7 +62,7 @@ public class ScenarioResultGroup {
 		createDropDownArea(topNeighbour);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 0);
@@ -109,7 +111,7 @@ public class ScenarioResultGroup {
 				null, this.dynamoTabDataManager);		
 	}
 
-	public void refreshGroupDropDown() throws ConfigurationException {
+	public void refreshGroupDropDown() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.transitionDropDownPanel.refresh();
 		this.riskFactorPrevalenceDropDownPanel.refresh();		
 	}

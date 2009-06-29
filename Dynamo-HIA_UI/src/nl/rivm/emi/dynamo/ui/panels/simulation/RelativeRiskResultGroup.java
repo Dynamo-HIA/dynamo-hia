@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -25,7 +27,7 @@ public class RelativeRiskResultGroup {
 
 
 	public static final String RELATIVE_RISK = "Relative Risk";
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 
 	
@@ -39,27 +41,27 @@ public class RelativeRiskResultGroup {
 			BaseNode selectedNode, HelpGroup helpGroup,			
 			RelativeRiskSelectionGroup selectionGroup,
 			DynamoTabDataManager dynamoTabDataManager
-			) throws ConfigurationException {
+			) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.selectionGroup = selectionGroup;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-		group = new Group(plotComposite, SWT.NONE);
+		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -5;
+		gridLayout.marginHeight = 3; // changed from -5
 		group.setLayout(gridLayout);			
 		createDropDownArea(selectionGroup.group);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 0);
+		formData.top = new FormAttachment(topNeighbour, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(67, 0);
+		formData.bottom = new FormAttachment(77, 0);
 		group.setLayoutData(formData);
 		
 		String chosenIndexSelection = null;

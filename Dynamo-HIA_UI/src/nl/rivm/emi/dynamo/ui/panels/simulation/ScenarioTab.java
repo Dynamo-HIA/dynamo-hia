@@ -8,6 +8,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -55,23 +57,25 @@ public class ScenarioTab extends NestedTab {
 	/**
 	 * Create the active contents of this tab
 	 * @throws ConfigurationException 
+	 * @throws NoMoreDataException 
 	 */	
 	@Override
-	public void makeIt() throws ConfigurationException{
+	public void makeIt() throws ConfigurationException, NoMoreDataException{
 		
 		this.dynamoTabDataManager =
 			new ScenarioTabDataManager(selectedNode, 
 					dynamoSimulationObject,
 					this.selections);
 		
-		this.scenarioSelectionGroup =
-			new ScenarioSelectionGroup(tabName, this.selections, 
-					this.plotComposite,
-					selectedNode, helpGroup,
-					dynamoTabDataManager,
-					dataBindingContext,
-					this.dynamoSimulationObject
-					);
+		try {
+			this.scenarioSelectionGroup =
+				new ScenarioSelectionGroup(tabName, this.selections, 
+						this.plotComposite,
+						selectedNode, helpGroup,
+						dynamoTabDataManager,
+						dataBindingContext,
+						this.dynamoSimulationObject
+						);
 		
 		this.scenarioResultGroup =
 			new ScenarioResultGroup(selections, this.plotComposite,
@@ -80,10 +84,16 @@ public class ScenarioTab extends NestedTab {
 					scenarioSelectionGroup.getDropDownModifyListener(),
 					dynamoTabDataManager
 					);
+		} catch (DynamoNoValidDataException e) {
+			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			throw new NoMoreDataException(e.getMessage());
+			
+		}
+		
 	}	
 	
 	
-	public void refreshSelectionGroup() throws ConfigurationException {
+	public void refreshSelectionGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.scenarioSelectionGroup.refreshSelectionDropDown();
 	}
 
@@ -91,7 +101,7 @@ public class ScenarioTab extends NestedTab {
 		this.dynamoTabDataManager.removeFromDynamoSimulationObject();
 	}
 
-	public void refreshResultGroup() throws ConfigurationException {
+	public void refreshResultGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.scenarioResultGroup.refreshGroupDropDown();
 		
 	}

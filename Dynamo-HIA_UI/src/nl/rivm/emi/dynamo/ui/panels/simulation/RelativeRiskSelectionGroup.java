@@ -1,10 +1,15 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -23,7 +28,7 @@ public class RelativeRiskSelectionGroup {
 	
 	public static final String FROM = "From";
 	public static final String TO = "To";
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
 	private Set<String> selections;
@@ -39,19 +44,19 @@ public class RelativeRiskSelectionGroup {
 	public RelativeRiskSelectionGroup(String tabName, 
 			Set<String> set, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, 
-			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
 		
 		log.debug("relativeRiskFactorSelectionGroup::this.plotComposite: " + plotComposite);
-		group = new Group(plotComposite, SWT.FILL);
+		group = new Composite(plotComposite, SWT.FILL);
 		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -3;
+		gridLayout.marginHeight = 3; //changed from -3
 		group.setLayout(gridLayout);	
 		//group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
 		log.debug("relativeRiskFactorSelectionGroup" + group);
@@ -59,10 +64,14 @@ public class RelativeRiskSelectionGroup {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() throws ConfigurationException {
+	private void createDropDownArea() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 				
+		
+
+		updateAvaillableRRsForThisTab();
+		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, -5);
+		formData.top = new FormAttachment(0, 6);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(44, 0);
@@ -104,9 +113,29 @@ public class RelativeRiskSelectionGroup {
 				dynamoTabDataManager);		
 	}	
 
-	public void refreshSelectionDropDown() throws ConfigurationException {
+	public void refreshSelectionDropDown() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
+
+		
+		
+		updateAvaillableRRsForThisTab();
+	
 		this.fromDropDownPanel.refresh();		
 		this.toDropDownPanel.refresh();
+		
+	}
+
+	private void updateAvaillableRRsForThisTab() {
+		Set<String> diseaseNames = this.dynamoTabDataManager.getDynamoSimulationObject()
+				.getDiseaseConfigurations().keySet();
+		
+		
+		
+		RelativeRiskTabDataManager dataManager=(RelativeRiskTabDataManager ) this. dynamoTabDataManager;
+		
+		/* removes RR that have been selected in other tabs or have become impossible by other tabs */
+		
+		dataManager.getAvaillableRRs().removeRRSelectedInOtherTabs(dataManager.getConfigurations(), diseaseNames,
+				dataManager.getSingleConfiguration());
 	}
 
 	public GenericComboModifyListener getFromDropDownModifyListener() {

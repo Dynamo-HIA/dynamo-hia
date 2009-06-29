@@ -292,5 +292,10 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 	private void createInDynamoSimulationObject() {
 		this.singleConfiguration = new TabScenarioConfigurationData();
 	}
+	@Override
+	public DynamoSimulationObject getDynamoSimulationObject() {
+		// TODO Auto-generated method stub
+		return this.getDynamoSimulationObject();
+	}
 	
 }

@@ -10,6 +10,9 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -17,6 +20,9 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
 /**
@@ -54,6 +60,7 @@ public class DiseasesTab extends TabPlatform {
 		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
 				tabName, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, helpGroup);
+		
 	}
 	
 	@Override
@@ -82,6 +89,34 @@ public class DiseasesTab extends TabPlatform {
 	@Override
 	public void refreshNestedTab(NestedTab nestedTab) throws ConfigurationException {
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
-		diseaseTab.refreshSelectionGroup();
+		try{ diseaseTab.refreshSelectionGroup();}
+		
+catch (NoMoreDataException e) {
+			
+			Shell messageShell=new Shell(getTabFolder().getDisplay());
+			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
+			messageBox.setMessage(e.getMessage()+ "\nTab is not made");
+				
+			if (messageBox.open() == SWT.OK) {
+				messageShell.dispose();
+			}
+
+			messageShell.open();
+				
+			} catch (DynamoNoValidDataException e) {
+				Shell messageShell=new Shell(getTabFolder().getDisplay());
+				MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
+				messageBox.setMessage(e.getMessage()+ "\nTab is deleted");
+					this.tabManager.deleteNestedTab();
+				
+				if (messageBox.open() == SWT.OK) {
+					messageShell.dispose();
+			e.printStackTrace();
+		}			}
 	}	
+	
+	
+
+	
+	
 }

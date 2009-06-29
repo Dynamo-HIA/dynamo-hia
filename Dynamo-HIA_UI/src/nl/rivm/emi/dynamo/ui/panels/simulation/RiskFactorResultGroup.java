@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -27,7 +29,7 @@ public class RiskFactorResultGroup {
 	public static final String RISK_FACTOR_PREVALENCE = "Risk Factor Prevalence";
 	public static final String TRANSITION = "Transition";
 	
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener riskDropDownModifyListener;
 	private Set<String> selections;
@@ -39,13 +41,13 @@ public class RiskFactorResultGroup {
 			Composite topNeighbour, 
 			GenericComboModifyListener riskDropDownModifyListener,
 			DynamoTabDataManager dynamoTabDataManager
-			) throws ConfigurationException {
+			) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.riskDropDownModifyListener = riskDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		
-		group = new Group(plotComposite, SWT.NONE);
+		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
@@ -54,7 +56,7 @@ public class RiskFactorResultGroup {
 		createDropDownArea(topNeighbour);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 5);

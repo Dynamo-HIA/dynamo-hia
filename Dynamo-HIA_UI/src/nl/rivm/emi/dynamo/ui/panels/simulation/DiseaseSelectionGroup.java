@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -30,7 +32,7 @@ public class DiseaseSelectionGroup {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public static final String DISEASE = "Disease";
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
 	private BaseNode selectedNode;
@@ -42,14 +44,14 @@ public class DiseaseSelectionGroup {
 	public DiseaseSelectionGroup(String tabName, Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, 
 			DynamoTabDataManager dynamoTabDataManager) 
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;		
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
 		
-		group = new Group(plotComposite, SWT.FILL);
+		group = new Composite(plotComposite, SWT.FILL);
 		
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -62,13 +64,13 @@ public class DiseaseSelectionGroup {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() throws ConfigurationException {
+	private void createDropDownArea() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 				
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, -5);
+		formData.top = new FormAttachment(0, 6);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(22, 0);
+		formData.bottom = new FormAttachment(25, 0);
 		group.setLayoutData(formData);			
 		
 		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
@@ -106,7 +108,7 @@ public class DiseaseSelectionGroup {
 		return this.dropDownModifyListener;
 	}
 
-	public void refreshSelectionDropDown() throws ConfigurationException {
+	public void refreshSelectionDropDown() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseDropDownPanel.refresh();		
 	}
 }

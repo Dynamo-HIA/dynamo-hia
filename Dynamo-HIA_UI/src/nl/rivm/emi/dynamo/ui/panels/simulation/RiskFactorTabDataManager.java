@@ -1,41 +1,65 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.TabFolder;
 
 public class RiskFactorTabDataManager implements DynamoTabDataManager {
 
-	private Log log = LogFactory.getLog(this.getClass().getName());
 	
+	static Log log = LogFactory
+	.getLog("nl.rivm.emi.dynamo.ui.panels.simulation.RiskFactorTabDataManager ");
 	private TreeAsDropdownLists treeLists;
+	public TreeAsDropdownLists getTreeLists() {
+		return treeLists;
+	}
+
 	private DynamoSimulationObject dynamoSimulationObject;
 	private Map<String, TabRiskFactorConfigurationData> configurations;
 	private TabRiskFactorConfigurationData singleConfiguration;
 	private Set<String> initialSelection;
+	private RiskFactorTab tab;
 	
 	public RiskFactorTabDataManager(BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
-			Set<String> initialSelection) throws ConfigurationException {
+			Set<String> initialSelection, RiskFactorTab tab) throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.configurations = dynamoSimulationObject.getRiskFactorConfigurations();
 		this.initialSelection = initialSelection;
 		this.singleConfiguration = this.configurations.get(getInitialName());
+		this.tab=tab;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getContents(java.lang.String, java.lang.String)
+	 
+	 * @param name: name of dropdown (e.g. "to" or "from")
+	 * @param chosenRiskFactorName: name that has been choosen (can be null); can also be disease
+	 */
 	@Override
+	
+	
 	public Set<String> getContents(String name, String chosenRiskFactorName)
 			throws ConfigurationException {
 		log.debug("GET CONTENTS");
@@ -85,6 +109,12 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		return value;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getDropDownSet(java.lang.String, java.lang.String)
+	 name = naam van control, bijv from of to
+	 chosenRisFactorName: selection (default of gekozen)
+	 */
 	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenRiskFactorName)
 			throws ConfigurationException {
@@ -110,7 +140,18 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
 		this.configurations.remove(this.singleConfiguration.getName());
-		this.dynamoSimulationObject.setRiskFactorConfigurations(configurations); 
+		
+		/* changed by Hendriek:
+		 * use update. Then the setting of the configuration can be omitted, as
+		 * this is done also in update
+		 */
+		//this.dynamoSimulationObject.setRiskFactorConfigurations(configurations);
+		/* also remove the relative risks  */
+		updateDynamoSimulationObject();
+		
+		
+		
+		
 	}
 
 	@Override
@@ -131,9 +172,9 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
 		log.debug(name + ": " + selectedValue);		
-		log.debug("UPDATING OBJECT STATE");
+		log.fatal("UPDATING OBJECT STATE");
 		
-		log.debug("this.initialSelection" + this.initialSelection);
+		log.fatal("this.initialSelection" + this.initialSelection);
 		log.debug("this.singleConfiguration" + this.singleConfiguration);
 		
 		// In case a new Tab is created, no model exists yet
@@ -153,25 +194,104 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		updateDynamoSimulationObject();
 	}
 
-	public void updateDynamoSimulationObject() {
-		log.error("UPDATING");
-		log.debug("singleConfiguration" + singleConfiguration);
-		log.debug("singleConfiguration.getName()" + singleConfiguration.getName());
+	public void updateDynamoSimulationObject() throws ConfigurationException {
+		log.error("UPDATING AFTER RISKFACTOR CHANGE");
+		//log.debug("singleConfiguration" + singleConfiguration);
+		//log.debug("singleConfiguration.getName()" + singleConfiguration.getName());
 		
 		this.configurations.put(singleConfiguration.getName(), 
 				singleConfiguration);
 		this.dynamoSimulationObject.setRiskFactorConfigurations(configurations);
+		/* added by Hendriek
+		 * Also check if the riskfactor names in the relative risks are still
+		 * valid
+		 * If not see if there is a valid entry with the new riskfactor name and the same to value.
+		 * Otherwise remove and show warning message
+		 * Valid = to is either the current riskfactor, or a diseasename that has been selected
+		 * 
+		 *
+		 */
+		
+		String riskfactorName=singleConfiguration.getName();
+	Map<String,ITabDiseaseConfiguration> diseaseConfiguration=this.dynamoSimulationObject.getDiseaseConfigurations();
+		Set<String> diseaseNames = new  LinkedHashSet<String>();
+		for (String key : diseaseConfiguration.keySet())
+			if (key!=null) diseaseNames.add(key);
+		
+		Map<Integer,TabRelativeRiskConfigurationData> relativeRiskConfigurations = this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		
+		Map<Integer,TabRelativeRiskConfigurationData> 	relRiskConfiguration=
+		relativeRiskConfigurations;
+		TabRelativeRiskConfigurationData singleRRconfiguration;
+		log.fatal ("number of Relative risks: "+relRiskConfiguration.size());
+		RelRisksCollectionForDropdown collection= RelRisksCollectionForDropdown.getInstance(dynamoSimulationObject,treeLists);
+		// no refreshing needed, as this is part of get instance
+		//collection.refresh(dynamoSimulationObject,treeLists);
+	log.debug("availlable RRs: "+collection.getAvaillableRelRisksForDropdown());
+		for ( Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration.values().iterator(); iter.hasNext(); )
+        {
+        
+	//	for (Integer key2 : relRiskConfiguration.keySet())
+		
+			
+		singleRRconfiguration= iter.next();
+		    boolean validEntry=false;
+		  
+			if (singleRRconfiguration.getFrom().equals(riskfactorName)) validEntry=true ;
+			log.debug(riskfactorName+"?=" +singleRRconfiguration.getFrom()+
+					": validEntry= "+validEntry);
+			for (String name: diseaseNames){		
+				log.debug(name+" ?= "+singleRRconfiguration.getFrom()+"="+(singleRRconfiguration.getFrom().equals(name)));
+			if (singleRRconfiguration.getFrom().equals(name)) validEntry=true ;}
+			
+			/* NB we do not check here on a disease being both to and from
+			 * this should have been done when entering the original relative risks 
+			 */
+		
+			
+			if (!validEntry){
+			
+				
+				Set<String> fileName=collection.updateRRFileList(riskfactorName, singleRRconfiguration.getTo());
+				if (fileName==null)		{	
+					
+					handleWarningMessage("removed: RR from "+ singleRRconfiguration.getFrom()+ " to " +
+							 singleRRconfiguration.getTo()+"\n(not configurated)");	
+					
+				log.fatal("removed: RR from "+ singleRRconfiguration.getFrom()+ " to " +
+						 singleRRconfiguration.getTo());
+				iter.remove();
+				}	else {
+					
+					log.fatal("changed: RR from "+ singleRRconfiguration.getFrom()+ " to " +
+							 singleRRconfiguration.getTo()+" into: RR from "
+							 + riskfactorName+ " to " +
+							 singleRRconfiguration.getTo());	
+					handleWarningMessage("RR from "+ singleRRconfiguration.getFrom()+ " to " +
+							 singleRRconfiguration.getTo()+" is changed into:\nRR from "
+							 + riskfactorName+ " to " +
+							 singleRRconfiguration.getTo());	
+					
+					singleRRconfiguration.setFrom(riskfactorName);}}
+			log.fatal("number of RRs: "+relRiskConfiguration.size());
+	        }
+        
+		this.dynamoSimulationObject.setRelativeRiskConfigurations(relRiskConfiguration);
 		
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
 		Map map = this.dynamoSimulationObject.getRiskFactorConfigurations();
+	
 		Set<String> keys = map.keySet();
+		
 		for (String key : keys) {
+		
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map.get(key);
-			log.error("conf.getName()" + conf.getName());
-			log.error("conf.getPrevalenceFileName()" + conf.getPrevalenceFileName());
-			log.error("conf.getIncidenceFileName()" + conf.getTransitionFileName());
+			log.debug("conf.getName()" + conf.getName());
+			log.debug("conf.getPrevalenceFileName()" + conf.getPrevalenceFileName());
+			log.debug("conf.getIncidenceFileName()" + conf.getTransitionFileName());
+		//	log.error("diseasenames "+ diseaseNames);
 		}
 		log.debug("configurations.size()" + configurations.size());
 		/**
@@ -199,5 +319,19 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	private void createInDynamoSimulationObject() {
 		this.singleConfiguration = new TabRiskFactorConfigurationData();
 	}
+	@Override
+	public DynamoSimulationObject getDynamoSimulationObject() {
+		// TODO Auto-generated method stub
+		return this.getDynamoSimulationObject();
+	}
+
+	
+	private void handleWarningMessage(String s) {    	
+		MessageBox box = new MessageBox(this.tab.getPlotComposite().getShell(),
+				SWT.ERROR_UNSPECIFIED);
+		box.setText("WARNING");
+		box.setMessage("WARNING:\n"+s);
+		box.open();
+	}	
 	
 }

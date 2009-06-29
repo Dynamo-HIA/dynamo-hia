@@ -3,9 +3,12 @@ package nl.rivm.emi.dynamo.ui.panels.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.GenericDropDownPanel;
+
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -46,13 +49,18 @@ public class GenericComboModifyListener implements ModifyListener {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();		
 		
-		log.debug("newText" + newText);		
+		log.debug("newText" + newText);	
+		log.fatal("newText in listeber" + newText);	
 		
 		// First update the model
-		try {
-			this.dropDown.updateDataObjectModel(newText);
+		/* hendriek : toegevoegd: synchronized */
+		try { synchronized (this.dropDown) {
+			this.dropDown.updateDataObjectModel(newText);}
 		} catch (ConfigurationException ce) {
 			this.handleErrorMessage(ce, dropDown);
+		} catch (NoMoreDataException e) {
+			this.handleErrorMessage(e, dropDown);
+			e.printStackTrace();
 		}		
 		// Iterate through the registered drop downs of this 
 		log.debug("this.registeredDropDowns.size()" 
@@ -64,6 +72,12 @@ public class GenericComboModifyListener implements ModifyListener {
 				registeredDropDown.update(newText);			
 			} catch (ConfigurationException ce) {
 				this.handleErrorMessage(ce, registeredDropDown);
+			} catch (NoMoreDataException e) {
+				this.handleErrorMessage(e, registeredDropDown);
+				
+			} catch (DynamoNoValidDataException e) {
+			
+				this.handleErrorMessage(e, registeredDropDown);
 			}
 		}
 	}

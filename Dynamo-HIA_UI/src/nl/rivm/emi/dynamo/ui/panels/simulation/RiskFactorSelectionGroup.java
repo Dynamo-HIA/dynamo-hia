@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -30,7 +32,7 @@ public class RiskFactorSelectionGroup {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public static final String RISK_FACTOR = "Risk Factor";
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
 	private BaseNode selectedNode;
@@ -43,7 +45,7 @@ public class RiskFactorSelectionGroup {
 			Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup,
 			DynamoTabDataManager dynamoTabDataManager) 
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.selectedNode = selectedNode;
@@ -51,7 +53,7 @@ public class RiskFactorSelectionGroup {
 		
 		log.debug("RiskFactorSelectionGroup::this.plotComposite: "
 				+ plotComposite);
-		group = new Group(plotComposite, SWT.NONE);
+		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
@@ -62,7 +64,7 @@ public class RiskFactorSelectionGroup {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() throws ConfigurationException {
+	private void createDropDownArea() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 
 		
 		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 

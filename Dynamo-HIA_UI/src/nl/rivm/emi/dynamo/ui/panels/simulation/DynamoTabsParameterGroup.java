@@ -26,12 +26,12 @@ public class DynamoTabsParameterGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public Group group;
+	public Composite group;
 
 	public DynamoTabsParameterGroup(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) throws ConfigurationException {
-		group = new Group(parent, SWT.NONE);
+		group = new Composite(parent, SWT.NONE);
 
 		FillLayout fillLayout = new FillLayout();
 		group.setLayout(fillLayout);
@@ -59,6 +59,14 @@ public class DynamoTabsParameterGroup {
 
 	
 	public void handleNextInContainer(Group topNeighbour) {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(topNeighbour, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		group.setLayoutData(formData);		
+	}
+	public void handleNextInContainer(Composite topNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 5);
 		formData.left = new FormAttachment(0, 5);

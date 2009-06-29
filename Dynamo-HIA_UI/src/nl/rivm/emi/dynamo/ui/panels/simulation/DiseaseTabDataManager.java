@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -7,6 +8,9 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
@@ -32,6 +36,13 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	private DynamoSimulationObject dynamoSimulationObject;
 	private Map<String, ITabDiseaseConfiguration> configurations;
 	private ITabDiseaseConfiguration singleConfiguration;
+	public ITabDiseaseConfiguration getSingleConfiguration() {
+		return singleConfiguration;
+	}
+
+	public void setSingleConfiguration(ITabDiseaseConfiguration singleConfiguration) {
+		this.singleConfiguration = singleConfiguration;
+	}
 	private Set<String> initialSelection;
 
 	/**
@@ -58,7 +69,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getDropDownSet(java.lang.String, java.lang.String)
 	 */
-	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException {
+	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException, NoMoreDataException {
 		log.debug("HIERALOOK");
 
 		// The model object already exists, get the name
@@ -75,7 +86,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getContents(java.lang.String, java.lang.String)
 	 */
-	public Set<String> getContents(String name, String chosenDiseaseName) throws ConfigurationException {
+	public Set<String> getContents(String name, String chosenDiseaseName) throws ConfigurationException, NoMoreDataException {
 		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
 		ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
@@ -143,8 +154,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * @param dropDownName
 	 * @param selectedValue
 	 * @throws ConfigurationException 
+	 * @throws NoMoreDataException 
 	 */
-	public void updateObjectState(String name, String selectedValue) throws ConfigurationException {
+	public void updateObjectState(String name, String selectedValue) throws ConfigurationException, NoMoreDataException {
 		log.debug(name + ": " + selectedValue);
 		
 		log.debug("UPDATING OBJECT STATE");
@@ -182,6 +194,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 				singleConfiguration);
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
 		
+		
+		
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
@@ -211,8 +225,44 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	public void removeFromDynamoSimulationObject() throws ConfigurationException {
 		log.error("REMOVING OBJECT STATE");
 		ChoosableDiseases.getInstance().removeChosenDisease(this.singleConfiguration.getName());
-		this.configurations.remove(this.singleConfiguration.getName());
+		
+		String removedDisease=this.singleConfiguration.getName();
+		this.configurations.remove(removedDisease);
 		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
+		/* added by Hendriek
+		 * Also check if the disease names in the relative risks are still
+		 * valid
+		 * If not remove
+		 * Both to and from can be diseasenames and should be checked
+		 */
+		//String riskfactorName=((TabRiskFactorConfigurationData) configurations).getName();
+		Map<Integer,TabRelativeRiskConfigurationData> relRiskConfiguration =
+		this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		
+			TabRelativeRiskConfigurationData singleRRconfiguration;
+			
+			
+			for ( Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration.values().iterator(); iter.hasNext(); )
+	        {
+	        
+		//	for (Integer key2 : relRiskConfiguration.keySet())
+			
+				
+		
+		
+		singleRRconfiguration= iter.next();
+	   
+		
+		if (singleRRconfiguration.getFrom().equals(removedDisease)||
+				singleRRconfiguration.getTo().equals(removedDisease)	)
+			iter.remove();
+			
+		log.fatal("stop5: "+"size: "+relRiskConfiguration.size());
+        }
+		
+		
+		this.dynamoSimulationObject.setRelativeRiskConfigurations(relRiskConfiguration);
+		
 	}
 	
 	private String getInitialName() {
@@ -228,7 +278,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getRefreshedDropDownSet(java.lang.String)
 	 */
-	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException {
+	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException, NoMoreDataException {
 		return getDropDownSet(label, null);
 	}
 
@@ -260,6 +310,10 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		// Will not be used
 		return null;
 	}
-	
+	@Override
+	public DynamoSimulationObject getDynamoSimulationObject() {
+		// TODO Auto-generated method stub
+		return this.getDynamoSimulationObject();
+	}
 	
 }

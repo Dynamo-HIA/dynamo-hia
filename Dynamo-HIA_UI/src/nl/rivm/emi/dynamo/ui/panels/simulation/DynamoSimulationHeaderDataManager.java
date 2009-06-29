@@ -87,4 +87,10 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		// Will not be used
 		return null;
 	}
+
+	@Override
+	public DynamoSimulationObject getDynamoSimulationObject() {
+		// TODO Auto-generated method stub
+		return this.getDynamoSimulationObject();
+	}
 }

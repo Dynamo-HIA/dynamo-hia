@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -76,9 +77,18 @@ public class DynamoTabsDataPanel {
 		    	try {
 				    if (tabId=="Risk Factor") tab0.redraw();
 				    if (tabId=="Diseases") tab1.redraw();
-				    if (tabId=="Relative Risks") {			    	
-							tab2.refreshFirstTab();
-					    	tab2.redraw();			    	
+				    if (tabId=="Relative Risks") {
+				    	
+				    	 // changed by Hendriek
+				    	    /* 
+				    	     * this refreshes the list with RR availlable from new disease or riskfactor choices
+				    	     */
+				    	  RelRisksCollectionForDropdown.getInstance(dynamoSimulationObject, selectedNode);
+
+				    	    tab2.refreshAllTabs();
+				    	 
+				    	 	//tab2.refreshFirstTab();
+					    //	tab2.redraw();			    	
 				    }
 				    if (tabId=="Scenarios") {
 							tab3.refreshFirstTab();

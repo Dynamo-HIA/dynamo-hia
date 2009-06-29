@@ -7,6 +7,8 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -53,7 +55,7 @@ public class TabManager {
 		nestedTabs = new LinkedHashMap<String, NestedTab>();
 		
 		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 0);
+		formData.top = new FormAttachment(0, 6);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(90, -5);
@@ -67,21 +69,50 @@ public class TabManager {
 		        log.debug("Selected item index = " + tabFolder.getSelectionIndex());
 		        log.debug("Selected item = " + (tabFolder.getSelection() == null ? "null" : tabFolder.getSelection()[0].toString()));
 		        
-	            try {
+	          
 	            	int selected = tabFolder.getSelectionIndex();
 	            	if (selected > -1) {	            		
 	            		TabItem item = TabManager.this.getTabFolder().getItem(selected);
+	            		  try {
 	            		log.debug("item.getText()" + item.getText());
 	            		log.debug("TabManager.this.nestedTabs.size()" + TabManager.this.nestedTabs.size());
 	            		log.debug("TabManager.this.nestedTabs" + TabManager.this.nestedTabs);
 	            		TabManager.this.platform.
 	            			refreshNestedTab(TabManager.this.nestedTabs.
 	            					get(item.getText()));						
-	            	}
+	            	
 				} catch (ConfigurationException ce) {
 					TabManager.this.handleErrorMessage(ce);
+				} catch (NoMoreDataException e1) {
+					// added by Hendriek: removes the item in case of a no data situation
+					TabManager.this.handleErrorMessage(e1);
+					int index = tabFolder.getSelectionIndex();
+					TabItem tabItem = tabFolder.getItem(index);
+					NestedTab removedNestedTab = nestedTabs.get(tabItem.getText());
+					// Remove the data from the data object model
+					try {
+						TabManager.this.platform.deleteNestedTab(removedNestedTab);
+					} catch (ConfigurationException e2) {
+						// TODO Auto-generated catch block
+						TabManager.this.handleErrorMessage(e2);
+					}		
+					tabItem.dispose();
+				} catch (DynamoNoValidDataException e3) {
+					// added by Hendriek: removes the item in case of a no data situation
+					TabManager.this.handleErrorMessage(e3);
+					int index = tabFolder.getSelectionIndex();
+					TabItem tabItem = tabFolder.getItem(index);
+					NestedTab removedNestedTab = nestedTabs.get(tabItem.getText());
+					// Remove the data from the data object model
+					try {
+						TabManager.this.platform.deleteNestedTab(removedNestedTab);
+					} catch (ConfigurationException e2) {
+						// TODO Auto-generated catch block
+						TabManager.this.handleErrorMessage(e2);
+					}		
+					tabItem.dispose();
 				}		        
-		      }
+		      }}
 
 		      public void widgetDefaultSelected(SelectionEvent e) {
 		      }
@@ -102,10 +133,12 @@ public class TabManager {
 	 * Creates the stored default NestedTabs on this TabFolder
 	 * 
 	 * @throws ConfigurationException
+	 * @throws DynamoNoValidDataException 
 	 */
 	public void createDefaultTabs() throws DynamoConfigurationException, ConfigurationException {
 		Set<String> defaultTabKeyValues = this.platform.getConfigurations();
 		log.debug("defaultTabKeyValues111" + defaultTabKeyValues);
+		// the tab created is given the values of the configuration Map for which to create the tab 
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
@@ -114,7 +147,12 @@ public class TabManager {
 			log.debug("CREATING DEFAULT NESTEDTABS " + nestedTab);
 			this.nestedTabs.put(nestedTab.getName(), nestedTab);
 		}		
-		this.redraw();
+		try {
+			this.redraw();
+		} catch (NoMoreDataException e) {
+			// should not occur as this should have been spotted earlier
+			e.printStackTrace();
+		}
 	}		
 	
 	/**
@@ -123,6 +161,7 @@ public class TabManager {
 	 * @throws ConfigurationException 
 	 * 
 	 * @throws ConfigurationException
+	 * @throws DynamoNoValidDataException 
 	 */
 	public void createNestedTab() throws ConfigurationException {
 		log.debug("this.listener" + this.listener);
@@ -134,15 +173,24 @@ public class TabManager {
 			// tabName is identifier for the nestedTab to be created
 			log.debug("CREATING NEW NESTEDTAB " + nestedTab);
 			nestedTabs.put(nestedTab.getName(), nestedTab);
+			// select the tab that is created 
+			int index=getNumberOfTabs()-1;
+			log.fatal("index of selectedtabItem: "+index);
+			this.tabFolder.setSelection(index);
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			throw new ConfigurationException(e);
 		} finally {
-			this.redraw();	
+			try {
+				this.redraw();
+			} catch (NoMoreDataException e) {
+				// this should not occur
+				e.printStackTrace();
+			}	
 		}		
 	}
 	
-	public void deleteNestedTab() throws ConfigurationException {
+	public void deleteNestedTab() throws ConfigurationException{
 		this.tabFolder.removeSelectionListener(this.listener);
 		// TODO REMOVE DEBUGGING:
 		TabItem[] tabItems = tabFolder.getItems();
@@ -167,7 +215,13 @@ public class TabManager {
 		this.renumberAndRenameItems();
 		
 		// Redraw the tabPlatform
-		this.redraw();
+		try {
+			this.redraw();
+		} catch (NoMoreDataException e) {
+			// this should not occur
+			
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -183,22 +237,33 @@ public class TabManager {
 			int newIndexName = index + 1;
 			String tabName = this.platform.getNestedTabPrefix() + newIndexName;
 			item.setText(tabName);
-			log.debug("OLDTABNAME: " + oldTabName);
-			log.debug("TEMPNESTEDTABS: " + tempNestedTabs);
-			log.debug("ADDING NESTEDTAB: " + tempNestedTabs.get(oldTabName));
-			this.nestedTabs.put(tabName, tempNestedTabs.get(oldTabName));
+			log.fatal("OLDTABNAME: " + oldTabName+ "  index  "+index);
+			log.fatal("TEMPNESTEDTABS: " + tempNestedTabs);
+			log.fatal("ADDING NESTEDTAB: " + tempNestedTabs.get(oldTabName));
+			// next 3 lines (plus new method) added by Hendriek because did not 
+			//work properly when deleting tabs. Refreshes the configuration from the model object
+			NestedTab tabToRefresh =tempNestedTabs.get(oldTabName);
+			if (tabToRefresh instanceof RelativeRiskTab) {
+				((RelativeRiskTabDataManager)((RelativeRiskTab)tabToRefresh).getDynamoTabDataManager()).refreshConfigurations(index);
+			}
+			 this.nestedTabs.put(tabName, tabToRefresh);
 		}
 		log.debug("RENUMBERED: " + this.nestedTabs);      
 	}
 
-	public void redraw() throws ConfigurationException {
-		this.refreshSelectionDropDowns();
+	public void redraw() throws ConfigurationException, NoMoreDataException {
+		try {
+			this.refreshSelectionDropDowns();
+		} catch (DynamoNoValidDataException e) {
+			// should not occur
+			e.printStackTrace();
+		}
 		this.tabFolder.redraw();
 		this.tabFolder.addSelectionListener(		
 				this.listener);		
 	}	
 	
-	private void refreshSelectionDropDowns() throws ConfigurationException {
+	private void refreshSelectionDropDowns() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		for (int index = 0; index < this.getTabFolder().getItemCount(); index++) {			
 			TabItem item = this.getTabFolder().getItem(index);
 			this.platform.
@@ -222,5 +287,7 @@ public class TabManager {
 		return this.tabFolder.getItemCount();
 		//return this.nestedTabs.size();
 	}
+
+	
 	
 }

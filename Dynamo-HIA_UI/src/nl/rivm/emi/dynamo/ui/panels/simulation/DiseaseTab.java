@@ -8,6 +8,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -29,6 +31,10 @@ public class DiseaseTab extends NestedTab {
 	private Log log = LogFactory.getLog("DiseaseTab");
 	private DiseaseSelectionGroup diseaseSelectionGroup;
 	private DynamoTabDataManager dynamoTabDataManager;
+
+	public DynamoTabDataManager getDynamoTabDataManager() {
+		return dynamoTabDataManager;
+	}
 
 	/** 
 	 * @param defaultDisease 
@@ -52,30 +58,37 @@ public class DiseaseTab extends NestedTab {
 	/**
 	 * Create the active contents of this tab
 	 * @throws ConfigurationException 
+	 * @throws NoMoreDataException 
 	 */	
 	@Override
-	public void makeIt() throws ConfigurationException{
+	public void makeIt() throws ConfigurationException, NoMoreDataException{
 		this.dynamoTabDataManager =
 			new DiseaseTabDataManager(selectedNode, 
 					dynamoSimulationObject,
 					this.selections);
-		
+		try {
 		this.diseaseSelectionGroup =
 			new DiseaseSelectionGroup(tabName, this.selections, this.plotComposite,
 					selectedNode, helpGroup,
 					dynamoTabDataManager
 					);
 		
-		DiseaseResultGroup diseaseResultGroup =
-			new DiseaseResultGroup(this.selections, this.plotComposite,					
-					selectedNode, helpGroup,
-					diseaseSelectionGroup.group,
-					diseaseSelectionGroup.getDropDownModifyListener(),
-					dynamoTabDataManager
-					);
+		
+			DiseaseResultGroup diseaseResultGroup =
+				new DiseaseResultGroup(this.selections, this.plotComposite,					
+						selectedNode, helpGroup,
+						diseaseSelectionGroup.group,
+						diseaseSelectionGroup.getDropDownModifyListener(),
+						dynamoTabDataManager
+						);
+		} catch (DynamoNoValidDataException e) {
+			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			throw new NoMoreDataException(e.getMessage());
+			
+		}
 	}
 	
-	public void refreshSelectionGroup() throws ConfigurationException {
+	public void refreshSelectionGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseSelectionGroup.refreshSelectionDropDown();
 	}
 

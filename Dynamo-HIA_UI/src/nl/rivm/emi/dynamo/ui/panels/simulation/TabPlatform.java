@@ -4,6 +4,8 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -29,7 +31,8 @@ public abstract class TabPlatform extends Tab {
 	private Log log = LogFactory.getLog(this.getClass().getName()); 
 	
 	protected TabManager tabManager;
-	private Composite tabFolder;
+	/* tabFolder is the parent folder of all high level tabs */
+	private TabFolder tabFolder;
 	
 	public TabPlatform(TabFolder tabFolder, String tabName, 
 			BaseNode selectedNode,
@@ -82,7 +85,16 @@ public abstract class TabPlatform extends Tab {
 	// Delete an abstract tab
 	public abstract void deleteNestedTab(NestedTab removedNestedTab) throws ConfigurationException;
 
-	public abstract void refreshNestedTab(NestedTab nestedTab) throws ConfigurationException;
+	public abstract void refreshNestedTab(NestedTab nestedTab) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException;
+
+	public void setTabFolder(TabFolder tabFolder) {
+		this.tabFolder = tabFolder;
+	}
+
+	public TabFolder getTabFolder() {
+		return tabFolder;
+	}
+			
 
 	
 }

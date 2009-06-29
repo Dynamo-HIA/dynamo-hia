@@ -21,13 +21,13 @@ import org.eclipse.swt.widgets.Group;
  *
  */
 public class DynamoSimulationParameterGroup {
-	Group group;	
+	Composite group;	
 		
 	public DynamoSimulationParameterGroup(Composite parent,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			final HelpGroup helpGroup) throws ConfigurationException {
-		group = new Group(parent, SWT.NONE); // parent group
+		group = new Composite(parent, SWT.NONE); // parent group
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 				

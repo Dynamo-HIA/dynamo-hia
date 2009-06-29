@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class DynamoSimulationGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	Group theGroup;
+	Composite theGroup;
 	private RunButtonPanel runButtonGroup;
 
 	public DynamoSimulationGroup(Shell shell, DynamoSimulationObject dynamoSimulationObject,
@@ -36,7 +36,7 @@ public class DynamoSimulationGroup {
 			throws ConfigurationException {
 		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
 		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
-		theGroup = new Group(shell, SWT.NONE);
+		theGroup = new Composite(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		

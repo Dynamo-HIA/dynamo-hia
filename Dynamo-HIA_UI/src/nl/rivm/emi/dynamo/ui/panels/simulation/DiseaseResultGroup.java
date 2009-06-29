@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -35,7 +37,7 @@ public class DiseaseResultGroup {
 	public static final String INCIDENCE = "Incidence";
 	public static final String EXCESS_MORTALITY = "Excess Mortality";
 	public static final String DALY_WEIGHTS = "DALY Weights";
-	protected Group group;
+	protected Composite group;
 	private Composite plotComposite;
 	private GenericComboModifyListener diseaseDropDownModifyListener;
 	private BaseNode selectedNode;
@@ -48,14 +50,14 @@ public class DiseaseResultGroup {
 			BaseNode selectedNode, HelpGroup helpGroup,
 			Composite topNeighbour, 
 			GenericComboModifyListener diseaseDropDownModifyListener,
-			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.selectedNode = selectedNode;
 		this.plotComposite = plotComposite;
 		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		
-		group = new Group(plotComposite, SWT.NONE);
+		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
 		gridLayout.numColumns = 3;
@@ -64,7 +66,7 @@ public class DiseaseResultGroup {
 		createDropDownArea(topNeighbour);
 	}
 
-	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException {		
+	private void createDropDownArea(Composite topNeighbour) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {		
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);

@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
@@ -95,7 +97,7 @@ public class GenericDropDownPanel {
 		}
 	}	
 	
-	public void update(String newText) throws ConfigurationException {
+	public void update(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		updateRegisteredDropDown(newText);		
 	}
 
@@ -105,8 +107,10 @@ public class GenericDropDownPanel {
 	 * 
 	 * @param newText
 	 * @throws ConfigurationException
+	 * @throws NoMoreDataException 
+	 * @throws DynamoNoValidDataException 
 	 */
-	private void updateRegisteredDropDown(String newText) throws ConfigurationException {
+	private void updateRegisteredDropDown(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		dropDown.removeAll();
 		log.debug("newText" + newText);
 		log.debug("this.getLabel()" + this.getLabel());
@@ -123,8 +127,10 @@ public class GenericDropDownPanel {
 	 * Refresh list after tab change, only for the selection group
 	 * 
 	 * @throws ConfigurationException
+	 * @throws NoMoreDataException 
+	 * @throws DynamoNoValidDataException 
 	 */
-	public void refresh() throws ConfigurationException {
+	public void refresh() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		log.debug("REFRESH");
 		dropDown.removeModifyListener(this.genericComboModifyListener);
 		dropDown.removeAll();		
@@ -141,7 +147,7 @@ public class GenericDropDownPanel {
 		// TODO: fire an event for the modify listener to update the dependend drop downs
 	}
 	
-	public void updateDataObjectModel(String newText) throws ConfigurationException {
+	public void updateDataObjectModel(String newText) throws ConfigurationException, NoMoreDataException {
 		// Remove old value (is choosable again)
 		this.owner.removeOldDefaultValue(this.getLabel());
 		// Add new value

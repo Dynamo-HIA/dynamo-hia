@@ -47,7 +47,7 @@ public class CreateSelectionListener extends AbstractLoggingClass
 		e.printStackTrace();
 		MessageBox box = new MessageBox(this.tabPlatform.getTabManager().getTabFolder().getParent().getShell(),
 				SWT.ERROR_UNSPECIFIED);
-		box.setText("Error occured during creation of a new tab " + e.getMessage());
+		box.setText("Error occurred during creation of a new tab " + e.getMessage());
 		box.setMessage(e.getMessage());
 		box.open();
 	}
