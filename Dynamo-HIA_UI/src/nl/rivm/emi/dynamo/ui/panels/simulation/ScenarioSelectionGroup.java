@@ -8,6 +8,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -23,6 +25,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -58,7 +61,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 	private static final String SEMICOLON = ":";	
 	private static final String PERCENTAGE = "(%)";
 	
-	protected Group scenarioDefGroup;
+	protected Composite scenarioDefGroup;
 	private Composite plotComposite;
 	private DynamoSimulationObject dynamoSimulationObject;
 	private BaseNode selectedNode;	
@@ -77,7 +80,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 			DynamoTabDataManager dynamoTabDataManager,
 			DataBindingContext dataBindingContext,
 			DynamoSimulationObject dynamoSimulationObject) 
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.dynamoTabDataManager = dynamoTabDataManager;
@@ -88,7 +91,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 		this.tabName = tabName;
 		
 		log.debug("scenarioFactorSelectionGroup::this.plotComposite: " + plotComposite);
-		scenarioDefGroup = new Group(plotComposite, SWT.FILL);		
+		scenarioDefGroup = new Composite(plotComposite, SWT.FILL);		
 		GridLayout scenarioGridLayout = new GridLayout();
 		scenarioGridLayout.makeColumnsEqualWidth = true;
 		scenarioGridLayout.numColumns = 6;
@@ -100,10 +103,10 @@ public class ScenarioSelectionGroup { //extends Composite {
 		createDropDownArea();
 	}
 
-	private void createDropDownArea() throws ConfigurationException {		
+	private void createDropDownArea() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {		
 		
 		FormData scenarioFormData = new FormData();
-		scenarioFormData.top = new FormAttachment(0, -5);
+		scenarioFormData.top = new FormAttachment(0, 6);
 		scenarioFormData.left = new FormAttachment(0, 5);
 		scenarioFormData.right = new FormAttachment(100, -5);
 		scenarioFormData.bottom = new FormAttachment(53, 0);
@@ -254,7 +257,7 @@ public class ScenarioSelectionGroup { //extends Composite {
 		return text;
 	}
 	
-	public void refreshSelectionDropDown() throws ConfigurationException {
+	public void refreshSelectionDropDown() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.minAgeDropDownPanel.refresh();
 		this.maxAgeDropDownPanel.refresh();
 		this.genderDropDownPanel.refresh();		
