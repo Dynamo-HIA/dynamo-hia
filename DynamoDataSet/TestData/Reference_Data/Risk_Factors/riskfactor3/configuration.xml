@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<riskfactor_compound>
+<classes>
+<class>
+<flexdex>1</flexdex>
+<name>class 1</name>
+</class>
+<class>
+<flexdex>2</flexdex>
+<name>class 2</name>
+</class>
+</classes>
+<referenceclass>1</referenceclass> 
+<durationclass>1</durationclass>
+</riskfactor_compound>

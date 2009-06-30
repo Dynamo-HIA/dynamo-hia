@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation>
+	<hasnewborns>true</hasnewborns>
+	<startingYear>2008</startingYear>
+	<numberOfYears>10</numberOfYears>
+	<simPopSize>2</simPopSize>
+	<minAge>0</minAge>
+	<maxAge>95</maxAge>
+	<timeStep>1</timeStep>
+	<randomSeed>12345</randomSeed>
+	<resultType>detailed</resultType>
+	<popFileName>population1</popFileName>
+	<scenarios>
+		<scenario>
+			<uniquename>scenario 1</uniquename>
+			<successRate>100</successRate>
+			<targetMinAge>0</targetMinAge>
+			<targetMaxAge>95</targetMaxAge>
+			<targetSex>2</targetSex>
+			<transfilename>none</transfilename>
+			<prevfilename>prev_scen1</prevfilename>
+		</scenario>
+		<scenario>
+			<uniquename>scenario 2</uniquename>
+			<successRate>50</successRate>
+			<targetMinAge>0</targetMinAge>
+			<targetMaxAge>95</targetMaxAge>
+			<targetSex>2</targetSex>
+			<transfilename>none</transfilename>
+			<prevfilename>prev_scen1</prevfilename>
+		</scenario>
+	</scenarios>
+	<diseases>
+		
+		
+	</diseases>
+	<riskfactors>
+	  <riskfactor>
+		<uniquename>riskfactor1</uniquename>
+		<transfilename>transition1</transfilename>
+                <prevfilename>prevalence</prevfilename>
+	  </riskfactor>
+	</riskfactors>
+	<RRs>
+		<RR><RRindex>1</RRindex>
+			<isRRfrom>riskfactor1</isRRfrom>
+			<isRRto>death</isRRto>
+			<isRRFile>relriskfordeath</isRRFile>
+		</RR>
+		
+	</RRs>
+</simulation>
+

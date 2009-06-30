@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation>
+	<hasnewborns>0</hasnewborns>
+	<startingYear>2008</startingYear>
+	<numberOfYears>10</numberOfYears>
+	<simPopSize>50</simPopSize>
+	<minAge>0</minAge>
+	<maxAge>95</maxAge>
+	<timeStep>1</timeStep>
+	<randomSeed>12345</randomSeed>
+	<resultType>detailed</resultType>
+	<popFileName>empty</popFileName>
+	<scenarios>
+		
+	</scenarios>
+	<diseases>
+		<disease>
+			<uniquename>empty</uniquename>
+			<prevfilename>empty</prevfilename>
+			<incfilename>empty</incfilename>
+			<excessmortfilename>empty</excessmortfilename>
+			<dalyweightsfilename>empty</dalyweightsfilename>
+		</disease>
+	
+		
+	</diseases>
+	<riskfactors>
+	<riskfactor>
+		<uniquename>riskfactor1</uniquename>
+		<transfilename>transition2</transfilename>
+		<prevfilename>prevalence</prevfilename>
+	</riskfactor>
+	</riskfactors>
+	<RRs>
+		<RR><RRindex>0</RRindex>
+			<isRRfrom>riskfactor1</isRRfrom>
+			<isRRto>empty</isRRto>
+			<isRRFile>empty2riskfactor1</isRRFile>
+		</RR>
+
+	</RRs>
+</simulation>
+
