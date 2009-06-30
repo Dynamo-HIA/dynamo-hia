@@ -244,7 +244,7 @@ public class StAXAgnosticGroupWriter {
 						eventFactory, fileControl);
 			} else {
 				if (containedObject instanceof ArrayList) {
-					for (Object entry : (ArrayList) containedObject) {
+					for (Object entry : (ArrayList<?>) containedObject) {
 						AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) entry;
 						Object containedPayloadObject = tuple.getValue();
 						level = handleContainedObject(fileControl, level,
