@@ -20,9 +20,9 @@ package nl.rivm.emi.dynamo.ui.support;
 
 	   public static double compareStrings(String str1, String str2) {
 
-	       ArrayList pairs1 = wordLetterPairs(str1.toUpperCase());
+	       ArrayList<?> pairs1 = wordLetterPairs(str1.toUpperCase());
 
-	       ArrayList pairs2 = wordLetterPairs(str2.toUpperCase());
+	       ArrayList<?> pairs2 = wordLetterPairs(str2.toUpperCase());
 
 	       int intersection = 0;
 
