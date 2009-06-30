@@ -17,17 +17,20 @@ public class TypedFocusListener implements FocusListener {
 		super();
 		this.myType = myType;
 		this.helpGroup = helpGroup;
+		log.debug("Constructing, type: " + myType.getXMLElementName()
+				+ " helpgroup: " + helpGroup);
 	}
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		String helpText = myType.getXMLElementName();
-log.debug("focusGained for: " + helpText);
+		log.debug("focusGained for: " + helpText);
 		helpGroup.getFieldHelpGroup().setHelpText(helpText);
-		}
+	}
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
+		log.debug("focusLost after: " + helpGroup.getFieldHelpGroup().getHelpKey());
 		helpGroup.getFieldHelpGroup().setHelpText("Blank");
 	}
 

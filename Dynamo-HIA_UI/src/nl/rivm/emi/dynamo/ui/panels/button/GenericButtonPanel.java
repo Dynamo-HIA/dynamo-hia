@@ -1,11 +1,13 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveAndCloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -23,7 +25,6 @@ public class GenericButtonPanel extends Composite {
 	Button closeButton;
 	DataAndFileContainer modalParent;
 
-	
 	/**
 	 * 
 	 * Constructs the panel with buttons
@@ -39,7 +40,7 @@ public class GenericButtonPanel extends Composite {
 		this.importButton = putImportButton(this);
 		this.saveButton = putSaveButton(this, this.importButton);
 		this.saveAndCloseButton = putSaveAndCloseButton(this, this.saveButton);
-		this.closeButton = putCloseButton(this,this.saveAndCloseButton);
+		this.closeButton = putCloseButton(this, this.saveAndCloseButton);
 		pack();
 	}
 
@@ -56,23 +57,39 @@ public class GenericButtonPanel extends Composite {
 	 * Sets the parent of the modal
 	 * 
 	 * @param theParent
+	 * @throws DynamoConfigurationException
 	 */
-	public void setModalParent(DataAndFileContainer theParent) {
+	public void setModalParent(DataAndFileContainer theParent)
+			{
 		this.modalParent = theParent;
-		this.importButton.addSelectionListener(new ImportSelectionListener(this.modalParent));
-		this.importButton.addFocusListener(new ButtonFocusListener(importButton,theParent.getHelpGroup()));
-		this.saveButton.addSelectionListener(new SaveSelectionListener(this.modalParent));
-		this.saveButton.addFocusListener(new ButtonFocusListener(saveButton,theParent.getHelpGroup()));
-		this.saveAndCloseButton.addSelectionListener(new SaveAndCloseSelectionListener(this.modalParent));
-		this.saveAndCloseButton.addFocusListener(new ButtonFocusListener(saveAndCloseButton,theParent.getHelpGroup()));
-		this.closeButton.addSelectionListener(new CloseSelectionListener(theParent));
-		this.closeButton.addFocusListener(new ButtonFocusListener(closeButton,theParent.getHelpGroup()));
+		HelpGroup helpGroup = theParent.getHelpGroup();
+//		if (helpGroup != null) {
+			this.importButton.addSelectionListener(new ImportSelectionListener(
+					this.modalParent));
+			this.importButton.addFocusListener(new ButtonFocusListener(
+					importButton, theParent.getHelpGroup()));
+			this.saveButton.addSelectionListener(new SaveSelectionListener(
+					this.modalParent));
+			this.saveButton.addFocusListener(new ButtonFocusListener(
+					saveButton, theParent.getHelpGroup()));
+			this.saveAndCloseButton
+					.addSelectionListener(new SaveAndCloseSelectionListener(
+							this.modalParent));
+			this.saveAndCloseButton.addFocusListener(new ButtonFocusListener(
+					saveAndCloseButton, theParent.getHelpGroup()));
+			this.closeButton.addSelectionListener(new CloseSelectionListener(
+					theParent));
+			this.closeButton.addFocusListener(new ButtonFocusListener(
+					closeButton, theParent.getHelpGroup()));
+//		} else {
+//			throw new DynamoConfigurationException(
+//					"Should only call setModalParent after the HelpGroup has been instanciated.");
+//		}
 	}
 
-	
 	/**
 	 * 
-	 * Constructs an import button 
+	 * Constructs an import button
 	 * 
 	 * @param composite
 	 * @param leftNeighbour
@@ -81,14 +98,14 @@ public class GenericButtonPanel extends Composite {
 	static private Button putImportButton(Composite composite) {
 		FormData formData;
 		Button importButton = new Button(composite, SWT.PUSH);
-		importButton.setText("Import");			
+		importButton.setText("Import");
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		importButton.setLayoutData(formData);
 		return importButton;
 	}
- 
+
 	static private Button putSaveButton(Composite panel, Button leftNeighbour) {
 		FormData formData = new FormData();
 		Button saveButton = new Button(panel, SWT.PUSH);
@@ -100,7 +117,8 @@ public class GenericButtonPanel extends Composite {
 		return saveButton;
 	}
 
-	static private Button putSaveAndCloseButton(Composite panel, Button leftNeighbour) {
+	static private Button putSaveAndCloseButton(Composite panel,
+			Button leftNeighbour) {
 		FormData formData = new FormData();
 		Button saveAndCloseButton = new Button(panel, SWT.PUSH);
 		saveAndCloseButton.setText("Save and close");

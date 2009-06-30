@@ -23,11 +23,14 @@ public class ButtonFocusListener implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		helpGroup.getFieldHelpGroup().setHelpText(myButton.getText());
+		String helpKey = myButton.getText();
+		log.debug("focusGained for: " + helpKey + " on button: " + myButton);
+		helpGroup.getFieldHelpGroup().setHelpText(helpKey);
 	}
 
 	@Override
 	public void focusLost(FocusEvent arg0) {
+		log.debug("focusLost after: " + helpGroup.getFieldHelpGroup().getHelpKey() + " on button: " + myButton);
 		helpGroup.getFieldHelpGroup().setHelpText("Blank");
 	}
 

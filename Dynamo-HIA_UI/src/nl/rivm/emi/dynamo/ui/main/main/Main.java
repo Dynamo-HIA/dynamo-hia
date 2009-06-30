@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.ui.main.main;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.main.BaseStorageTreeScreen;
+import nl.rivm.emi.dynamo.ui.startup.BaseStorageTreeScreen;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

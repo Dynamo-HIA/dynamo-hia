@@ -1,7 +1,16 @@
 package nl.rivm.emi.dynamo.data.util;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
@@ -87,24 +96,99 @@ public class ConfigurationFileUtil {
 	static public String justExtractRootElementName(File configurationFile)
 			throws DynamoConfigurationException {
 		String rootElementName = null;
-		try {
-			if (configurationFile.exists()) {
-				if (configurationFile.isFile()) {
-					if (configurationFile.canRead()) {
-						XMLConfiguration configurationFromFile;
-						configurationFromFile = new XMLConfiguration(
-								configurationFile);
-						rootElementName = configurationFromFile
-								.getRootElementName();
-					}
+		// try {
+		if (configurationFile.exists()) {
+			if (configurationFile.isFile()) {
+				if (configurationFile.canRead()) {
+					// 20090629 Switched to STax to improve performance.
+					// XMLConfiguration configurationFromFile;
+					// configurationFromFile = new XMLConfiguration(
+					// configurationFile);
+					// rootElementName = configurationFromFile
+					// .getRootElementName();
+					rootElementName = getRootElementNameUsingSTax(configurationFile
+							.getAbsolutePath());
 				}
 			}
+		}
+		return rootElementName;
+		// } catch (ConfigurationException e) {
+		// // Exception is not thrown again
+		// // because the application has to continue
+		// ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
+		// configurationFile.getAbsolutePath());
+		// return rootElementName;
+		// }
+	}
+
+	static String getRootElementNameUsingSTax(String filename) {
+		String rootElementName = null;
+		try {
+			XMLInputFactory factory = XMLInputFactory.newInstance();
+			XMLEventReader r;
+			r = factory.createXMLEventReader(filename, new FileInputStream(
+					filename));
+			boolean firstStartElement = false;
+			String firstStartElementName = null;
+			while (r.hasNext() && !firstStartElement) {
+				XMLEvent event = r.nextEvent();
+				int eventType = event.getEventType();
+				switch (eventType) {
+				case XMLEvent.START_ELEMENT:
+					firstStartElement = true;
+					StartElement startElement = event.asStartElement();
+					QName elementQName = startElement.getName();
+					firstStartElementName = elementQName.getLocalPart();
+					log.debug("STax-event: START_ELEMENT, local namepart: "
+							+ firstStartElementName);
+					break;
+				case XMLEvent.END_ELEMENT:
+					log.debug("STax-event: END_ELEMENT");
+					break;
+				case XMLEvent.PROCESSING_INSTRUCTION:
+					log.debug("STax-event: PROCESSING_INSTRUCTION");
+					break;
+				case XMLEvent.CHARACTERS:
+					log.debug("STax-event: CHARACTERS");
+					break;
+				case XMLEvent.COMMENT:
+					log.debug("STax-event: COMMENT");
+					break;
+				case XMLEvent.START_DOCUMENT:
+					log.debug("STax-event: START_DOCUMENT");
+					break;
+				case XMLEvent.END_DOCUMENT:
+					log.debug("STax-event: END_DOCUMENT");
+					break;
+				case XMLEvent.ENTITY_REFERENCE:
+					log.debug("STax-event: ENTITY_REFERENCE");
+					break;
+				case XMLEvent.ATTRIBUTE:
+					log.debug("STax-event: ATTRIBUTE");
+					break;
+				case XMLEvent.DTD:
+					log.debug("STax-event: DTD");
+					break;
+				case XMLEvent.CDATA:
+					log.debug("STax-event: CDATA");
+					break;
+				case XMLEvent.SPACE:
+					log.debug("STax-event: SPACE");
+					break;
+				default:
+					log.error("STax-event: UNKNOWN_EVENT_TYPE " + ","
+							+ eventType);
+				}
+			}
+			rootElementName = firstStartElementName;
 			return rootElementName;
-		} catch (ConfigurationException e) {
-			// Exception is not thrown again
-			// because the application has to continue
-			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
-					configurationFile.getAbsolutePath());
+		} catch (FileNotFoundException e1) {
+			log.error(e1.getClass().getName() + " " + e1.getMessage());
+			e1.printStackTrace();
+			return rootElementName;
+		} catch (XMLStreamException e1) {
+			log.error(e1.getClass().getName() + " " + e1.getMessage());
+			e1.printStackTrace();
 			return rootElementName;
 		}
 	}
@@ -210,7 +294,7 @@ public class ConfigurationFileUtil {
 
 					ConfigurationNode rootNode = configurationFromFile
 							.getRootNode();
-					List rootChildren = rootNode
+					List<?> rootChildren = rootNode
 							.getChildren(XMLTagEntityEnum.DURATIONCLASS
 									.getElementName());
 					if (rootChildren.size() == 1) {

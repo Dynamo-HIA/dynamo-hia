@@ -19,7 +19,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 
 
 /**
@@ -31,6 +30,7 @@ import org.eclipse.swt.widgets.Group;
  */
 public class DiseaseResultGroup {
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public static final String DISEASE_PREVALENCE = "Disease Prevalence";

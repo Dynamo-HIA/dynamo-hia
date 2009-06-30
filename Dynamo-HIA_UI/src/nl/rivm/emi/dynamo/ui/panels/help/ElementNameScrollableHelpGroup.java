@@ -30,6 +30,7 @@ public class ElementNameScrollableHelpGroup {
 	String borderText;
 	int count = 0;
 	private String helpDirectoryPath;
+	private String helpKey = "Init";
 
 	public ElementNameScrollableHelpGroup(Composite parent, String borderText,
 			String elementName, String helpDirectoryPath) {
@@ -44,40 +45,41 @@ public class ElementNameScrollableHelpGroup {
 		doSetHelpText(elementName);
 	}
 
-	private void doSetHelpText(String helpText) {
+	private void doSetHelpText(String helpKey) {
+		this.helpKey = helpKey;
 		String helpContent = "";
 		try {
-			if(!helpContent.equalsIgnoreCase(helpText)){
-			String helpFilePath = helpDirectoryPath + File.separator + helpText
-					+ ".txt";
-			File helpFile = new File(helpFilePath);
-			if (helpFile.exists()) {
-				if (helpFile.isFile()) {
-					if (helpFile.canRead()) {
-						FileReader reader = new FileReader(helpFile);
-						StringBuffer stringBuffer = new StringBuffer();
-						char[] charArray = new char[(int) helpFile.length()];
-						reader.read(charArray);
-						helpContent = new String(charArray);
-
+			if (!helpContent.equalsIgnoreCase(helpKey)) {
+				String helpFilePath = helpDirectoryPath + File.separator
+						+ helpKey + ".txt";
+				File helpFile = new File(helpFilePath);
+				if (helpFile.exists()) {
+					if (helpFile.isFile()) {
+						if (helpFile.canRead()) {
+							FileReader reader = new FileReader(helpFile);
+							StringBuffer stringBuffer = new StringBuffer();
+							char[] charArray = new char[(int) helpFile.length()];
+							reader.read(charArray);
+							helpContent = new String(charArray);
+						} else {
+							helpContent = "Can't read helpfile for: " + helpKey;
+						}
 					} else {
-						helpContent = "Can't read helpfile for: " + helpText;
+						helpContent = "Help for: \"" + helpKey
+								+ "\" does not point to a file.";
 					}
 				} else {
-					helpContent = "Help for: \"" + helpText
-							+ "\" does not point to a file.";
+					helpContent = "Helpfile for: \"" + helpKey
+							+ "\" does not exist.(Searched at: "
+							+ helpFile.getAbsolutePath() + ")";
 				}
-			} else {
-				helpContent = "Helpfile for: \"" + helpText
-						+ "\" does not exist.(Searched at: " + helpFile.getAbsolutePath() + ")";
-			}
 			}
 		} catch (FileNotFoundException e) {
-			helpContent = "Exception! Helpfile for: \"" + helpText
-			+ "\" could not be found.";
+			helpContent = "Exception! Helpfile for: \"" + helpKey
+					+ "\" could not be found.";
 		} catch (IOException e) {
-			helpContent = "Exception! Helpfile for: \"" + helpText
-			+ "\" threw an IOException.";
+			helpContent = "Exception! Helpfile for: \"" + helpKey
+					+ "\" threw an IOException.";
 		} finally {
 			Rectangle clientArea = theGroup.getClientArea();
 			label.setBounds(clientArea);
@@ -99,5 +101,9 @@ public class ElementNameScrollableHelpGroup {
 			updatedLabelOutput = elementName;
 		}
 		doSetHelpText(updatedLabelOutput);
+	}
+
+	public String getHelpKey() {
+		return helpKey;
 	}
 }

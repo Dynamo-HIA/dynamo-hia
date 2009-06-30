@@ -1,5 +1,8 @@
 package nl.rivm.emi.dynamo.data.xml.structure;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
@@ -7,6 +10,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
 public class FileLocationTest {
+	Log log = LogFactory.getLog(getClass().getName());
 	private final int LEVELSTOTEST = 3;
 	private final int parentIndex = 0;
 	private final int grandParentIndex = 1;
@@ -44,6 +48,12 @@ public class FileLocationTest {
 				}
 			}
 		}
+		log.debug("Testing: " + actualNodeLabels[parentIndex] + "-"
+				+ actualNodeLabels[grandParentIndex] + "-"
+				+ actualNodeLabels[greatGrandParentIndex] + " against: "
+				+ expectedNodeLabels[parentIndex] + "-"
+				+ expectedNodeLabels[grandParentIndex] + "-"
+				+ expectedNodeLabels[greatGrandParentIndex]);
 		// Testing, ik one test fails the location is not OK.
 		for (int count = 0; count < LEVELSTOTEST; count++) {
 			if (expectedNodeLabels[count] != null) {
@@ -52,8 +62,9 @@ public class FileLocationTest {
 					locationOK = false;
 					break;
 				} else {
+					// 20090629 Ignorecase added to prevent too many errors.
 					if (!expectedNodeLabels[count]
-							.equals(actualNodeLabels[count])) {
+							.equalsIgnoreCase(actualNodeLabels[count])) {
 						locationOK = false;
 						break;
 					}

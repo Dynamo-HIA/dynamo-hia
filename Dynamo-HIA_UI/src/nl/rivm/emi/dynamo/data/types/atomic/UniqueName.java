@@ -13,8 +13,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class UniqueName extends AbstractString implements ContainerType{
+public class UniqueName extends AbstractString implements ContainerType<String>{
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	static final protected String XMLElementName = "uniquename";
