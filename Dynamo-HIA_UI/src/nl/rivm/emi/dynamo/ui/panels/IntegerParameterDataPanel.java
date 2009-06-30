@@ -103,7 +103,7 @@ public class IntegerParameterDataPanel extends Composite {
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 // 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
-	AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) ((ArrayList)sexMap.get(index)).get(0);
+	AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) ((ArrayList<?>)sexMap.get(index)).get(0);
 		WritableValue modelObservableValue = (WritableValue)tuple.getValue();
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
