@@ -5,19 +5,13 @@ package nl.rivm.emi.dynamo.ui.startup;
  * Exception handling OK
  * 
  */
-import java.io.File;
-
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
@@ -26,9 +20,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -73,7 +65,7 @@ public class BaseStorageTreeScreen {
 			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
 					testTree.getRootNode());
 			new TreeViewerPlusCustomMenu(shell, sTCP);
-			createMenuBar();
+//			createMenuBar();
 			this.shell.open();
 			return this.shell;
 		} catch (StorageTreeException ste) {
