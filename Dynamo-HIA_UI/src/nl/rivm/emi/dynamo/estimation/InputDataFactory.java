@@ -1199,13 +1199,13 @@ public class InputDataFactory {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
 					// TODO: Reactivate code below for version 1.1
-					ErrorMessageUtil
-							.handleErrorMessage(
-									this.log,
-									"The component Riskfactor Continuous has not yet been implemented",
-									new DynamoConfigurationException(
-											"The component Riskfactor Compound has not yet been implemented"),
-									configFileName);
+				//	ErrorMessageUtil
+				//			.handleErrorMessage(
+				//					this.log,
+				//					"The component Riskfactor Continuous has not yet been implemented",
+				//					new DynamoConfigurationException(
+				//							"The component Riskfactor Compound has not yet been implemented"),
+				//					configFileName);
 					// TODO: Reactivate code below for version 1.1
 					this.riskFactorType = 3;
 				} else
