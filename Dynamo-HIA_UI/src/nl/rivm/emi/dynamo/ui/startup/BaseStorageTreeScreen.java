@@ -65,7 +65,7 @@ public class BaseStorageTreeScreen {
 			StorageTreeContentProvider sTCP = new StorageTreeContentProvider(
 					testTree.getRootNode());
 			new TreeViewerPlusCustomMenu(shell, sTCP);
-//			createMenuBar();
+			createMenuBar();
 			this.shell.open();
 			return this.shell;
 		} catch (StorageTreeException ste) {
@@ -101,7 +101,6 @@ public class BaseStorageTreeScreen {
 		// create each header and subMenu for the menuBar
 		createFileMenu(menuBar);
 		createHelpMenu(menuBar);
-
 		return menuBar;
 	}
 

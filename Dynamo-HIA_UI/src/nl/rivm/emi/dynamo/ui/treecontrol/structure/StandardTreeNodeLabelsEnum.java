@@ -30,6 +30,7 @@ public enum StandardTreeNodeLabelsEnum {
 	POPULATIONNEWBORNSFILE("newborns"), //
 	POPULATIONOVERALLDALYWEIGHTSFILE("overalldalyweights"), //
 	RISKFACTORS("Risk_Factors"), //
+	DELETE_DUMMY("Delete"), //
 	DISEASES("Diseases"), //
 	PREVALENCES("Prevalences"), //
 	INCIDENCES("Incidences"), //
