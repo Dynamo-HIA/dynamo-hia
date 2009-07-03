@@ -10,13 +10,13 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
+import nl.rivm.emi.dynamo.ui.dialogs.TransitionTrialog;
 import nl.rivm.emi.dynamo.ui.main.DropDownTrialog;
 import nl.rivm.emi.dynamo.ui.main.FreeNamePlusDropDownModal;
-import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionTrialog;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;

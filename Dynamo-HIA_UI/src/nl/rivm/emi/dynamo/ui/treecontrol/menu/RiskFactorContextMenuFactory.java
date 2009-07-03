@@ -9,8 +9,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
-import nl.rivm.emi.dynamo.ui.actions.DeleteRiskFactorAction;
 import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
+import nl.rivm.emi.dynamo.ui.actions.delete.DeleteDirectoryAction;
+import nl.rivm.emi.dynamo.ui.actions.delete.MessageStrings;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
@@ -53,9 +54,14 @@ public class RiskFactorContextMenuFactory {
 		configurationFileContextMenuEntry.setActive(true);
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 				.getNodeLabel(), configurationFileContextMenuEntry);
+		MessageStrings theMessageStrings = new MessageStrings(
+				"Removing risk-factor.", "The risk-factor ",
+				" will be deleted.\nIs that what you want?",
+				"The Risk-Factor still has configuration files.\n"
+						+ "You must delete them all first");
 		ContextMenuEntry deleteContextMenuEntry = new ContextMenuEntry(shell,
-				"Delete riskfactor", new DeleteRiskFactorAction(shell,
-						treeViewer, (DirectoryNode) selectedNode));
+				"Delete riskfactor", new DeleteDirectoryAction(shell,
+						treeViewer, (DirectoryNode) selectedNode, theMessageStrings, 2));
 		deleteContextMenuEntry.setActive(true);
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.DELETE_DUMMY
 				.getNodeLabel(), deleteContextMenuEntry);

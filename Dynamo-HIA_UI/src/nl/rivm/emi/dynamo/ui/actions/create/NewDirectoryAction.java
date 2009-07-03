@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.actions;
+package nl.rivm.emi.dynamo.ui.actions.create;
 
 /**
  * Action to create a new directory in the tree.

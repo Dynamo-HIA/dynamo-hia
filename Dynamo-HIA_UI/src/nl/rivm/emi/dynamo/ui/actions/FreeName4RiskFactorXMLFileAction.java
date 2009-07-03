@@ -14,7 +14,7 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.ui.main.ImportExtendedInputTrialog;
+import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;

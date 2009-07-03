@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.main;
+package nl.rivm.emi.dynamo.ui.dialogs;
 /**
  * 
  * Exception handling OK
@@ -39,7 +39,11 @@ public class ImportExtendedInputTrialog extends Dialog {
 	 */
 	private static final String IMPORT_LABEL = "Import";
 	
-    /**
+    protected String getMessage() {
+		return message;
+	}
+
+	/**
      * The title of the dialog.
      */
     private String title;

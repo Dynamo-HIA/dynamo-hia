@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.main;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;

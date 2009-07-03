@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
@@ -35,21 +36,20 @@ public class FileTreeLabelProvider extends LabelProvider {
 					if (hasXMLExtension(fileName)) {
 						String rootElementName;
 						rootElementName = ConfigurationFileUtil
-								.extractRootElementNameIncludingSchemaCheck(physicalStorage);
-						RootElementNamesSingleton singleton = RootElementNamesSingleton.getInstance();
-						RootElementNamesEnum renEnum = singleton.get(rootElementName);
+								.justExtractRootElementName(physicalStorage);
+						RootElementNamesSingleton singleton = RootElementNamesSingleton
+								.getInstance();
+						RootElementNamesEnum renEnum = singleton
+								.get(rootElementName);
 						if (renEnum != null) {
 							boolean locationOK = renEnum.isLocationOK(theNode);
-							if(locationOK){
-							image = Util
-									.getImageRegistry()
-									.get(
-											Util.imageRegistrySupportedXMLFileRightPlaceKey);
+							if (locationOK) {
+								image = handleRightRootRightPlace(physicalStorage);
 							} else {
 								image = Util
-								.getImageRegistry()
-								.get(
-										Util.imageRegistrySupportedXMLFileWrongPlaceKey);
+										.getImageRegistry()
+										.get(
+												Util.imageRegistrySupportedXMLFileWrongPlaceKey);
 							}
 						} else {
 							image = Util.getImageRegistry().get(
@@ -71,6 +71,22 @@ public class FileTreeLabelProvider extends LabelProvider {
 			if (image == null) {
 				image = Util.getImageRegistry().get(Util.imageRegistryErrorKey);
 			}
+			return image;
+		}
+	}
+
+	private Image handleRightRootRightPlace(File physicalStorage)
+			throws DynamoConfigurationException {
+		Image image;
+		try {
+			ConfigurationFileUtil
+					.extractRootElementNameIncludingSchemaCheck(physicalStorage);
+			image = Util.getImageRegistry().get(
+					Util.imageRegistrySupportedXMLFileRightPlaceKey);
+			return image;
+		} catch (ConfigurationException e) {
+			image = Util.getImageRegistry().get(
+					Util.imageRegistrySupportedXMLFileWrongPlaceKey);
 			return image;
 		}
 	}

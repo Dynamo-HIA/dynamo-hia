@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.actions;
+package nl.rivm.emi.dynamo.ui.actions.create;
 
 import java.io.File;
 
@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
+import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.actions;
+package nl.rivm.emi.dynamo.ui.actions.create;
 
 import java.io.File;
 
@@ -7,9 +7,9 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
-import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
-import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
+import nl.rivm.emi.dynamo.ui.actions.ActionBase;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -26,10 +26,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class NewRelRisksForDeathAction extends ActionBase {
+public class NewRelRisksForDisabilityAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	public NewRelRisksForDeathAction(Shell shell, TreeViewer v,
+	public NewRelRisksForDisabilityAction(Shell shell, TreeViewer v,
 			BaseNode selectedNode) {
 		super(shell, v, selectedNode, "aBSTRACT");
 	}
@@ -41,7 +41,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 				String selectionPath = node.getPhysicalStorage()
 						.getAbsolutePath();
 				String candidatePath = selectionPath + File.separator
-						+ "relriskfordeath.xml";
+						+ "relriskfordisability.xml";
 				File file = new File(candidatePath);
 				if (file != null && !file.getName().isEmpty()) {
 					if (file.exists()) {
@@ -72,7 +72,13 @@ public class NewRelRisksForDeathAction extends ActionBase {
 		}
 	}
 
-	// Add import file action here
+	/**
+	 * 
+	 * Handles the xml selected by starting the appropriate modal window
+	 * 
+	 * @param file
+	 * @param configurationRootElementName
+	 */
 	private void processThroughModal(File file, String configurationRootElementName) {
 		try {
 			boolean isOld = file.exists();
@@ -85,28 +91,28 @@ public class NewRelRisksForDeathAction extends ActionBase {
 			} else {
 				if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(configurationRootElementName)) {
-					theModal = new RelRiskForDeathCategoricalModal(
-							shell, file.getAbsolutePath(),
-							file.getAbsolutePath(),
-							RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
+					theModal = new RelRiskForDisabilityCategoricalModal(
+							shell,
+							file.getAbsolutePath(), file.getAbsolutePath(),
+							RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
 									.getNodeLabel(), node);
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 							.getNodeLabel().equals(configurationRootElementName)) {
-						theModal = new RelRiskForDeathContinuousModal(
+						theModal = new RelRiskForDisabilityContinuousModal(
 								shell, file.getAbsolutePath(),
 								file.getAbsolutePath(),
-								RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS
+								RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
 										.getNodeLabel(), node);
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(configurationRootElementName)) {
-							theModal = new RelRiskForDeathCompoundModal(
-									shell, file.getAbsolutePath(),
-									RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
-											.getNodeLabel(), RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND
-											.getNodeLabel(), node);
-									} else {
+							MessageBox messageBox = new MessageBox(shell,
+									SWT.ERROR_NOT_IMPLEMENTED);
+							messageBox.setMessage("\"" + configurationRootElementName
+									+ "\" not yet implemented.");
+							messageBox.open();
+						} else {
 							MessageBox messageBox = new MessageBox(shell,
 									SWT.ERROR_UNSUPPORTED_FORMAT);
 							messageBox.setMessage("\"" + configurationRootElementName
@@ -115,7 +121,6 @@ public class NewRelRisksForDeathAction extends ActionBase {
 						}
 					}
 				}
-				if(theModal != null){				
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
@@ -124,7 +129,6 @@ public class NewRelRisksForDeathAction extends ActionBase {
 							(ParentNode) node, file));
 				}
 				theViewer.refresh();
-				}				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

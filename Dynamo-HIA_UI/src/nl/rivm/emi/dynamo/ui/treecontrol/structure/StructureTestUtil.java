@@ -1,31 +1,10 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.structure;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
-
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -33,6 +12,14 @@ public class StructureTestUtil {
 
 	private static Log log = LogFactory.getLog(StructureTestUtil.class);
 
+/**
+ * Method that does just what is called.
+ * 
+ * @param selectedNode
+ * @param depthToCheck
+ * @return
+ * @throws TreeStructureException
+ */
 	static public boolean hasNoFileNodeChildren(DirectoryNode selectedNode,
 			int depthToCheck) throws TreeStructureException {
 		// Innocent until found guilty.
@@ -62,5 +49,4 @@ public class StructureTestUtil {
 		}
 		return hasNoFileNodeChildren;
 	}
-
 }

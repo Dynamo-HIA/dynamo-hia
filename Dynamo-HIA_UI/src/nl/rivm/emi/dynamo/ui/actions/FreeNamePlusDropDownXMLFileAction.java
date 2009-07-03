@@ -11,6 +11,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.dialogs.DropDownAndImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
@@ -38,12 +39,12 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class FreeNameXMLFileAction extends ActionBase {
+public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	protected String rootElementName;
 	protected IInputValidator theValidator = null;
 
-	public FreeNameXMLFileAction(Shell shell, TreeViewer v, BaseNode node,
+	public FreeNamePlusDropDownXMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String rootElementName, IInputValidator theValidator) {
 		super(shell, v, node, rootElementName);
 		this.rootElementName = rootElementName;
@@ -68,8 +69,8 @@ public class FreeNameXMLFileAction extends ActionBase {
 		String newPath = null;
 		// Call the input trialog modal here (trialog includes input field,
 		// import, ok and cancel buttons)
-		ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
-				shell, "BasePath: " + selectionPath,
+		DropDownAndImportExtendedInputTrialog inputDialog = new DropDownAndImportExtendedInputTrialog(
+				shell,node,
 				"Enter name for a new xml file", "Name", theValidator);
 		int openValue = inputDialog.open();
 

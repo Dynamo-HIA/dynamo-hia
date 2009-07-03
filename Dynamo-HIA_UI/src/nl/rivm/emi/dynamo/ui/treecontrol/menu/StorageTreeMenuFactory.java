@@ -13,21 +13,23 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.ui.actions.DeleteXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.FreeNamePlusDropDownXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.NewDirectoryAction;
-import nl.rivm.emi.dynamo.ui.actions.NewbornsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
-import nl.rivm.emi.dynamo.ui.actions.SimulationConfigurationDropdownsMapDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.TransitionNoAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.create.NewDirectoryAction;
+import nl.rivm.emi.dynamo.ui.actions.create.NewbornsXMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.delete.DeleteDirectoryAction;
+import nl.rivm.emi.dynamo.ui.actions.delete.DeleteXMLFileAction;
+import nl.rivm.emi.dynamo.ui.actions.delete.MessageStrings;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -179,7 +181,7 @@ public class StorageTreeMenuFactory {
 							if (StandardTreeNodeLabelsEnum.DISEASES
 									.getNodeLabel().equalsIgnoreCase(
 											parentLabel)) {
-								// createMenu4Disease(manager, selection);
+								createMenu4Disease(manager, selection);
 							} else {
 								ParentNode grandParentNode = ((ChildNode) parentNode)
 										.getParent();
@@ -387,7 +389,16 @@ public class StorageTreeMenuFactory {
 		action.setText("New configuration");
 		action.setEnabled(!configExists);
 		manager.add(action);
-		// }
+		MessageStrings theMessageStrings = new MessageStrings(
+				"Removing Simulation.", "The simulation ",
+				" will be deleted.\nIs that what you want?",
+				"The Simulation still has configuration files.\n"
+						+ "You must delete them all first.");
+		DeleteDirectoryAction deleteDiseaseAction = new DeleteDirectoryAction(
+				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+				theMessageStrings, 10);
+		deleteDiseaseAction.setText("Delete simulation");
+		manager.add(deleteDiseaseAction);
 	}
 
 	/*
@@ -503,11 +514,17 @@ public class StorageTreeMenuFactory {
 						.contains(StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
 								.getNodeLabel()));
 		manager.add(action4);
-		// SimulationConfigurationDropdownsMapDebugAction action5 = new
-		// SimulationConfigurationDropdownsMapDebugAction(
-		// this.shell, (DirectoryNode) selection.getFirstElement());
-		// action5.setText("Dropdowns map debugging");
-		// manager.add(action5);
+		// Deleting the population-directory..
+		MessageStrings theMessageStrings = new MessageStrings(
+				"Removing population.", "The population ",
+				" will be deleted.\nIs that what you want?",
+				"The population still has configuration files.\n"
+						+ "You must delete them all first");
+		DeleteDirectoryAction action5 = new DeleteDirectoryAction(shell,
+				treeViewer, (DirectoryNode) selection.getFirstElement(),
+				theMessageStrings, 1);
+		action5.setText("Delete population");
+		manager.add(action5);
 	}
 
 	// ** Risk Factors **
@@ -669,6 +686,25 @@ public class StorageTreeMenuFactory {
 	}
 
 	/**
+	 * 
+	 * @param manager
+	 * @param selection
+	 */
+	private void createMenu4Disease(IMenuManager manager,
+			IStructuredSelection selection) {
+		MessageStrings theMessageStrings = new MessageStrings(
+				"Removing Disease.", "The disease ",
+				" will be deleted.\nIs that what you want?",
+				"The Disease still has configuration files.\n"
+						+ "You must delete them all first.");
+		DeleteDirectoryAction deleteDiseaseAction = new DeleteDirectoryAction(
+				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+				theMessageStrings, 2);
+		deleteDiseaseAction.setText("Delete disease");
+		manager.add(deleteDiseaseAction);
+	}
+
+	/**
 	 * @param manager
 	 * @param selection
 	 */
@@ -708,7 +744,8 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection) {
 		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
 				treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(), new FileAndDirectoryNameInputValidator());
+				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
+				new FileAndDirectoryNameInputValidator());
 		action.setText("New disease excess mortalities file");
 		manager.add(action);
 	}
@@ -741,6 +778,12 @@ public class StorageTreeMenuFactory {
 				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel());
 		action.setText("New relative risks from other disease file");
 		manager.add(action);
+		// Testing
+		FreeNamePlusDropDownXMLFileAction action2 = new FreeNamePlusDropDownXMLFileAction(
+				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(), null);
+		action2.setText("Testing new box");
+		manager.add(action2);
 	}
 
 	/**
@@ -776,11 +819,12 @@ public class StorageTreeMenuFactory {
 				.getParent();
 
 		// TODO: REMOVE: just for debugging
-		String rootElementNameDebug = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
-		log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
-		// transitiondrift
-		log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
+		// String rootElementNameDebug = ConfigurationFileUtil
+		// .extractRootElementNameIncludingSchemaCheck(node
+		// .getPhysicalStorage());
+		// log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
+		// // transitiondrift
+		// log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
 		// transitionmatrix_zero,
 		// transitiondrift_zero
 		// TODO: REMOVE: just for debugging
@@ -842,7 +886,8 @@ public class StorageTreeMenuFactory {
 
 		// TODO: REMOVE: just for debugging
 		String rootElementNameDebug = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+				.extractRootElementNameIncludingSchemaCheck(node
+						.getPhysicalStorage());
 		log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
 		// transitiondrift
 		log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
@@ -921,7 +966,8 @@ public class StorageTreeMenuFactory {
 	private void handleRiskFactorRelRisksForDeathXMLs(IMenuManager manager,
 			FileNode node) throws DynamoConfigurationException {
 		String rootElementName = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+				.extractRootElementNameIncludingSchemaCheck(node
+						.getPhysicalStorage());
 		XMLFileAction action = new XMLFileAction(shell, treeViewer,
 				(BaseNode) node, node.toString(), rootElementName);
 		action.setText("Edit");
@@ -933,15 +979,19 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
 		if (RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
-				.getNodeLabel().equals(
-						ConfigurationFileUtil.extractRootElementNameIncludingSchemaCheck(node
-								.getPhysicalStorage()))) {
+				.getNodeLabel()
+				.equals(
+						ConfigurationFileUtil
+								.extractRootElementNameIncludingSchemaCheck(node
+										.getPhysicalStorage()))) {
 			handleRiskFactorRelRisksForDeathXMLs(manager, node);
 		} else {
 			if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
-					.getNodeLabel().equals(
-							ConfigurationFileUtil.extractRootElementNameIncludingSchemaCheck(node
-									.getPhysicalStorage()))) {
+					.getNodeLabel()
+					.equals(
+							ConfigurationFileUtil
+									.extractRootElementNameIncludingSchemaCheck(node
+											.getPhysicalStorage()))) {
 				handleRiskFactorRelRisksForDeathXMLs(manager, node);
 			} else {
 				addDummy(manager, selection, "Unexpected rootelementname.");
@@ -953,9 +1003,11 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
 		if ("transitiondrift".equals(ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage()))) {
+				.extractRootElementNameIncludingSchemaCheck(node
+						.getPhysicalStorage()))) {
 			String rootElementName = ConfigurationFileUtil
-					.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+					.extractRootElementNameIncludingSchemaCheck(node
+							.getPhysicalStorage());
 			// TODO: Create screen W21 Transition Drift
 			XMLFileAction action = new XMLFileAction(this.shell,
 					this.treeViewer, (BaseNode) node, node.toString(),
@@ -963,11 +1015,13 @@ public class StorageTreeMenuFactory {
 			action.setText("Edit");
 			manager.add(action);
 			addFileDeleteAction(manager, node);
-	} else {
+		} else {
 			if ("transitiondrift_netto".equals(ConfigurationFileUtil
-					.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage()))) {
+					.extractRootElementNameIncludingSchemaCheck(node
+							.getPhysicalStorage()))) {
 				String rootElementName = ConfigurationFileUtil
-						.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+						.extractRootElementNameIncludingSchemaCheck(node
+								.getPhysicalStorage());
 				// TODO: Create screen W21 Transition
 				// Drift Netto
 				XMLFileAction action = new XMLFileAction(this.shell,
@@ -976,9 +1030,10 @@ public class StorageTreeMenuFactory {
 				action.setText("Edit");
 				manager.add(action);
 				addFileDeleteAction(manager, node);
-	} else {
+			} else {
 				if ("transitiondrift_zero".equals(ConfigurationFileUtil
-						.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage()))) {
+						.extractRootElementNameIncludingSchemaCheck(node
+								.getPhysicalStorage()))) {
 					// File
 					// cannot
 					// be
@@ -992,7 +1047,8 @@ public class StorageTreeMenuFactory {
 							"Selected file cannot be edited");
 				} else {
 					if ("transitionmatrix".equals(ConfigurationFileUtil
-							.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage()))) {
+							.extractRootElementNameIncludingSchemaCheck(node
+									.getPhysicalStorage()))) {
 						String rootElementName = ConfigurationFileUtil
 								.extractRootElementNameIncludingSchemaCheck(node
 										.getPhysicalStorage());
@@ -1002,7 +1058,7 @@ public class StorageTreeMenuFactory {
 						action.setText("Edit");
 						manager.add(action);
 						addFileDeleteAction(manager, node);
-	} else {
+					} else {
 						if ("transitionmatrix_netto"
 								.equals(ConfigurationFileUtil
 										.extractRootElementNameIncludingSchemaCheck(node
@@ -1030,7 +1086,8 @@ public class StorageTreeMenuFactory {
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
 		String rootElementName = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+				.extractRootElementNameIncludingSchemaCheck(node
+						.getPhysicalStorage());
 		XMLFileAction action = new XMLFileAction(this.shell, this.treeViewer,
 				(BaseNode) node, node.toString(), rootElementName);
 		action.setText("Edit");
@@ -1048,7 +1105,7 @@ public class StorageTreeMenuFactory {
 			action.setText("Edit");
 			manager.add(action);
 			addFileDeleteAction(manager, node);
-	} else {
+		} else {
 			if (
 			/*
 			 * BUG! RootElementNamesEnum.DISEASEPREVALENCES
@@ -1059,7 +1116,7 @@ public class StorageTreeMenuFactory {
 					.equalsIgnoreCase(parentNodeLabel)) {
 				String rootElementName = "diseaseprevalences";
 				XMLFileAction action = new XMLFileAction(shell, treeViewer,
-						(BaseNode) node, node.toString(),rootElementName );
+						(BaseNode) node, node.toString(), rootElementName);
 				action.setText("Edit");
 				manager.add(action);
 				addFileDeleteAction(manager, node);
@@ -1102,8 +1159,8 @@ public class StorageTreeMenuFactory {
 	}
 
 	private void addFileDeleteAction(IMenuManager manager, FileNode node) {
-		DeleteXMLFileAction deleteAction = new DeleteXMLFileAction(shell, treeViewer,
-				(BaseNode) node, node.toString());
+		DeleteXMLFileAction deleteAction = new DeleteXMLFileAction(shell,
+				treeViewer, (BaseNode) node, node.toString());
 		deleteAction.setText("Delete");
 		manager.add(deleteAction);
 	}
@@ -1119,7 +1176,9 @@ public class StorageTreeMenuFactory {
 		 */
 		if ("configuration".equals(nodeLabel)) {
 			String rootElementName = ConfigurationFileUtil
-					.extractRootElementNameIncludingSchemaCheck(node.getPhysicalStorage());
+			// .extractRootElementNameIncludingSchemaCheck(node
+					// .getPhysicalStorage());
+					.justExtractRootElementName(node.getPhysicalStorage());
 			XMLFileAction action = new XMLFileAction(shell, treeViewer,
 					(BaseNode) node, node.toString(), rootElementName);
 			action.setConfigurationFileExists(true);

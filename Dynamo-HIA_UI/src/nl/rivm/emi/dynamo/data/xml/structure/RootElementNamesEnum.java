@@ -76,8 +76,8 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
-	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
-	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RELATIVERISKSFORDEATH_COMPOUND(new RelativeRiskForDeathCompound(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //

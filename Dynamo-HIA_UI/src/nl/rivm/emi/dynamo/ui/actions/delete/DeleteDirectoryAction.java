@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.actions;
+package nl.rivm.emi.dynamo.ui.actions.delete;
 
 /**
  * Develop with populationSize as concrete implementation.
@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
+import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -16,17 +17,20 @@ import nl.rivm.emi.dynamo.ui.treecontrol.structure.StructureTestUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class DeleteRiskFactorAction extends ActionBase {
+public class DeleteDirectoryAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
+	private MessageStrings messageStrings;
+	private int searchDepth;
 
-	public DeleteRiskFactorAction(Shell shell, TreeViewer v, BaseNode node) {
+	public DeleteDirectoryAction(Shell shell, TreeViewer v, BaseNode node, MessageStrings theStrings, int searchDepth) {
 		super(shell, v, node, "IsNeverNeeded");
+		this.messageStrings = theStrings;
+		this.searchDepth = searchDepth;
 	}
 
 	@Override
@@ -37,14 +41,14 @@ public class DeleteRiskFactorAction extends ActionBase {
 			if (node instanceof DirectoryNode) {
 				boolean hasNoFileNodeChildren;
 				hasNoFileNodeChildren = StructureTestUtil
-						.hasNoFileNodeChildren((DirectoryNode) node, 2);
+						.hasNoFileNodeChildren((DirectoryNode) node, searchDepth);
 				if (hasNoFileNodeChildren) {
 					MessageBox messageBox = new MessageBox(shell, SWT.YES
 							| SWT.NO);
-					messageBox.setText("Removing risk-factor.");
-					messageBox.setMessage("The risk-factor "
+					messageBox.setText(messageStrings.getMessageBoxText());
+					messageBox.setMessage(messageStrings.getMessagePart1()
 							+ node.deriveNodeLabel()
-							+ "will be deleted.\nIs that what you want?");
+							+ messageStrings.getMessagePart2());
 					int returnCode = messageBox.open();
 					boolean error = false;
 					switch (returnCode) {
@@ -84,9 +88,9 @@ public class DeleteRiskFactorAction extends ActionBase {
 					}
 				} else {
 					MessageBox messageBox = new MessageBox(shell, SWT.OK);
-					messageBox.setText("Removing risk-factor.");
+					messageBox.setText(messageStrings.getMessageBoxText());
 					messageBox
-							.setMessage("The Risk-Factor still has configuration files.\n You must delete them all first");
+							.setMessage(messageStrings.getMessageNoGo());
 					int returnCode = messageBox.open();
 				}
 			} else {

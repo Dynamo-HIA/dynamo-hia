@@ -52,7 +52,7 @@ public class DurationDistributionModal extends AbstractDataModal {
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for death from compound riskfactor";
+		return "Duration distribution for a compound riskfactor";
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -123,11 +124,12 @@ public class ConfigurationFileUtil {
 
 	static String getRootElementNameUsingSTax(String filename) {
 		String rootElementName = null;
+		FileInputStream fIStream = null;
+		XMLEventReader r = null;
 		try {
 			XMLInputFactory factory = XMLInputFactory.newInstance();
-			XMLEventReader r;
-			r = factory.createXMLEventReader(filename, new FileInputStream(
-					filename));
+			fIStream = new FileInputStream(filename);
+			r = factory.createXMLEventReader(filename, fIStream);
 			boolean firstStartElement = false;
 			String firstStartElementName = null;
 			while (r.hasNext() && !firstStartElement) {
@@ -181,6 +183,12 @@ public class ConfigurationFileUtil {
 				}
 			}
 			rootElementName = firstStartElementName;
+			if (r != null) {
+				r.close();
+			}
+			if (fIStream != null) {
+				fIStream.close();
+			}
 			return rootElementName;
 		} catch (FileNotFoundException e1) {
 			log.error(e1.getClass().getName() + " " + e1.getMessage());
@@ -189,6 +197,10 @@ public class ConfigurationFileUtil {
 		} catch (XMLStreamException e1) {
 			log.error(e1.getClass().getName() + " " + e1.getMessage());
 			e1.printStackTrace();
+			return rootElementName;
+		} catch (IOException e) {
+			log.error(e.getClass().getName() + " " + e.getMessage());
+			e.printStackTrace();
 			return rootElementName;
 		}
 	}

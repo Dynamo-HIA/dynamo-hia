@@ -98,16 +98,17 @@ public class RiskSourcePropertiesMapFactory {
 			riskSourceContainerNodeName = StandardTreeNodeLabelsEnum.RISKFACTORS
 					.getNodeLabel();
 		} else {
-			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
-					.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)) {
-				riskSourceContainerNodeName = StandardTreeNodeLabelsEnum.DISEASES
-						.getNodeLabel();
-			} else {
-				throw new ConfigurationException(
-						"RiskSourcePropertiesMapFactory: Selected node: "
-								+ selectedNodeLabel + " cannot be handled.");
-			}
-		}
+					if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
+							.getNodeLabel().equalsIgnoreCase(selectedNodeLabel)) {
+						riskSourceContainerNodeName = StandardTreeNodeLabelsEnum.DISEASES
+								.getNodeLabel();
+					} else {
+						throw new ConfigurationException(
+								"RiskSourcePropertiesMapFactory: Selected node: "
+										+ selectedNodeLabel
+										+ " cannot be handled.");
+					}
+				}
 		return riskSourceContainerNodeName;
 	}
 
