@@ -50,7 +50,9 @@ public class DiseaseSelectionGroup {
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
-		
+		try {
+			
+			//if no data, no group should be made so this should be inside a try statement
 		group = new Composite(plotComposite, SWT.FILL);
 		
 		GridLayout gridLayout = new GridLayout();
@@ -61,7 +63,17 @@ public class DiseaseSelectionGroup {
 		//group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???		
 		log.debug("diseaseFactorSelectionGroup" + group);
 		
-		createDropDownArea();
+		
+			createDropDownArea();
+		} catch (NoMoreDataException e) {
+			throw new NoMoreDataException (e.getMessage());
+			
+		} catch (DynamoNoValidDataException e) {
+			throw new DynamoNoValidDataException (e.getMessage());
+			
+		}
+		 
+		
 	}
 
 	private void createDropDownArea() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
@@ -83,13 +95,17 @@ public class DiseaseSelectionGroup {
 				chosenDiseaseName = chosenName;		
 			}			
 		}
-		
-		diseaseDropDownPanel = 
+		DropDownPropertiesSet dropDownset = this.dynamoTabDataManager.getDropDownSet(DISEASE, chosenDiseaseName);
+		if (dropDownset !=null  && !dropDownset.isEmpty()) diseaseDropDownPanel = 
 			createDropDown(DISEASE, 
 					dynamoTabDataManager.
 					getDropDownSet(DISEASE, chosenDiseaseName), 
 					dynamoTabDataManager
 					);
+		else if (chosenDiseaseName==null)throw new NoMoreDataException("there are no more diseases to chose");
+		else throw new DynamoNoValidDataException("configuration contains disease "+chosenDiseaseName+" that is" +
+				" no longer availlable");
+		
 		this.dropDownModifyListener =
 			diseaseDropDownPanel.getGenericComboModifyListener();		
 	}
@@ -106,6 +122,10 @@ public class DiseaseSelectionGroup {
 	
 	public GenericComboModifyListener getDropDownModifyListener() {
 		return this.dropDownModifyListener;
+	}
+	
+	public void remove(){
+		this.group.dispose();
 	}
 
 	public void refreshSelectionDropDown() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {

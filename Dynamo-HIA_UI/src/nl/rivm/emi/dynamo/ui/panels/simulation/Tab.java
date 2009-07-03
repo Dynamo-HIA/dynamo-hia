@@ -30,7 +30,7 @@ public abstract class Tab {
 
 	protected String tabName;
 	protected Composite plotComposite;
-	protected DynamoSimulationObject dynamoSimulationObject;
+	private DynamoSimulationObject dynamoSimulationObject;
 	protected DataBindingContext dataBindingContext;
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
@@ -41,7 +41,7 @@ public abstract class Tab {
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
 		this.selections = selections;
-		this.dynamoSimulationObject = dynamoSimulationObject;
+		this.setDynamoSimulationObject(dynamoSimulationObject);
 		this.dataBindingContext = dataBindingContext;
 		this.helpGroup = helpGroup;
 		this.selectedNode = selectedNode;
@@ -105,6 +105,14 @@ public abstract class Tab {
 			messageShell.dispose();
 		}
 
+	}
+
+	public void setDynamoSimulationObject(DynamoSimulationObject dynamoSimulationObject) {
+		this.dynamoSimulationObject = dynamoSimulationObject;
+	}
+
+	public DynamoSimulationObject getDynamoSimulationObject() {
+		return dynamoSimulationObject;
 	}
 
 }

@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
@@ -35,6 +36,14 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	private TreeAsDropdownLists treeLists;
 	private DynamoSimulationObject dynamoSimulationObject;
 	private Map<String, ITabDiseaseConfiguration> configurations;
+	public Map<String, ITabDiseaseConfiguration> getConfigurations() {
+		return configurations;
+	}
+
+	public void setConfigurations(
+			Map<String, ITabDiseaseConfiguration> configurations) {
+		this.configurations = configurations;
+	}
 	private ITabDiseaseConfiguration singleConfiguration;
 	public ITabDiseaseConfiguration getSingleConfiguration() {
 		return singleConfiguration;
@@ -59,8 +68,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			Set<String> initialSelection
 			) throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
-		this.dynamoSimulationObject = dynamoSimulationObject;
-		this.configurations = this.dynamoSimulationObject.getDiseaseConfigurations();
+		this.dynamoSimulationObject=dynamoSimulationObject;
+		this.configurations = this.getDynamoSimulationObject().getDiseaseConfigurations();
 		this.initialSelection = initialSelection;
 		log.debug("this.initialSelectionDiseaseTabManager" + this.initialSelection);
 		this.singleConfiguration = this.configurations.get(getInitialName());
@@ -79,7 +88,15 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			setDefaultValue(DiseaseSelectionGroup.DISEASE, chosenDiseaseName);
 		} 
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
-		set.addAll(this.getContents(name, chosenDiseaseName));
+		Set<String> contents = this.getContents(name, chosenDiseaseName);
+		
+		// Contents can never be empty
+
+		if (contents != null) 
+			set.addAll(contents);
+		else if (chosenDiseaseName==null) throw new NoMoreDataException("no more configured diseases availlable");
+		else throw new NoMoreDataException("the configured disease "+ chosenDiseaseName+" is no longer availlable");
+		
 		return set;	
 	}
 
@@ -192,14 +209,14 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		
 		this.configurations.put(singleConfiguration.getName(), 
 				singleConfiguration);
-		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
+		this.getDynamoSimulationObject().setDiseaseConfigurations(configurations);
 		
 		
 		
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
-		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
+		Map map = this.getDynamoSimulationObject().getDiseaseConfigurations();
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			ITabDiseaseConfiguration conf = (ITabDiseaseConfiguration) map.get(key);
@@ -228,7 +245,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		
 		String removedDisease=this.singleConfiguration.getName();
 		this.configurations.remove(removedDisease);
-		this.dynamoSimulationObject.setDiseaseConfigurations(configurations);
+		this.getDynamoSimulationObject().setDiseaseConfigurations(configurations);
 		/* added by Hendriek
 		 * Also check if the disease names in the relative risks are still
 		 * valid
@@ -237,7 +254,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		 */
 		//String riskfactorName=((TabRiskFactorConfigurationData) configurations).getName();
 		Map<Integer,TabRelativeRiskConfigurationData> relRiskConfiguration =
-		this.dynamoSimulationObject.getRelativeRiskConfigurations();
+		this.getDynamoSimulationObject().getRelativeRiskConfigurations();
 		
 			TabRelativeRiskConfigurationData singleRRconfiguration;
 			
@@ -261,7 +278,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
         }
 		
 		
-		this.dynamoSimulationObject.setRelativeRiskConfigurations(relRiskConfiguration);
+		this.getDynamoSimulationObject().setRelativeRiskConfigurations(relRiskConfiguration);
 		
 	}
 	
@@ -312,8 +329,21 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	}
 	@Override
 	public DynamoSimulationObject getDynamoSimulationObject() {
-		// TODO Auto-generated method stub
-		return this.getDynamoSimulationObject();
+		
+		return this.dynamoSimulationObject;
 	}
+
+	public void setConfigurations( ) {
+		// this.dynamoSimulationObject=newObject;
+		this.configurations = this.dynamoSimulationObject.getDiseaseConfigurations();
+		
+		this.singleConfiguration = this.configurations.get(getInitialName());
+	
+	}
+	
+	
+		
+	
+	
 	
 }

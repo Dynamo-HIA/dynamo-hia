@@ -54,7 +54,7 @@ public abstract class TabPlatform extends Tab {
 		// Create the tabManager, it handles the subtabs
 		this.tabManager = 
 			new TabManager(this.plotComposite, this.selectedNode, 
-					this.dynamoSimulationObject, this.dataBindingContext, 
+					this.getDynamoSimulationObject(), this.dataBindingContext, 
 					this.helpGroup, this);	
 		this.tabManager.createDefaultTabs();
 		

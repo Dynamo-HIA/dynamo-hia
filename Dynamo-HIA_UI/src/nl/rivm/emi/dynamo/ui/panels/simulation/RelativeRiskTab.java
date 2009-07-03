@@ -69,7 +69,7 @@ public class RelativeRiskTab extends NestedTab {
 		
 		this.dynamoTabDataManager =
 			new RelativeRiskTabDataManager(selectedNode, 
-					dynamoSimulationObject,
+					getDynamoSimulationObject(),
 					this.selections, this);
 		
 		

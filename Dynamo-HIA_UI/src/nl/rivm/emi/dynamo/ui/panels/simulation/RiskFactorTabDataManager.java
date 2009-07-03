@@ -17,6 +17,7 @@ import nl.rivm.emi.dynamo.ui.support.SimilarityCounter;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -130,7 +131,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	 */
 	@Override
 	public DropDownPropertiesSet getDropDownSet(String name,
-			String chosenRiskFactorName) throws ConfigurationException {
+			String chosenRiskFactorName) throws ConfigurationException, NoMoreDataException {
 		log.debug("HIERALOOK");
 
 		// The model object already exists, get the name
@@ -140,13 +141,21 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 					+ chosenRiskFactorName);
 		}
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
-		set.addAll(this.getContents(name, chosenRiskFactorName));
+           Set<String> contents = this.getContents(name, chosenRiskFactorName);
+		
+		// Contents can never be empty
+
+		if (contents != null) 
+			set.addAll(contents);
+		else throw new NoMoreDataException("no more configured diseases availlable");
+	
+		
 		return set;
 	}
 
 	@Override
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label)
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException {
 		return getDropDownSet(label, null);
 	}
 

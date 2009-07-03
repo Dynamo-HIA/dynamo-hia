@@ -58,7 +58,7 @@ public class RelativeRisksTab extends TabPlatform {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		String tabName = RELATIVE_RISK + newTabNumber;
 		return new RelativeRiskTab(defaultSelections, this.getTabManager()
-				.getTabFolder(), tabName, dynamoSimulationObject,
+				.getTabFolder(), tabName, getDynamoSimulationObject(),
 				dataBindingContext, selectedNode, helpGroup);
 	}
 
@@ -81,7 +81,7 @@ public class RelativeRisksTab extends TabPlatform {
 	}
 
 	public Set<String> getConfigurations() {
-		Map<Integer, TabRelativeRiskConfigurationData> configurations = this.dynamoSimulationObject
+		Map<Integer, TabRelativeRiskConfigurationData> configurations = this.getDynamoSimulationObject()
 				.getRelativeRiskConfigurations();
 		// Conversion into a String keyset: but the contents are still integers
 		Set<String> keySet = new LinkedHashSet<String>();
@@ -183,7 +183,7 @@ public class RelativeRisksTab extends TabPlatform {
 		 ((RelativeRiskTab)this.getTabManager().nestedTabs.get(RELATIVE_RISK
 				+ "1")).getDynamoTabDataManager();
 		dataManager.refreshAvaillableRRlist();}
-		int newTabNumber = this.dynamoSimulationObject.getRelativeRiskConfigurations()
+		int newTabNumber = this.getDynamoSimulationObject().getRelativeRiskConfigurations()
 				.size();
 		/* delete tabs if there are more then needed : do not use "deleteNestedTabs, because this removes
 		 * the tab data from the DynamoSimulationObject and that has
@@ -201,7 +201,7 @@ public class RelativeRisksTab extends TabPlatform {
 			String tabName = RELATIVE_RISK + Integer.toString(i+1);
 			RelativeRiskTabDataManager dataManager=(RelativeRiskTabDataManager)
 			 ((RelativeRiskTab)this.getTabManager().nestedTabs.get(tabName)).getDynamoTabDataManager();
-			dataManager.setDynamoSimulationObject(dynamoSimulationObject);
+			dataManager.setDynamoSimulationObject(getDynamoSimulationObject());
 			dataManager.refreshConfigurations(i);
 			refreshNestedTab(this.getTabManager().nestedTabs.get(tabName));
 			

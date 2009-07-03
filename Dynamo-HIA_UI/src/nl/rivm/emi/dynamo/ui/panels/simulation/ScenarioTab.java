@@ -64,7 +64,7 @@ public class ScenarioTab extends NestedTab {
 		
 		this.dynamoTabDataManager =
 			new ScenarioTabDataManager(selectedNode, 
-					dynamoSimulationObject,
+					getDynamoSimulationObject(),
 					this.selections);
 		
 		try {
@@ -74,7 +74,7 @@ public class ScenarioTab extends NestedTab {
 						selectedNode, helpGroup,
 						dynamoTabDataManager,
 						dataBindingContext,
-						this.dynamoSimulationObject
+						this.getDynamoSimulationObject()
 						);
 		
 		this.scenarioResultGroup =

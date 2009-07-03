@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
@@ -58,7 +59,7 @@ public class DiseasesTab extends TabPlatform {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		String tabName = DISEASE + newTabNumber;				
 		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
-				tabName, dynamoSimulationObject, 
+				tabName, getDynamoSimulationObject(), 
 				dataBindingContext, selectedNode, helpGroup);
 		
 	}
@@ -76,7 +77,7 @@ public class DiseasesTab extends TabPlatform {
 	@Override
 	public Set<String> getConfigurations() {
 		LinkedHashMap<String, ITabDiseaseConfiguration> configurations = 
-			(LinkedHashMap<String, ITabDiseaseConfiguration>) this.dynamoSimulationObject.getDiseaseConfigurations();
+			(LinkedHashMap<String, ITabDiseaseConfiguration>) this.getDynamoSimulationObject().getDiseaseConfigurations();
 		return configurations.keySet();
 	}
 
@@ -84,6 +85,14 @@ public class DiseasesTab extends TabPlatform {
 	public void deleteNestedTab(NestedTab nestedTab) throws ConfigurationException {
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
 		diseaseTab.removeTabDataObject();
+		/* also remove in the other disease tabs */
+		 Map<String, ITabDiseaseConfiguration> newConfigurations = ((DiseaseTabDataManager)
+		 ((DiseaseTab)diseaseTab).getDynamoTabDataManager()).getConfigurations();
+		for (String tabName :this.getTabManager().nestedTabs.keySet()){
+			DiseaseTabDataManager dataManager=(DiseaseTabDataManager)
+			 ((DiseaseTab)this.getTabManager().nestedTabs.get(tabName)).getDynamoTabDataManager();
+			dataManager.setConfigurations(newConfigurations);
+			}
 	}
 	
 	@Override
@@ -95,8 +104,8 @@ catch (NoMoreDataException e) {
 			
 			Shell messageShell=new Shell(getTabFolder().getDisplay());
 			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
-			messageBox.setMessage(e.getMessage()+ "\nTab is not made");
-				
+			messageBox.setMessage("WARNING:\n"+e.getMessage()+ "\nTab is not made");
+			messageBox.setText("WARNING");
 			if (messageBox.open() == SWT.OK) {
 				messageShell.dispose();
 			}
@@ -106,7 +115,8 @@ catch (NoMoreDataException e) {
 			} catch (DynamoNoValidDataException e) {
 				Shell messageShell=new Shell(getTabFolder().getDisplay());
 				MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
-				messageBox.setMessage(e.getMessage()+ "\nTab is deleted");
+				messageBox.setText("WARNING");
+				messageBox.setMessage("WARNING:\n"+e.getMessage()+ "\nTab is deleted");
 					this.tabManager.deleteNestedTab();
 				
 				if (messageBox.open() == SWT.OK) {

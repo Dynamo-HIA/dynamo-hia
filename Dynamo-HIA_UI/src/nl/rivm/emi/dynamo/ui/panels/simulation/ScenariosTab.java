@@ -51,7 +51,7 @@ public class ScenariosTab extends TabPlatform {
 		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		String tabName = SCENARIO + newTabNumber;		
 		return new ScenarioTab(defaultSelections, this.getTabManager().getTabFolder(), 
-				tabName, dynamoSimulationObject, 
+				tabName, getDynamoSimulationObject(), 
 				dataBindingContext, selectedNode, helpGroup);
 	}
 	
@@ -76,7 +76,7 @@ public class ScenariosTab extends TabPlatform {
 	@Override
 	public Set<String> getConfigurations() {
 		Map<String, ITabScenarioConfiguration> configurations =
-		this.dynamoSimulationObject.getScenarioConfigurations();
+		this.getDynamoSimulationObject().getScenarioConfigurations();
 		return configurations.keySet();
 	}
 

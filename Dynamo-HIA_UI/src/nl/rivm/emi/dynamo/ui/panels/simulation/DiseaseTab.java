@@ -64,7 +64,7 @@ public class DiseaseTab extends NestedTab {
 	public void makeIt() throws ConfigurationException, NoMoreDataException{
 		this.dynamoTabDataManager =
 			new DiseaseTabDataManager(selectedNode, 
-					dynamoSimulationObject,
+					getDynamoSimulationObject(),
 					this.selections);
 		try {
 		this.diseaseSelectionGroup =
@@ -83,6 +83,7 @@ public class DiseaseTab extends NestedTab {
 						);
 		} catch (DynamoNoValidDataException e) {
 			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			this.diseaseSelectionGroup.remove();
 			throw new NoMoreDataException(e.getMessage());
 			
 		}

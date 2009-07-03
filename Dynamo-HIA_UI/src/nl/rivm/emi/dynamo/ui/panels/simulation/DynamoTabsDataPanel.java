@@ -55,7 +55,8 @@ public class DynamoTabsDataPanel {
 
 		tabFolder1.setLayout(new FillLayout());
 		//tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
-		
+		final ScenariosTab tab3 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
+				dataBindingContext, selectedNode, theHelpGroup);
 		
 		final RiskFactorTab tab0 = new RiskFactorTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);
@@ -66,8 +67,7 @@ public class DynamoTabsDataPanel {
 		final RelativeRisksTab tab2 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
 				dataBindingContext, selectedNode, theHelpGroup);		
 		
-		final ScenariosTab tab3 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
-				dataBindingContext, selectedNode, theHelpGroup);			
+					
 		
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 	        public void handleEvent(Event event) {

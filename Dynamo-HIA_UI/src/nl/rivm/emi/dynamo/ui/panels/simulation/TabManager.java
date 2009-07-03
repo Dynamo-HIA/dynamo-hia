@@ -145,7 +145,7 @@ public class TabManager {
 			log.debug("defaultTabKeyValue222" + defaultTabKeyValue);
 			NestedTab nestedTab = this.platform.createNestedDefaultTab(keyValues);
 			log.debug("CREATING DEFAULT NESTEDTABS " + nestedTab);
-			this.nestedTabs.put(nestedTab.getName(), nestedTab);
+			if (nestedTab !=null) this.nestedTabs.put(nestedTab.getName(), nestedTab);
 		}		
 		try {
 			this.redraw();
