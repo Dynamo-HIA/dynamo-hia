@@ -63,7 +63,7 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 * Constructor
 	 * 
 	 * @param parentShell
-	 * @param dataFilePath
+	 * @param dataFilePath Path from where the data will be read.
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
@@ -105,9 +105,6 @@ public abstract class AbstractMultiRootChildDataModal extends
 		LinkedHashMap<String, Object> producedData = null;
 		AgnosticGroupFactory factory = (AgnosticGroupFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
-		if (factory instanceof CategoricalFactory) {
-
-		}
 		if (factory == null) {
 			throw new ConfigurationException(
 					"No Factory found for rootElementName: "

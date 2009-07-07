@@ -23,6 +23,7 @@ import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
+import nl.rivm.emi.dynamo.ui.actions.SimulationUniversalAction;
 import nl.rivm.emi.dynamo.ui.actions.TransitionNoAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.create.NewDirectoryAction;
@@ -341,6 +342,7 @@ public class StorageTreeMenuFactory {
 	}
 
 	/**
+	 * Use-case 1 of the SimulationUniversalAction.
 	 * 
 	 * @param manager
 	 * @param selection
@@ -348,9 +350,9 @@ public class StorageTreeMenuFactory {
 	private void createMenu4Simulations(final IMenuManager manager,
 			IStructuredSelection selection) {
 		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
-		NewDirectoryAction sNAction = new NewDirectoryAction(shell, treeViewer,
-				(DirectoryNode) selectedNode, "simulation", null);
-		sNAction.setText("New simulation");
+		SimulationUniversalAction sNAction = new SimulationUniversalAction(
+				shell, treeViewer, selectedNode, "simulation");
+		sNAction.setText(sNAction.getMenuLabel());
 		manager.add(sNAction);
 	}
 
@@ -362,33 +364,12 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4Simulation(final IMenuManager manager,
 			IStructuredSelection selection) {
-		Object[] children = ((ParentNode) selection.getFirstElement())
-				.getChildren();
-
-		// The text "New configuration" will not be shown
-		// if a configuration.xml file exists
-		boolean configExists = false;
-		for (Object child : children) {
-			if (child != null) {
-				String childLabel = ((BaseNode) child).deriveNodeLabel();
-				if (StandardTreeNodeLabelsEnum.CONFIGURATIONFILE.getNodeLabel()
-						.equalsIgnoreCase(childLabel)) {
-					configExists = true;
-				} else {
-					// Not needed
-				}
-			} else {
-				// Not needed
-			}
-		}
-		// if (!configExists) {
-		XMLFileAction action = new XMLFileAction(shell, treeViewer,
-				(DirectoryNode) selection.getFirstElement(), "configuration",
-				RootElementNamesEnum.SIMULATION.getNodeLabel());
-		action.setConfigurationFileExists(false);
-		action.setText("New configuration");
-		action.setEnabled(!configExists);
-		manager.add(action);
+		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
+		SimulationUniversalAction sNAction = new SimulationUniversalAction(
+				shell, treeViewer, selectedNode, "simulation");
+		sNAction.setText(sNAction.getMenuLabel());
+		manager.add(sNAction);
+		// Deleting...
 		MessageStrings theMessageStrings = new MessageStrings(
 				"Removing Simulation.", "The simulation ",
 				" will be deleted.\nIs that what you want?",
@@ -399,29 +380,6 @@ public class StorageTreeMenuFactory {
 				theMessageStrings, 10);
 		deleteDiseaseAction.setText("Delete simulation");
 		manager.add(deleteDiseaseAction);
-	}
-
-	/*
-	 * private void createMenu4RiskFactor(IMenuManager manager,
-	 * IStructuredSelection selection) throws TreeStructureException { BaseNode
-	 * selectedNode = (BaseNode) selection.getFirstElement();
-	 * contextMenuFactory.fillRiskFactorContextMenu(shell, treeViewer, manager,
-	 * selectedNode); }
-	 */
-
-	/**
-	 * TODO
-	 * 
-	 * @param mgr
-	 * @param selection
-	 */
-	private void createMenu4SimulationConfiguration(final IMenuManager manager,
-			IStructuredSelection selection) {
-		XMLFileAction action = new XMLFileAction(shell, treeViewer,
-				(DirectoryNode) selection.getFirstElement(), "configuration",
-				"simulation");
-		action.setText("New configuration");
-		manager.add(action);
 	}
 
 	/**
@@ -781,7 +739,8 @@ public class StorageTreeMenuFactory {
 		// Testing
 		FreeNamePlusDropDownXMLFileAction action2 = new FreeNamePlusDropDownXMLFileAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(), null);
+				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
+				null);
 		action2.setText("Testing new box");
 		manager.add(action2);
 	}
@@ -817,18 +776,6 @@ public class StorageTreeMenuFactory {
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
 		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
 				.getParent();
-
-		// TODO: REMOVE: just for debugging
-		// String rootElementNameDebug = ConfigurationFileUtil
-		// .extractRootElementNameIncludingSchemaCheck(node
-		// .getPhysicalStorage());
-		// log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
-		// // transitiondrift
-		// log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
-		// transitionmatrix_zero,
-		// transitiondrift_zero
-		// TODO: REMOVE: just for debugging
-
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(
 						((BaseNode) grandParentNode).deriveNodeLabel())) {
@@ -839,13 +786,6 @@ public class StorageTreeMenuFactory {
 							((BaseNode) grandParentNode).deriveNodeLabel())) {
 				createEditMenu4XML4Simulations(manager, node, nodeLabel);
 			} else {
-				/*
-				 * Level 6 if
-				 * (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
-				 * ((BaseNode) greatGrandParentNode).deriveNodeLabel())) {
-				 * createEditMenu4XML4Diseases(manager, node, parentNodeLabel);
-				 * } else {
-				 */
 				if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
 						.equalsIgnoreCase(
 								((BaseNode) grandParentNode).deriveNodeLabel())) {
@@ -853,18 +793,9 @@ public class StorageTreeMenuFactory {
 						handleRiskFactorRelRisksForDeathXMLs(manager, node);
 					} else {
 					}
-					/*
-					 * Level 6 } else { if
-					 * (StandardTreeNodeLabelsEnum.RISKFACTORS
-					 * .getNodeLabel().equalsIgnoreCase( ((BaseNode)
-					 * greatGrandParentNode) .deriveNodeLabel())) {
-					 * createEditMenu4NonConfigXML4RiskFactors(manager,
-					 * selection, node, nodeLabel);
-					 */}
+				}
 			}
 		}
-		// }
-		// }
 	}
 
 	/**
@@ -891,31 +822,11 @@ public class StorageTreeMenuFactory {
 		log.debug("nodeLabel" + nodeLabel); // e.g. transitionmatrix,
 		// transitiondrift
 		log.debug("rootElementNameDebug" + rootElementNameDebug); // e.g.
-		// transitionmatrix_zero,
-		// transitiondrift_zero
-		// TODO: REMOVE: just for debugging
-		/*
-		 * Level 5 if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
-		 * .equalsIgnoreCase( ((BaseNode) grandParentNode).deriveNodeLabel())) {
-		 * createEditMenu4XML4Populations(manager, selection, node, nodeLabel);
-		 * } else { if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
-		 * .equalsIgnoreCase( ((BaseNode) grandParentNode).deriveNodeLabel())) {
-		 * createEditMenu4XML4Simulations(manager, node, nodeLabel); } else {
-		 */if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
+		if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel()
 				.equalsIgnoreCase(
 						((BaseNode) greatGrandParentNode).deriveNodeLabel())) {
 			createEditMenu4XML4Diseases(manager, node, parentNodeLabel);
 		} else {
-			/*
-			 * Level 5 if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-			 * .equalsIgnoreCase( ((BaseNode) grandParentNode)
-			 * .deriveNodeLabel())) { if ("configuration".equals(nodeLabel)) {
-			 * String rootElementName = ConfigurationFileUtil
-			 * .extractRootElementName(node .getPhysicalStorage());
-			 * XMLFileAction action = new XMLFileAction(shell, treeViewer,
-			 * (BaseNode) node, node .toString(), rootElementName);
-			 * action.setText("Edit"); manager.add(action); } else { } } else {
-			 */
 			if (StandardTreeNodeLabelsEnum.RISKFACTORS
 					.getNodeLabel()
 					.equalsIgnoreCase(
@@ -924,9 +835,6 @@ public class StorageTreeMenuFactory {
 						node, nodeLabel);
 			}
 		}
-		// }
-		// }
-		// }
 	}
 
 	private void createEditMenu4NonConfigXML4RiskFactors(IMenuManager manager,
@@ -1168,21 +1076,16 @@ public class StorageTreeMenuFactory {
 	private void createEditMenu4XML4Simulations(IMenuManager manager,
 			FileNode node, String nodeLabel)
 			throws DynamoConfigurationException {
-		/*
-		 * XMLFileAction action = new XMLFileAction(shell, treeViewer,
-		 * (BaseNode) node, /"simulation"
-		 * RootElementNamesEnum.SIMULATION.getNodeLabel(), nodeLabel);
-		 * action.setText("Edit"); manager.add(action);
-		 */
 		if ("configuration".equals(nodeLabel)) {
 			String rootElementName = ConfigurationFileUtil
-			// .extractRootElementNameIncludingSchemaCheck(node
-					// .getPhysicalStorage());
 					.justExtractRootElementName(node.getPhysicalStorage());
-			XMLFileAction action = new XMLFileAction(shell, treeViewer,
-					(BaseNode) node, node.toString(), rootElementName);
-			action.setConfigurationFileExists(true);
-			action.setText("Edit");
+			// XMLFileAction action = new XMLFileAction(shell, treeViewer,
+			// (BaseNode) node, node.toString(), rootElementName);
+			// action.setConfigurationFileExists(true);
+			// action.setText("Edit");
+			SimulationUniversalAction action = new SimulationUniversalAction(
+					shell, treeViewer, node, nodeLabel);
+			action.setText(action.getMenuLabel());
 			manager.add(action);
 			addFileDeleteAction(manager, node);
 		}

@@ -26,7 +26,6 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -64,9 +63,6 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 			String configurationFilePath,
 			String rootElementName, BaseNode selectedNode) {
 		super(rootElementName, dataFilePath, configurationFilePath);
-		this.dataFilePath = dataFilePath;
-		this.configurationFilePath = configurationFilePath;
-		this.rootElementName = rootElementName;		
 		this.parentShell = parentShell;
 		this.selectedNode = selectedNode;
 		this.shell = new Shell(parentShell, /* SWT.DIALOG_TRIM */ SWT.BORDER | SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL

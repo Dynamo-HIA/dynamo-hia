@@ -22,8 +22,7 @@ abstract public class DataAndFileContainer {
 	 */
 	protected String rootElementName;
 	/*
-	 * Path of the file that contains the data Must be "global" to be available
-	 * to the save-listener.
+	 * Path of the file that contains the data to be read.
 	 */
 	protected String dataFilePath;
 
