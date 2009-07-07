@@ -7,6 +7,7 @@ Bundle-Activator: czm_main.Activator
 Bundle-Vendor: RIVM
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ nl.rivm.emi.dynamo;bundle-version="1.0.0",
  org.apache.commons.logging;bundle-version="1.0.4",
  org.eclipse.jface.databinding;bundle-version="1.2.1",
  org.eclipse.core.databinding;bundle-version="1.1.1",
@@ -18,7 +19,6 @@ Require-Bundle: org.eclipse.ui,
  org.jfree.jcommons;bundle-version="1.0.13",
  org.jfree.experimental.chart;bundle-version="1.0.10",
  org.apache.commons.collections;bundle-version="3.2.0",
- nl.rivm.emi.dynamo;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.9",
  org.eclipse.core.resources;bundle-version="3.4.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
