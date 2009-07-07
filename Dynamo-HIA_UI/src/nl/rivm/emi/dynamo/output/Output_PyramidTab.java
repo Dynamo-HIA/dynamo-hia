@@ -89,6 +89,7 @@ public class Output_PyramidTab  {
 		
 		
 		
+		if (this.output.getStepsInRun()>0) {
 		final Scale scale = new Scale(controlComposite, SWT.VERTICAL);
 		// scale.setBounds(0, 0, 40, 200);
 		scale.setMaximum(this.output.getStepsInRun());
@@ -141,6 +142,7 @@ public class Output_PyramidTab  {
 			}
 
 		});
+		}
 		int firstplotnumber=-2;
 		if (this.output.getNDiseases()>0)  firstplotnumber=-1;
 		JFreeChart pyramidChart = this.output.makePyramidChartIncludingDisease(
