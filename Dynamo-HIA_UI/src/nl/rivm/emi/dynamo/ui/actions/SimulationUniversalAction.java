@@ -215,7 +215,7 @@ public class SimulationUniversalAction extends ActionBase {
 								.getAbsolutePath(),
 						RootElementNamesEnum.SIMULATION.getNodeLabel(),
 						simulationNameDirectoryNode,
-						!configurationFileExistsBefore);
+						configurationFileExistsBefore);
 				if (theModal != null) {
 					Realm.runWithDefault(SWTObservables.getRealm(Display
 							.getDefault()), theModal);
