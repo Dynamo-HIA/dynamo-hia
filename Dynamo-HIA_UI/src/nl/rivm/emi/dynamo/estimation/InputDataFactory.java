@@ -353,6 +353,8 @@ public class InputDataFactory {
 		 * estimation. however, to be save we put it in the scenario object, as
 		 * this is also availlable in the postprocessing stage
 		 */
+		if (minAge>maxAge) throw new DynamoConfigurationException(" the minimum age "+minAge+" for simulation" +
+				" is larger than the maximum age of "+maxAge+"\nPlease change these values"  );
 
 		if (timeStep != 1)
 			this.log.fatal("timestep given in configuration is " + timeStep

@@ -1,7 +1,14 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.management.RuntimeErrorException;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,6 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.dynamo.output.Output_WriteOutputTab;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.logging.Log;
@@ -55,10 +63,11 @@ public class SimulationConfigurationFactory {
 	 * 
 	 * @param simName
 	 *            the name of the simulation
+	 * @throws DynamoConfigurationException 
 	 * 
 	 */
 
-	public SimulationConfigurationFactory(String simName) {
+	public SimulationConfigurationFactory(String simName) throws DynamoConfigurationException {
 
 		directoryName = BaseDirectory.getBaseDir() + File.separator  
 					+ "Simulations" + File.separator + simName;
@@ -80,7 +89,59 @@ public class SimulationConfigurationFactory {
 		// needed
 		newbornsFileName = directoryName + File.separator + "modelconfiguration"
 					+ File.separator+ "newborns.XML";
-		;
+	
+		
+		/* write a copy of the configuration file to the result
+		 * directory, adding the date and time
+		 */
+		String DATE_FORMAT_NOW = "yyyy_MMdd_HHmmss";
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+		String date=sdf.format(cal.getTime());
+		String configFileName= directoryName + File.separator + "configuration.XML";
+		File infile = new File(configFileName);
+		String outDirectoryName = directoryName + File.separator + "results";
+		File outDirectory = new File(outDirectoryName);
+		boolean isDirectory = outDirectory.isDirectory();
+		if (!isDirectory) 				
+			outDirectory.mkdirs();
+		
+		String logFileName= outDirectoryName
+		+ File.separator+ "runConfiguration_"+date+".XML";
+		File outfile = new File(logFileName); 
+		InputStream in;
+		try {
+			in = new FileInputStream(infile);
+		
+		OutputStream out = new FileOutputStream(outfile); 
+		
+
+	      byte[] buf = new byte[1024];
+	      int len;
+	      while ((len = in.read(buf)) > 0){
+	        out.write(buf, 0, len);
+	      }
+	      in.close();
+	      out.close();
+	      
+	    }
+	    catch(FileNotFoundException ex){
+	      log.fatal(ex.getMessage() + " file: "+configFileName);
+	      throw new DynamoConfigurationException(ex.getMessage() +  " file: "+configFileName);
+	      
+	    }
+	    catch(IOException e){
+	    	 throw new DynamoConfigurationException(e.getMessage() +  " file: "+configFileName);      
+	    }
+	  
+
+
+
+		
+		
+
+		 
+
 	}
 
 	// public void manufactureSimulationConfigurationFile(ModelParameters
