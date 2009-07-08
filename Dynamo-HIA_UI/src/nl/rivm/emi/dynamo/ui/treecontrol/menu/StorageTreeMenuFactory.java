@@ -46,6 +46,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -731,18 +732,20 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RelRiskFromDiseases(IMenuManager manager,
 			IStructuredSelection selection) {
+		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
 		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel());
+				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(), theValidator);
 		action.setText("New relative risks from other disease file");
 		manager.add(action);
 		// Testing
-		FreeNamePlusDropDownXMLFileAction action2 = new FreeNamePlusDropDownXMLFileAction(
-				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
-				null);
-		action2.setText("Testing new box");
-		manager.add(action2);
+//		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
+//		FreeNamePlusDropDownXMLFileAction action2 = new FreeNamePlusDropDownXMLFileAction(
+//				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+//				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
+//				theValidator);
+//		action2.setText("Testing new box");
+//		manager.add(action2);
 	}
 
 	/**
@@ -753,9 +756,10 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RelRiskFromRiskFactor(IMenuManager manager,
 			IStructuredSelection selection) {
+		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
 		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				null);
+				null,  theValidator);
 		action.setText("New relative risks from risk factor file");
 		manager.add(action);
 	}
