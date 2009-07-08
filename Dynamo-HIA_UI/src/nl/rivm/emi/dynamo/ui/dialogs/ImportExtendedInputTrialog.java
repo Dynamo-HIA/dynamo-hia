@@ -56,7 +56,7 @@ public class ImportExtendedInputTrialog extends Dialog {
     /**
      * The input value; the empty string by default.
      */
-    private String value = "";//$NON-NLS-1$
+    protected String fileNameBody = "";//$NON-NLS-1$
 
     /**
      * The input validator, or <code>null</code> if none.
@@ -76,7 +76,7 @@ public class ImportExtendedInputTrialog extends Dialog {
     /**
      * Input text widget.
      */
-    private Text text;
+    protected Text text;
 
     /**
      * Error message label widget.
@@ -107,9 +107,9 @@ public class ImportExtendedInputTrialog extends Dialog {
         this.title = dialogTitle;
         message = dialogMessage;
         if (initialValue == null) {
-			value = "";//$NON-NLS-1$
+			fileNameBody = "";//$NON-NLS-1$
 		} else {
-			value = initialValue;
+			fileNameBody = initialValue;
 		}
         this.validator = validator;
     }
@@ -117,13 +117,13 @@ public class ImportExtendedInputTrialog extends Dialog {
     @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
-            value = text.getText();
+            fileNameBody = text.getText();
             super.okPressed();
         } else if(buttonId == ImportExtendedInputTrialog.IMPORT_ID) {
-            value = text.getText();
+            fileNameBody = text.getText();
             this.importPressed();            
         } else {
-            value = null;
+            fileNameBody = null;
             super.cancelPressed();
         }
     }
@@ -148,8 +148,8 @@ public class ImportExtendedInputTrialog extends Dialog {
         //do this here because setting the text will set enablement on the ok
         // button
         text.setFocus();
-        if (value != null) {
-            text.setText(value);
+        if (fileNameBody != null) {
+            text.setText(fileNameBody);
             text.selectAll();
         }
     }    
@@ -250,15 +250,15 @@ public class ImportExtendedInputTrialog extends Dialog {
     }    
     
     public String getValue() {
-        return value;
+        return fileNameBody;
     }
     
 	protected int getInputTextStyle() {
 		return SWT.SINGLE | SWT.BORDER;
 	}
 
-	protected void setValue(String value) {
-		this.value = value;		
+	protected void setFileNameBody(String fileNameBody) {
+		this.fileNameBody = fileNameBody;		
 	}
     
 }
