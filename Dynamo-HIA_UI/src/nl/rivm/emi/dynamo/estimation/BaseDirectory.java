@@ -33,6 +33,8 @@ private static BaseDirectory instance=null;
 	synchronized static public BaseDirectory getInstance(String name) {
 		if (instance == null) {
 			instance = new BaseDirectory(name);
+		} else {
+			BaseDir = name;
 		}
 		return instance;
 	}
