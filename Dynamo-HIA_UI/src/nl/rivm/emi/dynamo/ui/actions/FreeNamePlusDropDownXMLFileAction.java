@@ -11,7 +11,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.dialogs.DropDownAndImportExtendedInputTrialog;
+import nl.rivm.emi.dynamo.ui.dialogs.DropDownAndImportExtendedInputDialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
@@ -69,7 +69,7 @@ public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 		String newPath = null;
 		// Call the input trialog modal here (trialog includes input field,
 		// import, ok and cancel buttons)
-		DropDownAndImportExtendedInputTrialog inputDialog = new DropDownAndImportExtendedInputTrialog(
+		DropDownAndImportExtendedInputDialog inputDialog = new DropDownAndImportExtendedInputDialog(
 				shell,node,
 				"Enter name for a new xml file", "Name", theValidator);
 		int openValue = inputDialog.open();
