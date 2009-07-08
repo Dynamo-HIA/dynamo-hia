@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.startup;
 
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.widgets.Display;
@@ -24,6 +26,7 @@ public class ApplicationWrapper {
 				baseDirectoryPath = baseDirectoryHandler
 						.provideBaseDirectory();
 				if(baseDirectoryPath != null){
+					BaseDirectory.getInstance(baseDirectoryPath);
 				application = new BaseStorageTreeScreen(baseDirectoryPath);
 				shell = application.open(display);
 				log.debug("test completed normally.");
