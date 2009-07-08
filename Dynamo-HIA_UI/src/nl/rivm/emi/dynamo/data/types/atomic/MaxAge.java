@@ -7,6 +7,6 @@ public class MaxAge extends AbstractAge implements PayloadType<Integer> {
 	static final protected String XMLElementName = "maxAge";
 
 	public MaxAge() {
-		super(XMLElementName, new Integer(1), AbstractAge.MAXAGE);
+		super(XMLElementName, new Integer(0), AbstractAge.MAXAGE);
 	}
 }
