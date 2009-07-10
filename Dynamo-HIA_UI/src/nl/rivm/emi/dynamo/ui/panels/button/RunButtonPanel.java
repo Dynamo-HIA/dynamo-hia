@@ -13,8 +13,9 @@ import org.eclipse.swt.widgets.Group;
 
 public class RunButtonPanel {
 
+	private final DataAndFileContainer modalParent;
 	Group group;
-	public Button runButton;
+	private Button runButton;
 	/**
 	 * Height of runbutton panel in pixels.
 	 */
@@ -24,24 +25,28 @@ public class RunButtonPanel {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
+		modalParent = theModal;
 		runButton = putRunButton(group);
-		setModalParent(theModal);
+		runButton.addSelectionListener(new RunSelectionListener(theModal));
 	}
 
-	public void setModalParent(DataAndFileContainer theModalParent) {
-		runButton
-				.addSelectionListener(new RunSelectionListener(theModalParent));
-	}
-
-	static private Button putRunButton(Composite parent) {
+	private Button putRunButton(Composite parent) {
 		FormData formData = new FormData();
 		Button runButton = new Button(parent, SWT.PUSH);
 		runButton.setText("Run");
+		// Subscribe for changed-callbacks.
+		modalParent.setRunButtonPanel(this);
+		// And initialize the initial state.
+		runButton.setEnabled(!modalParent.isChanged());
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 100);
-		formData.bottom = new FormAttachment(100, /*-200 */ -5);
+		formData.bottom = new FormAttachment(100, /*-200 */-5);
 		runButton.setLayoutData(formData);
 		return runButton;
+	}
+	
+	public void enableButton(boolean doIt){
+		runButton.setEnabled(doIt);
 	}
 
 	/**
@@ -52,7 +57,7 @@ public class RunButtonPanel {
 	 */
 	public void putLastInContainer(Composite topNeighbour) {
 		FormData formData = new FormData();
-//		formData.top = new FormAttachment(topNeighbour, 5);
+		// formData.top = new FormAttachment(topNeighbour, 5);
 		formData.top = new FormAttachment(100, -(5 + height));
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);

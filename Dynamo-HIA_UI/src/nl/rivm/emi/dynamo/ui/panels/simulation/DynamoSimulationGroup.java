@@ -45,16 +45,11 @@ public class DynamoSimulationGroup {
 		DynamoSimulationParameterGroup parameterGroup = new DynamoSimulationParameterGroup(
 				theGroup, dynamoSimulationObject, dataBindingContext, 
 				selectedNode, helpGroup);
-		parameterGroup.putFirstInContainer(550);
+		parameterGroup.putFirstInContainer(450);  // 20090709 Original 550.
 		
 		// The third panel that contains the Run button
 		this.runButtonGroup = 
 			new RunButtonPanel(this.theGroup, simulationModal);
-		if (!configurationFileExists) {
-			this.runButtonGroup.runButton.setVisible(false);
-		} else {
-			this.runButtonGroup.runButton.setVisible(true);	
-		}	
 		this.runButtonGroup.putLastInContainer(parameterGroup.group);
 	}
 

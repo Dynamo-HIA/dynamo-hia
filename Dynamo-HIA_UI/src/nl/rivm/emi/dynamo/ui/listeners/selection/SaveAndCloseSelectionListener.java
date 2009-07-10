@@ -13,6 +13,7 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.ISanityCheck;
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
@@ -35,8 +36,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
-public class SaveAndCloseSelectionListener extends AbstractLoggingClass implements
-		SelectionListener {
+public class SaveAndCloseSelectionListener extends AbstractLoggingClass
+		implements SelectionListener {
 	DataAndFileContainer modalParent;
 
 	public SaveAndCloseSelectionListener(DataAndFileContainer modalParent) {
@@ -75,6 +76,12 @@ public class SaveAndCloseSelectionListener extends AbstractLoggingClass implemen
 				if (modelObject instanceof TypedHashMap) {
 					FileControlEnum fileControl = FileControlSingleton
 							.getInstance().get(rootElementName);
+					if(modelObject instanceof ISanityCheck){
+						((ISanityCheck)modelObject).dataChecksOut();
+						MessageBox messageBox = new MessageBox(modalParent.getShell(), SWT.OK);
+						messageBox.setMessage(((ISanityCheck)modelObject).getCheckList());
+						messageBox.open();
+					}
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 							(TypedHashMap) modelObject, configurationFile);
 					if (postProcessorSelectionListener != null) {
@@ -123,12 +130,6 @@ public class SaveAndCloseSelectionListener extends AbstractLoggingClass implemen
 						if (postProcessorSelectionListener != null) {
 							doSave = postProcessorSelectionListener.doIt();
 						}
-
-						if (modelObject instanceof DynamoSimulationObject) {
-							((SimulationModal) modalParent).getRunButtonGroup().runButton
-									.setVisible(true);
-						}
-
 					} else {
 						throw new DynamoConfigurationException(
 								"SaveSelectionListener - Unsupported modelObjectType: "

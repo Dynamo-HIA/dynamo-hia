@@ -176,6 +176,7 @@ public class SimulationUniversalAction extends ActionBase {
 			messageBox.setText("Success");
 			messageBox.setMessage(candidateSimulationName
 					+ "\nhas been created.");
+//			messageBox.open();
 			DirectoryNode newSimulationDirectoryNode = new DirectoryNode(
 					simulationsNode, candidateDirectory);
 			simulationsNode.addChild(newSimulationDirectoryNode);
@@ -187,6 +188,7 @@ public class SimulationUniversalAction extends ActionBase {
 			messageBox.setText("Software error!");
 			messageBox.setMessage(candidateSimulationName
 					+ "\ncould not be created.");
+			messageBox.open();
 			return null;
 		}
 	}

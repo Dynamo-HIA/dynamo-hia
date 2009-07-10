@@ -32,8 +32,11 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 				File[] childFiles = physicalStorage.listFiles();
 				for (File childFile : childFiles) {
 					if (childFile.isDirectory()) {
-						children.add(new DirectoryNode(this, childFile));
-					} else {
+						DirectoryNode newChildNode = new DirectoryNode(this, childFile);
+						if (NodeFilter.putInTreeButSuppressLargeFiles(newChildNode)) {
+						children.add(newChildNode);
+						}
+						} else {
 						FileNode newChildNode = new FileNode(this, childFile);
 						if (NodeFilter.putInTreeButSuppressLargeFiles(newChildNode)) {
 							children.add(newChildNode);

@@ -11,6 +11,7 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.button.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -39,6 +40,11 @@ abstract public class DataAndFileContainer {
 	protected DataBindingContext dataBindingContext = null;
 
 	private boolean changed = false;
+	private RunButtonPanel runButtonPanel = null;
+
+	public void setRunButtonPanel(RunButtonPanel runButtonPanel) {
+		this.runButtonPanel = runButtonPanel;
+	}
 
 	public DataAndFileContainer(String rootElementName, String dataFilePath,
 			String configurationFilePath/*
@@ -57,13 +63,14 @@ abstract public class DataAndFileContainer {
 			File configurationFile = new File(configurationFilePath);
 			if (configurationFile.exists()) {
 				// Editing an existing file.
+				setChanged(false);
 			} else {
 				// New file.
-				changed = true;
+				setChanged(true);
 			}
 		} else {
 			// Imported file.
-			changed = true;
+			setChanged(true);
 		}
 	}
 
@@ -95,6 +102,10 @@ abstract public class DataAndFileContainer {
 	 * Signal the data handled by this Object has changed at least once.
 	 */
 	public void setChanged(boolean changed) {
+		// Callback to only enable the run-button when the configuration has been saved.
+		if ((changed != this.changed)&&(runButtonPanel != null)) {
+			runButtonPanel.enableButton(!changed);
+		}
 		this.changed = changed;
 	}
 

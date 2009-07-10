@@ -13,7 +13,7 @@ import javax.xml.stream.XMLStreamException;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
+import nl.rivm.emi.dynamo.data.objects.ISanityCheck;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
@@ -24,11 +24,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
-import nl.rivm.emi.dynamo.ui.main.SimulationModal;
-import nl.rivm.emi.dynamo.ui.panels.NewbornsDialog;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -75,6 +71,12 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 				if (modelObject instanceof TypedHashMap) {
 					FileControlEnum fileControl = FileControlSingleton
 							.getInstance().get(rootElementName);
+					if(modelObject instanceof ISanityCheck){
+						((ISanityCheck)modelObject).dataChecksOut();
+						MessageBox messageBox = new MessageBox(modalParent.getShell(), SWT.OK);
+						messageBox.setMessage(((ISanityCheck)modelObject).getCheckList());
+						messageBox.open();
+					}
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 							(TypedHashMap) modelObject, configurationFile);
 					if (postProcessorSelectionListener != null) {
@@ -97,7 +99,6 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 											"The Relative Risk field"
 													+ "is empty of Relative Risks is empty");
 								}
-
 								Map secondMap = ((DynamoSimulationObject) modelObject)
 										.getRelativeRiskConfigurations();
 								Set<Integer> secondKeys = secondMap.keySet();
@@ -123,12 +124,6 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						if (postProcessorSelectionListener != null) {
 							doSave = postProcessorSelectionListener.doIt();
 						}
-
-						if (modelObject instanceof DynamoSimulationObject) {
-							((SimulationModal) modalParent).getRunButtonGroup().runButton
-									.setVisible(true);
-						}
-
 					} else {
 						throw new DynamoConfigurationException(
 								"SaveSelectionListener - Unsupported modelObjectType: "

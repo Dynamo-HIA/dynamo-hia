@@ -17,45 +17,67 @@ public class NodeFilter {
 	static Pattern matchPattern = Pattern.compile("^.*\\.xml$");
 	static RootElementNamesSingleton singleton = RootElementNamesSingleton
 			.getInstance();
-	static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter");
+	static Log log = LogFactory
+			.getLog("nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter");
 
 	static public boolean putInTreeButSuppressLargeFiles(Object element) {
 		boolean putInTree = false;
 		try {
+			File fysicalStorage = ((BaseNode) element).getPhysicalStorage();
+			String name = fysicalStorage.getName();
+			log.debug("Called for " + element.getClass().getSimpleName() + "  and name " + name);
 			if (element instanceof DirectoryNode) {
-				log.debug("Called for DirectoryNode: "
-						+ ((BaseNode) element).deriveNodeLabel());
-				putInTree = true;
+				log.debug("DIR::: Called for DirectoryNode: " + name);
+				if (!".".equals(name.substring(0, 1))) {
+					putInTree = true;
+				} else {
+					log.debug(">>>>> " + name + " suppressed.");
+				}
 			} else {
 				if (element instanceof FileNode) {
-//					log.debug("Called for FileNode: "
-//							+ ((BaseNode) element).deriveNodeLabel());
+					// log.debug("Called for FileNode: "
+					// + ((BaseNode) element).deriveNodeLabel());
 					FileNode theNode = (FileNode) element;
 					File physicalStorage = theNode.physicalStorage;
-//					log.debug("File size: " + physicalStorage.length());
+					// log.debug("File size: " + physicalStorage.length());
 					String fileName = physicalStorage.getName();
 					if (hasXMLExtension(fileName)) {
-						if(physicalStorage.length() < 1000000L){
-						String rootElementName = ConfigurationFileUtil
-								.justExtractRootElementName(physicalStorage);
-						//20090629 Made case-insensitive to match XML-schema testing.
-						RootElementNamesEnum renEnum = singleton
-								.get(rootElementName.toLowerCase());
-						if (renEnum != null) {
-							boolean locationOK = renEnum.isLocationOK(theNode);
-							if (locationOK) {
-								putInTree = true;
+						if (physicalStorage.length() < 1000000L) {
+							String rootElementName = ConfigurationFileUtil
+									.justExtractRootElementName(physicalStorage);
+							// 20090629 Made case-insensitive to match
+							// XML-schema testing.
+							RootElementNamesEnum renEnum = singleton
+									.get(rootElementName.toLowerCase());
+							if (renEnum != null) {
+								boolean locationOK = renEnum
+										.isLocationOK(theNode);
+								if (locationOK) {
+									putInTree = true;
+								} else {
+									log
+											.info("File \""
+													+ ((FileNode) element).physicalStorage
+													+ "\" suppressed: Location in tree found wrong.");
+								}
 							} else {
-								log.info("File \"" + ((FileNode)element).physicalStorage + "\" suppressed: Location in tree found wrong.");
+								log.info("File \""
+										+ ((FileNode) element).physicalStorage
+										+ "\" suppressed: RootElementName: \""
+										+ rootElementName + "\" found wrong.");
 							}
 						} else {
-							log.info("File \"" + ((FileNode)element).physicalStorage + "\" suppressed: RootElementName: \"" + rootElementName + "\" found wrong.");
-}
-						} else {
-							log.info("File \"" + ((FileNode)element).physicalStorage + "\" suppressed: Size: \"" + physicalStorage.length() + "\" larger than current test can endure.");
+							log
+									.info("File \""
+											+ ((FileNode) element).physicalStorage
+											+ "\" suppressed: Size: \""
+											+ physicalStorage.length()
+											+ "\" larger than current test can endure.");
 						}
-						} else {
-							log.info("File \"" + ((FileNode)element).physicalStorage + "\"suppressed: Has no XML extension.");
+					} else {
+						log.info("File \""
+								+ ((FileNode) element).physicalStorage
+								+ "\"suppressed: Has no XML extension.");
 					}
 				} else {
 					log.error("Called for something else: " + element);

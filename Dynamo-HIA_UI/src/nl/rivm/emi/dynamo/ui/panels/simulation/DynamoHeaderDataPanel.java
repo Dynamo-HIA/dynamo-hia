@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
 import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
@@ -104,100 +105,99 @@ public class DynamoHeaderDataPanel extends Composite {
 		this.theHelpGroup = helpGroup;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		try {
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 4;
-		layout.makeColumnsEqualWidth = /* false */true;
-		setLayout(layout);
+			GridLayout layout = new GridLayout();
+			layout.numColumns = 4;
+			layout.makeColumnsEqualWidth = /* false */true;
+			setLayout(layout);
 
-		// Follow the reading order (columns first)
-		Label nameLabel = new Label(this, SWT.NONE);
-		// Get the name value from the file node (i.e. parent)
-		nameLabel.setText(NAME + ":");
-		Label nameStringLabel = new Label(this, SWT.NONE);
-		GridData ld = new GridData();
-		ld.horizontalSpan = 3;
-		nameStringLabel.setLayoutData(ld);
-		// Get the name value from the file node (i.e. parent)
-		String[] entityArray = Util
-				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		nameStringLabel.setText(entityArray[1]);
+			// Follow the reading order (columns first)
+			Label nameLabel = new Label(this, SWT.NONE);
+			// Get the name value from the file node (i.e. parent)
+			nameLabel.setText(NAME + ":");
+			Label nameStringLabel = new Label(this, SWT.NONE);
+			GridData ld = new GridData();
+			ld.horizontalSpan = 3;
+			nameStringLabel.setLayoutData(ld);
+			// Get the name value from the file node (i.e. parent)
+			String[] entityArray = Util
+					.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+			nameStringLabel.setText(entityArray[1]);
 
-		TreeAsDropdownLists treeLists = TreeAsDropdownLists
-				.getInstance(selectedNode);
-		DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
-		contentsSet.addAll(treeLists.getPopulations());
-		log.debug("contentsSet" + contentsSet);
+			TreeAsDropdownLists treeLists = TreeAsDropdownLists
+					.getInstance(selectedNode);
+			DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
+			contentsSet.addAll(treeLists.getPopulations());
+			log.debug("contentsSet" + contentsSet);
 
-		Label label = new Label(this, SWT.NONE);
-		label.setText(POP_FILE_NAME + ":");
+			Label label = new Label(this, SWT.NONE);
+			label.setText(POP_FILE_NAME + ":");
 
-		WritableValue observablePopFileName = dynamoSimulationObject
-				.getObservablePopulationFileName();
-		PopFileNameDropDownPanel populationFileNameDropDownPanel;
-		
+			WritableValue observablePopFileName = dynamoSimulationObject
+					.getObservablePopulationFileName();
+			PopFileNameDropDownPanel populationFileNameDropDownPanel;
+
 			try {
 				populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
 						this, observablePopFileName, dynamoTabDataManager
-								.getDropDownSet(POP_FILE_NAME, null));
-			
-			this.dropDownModifyListener = populationFileNameDropDownPanel
-			.getPopulationFileNameComboModifyListener();
+								.getDropDownSet(POP_FILE_NAME, null), helpGroup);
+
+				this.dropDownModifyListener = populationFileNameDropDownPanel
+						.getPopulationFileNameComboModifyListener();
 
 			} catch (DynamoNoValidDataException e) {
-				throw new  ConfigurationException(e.getMessage());				
+				throw new ConfigurationException(e.getMessage());
 			}
-		
-		String labelValue = SIM_POP_SIZE;
-		WritableValue observable = dynamoSimulationObject
-				.getObservableSimPopSize();
-		bindHeaderValue(observable, labelValue, new SimPopSize());
 
-		labelValue = HAS_NEW_BORNS;
-		observable = dynamoSimulationObject.getObservableHasNewborns();
-		bindHeaderValue(observable, labelValue, new HasNewborns());
+			String labelValue = SIM_POP_SIZE;
+			WritableValue observable = dynamoSimulationObject
+					.getObservableSimPopSize();
+			bindHeaderValue(observable, labelValue, new SimPopSize());
 
-		Label spaceLabel = new Label(this, SWT.NONE);
-		GridData spaceLabelData = new GridData();
-		spaceLabelData.horizontalSpan = 2;
-		spaceLabel.setLayoutData(spaceLabelData);
+			labelValue = HAS_NEW_BORNS;
+			observable = dynamoSimulationObject.getObservableHasNewborns();
+			bindHeaderValue(observable, labelValue, new HasNewborns());
 
-		labelValue = STARTING_YEAR;
-		observable = dynamoSimulationObject.getObservableStartingYear();
-		bindHeaderValue(observable, labelValue, new StartingYear());
+			Label spaceLabel = new Label(this, SWT.NONE);
+			GridData spaceLabelData = new GridData();
+			spaceLabelData.horizontalSpan = 2;
+			spaceLabel.setLayoutData(spaceLabelData);
 
-		labelValue = NUMBER_OF_YEARS;
-		observable = dynamoSimulationObject.getObservableNumberOfYears();
-		bindHeaderValue(observable, labelValue, new NumberOfYears());
+			labelValue = STARTING_YEAR;
+			observable = dynamoSimulationObject.getObservableStartingYear();
+			bindHeaderValue(observable, labelValue, new StartingYear());
 
-		labelValue = MINIMUM_AGE;
-		observable = dynamoSimulationObject.getObservableMinAge();
-		bindHeaderValue(observable, labelValue, new MinAge());
+			labelValue = NUMBER_OF_YEARS;
+			observable = dynamoSimulationObject.getObservableNumberOfYears();
+			bindHeaderValue(observable, labelValue, new NumberOfYears());
 
-		labelValue = MAXIMUM_AGE;
-		observable = dynamoSimulationObject.getObservableMaxAge();
-		bindHeaderValue(observable, labelValue, new MaxAge());
+			labelValue = MINIMUM_AGE;
+			observable = dynamoSimulationObject.getObservableMinAge();
+			bindHeaderValue(observable, labelValue, new MinAge());
 
-		labelValue = CALC_TIME_STEP;
-		observable = dynamoSimulationObject.getObservableTimeStep();
-//		bindHeaderValue(observable, labelValue, new TimeStep());
-		calcTimeStepDummy(observable, labelValue, new TimeStep());
+			labelValue = MAXIMUM_AGE;
+			observable = dynamoSimulationObject.getObservableMaxAge();
+			bindHeaderValue(observable, labelValue, new MaxAge());
 
-		labelValue = RAND_SEED;
-		observable = dynamoSimulationObject.getObservableRandomSeed();
-		bindHeaderValue(observable, labelValue, new RandomSeed());
+			labelValue = CALC_TIME_STEP;
+			observable = dynamoSimulationObject.getObservableTimeStep();
+			// bindHeaderValue(observable, labelValue, new TimeStep());
+			calcTimeStepDummy(observable, labelValue, new TimeStep());
+
+			labelValue = RAND_SEED;
+			observable = dynamoSimulationObject.getObservableRandomSeed();
+			bindHeaderValue(observable, labelValue, new RandomSeed());
 		} catch (NoMoreDataException e) {
-			Shell messageShell=new Shell(parent.getDisplay());
-			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
-			messageBox.setMessage("no valid population data"+
-					"/n no configuration can be made");
-				
-			
+			Shell messageShell = new Shell(parent.getDisplay());
+			MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
+			messageBox.setMessage("no valid population data"
+					+ "/n no configuration can be made");
+
 			if (messageBox.open() == SWT.OK) {
 				messageShell.dispose();
 			}
 
 			messageShell.open();
-			
+
 		}
 	}
 
@@ -228,12 +228,13 @@ public class DynamoHeaderDataPanel extends Composite {
 			bindAbstractFileName(observable, myType);
 		}
 	}
+
 	private void calcTimeStepDummy(WritableValue observable, String labelValue,
 			AtomicTypeBase myType) {
-			Label label = new Label(this, SWT.NONE);
-			label.setText(labelValue + ": ");
-			Label valueLabel = new Label(this, SWT.NONE);
-			valueLabel.setText(" 1 ");
+		Label label = new Label(this, SWT.NONE);
+		label.setText(labelValue + ": ");
+		Label valueLabel = new Label(this, SWT.NONE);
+		valueLabel.setText(" 1 ");
 	}
 
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
@@ -241,20 +242,23 @@ public class DynamoHeaderDataPanel extends Composite {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(layoutData);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(
+				theHelpGroup.getTheModal(), myType));
 	}
 
 	protected void bindAbstractValue(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup
+				.getTheModal(), myType));
 	}
 
 	// Binds values that are subclass types of AbstractString
 	protected void bindAbstractString(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractStringVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractStringVerifyListener(theHelpGroup
+				.getTheModal(), myType));
 	}
 
 	// Binds values that are subclass types of AbstractBoolean
@@ -268,7 +272,8 @@ public class DynamoHeaderDataPanel extends Composite {
 	protected void bindAbstractFileName(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractFileNameVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractFileNameVerifyListener(theHelpGroup
+				.getTheModal(), myType));
 	}
 
 	// Year is already covered by AbstractRangedInteger
@@ -321,11 +326,14 @@ public class DynamoHeaderDataPanel extends Composite {
 		radioButtonsContainer.setLayout(rbContainerLayout);
 
 		// Set the selection
-		Object value= observableObject.doGetValue();
-		log.debug("Got value from observableObject, type: " + value.getClass().getName() + " value: " + value);
+		Object value = observableObject.doGetValue();
+		log.debug("Got value from observableObject, type: "
+				+ value.getClass().getName() + " value: " + value);
 		Boolean initialValue = (Boolean) observableObject.doGetValue();
 		// Create the radio buttons
-		this.getPutAndRigBinaryRadioButtons(radioButtonsContainer, initialValue);
+		this
+				.getPutAndRigBinaryRadioButtons(radioButtonsContainer,
+						initialValue);
 
 		// Add the helpgroups
 		FocusListener focusListener = new TypedFocusListener(myType,
@@ -370,8 +378,8 @@ public class DynamoHeaderDataPanel extends Composite {
 		radioButtonsContainer.update();
 	}
 
-
-	public void getPutAndRigBinaryRadioButtons(Composite radioButtonsContainer, Boolean initialValue) {
+	public void getPutAndRigBinaryRadioButtons(Composite radioButtonsContainer,
+			Boolean initialValue) {
 		radioButtons[0] = new Button(radioButtonsContainer, SWT.RADIO);
 		radioButtons[0].setText("Yes");
 		radioButtons[0].setSelection(initialValue);
@@ -407,7 +415,7 @@ public class DynamoHeaderDataPanel extends Composite {
 			}
 		});
 	}
-	
+
 	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
 			DynamoTabDataManager dynamoTabDataManager)
@@ -428,9 +436,12 @@ public class DynamoHeaderDataPanel extends Composite {
 		private int selectedIndex;
 
 		public PopFileNameDropDownPanel(Composite parent,
-				WritableValue writableValue, DropDownPropertiesSet theSet) {
+				WritableValue writableValue, DropDownPropertiesSet theSet, HelpGroup theHelpGroup) {
 			selectablePopulationFileNamePropertiesSet = theSet;
+			this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;
 			dropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+			dropDown.addFocusListener(new TypedFocusListener(
+					XMLTagEntityEnum.POPFILENAME.getTheType(), theHelpGroup));
 			GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
 			dropDown.setLayoutData(dropDownGridData);
 			this.fill(selectablePopulationFileNamePropertiesSet);
