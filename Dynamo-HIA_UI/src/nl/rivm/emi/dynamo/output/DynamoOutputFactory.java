@@ -564,8 +564,8 @@ public class DynamoOutputFactory {
 		 * more difficult for now we suppose we have enough room for doing it
 		 * this way
 		 */
-		this.pDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][this.nDim][2];
-		this.nDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][this.nDim][2];
+		this.pDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][96 + this.stepsInRun][2];
+		this.nDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][96 + this.stepsInRun][2];
 		this.pDiseaseStateByOriRiskClassByAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
 		this.nDiseaseStateByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
 	}
@@ -803,12 +803,12 @@ public class DynamoOutputFactory {
 
 						if (stepCount == 0 && this.riskType != 2) {
 							if (ageIndex > 100)
-								log.fatal(stepCount + " " + riskFactor + " "
+								log.debug(stepCount + " " + riskFactor + " "
 										+ ageIndex + " " + sexIndex);
 						}
 						/* is start year for this individual */
-						if ((stepCount == 0 || ageIndex == 0)
-								&& this.riskType != 2)
+						if ((stepCount == 0 || ageIndex == 0) && this.riskType != 2
+								)
 							weightOfIndividual = weight[riskFactor][ageIndex][sexIndex];
 
 						if ((stepCount == 0 || ageIndex == 0)

@@ -32,11 +32,11 @@ public class ErrorMessageWindow {
 						+ " Message given: " + e.getMessage()
 						+ ". ");
 		e.printStackTrace();
-		if (messageBox.open() == SWT.OK) {
+	if (messageBox.open() == SWT.OK) {
 			shell.dispose();
 		}
 
-		shell.open();
+		messageBox.open();
 
 	}
 
@@ -58,7 +58,7 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		shell.open();
+		messageBox.open();
 
 	}
 
@@ -79,7 +79,7 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		shell.open();
+		messageBox.open();
 	
 	}
 
@@ -98,6 +98,6 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		shell.open();
+		messageBox.open();
 	}
 }
