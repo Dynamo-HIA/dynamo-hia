@@ -94,7 +94,15 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	public DynamoSimulationRunnable(Shell parentShell, String simName,
 			String baseDir) {
 		super();
-		configureSimulation(simName, baseDir);
+		try {
+			configureSimulation(simName, baseDir);
+		} catch (DynamoConfigurationException e) {
+			displayErrorMessage(e, simName);
+			e.printStackTrace();
+		} catch (DynamoInconsistentDataException e) {
+			displayErrorMessage(e, simName);
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -110,10 +118,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	/**
 	 * @param simName2
 	 *            , String baseDir
+	 * @throws DynamoInconsistentDataException 
+	 * @throws DynamoConfigurationException 
 	 * 
 	 * 
 	 */
-	private void configureSimulation(String simName, String baseDir) {
+	private void configureSimulation(String simName, String baseDir) throws DynamoConfigurationException, DynamoInconsistentDataException {
 
 		/*
 		 * make an instance of the basedirectory object that is a singleton
@@ -148,9 +158,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		// to
 		// add
 		p = new ModelParameters(this.baseDir);
-		try {
+//		try {
 			scen = p.estimateModelParameters(this.simName, this.parentShell);					
-		} catch (DynamoConfigurationException e3) {
+/*		} catch (DynamoConfigurationException e3) {
 			displayErrorMessage(e3, null);
 		//	log.fatal(e3.getMessage());
 			e3.printStackTrace();
@@ -159,7 +169,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		//	log.fatal(e.getMessage());
 			displayInconsistentDataMessage(e);
 			e.printStackTrace();
-		}
+		}*/
 		// " .XML";
 		
 	}
