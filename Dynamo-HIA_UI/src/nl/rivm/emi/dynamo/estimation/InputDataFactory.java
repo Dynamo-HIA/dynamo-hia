@@ -332,8 +332,8 @@ public class InputDataFactory {
 				|| yesno.compareToIgnoreCase("n") == 0
 				|| yesno.compareToIgnoreCase("false") == 0
 				|| yesno.compareToIgnoreCase("f") == 0
-				
-				)
+
+		)
 			newborn = false;
 		else
 			newborn = true;
@@ -353,8 +353,10 @@ public class InputDataFactory {
 		 * estimation. however, to be save we put it in the scenario object, as
 		 * this is also availlable in the postprocessing stage
 		 */
-		if (minAge>maxAge) throw new DynamoConfigurationException(" the minimum age "+minAge+" for simulation" +
-				" is larger than the maximum age of "+maxAge+"\nPlease change these values"  );
+		if (minAge > maxAge)
+			throw new DynamoConfigurationException(" the minimum age " + minAge
+					+ " for simulation" + " is larger than the maximum age of "
+					+ maxAge + "\nPlease change these values");
 
 		if (timeStep != 1)
 			this.log.fatal("timestep given in configuration is " + timeStep
@@ -1201,13 +1203,13 @@ public class InputDataFactory {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
 					// TODO: Reactivate code below for version 1.1
-				//	ErrorMessageUtil
-				//			.handleErrorMessage(
-				//					this.log,
-				//					"The component Riskfactor Continuous has not yet been implemented",
-				//					new DynamoConfigurationException(
-				//							"The component Riskfactor Compound has not yet been implemented"),
-				//					configFileName);
+					// ErrorMessageUtil
+					// .handleErrorMessage(
+					// this.log,
+					// "The component Riskfactor Continuous has not yet been implemented",
+					// new DynamoConfigurationException(
+					// "The component Riskfactor Compound has not yet been implemented"),
+					// configFileName);
 					// TODO: Reactivate code below for version 1.1
 					this.riskFactorType = 3;
 				} else
@@ -1317,6 +1319,45 @@ public class InputDataFactory {
 				}
 
 			}
+		} else {
+			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+					.getChildren();
+
+			for (ConfigurationNode rootChild : rootChildren) {
+				// level: classes
+				if (rootChild.getName() == "cutoffs") {
+					int currentClass = 0;
+					List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+							.getChildren();// level: class
+					scenarioInfo.setRiskClassnames(new String[leafChildren
+							.size()]);
+					int[] index = new int[leafChildren.size()];
+					int[] index2 = new int[leafChildren.size()];
+					float[] cutoffs = new float[leafChildren.size()];
+
+					for (ConfigurationNode leafChild : leafChildren) {
+						List<ConfigurationNode> elements = (List<ConfigurationNode>) leafChild
+								.getChildren();
+						for (ConfigurationNode element : elements) {
+							if (element.getName() == "flexdex")
+								index[currentClass] = getInteger(element,
+										"flexdex");
+							index2[currentClass] = index[currentClass]; // make
+							// copy
+							// to
+							// sort
+							// later
+							if (element.getName() == "value")
+								cutoffs[currentClass] = getFloat(element,
+										"value");
+						}// end class
+						currentClass++;
+					}
+					scenarioInfo.setCutoffs(cutoffs);
+
+				}
+			}
+
 		}
 		//
 		/* read transition information */
@@ -1932,7 +1973,7 @@ public class InputDataFactory {
 
 			// count clusters and make index;
 			int clusterIndex[] = new int[nDiseases]; // clusterIndex gives for
-														// each
+			// each
 			// disease the number of the
 			// cluster it belongs too;
 
@@ -2326,7 +2367,7 @@ public class InputDataFactory {
 								}
 							}// end loop over rr's
 						} // end loop over diseases within cluster and entering
-							// data
+						// data
 
 					}// end loop over age and sex
 				/* add clusterdata to inputData */
@@ -2435,67 +2476,87 @@ public class InputDataFactory {
 
 		if (((XMLConfiguration) config).getRootElementName() == "newborns") {
 			if (scenInfo != null) {
-				this.log.debug("config.getFloat(sexratio)"
-						+ config.getFloat("sexratio"));
-				scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
-				scenInfo.setNewbornStartYear(config.getInt("startingYear"));
 
-				ConfigurationNode rootNode = config.getRootNode();
+				try {
 
-				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
-						.getChildren();
+					this.log.debug("config.getFloat(sexratio)"
+							+ config.getFloat("sexratio"));
+					scenInfo.setMaleFemaleRatio(config.getFloat("sexratio"));
+					scenInfo.setNewbornStartYear(config.getInt("startingYear"));
 
-				for (ConfigurationNode rootChild : rootChildren) {
-					if (rootChild.getName() != "amounts"
-							&& rootChild.getName() != "sexratio"
-							&& rootChild.getName() != "startingYear")
-						throw new DynamoConfigurationException(
-								" Tagname "
-										+ "amounts or sexratio or startingyear  expected in file "
-										+ configFileName + " but found tag "
-										+ rootChild.getName());
+					ConfigurationNode rootNode = config.getRootNode();
 
-					if (rootChild.getName() == "amounts") {
-						List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
-								.getChildren();
-						for (ConfigurationNode leafChild : leafChildren) {
-							Object valueObject = leafChild.getValue();
-							String leafName = leafChild.getName();
-							if (valueObject instanceof String) {
-								String valueString = (String) valueObject;
-								if ("year".equalsIgnoreCase(leafName)) {
+					List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+							.getChildren();
 
-									year[currentChild] = getIntegerValue(
-											valueString, "year");
+					for (ConfigurationNode rootChild : rootChildren) {
+						if (rootChild.getName() != "amounts"
+								&& rootChild.getName() != "sexratio"
+								&& rootChild.getName() != "startingYear")
+							throw new DynamoConfigurationException(
+									" Tagname "
+											+ "amounts or sexratio or startingyear  expected in file "
+											+ configFileName
+											+ " but found tag "
+											+ rootChild.getName());
 
-									if (currentChild > 0
-											&& year[currentChild] != year[currentChild - 1] + 1)
-										throw new DynamoInconsistentDataException(
-												" years in file with newborns"
-														+ " have a gap between year "
-														+ year[currentChild - 1]
-														+ " and "
-														+ year[currentChild]
-														+ " this is not allowed");
+						if (rootChild.getName() == "amounts") {
+							List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
+									.getChildren();
+							for (ConfigurationNode leafChild : leafChildren) {
+								List<ConfigurationNode> leafChildElements = (List<ConfigurationNode>) leafChild
+										.getChildren();
+
+								for (ConfigurationNode leafElement : leafChildElements) {
+									Object valueObject = leafElement.getValue();
+									String leafName = leafElement.getName();
+									if (valueObject instanceof String) {
+										String valueString = (String) valueObject;
+										if ("year".equalsIgnoreCase(leafName)) {
+
+											year[currentChild] = getIntegerValue(
+													valueString, "year");
+
+											if (currentChild > 0
+													&& year[currentChild] != year[currentChild - 1] + 1)
+												throw new DynamoInconsistentDataException(
+														" years in file with newborns"
+																+ " have a gap between year "
+																+ year[currentChild - 1]
+																+ " and "
+																+ year[currentChild]
+																+ " this is not allowed");
+										}
+										if ("number".equalsIgnoreCase(leafName)) {
+
+											number[currentChild] = getIntegerValue(
+													valueString, "number");
+											// TODO checken data completeness
+
+										}
+									}
+
 								}
-								if ("number".equalsIgnoreCase(leafName)) {
-
-									number[currentChild] = getIntegerValue(
-											valueString, "number");
-									// TODO checken data completeness
-
-								}
+								currentChild++;
 							}
-
 						}
-						currentChild++;
 					}
+
+					/* ready with reading, now make arrays to store */
+
+					;
+
+				} catch (Exception e) {
+					String dynamoErrorMessage = "Reading error encountered when reading file: "
+							+ configFileName
+							+ " with message: "
+							+ e.getMessage();
+					ErrorMessageUtil.handleErrorMessage(this.log,
+							dynamoErrorMessage, e, configFileName);
+
 				}
-
-				/* ready with reading, now make arrays to store */
-
-				;
 			}
+
 		} else
 			throw new DynamoConfigurationException(
 					"label newborns expected but found label: "

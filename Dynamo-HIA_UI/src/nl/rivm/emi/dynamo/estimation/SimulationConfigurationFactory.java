@@ -88,7 +88,7 @@ public class SimulationConfigurationFactory {
 		// are
 		// needed
 		newbornsFileName = directoryName + File.separator + "modelconfiguration"
-					+ File.separator+ "newborns.XML";
+					+ File.separator+ "newborns";
 	
 		
 		/* write a copy of the configuration file to the result
@@ -836,10 +836,10 @@ public class SimulationConfigurationFactory {
 				writeFinalElementToDom(rootElement, "pop", popFileName + ".xml");
 			if (scenInfo.isWithNewBorns()) {
 				if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
-					writeFinalElementToDom(rootElement, "pop", newbornsFileName
+					writeFinalElementToDom(rootElement, "newborns", newbornsFileName
 							+ "_scen_" + scen + ".xml");
 				else
-					writeFinalElementToDom(rootElement, "pop", newbornsFileName
+					writeFinalElementToDom(rootElement, "newborns", newbornsFileName
 							+ ".xml");
 			}
 			int riskType = parameters.getRiskType();

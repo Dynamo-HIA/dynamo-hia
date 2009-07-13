@@ -689,6 +689,7 @@ return returnarray;
 		return transType;
 	}
 	public void setTransType(int transType) {
+		
 		this.transType = transType;
 	}
 	
