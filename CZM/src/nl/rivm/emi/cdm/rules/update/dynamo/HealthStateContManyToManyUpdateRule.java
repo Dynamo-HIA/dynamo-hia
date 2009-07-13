@@ -146,12 +146,12 @@ extends HealthStateManyToManyUpdateRule {
 				double incidence;
 				double incidence2;
 				double atMort;
-				for (int c = 0; c < nCluster; c++) {
+				for (int c = 0; c < this.nCluster; c++) {
 
-					if (numberOfDiseasesInCluster[c] == 1) {
+					if (this.numberOfDiseasesInCluster[c] == 1) {
 
-						d = clusterStartsAtDiseaseNumber[c];
-						atMort = attributableMortality[ageValue][sexValue][d];
+						d = this.clusterStartsAtDiseaseNumber[c];
+						atMort = this.attributableMortality[d][ageValue][sexValue];
 						incidence = calculateIncidence(riskFactorValue,
 								ageValue, sexValue, d);
 						/*
@@ -187,6 +187,7 @@ extends HealthStateManyToManyUpdateRule {
 						 * if incidence equal to attributable mortality, the
 						 * denominator becomes zero and we need another formula
 						 */
+						// only calculate fatal part if there are fatal diseases
 						if (disFatalIndex[ageValue][sexValue][c][0] == 0)
 							survivalFraction *= Math.exp(-getTimeStep()
 									* calculateFatalIncidence(riskFactorValue,
@@ -194,18 +195,20 @@ extends HealthStateManyToManyUpdateRule {
 									* (atMort * (1 - oldValue[d]) * expI + (atMort
 											* oldValue[d] - incidence)
 											* expA) / (atMort - incidence);
-						else
+						else if ((expAI != 1))
 							survivalFraction *= (atMort * (1 - oldValue[d])
 									* expI + (atMort * oldValue[d] - incidence)
 									* expA)
 									/ (atMort - incidence);
+						else survivalFraction*=
+								 expA * (incidence * (1-oldValue[d])* timeStep+1);
 						currentStateNo++;
 						/* update diseases with cured fraction */
 					} else if (withCuredFraction[c]) {
 						d = clusterStartsAtDiseaseNumber[c];
 						// TODO: change input with cured fraction in stead of
 						// two diseases
-						atMort = attributableMortality[ageValue][sexValue][d + 1];
+						atMort = attributableMortality[d + 1][ageValue][sexValue];
 						incidence2 = calculateIncidence(riskFactorValue,
 								ageValue, sexValue, d + 1);
 						incidence = incidence2
@@ -293,7 +296,7 @@ extends HealthStateManyToManyUpdateRule {
 						 * running time
 						 */
 						if (disFatalIndex[ageValue][sexValue][c][0] >= 0)
-							for (int fataldis = 0; fataldis < disFatalIndex[ageValue][sexValue][c].length; fataldis++) {
+							for (int fataldis = 0; fataldis < disFatalIndex[ageValue][sexValue][c].length;fataldis++) {
 								incidence = calculateFatalIncidence(
 										riskFactorValue,
 										ageValue,
