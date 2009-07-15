@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.help.HelpTextManager;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.listeners.shell.MyShellListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -80,6 +81,8 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
 		((GenericButtonPanel) buttonPanel)
 		.setModalParent((DataAndFileContainer) this);
+	// 20090713 Added
+		HelpTextManager.initialize(helpPanel);
 	}
 
 	protected TypedHashMap<?> manufactureModelObject()

@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 
@@ -91,21 +92,23 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		text.setLayoutData(gridData);
 		String convertedText = ((Percent)myType).convert4View(thePercentage);
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//																	// range.
-//			}
-//
-//		}
-			focusListener);
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+//		text.addFocusListener(
+////				new FocusListener() {
+////			public void focusGained(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////			}
+////
+////			public void focusLost(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////																	// range.
+////			}
+////
+////		}
+//			focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
+
+		//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, thePercentage,

@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.IntegerVerifyListener;
 
@@ -86,20 +88,21 @@ public class IntegerParameterDataPanel extends Composite {
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		text.setText(sexMap.get(index).toString());
-		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.NUMBER.getTheType(),theHelpGroup);
-		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
-		focusListener		);
+//		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.NUMBER.getTheType(),theHelpGroup);
+//		text.addFocusListener(
+////				new FocusListener() {
+////			public void focusGained(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////			}
+////
+////			public void focusLost(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////				// range.
+////			}
+////
+////		}
+//		focusListener		);
+		HelpTextListenerUtil.addHelpTextListeners(text,(AtomicTypeBase<?>) XMLTagEntityEnum.NUMBER.getTheType());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 // 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);

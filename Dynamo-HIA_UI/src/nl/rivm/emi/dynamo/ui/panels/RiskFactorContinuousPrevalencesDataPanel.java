@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.DistributionTypeComboModifyListener;
@@ -97,9 +98,10 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 			AtomicTypeBase<Float> theType) {
 		Text text = createAndPlaceTextField();
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
-		text.addFocusListener(
-		focusListener);
+//		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
+//		text.addFocusListener(
+//		focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

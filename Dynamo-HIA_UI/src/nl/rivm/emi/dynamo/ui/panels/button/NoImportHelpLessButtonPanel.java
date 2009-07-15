@@ -1,13 +1,8 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
-import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
-import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SimpleCancelSelectionListener;
-import nl.rivm.emi.dynamo.ui.listeners.selection.TransitionDriftNettoSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.AbstractHelplessModal;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
-import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -17,18 +12,18 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-public class NoImportButtonPanel extends Composite {
+public class NoImportHelpLessButtonPanel extends Composite {
 	Button saveButton;
 	Button cancelButton;
 	AbstractHelplessModal modalParent;
-	
+
 	/**
 	 * 
 	 * Constructs the panel with buttons
 	 * 
 	 * @param shell
 	 */
-	public NoImportButtonPanel(Shell shell) {
+	public NoImportHelpLessButtonPanel(Shell shell) {
 		super(shell, SWT.NONE);
 		setSize(100, 35);
 		setFormData();
@@ -55,9 +50,12 @@ public class NoImportButtonPanel extends Composite {
 	 */
 	public void setModalParent(AbstractHelplessModal theParent) {
 		this.modalParent = theParent;
-		this.saveButton.addSelectionListener(new NoDataSaveSelectionListener(this.modalParent));
-		cancelButton.addSelectionListener(new SimpleCancelSelectionListener(this.getShell()));
+		this.saveButton.addSelectionListener(new NoDataSaveSelectionListener(
+				this.modalParent));
+		cancelButton.addSelectionListener(new SimpleCancelSelectionListener(
+				this.getShell()));
 	}
+
 	static private Button putSaveButton(Composite panel) {
 		FormData formData = new FormData();
 		Button saveButton = new Button(panel, SWT.PUSH);
@@ -69,7 +67,6 @@ public class NoImportButtonPanel extends Composite {
 		return saveButton;
 	}
 
-	
 	private static Button putCancelButton(Composite composite,
 			Button leftNeighbour) {
 		FormData formData;

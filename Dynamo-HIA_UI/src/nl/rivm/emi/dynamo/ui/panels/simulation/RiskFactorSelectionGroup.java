@@ -4,6 +4,7 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -18,7 +19,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class RiskFactorSelectionGroup {
 
 	public static final String RISK_FACTOR = "Risk Factor";
 	protected Composite group;
-	private Composite plotComposite;
+//	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
 	private BaseNode selectedNode;
 	private Set<String> selections;
@@ -47,7 +47,7 @@ public class RiskFactorSelectionGroup {
 			DynamoTabDataManager dynamoTabDataManager) 
 			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.selections = selections;
-		this.plotComposite = plotComposite;
+//		this.plotComposite = plotComposite;
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		
@@ -87,13 +87,14 @@ public class RiskFactorSelectionGroup {
 		
 		this.dropDownModifyListener = riskFactorDropDownPanel
 				.getGenericComboModifyListener();
+		HelpTextListenerUtil.addHelpTextListeners(riskFactorDropDownPanel.getDropDown(), RISK_FACTOR);
 	}
 
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
 			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
-		RiskFactorDataAction updateRiskFactorDataAction = 
-			new RiskFactorDataAction();
+//		RiskFactorDataAction updateRiskFactorDataAction = 
+//			new RiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2, 
 				selectablePropertiesSet, 
 				null, dynamoTabDataManager);		

@@ -13,7 +13,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 
 /**
@@ -61,7 +60,7 @@ public abstract class TabPlatform extends Tab {
 		// Create the create and delete buttons and their listeners:
 		// add the tabManager methods		
 		TabPlatformButtonPanel buttonPanel 
-			= new TabPlatformButtonPanel(plotComposite, this.tabManager.getTabFolder());
+			= new TabPlatformButtonPanel(plotComposite, this.tabManager.getTabFolder(), helpGroup);
 		((TabPlatformButtonPanel) buttonPanel)
 			.setSelectionListeners((TabPlatform) this);
 	}	

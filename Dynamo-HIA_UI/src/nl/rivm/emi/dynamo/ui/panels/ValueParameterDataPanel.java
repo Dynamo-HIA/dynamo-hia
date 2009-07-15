@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -91,9 +92,10 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		String convertedText = theType.convert4View(modelObservableValue
 				.doGetValue());
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(theType,
-				theHelpGroup);
-		text.addFocusListener(focusListener);
+//		FocusListener focusListener = new TypedFocusListener(theType,
+//				theHelpGroup);
+//		text.addFocusListener(focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

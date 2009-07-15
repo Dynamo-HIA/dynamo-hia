@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
+import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
@@ -28,7 +30,8 @@ public class RunButtonPanel {
 		modalParent = theModal;
 		runButton = putRunButton(group);
 		runButton.addSelectionListener(new RunSelectionListener(theModal));
-	}
+		HelpTextListenerUtil.addHelpTextListeners(runButton);
+		}
 
 	private Button putRunButton(Composite parent) {
 		FormData formData = new FormData();

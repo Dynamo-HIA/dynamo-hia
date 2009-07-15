@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels.button;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
+import nl.rivm.emi.dynamo.ui.listeners.ButtonMouseTrackListener;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveAndCloseSelectionListener;
@@ -59,32 +61,27 @@ public class GenericButtonPanel extends Composite {
 	 * @param theParent
 	 * @throws DynamoConfigurationException
 	 */
-	public void setModalParent(DataAndFileContainer theParent)
-			{
+	public void setModalParent(DataAndFileContainer theParent) {
 		this.modalParent = theParent;
-		HelpGroup helpGroup = theParent.getHelpGroup();
-//		if (helpGroup != null) {
-			this.importButton.addSelectionListener(new ImportSelectionListener(
-					this.modalParent));
-			this.importButton.addFocusListener(new ButtonFocusListener(
-					importButton, theParent.getHelpGroup()));
-			this.saveButton.addSelectionListener(new SaveSelectionListener(
-					this.modalParent));
-			this.saveButton.addFocusListener(new ButtonFocusListener(
-					saveButton, theParent.getHelpGroup()));
-			this.saveAndCloseButton
-					.addSelectionListener(new SaveAndCloseSelectionListener(
-							this.modalParent));
-			this.saveAndCloseButton.addFocusListener(new ButtonFocusListener(
-					saveAndCloseButton, theParent.getHelpGroup()));
-			this.closeButton.addSelectionListener(new CloseSelectionListener(
-					theParent));
-			this.closeButton.addFocusListener(new ButtonFocusListener(
-					closeButton, theParent.getHelpGroup()));
-//		} else {
-//			throw new DynamoConfigurationException(
-//					"Should only call setModalParent after the HelpGroup has been instanciated.");
-//		}
+		// HelpGroup helpGroup = theParent.getHelpGroup();
+		// if (helpGroup != null) {
+		this.importButton.addSelectionListener(new ImportSelectionListener(
+				this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(importButton);
+		this.saveButton.addSelectionListener(new SaveSelectionListener(
+				this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(saveButton);
+		this.saveAndCloseButton
+				.addSelectionListener(new SaveAndCloseSelectionListener(
+						this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(saveAndCloseButton);
+		this.closeButton.addSelectionListener(new CloseSelectionListener(
+				theParent));
+		HelpTextListenerUtil.addHelpTextListeners(closeButton);
+		// } else {
+		// throw new DynamoConfigurationException(
+		// "Should only call setModalParent after the HelpGroup has been instanciated.");
+		// }
 	}
 
 	/**

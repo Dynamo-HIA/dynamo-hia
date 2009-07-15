@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -114,20 +115,21 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 			String convertedText = ((AtomicTypeBase<?>) type)
 					.convert4View(value);
 			text.setText(convertedText);
-			FocusListener focusListener = new TypedFocusListener(type,theHelpGroup);
-			text.addFocusListener(
-//					new FocusListener() {
-//				public void focusGained(FocusEvent arg0) {
-//					theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//				}
-//
-//				public void focusLost(FocusEvent arg0) {
-//					theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//					// range.
-//				}
-//
-//			}
-					focusListener);
+//			FocusListener focusListener = new TypedFocusListener(type,theHelpGroup);
+//			text.addFocusListener(
+////					new FocusListener() {
+////				public void focusGained(FocusEvent arg0) {
+////					theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////				}
+////
+////				public void focusLost(FocusEvent arg0) {
+////					theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////					// range.
+////				}
+////
+////			}
+//					focusListener);
+			HelpTextListenerUtil.addHelpTextListeners(text, myType);
 			// Too early, see below. text.addVerifyListener(new
 			// StandardValueVerifyListener());
 			IObservableValue textObservableValue = SWTObservables.observeText(

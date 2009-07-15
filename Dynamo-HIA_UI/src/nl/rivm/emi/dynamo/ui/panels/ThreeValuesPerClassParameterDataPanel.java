@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -107,20 +108,21 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 		String convertedText = modelType.convert4View(modelObservableValue
 				.getValue());
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(modelType,theHelpGroup);
-		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
-				focusListener);
+//		FocusListener focusListener = new TypedFocusListener(modelType,theHelpGroup);
+//		text.addFocusListener(
+////				new FocusListener() {
+////			public void focusGained(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////			}
+////
+////			public void focusLost(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////				// range.
+////			}
+////
+////		}
+//				focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, modelType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

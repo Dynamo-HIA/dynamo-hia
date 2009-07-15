@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.FloatValueVerifyListener;
@@ -70,21 +71,22 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(myType,
-				theHelpGroup);
-		text.addFocusListener(
-		// new FocusListener() {
-				// public void focusGained(FocusEvent arg0) {
-				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
-				// }
-				//
-				// public void focusLost(FocusEvent arg0) {
-				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-				// // range.
-				// }
-				//
-				// }
-				focusListener);
+//		FocusListener focusListener = new TypedFocusListener(myType,
+//				theHelpGroup);
+//		text.addFocusListener(
+//		// new FocusListener() {
+//				// public void focusGained(FocusEvent arg0) {
+//				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
+//				// }
+//				//
+//				// public void focusLost(FocusEvent arg0) {
+//				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+//				// // range.
+//				// }
+//				//
+//				// }
+//				focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

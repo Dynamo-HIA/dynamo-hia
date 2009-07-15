@@ -3,8 +3,11 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -17,7 +20,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -47,7 +49,10 @@ public abstract class Tab {
 		this.selectedNode = selectedNode;
 		this.tabName = tabName;
 
-		this.setLayoutStyle(tabFolder);
+		this.plotComposite = new Composite(tabFolder, SWT.FILL);
+		FormLayout formLayout = new FormLayout();
+		this.plotComposite.setLayout(formLayout);
+		// this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);
 
 		// Yes, make it here
@@ -65,19 +70,15 @@ public abstract class Tab {
 					log.debug("THIS TAB IS SELECTED" + tabId);
 				}
 			});
+			// Werkt over de hele tab heen.
+			//HelpTextListenerUtil.addHelpTextListeners(plotComposite,
+			//		(AtomicTypeBase<?>) XMLTagEntityEnum.NAME.getTheType());
 		} catch (NoMoreDataException e) {
 			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
 					+ " \nNo new tab is made");
-			
+
 			e.printStackTrace();
 		}
-	}
-
-	protected void setLayoutStyle(Composite parent) {
-		this.plotComposite = new Composite(parent, SWT.FILL);
-		FormLayout formLayout = new FormLayout();
-		this.plotComposite.setLayout(formLayout);
-		// this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));
 	}
 
 	protected abstract void makeIt() throws DynamoConfigurationException,
@@ -107,7 +108,8 @@ public abstract class Tab {
 
 	}
 
-	public void setDynamoSimulationObject(DynamoSimulationObject dynamoSimulationObject) {
+	public void setDynamoSimulationObject(
+			DynamoSimulationObject dynamoSimulationObject) {
 		this.dynamoSimulationObject = dynamoSimulationObject;
 	}
 

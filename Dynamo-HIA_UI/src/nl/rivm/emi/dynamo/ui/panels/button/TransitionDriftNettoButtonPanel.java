@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.TransitionDriftNettoSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
@@ -38,8 +39,13 @@ public class TransitionDriftNettoButtonPanel extends GenericButtonPanel {
 	 */
 	public void setModalParent(TransitionDriftNettoModal theParent) {
 		this.modalParent = theParent;
-		this.saveButton.addSelectionListener(new TransitionDriftNettoSaveSelectionListener(this.modalParent));
-		this.importButton.addSelectionListener(new ImportSelectionListener(this.modalParent));
+		this.saveButton
+				.addSelectionListener(new TransitionDriftNettoSaveSelectionListener(
+						this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(saveButton);
+		this.importButton.addSelectionListener(new ImportSelectionListener(
+				this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(importButton);
 	}
 
 }

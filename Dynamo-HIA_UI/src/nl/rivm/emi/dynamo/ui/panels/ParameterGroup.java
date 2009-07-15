@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
 
@@ -40,19 +42,20 @@ public class ParameterGroup {
 		textFormData.left = new FormAttachment(label, 2);
 		textFormData.right = new FormAttachment(100, -5);
 		text.setLayoutData(textFormData);
-		FocusListener focusListener = new TypedFocusListener(
-				XMLTagEntityEnum.NAME.getTheType(), helpGroup);
-		text.addFocusListener(
-		// new FocusListener() {
-				// public void focusGained(FocusEvent arg0) {
-				// helpGroup.getFieldHelpGroup().setHelpText("0");
-				// }
-				// public void focusLost(FocusEvent arg0) {
-				// helpGroup.getFieldHelpGroup().setHelpText("47"); // Out of
-				// range.
-				// }
-				// }
-				focusListener);
+//		FocusListener focusListener = new TypedFocusListener(
+//				XMLTagEntityEnum.NAME.getTheType(), helpGroup);
+//		text.addFocusListener(
+//		// new FocusListener() {
+//				// public void focusGained(FocusEvent arg0) {
+//				// helpGroup.getFieldHelpGroup().setHelpText("0");
+//				// }
+//				// public void focusLost(FocusEvent arg0) {
+//				// helpGroup.getFieldHelpGroup().setHelpText("47"); // Out of
+//				// range.
+//				// }
+//				// }
+//				focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, (AtomicTypeBase<?>) XMLTagEntityEnum.NAME.getTheType());
 
 		ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);

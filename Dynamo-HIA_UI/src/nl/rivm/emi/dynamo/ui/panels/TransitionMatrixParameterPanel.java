@@ -13,6 +13,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
@@ -107,20 +108,21 @@ public class TransitionMatrixParameterPanel extends Composite /*
 			AtomicTypeBase<Float> theType) {
 		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
 		text.setText("Bla"); // theType.convert4View(observableClassName.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
-text.addFocusListener(
-//		new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
-		focusListener);
+//		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
+//text.addFocusListener(
+////		new FocusListener() {
+////			public void focusGained(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////			}
+////
+////			public void focusLost(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////				// range.
+////			}
+////
+////		}
+//		focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		textLayoutData.minimumWidth = 35;
 		textLayoutData.horizontalAlignment = GridData.END;

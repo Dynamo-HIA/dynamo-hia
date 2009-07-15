@@ -13,7 +13,7 @@ import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionDriftNettoGroup;
 import nl.rivm.emi.dynamo.ui.panels.DataLessMessageGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
-import nl.rivm.emi.dynamo.ui.panels.button.NoImportButtonPanel;
+import nl.rivm.emi.dynamo.ui.panels.button.NoImportHelpLessButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.button.TransitionDriftNettoButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -63,8 +63,8 @@ public class DataLessMessageModal extends AbstractHelplessModal {
 	@Override
 	protected synchronized void open() {
 		try {
-			Composite buttonPanel = new NoImportButtonPanel(this.shell);
-			((NoImportButtonPanel) buttonPanel).setModalParent(this);
+			Composite buttonPanel = new NoImportHelpLessButtonPanel(this.shell);
+			((NoImportHelpLessButtonPanel) buttonPanel).setModalParent(this);
 			DataLessMessageGroup transitionDriftZeroGroup = new DataLessMessageGroup(
 					this.shell, this.selectedNode, this.messageLineSet);
 			transitionDriftZeroGroup.setFormData(buttonPanel);

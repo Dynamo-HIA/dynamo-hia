@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -81,7 +83,8 @@ public class UnitTypeDropDownPanel {
 
 	public void setHelpGroup(HelpGroup helpGroup) {
 		theHelpGroup = helpGroup;
-		dropDown.addFocusListener(new TypedFocusListener(XMLTagEntityEnum.UNITTYPE.getTheType(), theHelpGroup));
+//		dropDown.addFocusListener(new TypedFocusListener(XMLTagEntityEnum.UNITTYPE.getTheType(), theHelpGroup));
+		HelpTextListenerUtil.addHelpTextListeners(dropDown, (AtomicTypeBase<?>) XMLTagEntityEnum.UNITTYPE.getTheType());
 	}
 
 	/**

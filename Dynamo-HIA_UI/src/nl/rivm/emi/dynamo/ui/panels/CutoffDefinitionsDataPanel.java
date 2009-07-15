@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.interfaces.ICutoffs;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -70,9 +71,10 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 	private void bindValue(WritableValue observableClassName) {
 		Text text = createAndPlaceTextField();
 		text.setText(myType.convert4View(observableClassName.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-		text.addFocusListener(
-			focusListener	);
+//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+//		text.addFocusListener(
+//			focusListener	);
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) observableClassName;

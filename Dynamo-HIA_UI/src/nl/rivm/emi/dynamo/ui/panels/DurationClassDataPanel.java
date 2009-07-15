@@ -4,6 +4,7 @@ import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 
@@ -62,20 +63,21 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	private void bindValue(WritableValue observableObject) {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType.convert4View(observableObject.doGetValue()));
-		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// range.
-//			}
-//
-//		}
-				focusListener);
+//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
+//		text.addFocusListener(
+////				new FocusListener() {
+////			public void focusGained(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
+////			}
+////
+////			public void focusLost(FocusEvent arg0) {
+////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+////				// range.
+////			}
+////
+////		}
+//				focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

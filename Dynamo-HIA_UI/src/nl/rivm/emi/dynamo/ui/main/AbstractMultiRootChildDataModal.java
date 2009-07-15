@@ -7,13 +7,12 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
-import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.help.HelpTextManager;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
@@ -24,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Shell;
 
@@ -90,6 +88,8 @@ public abstract class AbstractMultiRootChildDataModal extends
 		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
 		((GenericButtonPanel) buttonPanel)
 		.setModalParent((DataAndFileContainer) this);
+		// 20090713 Added
+		HelpTextManager.initialize(helpPanel);
 	}
 
 	/**

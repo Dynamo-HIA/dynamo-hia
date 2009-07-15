@@ -4,6 +4,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
 
@@ -43,11 +44,11 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-//		layout.numColumns = 2;
+		// layout.numColumns = 2;
 		layout.numColumns = 5;
-//			layout.makeColumnsEqualWidth = false;
+		// layout.makeColumnsEqualWidth = false;
 		layout.makeColumnsEqualWidth = true;
-			setLayout(layout);
+		setLayout(layout);
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
 		Label classNameLabel = new Label(this, SWT.NONE);
@@ -60,17 +61,19 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		int count = 1;
 		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
 		for (; found <= numberOfCategories && count <= numberOfCategories; count++) {
-			WritableValue observableClassName = iCategoricalObject.getObservableCategoryName(count);
-			if(observableClassName != null){
+			WritableValue observableClassName = iCategoricalObject
+					.getObservableCategoryName(count);
+			if (observableClassName != null) {
 				found++;
 				Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(observableClassName);
 				Label anotherEmptyLabel = new Label(this, SWT.NONE);
-							} else {
+			} else {
 				MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
-				box.setMessage("Name at index " + count + " should not be empty.");
+				box.setMessage("Name at index " + count
+						+ " should not be empty.");
 				box.open();
 			}
 		}
@@ -78,32 +81,38 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 
 	private void bindValue(WritableValue observableClassName) {
 		Text text = createAndPlaceTextField();
-		text.setText((String)observableClassName.doGetValue());
+		text.setText((String) observableClassName.doGetValue());
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.horizontalSpan = 3;
 		text.setLayoutData(layoutData);
-		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.CLASS.getTheType(), theHelpGroup);
-		text.addFocusListener(
-//				new FocusListener() {
-//			public void focusGained(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//			}
-//
-//			public void focusLost(FocusEvent arg0) {
-//				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//																	// range.
-//			}
-//
-//		}
-focusListener
-		);
-//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+		// FocusListener focusListener = new
+		// TypedFocusListener(XMLTagEntityEnum.CLASS.getTheType(),
+		// theHelpGroup);
+		// text.addFocusListener(
+		// // new FocusListener() {
+		// // public void focusGained(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
+		// // }
+		// //
+		// // public void focusLost(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+		// // // range.
+		// // }
+		// //
+		// // }
+		// focusListener
+		// );
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
+		// Too early, see below. text.addVerifyListener(new
+		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				myType.getModelUpdateValueStrategy(), myType.getViewUpdateValueStrategy());
-		text.addVerifyListener(new NameVerifyListener(theHelpGroup.getTheModal()));
+				myType.getModelUpdateValueStrategy(), myType
+						.getViewUpdateValueStrategy());
+		text.addVerifyListener(new NameVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {

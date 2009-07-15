@@ -1,5 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -26,15 +30,20 @@ public class TabPlatformButtonPanel extends Composite {
 	 * Constructs the panel with buttons
 	 * 
 	 * @param parent
+	 * @param helpGroup TODO
 	 */
-	public TabPlatformButtonPanel(Composite parent, Composite topNeighbour) {
+	public TabPlatformButtonPanel(Composite parent, Composite topNeighbour, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		setSize(100, 35);
 		setFormData(topNeighbour);
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		this.createButton = putCreateButton(this);
+		//createButton.addFocusListener(new ButtonFocusListener(createButton));
+		HelpTextListenerUtil.addHelpTextListeners(createButton);
 		this.deleteButton = putDeleteButton(this, this.createButton);
+		//deleteButton.addFocusListener(new ButtonFocusListener(deleteButton));
+		HelpTextListenerUtil.addHelpTextListeners(deleteButton);
 		pack();
 	}
 

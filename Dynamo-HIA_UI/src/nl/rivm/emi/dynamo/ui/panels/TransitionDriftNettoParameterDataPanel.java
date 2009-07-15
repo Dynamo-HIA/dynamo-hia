@@ -4,6 +4,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -59,9 +60,10 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		text.setLayoutData(gridData);
 		String convertedText = myType.convert4View(modelObservableValue);
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(myType,
-				theHelpGroup);
-		text.addFocusListener(focusListener);
+//		FocusListener focusListener = new TypedFocusListener(myType,
+//				theHelpGroup);
+//		text.addFocusListener(focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Mean;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
@@ -95,8 +96,9 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		String convertedText = ((Mean) type).convert4View(modelObservableValue
 				.doGetValue());
 		text.setText(convertedText);
-		FocusListener focusListener = new TypedFocusListener(type, theHelpGroup);
-		text.addFocusListener(focusListener);
+//		FocusListener focusListener = new TypedFocusListener(type, theHelpGroup);
+//		text.addFocusListener(focusListener);
+		HelpTextListenerUtil.addHelpTextListeners(text, type);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,

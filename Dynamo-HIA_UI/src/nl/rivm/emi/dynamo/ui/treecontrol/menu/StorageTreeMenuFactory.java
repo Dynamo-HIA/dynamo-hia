@@ -16,7 +16,6 @@ import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
-import nl.rivm.emi.dynamo.ui.actions.FreeNamePlusDropDownXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;

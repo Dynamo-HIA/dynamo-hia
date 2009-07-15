@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.listeners;
 
-import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.help.HelpTextManager;
 
 import org.apache.commons.logging.Log;
@@ -8,18 +7,18 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 
-public class TypedFocusListener implements FocusListener {
+public class TextedFocusListener implements FocusListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	XMLTagEntity myType;
+	String myText;
 
-	public TypedFocusListener(XMLTagEntity myType) {
+	public TextedFocusListener(String myText) {
 		super();
-		this.myType = myType;
+		this.myText = myText;
 	}
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		String helpText = myType.getXMLElementName();
+		String helpText = myText;
 		log.debug("focusGained for: " + helpText);
 		HelpTextManager.getInstance().setFocusText(helpText);
 	}
