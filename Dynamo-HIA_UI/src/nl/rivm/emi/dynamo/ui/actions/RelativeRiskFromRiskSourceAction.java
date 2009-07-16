@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.ui.dialogs.DropDownAndImportExtendedInputDialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -87,49 +88,48 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 	}
 
 	protected String getNewFilePath() {
-			String selectionPath = node.getPhysicalStorage().getAbsolutePath();
-			String newPath = null;
-			// Call the input trialog modal here (trialog includes input field,
-			// import, ok and cancel buttons)
-			DropDownAndImportExtendedInputDialog inputDialog = new DropDownAndImportExtendedInputDialog(
-					shell, node, "Enter name for a new xml file", "Name",
-					theValidator);
-			int openValue = inputDialog.open();
+		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
+		String newPath = null;
+		// Call the input trialog modal here (trialog includes input field,
+		// import, ok and cancel buttons)
+		DropDownAndImportExtendedInputDialog inputDialog = new DropDownAndImportExtendedInputDialog(
+				shell, node, "Enter name for a new xml file", "Name",
+				theValidator);
+		int openValue = inputDialog.open();
 
-			log.debug("OpenValue is: " + openValue);
+		log.debug("OpenValue is: " + openValue);
 
-			int returnCode = inputDialog.getReturnCode();
-			log.debug("ReturnCode is: " + returnCode);
-			if (returnCode != Window.CANCEL) {
-				String candidateName = inputDialog.getValue();
-				String candidatePath = selectionPath + File.separator
-						+ candidateName + ".xml";
-				File candidateFile = new File(candidatePath);
-				if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
-					newPath = candidateFile.getAbsolutePath();
-					File savedFile = new File(newPath);
-					File dataFile = null;
-					// Supply the location of dataFile
-					if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
-						dataFile = this.getImportFile();
-					} else {
-						dataFile = savedFile;
-					}
-
-					// Process the modal
-					RiskSourceProperties riskSourceProperties = inputDialog
-							.getSelectedRiskSourceProperties();
-					processThroughModal(dataFile, savedFile,
-							riskSourceProperties);
+		int returnCode = inputDialog.getReturnCode();
+		log.debug("ReturnCode is: " + returnCode);
+		if (returnCode != Window.CANCEL) {
+			String candidateName = inputDialog.getValue();
+			String candidatePath = selectionPath + File.separator
+					+ candidateName + ".xml";
+			File candidateFile = new File(candidatePath);
+			if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
+				newPath = candidateFile.getAbsolutePath();
+				File savedFile = new File(newPath);
+				File dataFile = null;
+				// Supply the location of dataFile
+				if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
+					dataFile = this.getImportFile();
 				} else {
-					MessageBox messageBox = new MessageBox(shell,
-							SWT.ERROR_ITEM_NOT_ADDED);
-					messageBox.setMessage("\"" + candidateName
-							+ "\"\n exists already.");
-					messageBox.open();
+					dataFile = savedFile;
 				}
+
+				// Process the modal
+				RiskSourceProperties riskSourceProperties = inputDialog
+						.getSelectedRiskSourceProperties();
+				processThroughModal(dataFile, savedFile, riskSourceProperties);
+			} else {
+				MessageBox messageBox = new MessageBox(shell,
+						SWT.ERROR_ITEM_NOT_ADDED);
+				messageBox.setMessage("\"" + candidateName
+						+ "\"\n exists already.");
+				messageBox.open();
 			}
-			return newPath;
+		}
+		return newPath;
 	}
 
 	/**
@@ -163,7 +163,10 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 				} else {
 					if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 							.equals(chosenRootElementName)) {
-						theModal = null;
+						theModal = new RelRiskFromRiskFactorCompoundModal(
+								shell, dataFile.getAbsolutePath(),
+								candidateFile.getAbsolutePath(),
+								rootElementName, node, props);
 					} else {
 						if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 								.getNodeLabel().equals(chosenRootElementName)) {

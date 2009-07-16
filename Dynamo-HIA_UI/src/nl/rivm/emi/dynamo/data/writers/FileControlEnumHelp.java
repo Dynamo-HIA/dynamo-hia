@@ -75,7 +75,7 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
-			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), "trend" };
+			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), XMLTagEntityEnum.TRENDS.getElementName() };
 	static final String[] transitionDriftZeroStrings = { RootElementNamesEnum.TRANSITIONDRIFT_ZERO
 			.getNodeLabel() };
 	/* W22CatCom */
@@ -211,4 +211,8 @@ public class FileControlEnumHelp {
 		XMLTagEntityEnum.AMOUNT.getElementName(),
 		XMLTagEntityEnum.YEAR.getElementName(),
 		XMLTagEntityEnum.NUMBER.getElementName()};
+	// Alternative, non-conforming structure.
+	static final String[] trendsStrings = {
+			XMLTagEntityEnum.TRENDS.getElementName(),
+			XMLTagEntityEnum.TREND.getElementName()};
 }

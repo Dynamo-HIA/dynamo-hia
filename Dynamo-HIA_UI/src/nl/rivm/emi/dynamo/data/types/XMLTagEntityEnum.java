@@ -76,6 +76,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Transition;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionDestination;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.types.atomic.Trend;
+import nl.rivm.emi.dynamo.data.types.atomic.Trends;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.Unit;
 import nl.rivm.emi.dynamo.data.types.atomic.UnitType;
@@ -120,8 +121,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public enum XMLTagEntityEnum {
-	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), 
-	AGE((XMLTagEntity) new Age()), //
+	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), AGE(
+			(XMLTagEntity) new Age()), //
 	ALFA((XMLTagEntity) new Alfa()), //
 	AMOUNT((XMLTagEntity) new Amount()), //
 	AMOUNTS((XMLTagEntity) new Amounts()), //
@@ -196,11 +197,12 @@ public enum XMLTagEntityEnum {
 	TRANSITION((XMLTagEntity) new Transition()), //
 	TRANSITIONDESTINATION((XMLTagEntity) new TransitionDestination()), //
 	TRANSITIONSOURCE((XMLTagEntity) new TransitionSource()), //
-	TREND((XMLTagEntity) new Trend()), UNIQUENAME(
-			(XMLTagEntity) new UniqueName()), //
+	TREND((XMLTagEntity) new Trend()), //
+	TRENDS((XMLTagEntity) new Trends()), //
+	UNIQUENAME((XMLTagEntity) new UniqueName()), //
 	UNIT((XMLTagEntity) new Unit()), //
-	UNITTYPE((XMLTagEntity) new UnitType()), VIRTUALCUTOFFINDEX(
-			(XMLTagEntity) new VirtualCutoffIndex()), //
+	UNITTYPE((XMLTagEntity) new UnitType()), //
+	VIRTUALCUTOFFINDEX((XMLTagEntity) new VirtualCutoffIndex()), //
 	WEIGHT((XMLTagEntity) new Weight()), //
 	YEAR((XMLTagEntity) new Year()), //
 	// RootElements

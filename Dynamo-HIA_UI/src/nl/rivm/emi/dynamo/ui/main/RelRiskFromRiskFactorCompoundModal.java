@@ -17,36 +17,37 @@ import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RelRiskForDeathCompoundModal extends AbstractDataModal {
+public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private TypedHashMap modelObject;
+	private RiskSourceProperties props;
+
+	private TypedHashMap<?> modelObject;
 	int numberOfCategories;
 	int durationClassIndex;
 
-	public RelRiskForDeathCompoundModal(Shell parentShell, String dataFilePath,
-			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+	public RelRiskFromRiskFactorCompoundModal(Shell parentShell,
+			String dataFilePath, String configurationFilePath,
+			String rootElementName, BaseNode selectedNode,
+			RiskSourceProperties props) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		this.props = props;
 	}
 
 	@Override
@@ -60,10 +61,13 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 			super.open();
 			this.modelObject = manufactureModelObject();
 			BaseNode riskSourceNode = null;
+			if (this.props != null) {
+				riskSourceNode = this.props.getRiskSourceNode();
+			}
 			log.debug("Now for RelativeRisksCompoundGroup");
 			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel, this.durationClassIndex, null);
+					this.selectedNode, this.helpPanel, this.durationClassIndex, riskSourceNode);
 			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();
@@ -92,7 +96,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		durationClassIndex = RiskSourcePropertiesMapFactory
-		.getDurationCategoryIndex(selectedNode);
+				.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
@@ -115,15 +119,15 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			numberOfCategories = RiskSourcePropertiesMapFactory
-					.getNumberOfRiskFactorClasses(this.selectedNode);
+			numberOfCategories = props.getNumberOfCategories();
 			log.debug("numberOfCategories: " + numberOfCategories);
 			durationClassIndex = RiskSourcePropertiesMapFactory
-			.getDurationCategoryIndex(selectedNode);
+					.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
 			((RelRiskForDeathCompoundFactory) factory)
 					.setNumberOfCategories(numberOfCategories);
-		((CategoricalFactory)factory).setNumberOfCategories(numberOfCategories);	
+			((CategoricalFactory) factory)
+					.setNumberOfCategories(numberOfCategories);
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

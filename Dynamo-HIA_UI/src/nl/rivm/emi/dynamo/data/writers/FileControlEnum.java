@@ -28,68 +28,62 @@ import org.apache.commons.logging.LogFactory;
  */
 
 public enum FileControlEnum {
-	/* W01 */
+	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings, false, false), //
 	DYNAMOSIMULATION(FileControlEnumHelp.dynamoSimulationStrings, true, false), //
-	/* W11 */
-	POPULATIONSIZE(FileControlEnumHelp.populationSizeStrings, false, false), //
-	/* W12 */
-	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings, false, false), //
-	/* W13 */
+	EXCESSMORTALITY(FileControlEnumHelp.excessMortalityStrings, true, false), //
+	INCIDENCES(FileControlEnumHelp.incidencesStrings, false, false), //
 	NEWBORNS(FileControlEnumHelp.newbornsStrings, true, false), //
-	/* W14 */
 	OVERALLDALYWEIGHTS(FileControlEnumHelp.overallDALYWeightsStrings, false,
 			false), //
-	TRANSITIONDRIFT(FileControlEnumHelp.transitionDriftStrings, false, false), //
-	TRANSITIONDRIFTZERO(FileControlEnumHelp.transitionDriftZeroStrings, false,
-			false), //
-	TRANSITIONDRIFTNETTO(FileControlEnumHelp.transitionDriftNettoStrings,
-			false, false), //
-	TRANSITIONMATRIX(FileControlEnumHelp.transitionMatrixStrings, false, false), //
-	TRANSITIONMATRIX_ZERO(FileControlEnumHelp.transitionMatrixZeroStrings,
-			false, false), //
-	TRANSITIONMATRIX_NETTO(FileControlEnumHelp.transitionMatrixNettoStrings,
-			false, false), //
-	RISKFACTORPREVALENCESCATEGORICAL(
-			FileControlEnumHelp.riskFactorPrevalenceCatStrings, false, false), //
-	RISKFACTORPREVALENCESCONTINUOUS(
-			FileControlEnumHelp.riskFactorPrevalenceConStrings, true, false), //
-	RISKFACTORPREVALENCESDURATION(
-			FileControlEnumHelp.riskFactorPrevalenceDurStrings, false, false), //
+	OVERALLMORTALITY(FileControlEnumHelp.overallMortalityStrings, false, false), //
+	POPULATIONSIZE(FileControlEnumHelp.populationSizeStrings, false, false), //
+	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings, false, false), //
 	RELRISKFORDEATHCATEGORICAL(FileControlEnumHelp.relRiskForDeathCatStrings,
 			false, false), //
 	RELRISKFORDEATHCONTINUOUS(FileControlEnumHelp.relRiskForDeathContStrings,
 			false, false), //
 	RELRISKFORDEATHCOMPOUND(FileControlEnumHelp.relRiskForDeathCompStrings,
 			false, false), //
-	RISKFACTORCATEGORICAL(FileControlEnumHelp.riskFactorCategoricalStrings,
-			true, false), //
 	RELRISKFORDISABILITYCATEGORICAL(
 			FileControlEnumHelp.relRiskForDisabilityCatStrings, false, false), //
 	RELRISKFORDISABILITYCONTINUOUS(
 			FileControlEnumHelp.relRiskForDisabilityContStrings, false, false), //
 	RELRISKFORDISABILITYCOMPOUND(
 			FileControlEnumHelp.relRiskForDisabilityCompStrings, false, false), //
-	PREVALENCES(FileControlEnumHelp.diseasePrevalencesStrings, false, false), //
-	INCIDENCES(FileControlEnumHelp.incidencesStrings, false, false), //
 	RELRISKFROMRISKFACTORCATEGORICAL(
 			FileControlEnumHelp.relRiskFromRiskfactorCatStrings, false, false), //
 	RELRISKFROMRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskFromRiskfactorConStrings, false, false), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings,
 			false, false), //
+	RISKFACTORCATEGORICAL(FileControlEnumHelp.riskFactorCategoricalStrings,
+			true, false), //
+	RISKFACTORPREVALENCESCATEGORICAL(
+			FileControlEnumHelp.riskFactorPrevalenceCatStrings, false, false), //
+	RISKFACTORPREVALENCESCONTINUOUS(
+			FileControlEnumHelp.riskFactorPrevalenceConStrings, true, false), //
+	RISKFACTORPREVALENCESDURATION(
+			FileControlEnumHelp.riskFactorPrevalenceDurStrings, false, false), //
 	RISKFACTORCONTINUOUS(FileControlEnumHelp.riskFactorContinuousStrings, true,
 			false), //	
 	RISKFACTORCOMPOUND(FileControlEnumHelp.riskFactorCompoundStrings, true,
 			false), //
-	DALYWEIGHTS(FileControlEnumHelp.dALYWeightsStrings, false, false),
-	/* W21 */
-	EXCESSMORTALITY(FileControlEnumHelp.excessMortalityStrings, true, false), //
+	TRANSITIONDRIFT(FileControlEnumHelp.transitionDriftStrings, false, false), //
+	TRANSITIONDRIFT_ZERO(FileControlEnumHelp.transitionDriftZeroStrings, false,
+			false), //
+	TRANSITIONDRIFT_NETTO(FileControlEnumHelp.transitionDriftNettoStrings,
+			true, false), //
+	TRANSITIONMATRIX(FileControlEnumHelp.transitionMatrixStrings, false, false), //
+	TRANSITIONMATRIX_ZERO(FileControlEnumHelp.transitionMatrixZeroStrings,
+			false, false), //
+	TRANSITIONMATRIX_NETTO(FileControlEnumHelp.transitionMatrixNettoStrings,
+			false, false), //
 	/*
 	 * Subtrees in the configuration files. Should have the second parameter
 	 * flag set to true.
 	 */
-	AMOUNTS(FileControlEnumHelp.amountsStrings, false, true), CLASSES(
-			FileControlEnumHelp.classesStrings, false, true), //
+	AMOUNTS(FileControlEnumHelp.amountsStrings, false, true), //
+	CLASSES(FileControlEnumHelp.classesStrings, false, true), //
 	CUTOFFS(FileControlEnumHelp.cutoffsStrings, false, true), //
 	MORTALITIES(FileControlEnumHelp.mortalitiesStrings, false, true), //
 	MORTALITY(FileControlEnumHelp.mortalityStrings, false, true), //
@@ -98,7 +92,8 @@ public enum FileControlEnum {
 	PREVALENCESCONTINUOUS(FileControlEnumHelp.prevalencesContinuousStrings,
 			false, true), //
 	RISKFACTORS(FileControlEnumHelp.riskfactorsStrings, false, true), //
-	RRS(FileControlEnumHelp.rrsStrings, false, true);
+	RRS(FileControlEnumHelp.rrsStrings, false, true), //
+	TRENDS(FileControlEnumHelp.trendsStrings, false, true); //
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum

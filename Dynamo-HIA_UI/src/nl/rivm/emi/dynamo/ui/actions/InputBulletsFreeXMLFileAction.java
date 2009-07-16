@@ -135,7 +135,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 						if (BulletButtonNamesEnum.TRANSITION_ZERO
 								.getBulletButtonName().equals(
 										this.bulletButtonName)) {
-							String rootElementName = FileControlEnum.TRANSITIONDRIFTZERO
+							String rootElementName = FileControlEnum.TRANSITIONDRIFT_ZERO
 									.getRootElementName();
 							String caption = "Transition Drift Zero";
 							Set<String> messageLineSet = new LinkedHashSet();

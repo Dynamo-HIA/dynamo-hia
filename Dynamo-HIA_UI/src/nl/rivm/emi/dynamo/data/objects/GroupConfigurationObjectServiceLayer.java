@@ -9,23 +9,44 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 abstract public class GroupConfigurationObjectServiceLayer extends
 		LinkedHashMap<String, Object> {
+	private static final long serialVersionUID = 7507565290488147794L;
 
+/**
+ * Overrides the default constructor of the superclass.
+ * Just calls the constructor of the superclass.
+ */
 	public GroupConfigurationObjectServiceLayer() {
 		super();
 	}
 
+	/**
+	 * Blocks the constructor of the superclass.
+	 */
+	@SuppressWarnings("unused")
 	private GroupConfigurationObjectServiceLayer(int arg0) {
 		super(arg0);
 	}
 
-	private GroupConfigurationObjectServiceLayer(Map arg0) {
+	/**
+	 * Blocks the constructor of the superclass.
+	 */
+	@SuppressWarnings("unused")
+	private GroupConfigurationObjectServiceLayer(Map<String,?> arg0) {
 		super(arg0);
 	}
 
+	/**
+	 * Blocks the constructor of the superclass.
+	 */
+	@SuppressWarnings("unused")
 	private GroupConfigurationObjectServiceLayer(int arg0, float arg1) {
 		super(arg0, arg1);
 	}
 
+	/**
+	 * Blocks the constructor of the superclass.
+	 */
+	@SuppressWarnings("unused")
 	private GroupConfigurationObjectServiceLayer(int arg0, float arg1,
 			boolean arg2) {
 		super(arg0, arg1, arg2);

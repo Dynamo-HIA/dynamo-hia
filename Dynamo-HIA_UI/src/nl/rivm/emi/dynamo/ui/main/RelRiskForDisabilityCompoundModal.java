@@ -64,7 +64,7 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 			log.debug("Now for RelativeRisksCompoundGroup");
 			RelativeRisksCompoundGroup relRiskForDisabilityCompoundGroup = new RelativeRisksCompoundGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel, this.durationClassIndex);
+					this.selectedNode, this.helpPanel, this.durationClassIndex, null);
 			relRiskForDisabilityCompoundGroup.setFormData(this.helpPanel.getGroup(),
 					buttonPanel);
 			this.shell.pack();

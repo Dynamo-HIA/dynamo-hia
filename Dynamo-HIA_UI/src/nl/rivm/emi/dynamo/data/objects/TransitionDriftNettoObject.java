@@ -1,16 +1,12 @@
 package nl.rivm.emi.dynamo.data.objects;
 
-import java.util.ArrayList;
-
-import org.eclipse.core.databinding.observable.value.WritableValue;
+import java.util.LinkedHashMap;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ITrend;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.Trend;
-import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
  * Object to contain the data entered in W21. The Observable contains a
@@ -18,7 +14,7 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
  */
 
 public class TransitionDriftNettoObject extends
-		ArrayList<AtomicTypeObjectTuple> implements ITrend,
+		GroupConfigurationObjectServiceLayer implements ITrend,
 		StandardObjectMarker {
 	private static final long serialVersionUID = -1973812253427654652L;
 
@@ -27,11 +23,13 @@ public class TransitionDriftNettoObject extends
 	 * 
 	 * @param manufacturedMap
 	 */
-	public TransitionDriftNettoObject() {
+	public TransitionDriftNettoObject(LinkedHashMap<String, Object> content) {
 		super();
+		super.putAll(content);
 	}
 
-	public WritableValue getObservableTrend() throws DynamoConfigurationException {
+	public WritableValue getObservableTrend()
+			throws DynamoConfigurationException {
 		WritableValue result = null;
 		Object candidateValue = getValue();
 		if (candidateValue instanceof WritableValue) {
@@ -87,27 +85,22 @@ public class TransitionDriftNettoObject extends
 	private Object getValue() throws DynamoConfigurationException {
 		Object value = null;
 		if (size() > 0) {
-			AtomicTypeObjectTuple tuple = get(0);
-			value = tuple.getValue();
+			value = getSingleRootChildFloatValue(XMLTagEntityEnum.TREND
+					.getTheType().getXMLElementName());
 		} else {
 			throw new DynamoConfigurationException(
-			"Can't get the value from an empty Object.");
-}
+					"Can't get the value from an empty Object.");
+		}
 		return value;
 	}
 
 	private void setValue(Object value) throws DynamoConfigurationException {
-		if (size() == 1) {
-			AtomicTypeObjectTuple tuple = get(0);
-			tuple.setValue(value);
+		if (value instanceof Float) {
+			putSingleRootChildFloatValue(XMLTagEntityEnum.TREND.getTheType()
+					.getXMLElementName(), (Float) value);
 		} else {
-			if(size() == 0){
-			AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.TREND.getTheType(), value);
-			add(0, tuple);
-			} else {
-				throw new DynamoConfigurationException(
-				"Unexpected Object size: " + size());
-			}
+			throw new DynamoConfigurationException("Unexpected Object type: "
+					+ value.getClass().getSimpleName());
 		}
 	}
 }

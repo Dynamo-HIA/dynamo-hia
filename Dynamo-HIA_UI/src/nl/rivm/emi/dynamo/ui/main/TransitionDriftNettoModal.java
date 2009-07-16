@@ -6,20 +6,14 @@ import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementati
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionDriftNettoGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
-import nl.rivm.emi.dynamo.ui.panels.button.TransitionDriftNettoButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -28,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
  * Modal dialog to create and edit the population size XML files.
  * 
  */
-public class TransitionDriftNettoModal extends AbstractDataModal {
+public class TransitionDriftNettoModal extends AbstractMultiRootChildDataModal {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -49,7 +43,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 			BaseNode selectedNode) {
 		// Decoupled rootElementName because of Garbage in, Garbage out.
 		super(parentShell, dataFilePath, configurationFilePath,
-				FileControlEnum.TRANSITIONDRIFTNETTO.getRootElementName(), selectedNode);
+				FileControlEnum.TRANSITIONDRIFT_NETTO.getRootElementName(), selectedNode);
 	}
 
 	@Override
@@ -61,7 +55,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 	protected synchronized void open() {
 		try {
 			super.open();
-			this.modelObject = manufactureModelObject();
+			nonGenericModelObject = new TransitionDriftNettoObject(manufactureModelObject());
 			TransitionDriftNettoGroup transitionDriftNettoGroup = new TransitionDriftNettoGroup(
 					this.shell, this.nonGenericModelObject,
 					this.dataBindingContext, this.selectedNode, this.helpPanel);
@@ -105,7 +99,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 			// The configuration file with data already exists, fill the modal
 			// with existing data
 			if (dataFile.isFile() && dataFile.canRead()) {
-				object = factory.manufacture(dataFile, true,
+				object = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (object == null) {
 					throw new ConfigurationException(
@@ -119,7 +113,7 @@ public class TransitionDriftNettoModal extends AbstractDataModal {
 		} else {
 			// The configuration file with data does not yet exist, create a new
 			// screen object with default data
-			object = factory.manufactureDefault(true);
+			object = factory.manufactureObservableDefault();
 		}
 		return object;
 	}

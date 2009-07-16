@@ -1,10 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -20,21 +20,21 @@ public class RelativeRisksCompoundGroup {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
 
-	public RelativeRisksCompoundGroup(Shell shell,
-			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, HelpGroup helpGroup, int durationClassIndex) throws DynamoConfigurationException {
+	public RelativeRisksCompoundGroup(Shell shell, TypedHashMap modelObject,
+			DataBindingContext dataBindingContext, BaseNode selectedNode,
+			HelpGroup helpGroup, int durationClassIndex, BaseNode riskSourceNode)
+			throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityStrings = Util
-				.deriveEntityLabelAndValueFromRiskSourceNode_Directories(selectedNode);
-		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
-				entityStrings[0], entityStrings[1], null);
-		entityNamePanel.putInContainer();
+		RelativeRiskContextPanel relRiskPanel = new RelativeRiskContextPanel(
+				theGroup, riskSourceNode, selectedNode);
+		relRiskPanel.handlePlacementInContainer();
 		log.debug("Now for RelativeRisksCompoundParameterGroup");
 		RelativeRisksCompoundParameterGroup parameterGroup = new RelativeRisksCompoundParameterGroup(
-				theGroup, modelObject, dataBindingContext, helpGroup, durationClassIndex);
-		parameterGroup.handlePlacementInContainer(entityNamePanel.group);
+				theGroup, modelObject, dataBindingContext, helpGroup,
+				durationClassIndex);
+		parameterGroup.handlePlacementInContainer(relRiskPanel.group);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
