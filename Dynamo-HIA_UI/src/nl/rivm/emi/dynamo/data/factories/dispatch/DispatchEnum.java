@@ -24,6 +24,7 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
@@ -32,7 +33,7 @@ import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesContinuousFactory;
 import nl.rivm.emi.dynamo.data.factories.RootLevelFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionDriftFactory;
-import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementation;
+import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
@@ -70,7 +71,7 @@ public enum DispatchEnum {
 	/* W21TdId */// TODO
 	/* W21TdFp */// TODO
 	TRANSITIONDRIFT_NETTO(RootElementNamesEnum.TRANSITIONDRIFT_NETTO
-			.getNodeLabel(), new TransitionDriftNettoFactoryImplementation(),
+			.getNodeLabel(), new TransitionDriftNettoFactory(),
 			null), // 
 	/* W21TmMA */
 
@@ -150,7 +151,7 @@ public enum DispatchEnum {
 	/* W34Cmp */
 	RRISKFORRISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
-					.getNodeLabel(), new DummyPlaceholderFactory(), null), // TODO
+					.getNodeLabel(), new RelRiskFromRiskFactorCompoundFactory(), null), // TODO
 	/* W35 */
 	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 			.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),

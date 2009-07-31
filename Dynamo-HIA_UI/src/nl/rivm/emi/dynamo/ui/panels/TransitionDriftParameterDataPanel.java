@@ -30,10 +30,10 @@ public class TransitionDriftParameterDataPanel extends Composite {
 	private boolean open = false;
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup theHelpGroup;
-	protected TypedHashMap modelObject;
+	protected TypedHashMap<?> modelObject;
 
 	public TransitionDriftParameterDataPanel(Composite parent,
-			Text topNeighbour, TypedHashMap lotsOfData,
+			Text topNeighbour, TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		myParent = parent;
@@ -68,7 +68,7 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		maleMeanHeaderLabel.setText("Mean");
 		// ROWS
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
-			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(ageCount);
+			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(ageCount);
 			Label labelRow = new Label(this, SWT.NONE);
 			labelRow.setText(new Integer(ageCount).toString());
 			// labelRow.setLayoutData(labelLayoutData);
@@ -86,7 +86,7 @@ public class TransitionDriftParameterDataPanel extends Composite {
 	}
 
 	protected void bindAbstractValue(WritableValue modelObservableValue,
-			AtomicTypeBase type) {
+			AtomicTypeBase<Float> type) {
 		Text text = new Text(this, SWT.NONE);
 		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		textLayoutData.minimumWidth = 50;
@@ -110,8 +110,8 @@ public class TransitionDriftParameterDataPanel extends Composite {
 				.getTheModal()));
 	}
 
-	protected void bindAbstractString(TypedHashMap typedHashMap, int index,
-			AtomicTypeBase myType) {
+	protected void bindAbstractString(TypedHashMap<?> typedHashMap, int index,
+			AtomicTypeBase<?> myType) {
 		// No need to implement this method, it is not used
 	}
 

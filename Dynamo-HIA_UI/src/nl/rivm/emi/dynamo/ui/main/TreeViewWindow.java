@@ -38,8 +38,8 @@ import org.eclipse.swt.widgets.TreeItem;
 public class TreeViewWindow {
 
 	public void show() {
-		Display display = new Display();
-		Shell shell = new Shell(display);
+		final Display display = new Display();
+		final Shell shell = new Shell(display);
 		shell.setText("Dynamo-HIA");
 		shell.setBounds(100, 100, 600, 400);
 		FormLayout formLayout = new FormLayout();
@@ -51,7 +51,7 @@ public class TreeViewWindow {
 		formData.bottom = new FormAttachment(100,-2);
 		formData.left = new FormAttachment(0,2);
 		tree.setLayoutData(formData);
-		TreeItem simulationsItem = new TreeItem(tree, 0);
+		final TreeItem simulationsItem = new TreeItem(tree, 0);
 		simulationsItem.setText("Simulations");
 		TreeItem referenceDataItem = new TreeItem(tree, 0);
 		referenceDataItem.setText("Reference data");

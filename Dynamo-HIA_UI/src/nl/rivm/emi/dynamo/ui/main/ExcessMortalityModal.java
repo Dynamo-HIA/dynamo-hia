@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
  *
  */
 public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
-	private static final String EXCESSMORTALITY = "excess_mortality";
+//	private static final String EXCESSMORTALITY = "excess_mortality";
 	
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());

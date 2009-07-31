@@ -9,25 +9,20 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import java.io.File;
-import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCategoricalGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -126,7 +121,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			int numberOfClasses = RiskSourcePropertiesMapFactory
+			int numberOfClasses = RiskFactorUtil
 			.getNumberOfRiskFactorClasses(this.selectedNode);
 			((RelRiskForDeathCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();

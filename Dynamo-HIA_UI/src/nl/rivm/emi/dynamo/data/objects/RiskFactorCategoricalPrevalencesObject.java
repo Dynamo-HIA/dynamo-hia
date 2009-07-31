@@ -2,10 +2,7 @@ package nl.rivm.emi.dynamo.data.objects;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Set;
-
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
@@ -14,6 +11,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 		implements StandardObjectMarker, ISanityCheck {
@@ -31,11 +30,13 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 		putAll(manufacturedMap);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean dataChecksOut() {
 		boolean soFarSoGood = true;
 		checkList = new StringBuffer(
 				"Warning, problems found:\n(Expected sums: 100 (+/- 0.1)).\n");
+		boolean cutShort = false;
 		Set<Object> ageSet = this.keySet();
 		Iterator<Object> ageIterator = ageSet.iterator();
 		while (ageIterator.hasNext()) {
@@ -66,7 +67,7 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 					Float prev = (Float) writableValue.doGetValue();
 					prevalenceSum += prev.floatValue();
 				}
-				if (Math.abs(100F - prevalenceSum) > 0.1F) {
+				if (!cutShort &&(Math.abs(100F - prevalenceSum) > 0.1F)){
 					checkList.append("For age: "
 							+ age
 							+ " and sex: "
@@ -74,7 +75,12 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 									: "Female") + " the sum is: "
 							+ prevalenceSum + "\n");
 					soFarSoGood = false;
+					if(checkList.length() > 1000){
+						cutShort = true;
+						checkList.append("More errors found......" + "\n");
+					}
 				}
+
 			}
 		}
 		return soFarSoGood;

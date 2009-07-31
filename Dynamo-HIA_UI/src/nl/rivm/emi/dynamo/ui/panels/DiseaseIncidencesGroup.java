@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
@@ -15,9 +14,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class DiseaseIncidencesGroup {
-	Group theGroup;
+	final Group theGroup;
 
-	public DiseaseIncidencesGroup(Shell shell, TypedHashMap lotsOfData,
+	public DiseaseIncidencesGroup(Shell shell, TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);

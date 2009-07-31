@@ -9,11 +9,12 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.dialogs.TransitionTrialog;
+import nl.rivm.emi.dynamo.ui.main.DataLessMessageModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
-import nl.rivm.emi.dynamo.ui.main.DataLessMessageModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
@@ -28,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 
 public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 
@@ -112,10 +112,10 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 	@Override
 	protected void processThroughModal(File dataFile, File savedFile) {
 		try {
-			boolean isOld = savedFile.exists();
+			FileCreationFlag.isOld = savedFile.exists();
 			Runnable theModal = null;
-			log.debug("rootElementName" + rootElementName);
-			log.debug("this.bulletButtonName" + this.bulletButtonName);
+			log.debug("rootElementName: " + rootElementName);
+			log.debug("this.bulletButtonName: " + this.bulletButtonName);
 			if (RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel().equals(
 					rootElementName)) {
 				if (BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED
@@ -219,9 +219,10 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
 			boolean isPresentAfter = savedFile.exists();
-			if (isPresentAfter && !isOld) {
+			if (isPresentAfter && !FileCreationFlag.isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
 						(ParentNode) node, savedFile));
+				FileCreationFlag.isOld = true;
 			}
 			theViewer.refresh();
 		} catch (Exception e) {

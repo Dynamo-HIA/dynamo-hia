@@ -19,15 +19,12 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.listeners.PopulationFileNameComboModifyListener;
-import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -41,8 +38,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -53,7 +48,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
@@ -84,11 +78,11 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
-	private boolean open = false;
+//	private boolean open = false;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
-	private PopulationFileNameComboModifyListener dropDownModifyListener;
-	private DynamoTabDataManager dynamoTabDataManager;
+//	private PopulationFileNameComboModifyListener dropDownModifyListener;
+//	private DynamoTabDataManager dynamoTabDataManager;
 
 	/** Two radiobuttons */
 	private final Button[] radioButtons = new Button[2];
@@ -104,7 +98,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
-		this.dynamoTabDataManager = dynamoTabDataManager;
+//		this.dynamoTabDataManager = dynamoTabDataManager;
 		try {
 			GridLayout layout = new GridLayout();
 			layout.numColumns = 4;
@@ -135,15 +129,16 @@ public class DynamoHeaderDataPanel extends Composite {
 
 			WritableValue observablePopFileName = dynamoSimulationObject
 					.getObservablePopulationFileName();
-			PopFileNameDropDownPanel populationFileNameDropDownPanel;
+//			PopFileNameDropDownPanel populationFileNameDropDownPanel;
 
 			try {
-				populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
+				@SuppressWarnings("unused")
+				PopFileNameDropDownPanel populationFileNameDropDownPanel = new PopFileNameDropDownPanel(
 						this, observablePopFileName, dynamoTabDataManager
 								.getDropDownSet(POP_FILE_NAME, null), helpGroup);
 
-				this.dropDownModifyListener = populationFileNameDropDownPanel
-						.getPopulationFileNameComboModifyListener();
+//				this.dropDownModifyListener = populationFileNameDropDownPanel
+//						.getPopulationFileNameComboModifyListener();
 
 			} catch (DynamoNoValidDataException e) {
 				throw new ConfigurationException(e.getMessage());
@@ -203,7 +198,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	private void bindHeaderValue(WritableValue observable, String labelValue,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		if (observable != null) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText(labelValue + ": ");
@@ -216,7 +211,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		}
 	}
 
-	protected void bindValue(WritableValue observable, AtomicTypeBase myType) {
+	protected void bindValue(WritableValue observable, AtomicTypeBase<?> myType) {
 		if (myType instanceof AbstractRangedInteger) {
 			bindAbstractRangedInteger(observable, myType);
 		} else if (myType instanceof AbstractValue) {
@@ -231,7 +226,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	private void calcTimeStepDummy(WritableValue observable, String labelValue,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Label label = new Label(this, SWT.NONE);
 		label.setText(labelValue + ": ");
 		Label valueLabel = new Label(this, SWT.NONE);
@@ -239,7 +234,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(layoutData);
@@ -248,7 +243,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	protected void bindAbstractValue(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup
 				.getTheModal(), myType));
@@ -256,7 +251,7 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	// Binds values that are subclass types of AbstractString
 	protected void bindAbstractString(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractStringVerifyListener(theHelpGroup
 				.getTheModal(), myType));
@@ -264,14 +259,14 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	// Binds values that are subclass types of AbstractBoolean
 	protected void bindAbstractBoolean(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		this.getBooleanBinding(observableObject, myType);
 	}
 
 	// FileName
 	// Binds values that are subclass types of AbstractString
 	protected void bindAbstractFileName(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractFileNameVerifyListener(theHelpGroup
 				.getTheModal(), myType));
@@ -291,8 +286,8 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	private Text getTextBinding(WritableValue observableObject,
-			AtomicTypeBase myType) {
-		Text text = createAndPlaceTextField();
+			AtomicTypeBase<?> myType) {
+		final Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
@@ -305,8 +300,8 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	private void getBooleanBinding(WritableValue observableObject,
-			AtomicTypeBase myType) {
-		Composite radioButtonsContainer = new Composite(this, SWT.NONE);
+			AtomicTypeBase<?> myType) {
+		final Composite radioButtonsContainer = new Composite(this, SWT.NONE);
 		radioButtonsContainer.setBackground(new Color(null, 0xcc, 0xcc, 0xcc));
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		radioButtonsContainer.setLayoutData(gridData);
@@ -322,37 +317,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		this
 				.getPutAndRigBinaryRadioButtons(radioButtonsContainer,
 						initialValue);
-
-		// Add the helpgroups
-		// FocusListener focusListener = new TypedFocusListener(myType,
-		// theHelpGroup);
-		// radioButtons[0].addFocusListener(
-		// // new FocusListener() {
-		// // public void focusGained(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
-		// // }
-		// //
-		// // public void focusLost(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-		// // // range.
-		// // }
-		// // }
-		// focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(radioButtons[0], myType);
-		// FocusListener focusListener2 = new TypedFocusListener(myType,
-		// theHelpGroup);
-		// radioButtons[1].addFocusListener(
-		// // new FocusListener() {
-		// // public void focusGained(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
-		// // }
-		// //
-		// // public void focusLost(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-		// // // range.
-		// // }
-		// // }
-		// focusListener2);
 		HelpTextListenerUtil.addHelpTextListeners(radioButtons[1], myType);
 		// Only the value of one radio button (the first one) is reminded
 		IObservableValue textObservableValue = SWTObservables
@@ -406,21 +371,21 @@ public class DynamoHeaderDataPanel extends Composite {
 		});
 	}
 
-	private GenericDropDownPanel createDropDown(String label,
-			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
-			DynamoTabDataManager dynamoTabDataManager)
-			throws ConfigurationException {
-		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
-		return new GenericDropDownPanel(this, label, columnSpan,
-				selectablePropertiesSet, null, dynamoTabDataManager);
-	}
-
+//	private GenericDropDownPanel createDropDown(String label,
+//			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
+//			DynamoTabDataManager dynamoTabDataManager)
+//			throws ConfigurationException {
+//		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
+//		return new GenericDropDownPanel(this, label, columnSpan,
+//				selectablePropertiesSet, null, dynamoTabDataManager);
+//	}
+//
 	public class PopFileNameDropDownPanel {
 
 		Log log = LogFactory.getLog(this.getClass().getName());
 
-		private Combo dropDown;
-		private HelpGroup theHelpGroup;
+		final private Combo dropDown;
+//		private HelpGroup theHelpGroup;
 		private DropDownPropertiesSet selectablePopulationFileNamePropertiesSet;
 		private PopulationFileNameComboModifyListener populationFileNameModifyListener;
 		private int selectedIndex;
@@ -429,10 +394,8 @@ public class DynamoHeaderDataPanel extends Composite {
 				WritableValue writableValue, DropDownPropertiesSet theSet,
 				HelpGroup theHelpGroup) {
 			selectablePopulationFileNamePropertiesSet = theSet;
-			this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;
+//			this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;
 			dropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
-			// dropDown.addFocusListener(new TypedFocusListener(
-			// XMLTagEntityEnum.POPFILENAME.getTheType(), theHelpGroup));
 			HelpTextListenerUtil.addHelpTextListeners(dropDown,
 					(AtomicTypeBase<?>) XMLTagEntityEnum.POPFILENAME.getTheType());
 			GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -485,14 +448,14 @@ public class DynamoHeaderDataPanel extends Composite {
 			return dropDown;
 		}
 
-		private void layoutDropDown(Label label) {
-			FormData comboFormData = new FormData();
-			comboFormData.left = new FormAttachment(label, 5);
-			comboFormData.right = new FormAttachment(100, -5);
-			comboFormData.top = new FormAttachment(0, 2);
-			comboFormData.bottom = new FormAttachment(100, -2);
-			dropDown.setLayoutData(comboFormData);
-		}
+//		private void layoutDropDown(Label label) {
+//			FormData comboFormData = new FormData();
+//			comboFormData.left = new FormAttachment(label, 5);
+//			comboFormData.right = new FormAttachment(100, -5);
+//			comboFormData.top = new FormAttachment(0, 2);
+//			comboFormData.bottom = new FormAttachment(100, -2);
+//			dropDown.setLayoutData(comboFormData);
+//		}
 	}
 
 }

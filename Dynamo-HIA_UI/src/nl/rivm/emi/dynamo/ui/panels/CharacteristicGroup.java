@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class CharacteristicGroup{
-	Group theGroup;
+	final Group theGroup;
 
-	public CharacteristicGroup(Shell shell, TypedHashMap lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+	public CharacteristicGroup(Shell shell, TypedHashMap<?> lotsOfData, DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

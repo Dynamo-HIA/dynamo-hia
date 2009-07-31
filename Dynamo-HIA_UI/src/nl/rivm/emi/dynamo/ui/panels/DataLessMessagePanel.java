@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 
 public class DataLessMessagePanel {
-	Group theGroup;
+	final Group theGroup;
 
 	public DataLessMessagePanel(Composite parent, Set<String> messageLineSet)
 			throws DynamoConfigurationException {
@@ -22,7 +22,7 @@ public class DataLessMessagePanel {
 		layout.numColumns = 1;
 		theGroup.setLayout(layout);
 		for(String messageLine: messageLineSet){
-		Text messageLineText = new Text(theGroup, SWT.MULTI);
+		final Text messageLineText = new Text(theGroup, SWT.MULTI);
 		messageLineText.setEditable(false);
 		messageLineText
 				.setText(messageLine);

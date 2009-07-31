@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -23,8 +20,9 @@ import org.eclipse.swt.widgets.Shell;
 
 
 public class ExcessMortalityGroup {
-	private Group theGroup;
+	final private Group theGroup;
 	
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	public ExcessMortalityGroup(Shell shell, ExcessMortalityObject lotsOfData,

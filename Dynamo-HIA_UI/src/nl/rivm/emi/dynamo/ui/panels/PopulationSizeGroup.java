@@ -14,22 +14,26 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
-public class PopulationSizeGroup{
-	Group theGroup;
+public class PopulationSizeGroup {
+	final Group theGroup;
 
-	public PopulationSizeGroup(Shell shell, TypedHashMap lotsOfData, DataBindingContext dataBindingContext, BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
+	public PopulationSizeGroup(Shell shell, TypedHashMap<?> lotsOfData,
+			DataBindingContext dataBindingContext, BaseNode selectedNode,
+			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+		String[] entityArray = Util
+				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
 				entityArray[0], entityArray[1], null);
 		entityNameGroup.putInContainer();
-		PopulationSizeParameterGroup parameterGroup = new PopulationSizeParameterGroup(theGroup, lotsOfData, dataBindingContext, helpGroup);
+		PopulationSizeParameterGroup parameterGroup = new PopulationSizeParameterGroup(
+				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
-}
+	}
 
- public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
+	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(0, 5);

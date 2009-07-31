@@ -13,7 +13,8 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 public enum RootChildDispatchEnum {
 	AMOUNTS("amounts", new AgnosticHierarchicalRootChildFactory()), //
 	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()), //
-	CUTOFFS(XMLTagEntityEnum.CUTOFFS.getElementName(), new AgnosticHierarchicalRootChildFactory()), //
+	CUTOFFS(XMLTagEntityEnum.CUTOFFS.getElementName(),
+			new AgnosticHierarchicalRootChildFactory()), //
 	DISTRIBUTIONTYPE("distributiontype", new AgnosticSingleRootChildFactory()), //
 	DURATIONCLASS("durationclass", new AgnosticSingleRootChildFactory()), //
 	HASNEWBORNS("hasnewborns", new AgnosticSingleRootChildFactory()), //
@@ -47,8 +48,10 @@ public enum RootChildDispatchEnum {
 	RISKFACTORS(XMLTagEntityEnum.RISKFACTORS.getElementName(),
 			new AgnosticHierarchicalRootChildFactory()), //
 	RRS(XMLTagEntityEnum.RRS.getElementName(),
-			new AgnosticHierarchicalRootChildFactory()),
-	SEXRATIO(XMLTagEntityEnum.SEXRATIO.getElementName(), 
+			new AgnosticHierarchicalRootChildFactory()), //
+	SEXRATIO(XMLTagEntityEnum.SEXRATIO.getElementName(),
+			new AgnosticSingleRootChildFactory()), //
+	TREND(XMLTagEntityEnum.TREND.getElementName(),
 			new AgnosticSingleRootChildFactory()); //
 
 	private final String rootChildNodeName;

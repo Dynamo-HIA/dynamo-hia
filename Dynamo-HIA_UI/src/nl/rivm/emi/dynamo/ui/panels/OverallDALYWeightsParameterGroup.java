@@ -15,15 +15,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
 public class OverallDALYWeightsParameterGroup {
-	Group theGroup;
+	final Group theGroup;
 
 	public OverallDALYWeightsParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			TypedHashMap<?> lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
+		final ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
@@ -34,7 +34,7 @@ public class OverallDALYWeightsParameterGroup {
 		FormLayout fillLayout = new FormLayout();
 		scrolledContainer.setLayout(fillLayout);
 		scrolledContainer.setBackground(new Color(null, 0x00, 0x00, 0xee));
-		Composite parameterDataPanel = new PercentParameterDataPanel(
+		final Composite parameterDataPanel = new PercentParameterDataPanel(
 				scrolledContainer, null, lotsOfData, dataBindingContext,
 				helpGroup);
 		FormData parameterFormData = new FormData();
@@ -49,7 +49,7 @@ public class OverallDALYWeightsParameterGroup {
 		scrolledContainer.setExpandVertical(true);
 		scrolledContainer.setMinSize(parameterDataPanel.computeSize(
 				SWT.DEFAULT, SWT.DEFAULT));
-		Control[] controls = parameterDataPanel.getChildren();
+		final Control[] controls = parameterDataPanel.getChildren();
 		ScrollListener listener = new ScrollListener(scrolledContainer);
 		for (int i = 0; i < controls.length; i++) {
 			controls[i].addListener(SWT.Activate, listener);

@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundPrevalencesModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -77,7 +78,7 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 
 	private void processThroughModal(File file, String rootElementName) {
 		try {
-			boolean isOld = file.exists();
+			FileCreationFlag.isOld = file.exists();
 			Runnable theModal = null;
 			if (rootElementName == null) {
 				MessageBox messageBox = new MessageBox(shell,
@@ -122,9 +123,10 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
-				if (isPresentAfter && !isOld) {
+				if (isPresentAfter && !FileCreationFlag.isOld) {
 					((ParentNode) node).addChild((ChildNode) new FileNode(
 							(ParentNode) node, file));
+					FileCreationFlag.isOld = true;
 				}
 				theViewer.refresh();
 			}

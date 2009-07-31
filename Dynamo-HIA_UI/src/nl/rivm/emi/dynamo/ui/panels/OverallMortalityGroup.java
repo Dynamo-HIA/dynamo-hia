@@ -15,9 +15,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class OverallMortalityGroup {
-	Group theGroup;
+	final Group theGroup;
 
-	public OverallMortalityGroup(Shell shell, TypedHashMap lotsOfData,
+	public OverallMortalityGroup(Shell shell, TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);

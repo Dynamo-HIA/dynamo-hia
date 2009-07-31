@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 import nl.rivm.emi.dynamo.ui.main.DataLessMessageModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
@@ -112,7 +113,7 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNa
 	
 	protected void processThroughModal(File dataFile, File savedFile, String chosenRootElementName) {
 		try {
-			boolean isOld = savedFile.exists();
+			FileCreationFlag.isOld = savedFile.exists();
 			Runnable theModal = null;
 			log.debug("rootElementName" + chosenRootElementName);
 			log.debug("this.bulletButtonName" + this.bulletButtonName);
@@ -136,9 +137,10 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends FreeNa
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					theModal);
 			boolean isPresentAfter = savedFile.exists();
-			if (isPresentAfter && !isOld) {
+			if (isPresentAfter && !FileCreationFlag.isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
 						(ParentNode) node, savedFile));
+				FileCreationFlag.isOld = true;
 			}
 			theViewer.refresh();
 		} catch (Exception e) {

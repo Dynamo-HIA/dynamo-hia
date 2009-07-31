@@ -11,6 +11,8 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 /**
  * Object to contain the data entered in W21. The Observable contains a
  * nonegative Float with eight decimals.
+ * 
+ * 
  */
 
 public class TransitionDriftNettoObject extends
@@ -28,10 +30,13 @@ public class TransitionDriftNettoObject extends
 		super.putAll(content);
 	}
 
+/**
+ * Tested and in use for databinding in the modal.
+ */
 	public WritableValue getObservableTrend()
 			throws DynamoConfigurationException {
 		WritableValue result = null;
-		Object candidateValue = getValue();
+		Object candidateValue = getSingleRootChildWritableValue(XMLTagEntityEnum.TREND.getElementName());
 		if (candidateValue instanceof WritableValue) {
 			result = (WritableValue) candidateValue;
 		}

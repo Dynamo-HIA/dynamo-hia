@@ -9,7 +9,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -18,7 +17,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class NewbornsGroup {
-	Group theGroup;
+	final Group theGroup;
 
 	public NewbornsGroup(Shell shell, NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,

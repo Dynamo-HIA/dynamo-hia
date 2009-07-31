@@ -1,11 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -15,10 +13,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,7 +24,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
 	ICategoricalObject myCategoricalObject;
-	Composite myParent = null;
+	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
@@ -49,11 +43,11 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		// layout.makeColumnsEqualWidth = false;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
-		Label indexLabel = new Label(this, SWT.NONE);
+		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
-		Label classNameLabel = new Label(this, SWT.NONE);
+		final Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Classname");
-		Label emptyLabel = new Label(this, SWT.NONE);
+		final Label emptyLabel = new Label(this, SWT.NONE);
 		GridData layoutData = new GridData();
 		layoutData.horizontalSpan = 3;
 		emptyLabel.setLayoutData(layoutData);
@@ -65,12 +59,13 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 					.getObservableCategoryName(count);
 			if (observableClassName != null) {
 				found++;
-				Label label = new Label(this, SWT.NONE);
+				final Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(observableClassName);
-				Label anotherEmptyLabel = new Label(this, SWT.NONE);
+				@SuppressWarnings("unused")
+				final Label anotherEmptyLabel = new Label(this, SWT.NONE);
 			} else {
-				MessageBox box = new MessageBox(parent.getShell());
+				final MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
 				box.setMessage("Name at index " + count
 						+ " should not be empty.");
@@ -80,28 +75,11 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	}
 
 	private void bindValue(WritableValue observableClassName) {
-		Text text = createAndPlaceTextField();
+		final Text text = createAndPlaceTextField();
 		text.setText((String) observableClassName.doGetValue());
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		layoutData.horizontalSpan = 3;
 		text.setLayoutData(layoutData);
-		// FocusListener focusListener = new
-		// TypedFocusListener(XMLTagEntityEnum.CLASS.getTheType(),
-		// theHelpGroup);
-		// text.addFocusListener(
-		// // new FocusListener() {
-		// // public void focusGained(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
-		// // }
-		// //
-		// // public void focusLost(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-		// // // range.
-		// // }
-		// //
-		// // }
-		// focusListener
-		// );
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -116,7 +94,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	}
 
 	private Text createAndPlaceTextField() {
-		Text text = new Text(this, SWT.NONE);
+		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);

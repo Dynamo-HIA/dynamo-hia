@@ -77,7 +77,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	private TypedHashMap manufacture(List<ConfigurationNode> list,
+	private TypedHashMap<?> manufacture(List<ConfigurationNode> list,
 			boolean makeObservable) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug(this.getClass().getName() + " Starting manufacture.");
@@ -129,6 +129,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makePath(TypedHashMap<?> myContainer,
 			LeafNodeList leafNodeList, int theLastContainer, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
@@ -182,71 +183,71 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 		return result;
 	}
 
-	private Object handleSinglePayLoadType(LeafNodeList leafNodeList,
-			int currentLevel, boolean makeObservable)
-			throws DynamoConfigurationException {
-		Object result = null;
-		try {
-			XMLTagEntity theType = leafNodeList.get(currentLevel).getType();
-			Object theTypeType = ((AtomicTypeBase<?>) theType)
-					.getDefaultValue();
+//	private Object handleSinglePayLoadType(LeafNodeList leafNodeList,
+//			int currentLevel, boolean makeObservable)
+//			throws DynamoConfigurationException {
+//		Object result = null;
+//		try {
+//			XMLTagEntity theType = leafNodeList.get(currentLevel).getType();
+//			Object theTypeType = ((AtomicTypeBase<?>) theType)
+//					.getDefaultValue();
+//
+//			if (theTypeType instanceof Number) {
+//				result = handleNumberPayloadType(leafNodeList, currentLevel,
+//						makeObservable);
+//			} else {
+//				// if (theTypeType instanceof String) {
+//				if ("java.lang.String".equals(theTypeType.getClass().getName())) {
+//					result = handleStringPayloadType(leafNodeList,
+//							currentLevel, makeObservable);
+//				}
+//			}
+//			return result;
+//		} catch (Exception e) {
+//			throw new DynamoConfigurationException("handlePayLoadType blew up.");
+//		}
+//	}
 
-			if (theTypeType instanceof Number) {
-				result = handleNumberPayloadType(leafNodeList, currentLevel,
-						makeObservable);
-			} else {
-				// if (theTypeType instanceof String) {
-				if ("java.lang.String".equals(theTypeType.getClass().getName())) {
-					result = handleStringPayloadType(leafNodeList,
-							currentLevel, makeObservable);
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			throw new DynamoConfigurationException("handlePayLoadType blew up.");
-		}
-	}
+//	private Object handleStringPayloadType(LeafNodeList leafNodeList,
+//			int currentLevel, boolean makeObservable) {
+//		Object result = null;
+//		String leafValue = (String) (leafNodeList.get(currentLevel).getValue());
+//		if (!makeObservable) {
+//			result = leafValue;
+//		} else {
+//			WritableValue writableValue = new WritableValue(leafValue,
+//					String.class);
+//			result = writableValue;
+//		}
+//		return result;
+//	}
 
-	private Object handleStringPayloadType(LeafNodeList leafNodeList,
-			int currentLevel, boolean makeObservable) {
-		Object result = null;
-		String leafValue = (String) (leafNodeList.get(currentLevel).getValue());
-		if (!makeObservable) {
-			result = leafValue;
-		} else {
-			WritableValue writableValue = new WritableValue(leafValue,
-					String.class);
-			result = writableValue;
-		}
-		return result;
-	}
-
-	private Object handleNumberPayloadType(LeafNodeList leafNodeList,
-			int currentLevel, boolean makeObservable)
-			throws DynamoConfigurationException {
-		Object result = null;
-		Number leafValue = (Number) (leafNodeList.get(currentLevel).getValue());
-		if (!makeObservable) {
-			result = leafValue;
-		} else {
-			if (leafValue instanceof Integer) {
-				WritableValue writableValue = new WritableValue(leafValue,
-						Integer.class);
-				result = writableValue;
-			} else {
-				if (leafValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(leafValue,
-							Float.class);
-					result = writableValue;
-				} else {
-					throw new DynamoConfigurationException(
-							"Unsupported leafValueType for IObservable-s :"
-									+ leafValue.getClass().getName());
-				}
-			}
-		}
-		return result;
-	}
+//	private Object handleNumberPayloadType(LeafNodeList leafNodeList,
+//			int currentLevel, boolean makeObservable)
+//			throws DynamoConfigurationException {
+//		Object result = null;
+//		Number leafValue = (Number) (leafNodeList.get(currentLevel).getValue());
+//		if (!makeObservable) {
+//			result = leafValue;
+//		} else {
+//			if (leafValue instanceof Integer) {
+//				WritableValue writableValue = new WritableValue(leafValue,
+//						Integer.class);
+//				result = writableValue;
+//			} else {
+//				if (leafValue instanceof Float) {
+//					WritableValue writableValue = new WritableValue(leafValue,
+//							Float.class);
+//					result = writableValue;
+//				} else {
+//					throw new DynamoConfigurationException(
+//							"Unsupported leafValueType for IObservable-s :"
+//									+ leafValue.getClass().getName());
+//				}
+//			}
+//		}
+//		return result;
+//	}
 
 	/**
 	 * Method for handling compound payload types.
@@ -288,14 +289,14 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @return the Object filled with default values.
 	 * @throws DynamoConfigurationException
 	 */
-	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
+	protected TypedHashMap<AtomicTypeBase<?>> manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
 		log.debug("manufactureDefault()");
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
-		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
+		AtomicTypeBase<?> type = (AtomicTypeBase<?>) leafNodeList.get(currentLevel)
 				.getType();
-		TypedHashMap resultMap = new TypedHashMap(type);
+		TypedHashMap<AtomicTypeBase<?>> resultMap = new TypedHashMap<AtomicTypeBase<?>>(type);
 		makeDefaultPath(resultMap, leafNodeList, theLastContainer,
 				currentLevel, makeObservable);
 		return resultMap;
@@ -313,6 +314,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			LeafNodeList leafNodeList, int theLastContainer, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
@@ -375,6 +377,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void handleSinglePayload(TypedHashMap<?> priorLevel,
 			LeafNodeList leafNodeList, int currentLevel,
 			boolean makeObservable, int value)

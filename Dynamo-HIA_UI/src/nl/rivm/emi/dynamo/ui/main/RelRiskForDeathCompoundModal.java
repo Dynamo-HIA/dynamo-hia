@@ -17,18 +17,14 @@ import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -38,7 +34,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private TypedHashMap modelObject;
+	private TypedHashMap<?> modelObject;
 	int numberOfCategories;
 	int durationClassIndex;
 
@@ -59,7 +55,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 		try {
 			super.open();
 			this.modelObject = manufactureModelObject();
-			BaseNode riskSourceNode = null;
+//			BaseNode riskSourceNode = null;
 			log.debug("Now for RelativeRisksCompoundGroup");
 			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
@@ -91,7 +87,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
-		durationClassIndex = RiskSourcePropertiesMapFactory
+		durationClassIndex = RiskFactorUtil
 		.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
@@ -115,10 +111,10 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			numberOfCategories = RiskSourcePropertiesMapFactory
+			numberOfCategories = RiskFactorUtil
 					.getNumberOfRiskFactorClasses(this.selectedNode);
 			log.debug("numberOfCategories: " + numberOfCategories);
-			durationClassIndex = RiskSourcePropertiesMapFactory
+			durationClassIndex = RiskFactorUtil
 			.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
 			((RelRiskForDeathCompoundFactory) factory)

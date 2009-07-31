@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorTypeBulletsModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -72,7 +73,7 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 				.getSelectedRootElementName();
 		log.debug("selectedRootElementNamexxx:" + selectedRootElementName);
 		try {
-			boolean isOld = file.exists();
+			FileCreationFlag.isOld = file.exists();
 			Runnable theModal = null;
 			if (selectedRootElementName == null) {
 				MessageBox messageBox = new MessageBox(shell,
@@ -120,12 +121,13 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
-				if (isPresentAfter && !isOld) {
+				if (isPresentAfter && !FileCreationFlag.isOld) {
 					((ParentNode) node).addChild((ChildNode) new FileNode(
 							(ParentNode) node, file));
 				theViewer.refresh();
 				((DirectoryNode)node).updateStandardStructure();
 				theViewer.refresh();
+				FileCreationFlag.isOld = true;
 				}
 			}
 		} catch (Exception e) {

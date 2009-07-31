@@ -5,6 +5,11 @@ import java.io.File;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.help.ElementNameScrollableHelpGroup;
 
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.ShellListener;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -15,18 +20,21 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class HelpGroup {
-	private Shell modalShell;
-	private DataAndFileContainer theModal;
-	Group theGroup = null;
+	Log log = LogFactory.getLog(this.getClass().getSimpleName());
+	final private Shell modalShell;
+	final private DataAndFileContainer theModal;
+	final Group theGroup;
 	private ElementNameScrollableHelpGroup windowHelpGroup;
 	private ElementNameScrollableHelpGroup fieldHelpGroup;
 
 	public HelpGroup(DataAndFileContainer theModal, Composite buttonPane) {
 		modalShell = theModal.getShell();
+		modalShell.addShellListener(new HelpShellListener());
 		theGroup = new Group(modalShell, SWT.NONE);
 		this.theModal = theModal;
 		handlePlacementInContainer(theGroup, buttonPane);
-		String helpDirectoryPath = System.getProperty("user.dir") + File.separator + "help";
+		String helpDirectoryPath = System.getProperty("user.dir")
+				+ File.separator + "help";
 		GridLayout layout = createGridLayout();
 		theGroup.setLayout(layout);
 		theGroup.setText("Help");
@@ -36,10 +44,9 @@ public class HelpGroup {
 				"Window", this.theModal.getRootElementName(), helpDirectoryPath);
 		windowHelpGroup.theGroup.setLayoutData(layoutData);
 
-		 fieldHelpGroup = new ElementNameScrollableHelpGroup(theGroup,
-		 "Field",
-		 "fieldInit", helpDirectoryPath);
-		 fieldHelpGroup.theGroup.setLayoutData(layoutData);
+		fieldHelpGroup = new ElementNameScrollableHelpGroup(theGroup, "Field",
+				"fieldInit", helpDirectoryPath);
+		fieldHelpGroup.theGroup.setLayoutData(layoutData);
 		theGroup.pack();
 	}
 
@@ -79,5 +86,34 @@ public class HelpGroup {
 
 	public DataAndFileContainer getTheModal() {
 		return theModal;
+	}
+
+	private class HelpShellListener implements ShellListener {
+
+		@Override
+		public void shellActivated(ShellEvent arg0) {
+			log.debug("Shell activated event.");
+		}
+
+		@Override
+		public void shellClosed(ShellEvent arg0) {
+			log.debug("Shell closed event.");
+		}
+
+		@Override
+		public void shellDeactivated(ShellEvent arg0) {
+			log.debug("Shell deactivated event.");
+		}
+
+		@Override
+		public void shellDeiconified(ShellEvent arg0) {
+			log.debug("Shell deiconified event.");
+		}
+
+		@Override
+		public void shellIconified(ShellEvent arg0) {
+			log.debug("Shell iconified event.");
+		}
+
 	}
 }

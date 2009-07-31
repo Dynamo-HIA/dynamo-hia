@@ -74,6 +74,7 @@ public class StorageTreeMenuFactory {
 		switch (treeDepth) {
 		case 1:
 			// Base directory, no context menu.
+			createErrorMenu4UnexpectedNodes(manager, selection);
 			break;
 		case 2:
 			// Simulations, ReferenceData
@@ -96,7 +97,7 @@ public class StorageTreeMenuFactory {
 			handleLevel6(manager, selection, selectedNode);
 			break;
 		default:
-			createErrorMenu4UnexpectedNodes(manager, selection, treeDepth);
+			createErrorMenu4UnexpectedNodes(manager, selection);
 			break;
 		}
 	}
@@ -109,9 +110,9 @@ public class StorageTreeMenuFactory {
 		} else {
 			if (StandardTreeNodeLabelsEnum.REFERENCEDATA.getNodeLabel()
 					.equalsIgnoreCase(nodeLabel)) {
-				;
+				createErrorMenu4UnexpectedNodes(manager, selection);
 			} else {
-				createErrorMenu4UnexpectedNodes(manager, selection, treeDepth);
+				createErrorMenu4UnexpectedNodes(manager, selection);
 			}
 		}
 	}
@@ -140,8 +141,7 @@ public class StorageTreeMenuFactory {
 						createMenu4Simulation(manager, selection);
 
 					} else {
-						createErrorMenu4UnexpectedNodes(manager, selection,
-								treeDepth);
+						createErrorMenu4UnexpectedNodes(manager, selection);
 					}
 				}
 			}
@@ -196,7 +196,7 @@ public class StorageTreeMenuFactory {
 									// selection);
 								} else {
 									createErrorMenu4UnexpectedNodes(manager,
-											selection, treeDepth);
+											selection);
 								}
 							}
 						}
@@ -225,14 +225,7 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(grandParentLabel)) {
 					buildDiseasesMenus(manager, selection, nodeLabel);
 				} else {
-					ErrorMessageUtil.showErrorMessage(log, shell,
-							new DynamoConfigurationException(
-									"Not implemented yet"), "",
-							SWT.ERROR_UNSPECIFIED);
-					/*
-					 * createDefaultMenu4UnimplementedNodes(manager, selection,
-					 * treeDepth);
-					 */
+					createErrorMenu4UnexpectedNodes(manager, selection);
 				}
 			}
 		}
@@ -244,13 +237,7 @@ public class StorageTreeMenuFactory {
 		if (selectedNode.isXMLFile()) {
 			createMenu2EditXML4Level6(manager, selection);
 		} else {
-			/*
-			 * createDefaultMenu4UnimplementedNodes(manager, selection,
-			 * treeDepth);
-			 */
-			ErrorMessageUtil.showErrorMessage(log, shell,
-					new DynamoConfigurationException("No xml file found"), "",
-					SWT.ERROR_UNSPECIFIED);
+			createErrorMenu4UnexpectedNodes(manager, selection);
 		}
 	}
 
@@ -281,16 +268,7 @@ public class StorageTreeMenuFactory {
 								createMenu4RelRiskFromRiskFactor(manager,
 										selection);
 							} else {
-								/*
-								 * createDefaultMenu4UnimplementedNodes(
-								 * manager, selection, treeDepth);
-								 */
-
-								ErrorMessageUtil.showErrorMessage(log, shell,
-										new DynamoConfigurationException(
-												"Not implemented yet"), "",
-										SWT.ERROR_UNSPECIFIED);
-
+								createErrorMenu4UnexpectedNodes(manager, selection);
 							}
 						}
 					}
@@ -329,16 +307,29 @@ public class StorageTreeMenuFactory {
 								createMenu4RiskFactorRelRisksForDisability(
 										manager, selection);
 							} else {
-								ErrorMessageUtil.showErrorMessage(log, shell,
-										new DynamoConfigurationException(
-												"Not implemented yet"), "",
-										SWT.ERROR_UNSPECIFIED);
+								createErrorMenu4UnexpectedNodes(manager, selection);
 							}
 						}
 					}
 				}
 			}
+		} else {
+			createMenu2Ask4RiskFactorConfiguration(manager, selection);
 		}
+	}
+	/**
+	 * Error menu to indicate the choice of this Node was unexpected.
+	 * 
+	 * @param manager
+	 * @param selection
+	 */
+	private void createMenu2Ask4RiskFactorConfiguration(final IMenuManager manager,
+			IStructuredSelection selection) {
+		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
+		action.setText("Please create the configuration for this riskfactor first(right click on riskfactor name).");
+		action.setSelectionPath(((BaseNode) selection.getFirstElement())
+				.getPhysicalStorage().getAbsolutePath());
+		manager.add(action);
 	}
 
 	/**
@@ -1190,16 +1181,14 @@ public class StorageTreeMenuFactory {
 	 * 
 	 * @param manager
 	 * @param selection
-	 * @param treeDepth
 	 */
 	private void createErrorMenu4UnexpectedNodes(final IMenuManager manager,
-			IStructuredSelection selection, int treeDepth) {
+			IStructuredSelection selection) {
 		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
 		// String selectionPath = selectedNode.getPhysicalStorage()
 		// .getAbsolutePath();
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
-		action.setText("Error: Unexpected nodename \""
-				+ selectedNode.deriveNodeLabel() + "\" at level " + treeDepth);
+		action.setText("No action possible");
 		action.setSelectionPath(((BaseNode) selection.getFirstElement())
 				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);

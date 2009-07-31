@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import java.util.ArrayList;
 
-import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
@@ -11,7 +10,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteg
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,8 +18,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -31,13 +27,14 @@ import org.eclipse.swt.widgets.Text;
 public class DurationDistributionParameterDataPanel extends Composite {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	DurationDistributionObject lotsOfData;
-	Composite myParent = null;
+	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
-	AtomicTypeBase myType;
+	AtomicTypeBase<?> myType;
 	int durationClassIndex;
 
+	@SuppressWarnings("unchecked")
 	public DurationDistributionParameterDataPanel(Composite parent,
 			int genderIndex, DurationDistributionObject lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -46,9 +43,9 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
-		myType = (AtomicTypeBase) XMLTagEntitySingleton.getInstance().get(
+		myType = (AtomicTypeBase<?>) XMLTagEntitySingleton.getInstance().get(
 				"value");
-		this.durationClassIndex = durationClassIndex;
+//		this.durationClassIndex = durationClassIndex;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 0;
 		layout.makeColumnsEqualWidth = true;
@@ -59,11 +56,11 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		for(int ageCount = 0; ageCount < lotsOfData.size(); ageCount++){
 			GridData gridData = new GridData();
 			gridData.horizontalAlignment = SWT.FILL;
-			Label ageLabel = new Label(this, SWT.NONE);
+			final Label ageLabel = new Label(this, SWT.NONE);
 			ageLabel.setText(Integer.toString(ageCount));
 			ageLabel.setLayoutData(gridData);
 			log.debug("Handling Age: " + Integer.toString(ageCount));
-			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);
+			TypedHashMap<?> oneAgeMap = (TypedHashMap<?>) lotsOfData.get(ageCount);
 			TypedHashMap<ArrayList<AtomicTypeObjectTuple>> oneGenderMap = (TypedHashMap<ArrayList<AtomicTypeObjectTuple>>) oneAgeMap
 					.get(genderIndex);
 			for (int durationCount = 1; durationCount <= oneGenderMap.size(); durationCount++) {
@@ -84,39 +81,24 @@ public class DurationDistributionParameterDataPanel extends Composite {
 
 	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple) {
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
-		AtomicTypeBase modelType = (AtomicTypeBase) tuple.getType();
-		Text text = new Text(this, SWT.NONE);
+		AtomicTypeBase<?> modelType = (AtomicTypeBase<?>) tuple.getType();
+		final Text text = new Text(this, SWT.NONE);
 		text.setLayoutData(gridData);
 		String convertedText = modelType.convert4View(modelObservableValue
 				.getValue());
 		text.setText(convertedText);
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//		text.addFocusListener(
-////				new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////
-////		}
-//				focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				modelType.getModelUpdateValueStrategy(), modelType
 						.getViewUpdateValueStrategy());
-		// text.addVerifyListener(new ValueVerifyListener());
 	}
 
 	private void createHeader() {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
-		Label ageHeader = new Label(this, SWT.NONE);
+		final Label ageHeader = new Label(this, SWT.NONE);
 		ageHeader.setText("Age");
 		ageHeader.setLayoutData(gridData);
 		((GridLayout) getLayout()).numColumns++;
@@ -124,7 +106,7 @@ public class DurationDistributionParameterDataPanel extends Composite {
 				.getTheType()).getMAX_VALUE();
 		log.debug("maxDuration: " + maxDuration);
 		for (int durationCount = 1; durationCount <= maxDuration; durationCount++) {
-			Label durationHeader = new Label(this, SWT.NONE);
+			final Label durationHeader = new Label(this, SWT.NONE);
 			String durationHeaderText = Integer.toString(durationCount);
 			log.debug("DurationHeaderText: " + durationHeaderText);
 			durationHeader.setText(durationHeaderText);

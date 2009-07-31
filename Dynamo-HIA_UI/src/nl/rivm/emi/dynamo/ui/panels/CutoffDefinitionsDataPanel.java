@@ -4,7 +4,6 @@ import nl.rivm.emi.dynamo.data.interfaces.ICutoffs;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -14,8 +13,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -26,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory.getLog(this.getClass().getName());
 	ICutoffs myCutoffsObject;
-	Composite myParent = null;
+	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
@@ -43,9 +40,9 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
-		Label indexLabel = new Label(this, SWT.NONE);
+		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
-		Label classNameLabel = new Label(this, SWT.NONE);
+		final Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Cutoff-value");
 		int found = 1;
 		int count = 1;
@@ -55,7 +52,7 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 					.getObservableCutoffValue(count);
 			if (observableCutoffValue != null) {
 				found++;
-				Label label = new Label(this, SWT.NONE);
+				final Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(observableCutoffValue);
 			} else {
@@ -69,11 +66,8 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 	}
 
 	private void bindValue(WritableValue observableClassName) {
-		Text text = createAndPlaceTextField();
+		final Text text = createAndPlaceTextField();
 		text.setText(myType.convert4View(observableClassName.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//		text.addFocusListener(
-//			focusListener	);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -85,7 +79,7 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		}
 
 	private Text createAndPlaceTextField() {
-		Text text = new Text(this, SWT.NONE);
+		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);

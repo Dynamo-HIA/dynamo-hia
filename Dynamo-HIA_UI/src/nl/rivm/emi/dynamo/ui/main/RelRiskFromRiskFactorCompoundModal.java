@@ -15,12 +15,14 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
+import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -35,7 +37,7 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private RiskSourceProperties props;
+	private CompoundRiskFactorProperties props;
 
 	private TypedHashMap<?> modelObject;
 	int numberOfCategories;
@@ -44,7 +46,7 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 	public RelRiskFromRiskFactorCompoundModal(Shell parentShell,
 			String dataFilePath, String configurationFilePath,
 			String rootElementName, BaseNode selectedNode,
-			RiskSourceProperties props) {
+			CompoundRiskFactorProperties props) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 		this.props = props;
@@ -95,8 +97,6 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
-		durationClassIndex = RiskSourcePropertiesMapFactory
-				.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
@@ -119,15 +119,17 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 						+ " is no file or cannot be read.");
 			}
 		} else {
+			log.debug("Starting bootstrap construction.");
 			numberOfCategories = props.getNumberOfCategories();
 			log.debug("numberOfCategories: " + numberOfCategories);
-			durationClassIndex = RiskSourcePropertiesMapFactory
-					.getDurationCategoryIndex(selectedNode);
+//			durationClassIndex = RiskFactorUtil
+//					.getDurationCategoryIndex(selectedNode);
+			durationClassIndex = props.getDurationClassIndex();
 			log.debug("durationClassIndex: " + durationClassIndex);
-			((RelRiskForDeathCompoundFactory) factory)
+			((RelRiskFromRiskFactorCompoundFactory) factory)
 					.setNumberOfCategories(numberOfCategories);
-			((CategoricalFactory) factory)
-					.setNumberOfCategories(numberOfCategories);
+//			((CategoricalFactory) factory)
+//					.setNumberOfCategories(numberOfCategories);
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

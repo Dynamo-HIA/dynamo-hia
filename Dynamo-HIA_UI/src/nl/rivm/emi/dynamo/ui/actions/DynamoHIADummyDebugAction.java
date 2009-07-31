@@ -33,9 +33,9 @@ public class DynamoHIADummyDebugAction extends Action {
 
 	@Override
 	public void run() {
-		MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
-		box.setText("Debug");
-		box.setMessage("This is a dummy action,\nso it doesn't do anything.");
-		box.open();
+//		MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
+//		box.setText("Debug");
+//		box.setMessage("This is a dummy action,\nso it doesn't do anything.");
+//		box.open();
 	}
 }

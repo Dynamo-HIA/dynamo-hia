@@ -6,36 +6,17 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
-import nl.rivm.emi.dynamo.data.objects.TransitionMatrixObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
-import nl.rivm.emi.dynamo.data.types.atomic.Sex;
-import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixAgeGroup;
-import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixOneAgeAndSexParameterGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -141,7 +122,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 		} else {
 			// The configuration file with data does not yet exist, create a new
 			// screen object with default data
-			int numberOfClasses = RiskSourcePropertiesMapFactory
+			int numberOfClasses = RiskFactorUtil
 					.getNumberOfRiskFactorClasses(this.selectedNode);
 			((CategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);

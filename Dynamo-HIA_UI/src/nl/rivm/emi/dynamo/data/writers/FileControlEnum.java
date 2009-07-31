@@ -276,6 +276,7 @@ public enum FileControlEnum {
 	/**
 	 * "Old" functionality refactored to work with the new array.
 	 */
+	@SuppressWarnings("unchecked")
 	public AtomicTypeBase<Number> getParameterType(int index) {
 		AtomicTypeBase<Number> result = null;
 		if (!((index + 2) >= parameterTypes4GroupFactory.length)) {

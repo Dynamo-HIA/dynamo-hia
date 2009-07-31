@@ -15,18 +15,14 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategoricalGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
+import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -36,9 +32,8 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	private RiskSourceProperties props;
+	private CategoricalRiskFactorProperties props;
 
 	/**
 	 * 
@@ -54,7 +49,7 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 	public RelRiskFromRiskFactorCategoricalModal(Shell parentShell,
 			String dataFilePath, String configurationFilePath,
 			String rootElementName, BaseNode selectedNode,
-			RiskSourceProperties props) {
+			CategoricalRiskFactorProperties props) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 		this.props = props;

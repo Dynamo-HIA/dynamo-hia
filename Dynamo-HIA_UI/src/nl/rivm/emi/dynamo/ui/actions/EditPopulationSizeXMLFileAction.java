@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
@@ -39,14 +40,15 @@ public class EditPopulationSizeXMLFileAction extends ActionBase {
 	protected void handle(String candidateName, String candidatePath) {
 		File candidateFile = new File(candidatePath + ".xml");
 		try {
-			boolean isOld = candidateFile.exists();
+			FileCreationFlag.isOld = candidateFile.exists();
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
 					candidatePath + ".xml", candidatePath + ".xml", rootElementName, node);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = candidateFile.exists();
-			if (isPresentAfter && !isOld) {
+			if (isPresentAfter && !FileCreationFlag.isOld) {
 				((ParentNode)node).addChild(new FileNode((ParentNode)node, candidateFile));
+				FileCreationFlag.isOld = true;
 			}
 			theViewer.refresh();
 		} catch (Exception e) {

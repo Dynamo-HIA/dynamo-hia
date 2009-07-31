@@ -20,20 +20,16 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.NewbornsDialog;
 import nl.rivm.emi.dynamo.ui.panels.NewbornsGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -43,7 +39,6 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class NewbornsModal extends AbstractMultiRootChildDataModal {
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	private NewbornsObject modelObject;

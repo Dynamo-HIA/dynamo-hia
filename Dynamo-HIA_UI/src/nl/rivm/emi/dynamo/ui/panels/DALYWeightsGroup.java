@@ -13,9 +13,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class DALYWeightsGroup {
-	Group theGroup;
+	final Group theGroup;
 
-	public DALYWeightsGroup(Shell shell, TypedHashMap lotsOfData,
+	public DALYWeightsGroup(Shell shell, TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) {
 		theGroup = new Group(shell, SWT.NONE);

@@ -5,7 +5,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -15,8 +14,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -29,7 +26,7 @@ import org.eclipse.swt.widgets.Text;
 public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory.getLog(this.getClass().getName());
 	IDurationClass myReferenceCategoryObject;
-	Composite myParent = null;
+	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
@@ -46,7 +43,7 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
-		Label indexLabel = new Label(this, SWT.NONE);
+		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Duration class index:");
 			WritableValue observableObject = referenceCategoryObject
 					.getObservableDurationClass();
@@ -61,22 +58,8 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	}
 
 	private void bindValue(WritableValue observableObject) {
-		Text text = createAndPlaceTextField();
+		final Text text = createAndPlaceTextField();
 		text.setText((String) myType.convert4View(observableObject.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//		text.addFocusListener(
-////				new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////
-////		}
-//				focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -89,7 +72,7 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	}
 
 	private Text createAndPlaceTextField() {
-		Text text = new Text(this, SWT.NONE);
+		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);

@@ -10,6 +10,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -222,11 +223,12 @@ public class SimulationUniversalAction extends ActionBase {
 					Realm.runWithDefault(SWTObservables.getRealm(Display
 							.getDefault()), theModal);
 					boolean isPresentAfter = configurationFile.exists();
-					if (isPresentAfter && !configurationFileExistsBefore) {
+					if (isPresentAfter && /*!configurationFileExistsBefore*/ !FileCreationFlag.isOld) {
 						((ParentNode) simulationNameDirectoryNode)
 								.addChild((ChildNode) new FileNode(
 										(ParentNode) simulationNameDirectoryNode,
 										configurationFile));
+						FileCreationFlag.isOld = true;
 						theViewer.refresh();
 					}
 				}

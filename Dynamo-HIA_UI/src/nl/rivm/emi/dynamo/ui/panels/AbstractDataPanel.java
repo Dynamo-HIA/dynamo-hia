@@ -29,8 +29,8 @@ public abstract class AbstractDataPanel extends Composite {
 	// and other basetypes
 	// Call the other  
 	// Look to Matrix and others
-	protected void bindValue(TypedHashMap typedHashMap, int index, 
-			AtomicTypeBase myType) {
+	protected void bindValue(TypedHashMap<?> typedHashMap, int index, 
+			AtomicTypeBase<?> myType) {
 		if (myType instanceof AbstractValue) {
 			bindAbstractValue(typedHashMap, index, myType);
 		} else
@@ -39,8 +39,8 @@ public abstract class AbstractDataPanel extends Composite {
 		}		
 	}
 	
-	protected void bindTestValue(TypedHashMap sexMap, int index) {
-		Text text = new Text(this, SWT.NONE);
+	protected void bindTestValue(TypedHashMap<?> sexMap, int index) {
+		final Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -51,16 +51,16 @@ public abstract class AbstractDataPanel extends Composite {
 						.getStrategy(modelObservableValue.getValueType()));
 	}
 	
-	protected abstract void bindAbstractValue(TypedHashMap typedHashMap, int index, 
-			AtomicTypeBase myType);
+	protected abstract void bindAbstractValue(TypedHashMap<?> typedHashMap, int index, 
+			AtomicTypeBase<?> myType);
 	
 	// Binds values that are subclass types of AbstractString
-	protected abstract void bindAbstractString(TypedHashMap typedHashMap, int index, 
-			AtomicTypeBase myType);
+	protected abstract void bindAbstractString(TypedHashMap<?> typedHashMap, int index, 
+			AtomicTypeBase<?> myType);
 
 	// Binds values that are subclass types of AbstractBoolean
-	protected void bindAbstractBoolean(TypedHashMap typedHashMap, int index, 
-			AtomicTypeBase myType) {
+	protected void bindAbstractBoolean(TypedHashMap<?> typedHashMap, int index, 
+			AtomicTypeBase<?> myType) {
 		
 	}
 	

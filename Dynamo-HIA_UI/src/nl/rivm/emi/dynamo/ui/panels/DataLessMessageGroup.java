@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 public class DataLessMessageGroup {
-	Group theGroup;
+	final Group theGroup;
 
 	public DataLessMessageGroup(Shell shell, BaseNode selectedNode, Set<String> messageLineSet) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);

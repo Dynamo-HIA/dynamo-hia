@@ -1,16 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import java.util.Set;
-
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 // TODO: First implementation for Transition Drift!
@@ -19,14 +15,14 @@ public abstract class GenericParameterDataPanel<T>
 	Log log = LogFactory
 			.getLog(this.getClass().getName());
 	//private TypedHashMap<T> lotsOfData;
-	private Composite myParent = null;
-	private boolean open = false;
+//	final private Composite myParent;
+//	private boolean open = false;
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup theHelpGroup;
 	//protected AtomicTypeBase<T>[] myTypes;
 
 	public GenericParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData,
+			TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup,
 			PanelMatrix<T> panelMatrix
 	) {

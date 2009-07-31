@@ -9,13 +9,11 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.jfree.chart.entity.EntityCollection;
 
 public class EntityNamePanel {
 	Log log = LogFactory.getLog(this.getClass().getName());
-
-	Group group;
-	Label nameLabel;
+	final Group group;
+	final Label nameLabel;
 	HelpGroup theHelpGroup;
 
 	public EntityNamePanel(Composite parent, String entityLabel,
@@ -24,7 +22,7 @@ public class EntityNamePanel {
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 		boolean prefixed = (prefix != null);
-		Label label = new Label(group, SWT.LEFT);
+		final Label label = new Label(group, SWT.LEFT);
 		String labelContent = null;
 		if (!prefixed) {
 			labelContent = (entityLabel.substring(0, entityLabel.length()))

@@ -17,17 +17,13 @@ import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorContinuousGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -37,7 +33,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 public class RiskFactorContinuousModal extends AbstractMultiRootChildDataModal {
-	private static final String RISKFACTOR_CONTINUOUS = "riskfactor_continuous";
+//	private static final String RISKFACTOR_CONTINUOUS = "riskfactor_continuous";
 
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());

@@ -24,6 +24,7 @@ public class FactoryProvider {
 			String rootNodeName) throws ConfigurationException {
 		RootLevelFactory theFactory = null;
 		theFactory = dispatchMap.get(rootNodeName).getTheFactory();
+		log.debug("For rootNodeName: " + rootNodeName + " returning: " + theFactory.getClass().getSimpleName());
 		return theFactory;
 	}
 }

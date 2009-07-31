@@ -13,7 +13,7 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -64,7 +64,7 @@ public class RelRiskForDisabilityCategoricalModal extends AgnosticModal {
 	protected TypedHashMap<?> bootstrapModelObject(AgnosticFactory factory)
 			throws ConfigurationException {
 		TypedHashMap<?> producedData = null;
-		int numberOfClasses = RiskSourcePropertiesMapFactory
+		int numberOfClasses = RiskFactorUtil
 				.getNumberOfRiskFactorClasses(this.selectedNode);
 		((RelRiskForDisabilityCategoricalFactory) factory)
 				.setNumberOfCategories(numberOfClasses);

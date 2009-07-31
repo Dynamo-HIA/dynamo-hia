@@ -44,7 +44,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	
 
 	private Shell parentShell;
-	protected Shell shell;
+	final protected Shell shell;
 	protected HelpGroup helpPanel;
 	protected GenericButtonPanel buttonPanel;
 	protected BaseNode selectedNode;
@@ -79,6 +79,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 		this.dataBindingContext = new DataBindingContext();
 		buttonPanel = new GenericButtonPanel(this.shell);
 		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
+		HelpTextManager.initialize(helpPanel);
 		((GenericButtonPanel) buttonPanel)
 		.setModalParent((DataAndFileContainer) this);
 	// 20090713 Added

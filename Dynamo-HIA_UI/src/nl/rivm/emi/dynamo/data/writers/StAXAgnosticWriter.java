@@ -88,6 +88,7 @@ public class StAXAgnosticWriter {
 		writer.add(event);
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void recurseLeafData(FileControlEnum fileControl,
 			HashMap<Integer, Object> theModel,
 			LinkedHashMap<String, Number> containerValuesMap,
@@ -133,7 +134,7 @@ public class StAXAgnosticWriter {
 						writer, eventFactory);
 			} else {
 				if (containedObject instanceof ArrayList) {
-					for (Object entry : (ArrayList) containedObject) {
+					for (Object entry : (ArrayList<?>) containedObject) {
 						AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) entry;
 						Object containedPayloadObject = tuple.getValue();
 						level = handleContainedObject(fileControl, level,

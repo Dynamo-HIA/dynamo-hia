@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactoryImplementation;
+import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;

@@ -2,6 +2,14 @@ package nl.rivm.emi.dynamo.help;
 
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 
+/**
+ * BEWARE: The implementation is fully dependent on the fact, that ONE modal
+ * datawindow can be open at a time. When more windows can be open a context
+ * must be maintained for each open window.
+ * 
+ * @author mondeelr
+ * 
+ */
 public class HelpTextManager {
 	private static HelpTextManager instance = null;
 	private HelpGroup helpGroup;
@@ -14,7 +22,7 @@ public class HelpTextManager {
 	private String[] stackedFieldHelpTexts = new String[2];
 
 	private HelpTextManager(HelpGroup helpGroup) {
-		this.helpGroup = helpGroup;
+		setHelpGroup(helpGroup);
 	}
 
 	/**
@@ -24,9 +32,19 @@ public class HelpTextManager {
 	 * @param helpGroup
 	 */
 	synchronized public static void initialize(HelpGroup helpGroup) {
-		if ((instance == null) && (helpGroup != null)) {
-			instance = new HelpTextManager(helpGroup);
+		if (instance == null) {
+			if (helpGroup != null) {
+				instance = new HelpTextManager(helpGroup);
+			}
+		} else {
+			if (helpGroup != null) {
+				instance.setHelpGroup(helpGroup);
+			}
 		}
+	}
+
+	private void setHelpGroup(HelpGroup helpGroup) {
+		this.helpGroup = helpGroup;
 	}
 
 	/**
@@ -38,17 +56,18 @@ public class HelpTextManager {
 	}
 
 	synchronized public void setFocusText(String text) {
-		if (text != null){
-		this.stackedFieldHelpTexts[0] = text;
-		if(stackedFieldHelpTexts[1] == null){
-			helpGroup.getFieldHelpGroup().setHelpText(stackedFieldHelpTexts[0] );
-		}
+		if (text != null) {
+			this.stackedFieldHelpTexts[0] = text;
+			if (stackedFieldHelpTexts[1] == null) {
+				helpGroup.getFieldHelpGroup().setHelpText(
+						stackedFieldHelpTexts[0]);
+			}
 		}
 	}
 
 	synchronized public void resetFocusText() {
 		this.stackedFieldHelpTexts[0] = null;
-		if(stackedFieldHelpTexts[1] == null){
+		if (stackedFieldHelpTexts[1] == null) {
 			helpGroup.getFieldHelpGroup().setHelpText("");
 		}
 	}
@@ -57,7 +76,7 @@ public class HelpTextManager {
 		if ((text != null)
 				&& (!text.equalsIgnoreCase(stackedFieldHelpTexts[1]))) {
 			stackedFieldHelpTexts[1] = text;
-			helpGroup.getFieldHelpGroup().setHelpText(stackedFieldHelpTexts[1] );
+			helpGroup.getFieldHelpGroup().setHelpText(stackedFieldHelpTexts[1]);
 		}
 	}
 
@@ -65,7 +84,7 @@ public class HelpTextManager {
 		this.stackedFieldHelpTexts[1] = null;
 		if (stackedFieldHelpTexts[0] != null) {
 			helpGroup.getFieldHelpGroup().setHelpText(stackedFieldHelpTexts[0]);
-		} else{
+		} else {
 			helpGroup.getFieldHelpGroup().setHelpText("");
 		}
 	}

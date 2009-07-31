@@ -7,6 +7,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.main.NewbornsModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -48,16 +49,17 @@ public class NewbornsXMLFileAction extends ActionBase {
 
 	private void processThroughModal(File file) {
 		try {
-			boolean isOld = file.exists();
+			FileCreationFlag.isOld = file.exists();
 			NewbornsModal popSizeModal = new NewbornsModal(shell,
 					file.getAbsolutePath(), file.getAbsolutePath(), 
 					rootElementName, node, null);
 			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = file.exists();
-			if (isPresentAfter && !isOld) {
+			if (isPresentAfter && !FileCreationFlag.isOld) {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
 						(ParentNode) node, file));
+				FileCreationFlag.isOld = true;
 			}
 			theViewer.refresh();
 		} catch (Exception e) {

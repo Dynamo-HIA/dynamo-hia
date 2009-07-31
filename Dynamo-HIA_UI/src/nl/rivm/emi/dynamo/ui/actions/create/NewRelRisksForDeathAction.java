@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.ui.actions.ActionBase;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDeathContinuousModal;
+import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -76,7 +77,7 @@ public class NewRelRisksForDeathAction extends ActionBase {
 	// Add import file action here
 	private void processThroughModal(File file, String configurationRootElementName) {
 		try {
-			boolean isOld = file.exists();
+			FileCreationFlag.isOld = file.exists();
 			Runnable theModal = null;
 			if (configurationRootElementName == null) {
 				MessageBox messageBox = new MessageBox(shell,
@@ -120,9 +121,10 @@ public class NewRelRisksForDeathAction extends ActionBase {
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
-				if (isPresentAfter && !isOld) {
+				if (isPresentAfter && !FileCreationFlag.isOld) {
 					((ParentNode) node).addChild((ChildNode) new FileNode(
 							(ParentNode) node, file));
+					FileCreationFlag.isOld = true;
 				}
 				theViewer.refresh();
 				}				

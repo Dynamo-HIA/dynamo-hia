@@ -27,7 +27,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -36,13 +35,13 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 public class RiskFactorTypeBulletsModal implements Runnable {
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	private Shell shell;
+	final private Shell shell;
 	private BaseNode selectedNode;
 	private String newFilePath = "";
 	/** Three type radiobuttons. */
-	private Button[] radioButtons = new Button[3];
+	final private Button[] radioButtons = new Button[3];
 	/* Initialized separately because setSelection does not generate an event. */
 	private String selectedRootElementName = RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 			.getNodeLabel();
@@ -278,13 +277,13 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		open();
 	}
 
-	static private void handlePlacementInContainer(Composite myComposite) {
-		FormData formData = new FormData();
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.top = new FormAttachment(0, -5);
-		myComposite.setLayoutData(formData);
-	}
+//	static private void handlePlacementInContainer(Composite myComposite) {
+//		FormData formData = new FormData();
+//		formData.left = new FormAttachment(0, 5);
+//		formData.right = new FormAttachment(100, -5);
+//		formData.top = new FormAttachment(0, -5);
+//		myComposite.setLayoutData(formData);
+//	}
 
 	public BaseNode getSelectedNode() {
 		return selectedNode;

@@ -11,17 +11,13 @@ package nl.rivm.emi.dynamo.ui.main;
 
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorContinuousPrevalencesGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -31,6 +27,7 @@ import org.eclipse.swt.widgets.Shell;
  *
  */
 public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChildDataModal {
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * Must be "global"to be available to the save-listener.

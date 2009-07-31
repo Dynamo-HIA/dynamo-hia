@@ -8,12 +8,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.CharBuffer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -23,9 +21,9 @@ import org.eclipse.swt.widgets.Label;
 
 public class ElementNameScrollableHelpGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	Composite parent = null;
-	public Group theGroup = null;
-	Label label = null;
+	final Composite parent;
+	final public Group theGroup;
+	final Label label;
 	Point preferredSize = null;
 	String borderText;
 	int count = 0;
@@ -57,7 +55,7 @@ public class ElementNameScrollableHelpGroup {
 					if (helpFile.isFile()) {
 						if (helpFile.canRead()) {
 							FileReader reader = new FileReader(helpFile);
-							StringBuffer stringBuffer = new StringBuffer();
+//							StringBuffer stringBuffer = new StringBuffer();
 							char[] charArray = new char[(int) helpFile.length()];
 							reader.read(charArray);
 							helpContent = new String(charArray);

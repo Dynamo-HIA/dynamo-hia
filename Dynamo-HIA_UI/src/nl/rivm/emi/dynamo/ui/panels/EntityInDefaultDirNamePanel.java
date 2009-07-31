@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 public class EntityInDefaultDirNamePanel implements HelpController{
-	Group group;
-	Label nameLabel;
+	final Group group;
+	final Label nameLabel;
 	HelpGroup theHelpGroup;
 	
 	 public EntityInDefaultDirNamePanel(Composite parent, BaseNode selectedNode, final HelpGroup theHelpGroup) {
@@ -34,7 +34,7 @@ public class EntityInDefaultDirNamePanel implements HelpController{
 		String containerInstanceDirLabel = ((BaseNode)containerInstanceDirNode).toString();
 		ParentNode containerClassDirNode = ((ChildNode)containerInstanceDirNode).getParent();
 		String containerClassDirLabel = ((BaseNode)containerClassDirNode).toString();
-		Label label = new Label(group, SWT.LEFT);
+		final Label label = new Label(group, SWT.LEFT);
 		String labelText = containerClassDirLabel.substring(0, containerClassDirLabel.length()-1) + ":"; 
 		label.setText(labelText.replace('_' , ' '));
 		nameLabel = new Label(group, SWT.LEFT);

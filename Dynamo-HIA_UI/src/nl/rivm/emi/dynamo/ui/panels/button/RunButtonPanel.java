@@ -49,7 +49,9 @@ public class RunButtonPanel {
 	}
 	
 	public void enableButton(boolean doIt){
+		if(!runButton.isDisposed()){
 		runButton.setEnabled(doIt);
+		}
 	}
 
 	/**

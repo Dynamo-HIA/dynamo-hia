@@ -7,7 +7,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrategies;
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.FloatValueVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -17,8 +16,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -30,14 +27,14 @@ import org.eclipse.swt.widgets.Text;
 public class FloatParameterDataPanel extends Composite /* implements Runnable */{
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
-	TypedHashMap lotsOfData;
-	Composite myParent = null;
+	TypedHashMap<?> lotsOfData;
+	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
 
 	public FloatParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData,
+			TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
@@ -48,17 +45,17 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		layout.numColumns = 3;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
-		Label ageLabel = new Label(this, SWT.NONE);
+		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
-		Label femaleLabel = new Label(this, SWT.NONE);
+		final Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
 //		Label femaleTestLabel = new Label(this, SWT.NONE);
 //		femaleTestLabel.setText("FemaleTest");
-		Label maleLabel = new Label(this, SWT.NONE);
+		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			TypedHashMap tHMap = (TypedHashMap)lotsOfData.get(count);
-			Label label = new Label(this, SWT.NONE);
+			TypedHashMap<?> tHMap = (TypedHashMap<?>)lotsOfData.get(count);
+			final Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
 			bindValue(tHMap, BiGender.FEMALE_INDEX);
 //			bindTestValue(tHMap, BiGender.FEMALE_INDEX);
@@ -77,26 +74,12 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(TypedHashMap typedHashMap, int index) {
-		Text text = new Text(this, SWT.NONE);
+	private void bindValue(TypedHashMap<?> typedHashMap, int index) {
+		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		text.setText(typedHashMap.get(index).toString());
-//		FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.STANDARDVALUE.getTheType(),theHelpGroup);
-//	text.addFocusListener(
-////			new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////																	// range.
-////			}
-////
-////		}
-//		focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, (AtomicTypeBase<?>) XMLTagEntityEnum.STANDARDVALUE.getTheType());
 		//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
@@ -109,15 +92,15 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		text.addVerifyListener(new FloatValueVerifyListener(theHelpGroup.getTheModal()));
 	}
 
-	private void bindTestValue(TypedHashMap sexMap, int index) {
-		Text text = new Text(this, SWT.NONE);
-		text.setText(sexMap.get(index).toString());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
-		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
-		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-				ModelUpdateValueStrategies.getStrategy(modelObservableValue
-						.getValueType()), ViewUpdateValueStrategies
-						.getStrategy(modelObservableValue.getValueType()));
-	}
+//	private void bindTestValue(TypedHashMap<?> sexMap, int index) {
+//		Text text = new Text(this, SWT.NONE);
+//		text.setText(sexMap.get(index).toString());
+//		IObservableValue textObservableValue = SWTObservables.observeText(text,
+//				SWT.Modify);
+//		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
+//		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+//				ModelUpdateValueStrategies.getStrategy(modelObservableValue
+//						.getValueType()), ViewUpdateValueStrategies
+//						.getStrategy(modelObservableValue.getValueType()));
+//	}
 }

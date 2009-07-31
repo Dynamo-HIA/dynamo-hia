@@ -26,11 +26,13 @@ public class DurationDistributionObject extends TypedHashMap<Age> implements Sta
 			 super((Age)XMLTagEntityEnum.AGE.getTheType());
 			 putAll(manufacturedMap);
 		}
+		@SuppressWarnings("unchecked")
 		@Override
 		public boolean dataChecksOut() {
 			boolean soFarSoGood = true;
 			checkList = new StringBuffer(
 					"Warning, problems found:\n(Expected sums: 100 (+/- 0.1)).\n");
+			boolean cutShort = false;
 			Set<Object> ageSet = this.keySet();
 			Iterator<Object> ageIterator = ageSet.iterator();
 			while (ageIterator.hasNext()) {
@@ -61,7 +63,7 @@ public class DurationDistributionObject extends TypedHashMap<Age> implements Sta
 						Float prev = (Float) writableValue.doGetValue();
 						prevalenceSum += prev.floatValue();
 					}
-					if (Math.abs(100F - prevalenceSum) > 0.1F) {
+					if (!cutShort &&(Math.abs(100F - prevalenceSum) > 0.1F)){
 						checkList.append("For age: "
 								+ age
 								+ " and sex: "
@@ -69,6 +71,10 @@ public class DurationDistributionObject extends TypedHashMap<Age> implements Sta
 										: "Female") + " the sum is: "
 								+ prevalenceSum + "\n");
 						soFarSoGood = false;
+						if(checkList.length() > 1000){
+							cutShort = true;
+							checkList.append("More errors found......" + "\n");
+						}
 					}
 				}
 			}

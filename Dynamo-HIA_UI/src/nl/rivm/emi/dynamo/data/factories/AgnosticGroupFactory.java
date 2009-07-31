@@ -20,7 +20,6 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.base.FlexibleUpperLimitNumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
@@ -138,6 +137,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
+	@SuppressWarnings("unchecked")
 	protected LinkedHashMap<String, Object> manufacture(File configurationFile,
 			boolean makeObservable, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
@@ -215,6 +215,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private Object processPreviousRootChildren(RootChildDispatchMap instance,
 			String previousRootChildName,
 			List<ConfigurationNode> equallyNamedRootChildren,
@@ -292,7 +293,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 							+ rootChildType.getXMLElementName());
 			// A Wrappertype has its own fileControl String-s.
 			if (rootChildType instanceof WrapperType) {
-				TypedHashMap resultMap = null;
+				TypedHashMap<?> resultMap = null;
 				FileControlSingleton fileControlInstance = FileControlSingleton
 						.getInstance();
 				String xmlElementName = rootChildType.getXMLElementName();
@@ -306,7 +307,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			} else {
 				if (rootChildType instanceof PayloadType) {
 					Object defaultObject = manufactureDefaultSinglePayload(
-							(AtomicTypeBase) rootChildType, makeObservable);
+							(AtomicTypeBase<?>) rootChildType, makeObservable);
 					AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
 							rootChildType, defaultObject);
 					underConstruction.put(rootChildType.getXMLElementName(),
@@ -323,6 +324,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return underConstruction;
 	}
 
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> handleWrapperType(XMLTagEntity wrapperType,
 			FileControlEnum rootChildControlEnum, int level,
 			TypedHashMap<?> resultMap, Boolean makeObservable)
@@ -363,11 +365,12 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return resultMap;
 	}
 
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			FileControlEnum fileControl, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
 		try {
-			AtomicTypeBase testType = (AtomicTypeBase<?>) fileControl
+			AtomicTypeBase<?> testType = (AtomicTypeBase<?>) fileControl
 					.getParameterType4GroupFactory(currentLevel);
 			if (!(testType instanceof AbstractString)) {
 				AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) fileControl
@@ -447,25 +450,25 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		priorLevel.put(value, payloadList);
 	}
 
-	private void handleSinglePayload(TypedHashMap<?> priorLevel,
-			FileControlEnum controlEnum, int currentLevel,
-			boolean makeObservable, int value)
-			throws DynamoConfigurationException {
-		log.debug("controlEnum" + controlEnum);
-		/*
-		 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
-		 * + ((PayloadType<Number>) leafNodeList.get( currentLevel + 1)));
-		 */
-		AtomicTypeBase payloadType = (AtomicTypeBase) controlEnum
-				.getParameterType4GroupFactory(currentLevel + 1);
-		Object defaultValue = payloadType.getDefaultValue();
-		Object defaultObjectValue = manufactureDefaultSinglePayload(
-				payloadType, makeObservable);
-		priorLevel.put(value, defaultObjectValue);
+//	private void handleSinglePayload(TypedHashMap<?> priorLevel,
+//			FileControlEnum controlEnum, int currentLevel,
+//			boolean makeObservable, int value)
+//			throws DynamoConfigurationException {
+//		log.debug("controlEnum" + controlEnum);
+//		/*
+//		 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
+//		 * + ((PayloadType<Number>) leafNodeList.get( currentLevel + 1)));
+//		 */
+//		AtomicTypeBase<?> payloadType = (AtomicTypeBase<?>) controlEnum
+//				.getParameterType4GroupFactory(currentLevel + 1);
+////		Object defaultValue = payloadType.getDefaultValue();
+//		Object defaultObjectValue = manufactureDefaultSinglePayload(
+//				payloadType, makeObservable);
+//		priorLevel.put(value, defaultObjectValue);
+//
+//	}
 
-	}
-
-	private Object manufactureDefaultSinglePayload(AtomicTypeBase type,
+	private Object manufactureDefaultSinglePayload(AtomicTypeBase<?> type,
 			boolean makeObservable) throws DynamoConfigurationException {
 		Object result = null;
 		Object defaultValue = type.getDefaultValue();

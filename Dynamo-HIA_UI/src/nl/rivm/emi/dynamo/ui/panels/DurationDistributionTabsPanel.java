@@ -2,8 +2,6 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
-import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -17,7 +15,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
@@ -26,18 +23,20 @@ public class DurationDistributionTabsPanel {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	protected DurationDistributionObject durationDistributionObject;
-	private Composite myParent = null;
+//	final private Composite myParent;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
 	private BaseNode selectedNode;
-	TabFolder tabFolder;
+	final private TabFolder tabFolder;
 	
 	public DurationDistributionTabsPanel(Composite parent,
 			BaseNode selectedNode,
 			DurationDistributionObject durationDistributionObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup)
 			throws ConfigurationException {
-		this.myParent = parent;
+//		this.myParent = parent;
+		tabFolder = new TabFolder(parent, SWT.FILL);
+		tabFolder.setLayout(new FillLayout());
 		this.durationDistributionObject = durationDistributionObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
@@ -49,9 +48,6 @@ public class DurationDistributionTabsPanel {
 
 		log.debug("durationDistributionObject: " + durationDistributionObject);
 
-		tabFolder = new TabFolder(parent, SWT.FILL);
-
-		tabFolder.setLayout(new FillLayout());
 
 		final DurationDistributionTab[] genderTabs = new DurationDistributionTab[2];
 		genderTabs[BiGender.FEMALE_INDEX] = new DurationDistributionTab(
@@ -78,16 +74,16 @@ public class DurationDistributionTabsPanel {
 				}
 			}
 
-			private void handleErrorMessage(Exception e) {
-				e.printStackTrace();
-				MessageBox box = new MessageBox(
-						DurationDistributionTabsPanel.this.myParent.getShell(),
-						SWT.ERROR_UNSPECIFIED);
-				box.setText("Error occured during creation of a new tab "
-						+ e.getMessage());
-				box.setMessage(e.getMessage());
-				box.open();
-			}
+//			private void handleErrorMessage(Exception e) {
+//				e.printStackTrace();
+//				MessageBox box = new MessageBox(
+//						DurationDistributionTabsPanel.this.myParent.getShell(),
+//						SWT.ERROR_UNSPECIFIED);
+//				box.setText("Error occured during creation of a new tab "
+//						+ e.getMessage());
+//				box.setMessage(e.getMessage());
+//				box.open();
+//			}
 
 		});
 

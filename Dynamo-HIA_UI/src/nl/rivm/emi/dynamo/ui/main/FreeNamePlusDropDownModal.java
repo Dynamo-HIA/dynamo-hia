@@ -39,8 +39,8 @@ import org.eclipse.swt.widgets.Text;
 
 public class FreeNamePlusDropDownModal implements Runnable {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	private Shell shell;
-	private HelpGroup helpPanel;
+	final private Shell shell;
+	// private HelpGroup helpPanel;
 	private BaseNode selectedNode;
 	private String newFilePath;
 	RiskSourcePropertiesMap selectableRiskSourcePropertiesMap;

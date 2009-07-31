@@ -49,7 +49,7 @@ public abstract class AbstractHelplessModal implements Runnable {
 	 * Must be "global" to be available to the save-listener.
 	 */
 	protected String configurationFilePath;
-	protected Shell shell;
+	final protected Shell shell;
 	protected BaseNode selectedNode;
 	String caption;
 

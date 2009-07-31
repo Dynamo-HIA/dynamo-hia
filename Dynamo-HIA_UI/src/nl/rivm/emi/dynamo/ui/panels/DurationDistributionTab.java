@@ -37,16 +37,16 @@ public class DurationDistributionTab {
 	private DurationDistributionObject durationDistributionObject;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup helpGroup;
-	private BaseNode selectedNode;
+//	private BaseNode selectedNode;
 
 	private TabFolder tabFolder;
 	private TabItem tabItem;
 
-	/**
-	 * Default constructor for allocating array only.
-	 */
-	public DurationDistributionTab() {
-	}
+//	/**
+//	 * Default constructor for allocating array only.
+//	 */
+//	public DurationDistributionTab() {
+//	}
 
 	/**
 	 * @param tabfolder
@@ -64,7 +64,7 @@ public class DurationDistributionTab {
 		this.dataBindingContext = dataBindingContext;
 		this.durationDistributionObject = durationDistributionObject;
 		this.helpGroup = helpGroup;
-		this.selectedNode = selectedNode;
+//		this.selectedNode = selectedNode;
 		makeIt();
 	}
 

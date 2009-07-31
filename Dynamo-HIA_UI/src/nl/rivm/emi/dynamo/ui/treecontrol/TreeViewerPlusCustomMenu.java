@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.menu.listeners.StorageTreeMenuListener;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
 public class TreeViewerPlusCustomMenu {
@@ -24,6 +25,7 @@ public class TreeViewerPlusCustomMenu {
 		treeViewer.getControl().setMenu(mgr.createContextMenu(treeViewer.getControl()));
 		// Open the tree at startup upto simulation-level.
 		treeViewer.expandToLevel(3);
+		treeViewer.getControl().addListener(SWT.MouseHover, new MouseHoverListener(treeViewer));
 	}
 	
 	/**
