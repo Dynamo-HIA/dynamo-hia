@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
+import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
@@ -15,15 +16,18 @@ import org.eclipse.swt.widgets.MessageBox;
  * Listener that creates a new nested tab
  * 
  * @author schutb
- *
+ * 
  */
-public class CreateSelectionListener extends AbstractLoggingClass
-	implements SelectionListener {
+public class CreateSelectionListener extends AbstractLoggingClass implements
+		SelectionListener {
 
 	private TabPlatform tabPlatform = null;
-	
-	public CreateSelectionListener(TabPlatform platform) {
+	private DataAndFileContainer theModal = null;
+
+	public CreateSelectionListener(TabPlatform platform,
+			DataAndFileContainer theModal) {
 		this.tabPlatform = platform;
+		this.theModal = theModal;
 	}
 
 	public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -33,8 +37,8 @@ public class CreateSelectionListener extends AbstractLoggingClass
 
 	public void widgetSelected(SelectionEvent arg0) {
 		try {
-			this.tabPlatform.getTabManager().
-				createNestedTab();
+			this.tabPlatform.getTabManager().createNestedTab();
+			theModal.setChanged(true);
 		} catch (DynamoConfigurationException dce) {
 			this.handleErrorMessage(dce);
 		} catch (ConfigurationException ce) {
@@ -45,9 +49,10 @@ public class CreateSelectionListener extends AbstractLoggingClass
 	private void handleErrorMessage(Exception e) {
 		this.log.fatal(e);
 		e.printStackTrace();
-		MessageBox box = new MessageBox(this.tabPlatform.getTabManager().getTabFolder().getParent().getShell(),
-				SWT.ERROR_UNSPECIFIED);
-		box.setText("Error occurred during creation of a new tab " + e.getMessage());
+		MessageBox box = new MessageBox(this.tabPlatform.getTabManager()
+				.getTabFolder().getParent().getShell(), SWT.ERROR_UNSPECIFIED);
+		box.setText("Error occurred during creation of a new tab "
+				+ e.getMessage());
 		box.setMessage(e.getMessage());
 		box.open();
 	}

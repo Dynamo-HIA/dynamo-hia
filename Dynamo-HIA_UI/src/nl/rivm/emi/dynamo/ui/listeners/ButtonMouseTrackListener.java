@@ -10,36 +10,42 @@ import org.eclipse.swt.widgets.Button;
 
 public class ButtonMouseTrackListener implements MouseTrackListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
-	//Button myButton;
+	// Button myButton;
 	String helpKey;
 
 	public ButtonMouseTrackListener(Button myButton) {
 		super();
 		helpKey = myButton.getText();
 		log.debug("Hooking on button with text: " + myButton.getText());
-//		this.helpGroup = helpGroup;
-//		log.debug("HelpGroup-\"pointer\": " + helpGroup);
+		// this.helpGroup = helpGroup;
+		// log.debug("HelpGroup-\"pointer\": " + helpGroup);
 	}
 
 	@Override
 	public void mouseEnter(MouseEvent arg0) {
-//		String helpKey = myButton.getText();
+		// String helpKey = myButton.getText();
 		helpKey = helpKey.toLowerCase();
 		helpKey = helpKey.replace(' ', '_');
-//		log.debug("mouseEnter for: " + helpKey + " on button: " + myButton);
-		//helpGroup.getFieldHelpGroup().setHelpText(helpKey);
-	HelpTextManager.getInstance().setMouseTrackText(helpKey);
+		// log.debug("mouseEnter for: " + helpKey + " on button: " + myButton);
+		HelpTextManager instance = HelpTextManager.getInstance();
+		// Make robust for helpless screens.
+		if (instance != null) {
+			instance.setMouseTrackText(helpKey);
+		}
 	}
 
 	@Override
 	public void mouseExit(MouseEvent arg0) {
-//		log.debug("mouseExit after: "
-//				+ helpGroup.getFieldHelpGroup().getHelpKey() + " on button: "
-//				+ myButton);
-//		helpGroup.getFieldHelpGroup().setHelpText("Blank");
-		HelpTextManager.getInstance().resetMouseTrackText();
-}
-					
+		// log.debug("mouseExit after: "
+		// + helpGroup.getFieldHelpGroup().getHelpKey() + " on button: "
+		// + myButton);
+		HelpTextManager instance = HelpTextManager.getInstance();
+		// Make robust for helpless screens.
+		if (instance != null) {
+			instance.resetMouseTrackText();
+		}
+	}
+
 	@Override
 	public void mouseHover(MouseEvent arg0) {
 	}

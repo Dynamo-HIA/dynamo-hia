@@ -78,11 +78,11 @@ public class DynamoHeaderDataPanel extends Composite {
 
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
-//	private boolean open = false;
+	// private boolean open = false;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
-//	private PopulationFileNameComboModifyListener dropDownModifyListener;
-//	private DynamoTabDataManager dynamoTabDataManager;
+	// private PopulationFileNameComboModifyListener dropDownModifyListener;
+	// private DynamoTabDataManager dynamoTabDataManager;
 
 	/** Two radiobuttons */
 	private final Button[] radioButtons = new Button[2];
@@ -98,7 +98,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
 		this.theHelpGroup = helpGroup;
-//		this.dynamoTabDataManager = dynamoTabDataManager;
+		// this.dynamoTabDataManager = dynamoTabDataManager;
 		try {
 			GridLayout layout = new GridLayout();
 			layout.numColumns = 4;
@@ -129,7 +129,7 @@ public class DynamoHeaderDataPanel extends Composite {
 
 			WritableValue observablePopFileName = dynamoSimulationObject
 					.getObservablePopulationFileName();
-//			PopFileNameDropDownPanel populationFileNameDropDownPanel;
+			// PopFileNameDropDownPanel populationFileNameDropDownPanel;
 
 			try {
 				@SuppressWarnings("unused")
@@ -137,8 +137,8 @@ public class DynamoHeaderDataPanel extends Composite {
 						this, observablePopFileName, dynamoTabDataManager
 								.getDropDownSet(POP_FILE_NAME, null), helpGroup);
 
-//				this.dropDownModifyListener = populationFileNameDropDownPanel
-//						.getPopulationFileNameComboModifyListener();
+				// this.dropDownModifyListener = populationFileNameDropDownPanel
+				// .getPopulationFileNameComboModifyListener();
 
 			} catch (DynamoNoValidDataException e) {
 				throw new ConfigurationException(e.getMessage());
@@ -348,6 +348,7 @@ public class DynamoHeaderDataPanel extends Composite {
 				if (myWidget.getSelection()) {
 					// radioButtons[0].setSelection(true);
 					radioButtons[1].setSelection(false);
+					theHelpGroup.getTheModal().setChanged(true);
 				}
 			}
 		});
@@ -366,26 +367,18 @@ public class DynamoHeaderDataPanel extends Composite {
 				if (myWidget.getSelection()) {
 					radioButtons[0].setSelection(false);
 					// radioButtons[1].setSelection(true);
+					theHelpGroup.getTheModal().setChanged(true);
 				}
 			}
 		});
 	}
 
-//	private GenericDropDownPanel createDropDown(String label,
-//			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
-//			DynamoTabDataManager dynamoTabDataManager)
-//			throws ConfigurationException {
-//		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
-//		return new GenericDropDownPanel(this, label, columnSpan,
-//				selectablePropertiesSet, null, dynamoTabDataManager);
-//	}
-//
 	public class PopFileNameDropDownPanel {
 
 		Log log = LogFactory.getLog(this.getClass().getName());
 
 		final private Combo dropDown;
-//		private HelpGroup theHelpGroup;
+		// private HelpGroup theHelpGroup;
 		private DropDownPropertiesSet selectablePopulationFileNamePropertiesSet;
 		private PopulationFileNameComboModifyListener populationFileNameModifyListener;
 		private int selectedIndex;
@@ -394,10 +387,11 @@ public class DynamoHeaderDataPanel extends Composite {
 				WritableValue writableValue, DropDownPropertiesSet theSet,
 				HelpGroup theHelpGroup) {
 			selectablePopulationFileNamePropertiesSet = theSet;
-//			this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;
+			// this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;
 			dropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 			HelpTextListenerUtil.addHelpTextListeners(dropDown,
-					(AtomicTypeBase<?>) XMLTagEntityEnum.POPFILENAME.getTheType());
+					(AtomicTypeBase<?>) XMLTagEntityEnum.POPFILENAME
+							.getTheType());
 			GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
 			dropDown.setLayoutData(dropDownGridData);
 			this.fill(selectablePopulationFileNamePropertiesSet);
@@ -448,14 +442,14 @@ public class DynamoHeaderDataPanel extends Composite {
 			return dropDown;
 		}
 
-//		private void layoutDropDown(Label label) {
-//			FormData comboFormData = new FormData();
-//			comboFormData.left = new FormAttachment(label, 5);
-//			comboFormData.right = new FormAttachment(100, -5);
-//			comboFormData.top = new FormAttachment(0, 2);
-//			comboFormData.bottom = new FormAttachment(100, -2);
-//			dropDown.setLayoutData(comboFormData);
-//		}
+		// private void layoutDropDown(Label label) {
+		// FormData comboFormData = new FormData();
+		// comboFormData.left = new FormAttachment(label, 5);
+		// comboFormData.right = new FormAttachment(100, -5);
+		// comboFormData.top = new FormAttachment(0, 2);
+		// comboFormData.bottom = new FormAttachment(100, -2);
+		// dropDown.setLayoutData(comboFormData);
+		// }
 	}
 
 }

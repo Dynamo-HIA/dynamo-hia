@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
 
-//TODO(mondeelr) Hacked to ErrorLessNess.
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,6 +43,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 				+ " got widgetDefaultSelected callback.");
 	}
 
+	@SuppressWarnings("unchecked")
 	synchronized public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
@@ -78,14 +78,14 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 						messageBox.open();
 					}
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
-							(TypedHashMap) modelObject, configurationFile);
+							(TypedHashMap<?>) modelObject, configurationFile);
 					if (postProcessorSelectionListener != null) {
 						doSave = postProcessorSelectionListener.doIt();
 					}
 				} else {
 					if (modelObject instanceof LinkedHashMap) {
 						if (modelObject instanceof DynamoSimulationObject) {
-							Map map = ((DynamoSimulationObject) modelObject)
+							Map<Integer,?> map = ((DynamoSimulationObject) modelObject)
 									.getRelativeRiskConfigurations();
 							Set<Integer> keys = map.keySet();
 							for (Integer key : keys) {
@@ -99,7 +99,7 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 											"The Relative Risk field"
 													+ "is empty of Relative Risks is empty");
 								}
-								Map secondMap = ((DynamoSimulationObject) modelObject)
+								Map<Integer,?> secondMap = ((DynamoSimulationObject) modelObject)
 										.getRelativeRiskConfigurations();
 								Set<Integer> secondKeys = secondMap.keySet();
 								for (Integer secondKey : secondKeys) {

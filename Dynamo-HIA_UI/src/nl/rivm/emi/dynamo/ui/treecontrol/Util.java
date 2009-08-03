@@ -2,13 +2,11 @@ package nl.rivm.emi.dynamo.ui.treecontrol;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
-import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -22,7 +20,6 @@ public class Util {
 
 	private static final String RISK_FACTOR = "Risk_Factor";
 	private static final String TRANSITION = "Transition";
-
 
 	static final public String imageRegistryFolderKey = "folder";
 	static final public String imageRegistryFileKey = "file";
@@ -112,34 +109,34 @@ public class Util {
 			BaseNode selectedNode) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
-		String foundName = null;
-		BaseNode riskSourceInstanceNode = null;
+//		String foundName = null;
+//		BaseNode riskSourceInstanceNode = null;
 		if (selectedNode instanceof FileNode) {
-			RiskSourcePropertiesMap map = RiskSourcePropertiesMapFactory
-					.make(selectedNode);
-			String selectedNodeLabel = selectedNode.deriveNodeLabel();
-			Set<String> labelKeys = map.keySet();
-			for (String key : labelKeys) {
-				int index = selectedNodeLabel.indexOf(key);
-				if ((index != -1)
-						&& (index == (selectedNodeLabel.length() - key.length()))) {
-					foundName = key;
-					RiskSourceProperties riskSourceProperties = map.get(key);
-					riskSourceInstanceNode = riskSourceProperties
-							.getRiskSourceNode();
-					break;
-				}
-			}
-		}
-		if (riskSourceInstanceNode != null) {
-			String riskSourceInstanceLabel = ((BaseNode) riskSourceInstanceNode)
-					.toString();
-			ParentNode riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
-					.getParent();
-			String riskSourceTypeLabel = ((BaseNode) riskSourceTypeNode)
-					.toString();
-			riskSourceTypeLabel = riskSourceTypeLabel.substring(0,
-					riskSourceTypeLabel.length() - 1);
+			/*
+			 * RiskSourcePropertiesMap map = RiskSourcePropertiesMapFactory
+			 * 
+			 * .makeMap4OneRiskSourceType(selectedNode); String
+			 * selectedNodeLabel = selectedNode.deriveNodeLabel(); Set<String>
+			 * labelKeys = map.keySet(); for (String key : labelKeys) { int
+			 * index = selectedNodeLabel.indexOf(key); if ((index != -1) &&
+			 * (index == (selectedNodeLabel.length() - key.length()))) {
+			 * foundName = key; RiskSourceProperties riskSourceProperties =
+			 * map.get(key); riskSourceInstanceNode = riskSourceProperties
+			 * .getRiskSourceNode(); break; } } } if (riskSourceInstanceNode !=
+			 * null) { String riskSourceInstanceLabel = ((BaseNode)
+			 * riskSourceInstanceNode) .toString(); ParentNode
+			 * riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
+			 * .getParent(); String riskSourceTypeLabel = ((BaseNode)
+			 * riskSourceTypeNode) .toString(); riskSourceTypeLabel =
+			 * riskSourceTypeLabel.substring(0, riskSourceTypeLabel.length() -
+			 * 1);
+			 */
+			RiskSourceProperties props = RiskSourcePropertiesMapFactory
+					.getProperties((FileNode) selectedNode);
+			String riskSourceTypeLabel = props.getRiskSourceLabel().replace('_', ' ');
+			String riskSourceInstanceLabel = props.getRiskSourceName();
+
+			
 			String[] result = new String[2];
 			result[0] = riskSourceTypeLabel;
 			result[1] = riskSourceInstanceLabel;
@@ -187,7 +184,7 @@ public class Util {
 		}
 	}
 
-/**
+	/**
 	 * 
 	 * Returns the imageRegistry of this plugin
 	 * 
@@ -204,7 +201,8 @@ public class Util {
 				ImageDescriptor folderImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/tsuite.gif");
-				image_registry.put(imageRegistryFolderKey, folderImageDesriptor);
+				image_registry
+						.put(imageRegistryFolderKey, folderImageDesriptor);
 				// Just a non-XML file.
 				ImageDescriptor fileImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
@@ -241,12 +239,21 @@ public class Util {
 						.createFromURL(newURL("file:images/tsuite.gif")));
 				image_registry.put(imageRegistryFileKey, ImageDescriptor
 						.createFromURL(newURL("file:images/test.gif")));
-				image_registry.put(imageRegistryUnsupportedXMLFileKey, ImageDescriptor
-						.createFromURL(newURL("file:images/testfail.gif")));
-				image_registry.put(imageRegistrySupportedXMLFileRightPlaceKey, ImageDescriptor
-						.createFromURL(newURL("file:images/testok.gif")));
-				image_registry.put(imageRegistrySupportedXMLFileWrongPlaceKey, ImageDescriptor
-						.createFromURL(newURL("file:images/testerr.gif")));
+				image_registry
+						.put(
+								imageRegistryUnsupportedXMLFileKey,
+								ImageDescriptor
+										.createFromURL(newURL("file:images/testfail.gif")));
+				image_registry
+						.put(
+								imageRegistrySupportedXMLFileRightPlaceKey,
+								ImageDescriptor
+										.createFromURL(newURL("file:images/testok.gif")));
+				image_registry
+						.put(
+								imageRegistrySupportedXMLFileWrongPlaceKey,
+								ImageDescriptor
+										.createFromURL(newURL("file:images/testerr.gif")));
 				image_registry.put("error", ImageDescriptor
 						.createFromURL(newURL("file:images/tsuiteerror.gif")));
 			}

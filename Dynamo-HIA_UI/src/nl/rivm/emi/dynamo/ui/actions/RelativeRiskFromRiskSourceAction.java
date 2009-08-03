@@ -58,7 +58,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 	@Override
 	public void run() {
 		if (node instanceof DirectoryNode) {
-			String candidatePath = getNewFilePath();
+			/* String candidatePath = */ getNewFilePath();
 		}
 	}
 

@@ -13,36 +13,37 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * 
- * Button panel for the tabplatfrom
- * Contains the create and delete buttons
- * for the nested tabs
+ * Button panel for the tabplatfrom Contains the create and delete buttons for
+ * the nested tabs
  * 
  * @author schutb
- *
+ * 
  */
 public class TabPlatformButtonPanel extends Composite {
 
 	Button createButton;
 	Button deleteButton;
-	
+	HelpGroup helpGroup;
+
 	/**
 	 * 
 	 * Constructs the panel with buttons
 	 * 
 	 * @param parent
-	 * @param helpGroup TODO
+	 * @param helpGroup
+	 *            TODO
 	 */
-	public TabPlatformButtonPanel(Composite parent, Composite topNeighbour, HelpGroup helpGroup) {
+	public TabPlatformButtonPanel(Composite parent, Composite topNeighbour,
+			HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
+		this.helpGroup = helpGroup;
 		setSize(100, 35);
 		setFormData(topNeighbour);
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		this.createButton = putCreateButton(this);
-		//createButton.addFocusListener(new ButtonFocusListener(createButton));
 		HelpTextListenerUtil.addHelpTextListeners(createButton);
 		this.deleteButton = putDeleteButton(this, this.createButton);
-		//deleteButton.addFocusListener(new ButtonFocusListener(deleteButton));
 		HelpTextListenerUtil.addHelpTextListeners(deleteButton);
 		pack();
 	}
@@ -52,7 +53,7 @@ public class TabPlatformButtonPanel extends Composite {
 		formData.top = new FormAttachment(topNeighbour, 0);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-		//formData.bottom = new FormAttachment(100, -5);
+		// formData.bottom = new FormAttachment(100, -5);
 		setLayoutData(formData);
 	}
 
@@ -63,8 +64,10 @@ public class TabPlatformButtonPanel extends Composite {
 	 * @param platform
 	 */
 	public void setSelectionListeners(TabPlatform platform) {
-		this.createButton.addSelectionListener(new CreateSelectionListener(platform));
-		this.deleteButton.addSelectionListener(new DeleteSelectionListener(platform));
+		this.createButton.addSelectionListener(new CreateSelectionListener(
+				platform, helpGroup.getTheModal()));
+		this.deleteButton.addSelectionListener(new DeleteSelectionListener(
+				platform, helpGroup.getTheModal()));
 	}
 
 	static private Button putCreateButton(Composite parent) {
@@ -79,10 +82,9 @@ public class TabPlatformButtonPanel extends Composite {
 		return createButton;
 	}
 
-	
 	/**
 	 * 
-	 * Constructs an delete button 
+	 * Constructs an delete button
 	 * 
 	 * @param composite
 	 * @param leftNeighbour
@@ -92,7 +94,7 @@ public class TabPlatformButtonPanel extends Composite {
 			Button leftNeighbour) {
 		FormData formData;
 		Button deleteButton = new Button(composite, SWT.PUSH);
-		deleteButton.setText("delete");			
+		deleteButton.setText("delete");
 		formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(leftNeighbour, 15);

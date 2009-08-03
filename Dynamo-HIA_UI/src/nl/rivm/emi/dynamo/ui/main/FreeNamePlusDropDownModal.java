@@ -12,7 +12,6 @@ import java.io.File;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
@@ -30,7 +29,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
@@ -65,7 +63,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 		
 		try {
 			selectableRiskSourcePropertiesMap = RiskSourcePropertiesMapFactory
-					.make(selectedNode);
+					.makeMap4OneRiskSourceType(selectedNode);
 			if ((selectableRiskSourcePropertiesMap != null) && (selectableRiskSourcePropertiesMap.size() != 0)) {
 				freePart = new Text(shell, SWT.BORDER);
 				FormData textFormData = new FormData();

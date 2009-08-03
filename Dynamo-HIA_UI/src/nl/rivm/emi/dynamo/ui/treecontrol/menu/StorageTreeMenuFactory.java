@@ -12,7 +12,6 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
@@ -48,7 +47,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
 public class StorageTreeMenuFactory {
@@ -766,10 +764,10 @@ public class StorageTreeMenuFactory {
 		FileNode node = (FileNode) selection.getFirstElement();
 		String nodeLabel = node.toString();
 		ParentNode parentNode = node.getParent();
-		String parentNodeLabel = parentNode.toString();
+//		String parentNodeLabel = parentNode.toString();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
-		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
-				.getParent();
+//		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
+//				.getParent();
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(
 						((BaseNode) grandParentNode).deriveNodeLabel())) {
@@ -784,7 +782,7 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(
 								((BaseNode) grandParentNode).deriveNodeLabel())) {
 					if ("configuration".equals(nodeLabel)) {
-						handleRiskFactorRelRisksForDeathXMLs(manager, node);
+						handleRelRisksFromRiskFactorXMLs(manager, node);
 					} else {
 					}
 				}
@@ -842,11 +840,11 @@ public class StorageTreeMenuFactory {
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
 					.equalsIgnoreCase(parentNodeLabel)) {
-				handleRiskFactorRelRisksForDeathXMLs(manager, node);
+				handleRelRisksFromRiskFactorXMLs(manager, node);
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
 						.getNodeLabel().equalsIgnoreCase(parentNodeLabel)) {
-					handleRiskFactorRelRisksForDeathXMLs(manager, node);
+					handleRelRisksFromRiskFactorXMLs(manager, node);
 				} else {
 					if (StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel()
 							.equalsIgnoreCase(parentNodeLabel)) {
@@ -865,7 +863,7 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
-	private void handleRiskFactorRelRisksForDeathXMLs(IMenuManager manager,
+	private void handleRelRisksFromRiskFactorXMLs(IMenuManager manager,
 			FileNode node) throws DynamoConfigurationException {
 		String rootElementName = ConfigurationFileUtil
 				.extractRootElementNameIncludingSchemaCheck(node
@@ -886,7 +884,7 @@ public class StorageTreeMenuFactory {
 						ConfigurationFileUtil
 								.extractRootElementNameIncludingSchemaCheck(node
 										.getPhysicalStorage()))) {
-			handleRiskFactorRelRisksForDeathXMLs(manager, node);
+			handleRelRisksFromRiskFactorXMLs(manager, node);
 		} else {
 			if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
 					.getNodeLabel()
@@ -894,7 +892,7 @@ public class StorageTreeMenuFactory {
 							ConfigurationFileUtil
 									.extractRootElementNameIncludingSchemaCheck(node
 											.getPhysicalStorage()))) {
-				handleRiskFactorRelRisksForDeathXMLs(manager, node);
+				handleRelRisksFromRiskFactorXMLs(manager, node);
 			} else {
 				addDummy(manager, selection, "Unexpected rootelementname.");
 			}
@@ -1045,12 +1043,12 @@ public class StorageTreeMenuFactory {
 						if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 								.getNodeLabel().equalsIgnoreCase(
 										parentNodeLabel)) {
-							handleRiskFactorRelRisksForDeathXMLs(manager, node);
+							handleRelRisksFromRiskFactorXMLs(manager, node);
 						} else {
 							if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
 									.getNodeLabel().equalsIgnoreCase(
 											parentNodeLabel)) {
-								handleRiskFactorRelRisksForDeathXMLs(manager,
+								handleRelRisksFromRiskFactorXMLs(manager,
 										node);
 							}
 						}

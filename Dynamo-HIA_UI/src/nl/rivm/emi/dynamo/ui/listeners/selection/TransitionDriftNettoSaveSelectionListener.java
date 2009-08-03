@@ -6,23 +6,17 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 //TODO(mondeelr) Hacked to ErrorLessNess.
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
-import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
-import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.data.writers.StAXTransitionDriftNettoWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 
 import org.eclipse.swt.SWT;

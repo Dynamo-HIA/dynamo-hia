@@ -9,7 +9,6 @@ import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
@@ -26,6 +25,7 @@ import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskForDisabilityContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
@@ -43,6 +43,9 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
+import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
+import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -248,7 +251,8 @@ public class XMLFileAction extends ActionBase {
 																			.getNodeLabel()
 																			.equals(
 																					rootElementName)) {
-																		theModal = new RelRiskFromRiskFactorCategoricalModal(
+																		RiskSourceProperties props = RiskSourcePropertiesMapFactory.getProperties((FileNode) node);
+																		theModal = new RelRiskFromRiskFactorCompoundModal(
 																				shell,
 																				dataFile
 																						.getAbsolutePath(),
@@ -256,7 +260,7 @@ public class XMLFileAction extends ActionBase {
 																						.getAbsolutePath(),
 																				rootElementName,
 																				node,
-																				null);
+																				(CompoundRiskFactorProperties) props);
 																	} else {
 																		if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
 																				.getNodeLabel()

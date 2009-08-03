@@ -12,8 +12,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -27,14 +27,11 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
@@ -58,13 +55,13 @@ public class ScenarioSelectionGroup { // extends Composite {
 
 	private static final String TARGET_OF_INTERVENTION = "Target of Intervention";
 
-	private static final String SEMICOLON = ":";
-	private static final String PERCENTAGE = "(%)";
+//	private static final String SEMICOLON = ":";
+//	private static final String PERCENTAGE = "(%)";
 
 	protected Composite scenarioDefGroup;
 	private Composite plotComposite;
-	private DynamoSimulationObject dynamoSimulationObject;
-	private BaseNode selectedNode;
+//	private DynamoSimulationObject dynamoSimulationObject;
+//	private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericComboModifyListener dropDownModifyListener;
@@ -85,8 +82,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-		this.dynamoSimulationObject = dynamoSimulationObject;
-		this.selectedNode = selectedNode;
+//		this.dynamoSimulationObject = dynamoSimulationObject;
+//		this.selectedNode = selectedNode;
 		this.helpGroup = helpGroup;
 		this.dataBindingContext = dataBindingContext;
 		this.tabName = tabName;
@@ -187,7 +184,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
 				selectablePropertiesSet, updateScenarioFactorDataAction,
-				dynamoTabDataManager);
+				dynamoTabDataManager, helpGroup);
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {
@@ -195,7 +192,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	}
 
 	private void bindHeaderValue(WritableValue observable, String labelValue,
-			AtomicTypeBase myType) throws ConfigurationException {
+			AtomicTypeBase<?> myType) throws ConfigurationException {
 		if (observable != null) {
 			Label successRateLabel = new Label(scenarioDefGroup, SWT.NONE);
 			successRateLabel.setText(labelValue + ":");
@@ -208,7 +205,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		}
 	}
 
-	private void bindValue(WritableValue observable, AtomicTypeBase myType)
+	private void bindValue(WritableValue observable, AtomicTypeBase<?> myType)
 			throws ConfigurationException {
 		if (myType instanceof AbstractRangedInteger) {
 			bindAbstractRangedInteger(observable, myType);
@@ -218,7 +215,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	}
 
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(layoutData);
@@ -228,30 +225,16 @@ public class ScenarioSelectionGroup { // extends Composite {
 
 	// Binds values that are subclass types of AbstractString
 	protected void bindAbstractString(WritableValue observableObject,
-			AtomicTypeBase myType) throws ConfigurationException {
+			AtomicTypeBase<?> myType) throws ConfigurationException {
 		Text text = getTextBinding(observableObject, myType);
-		// text.addVerifyListener(new AbstractStringVerifyListener(myType));
+		 text.addVerifyListener(new AbstractStringVerifyListener(helpGroup.getTheModal(), myType));
 	}
 
 	private Text getTextBinding(WritableValue observableObject,
-			AtomicTypeBase myType) {
+			AtomicTypeBase<?> myType) {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-		// FocusListener focusListener = new
-		// TypedFocusListener(myType,helpGroup);
-		// text.addFocusListener(
-		// // new FocusListener() {
-		// // public void focusGained(FocusEvent arg0) {
-		// // helpGroup.getFieldHelpGroup().setHelpText("1");
-		// // }
-		// //
-		// // public void focusLost(FocusEvent arg0) {
-		// // helpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-		// // // range.
-		// // }
-		// // }
-		// focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);

@@ -52,6 +52,8 @@ public enum FileControlEnum {
 			FileControlEnumHelp.relRiskForDisabilityCompStrings, false, false), //
 	RELRISKFROMRISKFACTORCATEGORICAL(
 			FileControlEnumHelp.relRiskFromRiskfactorCatStrings, false, false), //
+	RELRISKFROMRISKFACTORCOMPOUND(
+			FileControlEnumHelp.relRiskFromRiskfactorCompStrings, false, false), //
 	RELRISKFROMRISKFACTORCONTINUOUS(
 			FileControlEnumHelp.relRiskFromRiskfactorConStrings, false, false), //
 	RELRISKFROMOTHERDISEASE(FileControlEnumHelp.relRiskFromDiseaseStrings,

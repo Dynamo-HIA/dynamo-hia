@@ -1,15 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
-import nl.rivm.emi.dynamo.ui.listeners.ButtonMouseTrackListener;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.CloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.ImportSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveAndCloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

@@ -69,7 +69,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 		try {
 			super.open();
 			this.modelObject = manufactureModelObject();
-			BaseNode riskSourceNode = null;
+//			BaseNode riskSourceNode = null;
 			RelativeRisksCategoricalGroup relRiskForDeathCategoricalGroup = new RelativeRisksCategoricalGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode,
 					this.helpPanel);

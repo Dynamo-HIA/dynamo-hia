@@ -38,6 +38,7 @@ public class RiskFactorSelectionGroup {
 	private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
+	private HelpGroup helpGroup;
 
 
 	public RiskFactorSelectionGroup(
@@ -50,7 +51,7 @@ public class RiskFactorSelectionGroup {
 //		this.plotComposite = plotComposite;
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-		
+		this.helpGroup = helpGroup;
 		log.debug("RiskFactorSelectionGroup::this.plotComposite: "
 				+ plotComposite);
 		group = new Composite(plotComposite, SWT.NONE);
@@ -97,7 +98,7 @@ public class RiskFactorSelectionGroup {
 //			new RiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2, 
 				selectablePropertiesSet, 
-				null, dynamoTabDataManager);		
+				null, dynamoTabDataManager, helpGroup);		
 	}
 	
 	private void layoutDropDownArea() {

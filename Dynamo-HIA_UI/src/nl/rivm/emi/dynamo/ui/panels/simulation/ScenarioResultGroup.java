@@ -33,12 +33,13 @@ public class ScenarioResultGroup {
 	private static final String CHANGE_WITH_RESPECT_BASELINE_SIMULATION = "Change with respect to baseline simulation";
 
 	protected Composite group;
-// 20090715 No need to store? private Composite plotComposite;
+	// 20090715 No need to store? private Composite plotComposite;
 	private GenericComboModifyListener scenarioDropDownModifyListener;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericDropDownPanel transitionDropDownPanel;
 	private GenericDropDownPanel riskFactorPrevalenceDropDownPanel;
+	private HelpGroup helpGroup;
 
 	public ScenarioResultGroup(Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, Composite topNeighbour,
@@ -47,9 +48,10 @@ public class ScenarioResultGroup {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		this.selections = selections;
-//		this.plotComposite = plotComposite;
+		// this.plotComposite = plotComposite;
 		this.scenarioDropDownModifyListener = scenarioDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.helpGroup = helpGroup;
 
 		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -107,7 +109,8 @@ public class ScenarioResultGroup {
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager);
+				selectablePropertiesSet, null, this.dynamoTabDataManager,
+				helpGroup);
 	}
 
 	public void refreshGroupDropDown() throws ConfigurationException,

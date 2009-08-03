@@ -34,6 +34,7 @@ public class RelativeRiskResultGroup {
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private RelativeRiskSelectionGroup selectionGroup;
+	private HelpGroup helpGroup;
 
 	public RelativeRiskResultGroup(Set<String> selections,
 			Composite plotComposite, BaseNode selectedNode,
@@ -45,6 +46,7 @@ public class RelativeRiskResultGroup {
 //		this.plotComposite = plotComposite;
 		this.selectionGroup = selectionGroup;
 		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.helpGroup = helpGroup;
 		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -88,6 +90,6 @@ public class RelativeRiskResultGroup {
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager);
+				selectablePropertiesSet, null, this.dynamoTabDataManager, helpGroup);
 	}
 }

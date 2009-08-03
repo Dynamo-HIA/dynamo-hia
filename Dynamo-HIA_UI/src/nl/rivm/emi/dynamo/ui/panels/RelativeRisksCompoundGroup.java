@@ -20,7 +20,7 @@ public class RelativeRisksCompoundGroup {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	Group theGroup;
 
-	public RelativeRisksCompoundGroup(Shell shell, TypedHashMap modelObject,
+	public RelativeRisksCompoundGroup(Shell shell, TypedHashMap<?> modelObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup, int durationClassIndex, BaseNode riskSourceNode)
 			throws ConfigurationException, DynamoInconsistentDataException {

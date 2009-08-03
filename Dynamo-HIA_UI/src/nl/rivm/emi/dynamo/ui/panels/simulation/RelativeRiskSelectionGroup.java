@@ -32,7 +32,7 @@ public class RelativeRiskSelectionGroup {
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericDropDownPanel fromDropDownPanel;
 	private GenericDropDownPanel toDropDownPanel;
-	// private HelpGroup helpGroup;
+	 private HelpGroup helpGroup;
 
 	private GenericComboModifyListener fromDropDownModifyListener;
 
@@ -46,7 +46,7 @@ public class RelativeRiskSelectionGroup {
 		// this.selections = selections;
 		// this.plotComposite = plotComposite;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-		// this.helpGroup = helpGroup;
+		this.helpGroup = helpGroup;
 
 		log.debug("relativeRiskFactorSelectionGroup::this.plotComposite: "
 				+ plotComposite);
@@ -105,7 +105,7 @@ public class RelativeRiskSelectionGroup {
 		// RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = new
 		// RelativeRiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, dynamoTabDataManager);
+				selectablePropertiesSet, null, dynamoTabDataManager, helpGroup);
 	}
 
 	public void refreshSelectionDropDown() throws ConfigurationException,

@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.button;
 
+import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveAndCloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SimpleCancelSelectionListener;
 import nl.rivm.emi.dynamo.ui.main.AbstractHelplessModal;
@@ -14,7 +16,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NoImportHelpLessButtonPanel extends Composite {
 	Button saveButton;
-	Button cancelButton;
+	Button saveAndCloseButton;
+	Button closeButton;
 	AbstractHelplessModal modalParent;
 
 	/**
@@ -30,7 +33,8 @@ public class NoImportHelpLessButtonPanel extends Composite {
 		FormLayout formLayout = new FormLayout();
 		setLayout(formLayout);
 		this.saveButton = putSaveButton(this);
-		cancelButton = putCancelButton(this, this.saveButton);
+		this.saveAndCloseButton = putSaveAndCloseButton(this, this.saveButton);
+		this.closeButton = putCloseButton(this, this.saveAndCloseButton);
 		pack();
 	}
 
@@ -52,8 +56,14 @@ public class NoImportHelpLessButtonPanel extends Composite {
 		this.modalParent = theParent;
 		this.saveButton.addSelectionListener(new NoDataSaveSelectionListener(
 				this.modalParent));
-		cancelButton.addSelectionListener(new SimpleCancelSelectionListener(
+		HelpTextListenerUtil.addHelpTextListeners(saveButton);
+		this.saveAndCloseButton
+				.addSelectionListener(new NoDataSaveAndCloseSelectionListener(
+						this.getShell(), this.modalParent));
+		HelpTextListenerUtil.addHelpTextListeners(saveAndCloseButton);
+		closeButton.addSelectionListener(new SimpleCancelSelectionListener(
 				this.getShell()));
+		HelpTextListenerUtil.addHelpTextListeners(closeButton);
 	}
 
 	static private Button putSaveButton(Composite panel) {
@@ -67,16 +77,28 @@ public class NoImportHelpLessButtonPanel extends Composite {
 		return saveButton;
 	}
 
-	private static Button putCancelButton(Composite composite,
+	static private Button putSaveAndCloseButton(Composite panel,
 			Button leftNeighbour) {
-		FormData formData;
-		Button cancelButton = new Button(composite, SWT.PUSH);
-		cancelButton.setText("Cancel");
+		FormData formData = new FormData();
+		Button saveAndCloseButton = new Button(panel, SWT.PUSH);
+		saveAndCloseButton.setText("Save and close");
 		formData = new FormData();
 		formData.left = new FormAttachment(leftNeighbour, 15);
 		formData.bottom = new FormAttachment(100, -5);
-		cancelButton.setLayoutData(formData);
-		return cancelButton;
+		saveAndCloseButton.setLayoutData(formData);
+		return saveAndCloseButton;
+	}
+
+	private static Button putCloseButton(Composite composite,
+			Button leftNeighbour) {
+		FormData formData;
+		Button closeButton = new Button(composite, SWT.PUSH);
+		closeButton.setText("Close");
+		formData = new FormData();
+		formData.left = new FormAttachment(leftNeighbour, 15);
+		formData.bottom = new FormAttachment(100, -5);
+		closeButton.setLayoutData(formData);
+		return closeButton;
 	}
 
 }

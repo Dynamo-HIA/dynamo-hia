@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
@@ -28,23 +29,25 @@ public class GenericDropDownPanel {
 	public Composite parent;
 	private Combo dropDown;
 	private DropDownPropertiesSet selectablePropertiesSet;
-	private int selectedIndex;
-	private UpdateDataAction redrawGroupAndUpdateDataAction;
+//	private int selectedIndex;
+//	private UpdateDataAction redrawGroupAndUpdateDataAction;
 	private GenericComboModifyListener genericComboModifyListener;
 	private DynamoTabDataManager owner;
+	private HelpGroup helpGroup;
 
 	private String dropDownLabel;
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
 			UpdateDataAction redrawGroupAndUpdateDataAction,
-			DynamoTabDataManager owner) throws ConfigurationException {
+			DynamoTabDataManager owner, HelpGroup helpGroup) throws ConfigurationException {
 		this.parent = parent;
 		this.dropDownLabel = dropDownLabel;
 		this.selectablePropertiesSet = selectablePropertiesSet;
-		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
+//		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
 		this.owner = owner;
 		this.dropDownLabel = dropDownLabel;
+		this.helpGroup = helpGroup;
 		
 		Label label = new Label(parent, SWT.LEFT);
 		label.setText(dropDownLabel + ":");
@@ -58,7 +61,7 @@ public class GenericDropDownPanel {
 		this.fill(selectablePropertiesSet);
 
 		this.genericComboModifyListener = 
-			new GenericComboModifyListener(this);
+			new GenericComboModifyListener(this, this.helpGroup);
 		dropDown.addModifyListener(genericComboModifyListener);
 		setDefaultValue();
 

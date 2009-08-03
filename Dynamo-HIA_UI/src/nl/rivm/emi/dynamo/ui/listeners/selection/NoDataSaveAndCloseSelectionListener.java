@@ -17,12 +17,15 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 
-public class NoDataSaveSelectionListener extends AbstractLoggingClass implements
-		SelectionListener {
+public class NoDataSaveAndCloseSelectionListener extends AbstractLoggingClass
+		implements SelectionListener {
 	AbstractHelplessModal modalParent;
+	Shell shell2Handle;
 
-	public NoDataSaveSelectionListener(AbstractHelplessModal modalParent) {
+	public NoDataSaveAndCloseSelectionListener(Shell shell, AbstractHelplessModal modalParent) {
+		shell2Handle = shell;
 		this.modalParent = modalParent;
 	}
 
@@ -31,7 +34,7 @@ public class NoDataSaveSelectionListener extends AbstractLoggingClass implements
 				+ " got widgetDefaultSelected callback.");
 	}
 
-	public void widgetSelected(SelectionEvent arg0) {
+	synchronized public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
 		String filePath = modalParent.getConfigurationFilePath();
@@ -44,6 +47,7 @@ public class NoDataSaveSelectionListener extends AbstractLoggingClass implements
 					StAXAgnosticGroupWriter.produceFile(rootElementName,
 							null,
 							configurationFile);
+					shell2Handle.dispose();
 		} catch (XMLStreamException e) {
 			this.handleErrorMessage(e);
 		} catch (UnexpectedFileStructureException e) {

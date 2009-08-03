@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Group;
 
 public class RelativeRisksCompoundParameterGroup {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	Group theGroup;
+	final Group theGroup;
 
 	public RelativeRisksCompoundParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			TypedHashMap<?> lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup, int durationClassIndex) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
@@ -29,10 +29,8 @@ public class RelativeRisksCompoundParameterGroup {
 		ScrolledComposite scrolledContainer = new ScrolledComposite(theGroup,
 				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		FormData formData = new FormData();
-
 		// formData.top = new FormAttachment(label, 5);
 		formData.top = new FormAttachment(0, 5);
-
 		formData.right = new FormAttachment(100, 0);
 		formData.bottom = new FormAttachment(100, 0);
 		formData.left = new FormAttachment(0, 0);

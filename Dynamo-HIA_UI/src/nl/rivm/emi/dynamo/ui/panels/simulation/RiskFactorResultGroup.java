@@ -30,10 +30,11 @@ public class RiskFactorResultGroup {
 	public static final String TRANSITION = "Transition";
 
 	protected Composite group;
-//	private Composite plotComposite;
+	// private Composite plotComposite;
 	private GenericComboModifyListener riskDropDownModifyListener;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
+	private HelpGroup helpGroup;
 
 	public RiskFactorResultGroup(Set<String> selections,
 			Composite plotComposite, BaseNode selectedNode,
@@ -43,10 +44,10 @@ public class RiskFactorResultGroup {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		this.selections = selections;
-//		this.plotComposite = plotComposite;
+		// this.plotComposite = plotComposite;
 		this.riskDropDownModifyListener = riskDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-
+		this.helpGroup = helpGroup;
 		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -97,7 +98,8 @@ public class RiskFactorResultGroup {
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager);
+				selectablePropertiesSet, null, this.dynamoTabDataManager,
+				helpGroup);
 	}
 
 }

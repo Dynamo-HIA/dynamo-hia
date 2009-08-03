@@ -79,41 +79,6 @@ public class TransitionDriftNettoModal extends AbstractMultiRootChildDataModal{
 		}
 	}
 
-//	private TransitionDriftNettoObject nonGenericManufactureModelObject()
-//			throws ConfigurationException, DynamoInconsistentDataException {
-//		TransitionDriftNettoObject object = null;
-//		TransitionDriftNettoFactoryImplementation factory = (TransitionDriftNettoFactoryImplementation) FactoryProvider
-//				.getRelevantFactoryByRootNodeName(rootElementName);
-//		if (factory == null) {
-//			throw new ConfigurationException(
-//					"No Factory found for rootElementName: "
-//							+ this.rootElementName);
-//		}
-//		File dataFile = new File(this.dataFilePath);
-//
-//		if (dataFile.exists()) {
-//			// The configuration file with data already exists, fill the modal
-//			// with existing data
-//			if (dataFile.isFile() && dataFile.canRead()) {
-//				object = factory.manufactureObservable(dataFile,
-//						this.rootElementName);
-//				if (object == null) {
-//					throw new ConfigurationException(
-//							"DataModel could not be constructed.");
-//				}
-//			} else {
-//				// No file has been selected, continue without exceptions
-//				throw new ConfigurationException(this.dataFilePath
-//						+ " is no file or cannot be read.");
-//			}
-//		} else {
-//			// The configuration file with data does not yet exist, create a new
-//			// screen object with default data
-//			object = factory.manufactureObservableDefault();
-//		}
-//		return object;
-//	}
-
 	public TransitionDriftNettoObject getData() {
 		return nonGenericModelObject;
 	}

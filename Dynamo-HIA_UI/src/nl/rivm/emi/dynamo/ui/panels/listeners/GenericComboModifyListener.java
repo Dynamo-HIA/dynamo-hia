@@ -5,6 +5,7 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.GenericDropDownPanel;
@@ -30,11 +31,13 @@ public class GenericComboModifyListener implements ModifyListener {
 		new HashSet<GenericDropDownPanel>();
 
 	private DynamoTabDataManager dataManager;
-	private GenericDropDownPanel dropDown;						
+	private GenericDropDownPanel dropDown;
+	private HelpGroup helpGroup;
 	
-	public GenericComboModifyListener(GenericDropDownPanel dropDown) {
+	public GenericComboModifyListener(GenericDropDownPanel dropDown, HelpGroup helpGroup) {
 		super();
 		this.dropDown = dropDown;
+		this.helpGroup = helpGroup;
 	}
 
 	public void registerDropDown(GenericDropDownPanel dropdown) {
@@ -46,6 +49,7 @@ public class GenericComboModifyListener implements ModifyListener {
 	}
 
 	public void modifyText(ModifyEvent event) {
+		helpGroup.getTheModal().setChanged(true);
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();		
 		

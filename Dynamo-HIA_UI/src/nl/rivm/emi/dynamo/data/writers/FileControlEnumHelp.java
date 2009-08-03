@@ -140,6 +140,10 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
 					.getNodeLabel(), "relativerisk", "age", "sex", "cat",
 			"value" };
+	/* W34Comp */
+	static final String[] relRiskFromRiskfactorCompStrings = {
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
+					.getNodeLabel(), "relativerisk", "age", "sex", "cat", "begin", "alfa", "end" };
 	/* W34Con */
 	static final String[] relRiskFromRiskfactorConStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS

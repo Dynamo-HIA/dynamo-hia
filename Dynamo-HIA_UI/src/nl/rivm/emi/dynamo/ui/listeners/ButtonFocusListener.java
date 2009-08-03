@@ -11,8 +11,9 @@ import org.eclipse.swt.widgets.Button;
 /**
  * 
  * Cannot generalize the type to Control, because Control has no getText()....
+ * 
  * @author mondeelr
- *
+ * 
  */
 public class ButtonFocusListener implements FocusListener {
 	Log log = LogFactory.getLog(this.getClass().getName());
@@ -32,8 +33,11 @@ public class ButtonFocusListener implements FocusListener {
 		helpKey = helpKey.toLowerCase();
 		helpKey = helpKey.replace(' ', '_');
 		log.debug("focusGained for: " + helpKey + " on button: " + myButton);
-		// helpGroup.getFieldHelpGroup().setHelpText(helpKey);
-		HelpTextManager.getInstance().setFocusText(helpKey);
+		HelpTextManager instance = HelpTextManager.getInstance();
+		// Make robust for helpless screens.
+		if (instance != null) {
+			instance.setFocusText(helpKey);
+		}
 	}
 
 	@Override
@@ -42,7 +46,11 @@ public class ButtonFocusListener implements FocusListener {
 		// + helpGroup.getFieldHelpGroup().getHelpKey() + " on button: "
 		// + myButton);
 		// helpGroup.getFieldHelpGroup().setHelpText("Blank");
-		HelpTextManager.getInstance().resetFocusText();
+		HelpTextManager instance = HelpTextManager.getInstance();
+		// Make robust for helpless screens.
+		if (instance != null) {
+			instance.resetFocusText();
+		}
 	}
 
 }

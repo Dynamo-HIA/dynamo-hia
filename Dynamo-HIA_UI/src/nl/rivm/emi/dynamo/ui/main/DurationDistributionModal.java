@@ -32,7 +32,7 @@ public class DurationDistributionModal extends AbstractDataModal {
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
-	private TypedHashMap modelObject;
+	private TypedHashMap<?> modelObject;
 	int durationClassIndex;
 
 	public DurationDistributionModal(Shell parentShell, String dataFilePath,

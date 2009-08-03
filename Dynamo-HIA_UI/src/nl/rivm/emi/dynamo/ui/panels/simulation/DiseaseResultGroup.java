@@ -42,6 +42,7 @@ public class DiseaseResultGroup {
 //	private Map<String, ITabDiseaseConfiguration> configuration;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
+	private HelpGroup helpGroup; 
 
 	public DiseaseResultGroup(Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, Composite topNeighbour,
@@ -54,6 +55,7 @@ public class DiseaseResultGroup {
 //		this.plotComposite = plotComposite;
 		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.helpGroup = helpGroup;
 
 		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -119,7 +121,7 @@ public class DiseaseResultGroup {
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager);
+				selectablePropertiesSet, null, this.dynamoTabDataManager, helpGroup);
 	}
 
 }

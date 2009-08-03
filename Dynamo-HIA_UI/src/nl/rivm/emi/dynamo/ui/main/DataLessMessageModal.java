@@ -1,26 +1,14 @@
 package nl.rivm.emi.dynamo.ui.main;
 
-import java.io.File;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactory;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
-import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.TransitionDriftNettoGroup;
 import nl.rivm.emi.dynamo.ui.panels.DataLessMessageGroup;
-import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.button.NoImportHelpLessButtonPanel;
-import nl.rivm.emi.dynamo.ui.panels.button.TransitionDriftNettoButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;

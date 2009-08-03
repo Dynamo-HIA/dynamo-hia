@@ -39,7 +39,7 @@ public class DiseaseSelectionGroup {
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericDropDownPanel diseaseDropDownPanel;
-//	private HelpGroup helpGroup;
+	private HelpGroup helpGroup;
 
 	public DiseaseSelectionGroup(String tabName, Set<String> selections,
 			Composite plotComposite, BaseNode selectedNode,
@@ -50,7 +50,7 @@ public class DiseaseSelectionGroup {
 //		this.plotComposite = plotComposite;
 		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-//		this.helpGroup = helpGroup;
+		this.helpGroup = helpGroup;
 		try {
 
 			// if no data, no group should be made so this should be inside a
@@ -124,7 +124,7 @@ public class DiseaseSelectionGroup {
 			throws ConfigurationException {
 //		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, dynamoTabDataManager);
+				selectablePropertiesSet, null, dynamoTabDataManager, helpGroup);
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {
