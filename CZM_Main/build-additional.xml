@@ -6,6 +6,7 @@
 	<property name="schemas.dir" value="schemas" />
 	<property name="images.dir" value="images" />
 	<property name="ini.dir" value="ini" />
+	<property name="help.dir" value="help" />
 
 	<property name="release.linux86.dir" value="C:/dynamo/releases/linux.gtk.x86/eclipse/" />
 	<property name="release.windows.dir" value="C:/dynamo/releases/win32.win32.x86/eclipse/" />
@@ -18,18 +19,22 @@
 		<delete dir="${release.windows.dir}${schemas.dir}" />
 		<delete dir="${release.windows.dir}${images.dir}" />
 		<delete dir="${release.windows.dir}${ini.dir}" />
+		<delete dir="${release.windows.dir}${help.dir}" />
 		<delete dir="${release.linux86.dir}${schemas.dir}" />
 		<delete dir="${release.linux86.dir}${images.dir}" />
 		<delete dir="${release.linux86.dir}${ini.dir}" />
+		<delete dir="${release.linux86.dir}${help.dir}" />
 	</target>
 
-	<target name="createdirs" depends="createschemadirs,createimagesdirs,createinidirs,createlinux86jre" />
+	<target name="createdirs" depends="createschemadirs,createimagesdirs,createinidirs,createhelpdirs,createlinux86jre" />
 
 	<target name="createschemadirs" depends="createwindowsschemadir,createlinux86schemadir" />
 
 	<target name="createimagesdirs" depends="createwindowsimagesdir,createlinux86imagesdir" />
 	
 	<target name="createinidirs" depends="createwindowsinidir,createlinux86inidir" />
+
+	<target name="createhelpdirs" depends="createwindowshelpdir,createlinux86helpdir" />
 
 	<target name="createlinux86jre">
 		<copy todir="${release.linux86.dir}${jre.linux86.dir}">
@@ -55,6 +60,12 @@
 		</copy>
 	</target>
 
+	<target name="createwindowshelpdir">
+		<copy todir="${release.windows.dir}${help.dir}">
+			<fileset dir="${help.dir}" />
+		</copy>
+	</target>
+
 	<target name="createlinux86schemadir">
 		<copy todir="${release.linux86.dir}${schemas.dir}">
 			<fileset dir="${schemas.dir}" />
@@ -72,6 +83,12 @@
 				<fileset dir="${ini.dir}" />
 			</copy>
 		</target>
+
+	<target name="createlinux86helpdir">
+		<copy todir="${release.linux86.dir}${help.dir}">
+			<fileset dir="${help.dir}" />
+		</copy>
+	</target>
 
 	<target name="createdynamohiaexec">
 		<delete file="${release.windows.dir}eclipse.exe" />
