@@ -8,8 +8,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 public class ApplicationWrapper {
-	// public static final String APPBASENAME = "DYNAMO-HIA";
-	// private static final String RELEASE_TAG = "release 1.09 20090619";
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Display display;
