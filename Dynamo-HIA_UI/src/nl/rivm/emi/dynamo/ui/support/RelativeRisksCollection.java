@@ -2,12 +2,10 @@ package nl.rivm.emi.dynamo.ui.support;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
@@ -17,9 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class RelativeRisksCollection {
-	private Log log = LogFactory.getLog("RelativeRisksCollection");
-
-	TreeAsDropdownLists tADL;
+	private Log log = LogFactory.getLog(getClass().getSimpleName());
 
 	/**
 	 * ParentNodeNames for the entities dropdowns have to be created for.
@@ -35,21 +31,38 @@ public class RelativeRisksCollection {
 	 * holds the RR info, called RRdat
 	 */
 
-	HashMap<String, HashMap<String, Set<String>>> configuredRelRisks = new HashMap<String, HashMap<String, Set<String>>>();
+	RelativeRiskFileNamesBySourceAndTargetNameMap relRisksBySourceNameAndTargetName = new RelativeRiskFileNamesBySourceAndTargetNameMap();
 
-	public HashMap<String, HashMap<String, Set<String>>> getConfiguredRelRisks() {
-		return configuredRelRisks;
+	private class RelativeRiskNamesByANameMap extends
+			HashMap<String, Set<String>> {
+		private static final long serialVersionUID = 471571555642536818L;
+
+		public boolean add(String keyName, String relativeRiskFileName) {
+			boolean hasBeenAdded = false;
+			Set<String> relRiskFileNameSet = get(keyName);
+			if (relRiskFileNameSet == null) {
+				relRiskFileNameSet = new HashSet<String>();
+				put(keyName, relRiskFileNameSet);
+			}
+			hasBeenAdded = relRiskFileNameSet.add(relativeRiskFileName);
+			return hasBeenAdded;
+		}
 	}
 
-	HashMap<String, Set<String>> relRiskBySourceName = new HashMap<String, Set<String>>();
-	HashMap<String, Set<String>> relRiskByTargetName = new HashMap<String, Set<String>>();
+	RelativeRiskNamesByANameMap relRiskBySourceName = new RelativeRiskNamesByANameMap();
+	RelativeRiskNamesByANameMap relRiskByTargetName = new RelativeRiskNamesByANameMap();
 
 	public RelativeRisksCollection(BaseNode selectedNode,
 			TreeAsDropdownLists treeAsDropdownLists)
 			throws ConfigurationException {
 		super();
-		tADL = treeAsDropdownLists;
-		findAllRelativeRisks(selectedNode, tADL);
+		log.debug("Constructing....");
+		findAllRelativeRisks(selectedNode, treeAsDropdownLists);
+		dump4Debug();
+	}
+
+	public RelativeRiskFileNamesBySourceAndTargetNameMap getConfiguredRelRisks() {
+		return relRisksBySourceNameAndTargetName;
 	}
 
 	public Set<String> getValidFromNames() {
@@ -57,7 +70,7 @@ public class RelativeRisksCollection {
 	}
 
 	public HashMap<String, HashMap<String, Set<String>>> getValidRelRisks() {
-		return configuredRelRisks;
+		return relRisksBySourceNameAndTargetName;
 	}
 
 	public Set<String> getValidToNames() {
@@ -86,291 +99,165 @@ public class RelativeRisksCollection {
 		ParentNode referenceDataNode = FactoryCommon
 				.findReferenceDataNode(selectedNode);
 		Object[] refDataChildNodes = referenceDataNode.getChildren();
-		// TreeAsDropdownLists tADL = TreeAsDropdownLists
-		// .getInstance(selectedNode);
-		for (Object refDataChildNode : refDataChildNodes) {
-			String validParentNodeName = returnParentNodeNameWhenValid((BaseNode) refDataChildNode);
-			if (validParentNodeName != null) {
+		for (Object refDataChildObject : refDataChildNodes) {
+			BaseNode refDataChildNode = (BaseNode) refDataChildObject;
+			if (canContainRelativeRisks(refDataChildNode)) {
 				if (StandardTreeNodeLabelsEnum.DISEASES.getNodeLabel().equals(
-						validParentNodeName)) {
-					Set<String> validDiseases = treelist.getValidDiseases();
-					Object[] diseaseChildren = ((ParentNode) refDataChildNode)
-							.getChildren();
-					for (Object diseaseChild : diseaseChildren) {
-						String diseaseName = ((BaseNode) diseaseChild)
-								.deriveNodeLabel();
-						if (validDiseases.contains(diseaseName)) {
-							Object[] diseaseSubDirChildren = ((ParentNode) diseaseChild)
-									.getChildren();
-							for (Object diseaseSubDirChild : diseaseSubDirChildren) {
-								String diseasesSubDirName = ((BaseNode) diseaseSubDirChild)
-										.deriveNodeLabel();
-								if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
-										.getNodeLabel().equals(
-												diseasesSubDirName)) {
-									Object[] relRiskChildren = ((ParentNode) diseaseSubDirChild)
-											.getChildren();
-									for (Object relRiskChild : relRiskChildren) {
-										if (relRiskChild instanceof FileNode) {
-											handleDiseaseRelRiskFileNode(
-													diseaseName, relRiskChild);
-										}
-									}
-								} else {
-									if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-											.getNodeLabel().equals(
-													diseasesSubDirName)) {
-										Object[] relRiskChildren = ((ParentNode) diseaseSubDirChild)
-												.getChildren();
-										for (Object relRiskChild : relRiskChildren) {
-											if (relRiskChild instanceof FileNode) {
-												handleDiseaseRelRiskFileNode(
-														diseaseName,
-														relRiskChild);
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+						refDataChildNode.deriveNodeLabel())) {
+					findRelRisks4Diseases(refDataChildNode, treelist);
 				} else {
 					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-							.equals(validParentNodeName)) {
-						Set<String> validRiskFactors = treelist
-								.getRiskFactors();
-						Object[] riskFactorChildren = ((ParentNode) refDataChildNode)
-								.getChildren();
-						for (Object riskFactorChild : riskFactorChildren) {
-							String riskFactorName = ((BaseNode) riskFactorChild)
-									.deriveNodeLabel();
-							if (validRiskFactors.contains(riskFactorName)) {
-								Object[] riskFactorSubDirChildren = ((ParentNode) riskFactorChild)
-										.getChildren();
-								for (Object riskFactorSubDirChild : riskFactorSubDirChildren) {
-									String riskFactorSubDirName = ((BaseNode) riskFactorSubDirChild)
-											.deriveNodeLabel();
-									if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR
-											.getNodeLabel().equals(
-													riskFactorSubDirName)) {
-										Object[] relRiskFileChildren = ((ParentNode) riskFactorSubDirChild)
-												.getChildren();
-										for (Object relRiskFileChild : relRiskFileChildren) {
-											if (relRiskFileChild instanceof FileNode) {
-												handleRiskFactorRelRiskFileNode(
-														riskFactorName,
-														"Death",
-														relRiskFileChild);
-											}
-										}
-									} else {
-										if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
-												.getNodeLabel().equals(
-														riskFactorSubDirName)) {
-											Object[] relRiskFileChildren = ((ParentNode) riskFactorSubDirChild)
-													.getChildren();
-											for (Object relRiskFileChild : relRiskFileChildren) {
-												if (relRiskFileChild instanceof FileNode) {
-													handleRiskFactorRelRiskFileNode(
-															riskFactorName,
-															"Disability",
-															relRiskFileChild);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+							.equals(refDataChildNode.deriveNodeLabel())) {
+						findRelRisks4DeathOrDisability(refDataChildNode,
+								treelist);
 					}
 				}
 			}
 		}
+		log.debug("By sourceName.");
+		dump4Log(relRiskBySourceName);
+		log.debug("By targetName.");
+		dump4Log(relRiskByTargetName);
 	}
 
-	private void handleDiseaseRelRiskFileNode(String diseaseName,
-			Object relRiskFileChild) throws DynamoConfigurationException {
-		if (relRiskFileChild instanceof FileNode) {
-			// File relRiskFile = ((FileNode) relRiskFileChild)
-			// .getPhysicalStorage();
-			// String rootElementName = ConfigurationFileUtil
-			// .extractRootElementName(relRiskFile);
-			String relRiskFileName = ((BaseNode) relRiskFileChild)
+	private void findRelRisks4Diseases(Object refDataChildNode,
+			TreeAsDropdownLists treelist) throws DynamoConfigurationException {
+		Set<String> validDiseases = treelist.getValidDiseaseNames();
+		Object[] diseaseChildren = ((ParentNode) refDataChildNode)
+				.getChildren();
+		for (Object diseaseChild : diseaseChildren) {
+			String diseaseChildName = ((BaseNode) diseaseChild)
 					.deriveNodeLabel();
-			ParentNode relRiskSourceTypeNode = ((ChildNode) relRiskFileChild)
-					.getParent();
-			String relRiskSourceTypeNodeLabel = ((BaseNode) relRiskSourceTypeNode)
+			if (validDiseases.contains(diseaseChildName)) {
+				processValidDisease(diseaseChild, diseaseChildName, treelist);
+			}
+		}
+	}
+
+	private void processValidDisease(Object diseaseChild,
+			String diseaseChildName, TreeAsDropdownLists treeList)
+			throws DynamoConfigurationException {
+		Object[] diseaseSubDirChildren = ((ParentNode) diseaseChild)
+				.getChildren();
+		for (Object diseaseSubDirChild : diseaseSubDirChildren) {
+			String diseasesSubDirName = ((BaseNode) diseaseSubDirChild)
 					.deriveNodeLabel();
-			String relRiskSourceName = null;
-			Set<String> relRiskNames = relRiskByTargetName.get(diseaseName);
-			;
-			log.debug("Getting disease relative-risks names for target-name: "
-					+ diseaseName);
-			// Disease has been checked above.
-			log.debug("Checking disease relative-risks source: "
-					+ relRiskFileName);
-			boolean riskSourceValid = false;
 			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
-					.getNodeLabel().equals(relRiskSourceTypeNodeLabel)) {
-				relRiskSourceName = findSourceName(relRiskFileName, tADL
-						.getValidDiseases());
-				log.debug("Found relative risk source: " + relRiskSourceName);
-				if (tADL.getValidDiseases().contains(relRiskSourceName)) {
-					riskSourceValid = true;
-				} else {
-					log.debug("Relative risk source: " + relRiskSourceName
-							+ " is not valid.");
-				}
+					.getNodeLabel().equals(diseasesSubDirName)) {
+				Set<String> validDiseaseNames = treeList.getValidDiseaseNames();
+				handlePossibleRelativeRisksForDiseaseFromSource(
+						diseaseChildName, diseaseSubDirChild, validDiseaseNames);
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-						.getNodeLabel().equals(relRiskSourceTypeNodeLabel)) {
-					relRiskSourceName = findSourceName(relRiskFileName, tADL
-							.getRiskFactors());
-					log.debug("Found relative risk source: "
-							+ relRiskSourceName);
-					if (tADL.getRiskFactors().contains(relRiskSourceName)) {
-						riskSourceValid = true;
-					} else {
-						log.debug("Relative risk source: " + relRiskSourceName
-								+ " is not valid.");
-					}
+						.getNodeLabel().equals(diseasesSubDirName)) {
+					Set<String> validRiskFactorNames = treeList
+							.getRiskFactorNames();
+					handlePossibleRelativeRisksForDiseaseFromSource(
+							diseaseChildName, diseaseSubDirChild,
+							validRiskFactorNames);
 				}
 			}
-			if (riskSourceValid) {
-				if (relRiskNames == null) {
-					relRiskNames = new LinkedHashSet<String>();
-				}
-				log.debug("Adding disease relative-risks name: "
-						+ relRiskFileName);
-				relRiskNames.add(relRiskFileName);
-				relRiskByTargetName.put(relRiskSourceName, relRiskNames);
-				if (relRiskSourceName != null) {
-					relRiskNames = relRiskBySourceName.get(relRiskSourceName);
-					log
-							.debug("Getting disease relative-risks names for source-name: "
-									+ relRiskSourceName);
-					if (relRiskNames == null) {
-						relRiskNames = new LinkedHashSet<String>();
-					}
-					log.debug("Adding disease relative-risks name: "
-							+ relRiskFileName);
-					relRiskNames.add(relRiskFileName);
-					relRiskBySourceName.put(relRiskSourceName, relRiskNames);
-					/* added by Hendriek: also fill configuredRelRisks */
-					/* this reused relRiskFileName */
-
-					// get the "to" data that belongs to thus RR
-					HashMap<String, Set<String>> toCollection = new HashMap<String, Set<String>>();
-					if (configuredRelRisks.keySet().contains(relRiskSourceName))
-						configuredRelRisks.get(relRiskSourceName);
-					if (toCollection.keySet().contains(diseaseName))
-						relRiskNames = toCollection.get(diseaseName);
-					else
-						relRiskNames = new LinkedHashSet<String>();
-					relRiskNames = toCollection.get(relRiskSourceName);
-					if (relRiskNames == null) {
-						relRiskNames = new LinkedHashSet<String>();
-					}
-					relRiskNames.add(relRiskFileName);
-					toCollection.put(diseaseName, relRiskNames);
-					configuredRelRisks.put(relRiskSourceName, toCollection);
-
-					/* end addition */
-
-				}
-			}
-		} else {
-			throw (new DynamoConfigurationException(
-					"handleDiseaseRelRiskFileNode() got a "
-							+ relRiskFileChild.getClass().getName()
-							+ " instead of a FileNode."));
 		}
 	}
 
-	private void handleRiskFactorRelRiskFileNode(String riskFactorName,
-			String targetName, Object relRiskFileChild)
-			throws DynamoConfigurationException {
-		if (tADL.getRiskFactors().contains(riskFactorName)) {
-			if (relRiskFileChild instanceof FileNode) {
-				String relRiskName = ((BaseNode) relRiskFileChild)
+	private void handlePossibleRelativeRisksForDiseaseFromSource(
+			String diseaseChildName, Object relRiskContainerDirectory,
+			Set<String> validSourceNames) throws DynamoConfigurationException {
+		Object[] relRiskChildren = ((ParentNode) relRiskContainerDirectory)
+				.getChildren();
+		for (Object relRiskChild : relRiskChildren) {
+			if (relRiskChild instanceof FileNode) {
+				String relRiskFileName = ((BaseNode) relRiskChild)
 						.deriveNodeLabel();
-				String sourceName = riskFactorName;
-				if (sourceName != null) {
-					log
-							.debug("Getting risk-factor relative-risks names for source-name: "
-									+ sourceName);
-					Set<String> relRiskNames = relRiskBySourceName
-							.get(sourceName);
-					if (relRiskNames == null) {
-						relRiskNames = new LinkedHashSet<String>();
+				for (String validSourceName : validSourceNames) {
+					if (relRiskFileName.contains(validSourceName)) {
+						log.debug("Found relative risk \"" + relRiskFileName
+								+ "\" from \"" + validSourceName + "\" on \""
+								+ diseaseChildName + "\"");
+						relRiskBySourceName.add(validSourceName,
+								relRiskFileName);
+						relRiskByTargetName.add(diseaseChildName,
+								relRiskFileName);
+						relRisksBySourceNameAndTargetName.add(validSourceName,
+								diseaseChildName, relRiskFileName);
+						break; // Handle only the first match.
 					}
-					log.debug("Adding risk-factor relative-risks name: "
-							+ relRiskName);
-					relRiskNames.add(relRiskName);
-					relRiskBySourceName.put(sourceName, relRiskNames);
 				}
-				log
-						.debug("Getting risk-factor relative-risks names for target-name: "
-								+ targetName);
-				Set<String> relRiskNames = relRiskByTargetName.get(targetName);
-				if (relRiskNames == null) {
-					relRiskNames = new LinkedHashSet<String>();
-				}
-				log.debug("Adding risk-factor relative-risks name: "
-						+ relRiskName);
-				relRiskNames.add(relRiskName);
-				relRiskByTargetName.put(targetName, relRiskNames);
-
-				/* added by Hendriek: also fill configuredRelRisks */
-				/* this reused relRiskFileName */
-
-				HashMap<String, Set<String>> toCollection = new HashMap<String, Set<String>>();
-				// get the "to" data that belongs to this RR
-				if (relRiskBySourceName.containsKey(sourceName))
-
-					toCollection = this.configuredRelRisks.get(sourceName);
-				if (toCollection == null)
-					toCollection = new HashMap<String, Set<String>>();
-				if (toCollection.keySet().contains(targetName))
-					relRiskNames = toCollection.get(targetName);
-				else
-					relRiskNames = new LinkedHashSet<String>();
-
-				relRiskNames.add(relRiskName);
-				toCollection.put(targetName, relRiskNames);
-				configuredRelRisks.put(sourceName, toCollection);
-
-				/* end addition */
 			} else {
-				throw (new DynamoConfigurationException(
-						"handleRiskFactorRelRiskFileNode() got a "
-								+ relRiskFileChild.getClass().getName()
-								+ " instead of a FileNode."));
+				// Not lethal, just not "comme il faut".
+				log.warn("handlePossibleRelativeRisksFromSOurce() got a "
+						+ relRiskChild.getClass().getName()
+						+ " instead of a FileNode.");
 			}
-		} else {
-			log.debug("Risk Factor: " + riskFactorName + " is invalid.");
 		}
 	}
 
-	/**
-	 * If the sourceLabel == null, the sourcelabel could not be found in the
-	 * validNames list.
-	 * 
-	 * @param relRiskFileNodeLabel
-	 * @param validNames
-	 * @return
-	 */
-	private String findSourceName(String relRiskFileNodeLabel,
-			Set<String> validNames) {
-		String sourceLabel = null;
-		for (String validName : validNames) {
-			int index = relRiskFileNodeLabel.indexOf(validName);
-			if (index != -1) {
-				sourceLabel = validName;
-				break;
+	private void findRelRisks4DeathOrDisability(Object refDataChildNode,
+			TreeAsDropdownLists treelist) throws DynamoConfigurationException {
+		Set<String> validRiskFactorNames = treelist.getRiskFactorNames();
+		Object[] riskFactorChildren = ((ParentNode) refDataChildNode)
+				.getChildren();
+		for (Object riskFactorChild : riskFactorChildren) {
+			String riskFactorChildName = ((BaseNode) riskFactorChild)
+					.deriveNodeLabel();
+			if (validRiskFactorNames.contains(riskFactorChildName)) {
+				processValidRiskFactor(riskFactorChildName, riskFactorChild,
+						treelist);
 			}
 		}
-		return sourceLabel;
+	}
+
+	private void processValidRiskFactor(String riskFactorName,
+			Object riskFactorChild, TreeAsDropdownLists treeList)
+			throws DynamoConfigurationException {
+		Object[] riskFactorSubDirChildren = ((ParentNode) riskFactorChild)
+				.getChildren();
+		for (Object riskFactorSubDirChild : riskFactorSubDirChildren) {
+			String riskFactorSubDirName = ((BaseNode) riskFactorSubDirChild)
+					.deriveNodeLabel();
+			if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
+					.equals(riskFactorSubDirName)) {
+				handlePossibleRelativeRisksForTargetFromSource(riskFactorName,
+						"death", riskFactorSubDirChild);
+			} else {
+				if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
+						.getNodeLabel().equals(riskFactorSubDirName)) {
+					Set<String> validRiskFactorNames = treeList
+							.getRiskFactorNames();
+					handlePossibleRelativeRisksForTargetFromSource(
+							riskFactorName, "disability",
+							riskFactorSubDirChild);
+				} else {
+				}
+			}
+		}
+	}
+
+	private void handlePossibleRelativeRisksForTargetFromSource(
+			String riskFactorName, String targetName,
+			Object relRiskContainerDirectoryNode)
+			throws DynamoConfigurationException {
+		Object[] relRiskFileNodes = ((ParentNode) relRiskContainerDirectoryNode)
+				.getChildren();
+		for (Object potentialRelRiskFileNode : relRiskFileNodes) {
+			if (potentialRelRiskFileNode instanceof FileNode) {
+				String relRiskFileName = ((BaseNode) potentialRelRiskFileNode)
+						.deriveNodeLabel();
+						log.debug("Found relative risk \"" + relRiskFileName
+								+ "\" from \"" + riskFactorName + "\" on \""
+								+ targetName + "\"");
+						relRiskBySourceName.add(riskFactorName,
+								relRiskFileName);
+						relRiskByTargetName.add(targetName, relRiskFileName);
+						relRisksBySourceNameAndTargetName.add(riskFactorName,
+								targetName, relRiskFileName);
+			} else {
+				// Not lethal, just not "comme il faut".
+				log.warn("handlePossibleRelativeRisksFromSOurce() got a "
+						+ potentialRelRiskFileNode.getClass().getName()
+						+ " instead of a FileNode.");
+			}
+		}
 	}
 
 	/**
@@ -381,7 +268,7 @@ public class RelativeRisksCollection {
 	 * @return validParentNodeName, null when invalid.
 	 * @throws ConfigurationException
 	 */
-	static String returnParentNodeNameWhenValid(BaseNode childNode)
+	static boolean canContainRelativeRisks(BaseNode childNode)
 			throws ConfigurationException {
 		String validNodeName = null;
 		for (int count = 0; count < possibleParentNodeNames.length; count++) {
@@ -391,54 +278,11 @@ public class RelativeRisksCollection {
 				break;
 			}
 		}
-		return validNodeName;
+		return (validNodeName != null);
 	}
 
-	/**
-	 * Make a collection of relative risks pertaining to the configured diseases
-	 * and riskfactor, minus the already configured relative risks.
-	 */
-
-	/**
-	 * Create possible risk sources. (RiskFactors plus Diseases)
-	 */
-
-	/**
-	 * Create possible targets. (Diseases plus Death and Disability)
-	 */
-
-	/**
-	 * Make the riskfactors accessible both by source-name and by target-name.
-	 */
-	/**
-	 * Get
-	 */
-
-	// Dynamic behaviour.
-	/**
-	 * Add a relative risk to the configuration.
-	 */
-	/**
-	 * Remove a relative risk from the configuration.
-	 */
-	/**
-	 * Add a disease to the configuration.
-	 */
-	/**
-	 * Remove a disease from the configuration.
-	 */
-	/**
-	 * Add a riskfactor to the configuration.
-	 */
-	/**
-	 * Remove a riskfactor from the configuration.
-	 */
-	/**
-	 * 
-	 */
-
-	public void dump4Debug() {
-		StringBuffer dumpBuffer = new StringBuffer(" \n");
+	public String dump4Debug() {
+		StringBuffer dumpBuffer = new StringBuffer("\nStarting dump.......");
 		for (String sourceName : relRiskBySourceName.keySet()) {
 			dumpBuffer.append("Source-name: " + sourceName + " \n");
 			Set<String> relRiskNames = relRiskBySourceName.get(sourceName);
@@ -453,6 +297,31 @@ public class RelativeRisksCollection {
 				dumpBuffer.append("\t\tRR: " + relRiskName + " \n");
 			}
 		}
-		log.debug(dumpBuffer.toString());
+		dumpBuffer.append(relRisksBySourceNameAndTargetName.dump4Log());
+		
+		return(dumpBuffer.toString());
 	}
+
+	public String dump4Log(HashMap<String, Set<String>> map) {
+		StringBuffer dumpBuffer = new StringBuffer();
+		Set<String> sourceNamesKeySet = map.keySet();
+		if (sourceNamesKeySet.isEmpty()) {
+			dumpBuffer.append("No sourceNames present.");
+		} else {
+			for (String sourceName : sourceNamesKeySet) {
+				dumpBuffer.append("\n\t" + "sourceName: " + sourceName);
+				Set<String> relRiskNamesByTargetNameMap = map.get(sourceName);
+				if (relRiskNamesByTargetNameMap.isEmpty()) {
+					dumpBuffer.append("No relative risks present.");
+				} else {
+					for (String relRiskName : relRiskNamesByTargetNameMap) {
+						dumpBuffer.append("\n\t\t" + "relRiskName: "
+								+ relRiskName);
+					}
+				}
+			}
+		}
+		return dumpBuffer.toString();
+	}
+
 }

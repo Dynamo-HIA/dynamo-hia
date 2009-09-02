@@ -54,7 +54,7 @@ public class GenericComboModifyListener implements ModifyListener {
 		String newText = myCombo.getText();		
 		
 		log.debug("newText" + newText);	
-		log.fatal("newText in listeber" + newText);	
+		log.debug("newText in listeber" + newText);	
 		
 		// First update the model
 		/* hendriek : toegevoegd: synchronized */
@@ -87,7 +87,7 @@ public class GenericComboModifyListener implements ModifyListener {
 	}
 
 	private void handleErrorMessage(Exception e, GenericDropDownPanel registeredDropDown) {
-		this.log.fatal(e);
+		this.log.debug(e);
 		e.printStackTrace();
 		MessageBox box = new MessageBox(registeredDropDown.parent.getShell(),
 				SWT.ERROR_UNSPECIFIED);

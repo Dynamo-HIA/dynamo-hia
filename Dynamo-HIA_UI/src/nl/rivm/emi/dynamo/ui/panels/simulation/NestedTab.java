@@ -19,14 +19,16 @@ import org.eclipse.swt.widgets.TabFolder;
  */
 public abstract class NestedTab extends Tab {
 
+	protected Set<String> selections;
+
 	public NestedTab(Set<String> selections, TabFolder tabFolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(selections, tabFolder, tabName,
-				dynamoSimulationObject,
-				dataBindingContext, selectedNode,
-				helpGroup);		
+		super(tabFolder, tabName, dynamoSimulationObject,
+				dataBindingContext,
+				selectedNode, helpGroup);	
+		this.selections = selections;
 	}
 
 	

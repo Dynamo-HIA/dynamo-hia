@@ -64,7 +64,7 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 		this.remove(currentDiseasesName);		
 		//TODO: FIX THIS PERMANENTLY!!!!
 		Set diseaseNames = new LinkedHashSet<String>();
-		diseaseNames.addAll(lists.getValidDiseases());		
+		diseaseNames.addAll(lists.getValidDiseaseNames());		
 		log.debug("diseaseNames: " + diseaseNames);
 		log.debug("Chosendiseases-1-1-1: " + this);
 		for (String chosenName : (Set<String>)this) {

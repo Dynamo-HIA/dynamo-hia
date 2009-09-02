@@ -1,14 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -49,6 +46,4 @@ public interface DynamoTabDataManager {
 	public WritableValue getCurrentWritableValue(String successRate);
 
 	public DynamoSimulationObject getDynamoSimulationObject();
-	
-
 }

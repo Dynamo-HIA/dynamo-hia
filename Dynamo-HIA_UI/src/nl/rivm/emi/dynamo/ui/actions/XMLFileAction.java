@@ -524,12 +524,12 @@ public class XMLFileAction extends ActionBase {
 			allTestsOK = false;
 			errorMessage.append("No valid population was found.\n");
 		}
-		int numberOfDiseases = instance.getValidDiseases().size();
+		int numberOfDiseases = instance.getValidDiseaseNames().size();
 		if (numberOfDiseases == 0) {
 			allTestsOK = false;
 			errorMessage.append("No valid disease was found.\n");
 		}
-		int numberOfRiskFactors = instance.getRiskFactors().size();
+		int numberOfRiskFactors = instance.getRiskFactorNames().size();
 		if (numberOfRiskFactors == 0) {
 			allTestsOK = false;
 			errorMessage.append("No valid risk factor was found.\n");

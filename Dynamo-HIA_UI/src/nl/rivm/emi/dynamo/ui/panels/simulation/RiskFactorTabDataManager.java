@@ -81,7 +81,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		log.debug("HIERO chosenRiskFactorName DATAMANAGER: "
 				+ chosenRiskFactorName);
 		if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
-			contents = this.treeLists.getRiskFactors();
+			contents = this.treeLists.getRiskFactorNames();
 			log.debug("getContents NAME: " + contents);
 		} else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
 			contents = this.treeLists
@@ -96,7 +96,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	private String getFirstRiskFactorOfTreeList() {
-		return (String) this.treeLists.getRiskFactors().iterator().next();
+		return (String) this.treeLists.getRiskFactorNames().iterator().next();
 	}
 
 	@Override

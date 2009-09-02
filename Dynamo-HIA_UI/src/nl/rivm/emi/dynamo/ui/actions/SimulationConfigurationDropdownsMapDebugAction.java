@@ -46,12 +46,12 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 			collection.dump4Debug();
 			TreeAsDropdownLists lists = TreeAsDropdownLists.getInstance(node);
 			log.debug("First call of getValidDiseases() through singleton.");
-			Set<String> validDiseaseNames = lists.getValidDiseases();
+			Set<String> validDiseaseNames = lists.getValidDiseaseNames();
 			for (String diseaseName : validDiseaseNames) {
 				log.debug("Valid diseasename: " + diseaseName);
 			}
 			log.debug("Second call of getValidDiseases() through singleton.");
-			validDiseaseNames = lists.getValidDiseases();
+			validDiseaseNames = lists.getValidDiseaseNames();
 			for (String diseaseName : validDiseaseNames) {
 				log.debug("Valid diseasename: " + diseaseName);
 			}

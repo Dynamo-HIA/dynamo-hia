@@ -202,6 +202,13 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 
 		if (contents != null) {
 			set.addAll(contents);
+			/* Debugging */
+			StringBuffer setDump = new StringBuffer();
+			for(String property:set){
+				setDump.append("\n" + property);
+			}
+			log.debug("Properties: " + setDump.toString());
+			/* Debugging ends. */
 		} else {
 			throw new ConfigurationException("No entries found!" + "\n"
 					+ "Choose another option.");

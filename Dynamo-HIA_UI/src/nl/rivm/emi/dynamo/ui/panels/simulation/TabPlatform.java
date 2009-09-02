@@ -38,10 +38,10 @@ public abstract class TabPlatform extends Tab {
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext,			
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(null, tabFolder, tabName, 
-				dynamoSimulationObject, 
-			    dataBindingContext, 
-				selectedNode, helpGroup);
+		super(tabFolder, tabName, dynamoSimulationObject, 
+				dataBindingContext, 
+			    selectedNode, 
+				helpGroup);
 	}
 
 	/**

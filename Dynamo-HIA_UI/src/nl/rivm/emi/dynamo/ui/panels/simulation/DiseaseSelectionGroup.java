@@ -8,7 +8,6 @@ import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -35,7 +34,7 @@ public class DiseaseSelectionGroup {
 	protected Composite group;
 //	private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
-	private BaseNode selectedNode;
+//	private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericDropDownPanel diseaseDropDownPanel;
@@ -48,7 +47,7 @@ public class DiseaseSelectionGroup {
 			DynamoNoValidDataException {
 		this.selections = selections;
 //		this.plotComposite = plotComposite;
-		this.selectedNode = selectedNode;
+//		this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
 		try {
@@ -86,10 +85,11 @@ public class DiseaseSelectionGroup {
 		formData.bottom = new FormAttachment(25, 0);
 		group.setLayoutData(formData);
 
-		TreeAsDropdownLists treeLists = TreeAsDropdownLists
-				.getInstance(selectedNode);
-		DropDownPropertiesSet validDiseasesSet = new DropDownPropertiesSet();
-		validDiseasesSet.addAll(treeLists.getValidDiseases());
+// RLM Not used.
+//		TreeAsDropdownLists treeLists = TreeAsDropdownLists
+//				.getInstance(selectedNode);
+//		DropDownPropertiesSet validDiseasesSet = new DropDownPropertiesSet();
+//		validDiseasesSet.addAll(treeLists.getValidDiseaseNames());
 
 		String chosenDiseaseName = null;
 		if (this.selections != null) {

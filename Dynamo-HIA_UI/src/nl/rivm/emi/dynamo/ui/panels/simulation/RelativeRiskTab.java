@@ -26,11 +26,11 @@ public class RelativeRiskTab extends NestedTab {
 	
 	private Log log = LogFactory.getLog("RelativeRiskTab");
 	private RelativeRiskSelectionGroup relativeRiskSelectionGroup;
-	private DynamoTabDataManager dynamoTabDataManager;
+	private DynamoTabDataManager relRiskTabDataManager;
 	
 	
 	public DynamoTabDataManager getDynamoTabDataManager() {
-		return dynamoTabDataManager;
+		return relRiskTabDataManager;
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class RelativeRiskTab extends NestedTab {
 	@Override
 	public void makeIt() throws ConfigurationException, NoMoreDataException{		
 		
-		this.dynamoTabDataManager =
+		this.relRiskTabDataManager =
 			new RelativeRiskTabDataManager(selectedNode, 
 					getDynamoSimulationObject(),
 					this.selections, this);
@@ -79,7 +79,7 @@ public class RelativeRiskTab extends NestedTab {
 							this.selections, 
 							this.plotComposite,
 							selectedNode, helpGroup,
-							dynamoTabDataManager);
+							relRiskTabDataManager);
 			
 		
 		
@@ -88,9 +88,9 @@ public class RelativeRiskTab extends NestedTab {
 					this.plotComposite,
 					selectedNode, helpGroup,
 					relativeRiskSelectionGroup,
-					dynamoTabDataManager);
+					relRiskTabDataManager);
 			} catch (DynamoNoValidDataException e) {
-				this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+				this.relRiskTabDataManager.removeFromDynamoSimulationObject();
 				throw new NoMoreDataException(e.getMessage());
 				// TODO Auto-generated catch block
 				
@@ -107,6 +107,6 @@ public class RelativeRiskTab extends NestedTab {
 	}
 
 	public void removeTabDataObject() throws ConfigurationException {
-		this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+		this.relRiskTabDataManager.removeFromDynamoSimulationObject();
 	}
 }

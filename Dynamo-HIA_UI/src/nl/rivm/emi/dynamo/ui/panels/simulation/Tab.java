@@ -1,13 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
-import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -36,13 +32,10 @@ public abstract class Tab {
 	protected DataBindingContext dataBindingContext;
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
-	protected Set<String> selections;
 
-	public Tab(Set<String> selections, TabFolder tabFolder, String tabName,
-			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws ConfigurationException {
-		this.selections = selections;
+	public Tab(TabFolder tabFolder, String tabName, DynamoSimulationObject dynamoSimulationObject,
+			DataBindingContext dataBindingContext,
+			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
 		this.setDynamoSimulationObject(dynamoSimulationObject);
 		this.dataBindingContext = dataBindingContext;
 		this.helpGroup = helpGroup;

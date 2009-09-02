@@ -70,7 +70,7 @@ public class RiskFactorSelectionGroup {
 		
 		TreeAsDropdownLists treeLists = TreeAsDropdownLists.getInstance(selectedNode); 
 		DropDownPropertiesSet validRiskFactorSet = new DropDownPropertiesSet();
-		validRiskFactorSet.addAll(treeLists.getRiskFactors());
+		validRiskFactorSet.addAll(treeLists.getRiskFactorNames());
 		
 		String chosenRiskFactorName = null;
 		if (this.selections != null) {

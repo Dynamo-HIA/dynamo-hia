@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class TreeAsDropdownLists extends HashMap<String, Object> {
+	private static final long serialVersionUID = 4098178986054592061L;
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -53,11 +54,16 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 * @throws ConfigurationException
 	 */
 	public void refresh(BaseNode selectedNode) throws ConfigurationException {
+		log.debug("Refreshing.....");
 		this.clear();
-		this.putAll(SimulationConfigurationDropdownsMapFactory
-				.make(selectedNode));
+		HashMap<String, Object> allButRelativeRisksMap = SimulationConfigurationDropdownsMapFactory
+		.make(selectedNode);
+		this.putAll(allButRelativeRisksMap);
+		RelativeRisksCollection rrCollection = new RelativeRisksCollection(selectedNode, this);
+		log.debug("Dumping.....");
+		log.debug(rrCollection.dump4Debug());
 		this.put(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel(),
-				new RelativeRisksCollection(selectedNode, this));
+				rrCollection);
 	}
 
 	/**
@@ -88,7 +94,8 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 *            be able to be chosen again.
 	 * @return
 	 */
-	public Set<String> getValidDiseases() {
+	public Set<String> getValidDiseaseNames() {
+		log.debug("getValidDiseases().....");
 		HashMap<String, Object> diseasesMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.DISEASES
 				.getNodeLabel());
 		Set<String> diseaseNames = diseasesMap.keySet();
@@ -96,18 +103,23 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	}
 
 	public Set<String> getDiseasePrevalences(String chosenDiseaseName) {
+		log.debug("getDiseasePrevalences(" + chosenDiseaseName + ").....");
 		String name = StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel();
 		Set<String> theSet = getDiseaseSet(chosenDiseaseName, name);
 		return theSet;
 	}
 
 	public Set<String> getDiseaseIncidences(String chosenDiseaseName) {
+		log.debug("getDiseaseIncidences(" + chosenDiseaseName + ").....");
 		String name = StandardTreeNodeLabelsEnum.INCIDENCES.getNodeLabel();
 		Set<String> theSet = getDiseaseSet(chosenDiseaseName, name);
 		return theSet;
 	}
 
 	public Set<String> getDiseaseExcessMortalities(String chosenDiseaseName) {
+		log
+				.debug("getDiseaseExcessMortalities(" + chosenDiseaseName
+						+ ").....");
 		String name = StandardTreeNodeLabelsEnum.EXCESSMORTALITIES
 				.getNodeLabel();
 		Set<String> theSet = getDiseaseSet(chosenDiseaseName, name);
@@ -115,12 +127,16 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	}
 
 	public Set<String> getDALYWeights(String chosenDiseaseName) {
+		log.debug("getDALYWeights(" + chosenDiseaseName + ").....");
 		String name = StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel();
 		Set<String> theSet = getDiseaseSet(chosenDiseaseName, name);
 		return theSet;
 	}
 
 	private Set<String> getDiseaseSet(String chosenDiseaseName, String name) {
+		log
+				.debug("getDiseaseSet(" + chosenDiseaseName + ", " + name
+						+ ").....");
 		Set<String> theSet = null;
 		HashMap<String, Object> diseasesMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.DISEASES
 				.getNodeLabel());
@@ -141,21 +157,28 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 * @return
 	 */
 	public Set<String> get2RiskFactors() {
+		log.debug("get2RiskFactors().....");
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
 		Set<String> riskFactorNames = riskFactorsMap.keySet();
 		return riskFactorNames;
 	}
-	
-	
-	
+
 	/**
-	 * This method returns an object containing the names of the relative risks in the tree
-	 * that have been correctly configured.
+	 * This method returns an object containing the names of the relative risks
+	 * in the tree that have been correctly configured.
 	 * 
 	 * @return
 	 */
-	public Set<String> getRiskFactors() {
+	public Set<String> getRiskFactorNames() {
+		log.debug("getRiskFactors().....");
+		Exception ex = new Exception();
+		StackTraceElement[] stackTraceArray = ex.getStackTrace();
+//		for (int count = 0; count < 2 && count < stackTraceArray.length; count++) {
+//			log.debug("StackTraceElement at " + count + ": "
+//					+ stackTraceArray[count].getClassName() + "."
+//					+ stackTraceArray[count].getMethodName() + "(" + stackTraceArray[count].getLineNumber()+ ")");
+//		}
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
 		Set<String> riskFactorNames = riskFactorsMap.keySet();
@@ -163,12 +186,15 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	}
 
 	public Set<String> getRiskFactorPrevalences(String chosenRiskFactorName) {
+		log.debug("getRiskFactorPrevalences( " + chosenRiskFactorName
+				+ ").....");
 		String name = StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel();
 		Set<String> theSet = getRiskFactorSet(chosenRiskFactorName, name);
 		return theSet;
 	}
 
 	public Set<String> getTransitions(String chosenRiskFactorName) {
+		log.debug("getTransitions( " + chosenRiskFactorName + ").....");
 		String name = StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel();
 		Set<String> theSet = getRiskFactorSet(chosenRiskFactorName, name);
 		return theSet;
@@ -176,6 +202,8 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 
 	private Set<String> getRiskFactorSet(String chosenRiskFactorName,
 			String name) {
+		log.debug("getRiskFactorSet( " + chosenRiskFactorName + ", " + name
+				+ ").....");
 		Set<String> theSet = null;
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
@@ -190,30 +218,39 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	}
 
 	public Set<String> getValidFromNames() {
-		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		log.debug("getValidFromNames().....");
+		RelativeRisksCollection collection = (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS
+				.getNodeLabel());
 		return collection.getValidFromNames();
 	}
 
 	public Set<String> getValidToNames() {
-		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		log.debug("getValidToNames().....");
+		RelativeRisksCollection collection = (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS
+				.getNodeLabel());
 		return collection.getValidToNames();
 	}
-	
 
-	public HashMap<String, HashMap<String, Set<String>>> getValidRelativeRiskCollection() {
-		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+	public RelativeRiskFileNamesBySourceAndTargetNameMap getValidRelativeRiskCollection() {
+		log.debug("getValidRelativeRiskCollection().....");
+		RelativeRisksCollection collection = (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS
+				.getNodeLabel());
 		return collection.getConfiguredRelRisks();
 	}
-	
-	
 
 	public Set<String> getValidRelRiskFileNamesForFromName(String fromName) {
-		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		log
+				.debug("getValidRelRiskFileNamesForFromName( " + fromName
+						+ ").....");
+		RelativeRisksCollection collection = (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS
+				.getNodeLabel());
 		return collection.getValidRelRiskFileNamesForFromName(fromName);
 	}
 
 	public Set<String> getValidRelRiskFileNamesForToName(String toName) {
-		RelativeRisksCollection collection =  (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS.getNodeLabel());
+		log.debug("getValidRelRiskFileNamesForToName( " + toName + ").....");
+		RelativeRisksCollection collection = (RelativeRisksCollection) get(StandardTreeNodeLabelsEnum.RELATIVERISKS
+				.getNodeLabel());
 		return collection.getValidRelRiskFileNamesForToName(toName);
 	}
 }

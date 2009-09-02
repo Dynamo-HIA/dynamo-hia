@@ -3,8 +3,6 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-
-
 import java.util.Map;
 import java.util.Set;
 

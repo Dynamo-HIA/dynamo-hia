@@ -21,17 +21,21 @@ import org.eclipse.swt.widgets.TabItem;
 public class DynamoTabsDataPanel {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup theHelpGroup;
 	private BaseNode selectedNode;
-	
+	ScenariosTab scenariosTab;
+	RiskFactorTab riskFactorTab;
+	DiseasesTab diseasesTab;
+	RelativeRisksTab relativeRisksTab;
+
 	public DynamoTabsDataPanel(Composite parent, BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext,			
-			HelpGroup helpGroup) throws ConfigurationException {
+			DataBindingContext dataBindingContext, HelpGroup helpGroup)
+			throws ConfigurationException {
 		this.myParent = parent;
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.dataBindingContext = dataBindingContext;
@@ -40,78 +44,79 @@ public class DynamoTabsDataPanel {
 		makeDynamoTabsDisplay(parent);
 	}
 
-	
 	/**
-	 * Create the 5 tabfolders
-	 * @throws ConfigurationException 
+	 * Create the 4 tabfolders
+	 * 
+	 * @throws ConfigurationException
 	 * 
 	 */
-	public void makeDynamoTabsDisplay(Composite parent) throws ConfigurationException  {
+	public void makeDynamoTabsDisplay(Composite parent)
+			throws ConfigurationException {
 
 		log.debug(dynamoSimulationObject + "dynamoSimulationObject");
-		
-		/* tab for pyramid plots */
-		TabFolder tabFolder1 = new TabFolder(parent, SWT.FILL);
 
-		tabFolder1.setLayout(new FillLayout());
-		//tabFolder1.setBackground(new Color(null, 0x00, 0x00,0x00)); // white		
-		final ScenariosTab tab3 = new ScenariosTab(tabFolder1, dynamoSimulationObject, 
+		TabFolder tabFolder = new TabFolder(parent, SWT.FILL);
+
+		tabFolder.setLayout(new FillLayout());
+		// tabFolder.setBackground(new Color(null, 0x00, 0x00,0x00)); // white
+		scenariosTab = new ScenariosTab(tabFolder, dynamoSimulationObject,
 				dataBindingContext, selectedNode, theHelpGroup);
-		
-		final RiskFactorTab tab0 = new RiskFactorTab(tabFolder1, dynamoSimulationObject, 
+
+		riskFactorTab = new RiskFactorTab(tabFolder, dynamoSimulationObject,
 				dataBindingContext, selectedNode, theHelpGroup);
-							
-		final DiseasesTab tab1 = new DiseasesTab(tabFolder1, dynamoSimulationObject, 
+
+		diseasesTab = new DiseasesTab(tabFolder, dynamoSimulationObject,
 				dataBindingContext, selectedNode, theHelpGroup);
-		
-		final RelativeRisksTab tab2 = new RelativeRisksTab(tabFolder1, dynamoSimulationObject, 
-				dataBindingContext, selectedNode, theHelpGroup);		
-		
-					
-		
-		tabFolder1.addListener(SWT.Selection, new Listener() {
-	        public void handleEvent(Event event) {
-                TabItem item = (TabItem) event.item;
-	            String tabId=item.getText();
 
-		    	try {
-				    if (tabId=="Risk Factor") tab0.redraw();
-				    if (tabId=="Diseases") tab1.redraw();
-				    if (tabId=="Relative Risks") {
-				    	
-				    	 // changed by Hendriek
-				    	    /* 
-				    	     * this refreshes the list with RR availlable from new disease or riskfactor choices
-				    	     */
-				    	  RelRisksCollectionForDropdown.getInstance(dynamoSimulationObject, selectedNode);
-
-				    	    tab2.refreshAllTabs();
-				    	 
-				    	 	//tab2.refreshFirstTab();
-					    //	tab2.redraw();			    	
-				    }
-				    if (tabId=="Scenarios") {
-							tab3.refreshFirstTab();
-					    	tab3.redraw();
-				    }
-				} catch (ConfigurationException ce) {
-					handleErrorMessage(ce);
-				}			    	
-        }
-	        
-	        
-    	private void handleErrorMessage(Exception e) {    	
-    		e.printStackTrace();
-    		MessageBox box = new MessageBox(DynamoTabsDataPanel.this.myParent.getShell(),
-    				SWT.ERROR_UNSPECIFIED);
-    		box.setText("Error occured during creation of a new tab " + e.getMessage());
-    		box.setMessage(e.getMessage());
-    		box.open();
-    	}	        
-
-	    });
-
+		relativeRisksTab = new RelativeRisksTab(tabFolder,
+				dynamoSimulationObject, dataBindingContext, selectedNode,
+				theHelpGroup);
+		tabFolder.addListener(SWT.Selection, new TabFolderSelectionListener());
 	}
-	
-	
+
+	class TabFolderSelectionListener implements Listener {
+
+		@Override
+		public void handleEvent(Event event) {
+			TabItem item = (TabItem) event.item;
+			String tabId = item.getText();
+			try {
+				if (tabId == "Risk Factor")
+					riskFactorTab.redraw();
+				if (tabId == "Diseases")
+					diseasesTab.redraw();
+				if (tabId == "Relative Risks") {
+
+					// changed by Hendriek
+					/*
+					 * this refreshes the list with RR availlable from new
+					 * disease or riskfactor choices
+					 */
+					RelRisksCollectionForDropdown.getInstance(
+							dynamoSimulationObject, selectedNode);
+
+					relativeRisksTab.refreshAllTabs();
+
+					// tab2.refreshFirstTab();
+					// tab2.redraw();
+				}
+				if (tabId == "Scenarios") {
+					scenariosTab.refreshFirstTab();
+					scenariosTab.redraw();
+				}
+			} catch (ConfigurationException ce) {
+				handleErrorMessage(ce);
+			}
+		}
+
+		private void handleErrorMessage(Exception e) {
+			e.printStackTrace();
+			MessageBox box = new MessageBox(DynamoTabsDataPanel.this.myParent
+					.getShell(), SWT.ERROR_UNSPECIFIED);
+			box.setText("Error occured during creation of a new tab "
+					+ e.getMessage());
+			box.setMessage(e.getMessage());
+			box.open();
+		}
+	}
 }
