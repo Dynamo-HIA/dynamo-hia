@@ -23,29 +23,28 @@ import org.eclipse.swt.widgets.Composite;
  * @author schutb
  * 
  */
-public class RelativeRiskResultGroup {
+public class RelativeRiskResultGroup implements RelativeRiskDropDownGroup{
 
-	public static final String RELATIVE_RISK = "Relative Risk";
 	protected Composite group;
-//	private Composite plotComposite;
+	// private Composite plotComposite;
 
-//	private BaseNode selectedNode;
+	// private BaseNode selectedNode;
 
 	private Set<String> selections;
-	private DynamoTabDataManager dynamoTabDataManager;
+	private RelativeRiskTabDataManager relativeRiskTabDataManager;
 	private RelativeRiskSelectionGroup selectionGroup;
 	private HelpGroup helpGroup;
 
-	public RelativeRiskResultGroup(Set<String> selections,
-			Composite plotComposite, BaseNode selectedNode,
-			HelpGroup helpGroup, RelativeRiskSelectionGroup selectionGroup,
-			DynamoTabDataManager dynamoTabDataManager)
+	public RelativeRiskResultGroup(Composite plotComposite,
+			BaseNode selectedNode, HelpGroup helpGroup,
+			RelativeRiskSelectionGroup selectionGroup,
+			RelativeRiskTabDataManager relativeRiskTabDataManager)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		this.selections = selections;
-//		this.plotComposite = plotComposite;
+		// this.plotComposite = plotComposite;
 		this.selectionGroup = selectionGroup;
-		this.dynamoTabDataManager = dynamoTabDataManager;
+		this.relativeRiskTabDataManager = relativeRiskTabDataManager;
 		this.helpGroup = helpGroup;
 		group = new Composite(plotComposite, SWT.NONE);
 		GridLayout gridLayout = new GridLayout();
@@ -74,22 +73,23 @@ public class RelativeRiskResultGroup {
 			}
 		}
 
-		GenericDropDownPanel relativeRiskDropDownPanel = createDropDown(
-				RELATIVE_RISK, dynamoTabDataManager.getDropDownSet(
-						RELATIVE_RISK, chosenIndexSelection));
-		this.selectionGroup.getFromDropDownModifyListener().registerDropDown(
-				relativeRiskDropDownPanel);
+		RelativeRiskDropDownPanel relativeRiskDropDownPanel = createDropDown(
+				RelativeRiskDropDownPanel.RELATIVE_RISK, relativeRiskTabDataManager.getDropDownSet(
+						RelativeRiskDropDownPanel.RELATIVE_RISK, chosenIndexSelection));
+		// this.selectionGroup.getFromDropDownModifyListener().registerDropDown(
+		// relativeRiskDropDownPanel);
 
-		this.selectionGroup.getToDropDownModifyListener().registerDropDown(
-				relativeRiskDropDownPanel);
+		// this.selectionGroup.getToDropDownModifyListener().registerDropDown(
+		// relativeRiskDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(relativeRiskDropDownPanel
-				.getDropDown(), RELATIVE_RISK);
+				.getDropDown(), RelativeRiskDropDownPanel.RELATIVE_RISK);
 	}
 
-	private GenericDropDownPanel createDropDown(String label,
+	private RelativeRiskDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
-		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager, helpGroup);
+		return new RelativeRiskDropDownPanel(group, label, 2,
+				this.relativeRiskTabDataManager,
+				helpGroup, null);
 	}
 }

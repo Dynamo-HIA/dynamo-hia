@@ -45,7 +45,7 @@ public class RiskFactorTab {
 	private HelpGroup helpGroup;
 	private BaseNode selectedNode;
 	
-	private TabFolder tabFolder;
+	private TabFolder upperTabFolder;
 	private Set<String> selections;
 	private Composite plotComposite;
 
@@ -53,18 +53,18 @@ public class RiskFactorTab {
 	private DynamoTabDataManager dynamoTabDataManager;
 	
 	/**
-	 * @param tabfolder
+	 * @param upperTabfolder
 	 * @param output
 	 * @throws ConfigurationException 
 	 */
 	public RiskFactorTab(
-			TabFolder tabfolder,
+			TabFolder upperTabfolder,
 			DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, 
 			BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
 		
-		this.tabFolder = tabfolder;
+		this.upperTabFolder = upperTabfolder;
 		this.dataBindingContext = dataBindingContext; 
 		this.dynamoSimulationObject = dynamoSimulationObject;
 		this.helpGroup = helpGroup;
@@ -81,7 +81,7 @@ public class RiskFactorTab {
 		try {
 			makeIt();
 		} catch (NoMoreDataException e) {
-			Shell messageShell=new Shell(tabFolder.getDisplay());
+			Shell messageShell=new Shell(upperTabFolder.getDisplay());
 			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
 			messageBox.setMessage(e.getMessage()+" \nSimulation is corrupted and not runnable");				
 			
@@ -92,7 +92,7 @@ public class RiskFactorTab {
 			messageShell.open();
 			
 		} catch (DynamoNoValidDataException e) {
-			Shell messageShell=new Shell(tabFolder.getDisplay());
+			Shell messageShell=new Shell(upperTabFolder.getDisplay());
 			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
 			messageBox.setMessage(e.getMessage()+" \nSimulation is corrupted and not runnable");				
 			
@@ -118,7 +118,7 @@ public class RiskFactorTab {
 	 * @throws DynamoNoValidDataException 
 	 */
 	public void makeIt() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException{
-		this.setPlotComposite(new Group(this.tabFolder, SWT.FILL));
+		this.setPlotComposite(new Group(this.upperTabFolder, SWT.FILL));
 		FormLayout formLayout = new FormLayout();
 		this.getPlotComposite().setLayout(formLayout);
 		//this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
@@ -142,7 +142,7 @@ public class RiskFactorTab {
 					riskFactorSelectionGroup.getDropDownModifyListener(), 
 					dynamoTabDataManager);
 
-		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
+		TabItem item = new TabItem(this.upperTabFolder, SWT.NONE);
 		item.setText("Risk Factor");
 		item.setControl(this.getPlotComposite());		
 	}

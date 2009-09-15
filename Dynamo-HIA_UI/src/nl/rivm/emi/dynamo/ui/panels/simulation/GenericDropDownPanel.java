@@ -32,20 +32,20 @@ public class GenericDropDownPanel {
 //	private int selectedIndex;
 //	private UpdateDataAction redrawGroupAndUpdateDataAction;
 	private GenericComboModifyListener genericComboModifyListener;
-	private DynamoTabDataManager owner;
+	private DynamoTabDataManager myDataManager;
 	private HelpGroup helpGroup;
 
 	private String dropDownLabel;
 	
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
-			UpdateDataAction redrawGroupAndUpdateDataAction,
-			DynamoTabDataManager owner, HelpGroup helpGroup) throws ConfigurationException {
+			DynamoTabDataManager dataManager,
+			HelpGroup helpGroup) throws ConfigurationException {
 		this.parent = parent;
 		this.dropDownLabel = dropDownLabel;
 		this.selectablePropertiesSet = selectablePropertiesSet;
 //		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
-		this.owner = owner;
+		this.myDataManager = dataManager;
 		this.dropDownLabel = dropDownLabel;
 		this.helpGroup = helpGroup;
 		
@@ -70,7 +70,7 @@ public class GenericDropDownPanel {
 	private void setDefaultValue() throws ConfigurationException {
 		// Get the default value
 		String currentValue = 
-			this.owner.getCurrentValue(this.getLabel());
+			myDataManager.getCurrentValue(this.getLabel());
 		log.debug("CURRENTVALUEDEF: " + currentValue);
 		log.debug("getCurrentIndex(currentValue)" + getCurrentIndex(currentValue));
 		
@@ -80,7 +80,7 @@ public class GenericDropDownPanel {
 		// Set the default value
 		dropDown.select(index);
 		if (currentValue != null) 
-			this.owner.setDefaultValue(this.getLabel(), currentValue);
+			this.myDataManager.setDefaultValue(this.getLabel(), currentValue);
 	}
 
 	private int getCurrentIndex(String currentValue) {
@@ -119,7 +119,7 @@ public class GenericDropDownPanel {
 		log.debug("this.getLabel()" + this.getLabel());
 		this.selectablePropertiesSet.clear();
 		this.selectablePropertiesSet.addAll( 
-			this.owner.getDropDownSet(this.getLabel(), newText));		
+			this.myDataManager.getDropDownSet(this.getLabel(), newText));		
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		dropDown.select(0);
@@ -139,11 +139,11 @@ public class GenericDropDownPanel {
 		dropDown.removeAll();		
 		this.selectablePropertiesSet.clear();
 		this.selectablePropertiesSet.addAll( 
-			this.owner.getRefreshedDropDownSet(this.getLabel()));		
+			this.myDataManager.getRefreshedDropDownSet(this.getLabel()));		
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		// Remove old value (is choosable again)
-		this.owner.removeOldDefaultValue(this.getLabel());
+		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Set the new default (can be the same value as the removed one)
 		setDefaultValue();
 		dropDown.addModifyListener(this.genericComboModifyListener);		
@@ -152,9 +152,9 @@ public class GenericDropDownPanel {
 	
 	public void updateDataObjectModel(String newText) throws ConfigurationException, NoMoreDataException {
 		// Remove old value (is choosable again)
-		this.owner.removeOldDefaultValue(this.getLabel());
+		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Add new value
-		this.owner.updateObjectState(this.getLabel(), newText);
+		this.myDataManager.updateObjectState(this.getLabel(), newText);
 	}
 	
 	public String getLabel() {

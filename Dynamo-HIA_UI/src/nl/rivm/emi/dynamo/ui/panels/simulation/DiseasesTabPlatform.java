@@ -20,7 +20,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -33,7 +32,7 @@ import org.eclipse.swt.widgets.TabFolder;
  * @author schutb
  *
  */
-public class DiseasesTab extends TabPlatform {
+public class DiseasesTabPlatform extends TabPlatform {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
@@ -45,22 +44,24 @@ public class DiseasesTab extends TabPlatform {
 	 * @param output
 	 * @throws ConfigurationException 
 	 */
-	public DiseasesTab(TabFolder tabFolder,
+	public DiseasesTabPlatform(TabFolder upperTabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, 
-			BaseNode selectedNode,
+			BaseNode selectedNode, 
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(tabFolder, DISEASES, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
-	}
+		super(upperTabFolder, DISEASES, selectedNode, dynamoSimulationObject, helpGroup, null);
+		createContent();
+}
 
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections 
 			) throws ConfigurationException {
-		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		String tabName = DISEASE + newTabNumber;				
-		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
-				tabName, getDynamoSimulationObject(), 
-				dataBindingContext, selectedNode, helpGroup);
+//		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
+		int newTabNumber = getNumberOfTabs() + 1;
+				String tabName = DISEASE + newTabNumber;				
+//		return new DiseaseTab(defaultSelections, this.getTabManager().getTabFolder(), 
+				return new DiseaseTab(defaultSelections, tabFolder, 
+									tabName, getDynamoSimulationObject(), 
+				selectedNode, helpGroup);
 		
 	}
 	
@@ -88,9 +89,11 @@ public class DiseasesTab extends TabPlatform {
 		/* also remove in the other disease tabs */
 		 Map<String, ITabDiseaseConfiguration> newConfigurations = ((DiseaseTabDataManager)
 		 ((DiseaseTab)diseaseTab).getDynamoTabDataManager()).getConfigurations();
-		for (String tabName :this.getTabManager().nestedTabs.keySet()){
-			DiseaseTabDataManager dataManager=(DiseaseTabDataManager)
-			 ((DiseaseTab)this.getTabManager().nestedTabs.get(tabName)).getDynamoTabDataManager();
+//		for (String tabName :this.getTabManager().nestedTabs.keySet()){
+			for (String tabName :nestedTabs.keySet()){
+						DiseaseTabDataManager dataManager=(DiseaseTabDataManager)
+//			 ((DiseaseTab)this.getTabManager().nestedTabs.get(tabName)).getDynamoTabDataManager();
+				 ((DiseaseTab)nestedTabs.get(tabName)).getDynamoTabDataManager();
 			dataManager.setConfigurations(newConfigurations);
 			}
 	}
@@ -102,7 +105,7 @@ public class DiseasesTab extends TabPlatform {
 		
 catch (NoMoreDataException e) {
 			
-			Shell messageShell=new Shell(getTabFolder().getDisplay());
+			Shell messageShell=new Shell(getUpperTabFolder().getDisplay());
 			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
 			messageBox.setMessage("WARNING:\n"+e.getMessage()+ "\nTab is not made");
 			messageBox.setText("WARNING");
@@ -113,12 +116,13 @@ catch (NoMoreDataException e) {
 			messageShell.open();
 				
 			} catch (DynamoNoValidDataException e) {
-				Shell messageShell=new Shell(getTabFolder().getDisplay());
+				Shell messageShell=new Shell(getUpperTabFolder().getDisplay());
 				MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
 				messageBox.setText("WARNING");
 				messageBox.setMessage("WARNING:\n"+e.getMessage()+ "\nTab is deleted");
-					this.tabManager.deleteNestedTab();
-				
+//					this.tabPlatformManager.deleteNestedTab();
+				deleteNestedTab_FromManager();
+								
 				if (messageBox.open() == SWT.OK) {
 					messageShell.dispose();
 			e.printStackTrace();

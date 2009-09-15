@@ -1,28 +1,29 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.RelativeRiskComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.ChosenFromList;
 import nl.rivm.emi.dynamo.ui.support.ChosenToList;
 import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -33,74 +34,53 @@ import org.eclipse.swt.widgets.Shell;
  * @author schutb
  * 
  */
-public class RelativeRiskTabDataManager implements DynamoTabDataManager {
+public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 
 	private static final String RELRISK_DEATH = "Death";
 	private static final String RELRISK_DISABILITY = "Disability";
 
-	static Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTabDataManager");
-	private TreeAsDropdownLists treeLists;
+	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TreeAsDropdownLists getTreeLists() {
-		return treeLists;
-	}
+	private RelativeRiskTabPlatformDataManager myBoss;
 
-	private DynamoSimulationObject dynamoSimulationObject;
+	private RelRisksCollectionForDropdown possibleRelRisksProvider;
 
-	public DynamoSimulationObject getDynamoSimulationObject() {
-		return dynamoSimulationObject;
-	}
-
-	private Map<Integer, TabRelativeRiskConfigurationData> configurations;
-	private TabRelativeRiskConfigurationData singleConfiguration;
-
-	public void setSingleConfiguration(
-			TabRelativeRiskConfigurationData singleConfiguration) {
-		this.singleConfiguration = singleConfiguration;
-	}
-
-	private Set<String> initialSelection;
 	private RelativeRiskTab tab;
-	private RelRisksCollectionForDropdown availlableRRs;
 
-	public Map<Integer, TabRelativeRiskConfigurationData> getConfigurations() {
-		return configurations;
-	}
+	/**
+	 * Nescessary to determine in the modify listener what to do with the event.
+	 */
+	HashMap<String, Combo> comboLookup = new HashMap<String, Combo>();
 
-	public TabRelativeRiskConfigurationData getSingleConfiguration() {
-		return singleConfiguration;
-	}
+	/**
+	 * Nescessary to determine in the modify listener what to do with the event.
+	 */
+	HashMap<Combo, String> reverseComboLabelLookup = new HashMap<Combo, String>();
 
-	public RelRisksCollectionForDropdown getAvaillableRRs() {
-		return availlableRRs;
-	}
+	private TabRelativeRiskConfigurationData tabRelativeRiskConfigurationData;
 
 	/**
 	 * 
 	 * Constructor
 	 * 
-	 * @param selectedNode
-	 * @param dynamoSimulationObject
-	 * @param initialSelection
+	 * @param myBoss
+	 *            TODO
+	 * 
 	 * @throws ConfigurationException
 	 */
-	public RelativeRiskTabDataManager(BaseNode selectedNode,
-			DynamoSimulationObject dynamoSimulationObject,
-			Set<String> initialSelection, RelativeRiskTab tab)
+	public RelativeRiskTabDataManager(RelativeRiskTab tab,
+			RelativeRiskTabPlatformDataManager myBoss, Integer tabIndex)
 			throws ConfigurationException {
-		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
-		this.dynamoSimulationObject = dynamoSimulationObject;
-		this.configurations = this.dynamoSimulationObject
-				.getRelativeRiskConfigurations();
-		this.initialSelection = initialSelection;
+		// this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
+		this.tabRelativeRiskConfigurationData = myBoss
+				.getConfiguration(tabIndex);
 		this.tab = tab;
-		log.debug("this.initialSelectionRelativeRiskTabDataManager"
-				+ this.initialSelection);
-		this.singleConfiguration = (TabRelativeRiskConfigurationData) this.configurations
-				.get(getInitialIndex());
-		this.availlableRRs = RelRisksCollectionForDropdown.getInstance(
-				dynamoSimulationObject, selectedNode);
+		// this.dynamoSimulationObject = dynamoSimulationObject;
+		this.myBoss = myBoss;
+		// log.debug("this.initialSelectionRelativeRiskTabDataManager"
+		// + this.initialSelection);
+		this.possibleRelRisksProvider = myBoss
+				.getRelRisksCollectionForDropdown();
 	}
 
 	/*
@@ -131,89 +111,148 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 * 
 	 */
 
+	public void addCombo2Lookups(Combo widget, String label) {
+		comboLookup.put(label, widget);
+		reverseComboLabelLookup.put(widget, label);
+	}
+
+	public String findComboLabel(Combo widget) {
+		String label = reverseComboLabelLookup.get(widget);
+		return label;
+	}
+
+	public Combo findComboObject(String label) {
+		Combo widget = comboLookup.get(label);
+		return widget;
+	}
+
+	public DropDownPropertiesSet getFromSet() throws ConfigurationException,
+			NoMoreDataException, DynamoNoValidDataException {
+		DropDownPropertiesSet set = new DropDownPropertiesSet();
+		Set<String> fromList = possibleRelRisksProvider.updateFromList();
+		set.addAll(fromList);
+		return set;
+	}
+
+	public DropDownPropertiesSet getToSet(String chosenFrom)
+			throws ConfigurationException, NoMoreDataException,
+			DynamoNoValidDataException {
+		DropDownPropertiesSet set = new DropDownPropertiesSet();
+		Set<String> toList = possibleRelRisksProvider.updateToList(chosenFrom);
+			set.addAll(toList);
+		return set;
+	}
+
+	public DropDownPropertiesSet getFileSet(String chosenFrom, String chosenTo)
+			throws ConfigurationException, NoMoreDataException,
+			DynamoNoValidDataException {
+		DropDownPropertiesSet set = new DropDownPropertiesSet();
+		Set<String> fileList = possibleRelRisksProvider.updateRRFileList(chosenFrom,
+				chosenTo);
+		set.addAll(fileList);
+		return set;
+	}
+
+	/**
+	 * Not very logical, but the cleanest way to get it to the DropDownPanels.
+	 * 
+	 * @return
+	 */
+	public RelativeRiskComboModifyListener getRelativeRiskComboModifyListener() {
+		return tab.getRelativeRiskComboModifyListener();
+	}
+
 	public DropDownPropertiesSet getDropDownSet(String name, String chosenName)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		log.debug("HIERALOOK");
-
-		/*
-		 * get the current names from the model-object (in singleConfiguration)
-		 * if this is present
-		 */
-
-		String chosenFromName = null; /*
-									 * this is the name that is considered to be
-									 * chosen by the user
-									 */
-		if (singleConfiguration != null) {
-			chosenFromName = this.singleConfiguration.getFrom(); // Can also be
-																	// a disease
-			log.debug("chosenFromName JUST CREATED" + chosenFromName);
-			/*
-			 * setDefaultValues voegt de selectie toe aan de bij te houden
-			 * lijst, dat is hier niet meer relevant
-			 */
-			// ssetDefaultValue(RelativeRiskSelectionGroup.FROM,
-			// chosenFromName);
-		}
-
-		String chosenToName = null;/*
-									 * this is the name that is considered to be
-									 * chosen by the user
-									 */
-		// The model object already exists, get the name
-		if (singleConfiguration != null) {
-			chosenToName = this.singleConfiguration.getTo();
-			log.debug("chosenToName JUST CREATED" + chosenToName);
-			/*
-			 * in case the old To-name in the configuration is not possible in
-			 * combination with the from name, take the first valid to name from
-			 * the list do not update the modelobject, as this causes a loop??
-			 */
-			if (this.availlableRRs.updateToList(chosenFromName) == null)
-				throw new DynamoNoValidDataException(
-						"Configuration requests a relative risk that is not configured, namely from "
-								+ chosenFromName + " to " + chosenToName + "\n");
-			if (!this.availlableRRs.updateToList(chosenFromName).contains(
-					chosenToName)) {
-				log.debug("chosenToName JUST CREATED" + chosenToName);
-				if (chosenToName != null
-						&& name == RelativeRiskSelectionGroup.TO)
-					handleWarningMessage("Configuration requests a relative risk from "
-							+ chosenFromName
-							+ " to "
-							+ chosenToName
-							+ " but this RR has not been configured. Changed to a relative risk from "
-							+ chosenFromName
-							+ " to "
-							+ availlableRRs.getFirstTo(chosenFromName));
-				chosenToName = availlableRRs.getFirstTo(chosenFromName);
-			}
-			/*
-			 * setDefaultValues voegt de selectie toe aan de bij te houden
-			 * lijst, dat is hier niet meer relevant
-			 */
-			// setDefaultValue(RelativeRiskSelectionGroup.TO, chosenToName);
-		}
-		Set<String> contents = this.getContents(name, chosenName,
-				chosenFromName, chosenToName);
-		DropDownPropertiesSet set = new DropDownPropertiesSet();
-		// Contents can never be empty
-
-		if (contents != null) {
-			set.addAll(contents);
-			/* Debugging */
-			StringBuffer setDump = new StringBuffer();
-			for(String property:set){
-				setDump.append("\n" + property);
-			}
-			log.debug("Properties: " + setDump.toString());
-			/* Debugging ends. */
-		} else {
-			throw new ConfigurationException("No entries found!" + "\n"
-					+ "Choose another option.");
-		}
-		return set;
+		//
+		// /*
+		// * get the current names from the model-object (in
+		// singleConfiguration)
+		// * if this is present
+		// */
+		//
+		// String chosenFromName = null; /*
+		// * this is the name that is considered to be
+		// * chosen by the user
+		// */
+		// if (tabRelativeRiskConfigurationData != null) {
+		// chosenFromName = this.tabRelativeRiskConfigurationData.getFrom(); //
+		// Can
+		// // also
+		// // be
+		// // a disease
+		// log.debug("chosenFromName JUST CREATED" + chosenFromName);
+		// /*
+		// * setDefaultValues voegt de selectie toe aan de bij te houden
+		// * lijst, dat is hier niet meer relevant
+		// */
+		// // ssetDefaultValue(RelativeRiskSelectionGroup.FROM,
+		// // chosenFromName);
+		// }
+		//
+		// String chosenToName = null;/*
+		// * this is the name that is considered to be
+		// * chosen by the user
+		// */
+		// // The model object already exists, get the name
+		// if (tabRelativeRiskConfigurationData != null) {
+		// chosenToName = this.tabRelativeRiskConfigurationData.getTo();
+		// log.debug("chosenToName JUST CREATED" + chosenToName);
+		// /*
+		// * in case the old To-name in the configuration is not possible in
+		// * combination with the from name, take the first valid to name from
+		// * the list do not update the modelobject, as this causes a loop??
+		// */
+		// if (possibleRelRisksProvider.updateToList(chosenFromName) == null)
+		// throw new DynamoNoValidDataException(
+		// "Configuration requests a relative risk that is not configured, namely from "
+		// + chosenFromName + " to " + chosenToName + "\n");
+		// if (!possibleRelRisksProvider.updateToList(chosenFromName)
+		// .contains(chosenToName)) {
+		// log.debug("chosenToName JUST CREATED" + chosenToName);
+		// if (chosenToName != null
+		// && name == RelativeRiskSelectionGroup.TO)
+		// handleWarningMessage("Configuration requests a relative risk from "
+		// + chosenFromName
+		// + " to "
+		// + chosenToName
+		// +
+		// " but this RR has not been configured. Changed to a relative risk from "
+		// + chosenFromName
+		// + " to "
+		// + possibleRelRisksProvider
+		// .getFirstTo(chosenFromName));
+		// chosenToName = possibleRelRisksProvider
+		// .getFirstTo(chosenFromName);
+		// }
+		// /*
+		// * setDefaultValues voegt de selectie toe aan de bij te houden
+		// * lijst, dat is hier niet meer relevant
+		// */
+		// // setDefaultValue(RelativeRiskSelectionGroup.TO, chosenToName);
+		// }
+		// Set<String> contents = this.getContents(name, chosenName,
+		// chosenFromName, chosenToName);
+		// DropDownPropertiesSet set = new DropDownPropertiesSet();
+		// // Contents can never be empty
+		//
+		// if (contents != null) {
+		// set.addAll(contents);
+		// /* Debugging */
+		// StringBuffer setDump = new StringBuffer();
+		// for (String property : set) {
+		// setDump.append("\n" + property);
+		// }
+		// log.debug("Properties: " + setDump.toString());
+		// /* Debugging ends. */
+		// } else {
+		// throw new ConfigurationException("No entries found!" + "\n"
+		// + "Choose another option.");
+		// }
+		// return set;
+		return null;
 	}
 
 	/**
@@ -239,70 +278,70 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 			throws ConfigurationException, NoMoreDataException {
 		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
-		/*
-		 * if no relrisk has been set yet, take the first relative risk of the
-		 * availlable ones, and use that
-		 */
-		if (this.availlableRRs.isEmpty()) {
-			throw new NoMoreDataException(
-					"No more valid relative risk data present "
-							+ "in Reference_Data");
-		}
-		if (this.singleConfiguration == null) {
-
-			chosenToName = this.availlableRRs.getFirstTo();
-			// if (chosenToName!=null){
-			chosenFromName = availlableRRs.getFirstFrom();
-
-			// if (this.singleConfiguration==null) this.singleConfiguration=new
-			// TabRelativeRiskConfigurationData ();
-			if (RelativeRiskSelectionGroup.FROM.equals(name))
-				updateObjectState(name, chosenFromName);
-
-			if (RelativeRiskSelectionGroup.TO.equals(name))
-				updateObjectState(name, chosenToName);
-			if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name))
-				updateObjectState(name, availlableRRs.getFirstRRFileList());
-		}
-		Integer currentIndex = null;
-
-		currentIndex = this.singleConfiguration.getIndex();
-
-		// The chosenFromName is still empty
-		if (chosenFromName == null) {
-			chosenFromName = availlableRRs.getFirstFrom();
-			log.fatal("getContents::chosenFromName" + chosenFromName);
-		}
-		if (RelativeRiskSelectionGroup.FROM.equals(name)) {
-
-			contents = availlableRRs.updateFromList();
-			log.fatal("getContents0: " + contents);
-
-		} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
-			// This is the full list of available diseases + death + disability
-			// contents = this.getInitialToList();
-			contents = availlableRRs.updateToList(chosenFromName);
-			log.debug("contents1" + contents);
-		} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
-			contents = availlableRRs.updateRRFileList(chosenFromName,
-					chosenToName);
-			log.debug("contentsBEFOREFILTER: " + contents);
-			log.debug("contentsFromFILTER: " + chosenFromName);
-			log.debug("contentsToFILTER: " + chosenToName);
-			// Filter only for the allowed risk factor type (identified by the
-			// unique chosenFromName)
-			// if (chosenFromName != null && !chosenFromName.isEmpty()
-			// && !RELRISK_DEATH.endsWith(chosenToName)
-			// && !RELRISK_DISABILITY.endsWith(chosenToName)) {
-			// contents = filterByRiskFactorType(contents, chosenFromName);
-			log.debug("contentsFILTER: " + contents);
-			// }
-			log.debug("contents2" + contents);
-		}
-		/* update the lists for the combo */
-		// this condition just means that this is for the from combogroup
-
-		// log.debug("contentsLast" + contents);
+		// /*
+		// * if no relrisk has been set yet, take the first relative risk of the
+		// * availlable ones, and use that
+		// */
+		// if (possibleRelRisksProvider.isEmpty()) {
+		// throw new NoMoreDataException(
+		// "No more valid relative risk data present "
+		// + "in Reference_Data");
+		// }
+		// if (this.tabRelativeRiskConfigurationData == null) {
+		//
+		// chosenToName = this.possibleRelRisksProvider.getFirstTo();
+		// // if (chosenToName!=null){
+		// chosenFromName = possibleRelRisksProvider.getFirstFrom();
+		//
+		// // if (this.singleConfiguration==null) this.singleConfiguration=new
+		// // TabRelativeRiskConfigurationData ();
+		// if (RelativeRiskSelectionGroup.FROM.equals(name))
+		// updateObjectState(name, chosenFromName);
+		//
+		// if (RelativeRiskSelectionGroup.TO.equals(name))
+		// updateObjectState(name, chosenToName);
+		// if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name))
+		// updateObjectState(name, possibleRelRisksProvider
+		// .getFirstRRFileList());
+		// }
+		// Integer currentIndex = null;
+		//
+		// currentIndex = this.tabRelativeRiskConfigurationData.getIndex();
+		//
+		// // The chosenFromName is still empty
+		// if (chosenFromName == null) {
+		// chosenFromName = possibleRelRisksProvider.getFirstFrom();
+		// log.fatal("getContents::chosenFromName" + chosenFromName);
+		// }
+		// if (RelativeRiskSelectionGroup.FROM.equals(name)) {
+		//
+		// contents = possibleRelRisksProvider.updateFromList();
+		// log.fatal("getContents0: " + contents);
+		//
+		// } else if (RelativeRiskSelectionGroup.TO.equals(name)) {
+		// // This is the full list of available diseases + death + disability
+		// // contents = this.getInitialToList();
+		// contents = possibleRelRisksProvider.updateToList(chosenFromName);
+		// log.debug("contents1" + contents);
+		// } else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
+		// contents = possibleRelRisksProvider.updateRRFileList(
+		// chosenFromName, chosenToName);
+		// log.debug("contentsBEFOREFILTER: " + contents);
+		// log.debug("contentsFromFILTER: " + chosenFromName);
+		// log.debug("contentsToFILTER: " + chosenToName);
+		// // Filter only for the allowed risk factor type (identified by the
+		// // unique chosenFromName)
+		// // if (chosenFromName != null && !chosenFromName.isEmpty()
+		// // && !RELRISK_DEATH.endsWith(chosenToName)
+		// // && !RELRISK_DISABILITY.endsWith(chosenToName)) {
+		// // contents = filterByRiskFactorType(contents, chosenFromName);
+		// log.debug("contentsFILTER: " + contents);
+		// // }
+		// log.debug("contents2" + contents);
+		// }
+		// /* update the lists for the combo */
+		// // this condition just means that this is for the from combogroup
+		// // log.debug("contentsLast" + contents);
 		return contents;
 	}
 
@@ -326,21 +365,23 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 * (java.lang.String)
 	 */
 	public String getCurrentValue(String name) throws ConfigurationException {
-		log.debug("GET CURRENT VALUE");
-		log.debug("singleConfigurationXXX: " + singleConfiguration);
+		// log.debug("getCurrentValue()");
+		// log
+		// .debug("singleConfigurationXXX: "
+		// + tabRelativeRiskConfigurationData);
 		String value = null;
-		if (this.singleConfiguration != null) {
-			if (RelativeRiskSelectionGroup.FROM.equals(name)) {
-				value = singleConfiguration.getFrom();
-				log.debug("VALUE: " + value);
-			} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
-				value = singleConfiguration.getTo();
-				log.debug("value" + value);
-			} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
-				value = singleConfiguration.getDataFileName();
-				log.debug("value" + value);
-			}
-		}
+		// if (this.tabRelativeRiskConfigurationData != null) {
+		// if (RelativeRiskSelectionGroup.FROM.equals(name)) {
+		// value = tabRelativeRiskConfigurationData.getFrom();
+		// log.debug("Value: " + value);
+		// } else if (RelativeRiskSelectionGroup.TO.equals(name)) {
+		// value = tabRelativeRiskConfigurationData.getTo();
+		// log.debug("Value" + value);
+		// } else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
+		// value = tabRelativeRiskConfigurationData.getDataFileName();
+		// log.debug("Value" + value);
+		// }
+		// }
 		return value;
 	}
 
@@ -355,142 +396,121 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	 */
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
-		log.debug(name + ": " + selectedValue);
-
-		log.debug("UPDATING OBJECT STATE");
-		try {
-			// In case a new Tab is created, no model exists yet
-			if (this.initialSelection == null && singleConfiguration == null) {
-				log.debug("CREATING NEW TAB");
-				createInDynamoSimulationObject();
-				singleConfiguration.setIndex(this.configurations.size());
-			}
-
-			if (RelativeRiskSelectionGroup.FROM.equals(name)) {
-				singleConfiguration.setFrom(selectedValue);
-				setDefaultValue(RelativeRiskSelectionGroup.FROM, selectedValue);
-
-				this.tab.refreshSelectionGroup();
-
-			} else if (RelativeRiskSelectionGroup.TO.equals(name)) {
-				singleConfiguration.setTo(selectedValue);
-				setDefaultValue(RelativeRiskSelectionGroup.TO, selectedValue);
-				this.tab.refreshSelectionGroup();
-			} else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
-				singleConfiguration.setDataFileName(selectedValue);
-			}
-			updateDynamoSimulationObject();
-		} catch (NoMoreDataException e) {
-
-			Shell messageShell = new Shell(tab.plotComposite.getDisplay());
-			MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
-			messageBox.setMessage(e.getMessage()
-					+ "\nTab is not made or deleted");
-
-			if (messageBox.open() == SWT.OK) {
-				messageShell.dispose();
-			}
-
-			messageShell.open();
-		} catch (DynamoNoValidDataException e) {
-			Shell messageShell = new Shell(tab.plotComposite.getDisplay());
-			MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
-			messageBox.setMessage(e.getMessage()
-					+ "\nTab is not made or deleted");
-
-			if (messageBox.open() == SWT.OK) {
-				messageShell.dispose();// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		// log.debug(name + ": " + selectedValue);
+		//
+		// log.debug("updateObjectState");
+		// try {
+		// // In case a new Tab is created, no model exists yet
+		// if (this.initialSelection == null
+		// && tabRelativeRiskConfigurationData == null) {
+		// log.debug("CREATING NEW TAB");
+		// tabRelativeRiskConfigurationData = new
+		// TabRelativeRiskConfigurationData();
+		// // tabRelativeRiskConfigurationData.setIndex(this.configurations
+		// // .size());
+		// tabRelativeRiskConfigurationData.setIndex(myBoss
+		// .getConfigurations().size());
+		// }
+		//
+		// if (RelativeRiskSelectionGroup.FROM.equals(name)) {
+		// tabRelativeRiskConfigurationData.setFrom(selectedValue);
+		// setDefaultValue(RelativeRiskSelectionGroup.FROM, selectedValue);
+		//
+		// this.tab.refreshSelectionGroup();
+		//
+		// } else if (RelativeRiskSelectionGroup.TO.equals(name)) {
+		// tabRelativeRiskConfigurationData.setTo(selectedValue);
+		// setDefaultValue(RelativeRiskSelectionGroup.TO, selectedValue);
+		// this.tab.refreshSelectionGroup();
+		// } else if (RelativeRiskResultGroup.RELATIVE_RISK.equals(name)) {
+		// tabRelativeRiskConfigurationData.setDataFileName(selectedValue);
+		// }
+		// updateDynamoSimulationObject();
+		// } catch (NoMoreDataException e) {
+		//
+		// Shell messageShell = new Shell(tab.plotComposite.getDisplay());
+		// MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
+		// messageBox.setMessage(e.getMessage()
+		// + "\nTab is not made or deleted");
+		//
+		// if (messageBox.open() == SWT.OK) {
+		// messageShell.dispose();
+		// }
+		//
+		// messageShell.open();
+		// } catch (DynamoNoValidDataException e) {
+		// Shell messageShell = new Shell(tab.plotComposite.getDisplay());
+		// MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
+		// messageBox.setMessage(e.getMessage()
+		// + "\nTab is not made or deleted");
+		//
+		// if (messageBox.open() == SWT.OK) {
+		// messageShell.dispose();// TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	public void updateDynamoSimulationObject() {
-		log.error("UPDATING");
-		log.debug("singleConfiguration" + singleConfiguration);
-		log.debug("singleConfiguration.getFrom()"
-				+ singleConfiguration.getFrom());
-		log.debug("singleConfiguration.getTo()" + singleConfiguration.getTo());
-		log.debug("singleConfiguration.getDataFileName()"
-				+ singleConfiguration.getDataFileName());
-
-		// Store the object
-		this.configurations.put(singleConfiguration.getIndex(),
-				singleConfiguration);
-		this.dynamoSimulationObject
-				.setRelativeRiskConfigurations(configurations);
-
-		// refresh the list with availlable RR's;
-
-		/**
-		 * TODO REMOVE: LOGGING BELOW
-		 */
-		Map map = this.dynamoSimulationObject.getRelativeRiskConfigurations();
-		Set<Integer> keys = map.keySet();
-		for (Integer key : keys) {
-			TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
-					.get(key);
-			log.error("conf.getFrom()" + conf.getFrom());
-			log.error("conf.getTo()" + conf.getTo());
-			log.error("conf.getDataFileName()" + conf.getDataFileName());
-		}
-		log.debug("configurations.size()" + configurations.size());
-		/**
-		 * TODO REMOVE: LOGGING ABOVE
-		 */
-	}
-
-	private void createInDynamoSimulationObject() {
-		this.singleConfiguration = new TabRelativeRiskConfigurationData();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seenl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#
-	 * removeFromDynamoSimulationObject()
-	 */
-	public void removeFromDynamoSimulationObject()
-			throws ConfigurationException {
-		log.error("REMOVING OBJECT STATE");
-		// Added by Hendriek: renumber the indexes so that the number are in
-		// accord with the
-		// numbering of the tabs
-
-		/* in case this is an empty tab skip the next line */
-		if (this.singleConfiguration != null)
-			this.configurations.remove(this.singleConfiguration.getIndex());
-		this.singleConfiguration = null;
-		Map<Integer, TabRelativeRiskConfigurationData> newConfigurations = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
-		int newIndex = 0;
-		for (Integer index : this.configurations.keySet()) {
-			this.configurations.get(index).setIndex(newIndex);
-			newConfigurations.put((Integer) newIndex, this.configurations
-					.get(index));
-			newIndex++;
-		}
-
-		this.configurations = newConfigurations;
-		this.dynamoSimulationObject
-				.setRelativeRiskConfigurations(newConfigurations);
-
+		// log.error("UPDATING");
+		// log.debug("singleConfiguration" + tabRelativeRiskConfigurationData);
+		// log.debug("singleConfiguration.getFrom()"
+		// + tabRelativeRiskConfigurationData.getFrom());
+		// log.debug("singleConfiguration.getTo()"
+		// + tabRelativeRiskConfigurationData.getTo());
+		// log.debug("singleConfiguration.getDataFileName()"
+		// + tabRelativeRiskConfigurationData.getDataFileName());
+		//
+		// // Store the object
+		// //
+		// this.configurations.put(tabRelativeRiskConfigurationData.getIndex(),
+		// // tabRelativeRiskConfigurationData);
+		// myBoss.getConfigurations().put(
+		// tabRelativeRiskConfigurationData.getIndex(),
+		// tabRelativeRiskConfigurationData);
+		// // this.dynamoSimulationObject
+		// // .setRelativeRiskConfigurations(configurations);
+		// myBoss.setRelativeRiskConfigurations();
+		//
+		// // refresh the list with availlable RR's;
+		//
+		// /**
+		// * TODO REMOVE: LOGGING BELOW
+		// */
+		// Map map = myBoss.getDynamoSimulationObject()
+		// .getRelativeRiskConfigurations();
+		// Set<Integer> keys = map.keySet();
+		// for (Integer key : keys) {
+		// TabRelativeRiskConfigurationData conf =
+		// (TabRelativeRiskConfigurationData) map
+		// .get(key);
+		// log.error("conf.getFrom()" + conf.getFrom());
+		// log.error("conf.getTo()" + conf.getTo());
+		// log.error("conf.getDataFileName()" + conf.getDataFileName());
+		// }
+		// log.debug("configurations.size()" +
+		// myBoss.getConfigurations().size());
+		// /**
+		// * TODO REMOVE: LOGGING ABOVE
+		// */
 	}
 
 	private Integer getInitialIndex() {
 		Integer chosenInitalIndex = null;
-		log.debug("initialSelection" + initialSelection);
-		if (this.initialSelection != null) {
-			for (String chosenIndex : this.initialSelection) {
-				log.debug("chosenIndex" + chosenIndex);
-				chosenInitalIndex = new Integer(chosenIndex);
-			}
-		}
+		// log.debug("initialSelection" + initialSelection);
+		// if (this.initialSelection != null) {
+		// for (String chosenIndex : this.initialSelection) {
+		// log.debug("chosenIndex" + chosenIndex);
+		// chosenInitalIndex = new Integer(chosenIndex);
+		// }
+		// }
 		return chosenInitalIndex;
 	}
 
 	private String getInitialRiskFactorName() {
 		String chosenRiskFactorNameFromTab = null;
-		Map map = this.dynamoSimulationObject.getRiskFactorConfigurations();
+		Map map = myBoss.getDynamoSimulationObject()
+				.getRiskFactorConfigurations();
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map
@@ -503,7 +523,7 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 
 	private Set<String> getInitialDiseasesList() {
 		Set<String> chosenDiseases = new LinkedHashSet<String>();
-		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
+		Map map = myBoss.getDynamoSimulationObject().getDiseaseConfigurations();
 
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
@@ -542,6 +562,16 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		return initialDiseasesList;
 	}
 
+	/**
+	 * @deprecated
+	 * @author mondeelr
+	 * 
+	 *         Just proxy for now.
+	 */
+	public void reloadConfigurationsFromModelObject() {
+		myBoss.reloadConfigurationsFromModelObject();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -567,63 +597,6 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	// this was to add the selection to the chosen lists, not necessary anymore
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
-		/*
-		 * log.debug("SETDEFAULT: " + selectedValue); if
-		 * (DiseaseSelectionGroup.DISEASE.equals(name)) { // FOR BOTH TO AND
-		 * FROM LIST ChoosableDiseases choosableDiseases =
-		 * ChoosableDiseases.getInstance(); // FOR BOTH TO AND FROM LIST
-		 * choosableDiseases.setChosenDisease(selectedValue); }
-		 * 
-		 * if (this.singleConfiguration != null) { log.debug("OLDDEFAULT: " +
-		 * this.singleConfiguration.getTo()); if
-		 * (RelativeRiskSelectionGroup.FROM.equals(name)) {
-		 * ChosenFromList.getInstance().setChosenFromList(selectedValue);
-		 * RelRisksCollectionForDropdown
-		 * .getInstance().updateFromList(selectedValue); }
-		 * 
-		 * if (RelativeRiskSelectionGroup.TO.equals(name)) {
-		 * 
-		 * ChosenToList.getInstance().setChosenToList(selectedValue); } }
-		 */
-	}
-
-	/**
-	 * author Hendriek: refreshes the configuration with the contents of the
-	 * index number of the current configuraton
-	 * 
-	 * This is needed after deleting a tab, when the tabs have gotten a new
-	 * index number.
-	 * 
-	 * @param index
-	 */
-	public void refreshConfigurations(int index) {
-
-		this.configurations = this.dynamoSimulationObject
-				.getRelativeRiskConfigurations();
-		this.singleConfiguration = this.configurations.get(index);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seenl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#
-	 * removeOldDefaultValue(java.lang.String)
-	 */
-	public void removeOldDefaultValue(String name)
-			throws ConfigurationException {
-		if (this.singleConfiguration != null) {
-			log.debug("OLDDEFAULT: " + this.singleConfiguration.getTo());
-			if (RelativeRiskSelectionGroup.FROM.equals(name)) {
-				ChosenFromList.getInstance().removeChosenFromList(
-						this.singleConfiguration.getFrom());
-			}
-
-			if (RelativeRiskSelectionGroup.TO.equals(name)) {
-				ChosenToList.getInstance().removeChosenToList(
-						this.singleConfiguration.getTo());
-			}
-		}
 	}
 
 	/*
@@ -636,23 +609,18 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 	public Set<String> getContents(String name, String chosenDiseaseName)
 			throws ConfigurationException, NoMoreDataException {
 		// Will not be used
-		return initialSelection;
-	}
-
-	public WritableValue getCurrentWritableValue(String successRate) {
-		// Will not be used
 		return null;
 	}
 
 	public void refreshAvaillableRRlist() throws ConfigurationException {
 		// TODO Auto-generated method stub
-		availlableRRs.refresh(dynamoSimulationObject);
+		possibleRelRisksProvider.refresh(myBoss.getDynamoSimulationObject());
 	}
 
-	public void setDynamoSimulationObject(
-			DynamoSimulationObject dynamoSimulationObject) {
-		this.dynamoSimulationObject = dynamoSimulationObject;
-	}
+	// public void setDynamoSimulationObject(
+	// DynamoSimulationObject dynamoSimulationObject) {
+	// this.dynamoSimulationObject = dynamoSimulationObject;
+	// }
 
 	private void handleWarningMessage(String s) {
 
@@ -662,5 +630,4 @@ public class RelativeRiskTabDataManager implements DynamoTabDataManager {
 		box.setMessage("WARNING:\n" + s);
 		box.open();
 	}
-
 }

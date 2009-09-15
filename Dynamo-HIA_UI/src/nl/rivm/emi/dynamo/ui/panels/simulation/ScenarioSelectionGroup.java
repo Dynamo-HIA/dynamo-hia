@@ -181,9 +181,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
 			DynamoTabDataManager dynamoTabDataManager)
 			throws ConfigurationException {
-		ScenarioFactorDataAction updateScenarioFactorDataAction = new ScenarioFactorDataAction();
 		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
-				selectablePropertiesSet, updateScenarioFactorDataAction,
+				selectablePropertiesSet, 
 				dynamoTabDataManager, helpGroup);
 	}
 

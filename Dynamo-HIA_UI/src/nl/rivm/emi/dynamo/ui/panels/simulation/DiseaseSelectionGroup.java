@@ -124,7 +124,7 @@ public class DiseaseSelectionGroup {
 			throws ConfigurationException {
 //		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, dynamoTabDataManager, helpGroup);
+				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {

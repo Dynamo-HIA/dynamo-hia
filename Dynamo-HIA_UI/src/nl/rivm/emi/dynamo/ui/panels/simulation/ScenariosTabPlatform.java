@@ -15,44 +15,46 @@ import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 
-public class ScenariosTab extends TabPlatform {
+public class ScenariosTabPlatform extends TabPlatform {
 
-	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+	// private Log log = LogFactory.getLog(this.getClass().getName());
+
 	private static final String SCENARIOS = "Scenarios";
 	private static final String SCENARIO = "Scenario";
-		
+
 	/**
 	 * @param tabfolder
 	 * @param output
-	 * @throws ConfigurationException 
+	 * @throws ConfigurationException
 	 */
-	public ScenariosTab(TabFolder tabFolder,
+	public ScenariosTabPlatform(TabFolder upperTabFolder,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, 
-			BaseNode selectedNode,
+			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		super(tabFolder, SCENARIOS, selectedNode, dynamoSimulationObject, dataBindingContext, helpGroup);
+		super(upperTabFolder, SCENARIOS, selectedNode, dynamoSimulationObject,
+				helpGroup, dataBindingContext);
+		createContent();
 	}
-	
+
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
-		int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		String tabName = SCENARIO + newTabNumber;		
-		return new ScenarioTab(defaultSelections, this.getTabManager().getTabFolder(), 
-				tabName, getDynamoSimulationObject(), 
-				dataBindingContext, selectedNode, helpGroup);
+		// int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
+		int newTabNumber = getNumberOfTabs() + 1;
+		String tabName = SCENARIO + newTabNumber;
+		// return new ScenarioTab(defaultSelections,
+		// this.getTabManager().getTabFolder(),
+		return new ScenarioTab(defaultSelections, tabFolder, tabName,
+				getDynamoSimulationObject(), dataBindingContext, selectedNode,
+				helpGroup);
 	}
-	
+
 	@Override
 	public String getNestedTabPrefix() {
 		return SCENARIO;
@@ -73,49 +75,50 @@ public class ScenariosTab extends TabPlatform {
 
 	@Override
 	public Set<String> getConfigurations() {
-		Map<String, ITabScenarioConfiguration> configurations =
-		this.getDynamoSimulationObject().getScenarioConfigurations();
+		Map<String, ITabScenarioConfiguration> configurations = this
+				.getDynamoSimulationObject().getScenarioConfigurations();
 		return configurations.keySet();
 	}
 
 	@Override
 	public void refreshNestedTab(NestedTab nestedTab)
-			throws ConfigurationException{
+			throws ConfigurationException {
 		try {
-		if (nestedTab != null) {
-			ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
-			
+			if (nestedTab != null) {
+				ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
+
 				scenarioTab.refreshResultGroup();
-			} }
-		catch (NoMoreDataException e) {
-			
-			Shell messageShell=new Shell(getTabFolder().getDisplay());
-			MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
-			messageBox.setMessage(e.getMessage()+ "\nTab is not made");
-				
+			}
+		} catch (NoMoreDataException e) {
+
+			Shell messageShell = new Shell(getUpperTabFolder().getDisplay());
+			MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
+			messageBox.setMessage(e.getMessage() + "\nTab is not made");
+
 			if (messageBox.open() == SWT.OK) {
 				messageShell.dispose();
 			}
 
 			messageShell.open();
-				
-			} catch (DynamoNoValidDataException e) {
-				Shell messageShell=new Shell(getTabFolder().getDisplay());
-				MessageBox messageBox=new MessageBox(messageShell, SWT.OK);
-				messageBox.setMessage(e.getMessage()+ "\nTab is deleted");
-					this.tabManager.deleteNestedTab();
-				
-				if (messageBox.open() == SWT.OK) {
-					messageShell.dispose();
-			e.printStackTrace();
-		}			}
-		
+
+		} catch (DynamoNoValidDataException e) {
+			Shell messageShell = new Shell(getUpperTabFolder().getDisplay());
+			MessageBox messageBox = new MessageBox(messageShell, SWT.OK);
+			messageBox.setMessage(e.getMessage() + "\nTab is deleted");
+			// this.tabPlatformManager.deleteNestedTab();
+			deleteNestedTab_FromManager();
+			if (messageBox.open() == SWT.OK) {
+				messageShell.dispose();
+				e.printStackTrace();
+			}
+		}
+
 	}
-	
+
 	public void refreshFirstTab() throws ConfigurationException {
-		refreshNestedTab(this.getTabManager().nestedTabs.get(SCENARIO + "1"));
-	}	
-	
-	
-	
+		// refreshNestedTab(this.getTabManager().nestedTabs.get(SCENARIO +
+		// "1"));
+		refreshNestedTab(nestedTabs.get(SCENARIO + "1"));
+	}
+
 }

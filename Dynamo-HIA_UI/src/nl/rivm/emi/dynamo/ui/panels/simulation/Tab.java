@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
@@ -24,54 +23,60 @@ import org.eclipse.swt.widgets.TabItem;
 
 public abstract class Tab {
 
-	private Log log = LogFactory.getLog(this.getClass().getName());
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	protected String tabName;
 	protected Composite plotComposite;
-	private DynamoSimulationObject dynamoSimulationObject;
-	protected DataBindingContext dataBindingContext;
+	protected DynamoSimulationObject dynamoSimulationObject;
 	protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
+	/**
+	 * Logically it should be at a lower inheritance level, but then constructor
+	 * initialization blows up.
+	 */
+	protected DataBindingContext dataBindingContext;
 
-	public Tab(TabFolder tabFolder, String tabName, DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext,
-			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException {
+	public Tab(TabFolder tabFolder, String tabName,
+			DynamoSimulationObject dynamoSimulationObject,
+			BaseNode selectedNode, HelpGroup helpGroup,
+			DataBindingContext dataBindingContext)
+			throws ConfigurationException {
 		this.setDynamoSimulationObject(dynamoSimulationObject);
-		this.dataBindingContext = dataBindingContext;
 		this.helpGroup = helpGroup;
 		this.selectedNode = selectedNode;
 		this.tabName = tabName;
-
 		this.plotComposite = new Composite(tabFolder, SWT.FILL);
+		this.dataBindingContext = dataBindingContext;
+
 		FormLayout formLayout = new FormLayout();
 		this.plotComposite.setLayout(formLayout);
 		// this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));
 		log.debug("Tab::this.plotComposite: " + this.plotComposite);
 
-		// Yes, make it here
-		try {
-			makeIt();
-
-			// The TabItem can only be created AFTER makeIt()
-			TabItem item = new TabItem(tabFolder, SWT.NONE);
-			item.setText(tabName);
-			item.setControl(this.plotComposite);
-			item.addListener(SWT.SELECTED, new Listener() {
-				public void handleEvent(Event event) {
-					TabItem item = (TabItem) event.item;
-					String tabId = item.getText();
-					log.debug("THIS TAB IS SELECTED" + tabId);
-				}
-			});
-			// Werkt over de hele tab heen.
-			//HelpTextListenerUtil.addHelpTextListeners(plotComposite,
-			//		(AtomicTypeBase<?>) XMLTagEntityEnum.NAME.getTheType());
-		} catch (NoMoreDataException e) {
-			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
-					+ " \nNo new tab is made");
-
-			e.printStackTrace();
-		}
+//		// Yes, make it here
+//		try {
+//			makeIt();
+//
+//			// The TabItem can only be created AFTER makeIt()
+//			TabItem item = new TabItem(tabFolder, SWT.NONE);
+//			item.setText(tabName);
+//			item.setControl(this.plotComposite);
+//			item.addListener(SWT.SELECTED, new Listener() {
+//				public void handleEvent(Event event) {
+//					TabItem item = (TabItem) event.item;
+//					String tabId = item.getText();
+//					log.debug("THIS TAB IS SELECTED" + tabId);
+//				}
+//			});
+//			// Werkt over de hele tab heen.
+//			// HelpTextListenerUtil.addHelpTextListeners(plotComposite,
+//			// (AtomicTypeBase<?>) XMLTagEntityEnum.NAME.getTheType());
+//		} catch (NoMoreDataException e) {
+//			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
+//					+ " \nNo new tab is made");
+//
+//			e.printStackTrace();
+//		}
 	}
 
 	protected abstract void makeIt() throws DynamoConfigurationException,

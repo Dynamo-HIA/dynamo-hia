@@ -49,9 +49,8 @@ public class ScenarioTab extends NestedTab {
 			HelpGroup helpGroup) throws ConfigurationException {
 		super(selectedScenario, tabfolder, tabName,
 				dynamoSimulationObject,
-				dataBindingContext, 
-				selectedNode,
-				helpGroup);
+				selectedNode, 
+				helpGroup, dataBindingContext, null);
 	}
 	
 	/**
@@ -89,9 +88,7 @@ public class ScenarioTab extends NestedTab {
 			throw new NoMoreDataException(e.getMessage());
 			
 		}
-		
 	}	
-	
 	
 	public void refreshSelectionGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.scenarioSelectionGroup.refreshSelectionDropDown();

@@ -109,8 +109,7 @@ public class ScenarioResultGroup {
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, this.dynamoTabDataManager,
-				helpGroup);
+				selectablePropertiesSet, this.dynamoTabDataManager, helpGroup);
 	}
 
 	public void refreshGroupDropDown() throws ConfigurationException,

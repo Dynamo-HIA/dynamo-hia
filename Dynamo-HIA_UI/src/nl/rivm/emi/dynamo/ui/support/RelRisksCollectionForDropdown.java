@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.support;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class RelRisksCollectionForDropdown {
 	private Log instLog = LogFactory.getLog(getClass().getSimpleName());
 
 	private static RelRisksCollectionForDropdown instance = null;
+	
+	private TreeAsDropdownLists treeLists;
 	/*
 	 * possibleRelRisks are all the possible RR in the model between any valid
 	 * source and any valid target, irrespective of any choice made in the
@@ -77,9 +80,9 @@ public class RelRisksCollectionForDropdown {
 		if (instance == null) {
 			instance = new RelRisksCollectionForDropdown();
 		}
-		TreeAsDropdownLists treeLists = TreeAsDropdownLists
+		instance.treeLists = TreeAsDropdownLists
 				.getInstance(selectedNode);
-		RelativeRiskFileNamesBySourceAndTargetNameMap rrCollection = treeLists
+		RelativeRiskFileNamesBySourceAndTargetNameMap rrCollection = instance.treeLists
 				.getValidRelativeRiskCollection();
 		statLog.debug(rrCollection.dump4Log());
 		instance.possibleRelRisks = makeDeepCopyRR(rrCollection);
@@ -358,11 +361,11 @@ public class RelRisksCollectionForDropdown {
 	 */
 	public Set<String> updateToList(String ChosenFrom) {
 
-		Set<String> toNamesToReturn = null;
+		Set<String> toNamesToReturn = new LinkedHashSet<String>();
 		for (String key : this.getAvaillableRelRisksForDropdown().keySet())
 			if (key.equals(ChosenFrom))
-				toNamesToReturn = this.getAvaillableRelRisksForDropdown().get(
-						key).keySet();
+				toNamesToReturn.addAll(this.getAvaillableRelRisksForDropdown().get(
+						key).keySet());
 		return toNamesToReturn;
 
 	}
@@ -377,14 +380,14 @@ public class RelRisksCollectionForDropdown {
 	 */
 	public Set<String> updateFromList(String ChosenTo) {
 
-		Set<String> toNamesToReturn = new LinkedHashSet<String>();
+		Set<String> fromNamesToReturn = new LinkedHashSet<String>();
 		for (String key : this.getAvaillableRelRisksForDropdown().keySet())
 			if (this.getAvaillableRelRisksForDropdown().get(key).keySet()
 					.contains(ChosenTo))
-				toNamesToReturn.add(key);
-		if (toNamesToReturn.isEmpty())
-			toNamesToReturn = null;
-		return toNamesToReturn;
+				fromNamesToReturn.add(key);
+		if (fromNamesToReturn.isEmpty())
+			fromNamesToReturn = null;
+		return fromNamesToReturn;
 
 	}
 
@@ -401,8 +404,8 @@ public class RelRisksCollectionForDropdown {
 		Set<String> toNamesToReturn = new LinkedHashSet<String>();
 		for (String key : this.getAvaillableRelRisksForDropdown().keySet())
 			toNamesToReturn.add(key);
-		if (toNamesToReturn.isEmpty())
-			toNamesToReturn = null;
+//		if (toNamesToReturn.isEmpty())
+//			toNamesToReturn = null;
 		return toNamesToReturn;
 
 	}
@@ -419,18 +422,18 @@ public class RelRisksCollectionForDropdown {
 	 */
 	public Set<String> updateRRFileList(String chosenFrom, String chosenTo) {
 
-		Set<String> toNamesToReturn = new LinkedHashSet<String>();
+		Set<String> fileNamesToReturn = new LinkedHashSet<String>();
 		for (String fromKey : this.getAvaillableRelRisksForDropdown().keySet())
 			if (fromKey.equals(chosenFrom)) {
 				HashMap<String, Set<String>> toList = this
 						.getAvaillableRelRisksForDropdown().get(fromKey);
 				for (String toKey : toList.keySet())
 					if (toKey.equals(chosenTo))
-						toNamesToReturn = toList.get(toKey);
+						fileNamesToReturn = toList.get(toKey);
 			}
-		if (toNamesToReturn.isEmpty())
-			toNamesToReturn = null;
-		return toNamesToReturn;
+//		if (toNamesToReturn.isEmpty())
+//			toNamesToReturn = null;
+		return fileNamesToReturn;
 
 	}
 
@@ -448,13 +451,13 @@ public class RelRisksCollectionForDropdown {
 			}
 			break;
 		}
-		if (fileNames.isEmpty())
-			returnName = null;
-		else
-			for (String nameKey : fileNames) {
-				returnName = nameKey;
-				break;
-			}
+//		if (fileNames.isEmpty())
+//			returnName = null;
+//		else
+//			for (String nameKey : fileNames) {
+//				returnName = nameKey;
+//				break;
+//			}
 
 		return returnName;
 

@@ -3,6 +3,8 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.CreateSelectionListener;
+import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.DeleteSelectionListener;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

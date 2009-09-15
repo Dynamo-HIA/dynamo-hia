@@ -16,7 +16,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.TabFolder;
 
 /**
@@ -37,22 +36,20 @@ public class DiseaseTab extends NestedTab {
 	}
 
 	/** 
-	 * @param defaultDisease 
 	 * @param tabfolder
+	 * @param defaultDisease 
 	 * @param output
 	 * @throws ConfigurationException 
 	 */
 	public DiseaseTab(Set<String> selectedDisease,  
 			TabFolder tabfolder, String tabName,
 			DynamoSimulationObject dynamoSimulationObject,
-			DataBindingContext dataBindingContext, 
-			BaseNode selectedNode,
+			BaseNode selectedNode, 
 			HelpGroup helpGroup) throws ConfigurationException {
 		super(selectedDisease, tabfolder, tabName,
 				dynamoSimulationObject,
-				dataBindingContext, 
-				selectedNode,
-				helpGroup);
+				selectedNode, 
+				helpGroup, null, null);
 	}
 	
 	/**

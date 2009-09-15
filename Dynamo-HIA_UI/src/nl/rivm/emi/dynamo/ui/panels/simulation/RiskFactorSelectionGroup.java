@@ -98,7 +98,7 @@ public class RiskFactorSelectionGroup {
 //			new RiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2, 
 				selectablePropertiesSet, 
-				null, dynamoTabDataManager, helpGroup);		
+				dynamoTabDataManager, helpGroup);		
 	}
 	
 	private void layoutDropDownArea() {

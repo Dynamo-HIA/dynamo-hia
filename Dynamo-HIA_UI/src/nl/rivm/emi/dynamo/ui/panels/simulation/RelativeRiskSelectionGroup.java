@@ -6,7 +6,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.listeners.GenericComboModifyListener;
+import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.RelativeRiskComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -19,28 +19,26 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class RelativeRiskSelectionGroup {
+public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public static final String FROM = "From";
-	public static final String TO = "To";
 	protected Composite group;
 	// private Composite plotComposite;
 	// private GenericComboModifyListener dropDownModifyListener;
 	private Set<String> selections;
-	private DynamoTabDataManager dynamoTabDataManager;
-	private GenericDropDownPanel fromDropDownPanel;
-	private GenericDropDownPanel toDropDownPanel;
-	 private HelpGroup helpGroup;
+	private RelativeRiskTabDataManager dynamoTabDataManager;
+	private RelativeRiskDropDownPanel fromDropDownPanel;
+	private RelativeRiskDropDownPanel toDropDownPanel;
+	private HelpGroup helpGroup;
 
-	private GenericComboModifyListener fromDropDownModifyListener;
+	private RelativeRiskComboModifyListener fromDropDownModifyListener;
 
-	private GenericComboModifyListener toDropDownModifyListener;
+	private RelativeRiskComboModifyListener toDropDownModifyListener;
 
 	public RelativeRiskSelectionGroup(String tabName, Set<String> set,
 			Composite plotComposite, BaseNode selectedNode,
-			HelpGroup helpGroup, DynamoTabDataManager dynamoTabDataManager)
+			HelpGroup helpGroup, RelativeRiskTabDataManager dynamoTabDataManager)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		// this.selections = selections;
@@ -66,7 +64,7 @@ public class RelativeRiskSelectionGroup {
 	private void createDropDownArea() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 
-		updateAvaillableRRsForThisTab();
+		// updateAvaillableRRsForThisTab();
 
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 6);
@@ -81,65 +79,69 @@ public class RelativeRiskSelectionGroup {
 				chosenIndexSelection = chosenIndex;
 			}
 		}
-
-		this.fromDropDownPanel = createDropDown(FROM, dynamoTabDataManager
-				.getDropDownSet(FROM, chosenIndexSelection),
-				dynamoTabDataManager);
-		this.fromDropDownModifyListener = fromDropDownPanel
-				.getGenericComboModifyListener();
+		DropDownPropertiesSet fromSet = dynamoTabDataManager.getFromSet();
+		this.fromDropDownPanel = createDropDown(RelativeRiskDropDownPanel.FROM,
+				fromSet, dynamoTabDataManager);
+		// this.fromDropDownModifyListener = fromDropDownPanel
+		// .getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(fromDropDownPanel
-				.getDropDown(), FROM);
+				.getDropDown(), RelativeRiskDropDownPanel.FROM);
 
-		this.toDropDownPanel = createDropDown(TO, dynamoTabDataManager
-				.getDropDownSet(TO, chosenIndexSelection), dynamoTabDataManager);
-		this.toDropDownModifyListener = toDropDownPanel
-				.getGenericComboModifyListener();
+		DropDownPropertiesSet toSet = dynamoTabDataManager
+				.getToSet((String) fromSet.toArray()[0]);
+
+		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
+				dynamoTabDataManager.getToSet(chosenIndexSelection),
+				dynamoTabDataManager);
+		// this.toDropDownModifyListener = toDropDownPanel
+		// .getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(
-				toDropDownPanel.getDropDown(), TO);
+				toDropDownPanel.getDropDown(), RelativeRiskDropDownPanel.TO);
 	}
 
-	private GenericDropDownPanel createDropDown(String label,
+	private RelativeRiskDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet,
-			DynamoTabDataManager dynamoTabDataManager)
+			RelativeRiskTabDataManager dynamoTabDataManager)
 			throws ConfigurationException {
 		// RelativeRiskFactorDataAction updateRelativeRiskFactorDataAction = new
 		// RelativeRiskFactorDataAction();
-		return new GenericDropDownPanel(group, label, 2,
-				selectablePropertiesSet, null, dynamoTabDataManager, helpGroup);
+		return new RelativeRiskDropDownPanel(group, label, 2,
+				dynamoTabDataManager, helpGroup, selectablePropertiesSet);
 	}
 
 	public void refreshSelectionDropDown() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 
-		updateAvaillableRRsForThisTab();
+		// updateAvaillableRRsForThisTab();
 
-		this.fromDropDownPanel.refresh();
-		this.toDropDownPanel.refresh();
+		// this.fromDropDownPanel.refresh();
+		// this.toDropDownPanel.refresh();
 
 	}
 
-	private void updateAvaillableRRsForThisTab() {
-		Set<String> diseaseNames = this.dynamoTabDataManager
-				.getDynamoSimulationObject().getDiseaseConfigurations()
-				.keySet();
+	// private void updateAvaillableRRsForThisTab() {
+	// Set<String> diseaseNames = this.dynamoTabDataManager
+	// .getDynamoSimulationObject().getDiseaseConfigurations()
+	// .keySet();
+	//
+	// RelativeRiskTabPlatformDataManager dataManager =
+	// (RelativeRiskTabPlatformDataManager) this.dynamoTabDataManager;
+	//
+	// /*
+	// * removes RR that have been selected in other tabs or have become
+	// * impossible by other tabs
+	// */
+	//
+	// dataManager.getAvaillableRRs().removeRRSelectedInOtherTabs(
+	// dataManager.getConfigurations(), diseaseNames,
+	// dataManager.getSingleConfiguration());
+	// }
 
-		RelativeRiskTabDataManager dataManager = (RelativeRiskTabDataManager) this.dynamoTabDataManager;
+	// public GenericComboModifyListener getFromDropDownModifyListener() {
+	// return this.fromDropDownModifyListener;
+	// }
 
-		/*
-		 * removes RR that have been selected in other tabs or have become
-		 * impossible by other tabs
-		 */
-
-		dataManager.getAvaillableRRs().removeRRSelectedInOtherTabs(
-				dataManager.getConfigurations(), diseaseNames,
-				dataManager.getSingleConfiguration());
-	}
-
-	public GenericComboModifyListener getFromDropDownModifyListener() {
-		return this.fromDropDownModifyListener;
-	}
-
-	public GenericComboModifyListener getToDropDownModifyListener() {
-		return this.toDropDownModifyListener;
-	}
+	// public GenericComboModifyListener getToDropDownModifyListener() {
+	// return this.toDropDownModifyListener;
+	// }
 }
