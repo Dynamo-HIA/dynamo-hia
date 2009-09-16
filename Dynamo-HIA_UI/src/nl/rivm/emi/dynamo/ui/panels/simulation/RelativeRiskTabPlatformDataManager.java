@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +39,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	private static final String RELRISK_DISABILITY = "Disability";
 
 	Log log = LogFactory.getLog(getClass().getSimpleName());
-	DynamoSimulationObject dynamoSimulationObject;
+	// DynamoSimulationObject dynamoSimulationObject;
 
 	// private Map<Integer, TabRelativeRiskConfigurationData> configurations;
 
@@ -48,6 +47,12 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private RelativeRiskTab tab = null;
 	private RelRisksCollectionForDropdown relRisksCollectionForDropdown;
+	/**
+	 * This object is a writethrough proxy for the relative risks part of the
+	 * DynamoSimulation Object.
+	 */
+
+	private TabRelativeRiskConfigurationsLinkedHashMap configurationsProxy;
 
 	/**
 	 * Constructor
@@ -60,7 +65,9 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 			DynamoSimulationObject dynamoSimulationObject)
 			throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
-		this.dynamoSimulationObject = dynamoSimulationObject;
+		// this.dynamoSimulationObject = dynamoSimulationObject;
+		configurationsProxy = new TabRelativeRiskConfigurationsLinkedHashMap(
+				dynamoSimulationObject);
 		// this.configurations = dynamoSimulationObject
 		// .getRelativeRiskConfigurations();
 		// These two were always initialized with null, so they can be thrown
@@ -71,13 +78,13 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 				.getInstance(dynamoSimulationObject, selectedNode);
 	}
 
-	public Map<Integer, TabRelativeRiskConfigurationData> getConfigurations() {
-		return dynamoSimulationObject.getRelativeRiskConfigurations();
-	}
+	// public Map<Integer, TabRelativeRiskConfigurationData> getConfigurations()
+	// {
+	// return dynamoSimulationObject.getRelativeRiskConfigurations();
+	// }
 
 	public TabRelativeRiskConfigurationData getConfiguration(Integer index) {
-		return dynamoSimulationObject.getRelativeRiskConfigurations()
-				.get(index);
+		return configurationsProxy.get(index);
 	}
 
 	public RelRisksCollectionForDropdown getRelRisksCollectionForDropdown() {
@@ -271,49 +278,25 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 		// }
 	}
 
-	public void updateDynamoSimulationObject(
-			TabRelativeRiskConfigurationData singleConfiguration) throws ConfigurationException {
-		log.error("UPDATING");
-		log.debug("singleConfiguration" + singleConfiguration);
-		log.debug("singleConfiguration.getFrom()"
-				+ singleConfiguration.getFrom());
-		log.debug("singleConfiguration.getTo()" + singleConfiguration.getTo());
-		log.debug("singleConfiguration.getDataFileName()"
-				+ singleConfiguration.getDataFileName());
+	public TabRelativeRiskConfigurationData updateDynamoSimulationObject(
+			TabRelativeRiskConfigurationData singleConfiguration)
+			throws ConfigurationException {
+		log.debug("Before the update: " + configurationsProxy.report());
 
 		// Store the object
-		dynamoSimulationObject
-		.getRelativeRiskConfigurations().put(singleConfiguration.getIndex(),
-				singleConfiguration);
-//		this.dynamoSimulationObject
-//				.setRelativeRiskConfigurations(configurations);
+		// dynamoSimulationObject.getRelativeRiskConfigurations().put(
+		// singleConfiguration.getIndex(), singleConfiguration);
+		TabRelativeRiskConfigurationData actualConfiguration =configurationsProxy.update(singleConfiguration);
+		// this.dynamoSimulationObject
+		// .setRelativeRiskConfigurations(configurations);
 
 		// refresh the list with availlable RR's;
-
-		/**
-		 * TODO REMOVE: LOGGING BELOW
-		 */
-		Map map = this.dynamoSimulationObject.getRelativeRiskConfigurations();
-		Set<Integer> keys = map.keySet();
-		for (Integer key : keys) {
-			TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
-					.get(key);
-			log.error("conf.getFrom()" + conf.getFrom());
-			log.error("conf.getTo()" + conf.getTo());
-			log.error("conf.getDataFileName()" + conf.getDataFileName());
-		}
-		log.debug("configurations.size()" + 		dynamoSimulationObject
-				.getRelativeRiskConfigurations().size());
-		/**
-		 * TODO REMOVE: LOGGING ABOVE
-		 */
+		log.debug("After the update: " + configurationsProxy.report());
 		relRisksCollectionForDropdown = RelRisksCollectionForDropdown
-		.getInstance(dynamoSimulationObject, treeLists);
+				.getInstance(configurationsProxy.getDynamoSimulationObject(),
+						treeLists);
+		return actualConfiguration;
 	}
-
-	// private void createInDynamoSimulationObject() {
-	// this.singleConfiguration = new TabRelativeRiskConfigurationData();
-	// }
 
 	/*
 	 * (non-Javadoc)
@@ -324,32 +307,12 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	public void removeFromDynamoSimulationObject(
 			TabRelativeRiskConfigurationData singleConfiguration)
 			throws ConfigurationException {
-		log.error("REMOVING OBJECT STATE");
-		// Added by Hendriek: renumber the indexes so that the number are in
-		// accord with the
-		// numbering of the tabs
-
-		/* in case this is an empty tab skip the next line */
-		if (singleConfiguration != null)
-			dynamoSimulationObject
-			.getRelativeRiskConfigurations().remove(singleConfiguration.getIndex());
-		singleConfiguration = null;
-		Map<Integer, TabRelativeRiskConfigurationData> newConfigurations = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
-		int newIndex = 0;
-		for (Integer index : 		dynamoSimulationObject
-				.getRelativeRiskConfigurations().keySet()) {
-			dynamoSimulationObject
-			.getRelativeRiskConfigurations().get(index).setIndex(newIndex);
-			newConfigurations.put((Integer) newIndex, 		dynamoSimulationObject
-					.getRelativeRiskConfigurations().get(index));
-			newIndex++;
-		}
-		dynamoSimulationObject
-		.getRelativeRiskConfigurations().clear();
-		dynamoSimulationObject
-				.setRelativeRiskConfigurations(newConfigurations);
+		log.debug("Before removal: " + configurationsProxy.report());
+		configurationsProxy.remove(singleConfiguration);
+		log.debug("After removal: " + configurationsProxy.report());
 		relRisksCollectionForDropdown = RelRisksCollectionForDropdown
-		.getInstance(dynamoSimulationObject, treeLists);
+				.getInstance(configurationsProxy.getDynamoSimulationObject(),
+						treeLists);
 
 	}
 
@@ -367,7 +330,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private String getInitialRiskFactorName() {
 		String chosenRiskFactorNameFromTab = null;
-		Map map = this.dynamoSimulationObject.getRiskFactorConfigurations();
+		Map map = configurationsProxy.getDynamoSimulationObject().getRiskFactorConfigurations();
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map
@@ -380,7 +343,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private Set<String> getInitialDiseasesList() {
 		Set<String> chosenDiseases = new LinkedHashSet<String>();
-		Map map = this.dynamoSimulationObject.getDiseaseConfigurations();
+		Map map = configurationsProxy.getDynamoSimulationObject().getDiseaseConfigurations();
 
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
@@ -474,7 +437,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	public void refreshAvaillableRRlist() throws ConfigurationException {
 		// TODO Auto-generated method stub
-		relRisksCollectionForDropdown.refresh(dynamoSimulationObject);
+		relRisksCollectionForDropdown.refresh(configurationsProxy.getDynamoSimulationObject());
 	}
 
 	// public DynamoSimulationObject getDynamoSimulationObject() {
@@ -490,7 +453,8 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	 * @deprecated
 	 */
 	public void setRelativeRiskConfigurations() {
-		dynamoSimulationObject.setRelativeRiskConfigurations(/*configurations*/ null);
+		configurationsProxy.getDynamoSimulationObject()
+				.setRelativeRiskConfigurations(/* configurations */null);
 
 	}
 
@@ -498,21 +462,22 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	 * @deprecated
 	 */
 	public Map getCurrentRelativeRiskConfigurations() {
-		return dynamoSimulationObject.getRelativeRiskConfigurations();
+		return configurationsProxy.getDynamoSimulationObject().getRelativeRiskConfigurations();
 	}
 
 	/**
-	 * @deprecated
-	 * author Hendriek: refreshes the configuration with the contents of the
-	 * index number of the current configuraton
+	 * @deprecated author Hendriek: refreshes the configuration with the
+	 *             contents of the index number of the current configuraton
 	 * 
-	 * This is needed after deleting a tab, when the tabs have gotten a new
-	 * index number.
+	 *             This is needed after deleting a tab, when the tabs have
+	 *             gotten a new index number.
 	 * 
-	 * 20090904 RLM The index parameter was never used, so I removed it.
+	 *             20090904 RLM The index parameter was never used, so I removed
+	 *             it.
 	 */
 	public void reloadConfigurationsFromModelObject() {
-		/* configurations  = */ dynamoSimulationObject.getRelativeRiskConfigurations();
+		/* configurations = */configurationsProxy.getDynamoSimulationObject()
+				.getRelativeRiskConfigurations();
 	}
 
 	private void handleWarningMessage(String s) {
@@ -535,6 +500,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	 * (java.lang.String, java.lang.String)
 	 */
 	// this was to add the selection to the chosen lists, not necessary anymore
+	@Deprecated // Not 2b used for RRs.
 	@Override
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
@@ -564,11 +530,13 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 		return null;
 	}
 
+	@Deprecated // Not 2b used for RRs.
 	@Override
 	public DynamoSimulationObject getDynamoSimulationObject() {
-		return dynamoSimulationObject;
+		return configurationsProxy.getDynamoSimulationObject();
 	}
 
+	@Deprecated // Not 2b used for RRs.
 	@Override
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
@@ -576,12 +544,14 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	}
 
+	@Deprecated // Not 2b used for RRs.
 	@Override
 	public void updateDynamoSimulationObject() throws ConfigurationException {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Deprecated // Not 2b used for RRs.
 	@Override
 	public DropDownPropertiesSet getDropDownSet(String name, String selection)
 			throws ConfigurationException, NoMoreDataException,

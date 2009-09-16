@@ -48,19 +48,20 @@ public class RelativeRiskDropDownPanel {
 
 	public RelativeRiskDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, RelativeRiskTabDataManager myDataManager,
-			HelpGroup helpGroup, DropDownPropertiesSet selections) throws ConfigurationException {
+			HelpGroup helpGroup, DropDownPropertiesSet selections)
+			throws ConfigurationException {
 		this.parent = parent;
 		this.dropDownLabel = dropDownLabel;
 		this.myDataManager = myDataManager;
 		this.helpGroup = helpGroup;
-
+		this.selectablePropertiesSet = selections;
 		Label label = new Label(parent, SWT.LEFT);
 		label.setText(dropDownLabel + ":");
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 		label.setLayoutData(layoutData);
 		dropDown = new Combo(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		myDataManager.addCombo2Lookups(dropDown, dropDownLabel);
-		if(selections != null){
+		if (selections != null) {
 			dropDown.setItems(selections.toArray());
 		}
 		GridData dropLayoutData = new GridData(GridData.FILL_HORIZONTAL);
@@ -95,12 +96,27 @@ public class RelativeRiskDropDownPanel {
 			myDataManager.setDefaultValue(this.getLabel(), currentValue);
 	}
 
+	/**
+	 * select the configured value
+	 * 
+	 * @param configuredValue
+	 * @throws ConfigurationException
+	 */
+	public void selectConfiguredValue(String configuredValue)
+			throws ConfigurationException {
+		int index = getCurrentIndex(configuredValue);
+		log.debug("PropertiesSet: " + selectablePropertiesSet);
+		log.debug("configuredValue: " + configuredValue + " found at index: "
+				+ index);
+		dropDown.select(index);
+	}
+
 	private int getCurrentIndex(String currentValue) {
-		// No current value exists, select the first entry
-		if (currentValue == null)
-			return 0;
-		log.debug("selectablePropertiesSet" + selectablePropertiesSet);
-		return selectablePropertiesSet.getSelectedIndex(currentValue);
+		int result = 0;
+		if ((currentValue != null) && (selectablePropertiesSet != null)) {
+			result = selectablePropertiesSet.getSelectedIndex(currentValue);
+		}
+		return result;
 	}
 
 	public void fill(DropDownPropertiesSet set) {

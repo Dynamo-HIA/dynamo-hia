@@ -40,7 +40,7 @@ public class RelativeRiskTab extends NestedTab {
 	// protected HelpGroup helpGroup;
 	protected BaseNode selectedNode;
 
-//	private Log log = LogFactory.getLog("RelativeRiskTab");
+	// private Log log = LogFactory.getLog("RelativeRiskTab");
 
 	private RelativeRiskSelectionGroup relativeRiskSelectionGroup;
 	private RelativeRiskResultGroup relativeRiskResultGroup;
@@ -125,8 +125,7 @@ public class RelativeRiskTab extends NestedTab {
 					tabName, selections, plotComposite, selectedNode,
 					helpGroup, getRelRiskTabDataManager());
 
-			log
-					.debug("RelativeRiskSelectionGroup added.");
+			log.debug("RelativeRiskSelectionGroup added.");
 
 			relativeRiskResultGroup = new RelativeRiskResultGroup(
 					plotComposite, selectedNode, helpGroup,
@@ -136,16 +135,16 @@ public class RelativeRiskTab extends NestedTab {
 
 		} catch (DynamoNoValidDataException e) {
 
-			log.debug("DynamoNoValidDataException: "
-					+ e.getMessage());
+			log.debug("DynamoNoValidDataException: " + e.getMessage());
 
 			// this.relRiskTabDataManager.removeFromDynamoSimulationObject();
 			throw new NoMoreDataException(e.getMessage());
 			// TODO Auto-generated catch block
 
 		} catch (Exception e) {
-			log.debug("Exception: "
-					+ e.getClass().getSimpleName() + " " + e.getMessage());
+			log.debug("Exception: " + e.getClass().getSimpleName() + " "
+					+ e.getMessage());
+			e.printStackTrace(System.err);
 			throw new ConfigurationException(e);
 		}
 	}

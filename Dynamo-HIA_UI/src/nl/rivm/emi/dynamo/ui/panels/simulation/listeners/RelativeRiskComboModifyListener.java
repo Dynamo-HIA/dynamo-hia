@@ -1,20 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
-import nl.rivm.emi.dynamo.ui.panels.simulation.GenericDropDownPanel;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskDropDownPanel;
-import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskResultGroup;
-import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskSelectionGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -28,7 +17,6 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Widget;
 
 /**
@@ -68,73 +56,119 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 	synchronized public void modifyText(ModifyEvent event) {
 		helpGroup.getTheModal().setChanged(true);
 		Combo myCombo = (Combo) event.widget;
-		String comboLabel = dataManager.findComboLabel(myCombo);
-		log.debug("modifyText from combo with label: " + comboLabel);
-		if (comboLabel != null) {
-			String newText = myCombo.getText();
-			Composite parent = myCombo.getParent();
-			log.debug("newText: " + newText);
-			try {
-				if (RelativeRiskDropDownPanel.FROM.equals(comboLabel)) {
-					updateFromFromDown(newText);
-				} else {
+		int selectionIndex = myCombo.getSelectionIndex();
+		if (selectionIndex != -1) {
+			String comboLabel = dataManager.findComboLabel(myCombo);
+			log.debug("modifyText from combo with label: " + comboLabel
+					+ " selectionindex: " + selectionIndex);
+			if (comboLabel != null) {
+				String newText = myCombo.getText();
+				Composite parent = myCombo.getParent();
+				log.debug("newText: " + newText);
+				try {
 					if (RelativeRiskDropDownPanel.FROM.equals(comboLabel)) {
-						updateFromToDown(newText);
+						updateFromFromDown(myCombo, newText);
+					} else {
+						if (RelativeRiskDropDownPanel.TO.equals(comboLabel)) {
+							updateFromToDown(myCombo, newText);
+						} else {
+							if (RelativeRiskDropDownPanel.RELATIVE_RISK
+									.equals(comboLabel)) {
+								updateFile(newText);
+							}
+						}
+					}
+				} catch (Exception e) {
+					handleErrorMessage(e, myCombo);
 				}
-				}
-			} catch (Exception e) {
-				handleErrorMessage(e, myCombo);
 			}
 		}
 	}
 
-	private void updateFromFromDown(String newText)
+	private void updateFromFromDown(Combo fromCombo, String newText)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		if ((newText != null)
-				&& (!newText.equalsIgnoreCase(actualFromText))) {
-			updateFromToDown(newText);
+		if ((newText != null) && (!newText.equalsIgnoreCase(actualFromText))) {
+			dataManager.setConfiguredFrom(newText);
+			// Something sensible has changed.
+			Combo toCombo = dataManager
+					.findComboObject(RelativeRiskDropDownPanel.TO);
+			// From text changed, update.
+			if (toCombo != null) {
+				// Not constructing.
+				DropDownPropertiesSet toSet = dataManager.getToSet(newText);
+				if (toSet != null) {
+					toCombo.removeAll();
+					int toSetSize = toSet.size();
+					for (int count = 0; count < toSetSize; count++) {
+						String toSetItem = toSet.getSelectedString(count);
+						toCombo.add(toSetItem, count);
+					}
+					toCombo.select(0);
+					dataManager.setConfiguredTo(toSet.getSelectedString(0));
+					DropDownPropertiesSet fileSet = dataManager.getFileSet(
+							newText, toSet.getSelectedString(0));
+					if (fileSet != null) {
+						Combo fileCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
+						if (fileCombo != null) {
+							fileCombo.removeAll();
+							int fileSetSize = fileSet.size();
+							for (int count = 0; count < fileSetSize; count++) {
+								String fileSetItem = fileSet
+										.getSelectedString(count);
+								fileCombo.add(fileSetItem, count);
+							}
+							fileCombo.select(0);
+							dataManager.setConfiguredFileName(fileSet
+									.getSelectedString(0));
+						}
+					} else {
+						// //////
+					}
+				}
+			}
 		}
 	}
 
-	private void updateFromToDown(String newText)
+	private void updateFromToDown(Combo toCombo, String newText)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		// From text changed, update.
-		Combo toCombo = dataManager
-				.findComboObject(RelativeRiskDropDownPanel.TO);
-		if (toCombo != null) {
-			// Not constructing.
-			DropDownPropertiesSet toSet = dataManager
-					.getToSet(newText);
-			if (toSet != null) {
-				toCombo.removeAll();
-				int toSetSize = toSet.size();
-				for (int count = 0; count < toSetSize; count++) {
-					String toSetItem = toSet
-							.getSelectedString(count);
-					toCombo.add(toSetItem, count);
-				}
-				toCombo.select(0);
-				DropDownPropertiesSet fileSet = dataManager
-						.getFileSet(newText, toSet
-								.getSelectedString(0));
+		if ((newText != null) && (!newText.equalsIgnoreCase(actualFromText))) {
+			// Something sensible has changed.
+			dataManager.setConfiguredTo(newText);
+			Combo fileCombo = dataManager
+					.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
+			if (fileCombo != null) {
+				// Not constructing.
+				DropDownPropertiesSet fileSet = dataManager.getFileSet(
+						actualFromText, newText);
 				if (fileSet != null) {
-					Combo fileCombo = dataManager
-							.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
 					fileCombo.removeAll();
 					int fileSetSize = fileSet.size();
 					for (int count = 0; count < fileSetSize; count++) {
-						String fileSetItem = fileSet
-								.getSelectedString(count);
+						String fileSetItem = fileSet.getSelectedString(count);
 						fileCombo.add(fileSetItem, count);
 					}
 					fileCombo.select(0);
-				} else {
-					// //////
+					dataManager.setConfiguredFileName(fileSet
+							.getSelectedString(0));
 				}
+			} else {
+				// //////
 			}
 		}
+	}
+
+	/**
+	 * Dummy method.
+	 * 
+	 * When the filename is changed nothing has to be done.
+	 * 
+	 * @throws ConfigurationException
+	 */
+	private void updateFile(String newText) throws ConfigurationException {
+		dataManager.setConfiguredFileName(newText);
 	}
 
 	private void handleErrorMessage(Exception e,

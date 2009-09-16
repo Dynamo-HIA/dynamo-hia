@@ -1,5 +1,6 @@
-package nl.rivm.emi.dynamo.ui.panels.simulation;
+package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
+import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabsDataPanel;
 import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -11,7 +12,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TabItem;
 
-class TabPlatformListener implements Listener {
+public class TabPlatformListener implements Listener {
 	Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	DynamoTabsDataPanel myTabsDataPanel;
 

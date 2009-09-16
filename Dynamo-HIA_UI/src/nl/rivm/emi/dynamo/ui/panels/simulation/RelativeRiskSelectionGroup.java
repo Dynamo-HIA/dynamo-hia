@@ -86,9 +86,10 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 		// .getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(fromDropDownPanel
 				.getDropDown(), RelativeRiskDropDownPanel.FROM);
-
+		String configuredFrom = dynamoTabDataManager.getConfiguredFrom();
+		fromDropDownPanel.selectConfiguredValue(configuredFrom);
 		DropDownPropertiesSet toSet = dynamoTabDataManager
-				.getToSet((String) fromSet.toArray()[0]);
+				.getToSet(dynamoTabDataManager.getConfiguredFrom());
 
 		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
 				dynamoTabDataManager.getToSet(chosenIndexSelection),
@@ -97,6 +98,8 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 		// .getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(
 				toDropDownPanel.getDropDown(), RelativeRiskDropDownPanel.TO);
+		toDropDownPanel.selectConfiguredValue(dynamoTabDataManager
+				.getConfiguredTo());
 	}
 
 	private RelativeRiskDropDownPanel createDropDown(String label,

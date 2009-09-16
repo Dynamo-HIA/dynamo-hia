@@ -134,24 +134,76 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		return set;
 	}
 
+	public String getConfiguredFrom() {
+		String result = null;
+		if (tabRelativeRiskConfigurationData != null) {
+			result = tabRelativeRiskConfigurationData.getFrom();
+		}
+		return result;
+	}
+
+	public void setConfiguredFrom(String from) throws ConfigurationException {
+		if (tabRelativeRiskConfigurationData == null) {
+			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
+		}
+		tabRelativeRiskConfigurationData.setFrom(from);
+		tabRelativeRiskConfigurationData = myBoss
+				.updateDynamoSimulationObject(tabRelativeRiskConfigurationData);
+	}
+
 	public DropDownPropertiesSet getToSet(String chosenFrom)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
 		Set<String> toList = possibleRelRisksProvider.updateToList(chosenFrom);
-			set.addAll(toList);
+		set.addAll(toList);
 		return set;
+	}
+
+	public String getConfiguredTo() {
+		String result = null;
+		if (tabRelativeRiskConfigurationData != null) {
+			result = tabRelativeRiskConfigurationData.getTo();
+		}
+		return result;
+	}
+
+	public void setConfiguredTo(String to) throws ConfigurationException {
+		if (tabRelativeRiskConfigurationData == null) {
+			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
+		}
+		tabRelativeRiskConfigurationData.setTo(to);
+		tabRelativeRiskConfigurationData = myBoss
+				.updateDynamoSimulationObject(tabRelativeRiskConfigurationData);
 	}
 
 	public DropDownPropertiesSet getFileSet(String chosenFrom, String chosenTo)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
-		Set<String> fileList = possibleRelRisksProvider.updateRRFileList(chosenFrom,
-				chosenTo);
+		Set<String> fileList = possibleRelRisksProvider.updateRRFileList(
+				chosenFrom, chosenTo);
 		set.addAll(fileList);
 		return set;
 	}
+
+	public String getConfiguredFileName() {
+		String result = null;
+		if (tabRelativeRiskConfigurationData != null) {
+			result = tabRelativeRiskConfigurationData.getDataFileName();
+		}
+		return result;
+	}
+	
+	public void setConfiguredFileName(String fileName) throws ConfigurationException {
+		if (tabRelativeRiskConfigurationData == null) {
+			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
+		}
+		tabRelativeRiskConfigurationData.setDataFileName(fileName);
+		tabRelativeRiskConfigurationData = myBoss
+				.updateDynamoSimulationObject(tabRelativeRiskConfigurationData);
+	}
+
 
 	/**
 	 * Not very logical, but the cleanest way to get it to the DropDownPanels.

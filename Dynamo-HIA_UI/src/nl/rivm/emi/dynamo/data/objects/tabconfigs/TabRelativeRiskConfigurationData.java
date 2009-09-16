@@ -21,11 +21,15 @@ public class TabRelativeRiskConfigurationData implements
 		ITabRelativeRisksConfiguration, ITabStoreConfiguration {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	
 	Integer index;
 	String from;
 	String to;
 	String dataFileName;
+
+	public TabRelativeRiskConfigurationData() {
+		super();
+		index = -1;
+	}
 
 	public Integer getIndex() {
 		return index;
@@ -74,8 +78,8 @@ public class TabRelativeRiskConfigurationData implements
 								.doGetValue();
 					} else {
 						if (type instanceof IsRRFileName) {
-							dataFileName = (String) ((WritableValue) tuple.getValue())
-									.doGetValue();
+							dataFileName = (String) ((WritableValue) tuple
+									.getValue()).doGetValue();
 						} else {
 							log.fatal("Unexpected type \""
 									+ type.getXMLElementName()
@@ -97,16 +101,47 @@ public class TabRelativeRiskConfigurationData implements
 				XMLTagEntityEnum.ISRRFROM.getTheType(), new WritableValue(
 						getFrom(), String.class));
 		diseaseModelData.add(tuple);
-		tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.ISRRTO.getTheType(), new WritableValue(
-						getTo(), String.class));
+		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.ISRRTO.getTheType(),
+				new WritableValue(getTo(), String.class));
 		diseaseModelData.add(tuple);
-		tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.ISRRFILENAME.getTheType(), new WritableValue(
-						getDataFileName(), String.class));
+		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.ISRRFILENAME
+				.getTheType(), new WritableValue(getDataFileName(),
+				String.class));
 		diseaseModelData.add(tuple);
 		Integer newIndex = theMap.size();
 		theMap.put(newIndex, diseaseModelData);
 		return theMap;
+	}
+
+	public String compareReport(
+			TabRelativeRiskConfigurationData newConfiguration) {
+		StringBuffer reportBuffer = new StringBuffer();
+		if (newConfiguration != null) {
+			if ((this.index != null)&&(this.index != newConfiguration.getIndex())) {
+				reportBuffer.append("Index changed from: \"" + this.index
+						+ "\" to \"" + newConfiguration.getIndex() + "\n");
+			}
+			if((this.from!=null)&& (!this.from.equals(newConfiguration.getFrom()))) {
+				reportBuffer.append("From changed from: \"" + this.from
+						+ "\" to \"" + newConfiguration.getFrom() + "\n");
+			}
+			if ((this.to != null)&&(!this.to.equals(newConfiguration.getTo()))) {
+				reportBuffer.append("To changed from: \"" + this.to
+						+ "\" to \"" + newConfiguration.getTo() + "\n");
+			}
+			if ((this.dataFileName != null)&&(!this.dataFileName.equals(newConfiguration.getDataFileName()))) {
+				reportBuffer.append("DataFileName changed from: \""
+						+ this.dataFileName + "\" to \""
+						+ newConfiguration.getDataFileName() + "\n");
+			}
+			if (reportBuffer.length() == 0) {
+				reportBuffer.append("Compared configurations are identical");
+			}
+		} else {
+			reportBuffer.append("No newConfiguration, current content: index: "
+					+ index + " from: " + from + " to: " + to + " fileName: "
+					+ dataFileName);
+		}
+		return reportBuffer.toString();
 	}
 }

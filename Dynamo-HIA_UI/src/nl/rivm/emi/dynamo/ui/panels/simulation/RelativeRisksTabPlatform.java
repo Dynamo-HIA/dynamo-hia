@@ -84,11 +84,10 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
 		// int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
-		Integer newTabNumber = getNumberOfTabs() + 1;
+		Integer newTabNumber = getNumberOfTabs();
 		// return new RelativeRiskTab(defaultSelections, this.getTabManager()
 		// .getTabFolder(), tabName, getDynamoSimulationObject(),
 		// selectedNode, helpGroup);
-		getDataManager();
 		NestedTab relRiskTab = new RelativeRiskTab(tabFolder, newTabNumber,
 				helpGroup, getDataManager(), this);
 		return relRiskTab;
@@ -236,9 +235,9 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 			// (RelativeRiskTabPlatformDataManager) ((RelativeRiskTab) this
 			// .getTabManager().nestedTabs.get(tabName))
 			// .getDynamoTabDataManager();
-			RelativeRiskTabDataManager dataManager = (RelativeRiskTabDataManager) ((RelativeRiskTab) nestedTabs
+/*			RelativeRiskTabDataManager dataManager = (RelativeRiskTabDataManager) ((RelativeRiskTab) nestedTabs
 					.get(tabName)).getDynamoTabDataManager();
-			// TODO
+*/			// TODO
 			// dataManager.setDynamoSimulationObject(getDynamoSimulationObject());
 	// 		dataManager.reloadConfigurationsFromModelObject();
 			// refreshNestedTab(this.getTabManager().nestedTabs.get(tabName));
