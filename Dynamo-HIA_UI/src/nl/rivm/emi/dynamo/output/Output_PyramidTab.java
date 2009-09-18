@@ -42,8 +42,7 @@ public class Output_PyramidTab  {
 	this.tabFolder=tabfolder;
 	this.output=output;
 	this.factory=new PyramidChartFactory(output);
-    
-	
+    	
 	makeIt();
 	}
 	
@@ -77,12 +76,10 @@ public class Output_PyramidTab  {
 		this.plotInfo.currentYear=0;
 		this.plotInfo.currentAge=0;
 		this.plotInfo.plotType=0;
-		this.plotInfo.currentDisease=1;
+		this.plotInfo.currentDisease=2;
 		this.plotInfo.currentScen = 1;
 		if (this.output.getNScen()==0) this.plotInfo.currentScen=0;
 
-		
-		
 		
 		
 		
