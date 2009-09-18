@@ -36,8 +36,6 @@ public class RelRisksCollectionForDropdown {
 
 	private static RelRisksCollectionForDropdown instance = null;
 
-	private DynamoSimulationObject dynamoSimulationObject = null;
-
 	private TreeAsDropdownLists treeLists;
 	/*
 	 * possibleRelRisks are all the possible RR in the model between any valid
@@ -123,23 +121,23 @@ public class RelRisksCollectionForDropdown {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	public synchronized static RelRisksCollectionForDropdown getInstance4RelRisks(
-			DynamoSimulationObject dynamoSimulationObject,
-			TreeAsDropdownLists treeLists) throws ConfigurationException {
-
-		if (instance == null) {
-			instance = new RelRisksCollectionForDropdown();
-			;
-		}
-		RelativeRiskFileNamesBySourceAndTargetNameMap rrCollection = treeLists
-				.getValidRelativeRiskCollection();
-		statLog.debug(rrCollection.dump4Log());
-		instance.possibleRelRisks = makeDeepCopyRR(rrCollection);
-		instance.relRiskRefresh(dynamoSimulationObject);
-		return instance;
-
-	}
-
+	// public synchronized static RelRisksCollectionForDropdown
+	// getInstance4RelRisks(
+	// DynamoSimulationObject dynamoSimulationObject,
+	// TreeAsDropdownLists treeLists) throws ConfigurationException {
+	//
+	// if (instance == null) {
+	// instance = new RelRisksCollectionForDropdown();
+	// ;
+	// }
+	// RelativeRiskFileNamesBySourceAndTargetNameMap rrCollection = treeLists
+	// .getValidRelativeRiskCollection();
+	// statLog.debug(rrCollection.dump4Log());
+	// instance.possibleRelRisks = makeDeepCopyRR(rrCollection);
+	// instance.relRiskRefresh(dynamoSimulationObject);
+	// return instance;
+	//
+	// }
 	/**
 	 * Get the single instance. There can be only one. This method can only be
 	 * used in places where the object has already been instantiated. As
@@ -214,35 +212,37 @@ public class RelRisksCollectionForDropdown {
 	 * 
 	 */
 
-	public void relRiskRefresh(DynamoSimulationObject dynamoSimulationObject)
-			throws ConfigurationException {
-		synchronized (this) {
-			instLog.debug("Initial availableRelativeRisks");
-
-			Set<String> configuredFromValues = new LinkedHashSet<String>();
-			Set<String> configuredToValues = new LinkedHashSet<String>();
-			Map<String, TabRiskFactorConfigurationData> rfc = (Map<String, TabRiskFactorConfigurationData>) dynamoSimulationObject
-					.getRiskFactorConfigurations();
-			Set<String> riskfactors = rfc.keySet();
-			Set<String> diseases = (Set<String>) dynamoSimulationObject
-					.getDiseaseConfigurations().keySet();
-			if (riskfactors != null)
-				configuredFromValues.addAll(riskfactors);
-			if (diseases != null) {
-				configuredFromValues.addAll(diseases);
-				configuredToValues.addAll(diseases);
-			}
-			// These two are always present.
-			configuredToValues.add((String) "death");
-			configuredToValues.add((String) "disability");
-			availlableRelRisks = deriveAvailableRelativeRisks(
-					configuredFromValues, configuredToValues);
-			// The first line is already present in the second method....
-			 this.availlableRelRisksForDropdown =
-			 makeDeepCopyRR(this.availlableRelRisks);
-//			removeRRAlreadyPresent(dynamoSimulationObject);
-		}
-	}
+	// 20090918 public void relRiskRefresh(DynamoSimulationObject
+	// dynamoSimulationObject)
+	// throws ConfigurationException {
+	// synchronized (this) {
+	// instLog.debug("Initial availableRelativeRisks");
+	//
+	// Set<String> configuredFromValues = new LinkedHashSet<String>();
+	// Set<String> configuredToValues = new LinkedHashSet<String>();
+	// Map<String, TabRiskFactorConfigurationData> rfc = (Map<String,
+	// TabRiskFactorConfigurationData>) dynamoSimulationObject
+	// .getRiskFactorConfigurations();
+	// Set<String> riskfactors = rfc.keySet();
+	// Set<String> diseases = (Set<String>) dynamoSimulationObject
+	// .getDiseaseConfigurations().keySet();
+	// if (riskfactors != null)
+	// configuredFromValues.addAll(riskfactors);
+	// if (diseases != null) {
+	// configuredFromValues.addAll(diseases);
+	// configuredToValues.addAll(diseases);
+	// }
+	// // These two are always present.
+	// configuredToValues.add((String) "death");
+	// configuredToValues.add((String) "disability");
+	// availlableRelRisks = deriveAvailableRelativeRisks(
+	// configuredFromValues, configuredToValues);
+	// // The first line is already present in the second method....
+	// this.availlableRelRisksForDropdown =
+	// makeDeepCopyRR(this.availlableRelRisks);
+	// // removeRRAlreadyPresent(dynamoSimulationObject);
+	// }
+	// }
 	/**
 	 * This method fills the
 	 * 
@@ -256,7 +256,9 @@ public class RelRisksCollectionForDropdown {
 	 * 
 	 */
 
-	public void relRiskRefresh4Init(TabRelativeRiskConfigurationData configuration, DynamoSimulationObject dynamoSimulationObject)
+	public void relRiskRefresh4Init(
+			TabRelativeRiskConfigurationData configuration,
+			DynamoSimulationObject dynamoSimulationObject)
 			throws ConfigurationException {
 		synchronized (this) {
 			instLog.debug("Initial availableRelativeRisks");
@@ -280,9 +282,11 @@ public class RelRisksCollectionForDropdown {
 			availlableRelRisks = deriveAvailableRelativeRisks(
 					configuredFromValues, configuredToValues);
 			// The first line is already present in the second method....
-			 this.availlableRelRisksForDropdown =
-			 makeDeepCopyRR(this.availlableRelRisks);
-//			removeRRSelectedInOtherTabs(dynamoSimulationObject.getRelativeRiskConfigurations(), dynamoSimulationObject.getDiseaseConfigurations().keySet(), configuration);
+			// this.availlableRelRisksForDropdown =
+			// makeDeepCopyRR(this.availlableRelRisks);
+			removeRRSelectedInOtherTabs(dynamoSimulationObject
+					.getRelativeRiskConfigurations(), dynamoSimulationObject
+					.getDiseaseConfigurations().keySet(), configuration);
 		}
 	}
 
@@ -407,8 +411,7 @@ public class RelRisksCollectionForDropdown {
 											&& (currentRRForChoiceKey
 													.equals(currentSelectedRR
 															.getTo())))
-										currentRRForChoice
-												.remove(currentRRForChoiceKey);
+										keyIterator.remove();
 								}
 							}
 						}
@@ -465,50 +468,50 @@ public class RelRisksCollectionForDropdown {
 	 * @param singleConfiguration
 	 */
 
-	public void removeRRSelectedInOtherTabs(
+	private void removeRRSelectedInOtherTabs(
 			Map<Integer, TabRelativeRiskConfigurationData> selectedRelRisks,
 			Set<String> diseaseNames,
 			TabRelativeRiskConfigurationData singleConfiguration) {
 
-		this.availlableRelRisksForDropdown = makeDeepCopyRR(this.availlableRelRisks);
-		/*
-		 * in case the tab is created, singleConfiguration is null, and entries
-		 * need to be removed
-		 */
+		synchronized (availlableRelRisks) {
+			RelativeRiskFileNamesBySourceAndTargetNameMap workingMap = makeDeepCopyRR(this.availlableRelRisks);
+			/*
+			 * in case the tab is created, singleConfiguration is null, and
+			 * entries need to be removed
+			 */
 
-		/*
-		 * check first if the particular relative risk has already been selected
-		 * if yes, remove it
-		 */
+			/*
+			 * check first if the particular relative risk has already been
+			 * selected if yes, remove it
+			 */
 
-		{
-			Set<Integer> keySet = selectedRelRisks.keySet();
-			Iterator<Integer> selKeyIterator = keySet.iterator();
-			while (selKeyIterator.hasNext()) {
-				Integer currentConfigurationElementNumber = selKeyIterator
-						.next();
-				/*
-				 * do this only if the RR is not the RR that is being selected
-				 * by the current tab
-				 */
-				/*
-				 * the selectedRelRisks have an Integer as key, while this has
-				 * converted to a string in the currentSelection. First we cast
-				 * the currentSelection to Integer
-				 */
-				if (singleConfiguration == null
-						|| !(singleConfiguration.getIndex() == currentConfigurationElementNumber)) {
-					TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
-							.get(currentConfigurationElementNumber);
-					Set<String> aRR4DDKeySet = getAvaillableRelRisksForDropdown()
-							.keySet();
-					Iterator<String> aKeyIterator = aRR4DDKeySet.iterator();
-					while (aKeyIterator.hasNext()) {
-						String currentFrom = aKeyIterator.next();
-						HashMap<String, Set<String>> currentRRForChoice = getAvaillableRelRisksForDropdown()
-								.get(currentFrom);
-						if (currentFrom.equals(currentSelectedRR.getFrom())) {
-							synchronized (currentRRForChoice) {
+			{
+				Set<Integer> keySet = selectedRelRisks.keySet();
+				Iterator<Integer> selKeyIterator = keySet.iterator();
+				while (selKeyIterator.hasNext()) {
+					Integer currentConfigurationElementNumber = selKeyIterator
+							.next();
+					/*
+					 * do this only if the RR is not the RR that is being
+					 * selected by the current tab
+					 */
+					/*
+					 * the selectedRelRisks have an Integer as key, while this
+					 * has converted to a string in the currentSelection. First
+					 * we cast the currentSelection to Integer
+					 */
+					if (singleConfiguration == null
+							|| !(singleConfiguration.getIndex() == currentConfigurationElementNumber)) {
+						TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
+								.get(currentConfigurationElementNumber);
+						Set<String> aRR4DDKeySet = workingMap.keySet();
+						Iterator<String> aKeyIterator = aRR4DDKeySet.iterator();
+						while (aKeyIterator.hasNext()) {
+							String currentFrom = aKeyIterator.next();
+							HashMap<String, Set<String>> resultRR4CMap = new HashMap<String, Set<String>>();
+							HashMap<String, Set<String>> currentRRForChoice = workingMap
+									.get(currentFrom);
+							if (currentFrom.equals(currentSelectedRR.getFrom())) {
 								Set<String> cRR4CKeySet = currentRRForChoice
 										.keySet();
 								Iterator<String> keyIterator = cRR4CKeySet
@@ -519,45 +522,48 @@ public class RelRisksCollectionForDropdown {
 									if ((currentRRForChoiceKey != null)
 											&& (currentRRForChoiceKey
 													.equals(currentSelectedRR
-															.getTo())))
-										currentRRForChoice
-												.remove(currentRRForChoiceKey);
+															.getTo()))) {
+										keyIterator.remove();
+									}
 								}
 							}
-						}
-						if (currentRRForChoice.isEmpty())
-							getAvaillableRelRisksForDropdown().remove(
-									currentConfigurationElementNumber);
-					}
-				}
-			}
-		}
-		/*
-		 * remove diseases that have been choosen as from diseases from the list
-		 * of "to" diseases, as this is not allowed in Dynamo
-		 */
 
-		Set<Integer> selectedRelRisksKeySet = selectedRelRisks.keySet();
-		Iterator<Integer> selKeyIterator = selectedRelRisksKeySet.iterator();
-		while (selKeyIterator.hasNext()) {
-			Integer selectedRelRisksKey = selKeyIterator.next();
-			if (singleConfiguration == null
-					|| !(singleConfiguration.getIndex() == selectedRelRisksKey)) {
-				TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
-						.get(selectedRelRisksKey);
-				if (diseaseNames.contains(currentSelectedRR.getFrom())) {
-					Set<String> aRR4DDKeySet = getAvaillableRelRisksForDropdown()
-							.keySet();
-					Iterator<String> keyIterator = aRR4DDKeySet.iterator();
-					while (keyIterator.hasNext()) {
-						String currentFrom = keyIterator.next();
-						/* the key in this map is the name of the to disease */
-						HashMap<String, Set<String>> currentRRToChoices = getAvaillableRelRisksForDropdown()
-								.get(currentFrom);
-						currentRRToChoices.remove(currentSelectedRR.getFrom());
+							if (currentRRForChoice.isEmpty())
+								getAvaillableRelRisksForDropdown().remove(
+										currentConfigurationElementNumber);
+						}
 					}
 				}
 			}
+			/*
+			 * remove diseases that have been choosen as from diseases from the
+			 * list of "to" diseases, as this is not allowed in Dynamo
+			 */
+
+			Set<Integer> selectedRelRisksKeySet = selectedRelRisks.keySet();
+			Iterator<Integer> selKeyIterator = selectedRelRisksKeySet
+					.iterator();
+			while (selKeyIterator.hasNext()) {
+				Integer selectedRelRisksKey = selKeyIterator.next();
+				if (singleConfiguration == null
+						|| !(singleConfiguration.getIndex() == selectedRelRisksKey)) {
+					TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
+							.get(selectedRelRisksKey);
+					if (diseaseNames.contains(currentSelectedRR.getFrom())) {
+						Set<String> aRR4DDKeySet = workingMap.keySet();
+						Iterator<String> keyIterator = aRR4DDKeySet.iterator();
+						while (keyIterator.hasNext()) {
+							String currentFrom = keyIterator.next();
+							/* the key in this map is the name of the to disease */
+							HashMap<String, Set<String>> currentRRToChoices = workingMap
+									.get(currentFrom);
+							currentRRToChoices.remove(currentSelectedRR
+									.getFrom());
+						}
+					}
+				}
+			}
+			this.availlableRelRisksForDropdown = makeDeepCopyRR(workingMap);
 		}
 	}
 

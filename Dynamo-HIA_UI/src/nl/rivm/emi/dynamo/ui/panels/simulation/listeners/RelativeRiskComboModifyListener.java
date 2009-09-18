@@ -167,7 +167,7 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 											.getSelectedString(count);
 									fromCombo.add(fromSetItem, count);
 								}
-selectSilent(fromCombo,0);
+								selectSilent(fromCombo, 0);
 								for (int count = 0; count < toSetSize; count++) {
 									String toSetItem = toSet
 											.getSelectedString(count);
@@ -193,7 +193,7 @@ selectSilent(fromCombo,0);
 										.setDataFileName(defaultFileName);
 								dataManager
 										.setConfiguredFileName(defaultFileName);
-								dataManager.refreshAvaillableRRlist();
+// 20090918								dataManager.refreshAvaillableRRlist();
 							} else {
 								throw new Exception(
 										"At least one dropdown was empty.");

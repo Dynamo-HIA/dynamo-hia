@@ -55,11 +55,14 @@ public class NestedTabSelectionListener implements SelectionListener {
 					int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
 					TabRelativeRiskConfigurationData configuration = dynSimObj
 							.getRelativeRiskConfigurations().get(tabIndex);
-					RelRisksCollectionForDropdown possibleRelRisksProvider = ((RelativeRisksTabPlatform) myTabPlatform)
-							.getDataManager()
-							.getRelRisksCollectionForDropdown();
-					possibleRelRisksProvider.relRiskRefresh4Init(configuration,
-							dynSimObj);
+					/*
+					 * 20090918 ??? RelRisksCollectionForDropdown
+					 * possibleRelRisksProvider = ((RelativeRisksTabPlatform)
+					 * myTabPlatform) .getDataManager()
+					 * .getRelRisksCollectionForDropdown();
+					 * possibleRelRisksProvider
+					 * .relRiskRefresh4Init(configuration, dynSimObj);
+					 */
 				}
 				myTabPlatform.refreshNestedTab(myTabPlatform.getNestedTabs()
 						.get(item.getText()));

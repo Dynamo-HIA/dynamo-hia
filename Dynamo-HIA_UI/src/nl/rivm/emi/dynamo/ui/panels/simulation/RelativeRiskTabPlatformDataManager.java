@@ -54,7 +54,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	private TreeAsDropdownLists treeLists;
 
 	private RelativeRiskTab tab = null;
-	private RelRisksCollectionForDropdown relRisksCollectionForDropdown;
+	private RelRisksCollectionForDropdown relRisksCollectionForDropdown; 
 	/**
 	 * This object is a writethrough proxy for the relative risks part of the
 	 * DynamoSimulation Object.
@@ -84,9 +84,11 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 		// out of the parameters.
 		// this.initialSelection = initialSelection;
 		// this.tab = tab;
+	
 		relRisksCollectionForDropdown = RelRisksCollectionForDropdown
 				.getInstance(dynamoSimulationObject, selectedNode);
-	}
+	
+		}
 
 	// public Map<Integer, TabRelativeRiskConfigurationData> getConfigurations()
 	// {
@@ -97,10 +99,10 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 		return configurationsProxy.get(index);
 	}
 
-	public RelRisksCollectionForDropdown getRelRisksCollectionForDropdown() {
-		return relRisksCollectionForDropdown;
+ 	public RelRisksCollectionForDropdown getRelRisksCollectionForDropdown() {
+ 		return relRisksCollectionForDropdown;
 	}
-
+	
 	public TreeAsDropdownLists getTreeLists() {
 		return treeLists;
 	}
@@ -311,9 +313,9 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 		// refresh the list with availlable RR's;
 		log.debug("After the update: " + configurationsProxy.report());
-		relRisksCollectionForDropdown = RelRisksCollectionForDropdown
-				.getInstance4RelRisks(configurationsProxy.getDynamoSimulationObject(),
-						treeLists);
+//		relRisksCollectionForDropdown = RelRisksCollectionForDropdown
+//				.getInstance4RelRisks(configurationsProxy.getDynamoSimulationObject(),
+//						treeLists);
 		return actualConfiguration;
 	}
 
@@ -459,8 +461,8 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	public void refreshAvaillableRRlist() throws ConfigurationException {
 		// TODO Auto-generated method stub
-		relRisksCollectionForDropdown.refresh(configurationsProxy
-				.getDynamoSimulationObject());
+/* 20090918		relRisksCollectionForDropdown.refresh(configurationsProxy
+				.getDynamoSimulationObject()); */
 	}
 
 	// public DynamoSimulationObject getDynamoSimulationObject() {

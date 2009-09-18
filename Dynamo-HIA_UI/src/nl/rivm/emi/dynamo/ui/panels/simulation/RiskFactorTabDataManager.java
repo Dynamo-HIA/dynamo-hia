@@ -131,7 +131,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	 */
 	@Override
 	public DropDownPropertiesSet getDropDownSet(String name,
-			String chosenRiskFactorName) throws ConfigurationException, NoMoreDataException {
+			String chosenRiskFactorName) throws ConfigurationException,
+			NoMoreDataException {
 		log.debug("HIERALOOK");
 
 		// The model object already exists, get the name
@@ -141,15 +142,16 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 					+ chosenRiskFactorName);
 		}
 		DropDownPropertiesSet set = new DropDownPropertiesSet();
-           Set<String> contents = this.getContents(name, chosenRiskFactorName);
-		
+		Set<String> contents = this.getContents(name, chosenRiskFactorName);
+
 		// Contents can never be empty
 
-		if (contents != null) 
+		if (contents != null)
 			set.addAll(contents);
-		else throw new NoMoreDataException("no more configured diseases availlable");
-	
-		
+		else
+			throw new NoMoreDataException(
+					"no more configured diseases availlable");
+
 		return set;
 	}
 
@@ -191,27 +193,30 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	@Override
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
-		log.debug(name + ": " + selectedValue);
-		log.fatal("UPDATING OBJECT STATE");
-
-		log.fatal("this.initialSelection" + this.initialSelection);
-		log.debug("this.singleConfiguration" + this.singleConfiguration);
-
-		// In case a new Tab is created, no model exists yet
-		if (this.initialSelection.size() == 0
-				&& this.singleConfiguration == null) {
-			log.debug("CREATING NEW TAB");
-			createInDynamoSimulationObject();
-		}
-
-		if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
-			singleConfiguration.setName(selectedValue);
-		} else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
-			singleConfiguration.setPrevalenceFileName(selectedValue);
-		} else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
-			singleConfiguration.setTransitionFileName(selectedValue);
-		}
-		updateDynamoSimulationObject();
+		/* 20090918 */
+		log.fatal("This method has been cleaned out!!!!");
+		// log.debug(name + ": " + selectedValue);
+		// log.fatal("UPDATING OBJECT STATE");
+		//
+		// log.fatal("this.initialSelection" + this.initialSelection);
+		// log.debug("this.singleConfiguration" + this.singleConfiguration);
+		//
+		// // In case a new Tab is created, no model exists yet
+		// if (this.initialSelection.size() == 0
+		// && this.singleConfiguration == null) {
+		// log.debug("CREATING NEW TAB");
+		// createInDynamoSimulationObject();
+		// }
+		//
+		// if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
+		// singleConfiguration.setName(selectedValue);
+		// } else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name))
+		// {
+		// singleConfiguration.setPrevalenceFileName(selectedValue);
+		// } else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
+		// singleConfiguration.setTransitionFileName(selectedValue);
+		// }
+		// updateDynamoSimulationObject();
 	}
 
 	public void updateDynamoSimulationObject() throws ConfigurationException {
@@ -250,64 +255,72 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 				.getInstance(dynamoSimulationObject, treeLists);
 		// no refreshing needed, as this is part of get instance
 		// collection.refresh(dynamoSimulationObject,treeLists);
-//		log.debug("availlable RRs: "
-//				+ collection.getAvaillableRelRisksForDropdown());
-		for (Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration
-				.values().iterator(); iter.hasNext();) {
+		// log.debug("availlable RRs: "
+		// + collection.getAvaillableRelRisksForDropdown());
+		
+		/* 20090918 Synchronized added */
+		synchronized (collection) {
+			for (Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration
+					.values().iterator(); iter.hasNext();) {
 
-			// for (Integer key2 : relRiskConfiguration.keySet())
+				// for (Integer key2 : relRiskConfiguration.keySet())
 
-			singleRRconfiguration = iter.next();
-			boolean validEntry = false;
+				singleRRconfiguration = iter.next();
+				boolean validEntry = false;
 
-			if (singleRRconfiguration.getFrom().equals(riskfactorName))
-				validEntry = true;
-			log.debug(riskfactorName + "?=" + singleRRconfiguration.getFrom()
-					+ ": validEntry= " + validEntry);
-			for (String name : diseaseNames) {
-				log.debug(name + " ?= " + singleRRconfiguration.getFrom() + "="
-						+ (singleRRconfiguration.getFrom().equals(name)));
-				if (singleRRconfiguration.getFrom().equals(name))
+				if (singleRRconfiguration.getFrom().equals(riskfactorName))
 					validEntry = true;
-			}
-
-			/*
-			 * NB we do not check here on a disease being both to and from this
-			 * should have been done when entering the original relative risks
-			 */
-
-			if (!validEntry) {
-
-				Set<String> fileName = collection.updateRRFileList(
-						riskfactorName, singleRRconfiguration.getTo());
-				if (fileName == null) {
-
-					handleWarningMessage("removed: RR from "
-							+ singleRRconfiguration.getFrom() + " to "
-							+ singleRRconfiguration.getTo()
-							+ "\n(not configurated)");
-
-					log.fatal("removed: RR from "
-							+ singleRRconfiguration.getFrom() + " to "
-							+ singleRRconfiguration.getTo());
-					iter.remove();
-				} else {
-
-					log.fatal("changed: RR from "
-							+ singleRRconfiguration.getFrom() + " to "
-							+ singleRRconfiguration.getTo() + " into: RR from "
-							+ riskfactorName + " to "
-							+ singleRRconfiguration.getTo());
-					handleWarningMessage("RR from "
-							+ singleRRconfiguration.getFrom() + " to "
-							+ singleRRconfiguration.getTo()
-							+ " is changed into:\nRR from " + riskfactorName
-							+ " to " + singleRRconfiguration.getTo());
-
-					singleRRconfiguration.setFrom(riskfactorName);
+				log.debug(riskfactorName + "?="
+						+ singleRRconfiguration.getFrom() + ": validEntry= "
+						+ validEntry);
+				for (String name : diseaseNames) {
+					log.debug(name + " ?= " + singleRRconfiguration.getFrom()
+							+ "="
+							+ (singleRRconfiguration.getFrom().equals(name)));
+					if (singleRRconfiguration.getFrom().equals(name))
+						validEntry = true;
 				}
+
+				/*
+				 * NB we do not check here on a disease being both to and from
+				 * this should have been done when entering the original
+				 * relative risks
+				 */
+
+				if (!validEntry) {
+
+					Set<String> fileName = collection.updateRRFileList(
+							riskfactorName, singleRRconfiguration.getTo());
+					if (fileName == null) {
+
+						handleWarningMessage("removed: RR from "
+								+ singleRRconfiguration.getFrom() + " to "
+								+ singleRRconfiguration.getTo()
+								+ "\n(not configurated)");
+
+						log.fatal("removed: RR from "
+								+ singleRRconfiguration.getFrom() + " to "
+								+ singleRRconfiguration.getTo());
+						iter.remove();
+					} else {
+
+						log.fatal("changed: RR from "
+								+ singleRRconfiguration.getFrom() + " to "
+								+ singleRRconfiguration.getTo()
+								+ " into: RR from " + riskfactorName + " to "
+								+ singleRRconfiguration.getTo());
+						handleWarningMessage("RR from "
+								+ singleRRconfiguration.getFrom() + " to "
+								+ singleRRconfiguration.getTo()
+								+ " is changed into:\nRR from "
+								+ riskfactorName + " to "
+								+ singleRRconfiguration.getTo());
+
+						singleRRconfiguration.setFrom(riskfactorName);
+					}
+				}
+				log.fatal("number of RRs: " + relRiskConfiguration.size());
 			}
-			log.fatal("number of RRs: " + relRiskConfiguration.size());
 		}
 
 		this.dynamoSimulationObject
@@ -322,7 +335,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		while (scenIter.hasNext())
 
 		{
-			String scenName=(String) scenIter.next();
+			String scenName = (String) scenIter.next();
 			singleScenarioConfiguration = scenarioConfigurations.get(scenName);
 
 			String transFile = singleScenarioConfiguration
@@ -391,8 +404,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 							.setAltTransitionFileName(newTransFile);
 					;
 
-					scenarioConfigurations
-							.put(scenName, singleScenarioConfiguration);
+					scenarioConfigurations.put(scenName,
+							singleScenarioConfiguration);
 				}
 			}
 		}

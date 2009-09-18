@@ -40,9 +40,13 @@ public class TabPlatformListener implements Listener {
 				 * this refreshes the list with RR availlable from new disease
 				 * or riskfactor choices
 				 */
-				RelRisksCollectionForDropdown.getInstance(myTabsDataPanel
-						.getDynamoSimulationObject(), myTabsDataPanel
-						.getSelectedNode());
+				/*
+				 * 20090918 Rene Trying to keep refreshing to an absolute
+				 * minimum to solve concurrency problems.
+				 */
+//				RelRisksCollectionForDropdown.getInstance(myTabsDataPanel
+//						.getDynamoSimulationObject(), myTabsDataPanel
+//						.getSelectedNode());
 
 				myTabsDataPanel.getRelativeRisksTabPlatform().refreshAllTabs();
 				myTabsDataPanel.getRelativeRisksTabPlatform().redraw();

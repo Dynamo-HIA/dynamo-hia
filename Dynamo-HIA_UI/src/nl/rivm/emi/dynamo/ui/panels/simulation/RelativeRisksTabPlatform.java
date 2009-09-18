@@ -294,7 +294,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		// int oldTabNumber = this.getTabManager().getNumberOfTabs();
 		int oldTabNumber = getNumberOfTabs();
 		if (oldTabNumber > 0) {
-			dataManager.refreshAvaillableRRlist();
+/* 20090918 			dataManager.refreshAvaillableRRlist(); */
 		}
 		int newTabNumber = this.getDynamoSimulationObject()
 				.getRelativeRiskConfigurations().size();
@@ -340,8 +340,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		String defaultFrom = null;
 		String defaultTo = null;
 		getDataManager();
-		RelRisksCollectionForDropdown possibleRelRisksProvider = dataManager
-				.getRelRisksCollectionForDropdown();
+		RelRisksCollectionForDropdown possibleRelRisksProvider = RelRisksCollectionForDropdown.getInstance(dynamoSimulationObject, dataManager.getTreeLists());
 		possibleRelRisksProvider.relRiskRefresh4Init(configuration, dynamoSimulationObject);
 		Set<String> fromList = possibleRelRisksProvider.updateFromList();
 		if (fromList.size() != 0) {
