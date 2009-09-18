@@ -33,6 +33,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.panels.simulation.TabRelativeRiskConfigurationsProxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,6 +46,8 @@ public class DynamoSimulationObject extends
 		IRelativeRisks, IScenarios, IConfigurationCheck {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
+
+	private TabRelativeRiskConfigurationsProxy backDoorListener = null;
 
 	public DynamoSimulationObject(LinkedHashMap<String, Object> content) {
 		super();
@@ -303,7 +306,10 @@ public class DynamoSimulationObject extends
 		return resultMap;
 	}
 
-	public void setRelativeRiskConfigurations(
+	/**
+	 * 20090917 RLM Added synchronized.
+	 */
+	synchronized public void setRelativeRiskConfigurations(
 			Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations) {
 		TypedHashMap<? extends XMLTagEntity> relativeRisksMap = new TypedHashMap(
 				XMLTagEntityEnum.RRINDEX.getTheType());
@@ -314,6 +320,10 @@ public class DynamoSimulationObject extends
 			relativeRisksMap = data.putInTypedHashMap(relativeRisksMap);
 		}
 		put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);
+		// 
+		if (backDoorListener != null) {
+			backDoorListener.backdoorUsed();
+		}
 	}
 
 	public Map<String, ITabScenarioConfiguration> getScenarioConfigurations() {
@@ -358,5 +368,10 @@ public class DynamoSimulationObject extends
 		// TODO Auto-generated method stub
 		return false;
 
+	}
+
+	public void setBackDoorListener(
+			TabRelativeRiskConfigurationsProxy backDoorListener) {
+		this.backDoorListener = backDoorListener;
 	}
 }

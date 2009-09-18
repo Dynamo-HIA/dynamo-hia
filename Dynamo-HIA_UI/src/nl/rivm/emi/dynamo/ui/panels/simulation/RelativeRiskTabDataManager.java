@@ -142,13 +142,25 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		return result;
 	}
 
+	public void removeTabRelRiskConfiguration()
+			throws ConfigurationException {
+		getMyConfiguration();
+		myBoss
+				.removeFromDynamoSimulationObject(tabRelativeRiskConfigurationData);
+	}
+
 	public void setConfiguredFrom(String from) throws ConfigurationException {
-		if (tabRelativeRiskConfigurationData == null) {
-			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
-		}
+		getMyConfiguration();
 		tabRelativeRiskConfigurationData.setFrom(from);
 		tabRelativeRiskConfigurationData = myBoss
 				.updateDynamoSimulationObject(tabRelativeRiskConfigurationData);
+	}
+
+	private void getMyConfiguration() {
+		if (tabRelativeRiskConfigurationData == null) {
+			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
+			tabRelativeRiskConfigurationData.setIndex(this.tab.getTabIndex());
+		}
 	}
 
 	public DropDownPropertiesSet getToSet(String chosenFrom)
@@ -194,8 +206,9 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		}
 		return result;
 	}
-	
-	public void setConfiguredFileName(String fileName) throws ConfigurationException {
+
+	public void setConfiguredFileName(String fileName)
+			throws ConfigurationException {
 		if (tabRelativeRiskConfigurationData == null) {
 			tabRelativeRiskConfigurationData = new TabRelativeRiskConfigurationData();
 		}
@@ -203,7 +216,6 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		tabRelativeRiskConfigurationData = myBoss
 				.updateDynamoSimulationObject(tabRelativeRiskConfigurationData);
 	}
-
 
 	/**
 	 * Not very logical, but the cleanest way to get it to the DropDownPanels.
@@ -616,6 +628,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 
 	/**
 	 * @deprecated
+	 * Cannot be removed because the parent Object requires it. 
 	 * @author mondeelr
 	 * 
 	 *         Just proxy for now.
@@ -681,5 +694,9 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		box.setText("WARNING");
 		box.setMessage("WARNING:\n" + s);
 		box.open();
+	}
+
+	public RelRisksCollectionForDropdown getPossibleRelRisksProvider() {
+		return possibleRelRisksProvider;
 	}
 }

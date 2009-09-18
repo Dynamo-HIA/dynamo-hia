@@ -67,7 +67,7 @@ public class ScenariosTabPlatform extends TabPlatform {
 	}
 
 	@Override
-	public void deleteNestedTab(NestedTab nestedTab)
+	public void deleteNestedTabPlusData(NestedTab nestedTab)
 			throws ConfigurationException {
 		ScenarioTab scenarioTab = (ScenarioTab) nestedTab;
 		scenarioTab.removeTabDataObject();

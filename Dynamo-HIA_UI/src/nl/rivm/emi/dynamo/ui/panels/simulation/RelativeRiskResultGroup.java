@@ -72,11 +72,13 @@ public class RelativeRiskResultGroup implements RelativeRiskDropDownGroup{
 				chosenIndexSelection = chosenIndex;
 			}
 		}
-		DropDownPropertiesSet fileNameSet = relativeRiskTabDataManager.getFileSet(relativeRiskTabDataManager.getConfiguredFrom(), relativeRiskTabDataManager.getConfiguredTo());
-
+//		DropDownPropertiesSet fileNameSet = relativeRiskTabDataManager.getFileSet(relativeRiskTabDataManager.getConfiguredFrom(), relativeRiskTabDataManager.getConfiguredTo());
+//
+//		RelativeRiskDropDownPanel relativeRiskDropDownPanel = createDropDown(
+//				RelativeRiskDropDownPanel.RELATIVE_RISK, relativeRiskTabDataManager.getDropDownSet(
+//						RelativeRiskDropDownPanel.RELATIVE_RISK, chosenIndexSelection));
 		RelativeRiskDropDownPanel relativeRiskDropDownPanel = createDropDown(
-				RelativeRiskDropDownPanel.RELATIVE_RISK, relativeRiskTabDataManager.getDropDownSet(
-						RelativeRiskDropDownPanel.RELATIVE_RISK, chosenIndexSelection));
+				RelativeRiskDropDownPanel.RELATIVE_RISK, null);
 		// this.selectionGroup.getFromDropDownModifyListener().registerDropDown(
 		// relativeRiskDropDownPanel);
 

@@ -12,18 +12,27 @@ import org.apache.commons.logging.LogFactory;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 
-public class TabRelativeRiskConfigurationsLinkedHashMap extends
+public class TabRelativeRiskConfigurationsProxy extends
 		LinkedHashMap<Integer, TabRelativeRiskConfigurationData> {
 	private static final long serialVersionUID = -40812919647534350L;
 
-	Log log = LogFactory.getLog(this.getClass().getName());
+	Log log = LogFactory.getLog(this.getClass().getSimpleName());
 
 	DynamoSimulationObject dynamoSimulationObject;
+	RelativeRiskTabPlatformDataManager myDataManager;
+	/**
+	 * Flag for suppressing changes that go through this proxy.
+	 * 
+	 */
+	boolean thisIsNotABackdoor = false;
 
-	public TabRelativeRiskConfigurationsLinkedHashMap(
-			DynamoSimulationObject dynamoSimulationObject) {
+	public TabRelativeRiskConfigurationsProxy(
+			DynamoSimulationObject dynamoSimulationObject,
+			RelativeRiskTabPlatformDataManager dataManager) {
 		super();
 		this.dynamoSimulationObject = dynamoSimulationObject;
+		myDataManager = dataManager;
+		dynamoSimulationObject.setBackDoorListener(this);
 	}
 
 	public TabRelativeRiskConfigurationData get(Integer index) {
@@ -56,8 +65,11 @@ public class TabRelativeRiskConfigurationsLinkedHashMap extends
 			} else {
 				log.debug("Added configuration at index: " + index);
 			}
+			thisIsNotABackdoor = true;
 			dynamoSimulationObject
 					.setRelativeRiskConfigurations(currentConfigurations);
+			thisIsNotABackdoor = false;
+//			myDataManager.removeAndRebuildAllTabs();
 		}
 		return configuration;
 	}
@@ -88,8 +100,11 @@ public class TabRelativeRiskConfigurationsLinkedHashMap extends
 					}
 					dynamoSimulationObject.getRelativeRiskConfigurations()
 							.clear();
+					thisIsNotABackdoor = true;
 					dynamoSimulationObject
 							.setRelativeRiskConfigurations(newConfigurations);
+					thisIsNotABackdoor = false;
+					myDataManager.removeAndRebuildAllTabs();
 				} else {
 					log.debug("Could not remove configuration from index: "
 							+ index);
@@ -127,6 +142,14 @@ public class TabRelativeRiskConfigurationsLinkedHashMap extends
 					+ conf.getDataFileName() + "\n");
 		}
 		return reportBuffer.toString();
+	}
+
+	public void backdoorUsed() {
+		log.debug("Suspected backdoor update, thisIsNotABackdoor = "
+				+ thisIsNotABackdoor + " current configuration: " + report());
+		if (!thisIsNotABackdoor) {
+			myDataManager.removeAndRebuildAllTabs();
+		}
 	}
 
 	// SuperClass methods, just for information.

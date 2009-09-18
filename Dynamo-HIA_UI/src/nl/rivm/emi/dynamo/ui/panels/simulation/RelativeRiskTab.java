@@ -4,6 +4,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -81,7 +82,7 @@ public class RelativeRiskTab extends NestedTab {
 		FormLayout formLayout = new FormLayout();
 		this.plotComposite.setLayout(formLayout);
 		// this.plotComposite.setBackground(new Color(null, 0xbb, 0xbb,0xbb));
-		log.debug("RelativeRiskTab::this.plotComposite: " + this.plotComposite);
+		log.debug("RelativeRiskTab, constructing with tabIndex: " + tabIndex);
 		// Yes, make it here
 		getRelRiskTabDataManager();
 		try {
@@ -132,6 +133,10 @@ public class RelativeRiskTab extends NestedTab {
 					relativeRiskSelectionGroup, relRiskTabDataManager);
 
 			log.debug("RelativeRiskResultGroup added.");
+			TabRelativeRiskConfigurationData myConfigurationData = platformManager
+					.getConfiguration(tabIndex);
+			getRelativeRiskComboModifyListener()
+					.initialize(myConfigurationData);
 
 		} catch (DynamoNoValidDataException e) {
 
@@ -158,8 +163,8 @@ public class RelativeRiskTab extends NestedTab {
 	}
 
 	public void removeTabDataObject() throws ConfigurationException {
-		// TODO RLM
-		// this.relRiskTabDataManager.removeFromDynamoSimulationObject();
+		getRelRiskTabDataManager();
+		relRiskTabDataManager.removeTabRelRiskConfiguration();
 	}
 
 	public void redraw() {
@@ -209,6 +214,10 @@ public class RelativeRiskTab extends NestedTab {
 					this, helpGroup);
 		}
 		return relativeRiskComboModifyListener;
+	}
+
+	public Integer getTabIndex() {
+		return tabIndex;
 	}
 
 }

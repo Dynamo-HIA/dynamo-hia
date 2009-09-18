@@ -73,11 +73,11 @@ public class RelativeRiskDropDownPanel {
 				.getRelativeRiskComboModifyListener();
 		dropDown.addModifyListener(relativeRiskComboModifyListener);
 		//
-		Event event = new Event();
-		event.widget = dropDown;
-		event.text = null;
-		ModifyEvent modifyEvent = new ModifyEvent(event);
-		relativeRiskComboModifyListener.modifyText(modifyEvent);
+//		Event event = new Event();
+//		event.widget = dropDown;
+//		event.text = null;
+//		ModifyEvent modifyEvent = new ModifyEvent(event);
+//		relativeRiskComboModifyListener.modifyText(modifyEvent);
 	}
 
 	private void setDefaultValue() throws ConfigurationException {

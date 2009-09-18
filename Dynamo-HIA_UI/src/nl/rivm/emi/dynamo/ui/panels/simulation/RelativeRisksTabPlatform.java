@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,10 +14,13 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -28,7 +32,7 @@ import org.eclipse.swt.widgets.TabItem;
  */
 public class RelativeRisksTabPlatform extends TabPlatform {
 
-//	private Log log = LogFactory.getLog(this.getClass().getName());
+	// private Log log = LogFactory.getLog(this.getClass().getName());
 
 	private static final String RELATIVE_RISKS = "Relative Risks";
 	// TODO RLM
@@ -63,7 +67,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 			throws ConfigurationException {
 		if (dataManager == null) {
 			dataManager = new RelativeRiskTabPlatformDataManager(selectedNode,
-					dynamoSimulationObject);
+					dynamoSimulationObject, this);
 		}
 		return dataManager;
 	}
@@ -71,6 +75,41 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 	@Override
 	public String getNestedTabPrefix() {
 		return RelativeRiskTab.RELATIVE_RISK;
+	}
+
+	public void removeAndRebuildAllTabs() throws DynamoConfigurationException,
+			ConfigurationException {
+		deleteNestedTabsButNotTheData();
+		createDefaultTabs_FromManager();
+	}
+
+	public void deleteNestedTabsButNotTheData() throws ConfigurationException {
+		tabFolder.removeSelectionListener(listener);
+		TabItem[] tabItems = tabFolder.getItems();
+		log.debug("Before for: tabItems.length = " + tabItems.length);
+		for (int count = 0; count < tabItems.length; count++) {
+			TabItem tabItem = tabItems[count];
+			NestedTab nestedTab2Remove = nestedTabs.get(tabItem.getText());
+			// Remove the data from the data object model
+			removeUITabButNotTheData(nestedTab2Remove);
+			tabItem.dispose();
+		}
+		log.debug("After for, tabItems.length = " + tabItems.length);
+		// Redraw the tabPlatform
+		try {
+			this.redraw_FromManager();
+		} catch (NoMoreDataException e) {
+			// this should not occur
+
+			e.printStackTrace();
+		}
+	}
+
+	public void removeUITabButNotTheData(NestedTab nestedTab) {
+		nestedTab.plotComposite.dispose();
+		nestedTabs.remove(nestedTab.getName());
+		log.debug("removeUITabButNotTheData, removed: " + nestedTab.getName()
+				+ " , number of tabs left: " + nestedTabs.size());
 	}
 
 	@Override
@@ -83,21 +122,77 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
-		// int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
 		Integer newTabNumber = getNumberOfTabs();
+		log.debug("createNestedDefaultTab, newTabNumber = " + newTabNumber);
 		// return new RelativeRiskTab(defaultSelections, this.getTabManager()
 		// .getTabFolder(), tabName, getDynamoSimulationObject(),
 		// selectedNode, helpGroup);
-		NestedTab relRiskTab = new RelativeRiskTab(tabFolder, newTabNumber,
-				helpGroup, getDataManager(), this);
+		NestedTab relRiskTab = null;
+		if (preConstructionCheck(getDataManager().getConfiguration(newTabNumber))) {
+			relRiskTab = new RelativeRiskTab(tabFolder, newTabNumber,
+					helpGroup, getDataManager(), this);
+			nestedTabs.put(relRiskTab.getName(), relRiskTab);
+		}
 		return relRiskTab;
 	}
 
 	@Override
-	public void deleteNestedTab(NestedTab nestedTab)
+	public void deleteNestedTab_FromManager() throws ConfigurationException {
+		tabFolder.removeSelectionListener(listener);
+		// TODO REMOVE DEBUGGING:
+		TabItem[] tabItems = tabFolder.getItems();
+		log.debug("tabItems.length" + tabItems.length);
+		// TODO REMOVE DEBUGGING
+
+		// Remove the tab that is selected now
+		int index = tabFolder.getSelectionIndex();
+		log.debug("Going to remove tab at tabItem index" + index);
+		NestedTab removedNestedTab;
+		// Tabs with index -1 or lower do not exist
+		if (index > -1) {
+			log.debug("EXISTING NestedTabs: " + this.nestedTabs);
+			TabItem tabItem = tabFolder.getItem(index);
+			removedNestedTab = nestedTabs.get(tabItem.getText());
+			log.debug("TabItem text: " + tabItem.getText() + " tab: "
+					+ removedNestedTab);
+			// Remove the data from the data object model
+			deleteNestedTabPlusData(removedNestedTab);
+//			tabItem.dispose();
+		}
+		log.debug("After removal: " + tabFolder.getItems().length + " Items, "
+				+ nestedTabs.size() + " tabs");
+		// Renumber the items
+//		this.renumberAndRenameItems();
+//		log.debug("After renumber: " + tabFolder.getItems().length + " Items, "
+//				+ nestedTabs.size() + " tabs");
+		// Redraw the tabPlatform
+		try {
+			this.redraw_FromManager();
+		} catch (NoMoreDataException e) {
+			// this should not occur
+
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deleteNestedTabPlusData(NestedTab nestedTab)
 			throws ConfigurationException {
 		RelativeRiskTab relativeRiskTab = (RelativeRiskTab) nestedTab;
-		// TODO Implement somewhere else. relativeRiskTab.removeTabDataObject();
+		relativeRiskTab.removeTabDataObject();
+		// Not needed, the rebuild takes care of this....
+		// String tabName = relativeRiskTab.getName();
+		// nestedTabs.remove(tabName);
+		// TabItem[] tabItems = tabFolder.getItems();
+		// for (int count = 0; count < tabItems.length; count++) {
+		// TabItem currentItem = tabItems[count];
+		//
+		// if ((tabName != null) && (currentItem != null)
+		// && (tabName.equals(currentItem.getText()))) {
+		// // The tabItem corresponding to the nestedTab.
+		// currentItem.dispose(); // Zap it.
+		// }
+		// }
 	}
 
 	public Set<String> getConfigurations() {
@@ -199,14 +294,6 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		// int oldTabNumber = this.getTabManager().getNumberOfTabs();
 		int oldTabNumber = getNumberOfTabs();
 		if (oldTabNumber > 0) {
-			// RelativeRiskTabPlatformDataManager dataManager =
-			// (RelativeRiskTabPlatformDataManager) ((RelativeRiskTab) this
-			// .getTabManager().nestedTabs.get(RELATIVE_RISK + "1"))
-			// .getDynamoTabDataManager();
-			// RelativeRiskTabPlatformDataManager dataManager =
-			// (RelativeRiskTabPlatformDataManager) ((RelativeRiskTab)
-			// nestedTabs
-			// .get(RELATIVE_RISK + "1")).getDynamoTabDataManager();
 			dataManager.refreshAvaillableRRlist();
 		}
 		int newTabNumber = this.getDynamoSimulationObject()
@@ -230,21 +317,56 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		}
 
 		for (int i = 0; i < newTabNumber; i++) {
-			String tabName = RELATIVE_RISK + Integer.toString(i + 1);
+			String tabName = RELATIVE_RISK + Integer.toString(i/* + 1 */);
 			// RelativeRiskTabPlatformDataManager dataManager =
 			// (RelativeRiskTabPlatformDataManager) ((RelativeRiskTab) this
 			// .getTabManager().nestedTabs.get(tabName))
 			// .getDynamoTabDataManager();
-/*			RelativeRiskTabDataManager dataManager = (RelativeRiskTabDataManager) ((RelativeRiskTab) nestedTabs
-					.get(tabName)).getDynamoTabDataManager();
-*/			// TODO
+			/*
+			 * RelativeRiskTabDataManager dataManager =
+			 * (RelativeRiskTabDataManager) ((RelativeRiskTab) nestedTabs
+			 * .get(tabName)).getDynamoTabDataManager();
+			 */// TODO
 			// dataManager.setDynamoSimulationObject(getDynamoSimulationObject());
-	// 		dataManager.reloadConfigurationsFromModelObject();
+			// dataManager.reloadConfigurationsFromModelObject();
 			// refreshNestedTab(this.getTabManager().nestedTabs.get(tabName));
 			refreshNestedTab(nestedTabs.get(tabName));
 		}
 
 	}
+
+	private boolean preConstructionCheck(TabRelativeRiskConfigurationData configuration) throws ConfigurationException {
+		boolean success = false;
+		String defaultFrom = null;
+		String defaultTo = null;
+		getDataManager();
+		RelRisksCollectionForDropdown possibleRelRisksProvider = dataManager
+				.getRelRisksCollectionForDropdown();
+		possibleRelRisksProvider.relRiskRefresh4Init(configuration, dynamoSimulationObject);
+		Set<String> fromList = possibleRelRisksProvider.updateFromList();
+		if (fromList.size() != 0) {
+			defaultFrom = fromList.iterator().next();
+			Set<String> toList = possibleRelRisksProvider
+					.updateToList(defaultFrom);
+			if (toList.size() != 0) {
+				defaultTo = toList.iterator().next();
+				Set<String> fileNameSet = possibleRelRisksProvider
+						.updateRRFileList(defaultFrom, defaultTo);
+				if (fileNameSet.size() != 0) {
+					success = true;
+				}
+			}
+		}
+		if (!success) {
+			MessageBox box = new MessageBox(
+					this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
+			box.setText("Error creating tab.");
+			box.setMessage("No more relative risks avalable for configuring.");
+			box.open();
+		}
+		return success;
+	}
+
 	private void handleErrorMessage(Exception e) {
 		e.printStackTrace();
 		MessageBox box = new MessageBox(this.getUpperTabFolder().getShell(),

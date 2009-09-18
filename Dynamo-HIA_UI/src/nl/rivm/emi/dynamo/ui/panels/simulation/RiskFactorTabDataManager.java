@@ -250,8 +250,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 				.getInstance(dynamoSimulationObject, treeLists);
 		// no refreshing needed, as this is part of get instance
 		// collection.refresh(dynamoSimulationObject,treeLists);
-		log.debug("availlable RRs: "
-				+ collection.getAvaillableRelRisksForDropdown());
+//		log.debug("availlable RRs: "
+//				+ collection.getAvaillableRelRisksForDropdown());
 		for (Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration
 				.values().iterator(); iter.hasNext();) {
 

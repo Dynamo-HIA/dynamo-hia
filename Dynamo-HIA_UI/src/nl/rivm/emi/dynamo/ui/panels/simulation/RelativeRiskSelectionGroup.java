@@ -79,27 +79,29 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 				chosenIndexSelection = chosenIndex;
 			}
 		}
-		DropDownPropertiesSet fromSet = dynamoTabDataManager.getFromSet();
+//
+//		DropDownPropertiesSet fromSet = dynamoTabDataManager.getFromSet();
+//		this.fromDropDownPanel = createDropDown(RelativeRiskDropDownPanel.FROM,
+//				fromSet, dynamoTabDataManager);
 		this.fromDropDownPanel = createDropDown(RelativeRiskDropDownPanel.FROM,
-				fromSet, dynamoTabDataManager);
-		// this.fromDropDownModifyListener = fromDropDownPanel
-		// .getGenericComboModifyListener();
+		null, dynamoTabDataManager);
 		HelpTextListenerUtil.addHelpTextListeners(fromDropDownPanel
 				.getDropDown(), RelativeRiskDropDownPanel.FROM);
-		String configuredFrom = dynamoTabDataManager.getConfiguredFrom();
-		fromDropDownPanel.selectConfiguredValue(configuredFrom);
-		DropDownPropertiesSet toSet = dynamoTabDataManager
-				.getToSet(dynamoTabDataManager.getConfiguredFrom());
+//		String configuredFrom = dynamoTabDataManager.getConfiguredFrom();
+//		fromDropDownPanel.selectConfiguredValue(configuredFrom);
+//		DropDownPropertiesSet toSet = dynamoTabDataManager
+//				.getToSet(dynamoTabDataManager.getConfiguredFrom());
 
+//		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
+//				dynamoTabDataManager.getToSet(chosenIndexSelection),
+//				dynamoTabDataManager);
 		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
-				dynamoTabDataManager.getToSet(chosenIndexSelection),
+				null,
 				dynamoTabDataManager);
-		// this.toDropDownModifyListener = toDropDownPanel
-		// .getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(
 				toDropDownPanel.getDropDown(), RelativeRiskDropDownPanel.TO);
-		toDropDownPanel.selectConfiguredValue(dynamoTabDataManager
-				.getConfiguredTo());
+//		toDropDownPanel.selectConfiguredValue(dynamoTabDataManager
+//				.getConfiguredTo());
 	}
 
 	private RelativeRiskDropDownPanel createDropDown(String label,

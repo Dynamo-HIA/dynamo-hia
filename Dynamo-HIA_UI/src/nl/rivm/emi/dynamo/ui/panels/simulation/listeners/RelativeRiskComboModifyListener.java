@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
@@ -32,9 +33,8 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 
 	private RelativeRiskTab relativeRiskTab;
 	private RelativeRiskTabDataManager dataManager;
-	private String actualFromText = null;
-	private String actualToText = null;
-	private String actualFileText = null;
+	private TabRelativeRiskConfigurationData myConfiguration = null;
+	private boolean configurationPreloaded = false;
 	private HelpGroup helpGroup;
 
 	/**
@@ -50,36 +50,207 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 		this.helpGroup = helpGroup;
 	}
 
+	public void initialize(TabRelativeRiskConfigurationData configuration) {
+		Combo currentCombo = null;
+		try {
+			if (!configurationPreloaded) {
+				configurationPreloaded = true;
+				synchronized (this) {
+					if (configuration != null) {
+						myConfiguration = configuration;
+						currentCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.FROM);
+						if (currentCombo != null) {
+							DropDownPropertiesSet fromSet = dataManager
+									.getFromSet();
+							String loadedFrom = myConfiguration.getFrom();
+							int loadedFromIndex = fromSet
+									.getSelectedIndex(loadedFrom);
+							int fromSetSize = fromSet.size();
+							for (int count = 0; count < fromSetSize; count++) {
+								String fromSetItem = fromSet
+										.getSelectedString(count);
+								currentCombo.add(fromSetItem, count);
+							}
+							selectSilent(currentCombo, loadedFromIndex);
+						} else {
+							throw new Exception(
+									"State-error: From-combo has not been initialized yet.");
+						}
+						currentCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.TO);
+						if (currentCombo != null) {
+							DropDownPropertiesSet toSet = dataManager
+									.getToSet(myConfiguration.getFrom());
+							String loadedTo = myConfiguration.getTo();
+							int loadedToIndex = toSet
+									.getSelectedIndex(loadedTo);
+							int toSetSize = toSet.size();
+							for (int count = 0; count < toSetSize; count++) {
+								String toSetItem = toSet
+										.getSelectedString(count);
+								currentCombo.add(toSetItem, count);
+							}
+							selectSilent(currentCombo, loadedToIndex);
+						} else {
+							throw new Exception(
+									"State-error: To-combo has not been initialized yet.");
+						}
+						currentCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
+						if (currentCombo != null) {
+							DropDownPropertiesSet fileNameSet = dataManager
+									.getFileSet(myConfiguration.getFrom(),
+											myConfiguration.getTo());
+							String loadedFileName = myConfiguration
+									.getDataFileName();
+							int loadedFileNameIndex = fileNameSet
+									.getSelectedIndex(loadedFileName);
+							int fileNameSetSize = fileNameSet.size();
+							for (int count = 0; count < fileNameSetSize; count++) {
+								String fileNameSetItem = fileNameSet
+										.getSelectedString(count);
+								currentCombo.add(fileNameSetItem, count);
+							}
+							selectSilent(currentCombo, loadedFileNameIndex);
+						} else {
+							throw new Exception(
+									"State-error: From-combo has not been initialized yet.");
+						}
+					} else {
+						// Create the initial configuration from scratch.
+						DropDownPropertiesSet fromSet = null;
+						int defaultFromIndex = 0;
+						String defaultFrom = null;
+						DropDownPropertiesSet toSet = null;
+						int defaultToIndex = 0;
+						String defaultTo = null;
+						DropDownPropertiesSet fileNameSet = null;
+						Combo fromCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.FROM);
+						Combo toCombo = null;
+						Combo fileCombo = null;
+						if (fromCombo != null) {
+							fromSet = dataManager.getFromSet();
+							defaultFrom = fromSet
+									.getSelectedString(defaultFromIndex);
+						} else {
+							throw new Exception(
+									"State-error: From-combo has not been initialized yet.");
+						}
+						toCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.TO);
+						if (toCombo != null) {
+							toSet = dataManager.getToSet(defaultFrom);
+							defaultTo = toSet.getSelectedString(defaultToIndex);
+						} else {
+							throw new Exception(
+									"State-error: To-combo has not been initialized yet.");
+						}
+						fileCombo = dataManager
+								.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
+						if (fileCombo != null) {
+							fileNameSet = dataManager.getFileSet(defaultFrom,
+									defaultTo);
+							int defaultFileNameIndex = 0;
+							String defaultFileName = fileNameSet
+									.getSelectedString(defaultFileNameIndex);
+							// The combo's are there, but do we have something
+							// in the dropdowns?
+							int fromSetSize = fromSet.size();
+							int toSetSize = toSet.size();
+							int fileNameSetSize = fileNameSet.size();
+							if ((fromSetSize != 0) && (toSetSize != 0)
+									&& (fileNameSetSize != 0)) {
+								for (int count = 0; count < fromSetSize; count++) {
+									String fromSetItem = fromSet
+											.getSelectedString(count);
+									fromCombo.add(fromSetItem, count);
+								}
+selectSilent(fromCombo,0);
+								for (int count = 0; count < toSetSize; count++) {
+									String toSetItem = toSet
+											.getSelectedString(count);
+									toCombo.add(toSetItem, count);
+								}
+								selectSilent(toCombo, 0);
+								for (int count = 0; count < fileNameSetSize; count++) {
+									String fileNameSetItem = fileNameSet
+											.getSelectedString(count);
+									fileCombo.add(fileNameSetItem, count);
+								}
+								selectSilent(fileCombo, defaultFileNameIndex);
+								myConfiguration = new TabRelativeRiskConfigurationData();
+								myConfiguration.setIndex(relativeRiskTab
+										.getTabIndex());
+								// The index is automagically updated upstair
+								// for the DynamoSimulationObject.
+								myConfiguration.setFrom(defaultFrom);
+								dataManager.setConfiguredFrom(defaultFrom);
+								myConfiguration.setTo(defaultTo);
+								dataManager.setConfiguredTo(defaultTo);
+								myConfiguration
+										.setDataFileName(defaultFileName);
+								dataManager
+										.setConfiguredFileName(defaultFileName);
+								dataManager.refreshAvaillableRRlist();
+							} else {
+								throw new Exception(
+										"At least one dropdown was empty.");
+							}
+						} else {
+							throw new Exception(
+									"State-error: From-combo has not been initialized yet.");
+						}
+					}
+					relativeRiskTab.redraw();
+				}
+			} else {
+				log
+						.error("Error: Should not load configuration more than once.");
+			}
+		} catch (Exception e) {
+			handleErrorMessage(e, currentCombo);
+		}
+	}
+
+	public void selectSilent(Combo combo, Integer index) {
+		combo.removeModifyListener(this);
+		combo.select(index);
+		combo.addModifyListener(this);
+	}
+
 	/**
 	 * 
 	 */
-	synchronized public void modifyText(ModifyEvent event) {
-		helpGroup.getTheModal().setChanged(true);
-		Combo myCombo = (Combo) event.widget;
-		int selectionIndex = myCombo.getSelectionIndex();
-		if (selectionIndex != -1) {
-			String comboLabel = dataManager.findComboLabel(myCombo);
-			log.debug("modifyText from combo with label: " + comboLabel
-					+ " selectionindex: " + selectionIndex);
-			if (comboLabel != null) {
-				String newText = myCombo.getText();
-				Composite parent = myCombo.getParent();
-				log.debug("newText: " + newText);
-				try {
-					if (RelativeRiskDropDownPanel.FROM.equals(comboLabel)) {
-						updateFromFromDown(myCombo, newText);
-					} else {
-						if (RelativeRiskDropDownPanel.TO.equals(comboLabel)) {
-							updateFromToDown(myCombo, newText);
+	public void modifyText(ModifyEvent event) {
+		synchronized (this) {
+			Combo myCombo = (Combo) event.widget;
+			int selectionIndex = myCombo.getSelectionIndex();
+			if (selectionIndex != -1) {
+				String comboLabel = dataManager.findComboLabel(myCombo);
+				log.debug("modifyText from combo with label: " + comboLabel
+						+ " selectionindex: " + selectionIndex);
+				if (comboLabel != null) {
+					String newText = myCombo.getText();
+					Composite parent = myCombo.getParent();
+					log.debug("newText: " + newText);
+					try {
+						if (RelativeRiskDropDownPanel.FROM.equals(comboLabel)) {
+							updateFromFromDown(myCombo, newText);
 						} else {
-							if (RelativeRiskDropDownPanel.RELATIVE_RISK
-									.equals(comboLabel)) {
-								updateFile(newText);
+							if (RelativeRiskDropDownPanel.TO.equals(comboLabel)) {
+								updateFromToDown(myCombo, newText);
+							} else {
+								if (RelativeRiskDropDownPanel.RELATIVE_RISK
+										.equals(comboLabel)) {
+									updateFile(newText);
+								}
 							}
 						}
+					} catch (Exception e) {
+						handleErrorMessage(e, myCombo);
 					}
-				} catch (Exception e) {
-					handleErrorMessage(e, myCombo);
 				}
 			}
 		}
@@ -88,8 +259,11 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 	private void updateFromFromDown(Combo fromCombo, String newText)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		if ((newText != null) && (!newText.equalsIgnoreCase(actualFromText))) {
+		if ((newText != null)
+				&& (!newText.equalsIgnoreCase(myConfiguration.getFrom()))) {
+			helpGroup.getTheModal().setChanged(true);
 			dataManager.setConfiguredFrom(newText);
+			myConfiguration.setFrom(newText);
 			// Something sensible has changed.
 			Combo toCombo = dataManager
 					.findComboObject(RelativeRiskDropDownPanel.TO);
@@ -104,10 +278,12 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 						String toSetItem = toSet.getSelectedString(count);
 						toCombo.add(toSetItem, count);
 					}
-					toCombo.select(0);
-					dataManager.setConfiguredTo(toSet.getSelectedString(0));
+					selectSilent(toCombo, 0);
+					String currentTo = toSet.getSelectedString(0);
+					dataManager.setConfiguredTo(currentTo);
+					myConfiguration.setTo(currentTo);
 					DropDownPropertiesSet fileSet = dataManager.getFileSet(
-							newText, toSet.getSelectedString(0));
+							newText, currentTo);
 					if (fileSet != null) {
 						Combo fileCombo = dataManager
 								.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
@@ -119,9 +295,11 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 										.getSelectedString(count);
 								fileCombo.add(fileSetItem, count);
 							}
-							fileCombo.select(0);
-							dataManager.setConfiguredFileName(fileSet
-									.getSelectedString(0));
+							selectSilent(fileCombo, 0);
+							String currentFileName = fileSet
+									.getSelectedString(0);
+							dataManager.setConfiguredFileName(currentFileName);
+							myConfiguration.setDataFileName(currentFileName);
 						}
 					} else {
 						// //////
@@ -134,15 +312,18 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 	private void updateFromToDown(Combo toCombo, String newText)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		if ((newText != null) && (!newText.equalsIgnoreCase(actualFromText))) {
+		if ((newText != null)
+				&& (!newText.equalsIgnoreCase(myConfiguration.getTo()))) {
 			// Something sensible has changed.
+			helpGroup.getTheModal().setChanged(true);
 			dataManager.setConfiguredTo(newText);
+			myConfiguration.setTo(newText);
 			Combo fileCombo = dataManager
 					.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
 			if (fileCombo != null) {
 				// Not constructing.
 				DropDownPropertiesSet fileSet = dataManager.getFileSet(
-						actualFromText, newText);
+						myConfiguration.getFrom(), newText);
 				if (fileSet != null) {
 					fileCombo.removeAll();
 					int fileSetSize = fileSet.size();
@@ -150,9 +331,10 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 						String fileSetItem = fileSet.getSelectedString(count);
 						fileCombo.add(fileSetItem, count);
 					}
-					fileCombo.select(0);
-					dataManager.setConfiguredFileName(fileSet
-							.getSelectedString(0));
+					selectSilent(fileCombo, 0);
+					String currentFileName = fileSet.getSelectedString(0);
+					dataManager.setConfiguredFileName(currentFileName);
+					myConfiguration.setDataFileName(currentFileName);
 				}
 			} else {
 				// //////
@@ -161,14 +343,16 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 	}
 
 	/**
-	 * Dummy method.
-	 * 
-	 * When the filename is changed nothing has to be done.
-	 * 
 	 * @throws ConfigurationException
 	 */
 	private void updateFile(String newText) throws ConfigurationException {
-		dataManager.setConfiguredFileName(newText);
+		if ((newText != null)
+				&& (!newText
+						.equalsIgnoreCase(myConfiguration.getDataFileName()))) {
+			helpGroup.getTheModal().setChanged(true);
+			dataManager.setConfiguredFileName(newText);
+			myConfiguration.setDataFileName(newText);
+		}
 	}
 
 	private void handleErrorMessage(Exception e,

@@ -72,7 +72,6 @@ public abstract class TabPlatform extends Tab {
 		});
 	}
 
-
 	/**
 	 * makes the tabfolder
 	 * 
@@ -83,11 +82,10 @@ public abstract class TabPlatform extends Tab {
 		// superclass and this line would always be called too late.
 		this.listener = (SelectionListener) new NestedTabSelectionListener(this);
 	}
-		
+
 	public Map<String, NestedTab> getNestedTabs() {
 		return nestedTabs;
 	}
-
 
 	public void createContent() throws ConfigurationException {
 		createLowerTabFolder();
@@ -135,12 +133,15 @@ public abstract class TabPlatform extends Tab {
 		try {
 			nestedTab = createNestedTab();
 			// tabName is identifier for the nestedTab to be created
-			log.debug("CREATING NEW NESTEDTAB " + nestedTab);
+			log.debug("Adding new nestedTab: " + nestedTab.getName());
 			nestedTabs.put(nestedTab.getName(), nestedTab);
 			// select the tab that is created
 			int index = getNumberOfTabs() - 1;
-			log.fatal("index of selectedtabItem: " + index);
+			log.debug("index of selectedtabItem: " + index);
 			this.tabFolder.setSelection(index);
+			log.debug("selectedtabItem.getText(): "
+					+ tabFolder.getItem(index).getText());
+
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			throw new ConfigurationException(e);
@@ -167,17 +168,21 @@ public abstract class TabPlatform extends Tab {
 		for (String keyValue : defaultTabKeyValues) {
 			concatDefTabKeyVals.append(keyValue + ", ");
 		}
-		log.debug("defaultTabKeyValues111" + concatDefTabKeyVals);
+		log.debug("concatDefTabKeyVals: " + concatDefTabKeyVals);
 		// the tab created is given the values of the configuration Map for
 		// which to create the tab
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
-			log.debug("defaultTabKeyValue222" + defaultTabKeyValue);
+			log.debug("defaultTabKeyValue: " + defaultTabKeyValue);
 			NestedTab nestedTab = createNestedDefaultTab(keyValues);
-			log.debug("CREATING DEFAULT NESTEDTABS " + nestedTab);
 			if (nestedTab != null)
+				log.debug("Created nestedTab: " + nestedTab.getName());
+			// In the relativeRisksPlatform the nestedtab is directly placed in
+			// the collection.
+			if (!nestedTabs.containsKey(nestedTab.getName())) {
 				this.nestedTabs.put(nestedTab.getName(), nestedTab);
+			}
 		}
 		try {
 			this.redraw_FromManager();
@@ -205,21 +210,25 @@ public abstract class TabPlatform extends Tab {
 
 		// Remove the tab that is selected now
 		int index = tabFolder.getSelectionIndex();
-		log.debug("index" + index);
+		log.debug("Going to remove tab at tabItem index" + index);
 		NestedTab removedNestedTab;
 		// Tabs with index -1 or lower do not exist
 		if (index > -1) {
 			log.debug("EXISTING NestedTabs: " + this.nestedTabs);
 			TabItem tabItem = tabFolder.getItem(index);
 			removedNestedTab = nestedTabs.get(tabItem.getText());
+			log.debug("TabItem text: " + tabItem.getText() + " tab: "
+					+ removedNestedTab);
 			// Remove the data from the data object model
-			deleteNestedTab(removedNestedTab);
+			deleteNestedTabPlusData(removedNestedTab);
 			tabItem.dispose();
 		}
-
+		log.debug("After removal: " + tabFolder.getItems().length + " Items, "
+				+ nestedTabs.size() + " tabs");
 		// Renumber the items
 		this.renumberAndRenameItems();
-
+		log.debug("After renumber: " + tabFolder.getItems().length + " Items, "
+				+ nestedTabs.size() + " tabs");
 		// Redraw the tabPlatform
 		try {
 			this.redraw_FromManager();
@@ -231,7 +240,7 @@ public abstract class TabPlatform extends Tab {
 	}
 
 	// Delete an abstract tab
-	public abstract void deleteNestedTab(NestedTab removedNestedTab)
+	public abstract void deleteNestedTabPlusData(NestedTab removedNestedTab)
 			throws ConfigurationException;
 
 	private void renumberAndRenameItems() {
