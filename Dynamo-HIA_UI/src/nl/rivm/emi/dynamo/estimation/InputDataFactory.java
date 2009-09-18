@@ -1082,9 +1082,9 @@ public class InputDataFactory {
 					|| scenInfo.get(scen).prevFileName
 							.compareToIgnoreCase(this.riskFactorPrevFileName) == 0)
 				scenarioInfo.setInitialPrevalenceType(false, scen);
-			else {
+			else
 				scenarioInfo.setInitialPrevalenceType(true, scen);
-
+			if (scenInfo.get(scen).prevFileName.compareToIgnoreCase("none") != 0) {
 				String completePrevFileName = this.baseDir + File.separator
 						+ referenceDataDir + File.separator + riskFactorDir
 						+ File.separator + this.riskFactorName + File.separator
@@ -1732,10 +1732,10 @@ public class InputDataFactory {
 				}
 
 				else if (scenInfo != null)
-					scenInfo.getAlternativeTransitionMatrix()[scenNumber] = this.factory
+					scenInfo.setAlternativeTransitionMatrix( this.factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
-									"to", "percent");
+									"to", "percent"),scenNumber);
 				else
 					throw new DynamoConfigurationException(
 							"Both scenInfo and Input data are null in method"
@@ -1774,35 +1774,53 @@ public class InputDataFactory {
 						dynamoErrorMessage, e, configFileName);
 			}
 			if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_zero") {
-				inputData.setTransType(0);
+				if (inputData != null) {
+					inputData.setTransType(0);
+				} else if (scenInfo != null)
+					scenInfo.setZeroTransition(true, scenNumber);
+
 			}
 
 			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_netto") {
-				inputData.setTransType(1);
+				if (inputData != null) {
+					inputData.setTransType(1);
+				} else
+					throw new DynamoConfigurationException(
+							"netto transition file not possbile for alternative scenario."
+									+ "For alternative scenario's one should enter an explicite file");
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift") {
-				inputData.setTransType(2);
-				inputData.setMeanDrift(this.factory.manufactureOneDimArray(
-						configFileName, "transitionmatrix", "transition",
-						"mean", true));
-				/*
-				 * obsolete but kept for potential future use
-				 * inputData.setStdDrift(factory.manufactureOneDimArray(
-				 * configFileName, "transitionmatrix", "transition",
-				 * "standarddevivation", true));
-				 * inputData.setOffsetDrift(factory.manufactureOneDimArray(
-				 * configFileName, "transitionmatrix", "transition", "skewness",
-				 * true));
-				 */
-			}
+			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift"){
+				if (inputData != null) {
+					inputData.setTransType(2);
+					inputData.setMeanDrift(this.factory.manufactureOneDimArray(
+							configFileName, "transitionmatrix", "transition",
+							"mean", true));
+					
+					
+					
+				} else if (scenInfo != null)
+					scenInfo.setMeanDrift(this.factory.manufactureOneDimArray(
+							configFileName, "transitionmatrix", "transition",
+							"mean", true),scenNumber);
+					/*
+					 * obsolete but kept for potential future use inputData
+					 * .setStdDrift(factory.manufactureOneDimArray(
+					 * configFileName, "transitionmatrix", "transition",
+					 * "standarddevivation", true)); inputData.setOffsetDrift
+					 * (factory.manufactureOneDimArray( configFileName,
+					 * "transitionmatrix", "transition", "skewness", true));
+					 */
+				}
 
-			else
-				throw new DynamoConfigurationException(" Tagname "
-						+ "transitionmatrix (_zero,_netto) "
-						+ " expected in main simulation configuration file "
-						+ "but found tag "
-						+ ((XMLConfiguration) config).getRootElementName());
+				else
+					throw new DynamoConfigurationException(
+							" Tagname "
+									+ "transitionmatrix (_zero,_netto) "
+									+ " expected in main simulation configuration file "
+									+ "but found tag "
+									+ ((XMLConfiguration) config)
+											.getRootElementName());
 		}
 	}
 

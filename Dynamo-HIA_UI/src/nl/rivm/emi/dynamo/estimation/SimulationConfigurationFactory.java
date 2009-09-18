@@ -186,18 +186,18 @@ public class SimulationConfigurationFactory {
 		// in the rule to prevent using wrong configuration file with wrong rule
 		// not essential
 		int riskType = parameters.getRiskType();
-
-		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
+ 
+		for (int population = 0; population < scenInfo.getNPopulations(); population++) {
 
 			String ConfigXMLfileName = null;
-
+            int scenarioNumber=scenInfo.getPopToScenIndex()[population];
 			/*
 			 * 
 			 * write rule for categorical risk factor
 			 */
 			if (riskType == 1 || riskType == 3) {
 
-				if (scen == 0) {
+				if (population == 0) {
 					ConfigXMLfileName = directoryName + File.separator 
 							+ "modelconfiguration" + File.separator
 							+ "rule" + ((Integer) ruleNumber).toString()
@@ -208,7 +208,7 @@ public class SimulationConfigurationFactory {
 					ConfigXMLfileName = directoryName + File.separator 
 							+ "modelconfiguration" + File.separator
 							+ "rule" + ((Integer) ruleNumber).toString()
-							+ "_scen_" + scen + ".xml";
+							+ "_scen_" + population + ".xml";
 				}
 
 				Document document = newDocument(fileName);
@@ -226,7 +226,7 @@ public class SimulationConfigurationFactory {
 				/*
 				 * NB : if zerotransitions, then write nullTransition=1
 				 */
-				if (scen == 0) {
+				if (population == 0) {
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
@@ -245,9 +245,9 @@ public class SimulationConfigurationFactory {
 								"1");
 						
 					}
-				} else {
-					if (scenInfo.isZeroTransition(scen - 1)
-							|| (!scenInfo.getTransitionType(scen - 1) && parameters
+				} else { /* reference scen: population=0, so scen-1 is scenarionumber */
+					if (scenInfo.isZeroTransition(scenarioNumber)
+							|| (!scenInfo.getTransitionType(scenarioNumber) && parameters
 									.isZeroTransition())) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
@@ -260,15 +260,15 @@ public class SimulationConfigurationFactory {
 					{
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
-								+ "transitionrates_scen_" + scen
+								+ "transitionrates_scen_" + population
 								+ ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
 						writeFinalElementToDom(rootElement, "transitionFile",
 								fileName);
-						if (scenInfo.getTransitionType(scen - 1))
+						if (scenInfo.getTransitionType(scenarioNumber))
 							writeThreeDimArray(scenInfo
-									.getTransitionMatrix(scen - 1),
+									.getTransitionMatrix(scenarioNumber),
 									"transitionMatrix", "transitionRates",
 									fileName);
 
@@ -297,7 +297,7 @@ public class SimulationConfigurationFactory {
 			 * write rule for continuous risk factor
 			 */
 			else {
-				if (scen == 0) {
+				if (population == 0) {
 					fileName = directoryName + File.separator
 							+ "parameters" + File.separator 
 							+ "transitiondrift.xml";
@@ -311,7 +311,7 @@ public class SimulationConfigurationFactory {
 					ConfigXMLfileName = directoryName + File.separator 
 							+ "modelconfiguration" + File.separator
 							+ "rule" + ((Integer) ruleNumber).toString()
-							+ "_scen_" + scen + ".xml";
+							+ "_scen_" + population + ".xml";
 				}
 
 				Document document = newDocument("rule3");
@@ -342,7 +342,7 @@ public class SimulationConfigurationFactory {
 										+ parameters.getRiskTypeDistribution());
 				}
 
-				if (scen == 0) {
+				if (population == 0) {
 					/* for some reason nullTransition=0 for a nulltransition */
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
@@ -389,8 +389,8 @@ public class SimulationConfigurationFactory {
 
 					}
 				} else {
-					if (scenInfo.isZeroTransition(scen - 1)
-							|| (!scenInfo.getTransitionType(scen - 1) && parameters
+					if (scenInfo.isZeroTransition(scenarioNumber)
+							|| (!scenInfo.getTransitionType(scenarioNumber) && parameters
 									.isZeroTransition())) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
@@ -402,13 +402,13 @@ public class SimulationConfigurationFactory {
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
 								+ "meanDriftRiskFactor_scen_"
-								+ scen + ".xml";
+								+ population + ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
 						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", fileName);
-						if (scenInfo.getTransitionType(scen - 1))
-							writeOneDimArray(scenInfo.getMeanDrift(scen - 1),
+						if (scenInfo.getTransitionType(scenarioNumber))
+							writeOneDimArray(scenInfo.getMeanDrift(scenarioNumber),
 									"meandrift", "meandrift", fileName);
 						else
 							writeOneDimArray(parameters.getMeanDrift(),

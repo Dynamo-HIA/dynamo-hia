@@ -18,6 +18,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -35,24 +36,38 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import com.sun.org.apache.bcel.internal.generic.PopInstruction;
 
 public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private int numberOfElements;
 	private String globalBaseDir;
 	private boolean incidenceDebug = true;
+	private Shell parentShell;
+	private ProgressBar bar = null;
+	private float[][][][][] prevalenceTransitionMatrix = null;
+	private int riskType = 0;
+
+	/* indexes are: scenario, age ,sex, transitionmatrix */
 
 	/* number of disease states */
 
 	/**
 	 * @author Boshuizh This class generates the initial population and
 	 *         populations of newborns
+	 * @param shell
 	 */
-	public InitialPopulationFactory(String baseDir) {
+	public InitialPopulationFactory(String baseDir, Shell shell) {
 		this.globalBaseDir = baseDir;
+		this.parentShell = shell;
 	}
 
 	/**
@@ -181,7 +196,8 @@ public class InitialPopulationFactory {
 		if (this.incidenceDebug)
 			this.numberOfElements += parameters.getNDiseases();
 		int nClasses = 1;
-		if (parameters.getRiskType() != 2)
+		this.riskType = parameters.getRiskType();
+		if (this.riskType != 2)
 			nClasses = parameters.getPrevRisk()[0][0].length;
 		int[][] nDuurClasses = new int[96][2];
 		int[] cumulativeNSimPerClass;
@@ -194,15 +210,19 @@ public class InitialPopulationFactory {
 		int[][] nSimNew = new int[96][2];
 
 		Random rand = new Random(seed); // used to draw the initial population
-		MTRand rand2 = new MTRand(seed + 1); /*
-											 * used to generate seeds which are
-											 * entered as information with each
-											 * generated individual, and will be
-											 * used by the update rules // TODO
-											 * inlezen baseDir aanpassen aan
-											 * userinterface
-											 */
-
+		MTRand rand2 = new MTRand(seed + 111777444); /*
+													 * used to generate seeds
+													 * which are entered as
+													 * information with each
+													 * generated individual, and
+													 * will be used by the
+													 * update rules // TODO
+													 * inlezen baseDir aanpassen
+													 * aan userinterface
+													 */
+		Random rand3 = new Random(seed); // used to draw the scenario population
+		// here the seed is reset by hand, so it does not matter that it used
+		// the same seed here
 		/* make a table of point from the inverse normal distribution */
 		if (parameters.getRiskType() == 2)
 			DynamoLib.getInstance(nSim);
@@ -217,17 +237,19 @@ public class InitialPopulationFactory {
 		 * all subjects that are potentially changed under each scenario.
 		 */
 
-		int nPopulations = scenarioInfo.getNScenarios() + 1;
+		int nPopulations = scenarioInfo.getNPopulations();
+		int firstOneForAllPop = scenarioInfo.getFirstOneForAllPop();
+		boolean isAtLeastOneAllForOnePopulation = false;
+		if (firstOneForAllPop >= 0)
+			isAtLeastOneAllForOnePopulation = true;
+		boolean[] isOneForAllPopulation = scenarioInfo
+				.getthisScenarioUsedOneForAllPop();
 
-		if (scenarioInfo.getRiskType() != 2)
-			for (int scennum = 1; scennum < scenarioInfo.getNScenarios(); scennum++) {
-				if (scenarioInfo.getInitialPrevalenceType()[scennum]
-						&& (!scenarioInfo.getTransitionType()[scennum]))
-					nPopulations--;
-			}
+		/* add the one-for-all-scenario that still needs to be simulated */
+		if (scenarioInfo.getNTranstionScenarios() != 0
+				&& scenarioInfo.getRiskType() != 2)
+			makeTransitionMatrixForPrevalence(parameters, scenarioInfo);
 
-		else
-			nPopulations = +scenarioInfo.getNScenarios() + 1;
 		Population[] initialPopulation = new Population[nPopulations];
 		/* initialize the ranges for the populations to generate */
 
@@ -241,9 +263,17 @@ public class InitialPopulationFactory {
 			agemin = 0;
 		if (newborns)
 			agemax = 0;
+		if (this.bar == null) {
+			if (scenarioInfo.isWithNewBorns()) {
+				makeProgressBar(scenarioInfo.getYearsInRun()
+						+ scenarioInfo.getMaxSimAge()
+						- scenarioInfo.getMinSimAge() + 1);
+			} else {
+				makeProgressBar(scenarioInfo.getMaxSimAge()
+						- scenarioInfo.getMinSimAge());
 
-		/* initialize populations */
-
+			}
+		}
 		for (int scen = 0; scen < nPopulations; scen++) {
 			initialPopulation[scen] = new Population(simulationName, null);
 		}
@@ -251,9 +281,9 @@ public class InitialPopulationFactory {
 		 * see which riskfactor classes should be changed into another class in
 		 * the one-for-all scenario population
 		 */
+
 		boolean[][][][] shouldChangeInto = null;
-		if (nPopulations > 1 && parameters.getRiskType() != 2
-				&& scenarioInfo.getInitialPrevalenceType()[0]) {
+		if (isAtLeastOneAllForOnePopulation) {
 			int nCat = parameters.getPrevRisk()[0][0].length;
 			float[] RR = new float[nCat];
 			shouldChangeInto = new boolean[agemax + 1][2][nCat][nCat];
@@ -268,18 +298,19 @@ public class InitialPopulationFactory {
 			for (int a = agemin; a < agemax + 1; a++)
 				for (int g = 0; g < 2; g++)
 					for (int s = 0; s < scenarioInfo.getNScenarios(); s++) {
+						if (isOneForAllPopulation[s]) {
+							float oldPrev[] = parameters.getPrevRisk()[a][g];
+							float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
+							float[][] trans = NettTransitionRateFactory
+									.makeNettTransitionRates(oldPrev, newPrev,
+											0, RR);
+							for (int r1 = 0; r1 < nCat; r1++)
+								for (int r2 = 0; r2 < nCat; r2++) {
+									if (r1 != r2 && trans[r1][r2] > 0)
+										shouldChangeInto[a][g][r1][r2] = true;
+								}
 
-						float oldPrev[] = parameters.getPrevRisk()[a][g];
-						float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
-						float[][] trans = NettTransitionRateFactory
-								.makeNettTransitionRates(oldPrev, newPrev, 0,
-										RR);
-						for (int r1 = 0; r1 < nCat; r1++)
-							for (int r2 = 0; r2 < nCat; r2++) {
-								if (r1 != r2 && trans[r1][r2] > 0)
-									shouldChangeInto[a][g][r1][r2] = true;
-							}
-
+						}
 					}
 		}
 
@@ -307,6 +338,10 @@ public class InitialPopulationFactory {
 		for (int a = agemin; a <= agemax; a++)
 			for (int g = 0; g < 2; g++) {
 				nSimNew[a][g] = nSim;
+				if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
+
+					updateProgressBar();
+
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
 				cumulativeNSimPerDurationClass = new int[nDuurClasses[a][g]];
@@ -554,7 +589,11 @@ public class InitialPopulationFactory {
 					stepsInSimulation = scenarioInfo.getYearsInRun();
 
 				/* for newborns repeat this for all generations */
-				for (int generation = 1; generation <= generationMax; generation++)
+				for (int generation = 1; generation <= generationMax; generation++) {
+					if (Math.abs(Math.round(generation / 10) - generation / 10) < 0.01
+							&& g == 1)
+
+						updateProgressBar();
 					for (int i = 0; i < nSimNew[a][g]; i++) {
 						/*
 						 * werktte niet omdat Class Individual protected;
@@ -744,58 +783,113 @@ public class InitialPopulationFactory {
 
 						initialPopulation[0].addIndividual(currentIndividual);
 
+						/* ******************************************************************************************/
+
 						/*
+						 * GENERATION OF SCENARIO POPULATIONS
 						 * 
 						 * 
-						 * GENERATE SCENARIO POPULATIONS
+						 * This is done for 3 cases:
+						 * 
+						 * 1.- different initial risk factor prevalence, not
+						 * handled through one-for-all-population
+						 * 
+						 * 2.- different initial risk factor prevalence handled
+						 * by one-for-all-population
+						 * 
+						 * 3.- same initial prevalence: just copy reference
+						 * population
+						 * 
+						 * 3 is done in a separate loop (not for this
+						 * individual).
+						 * 
+						 * 
+						 * The numbering of the population is in the order of
+						 * the scenario's. So if the one-for-all scenario is
+						 * only the 4th scenario (=scennum=3), population 4 will
+						 * be the one-for-all population (population 0 is
+						 * reference population)
+						 * 
+						 * 
+						 * /
+						 * 
+						 * 
+						 * GENERATE SCENARIO POPULATIONS WITH DIFFERENT INITIAL
+						 * PREVALENCE DISTRIBUTIONS (but not an all-for-one
+						 * population)
 						 */
 
 						/*
 						 * 
+						 * There are two cases for which this needs to be done:
+						 * 1. for continuous riskfactors with different initial
+						 * populations and 2. categorical where both initial
+						 * population and transition rates are changed
 						 * 
-						 * 1. for continuous riskfactors:
+						 * (if there exist oneForAll populations and there are
+						 * only 2 populations, this means no such situation
+						 * exists and than this part can be skipped)
 						 */
 
-						if (parameters.getRiskType() == 2) {
-							int currentscen = 0;
-							for (int population = 1; population < nPopulations; population++) {
+						int currentscen = 0;
+						int currentpop = 0;
+						boolean moreScenarios = true;
+						if (isAtLeastOneAllForOnePopulation
+								&& nPopulations == 2)
+							moreScenarios = false;
+
+						while (currentpop < nPopulations && moreScenarios) {
+
+							/*
+							 * look for next scenario that has an different
+							 * initial prevalence (intialprevalencetype) and is
+							 * not an all for One Population type
+							 */
+
+							for (int i1 = currentscen; i1 < scenarioInfo
+									.getNScenarios(); i1++) {
+								/*
+								 * find the population number that belongs to
+								 * the current scenario
+								 */
+								if (!isOneForAllPopulation[i1])
+									currentpop++;
+								if (!isOneForAllPopulation[i1]
+										&& scenarioInfo
+												.getInitialPrevalenceType()[i1]) {
+									currentscen = i1;
+									break;
+								}
+								/* if no such scenario is found */
+								if (i1 == scenarioInfo.getNScenarios() - 1)
+									moreScenarios = false;
+							}
+
+							/* now give the values to the individual */
+							/*
+							 * first check if there is a population to be made
+							 */
+							if (moreScenarios) {
+								currentIndividual = new Individual("ind",
+										"ind_" + (i + a * nSim * 2 + nSim * g)
+												+ "_" + currentpop);
+								currentIndividual
+										.setRandomNumberGeneratorSeed(seed2);
+								currentIndividual.luxeSet(1,
+										new FloatCharacteristicValue(
+												stepsInSimulation, 1,
+												(float) agestart));
+								currentIndividual.luxeSet(2,
+										new IntCharacteristicValue(
+												stepsInSimulation, 2, g));
 
 								/*
-								 * look for next scenario with initial type =
-								 * true
+								 * for continuous risk factor we just give the
+								 * new distribution, meaning that everyone
+								 * maintains his/her old ranking in the
+								 * population
 								 */
-								for (int i1 = currentscen; i1 < scenarioInfo
-										.getNScenarios(); i1++) {
-									if (scenarioInfo.getInitialPrevalenceType()[i1]) {
-										currentscen = i1;
-										break;
-									}
-									if (i1 == scenarioInfo.getNScenarios() - 1)
-										currentscen = i1 + 1;
-								}
-								if (currentscen < scenarioInfo.getNScenarios()) {
-									currentIndividual = new Individual("ind",
-											"ind_"
-													+ (i + a * nSim * 2 + nSim
-															* g) + "_"
-													+ population);
-									currentIndividual
-											.setRandomNumberGeneratorSeed(seed2);
-									currentIndividual.luxeSet(1,
-											new FloatCharacteristicValue(
-													stepsInSimulation, 1,
-													(float) agestart));
-									currentIndividual.luxeSet(2,
-											new IntCharacteristicValue(
-													stepsInSimulation, 2, g));
-
-									/*
-									 * for continuous risk factor we just give
-									 * the new distribution, meaning that
-									 * everyone maintains his/her old ranking in
-									 * the population
-									 */
-
+								if (parameters.getRiskType() == 2) {
 									if (parameters.getRiskTypeDistribution()
 											.compareToIgnoreCase("normal") == 0)
 										riskFactorValue = (scenarioInfo
@@ -826,39 +920,68 @@ public class InitialPopulationFactory {
 													stepsInSimulation, 3,
 													riskFactorValue));
 
+								}
+
+								/* if categorical risk factor */
+								else {
+									/* get transition matrix */
+
+									float trans[][] = getPrevalenceTransitionMatrix(
+											currentscen, a, g);
 									/*
-									 * newborns and zero year olds are not
-									 * bothered disease histories, so their
-									 * diseases are recalculated from the new
-									 * risk factor state but not the others:
-									 * they keep the disease probabilities based
-									 * on their old risk factors (before
-									 * intervention)
+									 * now we draw using this transition matrix,
+									 * but using the same seed for the same
+									 * individual in this case, if two
+									 * scenario's use the same initial
+									 * prevalence rates, they will get the same
+									 * numbers Also, if they are different, the
+									 * random errors will be correlated so that
+									 * their difference is not influenced by
+									 * this
 									 */
-									if (newborns || a == 0)
 
-										CharValues = calculateDiseaseStates(
-												parameters, currentRiskValue,
-												a, g, riskFactorValue,
-												currentDurationValue);
+									rand3.setSeed(seed2 + 5);
+									DynamoLib.draw(trans[currentRiskValue],
+											rand3);
 
-									currentIndividual.luxeSet(
-											characteristicIndex,
-											new CompoundCharacteristicValue(
+									currentIndividual
+											.add(new IntCharacteristicValue(
 													stepsInSimulation,
 													characteristicIndex,
-													numberOfElements,
-													CharValues));
+													currentRiskValue));
 
-									initialPopulation[population]
-											.addIndividual(currentIndividual);
-									currentscen++;
 								}
-							} // end loop over populations
 
-						} // end for riskType==2
+								/*
+								 * newborns and zero year olds are not bothered
+								 * disease histories, so their diseases are
+								 * recalculated from the new risk factor state
+								 * but not the others: they keep the disease
+								 * probabilities based on their old risk factors
+								 * (before intervention)
+								 */
+								if (newborns || a == 0)
+
+									CharValues = calculateDiseaseStates(
+											parameters, currentRiskValue, a, g,
+											riskFactorValue,
+											currentDurationValue);
+
+								currentIndividual.luxeSet(characteristicIndex,
+										new CompoundCharacteristicValue(
+												stepsInSimulation,
+												characteristicIndex,
+												numberOfElements, CharValues));
+
+								initialPopulation[currentpop]
+										.addIndividual(currentIndividual);
+								currentscen++;
+							}
+						} // end loop over populations of this individual
 
 						/*
+						 * 
+						 * 
 						 * 
 						 * 2. generation of SCENARIO POPULATION for the
 						 * one-for-all population
@@ -941,7 +1064,7 @@ public class InitialPopulationFactory {
 													characteristicIndex,
 													numberOfElements,
 													CharValues));
-									initialPopulation[1]
+									initialPopulation[firstOneForAllPop]
 											.addIndividual(currentIndividual);
 								}
 							}
@@ -1015,52 +1138,117 @@ public class InitialPopulationFactory {
 													characteristicIndex,
 													numberOfElements,
 													CharValues));
-									initialPopulation[1]
+									initialPopulation[firstOneForAllPop]
 											.addIndividual(currentIndividual);
 								}
 							}
-
-					}// end sim loop
+					}
+				}// end sim loop
 				;
 
 			}
 		// end age and sex group
-		/*
-		 * for continuous risk factor, copy the population for the scenario's
-		 * that have the same initial population
-		 */
-		if (parameters.getRiskType() == 2)
-			for (int i1 = 0; i1 < scenarioInfo.getNScenarios(); i1++) {
-				if (!scenarioInfo.getInitialPrevalenceType()[i1]) {
-					initialPopulation[i1 + 1] = deepCopy(initialPopulation[0]);
-				}
-			}
 
+		/*
+		 * 3. for same initial population, copy the population for the
+		 * scenario's that have the same initial population
+		 */
+
+		/* only replace ref in the name by number of currentpop */
+
+		if (parameters.getRiskType() == 2
+				|| !(isAtLeastOneAllForOnePopulation && nPopulations == 2)) {
+
+			for (int i1 = 0; i1 < scenarioInfo.getNScenarios(); i1++) {
+				if (!scenarioInfo.getInitialPrevalenceType()[i1]
+						&& !isOneForAllPopulation[i1]) {
+					initialPopulation[i1 + 1] = deepCopy(initialPopulation[0]);
+
+				}
+
+			}
+		}
+		if (newborns || !scenarioInfo.isWithNewBorns())
+			closeProgressBar();
 		return initialPopulation;
 	}
 
-	/*
-	 * this only works for continuous risk factors at the moment as it is only
-	 * used for that case
-	 */
+	private float[][] getPrevalenceTransitionMatrix(int currentscen, int a,
+			int g) {
+		return this.prevalenceTransitionMatrix[currentscen][a][g];
+	}
+
+	private void makeTransitionMatrixForPrevalence(ModelParameters parameters,
+			ScenarioInfo scenarioInfo) {
+		int nCat = parameters.getPrevRisk()[0][0].length;
+		float[] RR = new float[nCat];
+		Arrays.fill(RR, 1);
+		this.prevalenceTransitionMatrix = new float[scenarioInfo
+				.getNScenarios()][96][2][nCat][nCat];
+		int agemax = scenarioInfo.getMaxSimAge();
+		if (agemax > 95)
+			agemax = 95;
+
+		int agemin = scenarioInfo.getMinSimAge();
+
+		for (int a = agemin; a < agemax + 1; a++)
+			for (int g = 0; g < 2; g++)
+				for (int s = 0; s < scenarioInfo.getNScenarios(); s++) {
+					if (scenarioInfo.getTransitionType()[s]
+							&& scenarioInfo.getInitialPrevalenceType()[s]) {
+						float oldPrev[] = parameters.getPrevRisk()[a][g];
+						float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
+						this.prevalenceTransitionMatrix[s][a][g] = NettTransitionRateFactory
+								.makeNettTransitionRates(oldPrev, newPrev, 0,
+										RR);
+
+					}
+				}
+	}
+
 	private Population deepCopy(Population population) {
 
 		Population copy = new Population(population.getElementName(),
 				population.getLabel());
+		String label = "";
+		String delims = "[_]";
 		for (Individual individual : population) {
-
-			Individual currentIndividual = new Individual("ind", individual
-					.getLabel());
+			label = individual.getLabel();
+		/*	if (this.riskType != 2) {
+				
+				String oldLabel = label;
+				label = "";
+				/* split at the place of the underscore */
+		//		String[] tokens = label.split(delims);
+				/* put together again, but without the last element */
+		//		for (int i = 0; i < tokens.length - 1; i++)
+		//			label = label + tokens[i] + "_";
+		//		int riskValue = ((IntCharacteristicValue) individual.get(3))
+		//				.getRijtje()[0];
+		//		label = label + riskValue + "_" + riskValue;
+		//	}
+			Individual currentIndividual = new Individual("ind", label);
 			currentIndividual.setRandomNumberGeneratorSeed(individual
 					.getRandomNumberGeneratorSeed());
 			currentIndividual.luxeSet(1,
 					deepCopy((FloatCharacteristicValue) individual.get(1)));
 			currentIndividual.luxeSet(2,
 					deepCopy((IntCharacteristicValue) individual.get(2)));
-			currentIndividual.luxeSet(3,
-					deepCopy((FloatCharacteristicValue) individual.get(3)));
-			currentIndividual.luxeSet(4,
-					deepCopy((CompoundCharacteristicValue) individual.get(4)));
+			if (this.riskType == 2)
+				currentIndividual.luxeSet(3,
+						deepCopy((FloatCharacteristicValue) individual.get(3)));
+			if (this.riskType != 2)
+				currentIndividual.luxeSet(3,
+						deepCopy((IntCharacteristicValue) individual.get(3)));
+			int lastIndex = 4;
+			if (this.riskType == 3) {
+				currentIndividual.luxeSet(4,
+						deepCopy((FloatCharacteristicValue) individual.get(4)));
+				lastIndex = 5;
+			}
+			currentIndividual.luxeSet(lastIndex,
+					deepCopy((CompoundCharacteristicValue) individual
+							.get(lastIndex)));
 			copy.addIndividual(currentIndividual);
 		}
 
@@ -1389,6 +1577,35 @@ public class InitialPopulationFactory {
 		}
 	}
 
+	public void makeProgressBar(int length) {
+
+		Shell shell = new Shell(parentShell);
+		shell.setText("Construction of initial population ....");
+		shell.setLayout(new FillLayout());
+		shell.setSize(600, 50);
+
+		this.bar = new ProgressBar(shell, SWT.NULL);
+		this.bar.setBounds(10, 10, 200, 32);
+		this.bar.setMinimum(0);
+
+		shell.open();
+		int size = (length);
+		int step = 10;
+		this.bar.setMaximum(size / step);
+		/* initialize populations */
+		int currentProgress = 0;
+	}
+
+	public void updateProgressBar() {
+
+		int state = this.bar.getSelection();
+		this.bar.setSelection(state++);
+
+	}
+
+	public void closeProgressBar() {
+		this.bar.dispose();
+	}
 	/**
 	 * @param p
 	 * @param sim
