@@ -52,6 +52,10 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 		}	
 	
 	
+	public void setLabel(String label) {
+			this.label = label;
+		}
+
 	public Individual(String elementName, String label) {
 		super();
 		this.elementName = elementName;
