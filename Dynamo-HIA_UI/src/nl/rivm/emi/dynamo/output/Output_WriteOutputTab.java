@@ -121,13 +121,13 @@ public class Output_WriteOutputTab  {
 				
 				if (canWrite) fd.setFilterPath(Output_WriteOutputTab.this.currentPath
 						);
-				String[] filterExt = { "*.xml", "*.*" };
+				String[] filterExt = { "*.xml" };
 				fd.setFilterExtensions(filterExt);
 				if (Output_WriteOutputTab.this.cohortStyle)
-					fd.setFileName("excelcohortdata");
+					fd.setFileName("excelcohortdata.xml");
 
 				if (!Output_WriteOutputTab.this.cohortStyle)
-					fd.setFileName("excelyeardata");
+					fd.setFileName("excelyeardata.xml");
 
 				String path = fd.open();
 
