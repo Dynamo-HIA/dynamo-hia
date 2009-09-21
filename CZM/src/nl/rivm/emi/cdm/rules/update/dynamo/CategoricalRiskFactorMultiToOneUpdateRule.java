@@ -212,7 +212,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 					float [][][][] transmat = new float[96][2][nCat][nCat];
 					ArraysFromXMLFactory factory=new ArraysFromXMLFactory();
 					try {
-						transmat=factory.manufactureThreeDimArray(inputFile, "transitionMatrix", "transitionRates");
+						transmat=factory.manufactureThreeDimArray(inputFile, "transitionmatrix", "transition");
 					} catch (ConfigurationException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
