@@ -259,7 +259,7 @@ extends HealthStateManyToManyUpdateRule {
 						 * Multiply the matrix with the old values (column
 						 * vector)
 						 */
-						double unconditionalNewValues[] = new double[nCombinations[c]];
+						double unconditionalNewValues[] = new double[this.nCombinations[c]];
 
 						/* calculate the healthy state */
 						double currentHealthyState = 1;
@@ -408,6 +408,7 @@ extends HealthStateManyToManyUpdateRule {
 			// Validate the xml by xsd schema
 		// TODO weeraanzetten	configurationFileConfiguration.setValidating(true);			
 			configurationFileConfiguration.load();
+		
 			
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
