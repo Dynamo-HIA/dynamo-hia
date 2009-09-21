@@ -193,30 +193,28 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	@Override
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
-		/* 20090918 */
-		log.fatal("This method has been cleaned out!!!!");
-		// log.debug(name + ": " + selectedValue);
-		// log.fatal("UPDATING OBJECT STATE");
-		//
-		// log.fatal("this.initialSelection" + this.initialSelection);
-		// log.debug("this.singleConfiguration" + this.singleConfiguration);
-		//
-		// // In case a new Tab is created, no model exists yet
-		// if (this.initialSelection.size() == 0
-		// && this.singleConfiguration == null) {
-		// log.debug("CREATING NEW TAB");
-		// createInDynamoSimulationObject();
-		// }
-		//
-		// if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
-		// singleConfiguration.setName(selectedValue);
-		// } else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name))
-		// {
-		// singleConfiguration.setPrevalenceFileName(selectedValue);
-		// } else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
-		// singleConfiguration.setTransitionFileName(selectedValue);
-		// }
-		// updateDynamoSimulationObject();
+		 log.debug(name + ": " + selectedValue);
+		 log.fatal("UPDATING OBJECT STATE");
+		
+		 log.fatal("this.initialSelection" + this.initialSelection);
+		 log.debug("this.singleConfiguration" + this.singleConfiguration);
+		
+		 // In case a new Tab is created, no model exists yet
+		 if (this.initialSelection.size() == 0
+		 && this.singleConfiguration == null) {
+		 log.debug("CREATING NEW TAB");
+		 createInDynamoSimulationObject();
+		 }
+		
+		 if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
+		 singleConfiguration.setName(selectedValue);
+		 } else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name))
+		 {
+		 singleConfiguration.setPrevalenceFileName(selectedValue);
+		 } else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
+		 singleConfiguration.setTransitionFileName(selectedValue);
+		 }
+		 updateDynamoSimulationObject();
 	}
 
 	public void updateDynamoSimulationObject() throws ConfigurationException {

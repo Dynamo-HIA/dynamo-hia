@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.panels.listeners;
+package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
 import java.util.HashSet;
 import java.util.Set;
