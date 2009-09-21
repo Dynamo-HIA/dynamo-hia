@@ -1094,8 +1094,8 @@ public class InputDataFactory {
 					scenarioInfo.setNewPrevalence(this.factory
 							.manufactureTwoDimArray(completePrevFileName,
 									"riskfactorprevalences_categorical",
-									"prevalence", "cat", "percent", false),
-							scen, true);
+									"prevalence", "cat", "percent",false),
+							scen);
 				else {
 					scenarioInfo.setNewMeanSTD(this.factory
 							.manufactureOneDimArrayFromTreeLayeredXML(
@@ -1386,7 +1386,7 @@ public class InputDataFactory {
 		if (this.riskFactorType != 2) {
 			inputData.setPrevRisk(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_categorical",
-					"prevalence", "cat", "percent", false), true);
+					"prevalence", "cat", "percent", false));
 			scenarioInfo.setOldPrevalence(inputData.getPrevRisk());
 
 		} else {
@@ -1423,7 +1423,7 @@ public class InputDataFactory {
 
 			inputData.setDuurFreq(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_duration",
-					"prevalence", "duration", "percent", false), true);
+					"prevalence", "duration", "percent", false));
 			scenarioInfo.setOldDurationClasses(inputData.getDuurFreq());
 		}
 
@@ -2415,14 +2415,14 @@ public class InputDataFactory {
 		for (int g = 0; g < 2; g++) {
 			if (medianSurvival[95][g] == 0)
 				throw new DynamoInconsistentDataException(
-						"median survival of zero is not"
+						"median survival of zero for disease "+diseaseLabel+" is not"
 								+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
 			drate[95][g] = (log2 / medianSurvival[95][g]);
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
 				if (medianSurvival[a][g] == 0)
 					throw new DynamoInconsistentDataException(
-							"median survival of zero is not"
+							"median survival of zero for disease "+diseaseLabel+" is not"
 									+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
 				medianAge = a + medianSurvival[a][g] + 0.5;
 				yearOfMedian = Math.floor(medianAge);

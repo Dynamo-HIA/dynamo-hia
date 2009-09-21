@@ -236,7 +236,7 @@ public class SimulationConfigurationFactory {
 						writeFinalElementToDom(rootElement, "transitionFile",
 								fileName);
 						writeThreeDimArray(parameters.getTransitionMatrix(),
-								"transitionMatrix", "transitionRates", fileName);
+								"transitionmatrix", "transition", fileName,true);
 						
 					} else {
 						writeFinalElementToDom(rootElement, "transitionFile",
@@ -269,14 +269,14 @@ public class SimulationConfigurationFactory {
 						if (scenInfo.getTransitionType(scenarioNumber))
 							writeThreeDimArray(scenInfo
 									.getTransitionMatrix(scenarioNumber),
-									"transitionMatrix", "transitionRates",
-									fileName);
+									"transitionmatrix", "transition",
+									fileName,true);
 
 						else
 							writeThreeDimArray(
 									parameters.getTransitionMatrix(),
-									"transitionMatrix", "transitionRates",
-									fileName);
+									"transitionmatrix", "transition",
+									fileName,true);
 						;
 					}
 				}
@@ -584,7 +584,7 @@ public class SimulationConfigurationFactory {
 
 			writeThreeDimArray(extractFromThreeDimArray(parameters
 					.getRelRiskDiseaseOnDisease(), c), "relativeRisks",
-					"relativeRisk", fileName);
+					"relativeRisk", fileName,false);
 
 		}
 		/* write the other mortality data */
@@ -1192,8 +1192,17 @@ public class SimulationConfigurationFactory {
 
 	}
 
+	/**write an xml file (lower level tags are age/sex/from/to/value or percent
+	 * @param arrayToWrite array that should be written
+	 * @param globalTag global (=first) tag of xml file
+	 * @param tag second level tag
+	 * @param fileName
+	 * @param percent (boolean): if true, the values are multiplied with 100 before writing,
+	 * and the tag "percent" is used for them 
+	 * @throws DynamoConfigurationException
+	 */
 	private void writeThreeDimArray(float[][][][] arrayToWrite,
-			String globalTag, String tag, String fileName)
+			String globalTag, String tag, String fileName,  boolean percent)
 			throws DynamoConfigurationException {
 
 		int dim1 = arrayToWrite.length;
@@ -1217,10 +1226,13 @@ public class SimulationConfigurationFactory {
 								.toString());
 						writeFinalElementToDom(element, "sex", ((Integer) g)
 								.toString());
-						writeFinalElementToDom(element, "from", ((Integer) c)
+						writeFinalElementToDom(element, "from", ((Integer) (c+1))
 								.toString());
-						writeFinalElementToDom(element, "to", ((Integer) d)
+						writeFinalElementToDom(element, "to", ((Integer) (d+1))
 								.toString());
+						if (percent) writeFinalElementToDom(element, "percent",
+								((Float)(100.0F*arrayToWrite[a][g][c][d])).toString());
+						else 
 						writeFinalElementToDom(element, "value",
 								((Float) arrayToWrite[a][g][c][d]).toString());
 

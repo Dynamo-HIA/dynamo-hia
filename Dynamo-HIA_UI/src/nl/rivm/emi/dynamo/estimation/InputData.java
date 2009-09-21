@@ -455,30 +455,7 @@ public class InputData {
 		return deepcopy(prevRisk);
 	}
 
-	public void setPrevRisk(float[][][] prevRiskIn)
-			throws DynamoInconsistentDataException {
-
-		float checksum = 0;
-
-		for (int a = 0; a < 96; a++)
-			for (int g = 0; g < 2; g++) {
-				checksum = 0;
-				for (int r = 0; r < prevRiskIn[0][0].length; r++) {
-
-					this.prevRisk[a][g][r] = prevRiskIn[a][g][r];
-					checksum += this.prevRisk[a][g][r];
-					;
-				}
-				if (Math.abs(checksum - 1) > 0.00001)
-					throw new DynamoInconsistentDataException(
-							" risk factor prevalence does not"
-									+ " sum to 100% for age=" + a
-									+ " and gender:" + g + " but sums to "
-									+ (checksum * 100));
-			}
-
-		this.prevRisk = prevRisk;
-	}
+	
 
 	public float[][] getMeanRisk() {
 		return meanRisk.clone();
@@ -624,21 +601,18 @@ public class InputData {
 	 * @param input
 	 *            : array (float[][][]) of prevalence of risk factor (indexes:
 	 *            age, sex, risk category)
-	 * @param percent
-	 *            : boolean telling whether input is in percent
+	 * 
 	 */
 
-	public void setDuurFreq(float[][][] input, boolean percent) {
+	public void setDuurFreq(float[][][] input) {
 
-		if (percent) {
+		
 			this.duurFreq = new float[96][2][input[0][0].length];
 			for (int a = 0; a < 96; a++)
 				for (int g = 0; g < 2; g++)
 					for (int r = 0; r < input[0][0].length; r++)
-						this.duurFreq[a][g][r] = input[a][g][r] / 100;
-		} else
-			this.duurFreq = input;
-	}
+						this.duurFreq[a][g][r] = input[a][g][r] ;}
+		
 
 	public float[][] getRrAlphaMort() {
 		return deepcopy(alphaMort);
@@ -728,7 +702,7 @@ public class InputData {
 	 *            : boolean telling whether input is in percent
 	 * @throws DynamoInconsistentDataException
 	 */
-	public void setPrevRisk(float[][][] input, boolean percent)
+	public void setPrevRisk(float[][][] input)
 			throws DynamoInconsistentDataException {
 
 		float checksum = 0;
@@ -738,9 +712,7 @@ public class InputData {
 			for (int g = 0; g < 2; g++) {
 				checksum = 0;
 				for (int r = 0; r < input[0][0].length; r++) {
-					if (percent)
-						this.prevRisk[a][g][r] = input[a][g][r] / 100;
-					else
+					
 						this.prevRisk[a][g][r] = input[a][g][r];
 					checksum += this.prevRisk[a][g][r];
 					;

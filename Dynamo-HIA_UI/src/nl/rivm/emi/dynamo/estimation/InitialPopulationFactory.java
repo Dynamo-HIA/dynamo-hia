@@ -832,7 +832,7 @@ public class InitialPopulationFactory {
 						 */
 
 						int currentscen = 0;
-						int currentpop = 0;
+						int currentpop = 1; // population 0 is the reference population 
 						boolean moreScenarios = true;
 						if (isAtLeastOneAllForOnePopulation
 								&& nPopulations == 2)
@@ -1604,7 +1604,8 @@ public class InitialPopulationFactory {
 	}
 
 	public void closeProgressBar() {
-		this.bar.dispose();
+		this.bar.getShell().close();
+		
 	}
 	/**
 	 * @param p

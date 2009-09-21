@@ -2278,7 +2278,8 @@ public class ModelParameters {
 		} // einde herhaling schatting van Attributable mortality
 		if (niter == 10)
 			this.log
-					.fatal(" negative attributable mortality estimated after 10 iterations!!");
+					.fatal(" negative attributable mortality estimated after 10 iterations!! /n" +
+							"Message given for age "+age+" and gender "+sex );
 		// TODO throw exception
 
 		/*
