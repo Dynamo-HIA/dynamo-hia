@@ -42,9 +42,7 @@ public class ArraysFromXMLFactory {
 		super();
 
 	}
-    
-	
-	
+
 	/**
 	 * the method produces a two dimensional array from flat XML containing
 	 * particular model parameters by age, sex .
@@ -60,7 +58,8 @@ public class ArraysFromXMLFactory {
 	 * @param tagName
 	 *            : tag of the individual items in the file
 	 * @param otherTags
-	 *            : boolean indicating (if true) that other tags are allowed to be present            
+	 *            : boolean indicating (if true) that other tags are allowed to
+	 *            be present
 	 * @return two dimensional array (float[96][2]) of parameters by age and sex
 	 * @throws DynamoConfigurationException
 	 */
@@ -85,9 +84,10 @@ public class ArraysFromXMLFactory {
 	 *            : tag of the individual items in the file
 	 * @param valueTagName
 	 *            : tag of the element containing the value to be read
-	 *            (optional)
+	 *            (optional) this can also be percent without being given here,
+	 *            and in that case values are divided by 100 before storing them
 	 * @return two dimensional array (float[96][2]) of parameters by age and sex
-	 * @throws ConfigurationException 
+	 * @throws ConfigurationException
 	 */
 	public float[][] manufactureOneDimArray(String fileName,
 			String globalTagName, String tagName, String valueTagName,
@@ -108,39 +108,43 @@ public class ArraysFromXMLFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-						
+
 			/**
-			TODO: VALIDATION IS FOR FUTURE USE 
-			NICE TO HAVE FEATURE
-			KEEP IT IN THE CODE
-			
-			The following schemas are not validated:
-			baselineOtherMortalities.xsd
-			baselineIncidences.xsd
-			baselineFatalIncidences.xsd
-			attributableMortalities.xsd
-			*/
-			
-			if (!"baselineOtherMortalities".equals(configurationFromFile.getRootElementName())
-					&& !"baselineIncidences".equals(configurationFromFile.getRootElementName())
-					&& !"baselineFatalIncidences".equals(configurationFromFile.getRootElementName())
-					&& !"attributableMortalities".equals(configurationFromFile.getRootElementName())
-			
+			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
+			 * IN THE CODE
+			 * 
+			 * The following schemas are not validated:
+			 * baselineOtherMortalities.xsd baselineIncidences.xsd
+			 * baselineFatalIncidences.xsd attributableMortalities.xsd
+			 */
+
+			if (!"baselineOtherMortalities".equals(configurationFromFile
+					.getRootElementName())
+					&& !"baselineIncidences".equals(configurationFromFile
+							.getRootElementName())
+					&& !"baselineFatalIncidences".equals(configurationFromFile
+							.getRootElementName())
+					&& !"attributableMortalities".equals(configurationFromFile
+							.getRootElementName())
+
 			) {
 				// Validate the xml by xsd schema
-				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// WORKAROUND: clear() is put after the constructor (also calls
+				// load()).
 				// The config cannot be loaded twice,
 				// because the contents will be doubled.
 				configurationFromFile.clear();
-	
+
 				// Validate the xml by xsd schema
-				// TODO weer aanzetten, maar dan moeten alle schemas wel kloppen en dat
-				// doen ze zo niet, bijv relative risk kan zowel van continue als cat zijn, 
+				// TODO weer aanzetten, maar dan moeten alle schemas wel kloppen
+				// en dat
+				// doen ze zo niet, bijv relative risk kan zowel van continue
+				// als cat zijn,
 				// terwijl schema alleen voor cat
-				// configurationFromFile.setValidating(true);			
+				// configurationFromFile.setValidating(true);
 				configurationFromFile.load();
 			}
-			
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
 			if (configurationFromFile.getRootElementName() != globalTagName)
@@ -175,10 +179,11 @@ public class ArraysFromXMLFactory {
 
 			return returnArray;
 		} catch (ConfigurationException e) {
-			String cdmErrorMessage = "Caught Exception of type: " + e.getClass().getName()
-					+ " with message: " + e.getMessage() + "from file "
-					+ fileName;
-			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e, fileName);
+			String cdmErrorMessage = "Caught Exception of type: "
+					+ e.getClass().getName() + " with message: "
+					+ e.getMessage() + "from file " + fileName;
+			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e,
+					fileName);
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -191,32 +196,34 @@ public class ArraysFromXMLFactory {
 		}
 		return returnArray;
 	}
+
 	/**
 	 * the method produces a two dimensional array from flat XML containing
-	 * particular model parameters by age, sex . In this case there are three tags "above" 
-	 * the data to read (in stead of two)
+	 * particular model parameters by age, sex . In this case there are three
+	 * tags "above" the data to read (in stead of two)
 	 * 
 	 * @param fileName
 	 *            : name of xml.file to be read (including the extension .xml)
 	 * @param globalTagName
 	 *            : root tag in the file
-	 * @param tagName1  : first nested  tag of the individual items in the file
-	 * @param tagName2 
-	
+	 * @param tagName1
+	 *            : first nested tag of the individual items in the file
+	 * @param tagName2
+	 * 
 	 *            : second nested tag of the individual items in the file
 	 * @param valueTagName
 	 *            : tag of the element containing the value to be read
 	 *            (optional)
-	 * @param otherTags 
+	 * @param otherTags
 	 * @return two dimensional array (float[96][2]) of parameters by age and sex
-	 * @throws DynamoConfigurationException 
-	 * @throws ConfigurationException 
+	 * @throws DynamoConfigurationException
+	 * @throws ConfigurationException
 	 */
 	@SuppressWarnings("unchecked")
-	
 	public float[][] manufactureOneDimArrayFromTreeLayeredXML(String fileName,
-			String globalTagName, String tagName1, String tagName2, String valueTagName,
-			boolean otherTags) throws DynamoConfigurationException {
+			String globalTagName, String tagName1, String tagName2,
+			String valueTagName, boolean otherTags)
+			throws DynamoConfigurationException {
 		float[][] returnArray = new float[96][2];
 		this.checkArray = new float[96][2][1][1];
 
@@ -233,64 +240,69 @@ public class ArraysFromXMLFactory {
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-						
+
 			/**
-			TODO: VALIDATION IS FOR FUTURE USE 
-			NICE TO HAVE FEATURE
-			KEEP IT IN THE CODE
-			
-			The following schemas are not validated:
-			baselineOtherMortalities.xsd
-			baselineIncidences.xsd
-			baselineFatalIncidences.xsd
-			attributableMortalities.xsd
-			*/
-			
-			if (!"baselineOtherMortalities".equals(configurationFromFile.getRootElementName())
-					&& !"baselineIncidences".equals(configurationFromFile.getRootElementName())
-					&& !"baselineFatalIncidences".equals(configurationFromFile.getRootElementName())
-					&& !"attributableMortalities".equals(configurationFromFile.getRootElementName())
-			
+			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
+			 * IN THE CODE
+			 * 
+			 * The following schemas are not validated:
+			 * baselineOtherMortalities.xsd baselineIncidences.xsd
+			 * baselineFatalIncidences.xsd attributableMortalities.xsd
+			 */
+
+			if (!"baselineOtherMortalities".equals(configurationFromFile
+					.getRootElementName())
+					&& !"baselineIncidences".equals(configurationFromFile
+							.getRootElementName())
+					&& !"baselineFatalIncidences".equals(configurationFromFile
+							.getRootElementName())
+					&& !"attributableMortalities".equals(configurationFromFile
+							.getRootElementName())
+
 			) {
 				// Validate the xml by xsd schema
-				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// WORKAROUND: clear() is put after the constructor (also calls
+				// load()).
 				// The config cannot be loaded twice,
 				// because the contents will be doubled.
 				configurationFromFile.clear();
-	
+
 				// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
+				configurationFromFile.setValidating(true);
 				configurationFromFile.load();
-			
-			
-			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
-			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new DynamoConfigurationException(" Tagname "
-						+ globalTagName + " expected in file " + fileName
-						+ " but found tag "
-						+ configurationFromFile.getRootElementName());
-			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
-			.getChildren();
-			for (ConfigurationNode rootChild : rootChildren) {
-			if (rootChild.getName() == tagName1  )
-			{
-			List<ConfigurationNode> childChildren = (List<ConfigurationNode>) rootChild.getChildren();
+				ConfigurationNode rootNode = configurationFromFile
+						.getRootNode();
 
-			for (ConfigurationNode childChild : childChildren) {
-				if (this.detailedDebug)
-					this.log.debug("Handle rootChild: " + childChild.getName());
-				if (childChild.getName() != tagName2 && !otherTags)
+				if (configurationFromFile.getRootElementName() != globalTagName)
 					throw new DynamoConfigurationException(" Tagname "
-							+ tagName2 + " expected in file " + fileName
-							+ " but found tag " + childChild.getName());
+							+ globalTagName + " expected in file " + fileName
+							+ " but found tag "
+							+ configurationFromFile.getRootElementName());
+				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
+						.getChildren();
+				for (ConfigurationNode rootChild : rootChildren) {
+					if (rootChild.getName() == tagName1) {
+						List<ConfigurationNode> childChildren = (List<ConfigurationNode>) rootChild
+								.getChildren();
 
-				if (childChild.getName() == tagName2)
-					returnArray = handleRootChild(childChild, returnArray,
-							valueTagName, otherTags);
-			} // end loop for childChildren
-			}
-			}// end loop for rootChildren
+						for (ConfigurationNode childChild : childChildren) {
+							if (this.detailedDebug)
+								this.log.debug("Handle rootChild: "
+										+ childChild.getName());
+							if (childChild.getName() != tagName2 && !otherTags)
+								throw new DynamoConfigurationException(
+										" Tagname " + tagName2
+												+ " expected in file "
+												+ fileName + " but found tag "
+												+ childChild.getName());
+
+							if (childChild.getName() == tagName2)
+								returnArray = handleRootChild(childChild,
+										returnArray, valueTagName, otherTags);
+						} // end loop for childChildren
+					}
+				}// end loop for rootChildren
 			}
 			/* check if the input file was complete */
 			for (int sex = 0; sex < 2; sex++)
@@ -302,10 +314,11 @@ public class ArraysFromXMLFactory {
 
 			return returnArray;
 		} catch (ConfigurationException e) {
-			String cdmErrorMessage = "Caught Exception of type: " + e.getClass().getName()
-					+ " with message: " + e.getMessage() + "from file "
-					+ fileName;
-			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e, fileName);
+			String cdmErrorMessage = "Caught Exception of type: "
+					+ e.getClass().getName() + " with message: "
+					+ e.getMessage() + "from file " + fileName;
+			ErrorMessageUtil.handleErrorMessage(this.log, cdmErrorMessage, e,
+					fileName);
 		} catch (Exception exception) {
 			this.log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -318,10 +331,7 @@ public class ArraysFromXMLFactory {
 		}
 		return returnArray;
 	}
-			
-	
-	
-	
+
 	/**
 	 * the method reads in the most inner group of values when containing three
 	 * values (for making a two dimensional array)
@@ -332,6 +342,8 @@ public class ArraysFromXMLFactory {
 	 *            : the array to be filled (often already partly filled)
 	 * @param valueTagName
 	 *            : the tag name of the value to should be put into the array
+	 *            this can also be percent without being given here, and in that
+	 *            case values are divided by 100 before storing them
 	 * @param otherTags
 	 *            : boolean indicating if other tags are allow to be present
 	 * @return array to which the newly read value has been added
@@ -367,10 +379,16 @@ public class ArraysFromXMLFactory {
 						sex = getIntegerValue(valueString, "sex");
 						;
 						sexRead = true;
-					} else {
-						if (valueTagName.equalsIgnoreCase(leafName)) {
+					} else if (valueTagName.equalsIgnoreCase(leafName)
+							&& !"percent".equalsIgnoreCase(leafName)) {
 
-							value = getFloatValue(valueString, valueTagName);
+						value = getFloatValue(valueString, valueTagName);
+						valueRead = true;
+					} else {
+						if ("percent".equalsIgnoreCase(leafName)) {
+
+							value = 0.01F * getFloatValue(valueString,
+									valueTagName);
 							valueRead = true;
 						} else {
 							if (!otherTags)
@@ -450,16 +468,18 @@ public class ArraysFromXMLFactory {
 	 * @param value2TagName
 	 *            : tag of the element containing the value to be read
 	 * @param otherTags
-	 *            : (boolean) true if other tags are allowed to be present in the file
+	 *            : (boolean) true if other tags are allowed to be present in
+	 *            the file
 	 * @return three dimensional array (float[96][2][]) of parameters by age and
 	 *         sex
-	 *         
+	 * 
 	 * @throws ConfigurationException
 	 */
 
 	public float[][][] manufactureTwoDimArray(String fileName,
 			String globalTagName, String tagName, String value1TagName,
-			String value2TagName, Boolean otherTags) throws DynamoConfigurationException {
+			String value2TagName, Boolean otherTags)
+			throws DynamoConfigurationException {
 
 		File configurationFile = new File(fileName);
 
@@ -470,32 +490,30 @@ public class ArraysFromXMLFactory {
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 			/**
-			TODO: VALIDATION IS FOR FUTURE USE 
-			NICE TO HAVE FEATURE
-			KEEP IT IN THE CODE
-			
-			The following schemas are not be validated:
-			relativeRisks.xsd
-			
-			*/
+			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
+			 * IN THE CODE
+			 * 
+			 * The following schemas are not be validated: relativeRisks.xsd
+			 */
 
-			if (!"relativeRisks".equals(configurationFromFile.getRootElementName())) {
+			if (!"relativeRisks".equals(configurationFromFile
+					.getRootElementName())) {
 				// Validate the xml by xsd schema
-				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// WORKAROUND: clear() is put after the constructor (also calls
+				// load()).
 				// The config cannot be loaded twice,
 				// because the contents will be doubled.
 				configurationFromFile.clear();
-				
+
 				// Validate the xml by xsd schema
-				configurationFromFile.setValidating(true);			
-				configurationFromFile.load();							
-			}			
-			
+				configurationFromFile.setValidating(true);
+				configurationFromFile.load();
+			}
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
-				throw new ConfigurationException(" Tagname "
-						+ globalTagName + " expected in file " + fileName
-						+ " but found tag "
+				throw new ConfigurationException(" Tagname " + globalTagName
+						+ " expected in file " + fileName + " but found tag "
 						+ configurationFromFile.getRootElementName());
 
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
@@ -516,9 +534,10 @@ public class ArraysFromXMLFactory {
 					minIndex = curVar;
 			}
 			// TODO: program this in a way that gaps are allowed in the
-			// numbering of categories, and check that they are consistent with the
+			// numbering of categories, and check that they are consistent with
+			// the
 			// class numbering as given in the configurationfiles
-			
+
 			/*
 			 * this can be done by not only storing minimum and maximum, but all
 			 * possible values,
@@ -539,8 +558,8 @@ public class ArraysFromXMLFactory {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
 				if (!otherTags & rootChild.getName() != tagName)
-					throw new ConfigurationException(" Tagname "
-							+ tagName + " expected in file " + fileName
+					throw new ConfigurationException(" Tagname " + tagName
+							+ " expected in file " + fileName
 							+ " but found tag " + rootChild.getName()
 							+ "in file " + fileName);
 			}
@@ -576,26 +595,27 @@ public class ArraysFromXMLFactory {
 				for (int cat = minIndex; cat <= maxIndex; cat++)
 					for (int sex = 0; sex < 2; sex++)
 						for (int age = 0; age < 96; age++) {
-							returnArray[age][sex][cat-minIndex]=returnArray1[age][sex][cat];
+							returnArray[age][sex][cat - minIndex] = returnArray1[age][sex][cat];
 						}
 			} else
 				returnArray = returnArray1;
 
 			return returnArray;
-		//} catch (DynamoConfigurationException exception) {
-		//	log
-		//			.error("Caught Exception of type: Dynamo XML-file configuration Exception"
-		//					+ " with message: "
-		//					+ exception.getMessage()
-		//					+ "from file " + fileName);
-		//	exception.printStackTrace();
-		//	return null;
-		} catch (ConfigurationException e) {			
+			// } catch (DynamoConfigurationException exception) {
+			// log
+			// .error("Caught Exception of type: Dynamo XML-file configuration Exception"
+			// + " with message: "
+			// + exception.getMessage()
+			// + "from file " + fileName);
+			// exception.printStackTrace();
+			// return null;
+		} catch (ConfigurationException e) {
 			String dynamoErrorMessage = "Caught Exception of type: "
-				+ e.getClass().getName() + " with message: "
-				+ e.getMessage() + "from file " + fileName;
+					+ e.getClass().getName() + " with message: "
+					+ e.getMessage() + "from file " + fileName;
 			log.debug(e.getMessage() + e.getCause());
-			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage, e, fileName);
+			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
+					e, fileName);
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -620,13 +640,14 @@ public class ArraysFromXMLFactory {
 	 *            the tag name of the value to should be put into the array
 	 * @param otherTags
 	 *            : boolean indicating if other tags are allow to be present
-	 
+	 * 
 	 * @return array to which the newly read value has been added
 	 * @throws ConfigurationException
 	 */
 	public float[][][] handleRootChild(ConfigurationNode rootChild,
 			float[][][] arrayToBeFilled, String value1TagName,
-			String value2Tagname, boolean otherTags) throws DynamoConfigurationException {
+			String value2Tagname, boolean otherTags)
+			throws DynamoConfigurationException {
 		// String rootChildName = rootChild.getName();
 		// Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
@@ -664,15 +685,22 @@ public class ArraysFromXMLFactory {
 							indexRead = true;
 						} else
 
-						if (value2Tagname.equalsIgnoreCase(leafName)) {
+						if (value2Tagname.equalsIgnoreCase(leafName)
+								&& !"percent".equalsIgnoreCase(leafName)) {
 
 							value = getFloatValue(valueString, value2Tagname);
+							valueRead = true;
+						} else if ("percent".equalsIgnoreCase(leafName)) {
+
+							value = 0.01F * getFloatValue(valueString,
+									"percent");
 							valueRead = true;
 						} else
 
 						{
-							if (!otherTags) throw new DynamoConfigurationException(
-									"Unexpected tag: " + leafName);
+							if (!otherTags)
+								throw new DynamoConfigurationException(
+										"Unexpected tag: " + leafName);
 						}
 					}
 				}
@@ -706,14 +734,12 @@ public class ArraysFromXMLFactory {
 
 	}
 
-	
-	
-
 	/**
 	 * the method produces a two dimensional array from flat XML containing
-	 * particular model parameters by age, sex and a third dimension .
-	 * Data are selected for one particular value of another tag of the third dimension (given by the selectionTag name)
-	 * When this has the vale selectionValue, the value of valueTag is read and put into the array 
+	 * particular model parameters by age, sex and a third dimension . Data are
+	 * selected for one particular value of another tag of the third dimension
+	 * (given by the selectionTag name) When this has the vale selectionValue,
+	 * the value of valueTag is read and put into the array
 	 * 
 	 * @param fileName
 	 *            : name of xml.file to be read (including the extension .xml)
@@ -729,13 +755,13 @@ public class ArraysFromXMLFactory {
 	 *            : value of selection Tag for which to read the data
 	 * @return two dimensional array (float[96][2][]) of parameters by age and
 	 *         sex
-	 *         
+	 * 
 	 * @throws ConfigurationException
 	 */
 
-	public float[][] selectOneDimArray(String fileName,
-			String globalTagName, String tagName, String valueTagName,
-			String selectionTagName, int selectionValue) throws DynamoConfigurationException {
+	public float[][] selectOneDimArray(String fileName, String globalTagName,
+			String tagName, String valueTagName, String selectionTagName,
+			int selectionValue) throws DynamoConfigurationException {
 
 		File configurationFile = new File(fileName);
 
@@ -747,15 +773,16 @@ public class ArraysFromXMLFactory {
 			configurationFromFile = new XMLConfiguration(configurationFile);
 
 			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// WORKAROUND: clear() is put after the constructor (also calls
+			// load()).
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
 			configurationFromFile.clear();
-			
+
 			// Validate the xml by xsd schema
-			configurationFromFile.setValidating(true);			
+			configurationFromFile.setValidating(true);
 			configurationFromFile.load();
-			
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
 				throw new DynamoConfigurationException(" Tagname "
@@ -768,19 +795,16 @@ public class ArraysFromXMLFactory {
 
 			/* first find out how many elements there are */
 
-			
-			float[][]returnArray1 = new float[96][2];
+			float[][] returnArray1 = new float[96][2];
 			checkArray = new float[96][2][1][1];
 
 			for (int sex = 0; sex < 2; sex++)
-				for (int age = 0; age < 96; age++)
-					 {
+				for (int age = 0; age < 96; age++) {
 
-						returnArray1[age][sex] = 0;
-						checkArray[age][sex][0][0] = 0;
-					}
+					returnArray1[age][sex] = 0;
+					checkArray[age][sex][0][0] = 0;
+				}
 
-		
 			for (ConfigurationNode rootChild : rootChildren) {
 				returnArray1 = handleRootChild(rootChild, returnArray1,
 						valueTagName, selectionTagName, selectionValue);
@@ -793,20 +817,17 @@ public class ArraysFromXMLFactory {
 			 * zero) but then there should be no gaps
 			 */
 
-			
-				for (int sex = 0; sex < 2; sex++)
-					for (int age = 0; age < 96; age++) {
-						if (checkArray[age][sex][0][0] != 1)
-							throw new DynamoConfigurationException(
-									"no value read in parameter file "
-											+ fileName + " for age=" + age
-											+ " sex=" + sex
-										);
+			for (int sex = 0; sex < 2; sex++)
+				for (int age = 0; age < 96; age++) {
+					if (checkArray[age][sex][0][0] != 1)
+						throw new DynamoConfigurationException(
+								"no value read in parameter file " + fileName
+										+ " for age=" + age + " sex=" + sex);
 
-					}
-			
+				}
+
 			return returnArray1;
-			
+
 		} catch (DynamoConfigurationException exception) {
 			log
 					.error("Caught Exception of type: Dynamo XML-file configuration Exception"
@@ -833,13 +854,10 @@ public class ArraysFromXMLFactory {
 		}
 	}
 
-
-	
-	
-	
 	/**
 	 * the method reads in the most inner group of values when containing four
-	 * values and selecting only one element for reading into a two dimensional array
+	 * values and selecting only one element for reading into a two dimensional
+	 * array
 	 * 
 	 * @param rootChild
 	 *            : the element contain the inner group of values
@@ -851,13 +869,14 @@ public class ArraysFromXMLFactory {
 	 *            the tag name of the value used for the selection
 	 * @param selectionValue
 	 *            : value to be selected
-	 
+	 * 
 	 * @return array to which the newly read value has been added
 	 * @throws ConfigurationException
 	 */
 	public float[][] handleRootChild(ConfigurationNode rootChild,
 			float[][] arrayToBeFilled, String valueTagName,
-			String selectionTagName, int selectionValue) throws DynamoConfigurationException {
+			String selectionTagName, int selectionValue)
+			throws DynamoConfigurationException {
 		// String rootChildName = rootChild.getName();
 		// Object rootChildValueObject = rootChild.getValue();
 		Integer age = null;
@@ -882,84 +901,87 @@ public class ArraysFromXMLFactory {
 					age = getIntegerValue(valueString, "age");
 					ageRead = true;
 
-				} else {
-					if ("sex".equalsIgnoreCase(leafName)) {
+				} else if ("sex".equalsIgnoreCase(leafName)) {
 
-						sex = getIntegerValue(valueString, "sex");
-						sexRead = true;
+					sex = getIntegerValue(valueString, "sex");
+					sexRead = true;
 
-					} else {
-						if (selectionTagName.equalsIgnoreCase(leafName)) {
+				} else if (selectionTagName.equalsIgnoreCase(leafName)) {
 
-							index = getIntegerValue(valueString, selectionTagName);
-							indexRead = true;
-							if (index!=selectionValue) break;
+					index = getIntegerValue(valueString, selectionTagName);
+					indexRead = true;
+					if (index != selectionValue)
+						break;
+				} else
+					try {
+						if (valueTagName.equalsIgnoreCase(leafName)
+								&& !"percent".equalsIgnoreCase(leafName)) {
+
+							value = getFloatValue(valueString, valueTagName);
+							valueRead = true;
 						} else
 
-						if (valueTagName.equalsIgnoreCase(leafName)) {
-                        try{
-							value = getFloatValue(valueString, valueTagName);
-							valueRead = true;}
-                        /*
-                         * here the value can be empty, so ignore the exception thrown in this case
-                         */
-                        catch (DynamoConfigurationException e){}
-							
-						} 
-						
+						if ("percent".equalsIgnoreCase(leafName)) {
+
+							value = 0.01F * getFloatValue(valueString,
+									valueTagName);
+							valueRead = true;
+						}
 					}
-				}
-			} else {
-				throw new DynamoConfigurationException("Value: "  + value +
-						" is no String!");
+					/*
+					 * here the value can be empty, so ignore the exception
+					 * thrown in this case
+					 */
+					catch (DynamoConfigurationException e) {
+					}
+
 			}
-		} // for leafChildren
-		if (index==selectionValue&&!(ageRead && sexRead && valueRead && indexRead))
-			throw new DynamoConfigurationException(
-					"No value found when selecting values for class " + index
-					+" when processing value for age " + age
-							+ " sex: " + sex 
-							+ "\nValue found: " + value);
-		if (index==selectionValue&& arrayToBeFilled[age][sex] != 0) {
-			throw new DynamoConfigurationException("Duplicate value for age: "
-					+ age + " sex: " + sex + " index: " + index
-					+ "\nPresentValue: " + arrayToBeFilled[age][sex]
-					+ " newValue: " + value);
-		} else {
-			if (index==selectionValue&& age >= arrayToBeFilled.length)
+
+			else {
+				throw new DynamoConfigurationException("Value: " + value
+						+ " is no String!");
+			}
+			// for leafChildren
+			if (index == selectionValue
+					&& !(ageRead && sexRead && valueRead && indexRead))
 				throw new DynamoConfigurationException(
-						"Value for age is to large: " + age + "for sex: " + sex
-								+ " index: " + index);
-			else
-				if (index==selectionValue) {arrayToBeFilled[age][sex] = value;
-			checkArray[age][sex][0][0]++;
-			if (detailedDebug)
-				log.debug("Processing value for age: " + age + " sex: " + sex
-						+ " selecting category: " + index + " value: " + value);}
+						"No value found when selecting values for class "
+								+ index + " when processing value for age "
+								+ age + " sex: " + sex + "\nValue found: "
+								+ value);
+			if (index == selectionValue && arrayToBeFilled[age][sex] != 0) {
+				throw new DynamoConfigurationException(
+						"Duplicate value for age: " + age + " sex: " + sex
+								+ " index: " + index + "\nPresentValue: "
+								+ arrayToBeFilled[age][sex] + " newValue: "
+								+ value);
+			} else {
+				if (index == selectionValue && age >= arrayToBeFilled.length)
+					throw new DynamoConfigurationException(
+							"Value for age is to large: " + age + "for sex: "
+									+ sex + " index: " + index);
+				else if (index == selectionValue) {
+					arrayToBeFilled[age][sex] = value;
+					checkArray[age][sex][0][0]++;
+					if (detailedDebug)
+						log.debug("Processing value for age: " + age + " sex: "
+								+ sex + " selecting category: " + index
+								+ " value: " + value);
+				}
+			}
 		}
 		return arrayToBeFilled;
 
 	}
 
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * the method produces a four dimensional array from flat XML containing
 	 * particular model parameters by age, sex and two other dimensions.
 	 * <p>
-	 * the tag of the element containing the value to be read is set to "value",
-	 * that of the third dimension is set to "to" and that of the fourth
-	 * dimension is set to "from".
+	 * the tag of the element containing the value to be read is set to "value"
+	 * or "percent", that of the third dimension is set to "to" and that of the
+	 * fourth dimension is set to "from". in case of percent values are divided
+	 * by 100 before storing them
 	 * </p>
 	 * 
 	 * @param fileName
@@ -999,7 +1021,7 @@ public class ArraysFromXMLFactory {
 	 *            : tag of the element containing the value to be read
 	 * @return four dimensional array (float[96][2][][]) of parameters by age
 	 *         and sex
-	 * @throws DynamoConfigurationException 
+	 * @throws DynamoConfigurationException
 	 * @throws ConfigurationException
 	 */
 	public float[][][][] manufactureThreeDimArray(String fileName,
@@ -1009,34 +1031,35 @@ public class ArraysFromXMLFactory {
 
 		File configurationFile = new File(fileName);
 		float[][][][] returnArray = null;
-		
+
 		log.debug("Starting manufacturing five Dimensional array from file "
 				+ fileName);
 
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
-			
+
 			/**
-			TODO: VALIDATION IS FOR FUTURE USE 
-			NICE TO HAVE FEATURE
-			KEEP IT IN THE CODE
-			The following schemas are not be validated:
-			relativeRisks.xsd
-			*/
-			
-			if (!"relativeRisks".equals(configurationFromFile.getRootElementName())) {
+			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
+			 * IN THE CODE The following schemas are not be validated:
+			 * relativeRisks.xsd
+			 */
+
+			if (!"relativeRisks".equals(configurationFromFile
+					.getRootElementName())) {
 				// Validate the xml by xsd schema
-				// WORKAROUND: clear() is put after the constructor (also calls load()). 
+				// WORKAROUND: clear() is put after the constructor (also calls
+				// load()).
 				// The config cannot be loaded twice,
 				// because the contents will be doubled.
 				configurationFromFile.clear();
-				
+
 				// Validate the xml by xsd schema
-			//TODO: weer terugzetten	configurationFromFile.setValidating(true);			
+				// TODO: weer terugzetten
+				// configurationFromFile.setValidating(true);
 				configurationFromFile.load();
 			}
-			
+
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			if (configurationFromFile.getRootElementName() != globalTagName)
 				throw new DynamoConfigurationException(" Tagname "
@@ -1079,11 +1102,15 @@ public class ArraysFromXMLFactory {
 			/* now initialize the arrays */
 			returnArray = new float[96][2][maxIndex + 1][maxIndex + 1];
 			checkArray = new float[96][2][maxIndex + 1][maxIndex + 1];
-
+			/* in the standard arrays (from/to) the indexes in the xml go from 1 to max, so the array 
+			 * inside the program (start at 0) can be smaller */
+			if (value1TagName.equalsIgnoreCase("from")
+                      && value2TagName.equalsIgnoreCase("to")) {returnArray = new float[96][2][maxIndex][maxIndex ];
+          			checkArray = new float[96][2][maxIndex][maxIndex ];}
 			for (int sex = 0; sex < 2; sex++)
 				for (int age = 0; age < 96; age++)
-					for (int cat = 0; cat <= maxIndex; cat++)
-						for (int cat2 = 0; cat2 <= maxIndex; cat2++) {
+					for (int cat = 0; cat <checkArray[0][0].length; cat++)
+						for (int cat2 = 0; cat2 <checkArray[0][0].length; cat2++) {
 
 							returnArray[age][sex][cat][cat2] = 0;
 							checkArray[age][sex][cat][cat2] = 0;
@@ -1102,8 +1129,8 @@ public class ArraysFromXMLFactory {
 
 			// end loop for rootChildren
 
-			for (int cat = 0; cat <= maxIndex; cat++)
-				for (int cat2 = 0; cat2 <= maxIndex; cat2++)
+			for (int cat = 0; cat < checkArray[0][0].length; cat++)
+				for (int cat2 = 0; cat2 <checkArray[0][0].length; cat2++)
 					for (int sex = 0; sex < 2; sex++)
 						for (int age = 0; age < 96; age++) {
 							if (checkArray[age][sex][cat][cat2] != 1)
@@ -1117,15 +1144,16 @@ public class ArraysFromXMLFactory {
 			return returnArray;
 		} catch (ConfigurationException e) {
 			/*
-			log.error("Caught Exception of type: " + e.getClass().getName()
-					+ " with message: " + e.getMessage() + "from file "
-					+ fileName);
-			e.printStackTrace();
-			throw new DynamoConfigurationException("Caught Exception of type: "
-					+ e.getClass().getName() + " with message: "
-					+ e.getMessage() + "from file " + fileName);*/
-			ErrorMessageUtil.handleErrorMessage(log, "Caught Exception of type: ", e, fileName);
-			
+			 * log.error("Caught Exception of type: " + e.getClass().getName() +
+			 * " with message: " + e.getMessage() + "from file " + fileName);
+			 * e.printStackTrace(); throw new
+			 * DynamoConfigurationException("Caught Exception of type: " +
+			 * e.getClass().getName() + " with message: " + e.getMessage() +
+			 * "from file " + fileName);
+			 */
+			ErrorMessageUtil.handleErrorMessage(log,
+					"Caught Exception of type: ", e, fileName);
+
 		} catch (Exception exception) {
 			log.error("Caught Exception of type: "
 					+ exception.getClass().getName() + " with message: "
@@ -1149,7 +1177,8 @@ public class ArraysFromXMLFactory {
 	 * @param value2TagName
 	 *            : tag for fourth dimension
 	 * @param value3TagName
-	 *            the tag name of the value to should be put into the array
+	 *            the tag name of the value to should be put into the array 
+	 *            This can also be percent, and then the value read  is divided by 100
 	 * @return array to which the newly read value has been added
 	 * @throws ConfigurationException
 	 * @throws DynamoConfigurationException
@@ -1192,10 +1221,10 @@ public class ArraysFromXMLFactory {
 					} else {
 						if (value1TagName.equalsIgnoreCase(leafName)) {
 
-							
-							index1 = getIntegerValue(valueString,
-									value1TagName);
-							
+							index1 = getIntegerValue(valueString, value1TagName);
+							if (value1TagName.equalsIgnoreCase("from"))
+								index1--;
+
 							index1Read = true;
 						} else {
 
@@ -1203,13 +1232,21 @@ public class ArraysFromXMLFactory {
 
 								index2 = getIntegerValue(valueString,
 										value2TagName);
+								if (value2TagName.equalsIgnoreCase("to"))
+									index2--;
 								;
 								index2Read = true;
 							} else
 
-							if (value3TagName.equalsIgnoreCase(leafName)) {
+							if (value3TagName.equalsIgnoreCase(leafName)
+									&& !"percent".equalsIgnoreCase(leafName)) {
 
 								value = getFloatValue(valueString,
+										value3TagName);
+								valueRead = true;
+							} else if ("percent".equalsIgnoreCase(leafName)) {
+
+								value = 0.01F * getFloatValue(valueString,
 										value3TagName);
 								valueRead = true;
 							} else
@@ -1269,10 +1306,10 @@ public class ArraysFromXMLFactory {
 			throws DynamoConfigurationException {
 		float returnvalue = 0;
 
-		if (value == null|| value==""||value.length()==0)
+		if (value == null || value == "" || value.length() == 0)
 			throw new DynamoConfigurationException("no value found with " + tag);
 		else
-			
+
 			returnvalue = Float.parseFloat(value);
 		return returnvalue;
 
