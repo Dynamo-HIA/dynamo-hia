@@ -318,10 +318,12 @@ public class DynamoSimulationObject extends
 			TabRelativeRiskConfigurationData data = (TabRelativeRiskConfigurationData) relativeRiskConfigurations
 					.get(index);
 			relativeRisksMap = data.putInTypedHashMap(relativeRisksMap);
+			log.debug("Putting configuration at index: " + index + " content: " + data.report());
 		}
 		put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);
 		// 
 		if (backDoorListener != null) {
+			log.debug("Triggering backdoor.");
 			backDoorListener.backdoorUsed();
 		}
 	}

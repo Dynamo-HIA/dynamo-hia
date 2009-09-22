@@ -114,31 +114,6 @@ public class RelRisksCollectionForDropdown {
 	}
 
 	/**
-	 * alternative getting of single instance
-	 * 
-	 * @param dynamoSimulationObject
-	 * @param treeLists
-	 * @return
-	 * @throws ConfigurationException
-	 */
-	// public synchronized static RelRisksCollectionForDropdown
-	// getInstance4RelRisks(
-	// DynamoSimulationObject dynamoSimulationObject,
-	// TreeAsDropdownLists treeLists) throws ConfigurationException {
-	//
-	// if (instance == null) {
-	// instance = new RelRisksCollectionForDropdown();
-	// ;
-	// }
-	// RelativeRiskFileNamesBySourceAndTargetNameMap rrCollection = treeLists
-	// .getValidRelativeRiskCollection();
-	// statLog.debug(rrCollection.dump4Log());
-	// instance.possibleRelRisks = makeDeepCopyRR(rrCollection);
-	// instance.relRiskRefresh(dynamoSimulationObject);
-	// return instance;
-	//
-	// }
-	/**
 	 * Get the single instance. There can be only one. This method can only be
 	 * used in places where the object has already been instantiated. As
 	 * instantiation requires data that are not reachable from everywhere, this
@@ -832,8 +807,7 @@ public class RelRisksCollectionForDropdown {
 		synchronized (this) {
 			instLog.debug(">>>>Configured relative risks: "
 					+ possibleRelRisks.dump4Log());
-			instLog.debug(">>>>getAvaillableRelRisksForDropdown()");
-			instLog.debug(availlableRelRisksForDropdown.dump4Log());
+			instLog.info(">>>>getAvaillableRelRisksForDropdown()>>>>>:\n" + availlableRelRisksForDropdown.dump4Log());
 			return availlableRelRisksForDropdown;
 		}
 	}

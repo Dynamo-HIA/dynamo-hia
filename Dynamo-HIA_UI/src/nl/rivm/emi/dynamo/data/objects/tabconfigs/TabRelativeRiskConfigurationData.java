@@ -31,6 +31,12 @@ public class TabRelativeRiskConfigurationData implements
 		index = -1;
 	}
 
+	public String report(){
+		StringBuffer resBuffer = new StringBuffer();
+		resBuffer.append("Index: " + index + " from: " + from + " to: " + to + " file: " + dataFileName);
+		return resBuffer.toString();
+	}
+	
 	public Integer getIndex() {
 		return index;
 	}

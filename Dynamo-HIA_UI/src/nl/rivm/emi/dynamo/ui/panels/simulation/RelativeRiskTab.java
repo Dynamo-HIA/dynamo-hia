@@ -69,7 +69,7 @@ public class RelativeRiskTab extends NestedTab {
 			HelpGroup helpGroup,
 			RelativeRiskTabPlatformDataManager platformManager,
 			TabPlatform myParent) throws ConfigurationException {
-		super(null, tabFolder, RELATIVE_RISK + tabIndex, platformManager
+		super(null, tabFolder, RELATIVE_RISK + (tabIndex + 1), platformManager
 				.getDynamoSimulationObject(), null /* selectedNode */,
 				helpGroup, null, myParent);
 		this.tabIndex = tabIndex;
@@ -132,9 +132,18 @@ public class RelativeRiskTab extends NestedTab {
 					plotComposite, selectedNode, helpGroup,
 					relativeRiskSelectionGroup, relRiskTabDataManager);
 
-			log.debug("RelativeRiskResultGroup added.");
 			TabRelativeRiskConfigurationData myConfigurationData = platformManager
 					.getConfiguration(tabIndex);
+			if (myConfigurationData != null) {
+				log
+						.debug("RRResultGroup added, initializing data for tabIndex: "
+								+ tabIndex
+								+ " Configuration: "
+								+ myConfigurationData.report());
+			} else {
+				log.debug("RRResultGroup added, new tab at tabIndex: "
+						+ tabIndex);
+			}
 			getRelativeRiskComboModifyListener()
 					.initialize(myConfigurationData);
 
@@ -144,13 +153,15 @@ public class RelativeRiskTab extends NestedTab {
 
 			// this.relRiskTabDataManager.removeFromDynamoSimulationObject();
 			throw new NoMoreDataException(e.getMessage());
-			// TODO Auto-generated catch block
-
+		} catch (NullPointerException e) {
+			log.error("NullPointerException: " + e.getMessage());
+			throw new NoMoreDataException(e.getMessage());
 		} catch (Exception e) {
 			log.debug("Exception: " + e.getClass().getSimpleName() + " "
 					+ e.getMessage());
 			e.printStackTrace(System.err);
 			throw new ConfigurationException(e);
+			// TODO This Exception goes all the way up.....
 		}
 	}
 
