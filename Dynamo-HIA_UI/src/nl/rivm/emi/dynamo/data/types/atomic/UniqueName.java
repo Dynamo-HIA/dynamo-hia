@@ -13,29 +13,30 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class UniqueName extends AbstractString implements ContainerType<String>{
+public class UniqueName extends AbstractString implements ContainerType<String> {
 
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	static final protected String XMLElementName = "uniquename";
-	private DynamoTabDataManager dynamoTabDataManager;
-	private String label;
-	private Shell shell;
-	
+
+	// private DynamoTabDataManager dynamoTabDataManager;
+	// private String label;
+	// private Shell shell;
+
 	public UniqueName() {
 		super(XMLElementName);
 	}
-	
-	public UniqueName(DynamoTabDataManager dynamoTabDataManager,
-			String label,
-			Shell shell
-			) {
-		super(XMLElementName);
-		this.dynamoTabDataManager = dynamoTabDataManager;
-		this.label = label;
-		this.shell = shell;
-	}
+
+	// public UniqueName(DynamoTabDataManager dynamoTabDataManager,
+	// String label,
+	// Shell shell
+	// ) {
+	// super(XMLElementName);
+	// this.dynamoTabDataManager = dynamoTabDataManager;
+	// this.label = label;
+	// this.shell = shell;
+	// }
 
 	@Override
 	protected UpdateValueStrategy assembleModelStrategy() {
@@ -44,51 +45,38 @@ public class UniqueName extends AbstractString implements ContainerType<String>{
 				"ValueModelConverter"));
 		return resultStrategy;
 	}
-	
+
 	public class ValueModelConverter extends AbstractString.ValueModelConverter {
 
 		private Log log = LogFactory.getLog(this.getClass().getName());
-		
+
 		public ValueModelConverter(String debugString) {
 			super(debugString);
 		}
 
-		@Override
-		public Object convert(Object arg0)  {
-			log.debug("UniqueName: Override convert(Object) entered with:" +
-			arg0.toString());
-			Object result = null;
-			if (arg0 instanceof String) {
-				result = arg0;
-				try {
-					
-					log.debug("result: MODELVIEW " + result);
-					// This is a workaround created to set the model value of "Name"
-					// in the Scenario tabs of Simulation Model
-					UniqueName.this.dynamoTabDataManager.updateObjectState(UniqueName.this.label, 
-							(String) result);
-				} catch (ConfigurationException ce) {					
-					this.handleErrorMessage(ce);
-				} catch (NoMoreDataException e) {
-					
-					this.handleErrorMessage(e);
-				}
-			}
-			return result;
-		}
-		
-		private void handleErrorMessage(Exception e) {
-			this.log.fatal(e);
-			e.printStackTrace();
-			MessageBox box = new MessageBox(UniqueName.this.shell,
-					SWT.ERROR_UNSPECIFIED);
-			box.setText("Error occured during creation of a new tab " + e.getMessage());
-			box.setMessage(e.getMessage());
-			box.open();
-		}
+		// 20090923 RLM Gedespagettificeerd.
+		// @Override
+		// public Object convert(Object arg0) {
+		// log.debug("UniqueName: Override convert(Object) entered with:" +
+		// arg0.toString());
+		// Object result = null;
+		// if (arg0 instanceof String) {
+		// result = arg0;
+		// try {
+		//					
+		// log.debug("result: MODELVIEW " + result);
+		// // This is a workaround created to set the model value of "Name"
+		// // in the Scenario tabs of Simulation Model
+		// UniqueName.this.dynamoTabDataManager.updateObjectState(UniqueName.this.label,
+		// (String) result);
+		// } catch (ConfigurationException ce) {
+		// this.handleErrorMessage(ce);
+		// } catch (NoMoreDataException e) {
+		//					
+		// this.handleErrorMessage(e);
+		// }
+		// }
+		// return result;
+		// }
 	}
-	
-
 }
-
-	

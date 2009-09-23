@@ -4,6 +4,7 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
@@ -14,6 +15,7 @@ import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -55,13 +57,14 @@ public class ScenarioSelectionGroup { // extends Composite {
 
 	private static final String TARGET_OF_INTERVENTION = "Target of Intervention";
 
-//	private static final String SEMICOLON = ":";
-//	private static final String PERCENTAGE = "(%)";
+	// private static final String SEMICOLON = ":";
+	// private static final String PERCENTAGE = "(%)";
 
 	protected Composite scenarioDefGroup;
 	private Composite plotComposite;
-//	private DynamoSimulationObject dynamoSimulationObject;
-//	private BaseNode selectedNode;
+	@SuppressWarnings("unused")
+	private DynamoSimulationObject dynamoSimulationObject;
+	// private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
 	private GenericComboModifyListener dropDownModifyListener;
@@ -82,8 +85,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 		this.selections = selections;
 		this.plotComposite = plotComposite;
 		this.dynamoTabDataManager = dynamoTabDataManager;
-//		this.dynamoSimulationObject = dynamoSimulationObject;
-//		this.selectedNode = selectedNode;
+		this.dynamoSimulationObject = dynamoSimulationObject;
+		// this.selectedNode = selectedNode;
 		this.helpGroup = helpGroup;
 		this.dataBindingContext = dataBindingContext;
 		this.tabName = tabName;
@@ -132,13 +135,14 @@ public class ScenarioSelectionGroup { // extends Composite {
 		String labelValue = NAME;
 		WritableValue observable = (WritableValue) dynamoTabDataManager
 				.getCurrentWritableValue(NAME);
-		bindHeaderValue(observable, labelValue, new UniqueName(
-				this.dynamoTabDataManager, NAME, this.plotComposite.getShell()));
+//		bindHeaderValue(observable, labelValue, new UniqueName(
+//				this.dynamoTabDataManager, NAME, this.plotComposite.getShell()));
+		bindNameValue(observable, labelValue, new UniqueName());
 
 		labelValue = SUCCESS_RATE;
-		observable = (WritableValue) dynamoTabDataManager
+		WritableValue observable2 = (WritableValue) dynamoTabDataManager
 				.getCurrentWritableValue(SUCCESS_RATE);
-		bindHeaderValue(observable, labelValue, new SuccessRate());
+		bindHeaderValue(observable2, labelValue, new SuccessRate());
 
 		Label label = new Label(scenarioDefGroup, SWT.LEFT);
 		GridData ld = new GridData();
@@ -174,7 +178,6 @@ public class ScenarioSelectionGroup { // extends Composite {
 				.getDropDown(), (AtomicTypeBase<?>) XMLTagEntityEnum.SEX
 				.getTheType());
 
-
 	}
 
 	private GenericDropDownPanel createDropDown(String label,
@@ -182,12 +185,61 @@ public class ScenarioSelectionGroup { // extends Composite {
 			DynamoTabDataManager dynamoTabDataManager)
 			throws ConfigurationException {
 		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
-				selectablePropertiesSet, 
-				dynamoTabDataManager, helpGroup);
+				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}
 
 	public GenericComboModifyListener getDropDownModifyListener() {
 		return this.dropDownModifyListener;
+	}
+
+	/**
+	 * New method because reusing a number field for a name wasn't appropriate.
+	 * 
+	 * @param observable
+	 * @param labelValue
+	 * @param myType
+	 * @throws ConfigurationException
+	 */
+	private void bindNameValue(WritableValue observable, String labelValue,
+			AtomicTypeBase<?> myType) throws ConfigurationException {
+		if (myType instanceof UniqueName) {
+			if (observable != null) {
+				Label label = new Label(scenarioDefGroup, SWT.NONE);
+				label.setText(labelValue + ":");
+				final Text text = new Text(scenarioDefGroup, SWT.NONE);
+				text.setText((String) observable.doGetValue());
+				GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+				layoutData.horizontalSpan = 1;
+				text.setLayoutData(layoutData);
+				HelpTextListenerUtil.addHelpTextListeners(text, myType);
+				// Too early, see below. text.addVerifyListener(new
+				// StandardValueVerifyListener());
+				IObservableValue textObservableValue = SWTObservables.observeText(text,
+						SWT.Modify);
+//				WritableValue modelObservableValue = (WritableValue) observable;
+//				dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+//						myType.getModelUpdateValueStrategy(), myType
+//								.getViewUpdateValueStrategy());
+				dataBindingContext.bindValue(textObservableValue, observable,
+						myType.getModelUpdateValueStrategy(), myType
+								.getViewUpdateValueStrategy());
+				text.addVerifyListener(new NameVerifyListener(helpGroup
+						.getTheModal()));
+			} else {
+				MessageBox box = new MessageBox(this.scenarioDefGroup
+						.getShell());
+				box.setText("Class name error");
+				box.setMessage("Value for " + labelValue
+						+ " should not be empty.");
+				box.open();
+			}
+		} else {
+			MessageBox box = new MessageBox(this.scenarioDefGroup.getShell());
+			box.setText("Type error");
+			box.setMessage("The scenario's name field cannot be bound"
+					+ " using type: " + myType.getClass().getSimpleName());
+			box.open();
+		}
 	}
 
 	private void bindHeaderValue(WritableValue observable, String labelValue,
@@ -226,7 +278,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 	protected void bindAbstractString(WritableValue observableObject,
 			AtomicTypeBase<?> myType) throws ConfigurationException {
 		Text text = getTextBinding(observableObject, myType);
-		 text.addVerifyListener(new AbstractStringVerifyListener(helpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractStringVerifyListener(helpGroup
+				.getTheModal(), myType));
 	}
 
 	private Text getTextBinding(WritableValue observableObject,
@@ -251,7 +304,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		text.setLayoutData(gridData);
 		return text;
 	}
-
+	
 	public void refreshSelectionDropDown() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 		this.minAgeDropDownPanel.refresh();

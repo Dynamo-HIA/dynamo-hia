@@ -126,7 +126,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		if (this.singleConfiguration != null) {
 			if (ScenarioSelectionGroup.NAME.equals(name)) {
 				writableValue = singleConfiguration.getObservableName();
-				log.debug("VALUE: " + writableValue);
+				log.debug("Getting writableValue with value: " + writableValue.doGetValue());
 			} else if (ScenarioSelectionGroup.SUCCESS_RATE.equals(name)) {
 				writableValue = singleConfiguration.getObservableSuccessRate();
 				// For all Integer writableValues

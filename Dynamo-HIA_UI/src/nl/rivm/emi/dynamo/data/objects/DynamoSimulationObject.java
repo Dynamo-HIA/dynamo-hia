@@ -318,7 +318,8 @@ public class DynamoSimulationObject extends
 			TabRelativeRiskConfigurationData data = (TabRelativeRiskConfigurationData) relativeRiskConfigurations
 					.get(index);
 			relativeRisksMap = data.putInTypedHashMap(relativeRisksMap);
-			log.debug("Putting configuration at index: " + index + " content: " + data.report());
+			log.debug("Putting configuration at index: " + index + " content: "
+					+ data.report());
 		}
 		put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);
 		// 
@@ -349,6 +350,11 @@ public class DynamoSimulationObject extends
 			ITabStoreConfiguration data = new TabScenarioConfigurationData();
 			data.initialize(name, scenarioModelData);
 			resultMap.put(name, (ITabScenarioConfiguration) data);
+			log.debug("Getting scenario-configuration at name: "
+					+ name
+					+ " successrate: "
+					+ ((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue());
 		}
 		return resultMap;
 	}
@@ -362,6 +368,14 @@ public class DynamoSimulationObject extends
 			TabScenarioConfigurationData data = (TabScenarioConfigurationData) scenarioConfigurations
 					.get(name);
 			scenariosMap = data.putInTypedHashMap(scenariosMap);
+			log.debug("Putting scenario-configuration at name: "
+					+ name
+					+ " configured name: "
+					+ ((ITabScenarioConfiguration) data).getObservableName()
+							.doGetValue()
+					+ " successrate: "
+					+ ((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue());
 		}
 		put(XMLTagEntityEnum.SCENARIOS.getElementName(), scenariosMap);
 	}
