@@ -945,6 +945,7 @@ public class StorageTreeMenuFactory {
 					// actions
 					addTransactionNoAction(manager, selection,
 							"Selected file cannot be edited");
+					addFileDeleteAction(manager, node);
 				} else {
 					if ("transitionmatrix".equals(ConfigurationFileUtil
 							.extractRootElementNameIncludingSchemaCheck(node
@@ -972,6 +973,7 @@ public class StorageTreeMenuFactory {
 							// further actions
 							addTransactionNoAction(manager, selection,
 									"Selected file cannot be edited");
+							addFileDeleteAction(manager, node);
 						} else {
 							addDummy(manager, selection,
 									"Not implemented (yet)");

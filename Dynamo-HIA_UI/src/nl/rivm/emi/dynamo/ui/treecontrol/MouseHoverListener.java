@@ -25,20 +25,24 @@ public class MouseHoverListener implements Listener {
 		if (theTreeItem != null) {
 			if (!theTreeItem.getExpanded() && (theTreeItem.getItemCount() > 0)) {
 				toolTipText.append("Click on + to expand.\n");
-			}
-			toolTipText.append("Right click to see possible action(s).");
-			Image okFileImage = Util.getImageRegistry().get(
-					Util.imageRegistryFileKey);
-			Image okFolderImage = Util.getImageRegistry().get(
-					Util.imageRegistryFolderKey);
-			if ((okFolderImage != null)
-					&& (!okFolderImage.equals(theTreeItem.getImage()))) {
-				if ((okFileImage != null)
-						&& (!okFileImage.equals(theTreeItem.getImage()))) {
-					toolTipText.delete(0, toolTipText.length());
-					toolTipText
-							.append("This file has a wrong format,\n"
-									+ "right clicking will generate a cryptic error message.");
+				toolTipText.append("Right click to see possible action(s).");
+			} else {
+				toolTipText
+				.append("Right click to see possible action(s).");
+				Image okFileImage = Util.getImageRegistry().get(
+						Util.imageRegistrySupportedXMLFileRightPlaceKey);
+				Image okFolderImage = Util.getImageRegistry().get(
+						Util.imageRegistryFolderKey);
+				if ((okFolderImage != null)
+						&& (!okFolderImage.equals(theTreeItem.getImage()))) {
+					if ((okFileImage != null)
+							&& (okFileImage.equals(theTreeItem.getImage()))) {
+					} else {
+						toolTipText.delete(0, toolTipText.length());
+						toolTipText
+								.append("This file has a wrong format,\n"
+										+ "right clicking will generate a cryptic error message.");
+					}
 				}
 			}
 		}
