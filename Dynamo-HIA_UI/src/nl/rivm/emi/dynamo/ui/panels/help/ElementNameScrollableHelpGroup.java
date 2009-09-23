@@ -55,7 +55,7 @@ public class ElementNameScrollableHelpGroup {
 					if (helpFile.isFile()) {
 						if (helpFile.canRead()) {
 							FileReader reader = new FileReader(helpFile);
-//							StringBuffer stringBuffer = new StringBuffer();
+							// StringBuffer stringBuffer = new StringBuffer();
 							char[] charArray = new char[(int) helpFile.length()];
 							reader.read(charArray);
 							helpContent = new String(charArray);
@@ -79,10 +79,16 @@ public class ElementNameScrollableHelpGroup {
 			helpContent = "Exception! Helpfile for: \"" + helpKey
 					+ "\" threw an IOException.";
 		} finally {
-			Rectangle clientArea = theGroup.getClientArea();
-			label.setBounds(clientArea);
-			label.setText(helpContent);
-			label.update();
+			synchronized (theGroup) {
+				if (!theGroup.isDisposed()) {
+					// Sometimes a race condition occurs where the group has
+					// been disposed of before the helptext is set...
+					Rectangle clientArea = theGroup.getClientArea();
+					label.setBounds(clientArea);
+					label.setText(helpContent);
+					label.update();
+				}
+			}
 		}
 	}
 

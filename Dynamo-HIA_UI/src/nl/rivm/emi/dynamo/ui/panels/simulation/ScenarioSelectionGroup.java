@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.UniqueScenarioNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -223,7 +224,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 				dataBindingContext.bindValue(textObservableValue, observable,
 						myType.getModelUpdateValueStrategy(), myType
 								.getViewUpdateValueStrategy());
-				text.addVerifyListener(new NameVerifyListener(helpGroup
+				text.addVerifyListener(new UniqueScenarioNameVerifyListener(helpGroup
 						.getTheModal()));
 			} else {
 				MessageBox box = new MessageBox(this.scenarioDefGroup
