@@ -67,7 +67,11 @@ public class RelativeRisksCompoundParameterGroup {
 
 	public void handlePlacementInContainer(Composite upperParent) {
 		FormData formData = new FormData();
+		if(upperParent != null){
 		formData.top = new FormAttachment(upperParent, 5);
+		} else {
+			formData.top = new FormAttachment(0, 5);
+		}
 		formData.left = new FormAttachment(0, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		formData.right = new FormAttachment(100, -5);

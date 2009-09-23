@@ -134,12 +134,12 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 	private void createHeader() {
 		Label spaceLabel_1_1 = new Label(this, SWT.NONE);
 		Label spaceLabel_1_2 = new Label(this, SWT.NONE);
-		Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
-		Label spaceLabel_1_4 = new Label(this, SWT.NONE);
-		Label spaceLabel_1_5 = new Label(this, SWT.NONE);
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		Label spaceLabel_1_4 = new Label(this, SWT.NONE);
+		Label spaceLabel_1_5 = new Label(this, SWT.NONE);
+		Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		Label spaceLabel_1_7 = new Label(this, SWT.NONE);
 		Label spaceLabel_1_8 = new Label(this, SWT.NONE);
 		// Just above the values.

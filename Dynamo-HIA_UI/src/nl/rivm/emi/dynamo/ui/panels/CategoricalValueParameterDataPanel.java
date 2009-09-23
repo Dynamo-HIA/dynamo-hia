@@ -48,10 +48,10 @@ public class CategoricalValueParameterDataPanel extends Composite {
 		ageLabel.setText("Age");
 		final Label categoryLabel = new Label(this, SWT.NONE);
 		categoryLabel.setText("Class");
-		final Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		final Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(count);
 			for (int classCount = 1; classCount < lotsOfData.size(); classCount++) {

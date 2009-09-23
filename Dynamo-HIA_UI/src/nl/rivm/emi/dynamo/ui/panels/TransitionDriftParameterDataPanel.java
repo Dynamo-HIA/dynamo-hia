@@ -51,12 +51,10 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		// labelLayoutData.horizontalAlignment = SWT.FILL;
 		Label spaceLabel = new Label(this, SWT.NONE);
 		// spaceLabel.setLayoutData(labelLayoutData);
-		Label femaleHeaderLabel = new Label(this, SWT.NONE);
-		// femaleHeaderLabel.setLayoutData(labelLayoutData);
-		femaleHeaderLabel.setText("Female");
 		Label maleHeaderLabel = new Label(this, SWT.NONE);
-		// maleHeaderLabel.setLayoutData(labelLayoutData);
 		maleHeaderLabel.setText("Male");
+		Label femaleHeaderLabel = new Label(this, SWT.NONE);
+		femaleHeaderLabel.setText("Female");
 		Label ageHeaderLabel = new Label(this, SWT.NONE);
 		// ageHeaderLabel.setLayoutData(labelLayoutData);
 		ageHeaderLabel.setText("Age");

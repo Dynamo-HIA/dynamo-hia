@@ -56,10 +56,10 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		// Top line.
-		final Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		final Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		// Just above the values.
 		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");

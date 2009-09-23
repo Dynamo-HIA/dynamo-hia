@@ -51,6 +51,11 @@ public class RiskSourcePropertiesMapFactory {
 			fileName = fileName.substring(0, pointDex);
 		}
 		ParentNode parentNode = ((ChildNode) selectedNode).getParent();
+		return fillProperties(fileName, parentNode);
+	}
+
+	private static RiskSourceProperties fillProperties(String fileName,
+			ParentNode parentNode) throws ConfigurationException {
 		RiskSourcePropertiesMap map = makeMap4OneRiskSourceType((BaseNode) parentNode);
 		Set<String> nameSet = map.keySet();
 		boolean found = false;

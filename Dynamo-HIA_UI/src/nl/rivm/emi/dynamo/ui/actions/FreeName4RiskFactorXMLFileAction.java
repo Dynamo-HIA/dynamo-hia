@@ -57,6 +57,10 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 	}
 
 	@Override
+	/*
+	 * 20090923 RLM Removed else for Compound Riskfactors, because the block
+	 * code was identical.
+	 */
 	public void run() {
 		try {
 			if (node instanceof DirectoryNode) {
@@ -79,11 +83,14 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 				if ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 						.equals(rootElementName))
 						|| (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
+								.getNodeLabel().equals(rootElementName))
+						|| (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName))) {
 					ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
 							shell, "Create file in the selected directory: "
 									+ selectionPath, "Enter name for new "
-									+ abstractName, "Name", new FileAndDirectoryNameInputValidator());
+									+ abstractName, "Name",
+							new FileAndDirectoryNameInputValidator());
 					inputDialog.open();
 					int returnCode = inputDialog.getReturnCode();
 					log.fatal("ReturnCode is: " + returnCode);
@@ -118,55 +125,14 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						}
 					}
 				} else {
-					if ((RootElementNamesEnum.RISKFACTOR_COMPOUND
-							.getNodeLabel().equals(rootElementName))) {
-						ImportExtendedInputTrialog inputDialog = new ImportExtendedInputTrialog(
-								shell,
-								"Create file in the selected directory: "
-										+ selectionPath, "Enter name for new "
-										+ abstractName, "Name", new FileAndDirectoryNameInputValidator());
-						inputDialog.open();
-						int returnCode = inputDialog.getReturnCode();
-						log.fatal("ReturnCode is: " + returnCode);
-						if (returnCode != Window.CANCEL) {
-							String candidateName = inputDialog.getValue();
-							String candidatePath = selectionPath
-									+ File.separator + candidateName + ".xml";
-							File candidateFile = new File(candidatePath);
-							if (candidateFile != null
-									&& !candidateFile.getName().isEmpty()) {
-								if (candidateFile.exists()) {
-									MessageBox alreadyExistsMessageBox = new MessageBox(
-											shell, SWT.ERROR_ITEM_NOT_ADDED);
-									alreadyExistsMessageBox.setMessage("\""
-											+ candidatePath
-											+ "\"\n exists already.");
-									alreadyExistsMessageBox.open();
-								} else {
-									String newPath = null;
-									newPath = candidateFile.getAbsolutePath();
-									File savedFile = new File(newPath);
-									File dataFile = null;
-									// Supply the location of dataFile
-									if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
-										dataFile = this.getImportFile();
-									} else {
-										dataFile = savedFile;
-									}
-									processThroughModal(dataFile, savedFile,
-											rootElementName);
-								}
-							}
-						}
-					} else {
-						MessageBox messageBox = new MessageBox(shell);
-						messageBox
-								.setMessage("The functionality for rootelementname: \""
-										+ rootElementName
-										+ "\" has not been implemented.");
-						messageBox.open();
-					}
+					MessageBox messageBox = new MessageBox(shell);
+					messageBox
+							.setMessage("The functionality for rootelementname: \""
+									+ rootElementName
+									+ "\" has not been implemented.");
+					messageBox.open();
 				}
+
 			} else {
 				MessageBox messageBox = new MessageBox(shell);
 				messageBox.setMessage("\"" + this.getClass().getName()

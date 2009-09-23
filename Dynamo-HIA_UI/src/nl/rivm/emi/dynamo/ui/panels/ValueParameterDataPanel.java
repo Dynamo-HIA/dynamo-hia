@@ -55,10 +55,10 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
-		Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);

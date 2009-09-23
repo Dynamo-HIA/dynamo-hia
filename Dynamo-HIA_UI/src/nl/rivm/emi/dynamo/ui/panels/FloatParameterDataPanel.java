@@ -47,12 +47,10 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		setLayout(layout);
 		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
-		final Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
-//		Label femaleTestLabel = new Label(this, SWT.NONE);
-//		femaleTestLabel.setText("FemaleTest");
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		final Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>)lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);

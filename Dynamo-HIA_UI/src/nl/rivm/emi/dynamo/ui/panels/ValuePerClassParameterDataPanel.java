@@ -59,10 +59,10 @@ public class ValuePerClassParameterDataPanel extends Composite {
 		ageLabel.setText("Age");
 		Label classLabel = new Label(this, SWT.NONE);
 		classLabel.setText("Class");
-		Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		// Made ageCount Object scope for debugging;
 		for (ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);

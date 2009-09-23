@@ -27,15 +27,16 @@ public class RelativeRisksCompoundGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		RelativeRiskContextPanel relRiskPanel = new RelativeRiskContextPanel(
-				theGroup, riskSourceNode, selectedNode);
-		relRiskPanel.handlePlacementInContainer();
+//		RelativeRiskContextPanel relRiskPanel = new RelativeRiskContextPanel(
+//				theGroup, riskSourceNode, selectedNode);
+//		relRiskPanel.handlePlacementInContainer();
 		log.debug("Now for RelativeRisksCompoundParameterGroup");
 		RelativeRisksCompoundParameterGroup parameterGroup = new RelativeRisksCompoundParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup,
 				durationClassIndex);
-		parameterGroup.handlePlacementInContainer(relRiskPanel.group);
-	}
+//		parameterGroup.handlePlacementInContainer(relRiskPanel.group);
+		parameterGroup.handlePlacementInContainer(null);
+		}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
 		FormData formData = new FormData();

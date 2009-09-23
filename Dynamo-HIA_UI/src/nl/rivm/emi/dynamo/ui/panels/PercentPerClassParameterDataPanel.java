@@ -55,10 +55,10 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 		ageLabel.setText("Age");
 		final Label classLabel = new Label(this, SWT.NONE);
 		classLabel.setText("Class");
-		final Label femaleLabel = new Label(this, SWT.NONE);
-		femaleLabel.setText("Female");
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		final Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap<?> oneAgeMap = (TypedHashMap<?>) lotsOfData.get(ageCount);
 			TypedHashMap<?> femaleClassHMap = (TypedHashMap<?>) oneAgeMap
