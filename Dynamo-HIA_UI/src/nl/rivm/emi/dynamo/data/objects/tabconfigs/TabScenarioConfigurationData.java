@@ -94,6 +94,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 	}
 
 	public void setAltTransitionFileName(String altTransitionFileName) {
+		log.debug(this + " Setting alternative transition-filename to: " + altTransitionFileName);
 		this.altTransitionFileName = altTransitionFileName;
 	}
 
@@ -106,6 +107,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 	}
 
 	public void initialize(Object name, ArrayList<AtomicTypeObjectTuple> list) {
+		log.debug("Initializing: " + this);
 		setObservableName(new WritableValue(name, String.class));
 		for (AtomicTypeObjectTuple tuple : list) {
 			XMLTagEntity type = tuple.getType();
@@ -126,7 +128,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 						} else {
 							if (type instanceof TransFileName) {
 								
-								log.debug("((WritableValue) tuple.getValue()).doGetValue() " + 
+								log.debug("Alternative transition-file name: " + 
 										((WritableValue) tuple
 										.getValue()).doGetValue());
 								
@@ -135,7 +137,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 							} else {
 								if (type instanceof PrevFileName) {
 	
-									log.debug("((WritableValue) tuple.getValue()).doGetValue() " + 
+									log.debug("Alternative prevalence-file name: " + 
 											((WritableValue) tuple
 											.getValue()).doGetValue());
 									
@@ -145,7 +147,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 									log
 											.fatal("Unexpected type \""
 													+ type.getXMLElementName()
-													+ "\" in getDiseasesConfigurations()");
+													+ "\" initializing " + this.getClass().getSimpleName());
 								}
 							}
 						}
