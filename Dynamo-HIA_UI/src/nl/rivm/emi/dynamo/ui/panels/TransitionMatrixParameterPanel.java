@@ -67,14 +67,14 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		Label fromLabel = new Label(this, SWT.NONE);
-		fromLabel.setText("From:");
+		fromLabel.setText("To:");
 		Label[] topLabels = new Label[numberOfCategories];
 		for (int count = 1; count <= numberOfCategories; count++) {
 			topLabels[count - 1] = new Label(this, SWT.NONE);
 			topLabels[count - 1].setText(new Integer(count).toString());
 		}
 		Label toLabel = new Label(this, SWT.NONE);
-		toLabel.setText("To");
+		toLabel.setText("From");
 		Label[] blankLabels = new Label[numberOfCategories];
 		for (int count = 1; count <= numberOfCategories; count++) {
 			blankLabels[count - 1] = new Label(this, SWT.NONE);
