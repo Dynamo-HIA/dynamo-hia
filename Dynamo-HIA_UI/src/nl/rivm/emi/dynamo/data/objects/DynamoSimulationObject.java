@@ -217,6 +217,8 @@ public class DynamoSimulationObject extends
 	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
+		log.debug("Getting >" + riskFactorMap.size()
+				+ "< RiskFactorConfigurations from instance: " + this);
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		Set<Object> namesSet = riskFactorMap.keySet();
 		for (Object nameObject : namesSet) {
@@ -239,6 +241,14 @@ public class DynamoSimulationObject extends
 					.get(name);
 			riskFactorsMap = riskFactorConfiguration
 					.putInTypedHashMap(riskFactorsMap);
+			log
+					.debug("Putting riskfactor-configuration at name: "
+							+ name
+							+ " configured name: "
+							+ ((TabRiskFactorConfigurationData) riskFactorConfiguration)
+									.getName() != null ? ((TabRiskFactorConfigurationData) riskFactorConfiguration)
+							.getName()
+							: null);
 		}
 		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorsMap);
 	}
@@ -352,13 +362,14 @@ public class DynamoSimulationObject extends
 			data.initialize(name, scenarioModelData);
 			resultMap.put(name, (ITabScenarioConfiguration) data);
 			boolean loggingTest = (((ITabScenarioConfiguration) data)
-			.getObservableSuccessRate() != null)&&(((ITabScenarioConfiguration) data)
-					.getObservableSuccessRate().doGetValue()!= null);
+					.getObservableSuccessRate() != null)
+					&& (((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue() != null);
 			log.debug("Getting scenario-configuration at name: "
 					+ name
 					+ " successrate: "
-					+ (loggingTest?((ITabScenarioConfiguration) data)
-							.getObservableSuccessRate().doGetValue():"null"));
+					+ (loggingTest ? ((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue() : "null"));
 		}
 		return resultMap;
 	}
@@ -377,13 +388,14 @@ public class DynamoSimulationObject extends
 							+ name
 							+ " configured name: "
 							+ ((ITabScenarioConfiguration) data)
-							.getObservableName()!=null?((ITabScenarioConfiguration) data)
-									.getObservableName().doGetValue():null
-							+ " successrate: "
-							+ ((ITabScenarioConfiguration) data)
-									.getObservableSuccessRate() != null ? ((ITabScenarioConfiguration) data)
-							.getObservableSuccessRate().doGetValue()
-							: null);
+									.getObservableName() != null ? ((ITabScenarioConfiguration) data)
+							.getObservableName().doGetValue()
+							: null
+									+ " successrate: "
+									+ ((ITabScenarioConfiguration) data)
+											.getObservableSuccessRate() != null ? ((ITabScenarioConfiguration) data)
+									.getObservableSuccessRate().doGetValue()
+									: null);
 		}
 		put(XMLTagEntityEnum.SCENARIOS.getElementName(), scenariosMap);
 	}

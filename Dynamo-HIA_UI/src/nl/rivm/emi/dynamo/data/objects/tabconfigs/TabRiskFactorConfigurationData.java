@@ -27,16 +27,19 @@ public class TabRiskFactorConfigurationData implements
 			ArrayList<AtomicTypeObjectTuple> list) {
 		if (name instanceof String) {
 			this.name = (String) name;
+log.debug("Intitializing, name: " + name);
 			for (int count = 0; count < list.size(); count++) {
 				AtomicTypeObjectTuple tuple = list.get(count);
 				XMLTagEntity type = tuple.getType();
 				if (type instanceof TransFileName) {
 					transitionFileName = (String) ((WritableValue) tuple
 							.getValue()).doGetValue();
+					log.debug("Intitializing, transitionFileName: " + transitionFileName);
 				} else {
 					if (type instanceof PrevFileName) {
 						prevalenceFileName = (String) ((WritableValue) tuple
 								.getValue()).doGetValue();
+						log.debug("Intitializing, prevalenceFileName: " + prevalenceFileName);
 					} else {
 						log.fatal("Unexpected type \""
 								+ type.getXMLElementName()

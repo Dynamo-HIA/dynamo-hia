@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -221,14 +222,12 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 
 	public void updateDynamoSimulationObject() throws ConfigurationException {
 		log.error("UPDATING AFTER RISKFACTOR CHANGE");
-		// log.debug("singleConfiguration" + singleConfiguration);
-		// log.debug("singleConfiguration.getName()" +
-		// singleConfiguration.getName());
-         Map<String, TabRiskFactorConfigurationData> configurations = dynamoSimulationObject
-			.getRiskFactorConfigurations();
+// There can only be ONE (for now :-).
+//		Map<String, TabRiskFactorConfigurationData> configurations = dynamoSimulationObject
+//			.getRiskFactorConfigurations();
+		Map<String, TabRiskFactorConfigurationData> configurations = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		configurations.put(singleConfiguration.getName(),
 				singleConfiguration);
-		
 		this.dynamoSimulationObject.setRiskFactorConfigurations(configurations);
 
 		/*
