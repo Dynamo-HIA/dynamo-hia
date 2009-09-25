@@ -38,7 +38,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	private DynamoSimulationObject dynamoSimulationObject;
-	private Map<String, TabRiskFactorConfigurationData> configurations;
+	//private Map<String, TabRiskFactorConfigurationData> configurations;
 	private TabRiskFactorConfigurationData singleConfiguration;
 	private Set<String> initialSelection;
 	private RiskFactorTab tab;
@@ -49,10 +49,11 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 			throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
-		this.configurations = dynamoSimulationObject
-				.getRiskFactorConfigurations();
+		//this.configurations = dynamoSimulationObject
+		//		.getRiskFactorConfigurations();
 		this.initialSelection = initialSelection;
-		this.singleConfiguration = this.configurations.get(getInitialName());
+		this.singleConfiguration = this.dynamoSimulationObject
+		.getRiskFactorConfigurations().get(getInitialName());
 		this.tab = tab;
 	}
 
@@ -164,7 +165,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	@Override
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
-		this.configurations.remove(this.singleConfiguration.getName());
+		dynamoSimulationObject
+		.getRiskFactorConfigurations().remove(this.singleConfiguration.getName());
 
 		/*
 		 * changed by Hendriek: use update. Then the setting of the
@@ -222,9 +224,11 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		// log.debug("singleConfiguration" + singleConfiguration);
 		// log.debug("singleConfiguration.getName()" +
 		// singleConfiguration.getName());
-
-		this.configurations.put(singleConfiguration.getName(),
+         Map<String, TabRiskFactorConfigurationData> configurations = dynamoSimulationObject
+			.getRiskFactorConfigurations();
+		configurations.put(singleConfiguration.getName(),
 				singleConfiguration);
+		
 		this.dynamoSimulationObject.setRiskFactorConfigurations(configurations);
 
 		/*
