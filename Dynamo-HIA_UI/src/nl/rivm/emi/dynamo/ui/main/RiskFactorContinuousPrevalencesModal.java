@@ -17,9 +17,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -63,9 +60,7 @@ public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChild
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractMultiRootChildDataModal#open()
 	 */
 	@Override	
-	public synchronized void open() {
-		try {
-			super.open();
+	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
 			this.modelObject = (RiskFactorContinuousPrevalencesObject)manufactureModelObject();
 			RiskFactorContinuousPrevalencesGroup riskFactorContinuousPrevalencesGroup = new RiskFactorContinuousPrevalencesGroup(
 					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel);
@@ -74,22 +69,6 @@ public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChild
 			// This is the first place this works.
 			this.shell.setSize(600, 500);
 			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
 	}
 
 	/* (non-Javadoc)

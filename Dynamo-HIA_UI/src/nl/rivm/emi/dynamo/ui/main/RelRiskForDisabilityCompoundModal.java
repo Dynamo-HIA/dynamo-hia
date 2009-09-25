@@ -24,9 +24,6 @@ import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
@@ -51,9 +48,7 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 	}
 
 	@Override
-	public synchronized void open() {
-		try {
-			super.open();
+	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
 			this.modelObject = manufactureModelObject();
 //			BaseNode riskSourceNode = null;
 			log.debug("Now for RelativeRisksCompoundGroup");
@@ -66,22 +61,6 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 			// This is the first place this works.
 			this.shell.setSize(600, 400);
 			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
 	}
 
 	@Override
@@ -123,10 +102,6 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
-	}
-
-	public void run() {
-		open();
 	}
 
 	/*

@@ -16,8 +16,6 @@ import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -49,9 +47,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 	}
 
 	@Override
-	protected void open() {
-		try {
-			super.open();
+	protected void openModal() throws ConfigurationException, DynamoInconsistentDataException{
 			this.modelObject = manufactureModelObject();
 			TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
 					this.shell, SWT.NONE, selectedNode, modelObject,
@@ -65,22 +61,6 @@ public class TransitionMatrixModal extends AbstractDataModal {
 			// This is the first place this works.
 			this.shell.setSize(horizontalSize, verticalSize);
 			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
 	}
 
 	protected TypedHashMap<?> manufactureModelObject()

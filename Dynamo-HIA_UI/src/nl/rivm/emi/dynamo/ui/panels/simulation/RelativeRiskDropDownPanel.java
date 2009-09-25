@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.RelativeRiskComboDebugModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.RelativeRiskComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 
@@ -72,6 +73,9 @@ public class RelativeRiskDropDownPanel {
 		this.relativeRiskComboModifyListener = myDataManager
 				.getRelativeRiskComboModifyListener();
 		dropDown.addModifyListener(relativeRiskComboModifyListener);
+// Debugging extra's.
+		RelativeRiskComboDebugModifyListener debugListener = new RelativeRiskComboDebugModifyListener(myDataManager, dropDownLabel);
+		dropDown.addModifyListener(debugListener);
 		//
 //		Event event = new Event();
 //		event.widget = dropDown;

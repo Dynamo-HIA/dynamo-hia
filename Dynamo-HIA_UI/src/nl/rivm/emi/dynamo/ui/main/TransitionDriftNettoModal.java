@@ -9,9 +9,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -48,9 +45,7 @@ public class TransitionDriftNettoModal extends AbstractMultiRootChildDataModal{
 	}
 
 	@Override
-	protected synchronized void open() {
-		try {
-			super.open();
+	protected synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
 			nonGenericModelObject = new TransitionDriftNettoObject(manufactureModelObject());
 			TransitionDriftNettoGroup transitionDriftNettoGroup = new TransitionDriftNettoGroup(
 					this.shell, this.nonGenericModelObject,
@@ -61,22 +56,6 @@ public class TransitionDriftNettoModal extends AbstractMultiRootChildDataModal{
 			// This is the first place this works.
 			this.shell.setSize(400, 250);
 			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
 	}
 
 	public TransitionDriftNettoObject getData() {

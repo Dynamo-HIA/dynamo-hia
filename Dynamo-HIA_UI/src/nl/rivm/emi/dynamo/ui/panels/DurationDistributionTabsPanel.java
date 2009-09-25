@@ -50,12 +50,13 @@ public class DurationDistributionTabsPanel {
 
 
 		final DurationDistributionTab[] genderTabs = new DurationDistributionTab[2];
-		genderTabs[BiGender.FEMALE_INDEX] = new DurationDistributionTab(
-				tabFolder, BiGender.FEMALE_INDEX, durationDistributionObject,
-				dataBindingContext, selectedNode, theHelpGroup);
 
 		genderTabs[BiGender.MALE_INDEX] = new DurationDistributionTab(
 				tabFolder, BiGender.MALE_INDEX, durationDistributionObject,
+				dataBindingContext, selectedNode, theHelpGroup);
+
+		genderTabs[BiGender.FEMALE_INDEX] = new DurationDistributionTab(
+				tabFolder, BiGender.FEMALE_INDEX, durationDistributionObject,
 				dataBindingContext, selectedNode, theHelpGroup);
 
 		tabFolder.addListener(SWT.Selection, new Listener() {

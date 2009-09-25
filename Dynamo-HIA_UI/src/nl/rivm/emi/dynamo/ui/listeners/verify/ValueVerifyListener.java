@@ -32,9 +32,9 @@ public class ValueVerifyListener extends AbstractNonSAPVerifyListener {
 		myText.setBackground(new Color(null, 0xff, 0xff, 0xff));
 		try {
 			if (candidateContent.length() == 0) {
-				// Reluctantly accept an empty field.
+				// Do not accept an empty field.
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
-				arg0.doit = true;
+				arg0.doit = false;
 			} else {
 				if ((((Value) XMLTagEntityEnum.STANDARDVALUE.getTheType()).matchPattern
 						.matcher(candidateContent)).matches()) {

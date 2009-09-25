@@ -134,7 +134,8 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 										.setDataFileName(defaultFileName);
 								dataManager
 										.setConfiguredFileName(defaultFileName);
-// 20090918								dataManager.refreshAvaillableRRlist();
+								// 20090918
+								// dataManager.refreshAvaillableRRlist();
 							} else {
 								throw new Exception(
 										"At least one dropdown was empty.");
@@ -160,24 +161,40 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException, Exception {
 		log.debug("Entering setOrUpdateConfiguration()");
+		/**
+		 * Flag to signal that there have been changes from the loaded values
+		 * inside this method. These changes will without intervention not be
+		 * reflected in the simulation configuration due to the selectSilent's
+		 * used.
+		 */
+		boolean internalCorrection = false;
 		Combo currentCombo;
 		myConfiguration = configuration;
 		currentCombo = dataManager
 				.findComboObject(RelativeRiskDropDownPanel.FROM);
 		if (currentCombo != null) {
-			DropDownPropertiesSet fromSet = dataManager
-					.getFromSet();
+			DropDownPropertiesSet fromSet = dataManager.getFromSet();
 			String loadedFrom = myConfiguration.getFrom();
-			int loadedFromIndex = fromSet
-					.getSelectedIndex(loadedFrom);
-			log.debug("Processing loadedFrom: " + loadedFrom + " at index: " + loadedFromIndex);
+			int loadedFromIndex = fromSet.getSelectedIndex(loadedFrom);
+			log.debug("Processing loadedFrom: " + loadedFrom + " at index: "
+					+ loadedFromIndex);
+			if (!fromSet.contains(loadedFrom)) {
+				handleWarningMessage("Invalid from: " + loadedFrom
+						+ " changing it to: " + fromSet.getSelectedString(0),
+						currentCombo);
+				internalCorrection = true;
+			}
 			int fromSetSize = fromSet.size();
 			for (int count = 0; count < fromSetSize; count++) {
-				String fromSetItem = fromSet
-						.getSelectedString(count);
+				String fromSetItem = fromSet.getSelectedString(count);
 				currentCombo.add(fromSetItem, count);
 			}
-			selectSilent(currentCombo, loadedFromIndex);
+			if (!internalCorrection) {
+				selectSilent(currentCombo, loadedFromIndex);
+			} else {
+				currentCombo.select(loadedFromIndex);
+				return currentCombo;
+			}
 		} else {
 			throw new Exception(
 					"State-error: From-combo has not been initialized yet.");
@@ -185,19 +202,29 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 		currentCombo = dataManager
 				.findComboObject(RelativeRiskDropDownPanel.TO);
 		if (currentCombo != null) {
-			DropDownPropertiesSet toSet = dataManager
-					.getToSet(myConfiguration.getFrom());
+			DropDownPropertiesSet toSet = dataManager.getToSet(myConfiguration
+					.getFrom());
 			String loadedTo = myConfiguration.getTo();
-			int loadedToIndex = toSet
-					.getSelectedIndex(loadedTo);
-			log.debug("Processing loadedTo: " + loadedTo + " at index: " + loadedToIndex);
+			int loadedToIndex = toSet.getSelectedIndex(loadedTo);
+			log.debug("Processing loadedTo: " + loadedTo + " at index: "
+					+ loadedToIndex);
+			if (!toSet.contains(loadedTo)) {
+				handleWarningMessage("Invalid to: " + loadedTo
+						+ " changing it to: " + toSet.getSelectedString(0),
+						currentCombo);
+				internalCorrection = true;
+			}
 			int toSetSize = toSet.size();
 			for (int count = 0; count < toSetSize; count++) {
-				String toSetItem = toSet
-						.getSelectedString(count);
+				String toSetItem = toSet.getSelectedString(count);
 				currentCombo.add(toSetItem, count);
 			}
-			selectSilent(currentCombo, loadedToIndex);
+			if (!internalCorrection) {
+				selectSilent(currentCombo, loadedToIndex);
+			} else {
+				currentCombo.select(loadedToIndex);
+				return currentCombo;
+			}
 		} else {
 			throw new Exception(
 					"State-error: To-combo has not been initialized yet.");
@@ -205,21 +232,30 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 		currentCombo = dataManager
 				.findComboObject(RelativeRiskDropDownPanel.RELATIVE_RISK);
 		if (currentCombo != null) {
-			DropDownPropertiesSet fileNameSet = dataManager
-					.getFileSet(myConfiguration.getFrom(),
-							myConfiguration.getTo());
-			String loadedFileName = myConfiguration
-					.getDataFileName();
+			DropDownPropertiesSet fileNameSet = dataManager.getFileSet(
+					myConfiguration.getFrom(), myConfiguration.getTo());
+			String loadedFileName = myConfiguration.getDataFileName();
 			int loadedFileNameIndex = fileNameSet
 					.getSelectedIndex(loadedFileName);
-			log.debug("Processing loadedFileName: " + loadedFileName + " at index: " + loadedFileNameIndex);
+			log.debug("Processing loadedFileName: " + loadedFileName
+					+ " at index: " + loadedFileNameIndex);
+			if (!fileNameSet.contains(loadedFileName)) {
+				handleWarningMessage("Invalid filename: " + loadedFileName
+						+ " changing it to: "
+						+ fileNameSet.getSelectedString(0), currentCombo);
+				internalCorrection = true;
+			}
 			int fileNameSetSize = fileNameSet.size();
 			for (int count = 0; count < fileNameSetSize; count++) {
-				String fileNameSetItem = fileNameSet
-						.getSelectedString(count);
+				String fileNameSetItem = fileNameSet.getSelectedString(count);
 				currentCombo.add(fileNameSetItem, count);
 			}
-			selectSilent(currentCombo, loadedFileNameIndex);
+			if (!internalCorrection) {
+				selectSilent(currentCombo,loadedFileNameIndex);
+			} else {
+				currentCombo.select(loadedFileNameIndex);
+				return currentCombo;
+			}
 		} else {
 			throw new Exception(
 					"State-error: From-combo has not been initialized yet.");
@@ -366,6 +402,14 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 			dataManager.setConfiguredFileName(newText);
 			myConfiguration.setDataFileName(newText);
 		}
+	}
+
+	private void handleWarningMessage(String s, Widget combo) {
+		MessageBox box = new MessageBox(combo.getDisplay().getActiveShell(),
+				SWT.ERROR_UNSPECIFIED);
+		box.setText("WARNING");
+		box.setMessage("WARNING:\n" + s);
+		box.open();
 	}
 
 	private void handleErrorMessage(Exception e,

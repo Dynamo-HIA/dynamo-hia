@@ -311,6 +311,7 @@ public class DynamoSimulationObject extends
 	 */
 	synchronized public void setRelativeRiskConfigurations(
 			Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations) {
+		log.debug("Setting RelativeRisks in instance: " + this);
 		TypedHashMap<? extends XMLTagEntity> relativeRisksMap = new TypedHashMap(
 				XMLTagEntityEnum.RRINDEX.getTheType());
 		Set<Integer> indexSet = relativeRiskConfigurations.keySet();
@@ -318,8 +319,8 @@ public class DynamoSimulationObject extends
 			TabRelativeRiskConfigurationData data = (TabRelativeRiskConfigurationData) relativeRiskConfigurations
 					.get(index);
 			relativeRisksMap = data.putInTypedHashMap(relativeRisksMap);
-			log.debug("Putting configuration at index: " + index + " content: "
-					+ data.report());
+			log.debug("Putting relativerisks-configuration at index: " + index
+					+ " content: " + data.report());
 		}
 		put(XMLTagEntityEnum.RRS.getElementName(), relativeRisksMap);
 		// 
@@ -350,11 +351,14 @@ public class DynamoSimulationObject extends
 			ITabStoreConfiguration data = new TabScenarioConfigurationData();
 			data.initialize(name, scenarioModelData);
 			resultMap.put(name, (ITabScenarioConfiguration) data);
+			boolean loggingTest = (((ITabScenarioConfiguration) data)
+			.getObservableSuccessRate() != null)&&(((ITabScenarioConfiguration) data)
+					.getObservableSuccessRate().doGetValue()!= null);
 			log.debug("Getting scenario-configuration at name: "
 					+ name
 					+ " successrate: "
-					+ ((ITabScenarioConfiguration) data)
-							.getObservableSuccessRate().doGetValue());
+					+ (loggingTest?((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue():"null"));
 		}
 		return resultMap;
 	}
@@ -368,14 +372,18 @@ public class DynamoSimulationObject extends
 			TabScenarioConfigurationData data = (TabScenarioConfigurationData) scenarioConfigurations
 					.get(name);
 			scenariosMap = data.putInTypedHashMap(scenariosMap);
-			log.debug("Putting scenario-configuration at name: "
-					+ name
-					+ " configured name: "
-					+ ((ITabScenarioConfiguration) data).getObservableName()
-							.doGetValue()
-					+ " successrate: "
-					+ ((ITabScenarioConfiguration) data)
-							.getObservableSuccessRate().doGetValue());
+			log
+					.debug("Putting scenario-configuration at name: "
+							+ name
+							+ " configured name: "
+							+ ((ITabScenarioConfiguration) data)
+							.getObservableName()!=null?((ITabScenarioConfiguration) data)
+									.getObservableName().doGetValue():null
+							+ " successrate: "
+							+ ((ITabScenarioConfiguration) data)
+									.getObservableSuccessRate() != null ? ((ITabScenarioConfiguration) data)
+							.getObservableSuccessRate().doGetValue()
+							: null);
 		}
 		put(XMLTagEntityEnum.SCENARIOS.getElementName(), scenariosMap);
 	}

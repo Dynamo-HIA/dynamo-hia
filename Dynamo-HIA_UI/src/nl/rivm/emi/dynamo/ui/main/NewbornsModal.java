@@ -30,14 +30,9 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * @author schutb
- * 
- */
 public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -76,9 +71,7 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
 	 */
 	@Override
-	public synchronized void open() {
-		try {
-			super.open();
+	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
 			// If the modelObject != null, then the Update button has been used
 			if (this.modelObject == null) {
 				this.modelObject = new NewbornsObject(manufactureModelObject());
@@ -91,22 +84,6 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 			// This is the first place this works.
 			this.shell.setSize(900, 700);
 			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
 	}
 
 	/**

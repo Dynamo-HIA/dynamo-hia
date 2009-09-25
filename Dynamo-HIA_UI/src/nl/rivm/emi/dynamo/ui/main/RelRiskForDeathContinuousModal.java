@@ -8,6 +8,7 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksForDeathContinuousGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -50,5 +51,14 @@ public class RelRiskForDeathContinuousModal extends AgnosticModal {
 				this.selectedNode, this.helpPanel);
 		relativeRiskForDeathGroup.setFormData(this.helpPanel.getGroup(),
 				buttonPanel);
+	}
+
+	/**
+	 * The AgnosticModal layer handles the opening....
+	 * Must be present to keep the compiler happy.
+	 */
+	@Override
+	public void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
 	}
 }

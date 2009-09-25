@@ -24,6 +24,8 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -61,7 +63,8 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 * Constructor
 	 * 
 	 * @param parentShell
-	 * @param dataFilePath Path from where the data will be read.
+	 * @param dataFilePath
+	 *            Path from where the data will be read.
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
@@ -82,16 +85,21 @@ public abstract class AbstractMultiRootChildDataModal extends
 
 	protected abstract String createCaption(BaseNode selectedNode2);
 
-	protected void open(){
+	final protected void open() throws ConfigurationException,
+			DynamoInconsistentDataException {
 		this.dataBindingContext = new DataBindingContext();
 		buttonPanel = new GenericButtonPanel(this.shell);
-		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
+		this.helpPanel = new HelpGroup((DataAndFileContainer) this, buttonPanel);
 		HelpTextManager.initialize(helpPanel);
 		((GenericButtonPanel) buttonPanel)
-		.setModalParent((DataAndFileContainer) this);
+				.setModalParent((DataAndFileContainer) this);
 		// 20090713 Added
 		HelpTextManager.initialize(helpPanel);
+		openModal();
 	}
+
+	protected abstract void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException;
 
 	/**
 	 * This method constructs a model-object always containing Observables at
@@ -136,13 +144,54 @@ public abstract class AbstractMultiRootChildDataModal extends
 		return producedData;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Final forces the entrypoint to this level.
 	 * 
-	 * @see java.lang.Runnable#run()
+	 * (There were other entrypoints, that could cause unexpected behaviour.)
 	 */
-	public void run() {
-		open();
+	final public void run() {
+		try {
+			open();
+			Display display = this.shell.getDisplay();
+			while (!this.shell.isDisposed()) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+		} catch (ConfigurationException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+			this.shell.dispose();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+			this.shell.dispose();
+		} catch (Throwable e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage("An unexpected error occurred:\n"
+					+ e.getClass().getSimpleName() + "\n" + e.getMessage()
+					+ "\n" + dumpTopOfStackTrace(e));
+			box.open();
+			this.shell.dispose();
+			// Will things be stable after this???????
+		}
+	}
+
+	private String dumpTopOfStackTrace(Throwable thrown) {
+		final Integer topSize = 3;
+		StringBuffer resultBuffer = new StringBuffer();
+		StackTraceElement[] stackTraceElementArray = thrown.getStackTrace();
+		for (int count = 0; (count < topSize)
+				&& (count < stackTraceElementArray.length); count++) {
+			resultBuffer.append(stackTraceElementArray[count].getClassName()
+					+ "." + stackTraceElementArray[count].getMethodName() + "("
+					+ stackTraceElementArray[count].getLineNumber() + ")\n");
+		}
+		return resultBuffer.toString();
 	}
 
 	abstract public Object getData();
@@ -192,7 +241,8 @@ public abstract class AbstractMultiRootChildDataModal extends
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
 	}
-	public HelpGroup getHelpGroup(){
+
+	public HelpGroup getHelpGroup() {
 		return helpPanel;
 	}
 }

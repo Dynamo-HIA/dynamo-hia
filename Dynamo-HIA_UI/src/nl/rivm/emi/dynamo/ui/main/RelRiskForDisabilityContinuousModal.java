@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -8,6 +9,7 @@ package nl.rivm.emi.dynamo.ui.main;
 /**
  * Modal dialog to create and edit the population size XML files. 
  */
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksContinuousGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
@@ -23,15 +25,16 @@ public class RelRiskForDisabilityContinuousModal extends AgnosticModal {
 
 	/**
 	 * @param parentShell
-	 * @param dataFilePath 
+	 * @param dataFilePath
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
 	 */
 	public RelRiskForDisabilityContinuousModal(Shell parentShell,
-			String dataFilePath, String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
-		super(parentShell, dataFilePath, configurationFilePath, rootElementName, selectedNode);
+			String dataFilePath, String configurationFilePath,
+			String rootElementName, BaseNode selectedNode) {
+		super(parentShell, dataFilePath, configurationFilePath,
+				rootElementName, selectedNode);
 	}
 
 	@Override
@@ -40,11 +43,21 @@ public class RelRiskForDisabilityContinuousModal extends AgnosticModal {
 	}
 
 	@Override
-	protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException {
+	protected void specializedOpenPart(Composite buttonPanel)
+			throws ConfigurationException {
 		RelativeRisksContinuousGroup relativeRiskForDisabilityGroup = new RelativeRisksContinuousGroup(
 				this.shell, this.modelObject, this.dataBindingContext,
 				this.selectedNode, this.helpPanel);
 		relativeRiskForDisabilityGroup.setFormData(this.helpPanel.getGroup(),
 				buttonPanel);
+	}
+
+	/**
+	 * The AgnosticModal layer handles the opening.... Must be present to keep
+	 * the compiler happy.
+	 */
+	@Override
+	public void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
 	}
 }

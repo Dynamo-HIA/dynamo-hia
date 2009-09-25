@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -27,28 +28,29 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
  * Abstract class with for the data model screen
  * 
- * Two paths are used:
- * One for the import file containing the data (dataFilePath) and 
- * one for the configured application file (configurationFilePath)
+ * Two paths are used: One for the import file containing the data
+ * (dataFilePath) and one for the configured application file
+ * (configurationFilePath)
  * 
- */	
-public abstract class AbstractDataModal extends DataAndFileContainer implements Runnable{
-	
+ */
+public abstract class AbstractDataModal extends DataAndFileContainer implements
+		Runnable {
+
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
 
 	private Shell parentShell;
 	final protected Shell shell;
 	protected HelpGroup helpPanel;
 	protected GenericButtonPanel buttonPanel;
 	protected BaseNode selectedNode;
-	
 
 	/**
 	 * 
@@ -60,55 +62,69 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	 * @param rootElementName
 	 * @param selectedNode
 	 */
-	public AbstractDataModal(Shell parentShell, String dataFilePath, 
-			String configurationFilePath,
-			String rootElementName, BaseNode selectedNode) {
+	public AbstractDataModal(Shell parentShell, String dataFilePath,
+			String configurationFilePath, String rootElementName,
+			BaseNode selectedNode) {
 		super(rootElementName, dataFilePath, configurationFilePath);
 		this.parentShell = parentShell;
 		this.selectedNode = selectedNode;
-		this.shell = new Shell(parentShell, /* SWT.DIALOG_TRIM */ SWT.BORDER | SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
+		this.shell = new Shell(parentShell, /* SWT.DIALOG_TRIM */SWT.BORDER
+				| SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText(createCaption(selectedNode));
 		this.shell.addShellListener(new MyShellListener());
 		FormLayout formLayout = new FormLayout();
-		this.shell.setLayout(formLayout);		
+		this.shell.setLayout(formLayout);
 	}
+
 	protected abstract String createCaption(BaseNode selectedNode2);
 
-	protected void open(){
+	final protected void open() throws ConfigurationException,
+			DynamoInconsistentDataException {
 		this.dataBindingContext = new DataBindingContext();
 		buttonPanel = new GenericButtonPanel(this.shell);
-		this.helpPanel = new HelpGroup((DataAndFileContainer)this, buttonPanel);
+		this.helpPanel = new HelpGroup((DataAndFileContainer) this, buttonPanel);
 		HelpTextManager.initialize(helpPanel);
 		((GenericButtonPanel) buttonPanel)
-		.setModalParent((DataAndFileContainer) this);
-	// 20090713 Added
+				.setModalParent((DataAndFileContainer) this);
 		HelpTextManager.initialize(helpPanel);
+		if (this instanceof AgnosticModal) {
+			((AgnosticModal) this).openAgnostic();
+		} else {
+			openModal();
+		}
 	}
+
+	protected abstract void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException;
 
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> producedData = null;
-		AgnosticFactory factory = (AgnosticFactory)FactoryProvider
+		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
 		if (factory == null) {
 			throw new ConfigurationException(
-					"No Factory found for rootElementName: " + this.rootElementName);
+					"No Factory found for rootElementName: "
+							+ this.rootElementName);
 		}
 		//
-		if(((Object)factory) instanceof CategoricalFactory){
+		if (((Object) factory) instanceof CategoricalFactory) {
 			Index categoryIndex = (Index) XMLTagEntityEnum.INDEX.getTheType();
 			int minIndex = categoryIndex.getMIN_VALUE();
 			int maxIndex = categoryIndex.getMAX_VALUE();
-			((CategoricalFactory)factory).setNumberOfCategories(maxIndex - minIndex + 1);
+			((CategoricalFactory) factory).setNumberOfCategories(maxIndex
+					- minIndex + 1);
 		}
 		//
 		File dataFile = new File(this.dataFilePath);
-		
+
 		if (dataFile.exists()) {
-			// The configuration file with data already exists, fill the modal with existing data
+			// The configuration file with data already exists, fill the modal
+			// with existing data
 			if (dataFile.isFile() && dataFile.canRead()) {
-				producedData = factory.manufactureObservable(dataFile, this.rootElementName);
+				producedData = factory.manufactureObservable(dataFile,
+						this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");
@@ -119,19 +135,64 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 						+ " is no file or cannot be read.");
 			}
 		} else {
-			// The configuration file with data does not yet exist, create a new screen object with default data
+			// The configuration file with data does not yet exist, create a new
+			// screen object with default data
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Runnable#run()
+	/**
+	 * Final forces the entrypoint to this level.
+	 * 
+	 * (There were other entrypoints, that could cause unexpected behaviour.)
 	 */
-	public void run() {
-		open();
+	final public void run() {
+		try {
+			open();
+			Display display = this.shell.getDisplay();
+			while (!this.shell.isDisposed()) {
+				if (!display.readAndDispatch())
+					display.sleep();
+			}
+		} catch (ConfigurationException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+			this.shell.dispose();
+		} catch (DynamoInconsistentDataException e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage(e.getMessage());
+			box.open();
+			this.shell.dispose();
+		} catch (Throwable e) {
+			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
+			box.setText("Processing " + this.configurationFilePath);
+			box.setMessage("An unexpected error occurred:\n" 
+					+ e.getClass().getSimpleName() + "\n"
+					+ e.getMessage() + "\n" 
+					+ dumpTopOfStackTrace(e));
+			box.open();
+			this.shell.dispose();
+			// Will things be stable after this???????
+		}
 	}
-	
+
+	private String dumpTopOfStackTrace(Throwable thrown) {
+		final Integer topSize = 3;
+		StringBuffer resultBuffer = new StringBuffer();
+		StackTraceElement[] stackTraceElementArray = thrown.getStackTrace();
+		for (int count = 0; (count < topSize)
+				&& (count < stackTraceElementArray.length); count++) {
+			resultBuffer.append(stackTraceElementArray[count].getClassName()
+					+ "." + stackTraceElementArray[count].getMethodName() + "("
+					+ stackTraceElementArray[count].getLineNumber() + ")\n");
+		}
+		return resultBuffer.toString();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -167,7 +228,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	public Shell getParentShell() {
 		return this.parentShell;
 	}
-	
+
 	public String getConfigurationFilePath() {
 		return this.configurationFilePath;
 	}
@@ -181,12 +242,12 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	}
 
 	public void setConfigurationFilePath(String configurationFilePath) {
-		this.configurationFilePath = configurationFilePath;	
+		this.configurationFilePath = configurationFilePath;
 	}
 
 	public void setDataFilePath(String dataFilePath) {
-		this.dataFilePath = dataFilePath;		
-	}	
+		this.dataFilePath = dataFilePath;
+	}
 
 	/**
 	 * Default implementation.
@@ -201,8 +262,8 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements 
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
 	}
-	
-	public HelpGroup getHelpGroup(){
+
+	public HelpGroup getHelpGroup() {
 		return helpPanel;
 	}
 }

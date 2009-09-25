@@ -1931,7 +1931,7 @@ public class ModelParameters {
 							abilityFromOtherCauses = 1;
 							displayWarningMessage("100% of the initial population has at least one disease. \nTherefore"
 									+ " it is not possilible to estimate the disability from other (not modelled) diseases."
-									+ "/nThis is made 0 (no disability from other diseases");
+									+ "\nThis is made 0 (no disability from other diseases");
 						}
 
 						else
@@ -2461,7 +2461,7 @@ public class ModelParameters {
 					logAbilityFromOtherCauses[i] = 0;
 					displayWarningMessage("100% of the initial population has at least one disease. \nTherefore"
 							+ " it is not possilible to estimate the disability from other (not modelled) diseases."
-							+ "/nThis is made 0 (no disability from other diseases");
+							+ "\nThis is made 0 (no disability from other diseases");
 				}
 
 				else if (abilityFromRiskFactor[i] == 0) {

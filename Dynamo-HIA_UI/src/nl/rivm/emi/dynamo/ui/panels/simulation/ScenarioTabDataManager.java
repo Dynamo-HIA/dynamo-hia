@@ -333,7 +333,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		log.error("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()"
-				+ singleConfiguration.getName());
+				+ singleConfiguration.getName()!=null?singleConfiguration.getName():"null");
 		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 		.getScenarioConfigurations();
 		configurations.put(singleConfiguration.getName(),
@@ -348,14 +348,14 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		for (String key : keys) {
 			ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map
 					.get(key);
-			log.error("conf.getName()" + conf.getName());
-			log.error("conf.getMinAge()" + conf.getMinAge());
-			log.error("conf.getMaxAge()" + conf.getMaxAge());
-			log.error("conf.getTargetSex()" + conf.getTargetSex());
+			log.error("conf.getName()" + conf.getName()!=null?conf.getName():"null");
+			log.error("conf.getMinAge()" + conf.getMinAge()!=null?conf.getMinAge():"null");
+			log.error("conf.getMaxAge()" + conf.getMaxAge()!=null?conf.getMaxAge():"null");
+			log.error("conf.getTargetSex()" + conf.getTargetSex()!=null?conf.getTargetSex():"null");
 			log.error("conf.getAltTransitionFileName()"
-					+ conf.getAltTransitionFileName());
+					+ conf.getAltTransitionFileName()!=null?conf.getAltTransitionFileName():"null");
 			log.error("conf.getAltPrevalenceFileName()"
-					+ conf.getAltPrevalenceFileName());
+					+ conf.getAltPrevalenceFileName()!=null?conf.getAltPrevalenceFileName():"null");
 		}
 		log.debug("configurations.size()" + configurations.size());
 		/**

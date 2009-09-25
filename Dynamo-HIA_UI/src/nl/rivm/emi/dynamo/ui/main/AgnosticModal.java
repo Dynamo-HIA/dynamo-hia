@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -20,10 +21,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -38,7 +36,7 @@ abstract public class AgnosticModal extends AbstractDataModal {
 	 * Constructor
 	 * 
 	 * @param parentShell
-	 * @param dataFilePath 
+	 * @param dataFilePath
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
@@ -52,33 +50,19 @@ abstract public class AgnosticModal extends AbstractDataModal {
 
 	/**
 	 * Common open behaviour for all supported windows.
+	 * 
+	 * @throws DynamoInconsistentDataException
+	 * @throws ConfigurationException
 	 */
-	@Override
-	public synchronized void open() {
-		try {
-			super.open();
-			this.modelObject = manufactureModelObject();
-			specializedOpenPart(buttonPanel);
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(400, 400);
-			this.shell.open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-		}
+	public synchronized void openAgnostic() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = manufactureModelObject();
+		specializedOpenPart(buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(400, 400);
+		this.shell.open();
+		openModal();
 	}
 
 	/**
@@ -87,22 +71,25 @@ abstract public class AgnosticModal extends AbstractDataModal {
 	 * 
 	 * @param buttonPanel
 	 */
-	abstract protected void specializedOpenPart(Composite buttonPanel) throws ConfigurationException;
+	abstract protected void specializedOpenPart(Composite buttonPanel)
+			throws ConfigurationException;
 
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> producedData = null;
-		AgnosticFactory factory = (AgnosticFactory)FactoryProvider
+		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
 		if (factory == null) {
 			throw new ConfigurationException(
-					"No Factory found for rootElementName: " + this.rootElementName);
+					"No Factory found for rootElementName: "
+							+ this.rootElementName);
 		}
 		File dataFile = new File(this.dataFilePath);
 		if (dataFile.exists()) {
 			if (dataFile.isFile() && dataFile.canRead()) {
-				producedData = factory.manufactureObservable(dataFile, this.rootElementName);				
+				producedData = factory.manufactureObservable(dataFile,
+						this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(
 							"DataModel could not be constructed.");

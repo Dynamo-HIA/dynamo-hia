@@ -72,10 +72,11 @@ public class SaveSelectionListener extends AbstractLoggingClass implements
 					FileControlEnum fileControl = FileControlSingleton
 							.getInstance().get(rootElementName);
 					if(modelObject instanceof ISanityCheck){
-						((ISanityCheck)modelObject).dataChecksOut();
+						if(!((ISanityCheck)modelObject).dataChecksOut()){
 						MessageBox messageBox = new MessageBox(modalParent.getShell(), SWT.OK);
 						messageBox.setMessage(((ISanityCheck)modelObject).getCheckList());
 						messageBox.open();
+						}
 					}
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
 							(TypedHashMap<?>) modelObject, configurationFile);

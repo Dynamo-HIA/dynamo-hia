@@ -11,6 +11,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCategoricalFactory;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
@@ -70,6 +71,15 @@ public class RelRiskForDisabilityCategoricalModal extends AgnosticModal {
 				.setNumberOfCategories(numberOfClasses);
 		producedData = factory.manufactureObservableDefault();
 		return producedData;
+	}
+
+	/**
+	 * The AgnosticModal layer handles the opening....
+	 * Must be present to keep the compiler happy.
+	 */
+	@Override
+	public void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
 	}
 
 }
