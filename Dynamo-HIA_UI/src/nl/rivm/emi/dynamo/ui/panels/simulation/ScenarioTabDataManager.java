@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	private TreeAsDropdownLists treeLists;
 	private DynamoSimulationObject dynamoSimulationObject;
-	private Map<String, ITabScenarioConfiguration> configurations;
+	// private Map<String, ITabScenarioConfiguration> configurations;
 	private ITabScenarioConfiguration singleConfiguration;
 	private Set<String> initialSelection;
 
@@ -46,10 +47,10 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			Set<String> selections) throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
-		this.configurations = this.dynamoSimulationObject
-				.getScenarioConfigurations();
+		
 		this.initialSelection = selections;
-		this.singleConfiguration = this.configurations.get(getInitialName());
+		this.singleConfiguration = this.dynamoSimulationObject
+		.getScenarioConfigurations().get(getInitialName());
 	}
 
 	public Set<String> getContents(String name, String chosenRiskFactorName)
@@ -80,18 +81,70 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			contents.add(MALE_FEMALE);
 			log.debug("contents2" + contents);
 		} else if (ScenarioResultGroup.TRANSITION.equals(name)) {
-			contents = this.treeLists.getTransitions(chosenRiskFactorName);
+			/*  This has been added by hendriek */
+			contents = deepcopy(this.treeLists.getTransitions(chosenRiskFactorName));
+			Set<String>	contentsForPrevalence = this.treeLists.getRiskFactorPrevalences(chosenRiskFactorName);
+			Map<String, TabRiskFactorConfigurationData> riskFactorConfiguration = dynamoSimulationObject
+			.getRiskFactorConfigurations();
+	       /* a scenario must differ from the referent scenario case in either transition or prevalence
+			 * file, thus both the same as the reference scenario is not allowed
+			 * if the prevalence is already the same, the transition rate can not be, so remove the filename
+			 * from the contents
+			 */
+			TabRiskFactorConfigurationData riskfactorData=riskFactorConfiguration.get(chosenRiskFactorName);
+	        String referentScenarioPrevalenceFileName=riskfactorData.getPrevalenceFileName();
+			String currentPrevalenceFile=null;
+			if (this.singleConfiguration!=null) currentPrevalenceFile=this.singleConfiguration.getAltPrevalenceFileName();
+			
+			if (currentPrevalenceFile.equals(referentScenarioPrevalenceFileName) || contentsForPrevalence.size()==1)
+			contents.remove(riskfactorData.getTransitionFileName());
+			if (contents.isEmpty()) contents=null;
+			
+			/* end addition hendriek */
 			log.debug("contents3" + contents);
 		} else if (ScenarioResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
-			contents = this.treeLists
-					.getRiskFactorPrevalences(chosenRiskFactorName);
+		/* addition by hendriek */
+			contents = deepcopy(this.treeLists.getRiskFactorPrevalences(chosenRiskFactorName));
+			Set<String>	contentsForTransitions = this.treeLists.getTransitions(chosenRiskFactorName);
+			
+			/* a scenario must differ from the referent scenario case in either transition or prevalence
+			 * file, thus both the same as the reference scenario is not allowed.
+			 * So if the transition file is already the same, remove the prevalence file from the contents
+			 * 
+			 */
+			Map<String, TabRiskFactorConfigurationData> riskFactorConfiguration = dynamoSimulationObject
+			.getRiskFactorConfigurations();
+			TabRiskFactorConfigurationData riskfactorData=riskFactorConfiguration.get(chosenRiskFactorName);
+		       
+			String referentScenarioTransFileName=riskfactorData.getTransitionFileName();
+			String currentTransFile=null;
+			if (this.singleConfiguration!=null)
+			 currentTransFile=this.singleConfiguration.getAltTransitionFileName();
+			
+			if (currentTransFile.equals(referentScenarioTransFileName)|| contentsForTransitions.size()==1)
+			contents.remove(riskfactorData.getPrevalenceFileName());
+			if (contents.isEmpty()) contents=null;
+			/* end addition by hendriek */
 			log.debug("contents4" + contents);
 		}
 		log.debug("contentsLast" + contents);
 		return contents;
 	}
 
-	public String getCurrentValue(String name) throws ConfigurationException {
+	/* added by hendriek */
+	private Set<String> deepcopy(Set<String> inSet) {
+		Set<String> returnSet= new LinkedHashSet() ;
+		if (inSet==null) returnSet=null;
+		else 
+		
+		for (String key:inSet)
+		returnSet.add(key);
+		
+		return returnSet;
+	}
+
+	public String getCurrentValue(String name)
+			throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
 		log.debug("singleConfigurationXXX: " + singleConfiguration);
 		String value = null;
@@ -101,7 +154,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			if (ScenarioSelectionGroup.MIN_AGE.equals(name)) {
 				age = singleConfiguration.getMinAge();
 				// For all Integer values
-				value = (age == null) ? null : age.toString();
+				value = (age==null) ? null : age.toString();
 				log.debug("VALUE: " + value);
 			} else if (ScenarioSelectionGroup.MAX_AGE.equals(name)) {
 				age = singleConfiguration.getMaxAge();
@@ -174,10 +227,11 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 		if (contents != null)
 			set.addAll(contents);
-		else
-			throw new NoMoreDataException(
-					"no more configured diseases availlable");
-
+		else throw new NoMoreDataException("no alternative prevalence or transition file" +
+				" is availlable in the database. \nGo to the Reference_Data section and define such a file" +
+				" for the chosen riskfactor");
+	
+		
 		return set;
 	}
 
@@ -188,9 +242,11 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
+		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
+		.getScenarioConfigurations();
 		log.error("REMOVING OBJECT STATE");
-		this.configurations.remove(this.singleConfiguration.getName());
-		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
+		configurations.remove(this.singleConfiguration.getName());
+		this.dynamoSimulationObject.setScenarioConfigurations( configurations);
 	}
 
 	public void removeOldDefaultValue(String label)
@@ -278,8 +334,9 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()"
 				+ singleConfiguration.getName());
-
-		this.configurations.put(singleConfiguration.getName(),
+		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
+		.getScenarioConfigurations();
+		configurations.put(singleConfiguration.getName(),
 				singleConfiguration);
 		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
 
@@ -328,7 +385,17 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		}
 		return chosenRiskFactorName;
 	}
+/* added by Hendriek. Not clear if needed */
+	 
+		public void refreshConfigurations(int index) {
+			Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
+			.getScenarioConfigurations();
+			
+			this.singleConfiguration = configurations.get(index);
 
+		}
+	
+	
 	private void createInDynamoSimulationObject() {
 		this.singleConfiguration = new TabScenarioConfigurationData();
 	}
