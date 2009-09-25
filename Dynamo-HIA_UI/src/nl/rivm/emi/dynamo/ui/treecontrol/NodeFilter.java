@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class NodeFilter {
 
+	static final float MAX_FILE_SIZE = 2500000L;
 	static Pattern matchPattern = Pattern.compile("^.*\\.xml$");
 	static RootElementNamesSingleton singleton = RootElementNamesSingleton
 			.getInstance();
@@ -42,7 +43,7 @@ public class NodeFilter {
 					// log.debug("File size: " + physicalStorage.length());
 					String fileName = physicalStorage.getName();
 					if (hasXMLExtension(fileName)) {
-						if (physicalStorage.length() < 1000000L) {
+						if (physicalStorage.length() < MAX_FILE_SIZE) {
 							String rootElementName = ConfigurationFileUtil
 									.justExtractRootElementName(physicalStorage);
 							// 20090629 Made case-insensitive to match
@@ -68,7 +69,7 @@ public class NodeFilter {
 							}
 						} else {
 							log
-									.info("File \""
+									.fatal("File \""
 											+ ((FileNode) element).physicalStorage
 											+ "\" suppressed: Size: \""
 											+ physicalStorage.length()

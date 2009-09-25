@@ -68,8 +68,10 @@ public class NewConfigurableXMLFileAction extends NewActionBase {
 				rootElementName)) {
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
 					candidatePath + ".xml", candidatePath + ".xml", this.rootElementName, null);
-			popSizeModal.open();
-		} else {
+// 20090925 Enter through the frontdoor....
+			//			popSizeModal.open();
+			popSizeModal.run();
+				} else {
 			log.fatal("What else?");
 		}
 

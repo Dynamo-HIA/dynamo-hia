@@ -53,6 +53,17 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		layout.numColumns = 7;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		// Second line
+		Label filler1Label = new Label(this, SWT.NONE);
+		Label maleLabel = new Label(this, SWT.NONE);
+		maleLabel.setText("Male");
+		Label filler2Label = new Label(this, SWT.NONE);
+		Label filler3Label = new Label(this, SWT.NONE);
+		Label femaleLabel = new Label(this, SWT.NONE);
+		femaleLabel.setText("Female");
+		Label filler4Label = new Label(this, SWT.NONE);
+		Label filler5Label = new Label(this, SWT.NONE);
+		// Second line
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 		Label unitLabel = new Label(this, SWT.NONE);
@@ -62,13 +73,14 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		acutelyFatalLabel.setText("Acutely Fatal");
 		Label curedFractionLabel = new Label(this, SWT.NONE);
 		curedFractionLabel.setText("Cured Fraction");
-		Label maleUnitLabel = new Label(this, SWT.NONE);
-		unitText = unitTypeModifyListener.registerLabel(maleUnitLabel);
-		maleUnitLabel.setText(unitText);
-		Label maleAcutelyFatalLabel = new Label(this, SWT.NONE);
-		maleAcutelyFatalLabel.setText("Acutely Fatal");
-		Label maleCuredFractionLabel = new Label(this, SWT.NONE);
-		maleCuredFractionLabel.setText("Cured Fraction");
+		Label femaleUnitLabel = new Label(this, SWT.NONE);
+		unitText = unitTypeModifyListener.registerLabel(femaleUnitLabel);
+		femaleUnitLabel.setText(unitText);
+		Label femaleAcutelyFatalLabel = new Label(this, SWT.NONE);
+		femaleAcutelyFatalLabel.setText("Acutely Fatal");
+		Label femaleCuredFractionLabel = new Label(this, SWT.NONE);
+		femaleCuredFractionLabel.setText("Cured Fraction");
+		// Data panel.
 		// int numberOfAges = iMortalityObject.getNumberOfMortalities();
 		TypedHashMap<Age> ageMap = iMortalityObject.getMortalities();
 		int numberOfAges = ageMap.size();

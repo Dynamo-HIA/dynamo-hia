@@ -40,6 +40,7 @@ abstract public class DataAndFileContainer {
 	protected DataBindingContext dataBindingContext = null;
 
 	private boolean changed = false;
+
 	private RunButtonPanel runButtonPanel = null;
 
 	public void setRunButtonPanel(RunButtonPanel runButtonPanel) {
@@ -102,8 +103,9 @@ abstract public class DataAndFileContainer {
 	 * Signal the data handled by this Object has changed at least once.
 	 */
 	public void setChanged(boolean changed) {
-		// Callback to only enable the run-button when the configuration has been saved.
-		if ((changed != this.changed)&&(runButtonPanel != null)) {
+		// Callback to only enable the run-button when the configuration has
+		// been saved.
+		if ((changed != this.changed) && (runButtonPanel != null)) {
 			runButtonPanel.enableButton(!changed);
 		}
 		this.changed = changed;

@@ -57,7 +57,7 @@ public class RiskFactorContextMenuFactory {
 		MessageStrings theMessageStrings = new MessageStrings(
 				"Removing risk-factor.", "The risk-factor ",
 				" will be deleted.\nIs that what you want?",
-				"The Risk-Factor still has configuration files.\n"
+				"The Risk-Factor still has configuration/data files.\n"
 						+ "You must delete them all first");
 		ContextMenuEntry deleteContextMenuEntry = new ContextMenuEntry(shell,
 				"Delete riskfactor", new DeleteDirectoryAction(shell,
