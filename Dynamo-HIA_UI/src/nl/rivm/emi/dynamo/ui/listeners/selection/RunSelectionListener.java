@@ -29,18 +29,28 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
-		String filePath = modalParent.getConfigurationFilePath();
-		String simulationDirectory = filePath.substring(0, filePath
-				.lastIndexOf(File.separatorChar));
-		String simulationName = simulationDirectory.substring(
-				simulationDirectory.lastIndexOf(File.separatorChar)+1,
-				simulationDirectory.length());
-		String baseDirectoryPath = simulationDirectory.substring(0,
-				simulationDirectory.lastIndexOf(File.separator
-						+ StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
-						+ File.separator));
-		// Run the dynamo simulation model (the CDM)
-		runDynamoSimulation(simulationName, baseDirectoryPath);
+		Control control = ((Control) arg0.getSource());
+		control.setEnabled(false);
+		try {
+			String filePath = modalParent.getConfigurationFilePath();
+			String simulationDirectory = filePath.substring(0, filePath
+					.lastIndexOf(File.separatorChar));
+			String simulationName = simulationDirectory.substring(
+					simulationDirectory.lastIndexOf(File.separatorChar) + 1,
+					simulationDirectory.length());
+			String baseDirectoryPath = simulationDirectory.substring(0,
+					simulationDirectory.lastIndexOf(File.separator
+							+ StandardTreeNodeLabelsEnum.SIMULATIONS
+									.getNodeLabel() + File.separator));
+			// Run the dynamo simulation model (the CDM)
+			runDynamoSimulation(simulationName, baseDirectoryPath);
+		} catch (Throwable t) {
+			log.error("Running the Simulation threw a "
+					+ t.getClass().getSimpleName() + " with message: "
+					+ t.getMessage());
+		} finally {
+			control.setEnabled(true);
+		}
 	}
 
 	private void runDynamoSimulation(String simName, String baseDir) {
