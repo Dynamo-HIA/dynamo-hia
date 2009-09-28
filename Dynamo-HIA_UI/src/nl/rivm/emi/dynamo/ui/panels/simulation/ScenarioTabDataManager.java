@@ -38,7 +38,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	private TreeAsDropdownLists treeLists;
 	private DynamoSimulationObject dynamoSimulationObject;
-	// private Map<String, ITabScenarioConfiguration> configurations;
+	//private Map<String, ITabScenarioConfiguration> configurations;
 	private ITabScenarioConfiguration singleConfiguration;
 	private Set<String> initialSelection;
 
@@ -93,10 +93,34 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			 */
 			TabRiskFactorConfigurationData riskfactorData=riskFactorConfiguration.get(chosenRiskFactorName);
 	        String referentScenarioPrevalenceFileName=riskfactorData.getPrevalenceFileName();
-			String currentPrevalenceFile=null;
-			if (this.singleConfiguration!=null) currentPrevalenceFile=this.singleConfiguration.getAltPrevalenceFileName();
+	        
+	        String currentPrevalenceFile=null;
+	               
+	        
+			if (this.singleConfiguration!=null && 
+					!(this.singleConfiguration.getAltPrevalenceFileName()==null))
+				currentPrevalenceFile=this.singleConfiguration.getAltPrevalenceFileName();
 			
-			if (currentPrevalenceFile.equals(referentScenarioPrevalenceFileName) || contentsForPrevalence.size()==1)
+			/* in case the is a new scenario, take the last items both for scenario prevalence and scenario 
+	         * transitions */
+			else if (contents.size()>1){
+				
+				for (String  potentialPrevFile : contentsForPrevalence) currentPrevalenceFile=potentialPrevFile;
+				this.singleConfiguration.setAltPrevalenceFileName(currentPrevalenceFile);
+			} 
+			/* unless there is only one transition available, then we should take the prevalence
+			 * that differs from the reference scenario 
+			 */
+			else if (contentsForPrevalence.size()>1) {
+				for (String  potentialPrevFile : contentsForPrevalence) 
+					if (!potentialPrevFile.equals(referentScenarioPrevalenceFileName)) currentPrevalenceFile=potentialPrevFile;
+				/* and if this is not possible, no scenario is possible */
+				this.singleConfiguration.setAltPrevalenceFileName(currentPrevalenceFile);
+			}  else contents=null;       
+			
+			
+			if (contents !=null && (currentPrevalenceFile.equals(referentScenarioPrevalenceFileName) 
+					|| contentsForPrevalence.size()==1))
 			contents.remove(riskfactorData.getTransitionFileName());
 			if (contents.isEmpty()) contents=null;
 			
@@ -116,11 +140,35 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			.getRiskFactorConfigurations();
 			TabRiskFactorConfigurationData riskfactorData=riskFactorConfiguration.get(chosenRiskFactorName);
 		       
+			
+			
 			String referentScenarioTransFileName=riskfactorData.getTransitionFileName();
 			String currentTransFile=null;
-			if (this.singleConfiguration!=null)
+			if (this.singleConfiguration!=null && !(this.singleConfiguration.getAltTransitionFileName()==null))
 			 currentTransFile=this.singleConfiguration.getAltTransitionFileName();
+		
+ 			
+			/* in case the is a new scenario, take the last items both for scenario prevalence and scenario 
+	         * transitions */
+			else if (contents.size()>1){
+				
+				for (String  potentialTransFile : contentsForTransitions) currentTransFile=potentialTransFile;
+				this.singleConfiguration.setAltTransitionFileName(currentTransFile);
 			
+			} 
+			/* unless there is only one prevalence availlable, then we should take the transition
+			 * that differs from the reference scenario 
+			 */
+			else if (contentsForTransitions.size()>1){
+				for (String  potentialTransFile : contentsForTransitions) 
+					if (!potentialTransFile.equals(referentScenarioTransFileName)) currentTransFile=potentialTransFile;
+				
+				this.singleConfiguration.setAltTransitionFileName(currentTransFile);
+			}/* and if this is not possible, no scenario is possible */ 
+			else contents=null;       
+		
+			
+						
 			if (currentTransFile.equals(referentScenarioTransFileName)|| contentsForTransitions.size()==1)
 			contents.remove(riskfactorData.getPrevalenceFileName());
 			if (contents.isEmpty()) contents=null;
@@ -207,14 +255,17 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		}
 		return writableValue;
 	}
-
+/* chosenScenarioName is the just chosen text of a combibox, not relevant here as we do everything via
+ * the dynamosimulation object 
+ * name is the name of the box for which to get the dropdownset 
+ * */
 	public DropDownPropertiesSet getDropDownSet(String name,
 			String chosenScenarioName) throws ConfigurationException,
 			NoMoreDataException {
 		log.debug("HIERALOOK");
 		String chosenRiskFactorName = null;
 		// The model object already exists, get the name
-		if (singleConfiguration != null && chosenRiskFactorName == null) {
+		if (singleConfiguration != null) {
 			chosenRiskFactorName = this.getInitialRiskFactorName();
 			log.debug("chosenRiskFactorName JUST CREATED"
 					+ chosenRiskFactorName);
@@ -242,11 +293,11 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
+		log.error("REMOVING OBJECT STATE");
 		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 		.getScenarioConfigurations();
-		log.error("REMOVING OBJECT STATE");
 		configurations.remove(this.singleConfiguration.getName());
-		this.dynamoSimulationObject.setScenarioConfigurations( configurations);
+		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
 	}
 
 	public void removeOldDefaultValue(String label)
@@ -333,7 +384,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		log.error("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()"
-				+ singleConfiguration.getName()!=null?singleConfiguration.getName():"null");
+				+ singleConfiguration.getName());
 		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 		.getScenarioConfigurations();
 		configurations.put(singleConfiguration.getName(),
@@ -348,14 +399,14 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		for (String key : keys) {
 			ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map
 					.get(key);
-			log.error("conf.getName()" + conf.getName()!=null?conf.getName():"null");
-			log.error("conf.getMinAge()" + conf.getMinAge()!=null?conf.getMinAge():"null");
-			log.error("conf.getMaxAge()" + conf.getMaxAge()!=null?conf.getMaxAge():"null");
-			log.error("conf.getTargetSex()" + conf.getTargetSex()!=null?conf.getTargetSex():"null");
+			log.error("conf.getName()" + conf.getName());
+			log.error("conf.getMinAge()" + conf.getMinAge());
+			log.error("conf.getMaxAge()" + conf.getMaxAge());
+			log.error("conf.getTargetSex()" + conf.getTargetSex());
 			log.error("conf.getAltTransitionFileName()"
-					+ conf.getAltTransitionFileName()!=null?conf.getAltTransitionFileName():"null");
+					+ conf.getAltTransitionFileName());
 			log.error("conf.getAltPrevalenceFileName()"
-					+ conf.getAltPrevalenceFileName()!=null?conf.getAltPrevalenceFileName():"null");
+					+ conf.getAltPrevalenceFileName());
 		}
 		log.debug("configurations.size()" + configurations.size());
 		/**
@@ -385,13 +436,14 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		}
 		return chosenRiskFactorName;
 	}
-/* added by Hendriek. Not clear if needed */
+/* added by Hendriek: refreshes the single configuration, which is needed when tabs are deleted 
+ * */
 	 
-		public void refreshConfigurations(int index) {
+		public void refreshConfigurations(String name) {
 			Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 			.getScenarioConfigurations();
-			
-			this.singleConfiguration = configurations.get(index);
+		   this.singleConfiguration = configurations.get(name);
+		   log.fatal("singleconfiguration"+this.singleConfiguration);
 
 		}
 	
