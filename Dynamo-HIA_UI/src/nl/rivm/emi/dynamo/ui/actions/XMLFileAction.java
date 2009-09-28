@@ -64,6 +64,13 @@ public class XMLFileAction extends ActionBase {
 	private String rootElementName;
 	private boolean configurationFileExists;
 	private NewbornsObject modelObject;
+	/**
+	 * Flag to make it possible to open a new Modal that has a "dirty"
+	 * ModelObject.
+	 * Defaults to false.
+	 * Currently only in use for Newborns.
+	 */
+	private boolean modelObjectChangedButNotYetSaved = false;
 
 	public XMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String fileNameTrunk, String rootElementName) {
@@ -110,6 +117,9 @@ public class XMLFileAction extends ActionBase {
 								.getAbsolutePath(),
 								savedFile.getAbsolutePath(), rootElementName,
 								node, this.modelObject);
+						if (modelObjectChangedButNotYetSaved) {
+							((NewbornsModal) theModal).setChanged(true);
+						}
 					} else {
 						if (RootElementNamesEnum.OVERALLDALYWEIGHTS
 								.getNodeLabel().equals(rootElementName)) {
@@ -251,7 +261,8 @@ public class XMLFileAction extends ActionBase {
 																			.getNodeLabel()
 																			.equals(
 																					rootElementName)) {
-																		RiskSourceProperties props = RiskSourcePropertiesMapFactory.getProperties((FileNode) node);
+																		RiskSourceProperties props = RiskSourcePropertiesMapFactory
+																				.getProperties((FileNode) node);
 																		theModal = new RelRiskFromRiskFactorCompoundModal(
 																				shell,
 																				dataFile
@@ -486,11 +497,11 @@ public class XMLFileAction extends ActionBase {
 				Realm.runWithDefault(SWTObservables.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = savedFile.exists();
-					if (isPresentAfter && !FileCreationFlag.isOld) {
-						((ParentNode) node).addChild((ChildNode) new FileNode(
-								(ParentNode) node, savedFile));
-						FileCreationFlag.isOld = true;
-					}
+				if (isPresentAfter && !FileCreationFlag.isOld) {
+					((ParentNode) node).addChild((ChildNode) new FileNode(
+							(ParentNode) node, savedFile));
+					FileCreationFlag.isOld = true;
+				}
 				theViewer.refresh();
 			}
 		} catch (Exception e) {
@@ -551,4 +562,7 @@ public class XMLFileAction extends ActionBase {
 		this.modelObject = modelObject;
 	}
 
+	public void setModelObjectChangedButNotYetSaved(boolean flag) {
+		this.modelObjectChangedButNotYetSaved = flag;
+	}
 }

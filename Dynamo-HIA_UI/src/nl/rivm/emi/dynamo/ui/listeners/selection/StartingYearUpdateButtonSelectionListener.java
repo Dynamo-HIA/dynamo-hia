@@ -48,6 +48,7 @@ public class StartingYearUpdateButtonSelectionListener extends
 		Integer oldStartingYearValue = newbornsObject.getStartingYear();
 		// Only do something if changed.
 		if (!newStartingYearValue.equals(oldStartingYearValue)) {
+			modalParent.setChanged(true);
 			modalParent.getShell().dispose();
 			int newStartingYearInt = newStartingYearValue.intValue();
 			int oldStartingYearInt = oldStartingYearValue.intValue();
@@ -84,6 +85,7 @@ public class StartingYearUpdateButtonSelectionListener extends
 			// recreated
 			action.setModelObject(newbornsObject);
 			File filePath = new File(modalParent.getConfigurationFilePath());
+			action.setModelObjectChangedButNotYetSaved(true);
 			action.processThroughModal(filePath, filePath);
 		}
 	}
