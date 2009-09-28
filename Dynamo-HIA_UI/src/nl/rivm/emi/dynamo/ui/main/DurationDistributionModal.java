@@ -31,6 +31,20 @@ public class DurationDistributionModal extends AbstractDataModal {
 	 */
 	private TypedHashMap<?> modelObject;
 	int durationClassIndex;
+	/**
+	 * Flag indicating the ModelObject in this class has been filled with
+	 * standard values.
+	 * 
+	 */
+	private boolean hasDefaultObject = false;
+
+	public boolean isHasDefaultObject() {
+		return hasDefaultObject;
+	}
+
+	public void setHasDefaultObject(boolean hasDefaultObject) {
+		this.hasDefaultObject = hasDefaultObject;
+	}
 
 	public DurationDistributionModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
@@ -45,25 +59,26 @@ public class DurationDistributionModal extends AbstractDataModal {
 	}
 
 	@Override
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
-			this.modelObject = manufactureModelObject();
-			log.debug("Now for DurationDistributionGroup");
-			DurationDistributionGroup durationDistributionGroup = new DurationDistributionGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel, this.durationClassIndex);
-			durationDistributionGroup.setFormData(this.helpPanel.getGroup(),
-					buttonPanel);
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(600, 400);
-			this.shell.open();
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = manufactureModelObject();
+		log.debug("Now for DurationDistributionGroup");
+		DurationDistributionGroup durationDistributionGroup = new DurationDistributionGroup(
+				this.shell, this.modelObject, this.dataBindingContext,
+				this.selectedNode, this.helpPanel, this.durationClassIndex);
+		durationDistributionGroup.setFormData(this.helpPanel.getGroup(),
+				buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(600, 400);
+		this.shell.open();
 	}
 
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		durationClassIndex = RiskFactorUtil
-		.getDurationCategoryIndex(selectedNode);
+				.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
@@ -87,9 +102,10 @@ public class DurationDistributionModal extends AbstractDataModal {
 			}
 		} else {
 			durationClassIndex = RiskFactorUtil
-			.getDurationCategoryIndex(selectedNode);
+					.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
 			producedData = factory.manufactureObservableDefault();
+			hasDefaultObject = true;
 		}
 		return producedData;
 	}

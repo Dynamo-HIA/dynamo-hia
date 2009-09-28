@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteg
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,45 +46,58 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		theHelpGroup = helpGroup;
 		myType = (AtomicTypeBase<?>) XMLTagEntitySingleton.getInstance().get(
 				"value");
-//		this.durationClassIndex = durationClassIndex;
+		// this.durationClassIndex = durationClassIndex;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 0;
 		layout.makeColumnsEqualWidth = true;
 		setLayout(layout);
 		// Top line.
 		createHeader();
+		createAgeLine();
 		log.debug("Number of columns: " + Integer.toString(layout.numColumns));
-		for(int ageCount = 0; ageCount < lotsOfData.size(); ageCount++){
+		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			GridData gridData = new GridData();
 			gridData.horizontalAlignment = SWT.FILL;
 			final Label ageLabel = new Label(this, SWT.NONE);
 			ageLabel.setText(Integer.toString(ageCount));
 			ageLabel.setLayoutData(gridData);
 			log.debug("Handling Age: " + Integer.toString(ageCount));
-			TypedHashMap<?> oneAgeMap = (TypedHashMap<?>) lotsOfData.get(ageCount);
+			TypedHashMap<?> oneAgeMap = (TypedHashMap<?>) lotsOfData
+					.get(ageCount);
 			TypedHashMap<ArrayList<AtomicTypeObjectTuple>> oneGenderMap = (TypedHashMap<ArrayList<AtomicTypeObjectTuple>>) oneAgeMap
 					.get(genderIndex);
 			for (int durationCount = 1; durationCount <= oneGenderMap.size(); durationCount++) {
 				ArrayList<AtomicTypeObjectTuple> genderList = (ArrayList<AtomicTypeObjectTuple>) oneGenderMap
 						.get(durationCount);
-//				log.debug("Aantal durations: " + genderList.size());
-				bindDurationValue(genderList);
+				// log.debug("Aantal durations: " + genderList.size());
+				bindDurationValue(genderList, durationCount);
 			}
 		}
 	}
 
-	private void bindDurationValue(ArrayList<AtomicTypeObjectTuple> tupleList) {
+	private void bindDurationValue(ArrayList<AtomicTypeObjectTuple> tupleList, int durationValue) {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) tupleList.get(0);
-		bindTuple(gridData, tuple);
+		bindTuple(gridData, tuple, durationValue);
 	}
 
-	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple) {
+	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple, int durationValue) {
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
 		AtomicTypeBase<?> modelType = (AtomicTypeBase<?>) tuple.getType();
 		final Text text = new Text(this, SWT.NONE);
 		text.setLayoutData(gridData);
+		if ((durationValue == 1) && ((DurationDistributionModal) theHelpGroup.getTheModal())
+				.isHasDefaultObject()) {
+			Object defaultValue = modelType.getDefaultValue();
+			if (defaultValue instanceof Float) {
+				Float oneHundred = new Float(100F);
+				modelObservableValue.doSetValue(oneHundred);
+			} else {
+				log
+						.error("The type is not a Float value and not updated to 100.");
+			}
+		}
 		String convertedText = modelType.convert4View(modelObservableValue
 				.getValue());
 		text.setText(convertedText);
@@ -99,7 +113,7 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		final Label ageHeader = new Label(this, SWT.NONE);
-		ageHeader.setText("Age");
+		ageHeader.setText("Duration");
 		ageHeader.setLayoutData(gridData);
 		((GridLayout) getLayout()).numColumns++;
 		int maxDuration = ((AbstractFlexibleUpperLimitInteger) XMLTagEntityEnum.DURATION
@@ -111,6 +125,18 @@ public class DurationDistributionParameterDataPanel extends Composite {
 			log.debug("DurationHeaderText: " + durationHeaderText);
 			durationHeader.setText(durationHeaderText);
 			((GridLayout) getLayout()).numColumns++;
+		}
+	}
+
+	private void createAgeLine() {
+		GridData gridData = new GridData();
+		gridData.horizontalAlignment = SWT.FILL;
+		final Label ageHeader = new Label(this, SWT.NONE);
+		ageHeader.setText("Age");
+		ageHeader.setLayoutData(gridData);
+		int columnsToFill = ((GridLayout) getLayout()).numColumns - 1;
+		for (int columnsCount = 1; columnsCount <= columnsToFill; columnsCount++) {
+			final Label fillLabel = new Label(this, SWT.NONE);
 		}
 	}
 }

@@ -108,6 +108,8 @@ public class TransitionMatrixParameterPanel extends Composite /*
 						.get(0).getType();
 				bindValue(observableValue, theType);
 			}
+			// Once should be enough.
+			((TransitionMatrixModal) helpGroup.getTheModal()).setHasDefaultObject(false);
 		}
 		/*
 		 * } else { MessageBox box = new MessageBox(parent.getShell());

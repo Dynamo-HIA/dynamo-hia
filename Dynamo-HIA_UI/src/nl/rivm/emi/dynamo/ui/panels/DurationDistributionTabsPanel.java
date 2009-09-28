@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
+import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -58,6 +59,9 @@ public class DurationDistributionTabsPanel {
 		genderTabs[BiGender.FEMALE_INDEX] = new DurationDistributionTab(
 				tabFolder, BiGender.FEMALE_INDEX, durationDistributionObject,
 				dataBindingContext, selectedNode, theHelpGroup);
+		// Only do it once.
+		((DurationDistributionModal) theHelpGroup.getTheModal())
+				.setHasDefaultObject(false);
 
 		tabFolder.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
