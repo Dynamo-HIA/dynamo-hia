@@ -147,7 +147,7 @@ public class ArraysFromXMLFactory {
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 
-			if (configurationFromFile.getRootElementName() != globalTagName)
+			if (!configurationFromFile.getRootElementName().equals(globalTagName))
 				throw new DynamoConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
@@ -159,12 +159,12 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
-				if (rootChild.getName() != tagName && !otherTags)
+				if (!rootChild.getName().equals(tagName) && !otherTags)
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName());
 
-				if (rootChild.getName() == tagName)
+				if (rootChild.getName().equals(tagName))
 					returnArray = handleRootChild(rootChild, returnArray,
 							valueTagName, otherTags);
 			} // end loop for rootChildren
@@ -274,7 +274,7 @@ public class ArraysFromXMLFactory {
 				ConfigurationNode rootNode = configurationFromFile
 						.getRootNode();
 
-				if (configurationFromFile.getRootElementName() != globalTagName)
+				if (!configurationFromFile.getRootElementName() .equals(globalTagName))
 					throw new DynamoConfigurationException(" Tagname "
 							+ globalTagName + " expected in file " + fileName
 							+ " but found tag "
@@ -282,7 +282,7 @@ public class ArraysFromXMLFactory {
 				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 						.getChildren();
 				for (ConfigurationNode rootChild : rootChildren) {
-					if (rootChild.getName() == tagName1) {
+					if (rootChild.getName() .equals( tagName1)) {
 						List<ConfigurationNode> childChildren = (List<ConfigurationNode>) rootChild
 								.getChildren();
 
@@ -290,14 +290,14 @@ public class ArraysFromXMLFactory {
 							if (this.detailedDebug)
 								this.log.debug("Handle rootChild: "
 										+ childChild.getName());
-							if (childChild.getName() != tagName2 && !otherTags)
+							if (!childChild.getName(). equals( tagName2) && !otherTags)
 								throw new DynamoConfigurationException(
 										" Tagname " + tagName2
 												+ " expected in file "
 												+ fileName + " but found tag "
 												+ childChild.getName());
 
-							if (childChild.getName() == tagName2)
+							if (childChild.getName().equals(tagName2))
 								returnArray = handleRootChild(childChild,
 										returnArray, valueTagName, otherTags);
 						} // end loop for childChildren
@@ -506,12 +506,13 @@ public class ArraysFromXMLFactory {
 				configurationFromFile.clear();
 
 				// Validate the xml by xsd schema
+				//TODO er nog uithalen
 				configurationFromFile.setValidating(true);
 				configurationFromFile.load();
 			}
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			if (configurationFromFile.getRootElementName() != globalTagName)
+			if (!configurationFromFile.getRootElementName().equals(globalTagName))
 				throw new ConfigurationException(" Tagname " + globalTagName
 						+ " expected in file " + fileName + " but found tag "
 						+ configurationFromFile.getRootElementName());
@@ -557,7 +558,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
-				if (!otherTags & rootChild.getName() != tagName)
+				if (!otherTags & ! rootChild.getName(). equals(tagName))
 					throw new ConfigurationException(" Tagname " + tagName
 							+ " expected in file " + fileName
 							+ " but found tag " + rootChild.getName()
@@ -784,7 +785,7 @@ public class ArraysFromXMLFactory {
 			configurationFromFile.load();
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			if (configurationFromFile.getRootElementName() != globalTagName)
+			if (!configurationFromFile.getRootElementName() .equals( globalTagName))
 				throw new DynamoConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
@@ -1061,7 +1062,7 @@ public class ArraysFromXMLFactory {
 			}
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
-			if (configurationFromFile.getRootElementName() != globalTagName)
+			if (!configurationFromFile.getRootElementName() .equals( globalTagName))
 				throw new DynamoConfigurationException(" Tagname "
 						+ globalTagName + " expected in file " + fileName
 						+ " but found tag "
@@ -1119,7 +1120,7 @@ public class ArraysFromXMLFactory {
 			for (ConfigurationNode rootChild : rootChildren) {
 				if (detailedDebug)
 					log.debug("Handle rootChild: " + rootChild.getName());
-				if (rootChild.getName() != tagName)
+				if (!rootChild.getName().equals( tagName))
 					throw new DynamoConfigurationException(" Tagname "
 							+ tagName + " expected in file " + fileName
 							+ " but found tag " + rootChild.getName());
@@ -1306,7 +1307,7 @@ public class ArraysFromXMLFactory {
 			throws DynamoConfigurationException {
 		float returnvalue = 0;
 
-		if (value == null || value == "" || value.length() == 0)
+		if (value == null || value.equals("") || value.length() == 0)
 			throw new DynamoConfigurationException("no value found with " + tag);
 		else
 
