@@ -24,6 +24,11 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class TransitionMatrixModal extends AbstractDataModal {
 
+	/** Flag indicating the ModelObject in this class has been filled with standard values.
+	 * 
+	 */
+	private boolean hasDefaultObject = false;
+
 	/**
 	 * 
 	 * Constructor
@@ -47,20 +52,21 @@ public class TransitionMatrixModal extends AbstractDataModal {
 	}
 
 	@Override
-	protected void openModal() throws ConfigurationException, DynamoInconsistentDataException{
-			this.modelObject = manufactureModelObject();
-			TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
-					this.shell, SWT.NONE, selectedNode, modelObject,
-					dataBindingContext, this.helpPanel, this.buttonPanel);
-			// Refactoring to variable startup-size.
-			Point leftMatrixPanelInitialSize = ageGroup.getInitialSize();
-			int horizontalSize = leftMatrixPanelInitialSize.x * 2
-					+ helpPanel.getGroup().getSize().x + 50;
-			int verticalSize = 400;
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(horizontalSize, verticalSize);
-			this.shell.open();
+	protected void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = manufactureModelObject();
+		TransitionMatrixAgeGroup ageGroup = new TransitionMatrixAgeGroup(
+				this.shell, SWT.NONE, selectedNode, modelObject,
+				dataBindingContext, this.helpPanel, this.buttonPanel);
+		// Refactoring to variable startup-size.
+		Point leftMatrixPanelInitialSize = ageGroup.getInitialSize();
+		int horizontalSize = leftMatrixPanelInitialSize.x * 2
+				+ helpPanel.getGroup().getSize().x + 50;
+		int verticalSize = 400;
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(horizontalSize, verticalSize);
+		this.shell.open();
 	}
 
 	protected TypedHashMap<?> manufactureModelObject()
@@ -107,8 +113,17 @@ public class TransitionMatrixModal extends AbstractDataModal {
 			((CategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();
+			setHasDefaultObject(true);
 		}
 		return producedData;
+	}
+
+	public void setHasDefaultObject(boolean hasDefaultObject) {
+		this.hasDefaultObject = hasDefaultObject;
+	}
+
+	public boolean isHasDefaultObject() {
+		return hasDefaultObject;
 	}
 
 }

@@ -17,6 +17,7 @@ import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
 import org.apache.commons.logging.Log;
@@ -89,8 +90,20 @@ public class TransitionMatrixParameterPanel extends Composite /*
 			for (int destinationCount = 1; destinationCount <= numberOfDestinations; destinationCount++) {
 				ArrayList<AtomicTypeObjectTuple> parameterList = (ArrayList<AtomicTypeObjectTuple>) destinationMap
 						.get(destinationCount);
-				WritableValue observableValue = (WritableValue) parameterList
-						.get(0).getValue();
+				WritableValue observableValue = null;
+				if ((sourceCount == destinationCount)
+						&& (((TransitionMatrixModal) helpGroup.getTheModal())
+								.isHasDefaultObject())) {
+					observableValue = (WritableValue) parameterList.get(0)
+							.getValue();
+					/**
+					 * Set the diagonal to 100 on the diagonal.
+					 */
+					observableValue.doSetValue(new Float(100F));
+				} else {
+					observableValue = (WritableValue) parameterList.get(0)
+							.getValue();
+				}
 				AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) parameterList
 						.get(0).getType();
 				bindValue(observableValue, theType);
@@ -108,20 +121,21 @@ public class TransitionMatrixParameterPanel extends Composite /*
 			AtomicTypeBase<Float> theType) {
 		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
 		text.setText("Bla"); // theType.convert4View(observableClassName.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(theType,theHelpGroup);
-//text.addFocusListener(
-////		new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////
-////		}
-//		focusListener);
+		// FocusListener focusListener = new
+		// TypedFocusListener(theType,theHelpGroup);
+		// text.addFocusListener(
+		// // new FocusListener() {
+		// // public void focusGained(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
+		// // }
+		// //
+		// // public void focusLost(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+		// // // range.
+		// // }
+		// //
+		// // }
+		// focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		textLayoutData.minimumWidth = 35;
@@ -136,7 +150,8 @@ public class TransitionMatrixParameterPanel extends Composite /*
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
 		// text.addVerifyListener(new ValueVerifyListener());
-		text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
 	private Text createAndPlaceTextField() {
