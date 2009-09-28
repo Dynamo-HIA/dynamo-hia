@@ -36,6 +36,10 @@ public class ScenarioTab extends NestedTab {
 
 	
 
+	public DynamoTabDataManager getDynamoTabDataManager() {
+		return dynamoTabDataManager;
+	}
+
 	/**
 	 * @param defaultSelections 
 	 * @param tabfolder

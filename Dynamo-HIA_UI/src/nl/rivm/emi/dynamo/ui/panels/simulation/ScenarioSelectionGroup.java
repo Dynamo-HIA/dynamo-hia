@@ -15,7 +15,6 @@ import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
-import nl.rivm.emi.dynamo.ui.listeners.verify.NameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.UniqueScenarioNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
