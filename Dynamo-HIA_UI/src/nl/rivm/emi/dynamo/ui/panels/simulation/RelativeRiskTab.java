@@ -144,7 +144,7 @@ public class RelativeRiskTab extends NestedTab {
 				log.debug("RRResultGroup added, new tab at tabIndex: "
 						+ tabIndex);
 			}
-			getRelativeRiskComboModifyListener()
+			( getRelativeRiskComboModifyListener())
 					.initialize(myConfigurationData);
 
 		} catch (DynamoNoValidDataException e) {

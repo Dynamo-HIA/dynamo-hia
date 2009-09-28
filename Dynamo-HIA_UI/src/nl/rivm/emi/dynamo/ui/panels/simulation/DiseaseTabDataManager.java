@@ -35,20 +35,24 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	
 	private TreeAsDropdownLists treeLists;
 	private DynamoSimulationObject dynamoSimulationObject;
-	private Map<String, ITabDiseaseConfiguration> configurations;
+//	private Map<String, ITabDiseaseConfiguration> configurations;
 	public Map<String, ITabDiseaseConfiguration> getConfigurations() {
+		Map<String, ITabDiseaseConfiguration> configurations = this.getDynamoSimulationObject().getDiseaseConfigurations();
+		
 		return configurations;
 	}
 
-	public void setConfigurations(
-			Map<String, ITabDiseaseConfiguration> configurations) {
-		this.configurations = configurations;
-	}
+	
 	private ITabDiseaseConfiguration singleConfiguration;
 	public ITabDiseaseConfiguration getSingleConfiguration() {
 		return singleConfiguration;
 	}
 
+	public  void setConfigurations(Map<String, ITabDiseaseConfiguration> newConfig){
+		
+		this.dynamoSimulationObject.setDiseaseConfigurations(newConfig);
+	}
+	
 	public void setSingleConfiguration(ITabDiseaseConfiguration singleConfiguration) {
 		this.singleConfiguration = singleConfiguration;
 	}
@@ -69,10 +73,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			) throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject=dynamoSimulationObject;
-		this.configurations = this.getDynamoSimulationObject().getDiseaseConfigurations();
 		this.initialSelection = initialSelection;
 		log.debug("this.initialSelectionDiseaseTabManager" + this.initialSelection);
-		this.singleConfiguration = this.configurations.get(getInitialName());
+		this.singleConfiguration = getConfigurations().get(getInitialName());
 	}
 	
 	/* (non-Javadoc)
@@ -206,8 +209,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		log.error("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()" + singleConfiguration.getName());
-		
-		this.configurations.put(singleConfiguration.getName(), 
+		Map<String, ITabDiseaseConfiguration> configurations = getConfigurations();
+		configurations.put(singleConfiguration.getName(), 
 				singleConfiguration);
 		this.getDynamoSimulationObject().setDiseaseConfigurations(configurations);
 		
@@ -244,7 +247,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		ChoosableDiseases.getInstance().removeChosenDisease(this.singleConfiguration.getName());
 		
 		String removedDisease=this.singleConfiguration.getName();
-		this.configurations.remove(removedDisease);
+		Map<String, ITabDiseaseConfiguration> configurations = getConfigurations();
+		configurations.remove(removedDisease);
 		this.getDynamoSimulationObject().setDiseaseConfigurations(configurations);
 		/* added by Hendriek
 		 * Also check if the disease names in the relative risks are still
@@ -333,13 +337,6 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		return this.dynamoSimulationObject;
 	}
 
-	public void setConfigurations( ) {
-		// this.dynamoSimulationObject=newObject;
-		this.configurations = this.dynamoSimulationObject.getDiseaseConfigurations();
-		
-		this.singleConfiguration = this.configurations.get(getInitialName());
-	
-	}
 	
 	
 		
