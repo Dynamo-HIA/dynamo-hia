@@ -98,6 +98,8 @@ public class ModelParameters {
 	private Shell parentShell;
 	private String globalBaseDir;
 	private boolean warningflag2 = true;
+	private boolean warningflag3 = true;
+	private boolean warningflag4 = true;
 
 	/**
 	 * contructor sets the baseDir;
@@ -671,7 +673,7 @@ public class ModelParameters {
 		 * relative risks
 		 * </p>
 		 */
-
+      
 		int nRiskCat = 1;
 		if (this.riskType != 2)
 			nRiskCat = inputData.getPrevRisk()[0][0].length;
@@ -1927,12 +1929,20 @@ public class ModelParameters {
 						 * the disease Therefore a warning message is given, and
 						 * abilityFrom other causes is set to 1
 						 */
-						if (abilityFromDiseases[i] == 0) {
+						if (abilityFromDiseases[i] == 0 ) {
 							abilityFromOtherCauses = 1;
+							
+						
+							if (warningflag3){ 
+								warningflag3=false;
+							
 							displayWarningMessage("100% of the initial population has at least one disease. \nTherefore"
 									+ " it is not possilible to estimate the disability from other (not modelled) diseases."
-									+ "\nThis is made 0 (no disability from other diseases");
-						}
+									+ "/nThis is made 0 (no disability from other diseases"+
+									"\nThis warning is give for age "+age+" and gender "+sex+
+									"\no more warnings of this kind will be generated for" 
+									+ "other age and gender groups");
+						}}
 
 						else
 							abilityFromOtherCauses = abilityFromRiskFactor[i]
@@ -2405,8 +2415,10 @@ public class ModelParameters {
 		/* count number of valid rows */
 		int nValidRows = 0;
 		int[] indexForRows = new int[nSim];
+		int[] reverseIndexForRows = new int[nSim];
 		for (int i = 0; i < nSim; i++) {
 			indexForRows[nValidRows] = i;
+			reverseIndexForRows[i]=nValidRows;
 			if (weight[i] > 0)
 				nValidRows++;
 		}
@@ -2426,7 +2438,7 @@ public class ModelParameters {
 					xMatrix[nrow][0] = 1.0;
 					wVector[nrow] = weight[i];
 					for (int rc = 1; rc < nValidCategories; rc++) {
-						if (riskclass[indexForCategories[i]] == rc)
+						if (riskclass[reverseIndexForRows[i]] == rc)
 							xMatrix[nrow][rc] = 1.0;
 						else
 							xMatrix[nrow][rc] = 0.0;
@@ -2518,12 +2530,19 @@ public class ModelParameters {
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
-		if (nNegativeOtherMort > 0.1 && inputData.isWithRRForMortality()) {
-
+		
+		
+	
+	
+		if (nNegativeOtherMort > 0.1 && inputData.isWithRRForMortality() && (warningflag4) ) {
+            warningflag4=false;
 			displayWarningMessage("negative other mortality  in  "
-					+ (nNegativeOtherMort * 100) + " % of simulated cases");
+					+ (nNegativeOtherMort * 100) + " % of simulated cases"+
+					" for age "+age+" and gender "+sex+
+					"\no more warnings of this kind will be generated for" 
+					+ "other age and gender groups");
 		}
-		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
+		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality() )
 			throw new DynamoInconsistentDataException(
 					"Other mortality becomes negative in"
 							+ " more than 30% ( "

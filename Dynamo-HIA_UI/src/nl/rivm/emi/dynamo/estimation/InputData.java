@@ -767,7 +767,22 @@ public class InputData {
 
 	}
 
-	public void setTransitionMatrix(float[][][][] transitionMatrix) {
+	public void setTransitionMatrix(float[][][][] transitionMatrix) throws DynamoInconsistentDataException {
+		
+		int dim1=transitionMatrix.length;
+		int dim2=transitionMatrix[0].length;
+		int dim3=transitionMatrix[0][0].length;
+		int dim4=transitionMatrix[0][0][0].length;
+		for (int i=0;i<dim1;i++)
+			for (int i1=0;i1<dim2;i1++)
+				for (int i111=0;i111<dim4;i111++){
+				float sum=0;
+				for (int i11=0;i11<dim3;i11++)
+					sum+=transitionMatrix[i][i1][i11][i111];
+				if (Math.abs(sum-100)>0.01) throw new DynamoInconsistentDataException("transitionrates from category "+
+						(i111+1)+" do not sum to 100% for age "+i+" and gender "+i1);
+						
+			}
 		this.transitionMatrix = transitionMatrix;
 	}
 

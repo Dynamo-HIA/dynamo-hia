@@ -838,33 +838,36 @@ public class InitialPopulationFactory {
 								&& nPopulations == 2)
 							moreScenarios = false;
 
-						while (currentpop < nPopulations && moreScenarios) {
+						while ((currentpop < nPopulations ) && moreScenarios) {
 
 							/*
 							 * look for next scenario that has an different
 							 * initial prevalence (intialprevalencetype) and is
 							 * not an all for One Population type
 							 */
-
+                            boolean found=false;
 							for (int i1 = currentscen; i1 < scenarioInfo
 									.getNScenarios(); i1++) {
 								/*
 								 * find the population number that belongs to
 								 * the current scenario
 								 */
-								if (!isOneForAllPopulation[i1])
+								/* isOneForAllPopulation indicates that this scenario uses a one-for-all-pop */
+								
+								if (firstOneForAllPop==i1)
 									currentpop++;
 								if (!isOneForAllPopulation[i1]
 										&& scenarioInfo
 												.getInitialPrevalenceType()[i1]) {
 									currentscen = i1;
+									found=true;
 									break;
 								}
 								/* if no such scenario is found */
-								if (i1 == scenarioInfo.getNScenarios() - 1)
-									moreScenarios = false;
+							
 							}
-
+							if (!found)
+								moreScenarios = false;
 							/* now give the values to the individual */
 							/*
 							 * first check if there is a population to be made
@@ -947,10 +950,20 @@ public class InitialPopulationFactory {
 									currentIndividual
 											.add(new IntCharacteristicValue(
 													stepsInSimulation,
-													characteristicIndex,
+													3,
 													currentRiskValue));
 
 								}
+								// if compound riskfactor */
+								if (parameters.getRiskType() == 3) 
+								currentIndividual.luxeSet(4,
+										new FloatCharacteristicValue(
+												stepsInSimulation,
+												4,
+												currentDurationValue));
+
+								
+								
 
 								/*
 								 * newborns and zero year olds are not bothered
@@ -999,6 +1012,7 @@ public class InitialPopulationFactory {
 						 * the individual (0-9) plus the new value (0-9) for
 						 * categorical data
 						 */
+						
 						if (parameters.getRiskType() != 2
 								&& shouldChangeInto != null && a != 0
 								&& !newborns) {

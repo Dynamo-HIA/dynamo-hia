@@ -101,6 +101,7 @@ public class InputDataFactory {
 
 	private String riskFactorTransFileName;
 	private String riskFactorPrevFileName;
+	private String durationPrevFileName="name";
 
 	private int originalNumberDurationClass;
 
@@ -272,6 +273,7 @@ public class InputDataFactory {
 	private static final String riskfactorXMLname = "configuration.xml";
 
 	private static final String riskfactorPrevDir = "prevalences";
+	private static final String durationPrevDir ="DurationDistributions";
 	private static final String durationXMLname = "durationdistribution.xml";
 	private static final String allcauseRRXMLname = "relriskfordeath.xml";
 	private static final String dalyRRXMLname = "relriskfordisability.xml";
@@ -1419,7 +1421,7 @@ public class InputDataFactory {
 		if (this.riskFactorType == 3) {
 			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ this.riskFactorName + File.separator + durationXMLname;
+					+ this.riskFactorName +File.separator + durationPrevDir+ File.separator + this.durationPrevFileName+".xml" ;
 
 			inputData.setDuurFreq(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_duration",
@@ -1673,10 +1675,11 @@ public class InputDataFactory {
 	 *            for reference scenario
 	 * 
 	 * @throws DynamoConfigurationException
+	 * @throws DynamoInconsistentDataException 
 	 */
 	private void readTransitionData(String configFileName, InputData inputData,
 			ScenarioInfo scenInfo, int scenNumber)
-			throws DynamoConfigurationException {
+			throws DynamoConfigurationException, DynamoInconsistentDataException {
 
 		XMLConfiguration config = null;
 		if (this.riskFactorType != 2) {
@@ -1729,6 +1732,7 @@ public class InputDataFactory {
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
 									"to", "percent"));
+					
 				}
 
 				else if (scenInfo != null)
