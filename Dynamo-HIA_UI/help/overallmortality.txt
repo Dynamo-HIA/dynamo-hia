@@ -1,0 +1,8 @@
+                                          Overall Mortality 
+For the selected population, enter the overall mortality by sex and age class (either manually or via import).  
+
+Save the results ("Save") and close the window ("cancel").
+
+The overall mortality rate, sometimes total mortality rate, is the number of death per 10000 xxx in the population for the respective age and sex groups.
+
+Sources for this are for example Eurostat or other national statistical offices. 

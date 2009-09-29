@@ -1,0 +1,10 @@
+Relative Risks from Risk factor (categorical)
+
+For the selected disease, enter relative risk of obtaining the selected disease given the risk factor class by age and sex. The risk factor has to be specified before creating this window. Other options are continuous and compounding risk factors. 
+
+Save the results (“Save”) and close the window (“cancel”).
+
+The risk of contracting a disease depends on the degree of exposure to a given risk factor. It usually, but not necessarily increases with higher risk factor classes. 
+
+Sources for the relative risks from other diseases rates are the scientific literature. 
+

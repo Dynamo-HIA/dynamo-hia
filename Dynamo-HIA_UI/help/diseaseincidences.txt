@@ -1,0 +1,9 @@
+Disease Incidence
+
+For the selected disease, enter the disease incidence for each sex and age class (either manually or via import). 
+
+Save the results ("Save") and close the window ("cancel").
+
+The incidence rate is defined as the number of new cases of the selected disease per xxx person-years in those without the disease. 
+
+Sources for incidence rates are the scientific literature. 
