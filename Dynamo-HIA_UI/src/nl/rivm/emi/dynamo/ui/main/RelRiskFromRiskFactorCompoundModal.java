@@ -10,15 +10,21 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import java.io.File;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
+import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
+import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
+import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -85,10 +91,35 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 					"No Factory found for rootElementName: "
 							+ this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile,
+		File dataFile = new File(this.dataFilePath);
+		if (dataFile.exists()) {
+			if (dataFile.isFile() && dataFile.canRead()) {
+				// 20090929 Added.
+				if (props == null) {
+					RiskSourcePropertiesMap propsMap = RiskSourcePropertiesMapFactory
+							.makeMap4OneRiskSourceType((BaseNode) ((ChildNode) selectedNode)
+									.getParent());
+					String selectedNodeLabel = selectedNode.deriveNodeLabel();
+					Set<String> nameSet = propsMap.keySet();
+					for (String riskSourceName : nameSet) {
+						if ((selectedNodeLabel != null)
+								&& !"".equals(selectedNodeLabel)) {
+							int location = selectedNodeLabel
+									.indexOf(riskSourceName);
+							if ((location != -1)
+									&& (location + riskSourceName.length() == selectedNodeLabel
+											.length())) {
+								props = (CompoundRiskFactorProperties) propsMap
+										.get(riskSourceName);
+							break;
+							}
+						}
+					}
+				}
+				((AgnosticCategoricalFactory) factory)
+						.setNumberOfCategories(props.getNumberOfCategories());
+				// ~ 20090929
+				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(

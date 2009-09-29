@@ -11,6 +11,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
@@ -94,7 +95,7 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 // 20090929 Added.
 				int numberOfClasses = RiskFactorUtil
 				.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode)this.selectedNode).getParent());
-				((RiskFactorPrevalencesCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
+				((AgnosticCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
 // ~ 20090929				
 				producedData = factory
 						.manufactureObservable(riskFactorCategoricalPrevalencesFile, this.rootElementName);

@@ -13,14 +13,10 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 
-public class RiskFactorCategoricalFactory extends AgnosticGroupFactory implements CategoricalFactory {
+public class RiskFactorCategoricalFactory extends AgnosticCategoricalGroupFactory{
 //	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	FileControlEnum myEnum = FileControlEnum.RISKFACTORCATEGORICAL;
-
-	public void setNumberOfCategories(Integer numberOfCategories) {
-		this.setIndexLimit(numberOfCategories);
-	}
 
 	public RiskFactorCategoricalObject manufacture(File configurationFile,
 			String rootNodeName) throws ConfigurationException,

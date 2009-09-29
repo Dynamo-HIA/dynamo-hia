@@ -12,6 +12,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCompoundObject;
@@ -19,8 +20,10 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -34,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 
-//	@SuppressWarnings("unused")
+	// @SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * Must be "global"to be available to the save-listener.
@@ -76,17 +79,18 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 		return "Compound risk factor configuration";
 	}
 
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
-			this.modelObject = (RiskFactorCompoundObject) manufactureModelObject();
-			RiskFactorCompoundGroup riskFactorCategoricalGroup = new RiskFactorCompoundGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel);
-			riskFactorCategoricalGroup.setFormData(this.helpPanel.getGroup(),
-					buttonPanel);
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(400, 400);
-			this.shell.open();
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = (RiskFactorCompoundObject) manufactureModelObject();
+		RiskFactorCompoundGroup riskFactorCategoricalGroup = new RiskFactorCompoundGroup(
+				this.shell, this.modelObject, this.dataBindingContext,
+				this.selectedNode, this.helpPanel);
+		riskFactorCategoricalGroup.setFormData(this.helpPanel.getGroup(),
+				buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(400, 400);
+		this.shell.open();
 	}
 
 	/**
@@ -112,6 +116,13 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 			// The configuration file with data already exists, fill the modal
 			// with existing data
 			if (dataFile.isFile() && dataFile.canRead()) {
+				// 20090929 Added.
+				int numberOfClasses = RiskFactorUtil
+						.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode) this.selectedNode)
+								.getParent());
+				((AgnosticCategoricalGroupFactory) factory)
+						.setNumberOfCategories(numberOfClasses);
+				// ~ 20090929
 				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {

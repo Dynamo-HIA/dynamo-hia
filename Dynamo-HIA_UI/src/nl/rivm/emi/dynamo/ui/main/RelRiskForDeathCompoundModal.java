@@ -12,6 +12,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCompoundFactory;
@@ -19,6 +20,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -48,26 +50,28 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 	}
 
 	@Override
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
-			this.modelObject = manufactureModelObject();
-//			BaseNode riskSourceNode = null;
-			log.debug("Now for RelativeRisksCompoundGroup");
-			RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel, this.durationClassIndex, null);
-			relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
-					buttonPanel);
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(600, 400);
-			this.shell.open();
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = manufactureModelObject();
+		// BaseNode riskSourceNode = null;
+		log.debug("Now for RelativeRisksCompoundGroup");
+		RelativeRisksCompoundGroup relRiskForDeathCompoundGroup = new RelativeRisksCompoundGroup(
+				this.shell, this.modelObject, this.dataBindingContext,
+				this.selectedNode, this.helpPanel, this.durationClassIndex,
+				null);
+		relRiskForDeathCompoundGroup.setFormData(this.helpPanel.getGroup(),
+				buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(600, 400);
+		this.shell.open();
 	}
 
 	@Override
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		durationClassIndex = RiskFactorUtil
-		.getDurationCategoryIndex(selectedNode);
+				.getDurationCategoryIndex(selectedNode);
 		TypedHashMap<?> producedData = null;
 		AgnosticFactory factory = (AgnosticFactory) FactoryProvider
 				.getRelevantFactoryByRootNodeName(this.rootElementName);
@@ -79,6 +83,13 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 		File configurationFile = new File(this.configurationFilePath);
 		if (configurationFile.exists()) {
 			if (configurationFile.isFile() && configurationFile.canRead()) {
+				// 20090929 Added.
+				int numberOfClasses = RiskFactorUtil
+						.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode) this.selectedNode)
+								.getParent());
+				((AgnosticCategoricalFactory) factory)
+						.setNumberOfCategories(numberOfClasses);
+				// ~ 20090929
 				producedData = factory.manufactureObservable(configurationFile,
 						this.rootElementName);
 				if (producedData == null) {
@@ -94,11 +105,12 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 					.getNumberOfRiskFactorClasses(this.selectedNode);
 			log.debug("numberOfCategories: " + numberOfCategories);
 			durationClassIndex = RiskFactorUtil
-			.getDurationCategoryIndex(selectedNode);
+					.getDurationCategoryIndex(selectedNode);
 			log.debug("durationClassIndex: " + durationClassIndex);
 			((RelRiskForDeathCompoundFactory) factory)
 					.setNumberOfCategories(numberOfCategories);
-		((CategoricalFactory)factory).setNumberOfCategories(numberOfCategories);	
+			((CategoricalFactory) factory)
+					.setNumberOfCategories(numberOfCategories);
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

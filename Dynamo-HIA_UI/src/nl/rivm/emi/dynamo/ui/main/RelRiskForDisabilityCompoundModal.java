@@ -12,6 +12,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDisabilityCompoundFactory;
@@ -19,6 +20,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -76,10 +78,19 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 					"No Factory found for rootElementName: "
 							+ this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile,
+		File dataFile = new File(this.dataFilePath);
+		if (dataFile.exists()) {
+			if (dataFile.isFile() && dataFile.canRead()) {
+				// 20090929 Added.
+				if (factory instanceof AgnosticCategoricalFactory) {
+					int numberOfClasses = RiskFactorUtil
+							.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode) this.selectedNode)
+									.getParent());
+					((AgnosticCategoricalFactory) factory)
+							.setNumberOfCategories(numberOfClasses);
+				}
+				// ~ 20090929
+				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(

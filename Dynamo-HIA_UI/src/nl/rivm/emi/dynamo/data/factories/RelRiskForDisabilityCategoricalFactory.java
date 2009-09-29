@@ -16,16 +16,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RelRiskForDisabilityCategoricalFactory extends AgnosticFactory
-		implements CategoricalFactory {
+public class RelRiskForDisabilityCategoricalFactory extends AgnosticCategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-
-	Integer numberOfCategories = null;
-
-
-	public void setNumberOfCategories(Integer numberOfCategories) {
-		this.numberOfCategories = numberOfCategories;
-	}
 
 	public TypedHashMap manufactureObservable(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {

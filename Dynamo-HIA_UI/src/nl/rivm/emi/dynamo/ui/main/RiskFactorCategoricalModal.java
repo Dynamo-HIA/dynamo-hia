@@ -12,6 +12,8 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
+import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
@@ -19,8 +21,10 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -131,6 +135,11 @@ public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal 
 			// The configuration file with data already exists, fill the modal
 			// with existing data
 			if (dataFile.isFile() && dataFile.canRead()) {
+				// 20090929 Added.
+				int numberOfClasses = RiskFactorUtil
+				.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode)this.selectedNode).getParent());
+				((AgnosticCategoricalGroupFactory)factory).setNumberOfCategories(numberOfClasses);
+// ~ 20090929				
 				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {

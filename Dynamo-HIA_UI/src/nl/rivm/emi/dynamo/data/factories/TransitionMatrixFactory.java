@@ -17,15 +17,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TransitionMatrixFactory extends AgnosticFactory implements
-		CategoricalFactory {
+public class TransitionMatrixFactory extends AgnosticCategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-
-	private Integer numberOfCategories = null;
-
-	public void setNumberOfCategories(Integer numberOfCategories) {
-		this.numberOfCategories = numberOfCategories;
-	}
 
 	public TypedHashMap manufactureObservable(File configurationFile,
 			String rootElementName)
