@@ -17,6 +17,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalPrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -90,6 +91,11 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 		if (riskFactorCategoricalPrevalencesFile.exists()) {
 			if (riskFactorCategoricalPrevalencesFile.isFile()
 					&& riskFactorCategoricalPrevalencesFile.canRead()) {
+// 20090929 Added.
+				int numberOfClasses = RiskFactorUtil
+				.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode)this.selectedNode).getParent());
+				((RiskFactorPrevalencesCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
+// ~ 20090929				
 				producedData = factory
 						.manufactureObservable(riskFactorCategoricalPrevalencesFile, this.rootElementName);
 				if (producedData == null) {

@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalPrevalencesObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
+import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -15,34 +16,34 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class RiskFactorPrevalencesCategoricalFactory extends AgnosticFactory
-		implements CategoricalFactory {
+public class RiskFactorPrevalencesCategoricalFactory extends AgnosticCategoricalFactory{
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	private Integer numberOfCategories = null;
+//	private Integer numberOfCategories = null;
 
-	public void setNumberOfCategories(Integer numberOfCategories) {
-		this.numberOfCategories = numberOfCategories;
-	}
+//	public void setNumberOfCategories(Integer numberOfCategories) {
+//		this.numberOfCategories = numberOfCategories;
+//	}
 
-	public TypedHashMap manufactureObservable(
-			File configurationFile, String rootElementName) throws ConfigurationException,
+	public TypedHashMap manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		return new RiskFactorCategoricalPrevalencesObject(manufacture(
-				configurationFile, true, rootElementName));
+		RiskFactorCategoricalPrevalencesObject resultObject = new RiskFactorCategoricalPrevalencesObject(
+				manufacture(configurationFile, true, rootElementName));
+		return resultObject;
 	}
 
-	public TypedHashMap manufacture(
-			File configurationFile, String rootElementName) throws ConfigurationException,
+	public TypedHashMap manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		RiskFactorCategoricalPrevalencesObject result = new RiskFactorCategoricalPrevalencesObject(
 				producedMap);
 		return (result);
 	}
-
 
 	@Override
 	public TypedHashMap manufactureDefault() throws ConfigurationException {
@@ -63,8 +64,8 @@ public class RiskFactorPrevalencesCategoricalFactory extends AgnosticFactory
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		CatContainer category = (CatContainer) XMLTagEntitySingleton.getInstance().get(
-				"cat");
+		CatContainer category = (CatContainer) XMLTagEntitySingleton
+				.getInstance().get("cat");
 		// TODO Clone to make threadsafe. Category clone = category.
 		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
