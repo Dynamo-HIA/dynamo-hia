@@ -143,10 +143,13 @@ public class SimulationUniversalAction extends ActionBase {
 					simulationNameDirectoryNode = createNewSimulationDirectory((DirectoryNode) node);
 				}
 				// simulationNameDirectoryNode should be != null here.
-				if (simulationConfigurationFileNode == null) {
-					configurationFileExistsBefore = createSimulationConfigurationFile();
+				// RLM Testing is the only way to make sure.
+				if (simulationNameDirectoryNode != null) {
+					if (simulationConfigurationFileNode == null) {
+						configurationFileExistsBefore = createSimulationConfigurationFile();
+					}
+					editConfigurationFile();
 				}
-				editConfigurationFile();
 			} else {
 				MessageBox messageBox = new MessageBox(shell,
 						SWT.ERROR_CANNOT_SET_MENU);
@@ -162,6 +165,7 @@ public class SimulationUniversalAction extends ActionBase {
 
 	private DirectoryNode createNewSimulationDirectory(
 			DirectoryNode simulationsNode) throws StorageTreeException {
+		DirectoryNode newSimulationDirectoryNode = null;
 		String simulationsPath = ((BaseNode) simulationsDirectoryNode)
 				.getPhysicalStorage().getAbsolutePath();
 		InputDialog inputDialog = new InputDialog(shell, "SimulationsPath: "
@@ -172,26 +176,29 @@ public class SimulationUniversalAction extends ActionBase {
 		String candidateSimulationPath = simulationsPath + File.separator
 				+ candidateSimulationName;
 		File candidateDirectory = new File(candidateSimulationPath);
-		if (!candidateDirectory.exists() && candidateDirectory.mkdir()) {
-			MessageBox messageBox = new MessageBox(shell, SWT.OK | SWT.CHECK);
-			messageBox.setText("Success");
-			messageBox.setMessage(candidateSimulationName
-					+ "\nhas been created.");
-//			messageBox.open();
-			DirectoryNode newSimulationDirectoryNode = new DirectoryNode(
-					simulationsNode, candidateDirectory);
-			simulationsNode.addChild(newSimulationDirectoryNode);
-			theViewer.refresh();
-			return newSimulationDirectoryNode;
+		if (!candidateDirectory.exists()) {
+			if (candidateDirectory.mkdir()) {
+				newSimulationDirectoryNode = new DirectoryNode(
+						simulationsNode, candidateDirectory);
+				simulationsNode.addChild(newSimulationDirectoryNode);
+				theViewer.refresh();
+			} else {
+				MessageBox messageBox = new MessageBox(shell,
+						SWT.ERROR_ITEM_NOT_ADDED);
+				messageBox.setText("Creation error.");
+				messageBox.setMessage("The simulation directory: \""
+						+ candidateSimulationName + "\"\ncould not be created.");
+				messageBox.open();
+			}
 		} else {
 			MessageBox messageBox = new MessageBox(shell,
-					SWT.ERROR_CANNOT_SET_MENU);
-			messageBox.setText("Software error!");
-			messageBox.setMessage(candidateSimulationName
-					+ "\ncould not be created.");
+					SWT.ERROR_ITEM_NOT_ADDED);
+			messageBox.setText("Creation error.");
+			messageBox.setMessage("The simulation directory: \""
+					+ candidateSimulationName + "\"\nalready exists.");
 			messageBox.open();
-			return null;
 		}
+		return newSimulationDirectoryNode;
 	}
 
 	/**
@@ -223,7 +230,8 @@ public class SimulationUniversalAction extends ActionBase {
 					Realm.runWithDefault(SWTObservables.getRealm(Display
 							.getDefault()), theModal);
 					boolean isPresentAfter = configurationFile.exists();
-					if (isPresentAfter && /*!configurationFileExistsBefore*/ !FileCreationFlag.isOld) {
+					if (isPresentAfter
+							&& /* !configurationFileExistsBefore */!FileCreationFlag.isOld) {
 						((ParentNode) simulationNameDirectoryNode)
 								.addChild((ChildNode) new FileNode(
 										(ParentNode) simulationNameDirectoryNode,

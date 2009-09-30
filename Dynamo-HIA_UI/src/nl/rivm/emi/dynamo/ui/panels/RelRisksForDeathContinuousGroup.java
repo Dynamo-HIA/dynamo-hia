@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
@@ -23,13 +22,13 @@ public class RelRisksForDeathContinuousGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
-				entityArray[0], entityArray[1], null);
-		entityNameGroup.putInContainer();
+//		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+//		EntityNamePanel entityNameGroup = new EntityNamePanel(theGroup,
+//				entityArray[0], entityArray[1], null);
+//		entityNameGroup.putInContainer();
 		RelRisksForDeathContinuousParameterGroup parameterGroup = new RelRisksForDeathContinuousParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
-		parameterGroup.handlePlacementInContainer(entityNameGroup.group);
+		parameterGroup.handlePlacementInContainer(/* entityNameGroup.group */ null);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

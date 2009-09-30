@@ -44,8 +44,12 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 120;
+
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Referenceclass index:");
+		indexLabel.setLayoutData(gridData);
 		WritableValue observableObject = referenceCategoryObject
 				.getObservableReferenceClass();
 		if (observableObject != null) {
@@ -60,21 +64,8 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 
 	private void bindValue(WritableValue observableObject) {
 		Text text = createAndPlaceTextField();
-		text.setText((String) myType.convert4View(observableObject.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//		text.addFocusListener(
-////				new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////
-////		}
-//				focusListener);
+		text.setText((String) myType
+				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -83,13 +74,14 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup.getTheModal(), (NumberRangeTypeBase<Integer>)myType));
+		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup
+				.getTheModal(), (NumberRangeTypeBase<Integer>) myType));
 	}
 
 	private Text createAndPlaceTextField() {
 		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 50;
 		text.setLayoutData(gridData);
 		return text;
 	}

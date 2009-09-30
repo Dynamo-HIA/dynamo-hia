@@ -24,6 +24,7 @@ import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
@@ -55,6 +56,9 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		setLayout(layout);
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Reference value:");
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING );
+		indexLabel.setLayoutData(gridData);
+	
 		WritableValue observableObject = referenceValueObject
 				.getObservableReferenceValue();
 		if (observableObject != null) {
@@ -71,24 +75,7 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,
-//				theHelpGroup);
-//		text.addFocusListener(
-//		// new FocusListener() {
-//				// public void focusGained(FocusEvent arg0) {
-//				// theHelpGroup.getFieldHelpGroup().setHelpText("1");
-//				// }
-//				//
-//				// public void focusLost(FocusEvent arg0) {
-//				// theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-//				// // range.
-//				// }
-//				//
-//				// }
-//				focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-		// Too early, see below. text.addVerifyListener(new
-		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
@@ -99,8 +86,8 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 
 	private Text createAndPlaceTextField() {
 		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 50;
 		text.setLayoutData(gridData);
 		return text;
 	}

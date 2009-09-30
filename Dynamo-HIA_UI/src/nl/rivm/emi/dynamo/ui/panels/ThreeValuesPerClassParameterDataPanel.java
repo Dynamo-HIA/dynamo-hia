@@ -46,7 +46,8 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 
 	public ThreeValuesPerClassParameterDataPanel(Composite parent,
 			Text topNeighbour, TypedHashMap lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup, int durationClassIndex) {
+			DataBindingContext dataBindingContext, HelpGroup helpGroup,
+			int durationClassIndex) {
 		super(parent, SWT.NONE);
 		log.debug("Constructing ThreeValuesPerClassParameterDataPanel");
 		this.lotsOfData = lotsOfData;
@@ -57,8 +58,9 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 		this.durationClassIndex = durationClassIndex;
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 8;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+
 		// Top line.
 		createHeader();
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
@@ -86,14 +88,15 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 		}
 	}
 
-	private void bindGenderValues(ArrayList<AtomicTypeObjectTuple> tupleList, boolean isDurationClass) {
+	private void bindGenderValues(ArrayList<AtomicTypeObjectTuple> tupleList,
+			boolean isDurationClass) {
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		for (int tupleIndex = 0; tupleIndex < tupleList.size(); tupleIndex++) {
-			if(isDurationClass || (tupleIndex == 0)){
-			AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) tupleList
-					.get(tupleIndex);
-			bindTuple(gridData, tuple);
+			if (isDurationClass || (tupleIndex == 0)) {
+				AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) tupleList
+						.get(tupleIndex);
+				bindTuple(gridData, tuple);
 			} else {
 				Label spaceLabel = new Label(this, SWT.NONE);
 			}
@@ -108,20 +111,21 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 		String convertedText = modelType.convert4View(modelObservableValue
 				.getValue());
 		text.setText(convertedText);
-//		FocusListener focusListener = new TypedFocusListener(modelType,theHelpGroup);
-//		text.addFocusListener(
-////				new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////
-////		}
-//				focusListener);
+		// FocusListener focusListener = new
+		// TypedFocusListener(modelType,theHelpGroup);
+		// text.addFocusListener(
+		// // new FocusListener() {
+		// // public void focusGained(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
+		// // }
+		// //
+		// // public void focusLost(FocusEvent arg0) {
+		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
+		// // // range.
+		// // }
+		// //
+		// // }
+		// focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, modelType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -132,16 +136,30 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 	}
 
 	private void createHeader() {
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 50;
+
 		Label spaceLabel_1_1 = new Label(this, SWT.NONE);
+		spaceLabel_1_1.setLayoutData(labelLayoutData);
 		Label spaceLabel_1_2 = new Label(this, SWT.NONE);
+		spaceLabel_1_2.setLayoutData(labelLayoutData);
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		maleLabel.setLayoutData(dataLayoutData);
 		Label spaceLabel_1_4 = new Label(this, SWT.NONE);
+		spaceLabel_1_4.setLayoutData(dataLayoutData);
 		Label spaceLabel_1_5 = new Label(this, SWT.NONE);
+		spaceLabel_1_5.setLayoutData(dataLayoutData);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		femaleLabel.setLayoutData(dataLayoutData);
 		Label spaceLabel_1_7 = new Label(this, SWT.NONE);
+		spaceLabel_1_7.setLayoutData(dataLayoutData);
 		Label spaceLabel_1_8 = new Label(this, SWT.NONE);
+		spaceLabel_1_8.setLayoutData(dataLayoutData);
 		// Just above the values.
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");

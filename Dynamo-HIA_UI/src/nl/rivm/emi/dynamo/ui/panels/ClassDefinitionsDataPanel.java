@@ -38,19 +38,21 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		// layout.numColumns = 2;
-		layout.numColumns = 5;
-		// layout.makeColumnsEqualWidth = false;
-		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 150;
+
 		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
+		indexLabel.setLayoutData(labelLayoutData);
 		final Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Classname");
-		final Label emptyLabel = new Label(this, SWT.NONE);
-		GridData layoutData = new GridData();
-		layoutData.horizontalSpan = 3;
-		emptyLabel.setLayoutData(layoutData);
+		classNameLabel.setLayoutData(dataLayoutData);
 		int found = 1;
 		int count = 1;
 		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
@@ -62,8 +64,8 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 				final Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
 				bindValue(observableClassName);
-				@SuppressWarnings("unused")
-				final Label anotherEmptyLabel = new Label(this, SWT.NONE);
+//				@SuppressWarnings("unused")
+//				final Label anotherEmptyLabel = new Label(this, SWT.NONE);
 			} else {
 				final MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
@@ -77,12 +79,10 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	private void bindValue(WritableValue observableClassName) {
 		final Text text = createAndPlaceTextField();
 		text.setText((String) observableClassName.doGetValue());
-		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
-		layoutData.horizontalSpan = 3;
-		text.setLayoutData(layoutData);
+//		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
+//		layoutData.horizontalSpan = 3;
+//		text.setLayoutData(layoutData);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-		// Too early, see below. text.addVerifyListener(new
-		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
@@ -95,8 +95,8 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 
 	private Text createAndPlaceTextField() {
 		final Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 150;
 		text.setLayoutData(gridData);
 		return text;
 	}

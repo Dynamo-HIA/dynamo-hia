@@ -12,6 +12,7 @@ import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -40,10 +41,15 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData layoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
+		indexLabel.setLayoutData(layoutData);
+		GridData fieldLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		fieldLayoutData.widthHint = 75;
 		final Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Cutoff-value");
+		classNameLabel.setLayoutData(fieldLayoutData);
 		int found = 1;
 		int count = 1;
 		int numberOfCutoffs = cutoffsObject.getNumberOfCutoffs();
@@ -54,6 +60,7 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 				found++;
 				final Label label = new Label(this, SWT.NONE);
 				label.setText(new Integer(count).toString());
+				GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 				bindValue(observableCutoffValue);
 			} else {
 				MessageBox box = new MessageBox(parent.getShell());
@@ -75,8 +82,9 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener(theHelpGroup.getTheModal()));
-		}
+		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+				.getTheModal()));
+	}
 
 	private Text createAndPlaceTextField() {
 		final Text text = new Text(this, SWT.NONE);

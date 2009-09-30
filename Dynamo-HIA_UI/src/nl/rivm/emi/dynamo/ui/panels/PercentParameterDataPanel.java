@@ -29,7 +29,7 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.panels.ParameterDataPanel");
 	TypedHashMap<?> lotsOfData;
-//	final Composite myParent;
+	// final Composite myParent;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
@@ -37,33 +37,44 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 
 	@SuppressWarnings("unchecked")
 	public PercentParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap<?> lotsOfData,
-			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
+			TypedHashMap<?> lotsOfData, DataBindingContext dataBindingContext,
+			HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
-		myType = (AtomicTypeBase<?>) XMLTagEntitySingleton.getInstance().get("percent");
+		myType = (AtomicTypeBase<?>) XMLTagEntitySingleton.getInstance().get(
+				"percent");
 		GridLayout layout = new GridLayout();
-//		layout.numColumns = 5;
+		// layout.numColumns = 5;
 		layout.numColumns = 3;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		ageLabel.setLayoutData(labelLayoutData);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 50;
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		maleLabel.setLayoutData(dataLayoutData);
 		final Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		femaleLabel.setLayoutData(dataLayoutData);
 		for (int count = 0; count < lotsOfData.size(); count++) {
-			TypedHashMap<?> tHMap = (TypedHashMap<?>)lotsOfData.get(count);
+			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
-			for(int sexCount = 0; sexCount < 2; sexCount++ ){
-				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap.get(sexCount);
-				WritableValue thePercentageObservable = (WritableValue) list.get(0).getValue();  
-			bindValue(thePercentageObservable);
-//			bindTestValue(tHMap, BiGender.FEMALE_INDEX);
+			for (int sexCount = 0; sexCount < 2; sexCount++) {
+				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap
+						.get(sexCount);
+				WritableValue thePercentageObservable = (WritableValue) list
+						.get(0).getValue();
+				bindValue(thePercentageObservable);
+				// bindTestValue(tHMap, BiGender.FEMALE_INDEX);
 			}
 		}
 	}
@@ -83,27 +94,30 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
-		String convertedText = ((Percent)myType).convert4View(thePercentage);
+		String convertedText = ((Percent) myType).convert4View(thePercentage);
 		text.setText(convertedText);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 
-		//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
+		// Too early, see below. text.addVerifyListener(new
+		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, thePercentage,
-				((Percent)myType).getModelUpdateValueStrategy(), ((Percent)myType).getViewUpdateValueStrategy());
-		text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
+				((Percent) myType).getModelUpdateValueStrategy(),
+				((Percent) myType).getViewUpdateValueStrategy());
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
-//	private void bindTestValue(TypedHashMap sexMap, int index) {
-//		Text text = new Text(this, SWT.NONE);
-//		text.setText(sexMap.get(index).toString());
-//		IObservableValue textObservableValue = SWTObservables.observeText(text,
-//				SWT.Modify);
-//		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
-//		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-//				ModelUpdateValueStrategies.getStrategy(modelObservableValue
-//						.getValueType()), ViewUpdateValueStrategies
-//						.getStrategy(modelObservableValue.getValueType()));
-//	}
+	// private void bindTestValue(TypedHashMap sexMap, int index) {
+	// Text text = new Text(this, SWT.NONE);
+	// text.setText(sexMap.get(index).toString());
+	// IObservableValue textObservableValue = SWTObservables.observeText(text,
+	// SWT.Modify);
+	// WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
+	// dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+	// ModelUpdateValueStrategies.getStrategy(modelObservableValue
+	// .getValueType()), ViewUpdateValueStrategies
+	// .getStrategy(modelObservableValue.getValueType()));
+	// }
 }

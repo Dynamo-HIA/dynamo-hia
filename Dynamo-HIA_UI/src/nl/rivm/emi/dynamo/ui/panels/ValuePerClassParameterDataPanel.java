@@ -53,16 +53,26 @@ public class ValuePerClassParameterDataPanel extends Composite {
 				"percent");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 4;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 50;
+
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
+		ageLabel.setLayoutData(labelLayoutData);
 		Label classLabel = new Label(this, SWT.NONE);
 		classLabel.setText("Class");
+		classLabel.setLayoutData(labelLayoutData);
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		maleLabel.setLayoutData(dataLayoutData);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		femaleLabel.setLayoutData(dataLayoutData);
 		// Made ageCount Object scope for debugging;
 		for (ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);
@@ -71,8 +81,8 @@ public class ValuePerClassParameterDataPanel extends Composite {
 			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
-//				log.debug("Going to bind fields for age: " + ageCount
-//						+ " and category: " + classCount);
+				// log.debug("Going to bind fields for age: " + ageCount
+				// + " and category: " + classCount);
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
 					ageCellLabel.setText(new Integer(ageCount).toString());
@@ -99,12 +109,12 @@ public class ValuePerClassParameterDataPanel extends Composite {
 
 	private void bindValue(TypedHashMap typedHashMap, int index) {
 		try {
-		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		text.setLayoutData(gridData);
-		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
-				.get(index);
+			Text text = new Text(this, SWT.NONE);
+			GridData gridData = new GridData();
+			gridData.horizontalAlignment = SWT.FILL;
+			text.setLayoutData(gridData);
+			ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
+					.get(index);
 			WritableValue modelObservableValue = (WritableValue) ((AtomicTypeObjectTuple) list
 					.get(0)).getValue();
 			AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0)
@@ -112,10 +122,10 @@ public class ValuePerClassParameterDataPanel extends Composite {
 			String convertedText = theType.convert4View(modelObservableValue
 					.doGetValue());
 			text.setText(convertedText);
-//			FocusListener focusListener = new TypedFocusListener(theType,
-//					theHelpGroup);
-//			text.addFocusListener(
-//					focusListener);
+			// FocusListener focusListener = new TypedFocusListener(theType,
+			// theHelpGroup);
+			// text.addFocusListener(
+			// focusListener);
 			HelpTextListenerUtil.addHelpTextListeners(text, theType);
 			IObservableValue textObservableValue = SWTObservables.observeText(
 					text, SWT.Modify);
@@ -123,9 +133,11 @@ public class ValuePerClassParameterDataPanel extends Composite {
 					modelObservableValue, ((Percent) myType)
 							.getModelUpdateValueStrategy(), ((Percent) myType)
 							.getViewUpdateValueStrategy());
-			text.addVerifyListener(new PercentVerifyListener(theHelpGroup.getTheModal()));
+			text.addVerifyListener(new PercentVerifyListener(theHelpGroup
+					.getTheModal()));
 		} catch (NullPointerException e) {
-			log.error(e.getClass().getName() + " age: " + ageCount + " sex: " + genderCount + " class: " + index);
+			log.error(e.getClass().getName() + " age: " + ageCount + " sex: "
+					+ genderCount + " class: " + index);
 			// Do not change functionality.
 			throw e;
 		}

@@ -62,21 +62,26 @@ public class SexRatioAndStartingYearPanel {
 		group = new Group(parent, SWT.NONE);
 		// FormLayout formLayout = new FormLayout();
 		// group.setLayout(formLayout);
-		GridLayout gridLayout = new GridLayout(10, true);
+		GridLayout gridLayout = new GridLayout(5, false);
 		group.setLayout(gridLayout);
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 50;
 		String labelValue = SEX_RATIO;
 		WritableValue observable = newbornsObject.getObservableSexRatio();
 		Text text = bindHeaderValue(observable, labelValue, new SexRatio(),
 				group);
-		Label spaceLabel = new Label(group, SWT.NONE);
-		GridData spaceLabelGridData = new GridData(GridData.FILL_HORIZONTAL);
-		spaceLabelGridData.horizontalSpan = 2;
-		spaceLabel.setLayoutData(spaceLabelGridData);
+//		Label spaceLabel = new Label(group, SWT.NONE);
+//		GridData spaceLabelGridData = new GridData(GridData.FILL_HORIZONTAL);
+//		spaceLabelGridData.horizontalSpan = 2;
+//		spaceLabel.setLayoutData(spaceLabelGridData);
 		startingYearFields = new StartingYearFields(group, SWT.NONE);
-		Label space2Label = new Label(group, SWT.NONE);
-		GridData space2LabelGridData = new GridData(GridData.FILL_HORIZONTAL);
-		space2LabelGridData.horizontalSpan = 3;
-		space2Label.setLayoutData(space2LabelGridData);
+//		Label space2Label = new Label(group, SWT.NONE);
+//		GridData space2LabelGridData = new GridData(GridData.FILL_HORIZONTAL);
+//		space2LabelGridData.horizontalSpan = 3;
+//		space2Label.setLayoutData(space2LabelGridData);
 	}
 
 	public void putNextInContainer(Group topNeighbour, int height, Group group) {
@@ -91,11 +96,17 @@ public class SexRatioAndStartingYearPanel {
 			AtomicTypeBase myType, Composite group) {
 		Text text = null;
 		if (observable != null) {
+			GridData labelLayoutData = new GridData(
+					GridData.HORIZONTAL_ALIGN_BEGINNING);
+			GridData dataLayoutData = new GridData(
+					GridData.HORIZONTAL_ALIGN_BEGINNING);
+			dataLayoutData.widthHint = 50;
 			Label label = new Label(group, SWT.NONE);
 			label.setText(labelValue + ": ");
+			label.setLayoutData(labelLayoutData);
 			text = bindValue(observable, myType, group, label);
 			GridData textGridDate = new GridData(GridData.FILL_HORIZONTAL);
-			text.setLayoutData(textGridDate);
+			text.setLayoutData(/* textGridDate */dataLayoutData);
 		} else {
 			MessageBox box = new MessageBox(this.myParent.getShell());
 			box.setText("Class name error");
@@ -119,14 +130,16 @@ public class SexRatioAndStartingYearPanel {
 	protected Text bindAbstractRangedInteger(WritableValue observableObject,
 			AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(
+				theHelpGroup.getTheModal(), myType));
 		return text;
 	}
 
 	protected Text bindAbstractValue(WritableValue observableObject,
 			AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
-		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup.getTheModal(), myType));
+		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup
+				.getTheModal(), myType));
 		return text;
 	}
 
@@ -135,19 +148,6 @@ public class SexRatioAndStartingYearPanel {
 		Text text = createAndPlaceTextField(group, label);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//		text.addFocusListener(
-//		// new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////		}
-//		focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -188,35 +188,30 @@ public class SexRatioAndStartingYearPanel {
 			String labelValue = STARTING_YEAR;
 			label = new Label(theParent, SWT.NONE);
 			label.setText(labelValue + ": ");
+			GridData labelLayoutData = new GridData(
+					GridData.HORIZONTAL_ALIGN_BEGINNING);
+			label.setLayoutData(labelLayoutData);
 
 		}
 
 		private void setupText() throws DynamoInconsistentDataException {
 			startingYearText = new Text(theParent, SWT.NONE);
-			GridData startingYearTextGridData = new GridData(GridData.FILL_HORIZONTAL);
-			startingYearText.setLayoutData(startingYearTextGridData);
-			Integer startingYear = newbornsObject.getStartingYear();
+//			GridData startingYearTextGridData = new GridData(
+//					GridData.FILL_HORIZONTAL);
+//			startingYearText.setLayoutData(startingYearTextGridData);
+			GridData dataLayoutData = new GridData(
+					GridData.HORIZONTAL_ALIGN_BEGINNING);
+			dataLayoutData.widthHint = 50;
+			startingYearText.setLayoutData(dataLayoutData);
+				Integer startingYear = newbornsObject.getStartingYear();
 			startingYearText.setText(startingYearType
 					.convert4View(startingYear));
 			startingYearText.addVerifyListener(startingYearType);
-//			FocusListener focusListener = new TypedFocusListener(XMLTagEntityEnum.STARTINGYEAR.getTheType(),theHelpGroup);
-//		startingYearText.addFocusListener(
-////				new FocusListener() {
-////				public void focusGained(FocusEvent arg0) {
-////					theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////				}
-////
-////				public void focusLost(FocusEvent arg0) {
-////					theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out
-////					// of
-////					// range.
-////				}
-////			}
-//			focusListener);
-		HelpTextListenerUtil.addHelpTextListeners(startingYearText, (AtomicTypeBase<?>) XMLTagEntityEnum.STARTINGYEAR.getTheType());
+			HelpTextListenerUtil.addHelpTextListeners(startingYearText,
+					(AtomicTypeBase<?>) XMLTagEntityEnum.STARTINGYEAR
+							.getTheType());
 		}
 
-		
 		private void setupUpdateButton() {
 			updateButton = new Button(theParent, SWT.PUSH);
 			updateButton.setText(UPDATE);

@@ -82,7 +82,7 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 			newbornsGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(900, 700);
+			this.shell.setSize(500, 400);
 			this.shell.open();
 	}
 

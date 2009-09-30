@@ -94,13 +94,6 @@ public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal 
 	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
 			this.modelObject = new RiskFactorCategoricalObject(
 					manufactureModelObject());
-			// this.modelObject =
-			// this.modelObject.manufacture(this.dataFilePath,
-			// RISKFACTOR_CATEGORICAL);
-//			Composite buttonPanel = new GenericButtonPanel(this.shell);
-//			this.helpPanel = new HelpGroup(this, buttonPanel);
-//			((GenericButtonPanel) buttonPanel)
-//			.setModalParent((DataAndFileContainer) this);
 			RiskFactorCategoricalGroup riskFactorCategoricalGroup = new RiskFactorCategoricalGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, this.helpPanel);
@@ -108,7 +101,7 @@ public class RiskFactorCategoricalModal extends AbstractMultiRootChildDataModal 
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(500, 500);
+			this.shell.setSize(500, 400);
 			this.shell.open();
 	}
 

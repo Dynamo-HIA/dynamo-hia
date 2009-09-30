@@ -43,23 +43,27 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 120;
 		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Duration class index:");
-			WritableValue observableObject = referenceCategoryObject
-					.getObservableDurationClass();
-			if (observableObject != null) {
-				bindValue(observableObject);
-			} else {
-				MessageBox box = new MessageBox(parent.getShell());
-				box.setText("Duration Class error");
-				box.setMessage("Duration Class is absent.");
-				box.open();
-			}
+		indexLabel.setLayoutData(gridData);
+		WritableValue observableObject = referenceCategoryObject
+				.getObservableDurationClass();
+		if (observableObject != null) {
+			bindValue(observableObject);
+		} else {
+			MessageBox box = new MessageBox(parent.getShell());
+			box.setText("Duration Class error");
+			box.setMessage("Duration Class is absent.");
+			box.open();
+		}
 	}
 
 	private void bindValue(WritableValue observableObject) {
 		final Text text = createAndPlaceTextField();
-		text.setText((String) myType.convert4View(observableObject.doGetValue()));
+		text.setText((String) myType
+				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -68,13 +72,14 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup.getTheModal(), (NumberRangeTypeBase<Integer>)myType));
+		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup
+				.getTheModal(), (NumberRangeTypeBase<Integer>) myType));
 	}
 
 	private Text createAndPlaceTextField() {
 		final Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 50;
 		text.setLayoutData(gridData);
 		return text;
 	}

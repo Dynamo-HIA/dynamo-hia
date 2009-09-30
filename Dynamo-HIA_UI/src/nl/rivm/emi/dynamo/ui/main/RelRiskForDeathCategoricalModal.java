@@ -15,7 +15,6 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskForDeathCategoricalFactory;
-import nl.rivm.emi.dynamo.data.factories.RiskFactorPrevalencesCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCategoricalGroup;
@@ -77,7 +76,7 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 				buttonPanel);
 		this.shell.pack();
 		// This is the first place this works.
-		this.shell.setSize(400, 400);
+		this.shell.setSize(500, 400);
 		this.shell.open();
 	}
 

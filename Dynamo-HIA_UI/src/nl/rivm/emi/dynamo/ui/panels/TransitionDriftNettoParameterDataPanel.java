@@ -5,7 +5,6 @@ import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
 import org.apache.commons.logging.Log;
@@ -15,8 +14,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -40,11 +37,10 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		this.theHelpGroup = helpGroup;
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.makeColumnsEqualWidth = false;
 		setLayout(gridLayout);
 		Label label = new Label(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		label.setLayoutData(gridData);
 		label.setText("Trend: ");
 		WritableValue observableTrend = lotsOfData.getObservableTrend();
@@ -55,17 +51,12 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 	protected void bindAbstractValue(WritableValue modelObservableValue,
 			AtomicTypeBase myType) {
 		Text text = new Text(this, SWT.NONE);
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
+		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gridData.widthHint = 50;
 		text.setLayoutData(gridData);
 		String convertedText = myType.convert4View(modelObservableValue);
 		text.setText(convertedText);
-//		FocusListener focusListener = new TypedFocusListener(myType,
-//				theHelpGroup);
-//		text.addFocusListener(focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-		// Too early, see below. text.addVerifyListener(new
-		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

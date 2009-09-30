@@ -23,14 +23,14 @@ public class RelativeRisksCategoricalGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		String[] entityStrings = Util
-				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
-				entityStrings[0], entityStrings[1], null);
-		entityNamePanel.putInContainer();
+//		String[] entityStrings = Util
+//				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
+//		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
+//				entityStrings[0], entityStrings[1], null);
+//		entityNamePanel.putInContainer();
 		RelativeRisksCategoricalParameterGroup parameterGroup = new RelativeRisksCategoricalParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup);
-		parameterGroup.handlePlacementInContainer(entityNamePanel.group);
+		parameterGroup.handlePlacementInContainer(null);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {

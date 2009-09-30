@@ -31,12 +31,14 @@ import org.eclipse.swt.widgets.Text;
  * Defines the Year parameter group in Newborns (screen W13)
  * 
  * @author schutb
- *
+ * 
  */
 
-public class YearGroupParameterDataPanel extends Composite /* implements Runnable */{
-	Log log = LogFactory
-			.getLog(this.getClass().getName());
+public class YearGroupParameterDataPanel extends Composite /*
+															 * implements
+															 * Runnable
+															 */{
+	Log log = LogFactory.getLog(this.getClass().getName());
 	NewbornsObject lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
@@ -53,78 +55,69 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 		theHelpGroup = helpGroup;
 		myType = (AtomicTypeBase) XMLTagEntityEnum.NUMBER.getTheType();
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 10;
-// Testing		layout.numColumns = 3;
-		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 100;
+
 		Label yearLabel = new Label(this, SWT.NONE);
 		yearLabel.setText("Year");
+		yearLabel.setLayoutData(labelLayoutData);
 		Label numberLabel = new Label(this, SWT.NONE);
 		numberLabel.setText("Number");
-		GridData numberLabelGridData = new GridData();
-		numberLabelGridData.horizontalSpan = 2;
-		numberLabel.setLayoutData(numberLabelGridData);
-		Label spaceLabel = new Label(this, SWT.NONE);
-		GridData spaceLabelGridData = new GridData();
-		spaceLabelGridData.horizontalSpan = 7;
-		spaceLabel.setLayoutData(spaceLabelGridData);
-		
+		numberLabel.setLayoutData(dataLayoutData);
 		int numberOfNumbers = newbornsObject.getNumberOfAmounts();
 
-		WritableValue observableObject = newbornsObject.getObservableStartingYear();		
-		int startingYear = ((Integer) observableObject.doGetValue()).intValue();		
+		WritableValue observableObject = newbornsObject
+				.getObservableStartingYear();
+		int startingYear = ((Integer) observableObject.doGetValue()).intValue();
 
 		// Start year is the first key of the hashmap
-		for (int yearCount = startingYear; yearCount < startingYear + numberOfNumbers ; yearCount++) {
+		for (int yearCount = startingYear; yearCount < startingYear
+				+ numberOfNumbers; yearCount++) {
 			log.debug("yearCount" + yearCount);
 			// Set the year label
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(yearCount).toString());				
-			
-			WritableValue observableClassName = newbornsObject.getObservableNumber(yearCount);
-			if(observableClassName != null){
+			label.setText(new Integer(yearCount).toString());
+
+			WritableValue observableClassName = newbornsObject
+					.getObservableNumber(yearCount);
+			if (observableClassName != null) {
 				bindAbstractRangedInteger(observableClassName, myType);
-				Label deepSpaceLabel = new Label(this, SWT.NONE);
-				GridData deepSpaceLabelGridData = new GridData();
-				deepSpaceLabelGridData.horizontalSpan = 7;
-				deepSpaceLabel.setLayoutData(deepSpaceLabelGridData);
+//				Label deepSpaceLabel = new Label(this, SWT.NONE);
+//				GridData deepSpaceLabelGridData = new GridData();
+//				deepSpaceLabelGridData.horizontalSpan = 7;
+//				deepSpaceLabel.setLayoutData(deepSpaceLabelGridData);
 			} else {
 				MessageBox box = new MessageBox(parent.getShell());
 				box.setText("Class name error");
-				box.setMessage("Name at year " + yearCount + " should not be empty.");
+				box.setMessage("Name at year " + yearCount
+						+ " should not be empty.");
 				box.open();
 			}
-		}					
+		}
 	}
 
 	protected void bindAbstractRangedInteger(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
-		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(theHelpGroup.getTheModal(), myType));
-// Testing		Text testText = getTextBinding(observableObject, myType);
+		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(
+				theHelpGroup.getTheModal(), myType));
+		// Testing Text testText = getTextBinding(observableObject, myType);
 	}
 
 	private Text getTextBinding(WritableValue observableObject,
 			AtomicTypeBase myType) {
 		Text text = createAndPlaceTextField();
-		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
-		textGridData.horizontalSpan = 2;
-		text.setLayoutData(textGridData);
+//		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
+//		textGridData.horizontalSpan = 2;
+//		text.setLayoutData(textGridData);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(myType,theHelpGroup);
-//text.addFocusListener(
-////		new FocusListener() {
-////			public void focusGained(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("1");
-////			}
-////
-////			public void focusLost(FocusEvent arg0) {
-////				theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-////				// range.
-////			}
-////		}
-//		focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
@@ -134,15 +127,12 @@ public class YearGroupParameterDataPanel extends Composite /* implements Runnabl
 		return text;
 	}
 
-	
 	private Text createAndPlaceTextField() {
-		final Text text = new Text(this, SWT.NONE);		
+		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		return text;
 	}
-	
-	
-	
+
 }

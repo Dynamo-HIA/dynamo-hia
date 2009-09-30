@@ -41,19 +41,26 @@ public class IntegerParameterDataPanel extends Composite {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
 		this.dataBindingContext = dataBindingContext;
-		// this.setSize(300, 300);
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		// layout.numColumns = 5;
 		layout.numColumns = 3;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 75;
+
 		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
+		ageLabel.setLayoutData(labelLayoutData);
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		maleLabel.setLayoutData(dataLayoutData);
 		final Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		femaleLabel.setLayoutData(dataLayoutData);
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);
@@ -96,17 +103,17 @@ public class IntegerParameterDataPanel extends Composite {
 				.getTheModal()));
 	}
 
-//	private void bindTestValue(TypedHashMap sexMap, int index) {
-//		Text text = new Text(this, SWT.NONE);
-//		text.setText(sexMap.get(index).toString());
-//		IObservableValue textObservableValue = SWTObservables.observeText(text,
-//				SWT.Modify);
-//		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
-//		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
-//				ModelUpdateValueStrategies.getStrategy(modelObservableValue
-//						.getValueType()), ViewUpdateValueStrategies
-//						.getStrategy(modelObservableValue.getValueType()));
-//		text.addVerifyListener(new IntegerVerifyListener(theHelpGroup
-//				.getTheModal()));
-//	}
+	// private void bindTestValue(TypedHashMap sexMap, int index) {
+	// Text text = new Text(this, SWT.NONE);
+	// text.setText(sexMap.get(index).toString());
+	// IObservableValue textObservableValue = SWTObservables.observeText(text,
+	// SWT.Modify);
+	// WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
+	// dataBindingContext.bindValue(textObservableValue, modelObservableValue,
+	// ModelUpdateValueStrategies.getStrategy(modelObservableValue
+	// .getValueType()), ViewUpdateValueStrategies
+	// .getStrategy(modelObservableValue.getValueType()));
+	// text.addVerifyListener(new IntegerVerifyListener(theHelpGroup
+	// .getTheModal()));
+	// }
 }

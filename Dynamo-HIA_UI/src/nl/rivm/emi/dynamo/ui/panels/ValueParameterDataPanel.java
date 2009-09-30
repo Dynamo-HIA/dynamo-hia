@@ -51,14 +51,22 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 				"value");
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 3;
-		layout.makeColumnsEqualWidth = true;
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
+		GridData labelLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		ageLabel.setLayoutData(labelLayoutData);
+		GridData dataLayoutData = new GridData(
+				GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataLayoutData.widthHint = 50;
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
+		maleLabel.setLayoutData(dataLayoutData);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		femaleLabel.setLayoutData(dataLayoutData);
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
@@ -92,9 +100,9 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		String convertedText = theType.convert4View(modelObservableValue
 				.doGetValue());
 		text.setText(convertedText);
-//		FocusListener focusListener = new TypedFocusListener(theType,
-//				theHelpGroup);
-//		text.addFocusListener(focusListener);
+		// FocusListener focusListener = new TypedFocusListener(theType,
+		// theHelpGroup);
+		// text.addFocusListener(focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());

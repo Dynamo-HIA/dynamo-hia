@@ -1,15 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.atomic.Mean;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -17,8 +14,6 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -41,20 +36,20 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		this.theHelpGroup = helpGroup;
 		this.modelObject = lotsOfData;
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 3; // TODO(mondeelr) Make generic.
-		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3; 
+		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
-		// GridData labelLayoutData = new GridData();
-		// labelLayoutData.minimumWidth = 100;
-		// labelLayoutData.grabExcessHorizontalSpace = true;
-		// labelLayoutData.horizontalAlignment = GridData.END;
-		// labelLayoutData.horizontalAlignment = SWT.FILL;
+		GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING );
+		GridData dataGridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		dataGridData.widthHint = 50;
 		Label spaceLabel = new Label(this, SWT.NONE);
-		// spaceLabel.setLayoutData(labelLayoutData);
+		spaceLabel.setLayoutData(labelGridData);
 		Label maleHeaderLabel = new Label(this, SWT.NONE);
 		maleHeaderLabel.setText("Male");
+		maleHeaderLabel.setLayoutData(dataGridData);
 		Label femaleHeaderLabel = new Label(this, SWT.NONE);
 		femaleHeaderLabel.setText("Female");
+		femaleHeaderLabel.setLayoutData(dataGridData);
 		Label ageHeaderLabel = new Label(this, SWT.NONE);
 		// ageHeaderLabel.setLayoutData(labelLayoutData);
 		ageHeaderLabel.setText("Age");
@@ -86,19 +81,13 @@ public class TransitionDriftParameterDataPanel extends Composite {
 	protected void bindAbstractValue(WritableValue modelObservableValue,
 			AtomicTypeBase<Float> type) {
 		Text text = new Text(this, SWT.NONE);
-		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
-		textLayoutData.minimumWidth = 50;
-		textLayoutData.horizontalAlignment = GridData.END;
-		// textLayoutData.horizontalAlignment = SWT.FILL;
+		GridData textLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		textLayoutData.widthHint = 50;
 		text.setLayoutData(textLayoutData);
 		String convertedText = ((Mean) type).convert4View(modelObservableValue
 				.doGetValue());
 		text.setText(convertedText);
-//		FocusListener focusListener = new TypedFocusListener(type, theHelpGroup);
-//		text.addFocusListener(focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, type);
-		// Too early, see below. text.addVerifyListener(new
-		// StandardValueVerifyListener());
 		IObservableValue textObservableValue = SWTObservables.observeText(text,
 				SWT.Modify);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
