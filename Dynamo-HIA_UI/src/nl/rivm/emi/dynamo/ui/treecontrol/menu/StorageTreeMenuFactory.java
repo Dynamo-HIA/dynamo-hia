@@ -29,6 +29,9 @@ import nl.rivm.emi.dynamo.ui.actions.create.NewbornsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.DeleteDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.DeleteXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.MessageStrings;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -266,7 +269,8 @@ public class StorageTreeMenuFactory {
 								createMenu4RelRiskFromRiskFactor(manager,
 										selection);
 							} else {
-								createErrorMenu4UnexpectedNodes(manager, selection);
+								createErrorMenu4UnexpectedNodes(manager,
+										selection);
 							}
 						}
 					}
@@ -305,7 +309,8 @@ public class StorageTreeMenuFactory {
 								createMenu4RiskFactorRelRisksForDisability(
 										manager, selection);
 							} else {
-								createErrorMenu4UnexpectedNodes(manager, selection);
+								createErrorMenu4UnexpectedNodes(manager,
+										selection);
 							}
 						}
 					}
@@ -315,16 +320,18 @@ public class StorageTreeMenuFactory {
 			createMenu2Ask4RiskFactorConfiguration(manager, selection);
 		}
 	}
+
 	/**
 	 * Error menu to indicate the choice of this Node was unexpected.
 	 * 
 	 * @param manager
 	 * @param selection
 	 */
-	private void createMenu2Ask4RiskFactorConfiguration(final IMenuManager manager,
-			IStructuredSelection selection) {
+	private void createMenu2Ask4RiskFactorConfiguration(
+			final IMenuManager manager, IStructuredSelection selection) {
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
-		action.setText("Please create the configuration for this riskfactor first(right click on riskfactor name).");
+		action
+				.setText("Please create the configuration for this riskfactor first(right click on riskfactor name).");
 		action.setSelectionPath(((BaseNode) selection.getFirstElement())
 				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);
@@ -360,8 +367,9 @@ public class StorageTreeMenuFactory {
 		manager.add(sNAction);
 		// Deleting...
 		MessageStrings theMessageStrings = new MessageStrings(
-				"Removing Simulation.", "The simulation ",
-				" will be deleted.\nIs that what you want?",
+				"Removing Simulation.",
+				"The simulation directory ",
+				" and\nALL of its contents will be deleted.\nIs that what you want?",
 				"The Simulation still has configuration files.\n"
 						+ "You must delete them all first.");
 		DeleteDirectoryAction deleteDiseaseAction = new DeleteDirectoryAction(
@@ -463,8 +471,9 @@ public class StorageTreeMenuFactory {
 		manager.add(action4);
 		// Deleting the population-directory..
 		MessageStrings theMessageStrings = new MessageStrings(
-				"Removing population.", "The population ",
-				" will be deleted.\nIs that what you want?",
+				"Removing population.",
+				"The population directory ",
+				" and\nALL of its contents will be deleted.\nIs that what you want?",
 				"The population still has configuration files.\n"
 						+ "You must delete them all first");
 		DeleteDirectoryAction action5 = new DeleteDirectoryAction(shell,
@@ -640,8 +649,9 @@ public class StorageTreeMenuFactory {
 	private void createMenu4Disease(IMenuManager manager,
 			IStructuredSelection selection) {
 		MessageStrings theMessageStrings = new MessageStrings(
-				"Removing Disease.", "The disease ",
-				" will be deleted.\nIs that what you want?",
+				"Removing Disease.",
+				"The disease directory ",
+				" and\nALL of its contents will be deleted.\nIs that what you want?",
 				"The Disease still has configuration files.\n"
 						+ "You must delete them all first.");
 		DeleteDirectoryAction deleteDiseaseAction = new DeleteDirectoryAction(
@@ -723,17 +733,20 @@ public class StorageTreeMenuFactory {
 		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
 		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(), theValidator);
+				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
+				theValidator);
 		action.setText("New relative risks from other disease file");
 		manager.add(action);
 		// Testing
-//		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
-//		FreeNamePlusDropDownXMLFileAction action2 = new FreeNamePlusDropDownXMLFileAction(
-//				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-//				RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
-//				theValidator);
-//		action2.setText("Testing new box");
-//		manager.add(action2);
+		// IInputValidator theValidator = new
+		// FileAndDirectoryNameInputValidator();
+		// FreeNamePlusDropDownXMLFileAction action2 = new
+		// FreeNamePlusDropDownXMLFileAction(
+		// shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
+		// RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
+		// theValidator);
+		// action2.setText("Testing new box");
+		// manager.add(action2);
 	}
 
 	/**
@@ -747,7 +760,7 @@ public class StorageTreeMenuFactory {
 		IInputValidator theValidator = new FileAndDirectoryNameInputValidator();
 		RelativeRiskFromRiskSourceAction action = new RelativeRiskFromRiskSourceAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-				null,  theValidator);
+				null, theValidator);
 		action.setText("New relative risks from risk factor file");
 		manager.add(action);
 	}
@@ -764,10 +777,10 @@ public class StorageTreeMenuFactory {
 		FileNode node = (FileNode) selection.getFirstElement();
 		String nodeLabel = node.toString();
 		ParentNode parentNode = node.getParent();
-//		String parentNodeLabel = parentNode.toString();
+		// String parentNodeLabel = parentNode.toString();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
-//		ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
-//				.getParent();
+		// ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
+		// .getParent();
 		if (StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel()
 				.equalsIgnoreCase(
 						((BaseNode) grandParentNode).deriveNodeLabel())) {
@@ -782,7 +795,7 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(
 								((BaseNode) grandParentNode).deriveNodeLabel())) {
 					if ("configuration".equals(nodeLabel)) {
-						handleRelRisksFromRiskFactorXMLs(manager, node);
+						handleXMLs(manager, node);
 					} else {
 					}
 				}
@@ -840,11 +853,11 @@ public class StorageTreeMenuFactory {
 		} else {
 			if (StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
 					.equalsIgnoreCase(parentNodeLabel)) {
-				handleRelRisksFromRiskFactorXMLs(manager, node);
+				handleXMLs(manager, node);
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
 						.getNodeLabel().equalsIgnoreCase(parentNodeLabel)) {
-					handleRelRisksFromRiskFactorXMLs(manager, node);
+					handleXMLs(manager, node);
 				} else {
 					if (StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel()
 							.equalsIgnoreCase(parentNodeLabel)) {
@@ -863,8 +876,8 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
-	private void handleRelRisksFromRiskFactorXMLs(IMenuManager manager,
-			FileNode node) throws DynamoConfigurationException {
+	private void handleXMLs(IMenuManager manager, FileNode node)
+			throws DynamoConfigurationException {
 		String rootElementName = ConfigurationFileUtil
 				.extractRootElementNameIncludingSchemaCheck(node
 						.getPhysicalStorage());
@@ -872,7 +885,28 @@ public class StorageTreeMenuFactory {
 				(BaseNode) node, node.toString(), rootElementName);
 		action.setText("Edit");
 		manager.add(action);
-		addFileDeleteAction(manager, node);
+
+		if (!RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel().equals(
+				rootElementName)
+				&& !RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+						.equals(rootElementName)
+				&& !RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
+						.equals(rootElementName)) {
+			addFileDeleteAction(manager, node);
+		} else {
+			ParentNode parentNode = ((ChildNode) node).getParent();
+			MessageStrings theMessageStrings = new MessageStrings(
+					"Removing risk-factor.",
+					"The risk-factor directory ",
+					" and\nALL of its contents will be deleted.\nIs that what you want?",
+					"The Risk-Factor still has configuration/data files.\n"
+							+ "You must delete them all first");
+			DeleteDirectoryAction delDirAction = new DeleteDirectoryAction(
+					shell, treeViewer, (DirectoryNode)parentNode,
+					theMessageStrings, 2);
+			delDirAction.setText("Delete riskfactor");
+			manager.add(delDirAction);
+		}
 	}
 
 	private void handleRiskFactorPrevalencesXMLs(IMenuManager manager,
@@ -884,7 +918,7 @@ public class StorageTreeMenuFactory {
 						ConfigurationFileUtil
 								.extractRootElementNameIncludingSchemaCheck(node
 										.getPhysicalStorage()))) {
-			handleRelRisksFromRiskFactorXMLs(manager, node);
+			handleXMLs(manager, node);
 		} else {
 			if (RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
 					.getNodeLabel()
@@ -892,7 +926,7 @@ public class StorageTreeMenuFactory {
 							ConfigurationFileUtil
 									.extractRootElementNameIncludingSchemaCheck(node
 											.getPhysicalStorage()))) {
-				handleRelRisksFromRiskFactorXMLs(manager, node);
+				handleXMLs(manager, node);
 			} else {
 				addDummy(manager, selection, "Unexpected rootelementname.");
 			}
@@ -1045,13 +1079,12 @@ public class StorageTreeMenuFactory {
 						if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 								.getNodeLabel().equalsIgnoreCase(
 										parentNodeLabel)) {
-							handleRelRisksFromRiskFactorXMLs(manager, node);
+							handleXMLs(manager, node);
 						} else {
 							if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
 									.getNodeLabel().equalsIgnoreCase(
 											parentNodeLabel)) {
-								handleRelRisksFromRiskFactorXMLs(manager,
-										node);
+								handleXMLs(manager, node);
 							}
 						}
 					}

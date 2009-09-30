@@ -55,15 +55,15 @@ public class RiskFactorContextMenuFactory {
 		contextMenuEntries.put(StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 				.getNodeLabel(), configurationFileContextMenuEntry);
 		MessageStrings theMessageStrings = new MessageStrings(
-				"Removing risk-factor.", "The risk-factor ",
-				" will be deleted.\nIs that what you want?",
+				"Removing risk-factor.", "The risk-factor directory ",
+				" and\nALL of its contents will be deleted.\nIs that what you want?",
 				"The Risk-Factor still has configuration/data files.\n"
 						+ "You must delete them all first");
 		ContextMenuEntry deleteContextMenuEntry = new ContextMenuEntry(shell,
 				"Delete riskfactor", new DeleteDirectoryAction(shell,
 						treeViewer, (DirectoryNode) selectedNode, theMessageStrings, 2));
 		deleteContextMenuEntry.setActive(true);
-		contextMenuEntries.put(StandardTreeNodeLabelsEnum.DELETE_DUMMY
+		contextMenuEntries.put(StandardTreeNodeLabelsEnum.DELETE
 				.getNodeLabel(), deleteContextMenuEntry);
 		return contextMenuEntries;
 	}

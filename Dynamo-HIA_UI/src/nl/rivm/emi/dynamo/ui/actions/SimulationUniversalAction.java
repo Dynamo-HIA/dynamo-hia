@@ -166,7 +166,7 @@ public class SimulationUniversalAction extends ActionBase {
 				.getPhysicalStorage().getAbsolutePath();
 		InputDialog inputDialog = new InputDialog(shell, "SimulationsPath: "
 				+ simulationsPath, "Enter name for new simulation",
-				"Simulation name.", new FileAndDirectoryNameInputValidator());
+				"SimulationName", new FileAndDirectoryNameInputValidator());
 		inputDialog.open();
 		String candidateSimulationName = inputDialog.getValue();
 		String candidateSimulationPath = simulationsPath + File.separator
