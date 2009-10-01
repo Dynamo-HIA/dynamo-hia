@@ -44,17 +44,17 @@ public class TabPlatformListener implements Listener {
 				 * 20090918 Rene Trying to keep refreshing to an absolute
 				 * minimum to solve concurrency problems.
 				 */
-//				RelRisksCollectionForDropdown.getInstance(myTabsDataPanel
-//						.getDynamoSimulationObject(), myTabsDataPanel
-//						.getSelectedNode());
-
+				// RelRisksCollectionForDropdown.getInstance(myTabsDataPanel
+				// .getDynamoSimulationObject(), myTabsDataPanel
+				// .getSelectedNode());
 				myTabsDataPanel.getRelativeRisksTabPlatform().refreshAllTabs();
 				myTabsDataPanel.getRelativeRisksTabPlatform().redraw();
 				// tab2.refreshFirstTab();
 				// tab2.redraw();
 			}
 			if (tabId == "Scenarios") {
-				myTabsDataPanel.getScenariosTabPlatform().refreshFirstTab();
+				// myTabsDataPanel.getScenariosTabPlatform().refreshFirstTab();
+				myTabsDataPanel.getScenariosTabPlatform().refreshAllTabs();
 				myTabsDataPanel.getScenariosTabPlatform().redraw();
 			}
 		} catch (ConfigurationException ce) {

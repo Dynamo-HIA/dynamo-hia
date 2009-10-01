@@ -36,11 +36,12 @@ public class RunButtonPanel {
 	private Button putRunButton(Composite parent) {
 		FormData formData = new FormData();
 		Button runButton = new Button(parent, SWT.PUSH);
-		runButton.setText("Run");
+		runButton.setText("Save and Run");
 		// Subscribe for changed-callbacks.
 		modalParent.setRunButtonPanel(this);
 		// And initialize the initial state.
-		runButton.setEnabled(!modalParent.isChanged());
+	//	runButton.setEnabled(!modalParent.isChanged());
+		runButton.setEnabled(true);
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 100);
 		formData.bottom = new FormAttachment(100, /*-200 */-5);

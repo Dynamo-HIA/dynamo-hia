@@ -1017,7 +1017,7 @@ public class InputDataFactory {
 				sizeName, "populationsize", "size", "number", false));
 		inputData.setOverallDalyWeight(this.factory.manufactureOneDimArray(
 				dalyName, "overalldalyweights", "weight", "percent", false),
-				true);
+				false);
 
 		inputData.setMortTot(this.factory.manufactureOneDimArray(mortName,
 				"overallmortality", "mortality", false));
@@ -2338,7 +2338,7 @@ public class InputDataFactory {
 						/* enter the data from diseases */
 						for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
 							clusterData[a][g][c].setPrevalence(
-									pData[d][a][g] / 100, d);
+									pData[d][a][g], d);
 							clusterData[a][g][c]
 									.setIncidence(iData[d][a][g], d);
 							clusterData[a][g][c].setExcessMortality(
@@ -2346,7 +2346,7 @@ public class InputDataFactory {
 							// TODO checken of dit inderdaad datgene is wat
 							// wordt ingevoerd
 							clusterData[a][g][c].setAbility(
-									(100 - dData[d][a][g]) / 100, d);
+									(1 - dData[d][a][g]), d);
 							clusterData[a][g][c].setCuredFraction(
 									cData[d][a][g] / 100, d,
 									clusterStructure[c]);

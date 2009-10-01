@@ -294,6 +294,8 @@ public class DynamoSimulationObject extends
 	public Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations() {
 		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
+	log.debug("Getting relative risk configurations.");
+	Exception e = new Exception();
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
 		Set<Object> keySet;
 		if (relativeRisksMap == null) {

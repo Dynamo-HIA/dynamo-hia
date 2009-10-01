@@ -128,10 +128,13 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		// .getTabFolder(), tabName, getDynamoSimulationObject(),
 		// selectedNode, helpGroup);
 		NestedTab relRiskTab = null;
-		if (preConstructionCheck(getDataManager().getConfiguration(newTabNumber))) {
+		TabRelativeRiskConfigurationData currentConfiguration = getDataManager().getConfiguration(newTabNumber);
+		if (preConstructionCheck(currentConfiguration)) {
 			relRiskTab = new RelativeRiskTab(tabFolder, newTabNumber,
 					helpGroup, getDataManager(), this);
 			nestedTabs.put(relRiskTab.getName(), relRiskTab);
+		} else {
+			getDataManager().removeFromDynamoSimulationObject(currentConfiguration);
 		}
 		return relRiskTab;
 	}

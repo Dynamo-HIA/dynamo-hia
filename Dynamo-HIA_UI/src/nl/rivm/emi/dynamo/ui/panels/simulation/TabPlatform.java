@@ -105,20 +105,25 @@ public abstract class TabPlatform extends Tab {
 				.setSelectionListeners((TabPlatform) this);
 	}
 
-	private void createLowerTabFolder() {
-		tabFolder = new TabFolder(plotComposite, SWT.FILL);
-		tabFolder.setLayout(new FormLayout());
+	synchronized private void createLowerTabFolder() {
+		if (tabFolder == null) {
+			// In some cases there is appearently a race condition, don't do it
+			// twice.
+			tabFolder = new TabFolder(plotComposite, SWT.FILL);
+			tabFolder.setLayout(new FormLayout());
 
-		nestedTabs = new LinkedHashMap<String, NestedTab>();
+			nestedTabs = new LinkedHashMap<String, NestedTab>();
 
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 6);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(90, -5);
-		tabFolder.setLayoutData(formData);
-		// this.tabFolder.setBackground(new Color(null, 0xff, 0xff,0xff)); //
-		// white
+			FormData formData = new FormData();
+			formData.top = new FormAttachment(0, 6);
+			formData.left = new FormAttachment(0, 5);
+			formData.right = new FormAttachment(100, -5);
+			formData.bottom = new FormAttachment(90, -5);
+			tabFolder.setLayoutData(formData);
+			// this.tabFolder.setBackground(new Color(null, 0xff, 0xff,0xff));
+			// //
+			// white
+		}
 	}
 
 	// public TabPlatformManager getTabManager() {
@@ -175,15 +180,20 @@ public abstract class TabPlatform extends Tab {
 			Set<String> keyValues = new LinkedHashSet<String>();
 			keyValues.add(defaultTabKeyValue);
 			log.debug("defaultTabKeyValue: " + defaultTabKeyValue);
-			NestedTab nestedTab = createNestedDefaultTab(keyValues);
-			if (nestedTab != null)
-				log.debug("Created nestedTab: " + nestedTab.getName());
-			// In the relativeRisksPlatform the nestedtab is directly placed in
-			// the collection.
-			if (!nestedTabs.containsKey(nestedTab.getName())) {
-				this.nestedTabs.put(nestedTab.getName(), nestedTab);
+			if (nestedTabs == null) {
+				createLowerTabFolder();
 			}
-		}
+			NestedTab nestedTab = createNestedDefaultTab(keyValues);
+			if (nestedTab != null) {
+				log.debug("Created nestedTab: " + nestedTab.getName());
+				// In the relativeRisksPlatform the nestedtab is directly placed
+				// in
+				// the collection.
+				if (!nestedTabs.containsKey(nestedTab.getName())) {
+					this.nestedTabs.put(nestedTab.getName(), nestedTab);
+				}
+			}
+		} // for ends.
 		try {
 			this.redraw_FromManager();
 		} catch (NoMoreDataException e) {

@@ -16,9 +16,12 @@ import org.eclipse.swt.widgets.Shell;
 public class RunSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
 	DataAndFileContainer modalParent;
-
+	SaveSelectionListener mySaveSelectionListener;
+	
 	public RunSelectionListener(DataAndFileContainer modalParent) {
 		this.modalParent = modalParent;
+		this.mySaveSelectionListener = new SaveSelectionListener(
+				modalParent);
 	}
 
 	public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -29,6 +32,9 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
+		// First save.
+		mySaveSelectionListener.widgetSelected(arg0);
+		// Then run.
 		Control control = ((Control) arg0.getSource());
 		control.setEnabled(false);
 		try {

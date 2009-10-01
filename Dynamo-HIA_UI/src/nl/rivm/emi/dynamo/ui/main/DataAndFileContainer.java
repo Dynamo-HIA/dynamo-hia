@@ -106,8 +106,10 @@ abstract public class DataAndFileContainer {
 		// Callback to only enable the run-button when the configuration has
 		// been saved.
 		if ((changed != this.changed) && (runButtonPanel != null)) {
-			runButtonPanel.enableButton(!changed);
-		}
+// 20091001 It is now a "Save and Run" button and can always be enabled.
+			//			runButtonPanel.enableButton(!changed);
+			runButtonPanel.enableButton(true);
+				}
 		this.changed = changed;
 	}
 

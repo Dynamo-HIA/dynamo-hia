@@ -39,7 +39,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	private DynamoSimulationObject dynamoSimulationObject;
-	//private Map<String, TabRiskFactorConfigurationData> configurations;
+	// private Map<String, TabRiskFactorConfigurationData> configurations;
 	private TabRiskFactorConfigurationData singleConfiguration;
 	private Set<String> initialSelection;
 	private RiskFactorTab tab;
@@ -50,11 +50,11 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 			throws ConfigurationException {
 		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		this.dynamoSimulationObject = dynamoSimulationObject;
-		//this.configurations = dynamoSimulationObject
-		//		.getRiskFactorConfigurations();
+		// this.configurations = dynamoSimulationObject
+		// .getRiskFactorConfigurations();
 		this.initialSelection = initialSelection;
 		this.singleConfiguration = this.dynamoSimulationObject
-		.getRiskFactorConfigurations().get(getInitialName());
+				.getRiskFactorConfigurations().get(getInitialName());
 		this.tab = tab;
 	}
 
@@ -166,8 +166,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	@Override
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
-		dynamoSimulationObject
-		.getRiskFactorConfigurations().remove(this.singleConfiguration.getName());
+		dynamoSimulationObject.getRiskFactorConfigurations().remove(
+				this.singleConfiguration.getName());
 
 		/*
 		 * changed by Hendriek: use update. Then the setting of the
@@ -196,28 +196,27 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	@Override
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
-		 log.debug(name + ": " + selectedValue);
-		 log.fatal("UPDATING OBJECT STATE");
-		
-		 log.fatal("this.initialSelection" + this.initialSelection);
-		 log.debug("this.singleConfiguration" + this.singleConfiguration);
-		
-		 // In case a new Tab is created, no model exists yet
-		 if (this.initialSelection.size() == 0
-		 && this.singleConfiguration == null) {
-		 log.debug("CREATING NEW TAB");
-		 createInDynamoSimulationObject();
-		 }
-		
-		 if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
-		 singleConfiguration.setName(selectedValue);
-		 } else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name))
-		 {
-		 singleConfiguration.setPrevalenceFileName(selectedValue);
-		 } else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
-		 singleConfiguration.setTransitionFileName(selectedValue);
-		 }
-		 updateDynamoSimulationObject();
+		log.debug(name + ": " + selectedValue);
+		log.fatal("UPDATING OBJECT STATE");
+
+		log.fatal("this.initialSelection" + this.initialSelection);
+		log.debug("this.singleConfiguration" + this.singleConfiguration);
+
+		// In case a new Tab is created, no model exists yet
+		if (this.initialSelection.size() == 0
+				&& this.singleConfiguration == null) {
+			log.debug("CREATING NEW TAB");
+			createInDynamoSimulationObject();
+		}
+
+		if (RiskFactorSelectionGroup.RISK_FACTOR.equals(name)) {
+			singleConfiguration.setName(selectedValue);
+		} else if (RiskFactorResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
+			singleConfiguration.setPrevalenceFileName(selectedValue);
+		} else if (RiskFactorResultGroup.TRANSITION.equals(name)) {
+			singleConfiguration.setTransitionFileName(selectedValue);
+		}
+		updateDynamoSimulationObject();
 	}
 
 	public void updateDynamoSimulationObject() throws ConfigurationException {
@@ -226,14 +225,14 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		// log.debug("singleConfiguration.getName()" +
 		// singleConfiguration.getName());
 
-		
-// There can only be ONE (for now :-).
-//		Map<String, TabRiskFactorConfigurationData> configurations = dynamoSimulationObject
-//			.getRiskFactorConfigurations();
-		
-Map<String, TabRiskFactorConfigurationData> configurations = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
-		configurations.put(singleConfiguration.getName(),
-				singleConfiguration);
+		// There can only be ONE ( until SOR).
+		// Map<String, TabRiskFactorConfigurationData> configurations =
+		// dynamoSimulationObject
+		// .getRiskFactorConfigurations();
+
+		Map<String, TabRiskFactorConfigurationData> configurations = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
+		// ~
+		configurations.put(singleConfiguration.getName(), singleConfiguration);
 		this.dynamoSimulationObject.setRiskFactorConfigurations(configurations);
 
 		/*
@@ -244,6 +243,203 @@ Map<String, TabRiskFactorConfigurationData> configurations = new LinkedHashMap<S
 		 * diseasename that has been selected
 		 */
 
+		String riskfactorName = checkRelativeRisks();
+		checkScenarios(riskfactorName);
+
+	}
+
+	/**
+	 * This method checks the scenario configurations against the changed
+	 * riskfactor. It tries to adapt each, if that doesn't work it discards it.
+	 * 
+	 * @param riskfactorName
+	 * @throws ConfigurationException
+	 */
+	private void checkScenarios(String riskfactorName)
+			throws ConfigurationException {
+
+		Map<String, ITabScenarioConfiguration> scenarioConfigurations = this.dynamoSimulationObject
+				.getScenarioConfigurations();
+		if (!scenarioConfigurations.isEmpty()) {
+			// Something to do.
+			Set<String> scenarioNames = scenarioConfigurations.keySet();
+			ITabScenarioConfiguration singleScenarioConfiguration;
+			Iterator scenIter = scenarioConfigurations.keySet().iterator();
+			while (scenIter.hasNext()) {
+				checkAScenario(riskfactorName, scenarioConfigurations, scenIter);
+			}
+			this.dynamoSimulationObject
+					.setScenarioConfigurations(scenarioConfigurations);
+		}
+	}
+
+	private void checkAScenario(String riskfactorName,
+			Map<String, ITabScenarioConfiguration> scenarioConfigurations,
+			Iterator scenIter) throws ConfigurationException {
+
+		ITabScenarioConfiguration singleScenarioConfiguration;
+		String scenName = (String) scenIter.next();
+		singleScenarioConfiguration = scenarioConfigurations.get(scenName);
+
+		String transFile = singleScenarioConfiguration
+				.getAltTransitionFileName();
+		String prevFile = singleScenarioConfiguration
+				.getAltPrevalenceFileName();
+		Set<String> availlablePrevFiles = getContents(
+				RiskFactorResultGroup.RISK_FACTOR_PREVALENCE, riskfactorName);
+		Set<String> availlableTransFiles = getContents(
+				RiskFactorResultGroup.TRANSITION, riskfactorName);
+
+		String newTransFile = null;
+		boolean scenDeleted = false;
+		// At least one fileName must be different, if this is impossible the
+		// scenario is no use.
+		if (availlablePrevFiles.size() == 1 && availlableTransFiles.size() == 1) {
+			scenIter.remove();
+			scenDeleted = true;
+			handleWarningMessage("removed: Scenario "
+					+ scenName
+					+ " as no alternative "
+					+ "transition file or prevalence file is availlable for riskfactor "
+					+ riskfactorName);
+
+		}
+
+		else
+			// If both names are the same as the ones in the riskfactor change one.
+			// (This is possible after the above check.
+			if (transFile.equals(this.singleConfiguration
+				.getTransitionFileName())
+				&& prevFile.equals(this.singleConfiguration
+						.getPrevalenceFileName())) {
+			/*
+			 * one of them should be changed, we prefer to change the prevalence
+			 * file, as the transition files are more tricky to change
+			 */
+			if (availlablePrevFiles.size() > 1) {
+				String newPrevFile = null;
+				for (String potentialPrevFile : availlablePrevFiles) {
+					if (!potentialPrevFile.equals(this.singleConfiguration
+							.getPrevalenceFileName())) {
+						newPrevFile = potentialPrevFile;
+						break;
+					}
+				}
+				handleWarningMessage("Prevalence file for scenario " + scenName
+						+ " is changed from " + prevFile + " into "
+						+ newPrevFile);
+
+				singleScenarioConfiguration
+						.setAltPrevalenceFileName(newPrevFile);
+
+			} else {
+				for (String potentialTransFile : availlableTransFiles) {
+					if (!potentialTransFile.equals(this.singleConfiguration
+							.getTransitionFileName())) {
+						newTransFile = potentialTransFile;
+						break;
+					}
+				}
+				handleWarningMessage("Transition file for scenario " + scenName
+						+ " is changed from " + transFile + " into "
+						+ newTransFile);
+				singleScenarioConfiguration
+						.setAltTransitionFileName(newTransFile);
+			}
+
+		}
+
+		else
+		// Inconsistent prevalence configuration.
+		if (!availlablePrevFiles.contains(prevFile)) {
+			String alternativeNewPrevFile = null;
+			String newPrevFile = null;
+		// NOP? if (prevFile == null || availlablePrevFiles == null) {
+			//
+			// int i = 0;
+			// i++;
+			//
+			// }
+			/* take the prevalence file with the most similar name */
+			double distance = 1;
+			for (String potentialPrevFile : availlablePrevFiles) {
+				double newDistance = SimilarityCounter.compareStrings(prevFile,
+						potentialPrevFile);
+				if (newDistance <= distance) {
+					alternativeNewPrevFile = newPrevFile;
+					newPrevFile = potentialPrevFile;
+					distance = newDistance;
+				}
+			}
+			/*
+			 * if there are no choices in transfiles, then the file chosen
+			 * should differ from the prevalence file of the riskfactor
+			 */
+			if (availlableTransFiles.size() == 1
+					&& newPrevFile.equals(this.singleConfiguration
+							.getPrevalenceFileName()))
+				newPrevFile = alternativeNewPrevFile;
+
+			if (newPrevFile == null) {
+				scenIter.remove();
+				scenDeleted = true;
+				handleWarningMessage("removed: Scenario " + scenName
+						+ " due to missing or no suitable prevalence "
+						+ "file for riskfactor " + riskfactorName);
+
+			}
+
+			handleWarningMessage("Prevalence file for scenario " + scenName
+					+ " is changed from " + prevFile + " into " + newPrevFile);
+
+			singleScenarioConfiguration.setAltPrevalenceFileName(newPrevFile);
+		}
+		;
+		// Inconsistent transition file configuration.
+		if (!availlableTransFiles.contains(transFile)) {
+
+			/* take the transition file with the most similar name */
+			String AlternativeNewTransFile = null;
+			double distance = 1;
+			for (String potentialTransFile : availlableTransFiles) {
+				double newDistance = SimilarityCounter.compareStrings(
+						transFile, potentialTransFile);
+				if (newDistance <= distance) {
+					AlternativeNewTransFile = newTransFile;
+					newTransFile = potentialTransFile;
+					distance = newDistance;
+				}
+			}
+			if (singleScenarioConfiguration.getAltPrevalenceFileName().equals(this.singleConfiguration
+					.getPrevalenceFileName())
+					&& newTransFile.equals(this.singleConfiguration
+							.getTransitionFileName())) {
+				newTransFile = AlternativeNewTransFile;
+			}
+			if (newTransFile == null && !scenDeleted) {
+				scenIter.remove();
+				scenDeleted = true;
+				handleWarningMessage("removed: Scenario " + scenName
+						+ " due to missing or no suitable "
+						+ "transition file for riskfactor " + riskfactorName);
+
+			} else {
+				if (!scenDeleted) {
+					handleWarningMessage("Transition file for scenario "
+							+ scenName + " is changed from " + transFile
+							+ " into " + newTransFile);
+					singleScenarioConfiguration
+							.setAltTransitionFileName(newTransFile);
+					;
+
+					scenarioConfigurations.put(scenName,
+							singleScenarioConfiguration);
+				}
+			}
+		}
+	}
+
+	private String checkRelativeRisks() throws ConfigurationException {
 		String riskfactorName = singleConfiguration.getName();
 		Map<String, ITabDiseaseConfiguration> diseaseConfiguration = this.dynamoSimulationObject
 				.getDiseaseConfigurations();
@@ -332,193 +528,7 @@ Map<String, TabRiskFactorConfigurationData> configurations = new LinkedHashMap<S
 
 		this.dynamoSimulationObject
 				.setRelativeRiskConfigurations(relRiskConfiguration);
-		/*
-		 * 
-		 * 
-		 * 
-		 */
-		
-		/* * now similarly adapt the scenario configurations
-		/*
-		 * 
-		 * 
-		 */															 
-		
-		Map<String, ITabScenarioConfiguration> scenarioConfigurations = this.dynamoSimulationObject
-				.getScenarioConfigurations();
-		Set<String> scenarioNames = scenarioConfigurations.keySet();
-		ITabScenarioConfiguration singleScenarioConfiguration;
-		Iterator scenIter = scenarioConfigurations.keySet().iterator();
-		while (scenIter.hasNext() && !scenarioConfigurations.isEmpty())
-
-		{
-			String scenName = (String) scenIter.next();
-			singleScenarioConfiguration = scenarioConfigurations.get(scenName);
-
-			String transFile = singleScenarioConfiguration
-					.getAltTransitionFileName();
-			String prevFile = singleScenarioConfiguration
-					.getAltPrevalenceFileName();
-			Set<String> availlablePrevFiles = getContents(
-					RiskFactorResultGroup.RISK_FACTOR_PREVALENCE,
-					riskfactorName);
-			Set<String> availlableTransFiles = getContents(
-					RiskFactorResultGroup.TRANSITION, riskfactorName);
-
-			String newPrevFile = null;
-			String newTransFile = null;
-			boolean scenDeleted = false;
-			if (availlablePrevFiles.size() == 1
-					&& availlableTransFiles.size() == 1) {
-				scenIter.remove();
-				scenDeleted = true;
-				handleWarningMessage("removed: Scenario "
-						+ scenName
-						+ " as no alternative "
-						+ "transition file or prevalence file is availlable for riskfactor "
-						+ riskfactorName);
-
-			}
-            
-			else if (transFile.equals(this.singleConfiguration.getTransitionFileName())
-				&& prevFile.equals(this.singleConfiguration.getPrevalenceFileName()))
-				{
-				/* one of them should be changed, we prefer to change the prevalence file, as
-				 * the transition files are more tricky to change
-				 */
-				if (availlablePrevFiles.size()>1)
-				{ for (String potentialPrevFile : availlablePrevFiles) {
-					
-					if (!potentialPrevFile.equals(this.singleConfiguration.getPrevalenceFileName()))
-						{newPrevFile=potentialPrevFile;break;
-						}
-				}
-				handleWarningMessage("Prevalence file for scenario " + scenName
-						+ " is changed from " + prevFile + " into "
-						+ newPrevFile);
-
-				
-
-				singleScenarioConfiguration
-						.setAltPrevalenceFileName(newPrevFile);
-				
-				
-				}
-				else
-                { for (String potentialTransFile : availlableTransFiles) {
-					
-					if (!potentialTransFile.equals(this.singleConfiguration.getTransitionFileName()))
-						{newTransFile=potentialTransFile;break;
-						}
-				}
-                handleWarningMessage("Transition file for scenario " + scenName
-						+ " is changed from " + transFile + " into "
-						+ newTransFile);
-				singleScenarioConfiguration
-						.setAltTransitionFileName(newTransFile);
-				
-				
-				}
-				
-				
-				
-				
-				
-				
-				
-				}
-			
-			
-			else if (!availlablePrevFiles.contains(prevFile)) {
-				String alternativeNewPrevFile = null;
-				if (prevFile == null || availlablePrevFiles == null) {
-
-					int i = 0;
-					i++;
-
-				}
-				/* take the prevalence file with the most similar name */
-				double distance = 1;
-				for (String potentialPrevFile : availlablePrevFiles) {
-					double newDistance = SimilarityCounter.compareStrings(
-							prevFile, potentialPrevFile);
-					if (newDistance <= distance) {
-						alternativeNewPrevFile = newPrevFile;
-						newPrevFile = potentialPrevFile;
-						distance = newDistance;
-					}
-				}
-				/*
-				 * if there are no choices in transfiles, then the file chosen
-				 * should differ from the prevalence file of the riskfactor
-				 */
-				if (availlableTransFiles.size() == 1
-						&& newPrevFile.equals(this.singleConfiguration
-								.getPrevalenceFileName()))
-					newPrevFile = alternativeNewPrevFile;
-
-				if (newPrevFile == null) {
-					scenIter.remove();
-					scenDeleted = true;
-					handleWarningMessage("removed: Scenario " + scenName
-							+ " due to missing or no suitable prevalence "
-							+ "file for riskfactor " + riskfactorName);
-
-				}
-
-				handleWarningMessage("Prevalence file for scenario " + scenName
-						+ " is changed from " + prevFile + " into "
-						+ newPrevFile);
-
-				singleScenarioConfiguration
-						.setAltPrevalenceFileName(newPrevFile);
-			}
-			;
-			if (!availlableTransFiles.contains(transFile)) {
-
-				/* take the transition file with the most similar name */
-				String AlternativeNewTransFile = null;
-				double distance = 1;
-				for (String potentialTransFile : availlableTransFiles) {
-					double newDistance = SimilarityCounter.compareStrings(
-							transFile, potentialTransFile);
-					if (newDistance <= distance) {
-						AlternativeNewTransFile = newTransFile;
-						newTransFile = potentialTransFile;
-						distance = newDistance;
-					}
-				}
-				if (newPrevFile.equals(this.singleConfiguration
-						.getPrevalenceFileName())
-						&& newTransFile.equals( this.singleConfiguration
-								.getTransitionFileName()))
-					newTransFile = AlternativeNewTransFile;
-
-				if (newTransFile == null && !scenDeleted) {
-					scenIter.remove();
-					scenDeleted = true;
-					handleWarningMessage("removed: Scenario " + scenName
-							+ " due to missing or no suitable "
-							+ "transition file for riskfactor "
-							+ riskfactorName);
-
-				} else if (!scenDeleted) {
-					handleWarningMessage("Transition file for scenario "
-							+ scenName + " is changed from " + transFile
-							+ " into " + newTransFile);
-					singleScenarioConfiguration
-							.setAltTransitionFileName(newTransFile);
-					;
-
-					scenarioConfigurations.put(scenName,
-							singleScenarioConfiguration);
-				}
-			}
-		}
-
-		this.dynamoSimulationObject
-				.setScenarioConfigurations(scenarioConfigurations);
-
+		return riskfactorName;
 	}
 
 	private String getInitialName() {
