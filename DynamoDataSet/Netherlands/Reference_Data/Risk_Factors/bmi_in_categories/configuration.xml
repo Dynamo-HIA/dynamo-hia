@@ -1,1 +1,0 @@
-<?xml version="1.0"?><riskfactor_categorical><classes><class><flexdex>1</flexdex><name>normal</name></class><class><flexdex>2</flexdex><name>overweight</name></class><class><flexdex>3</flexdex><name>obese</name></class></classes><referenceclass>1</referenceclass></riskfactor_categorical>
