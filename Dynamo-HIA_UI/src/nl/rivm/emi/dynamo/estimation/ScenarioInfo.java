@@ -93,7 +93,7 @@ public class ScenarioInfo {
 	private boolean details = false;
 	private float[] cutoffs = null;
 
-	private int firstOneForAllPop = -3;
+	private int firstOneForAllPopScenario = -3;
 	private boolean[] thisScenarioUsedOneForAllPop;
 
 	private int[] popToScenIndex;
@@ -105,7 +105,7 @@ public class ScenarioInfo {
 	 */
 	public boolean[] getthisScenarioUsedOneForAllPop() {
 		/* check if already calculated; if not make it */
-		if (this.firstOneForAllPop == -3)
+		if (this.firstOneForAllPopScenario == -3)
 			this.getNPopulations();
 		return thisScenarioUsedOneForAllPop;
 	}
@@ -114,7 +114,7 @@ public class ScenarioInfo {
 	 * @return
 	 */
 	public boolean[] getIsFirstForAllPop() {
-		if (this.firstOneForAllPop == -3)
+		if (this.firstOneForAllPopScenario == -3)
 			this.getNPopulations();
 		return thisScenarioUsedOneForAllPop;
 	}
@@ -122,10 +122,10 @@ public class ScenarioInfo {
 	/**
 	 * @return
 	 */
-	public int getFirstOneForAllPop() {
-		if (this.firstOneForAllPop == -3)
+	public int getFirstOneForAllPopScenario() {
+		if (this.firstOneForAllPopScenario == -3)
 			this.getNPopulations();
-		return firstOneForAllPop;
+		return firstOneForAllPopScenario;
 	}
 
 	/*
@@ -180,7 +180,7 @@ public class ScenarioInfo {
 		int nPopulations = this.getNScenarios() + 1;
 		this.thisScenarioUsedOneForAllPop = new boolean[this.getNScenarios()];
 		boolean isAtLeastOneAllForOnePopulation = false;
-		this.firstOneForAllPop = -1;
+		this.firstOneForAllPopScenario = -1;
 		Arrays.fill(thisScenarioUsedOneForAllPop, false);
 		if (this.getRiskType() != 2 && this.getNScenarios() > 0)
 			for (int scennum = 0; scennum < this.getNScenarios(); scennum++) {
@@ -197,8 +197,8 @@ public class ScenarioInfo {
 
 					isAtLeastOneAllForOnePopulation = true;
 					thisScenarioUsedOneForAllPop[scennum] = true;
-					if (this.firstOneForAllPop == -1)
-						this.firstOneForAllPop = scennum;
+					if (this.firstOneForAllPopScenario == -1)
+						this.firstOneForAllPopScenario = scennum;
 				}
 			}
 		/* add the one-for-all-scenario that still needs to be simulated */
@@ -218,7 +218,7 @@ public class ScenarioInfo {
 		 * scenarionumbers
 		 */
 		for (int i = 0; i < this.nScenarios; i++) {
-			if (i == this.firstOneForAllPop) {
+			if (i == this.firstOneForAllPopScenario) {
 				this.getPopToScenIndex()[currentPop] = i;
 				this.getIsOneScenPopulation()[currentPop] = true;
 				currentPop++;
@@ -837,7 +837,7 @@ public class ScenarioInfo {
 	
 
 	public boolean[] getIsOneScenPopulation() {
-		if (this.firstOneForAllPop == -3)
+		if (this.firstOneForAllPopScenario == -3)
 			this.getNPopulations();
 		return isOneScenPopulation;
 	}
@@ -845,7 +845,7 @@ public class ScenarioInfo {
 	
 
 	public int[] getPopToScenIndex() {
-		if (this.firstOneForAllPop == -3)
+		if (this.firstOneForAllPopScenario == -3)
 			this.getNPopulations();
 		return popToScenIndex;
 	}
