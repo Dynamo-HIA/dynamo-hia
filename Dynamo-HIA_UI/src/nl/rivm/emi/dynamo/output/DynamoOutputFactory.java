@@ -374,6 +374,7 @@ public class DynamoOutputFactory {
 		 */
 		this.oneScenPopulation = false;
 		this.isOneScenPopulation = scenInfo.getIsOneScenPopulation();
+		for (int i=0;i<this.isOneScenPopulation.length;i++) if (this.isOneScenPopulation[i]) this.oneScenPopulation=true;
 		this.popToScenIndex = scenInfo.getPopToScenIndex();
 		setSuccesrate(scenInfo.getSuccesrate());
 		this.inMen = scenInfo.getInMen();
@@ -1063,7 +1064,11 @@ public class DynamoOutputFactory {
 					 */
 					for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++) {
 						int amax = Math.min(maxSimAge + 1 + stepCount, nDim);
-						for (int a = minSimAge + stepCount; a < amax; a++)
+						/* only do for ages that are in simulation */
+						int minimumForLoop=minSimAge+stepCount;
+						/* if there are newborns, then always start at zero */
+						if (this.minAgeInSimulation<0) minimumForLoop=0;
+						for (int a =minimumForLoop; a < amax; a++)
 							for (int s = 0; s < 2; s++)
 
 							{
