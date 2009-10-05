@@ -785,8 +785,9 @@ public class DynamoOutputFactory {
 						 * is different. the weight of an individual should be
 						 * the same in each scenario. So the weight is
 						 * determined by the value of the riskfactor in the
-						 * reference scenario in changing initial prevalence
-						 * scenarios this is the value of "from" In changing
+						 * reference scenario */
+						 /* In changing initial prevalence
+						 * scenarios this is the value of "from". In changing
 						 * transition rate scenarios the initial distribution is
 						 * the same in the reference population and the scenario
 						 * population
@@ -801,11 +802,13 @@ public class DynamoOutputFactory {
 						if ((stepCount == 0 || ageIndex == 0)
 								&& this.riskType != 2)
 							weightOfIndividual = weight[riskFactor][ageIndex][sexIndex];
+						
 
 						if ((stepCount == 0 || ageIndex == 0)
 								&& this.riskType == 3
 								&& riskFactor == this.durationClass)
 							weightOfIndividual = weight2[riskDurationValue][ageIndex][sexIndex];
+						
 
 						if (this.riskType == 3)
 							compoundData = ((CompoundCharacteristicValue) individual
@@ -838,6 +841,8 @@ public class DynamoOutputFactory {
 									weightOfIndividual = weight[from][ageIndex][sexIndex];
 
 							}
+						
+						
 						/*
 						 * add the data read to the summary arrays
 						 * 
@@ -2017,17 +2022,18 @@ public class DynamoOutputFactory {
 					} else if (this.withNewborns) {
 						/* for newborns (born during simulation ) */
 						if (s == 0) /* males */
-							originalNumber = this.newborns[stepCount - 1]
+							originalNumber = this.newborns[stepCount - 1-a]
 									* this.mfratio / (1 + this.mfratio);
 						else
 							/* females */
-							originalNumber = this.newborns[stepCount - 1]
+							originalNumber = this.newborns[stepCount - 1-a]
 									* (1 - this.mfratio / (1 + this.mfratio));
 						if (this.nNewBornsInSimulationByAge[stepCount - 1][s] != 0)
 							ratio = originalNumber
 									/ this.nNewBornsInSimulationByAge[stepCount - 1][s];
 						else
 							ratio = 0;
+						if (s==0)log.fatal("step: "+stepCount+" age "+a+" basic pop taken "+ this.newborns[stepCount - 1-a]);
 					} else
 						ratio = 0;
 
