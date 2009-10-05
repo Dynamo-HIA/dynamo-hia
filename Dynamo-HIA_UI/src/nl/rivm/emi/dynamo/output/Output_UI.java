@@ -141,7 +141,7 @@ public class Output_UI {
 
 	    });
 		//Free the memory in the very large output-object for next run ;
-		this.output=null;
+		// this.output=null;
 		
 		
 

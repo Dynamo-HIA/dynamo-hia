@@ -1289,8 +1289,11 @@ public class DynamoOutputFactory {
 	 * @param numbers
 	 * @return
 	 */
-	private double[][][][] makeMortalityArray(boolean numbers) {
+	private double[][][][] makeMortalityArray(boolean numbers, int riskFactor) {
 		double[][][][] mortality = null;
+		int loopBegin=riskFactor;
+		int loopEnd=riskFactor+1;
+		if (riskFactor<0) { loopBegin=0; loopEnd=this.nRiskFactorClasses;}
 		if (this.stepsInRun > 0) {
 			mortality = new double[this.nScen + 1][this.stepsInRun][96 + this.stepsInRun][2];
 			/*
@@ -1306,7 +1309,7 @@ public class DynamoOutputFactory {
 							double denominator = 0;
 							double nominator = 0;
 							double personsAtnextAge = 0;
-							for (int r = 0; r < this.nRiskFactorClasses; r++) {
+							for (int r = loopBegin; r < loopEnd; r++) {
 								denominator += applySuccesrate(
 										this.nPopByRiskClassByAge[0][stepCount][r][a][g],
 										this.nPopByRiskClassByAge[scen][stepCount][r][a][g],
@@ -3434,10 +3437,12 @@ public class DynamoOutputFactory {
 	 * 
 	 * @return freechart plot
 	 */
-	public JFreeChart makeSurvivalPlotByScenario(int gender,
+	public JFreeChart makeSurvivalPlotByScenario(int gender,int riskClass,
 			boolean differencePlot, boolean numbers) {
 		XYDataset xyDataset = null;
-		double[][][][] nPopByAge = getNPopByOriAge();
+		double[][][][] nPopByAge = null;
+		if (riskClass<0)nPopByAge = getNPopByOriAge();
+		else nPopByAge=getNPopByOriAge(riskClass);
 		int nDim2 = nPopByAge[0][0].length;
 		for (int thisScen = 0; thisScen <= this.nScen; thisScen++) {
 			XYSeries series = new XYSeries(this.scenarioNames[thisScen]);
@@ -5235,17 +5240,19 @@ public class DynamoOutputFactory {
 	 * @param numbers
 	 * @return plot of mortality by scenario
 	 */
-	public JFreeChart makeYearMortalityPlotByScenario(int gender,
+	public JFreeChart makeYearMortalityPlotByScenario(int gender,int riskClass,
 			boolean differencePlot, boolean numbers) {
 
 		XYDataset xyDataset = null;
-		double[][][][] mortality = makeMortalityArray(true);
+		double[][][][] mortality = makeMortalityArray(true, riskClass);
 		/*
 		 * get number of persons who died during this year
 		 * 
 		 * Succesrate etc are already included
 		 */
-		double[][][][] nPopByAge = getNPopByAge();
+		 double[][][][] nPopByAge;
+		if (riskClass<0) nPopByAge = getNPopByAge();
+		else nPopByAge=getNPopByAgeForRiskclass(riskClass);
 
 		XYSeries scenSeries[] = new XYSeries[this.nScen + 1];
 
@@ -5421,27 +5428,21 @@ public class DynamoOutputFactory {
 	 * @param numbers
 	 * @return JFreeChart plot of mortality by scenario with age on the x-axis
 	 */
-	public JFreeChart makeAgeMortalityPlotByScenario(int year, int gender,
+	public JFreeChart makeAgeMortalityPlotByScenario(int year, int gender,int riskClass,
 			boolean differencePlot, boolean numbers) {
 
 		XYDataset xyDataset = null;
-		double[][][][] mortality = makeMortalityArray(true);/*
+		
+		double[][][][] mortality = makeMortalityArray(true, riskClass);/*
 															 * get number of
 															 * persons who died
-															 * during this year
+															 * during this year for all riskclass together
 															 */
-		if (mortality != null) {
+		if (mortality != null && year<this.stepsInRun) {
 			double[][][][] nPopByAge = getNPopByAge();
 
 			XYSeries scenSeries[] = new XYSeries[this.nScen + 1];
-			double indat0 = 0;
-			double denominator0 = 0;
-			double indat1 = 0;
-			double denominator1 = 0;
-			double indat0r = 0;
-			double denominator0r = 0;
-			double indat1r = 0;
-			double denominator1r = 0;
+			
 			for (int thisScen = 0; thisScen < this.nScen + 1; thisScen++) {
 
 				scenSeries[thisScen] = new XYSeries(
@@ -5453,6 +5454,15 @@ public class DynamoOutputFactory {
 				 */
 
 				for (int age = 0; age < 96 + this.stepsInRun; age++) {
+					
+					double indat0 = 0;
+					double denominator0 = 0;
+					double indat1 = 0;
+					double denominator1 = 0;
+					double indat0r = 0;
+					double denominator0r = 0;
+					double indat1r = 0;
+					double denominator1r = 0;
 					/*
 					 * check if mortality is present (next age in dataset)
 					 * mortality=-1 flags absence
@@ -5743,7 +5753,7 @@ public class DynamoOutputFactory {
 				chartTitle = (" no simulated persons of age 95 and younger in year " + (this.startYear + year));
 			else {
 
-				double[][][][] mortality = makeMortalityArray(false);
+				double[][][][] mortality = makeMortalityArray(false, -1);
 				/* check the range of age values availlable */
 
 				/*
@@ -5932,7 +5942,7 @@ public class DynamoOutputFactory {
 			if (ageOfLE > 95)
 				chartTitle = (" no simulated persons of age 95 and younger in year " + (this.startYear + year));
 			else {
-				double[][][][] mortality = makeMortalityArray(false);
+				double[][][][] mortality = makeMortalityArray(false, -1);
 				/* check the range of age values availlable */
 
 				/*
@@ -7657,6 +7667,27 @@ public class DynamoOutputFactory {
 		return nPopByAge;
 
 	}
+	
+	
+	
+	/**
+	 * @return number in population by age in riskFactorClass riskClass
+	 */
+	public double[][][][] getNPopByAgeForRiskclass(int riskClass) {
+
+		double[][][][] nPopByAge = new double[this.nScen + 1][this.stepsInRun + 1][96 + this.stepsInRun][2];
+		                
+
+		for (int stepcount = 0; stepcount < this.stepsInRun+1; stepcount++)
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < 96 + this.stepsInRun; a++)
+					for (int g = 0; g < 2; g++)
+
+						nPopByAge[scen][stepcount][a][g] += this.nPopByRiskClassByAge[scen][stepcount][riskClass][a][g];
+		return nPopByAge;
+
+	}
 
 	/**
 	 * @param scen
@@ -7706,6 +7737,21 @@ public class DynamoOutputFactory {
 
 						for (int stepCount = 0; stepCount < this.nDim; stepCount++)
 							nPopByAge[scen][stepCount][a][g] += this.nPopByOriRiskClassByOriAge[scen][stepCount][r][a][g];
+		return nPopByAge;
+
+	}
+	
+	public double[][][][] getNPopByOriAge(int riskClass) {
+
+		double[][][][] nPopByAge = new double[this.nScen + 1][this.nDim][96][2];
+
+		
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < 96; a++)
+					for (int g = 0; g < 2; g++)
+						for (int stepCount = 0; stepCount < this.nDim; stepCount++)
+							nPopByAge[scen][stepCount][a][g] = this.nPopByOriRiskClassByOriAge[scen][stepCount][riskClass][a][g];
 		return nPopByAge;
 
 	}

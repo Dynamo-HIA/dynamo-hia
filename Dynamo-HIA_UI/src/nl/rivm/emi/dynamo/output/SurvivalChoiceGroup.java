@@ -63,6 +63,11 @@ public class SurvivalChoiceGroup {
 				if (button.getSelection()) {
 					plotInfo.survival = false;
 					plotDrawer.drawChartAction(plotInfo, chartComposite);
+					//String[] classNames=new String[output.riskClassnames.length];
+					//classNames[0]="all";
+					//for (int i = 0; i < output.riskClassnames.length; i++)
+					//	classNames[i+1] = output.riskClassnames[i];
+					//TODO veranderen in de year selection button ;
 					setEnabled(controlComposite,plotInfo);
 				}
 			}

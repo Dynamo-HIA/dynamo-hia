@@ -156,7 +156,8 @@ public class SullivanChoiceGroup {
 					else 	((Combo) childControls[j]).select(0);
     				}}
 				
-				else 
+				else /* no Sullivan, or (with newborns and minAge=0) or year0: in that case
+				 every choice is possible for age minage up to maxage */
 				{
 					int maxAgeHere=Math.min(plotInfo.maxAge,95);
 					String[] names = new String[maxAgeHere+1-plotInfo.minAge];

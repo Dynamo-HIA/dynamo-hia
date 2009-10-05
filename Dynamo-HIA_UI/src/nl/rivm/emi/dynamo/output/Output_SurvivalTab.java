@@ -56,6 +56,8 @@ public class Output_SurvivalTab  {
 		plotInfo.axisIsAge = false;
 		plotInfo.numbers = false;
 		plotInfo.genderChoice = 2;
+		plotInfo.riskClassChoice=0;/* first choice = none */
+		plotInfo.survival=false;
 		/* plotComposite is the highest level composite in the folder
 		* it has to children: control composite containing the controls, and a chartcomposite containing the plot
 		*/
@@ -94,15 +96,19 @@ public class Output_SurvivalTab  {
 		 new DifferenceChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
 			
         new SurvivalChoiceGroup(controlComposite, chartComposite, factory, plotInfo);
-        String[] yearNames = new String[output.getStepsInRun() + 1];
-		for (int i = 0; i < output.getStepsInRun() + 1; i++)
+        /* last year of simulation has no mortality , but survival has, so t
+         * can be chosen; if chosen for mortality the plot will be empty*/
+        String[] yearNames = new String[output.getStepsInRun()+1 ];
+		for (int i = 0; i < output.getStepsInRun() +1; i++)
 			yearNames[i] = ((Integer) (output.getStartYear() + i)).toString();
-		
-		
+		String[] classNames=new String[output.riskClassnames.length+1];
+		classNames[0]="all";
+		for (int i = 0; i < output.riskClassnames.length; i++)
+			classNames[i+1] = output.riskClassnames[i];
 	new YearChoiceGroup(controlComposite, chartComposite, factory,plotInfo,yearNames);
 	new GenderChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
-		
-		
+	
+	new RiskClassChoiceGroup(controlComposite, chartComposite, factory,plotInfo, classNames);
 
 		
 
