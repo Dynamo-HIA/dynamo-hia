@@ -1,0 +1,36 @@
+<project name="CZM" basedir="." default="main">
+
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="build" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="lib.dir" value="lib" />
+	<property name="czm_mono.dir" value="../CZM_Mono" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile">
+		<echo message="${java.class.path}" />
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" excludes="nl/rivm/emi/dynamo/data/factories/test/**, 
+    	nl/rivm/emi/dynamo/datahandling/test/**, nl/rivm/emi/dynamo/estimation/test/**">
+			<!-- <classpath>
+				<fileset dir="${lib.dir}" includes="*.addimages" />
+				<fileset dir="${plugins.dir}" includes="*.addimages" />
+				<dirset></dirset>
+			</classpath> -->
+			<classpath refid="cross.project.class.path" />
+		</javac>
+	</target>
+
+
+	<target name="copy2czm_mono">
+		<copy todir="${czm_mono.dir}/classes" overwrite="true">
+			<fileset dir="${classes.dir}" />
+		</copy>
+	</target>
+
+	<target name="main" depends="clean,compile,copy2czm_mono" />
+
+</project>
