@@ -134,7 +134,7 @@ public class YearChoiceGroup {
 						plotInfo.currentAge=100;}
 					}
 
-				} else {
+				} else { /* newborns or no sullivan */
 
 					String[] names = new String[plotInfo.maxAge];
                      
