@@ -1573,7 +1573,7 @@ public class InputDataFactory {
 
 			}
 		if (fileName == null) {
-			inputData.setWithRRForMortality(false);
+			inputData.setWithRRForDisability(false);
 
 			inputData.setRRforDisabilityCont(data2dim);
 			inputData.setRRforDisabilityCat(data3dim);
@@ -1638,21 +1638,21 @@ public class InputDataFactory {
 						+ RelriskForDisabilityDir + File.separator + fileName
 						+ ".xml";
 
-				inputData.setRelRiskMortCat(this.factory
+				inputData.setRRforDisabilityCat(this.factory
 						.manufactureTwoDimArray(configFileName,
 								"relrisksfordisability_compound",
 								"relriskfordisability", "cat", "value", true));
 
-				inputData.setRelRiskDuurMortBegin(this.factory
+				inputData.setRRforDisabilityBegin(this.factory
 						.selectOneDimArray(configFileName,
 								"relrisksfordisability_compound",
 								"relriskfordisability", "begin", "cat",
 								this.originalNumberDurationClass));
-				inputData.setRelRiskDuurMortEnd(this.factory.selectOneDimArray(
+				inputData.setRRforDisabilityEnd(this.factory.selectOneDimArray(
 						configFileName, "relrisksfordisability_compound",
 						"relriskfordisability", "end", "cat",
 						this.originalNumberDurationClass));
-				inputData.setAlphaMort(this.factory.selectOneDimArray(
+				inputData.setAlfaForDisability(this.factory.selectOneDimArray(
 						configFileName, "relrisksfordisability_compound",
 						"relriskfordisability", "alfa", "cat",
 						this.originalNumberDurationClass));
@@ -2350,8 +2350,14 @@ public class InputDataFactory {
 							clusterData[a][g][c].setCuredFraction(
 									cData[d][a][g] / 100, d,
 									clusterStructure[c]);
+							// temporary not divided by 100
+							// TODO: remove
+							
+						//	clusterData[a][g][c].setCaseFatality(
+							//		fData[d][a][g] / 100, d);
+			
 							clusterData[a][g][c].setCaseFatality(
-									fData[d][a][g] / 100, d);
+									fData[d][a][g] , d);
 
 							// initialize all rr values to 1 in case no rr's are
 							// read
