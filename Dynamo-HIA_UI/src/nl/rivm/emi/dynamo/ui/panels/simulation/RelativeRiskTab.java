@@ -89,10 +89,12 @@ public class RelativeRiskTab extends NestedTab {
 			makeIt();
 
 			// The TabItem can only be created AFTER makeIt()
+			tabFolder.removeSelectionListener(myTabPlatform.listener);
 			TabItem item = new TabItem(tabFolder, SWT.NONE);
 			item.setText(tabName);
 			item.setControl(this.plotComposite);
 			item.addListener(SWT.SELECTED, new MySelectionListener());
+			tabFolder.addSelectionListener(myTabPlatform.listener);
 			log.debug("Tab: " + tabName + "  selectionListener added.");
 		} catch (NoMoreDataException e) {
 			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()

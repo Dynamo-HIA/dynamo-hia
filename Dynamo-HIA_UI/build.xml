@@ -29,7 +29,6 @@
 
 	<target name="compile">
 		<mkdir dir="${classes.dir}" />
-		<!--javac srcdir="${src.dir}" destdir="${classes.dir}"	includes="*${lib.dir}/*.jar" /-->
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" excludes="nl/rivm/emi/dynamo/data/factories/test/**, 
     	nl/rivm/emi/dynamo/datahandling/test/**, nl/rivm/emi/dynamo/estimation/test/**">
 			<classpath>

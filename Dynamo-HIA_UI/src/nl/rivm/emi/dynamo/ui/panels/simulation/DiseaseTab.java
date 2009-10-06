@@ -80,7 +80,10 @@ public class DiseaseTab extends NestedTab {
 						);
 		} catch (DynamoNoValidDataException e) {
 			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			// When no more data is available.
+			if(this.diseaseSelectionGroup != null){
 			this.diseaseSelectionGroup.remove();
+			}
 			throw new NoMoreDataException(e.getMessage());
 			
 		}

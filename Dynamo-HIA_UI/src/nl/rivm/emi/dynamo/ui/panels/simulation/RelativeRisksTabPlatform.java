@@ -3,7 +3,6 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -14,13 +13,12 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
@@ -79,20 +77,43 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 
 	public void removeAndRebuildAllTabs() throws DynamoConfigurationException,
 			ConfigurationException {
+		dumpTabFolderContent("Starting removeAndRebuildAllTabs: ");
 		deleteNestedTabsButNotTheData();
+		dumpTabFolderContent("After deleteNestedTabsButNotTheData: ");
 		createDefaultTabs_FromManager();
+		dumpTabFolderContent("After createDefaultTabs_FromManager: ");
+	}
+
+	private void dumpTabFolderContent(String debugInfo) {
+		TabItem[] tabItems = tabFolder.getItems();
+		StringBuffer tabItemNames = new StringBuffer();
+		for(TabItem tabItem:tabItems){
+			tabItemNames.append(tabItem.getText() + ", ");
+		}
+		if(tabItemNames.length() > 2){
+		tabItemNames.setLength(tabItemNames.length()-2);
+		}
+		log
+				.fatal(debugInfo + " - TabFolder-identityHash: " + System.identityHashCode(tabFolder) + ", tooltip: "
+						+ tabFolder.getToolTipText() + ",\n tabItems: " + tabItemNames.toString()
+						);
 	}
 
 	public void deleteNestedTabsButNotTheData() throws ConfigurationException {
 		tabFolder.removeSelectionListener(listener);
 		TabItem[] tabItems = tabFolder.getItems();
+		Control[] controlList = tabFolder.getTabList();
 		log.debug("Before for: tabItems.length = " + tabItems.length);
 		for (int count = 0; count < tabItems.length; count++) {
 			TabItem tabItem = tabItems[count];
 			NestedTab nestedTab2Remove = nestedTabs.get(tabItem.getText());
 			// Remove the data from the data object model
 			removeUITabButNotTheData(nestedTab2Remove);
+			// tabItem.getControl().dispose();
 			tabItem.dispose();
+			// 20091005 Zap tabItem.
+		//	log.debug("Going to zap TabItem: " + System.identityHashCode(tabItem));
+		//	tabItem = null;
 		}
 		log.debug("After for, tabItems.length = " + tabItems.length);
 		// Redraw the tabPlatform
@@ -100,7 +121,6 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 			this.redraw_FromManager();
 		} catch (NoMoreDataException e) {
 			// this should not occur
-
 			e.printStackTrace();
 		}
 	}
@@ -132,6 +152,8 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		if (preConstructionCheck(currentConfiguration)) {
 			relRiskTab = new RelativeRiskTab(tabFolder, newTabNumber,
 					helpGroup, getDataManager(), this);
+//			log.debug("relRiskTab, created, tabItemHash: " + System.identityHashCode(relRiskTab.getMyTabItem()));
+			
 			nestedTabs.put(relRiskTab.getName(), relRiskTab);
 		} else {
 			getDataManager().removeFromDynamoSimulationObject(currentConfiguration);

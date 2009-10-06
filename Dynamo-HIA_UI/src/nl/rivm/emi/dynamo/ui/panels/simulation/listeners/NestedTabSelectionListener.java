@@ -6,9 +6,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTab;
-import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRisksTabPlatform;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
-import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -64,8 +62,28 @@ public class NestedTabSelectionListener implements SelectionListener {
 					 * .relRiskRefresh4Init(configuration, dynSimObj);
 					 */
 				}
-				myTabPlatform.refreshNestedTab(myTabPlatform.getNestedTabs()
-						.get(item.getText()));
+				NestedTab myNestedTab = myTabPlatform.getNestedTabs().get(
+						item.getText());
+				if (myNestedTab != null) {
+					myTabPlatform.refreshNestedTab(myNestedTab);
+				} else {
+					TabItem[] tabItems = item.getParent().getItems();
+					StringBuffer tabItemNames = new StringBuffer(
+							"Sibling tabItem names: ");
+					for (TabItem tabItem : tabItems) {
+						tabItemNames.append(tabItem.getText() + ", ");
+					}
+					tabItemNames.setLength(tabItemNames.length() - 2);
+					log
+							.fatal("Orphaned widget: "
+									+ item.getClass().getSimpleName()
+									+ ", "
+									+ System.identityHashCode(item)
+									+ " has no corresponding NestedTab, parent-tooltip: "
+									+ item.getParent().getToolTipText()
+									+ ",\n parent-instance: "
+									+ System.identityHashCode(item.getParent()));
+				}
 			} catch (ConfigurationException ce) {
 				handleErrorMessage(ce);
 			} catch (NoMoreDataException e1) {
