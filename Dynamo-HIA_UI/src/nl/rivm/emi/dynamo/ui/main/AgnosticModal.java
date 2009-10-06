@@ -63,7 +63,7 @@ abstract public class AgnosticModal extends AbstractDataModal {
 		specializedOpenPart(buttonPanel);
 		this.shell.pack();
 		// This is the first place this works.
-		this.shell.setSize(400, 400);
+		this.shell.setSize(400, ModalStatics.defaultHeight);
 		this.shell.open();
 		openModal();
 	}

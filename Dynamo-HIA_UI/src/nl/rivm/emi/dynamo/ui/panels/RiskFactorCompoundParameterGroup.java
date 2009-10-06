@@ -49,7 +49,7 @@ public class RiskFactorCompoundParameterGroup {
 				theGroup, scrolledContainer, riskFactorCompoundObject,
 				dataBindingContext, helpGroup);
 		FormData referenceClassFormData = new FormData();
-		referenceClassFormData.top = new FormAttachment(100, -44);
+		referenceClassFormData.top = new FormAttachment(100, -60);
 		referenceClassFormData.right = new FormAttachment(100, -5);
 		referenceClassFormData.left = new FormAttachment(0, 5);
 		// Leave room for the neighbour below.
@@ -60,12 +60,12 @@ public class RiskFactorCompoundParameterGroup {
 				dataBindingContext, helpGroup);
 		FormData durationClassFormData = new FormData();
 		//referenceClassFormData.top = new FormAttachment(scrolledContainer, 2);
-		durationClassFormData.top = new FormAttachment(100, -22);
+		durationClassFormData.top = new FormAttachment(100, -30);
 		durationClassFormData.right = new FormAttachment(100, -5);
 		durationClassFormData.left = new FormAttachment(0, 5);
 		durationClassFormData.bottom = new FormAttachment(100, -2);
 		durationClassDataPanel.setLayoutData(durationClassFormData);
-		referenceClassFormData.bottom = new FormAttachment(100, -24);
+		referenceClassFormData.bottom = new FormAttachment(100, -30);
 		referenceClassDataPanel.setLayoutData(referenceClassFormData);
 	}
 

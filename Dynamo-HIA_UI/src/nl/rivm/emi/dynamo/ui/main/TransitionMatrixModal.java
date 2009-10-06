@@ -64,7 +64,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 		Point leftMatrixPanelInitialSize = ageGroup.getInitialSize();
 		int horizontalSize = leftMatrixPanelInitialSize.x * 2
 				+ helpPanel.getGroup().getSize().x + 50;
-		int verticalSize = 400;
+		int verticalSize = ModalStatics.defaultHeight;
 		this.shell.pack();
 		// This is the first place this works.
 		this.shell.setSize(horizontalSize, verticalSize);

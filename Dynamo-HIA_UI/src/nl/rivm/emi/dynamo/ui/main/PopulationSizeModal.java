@@ -60,7 +60,7 @@ public class PopulationSizeModal extends AbstractDataModal {
 			populationSizeGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(500, 400);
+			this.shell.setSize(500, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 }

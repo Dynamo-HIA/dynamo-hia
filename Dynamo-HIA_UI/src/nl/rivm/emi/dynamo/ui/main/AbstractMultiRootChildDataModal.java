@@ -170,6 +170,7 @@ public abstract class AbstractMultiRootChildDataModal extends
 			box.open();
 			this.shell.dispose();
 		} catch (Throwable e) {
+			e.printStackTrace(System.err);
 			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
 			box.setText("Processing " + this.configurationFilePath);
 			box.setMessage("An unexpected error occurred:\n"

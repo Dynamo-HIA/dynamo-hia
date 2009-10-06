@@ -57,7 +57,7 @@ public class RiskFactorCategoricalParameterGroup {
 				dataBindingContext, helpGroup);
 		FormData referenceClassFormData = new FormData();
 		//referenceClassFormData.top = new FormAttachment(scrolledContainer, 2);
-		referenceClassFormData.top = new FormAttachment(100, -22);
+		referenceClassFormData.top = new FormAttachment(100, -30);
 		referenceClassFormData.right = new FormAttachment(100, -5);
 		referenceClassFormData.left = new FormAttachment(0, 5);
 		referenceClassFormData.bottom = new FormAttachment(100, -2);

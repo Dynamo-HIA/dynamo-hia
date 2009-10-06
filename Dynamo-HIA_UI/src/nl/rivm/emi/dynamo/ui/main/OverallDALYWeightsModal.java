@@ -61,7 +61,7 @@ public class OverallDALYWeightsModal extends AbstractDataModal {
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(500, 400);
+			this.shell.setSize(500, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 }

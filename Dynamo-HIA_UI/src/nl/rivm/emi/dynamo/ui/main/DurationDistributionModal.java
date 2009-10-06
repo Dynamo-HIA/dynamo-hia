@@ -70,7 +70,7 @@ public class DurationDistributionModal extends AbstractDataModal {
 				buttonPanel);
 		this.shell.pack();
 		// This is the first place this works.
-		this.shell.setSize(600, 400);
+		this.shell.setSize(600, ModalStatics.defaultHeight);
 		this.shell.open();
 	}
 
@@ -87,10 +87,10 @@ public class DurationDistributionModal extends AbstractDataModal {
 					"No Factory found for rootElementName: "
 							+ this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
-			if (configurationFile.isFile() && configurationFile.canRead()) {
-				producedData = factory.manufactureObservable(configurationFile,
+		File dataFile = new File(this.dataFilePath);
+		if (dataFile.exists()) {
+			if (dataFile.isFile() && dataFile.canRead()) {
+				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {
 					throw new ConfigurationException(

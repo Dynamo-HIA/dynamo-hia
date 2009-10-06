@@ -63,7 +63,7 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 				buttonPanel);
 		this.shell.pack();
 		// This is the first place this works.
-		this.shell.setSize(600, 400);
+		this.shell.setSize(600, ModalStatics.defaultHeight);
 		this.shell.open();
 	}
 

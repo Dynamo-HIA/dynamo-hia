@@ -58,7 +58,7 @@ public class DataLessMessageModal extends AbstractHelplessModal {
 			transitionDriftZeroGroup.setFormData(buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(350, 225);
+			this.shell.setSize(ModalStatics.defaultDataLessMessageWidth, ModalStatics.defaultDataLessMessageHeight);
 			this.shell.open();
 			Display display = this.shell.getDisplay();
 			while (!this.shell.isDisposed()) {

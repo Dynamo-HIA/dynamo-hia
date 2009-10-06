@@ -73,7 +73,7 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 			simulationGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);			
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(900, 575); // 20090709 RLM Original 900, 700.
+			this.shell.setSize(ModalStatics.defaultSimulationWidth, ModalStatics.defaultHeight);
  			this.shell.open();
 	}
 

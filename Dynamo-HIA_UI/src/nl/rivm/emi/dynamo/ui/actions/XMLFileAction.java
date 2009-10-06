@@ -94,26 +94,26 @@ public class XMLFileAction extends ActionBase {
 		processThroughModal(savedFile, savedFile);
 	}
 
-	public void processThroughModal(File dataFile, File savedFile) {
+	public void processThroughModal(File importFile, File savedFile) {
 		try {
 			FileCreationFlag.isOld = savedFile.exists();
 			Runnable theModal = null;
 
 			if (RootElementNamesEnum.POPULATIONSIZE.getNodeLabel().equals(
 					rootElementName)) {
-				theModal = new PopulationSizeModal(shell, dataFile
+				theModal = new PopulationSizeModal(shell, importFile
 						.getAbsolutePath(), savedFile.getAbsolutePath(),
 						rootElementName, node);
 			} else {
 				if (RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel()
 						.equals(rootElementName)) {
-					theModal = new OverallMortalityModal(shell, dataFile
+					theModal = new OverallMortalityModal(shell, importFile
 							.getAbsolutePath(), savedFile.getAbsolutePath(),
 							rootElementName, node);
 				} else {
 					if (RootElementNamesEnum.NEWBORNS.getNodeLabel().equals(
 							rootElementName)) {
-						theModal = new NewbornsModal(shell, dataFile
+						theModal = new NewbornsModal(shell, importFile
 								.getAbsolutePath(),
 								savedFile.getAbsolutePath(), rootElementName,
 								node, this.modelObject);
@@ -124,21 +124,21 @@ public class XMLFileAction extends ActionBase {
 						if (RootElementNamesEnum.OVERALLDALYWEIGHTS
 								.getNodeLabel().equals(rootElementName)) {
 							theModal = new OverallDALYWeightsModal(shell,
-									dataFile.getAbsolutePath(), savedFile
+									importFile.getAbsolutePath(), savedFile
 											.getAbsolutePath(),
 									rootElementName, node);
 						} else {
 							if (RootElementNamesEnum.DISEASEINCIDENCES
 									.getNodeLabel().equals(rootElementName)) {
 								theModal = new DiseaseIncidencesModal(shell,
-										dataFile.getAbsolutePath(), savedFile
+										importFile.getAbsolutePath(), savedFile
 												.getAbsolutePath(),
 										rootElementName, node);
 							} else {
 								if (RootElementNamesEnum.DISEASEPREVALENCES
 										.getNodeLabel().equals(rootElementName)) {
 									theModal = new DiseasePrevalencesModal(
-											shell, dataFile.getAbsolutePath(),
+											shell, importFile.getAbsolutePath(),
 											savedFile.getAbsolutePath(),
 											rootElementName, node);
 								} else {
@@ -146,7 +146,7 @@ public class XMLFileAction extends ActionBase {
 											.getNodeLabel().equalsIgnoreCase(
 													rootElementName)) {
 										theModal = new DALYWeightsModal(shell,
-												dataFile.getAbsolutePath(),
+												importFile.getAbsolutePath(),
 												savedFile.getAbsolutePath(),
 												rootElementName, node);
 									} else {
@@ -156,7 +156,7 @@ public class XMLFileAction extends ActionBase {
 														rootElementName)) {
 											theModal = new ExcessMortalityModal(
 													shell,
-													dataFile.getAbsolutePath(),
+													importFile.getAbsolutePath(),
 													savedFile.getAbsolutePath(),
 													rootElementName, node);
 										} else {
@@ -167,7 +167,7 @@ public class XMLFileAction extends ActionBase {
 															rootElementName)) {
 												theModal = new RelRiskFromOtherDiseaseModal(
 														shell,
-														dataFile
+														importFile
 																.getAbsolutePath(),
 														savedFile
 																.getAbsolutePath(),
@@ -180,7 +180,7 @@ public class XMLFileAction extends ActionBase {
 													if (simulationPreConditionsMet()) {
 														theModal = new SimulationModal(
 																shell,
-																dataFile
+																importFile
 																		.getAbsolutePath(),
 																savedFile
 																		.getAbsolutePath(),
@@ -201,7 +201,7 @@ public class XMLFileAction extends ActionBase {
 														// contents of the file.
 														theModal = new RiskFactorCategoricalModal(
 																shell,
-																dataFile
+																importFile
 																		.getAbsolutePath(),
 																savedFile
 																		.getAbsolutePath(),
@@ -221,7 +221,7 @@ public class XMLFileAction extends ActionBase {
 															// the file.
 															theModal = new RiskFactorContinuousModal(
 																	shell,
-																	dataFile
+																	importFile
 																			.getAbsolutePath(),
 																	savedFile
 																			.getAbsolutePath(),
@@ -234,7 +234,7 @@ public class XMLFileAction extends ActionBase {
 																			rootElementName)) {
 																theModal = new RiskFactorCompoundModal(
 																		shell,
-																		dataFile
+																		importFile
 																				.getAbsolutePath(),
 																		savedFile
 																				.getAbsolutePath(),
@@ -249,7 +249,7 @@ public class XMLFileAction extends ActionBase {
 																				rootElementName)) {
 																	theModal = new RelRiskFromRiskFactorCategoricalModal(
 																			shell,
-																			dataFile
+																			importFile
 																					.getAbsolutePath(),
 																			savedFile
 																					.getAbsolutePath(),
@@ -265,7 +265,7 @@ public class XMLFileAction extends ActionBase {
 																				.getProperties((FileNode) node);
 																		theModal = new RelRiskFromRiskFactorCompoundModal(
 																				shell,
-																				dataFile
+																				importFile
 																						.getAbsolutePath(),
 																				savedFile
 																						.getAbsolutePath(),
@@ -279,7 +279,7 @@ public class XMLFileAction extends ActionBase {
 																						rootElementName)) {
 																			theModal = new RelRiskFromRiskFactorContinuousModal(
 																					shell,
-																					dataFile
+																					importFile
 																							.getAbsolutePath(),
 																					savedFile
 																							.getAbsolutePath(),
@@ -293,7 +293,7 @@ public class XMLFileAction extends ActionBase {
 																							rootElementName)) {
 																				theModal = new RiskFactorCompoundModal(
 																						shell,
-																						dataFile
+																						importFile
 																								.getAbsolutePath(),
 																						savedFile
 																								.getAbsolutePath(),
@@ -308,7 +308,7 @@ public class XMLFileAction extends ActionBase {
 																								rootElementName)) {
 																					theModal = new RiskFactorCategoricalPrevalencesModal(
 																							shell,
-																							dataFile
+																							importFile
 																									.getAbsolutePath(),
 																							savedFile
 																									.getAbsolutePath(),
@@ -321,7 +321,7 @@ public class XMLFileAction extends ActionBase {
 																									rootElementName)) {
 																						theModal = new RiskFactorContinuousPrevalencesModal(
 																								shell,
-																								dataFile
+																								importFile
 																										.getAbsolutePath(),
 																								savedFile
 																										.getAbsolutePath(),
@@ -334,7 +334,7 @@ public class XMLFileAction extends ActionBase {
 																										rootElementName)) {
 																							theModal = new DurationDistributionModal(
 																									shell,
-																									dataFile
+																									importFile
 																											.getAbsolutePath(),
 																									savedFile
 																											.getAbsolutePath(),
@@ -347,7 +347,7 @@ public class XMLFileAction extends ActionBase {
 																											rootElementName)) {
 																								theModal = new RelRiskForDeathCategoricalModal(
 																										shell,
-																										dataFile
+																										importFile
 																												.getAbsolutePath(),
 																										savedFile
 																												.getAbsolutePath(),
@@ -360,7 +360,7 @@ public class XMLFileAction extends ActionBase {
 																												rootElementName)) {
 																									theModal = new RelRiskForDeathContinuousModal(
 																											shell,
-																											dataFile
+																											importFile
 																													.getAbsolutePath(),
 																											savedFile
 																													.getAbsolutePath(),
@@ -374,7 +374,7 @@ public class XMLFileAction extends ActionBase {
 
 																										theModal = new RelRiskForDeathCompoundModal(
 																												shell,
-																												dataFile
+																												importFile
 																														.getAbsolutePath(),
 																												savedFile
 																														.getAbsolutePath(),
@@ -387,7 +387,7 @@ public class XMLFileAction extends ActionBase {
 																														rootElementName)) {
 																											theModal = new RelRiskForDisabilityCategoricalModal(
 																													shell,
-																													dataFile
+																													importFile
 																															.getAbsolutePath(),
 																													savedFile
 																															.getAbsolutePath(),
@@ -400,7 +400,7 @@ public class XMLFileAction extends ActionBase {
 																															rootElementName)) {
 																												theModal = new RelRiskForDisabilityContinuousModal(
 																														shell,
-																														dataFile
+																														importFile
 																																.getAbsolutePath(),
 																														savedFile
 																																.getAbsolutePath(),
@@ -414,7 +414,7 @@ public class XMLFileAction extends ActionBase {
 
 																													theModal = new RelRiskForDisabilityCompoundModal(
 																															shell,
-																															dataFile
+																															importFile
 																																	.getAbsolutePath(),
 																															savedFile
 																																	.getAbsolutePath(),
@@ -427,7 +427,7 @@ public class XMLFileAction extends ActionBase {
 																																	rootElementName)) {
 																														theModal = new TransitionMatrixModal(
 																																shell,
-																																dataFile
+																																importFile
 																																		.getAbsolutePath(),
 																																savedFile
 																																		.getAbsolutePath(),
@@ -440,7 +440,7 @@ public class XMLFileAction extends ActionBase {
 																																		rootElementName)) {
 																															theModal = new TransitionDriftModal(
 																																	shell,
-																																	dataFile
+																																	importFile
 																																			.getAbsolutePath(),
 																																	savedFile
 																																			.getAbsolutePath(),
@@ -453,7 +453,7 @@ public class XMLFileAction extends ActionBase {
 																																			rootElementName)) {
 																																theModal = new TransitionDriftNettoModal(
 																																		shell,
-																																		dataFile
+																																		importFile
 																																				.getAbsolutePath(),
 																																		savedFile
 																																				.getAbsolutePath(),

@@ -148,7 +148,7 @@ public class FreeNamePlusDropDownModal implements Runnable {
 				});
 				shell.pack();
 				// This is the first place this works.
-				shell.setSize(300, 200);
+				shell.setSize(300, ModalStatics.defaultDataLessMessageHeight);
 				shell.open();
 				Display display = shell.getDisplay();
 				while (!shell.isDisposed()) {

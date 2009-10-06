@@ -64,7 +64,7 @@ public class DiseasePrevalencesModal extends AbstractDataModal {
 			diseasePrevalencesGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(900, 700);
+			this.shell.setSize(900, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 }

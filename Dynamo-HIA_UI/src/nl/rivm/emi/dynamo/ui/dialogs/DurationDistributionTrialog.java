@@ -89,7 +89,7 @@ public class DurationDistributionTrialog extends InputBulletsTrialog {
 		composite.setLayoutData(data);
 		composite.setFont(parent.getFont());
 
-		createNameAndTypeOfRiskFactorArea(composite);
+// Too funny :-)		createNameAndTypeOfRiskFactorArea(composite);
 
 		return composite;
 	}
