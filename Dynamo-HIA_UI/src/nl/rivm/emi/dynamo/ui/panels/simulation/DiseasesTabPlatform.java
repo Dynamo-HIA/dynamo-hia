@@ -4,15 +4,16 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -29,13 +30,22 @@ import org.eclipse.swt.widgets.TabFolder;
  * 
  * @author schutb
  * 
+ *         20091006 mondeelr The nameSet returned by getConfigurations() no
+ *         longer is produced directly from the configurationObject. It is now
+ *         filtered to contain only diseaseNames that are still available. This
+ *         extra functionality is nescessary because diseases can now be
+ *         deleted....
  */
+
 public class DiseasesTabPlatform extends TabPlatform {
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	private static final String DISEASES = "Diseases";
 	private static final String DISEASE = "Disease";
+
+	private TreeAsDropdownLists treeLists;
 
 	/**
 	 * @param tabfolder
@@ -48,6 +58,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 			throws ConfigurationException {
 		super(upperTabFolder, DISEASES, selectedNode, dynamoSimulationObject,
 				helpGroup, null);
+		this.treeLists = TreeAsDropdownLists.getInstance(selectedNode);
 		createContent();
 	}
 
@@ -77,11 +88,44 @@ public class DiseasesTabPlatform extends TabPlatform {
 		return DISEASE;
 	}
 
+	/**
+	 * The name didn't cover the functionality, the method returns a Set of
+	 * diseasenames. 
+	 * 
+	 * Now it also checks these names against the diseases with a
+	 * valid configuration and removes diseases that have for instance been
+	 * deleted from the simulation configuration.
+	 * 
+	 * This upfront filtering was chosen because the constructing of the
+	 * disease-tabs fails on absent diseases.
+	 * 
+	 * Consistency-check methods scattered throughout the simulationscreen
+	 * functionality may try to salvage derived configurations by changing them
+	 * from disappeared diseases to other items.
+	 */
 	@Override
 	public Set<String> getConfigurations() {
 		LinkedHashMap<String, ITabDiseaseConfiguration> configurations = (LinkedHashMap<String, ITabDiseaseConfiguration>) this
 				.getDynamoSimulationObject().getDiseaseConfigurations();
-		return configurations.keySet();
+		Set<String> configuredDiseaseNames = configurations.keySet();
+		Set<String> validDiseaseNames = treeLists.getValidDiseaseNames();
+		Set<String> approvedDiseaseNames = new LinkedHashSet<String>();
+		Set<String> disApprovedDiseaseNames = new LinkedHashSet<String>();
+		for (String diseaseName : configuredDiseaseNames) {
+			if (validDiseaseNames.contains(diseaseName)) {
+				approvedDiseaseNames.add(diseaseName);
+			} else {
+				disApprovedDiseaseNames.add(diseaseName);
+			}
+		}
+		if (disApprovedDiseaseNames.size() != 0) {
+			for (String disApprovedDiseaseName : disApprovedDiseaseNames) {
+				configurations.remove(disApprovedDiseaseName);
+			}
+			getDynamoSimulationObject()
+					.setDiseaseConfigurations(configurations);
+		}
+		return approvedDiseaseNames;
 	}
 
 	@Override

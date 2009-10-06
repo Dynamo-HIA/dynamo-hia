@@ -89,13 +89,7 @@ public abstract class TabPlatform extends Tab {
 
 	public void createContent() throws ConfigurationException {
 		createLowerTabFolder();
-		// Create the tabManager, it handles the subtabs
-		// this.tabPlatformManager = new TabPlatformManager(this.plotComposite,
-		// this.selectedNode, this.getDynamoSimulationObject(),
-		// this.helpGroup, this);
-		// this.tabPlatformManager.createDefaultTabs();
 		createDefaultTabs_FromManager();
-
 		// Create the create and delete buttons and their listeners:
 		// add the tabManager methods
 		TabPlatformButtonPanel buttonPanel = new TabPlatformButtonPanel(
@@ -169,11 +163,13 @@ public abstract class TabPlatform extends Tab {
 	public void createDefaultTabs_FromManager()
 			throws DynamoConfigurationException, ConfigurationException {
 		Set<String> defaultTabKeyValues = getConfigurations();
+		// Some debugging stuff.
 		StringBuffer concatDefTabKeyVals = new StringBuffer();
 		for (String keyValue : defaultTabKeyValues) {
 			concatDefTabKeyVals.append(keyValue + ", ");
 		}
 		log.debug("concatDefTabKeyVals: " + concatDefTabKeyVals);
+		// Debugging stuff ends.
 		// the tab created is given the values of the configuration Map for
 		// which to create the tab
 		for (String defaultTabKeyValue : defaultTabKeyValues) {

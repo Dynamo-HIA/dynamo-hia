@@ -36,6 +36,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	private TreeAsDropdownLists treeLists;
 	private DynamoSimulationObject dynamoSimulationObject;
 //	private Map<String, ITabDiseaseConfiguration> configurations;
+	
 	public Map<String, ITabDiseaseConfiguration> getConfigurations() {
 		Map<String, ITabDiseaseConfiguration> configurations = this.getDynamoSimulationObject().getDiseaseConfigurations();
 		
