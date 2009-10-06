@@ -15,17 +15,17 @@ import org.apache.commons.logging.LogFactory;
 /**
  * 
  * 
- * Represents a String Set of diseases that have already been chosen.
- * Is used to compile a list of chosable diseases. 
+ * Represents a String Set of diseases that have already been chosen. Is used to
+ * compile a list of chosable diseases.
  * 
  * @author schutb
- *
+ * 
  * @param <String>
  */
-public class ChoosableDiseases <String> extends LinkedHashSet<String> {
+public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+
 	private static ChoosableDiseases chosenDiseaseNames = null;
 
 	private ChoosableDiseases() {
@@ -33,21 +33,34 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	}
 
 	/**
-	 * Get the single instance.
-	 * There can be only one.
+	 * Get the single instance. There can be only one.
 	 * 
 	 * @param selectedNode
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	static synchronized public ChoosableDiseases getInstance(
-			) throws ConfigurationException {
+	static synchronized public ChoosableDiseases getInstance()
+			throws ConfigurationException {
 		if (chosenDiseaseNames == null) {
 			chosenDiseaseNames = new ChoosableDiseases();
 		}
 		return chosenDiseaseNames;
 	}
-	
+
+	/**
+	 * Get a fresh instance, remove the history of old simulation configuring.
+	 * 
+	 * @param selectedNode
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	static synchronized public ChoosableDiseases getFreshInstance()
+			throws ConfigurationException {
+		chosenDiseaseNames = null;
+		chosenDiseaseNames = new ChoosableDiseases();
+		return chosenDiseaseNames;
+	}
+
 	/**
 	 * This method returns a list with the names of the diseases in the tree
 	 * that have been correctly configured and can be chosen in a dropdown at
@@ -59,16 +72,17 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 *            be able to be chosen again.
 	 * @return
 	 */
-	public Set<String> getChoosableDiseases(String currentDiseasesName, TreeAsDropdownLists lists) {
+	public Set<String> getChoosableDiseases(String currentDiseasesName,
+			TreeAsDropdownLists lists) {
 		log.debug("currentDiseasesName: " + currentDiseasesName);
-		this.remove(currentDiseasesName);		
-		//TODO: FIX THIS PERMANENTLY!!!!
+		this.remove(currentDiseasesName);
+		// TODO: FIX THIS PERMANENTLY!!!!
 		Set diseaseNames = new LinkedHashSet<String>();
-		diseaseNames.addAll(lists.getValidDiseaseNames());		
+		diseaseNames.addAll(lists.getValidDiseaseNames());
 		log.debug("diseaseNames: " + diseaseNames);
 		log.debug("Chosendiseases-1-1-1: " + this);
-		for (String chosenName : (Set<String>)this) {
-			log.debug("REMVOVING CHOSENNAME: " + chosenName);	
+		for (String chosenName : (Set<String>) this) {
+			log.debug("REMVOVING CHOSENNAME: " + chosenName);
 			diseaseNames.remove(chosenName);
 		}
 		log.debug("diseaseNames222: " + diseaseNames);
@@ -91,13 +105,13 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 
 	public void removeChosenDisease(String name) {
 		log.debug("ChosendiseasesXXXBEFORE: " + this);
-		//log.debug("index" + index);
-		//String name = ((String) this.toArray()[index]);
-		log.debug("removename:" + name);		
+		// log.debug("index" + index);
+		// String name = ((String) this.toArray()[index]);
+		log.debug("removename:" + name);
 		this.remove(name);
 		log.debug("ChosendiseasesXXXAFTER: " + this);
 	}
-	
+
 	/**
 	 * 
 	 * Retrieves the first name from the available disease list
@@ -105,17 +119,20 @@ public class ChoosableDiseases <String> extends LinkedHashSet<String> {
 	 * @param currentDiseasesName
 	 * @param lists
 	 * @return String
-	 * @throws ConfigurationException 
-	 * @throws NoMoreDataException 
+	 * @throws ConfigurationException
+	 * @throws NoMoreDataException
 	 */
-	public String getFirstDiseaseOfSet(String currentDiseasesName, TreeAsDropdownLists lists) throws ConfigurationException, NoMoreDataException {
+	public String getFirstDiseaseOfSet(String currentDiseasesName,
+			TreeAsDropdownLists lists) throws ConfigurationException,
+			NoMoreDataException {
 		try {
 			log.debug("ChosendiseasesEEEE: " + this);
-			return (String) this.getChoosableDiseases(currentDiseasesName, lists).iterator().next();	
-		} catch(NoSuchElementException nse) {
+			return (String) this.getChoosableDiseases(currentDiseasesName,
+					lists).iterator().next();
+		} catch (NoSuchElementException nse) {
 			throw new NoMoreDataException("A new disease is not available");
 		}
-			
+
 	}
-	
+
 }
