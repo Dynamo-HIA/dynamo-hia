@@ -1,12 +1,7 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
-import java.io.File;
-import java.net.URISyntaxException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**

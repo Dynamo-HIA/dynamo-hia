@@ -6,10 +6,10 @@ package nl.rivm.emi.dynamo.simulation;
  * @author Hendriek (translation VBA to java)
  * 
  * This algorithm is taken from:
- * S. Gallivan · M. Utley · M. Jit · C. Pagel
+ * S. Gallivan, M. Utley, M. Jit, C. Pagel
  * A computational algorithm associated with patient progress modelling
- * CMS (2007) 4:283–299
- * © Springer-Verlag 2006
+ * CMS (2007) 4:283-299
+ * \c Springer-Verlag 2006
  * 
  * it calculates (approximates) exp(A) where A is a matrix
  *

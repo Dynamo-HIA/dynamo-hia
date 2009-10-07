@@ -1,65 +1,33 @@
 package nl.rivm.emi.dynamo.estimation;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamException;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.swt.widgets.Shell;
 
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.exceptions.CDMRunException;
-import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
-import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
-import nl.rivm.emi.cdm.simulation.RunModes;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.output.Output_UI;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.xml.sax.SAXException;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 
 public class DynamoSimulationRunnable extends DomLevelTraverser {
 
@@ -232,8 +200,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				simulationConfigurationFile = new File(simulationFilePath);
 				// log.info("simulationFile made for scenario " + scennum);
 
-				assertTrue(CharacteristicsConfigurationMapSingleton
-						.getInstance().size() > 1);
+//				assertTrue(CharacteristicsConfigurationMapSingleton
+//						.getInstance().size() > 1);
+if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
+	throw new DynamoConfigurationException("More than 1 disease needs to be configured.");
+}
 				// calculate frequency of risk factor values during simulation
 
 				if (simulationConfigurationFile.exists()) {

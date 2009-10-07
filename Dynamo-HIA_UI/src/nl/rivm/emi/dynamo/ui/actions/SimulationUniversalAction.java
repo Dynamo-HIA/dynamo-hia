@@ -10,7 +10,6 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
-import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -58,7 +57,7 @@ public class SimulationUniversalAction extends ActionBase {
 	 * Flag indicating whether the configuration file existed on disk when the
 	 * action was initialized.
 	 */
-	private boolean configurationFileExistsBefore = false;
+	private Boolean configurationFileExistsBefore = null;
 	/**
 	 * Label to put in the context-menu that triggers this action. This label
 	 * can contain feedback.
@@ -80,18 +79,31 @@ public class SimulationUniversalAction extends ActionBase {
 			if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel().equals(
 					node.deriveNodeLabel())) {
 				simulationsDirectoryNode = (DirectoryNode) node;
+				configurationFileExistsBefore = false;
 			} else {
 				BaseNode parentNode = (BaseNode) ((ChildNode) node).getParent();
 				if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
 						.equals(parentNode.deriveNodeLabel())) {
 					simulationsDirectoryNode = (DirectoryNode) parentNode;
 					simulationNameDirectoryNode = (DirectoryNode) node;
+					Object[] children = ((ParentNode) node).getChildren();
+					configurationFileExistsBefore = false;
+					String testLabel = StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
+							.getNodeLabel();
+					for (Object child : children) {
+						if (child instanceof FileNode) {
+							String childLabel = ((BaseNode)child).deriveNodeLabel();
+							if (testLabel.equalsIgnoreCase(childLabel)) {
+								configurationFileExistsBefore = true;
+							}
+						}
+					}
 				} else {
 					menuLabel = "This is not a supported DirectoryNode";
 				}
 			}
-			// Not a DirectoryNode.
 		} else {
+			// Not a DirectoryNode.
 			if (node instanceof FileNode) {
 				if ((StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 						.getNodeLabel()).equalsIgnoreCase(node
@@ -146,7 +158,7 @@ public class SimulationUniversalAction extends ActionBase {
 				// RLM Testing is the only way to make sure.
 				if (simulationNameDirectoryNode != null) {
 					if (simulationConfigurationFileNode == null) {
-						configurationFileExistsBefore = createSimulationConfigurationFile();
+						createSimulationConfigurationFileObject();
 					}
 					editConfigurationFile();
 				}
@@ -177,17 +189,20 @@ public class SimulationUniversalAction extends ActionBase {
 				+ candidateSimulationName;
 		File candidateDirectory = new File(candidateSimulationPath);
 		if (!candidateDirectory.exists()) {
+			// Create it physically.
 			if (candidateDirectory.mkdir()) {
-				newSimulationDirectoryNode = new DirectoryNode(
-						simulationsNode, candidateDirectory);
+				newSimulationDirectoryNode = new DirectoryNode(simulationsNode,
+						candidateDirectory);
 				simulationsNode.addChild(newSimulationDirectoryNode);
 				theViewer.refresh();
 			} else {
 				MessageBox messageBox = new MessageBox(shell,
 						SWT.ERROR_ITEM_NOT_ADDED);
 				messageBox.setText("Creation error.");
-				messageBox.setMessage("The simulation directory: \""
-						+ candidateSimulationName + "\"\ncould not be created.");
+				messageBox
+						.setMessage("The simulation directory: \""
+								+ candidateSimulationName
+								+ "\"\ncould not be created.");
 				messageBox.open();
 			}
 		} else {
@@ -203,40 +218,36 @@ public class SimulationUniversalAction extends ActionBase {
 
 	/**
 	 * Creates the File Object in memory, but does not persist it.
-	 * 
-	 * @return The File object.
 	 */
-	private boolean createSimulationConfigurationFile() {
+	private void createSimulationConfigurationFileObject() {
 		String configurationFilePath = simulationNameDirectoryNode
 				.getPhysicalStorage().getAbsolutePath()
 				+ File.separator
 				+ StandardTreeNodeLabelsEnum.CONFIGURATIONFILE.getNodeLabel()
 				+ ".xml";
 		configurationFile = new File(configurationFilePath);
-		configurationFileExistsBefore = configurationFile.exists();
-		return (configurationFileExistsBefore);
 	}
 
 	public void editConfigurationFile() {
 		try {
 			if (simulationPreConditionsMet()) {
+				Boolean bogusFlag = true; // Shut up any "intelligence" inside
+				// the modal.
 				SimulationModal theModal = new SimulationModal(shell,
 						configurationFile.getAbsolutePath(), configurationFile
 								.getAbsolutePath(),
 						RootElementNamesEnum.SIMULATION.getNodeLabel(),
 						simulationNameDirectoryNode,
-						configurationFileExistsBefore);
+						/* configurationFileExistsBefore */bogusFlag);
 				if (theModal != null) {
 					Realm.runWithDefault(SWTObservables.getRealm(Display
 							.getDefault()), theModal);
 					boolean isPresentAfter = configurationFile.exists();
-					if (isPresentAfter
-							&& /* !configurationFileExistsBefore */!FileCreationFlag.isOld) {
+					if (isPresentAfter && (configurationFileExistsBefore != null) &&!configurationFileExistsBefore) {
 						((ParentNode) simulationNameDirectoryNode)
 								.addChild((ChildNode) new FileNode(
 										(ParentNode) simulationNameDirectoryNode,
 										configurationFile));
-						FileCreationFlag.isOld = true;
 						theViewer.refresh();
 					}
 				}

@@ -14,10 +14,9 @@
 	<property name="czm_mono.dir" value="../CZM_Mono" />
 
 
-
 	<target name="clean">
 		<delete dir="${build.dir}" />
-		<delete dir="${copy2czm_mono.dir}/nl" />
+		<delete dir="${czm_mono.dir}/nl" />
 		<delete dir="${czm_mono.dir}/images" />
 		<delete dir="${czm_mono.dir}/ini" />
 		<delete dir="${czm_mono.dir}/schemas" />
@@ -29,19 +28,33 @@
 	</target>
 
 	<target name="compile">
-		<echo message="${java.class.path}" />
+		<!-- <echo message="${java.class.path}" /> -->
 		<mkdir dir="${classes.dir}" />
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" verbose="true">
 			<patternset>
 				<include name="**/*.java" />
 				<exclude name="**/test/**" />
 			</patternset>
-			<classpath refid="cross.project.class.path" />
+			<classpath>
+				<path refid="cross.project.class.path" />
+				<pathelement path="${plugins.dir}/org.apache.commons.lang_2.3.0.v200803061910.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.jface_3.4.1.M20080827-2000.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.core.commands_3.4.0.I20080509-2000.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.jface.databinding_1.2.1.M20080827-0800a.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.core.resources_3.4.1.R34x_v20080902.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.core.runtime_3.4.0.v20080512.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.core.runtime.compatibility_3.2.0.v20071008.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.osgi_3.4.2.R34x_v20080826-1230.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.ui_3.4.1.M20080910-0800.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.ui.workbench_3.4.1.M20080827-0800a.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.text_3.4.0.v20080605-1800.jar" />
+				<pathelement path="${plugins.dir}/org.eclipse.jface.text_3.4.1.r341_v20080827-1100.jar" />
+			</classpath>
 		</javac>
 	</target>
 
 	<target name="addimages" depends="compile">
-		<mkdir dir="${addimages.dir}" />
+		<!-- <mkdir dir="${images.dir}" /> -->
 		<copy todir="${classes.dir}/images">
 			<fileset dir="${images.dir}" />
 		</copy>
@@ -55,7 +68,9 @@
 			<fileset dir="${images.dir}" />
 		</copy>
 		<copy todir="${czm_mono.dir}/ini" overwrite="true">
-			<fileset dir="${ini.dir}" />
+			<fileset dir="${ini.dir}">
+				<exclude name="lastopened.ini" />
+			</fileset>
 		</copy>
 		<copy todir="${czm_mono.dir}/schemas" overwrite="true">
 			<fileset dir="${schemas.dir}" />
@@ -65,6 +80,6 @@
 		</copy>
 	</target>
 
-	<target name="main" depends="clean,addimages,copy2czm_mono" />
+	<target name="main" depends="clean,compile,addimages,copy2czm_mono" />
 
 </project>
