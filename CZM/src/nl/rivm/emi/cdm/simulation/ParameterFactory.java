@@ -9,7 +9,6 @@ import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Test;
 
 public class ParameterFactory {
 
@@ -86,7 +85,6 @@ public class ParameterFactory {
 	}
 
 
-	@Test
 	public void testrun() {
 		ParameterFactory f = new ParameterFactory();
 		File fln = new File(

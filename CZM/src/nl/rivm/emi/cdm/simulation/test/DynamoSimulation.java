@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.simulation;
+package nl.rivm.emi.cdm.simulation.test;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +14,8 @@ import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
+import nl.rivm.emi.cdm.simulation.Simulation;
+import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
