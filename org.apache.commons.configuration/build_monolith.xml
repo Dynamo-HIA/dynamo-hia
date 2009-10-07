@@ -1,0 +1,21 @@
+<!-- Just chuck all class files into the CZM_Mono class-directory. -->
+<project name="org.apache.commons.collections" basedir="." default="main">
+	<property name="czm_mono.dir" value="../CZM_Mono/" />
+
+	<target name="compile">
+		<ant antfile="build-xmlconfiguration.xml" dir="${basedir}" inheritall="false" inheritrefs="false" />
+	</target>
+
+	<target name="copy2czm_mono">
+		<copy todir="${czm_mono.dir}/classes" overwrite="true">
+			<fileset dir="${basedir}">
+				<patternset>
+					<include name="**/*.class" />
+				</patternset>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="main" depends="compile,copy2czm_mono" />
+
+</project>
