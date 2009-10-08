@@ -2357,7 +2357,7 @@ public class InputDataFactory {
 							//		fData[d][a][g] / 100, d);
 			
 							clusterData[a][g][c].setCaseFatality(
-									fData[d][a][g] , d);
+									fData[d][a][g]/100 , d);
 
 							// initialize all rr values to 1 in case no rr's are
 							// read
