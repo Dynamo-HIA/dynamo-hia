@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.estimation.test;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,7 +43,7 @@ Log log = LogFactory.getLog(getClass().getName());
 	}
 	
 	@Test
-	public void runSimulation()  {
+	public void runSimulation() throws DynamoInconsistentDataException  {
 
 		Display display= new Display();
 		Shell shell=new Shell(display);

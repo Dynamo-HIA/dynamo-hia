@@ -1,6 +1,8 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
@@ -8,20 +10,21 @@ import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class RunSelectionListener extends AbstractLoggingClass implements
 		SelectionListener {
 	DataAndFileContainer modalParent;
 	SaveSelectionListener mySaveSelectionListener;
-	
+
 	public RunSelectionListener(DataAndFileContainer modalParent) {
 		this.modalParent = modalParent;
-		this.mySaveSelectionListener = new SaveSelectionListener(
-				modalParent);
+		this.mySaveSelectionListener = new SaveSelectionListener(modalParent);
 	}
 
 	public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -54,18 +57,72 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 			log.error("Running the Simulation threw a "
 					+ t.getClass().getSimpleName() + " with message: "
 					+ t.getMessage());
+			displayErrorMessage(t);
 		} finally {
 			control.setEnabled(true);
 		}
 	}
 
-	private void runDynamoSimulation(String simName, String baseDir) {
+	private void runDynamoSimulation(String simName, String baseDir)
+			throws Throwable {
 		// Use the parentShell
 		Shell parentShell = ((SimulationModal) modalParent).getParentShell();
+		Shell[] preRunChildren = parentShell.getShells();
+		Set<Shell> preRunChildrenSet = new HashSet<Shell>();
+		for (Shell preRunChild : preRunChildren) {
+			preRunChildrenSet.add(preRunChild);
+		}
+		try {
+			DynamoSimulationRunnable theSimulation = new DynamoSimulationRunnable(
+					parentShell, simName, baseDir);
+			theSimulation.run();
+		} catch (Throwable t) {
+			throw t;
+		} finally {
+			Shell[] postRunChildren = parentShell.getShells();
+			for (Shell postRunChild : postRunChildren) {
+				if (!preRunChildrenSet.contains(postRunChild)) {
+					postRunChild.dispose();
+				}
+			}
+		}
+	}
 
-		DynamoSimulationRunnable theSimulation = new DynamoSimulationRunnable(
-				parentShell, simName, baseDir);
-		theSimulation.run();
+	private void displayErrorMessage(Throwable e) {
+
+		Shell shell = new Shell(modalParent.getParentShell());
+		String cause = "";
+		if (e.getCause() != null) {
+			cause += this.handleErrorMessage("", e);
+		}
+		MessageBox messageBox = new MessageBox(shell, SWT.OK);
+		messageBox.setMessage("Errors during configuration of the model"
+				+ " Message given:\n" + e.getMessage() + cause);
+		messageBox.open();
+		e.printStackTrace();
+	}
+
+	private String handleErrorMessage(String cdmErrorMessage, Throwable e) {
+		e.printStackTrace();
+		// Show the error message and the nested cause of the error
+		String errorMessage = "";
+		if (e.getCause() != null) {
+			if (!e.getCause().getMessage().contains(":")) {
+				errorMessage = "An error occured: " + e.getMessage() + "\n"
+						+ "Cause: " + e.getCause().getMessage();
+			} else {
+				errorMessage = "An error occured: " + e.getMessage() + "\n"
+						+ "Cause: ";
+				String[] splits = e.getCause().getMessage().split(":");
+				for (int i = 1; i < splits.length; i++) {
+					errorMessage += splits[i];
+				}
+			}
+		} else {
+			errorMessage = cdmErrorMessage;
+		}
+		this.log.error(errorMessage);
+		return errorMessage;
 	}
 
 }

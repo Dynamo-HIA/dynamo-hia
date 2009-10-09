@@ -60,7 +60,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	private DynamoOutputFactory output;
 
 	public DynamoSimulationRunnable(Shell parentShell, String simName,
-			String baseDir) {
+			String baseDir) throws DynamoInconsistentDataException {
 		super();
 		this.parentShell = parentShell;
 		try {
@@ -68,11 +68,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			configureSimulation(simName, baseDir);
 
 		} catch (DynamoInconsistentDataException e) {
-			displayErrorMessage(e, simName);
+			wrapAndThrowErrorMessage(e, simName);
 			e.printStackTrace();
 			errorMessage="model can not be run due to inconsistencies in the data. \nPlease correct.";
 		} catch (DynamoConfigurationException e) {
-			displayErrorMessage(e, simName);
+			wrapAndThrowErrorMessage(e, simName);
 			errorMessage="model can not be run due to configuration errors";
 			e.printStackTrace();
 		}
@@ -369,18 +369,6 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 		shell.close();
 	}
 
-	private void displayInconsistentDataMessage(Exception e) {
-		Shell shell = new Shell(parentShell);
-		MessageBox messageBox = new MessageBox(shell, SWT.OK);
-		messageBox
-				.setMessage("The parameters of the model could not be estimated"
-						+ " Message given: "
-						+ e.getMessage()
-						+ ". Please change the input of the model.");
-		messageBox.open();
-		e.printStackTrace();
-	}
-
 	private void displayErrorMessage(Exception e, String simulationFilePath) {
 
 		Shell shell = new Shell(parentShell);
@@ -394,5 +382,16 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 		messageBox.open();
 		e.printStackTrace();
 	}
+
+	private void wrapAndThrowErrorMessage(Exception e, String simulationFilePath) throws DynamoInconsistentDataException {
+		String cause = "";
+		if (e.getCause() != null) {
+			cause += this.handleErrorMessage("", e, simulationFilePath);
+		}
+		String totalMessage = e.getMessage() + cause;
+
+throw new DynamoInconsistentDataException(totalMessage);
+	}
+
 
 }
