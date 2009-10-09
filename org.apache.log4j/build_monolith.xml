@@ -1,0 +1,14 @@
+<!-- Just chuck all class files into the CZM_Mono class-directory. -->
+<project name="org.apache.commons.log4j" basedir="." default="copy2czm_mono">
+	<property name="czm_mono.dir" value="../CZM_Mono/" />
+
+	<target name="copy2czm_mono">
+		<copy todir="${czm_mono.dir}/classes" overwrite="true">
+			<fileset dir="${basedir}">
+				<patternset>
+					<include name="**/*.class" />
+				</patternset>
+			</fileset>
+		</copy>
+	</target>
+</project>
