@@ -106,6 +106,7 @@ public class ScenarioInfo {
 	public boolean[] getthisScenarioUsedOneForAllPop() {
 		/* check if already calculated; if not make it */
 		if (this.firstOneForAllPopScenario == -3)
+		/* getNPopulations() also calculates which populations are oneForAllPopulations */
 			this.getNPopulations();
 		return thisScenarioUsedOneForAllPop;
 	}
@@ -115,6 +116,8 @@ public class ScenarioInfo {
 	 */
 	public boolean[] getIsFirstForAllPop() {
 		if (this.firstOneForAllPopScenario == -3)
+
+			/* getNPopulations() also calculates which populations are oneForAllPopulations */
 			this.getNPopulations();
 		return thisScenarioUsedOneForAllPop;
 	}
@@ -124,6 +127,7 @@ public class ScenarioInfo {
 	 */
 	public int getFirstOneForAllPopScenario() {
 		if (this.firstOneForAllPopScenario == -3)
+			/* getNPopulations() also calculates which populations are oneForAllPopulations */
 			this.getNPopulations();
 		return firstOneForAllPopScenario;
 	}

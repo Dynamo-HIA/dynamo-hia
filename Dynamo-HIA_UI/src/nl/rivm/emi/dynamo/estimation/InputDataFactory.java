@@ -2347,17 +2347,17 @@ public class InputDataFactory {
 							// wordt ingevoerd
 							clusterData[a][g][c].setAbility(
 									(1 - dData[d][a][g]), d);
-							clusterData[a][g][c].setCuredFraction(
-									cData[d][a][g] / 100, d,
-									clusterStructure[c]);
-							// temporary not divided by 100
-							// TODO: remove
 							
-						//	clusterData[a][g][c].setCaseFatality(
-							//		fData[d][a][g] / 100, d);
-			
+							/* divide by 100 as this is not done automatically */
+							/* divide by 100 as this is not done automatically 
+							 * because these do not have the xml tag percent
+							 * */
+							clusterData[a][g][c].setCuredFraction(
+									cData[d][a][g] /100, d,
+									clusterStructure[c]);
+												
 							clusterData[a][g][c].setCaseFatality(
-									fData[d][a][g]/100 , d);
+									fData[d][a][g]  /100 , d);
 
 							// initialize all rr values to 1 in case no rr's are
 							// read

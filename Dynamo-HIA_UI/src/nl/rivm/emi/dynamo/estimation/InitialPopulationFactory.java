@@ -590,7 +590,7 @@ public class InitialPopulationFactory {
 
 				/* for newborns repeat this for all generations */
 				for (int generation = 1; generation <= generationMax; generation++) {
-					if (Math.abs(Math.round(generation / 10) - generation / 10) < 0.01
+					if (Math.abs(Math.round(generation / 10) - ((float) generation) / 10) < 0.01
 							&& g == 1)
 
 						updateProgressBar();
@@ -1607,13 +1607,14 @@ public class InitialPopulationFactory {
 		int step = 10;
 		this.bar.setMaximum(size / step);
 		/* initialize populations */
-		int currentProgress = 0;
+		this.bar.setSelection(0);
 	}
 
 	public void updateProgressBar() {
 
 		int state = this.bar.getSelection();
-		this.bar.setSelection(state++);
+		state++;
+		this.bar.setSelection(state);
 
 	}
 
