@@ -56,7 +56,8 @@ public class Output_SurvivalTab  {
 		plotInfo.axisIsAge = false;
 		plotInfo.numbers = false;
 		plotInfo.genderChoice = 2;
-		plotInfo.riskClassChoice=0;/* first choice = none */
+		plotInfo.riskClassChoice=0;/* first choice = none; other choices give nonsense outcomes,
+		so no other choice is offered any longer */
 		plotInfo.survival=false;
 		/* plotComposite is the highest level composite in the folder
 		* it has to children: control composite containing the controls, and a chartcomposite containing the plot
@@ -107,8 +108,9 @@ public class Output_SurvivalTab  {
 			classNames[i+1] = output.riskClassnames[i];
 	new YearChoiceGroup(controlComposite, chartComposite, factory,plotInfo,yearNames);
 	new GenderChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
-	
-	new RiskClassChoiceGroup(controlComposite, chartComposite, factory,plotInfo, classNames);
+	// this does not work correctly, as mortality by riskclass cannot be calculated simply from 
+	// survival in case on non-zero transitions 
+	//new RiskClassChoiceGroup(controlComposite, chartComposite, factory,plotInfo, classNames);
 
 		
 
