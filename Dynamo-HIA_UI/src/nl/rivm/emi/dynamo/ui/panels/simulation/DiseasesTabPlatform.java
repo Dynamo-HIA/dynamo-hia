@@ -74,7 +74,10 @@ public class DiseasesTabPlatform extends TabPlatform {
 		DiseaseTab newTab = new DiseaseTab(defaultSelections, tabFolder,
 				tabName, getDynamoSimulationObject(), selectedNode, helpGroup);
 		nestedTabs.put(tabName, newTab);
+		tabFolder.setSelection(newTabNumber-1);
 		tabFolder.addSelectionListener(listener);
+		
+	
 		return newTab;
 	}
 

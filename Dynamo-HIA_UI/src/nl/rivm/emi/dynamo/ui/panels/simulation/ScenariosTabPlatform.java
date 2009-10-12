@@ -47,6 +47,7 @@ public class ScenariosTabPlatform extends TabPlatform {
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
 		// int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
+		tabFolder.removeSelectionListener(listener);
 		int newTabNumber = getNumberOfTabs() + 1;
 		String tabName = SCENARIO + newTabNumber;
 		// return new ScenarioTab(defaultSelections,
@@ -55,6 +56,8 @@ public class ScenariosTabPlatform extends TabPlatform {
 				getDynamoSimulationObject(), dataBindingContext, selectedNode,
 				helpGroup);
 		nestedTabs.put(tabName, scenarioTab);
+		tabFolder.setSelection(newTabNumber-1);
+		tabFolder.addSelectionListener(listener);
 		return scenarioTab;
 	}
 

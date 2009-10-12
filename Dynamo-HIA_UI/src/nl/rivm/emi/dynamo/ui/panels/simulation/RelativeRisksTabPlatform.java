@@ -142,6 +142,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
+		tabFolder.removeSelectionListener(listener);
 		Integer newTabNumber = getNumberOfTabs();
 		log.debug("createNestedDefaultTab, newTabNumber = " + newTabNumber);
 		// return new RelativeRiskTab(defaultSelections, this.getTabManager()
@@ -158,6 +159,8 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		} else {
 			getDataManager().removeFromDynamoSimulationObject(currentConfiguration);
 		}
+		tabFolder.setSelection(newTabNumber);
+		tabFolder.addSelectionListener(listener);
 		return relRiskTab;
 	}
 
