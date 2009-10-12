@@ -269,7 +269,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 		 // d is random value between 0 and 1
 		int i;
 		for (i = 0; i < p.length - 1; i++) {
-			cump = +p[i];
+			cump += p[i];
 			if (d < cump)
 				break;
 		}
