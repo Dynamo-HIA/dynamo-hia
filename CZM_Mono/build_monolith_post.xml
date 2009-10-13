@@ -1,0 +1,82 @@
+<project name="CZM_Mono" basedir="." default="main">
+
+	<!-- Copies the schema and linux86 jre into the installation dirs -->
+
+	<property name="schemas.dir" value="schemas" />
+	<property name="images.dir" value="images" />
+	<property name="ini.dir" value="ini" />
+	<property name="help.dir" value="help" />
+
+	<property name="release.linux86.dir" value="C:/dynamo/mono_releases/linux.gtk.x86/eclipse/" />
+	<property name="release.windows.dir" value="C:/dynamo/mono_releases/win32.win32.x86/eclipse/" />
+
+	<property name="jre.linux86.dir" value="jre/" />
+	<property name="winrun4j.dir" value="WinRun4J/" />
+
+	<target name="clean_myself">
+		<delete dir="${schemas.dir}" />
+		<delete dir="${images.dir}" />
+		<delete dir="${ini.dir}" />
+		<delete dir="${help.dir}" />
+	</target>
+
+	<target name="clean_release">
+		<delete dir="${release.linux86.dir}${jre.linux86.dir}" />
+		<delete dir="${release.windows.dir}${schemas.dir}" />
+		<delete dir="${release.windows.dir}${images.dir}" />
+		<delete dir="${release.windows.dir}${ini.dir}" />
+		<delete dir="${release.windows.dir}${help.dir}" />
+		<delete dir="${release.linux86.dir}${schemas.dir}" />
+		<delete dir="${release.linux86.dir}${images.dir}" />
+		<delete dir="${release.linux86.dir}${ini.dir}" />
+		<delete dir="${release.linux86.dir}${help.dir}" />
+	</target>
+
+	<target name="createdirs" depends="createwindows_aditionals,createlinux86_aditionals" />
+
+	<target name="createwindows_aditionals">
+		<copy todir="${release.windows.dir}${schemas.dir}">
+			<fileset dir="${schemas.dir}" />
+		</copy>
+		<copy todir="${release.windows.dir}${images.dir}">
+			<fileset dir="${images.dir}" />
+		</copy>
+		<copy todir="${release.windows.dir}${ini.dir}">
+			<fileset dir="${ini.dir}" />
+		</copy>
+		<copy todir="${release.windows.dir}${help.dir}">
+			<fileset dir="${help.dir}" />
+		</copy>
+	</target>
+
+	<target name="createlinux86_aditionals">
+		<copy todir="${release.linux86.dir}${jre.linux86.dir}">
+			<fileset dir="${jre.linux86.dir}" />
+		</copy>
+		<copy todir="${release.linux86.dir}${schemas.dir}">
+			<fileset dir="${schemas.dir}" />
+		</copy>
+		<copy todir="${release.linux86.dir}${images.dir}">
+			<fileset dir="${images.dir}" />
+		</copy>
+		<copy todir="${release.linux86.dir}${ini.dir}">
+			<fileset dir="${ini.dir}" />
+		</copy>
+		<copy todir="${release.linux86.dir}${help.dir}">
+			<fileset dir="${help.dir}" />
+		</copy>
+	</target>
+
+	<target name="createdynamohiaexec">
+		<delete file="${release.windows.dir}eclipse.exe" />
+		<delete file="${release.windows.dir}eclipse.ini" />
+		<copy todir="${release.windows.dir}" overwrite="true">
+			<fileset dir="${winrun4j.dir}" />
+		</copy>
+		<exec command="${release.windows.dir}DYNAMO-HIA --WinRun4J:SetIcon" />
+		<exec command="${release.windows.dir}DYNAMO-HIA --WinRun4J:RegisterFileAssociations" />
+	</target>
+
+	<target name="main" depends="clean_release,createdirs,createdynamohiaexec" />
+
+</project>

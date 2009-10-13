@@ -1,0 +1,9 @@
+Population Size
+
+For the selected population, enter the population size by sex and age class (either manually or via import).  
+
+Save the results ("Save") and close the window ("cancel").
+
+The population size is an absolute number (e.g. the actual number of people) for every age and sex category.
+
+Sources for the population size are for example Eurostat or other national statistical offices. 

@@ -1,0 +1,1 @@
+Give the success rate of the intervention in percent (0-100). 100% means that the prevalence rates or transtionrate of the intervention are fully realized. This number can be changed afterwards.

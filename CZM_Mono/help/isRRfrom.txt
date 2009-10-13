@@ -1,0 +1,2 @@
+select cause of relative risk. This can be either the riskfactor selected, or a disease. 
+Note that diseases can not be selected as cause when they themselves are the consequence of another disease 

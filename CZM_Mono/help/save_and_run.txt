@@ -1,0 +1,1 @@
+First saves the simulation configuration and then starts the simulation run.

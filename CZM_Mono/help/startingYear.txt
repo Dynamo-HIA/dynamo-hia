@@ -1,0 +1,1 @@
+Give the start year of the simulation. All data are assumed to apply to this year, with the exception of the newborn data, where this is the first year for which newborn data are given.

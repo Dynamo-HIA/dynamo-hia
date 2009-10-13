@@ -1,0 +1,2 @@
+Newborns
+For the selected population, enter the number of newborns for each year (either manually or via import and "Save" the data before you exit the window).

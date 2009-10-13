@@ -1,0 +1,9 @@
+Disease Prevalence
+
+For the selected disease, enter the disease prevalence for each sex and age class (either manually or via import). 
+
+Save the results ("Save") and close the window ("cancel").
+
+The prevalence rate is defined as the percentage of the population in the given age and sex subgroup with the selected disease.
+
+Sources for the prevalence rates are the scientific literature. 

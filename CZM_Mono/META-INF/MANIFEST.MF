@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CZM_Mono Plug-in
+Bundle-SymbolicName: CZM_Mono;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: czm_main.Activator
+Bundle-Vendor: RIVM
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.databinding;bundle-version="1.2.1",
+ org.eclipse.core.databinding;bundle-version="1.1.1",
+ org.eclipse.core.resources;bundle-version="3.4.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: classes/,
+ .

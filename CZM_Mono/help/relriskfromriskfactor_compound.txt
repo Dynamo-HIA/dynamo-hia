@@ -1,0 +1,6 @@
+Relative Risks from Risk factor (compound)
+
+For the selected disease, enter relative risk of obtaining the selected disease given exposure to a risk factor by age and sex. In a compound risk factor, the relative risk depend for one category on the duration of membership (e.g. former smokers). Specify the relative risk at the start of membership and the relative risk after 20years of membership in the risk factor class. The value for alpha determines how rapidly the relative risk is changing over time. The risk factor has to be specified before creating this window. Other options are categorical and compounding risk factors. 
+
+Save the results (“Save”) and close the window (“cancel”).
+

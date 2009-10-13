@@ -1,0 +1,1 @@
+give the minimum age group to which the intervention is applied. Note that age is age at start of simulation. 
