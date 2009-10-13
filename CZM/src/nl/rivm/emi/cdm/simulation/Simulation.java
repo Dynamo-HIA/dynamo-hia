@@ -485,7 +485,7 @@ public class Simulation extends DomLevelTraverser {
 								.update(new Integer(oldValue));
 
 						intCharVal.appendValue(newValue);
-						log.info("Updated charval at " + intCharVal.getIndex()
+						log.debug("Updated charval at " + intCharVal.getIndex()
 								+ " for " + individual.getLabel() + " from "
 								+ oldValue + " to " + newValue);
 						keep = true;
@@ -533,7 +533,7 @@ public class Simulation extends DomLevelTraverser {
 						/* end change by Hendriek */
 						if (newValue != null) {
 							intCharVal.appendValue(newValue);
-							log.info("Updated charval at "
+							log.debug("Updated charval at "
 									+ intCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
 									+ oldValue + " to " + newValue);
@@ -590,7 +590,7 @@ public class Simulation extends DomLevelTraverser {
 							/* end change by Hendriek */
 							if (newValue != null) {
 								intCharVal.appendValue(newValue);
-								log.info("Updated charval at "
+								log.debug("Updated charval at "
 										+ intCharVal.getIndex() + " for "
 										+ individual.getLabel() + " from "
 										+ oldValue + " to " + newValue);
@@ -661,7 +661,7 @@ public class Simulation extends DomLevelTraverser {
 						Float newValue = (Float) ((OneToOneUpdateRuleBase) updateRule)
 								.update(new Float(oldValue));
 						floatCharVal.appendValue(newValue);
-						log.info("Updated charval at "
+						log.debug("Updated charval at "
 								+ floatCharVal.getIndex() + " for "
 								+ individual.getLabel() + " from " + oldValue
 								+ " to " + newValue);
@@ -706,7 +706,7 @@ public class Simulation extends DomLevelTraverser {
 							/* end change by Hendriek */
 							if (newValue != null) {
 								floatCharVal.appendValue(newValue);
-								log.info("Updated charval at "
+								log.debug("Updated charval at "
 										+ floatCharVal.getIndex() + " for "
 										+ individual.getLabel() + " from "
 										+ oldValue + " to " + newValue);
@@ -791,7 +791,7 @@ public class Simulation extends DomLevelTraverser {
 								.update(charVals);
 						if (newValue != null) {
 							diseaseCharVal.appendValue(newValue);
-							log.info("Updated charval at "
+							log.debug("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
 									+ oldValue[0] 
