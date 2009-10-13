@@ -77,14 +77,20 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 					parentShell, simName, baseDir);
 			theSimulation.run();
 		} catch (Throwable t) {
-			throw t;
-		} finally {
 			Shell[] postRunChildren = parentShell.getShells();
 			for (Shell postRunChild : postRunChildren) {
 				if (!preRunChildrenSet.contains(postRunChild)) {
 					postRunChild.dispose();
 				}
 			}
+			throw t;
+		} finally {
+//			Shell[] postRunChildren = parentShell.getShells();
+//			for (Shell postRunChild : postRunChildren) {
+//				if (!preRunChildrenSet.contains(postRunChild)) {
+//					postRunChild.dispose();
+//				}
+//			}
 		}
 	}
 
