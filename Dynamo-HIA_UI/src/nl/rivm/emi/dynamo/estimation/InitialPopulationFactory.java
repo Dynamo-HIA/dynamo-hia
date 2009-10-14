@@ -238,9 +238,11 @@ public class InitialPopulationFactory {
 		 */
 
 		int nPopulations = scenarioInfo.getNPopulations();
-		int numberOfOneForAllPop = scenarioInfo.getFirstOneForAllPopScenario()+1;
+		/* numberOfOneForAllPop = the number of the population that contains the one for all scenario */
+		int numberOfTheOneForAllPop = scenarioInfo.getFirstOneForAllPopScenario()+1;
+		
 		boolean isAtLeastOneAllForOnePopulation = false;
-		if (numberOfOneForAllPop >= 0)
+		if (numberOfTheOneForAllPop > 0)
 			isAtLeastOneAllForOnePopulation = true;
 		boolean[] isOneForAllPopulation = scenarioInfo
 				.getthisScenarioUsedOneForAllPop();
@@ -853,8 +855,11 @@ public class InitialPopulationFactory {
 								 * the current scenario
 								 */
 								/* isOneForAllPopulation indicates that this scenario uses a one-for-all-pop */
-								
-								if (numberOfOneForAllPop==i1)
+								/* if this scenario is the first one for all scenario, then making this population should not be done here
+								 * in this loop, so increase the population number
+								 */
+								if (numberOfTheOneForAllPop-1==i1) /* this tests whether this scenario is the first  scenario
+								that uses a one for all population */
 									currentpop++;
 								if (!isOneForAllPopulation[i1]
 										&& scenarioInfo
@@ -1078,7 +1083,7 @@ public class InitialPopulationFactory {
 													characteristicIndex,
 													numberOfElements,
 													CharValues));
-									initialPopulation[numberOfOneForAllPop]
+									initialPopulation[numberOfTheOneForAllPop]
 											.addIndividual(currentIndividual);
 								}
 							}
@@ -1152,7 +1157,7 @@ public class InitialPopulationFactory {
 													characteristicIndex,
 													numberOfElements,
 													CharValues));
-									initialPopulation[numberOfOneForAllPop]
+									initialPopulation[numberOfTheOneForAllPop]
 											.addIndividual(currentIndividual);
 								}
 							}
