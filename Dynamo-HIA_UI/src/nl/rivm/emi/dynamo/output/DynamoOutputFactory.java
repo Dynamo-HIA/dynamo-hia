@@ -573,6 +573,7 @@ public class DynamoOutputFactory {
 			throws DynamoScenarioException {
 
 		// TODO newborns weighting
+		// TODO weighting of initial scenario that is not a one-for-all scenario
 		/*
 		 * check if all the bookkeeping with number of populations agrees with
 		 * the real number of populations Is redundant if correct, but just to
@@ -685,8 +686,10 @@ public class DynamoOutputFactory {
 		String delims = "[_]";
 		String[] tokens = new String[4];
 
-		for (int thisPop = 0; thisPop < this.nPopulations; thisPop++) {
+		double[] weightOfReferenceIndividual = new double[pop[0].size()];
 
+		for (int thisPop = 0; thisPop < this.nPopulations; thisPop++) {
+			int currentIndividualNo = -1;
 			Iterator<Individual> individualIterator = pop[thisPop].iterator();
 
 			/*
@@ -697,7 +700,10 @@ public class DynamoOutputFactory {
 			/* start with reading the data from the population */
 			while (individualIterator.hasNext()) {
 				Individual individual = individualIterator.next();
+				currentIndividualNo++;
 				double weightOfIndividual = 1;
+				if (thisPop == 0)
+					weightOfReferenceIndividual[currentIndividualNo] = 1;
 
 				int riskClassAtStart = -1;
 
@@ -809,14 +815,18 @@ public class DynamoOutputFactory {
 						}
 						/* is start year for this individual */
 						if ((stepCount == 0 || ageIndex == 0)
-								&& this.riskType != 2)
-							weightOfIndividual = weight[riskFactor][ageIndex][sexIndex];
-
+								&& this.riskType != 2) {
+							if (thisPop == 0)
+								weightOfReferenceIndividual[currentIndividualNo] = weight[riskFactor][ageIndex][sexIndex];
+							weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
+						}
 						if ((stepCount == 0 || ageIndex == 0)
 								&& this.riskType == 3
-								&& riskFactor == this.durationClass)
-							weightOfIndividual = weight2[riskDurationValue][ageIndex][sexIndex];
-
+								&& riskFactor == this.durationClass) {
+							if (thisPop == 0)
+								weightOfReferenceIndividual[currentIndividualNo] = weight2[riskDurationValue][ageIndex][sexIndex];
+							weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
+						}
 						if (this.riskType == 3)
 							compoundData = ((CompoundCharacteristicValue) individual
 									.get(5)).getUnwrappedValue(stepCount);
@@ -833,6 +843,7 @@ public class DynamoOutputFactory {
 						 * and to (with the scenario change) from the label of
 						 * the individual
 						 */
+
 						if (thisPop > 0)
 							if (this.isOneScenPopulation[thisPop]) {
 								indLabel = individual.getLabel();
@@ -843,8 +854,11 @@ public class DynamoOutputFactory {
 								 * overwrite the weight with the weight of the
 								 * reference population
 								 */
-								if (stepCount == 0 || ageIndex == 0)
-									weightOfIndividual = weight[from][ageIndex][sexIndex];
+								if (stepCount == 0 || ageIndex == 0) {
+									
+										weightOfIndividual = weight[from][ageIndex][sexIndex];
+
+								}
 
 							}
 
@@ -3960,7 +3974,6 @@ public class DynamoOutputFactory {
 					npop1r += nPopByAge[0][year][age][1];
 
 				}
-				
 
 				if (gender < 2) {
 					if (npop0 != 0 && !differencePlot && !numbers)
@@ -4467,7 +4480,8 @@ public class DynamoOutputFactory {
 				if (npop != 0 && npopr != 0 && differencePlot && !numbers) {
 					indat = (indat / npop) - (indatr / npopr);
 					/* get rid of numerical error in case no difference */
-					if (Math.abs(indat)<0.1/npop) indat=0;
+					if (Math.abs(indat) < 0.1 / npop)
+						indat = 0;
 					scenSeries[thisScen].add((double) steps, 100 * indat);
 				}
 				if (npop != 0 && !differencePlot && numbers) {
@@ -4475,10 +4489,11 @@ public class DynamoOutputFactory {
 					scenSeries[thisScen].add((double) steps, indat);
 				}
 				if (npop != 0 && npopr != 0 && differencePlot && numbers) {
-					
+
 					indat = (indat) - (indatr);
 					/* get rid of numerical error in case no difference */
-					if (Math.abs(indat)<0.1) indat=0;
+					if (Math.abs(indat) < 0.1)
+						indat = 0;
 					scenSeries[thisScen].add((double) steps, indat);
 				}
 			}
@@ -4605,14 +4620,17 @@ public class DynamoOutputFactory {
 				if (menpop != 0 && menpopr != 0 && differencePlot && !numbers)
 					menSeries.add((double) age, 100 * (mendat / menpop) - 100
 							* (mendatr / menpopr));
-					
+
 				if (menpop != 0 && !differencePlot && numbers)
 					menSeries.add((double) age, mendat);
-				/* in case of zero persons in one of the two populations, still show numbers 
-				 * in the other population, so only no results when both are zero */
+				/*
+				 * in case of zero persons in one of the two populations, still
+				 * show numbers in the other population, so only no results when
+				 * both are zero
+				 */
 				if (!(menpop == 0 && menpopr == 0) && differencePlot && numbers)
 					menSeries.add((double) age, (mendat - mendatr));
-							
+
 				womendat = applySuccesrate(
 						nDiseaseByRiskClassByAge[0][r][age][1],
 						nDiseaseByRiskClassByAge[thisScen][r][age][1],
@@ -4631,14 +4649,16 @@ public class DynamoOutputFactory {
 							- (100 * womendatr / womenpopr));
 				if (womenpop != 0 && numbers && !differencePlot)
 					womenSeries.add((double) age, womendat);
-				/* in case of zero persons in one of the two populations, still show numbers 
-				 * in the other population, so only no results when both are zero */
-				
+				/*
+				 * in case of zero persons in one of the two populations, still
+				 * show numbers in the other population, so only no results when
+				 * both are zero
+				 */
+
 				if (!(womenpop == 0 && womenpopr == 0) && differencePlot
 						&& numbers)
 					womenSeries.add((double) age, (womendat - womendatr));
-				
-				
+
 				if ((menpop + womenpop) != 0 && !differencePlot && !numbers)
 					totSeries.add((double) age, 100 * (womendat + mendat)
 							/ (menpop + womenpop));
@@ -4649,9 +4669,11 @@ public class DynamoOutputFactory {
 							/ (menpopr + womenpopr));
 				if ((menpop + womenpop) != 0 && !differencePlot && numbers)
 					totSeries.add((double) age, (womendat + mendat));
-				
-				/* in case of zero persons in one of the two populations, still show numbers 
-				 * in the other population */
+
+				/*
+				 * in case of zero persons in one of the two populations, still
+				 * show numbers in the other population
+				 */
 				if (!((menpop + womenpop) == 0 && (menpopr + womenpopr) == 0)
 						&& differencePlot && numbers)
 					totSeries.add((double) age, (womendat + mendat)
@@ -5445,16 +5467,20 @@ public class DynamoOutputFactory {
 				/*
 				 * repeat for difference plots
 				 */
-				
+
 				/* first get rid of the numerical error in case no differences */
-				
-				if (Math.abs(indat0-indat0r)<0.1 && Math.abs(denominator0-denominator0r)<0.1)
-				{indat0r=indat0;
-				denominator0r=denominator0;}
-				if (Math.abs(indat1-indat1r)<0.1 && Math.abs(denominator1-denominator1r)<0.1)
-				{indat1r=indat1;
-				denominator1r=denominator1;}
-				
+
+				if (Math.abs(indat0 - indat0r) < 0.1
+						&& Math.abs(denominator0 - denominator0r) < 0.1) {
+					indat0r = indat0;
+					denominator0r = denominator0;
+				}
+				if (Math.abs(indat1 - indat1r) < 0.1
+						&& Math.abs(denominator1 - denominator1r) < 0.1) {
+					indat1r = indat1;
+					denominator1r = denominator1;
+				}
+
 				if (gender == 0 && denominator0 != 0 && denominator0r != 0
 						&& !numbers && differencePlot)
 					scenSeries[thisScen]
@@ -5654,14 +5680,21 @@ public class DynamoOutputFactory {
 					/*
 					 * repeat for difference plots
 					 */
-					/* first get rid of the numerical error in case no differences */
-					
-					if (Math.abs(indat0-indat0r)<0.1 && Math.abs(denominator0-denominator0r)<0.1)
-					{indat0r=indat0;
-					denominator0r=denominator0;}
-					if (Math.abs(indat1-indat1r)<0.1 && Math.abs(denominator1-denominator1r)<0.1)
-					{indat1r=indat1;
-					denominator1r=denominator1;}
+					/*
+					 * first get rid of the numerical error in case no
+					 * differences
+					 */
+
+					if (Math.abs(indat0 - indat0r) < 0.1
+							&& Math.abs(denominator0 - denominator0r) < 0.1) {
+						indat0r = indat0;
+						denominator0r = denominator0;
+					}
+					if (Math.abs(indat1 - indat1r) < 0.1
+							&& Math.abs(denominator1 - denominator1r) < 0.1) {
+						indat1r = indat1;
+						denominator1r = denominator1;
+					}
 					if (gender == 0 && denominator0 != 0 && denominator0r != 0
 							&& !numbers && differencePlot)
 						scenSeries[thisScen].add((double) age,
