@@ -877,6 +877,7 @@ public class InitialPopulationFactory {
 							/*
 							 * first check if there is a population to be made
 							 */
+							
 							if (moreScenarios) {
 								currentIndividual = new Individual("ind",
 										"ind_" + (i + a * nSim * 2 + nSim * g)
@@ -949,24 +950,31 @@ public class InitialPopulationFactory {
 									 */
 
 									rand3.setSeed(seed2 + 5);
-									DynamoLib.draw(trans[currentRiskValue],
-											rand3);
+									
 
 									currentIndividual
 											.add(new IntCharacteristicValue(
 													stepsInSimulation,
 													3,
-													currentRiskValue));
+													DynamoLib.draw(trans[currentRiskValue],
+															rand3)));
 
 								}
 								// if compound riskfactor */
-								if (parameters.getRiskType() == 3) 
-								currentIndividual.luxeSet(4,
+								
+								if (parameters.getRiskType() == 3) {
+									float newDuration=currentDurationValue;
+									/* if the new value is the duration-class value, make the duration zero */
+									if ((int)(Integer) currentIndividual.get(3)
+									.getValue(0)==scenarioInfo.getIndexDurationClass() &&									
+									currentRiskValue!=scenarioInfo.getIndexDurationClass()
+									) newDuration=0;
+								   currentIndividual.luxeSet(4,
 										new FloatCharacteristicValue(
 												stepsInSimulation,
 												4,
-												currentDurationValue));
-
+												newDuration));
+								}
 								
 								
 
