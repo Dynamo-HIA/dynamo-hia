@@ -2,6 +2,9 @@ package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTab;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseasesTabPlatform;
+import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -38,8 +41,22 @@ public class DeleteSelectionListener extends AbstractLoggingClass implements
 	public void widgetSelected(SelectionEvent arg0) {
 		// Remove the selected tab
 		try {
+			NestedTab selectedNestedTab = tabPlatform.getSelectedNestedTab();
+			String tabName = null;
+			String diseaseName = null;
+			if ((selectedNestedTab != null)
+					&& (selectedNestedTab instanceof DiseaseTab)) {
+				tabName = selectedNestedTab.getName();
+				diseaseName = ((DiseaseTab) selectedNestedTab)
+						.getCurrentSelectionText();
+			}
 			// this.tabPlatform.getTabManager().deleteNestedTab();
 			tabPlatform.deleteNestedTab_FromManager();
+			if (selectedNestedTab instanceof DiseaseTab) {
+				(((DiseasesTabPlatform) tabPlatform)
+						.getChoosableDiseaseNameManager())
+						.removeChosenDiseaseName(diseaseName, tabName);
+			}
 			theModal.setChanged(true);
 		} catch (ConfigurationException ce) {
 			this.handleErrorMessage(ce);

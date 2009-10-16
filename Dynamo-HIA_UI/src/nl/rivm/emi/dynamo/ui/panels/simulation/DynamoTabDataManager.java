@@ -28,7 +28,7 @@ public interface DynamoTabDataManager {
 	
 	public Set<String> getContents(String name, String chosenDiseaseName) throws ConfigurationException, NoMoreDataException;
 
-	public String getCurrentValue(String dropDownName) throws ConfigurationException;
+	public String getValueFromSingleConfiguration(String dropDownName) throws ConfigurationException;
 	
 	public void updateObjectState(String name, String selectedValue) throws ConfigurationException, NoMoreDataException;
 

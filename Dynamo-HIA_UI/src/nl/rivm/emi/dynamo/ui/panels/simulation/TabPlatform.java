@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.NestedTabSelectionListener;
+import nl.rivm.emi.dynamo.ui.panels.util.NestedTabsMap;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -42,7 +43,7 @@ public abstract class TabPlatform extends Tab {
 
 	protected TabFolder tabFolder = null;
 
-	protected Map<String, NestedTab> nestedTabs;
+	protected NestedTabsMap nestedTabs;
 
 	protected SelectionListener listener;
 
@@ -83,30 +84,28 @@ public abstract class TabPlatform extends Tab {
 		this.listener = (SelectionListener) new NestedTabSelectionListener(this);
 	}
 
-	public Map<String, NestedTab> getNestedTabs() {
+	public NestedTabsMap getNestedTabs() {
 		return nestedTabs;
 	}
 
 	public void createContent() throws ConfigurationException {
 		createLowerTabFolder();
 		createDefaultTabs_FromManager();
-		// Create the create and delete buttons and their listeners:
-		// add the tabManager methods
+		// Create the create and delete buttons and their listeners.
 		TabPlatformButtonPanel buttonPanel = new TabPlatformButtonPanel(
-		// plotComposite, this.tabPlatformManager.getTabFolder(),
 				plotComposite, getTabFolder(), helpGroup);
 		((TabPlatformButtonPanel) buttonPanel)
 				.setSelectionListeners((TabPlatform) this);
 	}
 
-	synchronized private void createLowerTabFolder() {
+	synchronized protected void createLowerTabFolder() {
 		if (tabFolder == null) {
-			// In some cases there is appearently a race condition, don't do it
+			// In some cases there is apparently a race condition, don't do it
 			// twice.
 			tabFolder = new TabFolder(plotComposite, SWT.FILL);
 			tabFolder.setLayout(new FormLayout());
 
-			nestedTabs = new LinkedHashMap<String, NestedTab>();
+			nestedTabs = new NestedTabsMap();
 
 			FormData formData = new FormData();
 			formData.top = new FormAttachment(0, 6);
@@ -120,10 +119,11 @@ public abstract class TabPlatform extends Tab {
 		}
 	}
 
-	// public TabPlatformManager getTabManager() {
-	// return this.tabPlatformManager;
-	// }
-
+	/**
+	 * Overridden by the DiseasesTabPlatform.
+	 * 
+	 * @throws ConfigurationException
+	 */
 	public void createNestedTab_FromManager() throws ConfigurationException {
 		log.debug("this.listener" + this.listener);
 		this.tabFolder.removeSelectionListener(this.listener);
@@ -297,6 +297,17 @@ public abstract class TabPlatform extends Tab {
 	public int getNumberOfTabs() {
 		return tabFolder.getItemCount();
 		// return this.nestedTabs.size();
+	}
+
+	public NestedTab getSelectedNestedTab() {
+		NestedTab selectedNestedTab = null;
+		int index = tabFolder.getSelectionIndex();
+		if (index > -1) {
+			TabItem[] tabItems = tabFolder.getItems();
+			TabItem tabItem = tabFolder.getItem(index);
+			selectedNestedTab = nestedTabs.get(tabItem.getText());
+		}
+		return selectedNestedTab;
 	}
 
 	public void redraw_FromManager() throws ConfigurationException,

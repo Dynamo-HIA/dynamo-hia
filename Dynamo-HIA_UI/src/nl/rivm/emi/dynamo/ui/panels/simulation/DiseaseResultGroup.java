@@ -36,13 +36,13 @@ public class DiseaseResultGroup {
 	public static final String EXCESS_MORTALITY = "Excess Mortality";
 	public static final String DALY_WEIGHTS = "DALY Weights";
 	protected Composite group;
-//	private Composite plotComposite;
+	// private Composite plotComposite;
 	private GenericComboModifyListener diseaseDropDownModifyListener;
-//	private BaseNode selectedNode;
-//	private Map<String, ITabDiseaseConfiguration> configuration;
+	// private BaseNode selectedNode;
+	// private Map<String, ITabDiseaseConfiguration> configuration;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
-	private HelpGroup helpGroup; 
+	private HelpGroup helpGroup;
 
 	public DiseaseResultGroup(Set<String> selections, Composite plotComposite,
 			BaseNode selectedNode, HelpGroup helpGroup, Composite topNeighbour,
@@ -51,8 +51,8 @@ public class DiseaseResultGroup {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		this.selections = selections;
-//		this.selectedNode = selectedNode;
-//		this.plotComposite = plotComposite;
+		// this.selectedNode = selectedNode;
+		// this.plotComposite = plotComposite;
 		this.diseaseDropDownModifyListener = diseaseDropDownModifyListener;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
@@ -79,11 +79,13 @@ public class DiseaseResultGroup {
 		// chosenDiseaseName is retrieved from IDiseaseConfiguration for
 		// Initialization!
 		String chosenDiseaseName = null;
-		if (this.selections != null) {
-			for (String chosenName : selections) {
-				chosenDiseaseName = chosenName;
-			}
-		}
+		// if (this.selections != null) {
+		// for (String chosenName : selections) {
+		// chosenDiseaseName = chosenName;
+		// }
+		chosenDiseaseName = dynamoTabDataManager
+				.getValueFromSingleConfiguration(DiseaseSelectionGroup.DISEASE);
+
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = createDropDown(
 				DISEASE_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 						DISEASE_PREVALENCE, chosenDiseaseName));
@@ -117,10 +119,10 @@ public class DiseaseResultGroup {
 				.getDropDown(), DALY_WEIGHTS);
 	}
 
-	private GenericDropDownPanel createDropDown(String label,
+	private DiseaseDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
-		return new GenericDropDownPanel(group, label, 2,
+		return new DiseaseDropDownPanel(group, label, 2,
 				selectablePropertiesSet, this.dynamoTabDataManager, helpGroup);
 	}
 

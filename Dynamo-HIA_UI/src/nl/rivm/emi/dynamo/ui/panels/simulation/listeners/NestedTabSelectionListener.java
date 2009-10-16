@@ -1,12 +1,19 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
+import java.util.Set;
+
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTab;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseasesTabPlatform;
 import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTab;
+import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRisksTabPlatform;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
+import nl.rivm.emi.dynamo.ui.panels.util.NestedTabsMap;
+import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -19,7 +26,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 public class NestedTabSelectionListener implements SelectionListener {
 
-	Log log = LogFactory.getLog(this.getClass().getSimpleName());
+	Log log = LogFactory.getLog(this.getClass().getName());
 
 	TabPlatform myTabPlatform = null;
 
@@ -30,7 +37,10 @@ public class NestedTabSelectionListener implements SelectionListener {
 	}
 
 	public void widgetSelected(SelectionEvent e) {
-		log.debug("TabPlatform level: Selected item index = "
+		if(myTabPlatform instanceof DiseasesTabPlatform){
+			((DiseasesTabPlatform) myTabPlatform).setListenerWorking(true);
+		}
+		log.debug("TabPlatform : " + myTabPlatform.getClass().getSimpleName() + " Selected item index = "
 				+ myTabPlatform.getTabFolder().getSelectionIndex());
 		log.debug("Selected item = "
 				+ (myTabPlatform.getTabFolder().getSelection() == null ? "null"
@@ -41,32 +51,37 @@ public class NestedTabSelectionListener implements SelectionListener {
 		if (selected > -1) {
 			TabItem item = myTabPlatform.getTabFolder().getItem(selected);
 			try {
-				log.debug("item.getText()" + item.getText());
+				log.debug("item.getText() >" + item.getText() + "<");
 				log.debug("nestedTabs.size()"
 						+ myTabPlatform.getNestedTabs().size());
 				log.debug("nestedTabs" + myTabPlatform.getNestedTabs());
 				NestedTab tab = myTabPlatform.getNestedTabs().get(
 						item.getText());
-				if ((tab != null) && (tab instanceof RelativeRiskTab)) {
-					DynamoSimulationObject dynSimObj = myTabPlatform
-							.getDynamoSimulationObject();
-					int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
-					TabRelativeRiskConfigurationData configuration = dynSimObj
-							.getRelativeRiskConfigurations().get(tabIndex);
-					/*
-					 * 20090918 ??? RelRisksCollectionForDropdown
-					 * possibleRelRisksProvider = ((RelativeRisksTabPlatform)
-					 * myTabPlatform) .getDataManager()
-					 * .getRelRisksCollectionForDropdown();
-					 * possibleRelRisksProvider
-					 * .relRiskRefresh4Init(configuration, dynSimObj);
-					 */
-				}
-				NestedTab myNestedTab = myTabPlatform.getNestedTabs().get(
-						item.getText());
-				if (myNestedTab != null) {
-					myTabPlatform.refreshNestedTab(myNestedTab);
+				if (tab != null) {
+					if (tab instanceof RelativeRiskTab) {
+						DynamoSimulationObject dynSimObj = myTabPlatform
+								.getDynamoSimulationObject();
+						int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
+						TabRelativeRiskConfigurationData configuration = dynSimObj
+								.getRelativeRiskConfigurations().get(tabIndex);
+						RelRisksCollectionForDropdown possibleRelRisksProvider = ((RelativeRisksTabPlatform) myTabPlatform)
+								.getDataManager()
+								.getRelRisksCollectionForDropdown();
+						possibleRelRisksProvider.relRiskRefresh4Init(
+								configuration, dynSimObj);
+					} else {
+						 if (!(tab instanceof DiseaseTab)) {
+						myTabPlatform.refreshNestedTab(tab);
+						 }
+					}
 				} else {
+					NestedTabsMap nestedTabs = myTabPlatform.getNestedTabs();
+					StringBuffer nestedTabNames = new StringBuffer(
+					"Nested Tab names: ");
+					Set<String> keySet = nestedTabs.keySet();
+					for (String nestedTabName : keySet) {
+						nestedTabNames.append(nestedTabName + ", ");
+					}
 					TabItem[] tabItems = item.getParent().getItems();
 					StringBuffer tabItemNames = new StringBuffer(
 							"Sibling tabItem names: ");
@@ -75,14 +90,15 @@ public class NestedTabSelectionListener implements SelectionListener {
 					}
 					tabItemNames.setLength(tabItemNames.length() - 2);
 					log
-							.fatal("Orphaned widget: "
+							.warn("Orphaned widget: "
 									+ item.getClass().getSimpleName()
 									+ ", "
 									+ System.identityHashCode(item)
 									+ " has no corresponding NestedTab, parent-tooltip: "
 									+ item.getParent().getToolTipText()
 									+ ",\n parent-instance: "
-									+ System.identityHashCode(item.getParent()));
+									+ System.identityHashCode(item.getParent())
+									+ " >>> " + tabItemNames.toString());
 				}
 			} catch (ConfigurationException ce) {
 				handleErrorMessage(ce);
@@ -119,6 +135,9 @@ public class NestedTabSelectionListener implements SelectionListener {
 				}
 				tabItem.dispose();
 			}
+		}
+		if(myTabPlatform instanceof DiseasesTabPlatform){
+			((DiseasesTabPlatform) myTabPlatform).setListenerWorking(false);
 		}
 	}
 

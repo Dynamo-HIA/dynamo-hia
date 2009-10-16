@@ -191,7 +191,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		return returnSet;
 	}
 
-	public String getCurrentValue(String name)
+	public String getValueFromSingleConfiguration(String name)
 			throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
 		log.debug("singleConfigurationXXX: " + singleConfiguration);

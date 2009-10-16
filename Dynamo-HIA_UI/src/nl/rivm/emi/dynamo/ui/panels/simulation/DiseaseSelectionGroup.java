@@ -32,12 +32,12 @@ public class DiseaseSelectionGroup {
 
 	public static final String DISEASE = "Disease";
 	protected Composite group;
-//	private Composite plotComposite;
+	// private Composite plotComposite;
 	private GenericComboModifyListener dropDownModifyListener;
-//	private BaseNode selectedNode;
+	// private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
-	private GenericDropDownPanel diseaseDropDownPanel;
+	private DiseaseDropDownPanel diseaseDropDownPanel;
 	private HelpGroup helpGroup;
 
 	public DiseaseSelectionGroup(String tabName, Set<String> selections,
@@ -46,12 +46,11 @@ public class DiseaseSelectionGroup {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		this.selections = selections;
-//		this.plotComposite = plotComposite;
-//		this.selectedNode = selectedNode;
+		// this.plotComposite = plotComposite;
+		// this.selectedNode = selectedNode;
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
 		try {
-
 			// if no data, no group should be made so this should be inside a
 			// try statement
 			group = new Composite(plotComposite, SWT.FILL);
@@ -62,22 +61,19 @@ public class DiseaseSelectionGroup {
 			gridLayout.marginHeight = -3;
 			group.setLayout(gridLayout);
 			// group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
-			log.debug("diseaseFactorSelectionGroup" + group);
-
+			log.debug("diseaseSelectionGroup: " + group + " hashCode(): "
+					+ hashCode() + " tabName: " + tabName);
 			createDropDownArea();
 		} catch (NoMoreDataException e) {
 			throw new NoMoreDataException(e.getMessage());
-
 		} catch (DynamoNoValidDataException e) {
 			throw new DynamoNoValidDataException(e.getMessage());
-
 		}
-
 	}
 
 	private void createDropDownArea() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
-
+		// log.debug("Creating dropdown area for hash: " + this.hashCode());
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 6);
 		formData.left = new FormAttachment(0, 5);
@@ -85,26 +81,27 @@ public class DiseaseSelectionGroup {
 		formData.bottom = new FormAttachment(25, 0);
 		group.setLayoutData(formData);
 
-// RLM Not used.
-//		TreeAsDropdownLists treeLists = TreeAsDropdownLists
-//				.getInstance(selectedNode);
-//		DropDownPropertiesSet validDiseasesSet = new DropDownPropertiesSet();
-//		validDiseasesSet.addAll(treeLists.getValidDiseaseNames());
+		// RLM Not used.
+		// TreeAsDropdownLists treeLists = TreeAsDropdownLists
+		// .getInstance(selectedNode);
+		// DropDownPropertiesSet validDiseasesSet = new DropDownPropertiesSet();
+		// validDiseasesSet.addAll(treeLists.getValidDiseaseNames());
 
+		// selections either is null or contains a single disease-name.
 		String chosenDiseaseName = null;
 		if (this.selections != null) {
 			for (String chosenName : this.selections) {
 				chosenDiseaseName = chosenName;
 			}
 		}
+		
 		DropDownPropertiesSet dropDownset = this.dynamoTabDataManager
 				.getDropDownSet(DISEASE, chosenDiseaseName);
-		if (dropDownset != null && !dropDownset.isEmpty()) {
-			diseaseDropDownPanel = createDropDown(DISEASE, dynamoTabDataManager
-					.getDropDownSet(DISEASE, chosenDiseaseName),
+		if ((dropDownset != null) && (!dropDownset.isEmpty())) {
+			diseaseDropDownPanel = createDropDown(DISEASE, dropDownset,
 					dynamoTabDataManager);
 			this.dropDownModifyListener = diseaseDropDownPanel
-			.getGenericComboModifyListener();
+					.getGenericComboModifyListener();
 			HelpTextListenerUtil.addHelpTextListeners(diseaseDropDownPanel
 					.getDropDown(), DISEASE);
 		} else if (chosenDiseaseName == null)
@@ -114,16 +111,17 @@ public class DiseaseSelectionGroup {
 					"configuration contains disease " + chosenDiseaseName
 							+ " that is" + " no longer availlable");
 
-// rlm moved up		this.dropDownModifyListener = diseaseDropDownPanel
-//				.getGenericComboModifyListener();
+		// rlm moved up this.dropDownModifyListener = diseaseDropDownPanel
+		// .getGenericComboModifyListener();
 	}
 
-	private GenericDropDownPanel createDropDown(String label,
+	private DiseaseDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet,
 			DynamoTabDataManager dynamoTabDataManager)
 			throws ConfigurationException {
-//		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
-		return new GenericDropDownPanel(group, label, 2,
+		// DiseaseFactorDataAction updateDiseaseFactorDataAction = new
+		// DiseaseFactorDataAction();
+		return new DiseaseDropDownPanel(group, label, 2,
 				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}
 
@@ -138,5 +136,16 @@ public class DiseaseSelectionGroup {
 	public void refreshSelectionDropDown() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseDropDownPanel.refresh();
+	}
+
+	public String getCurrentSelectionText() {
+		return (diseaseDropDownPanel.getDropDown()).getText();
+	}
+	
+	public void goListen(){
+		diseaseDropDownPanel.goListen();
+	}
+	public void goDeaf(){
+		diseaseDropDownPanel.goDeaf();
 	}
 }

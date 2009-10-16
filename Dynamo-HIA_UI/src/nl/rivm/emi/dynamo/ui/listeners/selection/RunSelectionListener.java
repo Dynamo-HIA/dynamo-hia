@@ -10,6 +10,8 @@ import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -17,8 +19,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class RunSelectionListener extends AbstractLoggingClass implements
-		SelectionListener {
+public class RunSelectionListener implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
+
 	DataAndFileContainer modalParent;
 	SaveSelectionListener mySaveSelectionListener;
 
@@ -85,12 +88,14 @@ public class RunSelectionListener extends AbstractLoggingClass implements
 			}
 			throw t;
 		} finally {
-//			Shell[] postRunChildren = parentShell.getShells();
-//			for (Shell postRunChild : postRunChildren) {
-//				if (!preRunChildrenSet.contains(postRunChild)) {
-//					postRunChild.dispose();
-//				}
-//			}
+			// Only cleanup after a Throwable, otherwise the result gets thrown
+			// away...
+			// Shell[] postRunChildren = parentShell.getShells();
+			// for (Shell postRunChild : postRunChildren) {
+			// if (!preRunChildrenSet.contains(postRunChild)) {
+			// postRunChild.dispose();
+			// }
+			// }
 		}
 	}
 

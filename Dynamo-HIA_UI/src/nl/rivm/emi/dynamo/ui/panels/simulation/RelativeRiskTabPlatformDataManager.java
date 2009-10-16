@@ -216,10 +216,10 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	/**
 	 * @deprecated (non-Javadoc)
 	 * 
-	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getCurrentValue
+	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getValueFromSingleConfiguration
 	 *      (java.lang.String)
 	 */
-	public String getCurrentValue(String name) throws ConfigurationException {
+	public String getValueFromSingleConfiguration(String name) throws ConfigurationException {
 		// log.debug("GET CURRENT VALUE");
 		// log.debug("singleConfigurationXXX: " + singleConfiguration);
 		String value = null;

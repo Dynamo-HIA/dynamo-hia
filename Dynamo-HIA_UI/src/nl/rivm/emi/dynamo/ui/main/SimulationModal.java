@@ -10,8 +10,8 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.ui.panels.button.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoSimulationGroup;
+import nl.rivm.emi.dynamo.ui.panels.simulation.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;

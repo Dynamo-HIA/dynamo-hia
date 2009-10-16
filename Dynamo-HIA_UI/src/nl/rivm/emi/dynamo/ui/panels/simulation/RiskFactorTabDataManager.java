@@ -102,7 +102,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	@Override
-	public String getCurrentValue(String dropDownName)
+	public String getValueFromSingleConfiguration(String dropDownName)
 			throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
 		log.debug("singleConfigurationXXX: " + singleConfiguration);
@@ -197,9 +197,9 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	public void updateObjectState(String name, String selectedValue)
 			throws ConfigurationException {
 		log.debug(name + ": " + selectedValue);
-		log.fatal("UPDATING OBJECT STATE");
+		log.debug("UPDATING OBJECT STATE");
 
-		log.fatal("this.initialSelection" + this.initialSelection);
+		log.debug("this.initialSelection" + this.initialSelection);
 		log.debug("this.singleConfiguration" + this.singleConfiguration);
 
 		// In case a new Tab is created, no model exists yet
@@ -220,7 +220,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	public void updateDynamoSimulationObject() throws ConfigurationException {
-		log.error("UPDATING AFTER RISKFACTOR CHANGE");
+		log.debug("UPDATING AFTER RISKFACTOR CHANGE");
 		// log.debug("singleConfiguration" + singleConfiguration);
 		// log.debug("singleConfiguration.getName()" +
 		// singleConfiguration.getName());
@@ -453,7 +453,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 
 		Map<Integer, TabRelativeRiskConfigurationData> relRiskConfiguration = relativeRiskConfigurations;
 		TabRelativeRiskConfigurationData singleRRconfiguration;
-		log.fatal("number of Relative risks: " + relRiskConfiguration.size());
+		log.debug("number of Relative risks: " + relRiskConfiguration.size());
 		RelRisksCollectionForDropdown collection = RelRisksCollectionForDropdown
 				.getInstance(dynamoSimulationObject, treeLists);
 		// no refreshing needed, as this is part of get instance
@@ -501,13 +501,13 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 								+ singleRRconfiguration.getTo()
 								+ "\n(not configurated)");
 
-						log.fatal("removed: RR from "
+						log.warn("removed: RR from "
 								+ singleRRconfiguration.getFrom() + " to "
 								+ singleRRconfiguration.getTo());
 						iter.remove();
 					} else {
 
-						log.fatal("changed: RR from "
+						log.warn("changed: RR from "
 								+ singleRRconfiguration.getFrom() + " to "
 								+ singleRRconfiguration.getTo()
 								+ " into: RR from " + riskfactorName + " to "
@@ -522,7 +522,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 						singleRRconfiguration.setFrom(riskfactorName);
 					}
 				}
-				log.fatal("number of RRs: " + relRiskConfiguration.size());
+				log.debug("number of RRs: " + relRiskConfiguration.size());
 			}
 		}
 

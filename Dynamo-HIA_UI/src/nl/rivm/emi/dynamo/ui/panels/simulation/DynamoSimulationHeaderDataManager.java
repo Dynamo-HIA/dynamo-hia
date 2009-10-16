@@ -38,7 +38,7 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		return contents;
 	}
 
-	public String getCurrentValue(String dropDownName) {		
+	public String getValueFromSingleConfiguration(String dropDownName) {		
 		String value = null;
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(dropDownName)) {			
 			value = configuration.getPopulationFileName();
