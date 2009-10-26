@@ -58,23 +58,15 @@ public class DiseaseResultGroup {
 		this.helpGroup = helpGroup;
 
 		group = new Composite(plotComposite, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.makeColumnsEqualWidth = true;
-		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -5;
-		group.setLayout(gridLayout);
+		handleLayout();
 		createDropDownArea(topNeighbour);
 	}
+
 
 	private void createDropDownArea(Composite topNeighbour)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 0);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(100, 0);
-		group.setLayoutData(formData);
+		handleLayoutData(topNeighbour);
 
 		// chosenDiseaseName is retrieved from IDiseaseConfiguration for
 		// Initialization!
@@ -125,5 +117,22 @@ public class DiseaseResultGroup {
 		return new DiseaseDropDownPanel(group, label, 2,
 				selectablePropertiesSet, this.dynamoTabDataManager, helpGroup);
 	}
+	private void handleLayout() {
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.numColumns = 3;
+		gridLayout.marginHeight = 3; // Changed from -5.
+		group.setLayout(gridLayout);
+	}
 
+	private void handleLayoutData(Composite topNeighbour) {
+		FormData formData = new FormData();
+//		formData.top = new FormAttachment(topNeighbour, 0);
+		formData.top = new FormAttachment(topNeighbour, 6);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+//		formData.bottom = new FormAttachment(100, 0);
+		formData.bottom = new FormAttachment(100, -5);
+		group.setLayoutData(formData);
+	}
 }

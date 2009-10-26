@@ -279,7 +279,6 @@ public class DynamoHeaderDataPanel extends Composite {
 	private Text createAndPlaceTextField() {
 		// Text text = new Text(this, SWT.NONE);
 		final Text text = new Text(this, SWT.SINGLE | SWT.FILL | SWT.BORDER);
-		// Eerst ff zonder.
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		text.setLayoutData(gridData);
 		return text;

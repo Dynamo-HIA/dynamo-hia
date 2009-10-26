@@ -50,11 +50,7 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 				+ plotComposite);
 		group = new Composite(plotComposite, SWT.FILL);
 
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.makeColumnsEqualWidth = true;
-		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = 3; // changed from -3
-		group.setLayout(gridLayout);
+		handleLayout();
 		// group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
 		log.debug("relativeRiskFactorSelectionGroup" + group);
 
@@ -66,12 +62,7 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 
 		// updateAvaillableRRsForThisTab();
 
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 6);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(44, 0);
-		group.setLayoutData(formData);
+		handleLayoutData();
 
 		String chosenIndexSelection = null;
 		if (this.selections != null) {
@@ -122,6 +113,23 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 		// this.fromDropDownPanel.refresh();
 		// this.toDropDownPanel.refresh();
 
+	}
+
+	private void handleLayout() {
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.numColumns = 3;
+		gridLayout.marginHeight = 3; // changed from -3
+		group.setLayout(gridLayout);
+	}
+
+	private void handleLayoutData() {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(0, 6);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(44, 0);
+		group.setLayoutData(formData);
 	}
 
 	// private void updateAvaillableRRsForThisTab() {

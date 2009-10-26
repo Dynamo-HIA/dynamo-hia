@@ -94,11 +94,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		log.debug("scenarioFactorSelectionGroup::this.plotComposite: "
 				+ plotComposite);
 		scenarioDefGroup = new Composite(plotComposite, SWT.FILL);
-		GridLayout scenarioGridLayout = new GridLayout();
-		scenarioGridLayout.makeColumnsEqualWidth = true;
-		scenarioGridLayout.numColumns = 6;
-		scenarioGridLayout.marginHeight = -3;
-		scenarioDefGroup.setLayout(scenarioGridLayout);
+		handleLayout();
 		// scenarioDefGroup.setBackground(new Color(null, 0xee, 0xee,0xee)); //
 		// ???
 		log.debug("scenarioFactorSelectionGroup" + scenarioDefGroup);
@@ -109,12 +105,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	private void createDropDownArea() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 
-		FormData scenarioFormData = new FormData();
-		scenarioFormData.top = new FormAttachment(0, 6);
-		scenarioFormData.left = new FormAttachment(0, 5);
-		scenarioFormData.right = new FormAttachment(100, -5);
-		scenarioFormData.bottom = new FormAttachment(53, 0);
-		scenarioDefGroup.setLayoutData(scenarioFormData);
+		handleLayoutData();
 
 		// Needed as initialization of existing values
 		String chosenScenarioName = null;
@@ -206,7 +197,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 			if (observable != null) {
 				Label label = new Label(scenarioDefGroup, SWT.NONE);
 				label.setText(labelValue + ":");
-				final Text text = new Text(scenarioDefGroup, SWT.NONE);
+				final Text text = new Text(scenarioDefGroup, SWT.SINGLE|SWT.FILL|SWT.BORDER);
 				text.setText((String) observable.doGetValue());
 				GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
 				layoutData.horizontalSpan = 1;
@@ -312,4 +303,21 @@ public class ScenarioSelectionGroup { // extends Composite {
 		this.genderDropDownPanel.refresh();
 	}
 
+	private void handleLayout() {
+		GridLayout scenarioGridLayout = new GridLayout();
+		scenarioGridLayout.makeColumnsEqualWidth = true;
+		scenarioGridLayout.numColumns = 6;
+		scenarioGridLayout.marginHeight = 3; // Changed from -3.
+		scenarioDefGroup.setLayout(scenarioGridLayout);
+	}
+
+	private void handleLayoutData() {
+		FormData scenarioFormData = new FormData();
+		scenarioFormData.top = new FormAttachment(0, 6);
+		scenarioFormData.left = new FormAttachment(0, 5);
+		scenarioFormData.right = new FormAttachment(100, -5);
+//		scenarioFormData.bottom = new FormAttachment(53, 0);
+		scenarioFormData.bottom = new FormAttachment(60, 0);
+		scenarioDefGroup.setLayoutData(scenarioFormData);
+	}
 }

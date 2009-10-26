@@ -55,11 +55,7 @@ public class DiseaseSelectionGroup {
 			// try statement
 			group = new Composite(plotComposite, SWT.FILL);
 
-			GridLayout gridLayout = new GridLayout();
-			gridLayout.makeColumnsEqualWidth = true;
-			gridLayout.numColumns = 3;
-			gridLayout.marginHeight = -3;
-			group.setLayout(gridLayout);
+			handleLayout();
 			// group.setBackground(new Color(null, 0xee, 0xee,0xee)); // ???
 			log.debug("diseaseSelectionGroup: " + group + " hashCode(): "
 					+ hashCode() + " tabName: " + tabName);
@@ -74,12 +70,7 @@ public class DiseaseSelectionGroup {
 	private void createDropDownArea() throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 		// log.debug("Creating dropdown area for hash: " + this.hashCode());
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(0, 6);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(25, 0);
-		group.setLayoutData(formData);
+		handleLayoutData();
 
 		// RLM Not used.
 		// TreeAsDropdownLists treeLists = TreeAsDropdownLists
@@ -147,5 +138,23 @@ public class DiseaseSelectionGroup {
 	}
 	public void goDeaf(){
 		diseaseDropDownPanel.goDeaf();
+	}
+
+	private void handleLayout() {
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.numColumns = 3;
+		gridLayout.marginHeight = 3; // Changed from -3.
+		group.setLayout(gridLayout);
+	}
+
+	private void handleLayoutData() {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(0, 6);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+//		formData.bottom = new FormAttachment(25, 0);
+		formData.bottom = new FormAttachment(44, 0);
+		group.setLayoutData(formData);
 	}
 }

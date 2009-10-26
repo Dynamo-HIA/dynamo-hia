@@ -53,11 +53,7 @@ public class ScenarioResultGroup {
 		this.helpGroup = helpGroup;
 
 		group = new Composite(plotComposite, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
-		gridLayout.makeColumnsEqualWidth = true;
-		gridLayout.numColumns = 3;
-		gridLayout.marginHeight = -15;
-		group.setLayout(gridLayout);
+		handleLayout();
 		createDropDownArea(topNeighbour);
 	}
 
@@ -65,12 +61,7 @@ public class ScenarioResultGroup {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 
-		FormData formData = new FormData();
-		formData.top = new FormAttachment(topNeighbour, 0);
-		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
-		formData.bottom = new FormAttachment(97, 5);
-		group.setLayoutData(formData);
+		handleLayoutData(topNeighbour);
 
 		Label label = new Label(group, SWT.LEFT);
 		label.setText(CHANGE_WITH_RESPECT_BASELINE_SIMULATION);
@@ -115,5 +106,24 @@ public class ScenarioResultGroup {
 			NoMoreDataException, DynamoNoValidDataException {
 		this.transitionDropDownPanel.refresh();
 		this.riskFactorPrevalenceDropDownPanel.refresh();
+	}
+
+	private void handleLayout() {
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.makeColumnsEqualWidth = true;
+		gridLayout.numColumns = 3;
+		gridLayout.marginHeight = 3; // Changed from -15.
+		group.setLayout(gridLayout);
+	}
+
+	private void handleLayoutData(Composite topNeighbour) {
+		FormData formData = new FormData();
+//		formData.top = new FormAttachment(topNeighbour, 0);
+		formData.top = new FormAttachment(topNeighbour, 6);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+//		formData.bottom = new FormAttachment(97, 5);
+		formData.bottom = new FormAttachment(100, -5);
+		group.setLayoutData(formData);
 	}
 }

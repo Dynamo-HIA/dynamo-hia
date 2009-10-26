@@ -54,4 +54,13 @@ public class DynamoSimulationParameterGroup {
 		group.setLayoutData(formData);		
 	}
 
+	public void putFirstInContainer(int height, Composite bottomNeighbour) {
+		FormData formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(bottomNeighbour, -5);
+		group.setLayoutData(formData);		
+	}
+
 }
