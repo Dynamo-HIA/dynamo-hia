@@ -214,7 +214,7 @@ public class ArraysFromXMLFactory {
 	 * @param valueTagName
 	 *            : tag of the element containing the value to be read
 	 *            (optional)
-	 * @param otherTags
+	 * @param otherTags: true if there are also other tags present in the file
 	 * @return two dimensional array (float[96][2]) of parameters by age and sex
 	 * @throws DynamoConfigurationException
 	 * @throws ConfigurationException

@@ -422,6 +422,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 												 */
 												double RR = 1;
 												for (int dCause = 0; dCause < getNDiseases(); dCause++)
+													/* if dCause==1 in row=column) */
 													if ((row & (1 << dCause)) == (1 << dCause))
 														RR *= this.relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
 
