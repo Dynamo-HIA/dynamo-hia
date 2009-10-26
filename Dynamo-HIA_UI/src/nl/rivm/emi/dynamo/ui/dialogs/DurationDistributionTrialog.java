@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.dialogs;
 
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
 import org.eclipse.jface.dialogs.IInputValidator;
@@ -11,7 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.jfree.util.Log;
 
 /**
  * Trialog to enable the entering of a filename for plus the type of the

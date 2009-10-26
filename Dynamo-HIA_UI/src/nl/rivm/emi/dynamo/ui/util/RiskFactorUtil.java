@@ -42,7 +42,7 @@ public class RiskFactorUtil {
 				numberOfCategories = findNumberOfCategories(children);
 			} else {
 				throw new ConfigurationException(
-						"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
+						"RiskFactorUtil: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
 								+ selectedNode.deriveNodeLabel());
 			}
 		}
@@ -57,19 +57,26 @@ public class RiskFactorUtil {
 			if ("configuration".equals(childNodeLabel)) {
 				File configurationFile = ((BaseNode) childNode)
 						.getPhysicalStorage();
-				String rootElementName = ConfigurationFileUtil
-						.extractRootElementNameIncludingSchemaCheck(configurationFile);
-				if ((rootElementName != null)
-						&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-								.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
-								.getNodeLabel().equals(rootElementName)))) {
-					numberOfCategories = ConfigurationFileUtil
-							.extractNumberOfClasses(configurationFile);
-				} else {
-					numberOfCategories = new Integer(0);
-				}
+				numberOfCategories = extractNumberOfCategories(configurationFile);
 				break;
 			}
+		}
+		return numberOfCategories;
+	}
+
+	public static Integer extractNumberOfCategories(File configurationFile)
+			throws DynamoConfigurationException {
+		Integer numberOfCategories;
+		String rootElementName = ConfigurationFileUtil
+				.extractRootElementNameIncludingSchemaCheck(configurationFile);
+		if ((rootElementName != null)
+				&& ((RootElementNamesEnum.RISKFACTOR_CATEGORICAL
+						.getNodeLabel().equals(rootElementName)) || (RootElementNamesEnum.RISKFACTOR_COMPOUND
+						.getNodeLabel().equals(rootElementName)))) {
+			numberOfCategories = ConfigurationFileUtil
+					.extractNumberOfClasses(configurationFile);
+		} else {
+			numberOfCategories = new Integer(0);
 		}
 		return numberOfCategories;
 	}
@@ -104,7 +111,7 @@ public class RiskFactorUtil {
 				durationCategoryIndex = findNumberOfCategories(children);
 			} else {
 				throw new ConfigurationException(
-						"RiskSourcePropertiesMapFactory: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
+						"RiskFactorUtil: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
 								+ selectedNode.deriveNodeLabel());
 			}
 		}

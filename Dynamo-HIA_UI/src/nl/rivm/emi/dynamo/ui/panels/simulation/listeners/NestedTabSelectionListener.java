@@ -69,10 +69,11 @@ public class NestedTabSelectionListener implements SelectionListener {
 								.getRelRisksCollectionForDropdown();
 						possibleRelRisksProvider.relRiskRefresh4Init(
 								configuration, dynSimObj);
+						myTabPlatform.refreshNestedTab(tab); // 20091026 Toegevoegd.
 					} else {
-						 if (!(tab instanceof DiseaseTab)) {
+// 20091026						 if (!(tab instanceof DiseaseTab)) {
 						myTabPlatform.refreshNestedTab(tab);
-						 }
+// 20091026						 }
 					}
 				} else {
 					NestedTabsMap nestedTabs = myTabPlatform.getNestedTabs();

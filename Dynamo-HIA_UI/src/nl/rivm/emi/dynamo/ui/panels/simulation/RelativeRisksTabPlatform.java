@@ -332,7 +332,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		 * DynamoSimulationObject and that has already been done by the listener
 		 * for riskfactor choice or disease choice.
 		 */
-		for (int i = 0; i < oldTabNumber - newTabNumber; i++) {
+		for (int i = 0; i < oldTabNumber - newTabNumber ; i++) {
 			/*
 			 * note the the tabfolder in this object is the super tabfolder (of
 			 * all groups, riskfactors, diseases etc) while we need the
@@ -344,7 +344,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 			tabItem.dispose();
 		}
 
-		for (int i = 0; i < newTabNumber; i++) {
+		for (int i = 1; i <= newTabNumber; i++) {
 			String tabName = RELATIVE_RISK + Integer.toString(i/* + 1 */);
 			// RelativeRiskTabPlatformDataManager dataManager =
 			// (RelativeRiskTabPlatformDataManager) ((RelativeRiskTab) this

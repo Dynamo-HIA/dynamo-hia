@@ -15,7 +15,6 @@ package nl.rivm.emi.dynamo.data.xml.structure;
  */
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
-import nl.rivm.emi.dynamo.data.types.interfaces.RootElementType;
 import nl.rivm.emi.dynamo.data.types.root.DALYWeights;
 import nl.rivm.emi.dynamo.data.types.root.DiseaseIncidences;
 import nl.rivm.emi.dynamo.data.types.root.DiseasePrevalences;
@@ -38,6 +37,7 @@ import nl.rivm.emi.dynamo.data.types.root.RiskFactorCompound;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesDuration;
+import nl.rivm.emi.dynamo.data.types.root.RiskFactorPrevalencesDurationUniform;
 import nl.rivm.emi.dynamo.data.types.root.RiskfactorCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RiskfactorPrevalencesCategorical;
 import nl.rivm.emi.dynamo.data.types.root.Simulation;
@@ -76,7 +76,7 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	TRANSITIONDRIFT_NETTO(new TransitionDriftNetto(), StandardTreeNodeLabelsEnum.TRANSITIONS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RISKFACTORPREVALENCES_CATEGORICAL(new RiskfactorPrevalencesCategorical(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RISKFACTORPREVALENCES_CONTINUOUS(new RiskFactorPrevalencesContinuous(), StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
-	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
+	RISKFACTORPREVALENCES_DURATION_UNIFORM(new RiskFactorPrevalencesDurationUniform(), StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RISKFACTORPREVALENCES_DURATION(new RiskFactorPrevalencesDuration(), StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RELATIVERISKSFORDEATH_CATEGORICAL(new RelativeRiskForDeathCategorical(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //
 	RELATIVERISKSFORDEATH_CONTINUOUS(new RelativeRiskForDeathContinuous(), StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel(), null, StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()), //

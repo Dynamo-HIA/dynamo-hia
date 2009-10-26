@@ -12,6 +12,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
@@ -22,7 +23,9 @@ import nl.rivm.emi.dynamo.ui.panels.RiskFactorCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -117,9 +120,19 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 			// with existing data
 			if (dataFile.isFile() && dataFile.canRead()) {
 				// 20090929 Added.
-				int numberOfClasses = RiskFactorUtil
-						.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode) this.selectedNode)
-								.getParent());
+				// 20091026 Test for location added, immediate import went
+				// wrong.
+				int numberOfClasses = -1;
+				ParentNode parentNode = ((ChildNode) this.selectedNode)
+						.getParent();
+				if (!StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
+						.equals(((BaseNode) parentNode).deriveNodeLabel())) {
+					numberOfClasses = findNumberOfClasses(dataFile,
+							(BaseNode) parentNode);
+				} else {
+					numberOfClasses = findNumberOfClasses(dataFile,
+							selectedNode);
+				}
 				((AgnosticCategoricalGroupFactory) factory)
 						.setNumberOfCategories(numberOfClasses);
 				// ~ 20090929
@@ -142,6 +155,21 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;
+	}
+
+	private int findNumberOfClasses(File dataFile, BaseNode parentNode)
+			throws ConfigurationException, DynamoConfigurationException {
+		int numberOfClasses;
+		File configurationFile = new File(configurationFilePath);
+		if (configurationFile.exists()) {
+			numberOfClasses = RiskFactorUtil
+					.getNumberOfRiskFactorClasses(parentNode);
+		} else {
+			// Immediate import.
+			numberOfClasses = RiskFactorUtil
+					.extractNumberOfCategories(dataFile);
+		}
+		return numberOfClasses;
 	}
 
 	/*

@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
@@ -70,29 +71,29 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 				chosenIndexSelection = chosenIndex;
 			}
 		}
-//
-//		DropDownPropertiesSet fromSet = dynamoTabDataManager.getFromSet();
-//		this.fromDropDownPanel = createDropDown(RelativeRiskDropDownPanel.FROM,
-//				fromSet, dynamoTabDataManager);
+		//
+		// DropDownPropertiesSet fromSet = dynamoTabDataManager.getFromSet();
+		// this.fromDropDownPanel =
+		// createDropDown(RelativeRiskDropDownPanel.FROM,
+		// fromSet, dynamoTabDataManager);
 		this.fromDropDownPanel = createDropDown(RelativeRiskDropDownPanel.FROM,
-		null, dynamoTabDataManager);
+				null, dynamoTabDataManager);
 		HelpTextListenerUtil.addHelpTextListeners(fromDropDownPanel
 				.getDropDown(), RelativeRiskDropDownPanel.FROM);
-//		String configuredFrom = dynamoTabDataManager.getConfiguredFrom();
-//		fromDropDownPanel.selectConfiguredValue(configuredFrom);
-//		DropDownPropertiesSet toSet = dynamoTabDataManager
-//				.getToSet(dynamoTabDataManager.getConfiguredFrom());
+		// String configuredFrom = dynamoTabDataManager.getConfiguredFrom();
+		// fromDropDownPanel.selectConfiguredValue(configuredFrom);
+		// DropDownPropertiesSet toSet = dynamoTabDataManager
+		// .getToSet(dynamoTabDataManager.getConfiguredFrom());
 
-//		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
-//				dynamoTabDataManager.getToSet(chosenIndexSelection),
-//				dynamoTabDataManager);
+		// this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
+		// dynamoTabDataManager.getToSet(chosenIndexSelection),
+		// dynamoTabDataManager);
 		this.toDropDownPanel = createDropDown(RelativeRiskDropDownPanel.TO,
-				null,
-				dynamoTabDataManager);
+				null, dynamoTabDataManager);
 		HelpTextListenerUtil.addHelpTextListeners(
 				toDropDownPanel.getDropDown(), RelativeRiskDropDownPanel.TO);
-//		toDropDownPanel.selectConfiguredValue(dynamoTabDataManager
-//				.getConfiguredTo());
+		// toDropDownPanel.selectConfiguredValue(dynamoTabDataManager
+		// .getConfiguredTo());
 	}
 
 	private RelativeRiskDropDownPanel createDropDown(String label,
@@ -112,7 +113,12 @@ public class RelativeRiskSelectionGroup implements RelativeRiskDropDownGroup {
 
 		// this.fromDropDownPanel.refresh();
 		// this.toDropDownPanel.refresh();
-
+		TabRelativeRiskConfigurationData currentData = dynamoTabDataManager
+				.getTabRelativeRiskConfigurationData();
+		dynamoTabDataManager.getPossibleRelRisksProvider().relRiskRefresh4Init(currentData, dynamoTabDataManager.getDynamoSimulationObject());
+		RelativeRiskComboModifyListener listener = dynamoTabDataManager
+				.getRelativeRiskComboModifyListener();
+		listener.initialize(currentData);
 	}
 
 	private void handleLayout() {

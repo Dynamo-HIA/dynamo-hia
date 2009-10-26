@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
@@ -58,6 +59,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	HashMap<Combo, String> reverseComboLabelLookup = new HashMap<Combo, String>();
 
 	private TabRelativeRiskConfigurationData tabRelativeRiskConfigurationData;
+
 
 	/**
 	 * 
@@ -699,4 +701,13 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	public RelRisksCollectionForDropdown getPossibleRelRisksProvider() {
 		return possibleRelRisksProvider;
 	}
+
+	public TabRelativeRiskConfigurationData getTabRelativeRiskConfigurationData() {
+		return tabRelativeRiskConfigurationData;
+	}
+	
+	public DynamoSimulationObject getDynamoSimulationObject(){
+		return myBoss.getDynamoSimulationObject();
+	}
+
 }
