@@ -1186,6 +1186,7 @@ public class InputDataFactory {
 					e, configFileName);
 		}
 		String type = ((XMLConfiguration) config).getRootElementName();
+		boolean givenAsNormal=false;
 		if (type == "riskfactor_categorical") {
 			this.riskFactorType = 1;
 		} else {
@@ -1201,6 +1202,7 @@ public class InputDataFactory {
 				// configFileName);
 				// TODO: Reactivate code below for version 1.1
 				this.riskFactorType = 2;
+				
 			} else {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
@@ -1214,6 +1216,12 @@ public class InputDataFactory {
 					// configFileName);
 					// TODO: Reactivate code below for version 1.1
 					this.riskFactorType = 3;
+					
+					
+					if (((XMLConfiguration) config).getString("distributiontype").equalsIgnoreCase("Normal"))
+						givenAsNormal=true;
+					
+					
 				} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
@@ -1229,8 +1237,9 @@ public class InputDataFactory {
 
 		/* now read in all the data in the sequence of the user data document */
 
-		if (this.riskFactorType == 2)
+		if (this.riskFactorType == 2){
 			inputData.setRefClassCont(getFloat("referencevalue", config));
+		    scenarioInfo.setReferenceRiskFactorValue(getFloat("referencevalue", config));}
 		else
 			inputData.setRefClassCont(0);
 		if (this.riskFactorType == 3) {
@@ -1411,7 +1420,10 @@ public class InputDataFactory {
 				for (int g = 0; g < 2; g++)
 					if (skewness[a][g] != 0)
 						normal = false;
-
+			if (normal && !givenAsNormal) log.fatal("log-normal distribution asked, but as all skewness"
+					+ " are zero, normal distribution is used");
+			if (!normal && givenAsNormal) log.fatal("normal distribution asked, but as skewness"
+					+ " is not equal to ero, lognormal distribution is used");
 			if (normal)
 				inputData.setRiskDistribution("Normal");
 			else
@@ -1798,14 +1810,14 @@ public class InputDataFactory {
 				if (inputData != null) {
 					inputData.setTransType(2);
 					inputData.setMeanDrift(this.factory.manufactureOneDimArray(
-							configFileName, "transitionmatrix", "transition",
+							configFileName, "transitiondrift", "transition",
 							"mean", true));
 					
 					
 					
 				} else if (scenInfo != null)
 					scenInfo.setMeanDrift(this.factory.manufactureOneDimArray(
-							configFileName, "transitionmatrix", "transition",
+							configFileName, "transitiondrift", "transition",
 							"mean", true),scenNumber);
 					/*
 					 * obsolete but kept for potential future use inputData
@@ -1820,7 +1832,7 @@ public class InputDataFactory {
 				else
 					throw new DynamoConfigurationException(
 							" Tagname "
-									+ "transitionmatrix (_zero,_netto) "
+									+ "transitionmatrix/drift (_zero,_netto) "
 									+ " expected in main simulation configuration file "
 									+ "but found tag "
 									+ ((XMLConfiguration) config)

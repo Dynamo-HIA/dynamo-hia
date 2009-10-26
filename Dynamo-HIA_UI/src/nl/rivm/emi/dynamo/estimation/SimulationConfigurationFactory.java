@@ -343,15 +343,15 @@ public class SimulationConfigurationFactory {
 				}
 
 				if (population == 0) {
-					/* for some reason nullTransition=0 for a nulltransition */
+					/*  null Transition=1 for a nulltransition */
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
-								"0");
+								"1");
 						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", null);
 					} else {
 						writeFinalElementToDom(rootElement, "nullTransition",
-								"1");
+								"0");
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
 								+ "meanDriftRiskFactor.xml";
@@ -404,7 +404,7 @@ public class SimulationConfigurationFactory {
 								+ "meanDriftRiskFactor_scen_"
 								+ population + ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
-								"1");
+								"0");
 						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", fileName);
 						if (scenInfo.getTransitionType(scenarioNumber))
@@ -693,7 +693,7 @@ public class SimulationConfigurationFactory {
 						"baselineFatalIncidenceFile", fileName);
 				writeOneDimArray(extractFromOneDimArray(parameters
 						.getBaselineFatalIncidence(), structure
-						.getDiseaseNumber()[0]), "baselineFatalIncidences",
+						.getDiseaseNumber()[d]), "baselineFatalIncidences",
 						"baselineFatalIncidence", fileName);
 
 				/* attributable mortality */
@@ -736,8 +736,9 @@ public class SimulationConfigurationFactory {
 							"relativeRiskFile", fileName);
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskContinue(),
-							structure.getDiseaseNumber()[0]), "relativeRisks",
+							structure.getDiseaseNumber()[d]), "relativeRisks",
 							"relativeRisk", fileName);
+				
 
 				}
 				/*
@@ -754,7 +755,7 @@ public class SimulationConfigurationFactory {
 							"endRelativeRiskFile", fileName);
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskDuurEnd(),
-							structure.getDiseaseNumber()[0]), "relativeRisks",
+							structure.getDiseaseNumber()[d]), "relativeRisks",
 							"relativeRisk", fileName);
 
 					fileName = directoryName + File.separator
@@ -767,7 +768,7 @@ public class SimulationConfigurationFactory {
 							"beginRelativeRiskFile", fileName);
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskDuurBegin(), structure
-							.getDiseaseNumber()[0]), "relativeRisks",
+							.getDiseaseNumber()[d]), "relativeRisks",
 							"relativeRisk", fileName);
 					fileName = directoryName + File.separator
 							+ "parameters" + File.separator + "alfa_"
@@ -777,7 +778,7 @@ public class SimulationConfigurationFactory {
 					writeFinalElementToDom(healthStateDiseaseElement,
 							"alfaFile", fileName);
 					writeOneDimArray(extractFromOneDimArray(parameters
-							.getAlfaDuur(), structure.getDiseaseNumber()[0]),
+							.getAlfaDuur(), structure.getDiseaseNumber()[d]),
 							"alfa", "alfa", fileName);
 
 				}

@@ -92,6 +92,17 @@ public class ScenarioInfo {
 	private int indexDurationClass;
 	private boolean details = false;
 	private float[] cutoffs = null;
+	private float referenceRiskFactorValue=0;
+
+	public float getReferenceRiskFactorValue() {
+		return referenceRiskFactorValue;
+	}
+
+	public void setReferenceRiskFactorValue(float referenceRiskFactorValue) {
+		this.referenceRiskFactorValue = referenceRiskFactorValue;
+	}
+
+
 
 	private int firstOneForAllPopScenario = -3;
 	private boolean[] thisScenarioUsedOneForAllPop;

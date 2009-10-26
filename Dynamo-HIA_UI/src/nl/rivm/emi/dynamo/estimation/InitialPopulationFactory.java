@@ -224,6 +224,11 @@ public class InitialPopulationFactory {
 		// here the seed is reset by hand, so it does not matter that it used
 		// the same seed here
 		/* make a table of point from the inverse normal distribution */
+		if (parameters.getRiskType() == 2 && nSim == 0) {
+			nSim = 50;
+			log.fatal(" zero simulated group size  asked for"
+					+ " continuous riskfactor; this is changed into 50 ");
+		}
 		if (parameters.getRiskType() == 2)
 			DynamoLib.getInstance(nSim);
 
@@ -238,9 +243,13 @@ public class InitialPopulationFactory {
 		 */
 
 		int nPopulations = scenarioInfo.getNPopulations();
-		/* numberOfOneForAllPop = the number of the population that contains the one for all scenario */
-		int numberOfTheOneForAllPop = scenarioInfo.getFirstOneForAllPopScenario()+1;
-		
+		/*
+		 * numberOfOneForAllPop = the number of the population that contains the
+		 * one for all scenario
+		 */
+		int numberOfTheOneForAllPop = scenarioInfo
+				.getFirstOneForAllPopScenario() + 1;
+
 		boolean isAtLeastOneAllForOnePopulation = false;
 		if (numberOfTheOneForAllPop > 0)
 			isAtLeastOneAllForOnePopulation = true;
@@ -592,7 +601,8 @@ public class InitialPopulationFactory {
 
 				/* for newborns repeat this for all generations */
 				for (int generation = 1; generation <= generationMax; generation++) {
-					if (Math.abs(Math.round(generation / 10) - ((float) generation) / 10) < 0.01
+					if (Math.abs(Math.round(generation / 10)
+							- ((float) generation) / 10) < 0.01
 							&& g == 1)
 
 						updateProgressBar();
@@ -834,42 +844,64 @@ public class InitialPopulationFactory {
 						 */
 
 						int currentscen = 0;
-						int currentpop = 1; // population 0 is the reference population 
+						int currentpop = 1; // population 0 is the reference
+											// population
 						boolean moreScenarios = true;
 						if (isAtLeastOneAllForOnePopulation
 								&& nPopulations == 2)
 							moreScenarios = false;
 
-						while ((currentpop < nPopulations ) && moreScenarios) {
+						while ((currentpop < nPopulations) && moreScenarios) {
 
 							/*
 							 * look for next scenario that has an different
 							 * initial prevalence (intialprevalencetype) and is
 							 * not an all for One Population type
 							 */
-                            boolean found=false;
+							boolean found = false;
 							for (int i1 = currentscen; i1 < scenarioInfo
 									.getNScenarios(); i1++) {
 								/*
 								 * find the population number that belongs to
 								 * the current scenario
 								 */
-								/* isOneForAllPopulation indicates that this scenario uses a one-for-all-pop */
-								/* if this scenario is the first one for all scenario, then making this population should not be done here
-								 * in this loop, so increase the population number
+								/*
+								 * isOneForAllPopulation indicates that this
+								 * scenario uses a one-for-all-pop
 								 */
-								if (numberOfTheOneForAllPop-1==i1) /* this tests whether this scenario is the first  scenario
-								that uses a one for all population */
+								/*
+								 * if this scenario is the first one for all
+								 * scenario, then making this population should
+								 * not be done here in this loop, so increase
+								 * the population number
+								 */
+								if (numberOfTheOneForAllPop - 1 == i1) /*
+																		 * this
+																		 * tests
+																		 * whether
+																		 * this
+																		 * scenario
+																		 * is
+																		 * the
+																		 * first
+																		 * scenario
+																		 * that
+																		 * uses
+																		 * a one
+																		 * for
+																		 * all
+																		 * population
+																		 */
 									currentpop++;
 								if (!isOneForAllPopulation[i1]
 										&& scenarioInfo
 												.getInitialPrevalenceType()[i1]) {
 									currentscen = i1;
-									found=true;
+									found = true;
 									break;
 								}
 								/* if no such scenario is found */
-							
+
 							}
 							if (!found)
 								moreScenarios = false;
@@ -877,7 +909,7 @@ public class InitialPopulationFactory {
 							/*
 							 * first check if there is a population to be made
 							 */
-							
+
 							if (moreScenarios) {
 								currentIndividual = new Individual("ind",
 										"ind_" + (i + a * nSim * 2 + nSim * g)
@@ -950,33 +982,36 @@ public class InitialPopulationFactory {
 									 */
 
 									rand3.setSeed(seed2 + 5);
-									
 
 									currentIndividual
 											.add(new IntCharacteristicValue(
 													stepsInSimulation,
 													3,
-													DynamoLib.draw(trans[currentRiskValue],
-															rand3)));
+													DynamoLib
+															.draw(
+																	trans[currentRiskValue],
+																	rand3)));
 
 								}
 								// if compound riskfactor */
-								
+
 								if (parameters.getRiskType() == 3) {
-									float newDuration=currentDurationValue;
-									/* if the new value is the duration-class value, make the duration zero */
-									if ((int)(Integer) currentIndividual.get(3)
-									.getValue(0)==scenarioInfo.getIndexDurationClass() &&									
-									currentRiskValue!=scenarioInfo.getIndexDurationClass()
-									) newDuration=0;
-								   currentIndividual.luxeSet(4,
-										new FloatCharacteristicValue(
-												stepsInSimulation,
-												4,
-												newDuration));
+									float newDuration = currentDurationValue;
+									/*
+									 * if the new value is the duration-class
+									 * value, make the duration zero
+									 */
+									if ((int) (Integer) currentIndividual
+											.get(3).getValue(0) == scenarioInfo
+											.getIndexDurationClass()
+											&& currentRiskValue != scenarioInfo
+													.getIndexDurationClass())
+										newDuration = 0;
+									currentIndividual.luxeSet(4,
+											new FloatCharacteristicValue(
+													stepsInSimulation, 4,
+													newDuration));
 								}
-								
-								
 
 								/*
 								 * newborns and zero year olds are not bothered
@@ -1025,7 +1060,7 @@ public class InitialPopulationFactory {
 						 * the individual (0-9) plus the new value (0-9) for
 						 * categorical data
 						 */
-						
+
 						if (parameters.getRiskType() != 2
 								&& shouldChangeInto != null && a != 0
 								&& !newborns) {
@@ -1241,19 +1276,20 @@ public class InitialPopulationFactory {
 		String delims = "[_]";
 		for (Individual individual : population) {
 			label = individual.getLabel();
-		/*	if (this.riskType != 2) {
-				
-				String oldLabel = label;
-				label = "";
-				/* split at the place of the underscore */
-		//		String[] tokens = label.split(delims);
-				/* put together again, but without the last element */
-		//		for (int i = 0; i < tokens.length - 1; i++)
-		//			label = label + tokens[i] + "_";
-		//		int riskValue = ((IntCharacteristicValue) individual.get(3))
-		//				.getRijtje()[0];
-		//		label = label + riskValue + "_" + riskValue;
-		//	}
+			/*
+			 * if (this.riskType != 2) {
+			 * 
+			 * String oldLabel = label; label = ""; / split at the place of the
+			 * underscore
+			 */
+			// String[] tokens = label.split(delims);
+			/* put together again, but without the last element */
+			// for (int i = 0; i < tokens.length - 1; i++)
+			// label = label + tokens[i] + "_";
+			// int riskValue = ((IntCharacteristicValue) individual.get(3))
+			// .getRijtje()[0];
+			// label = label + riskValue + "_" + riskValue;
+			// }
 			Individual currentIndividual = new Individual("ind", label);
 			currentIndividual.setRandomNumberGeneratorSeed(individual
 					.getRandomNumberGeneratorSeed());
@@ -1633,7 +1669,7 @@ public class InitialPopulationFactory {
 
 	public void closeProgressBar() {
 		this.bar.getShell().close();
-		
+
 	}
 	/**
 	 * @param p
