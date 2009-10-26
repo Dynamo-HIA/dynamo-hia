@@ -219,7 +219,8 @@ public class RelRisksCollectionForDropdown {
 	// }
 	// }
 	/**
-	 * This method fills the
+	 * This method fills the array with availlable relative risks for the dropdown panel
+	 * of the tab belonging to " configuration "
 	 * 
 	 * 
 	 * @param dynamoSimulationObject
@@ -460,7 +461,7 @@ public class RelRisksCollectionForDropdown {
 			 * selected if yes, remove it
 			 */
 
-			{
+			{  	/* loop over the allready configured relative risks */
 				Set<Integer> keySet = selectedRelRisks.keySet();
 				Iterator<Integer> selKeyIterator = keySet.iterator();
 				while (selKeyIterator.hasNext()) {
@@ -479,7 +480,7 @@ public class RelRisksCollectionForDropdown {
 							|| !(singleConfiguration.getIndex() == currentConfigurationElementNumber)) {
 						TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
 								.get(currentConfigurationElementNumber);
-						Set<String> aRR4DDKeySet = workingMap.keySet();
+						/**/Set<String> aRR4DDKeySet = workingMap.keySet();
 						Iterator<String> aKeyIterator = aRR4DDKeySet.iterator();
 						while (aKeyIterator.hasNext()) {
 							String currentFrom = aKeyIterator.next();
@@ -504,7 +505,8 @@ public class RelRisksCollectionForDropdown {
 							}
 
 							if (currentRRForChoice.isEmpty())
-								getAvaillableRelRisksForDropdown().remove(
+								//getAvaillableRelRisksForDropdown().remove(
+								workingMap.remove(
 										currentConfigurationElementNumber);
 						}
 					}
@@ -514,27 +516,46 @@ public class RelRisksCollectionForDropdown {
 			 * remove diseases that have been choosen as from diseases from the
 			 * list of "to" diseases, as this is not allowed in Dynamo
 			 */
+			
+			/* if A is cause of B (A=from, B=to), then A can not be the to for any other disease */
+			/* also, B cannot be the from for any other disease */
 
 			Set<Integer> selectedRelRisksKeySet = selectedRelRisks.keySet();
 			Iterator<Integer> selKeyIterator = selectedRelRisksKeySet
 					.iterator();
+			/* loop over the allready configured relative risks */
 			while (selKeyIterator.hasNext()) {
 				Integer selectedRelRisksKey = selKeyIterator.next();
 				if (singleConfiguration == null
 						|| !(singleConfiguration.getIndex() == selectedRelRisksKey)) {
+					
+					
 					TabRelativeRiskConfigurationData currentSelectedRR = selectedRelRisks
 							.get(selectedRelRisksKey);
+					/* if from is a disease (A) */
 					if (diseaseNames.contains(currentSelectedRR.getFrom())) {
 						Set<String> aRR4DDKeySet = workingMap.keySet();
 						Iterator<String> keyIterator = aRR4DDKeySet.iterator();
+						/* loop over the list with "choosable" RRs to see if one needs to be removed */ 
 						while (keyIterator.hasNext()) {
 							String currentFrom = keyIterator.next();
+							/* if the from is a disease, then remove the RR from this disease
+							 * to the index disease
+							 */
+							if (diseaseNames.contains(currentFrom)){
+							/* get the map of the next from */
 							/* the key in this map is the name of the to disease */
 							HashMap<String, Set<String>> currentRRToChoices = workingMap
 									.get(currentFrom);
 							currentRRToChoices.remove(currentSelectedRR
 									.getFrom());
-						}
+						}}
+					}/* repeat for the to disease; here we need to check whether this is a disease on disease RR */
+					/* if to in the configured RR is a disease */
+					if (diseaseNames.contains(currentSelectedRR.getTo()) && diseaseNames.contains(currentSelectedRR.getFrom())) {
+												workingMap.remove(currentSelectedRR
+									.getFrom());
+						
 					}
 				}
 			}
@@ -807,7 +828,8 @@ public class RelRisksCollectionForDropdown {
 		synchronized (this) {
 			instLog.debug(">>>>Configured relative risks: "
 					+ possibleRelRisks.dump4Log());
-			instLog.info(">>>>getAvaillableRelRisksForDropdown()>>>>>:\n" + availlableRelRisksForDropdown.dump4Log());
+			instLog.info(">>>>getAvaillableRelRisksForDropdown()>>>>>:\n"
+					+ availlableRelRisksForDropdown.dump4Log());
 			return availlableRelRisksForDropdown;
 		}
 	}
