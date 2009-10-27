@@ -127,64 +127,71 @@ public class ConfigurationFileUtil {
 		FileInputStream fIStream = null;
 		XMLEventReader r = null;
 		try {
-			XMLInputFactory factory = XMLInputFactory.newInstance();
 			fIStream = new FileInputStream(filename);
-			r = factory.createXMLEventReader(filename, fIStream);
-			boolean firstStartElement = false;
-			String firstStartElementName = null;
-			while (r.hasNext() && !firstStartElement) {
-				XMLEvent event = r.nextEvent();
-				int eventType = event.getEventType();
-				switch (eventType) {
-				case XMLEvent.START_ELEMENT:
-					firstStartElement = true;
-					StartElement startElement = event.asStartElement();
-					QName elementQName = startElement.getName();
-					firstStartElementName = elementQName.getLocalPart();
-					log.debug("STax-event: START_ELEMENT, local namepart: "
-							+ firstStartElementName);
-					break;
-				case XMLEvent.END_ELEMENT:
-					log.debug("STax-event: END_ELEMENT");
-					break;
-				case XMLEvent.PROCESSING_INSTRUCTION:
-					log.debug("STax-event: PROCESSING_INSTRUCTION");
-					break;
-				case XMLEvent.CHARACTERS:
-					log.debug("STax-event: CHARACTERS");
-					break;
-				case XMLEvent.COMMENT:
-					log.debug("STax-event: COMMENT");
-					break;
-				case XMLEvent.START_DOCUMENT:
-					log.debug("STax-event: START_DOCUMENT");
-					break;
-				case XMLEvent.END_DOCUMENT:
-					log.debug("STax-event: END_DOCUMENT");
-					break;
-				case XMLEvent.ENTITY_REFERENCE:
-					log.debug("STax-event: ENTITY_REFERENCE");
-					break;
-				case XMLEvent.ATTRIBUTE:
-					log.debug("STax-event: ATTRIBUTE");
-					break;
-				case XMLEvent.DTD:
-					log.debug("STax-event: DTD");
-					break;
-				case XMLEvent.CDATA:
-					log.debug("STax-event: CDATA");
-					break;
-				case XMLEvent.SPACE:
-					log.debug("STax-event: SPACE");
-					break;
-				default:
-					log.error("STax-event: UNKNOWN_EVENT_TYPE " + ","
-							+ eventType);
+			int fileSize = fIStream.available();
+			// The STAX-parser has a bug, after hasNext() is true next() blows
+			// up on an empty file.
+			if (fileSize != 0) {
+				XMLInputFactory factory = XMLInputFactory.newInstance();
+				r = factory.createXMLEventReader(filename, fIStream);
+				boolean firstStartElement = false;
+				String firstStartElementName = null;
+				while (r.hasNext() && !firstStartElement) {
+					XMLEvent event = r.nextEvent();
+					int eventType = event.getEventType();
+					switch (eventType) {
+					case XMLEvent.START_ELEMENT:
+						firstStartElement = true;
+						StartElement startElement = event.asStartElement();
+						QName elementQName = startElement.getName();
+						firstStartElementName = elementQName.getLocalPart();
+						log.debug("STax-event: START_ELEMENT, local namepart: "
+								+ firstStartElementName);
+						break;
+					case XMLEvent.END_ELEMENT:
+						log.debug("STax-event: END_ELEMENT");
+						break;
+					case XMLEvent.PROCESSING_INSTRUCTION:
+						log.debug("STax-event: PROCESSING_INSTRUCTION");
+						break;
+					case XMLEvent.CHARACTERS:
+						log.debug("STax-event: CHARACTERS");
+						break;
+					case XMLEvent.COMMENT:
+						log.debug("STax-event: COMMENT");
+						break;
+					case XMLEvent.START_DOCUMENT:
+						log.debug("STax-event: START_DOCUMENT");
+						break;
+					case XMLEvent.END_DOCUMENT:
+						log.debug("STax-event: END_DOCUMENT");
+						break;
+					case XMLEvent.ENTITY_REFERENCE:
+						log.debug("STax-event: ENTITY_REFERENCE");
+						break;
+					case XMLEvent.ATTRIBUTE:
+						log.debug("STax-event: ATTRIBUTE");
+						break;
+					case XMLEvent.DTD:
+						log.debug("STax-event: DTD");
+						break;
+					case XMLEvent.CDATA:
+						log.debug("STax-event: CDATA");
+						break;
+					case XMLEvent.SPACE:
+						log.debug("STax-event: SPACE");
+						break;
+					default:
+						log.error("STax-event: UNKNOWN_EVENT_TYPE " + ","
+								+ eventType);
+					}
 				}
-			}
-			rootElementName = firstStartElementName;
-			if (r != null) {
-				r.close();
+				rootElementName = firstStartElementName;
+				if (r != null) {
+					r.close();
+				}
+			} else {
+				log.fatal("Empty XML-file in tree: " + filename);
 			}
 			if (fIStream != null) {
 				fIStream.close();

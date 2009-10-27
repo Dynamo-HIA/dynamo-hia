@@ -126,8 +126,6 @@ public class ScenarioSelectionGroup { // extends Composite {
 		String labelValue = NAME;
 		WritableValue observable = (WritableValue) dynamoTabDataManager
 				.getCurrentWritableValue(NAME);
-//		bindHeaderValue(observable, labelValue, new UniqueName(
-//				this.dynamoTabDataManager, NAME, this.plotComposite.getShell()));
 		bindNameValue(observable, labelValue, new UniqueName());
 
 		labelValue = SUCCESS_RATE;

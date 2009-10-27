@@ -59,10 +59,11 @@ class SingleConfigurationManager {
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
 			chosenName = handlePossibleChangeOfDiseaseName(name, chosenName);
 		}
-		DropDownPropertiesSet set = new DropDownPropertiesSet();
+		DropDownPropertiesSet set = null;
+		if(chosenName != null){
+		set = new DropDownPropertiesSet();
 		Set<String> contents = this.getDropDownSetForField(name, chosenName);
 		// Contents can never be empty
-
 		if ((contents != null) && (!contents.isEmpty())) {
 			set.addAll(contents);
 			if (!DiseaseSelectionGroup.DISEASE.equals(name)) {
@@ -70,13 +71,12 @@ class SingleConfigurationManager {
 						name, set.getSelectedString(0));
 			}
 		} else {
-			if (chosenName == null) {
-				throw new NoMoreDataException(
-						"no more configured diseases availlable");
-			} else {
 				throw new NoMoreDataException("the configured disease "
 						+ chosenName + " is no longer availlable");
 			}
+		} else {
+				throw new NoMoreDataException(
+						"no more configured diseases availlable");
 		}
 		return set;
 	}
@@ -228,8 +228,8 @@ class SingleConfigurationManager {
 			String name, String selectedValue) throws ConfigurationException,
 			NoMoreDataException {
 		log.debug("Entering updateObjectState().");
-		Exception e = new Exception();
-		e.printStackTrace(System.out);
+//		Exception e = new Exception();
+//		e.printStackTrace(System.out);
 		if (!"".equals(selectedValue)) {
 			boolean changed = false;
 			if (DiseaseSelectionGroup.DISEASE.equals(name)) {
@@ -295,7 +295,7 @@ class SingleConfigurationManager {
 				dynamoSimulationObject.setDiseaseConfigurations(configurations);
 				choosableDiseaseNameManager.removeChosenDiseaseName(
 						diseaseName, tabName);
-				updateDependentRelativeRisks(diseaseName);
+// @@@@				updateDependentRelativeRisks(diseaseName);
 			} else {
 				log
 						.error("Tried to remove a singleConfiguration for diseaseName: "
@@ -331,7 +331,6 @@ class SingleConfigurationManager {
 
 			log.fatal("stop5: " + "size: " + relRiskConfiguration.size());
 		}
-
 		dynamoSimulationObject
 				.setRelativeRiskConfigurations(relRiskConfiguration);
 	}

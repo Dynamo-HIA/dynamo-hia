@@ -80,7 +80,7 @@ public abstract class Tab {
 	}
 
 	protected abstract void makeIt() throws DynamoConfigurationException,
-			ConfigurationException, NoMoreDataException;
+			ConfigurationException, NoMoreDataException ;
 
 	/**
 	 * 

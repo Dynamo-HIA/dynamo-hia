@@ -44,6 +44,7 @@ public class DynamoSimulationObject extends
 		IMinAge, INumberOfYears, PopulationFileName, ISimPopSize, IRandomSeed,
 		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases,
 		IRelativeRisks, IScenarios, IConfigurationCheck {
+	private static final long serialVersionUID = -1326323405965732005L;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -217,8 +218,8 @@ public class DynamoSimulationObject extends
 	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
-		log.debug("Getting >" + riskFactorMap.size()
-				+ "< RiskFactorConfigurations from instance: " + this);
+//		log.debug("Getting >" + riskFactorMap.size()
+//				+ "< RiskFactorConfigurations from instance: " + this);
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		Set<Object> namesSet = riskFactorMap.keySet();
 		for (Object nameObject : namesSet) {
@@ -323,7 +324,7 @@ public class DynamoSimulationObject extends
 	 */
 	synchronized public void setRelativeRiskConfigurations(
 			Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations) {
-		log.debug("Setting RelativeRisks in instance: " + this);
+//		log.debug("Setting RelativeRisks in instance: " + this);
 		TypedHashMap<? extends XMLTagEntity> relativeRisksMap = new TypedHashMap(
 				XMLTagEntityEnum.RRINDEX.getTheType());
 		Set<Integer> indexSet = relativeRiskConfigurations.keySet();

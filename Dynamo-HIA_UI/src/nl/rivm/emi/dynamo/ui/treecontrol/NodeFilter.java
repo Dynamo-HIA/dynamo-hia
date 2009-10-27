@@ -48,6 +48,7 @@ public class NodeFilter {
 									.justExtractRootElementName(physicalStorage);
 							// 20090629 Made case-insensitive to match
 							// XML-schema testing.
+							if(rootElementName != null){
 							RootElementNamesEnum renEnum = singleton
 									.get(rootElementName.toLowerCase());
 							if (renEnum != null) {
@@ -66,6 +67,11 @@ public class NodeFilter {
 										+ ((FileNode) element).physicalStorage
 										+ "\" suppressed: RootElementName: \""
 										+ rootElementName + "\" found wrong.");
+							}
+							} else {
+								log.info("File \""
+										+ ((FileNode) element).physicalStorage
+										+ "\" suppressed: No valid RootElementName found.");
 							}
 						} else {
 							log

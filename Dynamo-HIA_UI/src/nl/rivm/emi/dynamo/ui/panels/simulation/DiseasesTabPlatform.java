@@ -85,19 +85,41 @@ public class DiseasesTabPlatform extends TabPlatform {
 	 *            tab to be created or a single name when the tab is created for
 	 *            a configuration from the modelobject.
 	 */
+	@SuppressWarnings("finally")
 	@Override
 	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
 			throws ConfigurationException {
+		DiseaseTab newTab = null;
 		synchronized (tabFolder) {
-			tabFolder.removeSelectionListener(listener);
-			int newTabNumber = getNumberOfTabs() + 1;
-			String tabName = DISEASE + newTabNumber;
-			DiseaseTab newTab = new DiseaseTab(defaultSelections, tabFolder,
-					tabName, getDynamoSimulationObject(), selectedNode,
-					helpGroup, this);
-			nestedTabs.put(tabName, newTab);
-			tabFolder.addSelectionListener(listener);
-			return newTab;
+			try {
+				tabFolder.removeSelectionListener(listener);
+
+				int newTabNumber = getNumberOfTabs() + 1;
+				String tabName = DISEASE + newTabNumber;
+				newTab = new DiseaseTab(defaultSelections, tabFolder, tabName,
+						getDynamoSimulationObject(), selectedNode, helpGroup,
+						this);
+				if(newTab.isYouCanUseMe()){
+				nestedTabs.put(tabName, newTab);
+				tabFolder.addSelectionListener(listener);
+				} else {
+					MessageBox box = new MessageBox(
+							this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
+					box.setText("Error creating tab.");
+					box.setMessage("No more diseases available for configuring.");
+					box.open();
+				}
+			} catch (NoMoreDataException e) {
+				MessageBox box = new MessageBox(
+						this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
+				box.setText("Error creating tab.");
+				box.setMessage("No more diseases available for configuring.");
+				box.open();
+
+				e.printStackTrace();
+			} finally {
+				return newTab;
+			}
 		}
 	}
 
@@ -170,13 +192,14 @@ public class DiseasesTabPlatform extends TabPlatform {
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
 		diseaseTab.removeTabDataObject();
 		/* also remove in the other disease tabs */
-//		Map<String, ITabDiseaseConfiguration> newConfigurations = ((DiseaseTabDataManager) ((DiseaseTab) diseaseTab)
-//				.getDynamoTabDataManager()).getConfigurations();
+		// Map<String, ITabDiseaseConfiguration> newConfigurations =
+		// ((DiseaseTabDataManager) ((DiseaseTab) diseaseTab)
+		// .getDynamoTabDataManager()).getConfigurations();
 		// for (String tabName :this.getTabManager().nestedTabs.keySet()){
 		for (String tabName : nestedTabs.keySet()) {
-			DiseaseTabDataManager dataManager = (DiseaseTabDataManager)
-			((DiseaseTab) nestedTabs.get(tabName)).getDynamoTabDataManager();
-//			dataManager.setConfigurations(newConfigurations);
+			DiseaseTabDataManager dataManager = (DiseaseTabDataManager) ((DiseaseTab) nestedTabs
+					.get(tabName)).getDynamoTabDataManager();
+			// dataManager.setConfigurations(newConfigurations);
 			dataManager.touchConfigurations();
 		}
 	}

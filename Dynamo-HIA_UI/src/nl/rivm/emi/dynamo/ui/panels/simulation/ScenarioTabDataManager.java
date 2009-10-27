@@ -235,7 +235,16 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 						.addValueChangeListener(new IValueChangeListener() {
 							@Override
 							public void handleValueChange(ValueChangeEvent arg0) {
-								updateDynamoSimulationObject();
+//								updateDynamoSimulationObject();
+								Object oldValue = arg0.diff.getOldValue();
+								Object newValue = arg0.diff.getNewValue();
+								Map<String, ITabScenarioConfiguration> scenarioConfigurations = dynamoSimulationObject.getScenarioConfigurations();
+								// Debugging.
+								Set<String> currentNames = scenarioConfigurations.keySet();
+								scenarioConfigurations.remove(oldValue);
+								scenarioConfigurations.put((String)newValue, singleConfiguration);
+								dynamoSimulationObject.setScenarioConfigurations(scenarioConfigurations);
+								Set<String> newNames = scenarioConfigurations.keySet();
 							}
 						});
 				log.debug("Getting writableValue with value: "

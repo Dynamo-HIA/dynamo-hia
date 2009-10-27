@@ -21,6 +21,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
@@ -104,10 +105,17 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 			if (dataFile.isFile() && dataFile.canRead()) {
 				// 20090929 Added.
 				if (props == null) {
-					RiskSourcePropertiesMap propsMap = RiskSourcePropertiesMapFactory
-							.makeMap4OneRiskSourceType((BaseNode) ((ChildNode) selectedNode)
-									.getParent());
+					RiskSourcePropertiesMap propsMap = null;
 					String selectedNodeLabel = selectedNode.deriveNodeLabel();
+					if(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR.getNodeLabel().equals(selectedNodeLabel)){
+					propsMap = RiskSourcePropertiesMapFactory
+					.makeMap4OneRiskSourceType((BaseNode)selectedNode);
+				} else {
+					propsMap = RiskSourcePropertiesMapFactory
+					.makeMap4OneRiskSourceType((BaseNode) ((ChildNode) selectedNode)
+							.getParent());
+				}
+					// String selectedNodeLabel = selectedNode.deriveNodeLabel();
 					Set<String> nameSet = propsMap.keySet();
 					for (String riskSourceName : nameSet) {
 						if ((selectedNodeLabel != null)

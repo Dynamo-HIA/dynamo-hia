@@ -140,7 +140,6 @@ public abstract class TabPlatform extends Tab {
 			this.tabFolder.setSelection(index);
 			log.debug("selectedtabItem.getText(): "
 					+ tabFolder.getItem(index).getText());
-
 		} catch (ConfigurationException e) {
 			// TODO Auto-generated catch block
 			throw new ConfigurationException(e);

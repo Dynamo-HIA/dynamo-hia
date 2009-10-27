@@ -50,7 +50,8 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 		this.helpGroup = helpGroup;
 	}
 
-	public void initialize(TabRelativeRiskConfigurationData configuration) {
+	public void initialize(TabRelativeRiskConfigurationData configuration)
+			throws DynamoNoValidDataException {
 		Combo currentCombo = null;
 		try {
 			// if (!configurationPreloaded) {
@@ -153,7 +154,10 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 			// .error("Error: Should not load configuration more than once.");
 			// }
 		} catch (Exception e) {
-			handleErrorMessage(e, currentCombo);
+			log.warn(e.getMessage());
+			if (e instanceof DynamoNoValidDataException) {
+				throw (DynamoNoValidDataException) e;
+			}
 		}
 	}
 
@@ -179,11 +183,15 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 			int loadedFromIndex = fromSet.getSelectedIndex(loadedFrom);
 			log.debug("Processing loadedFrom: " + loadedFrom + " at index: "
 					+ loadedFromIndex);
-			if (!fromSet.contains(loadedFrom)) {
-				handleWarningMessage("Invalid from: " + loadedFrom
-						+ " changing it to: " + fromSet.getSelectedString(0),
-						currentCombo);
-				internalCorrection = true;
+			if (!fromSet.isEmpty()) {
+				if (!fromSet.contains(loadedFrom)) {
+					handleWarningMessage("Invalid from: " + loadedFrom
+							+ " changing it to: "
+							+ fromSet.getSelectedString(0), currentCombo);
+					internalCorrection = true;
+				}
+			} else {
+				throw new DynamoNoValidDataException("XXXX" + myConfiguration.getTo());
 			}
 			currentCombo.removeAll(); //
 			int fromSetSize = fromSet.size();

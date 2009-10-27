@@ -110,6 +110,7 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 		}
 		// Set the new default (can be the same value as the removed one)
 		setDefaultValue();
+		
 		if (((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
 				.getListenerWorking()) {
 			goListen();

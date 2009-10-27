@@ -36,12 +36,13 @@ public class DiseaseTab extends NestedTab {
 	 * @param defaultDisease
 	 * @param output
 	 * @throws ConfigurationException
+	 * @throws NoMoreDataException 
 	 */
 	public DiseaseTab(Set<String> selectedDisease, TabFolder tabfolder,
 			String tabName, DynamoSimulationObject dynamoSimulationObject,
 			BaseNode selectedNode, HelpGroup helpGroup,
 			DiseasesTabPlatform diseasesTabPlatform)
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException {
 		super(selectedDisease, tabfolder, tabName, dynamoSimulationObject,
 				selectedNode, helpGroup, null, diseasesTabPlatform);
 	}

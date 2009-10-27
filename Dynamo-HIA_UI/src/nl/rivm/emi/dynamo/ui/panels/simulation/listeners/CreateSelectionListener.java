@@ -46,15 +46,20 @@ public class CreateSelectionListener extends AbstractLoggingClass implements
 			// this.tabPlatform.getTabManager().createNestedTab();
 			NestedTab newNestedTab = tabPlatform.createNestedTab();
 			if (newNestedTab instanceof DiseaseTab) {
-				String tabName = newNestedTab.getName();
-				String diseaseName = ((DiseaseTab) newNestedTab)
-						.getCurrentSelectionText();
-				// Update the administration.
-				(((DiseasesTabPlatform) tabPlatform)
-						.getChoosableDiseaseNameManager())
-						.setChosenDiseaseName(diseaseName, tabName);
+				if (((DiseaseTab) newNestedTab).isYouCanUseMe()) {
+					// Only do this when construction went OK.
+					String tabName = newNestedTab.getName();
+					String diseaseName = ((DiseaseTab) newNestedTab)
+							.getCurrentSelectionText();
+					// Update the administration.
+					(((DiseasesTabPlatform) tabPlatform)
+							.getChoosableDiseaseNameManager())
+							.setChosenDiseaseName(diseaseName, tabName);
+					theModal.setChanged(true);
+				}
+			} else {
+				theModal.setChanged(true);
 			}
-			theModal.setChanged(true);
 		} catch (DynamoConfigurationException dce) {
 			this.handleErrorMessage(dce);
 		} catch (ConfigurationException ce) {

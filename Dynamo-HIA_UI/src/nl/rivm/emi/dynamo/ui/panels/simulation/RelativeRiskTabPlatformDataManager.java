@@ -8,7 +8,6 @@ import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;

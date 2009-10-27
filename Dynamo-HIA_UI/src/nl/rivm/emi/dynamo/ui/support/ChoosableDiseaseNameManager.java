@@ -66,8 +66,8 @@ public class ChoosableDiseaseNameManager extends LinkedHashMap<String, String> {
 	 */
 	public Set<String> getChoosableDiseaseNamesSet(String currentDiseaseName) {
 	log.debug("ChoosableDiseaseNamesManager: " + this + " currentDiseaseName: " + currentDiseaseName);
-	Exception e = new Exception();
-	e.printStackTrace(System.out);
+//	Exception e = new Exception();
+//	e.printStackTrace(System.out);
 	Set<String> choosableDiseaseNames = new LinkedHashSet<String>();
 		Set<String> validDiseaseNames = (Set<String>) treeLists
 				.getValidDiseaseNames();

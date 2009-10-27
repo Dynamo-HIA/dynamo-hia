@@ -26,6 +26,12 @@ public abstract class NestedTab extends Tab {
 
 	protected Set<String> selections;
 	protected TabPlatform myTabPlatform = null;
+	/**
+	 * Flag indicating the construction of the NestedTab has succeeded.
+	 * Nescessary because the propagation of an Exception has side-effects.
+	 */
+	protected boolean youCanUseMe = false;
+
 	public NestedTab(Set<String> selections, TabFolder tabFolder,
 			String tabName, DynamoSimulationObject dynamoSimulationObject,
 			BaseNode selectedNode, HelpGroup helpGroup,
@@ -38,28 +44,30 @@ public abstract class NestedTab extends Tab {
 		// Yes, make it here
 		try {
 			// The RelativeRiskTab does it at its own level.
-			if(!(this instanceof RelativeRiskTab)){
-			makeIt();
+			if (!(this instanceof RelativeRiskTab)) {
+				makeIt();
 
-			// The TabItem can only be created AFTER makeIt()
-			TabItem item = new TabItem(tabFolder, SWT.NONE);
-			item.setText(tabName);
-			item.setControl(this.plotComposite);
-			item.addListener(SWT.SELECTED, new Listener() {
-				public void handleEvent(Event event) {
-					TabItem item = (TabItem) event.item;
-					String tabId = item.getText();
-					log.debug("THIS TAB IS SELECTED" + tabId);
-				}
-			});
+				// The TabItem can only be created AFTER makeIt()
+				TabItem item = new TabItem(tabFolder, SWT.NONE);
+				item.setText(tabName);
+				item.setControl(this.plotComposite);
+				item.addListener(SWT.SELECTED, new Listener() {
+					public void handleEvent(Event event) {
+						TabItem item = (TabItem) event.item;
+						String tabId = item.getText();
+						log.debug("THIS TAB IS SELECTED" + tabId);
+					}
+				});
+				youCanUseMe = true;
 			}
 		} catch (NoMoreDataException e) {
-			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
-					+ " \nNo new tab is made");
-
+//			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
+//					+ " \nNo new tab is made");
 			e.printStackTrace();
 		}
-
 	}
 
+	public boolean isYouCanUseMe() {
+		return youCanUseMe;
+	}
 }
