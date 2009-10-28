@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -116,6 +117,35 @@ public class TabRelativeRiskConfigurationsProxy extends
 			e.printStackTrace(System.err);
 		}
 	}
+
+	/*
+	 * added by Hendriek Also check if the disease names in the relative risks
+	 * are still valid If not remove Both to and from can be diseasenames and
+	 * should be checked
+	 */
+	public void updateDependentRelativeRisks(String removedDisease) {
+		Map<Integer, TabRelativeRiskConfigurationData> relRiskConfiguration = dynamoSimulationObject
+				.getRelativeRiskConfigurations();
+
+		TabRelativeRiskConfigurationData singleRRconfiguration;
+
+		for (Iterator<TabRelativeRiskConfigurationData> iter = relRiskConfiguration
+				.values().iterator(); iter.hasNext();) {
+
+			// for (Integer key2 : relRiskConfiguration.keySet())
+
+			singleRRconfiguration = iter.next();
+
+			if (singleRRconfiguration.getFrom().equals(removedDisease)
+					|| singleRRconfiguration.getTo().equals(removedDisease))
+				iter.remove();
+
+			log.fatal("stop5: " + "size: " + relRiskConfiguration.size());
+		}
+		dynamoSimulationObject
+				.setRelativeRiskConfigurations(relRiskConfiguration);
+	}
+
 
 	/**
 	 * Just for dropdown generation.

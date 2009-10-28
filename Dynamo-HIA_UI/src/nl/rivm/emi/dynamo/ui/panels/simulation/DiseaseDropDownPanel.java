@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.ChoosableDiseaseNameManager;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.swt.widgets.Combo;
@@ -44,6 +45,7 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 		return currentIndex;
 	}
 
+	@Override
 	public void update(String newText) throws ConfigurationException,
 			NoMoreDataException, DynamoNoValidDataException {
 		updateMyDropDown(newText);
@@ -75,6 +77,7 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 		goListen();
 	}
 
+	@Override
 	public void fill(DropDownPropertiesSet set) {
 		int index = 0;
 		for (String item : set) {
@@ -95,25 +98,55 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 	public void refresh() throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		log.debug("REFRESH");
-		goDeaf();
-		this.selectablePropertiesSet.clear();
-		this.selectablePropertiesSet.addAll(this.myDataManager.getDropDownSet(
-				this.getLabel(), null));
-		log.debug("Set: " + this.selectablePropertiesSet);
-		// fill(this.selectablePropertiesSet);
-		refresh(this.selectablePropertiesSet);
-		// Remove old value (is choosable again)
-		this.myDataManager.removeOldDefaultValue(this.getLabel());
-		if (!((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
-				.getListenerWorking()) {
-			goListen();
-		}
-		// Set the new default (can be the same value as the removed one)
-		setDefaultValue();
-		
-		if (((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
-				.getListenerWorking()) {
-			goListen();
+		if (!DiseaseSelectionGroup.DISEASE.equals(dropDownLabel)) {
+			// Leave the old refresh intact.
+			goDeaf();
+			this.selectablePropertiesSet.clear();
+			this.selectablePropertiesSet.addAll(this.myDataManager
+					.getDropDownSet(this.getLabel(), null));
+			log.debug("Set: " + this.selectablePropertiesSet);
+			// fill(this.selectablePropertiesSet);
+			refresh(this.selectablePropertiesSet);
+			// Remove old value (is choosable again)
+			this.myDataManager.removeOldDefaultValue(this.getLabel());
+			if (!((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
+					.getListenerWorking()) {
+				goListen();
+			}
+			// Set the new default (can be the same value as the removed one)
+			setDefaultValue();
+
+			if (((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
+					.getListenerWorking()) {
+				goListen();
+			}
+		} else {
+			// This is the diseasename dropdown.
+			goDeaf();
+		//	selectablePropertiesSet.
+			ChoosableDiseaseNameManager choosableDiseaseNameManager = ((DiseaseTabDataManager) myDataManager)
+					.getMyTabPlatform().getChoosableDiseaseNameManager();
+			this.selectablePropertiesSet.clear();
+			this.selectablePropertiesSet
+					.addAll(choosableDiseaseNameManager
+							.getChoosableDiseaseNamesSet(((DiseaseTabDataManager) myDataManager)
+									.getValueFromSingleConfiguration(DiseaseSelectionGroup.DISEASE)));
+			log.debug("Set: " + this.selectablePropertiesSet);
+			// fill(this.selectablePropertiesSet);
+			refresh(this.selectablePropertiesSet);
+			// Remove old value (is choosable again)
+			this.myDataManager.removeOldDefaultValue(this.getLabel());
+			if (!((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
+					.getListenerWorking()) {
+				goListen();
+			}
+			// Set the new default (can be the same value as the removed one)
+			setDefaultValue();
+
+			if (((DiseaseTabDataManager) myDataManager).getMyTabPlatform()
+					.getListenerWorking()) {
+				goListen();
+			}
 		}
 	}
 
@@ -141,6 +174,7 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 	 * 
 	 * @param set
 	 */
+	@Override
 	public void refresh(DropDownPropertiesSet set) {
 		dropDown.removeAll();
 		int index = 0;
@@ -150,6 +184,7 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 		}
 	}
 
+	@Override
 	public void updateDataObjectModel(String newText)
 			throws ConfigurationException, NoMoreDataException {
 		// Remove old value (is choosable again)
@@ -162,18 +197,22 @@ public class DiseaseDropDownPanel extends GenericDropDownPanel {
 		}
 	}
 
+	@Override
 	public String getLabel() {
 		return this.dropDownLabel;
 	}
 
+	@Override
 	public GenericComboModifyListener getGenericComboModifyListener() {
 		return genericComboModifyListener;
 	}
 
+	@Override
 	public Combo getDropDown() {
 		return dropDown;
 	}
 
+	@Override
 	public String getParentValue() {
 		// TODO Auto-generated method stub
 		return null;

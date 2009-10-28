@@ -105,14 +105,20 @@ public class DiseasesTabPlatform extends TabPlatform {
 				} else {
 					MessageBox box = new MessageBox(
 							this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
-					box.setText("Error creating tab.");
+					box.setText("Did not create tab.");
 					box.setMessage("No more diseases available for configuring.");
 					box.open();
 				}
+				Set<String> diseaseNames = getDynamoSimulationObject().getDiseaseConfigurations().keySet();
+				StringBuffer diseaseNamesBuffer = new StringBuffer("DiseaseNames: ");
+				for(String name:diseaseNames){
+					diseaseNamesBuffer.append(name + ", ");
+				}
+				log.debug(diseaseNamesBuffer.toString());
 			} catch (NoMoreDataException e) {
 				MessageBox box = new MessageBox(
 						this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
-				box.setText("Error creating tab.");
+				box.setText("Exception creating tab.");
 				box.setMessage("No more diseases available for configuring.");
 				box.open();
 

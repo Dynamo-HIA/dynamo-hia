@@ -65,18 +65,22 @@ public class ChoosableDiseaseNameManager extends LinkedHashMap<String, String> {
 	 * @return
 	 */
 	public Set<String> getChoosableDiseaseNamesSet(String currentDiseaseName) {
-	log.debug("ChoosableDiseaseNamesManager: " + this + " currentDiseaseName: " + currentDiseaseName);
-//	Exception e = new Exception();
-//	e.printStackTrace(System.out);
-	Set<String> choosableDiseaseNames = new LinkedHashSet<String>();
+		log.debug("ChoosableDiseaseNamesManager: " + this
+				+ " currentDiseaseName: " + currentDiseaseName);
+		// Exception e = new Exception();
+		// e.printStackTrace(System.out);
+		Set<String> choosableDiseaseNames = new LinkedHashSet<String>();
 		Set<String> validDiseaseNames = (Set<String>) treeLists
 				.getValidDiseaseNames();
 		choosableDiseaseNames.addAll(validDiseaseNames);
 		log.debug("validDiseaseNames: " + choosableDiseaseNames);
 		Set<String> alreadyChosenDiseaseNamesSet = this.keySet();
-		log.debug("alreadyChosenDiseaseNamesSet: " + alreadyChosenDiseaseNamesSet);
+		log.debug("alreadyChosenDiseaseNamesSet: "
+				+ alreadyChosenDiseaseNamesSet);
 		choosableDiseaseNames.removeAll(alreadyChosenDiseaseNamesSet);
-		choosableDiseaseNames.add(currentDiseaseName);
+		if (currentDiseaseName != null) {
+			choosableDiseaseNames.add(currentDiseaseName);
+		}
 		log.debug("choosableDiseaseNames: " + choosableDiseaseNames);
 		return choosableDiseaseNames;
 	}
@@ -136,8 +140,8 @@ public class ChoosableDiseaseNameManager extends LinkedHashMap<String, String> {
 		log.debug("setChosenDiseaseName: " + chosenDiseaseName + " for tab: "
 				+ tabName);
 		// Debugging...
-//		 Exception e = new Exception();
-//		 e.printStackTrace(System.out);
+		// Exception e = new Exception();
+		// e.printStackTrace(System.out);
 		// ~Debugging...
 		String possibleDuplicate = put(chosenDiseaseName, tabName);
 		if (possibleDuplicate != null) {
@@ -195,8 +199,9 @@ public class ChoosableDiseaseNameManager extends LinkedHashMap<String, String> {
 	public String getFirstDiseaseNameOfSet(String currentDiseasesName)
 			throws ConfigurationException, NoMoreDataException {
 		try {
-			String firstDiseaseName = (String) this.getChoosableDiseaseNamesSet(
-					currentDiseasesName).iterator().next();
+			String firstDiseaseName = (String) this
+					.getChoosableDiseaseNamesSet(currentDiseasesName)
+					.iterator().next();
 			log.debug("getFirstDiseaseOfSet: " + firstDiseaseName);
 			return firstDiseaseName;
 		} catch (NoSuchElementException nse) {

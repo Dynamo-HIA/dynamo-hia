@@ -55,6 +55,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		super(upperTabFolder, RELATIVE_RISKS, selectedNode,
 				dynamoSimulationObject, helpGroup, null);
 		createContent();
+		getDataManager();
 	}
 
 	public static String getRELATIVE_RISKS() {
