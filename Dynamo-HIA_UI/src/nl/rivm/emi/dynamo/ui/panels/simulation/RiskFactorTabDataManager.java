@@ -102,7 +102,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	}
 
 	@Override
-	public String getValueFromSingleConfiguration(String dropDownName)
+	public String getCurrentValue(String dropDownName)
 			throws ConfigurationException {
 		log.debug("GET CURRENT VALUE");
 		log.debug("singleConfigurationXXX: " + singleConfiguration);

@@ -44,7 +44,6 @@ public class DynamoSimulationObject extends
 		IMinAge, INumberOfYears, PopulationFileName, ISimPopSize, IRandomSeed,
 		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases,
 		IRelativeRisks, IScenarios, IConfigurationCheck {
-	private static final long serialVersionUID = -1326323405965732005L;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -218,8 +217,8 @@ public class DynamoSimulationObject extends
 	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
-		// log.debug("Getting >" + riskFactorMap.size()
-		// + "< RiskFactorConfigurations from instance: " + this);
+		log.debug("Getting >" + riskFactorMap.size()
+				+ "< RiskFactorConfigurations from instance: " + this);
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		Set<Object> namesSet = riskFactorMap.keySet();
 		for (Object nameObject : namesSet) {
@@ -280,50 +279,23 @@ public class DynamoSimulationObject extends
 	}
 
 	public void setDiseaseConfigurations(
-			Map<String, ITabDiseaseConfiguration> newDiseaseConfigurations) {
+			Map<String, ITabDiseaseConfiguration> diseaseConfigurations) {
 		TypedHashMap<? extends XMLTagEntity> diseasesMap = new TypedHashMap(
 				XMLTagEntityEnum.UNIQUENAME.getTheType());
-		Set<Object> oldNameSet = ((TypedHashMap<? extends XMLTagEntity>) get(XMLTagEntityEnum.DISEASES
-				.getElementName())).keySet();
-		Set<String> newNameSet = newDiseaseConfigurations.keySet();
-		for (String name : newNameSet) {
-			TabDiseaseConfigurationData data = (TabDiseaseConfigurationData) newDiseaseConfigurations
+		Set<String> nameSet = diseaseConfigurations.keySet();
+		for (String name : nameSet) {
+			TabDiseaseConfigurationData data = (TabDiseaseConfigurationData) diseaseConfigurations
 					.get(name);
 			diseasesMap = data.putInTypedHashMap(diseasesMap);
 		}
 		put(XMLTagEntityEnum.DISEASES.getElementName(), diseasesMap);
-		String removedName = findRemoved(oldNameSet, newNameSet);
-		if (removedName != null) {
-			if (backDoorListener != null) {
-				backDoorListener.updateDependentRelativeRisks(removedName);
-			} else {
-				log.fatal("backDoorListener shouldn't be null.");
-			}
-		}
-	}
-
-	private String findRemoved(Set<Object> oldNameSet, Set<String> newNameSet) {
-		String removedName = null;
-		for (Object oldNameObject : oldNameSet) {
-			if (oldNameObject instanceof String) {
-				if (newNameSet.contains((String) oldNameObject)) {
-					continue;
-				}
-				removedName = (String) oldNameObject;
-				break;
-			} else {
-				log.fatal("oldNameObject is of wrong type: "
-						+ oldNameObject.getClass().getSimpleName());
-			}
-		}
-		return removedName;
 	}
 
 	public Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations() {
 		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
-		log.debug("Getting relative risk configurations.");
-		Exception e = new Exception();
+	log.debug("Getting relative risk configurations.");
+	Exception e = new Exception();
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
 		Set<Object> keySet;
 		if (relativeRisksMap == null) {
@@ -351,7 +323,7 @@ public class DynamoSimulationObject extends
 	 */
 	synchronized public void setRelativeRiskConfigurations(
 			Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations) {
-		// log.debug("Setting RelativeRisks in instance: " + this);
+		log.debug("Setting RelativeRisks in instance: " + this);
 		TypedHashMap<? extends XMLTagEntity> relativeRisksMap = new TypedHashMap(
 				XMLTagEntityEnum.RRINDEX.getTheType());
 		Set<Integer> indexSet = relativeRiskConfigurations.keySet();

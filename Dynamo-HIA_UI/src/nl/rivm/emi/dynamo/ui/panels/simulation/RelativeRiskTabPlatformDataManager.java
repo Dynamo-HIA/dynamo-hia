@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -215,10 +216,10 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	/**
 	 * @deprecated (non-Javadoc)
 	 * 
-	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getValueFromSingleConfiguration
+	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getCurrentValue
 	 *      (java.lang.String)
 	 */
-	public String getValueFromSingleConfiguration(String name) throws ConfigurationException {
+	public String getCurrentValue(String name) throws ConfigurationException {
 		// log.debug("GET CURRENT VALUE");
 		// log.debug("singleConfigurationXXX: " + singleConfiguration);
 		String value = null;

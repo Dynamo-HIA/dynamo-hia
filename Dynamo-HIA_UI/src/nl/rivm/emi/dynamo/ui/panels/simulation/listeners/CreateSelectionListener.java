@@ -36,30 +36,16 @@ public class CreateSelectionListener extends AbstractLoggingClass implements
 
 	public void widgetDefaultSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
-				+ " got widgetDefaultSelected event.");
+				+ " got widgetDefaultSelected callback.");
 	}
 
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected event.");
 		try {
-			// this.tabPlatform.getTabManager().createNestedTab();
-			NestedTab newNestedTab = tabPlatform.createNestedTab();
-			if (newNestedTab instanceof DiseaseTab) {
-				if (((DiseaseTab) newNestedTab).isYouCanUseMe()) {
-					// Only do this when construction went OK.
-					String tabName = newNestedTab.getName();
-					String diseaseName = ((DiseaseTab) newNestedTab)
-							.getCurrentSelectionText();
-					// Update the administration.
-					(((DiseasesTabPlatform) tabPlatform)
-							.getChoosableDiseaseNameManager())
-							.setChosenDiseaseName(diseaseName, tabName);
-					theModal.setChanged(true);
-				}
-			} else {
-				theModal.setChanged(true);
-			}
+//			this.tabPlatform.getTabManager().createNestedTab();
+			tabPlatform.createNestedTab();
+			theModal.setChanged(true);
 		} catch (DynamoConfigurationException dce) {
 			this.handleErrorMessage(dce);
 		} catch (ConfigurationException ce) {
@@ -70,10 +56,10 @@ public class CreateSelectionListener extends AbstractLoggingClass implements
 	private void handleErrorMessage(Exception e) {
 		this.log.fatal(e);
 		e.printStackTrace();
-		// MessageBox box = new MessageBox(this.tabPlatform.getTabManager()
-		// .getTabFolder().getParent().getShell(), SWT.ERROR_UNSPECIFIED);
-		MessageBox box = new MessageBox(tabPlatform.getTabFolder().getParent()
-				.getShell(), SWT.ERROR_UNSPECIFIED);
+//		MessageBox box = new MessageBox(this.tabPlatform.getTabManager()
+//				.getTabFolder().getParent().getShell(), SWT.ERROR_UNSPECIFIED);
+		MessageBox box = new MessageBox(tabPlatform
+				.getTabFolder().getParent().getShell(), SWT.ERROR_UNSPECIFIED);
 		box.setText("Error occurred during creation of a new tab "
 				+ e.getMessage());
 		box.setMessage(e.getMessage());

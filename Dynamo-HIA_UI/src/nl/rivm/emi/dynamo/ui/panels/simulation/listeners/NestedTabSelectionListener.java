@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 public class NestedTabSelectionListener implements SelectionListener {
 
-	Log log = LogFactory.getLog(this.getClass().getName());
+	Log log = LogFactory.getLog(this.getClass().getSimpleName());
 
 	TabPlatform myTabPlatform = null;
 
@@ -37,10 +37,7 @@ public class NestedTabSelectionListener implements SelectionListener {
 	}
 
 	public void widgetSelected(SelectionEvent e) {
-		if(myTabPlatform instanceof DiseasesTabPlatform){
-			((DiseasesTabPlatform) myTabPlatform).setListenerWorking(true);
-		}
-		log.debug("TabPlatform : " + myTabPlatform.getClass().getSimpleName() + " Selected item index = "
+		log.debug("TabPlatform level: Selected item index = "
 				+ myTabPlatform.getTabFolder().getSelectionIndex());
 		log.debug("Selected item = "
 				+ (myTabPlatform.getTabFolder().getSelection() == null ? "null"
@@ -51,56 +48,29 @@ public class NestedTabSelectionListener implements SelectionListener {
 		if (selected > -1) {
 			TabItem item = myTabPlatform.getTabFolder().getItem(selected);
 			try {
-				log.debug("item.getText() >" + item.getText() + "<");
+				log.debug("item.getText()" + item.getText());
 				log.debug("nestedTabs.size()"
 						+ myTabPlatform.getNestedTabs().size());
 				log.debug("nestedTabs" + myTabPlatform.getNestedTabs());
 				NestedTab tab = myTabPlatform.getNestedTabs().get(
 						item.getText());
-				if (tab != null) {
-					if (tab instanceof RelativeRiskTab) {
-						DynamoSimulationObject dynSimObj = myTabPlatform
-								.getDynamoSimulationObject();
-						int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
-						TabRelativeRiskConfigurationData configuration = dynSimObj
-								.getRelativeRiskConfigurations().get(tabIndex);
-						RelRisksCollectionForDropdown possibleRelRisksProvider = ((RelativeRisksTabPlatform) myTabPlatform)
-								.getDataManager()
-								.getRelRisksCollectionForDropdown();
-						possibleRelRisksProvider.relRiskRefresh4Init(
-								configuration, dynSimObj);
-						myTabPlatform.refreshNestedTab(tab); // 20091026 Toegevoegd.
-					} else {
-// 20091026						 if (!(tab instanceof DiseaseTab)) {
-						myTabPlatform.refreshNestedTab(tab);
-// 20091026						 }
-					}
-				} else {
-					NestedTabsMap nestedTabs = myTabPlatform.getNestedTabs();
-					StringBuffer nestedTabNames = new StringBuffer(
-					"Nested Tab names: ");
-					Set<String> keySet = nestedTabs.keySet();
-					for (String nestedTabName : keySet) {
-						nestedTabNames.append(nestedTabName + ", ");
-					}
-					TabItem[] tabItems = item.getParent().getItems();
-					StringBuffer tabItemNames = new StringBuffer(
-							"Sibling tabItem names: ");
-					for (TabItem tabItem : tabItems) {
-						tabItemNames.append(tabItem.getText() + ", ");
-					}
-					tabItemNames.setLength(tabItemNames.length() - 2);
-					log
-							.warn("Orphaned widget: "
-									+ item.getClass().getSimpleName()
-									+ ", "
-									+ System.identityHashCode(item)
-									+ " has no corresponding NestedTab, parent-tooltip: "
-									+ item.getParent().getToolTipText()
-									+ ",\n parent-instance: "
-									+ System.identityHashCode(item.getParent())
-									+ " >>> " + tabItemNames.toString());
+				if ((tab != null) && (tab instanceof RelativeRiskTab)) {
+					DynamoSimulationObject dynSimObj = myTabPlatform
+							.getDynamoSimulationObject();
+					int tabIndex = ((RelativeRiskTab) tab).getTabIndex();
+					TabRelativeRiskConfigurationData configuration = dynSimObj
+							.getRelativeRiskConfigurations().get(tabIndex);
+					/*
+					 * 20090918 ??? RelRisksCollectionForDropdown
+					 * possibleRelRisksProvider = ((RelativeRisksTabPlatform)
+					 * myTabPlatform) .getDataManager()
+					 * .getRelRisksCollectionForDropdown();
+					 * possibleRelRisksProvider
+					 * .relRiskRefresh4Init(configuration, dynSimObj);
+					 */
 				}
+				myTabPlatform.refreshNestedTab(myTabPlatform.getNestedTabs()
+						.get(item.getText()));
 			} catch (ConfigurationException ce) {
 				handleErrorMessage(ce);
 			} catch (NoMoreDataException e1) {
@@ -136,9 +106,6 @@ public class NestedTabSelectionListener implements SelectionListener {
 				}
 				tabItem.dispose();
 			}
-		}
-		if(myTabPlatform instanceof DiseasesTabPlatform){
-			((DiseasesTabPlatform) myTabPlatform).setListenerWorking(false);
 		}
 	}
 

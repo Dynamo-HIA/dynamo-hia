@@ -61,8 +61,8 @@ public abstract class NestedTab extends Tab {
 				youCanUseMe = true;
 			}
 		} catch (NoMoreDataException e) {
-//			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
-//					+ " \nNo new tab is made");
+			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
+					+ " \nNo new tab is made");
 			e.printStackTrace();
 		}
 	}

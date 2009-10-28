@@ -29,69 +29,62 @@ public class DiseaseTab extends NestedTab {
 	private DiseaseSelectionGroup diseaseSelectionGroup;
 	private DynamoTabDataManager dynamoTabDataManager;
 
-	/**
-	 * @param tabfolder
-	 * @param diseasesTabPlatform
-	 *            TODO
-	 * @param defaultDisease
-	 * @param output
-	 * @throws ConfigurationException
-	 * @throws NoMoreDataException 
-	 */
-	public DiseaseTab(Set<String> selectedDisease, TabFolder tabfolder,
-			String tabName, DynamoSimulationObject dynamoSimulationObject,
-			BaseNode selectedNode, HelpGroup helpGroup,
-			DiseasesTabPlatform diseasesTabPlatform)
-			throws ConfigurationException, NoMoreDataException {
-		super(selectedDisease, tabfolder, tabName, dynamoSimulationObject,
-				selectedNode, helpGroup, null, diseasesTabPlatform);
-	}
-
-	/**
-	 * Create the active contents of this tab
-	 * (BRRR. Called from the constructor of the superclass.)
-	 * 
-	 * @throws ConfigurationException
-	 * @throws NoMoreDataException
-	 */
-	@Override
-	public void makeIt() throws ConfigurationException, NoMoreDataException {
-		this.dynamoTabDataManager = new DiseaseTabDataManager(selectedNode,
-				getDynamoSimulationObject(), this.selections,
-				(DiseasesTabPlatform) myTabPlatform, tabName);
-		try {
-			this.diseaseSelectionGroup = new DiseaseSelectionGroup(tabName,
-					this.selections, this.plotComposite, selectedNode,
-					helpGroup, dynamoTabDataManager);
-
-			DiseaseResultGroup diseaseResultGroup = new DiseaseResultGroup(
-					this.selections, this.plotComposite, selectedNode,
-					helpGroup, diseaseSelectionGroup.group,
-					diseaseSelectionGroup.getDropDownModifyListener(),
-					dynamoTabDataManager);
-			diseaseSelectionGroup.goListen();
-//			diseaseSelectionGroup.refreshSelectionDropDown();
-		} catch (DynamoNoValidDataException e) {
-			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
-			// When no more data is available.
-			if (this.diseaseSelectionGroup != null) {
-				this.diseaseSelectionGroup.remove();
-			}
-			throw new NoMoreDataException(e.getMessage());
-
-		}
-	}
-
 	public DynamoTabDataManager getDynamoTabDataManager() {
 		return dynamoTabDataManager;
 	}
 
-	public String getCurrentSelectionText() {
-		return diseaseSelectionGroup.getCurrentSelectionText();
+	/** 
+	 * @param tabfolder
+	 * @param defaultDisease 
+	 * @param output
+	 * @throws ConfigurationException 
+	 */
+	public DiseaseTab(Set<String> selectedDisease,  
+			TabFolder tabfolder, String tabName,
+			DynamoSimulationObject dynamoSimulationObject,
+			BaseNode selectedNode, 
+			HelpGroup helpGroup) throws ConfigurationException {
+		super(selectedDisease, tabfolder, tabName,
+				dynamoSimulationObject,
+				selectedNode, 
+				helpGroup, null, null);
 	}
 
-	public void refreshSelectionGroup() throws ConfigurationException,
-			NoMoreDataException, DynamoNoValidDataException {
+	/**
+	 * Create the active contents of this tab
+	 * @throws ConfigurationException 
+	 * @throws NoMoreDataException 
+	 */	
+	@Override
+	public void makeIt() throws ConfigurationException, NoMoreDataException{
+		this.dynamoTabDataManager =
+			new DiseaseTabDataManager(selectedNode, 
+					getDynamoSimulationObject(),
+					this.selections);
+		try {
+		this.diseaseSelectionGroup =
+			new DiseaseSelectionGroup(tabName, this.selections, this.plotComposite,
+					selectedNode, helpGroup,
+					dynamoTabDataManager
+					);
+		
+		
+			DiseaseResultGroup diseaseResultGroup =
+				new DiseaseResultGroup(this.selections, this.plotComposite,					
+						selectedNode, helpGroup,
+						diseaseSelectionGroup.group,
+						diseaseSelectionGroup.getDropDownModifyListener(),
+						dynamoTabDataManager
+						);
+		} catch (DynamoNoValidDataException e) {
+			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			this.diseaseSelectionGroup.remove();
+			throw new NoMoreDataException(e.getMessage());
+
+		}
+	}
+	
+	public void refreshSelectionGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseSelectionGroup.refreshSelectionDropDown();
 	}
 

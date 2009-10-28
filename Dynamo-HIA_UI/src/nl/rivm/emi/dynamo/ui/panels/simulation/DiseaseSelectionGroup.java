@@ -37,7 +37,7 @@ public class DiseaseSelectionGroup {
 	// private BaseNode selectedNode;
 	private Set<String> selections;
 	private DynamoTabDataManager dynamoTabDataManager;
-	private DiseaseDropDownPanel diseaseDropDownPanel;
+	private GenericDropDownPanel diseaseDropDownPanel;
 	private HelpGroup helpGroup;
 
 	public DiseaseSelectionGroup(String tabName, Set<String> selections,
@@ -88,8 +88,9 @@ public class DiseaseSelectionGroup {
 		
 		DropDownPropertiesSet dropDownset = this.dynamoTabDataManager
 				.getDropDownSet(DISEASE, chosenDiseaseName);
-		if ((dropDownset != null) && (!dropDownset.isEmpty())) {
-			diseaseDropDownPanel = createDropDown(DISEASE, dropDownset,
+		if (dropDownset != null && !dropDownset.isEmpty()) {
+			diseaseDropDownPanel = createDropDown(DISEASE, dynamoTabDataManager
+					.getDropDownSet(DISEASE, chosenDiseaseName),
 					dynamoTabDataManager);
 			this.dropDownModifyListener = diseaseDropDownPanel
 					.getGenericComboModifyListener();
@@ -106,13 +107,12 @@ public class DiseaseSelectionGroup {
 		// .getGenericComboModifyListener();
 	}
 
-	private DiseaseDropDownPanel createDropDown(String label,
+	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet,
 			DynamoTabDataManager dynamoTabDataManager)
 			throws ConfigurationException {
-		// DiseaseFactorDataAction updateDiseaseFactorDataAction = new
-		// DiseaseFactorDataAction();
-		return new DiseaseDropDownPanel(group, label, 2,
+//		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}
 
@@ -128,18 +128,6 @@ public class DiseaseSelectionGroup {
 			NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseDropDownPanel.refresh();
 	}
-
-	public String getCurrentSelectionText() {
-		return (diseaseDropDownPanel.getDropDown()).getText();
-	}
-	
-	public void goListen(){
-		diseaseDropDownPanel.goListen();
-	}
-	public void goDeaf(){
-		diseaseDropDownPanel.goDeaf();
-	}
-
 	private void handleLayout() {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;

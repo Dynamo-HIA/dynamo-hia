@@ -10,11 +10,11 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.support.ChoosableDiseaseNameManager;
+import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -31,31 +31,14 @@ import org.eclipse.swt.widgets.TabFolder;
  * 
  * @author schutb
  * 
- *         20091006 mondeelr The nameSet returned by getConfigurations() no
- *         longer is produced directly from the configurationObject. It is now
- *         filtered to contain only diseaseNames that are still available. This
- *         extra functionality is nescessary because diseases can now be
- *         deleted....
  */
 
 public class DiseasesTabPlatform extends TabPlatform {
 
-	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	private static final String DISEASES = "Diseases";
 	private static final String DISEASE = "Disease";
-
-	private final ChoosableDiseaseNameManager choosableDiseaseNameManager;
-	private Boolean listenerWorking = false;
-
-	public Boolean getListenerWorking() {
-		return listenerWorking;
-	}
-
-	synchronized public void setListenerWorking(Boolean listenerWorking) {
-		this.listenerWorking = listenerWorking;
-	}
 
 	/**
 	 * @param tabfolder
@@ -68,10 +51,27 @@ public class DiseasesTabPlatform extends TabPlatform {
 			throws ConfigurationException {
 		super(upperTabFolder, DISEASES, selectedNode, dynamoSimulationObject,
 				helpGroup, null);
-		log.debug("Constructed super, now some local thingies, my instance: "
-				+ this);
-		choosableDiseaseNameManager = new ChoosableDiseaseNameManager(this);
+		// Create an empty instance to prevent retention over different simulation-screens.
+		ChoosableDiseases.createFreshInstance();
+		//
 		createContent();
+	}
+
+	@Override
+	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
+			throws ConfigurationException {
+		tabFolder.removeSelectionListener(listener);
+		// int newTabNumber = this.getTabManager().getNumberOfTabs() + 1;
+		int newTabNumber = getNumberOfTabs() + 1;
+		String tabName = DISEASE + newTabNumber;
+		// return new DiseaseTab(defaultSelections,
+		// this.getTabManager().getTabFolder(),
+		DiseaseTab newTab = new DiseaseTab(defaultSelections, tabFolder,
+				tabName, getDynamoSimulationObject(), selectedNode, helpGroup);
+		nestedTabs.put(tabName, newTab);
+		tabFolder.setSelection(newTabNumber-1);
+	tabFolder.addSelectionListener(listener);
+		return newTab;
 	}
 
 	@Override
@@ -79,117 +79,17 @@ public class DiseasesTabPlatform extends TabPlatform {
 		return createNestedDefaultTab(null);
 	}
 
-	/**
-	 * @param defaultSelections
-	 *            For diseases this Set contains either a null value for a new
-	 *            tab to be created or a single name when the tab is created for
-	 *            a configuration from the modelobject.
-	 */
-	@SuppressWarnings("finally")
-	@Override
-	public NestedTab createNestedDefaultTab(Set<String> defaultSelections)
-			throws ConfigurationException {
-		DiseaseTab newTab = null;
-		synchronized (tabFolder) {
-			try {
-				tabFolder.removeSelectionListener(listener);
-
-				int newTabNumber = getNumberOfTabs() + 1;
-				String tabName = DISEASE + newTabNumber;
-				newTab = new DiseaseTab(defaultSelections, tabFolder, tabName,
-						getDynamoSimulationObject(), selectedNode, helpGroup,
-						this);
-				if(newTab.isYouCanUseMe()){
-				nestedTabs.put(tabName, newTab);
-				tabFolder.addSelectionListener(listener);
-				} else {
-					MessageBox box = new MessageBox(
-							this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
-					box.setText("Did not create tab.");
-					box.setMessage("No more diseases available for configuring.");
-					box.open();
-				}
-				Set<String> diseaseNames = getDynamoSimulationObject().getDiseaseConfigurations().keySet();
-				StringBuffer diseaseNamesBuffer = new StringBuffer("DiseaseNames: ");
-				for(String name:diseaseNames){
-					diseaseNamesBuffer.append(name + ", ");
-				}
-				log.debug(diseaseNamesBuffer.toString());
-			} catch (NoMoreDataException e) {
-				MessageBox box = new MessageBox(
-						this.getUpperTabFolder().getShell(), SWT.ERROR_UNSPECIFIED);
-				box.setText("Exception creating tab.");
-				box.setMessage("No more diseases available for configuring.");
-				box.open();
-
-				e.printStackTrace();
-			} finally {
-				return newTab;
-			}
-		}
-	}
-
-	public ChoosableDiseaseNameManager getChoosableDiseaseNameManager() {
-		return choosableDiseaseNameManager;
-	}
-
 	@Override
 	public String getNestedTabPrefix() {
 		return DISEASE;
 	}
 
-	/**
-	 * 20091012 mondeelr Pulled down from TabPlatform to make it more specific.
-	 */
-	@Override
-	public void createDefaultTabs_FromManager()
-			throws DynamoConfigurationException, ConfigurationException {
-		Set<String> cleanedConfigurationDiseaseNames = choosableDiseaseNameManager
-				.getAndCleanDiseaseNames((LinkedHashMap<String, ITabDiseaseConfiguration>) getDynamoSimulationObject()
-						.getDiseaseConfigurations());
-		// Some debugging stuff.
-		StringBuffer concatDefTabKeyVals = new StringBuffer();
-		for (String keyValue : cleanedConfigurationDiseaseNames) {
-			concatDefTabKeyVals.append(keyValue + ", ");
-		}
-		log.debug("cleanedDiseaseNamesFromModelObject: " + concatDefTabKeyVals);
-		// Debugging stuff ends.
 
-		for (String defaultTabKeyValue : cleanedConfigurationDiseaseNames) {
-			Set<String> keyValues = new LinkedHashSet<String>();
-			keyValues.add(defaultTabKeyValue);
-			log.debug("defaultTabKeyValue: " + defaultTabKeyValue);
-			if (nestedTabs == null) {
-				createLowerTabFolder();
-			}
-			NestedTab nestedTab = createNestedDefaultTab(keyValues);
-			if (nestedTab != null) {
-				log.debug("Created nestedTab: " + nestedTab.getName());
-				// In the relativeRisksPlatform the nestedtab is directly placed
-				// in
-				// the collection.
-				if (!nestedTabs.containsKey(nestedTab.getName())) {
-					this.nestedTabs.put(nestedTab.getName(), nestedTab);
-				}
-				choosableDiseaseNameManager.setChosenDiseaseName(
-						defaultTabKeyValue, nestedTab.getName());
-			}
-		} // for ends.
-		try {
-			this.redraw_FromManager();
-		} catch (NoMoreDataException e) {
-			// should not occur as this should have been spotted earlier
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Not used for diseases.
-	 */
 	@Override
 	public Set<String> getConfigurations() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedHashMap<String, ITabDiseaseConfiguration> configurations = (LinkedHashMap<String, ITabDiseaseConfiguration>) this
+				.getDynamoSimulationObject().getDiseaseConfigurations();
+		return configurations.keySet();
 	}
 
 	@Override
@@ -198,15 +98,14 @@ public class DiseasesTabPlatform extends TabPlatform {
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
 		diseaseTab.removeTabDataObject();
 		/* also remove in the other disease tabs */
-		// Map<String, ITabDiseaseConfiguration> newConfigurations =
-		// ((DiseaseTabDataManager) ((DiseaseTab) diseaseTab)
-		// .getDynamoTabDataManager()).getConfigurations();
+		Map<String, ITabDiseaseConfiguration> newConfigurations = ((DiseaseTabDataManager) ((DiseaseTab) diseaseTab)
+				.getDynamoTabDataManager()).getConfigurations();
 		// for (String tabName :this.getTabManager().nestedTabs.keySet()){
 		for (String tabName : nestedTabs.keySet()) {
-			DiseaseTabDataManager dataManager = (DiseaseTabDataManager) ((DiseaseTab) nestedTabs
-					.get(tabName)).getDynamoTabDataManager();
-			// dataManager.setConfigurations(newConfigurations);
-			dataManager.touchConfigurations();
+			DiseaseTabDataManager dataManager = (DiseaseTabDataManager)
+			// ((DiseaseTab)this.getTabManager().nestedTabs.get(tabName)).getDynamoTabDataManager();
+			((DiseaseTab) nestedTabs.get(tabName)).getDynamoTabDataManager();
+			dataManager.setConfigurations(newConfigurations);
 		}
 	}
 
@@ -246,9 +145,4 @@ public class DiseasesTabPlatform extends TabPlatform {
 			}
 		}
 	}
-
-	public BaseNode getSelectedNode() {
-		return selectedNode;
-	}
-
 }

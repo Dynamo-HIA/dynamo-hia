@@ -71,13 +71,11 @@ public class DiseaseResultGroup {
 		// chosenDiseaseName is retrieved from IDiseaseConfiguration for
 		// Initialization!
 		String chosenDiseaseName = null;
-		// if (this.selections != null) {
-		// for (String chosenName : selections) {
-		// chosenDiseaseName = chosenName;
-		// }
-		chosenDiseaseName = dynamoTabDataManager
-				.getValueFromSingleConfiguration(DiseaseSelectionGroup.DISEASE);
-
+		if (this.selections != null) {
+			for (String chosenName : selections) {
+				chosenDiseaseName = chosenName;
+			}
+		}
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = createDropDown(
 				DISEASE_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 						DISEASE_PREVALENCE, chosenDiseaseName));
@@ -111,10 +109,10 @@ public class DiseaseResultGroup {
 				.getDropDown(), DALY_WEIGHTS);
 	}
 
-	private DiseaseDropDownPanel createDropDown(String label,
+	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet)
 			throws ConfigurationException {
-		return new DiseaseDropDownPanel(group, label, 2,
+		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, this.dynamoTabDataManager, helpGroup);
 	}
 	private void handleLayout() {

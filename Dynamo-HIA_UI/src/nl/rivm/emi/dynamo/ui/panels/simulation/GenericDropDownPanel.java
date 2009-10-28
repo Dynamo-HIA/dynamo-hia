@@ -68,7 +68,7 @@ public class GenericDropDownPanel {
 	protected void setDefaultValue() throws ConfigurationException {
 		// Get the default value
 		String currentValue = 
-			myDataManager.getValueFromSingleConfiguration(this.getLabel());
+			myDataManager.getCurrentValue(this.getLabel());
 		log.debug("CURRENTVALUEDEF: " + currentValue);
 		log.debug("getCurrentIndex(currentValue)" + getCurrentIndex(currentValue));
 		
@@ -81,7 +81,7 @@ public class GenericDropDownPanel {
 			this.myDataManager.setDefaultValue(this.getLabel(), currentValue);
 	}
 
-	protected int getCurrentIndex(String currentValue) {
+	private int getCurrentIndex(String currentValue) {
 		// No current value exists, select the first entry
 		if (currentValue == null)
 			return 0;
@@ -90,8 +90,16 @@ public class GenericDropDownPanel {
 			.getSelectedIndex(currentValue);
 	}
 
+	public void fill(DropDownPropertiesSet set) {
+		int index = 0;
+		for (String item : set) {
+			dropDown.add(item, index);
+			index++;
+		}
+	}	
+	
 	public void update(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
-		updateMyDropDown(newText);		
+		updateRegisteredDropDown(newText);		
 	}
 
 	/**
@@ -103,25 +111,17 @@ public class GenericDropDownPanel {
 	 * @throws NoMoreDataException 
 	 * @throws DynamoNoValidDataException 
 	 */
-	protected void updateMyDropDown(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
+	private void updateRegisteredDropDown(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		dropDown.removeAll();
 		log.debug("newText" + newText);
 		log.debug("this.getLabel()" + this.getLabel());
 		this.selectablePropertiesSet.clear();
 		this.selectablePropertiesSet.addAll( 
 			this.myDataManager.getDropDownSet(this.getLabel(), newText));		
-		log.debug("Set " + this.selectablePropertiesSet);
+		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		dropDown.select(0);
 	}
-
-	public void fill(DropDownPropertiesSet set) {
-		int index = 0;
-		for (String item : set) {
-			dropDown.add(item, index);
-			index++;
-		}
-	}	
 
 	/**
 	 * 
@@ -134,12 +134,12 @@ public class GenericDropDownPanel {
 	public void refresh() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		log.debug("REFRESH");
 		dropDown.removeModifyListener(this.genericComboModifyListener);
+		dropDown.removeAll();		
 		this.selectablePropertiesSet.clear();
 		this.selectablePropertiesSet.addAll( 
 			this.myDataManager.getRefreshedDropDownSet(this.getLabel()));		
-		log.debug("Set: " + this.selectablePropertiesSet);
-		// fill(this.selectablePropertiesSet);
-		refresh(this.selectablePropertiesSet);
+		log.debug("SET" + this.selectablePropertiesSet);
+		fill(this.selectablePropertiesSet);
 		// Remove old value (is choosable again)
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Set the new default (can be the same value as the removed one)
@@ -148,19 +148,6 @@ public class GenericDropDownPanel {
 		// TODO: fire an event for the modify listener to update the dependend drop downs
 	}
 
-	/**
-	 * Zap the dropdown-list and fill it.
-	 * @param set
-	 */
-	public void refresh(DropDownPropertiesSet set) {
-		dropDown.removeAll();
-		int index = 0;
-		for (String item : set) {
-			dropDown.add(item, index);
-			index++;
-		}
-	}	
-		
 	public void updateDataObjectModel(String newText) throws ConfigurationException, NoMoreDataException {
 		// Remove old value (is choosable again)
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
