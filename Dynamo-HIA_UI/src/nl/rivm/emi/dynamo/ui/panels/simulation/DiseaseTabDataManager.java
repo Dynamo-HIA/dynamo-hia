@@ -98,7 +98,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		if (contents != null) 
 			set.addAll(contents);
 		else if (chosenDiseaseName==null) throw new NoMoreDataException("no more configured diseases availlable");
-		else throw new DynamoNoValidDataException("the configured disease "+ chosenDiseaseName+" is no longer availlable");
+		else{
+			throw new DynamoNoValidDataException("the configured disease "+ chosenDiseaseName+" is no longer availlable");
+		}
 		
 		return set;	
 	}

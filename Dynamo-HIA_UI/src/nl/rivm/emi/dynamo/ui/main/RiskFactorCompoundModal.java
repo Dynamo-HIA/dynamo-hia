@@ -203,24 +203,6 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 					theViewer.refresh(); // Refresh the cache.
 					StandardDirectoryStructureHandler
 							.process((DirectoryNode) selectedNode);
-					// File selectedNodeStorage = selectedNode
-					// .getPhysicalStorage();
-					// String absolutePath =
-					// selectedNodeStorage.getAbsolutePath();
-					// String durationDirectoryAbsolutePath = absolutePath
-					// + File.separator
-					// +
-					// StandardTreeNodeLabelsEnum.DURATIONDISTRIBUTIONSDIRECTORY
-					// .getNodeLabel();
-					// File durationDistributionDirectory = new File(
-					// durationDirectoryAbsolutePath);
-					// if (!durationDistributionDirectory.exists()) {
-					// durationDistributionDirectory.mkdir();
-					// ((ParentNode) selectedNode)
-					// .addChild((ChildNode) new DirectoryNode(
-					// (ParentNode) selectedNode,
-					// durationDistributionDirectory));
-					// }
 					doSave = true;
 				} else {
 					// No processing, but saving is allowed.

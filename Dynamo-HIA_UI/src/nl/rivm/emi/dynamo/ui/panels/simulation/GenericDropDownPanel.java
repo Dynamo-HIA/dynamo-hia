@@ -61,8 +61,9 @@ public class GenericDropDownPanel {
 		this.fill(selectablePropertiesSet);
 		this.genericComboModifyListener = 
 			new GenericComboModifyListener(this, this.helpGroup);
-		dropDown.addModifyListener(genericComboModifyListener);
 		setDefaultValue();
+		dropDown.addModifyListener(genericComboModifyListener);
+// 20091029 Moved up.		setDefaultValue();
 	}
 	
 	protected void setDefaultValue() throws ConfigurationException {

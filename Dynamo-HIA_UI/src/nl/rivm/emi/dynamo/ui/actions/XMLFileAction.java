@@ -66,9 +66,7 @@ public class XMLFileAction extends ActionBase {
 	private NewbornsObject modelObject;
 	/**
 	 * Flag to make it possible to open a new Modal that has a "dirty"
-	 * ModelObject.
-	 * Defaults to false.
-	 * Currently only in use for Newborns.
+	 * ModelObject. Defaults to false. Currently only in use for Newborns.
 	 */
 	private boolean modelObjectChangedButNotYetSaved = false;
 
@@ -138,7 +136,8 @@ public class XMLFileAction extends ActionBase {
 								if (RootElementNamesEnum.DISEASEPREVALENCES
 										.getNodeLabel().equals(rootElementName)) {
 									theModal = new DiseasePrevalencesModal(
-											shell, importFile.getAbsolutePath(),
+											shell,
+											importFile.getAbsolutePath(),
 											savedFile.getAbsolutePath(),
 											rootElementName, node);
 								} else {
@@ -156,7 +155,8 @@ public class XMLFileAction extends ActionBase {
 														rootElementName)) {
 											theModal = new ExcessMortalityModal(
 													shell,
-													importFile.getAbsolutePath(),
+													importFile
+															.getAbsolutePath(),
 													savedFile.getAbsolutePath(),
 													rootElementName, node);
 										} else {
@@ -503,6 +503,12 @@ public class XMLFileAction extends ActionBase {
 					FileCreationFlag.isOld = true;
 				}
 				theViewer.refresh();
+				// 20091029 Added.
+				if(node instanceof DirectoryNode){
+				((DirectoryNode) node).updateStandardStructure();
+				theViewer.refresh();
+				}
+				// ~ 20091029
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

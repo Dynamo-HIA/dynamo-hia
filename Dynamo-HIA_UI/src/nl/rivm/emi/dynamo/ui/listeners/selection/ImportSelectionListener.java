@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.actions.NodeLessXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
@@ -51,12 +50,10 @@ public class ImportSelectionListener extends AbstractLoggingClass implements
 			this.modalParent.getShell().dispose();
 			String rootElementName = (String) this.modalParent
 					.getRootElementName();
-			String configurationFilePath = modalParent.getConfigurationFilePath();
-String dataFilePath = modalParent.getDataFilePath();
-			NodeLessXMLFileAction action = new NodeLessXMLFileAction(this.modalParent
+			XMLFileAction action = new XMLFileAction(this.modalParent
 					.getParentShell(), TreeViewerPlusCustomMenu
-					.getTreeViewerInstance(), configurationFilePath,
-					dataFilePath, rootElementName);
+					.getTreeViewerInstance(), this.modalParent.getBaseNode(),
+					rootElementName, rootElementName);
 			// Assume a different file has been imported.
 			this.modalParent.setChanged(true);
 			action.processThroughModal(dataFile, new File(this.modalParent
