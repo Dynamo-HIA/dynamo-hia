@@ -110,7 +110,7 @@ public class DiseaseSelectionGroup {
 	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet,
 			DynamoTabDataManager dynamoTabDataManager)
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException {
 //		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, dynamoTabDataManager, helpGroup);

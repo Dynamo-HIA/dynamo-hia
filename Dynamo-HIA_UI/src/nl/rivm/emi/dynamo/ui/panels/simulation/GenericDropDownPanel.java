@@ -10,9 +10,11 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -40,11 +42,10 @@ public class GenericDropDownPanel {
 	public GenericDropDownPanel(Composite parent, String dropDownLabel,
 			int columnSpan, DropDownPropertiesSet selectablePropertiesSet,
 			DynamoTabDataManager dataManager,
-			HelpGroup helpGroup) throws ConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException, NoMoreDataException {
 		this.parent = parent;
 		this.dropDownLabel = dropDownLabel;
 		this.selectablePropertiesSet = selectablePropertiesSet;
-//		this.redrawGroupAndUpdateDataAction = redrawGroupAndUpdateDataAction;
 		this.myDataManager = dataManager;
 		this.dropDownLabel = dropDownLabel;
 		this.helpGroup = helpGroup;
@@ -62,6 +63,9 @@ public class GenericDropDownPanel {
 		this.genericComboModifyListener = 
 			new GenericComboModifyListener(this, this.helpGroup);
 		setDefaultValue();
+		// 20091029+ NoMoreDataException added above.
+		myDataManager.updateObjectState(dropDownLabel, dropDown.getText());
+		// ~20091029+
 		dropDown.addModifyListener(genericComboModifyListener);
 // 20091029 Moved up.		setDefaultValue();
 	}

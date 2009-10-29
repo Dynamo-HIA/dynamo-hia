@@ -93,7 +93,7 @@ public class RiskFactorSelectionGroup {
 
 	private GenericDropDownPanel createDropDown(String label, 
 			DropDownPropertiesSet selectablePropertiesSet, 
-			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException {
+			DynamoTabDataManager dynamoTabDataManager) throws ConfigurationException, NoMoreDataException {
 //		RiskFactorDataAction updateRiskFactorDataAction = 
 //			new RiskFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2, 

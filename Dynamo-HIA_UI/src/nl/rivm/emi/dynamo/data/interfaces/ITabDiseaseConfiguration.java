@@ -50,4 +50,8 @@ public interface ITabDiseaseConfiguration extends INameConfiguration {
 	 */
 	public void setDalyWeightsFileName(String dalyWeightsFileName);
 
+	public String getValueForDropDown(String name);
+	
+	public void setValueFromDropDown(String name, String value);
+
 }

@@ -172,7 +172,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet, int columnSpan,
 			DynamoTabDataManager dynamoTabDataManager)
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException {
 		return new GenericDropDownPanel(scenarioDefGroup, label, columnSpan,
 				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}

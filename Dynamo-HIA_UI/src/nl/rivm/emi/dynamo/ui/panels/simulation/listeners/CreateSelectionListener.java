@@ -43,8 +43,7 @@ public class CreateSelectionListener extends AbstractLoggingClass implements
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected event.");
 		try {
-//			this.tabPlatform.getTabManager().createNestedTab();
-			tabPlatform.createNestedTab();
+			NestedTab newTab = tabPlatform.createNestedTab();
 			theModal.setChanged(true);
 		} catch (DynamoConfigurationException dce) {
 			this.handleErrorMessage(dce);

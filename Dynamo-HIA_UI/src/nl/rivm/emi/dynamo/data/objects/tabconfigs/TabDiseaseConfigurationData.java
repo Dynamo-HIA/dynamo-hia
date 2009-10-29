@@ -12,12 +12,15 @@ import nl.rivm.emi.dynamo.data.types.atomic.IncFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseResultGroup;
+import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
-public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration, ITabStoreConfiguration {
+public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
+		ITabStoreConfiguration {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -67,35 +70,33 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration, IT
 		this.dalyWeightsFileName = dalyWeightsFileName;
 	}
 
-	public void initialize(Object name, ArrayList<AtomicTypeObjectTuple> modelDiseaseData) {
+	public void initialize(Object name,
+			ArrayList<AtomicTypeObjectTuple> modelDiseaseData) {
 		setName((String) name);
 		for (AtomicTypeObjectTuple tuple : modelDiseaseData) {
 			XMLTagEntity type = tuple.getType();
-			
+
 			/*
-			
-			if (type instanceof UniqueName) {
-				setName( (String) ((WritableValue) 
-						tuple.getValue()).doGetValue());
-			} else {
-				
-				*/
-				
+			 * 
+			 * if (type instanceof UniqueName) { setName( (String)
+			 * ((WritableValue) tuple.getValue()).doGetValue()); } else {
+			 */
+
 			if (type instanceof PrevFileName) {
-				setPrevalenceFileName( (String) ((WritableValue) 
-						tuple.getValue()).doGetValue());
+				setPrevalenceFileName((String) ((WritableValue) tuple
+						.getValue()).doGetValue());
 			} else {
 				if (type instanceof IncFileName) {
-					setIncidenceFileName( (String) ((WritableValue) 
-							tuple.getValue()).doGetValue());
+					setIncidenceFileName((String) ((WritableValue) tuple
+							.getValue()).doGetValue());
 				} else {
 					if (type instanceof ExessMortFileName) {
-						setExcessMortalityFileName( (String) ((WritableValue) 
-								tuple.getValue()).doGetValue());
+						setExcessMortalityFileName((String) ((WritableValue) tuple
+								.getValue()).doGetValue());
 					} else {
 						if (type instanceof DALYWeightsFileName) {
-							setDalyWeightsFileName( (String) ((WritableValue) 
-									tuple.getValue()).doGetValue());
+							setDalyWeightsFileName((String) ((WritableValue) tuple
+									.getValue()).doGetValue());
 						} else {
 							log.fatal("Unexpected type \""
 									+ type.getXMLElementName()
@@ -105,45 +106,79 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration, IT
 				}
 			}
 		}
-		
-			
-		//}
-		
-		
+
+		// }
+
 	}
 
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> diseasesMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
-		
-		//FIX: UNIQUE NAME HAS TO BE INCLUDED TOO
+
+		// FIX: UNIQUE NAME HAS TO BE INCLUDED TOO
 		/*
+		 * AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
+		 * XMLTagEntityEnum.UNIQUENAME.getTheType(), new
+		 * WritableValue(getPrevalenceFileName(), String.class));
+		 * diseaseModelData.add(tuple);
+		 */
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.UNIQUENAME.getTheType(),
-				new WritableValue(getPrevalenceFileName(),
-						String.class));
-		diseaseModelData.add(tuple);*/
-		AtomicTypeObjectTuple
-		tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.PREVFILENAME.getTheType(),
-				new WritableValue(getPrevalenceFileName(),
-						String.class));
+				XMLTagEntityEnum.PREVFILENAME.getTheType(), new WritableValue(
+						getPrevalenceFileName(), String.class));
 		diseaseModelData.add(tuple);
 		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.INCFILENAME
-				.getTheType(), new WritableValue(getIncidenceFileName(), String.class));
+				.getTheType(), new WritableValue(getIncidenceFileName(),
+				String.class));
 		diseaseModelData.add(tuple);
-		tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.EXESSMORTFILENAME.getTheType(),
-				new WritableValue(getExcessMortalityFileName(),
-						String.class));
+		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.EXESSMORTFILENAME
+				.getTheType(), new WritableValue(getExcessMortalityFileName(),
+				String.class));
 		diseaseModelData.add(tuple);
-		tuple = new AtomicTypeObjectTuple(
-				XMLTagEntityEnum.DALYWEIGHTSFILENAME.getTheType(),
-				new WritableValue(getDalyWeightsFileName(),
-						String.class));
+		tuple = new AtomicTypeObjectTuple(XMLTagEntityEnum.DALYWEIGHTSFILENAME
+				.getTheType(), new WritableValue(getDalyWeightsFileName(),
+				String.class));
 		diseaseModelData.add(tuple);
 		diseasesMap.put(name, diseaseModelData);
 		return diseasesMap;
 	}
-}
 
+	public String getValueForDropDown(String name) {
+		String value = null;
+		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+			value = getName();
+			log.debug("VALUE: " + value);
+		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
+			value = getPrevalenceFileName();
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.INCIDENCE.equals(name)) {
+			value = getIncidenceFileName();
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.EXCESS_MORTALITY.equals(name)) {
+			value = getExcessMortalityFileName();
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
+			value = getDalyWeightsFileName();
+			log.debug("value" + value);
+		}
+		return value;
+	}
+
+	public void setValueFromDropDown(String name, String value) {
+		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+			 setName(value);
+			log.debug("VALUE: " + value);
+		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
+			setPrevalenceFileName(value);
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.INCIDENCE.equals(name)) {
+			setIncidenceFileName(value);
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.EXCESS_MORTALITY.equals(name)) {
+			setExcessMortalityFileName(value);
+			log.debug("value" + value);
+		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
+			setDalyWeightsFileName(value);
+			log.debug("value" + value);
+		}
+	}
+}

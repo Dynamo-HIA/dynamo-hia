@@ -70,7 +70,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 				tabName, getDynamoSimulationObject(), selectedNode, helpGroup);
 		nestedTabs.put(tabName, newTab);
 		tabFolder.setSelection(newTabNumber-1);
-	tabFolder.addSelectionListener(listener);
+		tabFolder.addSelectionListener(listener);
 		return newTab;
 	}
 

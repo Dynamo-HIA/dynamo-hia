@@ -96,7 +96,7 @@ public class RiskFactorResultGroup {
 
 	private GenericDropDownPanel createDropDown(String label,
 			DropDownPropertiesSet selectablePropertiesSet)
-			throws ConfigurationException {
+			throws ConfigurationException, NoMoreDataException {
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, this.dynamoTabDataManager, helpGroup);
 	}

@@ -217,16 +217,18 @@ public class DynamoSimulationObject extends
 	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
-		log.debug("Getting >" + riskFactorMap.size()
-				+ "< RiskFactorConfigurations from instance: " + this);
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
-		Set<Object> namesSet = riskFactorMap.keySet();
-		for (Object nameObject : namesSet) {
-			ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
-					.get(nameObject);
-			TabRiskFactorConfigurationData data = new TabRiskFactorConfigurationData();
-			data.initialize(nameObject, list);
-			theMap.put(data.getName(), data);
+		if (riskFactorMap != null) {
+			log.debug("Getting >" + riskFactorMap.size()
+					+ "< RiskFactorConfigurations from instance: " + this);
+			Set<Object> namesSet = riskFactorMap.keySet();
+			for (Object nameObject : namesSet) {
+				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
+						.get(nameObject);
+				TabRiskFactorConfigurationData data = new TabRiskFactorConfigurationData();
+				data.initialize(nameObject, list);
+				theMap.put(data.getName(), data);
+			}
 		}
 		return theMap;
 	}
@@ -294,8 +296,8 @@ public class DynamoSimulationObject extends
 	public Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations() {
 		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
-	log.debug("Getting relative risk configurations.");
-	Exception e = new Exception();
+		log.debug("Getting relative risk configurations.");
+		Exception e = new Exception();
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
 		Set<Object> keySet;
 		if (relativeRisksMap == null) {
