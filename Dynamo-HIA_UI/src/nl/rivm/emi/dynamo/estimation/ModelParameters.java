@@ -2533,10 +2533,9 @@ public class ModelParameters {
 		int[] indexForRows = new int[nSim];
 		int[] reverseIndexForRows = new int[nSim];
 		for (int i = 0; i < nSim; i++) {
-			indexForRows[nValidRows] = i;
-			reverseIndexForRows[i] = nValidRows;
-			if (weight[i] > 0)
-				nValidRows++;
+			if (weight[i] > 0){ indexForRows[nValidRows] = i;
+			 reverseIndexForRows[i] = nValidRows;
+							nValidRows++;}
 		}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
@@ -2554,7 +2553,7 @@ public class ModelParameters {
 					xMatrix[nrow][0] = 1.0;
 					wVector[nrow] = weight[i];
 					for (int rc = 1; rc < nValidCategories; rc++) {
-						if (riskclass[reverseIndexForRows[i]] == rc)
+						if (riskclass[i] == rc)
 							xMatrix[nrow][rc] = 1.0;
 						else
 							xMatrix[nrow][rc] = 0.0;
@@ -2710,6 +2709,7 @@ public class ModelParameters {
 			}
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 				this.relRiskOtherMortCont[age][sex] = 1;
+			else this.relRiskOtherMortCont[age][sex]=(float) Math.exp(beta[1]);
 
 			this.baselineOtherMortality[age][sex] = (float) Math.exp(beta[0]);
 			/**

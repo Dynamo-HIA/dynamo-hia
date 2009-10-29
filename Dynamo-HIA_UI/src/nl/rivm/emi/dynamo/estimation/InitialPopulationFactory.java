@@ -1450,15 +1450,16 @@ public class InitialPopulationFactory {
 					// TODO: nog checken
 
 					/*
-					 * if this is a independent disease then this is all // if
-					 * dependent disease, then relative risks should be // added
+					 * if this is a independent disease then this is all.
+					 * if dependent disease, then relative risks should be added
 					 * for those causal disease that are equal to 1 in the combi
 					 * 
-					 * // must be: probability conditional on not having disease
-					 * d // // we use RRextended and therefore can consider all
-					 * // disease as causes of each other // as RR=1 if this is
-					 * not the case // case // TODO check if RRextended is made
-					 * OK //
+					 * must be: probability conditional on not having disease d
+					 * 
+					 * we use RRextended and therefore can consider all
+					 * disease as causes of each other as RR=1 if this is
+					 * not the case 
+					 * // TODO check if RRextended is made OK //
 					 */
 					/*
 					 * now loop throught all diseases in the combi, look if they
