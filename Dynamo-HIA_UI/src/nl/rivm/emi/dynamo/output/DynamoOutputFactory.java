@@ -139,7 +139,7 @@ public class DynamoOutputFactory {
 
 	private double pDiseaseStateByOriRiskClassByAge[][][][][][];
 	/**
-	 * number of survivors in each diseaseState by scenario, time,disease state
+	 * number of survivors in each diseaseState by scenario, time, disease state,
 	 * risk class, age and sex
 	 */
 	private double nDiseaseStateByRiskClassByAge[][][][][][];
@@ -1679,7 +1679,7 @@ public class DynamoOutputFactory {
 									for (int r = 0; r < dim4; r++)
 										for (int a = 0; a < dim5; a++)
 											for (int g = 0; g < dim6; g++)
-												diseaseArray[scen][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+												diseaseArray[scen][r][a][g] += stateArray[scen][stepCount][currentClusterStart
 														+ state - 1][r][a][g];
 							}
 						}
@@ -1761,17 +1761,14 @@ public class DynamoOutputFactory {
 
 							if ((state & (1 << d)) == (1 << d)) {
 								/*
-								 * pDisease[thisScen][stepCount][currentDisease
-								 * + d][sexIndex] += compoundData[currentState +
-								 * s - 1] survival weight[riskFactor][ageIndex][
-								 * sexIndex]; if (details)
+								 * if d =1 in the state, add this state to the disease
 								 */
 								for (int scen = 0; scen < stateArray.length; scen++)
 									for (int r = 0; r < dim4; r++)
 										for (int stepCount = 0; stepCount < dim2; stepCount++)
 											for (int a = 0; a < dim5; a++)
 												for (int g = 0; g < dim6; g++)
-													diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart
+													diseaseArray[scen][stepCount][r][a][g] += stateArray[scen][stepCount][currentClusterStart
 															+ state - 1][r][a][g];
 							}
 						}
