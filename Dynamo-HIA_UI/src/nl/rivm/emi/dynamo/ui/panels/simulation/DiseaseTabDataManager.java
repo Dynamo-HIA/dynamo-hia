@@ -81,7 +81,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getDropDownSet(java.lang.String, java.lang.String)
 	 */
-	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException, NoMoreDataException {
+	public DropDownPropertiesSet getDropDownSet(String name, String chosenDiseaseName) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		log.debug("HIERALOOK");
 
 		// The model object already exists, get the name
@@ -98,7 +98,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		if (contents != null) 
 			set.addAll(contents);
 		else if (chosenDiseaseName==null) throw new NoMoreDataException("no more configured diseases availlable");
-		else throw new NoMoreDataException("the configured disease "+ chosenDiseaseName+" is no longer availlable");
+		else throw new DynamoNoValidDataException("the configured disease "+ chosenDiseaseName+" is no longer availlable");
 		
 		return set;	
 	}
@@ -298,7 +298,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getRefreshedDropDownSet(java.lang.String)
 	 */
-	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException, NoMoreDataException {
+	public DropDownPropertiesSet getRefreshedDropDownSet(String label) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		return getDropDownSet(label, null);
 	}
 
