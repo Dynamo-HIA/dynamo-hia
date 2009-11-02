@@ -7674,11 +7674,13 @@ public class DynamoOutputFactory {
 
 	public double[][][] getNDisabledByAge(int stepCount) {
 
-		double[][][] nDisabledByAge = new double[this.nScen + 1][this.nDim][2];
+		
+		int nDimHere=96 + this.stepsInRun;
+		double[][][] nDisabledByAge = new double[this.nScen + 1][nDimHere][2];
 
 		for (int r = 0; r < this.nRiskFactorClasses; r++)
 			for (int scen = 0; scen < this.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.stepsInRun; a++)
+				for (int a = 0; a < nDimHere; a++)
 					for (int g = 0; g < 2; g++)
 
 						if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
