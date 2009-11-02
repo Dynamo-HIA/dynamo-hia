@@ -31,8 +31,10 @@ public class TabPlatformListener implements Listener {
 		try {
 			if (tabId == "Risk Factor")
 				myTabsDataPanel.getRiskFactorTab().redraw();
-			if (tabId == "Diseases")
-				myTabsDataPanel.getDiseasesTabPlatform().redraw();
+			if (tabId == "Diseases"){
+				/*1-11-2009 next line added by Hendriek to make dropdown list present at startup */
+				myTabsDataPanel.getDiseasesTabPlatform().refreshAllTabs();
+				myTabsDataPanel.getDiseasesTabPlatform().redraw();}
 			if (tabId == "Relative Risks") {
 
 				// changed by Hendriek

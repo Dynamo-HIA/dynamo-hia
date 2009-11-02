@@ -76,6 +76,9 @@ public class DiseaseResultGroup {
 				chosenDiseaseName = chosenName;
 			}
 		}
+		
+		/* in case a new tab is created, we need also to add this to the dynamosimulation object */
+		
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = createDropDown(
 				DISEASE_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 						DISEASE_PREVALENCE, chosenDiseaseName));

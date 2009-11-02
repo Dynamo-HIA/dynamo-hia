@@ -78,7 +78,7 @@ public class DiseaseTab extends NestedTab {
 						);
 		} catch (DynamoNoValidDataException e) {
 			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
-			this.diseaseSelectionGroup.remove();
+			if (this.diseaseSelectionGroup!= null) this.diseaseSelectionGroup.remove();
 			throw new NoMoreDataException(e.getMessage());
 
 		}

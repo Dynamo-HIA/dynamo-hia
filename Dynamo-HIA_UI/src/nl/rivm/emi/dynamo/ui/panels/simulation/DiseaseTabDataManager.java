@@ -1,15 +1,19 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -136,6 +140,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			chosenDiseaseName = (String) choosableDiseases
 					.getFirstDiseaseOfSet(chosenDiseaseName, treeLists);
 			setDefaultValue(DiseaseSelectionGroup.DISEASE, chosenDiseaseName);
+			createInDynamoSimulationObject(chosenDiseaseName );
 		}
 		log.debug("HIERO chosenDiseaseName DATAMANAGER: " + chosenDiseaseName);
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
@@ -181,6 +186,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	/**
 	 * 
 	 * Updates the object model every time a selection is made
+	 * It also creates a new element in case of a new tab
 	 * 
 	 * @param dropDownName
 	 * @param selectedValue
@@ -201,6 +207,17 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			String chosenDiseaseName = (String) choosableDiseases
 					.getFirstDiseaseOfSet(null, treeLists);
 			selectedValue = chosenDiseaseName;
+			this.initialSelection=new LinkedHashSet<String>();
+			this.initialSelection.add(chosenDiseaseName);
+			this.singleConfiguration.setName(chosenDiseaseName);
+		}
+	
+		if (this.initialSelection == null && singleConfiguration != null && (this.singleConfiguration.getName() !=null)) {
+			log.debug("CREATING NEW TAB");
+				selectedValue =this.singleConfiguration.getName();
+				if (selectedValue !=null)
+			this.initialSelection=new LinkedHashSet<String>();
+			this.initialSelection.add(selectedValue);
 		}
 // Moved to function below the block.		
 //		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
@@ -215,8 +232,10 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 //		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
 //			singleConfiguration.setDalyWeightsFileName(selectedValue);
 //		}
-		singleConfiguration.setValueFromDropDown(name, selectedValue);
-		updateDynamoSimulationObject();
+		if (singleConfiguration !=null) {singleConfiguration.setValueFromDropDown(name, selectedValue);
+		updateDynamoSimulationObject(); }
+		
+		
 	}
 
 	public void updateDynamoSimulationObject() {
@@ -255,6 +274,31 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 
 	private void createInDynamoSimulationObject() {
 		this.singleConfiguration = new TabDiseaseConfigurationData();
+		
+	}
+	
+//	method added by Hendriek 2009-10-31
+	/* this methods adds a new disease to the dynamosimulation object, knowing the name */
+	
+	private void createInDynamoSimulationObject(String diseaseName) {
+		this.singleConfiguration = new TabDiseaseConfigurationData();
+		this.singleConfiguration.setName(diseaseName);
+		
+		Map<String, ITabDiseaseConfiguration> configurations = getConfigurations();
+		if (configurations==null) {
+			
+			
+			Map<String, ITabDiseaseConfiguration> diseaseConfigurations=
+			new LinkedHashMap<String, ITabDiseaseConfiguration>();
+			diseaseConfigurations.put(diseaseName,this.singleConfiguration);
+			configurations=diseaseConfigurations;
+			
+		}
+			
+		configurations.put(diseaseName, singleConfiguration);
+		this.getDynamoSimulationObject().setDiseaseConfigurations(
+				configurations);
+		
 	}
 
 	/*
@@ -265,7 +309,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 */
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
-		log.error("REMOVING OBJECT STATE");
+		log.fatal("REMOVING OBJECT STATE");
 		ChoosableDiseases.getInstance().removeChosenDisease(
 				this.singleConfiguration.getName());
 
@@ -335,7 +379,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 */
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
-		log.debug("SETDEFAULT: " + selectedValue);
+		log.fatal("SETDEFAULT: " + selectedValue);
 		// 20091029+ Functionality added as an attempt to compensate for
 		// disabled listeners at construction time.
 		if (singleConfiguration == null) {
@@ -344,6 +388,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		singleConfiguration.setValueFromDropDown(name, selectedValue);
 		// ~20091029+
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+			
 			ChoosableDiseases choosableDiseases = ChoosableDiseases
 					.getInstance();
 			choosableDiseases.setChosenDisease(selectedValue);
@@ -359,10 +404,12 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	public void removeOldDefaultValue(String name)
 			throws ConfigurationException {
 		if (this.singleConfiguration != null) {
-			log.debug("OLDDEFAULT: " + this.singleConfiguration.getName());
+			log.fatal("OLDDEFAULT to remove for "+ name+ " : " + this.singleConfiguration.getName());
 			if (DiseaseSelectionGroup.DISEASE.equals(name)) {
 				ChoosableDiseases choosableDiseases = ChoosableDiseases
 						.getInstance();
+				/* this removes the disease from the diseases that have been chosen and makes it choosable
+				 * again */
 				choosableDiseases.removeChosenDisease(this.singleConfiguration
 						.getName());
 			}

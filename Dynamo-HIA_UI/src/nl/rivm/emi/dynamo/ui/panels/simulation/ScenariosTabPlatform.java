@@ -52,12 +52,23 @@ public class ScenariosTabPlatform extends TabPlatform {
 		String tabName = SCENARIO + newTabNumber;
 		// return new ScenarioTab(defaultSelections,
 		// this.getTabManager().getTabFolder(),
-		ScenarioTab scenarioTab = new ScenarioTab(defaultSelections, tabFolder, tabName,
-				getDynamoSimulationObject(), dataBindingContext, selectedNode,
-				helpGroup);
-		nestedTabs.put(tabName, scenarioTab);
-		tabFolder.setSelection(newTabNumber-1);
-		tabFolder.addSelectionListener(listener);
+		ScenarioTab scenarioTab = new ScenarioTab(defaultSelections, tabFolder,
+				tabName, getDynamoSimulationObject(), dataBindingContext,
+				selectedNode, helpGroup);
+		if (scenarioTab.getScenarioResultGroup() != null) {
+			nestedTabs.put(tabName, scenarioTab);
+			tabFolder.setSelection(newTabNumber - 1);
+			tabFolder.addSelectionListener(listener);
+		} else {
+			// does not work, implemented elsewhere
+			//ITabScenarioConfiguration singleConfiguration = ((ScenarioTabDataManager) scenarioTab
+		//			.getDynamoTabDataManager()).getSingleConfiguration();
+		//	if (singleConfiguration != null)
+		//		scenarioTab.getDynamoSimulationObject()
+		//				.getScenarioConfigurations()
+			//			.remove(singleConfiguration);
+			scenarioTab = null;
+		}
 		return scenarioTab;
 	}
 
@@ -127,37 +138,43 @@ public class ScenariosTabPlatform extends TabPlatform {
 		refreshNestedTab(nestedTabs.get(SCENARIO + "1"));
 	}
 
-	
 	public void refreshAllTabs() throws ConfigurationException {
-		int oldTabNumber = getNumberOfTabs() ;
-		int newTabNumber= this.getConfigurations().size();
-		/*  if the number of old tabs is larger than the number of new ones, delete the 
-		 * extra tabs
+		int oldTabNumber = getNumberOfTabs();
+		int newTabNumber = this.getConfigurations().size();
+		/*
+		 * if the number of old tabs is larger than the number of new ones,
+		 * delete the extra tabs
 		 */
-		log.fatal("# oude tabs: "+oldTabNumber+" wordt "+ newTabNumber);
-		for (int i = 0; i < oldTabNumber-newTabNumber; i++){
-			/* note the the tabfolder in this object is the super tabfolder 
-			 * (of all groups, riskfactors, diseases etc)
-			 * while we need
-			 * the tabfolder for the scanarios which is found in the Tabmanager
+		log.fatal("# oude tabs: " + oldTabNumber + " wordt " + newTabNumber);
+		for (int i = 0; i < oldTabNumber - newTabNumber; i++) {
+			/*
+			 * note the the tabfolder in this object is the super tabfolder (of
+			 * all groups, riskfactors, diseases etc) while we need the
+			 * tabfolder for the scanarios which is found in the Tabmanager
 			 */
-			TabItem tabItem = getTabFolder().getItem(oldTabNumber -i-1);
+			TabItem tabItem = getTabFolder().getItem(oldTabNumber - i - 1);
 			tabItem.dispose();
-			log.fatal(" dispose tab "+i);
+			log.fatal(" dispose tab " + i);
 		}
-		int i=1;/* the first tab is tab 1 */
-		/* now rebuild all the tabs, using fresh information from the DynamoSimulationObject */
-		for (String scenName:  this.getConfigurations()){
+		int i = 1;/* the first tab is tab 1 */
+		/*
+		 * now rebuild all the tabs, using fresh information from the
+		 * DynamoSimulationObject
+		 */
+		for (String scenName : this.getConfigurations()) {
 			/* get the name of the nested tab */
 			String tabName = SCENARIO + Integer.toString(i);
-						/* get the datamanager of the nested tab */
-			ScenarioTabDataManager dataManager=(ScenarioTabDataManager)
-			 ((ScenarioTab) nestedTabs.get(tabName)).getDynamoTabDataManager();
-			/* let the datamanage refresh the data of the singleconfiguration 
-			 * from the DYNAMOsimulation object */
-			log.fatal(" refresh scenario tab "+i );
+			/* get the datamanager of the nested tab */
+			ScenarioTabDataManager dataManager = (ScenarioTabDataManager) ((ScenarioTab) nestedTabs
+					.get(tabName)).getDynamoTabDataManager();
+			/*
+			 * let the datamanage refresh the data of the singleconfiguration
+			 * from the DYNAMOsimulation object
+			 */
+			log.fatal(" refresh scenario tab " + i);
 			dataManager.refreshConfigurations(scenName);
-		    refreshNestedTab(nestedTabs.get(tabName));
-		    i++;
-	}}
+			refreshNestedTab(nestedTabs.get(tabName));
+			i++;
+		}
+	}
 }

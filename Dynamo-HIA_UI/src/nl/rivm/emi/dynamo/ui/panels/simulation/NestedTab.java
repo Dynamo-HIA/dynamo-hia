@@ -55,7 +55,7 @@ public abstract class NestedTab extends Tab {
 					public void handleEvent(Event event) {
 						TabItem item = (TabItem) event.item;
 						String tabId = item.getText();
-						log.debug("THIS TAB IS SELECTED" + tabId);
+						log.fatal("THIS TAB IS SELECTED" + tabId);
 					}
 				});
 				youCanUseMe = true;
@@ -63,7 +63,9 @@ public abstract class NestedTab extends Tab {
 		} catch (NoMoreDataException e) {
 			displayMessage(tabFolder.getParent().getDisplay(), e.getMessage()
 					+ " \nNo new tab is made");
+			
 			e.printStackTrace();
+			
 		}
 	}
 

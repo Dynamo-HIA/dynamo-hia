@@ -24,6 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 /**
  * 
@@ -95,6 +96,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 	@Override
 	public void deleteNestedTabPlusData(NestedTab nestedTab)
 			throws ConfigurationException {
+		tabFolder.removeSelectionListener(listener);
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
 		diseaseTab.removeTabDataObject();
 		/* also remove in the other disease tabs */
@@ -107,6 +109,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 			((DiseaseTab) nestedTabs.get(tabName)).getDynamoTabDataManager();
 			dataManager.setConfigurations(newConfigurations);
 		}
+		tabFolder.addSelectionListener(listener);
 	}
 
 	@Override
@@ -114,6 +117,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 			throws ConfigurationException {
 		DiseaseTab diseaseTab = (DiseaseTab) nestedTab;
 		try {
+			if (diseaseTab !=null)			
 			diseaseTab.refreshSelectionGroup();
 		}
 
@@ -145,4 +149,16 @@ public class DiseasesTabPlatform extends TabPlatform {
 			}
 		}
 	}
+	
+	
+	public void refreshAllTabs() throws ConfigurationException {
+		int i=1;
+		for (String diseaseName:  this.getConfigurations()){
+			String tabName = "Disease" + Integer.toString(i);
+			log.fatal("refresh diseasename "+diseaseName+"in tab "+tabName);
+			/* get the name of the nested tab */			
+		    refreshNestedTab(nestedTabs.get(tabName));
+		    i++;
+		    
+	}}
 }

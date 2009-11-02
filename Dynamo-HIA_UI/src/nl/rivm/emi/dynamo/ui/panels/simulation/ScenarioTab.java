@@ -80,13 +80,17 @@ public class ScenarioTab extends NestedTab {
 						this.getDynamoSimulationObject()
 						);
 		
-		this.scenarioResultGroup =
-			new ScenarioResultGroup(selections, this.plotComposite,
-					selectedNode, helpGroup,
-					scenarioSelectionGroup.scenarioDefGroup,
-					scenarioSelectionGroup.getDropDownModifyListener(),
-					dynamoTabDataManager
-					);
+		this.setScenarioResultGroup(new ScenarioResultGroup(selections, this.plotComposite,
+				selectedNode, helpGroup,
+				scenarioSelectionGroup.scenarioDefGroup,
+				scenarioSelectionGroup.getDropDownModifyListener(),
+				dynamoTabDataManager
+				));
+		} catch (NoMoreDataException e) {
+			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			throw new NoMoreDataException(e.getMessage());
+			
+		
 		} catch (DynamoNoValidDataException e) {
 			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
 			throw new NoMoreDataException(e.getMessage());
@@ -103,8 +107,16 @@ public class ScenarioTab extends NestedTab {
 	}
 
 	public void refreshResultGroup() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
-		this.scenarioResultGroup.refreshGroupDropDown();
+		this.getScenarioResultGroup().refreshGroupDropDown();
 		
+	}
+
+	public void setScenarioResultGroup(ScenarioResultGroup scenarioResultGroup) {
+		this.scenarioResultGroup = scenarioResultGroup;
+	}
+
+	public ScenarioResultGroup getScenarioResultGroup() {
+		return scenarioResultGroup;
 	}
 	
 	

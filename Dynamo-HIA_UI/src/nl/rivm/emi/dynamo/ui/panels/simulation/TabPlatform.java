@@ -151,6 +151,7 @@ public abstract class TabPlatform extends Tab {
 				e.printStackTrace();
 			}
 		}
+		this.tabFolder.addSelectionListener(this.listener);
 	}
 
 	// Create a new abstract tab
@@ -242,6 +243,7 @@ public abstract class TabPlatform extends Tab {
 
 			e.printStackTrace();
 		}
+		tabFolder.addSelectionListener(listener);
 	}
 
 	// Delete an abstract tab

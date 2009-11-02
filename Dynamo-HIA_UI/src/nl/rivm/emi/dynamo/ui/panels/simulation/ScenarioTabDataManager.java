@@ -40,6 +40,10 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 	private DynamoSimulationObject dynamoSimulationObject;
 	//private Map<String, ITabScenarioConfiguration> configurations;
 	private ITabScenarioConfiguration singleConfiguration;
+	public ITabScenarioConfiguration getSingleConfiguration() {
+		return singleConfiguration;
+	}
+
 	private Set<String> initialSelection;
 
 	public ScenarioTabDataManager(BaseNode selectedNode,
@@ -122,7 +126,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			if (contents !=null && (currentPrevalenceFile.equals(referentScenarioPrevalenceFileName) 
 					|| contentsForPrevalence.size()==1))
 			contents.remove(riskfactorData.getTransitionFileName());
-			if (contents.isEmpty()) contents=null;
+			if (contents != null && contents.isEmpty()) contents=null;
 			
 			/* end addition hendriek */
 			log.debug("contents3" + contents);

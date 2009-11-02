@@ -62,19 +62,22 @@ public class GenericDropDownPanel {
 		this.fill(selectablePropertiesSet);
 		this.genericComboModifyListener = 
 			new GenericComboModifyListener(this, this.helpGroup);
+		
 		setDefaultValue();
-		// 20091029+ NoMoreDataException added above.
 		myDataManager.updateObjectState(dropDownLabel, dropDown.getText());
+		// 20091029+ NoMoreDataException added above.
+	
 		// ~20091029+
 		dropDown.addModifyListener(genericComboModifyListener);
 // 20091029 Moved up.		setDefaultValue();
+		
 	}
 	
 	protected void setDefaultValue() throws ConfigurationException {
 		// Get the default value
 		String currentValue = 
 			myDataManager.getCurrentValue(this.getLabel());
-		log.debug("CURRENTVALUEDEF: " + currentValue);
+		log.fatal("CURRENTVALUEDEF: " + currentValue);
 		log.debug("getCurrentIndex(currentValue)" + getCurrentIndex(currentValue));
 		
 		// Retrieve the index value
@@ -146,18 +149,24 @@ public class GenericDropDownPanel {
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		// Remove old value (is choosable again)
+		log.fatal("REFRESH removes old default " + this.getLabel());
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Set the new default (can be the same value as the removed one)
+		log.fatal("REFRESH SETS default " );
 		setDefaultValue();
+		
 		dropDown.addModifyListener(this.genericComboModifyListener);		
 		// TODO: fire an event for the modify listener to update the dependend drop downs
 	}
 
-	public void updateDataObjectModel(String newText) throws ConfigurationException, NoMoreDataException {
+	public void updateDataObjectModel(String newText) throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		// Remove old value (is choosable again)
+		log.fatal(" remove old default "+this.getLabel());
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Add new value
 		this.myDataManager.updateObjectState(this.getLabel(), newText);
+		// added 1-11-2009
+		refresh();
 	}
 	
 	public String getLabel() {

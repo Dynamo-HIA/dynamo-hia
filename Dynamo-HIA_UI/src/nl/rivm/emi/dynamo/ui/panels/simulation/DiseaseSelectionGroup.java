@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
+import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -84,8 +85,21 @@ public class DiseaseSelectionGroup {
 			for (String chosenName : this.selections) {
 				chosenDiseaseName = chosenName;
 			}
+// added by hendriek 2009-10-31
+		} else {
+			// In case a new tab is created, check if there are diseases left
+			// and if so add this to the dynamosimulationobject
+
+			Set<String> contents = this.dynamoTabDataManager.getContents(
+					this.DISEASE, null);
+			if (contents != null)
+				dynamoTabDataManager.updateObjectState(this.DISEASE, null);
+
+			else
+				throw new NoMoreDataException(
+						"there are no more diseases to chose");
 		}
-		
+// end addition 2009-10-31
 		DropDownPropertiesSet dropDownset = this.dynamoTabDataManager
 				.getDropDownSet(DISEASE, chosenDiseaseName);
 		if (dropDownset != null && !dropDownset.isEmpty()) {
@@ -111,7 +125,8 @@ public class DiseaseSelectionGroup {
 			DropDownPropertiesSet selectablePropertiesSet,
 			DynamoTabDataManager dynamoTabDataManager)
 			throws ConfigurationException, NoMoreDataException {
-//		DiseaseFactorDataAction updateDiseaseFactorDataAction = new DiseaseFactorDataAction();
+		// DiseaseFactorDataAction updateDiseaseFactorDataAction = new
+		// DiseaseFactorDataAction();
 		return new GenericDropDownPanel(group, label, 2,
 				selectablePropertiesSet, dynamoTabDataManager, helpGroup);
 	}
@@ -128,6 +143,7 @@ public class DiseaseSelectionGroup {
 			NoMoreDataException, DynamoNoValidDataException {
 		this.diseaseDropDownPanel.refresh();
 	}
+
 	private void handleLayout() {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.makeColumnsEqualWidth = true;
@@ -141,7 +157,7 @@ public class DiseaseSelectionGroup {
 		formData.top = new FormAttachment(0, 6);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
-//		formData.bottom = new FormAttachment(25, 0);
+		// formData.bottom = new FormAttachment(25, 0);
 		formData.bottom = new FormAttachment(44, 0);
 		group.setLayoutData(formData);
 	}

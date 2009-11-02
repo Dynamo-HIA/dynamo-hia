@@ -75,6 +75,10 @@ public class GenericComboModifyListener implements ModifyListener {
 		} catch (NoMoreDataException e) {
 			this.handleErrorMessage(e, dropDown);
 			e.printStackTrace();
+		} catch (DynamoNoValidDataException e) {
+			this.handleErrorMessage(e, dropDown);
+			e.printStackTrace();
+			
 		}
 		// Iterate through the registered drop downs of this
 		log.debug("this.registeredDropDowns.size()"
