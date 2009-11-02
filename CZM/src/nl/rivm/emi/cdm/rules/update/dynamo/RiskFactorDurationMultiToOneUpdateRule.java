@@ -99,11 +99,12 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 			// WORKAROUND: clear() is put after the constructor (also calls load()). 
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
-			configurationFileConfiguration.clear();
 			
-			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
-			configurationFileConfiguration.load();
+			//configurationFileConfiguration.clear();
+			
+			// Validate the xml by xsd schema: there is no schema for this rule
+			//configurationFileConfiguration.setValidating(true);			
+			//configurationFileConfiguration.load();
 			
 			handleCharID(configurationFileConfiguration);
 			handleDurationClass(configurationFileConfiguration);

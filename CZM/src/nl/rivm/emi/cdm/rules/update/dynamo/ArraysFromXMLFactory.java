@@ -941,7 +941,7 @@ public class ArraysFromXMLFactory {
 			else {
 				throw new DynamoConfigurationException("Value: " + value
 						+ " is no String!");
-			}
+			}}
 			// for leafChildren
 			if (index == selectionValue
 					&& !(ageRead && sexRead && valueRead && indexRead))
@@ -970,7 +970,7 @@ public class ArraysFromXMLFactory {
 								+ " value: " + value);
 				}
 			}
-		}
+		
 		return arrayToBeFilled;
 
 	}

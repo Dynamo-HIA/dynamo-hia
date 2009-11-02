@@ -153,7 +153,7 @@ extends HealthStateManyToManyUpdateRule {
 					if (numberOfDiseasesInCluster[c] == 1) {
 
 						d = clusterStartsAtDiseaseNumber[c];
-						atMort = attributableMortality[ageValue][sexValue][d];
+						atMort = attributableMortality[d][ageValue][sexValue];
 						incidence = calculateIncidence(riskDurationValue,
 								ageValue, sexValue, d);
 						/*
@@ -206,7 +206,7 @@ extends HealthStateManyToManyUpdateRule {
 					} else if (withCuredFraction[c]) {
 						d = clusterStartsAtDiseaseNumber[c];
 
-						atMort = attributableMortality[ageValue][sexValue][d + 1];
+						atMort = attributableMortality[d + 1][ageValue][sexValue];
 						incidence2 = calculateIncidence(riskDurationValue,
 								ageValue, sexValue, d + 1);
 						incidence = incidence2
@@ -531,14 +531,15 @@ extends HealthStateManyToManyUpdateRule {
 					configurationFile);
 			
 			// Validate the xml by xsd schema
+			// TODO put schema's in again but these do not work
 			// WORKAROUND: clear() is put after the constructor (also calls load()). 
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
-			configurationFileConfiguration.clear();
+		//	configurationFileConfiguration.clear();
 			
 			// Validate the xml by xsd schema
-			configurationFileConfiguration.setValidating(true);			
-			configurationFileConfiguration.load();
+		//	configurationFileConfiguration.setValidating(true);			
+		//	configurationFileConfiguration.load();
 			
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
@@ -716,7 +717,7 @@ extends HealthStateManyToManyUpdateRule {
 			for (int a = 0; a < 96; a++) {
 				for (int g = 0; g < 2; g++) {
 					double[] attrMort = getAttributableMortality(a, g);
-					for (int r = 0; r < relRiskCategorical[0][0][0].length; r++) {
+					for (int r = 0; r < this.nCat; r++) {
 						if (r != durationClass) {
 							OtherMortalitySurvival[a][g][r] = (float) calculateOtherCauseSurvival(
 									r, a, g);
