@@ -761,15 +761,15 @@ public class InitialPopulationFactory {
 										currentDurationValue = DynamoLib.draw(
 												restDuration, rand);
 								}
-								currentIndividual.luxeSet(characteristicIndex,
-										new FloatCharacteristicValue(
-												stepsInSimulation,
-												characteristicIndex,
-												currentDurationValue));
-
-								characteristicIndex++;
-
 							}
+							currentIndividual.luxeSet(characteristicIndex,
+									new FloatCharacteristicValue(
+											stepsInSimulation,
+											characteristicIndex,
+											currentDurationValue));
+
+							characteristicIndex++;
+
 						}
 
 						/*
@@ -845,7 +845,7 @@ public class InitialPopulationFactory {
 
 						int currentscen = 0;
 						int currentpop = 1; // population 0 is the reference
-											// population
+						// population
 						boolean moreScenarios = true;
 						if (isAtLeastOneAllForOnePopulation
 								&& nPopulations == 2)
@@ -1450,15 +1450,14 @@ public class InitialPopulationFactory {
 					// TODO: nog checken
 
 					/*
-					 * if this is a independent disease then this is all.
-					 * if dependent disease, then relative risks should be added
+					 * if this is a independent disease then this is all. if
+					 * dependent disease, then relative risks should be added
 					 * for those causal disease that are equal to 1 in the combi
 					 * 
 					 * must be: probability conditional on not having disease d
 					 * 
-					 * we use RRextended and therefore can consider all
-					 * disease as causes of each other as RR=1 if this is
-					 * not the case 
+					 * we use RRextended and therefore can consider all disease
+					 * as causes of each other as RR=1 if this is not the case
 					 * // TODO check if RRextended is made OK //
 					 */
 					/*

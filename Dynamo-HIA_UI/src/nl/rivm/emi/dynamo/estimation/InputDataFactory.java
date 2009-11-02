@@ -1549,7 +1549,7 @@ public class InputDataFactory {
 				inputData.setRelRiskMortCat(this.factory
 						.manufactureTwoDimArray(configFileName,
 								"relrisksfordeath_compound", "relriskfordeath",
-								"cat", "value", true));
+								"cat", "begin", true));
 
 				inputData.setRelRiskDuurMortBegin(this.factory
 						.selectOneDimArray(configFileName,
@@ -1653,7 +1653,7 @@ public class InputDataFactory {
 				inputData.setRRforDisabilityCat(this.factory
 						.manufactureTwoDimArray(configFileName,
 								"relrisksfordisability_compound",
-								"relriskfordisability", "cat", "value", true));
+								"relriskfordisability", "cat", "begin", true));
 
 				inputData.setRRforDisabilityBegin(this.factory
 						.selectOneDimArray(configFileName,
