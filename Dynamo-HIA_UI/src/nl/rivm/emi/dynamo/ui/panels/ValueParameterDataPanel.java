@@ -71,8 +71,8 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
-			bindValue(tHMap, BiGender.FEMALE_INDEX);
 			bindValue(tHMap, BiGender.MALE_INDEX);
+			bindValue(tHMap, BiGender.FEMALE_INDEX);
 		}
 	}
 

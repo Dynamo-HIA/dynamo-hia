@@ -78,12 +78,13 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 				boolean isDurationClass = (classCount == durationClassIndex);
 				Label classCellLabel = new Label(this, SWT.NONE);
 				classCellLabel.setText(new Integer(classCount).toString());
-				ArrayList<AtomicTypeObjectTuple> femaleList = (ArrayList<AtomicTypeObjectTuple>) femaleClassHMap
-						.get(classCount);
-				bindGenderValues(femaleList, isDurationClass);
 				ArrayList<AtomicTypeObjectTuple> maleList = (ArrayList<AtomicTypeObjectTuple>) maleClassHMap
 						.get(classCount);
 				bindGenderValues(maleList, isDurationClass);
+				ArrayList<AtomicTypeObjectTuple> femaleList = (ArrayList<AtomicTypeObjectTuple>) femaleClassHMap
+				.get(classCount);
+		        bindGenderValues(femaleList, isDurationClass);
+
 			}
 		}
 	}
