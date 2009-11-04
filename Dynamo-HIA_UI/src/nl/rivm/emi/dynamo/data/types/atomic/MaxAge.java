@@ -9,4 +9,9 @@ public class MaxAge extends AbstractAge implements PayloadType<Integer> {
 	public MaxAge() {
 		super(XMLElementName, new Integer(0), AbstractAge.MAXAGE);
 	}
+	
+	@Override
+	public Integer getDefaultValue() {
+		return 95;
+	}
 }

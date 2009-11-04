@@ -9,4 +9,5 @@ public class MaxAge_LowerCase extends AbstractAge implements PayloadType<Integer
 	public MaxAge_LowerCase() {
 		super(XMLElementName);
 	}
+	
 }

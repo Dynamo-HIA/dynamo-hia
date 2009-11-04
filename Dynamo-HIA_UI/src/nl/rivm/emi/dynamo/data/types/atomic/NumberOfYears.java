@@ -9,4 +9,8 @@ public class NumberOfYears extends AbstractRangedInteger implements PayloadType<
 	public NumberOfYears(){
 		super(XMLElementName, 0, Integer.MAX_VALUE);
 	}
+	@Override
+	public Integer getDefaultValue() {
+		return 10;
+	}
 }

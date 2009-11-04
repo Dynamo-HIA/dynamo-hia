@@ -7,6 +7,10 @@ public class SimPopSize extends AbstractRangedInteger implements PayloadType<Int
 	static final protected String XMLElementName = "simPopSize";
 
 	public SimPopSize(){
-		super(XMLElementName, 0, Integer.MAX_VALUE);
+		super(XMLElementName, 1, Integer.MAX_VALUE);
+	}
+	@Override
+	public Integer getDefaultValue() {
+		return 10;
 	}
 }
