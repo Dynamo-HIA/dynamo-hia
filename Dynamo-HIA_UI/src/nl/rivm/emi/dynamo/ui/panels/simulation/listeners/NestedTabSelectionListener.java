@@ -39,10 +39,11 @@ public class NestedTabSelectionListener implements SelectionListener {
 	public void widgetSelected(SelectionEvent e) {
 		log.debug("TabPlatform level: Selected item index = "
 				+ myTabPlatform.getTabFolder().getSelectionIndex());
-		log.debug("Selected item = "
-				+ (myTabPlatform.getTabFolder().getSelection() == null ? "null"
-						: myTabPlatform.getTabFolder().getSelection()[0]
-								.toString()));
+		// removed 4-11-2009 by Hendriek as this gives error when no tab present
+//		log.debug("Selected item = "
+//				+ (myTabPlatform.getTabFolder().getSelection() == null ? "null"
+//						: myTabPlatform.getTabFolder().getSelection()[0]
+//								.toString()));
 
 		int selected = myTabPlatform.getTabFolder().getSelectionIndex();
 		if (selected > -1) {
