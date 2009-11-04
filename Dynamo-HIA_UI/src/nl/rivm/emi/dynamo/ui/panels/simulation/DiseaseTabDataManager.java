@@ -147,6 +147,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			// contents = this.treeLists.getValidDiseases();
 			contents = choosableDiseases.getChoosableDiseases(
 					chosenDiseaseName, treeLists);
+			// 2-10-2009 check if the choosen disease name is in contents, otherwise
 			log.debug("getContents NAME: " + contents);
 		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
 			contents = this.treeLists.getDiseasePrevalences(chosenDiseaseName);
@@ -212,10 +213,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			this.singleConfiguration.setName(chosenDiseaseName);
 		}
 	
-		if (this.initialSelection == null && singleConfiguration != null && (this.singleConfiguration.getName() !=null)) {
+		if (this.initialSelection == null && singleConfiguration != null) {
 			log.debug("CREATING NEW TAB");
 				selectedValue =this.singleConfiguration.getName();
-				if (selectedValue !=null)
 			this.initialSelection=new LinkedHashSet<String>();
 			this.initialSelection.add(selectedValue);
 		}
@@ -232,10 +232,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 //		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
 //			singleConfiguration.setDalyWeightsFileName(selectedValue);
 //		}
-		if (singleConfiguration !=null) {singleConfiguration.setValueFromDropDown(name, selectedValue);
-		updateDynamoSimulationObject(); }
-		
-		
+		singleConfiguration.setValueFromDropDown(name, selectedValue);
+		updateDynamoSimulationObject();
 	}
 
 	public void updateDynamoSimulationObject() {

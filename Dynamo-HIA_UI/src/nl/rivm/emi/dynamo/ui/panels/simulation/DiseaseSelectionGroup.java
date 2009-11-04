@@ -85,21 +85,21 @@ public class DiseaseSelectionGroup {
 			for (String chosenName : this.selections) {
 				chosenDiseaseName = chosenName;
 			}
-// added by hendriek 2009-10-31
-		} else {
+		}// added by hendriek 2009-10-31: removed as this has already been done so this is done twice here
+		// else {
 			// In case a new tab is created, check if there are diseases left
 			// and if so add this to the dynamosimulationobject
+//
+		//	Set<String> contents = this.dynamoTabDataManager.getContents(
+		//			this.DISEASE, null);
+		//	if (contents != null)
+		//.updateObjectState(this.DISEASE, null);
 
-			Set<String> contents = this.dynamoTabDataManager.getContents(
-					this.DISEASE, null);
-			if (contents != null)
-				dynamoTabDataManager.updateObjectState(this.DISEASE, null);
-
-			else
-				throw new NoMoreDataException(
-						"there are no more diseases to chose");
-		}
-// end addition 2009-10-31
+		//	else
+		//		throw new NoMoreDataException(
+		//				"there are no more diseases to chose");
+	//	}
+		// end addition 2009-10-31
 		DropDownPropertiesSet dropDownset = this.dynamoTabDataManager
 				.getDropDownSet(DISEASE, chosenDiseaseName);
 		if (dropDownset != null && !dropDownset.isEmpty()) {
