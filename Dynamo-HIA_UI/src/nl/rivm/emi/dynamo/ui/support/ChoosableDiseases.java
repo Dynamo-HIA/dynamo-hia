@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * 
  * 
- * Represents a String Set of diseases that have already been chosen. Is used to
- * compile a list of chosable diseases.
+ * Represents a String Set of diseases that have already been chosen (other than
+ * implied by the name!!). Is used to compile a list of chosable diseases.
  * 
  * @author schutb
  * 
@@ -65,28 +65,42 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 * This method returns a list with the names of the diseases in the tree
 	 * that have been correctly configured and can be chosen in a dropdown at
 	 * this point.
+	 * For proper working of the program it should return null if the choosenDisease
+	 * is not part of the diseases that can be choosen
 	 * 
 	 * @return
-	 * @param currentDiseasesName
+	 * @param currentDiseaseName
 	 *            the name that is currently chosen in the dropdown and should
 	 *            be able to be chosen again.
 	 * @return
 	 */
-	public Set<String> getChoosableDiseases(String currentDiseasesName,
+	public Set<String> getChoosableDiseases(String currentDiseaseName,
 			TreeAsDropdownLists lists) {
-		log.debug("currentDiseasesName: " + currentDiseasesName);
-		this.remove(currentDiseasesName);
-		// TODO: FIX THIS PERMANENTLY!!!!
+		log.debug("currentDiseasesName: " + currentDiseaseName);
+
+		
 		Set diseaseNames = new LinkedHashSet<String>();
 		diseaseNames.addAll(lists.getValidDiseaseNames());
-		log.debug("diseaseNames: " + diseaseNames);
-		log.debug("Chosendiseases-1-1-1: " + this);
+		log.fatal("diseaseNames: " + diseaseNames);
+		log.fatal("Chosendiseases-1-1-1: " + this);
+		//loop over the names that already have been choosen and remove those from the set, unless
+		// this is the current disease
+		if (currentDiseaseName!=null && !diseaseNames.contains(currentDiseaseName)) diseaseNames=null;
+		else
 		for (String chosenName : (Set<String>) this) {
-			log.debug("REMVOVING CHOSENNAME: " + chosenName);
-			diseaseNames.remove(chosenName);
+			log.debug("REMOVING CHOSENNAME: " + chosenName);
+			// Hendriek 31-10-2009: condition added (see above)
+			if (chosenName != currentDiseaseName)
+				diseaseNames.remove(chosenName);
+			
 		}
-		log.debug("diseaseNames222: " + diseaseNames);
-		log.debug("Chosendiseases-2-2-2: " + this);
+		/* added by Hendriek 2-11-2009 */
+		/* if the current disease is not a choosable disease, the method should return null */
+		if (diseaseNames!=null && diseaseNames.isEmpty()) diseaseNames=null;
+		// end addition 2-11-2009
+		log.fatal("diseaseNames222: " + diseaseNames);
+		log.fatal("Chosendiseases-2-2-2: " + this);
+		
 		return diseaseNames;
 	}
 
@@ -99,17 +113,21 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	public void setChosenDisease(String chosenDiseaseName) {
 		log.debug("setChosenDisease" + chosenDiseaseName);
 		log.debug("Chosendiseases111BEFORE: " + this);
-		this.add(chosenDiseaseName);
+		if( chosenDiseaseName!=null) this.add(chosenDiseaseName);
 		log.debug("Chosendiseases111AFTER: " + this);
+		log.fatal("Chosendiseases added: " + chosenDiseaseName);
+		log.fatal("Chosendiseases : " + this);
 	}
 
+	/* this make the disease choosable again */
 	public void removeChosenDisease(String name) {
 		log.debug("ChosendiseasesXXXBEFORE: " + this);
 		// log.debug("index" + index);
 		// String name = ((String) this.toArray()[index]);
 		log.debug("removename:" + name);
 		this.remove(name);
-		log.debug("ChosendiseasesXXXAFTER: " + this);
+		log.fatal("Chosendiseases removed: " + name);
+		log.fatal("Chosendiseases: " + this);
 	}
 
 	/**
@@ -122,13 +140,16 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 * @throws ConfigurationException
 	 * @throws NoMoreDataException
 	 */
-	public String getFirstDiseaseOfSet(String currentDiseasesName,
+	public String getFirstDiseaseOfSet(String currentDiseaseName,
 			TreeAsDropdownLists lists) throws ConfigurationException,
 			NoMoreDataException {
 		try {
 			log.debug("ChosendiseasesEEEE: " + this);
-			return (String) this.getChoosableDiseases(currentDiseasesName,
-					lists).iterator().next();
+			Set<String> stillAvaillableDiseases=this.getChoosableDiseases(currentDiseaseName,
+					lists);
+			if (stillAvaillableDiseases==null) throw new NoMoreDataException("A new disease is not available");
+			else 
+			return (String) stillAvaillableDiseases.iterator().next();
 		} catch (NoSuchElementException nse) {
 			throw new NoMoreDataException("A new disease is not available");
 		}
