@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Shell;
 public class DynamoSimulationGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Composite theGroup;
-	private RunButtonPanel runButtonGroup;
+//	private RunButtonPanel runButtonGroup;
 
 	public DynamoSimulationGroup(Shell shell, DynamoSimulationObject dynamoSimulationObject,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
@@ -46,10 +46,11 @@ public class DynamoSimulationGroup {
 //		parameterGroup.putFirstInContainer(450);  // 20090709 Original 550.
 		
 		// The third panel that contains the Run button
-		this.runButtonGroup = 
+		RunButtonPanel runButtonGroup = 
 			new RunButtonPanel(this.theGroup, simulationModal);
 		parameterGroup.putFirstInContainer(450, runButtonGroup.group);  // 20090709 Original 550.
-		this.runButtonGroup.putLastInContainer(parameterGroup.group);
+		runButtonGroup.putLastInContainer(parameterGroup.group);
+		simulationModal.setRunButtonPanel(runButtonGroup);
 	}
 
 	public void setFormData(Composite rightNeighbour, Composite lowerNeighbour) {
@@ -61,8 +62,8 @@ public class DynamoSimulationGroup {
 		theGroup.setLayoutData(formData);
 	}
 	
-	public RunButtonPanel getRunButtonGroup() {
-		return runButtonGroup;
-	}
+//	public RunButtonPanel getRunButtonGroup() {
+//		return runButtonGroup;
+//	}
 	
 }

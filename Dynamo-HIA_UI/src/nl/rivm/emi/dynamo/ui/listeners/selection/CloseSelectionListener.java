@@ -28,41 +28,82 @@ public class CloseSelectionListener extends AbstractLoggingClass implements
 		log.info("Control "
 				+ ((Control) selectionEvent.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
+		// 20091110 RLM Don't bother a user if nothing can be saved.
 		if (myModal.isChanged()) {
-			Control control = ((Control) selectionEvent.getSource());
-			Composite parent = control.getParent();
-			MessageBox messageBox = new MessageBox(parent.getShell(), SWT.YES
-					| SWT.NO);
-			messageBox.setText("Leaving edit window");
-			messageBox
-					.setMessage("Your data will not be saved.\nAre you OK with that?");
-			int returnCode = messageBox.open();
-			switch (returnCode) {
-			case SWT.OK:
-				log.debug("MessageBox returns: " + "SWT.OK");
-				break;
-			case SWT.CANCEL:
-				log.debug("MessageBox returns: " + "SWT.CANCEL");
-				break;
-			case SWT.YES:
-				log.debug("MessageBox returns: " + "SWT.YES");
+			if (!myModal.isConfigurationFileReadOnly()) {
+				Control control = ((Control) selectionEvent.getSource());
+				Composite parent = control.getParent();
+				MessageBox messageBox = new MessageBox(parent.getShell(),
+						SWT.YES | SWT.NO);
+				messageBox.setText("Leaving edit window");
+				messageBox
+						.setMessage("Your data will not be saved.\nAre you OK with that?");
+				int returnCode = messageBox.open();
+				switch (returnCode) {
+				case SWT.OK:
+					log.debug("MessageBox returns: " + "SWT.OK");
+					break;
+				case SWT.CANCEL:
+					log.debug("MessageBox returns: " + "SWT.CANCEL");
+					break;
+				case SWT.YES:
+					log.debug("MessageBox returns: " + "SWT.YES");
+					myModal.getShell().dispose();
+					break;
+				case SWT.NO:
+					log.debug("MessageBox returns: " + "SWT.NO");
+					break;
+				case SWT.RETRY:
+					log.debug("MessageBox returns: " + "SWT.RETRY");
+					break;
+				case SWT.ABORT:
+					log.debug("MessageBox returns: " + "SWT.ABORT");
+					break;
+				case SWT.IGNORE:
+					log.debug("MessageBox returns: " + "SWT.IGNORE");
+					break;
+				default:
+					log
+							.debug("MessageBox returns something unexpected. Returncode: "
+									+ returnCode);
+				}
+			} else {
+				Control control = ((Control) selectionEvent.getSource());
+				Composite parent = control.getParent();
+				MessageBox messageBox = new MessageBox(parent.getShell(),
+						SWT.OK);
+				messageBox.setText("Leaving edit window");
+				messageBox
+						.setMessage("You have changed a readonly configuration\n This configuration cannot be saved.");
+				int returnCode = messageBox.open();
+				switch (returnCode) {
+				case SWT.OK:
+					log.debug("MessageBox returns: " + "SWT.OK");
+					break;
+				case SWT.CANCEL:
+					log.debug("MessageBox returns: " + "SWT.CANCEL");
+					break;
+				case SWT.YES:
+					log.debug("MessageBox returns: " + "SWT.YES");
+					break;
+				case SWT.NO:
+					log.debug("MessageBox returns: " + "SWT.NO");
+					break;
+				case SWT.RETRY:
+					log.debug("MessageBox returns: " + "SWT.RETRY");
+					break;
+				case SWT.ABORT:
+					log.debug("MessageBox returns: " + "SWT.ABORT");
+					break;
+				case SWT.IGNORE:
+					log.debug("MessageBox returns: " + "SWT.IGNORE");
+					break;
+				default:
+					log
+							.debug("MessageBox returns something unexpected. Returncode: "
+									+ returnCode);
+				}
 				myModal.getShell().dispose();
-				break;
-			case SWT.NO:
-				log.debug("MessageBox returns: " + "SWT.NO");
-				break;
-			case SWT.RETRY:
-				log.debug("MessageBox returns: " + "SWT.RETRY");
-				break;
-			case SWT.ABORT:
-				log.debug("MessageBox returns: " + "SWT.ABORT");
-				break;
-			case SWT.IGNORE:
-				log.debug("MessageBox returns: " + "SWT.IGNORE");
-				break;
-			default:
-				log.debug("MessageBox returns something unexpected. Returncode: "
-								+ returnCode);
 			}
 		} else {
 			myModal.getShell().dispose();

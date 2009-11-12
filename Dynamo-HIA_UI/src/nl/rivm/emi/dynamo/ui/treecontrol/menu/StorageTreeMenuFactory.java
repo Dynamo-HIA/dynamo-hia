@@ -878,14 +878,7 @@ public class StorageTreeMenuFactory {
 
 	private void handleXMLs(IMenuManager manager, FileNode node)
 			throws DynamoConfigurationException {
-		String rootElementName = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node
-						.getPhysicalStorage());
-		XMLFileAction action = new XMLFileAction(shell, treeViewer,
-				(BaseNode) node, node.toString(), rootElementName);
-		action.setText("Edit");
-		manager.add(action);
-
+		String rootElementName = addFileEditOrViewAction(manager, node, null);
 		if (!RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel().equals(
 				rootElementName)
 				&& !RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
@@ -902,7 +895,7 @@ public class StorageTreeMenuFactory {
 					"The Risk-Factor still has configuration/data files.\n"
 							+ "You must delete them all first");
 			DeleteDirectoryAction delDirAction = new DeleteDirectoryAction(
-					shell, treeViewer, (DirectoryNode)parentNode,
+					shell, treeViewer, (DirectoryNode) parentNode,
 					theMessageStrings, 2);
 			delDirAction.setText("Delete riskfactor");
 			manager.add(delDirAction);
@@ -939,30 +932,13 @@ public class StorageTreeMenuFactory {
 		if ("transitiondrift".equals(ConfigurationFileUtil
 				.extractRootElementNameIncludingSchemaCheck(node
 						.getPhysicalStorage()))) {
-			String rootElementName = ConfigurationFileUtil
-					.extractRootElementNameIncludingSchemaCheck(node
-							.getPhysicalStorage());
-			// TODO: Create screen W21 Transition Drift
-			XMLFileAction action = new XMLFileAction(this.shell,
-					this.treeViewer, (BaseNode) node, node.toString(),
-					rootElementName);
-			action.setText("Edit");
-			manager.add(action);
+			addFileEditOrViewAction(manager, node, null);
 			addFileDeleteAction(manager, node);
 		} else {
 			if ("transitiondrift_netto".equals(ConfigurationFileUtil
 					.extractRootElementNameIncludingSchemaCheck(node
 							.getPhysicalStorage()))) {
-				String rootElementName = ConfigurationFileUtil
-						.extractRootElementNameIncludingSchemaCheck(node
-								.getPhysicalStorage());
-				// TODO: Create screen W21 Transition
-				// Drift Netto
-				XMLFileAction action = new XMLFileAction(this.shell,
-						this.treeViewer, (BaseNode) node, node.toString(),
-						rootElementName);
-				action.setText("Edit");
-				manager.add(action);
+				addFileEditOrViewAction(manager, node, null);
 				addFileDeleteAction(manager, node);
 			} else {
 				if ("transitiondrift_zero".equals(ConfigurationFileUtil
@@ -984,14 +960,7 @@ public class StorageTreeMenuFactory {
 					if ("transitionmatrix".equals(ConfigurationFileUtil
 							.extractRootElementNameIncludingSchemaCheck(node
 									.getPhysicalStorage()))) {
-						String rootElementName = ConfigurationFileUtil
-								.extractRootElementNameIncludingSchemaCheck(node
-										.getPhysicalStorage());
-						XMLFileAction action = new XMLFileAction(this.shell,
-								this.treeViewer, (BaseNode) node, node
-										.toString(), rootElementName);
-						action.setText("Edit");
-						manager.add(action);
+						addFileEditOrViewAction(manager, node, null);
 						addFileDeleteAction(manager, node);
 					} else {
 						if ("transitionmatrix_netto"
@@ -1018,16 +987,33 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	private String addFileEditOrViewAction(IMenuManager manager, FileNode node,
+			String alternativeRootElementName)
+			throws DynamoConfigurationException {
+		String rootElementName;
+		if (alternativeRootElementName == null) {
+			rootElementName = ConfigurationFileUtil
+					.extractRootElementNameIncludingSchemaCheck(node
+							.getPhysicalStorage());
+		} else {
+			rootElementName = alternativeRootElementName;
+		}
+		XMLFileAction action = new XMLFileAction(this.shell, this.treeViewer,
+				(BaseNode) node, node.toString(), rootElementName);
+		File nodeFile = node.getPhysicalStorage();
+		if (nodeFile.canWrite()) {
+			action.setText("Edit");
+		} else {
+			action.setText("View");
+		}
+		manager.add(action);
+		return rootElementName;
+	}
+
 	private void handleRiskFactorDurationDistributionXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
-		String rootElementName = ConfigurationFileUtil
-				.extractRootElementNameIncludingSchemaCheck(node
-						.getPhysicalStorage());
-		XMLFileAction action = new XMLFileAction(this.shell, this.treeViewer,
-				(BaseNode) node, node.toString(), rootElementName);
-		action.setText("Edit");
-		manager.add(action);
+		addFileEditOrViewAction(manager, node, null);
 		addFileDeleteAction(manager, node);
 	}
 
@@ -1036,10 +1022,11 @@ public class StorageTreeMenuFactory {
 			throws DynamoConfigurationException {
 		if (StandardTreeNodeLabelsEnum.INCIDENCES.getNodeLabel()
 				.equalsIgnoreCase(parentNodeLabel)) {
-			XMLFileAction action = new XMLFileAction(shell, treeViewer,
-					(BaseNode) node, node.toString(), "diseaseincidences");
-			action.setText("Edit");
-			manager.add(action);
+			// XMLFileAction action = new XMLFileAction(shell, treeViewer,
+			// (BaseNode) node, node.toString(), "diseaseincidences");
+			// action.setText("Edit");
+			// manager.add(action);
+			addFileEditOrViewAction(manager, node, "diseaseincidences");
 			addFileDeleteAction(manager, node);
 		} else {
 			if (
@@ -1050,30 +1037,37 @@ public class StorageTreeMenuFactory {
 			 */
 			StandardTreeNodeLabelsEnum.PREVALENCES.getNodeLabel()
 					.equalsIgnoreCase(parentNodeLabel)) {
-				String rootElementName = "diseaseprevalences";
-				XMLFileAction action = new XMLFileAction(shell, treeViewer,
-						(BaseNode) node, node.toString(), rootElementName);
-				action.setText("Edit");
-				manager.add(action);
+				// String rootElementName = "diseaseprevalences";
+				// XMLFileAction action = new XMLFileAction(shell, treeViewer,
+				// (BaseNode) node, node.toString(), rootElementName);
+				// action.setText("Edit");
+				// manager.add(action);
+				addFileEditOrViewAction(manager, node, "diseaseprevalences");
 				addFileDeleteAction(manager, node);
 			} else {
 				if (StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel()
 						.equalsIgnoreCase(parentNodeLabel)) {
-					XMLFileAction action = new XMLFileAction(shell, treeViewer,
-							(BaseNode) node, node.toString(),
+					// XMLFileAction action = new XMLFileAction(shell,
+					// treeViewer,
+					// (BaseNode) node, node.toString(),
+					// RootElementNamesEnum.DALYWEIGHTS.getNodeLabel());
+					// action.setText("Edit");
+					// manager.add(action);
+					addFileEditOrViewAction(manager, node,
 							RootElementNamesEnum.DALYWEIGHTS.getNodeLabel());
-					action.setText("Edit");
-					manager.add(action);
 					addFileDeleteAction(manager, node);
 				} else {
 					if (StandardTreeNodeLabelsEnum.EXCESSMORTALITIES
 							.getNodeLabel().equalsIgnoreCase(parentNodeLabel)) {
-						XMLFileAction action = new XMLFileAction(shell,
-								treeViewer, (BaseNode) node, node.toString(),
+						// XMLFileAction action = new XMLFileAction(shell,
+						// treeViewer, (BaseNode) node, node.toString(),
+						// RootElementNamesEnum.EXCESSMORTALITY
+						// .getNodeLabel());
+						// action.setText("Edit");
+						// manager.add(action);
+						addFileEditOrViewAction(manager, node,
 								RootElementNamesEnum.EXCESSMORTALITY
 										.getNodeLabel());
-						action.setText("Edit");
-						manager.add(action);
 						addFileDeleteAction(manager, node);
 					} else {
 						if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
@@ -1141,14 +1135,24 @@ public class StorageTreeMenuFactory {
 		if ("size".equals(nodeLabel)) {
 			PopulationSizeXMLFileAction action = new PopulationSizeXMLFileAction(
 					shell, treeViewer, (BaseNode) node, "populationsize");
-			action.setText("Edit");
+			File nodeFile = node.getPhysicalStorage();
+			if (nodeFile.canWrite()) {
+				action.setText("Edit");
+			} else {
+				action.setText("View");
+			}
 			manager.add(action);
 			addFileDeleteAction(manager, node);
 		} else {
 			if ("overallmortality".equals(nodeLabel)) {
 				OverallMortalityXMLFileAction action = new OverallMortalityXMLFileAction(
 						shell, treeViewer, (BaseNode) node, "overallmortality");
-				action.setText("Edit");
+				File nodeFile = node.getPhysicalStorage();
+				if (nodeFile.canWrite()) {
+					action.setText("Edit");
+				} else {
+					action.setText("View");
+				}
 				manager.add(action);
 				addFileDeleteAction(manager, node);
 			} else {
@@ -1156,14 +1160,24 @@ public class StorageTreeMenuFactory {
 					OverallDALYWeightsXMLFileAction action = new OverallDALYWeightsXMLFileAction(
 							shell, treeViewer, (BaseNode) node,
 							"overalldalyweights");
-					action.setText("Edit");
+					File nodeFile = node.getPhysicalStorage();
+					if (nodeFile.canWrite()) {
+						action.setText("Edit");
+					} else {
+						action.setText("View");
+					}
 					manager.add(action);
 					addFileDeleteAction(manager, node);
 				} else {
 					if ("newborns".equals(nodeLabel)) {
 						NewbornsXMLFileAction action = new NewbornsXMLFileAction(
 								shell, treeViewer, (BaseNode) node, "newborns");
-						action.setText("Edit");
+						File nodeFile = node.getPhysicalStorage();
+						if (nodeFile.canWrite()) {
+							action.setText("Edit");
+						} else {
+							action.setText("View");
+						}
 						manager.add(action);
 						addFileDeleteAction(manager, node);
 					} else {

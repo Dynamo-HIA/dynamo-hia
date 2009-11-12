@@ -59,6 +59,10 @@ public class SimulationUniversalAction extends ActionBase {
 	 */
 	private Boolean configurationFileExistsBefore = null;
 	/**
+	 * Flag indicating whether the preexisting configuration file is readonly.
+	 */
+	private Boolean configurationFileExistsAndReadOnly = false;
+	/**
 	 * Label to put in the context-menu that triggers this action. This label
 	 * can contain feedback.
 	 */
@@ -86,18 +90,7 @@ public class SimulationUniversalAction extends ActionBase {
 						.equals(parentNode.deriveNodeLabel())) {
 					simulationsDirectoryNode = (DirectoryNode) parentNode;
 					simulationNameDirectoryNode = (DirectoryNode) node;
-					Object[] children = ((ParentNode) node).getChildren();
-					configurationFileExistsBefore = false;
-					String testLabel = StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
-							.getNodeLabel();
-					for (Object child : children) {
-						if (child instanceof FileNode) {
-							String childLabel = ((BaseNode)child).deriveNodeLabel();
-							if (testLabel.equalsIgnoreCase(childLabel)) {
-								configurationFileExistsBefore = true;
-							}
-						}
-					}
+					detectAndCategorizePreExistingConfigFile();
 				} else {
 					menuLabel = "This is not a supported DirectoryNode";
 				}
@@ -120,6 +113,9 @@ public class SimulationUniversalAction extends ActionBase {
 						configurationFile = ((FileNode) node)
 								.getPhysicalStorage();
 						configurationFileExistsBefore = true;
+						if (!configurationFile.canWrite()) {
+							configurationFileExistsAndReadOnly = true;
+						}
 					} else {
 						menuLabel = "The selected fileNode is not two levels below the \"Simulations\" node.";
 					}
@@ -137,12 +133,36 @@ public class SimulationUniversalAction extends ActionBase {
 				if (simulationNameDirectoryNode == null) {
 					menuLabel = "Create, configure and run simulation";
 				} else {
+					if(!configurationFileExistsAndReadOnly){
 					menuLabel = "Configure and run simulation";
+					} else {
+						menuLabel = "View and run simulation";
+					}
 				}
 			} else {
 				menuLabel = "\"Simulations\" directory should be directly below the base-directory.";
 				// Invalidate the action state.
 				simulationsDirectoryNode = null;
+			}
+		}
+	}
+
+	private void detectAndCategorizePreExistingConfigFile() {
+		Object[] children = ((ParentNode) node).getChildren();
+		configurationFileExistsBefore = false;
+		String testLabel = StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
+				.getNodeLabel();
+		for (Object child : children) {
+			if (child instanceof FileNode) {
+				String childLabel = ((BaseNode) child).deriveNodeLabel();
+				if (testLabel.equalsIgnoreCase(childLabel)) {
+					configurationFileExistsBefore = true;
+					File configurationFile = ((FileNode) child)
+							.getPhysicalStorage();
+					if (!configurationFile.canWrite()) {
+						configurationFileExistsAndReadOnly = true;
+					}
+				}
 			}
 		}
 	}
@@ -243,7 +263,9 @@ public class SimulationUniversalAction extends ActionBase {
 					Realm.runWithDefault(SWTObservables.getRealm(Display
 							.getDefault()), theModal);
 					boolean isPresentAfter = configurationFile.exists();
-					if (isPresentAfter && (configurationFileExistsBefore != null) &&!configurationFileExistsBefore) {
+					if (isPresentAfter
+							&& (configurationFileExistsBefore != null)
+							&& !configurationFileExistsBefore) {
 						((ParentNode) simulationNameDirectoryNode)
 								.addChild((ChildNode) new FileNode(
 										(ParentNode) simulationNameDirectoryNode,

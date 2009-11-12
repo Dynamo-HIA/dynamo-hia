@@ -60,8 +60,17 @@ public class GenericButtonPanel extends Composite {
 	 */
 	public void setModalParent(DataAndFileContainer theParent) {
 		this.modalParent = theParent;
-		// HelpGroup helpGroup = theParent.getHelpGroup();
-		// if (helpGroup != null) {
+		// Readonly behaviour.
+		if (modalParent.isConfigurationFileReadOnly()) {
+			importButton.setEnabled(false);
+		}
+		if (modalParent.isConfigurationFileReadOnly()) {
+			saveButton.setEnabled(false);
+		}
+		if (modalParent.isConfigurationFileReadOnly()) {
+			saveAndCloseButton.setEnabled(false);
+		}
+		// ~ Readonly behaviour.
 		this.importButton.addSelectionListener(new ImportSelectionListener(
 				this.modalParent));
 		HelpTextListenerUtil.addHelpTextListeners(importButton);

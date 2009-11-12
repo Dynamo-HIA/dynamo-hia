@@ -6,7 +6,6 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -22,11 +21,13 @@ import org.eclipse.swt.widgets.Shell;
 public class RunSelectionListener implements SelectionListener {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
-	DataAndFileContainer modalParent;
+// 20091110 Can be less generic.	DataAndFileContainer modalParent;
+	SimulationModal modalParent;
 	SaveSelectionListener mySaveSelectionListener;
 
-	public RunSelectionListener(DataAndFileContainer modalParent) {
+	public RunSelectionListener(SimulationModal modalParent) {
 		this.modalParent = modalParent;
+		// Listener to delegate saving to.
 		this.mySaveSelectionListener = new SaveSelectionListener(modalParent);
 	}
 
@@ -38,8 +39,10 @@ public class RunSelectionListener implements SelectionListener {
 	public void widgetSelected(SelectionEvent arg0) {
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
-		// First save.
+		// First save of not readonly.
+		if(!modalParent.isConfigurationFileReadOnly()){
 		mySaveSelectionListener.widgetSelected(arg0);
+		}
 		// Then run.
 		Control control = ((Control) arg0.getSource());
 		control.setEnabled(false);

@@ -39,13 +39,23 @@ abstract public class DataAndFileContainer {
 	protected TypedHashMap<?> modelObject;
 	protected DataBindingContext dataBindingContext = null;
 
-	private boolean changed = false;
-
-	private RunButtonPanel runButtonPanel = null;
-
-	public void setRunButtonPanel(RunButtonPanel runButtonPanel) {
-		this.runButtonPanel = runButtonPanel;
-	}
+	/**
+	 * Flag that indicates whether any content of the modelobject has changed
+	 * since the last save.
+	 */
+	protected boolean changed = false;
+	/**
+	 * Flag that is set when the configurationfile being processed is readonly.
+	 * Consequences:
+	 * -The "Import" button is disabled, since importing is no
+	 * use.
+	 * -The "Save" and "Save and close" buttons are disabled when this flag
+	 * is true. 
+	 * -The "Save and Run" button reverts to just Run. 
+	 * -The box after
+	 * hitting the "Close" button does not appear when content was changed.
+	 */
+	protected boolean configurationFileReadOnly = false;
 
 	public DataAndFileContainer(String rootElementName, String dataFilePath,
 			String configurationFilePath/*
@@ -60,8 +70,8 @@ abstract public class DataAndFileContainer {
 		/**
 		 * Modal constructed with an imported file.
 		 */
+		File configurationFile = new File(configurationFilePath);
 		if (configurationFilePath.equalsIgnoreCase(dataFilePath)) {
-			File configurationFile = new File(configurationFilePath);
 			if (configurationFile.exists()) {
 				// Editing an existing file.
 				setChanged(false);
@@ -72,6 +82,9 @@ abstract public class DataAndFileContainer {
 		} else {
 			// Imported file.
 			setChanged(true);
+		}
+		if (configurationFile.exists()&& !configurationFile.canWrite()) {
+			configurationFileReadOnly = true;
 		}
 	}
 
@@ -103,14 +116,20 @@ abstract public class DataAndFileContainer {
 	 * Signal the data handled by this Object has changed at least once.
 	 */
 	public void setChanged(boolean changed) {
+// 2009110 RLM runButtonPanel kicked down to where it belongs, the SimulationModal.
 		// Callback to only enable the run-button when the configuration has
 		// been saved.
-		if ((changed != this.changed) && (runButtonPanel != null)) {
-// 20091001 It is now a "Save and Run" button and can always be enabled.
-			//			runButtonPanel.enableButton(!changed);
-			runButtonPanel.enableButton(true);
-				}
+//		if ((changed != this.changed) && (runButtonPanel != null)) {
+			// 20091001 It is now a "Save and Run" button and can always be
+			// enabled.
+			// runButtonPanel.enableButton(!changed);
+//			runButtonPanel.enableButton(true);
+//		}
 		this.changed = changed;
+	}
+
+	public boolean isConfigurationFileReadOnly() {
+		return configurationFileReadOnly;
 	}
 
 	/**

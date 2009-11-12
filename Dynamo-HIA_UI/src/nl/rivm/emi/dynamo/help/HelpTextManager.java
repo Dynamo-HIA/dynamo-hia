@@ -3,11 +3,11 @@ package nl.rivm.emi.dynamo.help;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
 
 /**
+ * @author mondeelr
+ * 
  * BEWARE: The implementation is fully dependent on the fact, that ONE modal
  * datawindow can be open at a time. When more windows can be open a context
  * must be maintained for each open window.
- * 
- * @author mondeelr
  * 
  */
 public class HelpTextManager {

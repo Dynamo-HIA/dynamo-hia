@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -21,10 +22,10 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author schutb
- *
+ * 
  */
 public class SimulationModal extends AbstractMultiRootChildDataModal {
-//	@SuppressWarnings("unused")
+	// @SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
@@ -34,14 +35,17 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 
 	private boolean configurationFileExists;
 
-	private DynamoSimulationGroup simulationGroup;	
+	private DynamoSimulationGroup simulationGroup;
+
+	private RunButtonPanel runButtonPanel = null;
+
 	/**
 	 * @param parentShell
 	 * @param dataFilePath
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
-	 * @param configurationFileExists 
+	 * @param configurationFileExists
 	 */
 	public SimulationModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
@@ -64,17 +68,19 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
 	 */
 	@Override
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
-			this.modelObject = new DynamoSimulationObject(manufactureModelObject());
-			log.debug("modelObject" + modelObject);
-			this.simulationGroup = new DynamoSimulationGroup(
-					this.shell, this.modelObject, this.dataBindingContext, this.selectedNode, this.helpPanel,
-					this, this.configurationFileExists);
-			simulationGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);			
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(ModalStatics.defaultSimulationWidth, ModalStatics.defaultHeight);
- 			this.shell.open();
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = new DynamoSimulationObject(manufactureModelObject());
+		log.debug("modelObject" + modelObject);
+		this.simulationGroup = new DynamoSimulationGroup(this.shell,
+				this.modelObject, this.dataBindingContext, this.selectedNode,
+				this.helpPanel, this, this.configurationFileExists);
+		simulationGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		this.shell.setSize(ModalStatics.defaultSimulationWidth,
+				ModalStatics.defaultHeight);
+		this.shell.open();
 	}
 
 	@Override
@@ -82,8 +88,36 @@ public class SimulationModal extends AbstractMultiRootChildDataModal {
 		return modelObject;
 	}
 
-	public RunButtonPanel getRunButtonGroup() {
-		return simulationGroup.getRunButtonGroup();
+	public void setRunButtonPanel(RunButtonPanel runButtonPanel) {
+		if (this.runButtonPanel != null) {
+			log.error("Suspicious behaviour: Setting runButtonPanel twice.");
+		}
+		this.runButtonPanel = runButtonPanel;
 	}
-	
+
+	public RunButtonPanel getRunButtonPanel() {
+		return runButtonPanel;
+	}
+
+	/**
+	 * Signal the data handled by this Object has changed at least once.
+	 */
+	@Override
+	public void setChanged(boolean changed) {
+		// Callback to only enable the run-button when the configuration has
+		// been saved.
+		if (!isConfigurationFileReadOnly()) {
+			if ((changed != this.changed) && (runButtonPanel != null)) {
+				// 20091001 It is now a "Save and Run" button and can always be
+				// enabled.
+				// runButtonPanel.enableButton(!changed);
+				runButtonPanel.enableButton(true);
+			}
+		} else {
+			if (changed) {
+				runButtonPanel.enableButton(false);
+			}
+		}
+		super.setChanged(changed);
+	}
 }

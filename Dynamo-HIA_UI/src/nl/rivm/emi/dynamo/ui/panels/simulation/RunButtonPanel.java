@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -14,7 +14,8 @@ import org.eclipse.swt.widgets.Group;
 
 public class RunButtonPanel {
 
-	private final DataAndFileContainer modalParent;
+	// Nowhere else to Run. private final DataAndFileContainer modalParent;
+	private final SimulationModal modalParent;
 	Group group;
 	private Button runButton;
 	/**
@@ -22,7 +23,7 @@ public class RunButtonPanel {
 	 */
 	int height = 50;
 
-	public RunButtonPanel(Composite parent, DataAndFileContainer theModal) {
+	public RunButtonPanel(Composite parent, SimulationModal theModal) {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
@@ -35,11 +36,14 @@ public class RunButtonPanel {
 	private Button putRunButton(Composite parent) {
 		FormData formData = new FormData();
 		Button runButton = new Button(parent, SWT.PUSH);
+		if(!modalParent.isConfigurationFileReadOnly()){
 		runButton.setText("Save and Run");
+		} else {
+			runButton.setText("Run (cannot Save)");
+		}
 		// Subscribe for changed-callbacks.
-		modalParent.setRunButtonPanel(this);
+// Subscription delegated to the instantiator.		modalParent.setRunButtonPanel(this);
 		// And initialize the initial state.
-	//	runButton.setEnabled(!modalParent.isChanged());
 		runButton.setEnabled(true);
 		formData = new FormData();
 		formData.left = new FormAttachment(0, 100);

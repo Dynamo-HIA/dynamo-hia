@@ -9,6 +9,10 @@ import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * @author mondeelr
+ * Bla
+ */
 public class Year extends AbstractYear implements ContainerType{
 	static final protected String XMLElementName = "year";	
 

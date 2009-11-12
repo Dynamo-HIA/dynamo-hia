@@ -1,13 +1,21 @@
 package nl.rivm.emi.dynamo.databinding.converters;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.conversion.IConverter;
 
+/**
+ * @author mondeelr
+ * 
+ *         Converts text entered through the view to a <code>Float</code> if
+ *         possible.
+ *         
+ */
 public class FloatModelConverter implements IConverter {
 	// Log log = LogFactory.getLog(this.getClass());
 	String debugString = "";
 
+	/**
+	 * @param debugString
+	 */
 	public FloatModelConverter(String debugString) {
 		this.debugString = debugString;
 	}
