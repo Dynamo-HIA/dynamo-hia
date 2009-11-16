@@ -1,6 +1,15 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
 import nl.rivm.emi.cdm.DomLevelTraverser;
@@ -16,7 +25,10 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
+import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
 import nl.rivm.emi.dynamo.output.Output_UI;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -38,7 +50,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	private Simulation simulation;
 
 	private Shell parentShell;
-    String errorMessage=null;
+	String errorMessage = null;
 	String preCharConfig;
 	String simName;
 	String baseDir;
@@ -57,23 +69,21 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 	private ScenarioInfo scen;
 
-	private DynamoOutputFactory output;
-
 	public DynamoSimulationRunnable(Shell parentShell, String simName,
 			String baseDir) throws DynamoInconsistentDataException {
 		super();
 		this.parentShell = parentShell;
 		try {
-			this.errorMessage=null;
+			this.errorMessage = null;
 			configureSimulation(simName, baseDir);
 
 		} catch (DynamoInconsistentDataException e) {
 			wrapAndThrowErrorMessage(e, simName);
 			e.printStackTrace();
-			errorMessage="model can not be run due to inconsistencies in the data. \nPlease correct.";
+			errorMessage = "model can not be run due to inconsistencies in the data. \nPlease correct.";
 		} catch (DynamoConfigurationException e) {
 			wrapAndThrowErrorMessage(e, simName);
-			errorMessage="model can not be run due to configuration errors";
+			errorMessage = "model can not be run due to configuration errors";
 			e.printStackTrace();
 		}
 	}
@@ -131,9 +141,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 */
 
 		// estimate the parameters
-		
 		p = new ModelParameters(this.baseDir);
-		
+
 		scen = p.estimateModelParameters(this.simName, this.parentShell);
 		/*
 		 * } catch (DynamoConfigurationException e3) { displayErrorMessage(e3,
@@ -154,7 +163,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		XMLConfiguration simulationConfiguration;
 		String simulationFilePath = null;
 		try {
-            if (this.errorMessage!=null) throw new DynamoConfigurationException(this.errorMessage);
+			if (this.errorMessage != null)
+				throw new DynamoConfigurationException(this.errorMessage);
 			String directoryName = baseDir + File.separator + "Simulations"
 					+ File.separator + simName;
 			String simFileName = directoryName + File.separator
@@ -181,8 +191,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 */
 			int nPopulations = scen.getNPopulations();
 
-			
-
 			/* get the initial population from the modelparameters object */
 			Population[] pop = p.getInitialPopulation();
 
@@ -200,11 +208,13 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				simulationConfigurationFile = new File(simulationFilePath);
 				// log.info("simulationFile made for scenario " + scennum);
 
-//				assertTrue(CharacteristicsConfigurationMapSingleton
-//						.getInstance().size() > 1);
-if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
-	throw new DynamoConfigurationException("More than 1 disease needs to be configured.");
-}
+				// assertTrue(CharacteristicsConfigurationMapSingleton
+				// .getInstance().size() > 1);
+				if (!(CharacteristicsConfigurationMapSingleton.getInstance()
+						.size() > 1)) {
+					throw new DynamoConfigurationException(
+							"More than 1 disease needs to be configured.");
+				}
 				// calculate frequency of risk factor values during simulation
 
 				if (simulationConfigurationFile.exists()) {
@@ -269,9 +279,66 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 				}
 			}
 			/* display the output */
+			DynamoOutputFactory output=null;
+			try {
+				output = new DynamoOutputFactory(scen, pop);
 
-			Output_UI ui = new Output_UI(parentShell, scen, simName, pop,
-					this.baseDir);
+			} catch (DynamoScenarioException e) {
+				new ErrorMessageWindow(e, parentShell);
+				e.printStackTrace();
+			} catch (DynamoOutputException e) {
+				// TODO let user enter new starting year and make new
+				e.printStackTrace();
+				new ErrorMessageWindow(
+						"starting year of simulation is given as "
+								+ scen.getStartYear()
+								+ " while newborn data are only present starting at year "
+								+ scen.getNewbornStartYear()
+								+ ". Therefore starting year of simulation is assumed to be "
+								+ scen.getNewbornStartYear(), this.parentShell);
+
+				scen.setStartYear(scen.getNewbornStartYear());
+
+				try {
+					output = new DynamoOutputFactory(scen, pop);
+				} catch (DynamoScenarioException e1) {
+					new ErrorMessageWindow(e1, parentShell);
+
+					e1.printStackTrace();
+				} catch (DynamoOutputException e1) {
+
+					new ErrorMessageWindow(e1, parentShell);
+					e1.printStackTrace();
+				}
+
+			}
+			/* make the output screen */
+
+			new Output_UI(parentShell, output, simName, this.baseDir);
+			/* write the output object to a file */
+			String resultFileName = this.baseDir + File.separator
+					+ "Simulations" + File.separator + this.simName
+					+ File.separator + "results" + File.separator
+					+ "resultObject.obj";
+			File resultFile = new File(resultFileName);
+
+			ObjectOutputStream out;
+			try {
+				out = new ObjectOutputStream(new BufferedOutputStream(
+						new FileOutputStream(resultFile)));
+				out.writeObject(output);
+				// this.output.writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
+				// this.output.readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				this.displayErrorMessage(e, resultFileName);
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				this.displayErrorMessage(e, resultFileName);
+				e.printStackTrace();
+			}
+
 		} catch (DynamoConfigurationException e) {
 			this.displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
@@ -283,6 +350,45 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 		}
 	}
 
+	public void resultScreen(String baseDir, String simName, Shell parentShell) {
+		String resultFileName = this.baseDir + File.separator + "Simulations"
+				+ File.separator + this.simName + File.separator + "results"
+				+ File.separator + "resultObject.obj";
+		File resultFile = new File(resultFileName);
+		DynamoOutputFactory output = null;
+		if (resultFile.exists()) {
+
+			FileInputStream resultFileStream;
+			try {
+				resultFileStream = new FileInputStream(resultFileName);
+				ObjectInputStream inputStream = new ObjectInputStream(
+						resultFileStream);
+				output = (DynamoOutputFactory) inputStream
+						.readObject();
+			} catch (FileNotFoundException e1) {
+				new ErrorMessageWindow(
+						"Error message while reading the results object with message: "
+								+ e1.getMessage(), parentShell);
+				e1.printStackTrace();
+			} catch (IOException e2) {
+				new ErrorMessageWindow(
+						"Error message while reading the results object with message: "
+								+ e2.getMessage(), parentShell);
+				e2.printStackTrace();
+			} catch (ClassNotFoundException e3) {
+				new ErrorMessageWindow(
+						"Error message while reading the results object with message: "
+								+ e3.getMessage(), parentShell);
+				e3.printStackTrace();
+			}
+
+			new Output_UI(parentShell, output, simName, this.baseDir);
+		} else
+			new ErrorMessageWindow("No file with filename " + resultFileName
+					+ " exists to read the results from.", parentShell);
+
+	}
+
 	private String handleErrorMessage(String cdmErrorMessage, Exception e,
 			String fileName) {
 		e.printStackTrace();
@@ -290,10 +396,10 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 		String errorMessage = "";
 		if (e.getCause() != null) {
 			if (!e.getCause().getMessage().contains(":")) {
-				errorMessage = "An error occured: " + e.getMessage() + "\n"
+				errorMessage = "An error occurred: " + e.getMessage() + "\n"
 						+ "Cause: " + e.getCause().getMessage();
 			} else {
-				errorMessage = "An error occured: " + e.getMessage() + "\n"
+				errorMessage = "An error occurred: " + e.getMessage() + "\n"
 						+ "Cause: ";
 				String[] splits = e.getCause().getMessage().split(":");
 				for (int i = 1; i < splits.length; i++) {
@@ -383,15 +489,15 @@ if(!(CharacteristicsConfigurationMapSingleton.getInstance().size() >1)){
 		e.printStackTrace();
 	}
 
-	private void wrapAndThrowErrorMessage(Exception e, String simulationFilePath) throws DynamoInconsistentDataException {
+	private void wrapAndThrowErrorMessage(Exception e, String simulationFilePath)
+			throws DynamoInconsistentDataException {
 		String cause = "";
 		if (e.getCause() != null) {
 			cause += this.handleErrorMessage("", e, simulationFilePath);
 		}
 		String totalMessage = e.getMessage() + cause;
 
-throw new DynamoInconsistentDataException(totalMessage);
+		throw new DynamoInconsistentDataException(totalMessage);
 	}
-
 
 }

@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  */
 
 
-public class DiseaseClusterStructure {
+public class DiseaseClusterStructure implements Serializable {
 
 	/**
 	 * DiseaseClusterStructure contains general info on the disease structure
@@ -31,6 +32,8 @@ public class DiseaseClusterStructure {
 						 */
 
 	private ArrayList<String> diseaseName;
+	
+
 	private String clusterName;
 	private boolean withCuredFraction=false;
 	private int nInCluster = 1;
@@ -63,7 +66,7 @@ public class DiseaseClusterStructure {
 	 * @param startN
 	 *            : number of the first disease of this cluster within the total
 	 *            number of diseases
-	 * @param N
+	 * @param nInCluster
 	 *            : number of diseases within this cluster
 	 * @param diseaseNames
 	 *            : names of the diseases within the cluster
@@ -71,22 +74,22 @@ public class DiseaseClusterStructure {
 	 *            : number of independent diseases within this cluster
 	 * 
 	 */
-	public DiseaseClusterStructure(String clusterName, int startN, int N,
+	public DiseaseClusterStructure(String clusterName, int startN, int nInCluster,
 			String[] diseaseNames, int[] NRIndependent) {
 		this.clusterName = clusterName;
 		this.diseaseName = new ArrayList<String>();
 		for (String names: diseaseNames){this.diseaseName.add(names);};
-		this.diseaseNumber = new int[N];
-		this.dependentDisease = new boolean[N];
+		this.diseaseNumber = new int[nInCluster];
+		this.dependentDisease = new boolean[nInCluster];
 		this.NIndep = NRIndependent.length;
-		this.NDep = N - this.NIndep;
+		this.NDep = nInCluster - this.NIndep;
 		
 
 		int di = 0;// di contains number of current independent disease;
 
-		this.setNInCluster(N);
+		this.setNInCluster(nInCluster);
 		
-		for (int d = 0; d < N; d++) /*
+		for (int d = 0; d < nInCluster; d++) /*
 									 * go through all diseases and if disease
 									 * number is not in the array with
 									 * independent diseases it should go in the

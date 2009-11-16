@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
@@ -70,6 +71,7 @@ public class ModelParameters {
 	private float[][] meanRisk = new float[96][2];
 	private float[][] stdDevRisk = new float[96][2];
 	private float[][] offsetRisk = new float[96][2];
+	private String[] diseaseNames;
 	/*
 	 * disease Ability is defined as 1 - fraction with disability (due to the
 	 * diseases) It can also contain the daly weight (where 1 = perfect health,
@@ -110,220 +112,6 @@ public class ModelParameters {
 	public ModelParameters(String baseDir) {
 		this.globalBaseDir = baseDir;
 	}
-
-	/**
-	 * 
-	 * @param nSim
-	 *            number of simulated subjects used in the parameter estimation
-	 *            in case of continuous or compound risk factors
-	 * @param inputData
-	 *            Object that holds the input data
-	 * 
-	 * @param parentShell
-	 *            : the shell that is the parent of the progress bar
-	 * 
-	 * 
-	 * @returns ScenarioInfo: an object containing information that is needed
-	 *          for postprocessing
-	 * @throws DynamoInconsistentDataException
-	 */
-	public void estimateModelParameters(int nSim, InputData inputData,
-			Shell parentShell) throws DynamoInconsistentDataException {
-
-		// first initialize the fields that can be directly copied from the
-		// input data
-		// make rr=1 for the continuous variable if the risk factor is
-		// categorical
-		// make rr=1 for the class variable if the risk factor is continuous
-		/* first copy directly */
-		/*
-		 * NB this is not very safe, as copying like this means that changing
-		 * the object here will change it also in inputData So only possible for
-		 * primitive types TODO check if everywhere are deep copy for arrays
-		 */
-		this.riskType = inputData.getRiskType();
-		this.RiskTypeDistribution = inputData.getRiskDistribution();
-		this.refClassCont = inputData.getRefClassCont();
-		if (this.riskType != 2)
-			this.prevRisk = inputData.getPrevRisk();
-		if (this.riskType == 3)
-			this.duurFreq = inputData.getDuurFreq();
-		if (this.RiskTypeDistribution == "Normal") {
-			this.meanRisk = inputData.getMeanRisk();
-			this.stdDevRisk = inputData.getStdDevRisk();
-			this.zeroTransition = (inputData.getTransType() == 0);
-			this.offsetRisk = null;
-
-		} else {
-
-			/*
-			 * NB: same calculation is in the setMeanSTD method of scenarioInfo,
-			 * so if there are errors here they should also be corrected there
-			 */
-			for (int a = 0; a < 96; a++)
-				for (int g = 0; g < 2; g++) {
-
-					try {
-						float skew = inputData.getSkewnessRisk()[a][g];
-						this.stdDevRisk[a][g] = (float) DynamoLib
-								.findSigma(skew);
-
-						this.meanRisk[a][g] = (float) (0.5 * (Math.log(skew
-								* skew)
-								- Math.log(Math.exp(this.stdDevRisk[a][g]
-										* stdDevRisk[a][g]) - 1) - this.stdDevRisk[a][g]
-								* this.stdDevRisk[a][g]));
-						this.offsetRisk[a][g] = (float) (inputData
-								.getMeanRisk()[a][g] - Math
-								.exp(this.meanRisk[a][g] + 0.5
-										* this.stdDevRisk[a][g]
-										* this.stdDevRisk[a][g]));
-					} catch (Exception e) {
-
-						this.log
-								.fatal("skewness of lognormal variable "
-										+ "has a value that is not possible for a lognormal distribution  "
-										+ " at age " + a + " and gender " + g
-										+ ". Problematic skewness = "
-										+ inputData.getSkewnessRisk()[a][g]);
-						e.printStackTrace();
-						throw new DynamoInconsistentDataException(
-								"skewness of lognormal variable "
-										+ "has a value that is not possible for a lognormal distribution  "
-										+ " at age " + a + " and gender " + g
-										+ ". Problematic skewness = "
-										+ inputData.getSkewnessRisk()[a][g]);
-
-					}
-				}
-
-		}
-		;
-		this.parentShell = parentShell;
-		this.nCluster = inputData.getNCluster();
-		this.clusterStructure = inputData.clusterStructure;
-		this.durationClass = inputData.getIndexDuurClass();
-		int nRiskClasses;
-		if (this.riskType != 2)
-			nRiskClasses = inputData.getPrevRisk()[0][0].length;
-		else
-			nRiskClasses = 1;
-		this.log.debug("before split");
-		splitCuredDiseases(inputData);
-		this.log.debug("after split");
-		if (inputData.getRiskType() != 2)
-			this.transitionMatrix = new float[96][2][nRiskClasses][inputData
-					.getPrevRisk()[0][0].length];
-		NettTransitionRateFactory factory = new NettTransitionRateFactory();
-		/* set up progress bar for this part of the calculations */
-
-		Shell shell = new Shell(parentShell);
-		shell.setText("Parameter estimation in progress .......");
-		shell.setLayout(new FillLayout());
-		shell.setSize(600, 50);
-
-		ProgressBar bar = new ProgressBar(shell, SWT.NULL);
-		bar.setBounds(10, 10, 200, 32);
-		bar.setMinimum(0);
-
-		shell.open();
-		bar.setMaximum(100);
-
-		for (int a = 0; a < 96; a++) {
-			bar.setSelection(a);
-
-			for (int g = 0; g < 2; g++) {
-				this.log.debug("before first estimate");
-				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
-
-				this.log.debug("parameters estimated for age " + a
-						+ " and gender " + g);
-
-				int anext = a + 1;
-				if (a == 95)
-					anext = 95;
-
-				// TODO
-				/*
-				 * nog testen
-				 */
-				if (inputData.getRiskType() != 2) {
-					if (inputData.getTransType() == 1) { /*
-														 * nett transition rates
-														 */
-						this.transitionMatrix[a][g] = NettTransitionRateFactory
-								.makeNettTransitionRates(getPrevRisk()[a][g],
-										inputData.getPrevRisk()[anext][g],
-										this.baselineMortality[a][g], inputData
-												.getRelRiskMortCat()[a][g]);
-					} else if (inputData.getTransType() == 2)
-						this.transitionMatrix[a][g] = inputData
-								.getTransitionMatrix(a, g);
-					else if (inputData.getTransType() == 1)
-						this.transitionMatrix[a][g] = inputData
-								.getTransitionMatrix(a, g);
-					else if (inputData.getTransType() == 0) {
-						/*
-						 * this matrix is not really used, but implemented all
-						 * the same in case a future programmer needs it
-						 */
-						float mat[][] = new float[nRiskClasses][nRiskClasses];
-						for (int r1 = 0; r1 < nRiskClasses; r1++)
-							for (int r2 = 0; r2 < nRiskClasses; r2++) {
-								if (r1 == r2)
-									mat[r1][r2] = 1;
-								else
-									mat[r1][r2] = 0;
-							}
-						this.transitionMatrix[a][g] = mat;
-
-					}
-				}
-			}
-		}
-
-		bar.setSelection(96);
-
-		if (inputData.getRiskType() == 2) {
-			float drift[][][] = new float[3][96][2];
-			if (inputData.getTransType() == 2) { /* inputted rates */
-				drift = factory.makeUserGivenTransitionRates(inputData
-						.getMeanRisk(), inputData.getStdDevRisk(), inputData
-						.getSkewnessRisk(), this.baselineMortality, inputData
-						.getRelRiskMortCont(), this.refClassCont, inputData
-						.getMeanDrift());
-			}
-			if (inputData.getTransType() == 1) /* netto transitionrates */{
-				drift = factory.makeNettTransitionRates(
-						inputData.getMeanRisk(), inputData.getStdDevRisk(),
-						inputData.getSkewnessRisk(), this.baselineMortality,
-						inputData.getRelRiskMortCont(), this.refClassCont);
-			}
-			this.meanDrift = drift[0];
-			this.stdDrift = drift[1];
-			this.offsetDrift = drift[2];
-
-			if (inputData.getTransType() == 0) /*
-												 * zero transitionrates; not
-												 * really used but in case
-												 * someone expects the data
-												 */{
-				for (int a = 0; a < 96; a++)
-					for (int g = 0; g < 2; g++) {
-						this.meanDrift[a][g] = 0;
-						this.stdDrift[a][g] = 0;
-						this.offsetDrift[a][g] = 0;
-					}
-			}
-		}
-		bar.setSelection(97);
-		/*
-		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
-		 * display.sleep (); }
-		 */
-		shell.close();
-
-	};
 
 	/**
 	 * 
@@ -448,6 +236,242 @@ public class ModelParameters {
 			}
 		}
 		return scenInfo;
+
+	}
+
+	/**
+	 * estimateModelParameters (int nSim, InputData inputData, Shell
+	 * parentShell) estimates the ModelParameters from the object inputData
+	 * 
+	 * @param nSim
+	 *            number of simulated subjects used in the parameter estimation
+	 *            in case of continuous or compound risk factors
+	 * @param inputData
+	 *            Object that holds the input data
+	 * 
+	 * @param parentShell
+	 *            : the shell that is the parent of the progress bar
+	 * 
+	 * 
+	 * @returns ScenarioInfo: an object containing information that is needed
+	 *          for postprocessing
+	 * @throws DynamoInconsistentDataException
+	 */
+	public void estimateModelParameters(int nSim, InputData inputData,
+			Shell parentShell) throws DynamoInconsistentDataException {
+
+		// first initialize the fields that can be directly copied from the
+		// input data
+		// make rr=1 for the continuous variable if the risk factor is
+		// categorical
+		// make rr=1 for the class variable if the risk factor is continuous
+		/* first copy directly */
+		/*
+		 * NB this is not very safe, as copying like this means that changing
+		 * the object here will change it also in inputData So only possible for
+		 * primitive types TODO check if everywhere are deep copy for arrays
+		 */
+		this.riskType = inputData.getRiskType();
+		
+		this.RiskTypeDistribution = inputData.getRiskDistribution();
+		this.refClassCont = inputData.getRefClassCont();
+		if (this.riskType != 2)
+			this.prevRisk = inputData.getPrevRisk();
+		if (this.riskType == 3)
+			this.duurFreq = inputData.getDuurFreq();
+		if (this.RiskTypeDistribution == "Normal") {
+			this.meanRisk = inputData.getMeanRisk();
+			this.stdDevRisk = inputData.getStdDevRisk();
+			this.zeroTransition = (inputData.getTransType() == 0);
+			this.offsetRisk = null;
+
+		} else {
+
+			/*
+			 * NB: same calculation is in the setMeanSTD method of scenarioInfo,
+			 * so if there are errors here they should also be corrected there
+			 */
+			for (int a = 0; a < 96; a++)
+				for (int g = 0; g < 2; g++) {
+
+					try {
+						float skew = inputData.getSkewnessRisk()[a][g];
+						this.stdDevRisk[a][g] = (float) DynamoLib
+								.findSigma(skew);
+
+						this.meanRisk[a][g] = (float) (0.5 * (Math.log(skew
+								* skew)
+								- Math.log(Math.exp(this.stdDevRisk[a][g]
+										* stdDevRisk[a][g]) - 1) - this.stdDevRisk[a][g]
+								* this.stdDevRisk[a][g]));
+						this.offsetRisk[a][g] = (float) (inputData
+								.getMeanRisk()[a][g] - Math
+								.exp(this.meanRisk[a][g] + 0.5
+										* this.stdDevRisk[a][g]
+										* this.stdDevRisk[a][g]));
+					} catch (Exception e) {
+
+						this.log
+								.fatal("skewness of lognormal variable "
+										+ "has a value that is not possible for a lognormal distribution  "
+										+ " at age " + a + " and gender " + g
+										+ ". Problematic skewness = "
+										+ inputData.getSkewnessRisk()[a][g]);
+						e.printStackTrace();
+						throw new DynamoInconsistentDataException(
+								"skewness of lognormal variable "
+										+ "has a value that is not possible for a lognormal distribution  "
+										+ " at age " + a + " and gender " + g
+										+ ". Problematic skewness = "
+										+ inputData.getSkewnessRisk()[a][g]);
+
+					}
+				}
+
+		}
+		;
+		this.parentShell = parentShell;
+		this.nCluster = inputData.getNCluster();
+		this.clusterStructure = inputData.clusterStructure;
+		this.durationClass = inputData.getIndexDuurClass();
+		int nRiskClasses;
+		if (this.riskType != 2)
+			nRiskClasses = inputData.getPrevRisk()[0][0].length;
+		else
+			nRiskClasses = 1;
+		this.log.debug("before split");
+		splitCuredDiseases(inputData);
+		this.log.debug("after split");
+		/* now extract the names */
+		makeDiseaseNames(inputData.getClusterStructure());
+		if (inputData.getRiskType() != 2)
+			this.transitionMatrix = new float[96][2][nRiskClasses][inputData
+					.getPrevRisk()[0][0].length];
+		NettTransitionRateFactory factory = new NettTransitionRateFactory();
+		/* set up progress bar for this part of the calculations */
+
+		Shell shell = new Shell(parentShell);
+		shell.setText("Parameter estimation in progress .......");
+		shell.setLayout(new FillLayout());
+		shell.setSize(600, 50);
+
+		ProgressBar bar = new ProgressBar(shell, SWT.NULL);
+		bar.setBounds(10, 10, 200, 32);
+		bar.setMinimum(0);
+
+		shell.open();
+		bar.setMaximum(100);
+
+		for (int a = 0; a < 96; a++) {
+			bar.setSelection(a);
+
+			for (int g = 0; g < 2; g++) {
+				this.log.debug("before first estimate");
+				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
+
+				this.log.debug("parameters estimated for age " + a
+						+ " and gender " + g);
+
+				int anext = a + 1;
+				if (a == 95)
+					anext = 95;
+
+				// TODO
+				/*
+				 * nog testen
+				 */
+				if (inputData.getRiskType() != 2) {
+					if (inputData.getTransType() == 1) { /*
+														 * nett transition rates
+														 */
+						this.transitionMatrix[a][g] = NettTransitionRateFactory
+								.makeNettTransitionRates(getPrevRisk()[a][g],
+										inputData.getPrevRisk()[anext][g],
+										this.baselineMortality[a][g], inputData
+												.getRelRiskMortCat()[a][g]);
+					} else if (inputData.getTransType() == 2)
+						this.transitionMatrix[a][g] = inputData
+								.getTransitionMatrix(a, g);
+					else if (inputData.getTransType() == 1)
+						this.transitionMatrix[a][g] = inputData
+								.getTransitionMatrix(a, g);
+					else if (inputData.getTransType() == 0) {
+						/*
+						 * this matrix is not really used, but implemented all
+						 * the same in case a future programmer needs it
+						 */
+						float mat[][] = new float[nRiskClasses][nRiskClasses];
+						for (int r1 = 0; r1 < nRiskClasses; r1++)
+							for (int r2 = 0; r2 < nRiskClasses; r2++) {
+								if (r1 == r2)
+									mat[r1][r2] = 1;
+								else
+									mat[r1][r2] = 0;
+							}
+						this.transitionMatrix[a][g] = mat;
+
+					}
+				}
+			}
+		}
+
+		bar.setSelection(96);
+
+		if (inputData.getRiskType() == 2) {
+			float drift[][][] = new float[3][96][2];
+			if (inputData.getTransType() == 2) { /* inputted rates */
+				drift = factory.makeUserGivenTransitionRates(inputData
+						.getMeanRisk(), inputData.getStdDevRisk(), inputData
+						.getSkewnessRisk(), this.baselineMortality, inputData
+						.getRelRiskMortCont(), this.refClassCont, inputData
+						.getMeanDrift());
+			}
+			if (inputData.getTransType() == 1) /* netto transitionrates */{
+				drift = factory.makeNettTransitionRates(
+						inputData.getMeanRisk(), inputData.getStdDevRisk(),
+						inputData.getSkewnessRisk(), this.baselineMortality,
+						inputData.getRelRiskMortCont(), this.refClassCont);
+			}
+			this.meanDrift = drift[0];
+			this.stdDrift = drift[1];
+			this.offsetDrift = drift[2];
+
+			if (inputData.getTransType() == 0) /*
+												 * zero transitionrates; not
+												 * really used but in case
+												 * someone expects the data
+												 */{
+				for (int a = 0; a < 96; a++)
+					for (int g = 0; g < 2; g++) {
+						this.meanDrift[a][g] = 0;
+						this.stdDrift[a][g] = 0;
+						this.offsetDrift[a][g] = 0;
+					}
+			}
+		}
+		bar.setSelection(97);
+		/*
+		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
+		 * display.sleep (); }
+		 */
+		shell.close();
+
+	};
+
+	private void makeDiseaseNames(DiseaseClusterStructure[] clusterStructure2) {
+
+		this.diseaseNames = new String[getNDiseases()];
+		int currentDisease = 0;
+		for (int c = 0; c < clusterStructure.length; c++) {
+
+			ArrayList<String> currentNames = clusterStructure[c]
+					.getDiseaseName();
+			for (String name : currentNames) {
+				this.diseaseNames[currentDisease] = name;
+				currentDisease++;
+			}
+
+		}
 
 	}
 
@@ -1902,20 +1926,21 @@ public class ModelParameters {
 								 * one disease only in those persons where the
 								 * other (given) disease is present
 								 * 
-								 * We can here already divide by prevalence of d2 (=D)
-								 * as this is a constant
+								 * We can here already divide by prevalence of
+								 * d2 (=D) as this is a constant
 								 */
 								for (int d2 = 0; d2 < this.clusterStructure[c]
 										.getNInCluster(); d2++) {
 									if ((combi & (1 << d2)) == (1 << d2))
-										if (diseasePrevalence[d2 + dStart]>0)
-											 fatalIncidenceEgivenD[dStart + d][dStart
-												+ d2] += weight[i]
-												* probcombi
-												* this.baselineFatalIncidence[age][sex][absDiseaseNumber]
-												* RRfromDiseases[d]
-												* relRisk[i][absDiseaseNumber]
-												/ diseasePrevalence[d2 + dStart];
+										if (diseasePrevalence[d2 + dStart] > 0)
+											fatalIncidenceEgivenD[dStart + d][dStart
+													+ d2] += weight[i]
+													* probcombi
+													* this.baselineFatalIncidence[age][sex][absDiseaseNumber]
+													* RRfromDiseases[d]
+													* relRisk[i][absDiseaseNumber]
+													/ diseasePrevalence[d2
+															+ dStart];
 
 								}
 								/*
@@ -1964,8 +1989,7 @@ public class ModelParameters {
 					}
 
 				} // end loop over clusters
-				
-				
+
 				/*
 				 * calculate the ability from diseases for person i, and in case
 				 * of risktype==1 this directly give the relative hazards for
@@ -2095,24 +2119,21 @@ public class ModelParameters {
 
 		/* calculate the mortality from acutely fatal diseases */
 		/*
-		 * this has two parts: 
+		 * this has two parts:
 		 * 
-		 * part 1: the casefatality (summed over all the
-		 * (fatal) diseases) given the index disease D thus for each D (=row in
-		 * matrix) the sum over fatalIncidence E given D 
+		 * part 1: the casefatality (summed over all the (fatal) diseases) given
+		 * the index disease D thus for each D (=row in matrix) the sum over
+		 * fatalIncidence E given D
 		 * 
-		 * part 2: in case of RRothermort: we subtract from the matrix all the rows for risk
-		 * factors, each row multiplied by p(r|d) A single row has terms CF
-		 * given r, thus the sum is the sum over all CFs for a single riskfactor
-		 * level i. 
+		 * part 2: in case of RRothermort: we subtract from the matrix all the
+		 * rows for risk factors, each row multiplied by p(r|d) A single row has
+		 * terms CF given r, thus the sum is the sum over all CFs for a single
+		 * riskfactor level i.
 		 * 
-		 * In terms over variables: sum over all diseases e of
-		 * fatalIncidence [e]; the multiplication factor p(r|d)=
-		 * p(d|r)p(r)/p(d) In variables: p(r)=weigth p(d)=prevalence of d and
-		 * p(d|r)=probDisease[i][d]
+		 * In terms over variables: sum over all diseases e of fatalIncidence
+		 * [e]; the multiplication factor p(r|d)= p(d|r)p(r)/p(d) In variables:
+		 * p(r)=weigth p(d)=prevalence of d and p(d|r)=probDisease[i][d]
 		 */
-
-		
 
 		if (nDiseases > 0)
 			for (int c = 0; c < inputData.getNCluster(); c++) {
@@ -2122,7 +2143,7 @@ public class ModelParameters {
 					{
 						for (int d2 = 0; d2 < nDiseases; d2++) {
 							sumForCF[d] += fatalIncidenceEgivenD[d2][d];
-/*  d= E, d2=D */
+							/* d= E, d2=D */
 							if (inputData.isWithRRForMortality()) {
 								/*
 								 * with rr this is sum of CF given d - sum over
@@ -2168,19 +2189,26 @@ public class ModelParameters {
 					}
 				}
 			}
-		
+
 		for (int i = 0; i < nSim; i++) {
-			double sumFatalIncidence=0;
-		for (int d = 0; d < nDiseases; d++) {
-			sumFatalIncidence+=fatalIncidence[i][d];
+			double sumFatalIncidence = 0;
+			for (int d = 0; d < nDiseases; d++) {
+				sumFatalIncidence += fatalIncidence[i][d];
+			}
+			if (sumFatalIncidence > relRiskMort[i]
+					* baselineMortality[age][sex])
+				throw new DynamoInconsistentDataException(
+						" Mortality from Case Fatality is larger than total"
+								+ " mortality for age "
+								+ age
+								+ " and gender "
+								+ sex
+								+ " and riskgroup "
+								+ i
+								+ "\nProgram will not run unless this problem is solved first"
+								+ "\nPlease change the input");
 		}
-		if (sumFatalIncidence>	relRiskMort[i]*baselineMortality[age][sex])
-			throw new DynamoInconsistentDataException(" Mortality from Case Fatality is larger than total"
-					+ " mortality for age "+age+" and gender "+sex+" and riskgroup "+i+
-					"\nProgram will not run unless this problem is solved first"+
-					"\nPlease change the input" );
-		}
-		
+
 		/*
 		 * Calculate the prevalence of disability for group/subject i due to
 		 * diseases
@@ -2336,32 +2364,35 @@ public class ModelParameters {
 		 * IN CASE EXCESS MORTALITY IS ZERO: exclude this disease from the
 		 * calculations and make AM zero for this disease
 		 */
-		boolean[] AMsetToZero=new boolean [nDiseases];
+		boolean[] AMsetToZero = new boolean[nDiseases];
 		Arrays.fill(AMsetToZero, false);
-		
+
 		for (int d = 0; d < nDiseases; d++) {
-			
-			
-			
-			if (excessMortality[d] == 0){
+
+			if (excessMortality[d] == 0) {
 				for (int d1 = 0; d1 < nDiseases; d1++) {
 					/*
-					 * this is done by setting the rows and columns of vMat to zero, and the
-					 * diagonal to 1
-					 * Values of lefthand do not matter in this case
+					 * this is done by setting the rows and columns of vMat to
+					 * zero, and the diagonal to 1 Values of lefthand do not
+					 * matter in this case
 					 */
 					vMat[d1][d] = 0;
 					vMat[d][d1] = 0;
 				}
-			vMat[d][d] = 1;
-			AMsetToZero[d]=true;
-			if (warningflag5) {
-				displayWarningMessage("Excess mortality of disease "+d+" is zero for age "+age+" and gender "
-						+ sex +"\nThe program assumes a zero attributable mortality for this disease"+
-						"\nNo more warning messages of this kind are given for other age/gender/disease groups" );
-			warningflag5=false;
-			}
-			
+				vMat[d][d] = 1;
+				AMsetToZero[d] = true;
+				if (warningflag5 && diseasePrevalence[d] > 0) {
+					displayWarningMessage("Excess mortality of disease "
+							+ diseaseNames[d]
+							+ " is zero for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ "\nThe program assumes a zero attributable mortality for this disease"
+							+ "\nNo more warning messages of this kind are given for other age/gender/disease groups");
+					warningflag5 = false;
+				}
+
 			}
 		}
 
@@ -2389,9 +2420,9 @@ public class ModelParameters {
 				this.log.debug("attributable mortality calculated");
 			for (int d = 0; d < nDiseases; d++) {
 				if (!AMsetToZero[d])
-				this.attributableMortality[age][sex][d] = (float) temp[d];
+					this.attributableMortality[age][sex][d] = (float) temp[d];
 				else
-				this.attributableMortality[age][sex][d]=0; 
+					this.attributableMortality[age][sex][d] = 0;
 			}
 
 			if (age == 0 && sex == 0)
@@ -2422,8 +2453,7 @@ public class ModelParameters {
 						vMat[d][d1] = 0;
 					}
 					vMat[d][d] = 1;
-					AMsetToZero[d]=true;
-					
+					AMsetToZero[d] = true;
 
 				}
 
@@ -2515,7 +2545,7 @@ public class ModelParameters {
 		 */
 
 		double[][] xMatrix = new double[nSim][2];
-		
+
 		/* count number of valid categories */
 		int nValidCategories = 0;
 		int[] indexForCategories = new int[nRiskCat];
@@ -2533,13 +2563,15 @@ public class ModelParameters {
 		int[] indexForRows = new int[nSim];
 		int[] reverseIndexForRows = new int[nSim];
 		for (int i = 0; i < nSim; i++) {
-			if (weight[i] > 0){ indexForRows[nValidRows] = i;
-			 reverseIndexForRows[i] = nValidRows;
-							nValidRows++;}
+			if (weight[i] > 0) {
+				indexForRows[nValidRows] = i;
+				reverseIndexForRows[i] = nValidRows;
+				nValidRows++;
+			}
 		}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
-		double [] wVector = new double[nValidRows];
+		double[] wVector = new double[nValidRows];
 		// fourth loop over all persons i: fill the design matrix
 		int nrow = 0;
 		for (int i = 0; i < nSim; i++) {
@@ -2568,7 +2600,7 @@ public class ModelParameters {
 			// here nrow==i;
 			if (inputData.getRiskType() == 2) {
 				xMatrix[i][0] = 1.0;
-				wVector[i]=weight[i];
+				wVector[i] = weight[i];
 				xMatrix[i][xMatrix[i].length - 1] = riskfactor[i]
 						- inputData.getRefClassCont();
 
@@ -2709,7 +2741,8 @@ public class ModelParameters {
 			}
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 				this.relRiskOtherMortCont[age][sex] = 1;
-			else this.relRiskOtherMortCont[age][sex]=(float) Math.exp(beta[1]);
+			else
+				this.relRiskOtherMortCont[age][sex] = (float) Math.exp(beta[1]);
 
 			this.baselineOtherMortality[age][sex] = (float) Math.exp(beta[0]);
 			/**
