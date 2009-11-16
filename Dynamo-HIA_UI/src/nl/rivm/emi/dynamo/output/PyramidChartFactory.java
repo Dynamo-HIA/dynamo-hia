@@ -29,11 +29,11 @@ public final class PyramidChartFactory implements PlotDrawer {
 			JFreeChart chart=null;
 			if (info.currentDisease == 0)
 				chart = output.makePyramidChart(	info.currentScen ,
-						info.currentYear );
+						info.currentYear,info.differencePlot );
 			else
 				chart = output.makePyramidChartIncludingDisease(
 						info.currentScen ,
-						info.currentYear,info.currentDisease - 3);
+						info.currentYear,info.currentDisease - 3,info.differencePlot);
 
 			
 

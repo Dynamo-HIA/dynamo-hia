@@ -31,7 +31,7 @@ public class DifferenceChoiceGroup {
 	public DifferenceChoiceGroup(Composite controlComposite,
 			final ChartComposite chartComposite, final PlotDrawer plotDrawer, final ButtonStates plotInfo) {
 		this.chartComposite=chartComposite;
-		this.controlComposite=chartComposite;
+		this.controlComposite=controlComposite;
 		this.plotDrawer=plotDrawer;
 		this.plotInfo=plotInfo;
 		Group radiogroup = new Group(controlComposite, SWT.VERTICAL);
@@ -40,9 +40,9 @@ public class DifferenceChoiceGroup {
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
 		radiogroup.setLayout(new RowLayout(SWT.VERTICAL));
 		// yearButton.setBounds(10,10,20,100);
-
+	
 		Button rateButton = new Button(radiogroup, SWT.RADIO);
-		rateButton.setText("scenario prevalence");
+		rateButton.setText("absolute value for scenario");
 		rateButton.setSelection(true);
 
 		rateButton.addListener(SWT.Selection, (new Listener() {
@@ -56,7 +56,7 @@ public class DifferenceChoiceGroup {
 			}
 		}));
 		Button differenceButton = new Button(radiogroup, SWT.RADIO);
-		differenceButton.setText("Difference with reference scenario");
+		differenceButton.setText("difference with reference scenario");
 		// ageButton.setBounds(10,50,20,100);
 		differenceButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {

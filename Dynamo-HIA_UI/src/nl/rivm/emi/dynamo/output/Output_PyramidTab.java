@@ -54,6 +54,9 @@ public class Output_PyramidTab  {
 		/*
 		 * the composite has two elements: - a column with control elements
 		 * where the user can make choices - a plot area
+		 * 
+		 * plotComposite= the overall composite
+		 * controlComposite= the composite with the controls
 		 */
 
 		this.plotComposite = new Composite(this.tabFolder, SWT.FILL);
@@ -62,6 +65,7 @@ public class Output_PyramidTab  {
 		this.plotComposite.setLayout(gridLayout);
 		
 		/* create a composite that contains the control elements */
+		/* this has two columns: one with the slider, the other with the other controls */
 		Composite controlComposite = new Composite(this.plotComposite, SWT.NONE);
 
 		GridLayout gridLayoutControl = new GridLayout();
@@ -76,7 +80,10 @@ public class Output_PyramidTab  {
 		this.plotInfo.currentYear=0;
 		this.plotInfo.currentAge=0;
 		this.plotInfo.plotType=0;
-		this.plotInfo.currentDisease=2;
+		this.plotInfo.differencePlot=false;
+		/* currentDisease: 0=none, 1=disability, 2=all diseases 3+: diseasenames */
+		this.plotInfo.currentDisease=1;
+		if (this.output.getNDiseases()>0)  this.plotInfo.currentDisease=2;
 		this.plotInfo.currentScen = 1;
 		if (this.output.getNScen()==0) this.plotInfo.currentScen=0;
 
@@ -84,10 +91,12 @@ public class Output_PyramidTab  {
 		
 		
 		
-		
+		/* make the slider */
 		
 		if (this.output.getStepsInRun()>0) {
 		final Scale scale = new Scale(controlComposite, SWT.VERTICAL);
+		scale.setToolTipText("change year of population pyramid");
+		
 		// scale.setBounds(0, 0, 40, 200);
 		scale.setMaximum(this.output.getStepsInRun());
 		scale.setMinimum(0);
@@ -100,7 +109,7 @@ public class Output_PyramidTab  {
 		data3.grabExcessVerticalSpace = true;
 		scale.setLayoutData(data3);
 		
-		
+		/* the text that shows the current year */
 		
 		final StyledText value = new StyledText(controlComposite, SWT.SINGLE | SWT.BOLD|SWT.LONG);
         value.setText("Year: "
@@ -121,10 +130,7 @@ public class Output_PyramidTab  {
 
 	    
 		
-		// RowData rowData4 = new RowData(55, 25);
-		// value.setLayoutData(rowData4);
-		// RowData rowData2 = new RowData(40, 500);
-		// scale.setLayoutData(rowData2);
+		
 		scale.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
 				int userValue = scale.getMaximum()
@@ -140,10 +146,14 @@ public class Output_PyramidTab  {
 
 		});
 		}
-		int firstplotnumber=-2;
-		if (this.output.getNDiseases()>0)  firstplotnumber=-1;
+		
+		
+		
+		
+		/* the plot area  (needs to be constructed first as the controls need to use this)*/
+		
 		JFreeChart pyramidChart = this.output.makePyramidChartIncludingDisease(
-				this.plotInfo.currentScen, this.plotInfo.currentYear, firstplotnumber);
+				this.plotInfo.currentScen, this.plotInfo.currentYear, this.plotInfo.currentDisease-3,this.plotInfo.differencePlot);
 		
 		// RowData rowData3 = new RowData(450, 500);
 	    this.chartComposite = new ChartComposite(this.plotComposite, SWT.NONE,
@@ -156,9 +166,17 @@ public class Output_PyramidTab  {
 				| GridData.GRAB_VERTICAL);
 		this.chartComposite.setLayoutData(chartData);
 		// chartComposite.setLayoutData(rowData3);
+
+		
+		/* add the other controls: */
+		
+		/* scenario choice */
 		new ScenarioChoiceGroup(controlComposite, this.chartComposite, this.factory, this.plotInfo, this.output.getScenarioNames());
 		String[] items = new String[2];
 		if (this.output.getNDiseases()>0)  items = new String[this.output.getNDiseases() + 3];
+		
+		
+		/* disease choice */
 		String[] names = this.output.getDiseaseNames();
 		items[0] = "none";
 		items[1] = "disability";
@@ -166,11 +184,16 @@ public class Output_PyramidTab  {
 		for (int i = 0; i < names.length; i++)
 			items[i + 3] = names[i];}
 		new DiseaseChoiceGroup(controlComposite, this.chartComposite,this. factory, this.plotInfo, items);
-
+		
+		/* difference choice */
+		new DifferenceChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
+		
+		new AutoRunButton(controlComposite, chartComposite, this.factory, this.plotInfo, this.output.getStepsInRun());
+		
+		/* make the tab */
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		item.setText("population Pyramid");
 		item.setControl(this.plotComposite);
-		
 		
        
 	}

@@ -57,55 +57,31 @@ public class Output_UI {
 	// Contains the base directory of the application data
 	private String baseDir;
 
-	public Output_UI(Shell shell, ScenarioInfo scen, String simName,
-			Population[] pop, String baseDir)  {
+	// public Output_UI(Shell shell, ScenarioInfo scen, String simName,
+	// Population[] pop, String baseDir) {
+	public Output_UI(Shell shell, DynamoOutputFactory output, String simName,
+			String baseDir) {
 
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell);
 		outputShell.setText("Dynamo Output");
 		outputShell.setBounds(30, 30, 750, 650);
+
+		this.output = output;
+
+		makeOutputDisplay(outputShell);
 		
 
-		
-			try {
-				output = new DynamoOutputFactory(scen,  pop);
-				makeOutputDisplay(outputShell);
-			} catch (DynamoScenarioException e) {
-				new ErrorMessageWindow(e,shell);
-				e.printStackTrace();
-			} catch (DynamoOutputException e) {
-				// TODO let user enter new starting year and make new 
-				e.printStackTrace();
-				new ErrorMessageWindow("starting year of simulation is given as "+ scen.getStartYear()+
-						" while newborn data are only present starting at year "+scen.getNewbornStartYear()+
-						". Therefore starting year of simulation is assumed to be "+ scen.getNewbornStartYear(),this.outputShell);
-				
-				scen.setStartYear(scen.getNewbornStartYear());
-				
-				try {
-					this.output = new DynamoOutputFactory(scen,  pop);
-				} catch (DynamoScenarioException e1) {
-					new ErrorMessageWindow(e1,shell);
-				
-					e1.printStackTrace();
-				} catch (DynamoOutputException e1) {
-					
-					new ErrorMessageWindow(e1,shell);
-					e1.printStackTrace();
-				}
-				makeOutputDisplay(outputShell);
-			}
-			
-	
 	}
 
-	
-
-	/**make the output window containing 6 tabfolders
-	 * @param shell: the shell under which the output window should be placed
+	/**
+	 * make the output window containing 6 tabfolders
+	 * 
+	 * @param shell
+	 *            : the shell under which the output window should be placed
 	 * 
 	 */
-	public void makeOutputDisplay(Shell shell)  {
+	public void makeOutputDisplay(Shell shell) {
 
 		/* tab for pyramid plots */
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
@@ -120,7 +96,8 @@ public class Output_UI {
 		final Output_RiskFactorTab tab2 = new Output_RiskFactorTab(tabFolder1,
 				output);
 		final Output_LifeExpTab tab3 = new Output_LifeExpTab(tabFolder1, output);
-		final Output_SurvivalTab tab4 = new Output_SurvivalTab(tabFolder1, output);
+		final Output_SurvivalTab tab4 = new Output_SurvivalTab(tabFolder1,
+				output);
 		final Output_WriteOutputTab tab5 = new Output_WriteOutputTab(
 				outputShell, baseDir, tabFolder1, output);
 		final Output_ChangeScenarioTab tab6 = new Output_ChangeScenarioTab(
@@ -129,36 +106,41 @@ public class Output_UI {
 		shell.open();
 		tabFolder1.addListener(SWT.Selection, new Listener() {
 
-	        public void handleEvent(Event event) {
-                TabItem item = (TabItem) event.item;
-	            String tabId=item.getText();
-			    if (tabId=="population Pyramid") tab0.redraw();
-			    if (tabId=="disease plots") tab1.redraw();
-			    if (tabId=="riskfactor plots") tab2.redraw();
-			    if (tabId=="life expectancy plots") tab3.redraw();
-			    if (tabId=="mortality/survival plots") tab4.redraw();
-        }
+			public void handleEvent(Event event) {
+				TabItem item = (TabItem) event.item;
+				String tabId = item.getText();
+				if (tabId == "population Pyramid")
+					tab0.redraw();
+				if (tabId == "disease plots")
+					tab1.redraw();
+				if (tabId == "riskfactor plots")
+					tab2.redraw();
+				if (tabId == "life expectancy plots")
+					tab3.redraw();
+				if (tabId == "mortality/survival plots")
+					tab4.redraw();
+			}
 
-	    });
-		//Free the memory in the very large output-object for next run ;
+		});
+		// Free the memory in the very large output-object for next run ;
 		// this.output=null;
-		
-		
 
-		/*tabFolder1.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-
-				
-
-				
-			}
-
-			public void widgetSelected(SelectionEvent arg0) {
-
-			}
-
-		});*/
+		/*
+		 * tabFolder1.addSelectionListener(new SelectionListener() {
+		 * 
+		 * public void widgetDefaultSelected(SelectionEvent e) {
+		 * 
+		 * 
+		 * 
+		 * 
+		 * }
+		 * 
+		 * public void widgetSelected(SelectionEvent arg0) {
+		 * 
+		 * }
+		 * 
+		 * });
+		 */
 
 	}
 }

@@ -40,7 +40,7 @@ public class Output_DiseaseTab  {
 	 * 
 	 */
 	public void makeIt(){
-		/* put the default plot information in the object plotInfo */
+		/* put the default plot information resides in the object plotInfo */
 		this.plotInfo=new ButtonStates();
 		this.plotInfo.currentScen = 0;
 		if (this.output.getNScen() > 0)
@@ -87,9 +87,9 @@ public class Output_DiseaseTab  {
 		chartComposite.setLayoutData(chartData);
 /* draw the buttons */
 		
-		 new AxisChoiceGroup(controlComposite, chartComposite,this.factory, this.plotInfo);
+		new AxisChoiceGroup(controlComposite, chartComposite,this.factory, this.plotInfo);
 		new NumberChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
-		 new DifferenceChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
+		new DifferenceChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 			
        new ByChoiceGroup(controlComposite, chartComposite,this. factory,this. plotInfo);
 		new ScenarioChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo,this.output.getScenarioNames());

@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.output;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
@@ -69,7 +70,7 @@ public class Output_LifeExpTab  {
 		controlComposite.setLayoutData(controlData);
 		
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, this.output.makeCohortLifeExpectancyPlot( this.plotInfo.currentDisease ), true);
+				this.plotComposite, SWT.NONE, this.output.makeCohortLifeExpectancyPlot(this.plotInfo.currentDisease,this.plotInfo.differencePlot ), true);
 		
 		 GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 					| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
@@ -118,7 +119,10 @@ public class Output_LifeExpTab  {
 		TabItem item4 = new TabItem(this.tabFolder, SWT.NONE);
 		item4.setText("life expectancy plots");
 		item4.setControl(this.plotComposite);
-       
+		
+		
+		
+		
 	}
 	/**
 	 * 
