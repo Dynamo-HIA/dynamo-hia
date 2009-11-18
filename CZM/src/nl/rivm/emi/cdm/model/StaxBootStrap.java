@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xerces.internal.impl.XMLStreamReaderImpl;
+// import com.sun.org.apache.xerces.internal.impl.XMLStreamReaderImpl;
 
 public class StaxBootStrap {
 
@@ -29,33 +29,26 @@ public class StaxBootStrap {
 			SAXException, IOException, CDMConfigurationException,
 			NumberFormatException, CDMRunException {
 		Population population = null;
-		try {
+//		try {
 			if (populationFile.isFile() && populationFile.canRead()) {
 				InputStream in = new FileInputStream(populationFile);
 				XMLInputFactory factory = XMLInputFactory.newInstance();
-				XMLStreamReaderImpl xmlr = (XMLStreamReaderImpl)factory.createXMLStreamReader(in);
+// 				XMLStreamReaderImpl xmlr = (XMLStreamReaderImpl)factory.createXMLStreamReader(in);
 
-				for (int event = xmlr.next(); event != XMLStreamConstants.END_DOCUMENT; event = xmlr
-						.next()) {
-					if (event == XMLStreamConstants.START_ELEMENT) {
-						String element = xmlr.getLocalName();
-						log.info("StAX: " + element);
-					}
-				}
+	//			for (int event = xmlr.next(); event != XMLStreamConstants.END_DOCUMENT; event = xmlr
+//						.next()) {
+//					if (event == XMLStreamConstants.START_ELEMENT) {
+//						String element = xmlr.getLocalName();
+//						log.info("StAX: " + element);
+//					}
+//				}
 
 			}
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		} catch (XMLStreamException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		// Node rootNode = document.getFirstChild();
-		// PopulationFactory populationFactory = new PopulationFactory("pop");
-		// Population population = populationFactory.makeItFromDOM(rootNode,
-		// numberOfSteps);
-		// if (population == null) {
-		// log.error("Population construction produced errors.");
-		// }
 		return population;
 	}
 

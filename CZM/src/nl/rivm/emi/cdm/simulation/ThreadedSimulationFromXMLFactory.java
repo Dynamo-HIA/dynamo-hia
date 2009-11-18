@@ -13,8 +13,6 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-
 public class ThreadedSimulationFromXMLFactory extends Thread {
 	private Log log = LogFactory
 			.getLog("nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory");
