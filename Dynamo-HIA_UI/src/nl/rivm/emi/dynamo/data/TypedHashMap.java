@@ -25,28 +25,34 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 	T type = null;
 
 	/**
-	 * Block untyped use.
+	 * Private default constructor to block untyped use.
 	 */
 	@SuppressWarnings("unused")
 	private TypedHashMap() {
 
 	}
 
+	/**
+	 * Constructor for creating an empty Map.
+	 * 
+	 * @param theType
+	 *            The type of the values that are going to be put in the Map.
+	 */
 	public TypedHashMap(T theType) {
 		super();
 		type = theType;
 	}
 
 	/**
-	 * Copy constructor.
+	 * Copy constructor, instantiates a new Map an fills it with the content of
+	 * the parameter.
 	 * 
-	 * @param theType
+	 * @param map TypedHashMap to be copied.
 	 * @throws DynamoConfigurationException
 	 */
 	public TypedHashMap(TypedHashMap<T> map)
 			throws DynamoConfigurationException {
-		super();
-		type = map.getType();
+		this(map.getType());
 		if (type != null) {
 			Set<Object> keySet = map.keySet();
 			for (Object key : keySet) {
@@ -56,14 +62,14 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 							(TypedHashMap<?>) value);
 					put(key, nextLevelTypedHashMap);
 				} else {
-					ArrayList<AtomicTypeObjectTuple> newList = handleEnclosedArrayList(value);
+					ArrayList<AtomicTypeObjectTuple> newList = deepCopyEnclosedArrayList(value);
 					put(key, newList);
 				}
 			} // for ends.
 		} else {
-			log.fatal("putAll() failed, one of the types was null.");
+			log.fatal("TypedHashMap(map) failed, the type of the map to be copies is null.");
 			throw new DynamoConfigurationException(
-					"Fatal putAll() failure, see logging entries.");
+					"Fatal TypedHashMap(map) failure, see logging entries.");
 		}
 	}
 
@@ -71,7 +77,13 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 		return type;
 	}
 
-	private ArrayList<AtomicTypeObjectTuple> handleEnclosedArrayList(
+	/**
+	 * Clones contained ArrayLists.
+	 * @param value ArrayList to copy.
+	 * @return The copy of the passed ArrayList.
+	 * @throws DynamoConfigurationException Thrown when unsupported Types are encountered.
+	 */
+	private ArrayList<AtomicTypeObjectTuple> deepCopyEnclosedArrayList(
 			Object value) throws DynamoConfigurationException {
 		ArrayList<AtomicTypeObjectTuple> newList = null;
 		if (value instanceof ArrayList) {

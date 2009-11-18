@@ -1,14 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories;
 
-/**
- * Base Factory for hierarchic configuration files.
- * Current limitations: Simple Object (Integer, Float) at the deepest level.
- * 
- * 20080918 Agestep fixed at 1. Ages are Integers. 
- * 20081111 Implementation from HashMapto LinkedHashMap to preserve ordering of the elements.
- * 20081117 Constructing of IObservables added.
- * 20081120 Made class abstract and external interface protected to force inheritance. 
- */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +22,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * @author mondeelr
+ * 
+ *         Base Factory for hierarchic configuration files. Current limitations:
+ *         Simple Object (Integer, Float) at the deepest level.
+ * 
+ *         20080918 Agestep fixed at 1. Ages are Integers. 20081111
+ *         Implementation changed from HashMap to LinkedHashMap to preserve
+ *         ordering of the elements. 20081117 Constructing of IObservables
+ *         added. 20081120 Made class abstract and external interface protected
+ *         to force inheritance.
+ */
 abstract public class AgnosticFactory implements RootLevelFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Abstract method to force overriding.
 	 * 
 	 * @param configurationFile
-	 * @return
+	 * @return the produced TypedHashMap
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
@@ -47,10 +50,10 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			DynamoInconsistentDataException;
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Abstract method to force overriding.
 	 * 
 	 * @param configurationFile
-	 * @return
+	 * @return the produced TypedHashMap
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
@@ -59,16 +62,16 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Abstract method to force overriding.
 	 * 
-	 * @return
+	 * @return the produced TypedHashMap
 	 * @throws ConfigurationException
 	 */
 	abstract public TypedHashMap<?> manufactureDefault()
 			throws ConfigurationException;
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Abstract method to force overriding.
 	 * 
 	 * @return
 	 * @throws ConfigurationException
@@ -123,9 +126,9 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 				// The start/first element of the imported file does not match
 				// the node name
 				throw new DynamoInconsistentDataException(
-	//					"The contents of the imported file does not match the node name");
-				"The format of the imported file does not match the prescribed format needed by this screen");
-				}
+				// "The contents of the imported file does not match the node name");
+						"The format of the imported file does not match the prescribed format needed by this screen");
+			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
 			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e,
@@ -203,6 +206,17 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		return priorLevel;
 	}
 
+	/**
+	 * Processes an intermediate level.
+	 * 
+	 * @param priorLevel
+	 * @param leafNodeList
+	 * @param theLastContainer
+	 * @param currentLevel
+	 * @param makeObservable
+	 * @param currentLevelValue
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleContainerType(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable,
@@ -218,6 +232,16 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		priorLevel.put(currentLevelValue, pathMap);
 	}
 
+	/**
+	 * Processes simple payload types.
+	 * 
+	 * @param priorLevel
+	 * @param leafNodeList
+	 * @param currentLevel
+	 * @param makeObservable
+	 * @param currentLevelValue
+	 * @throws DynamoConfigurationException
+	 */
 	private void handlePayLoadType(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, Integer currentLevelValue)
@@ -246,7 +270,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	}
 
 	/**
-	 * Method for handling compound payload types.
+	 * Handles compound payload types.
 	 * 
 	 * @param priorLevel
 	 * @param leafNodeList
@@ -299,7 +323,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	}
 
 	/**
-	 * Recurse through the leafnodes.
+	 * Recurses through the leafnodes.
 	 * 
 	 * 
 	 * @param priorLevel
@@ -357,7 +381,8 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
 									.get(count);
 							XMLTagEntity type = leafNodeTuple.getType();
-							log.debug("Handling payloadSubType: " + type.getXMLElementName());
+							log.debug("Handling payloadSubType: "
+									+ type.getXMLElementName());
 							Object defaultValue = ((PayloadType) type)
 									.getDefaultValue();
 							AtomicTypeObjectTuple modelTuple = null;
@@ -385,8 +410,19 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		}
 	}
 
+	/**
+	 * Handles a single payload.
+	 * 
+	 * @param priorLevel
+	 * @param leafNodeList
+	 * @param currentLevel
+	 * @param makeObservable
+	 * @param value
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleSinglePayload(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
+
+	ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, int value)
 			throws DynamoConfigurationException {
 		log.debug("leafNodeList" + leafNodeList);/*

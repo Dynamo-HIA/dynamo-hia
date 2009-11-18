@@ -6,6 +6,13 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 import java.util.HashMap;
 
 import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
+/**
+ * Map for finding the factory needed to manufacture Objectparts from parts of XML 
+ * configuration files.
+ * The key is the rootchild-elementname of the configurationfile or the FileControlEnum.
+ *  
+ * The configuration is contained in the RootChildDispatchEnum enumeration.
+ */
 
 public class RootChildDispatchMap extends HashMap<String, RootChildDispatchEnum > {
 	private static RootChildDispatchMap instance = null;

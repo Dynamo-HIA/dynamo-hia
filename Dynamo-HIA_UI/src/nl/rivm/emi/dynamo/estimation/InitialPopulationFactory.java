@@ -1,27 +1,8 @@
 package nl.rivm.emi.dynamo.estimation;
 
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
-import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
-import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.individual.DOMIndividualWriter;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.individual.IndividualFromDOMFactory;
-import nl.rivm.emi.cdm.population.DOMPopulationWriter;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.prngutil.DOMRNGSeedWriter;
-import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-
-import nl.rivm.emi.dynamo.estimation.DynamoLib;
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,6 +15,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.cdm.individual.DOMIndividualWriter;
+import nl.rivm.emi.cdm.individual.Individual;
+import nl.rivm.emi.cdm.population.Population;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -42,9 +31,6 @@ import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-import com.sun.org.apache.bcel.internal.generic.PopInstruction;
 
 public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());

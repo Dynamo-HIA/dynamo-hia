@@ -1,15 +1,18 @@
 package nl.rivm.emi.dynamo.data.factories.dispatch;
 
-/**
- * Enumeration mapping the relations between the name of a root-element in a configuration 
- * file and the Factory Object to turn it into a Configuration Model Object.
- */
-
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-
+/**
+ * @author mondeelr
+ *
+ * Enumeration mapping the relations between the name of a rootchild-element in a configuration 
+ * file and the Factory Object to turn it into a configuration modelobject part.
+ *
+ * The instances of the enumeration are put into the RootChildDispatchMap to be able to find them 
+ * by rootchildelementname.
+ */
 public enum RootChildDispatchEnum {
 	AMOUNTS("amounts", new AgnosticHierarchicalRootChildFactory()), //
 	CLASSES("classes", new AgnosticHierarchicalRootChildFactory()), //

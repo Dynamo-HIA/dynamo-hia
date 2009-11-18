@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories;
 
-/**
- * Base Factory for not purely hierarchical configuration files.
- */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +35,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * @author mondeelr
+ * 
+ *         Base Factory for not purely hierarchical configuration files.
+ */
 abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 	/**
@@ -53,7 +55,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	protected HashMap<String, Object> structure = null;
 
 	/**
-	 * Interface to be overridden by ChildClass.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @param configurationFile
 	 * @param rootNodeName
@@ -66,7 +68,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
-	 * Interface to be overridden by ChildClass.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @param configurationFile
 	 * @param rootNodeName
@@ -79,7 +81,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			throws ConfigurationException, DynamoInconsistentDataException;
 
 	/**
-	 * Interface to be overridden by ChildClass.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @param configurationFile
 	 * @param rootNodeName
@@ -91,7 +93,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			throws DynamoConfigurationException;
 
 	/**
-	 * Interface to be overridden by ChildClass.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @param configurationFile
 	 * @param rootNodeName
@@ -103,7 +105,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			throws DynamoConfigurationException;
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @return
 	 * @throws DynamoConfigurationException
@@ -115,7 +117,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	}
 
 	/**
-	 * Abstract method to allow polymorphism.
+	 * Must be overridden by ChildClass.
 	 * 
 	 * @param fileControl
 	 * @return
@@ -127,13 +129,18 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	}
 
 	/**
+	 * Produces a modelobject from a configurationfile that has more than one
+	 * rootchild. This level collects the rootchildren with the same name and
+	 * then passes them on to a deeper level.
+	 * 
 	 * Precondition is that a dispatcher has chosen this factory based on the
 	 * root-tagname.
 	 * 
-	 * @param configurationFile
+	 * @param configuration
+	 *            File The file from which the configuration is read.
 	 * @param makeObservable
 	 * @param rootElementName
-	 * @return
+	 * @return The resulting Object.
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
@@ -202,8 +209,8 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 				// The start/first element of the imported file does not match
 				// the node name
 				throw new DynamoInconsistentDataException(
-						//					"The contents of the imported file does not match the node name");
-				"The format of the imported file does not match the prescribed format needed by this screen");
+				// "The contents of the imported file does not match the node name");
+						"The format of the imported file does not match the prescribed format needed by this screen");
 			}
 			return underConstruction;
 		} catch (ConfigurationException e) {
@@ -215,9 +222,27 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		}
 	}
 
+	/**
+	 * Processes the indentically named group of rootchildren produced by the
+	 * manufacture method.
+	 * 
+	 * @param instance
+	 *            Map where the method can find the factory with which to
+	 *            produce the group.
+	 * @param commonRootChildName
+	 *            THe name of all members of the group.
+	 * @param equallyNamedRootChildren
+	 *            The members of the group.
+	 * @param makeObservable
+	 *            Flag indicating whether an Object for databinding must be
+	 *            made.
+	 * @return The sub-object that has been manufactured.
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	@SuppressWarnings("unchecked")
 	private Object processPreviousRootChildren(RootChildDispatchMap instance,
-			String previousRootChildName,
+			String commonRootChildName,
 			List<ConfigurationNode> equallyNamedRootChildren,
 			boolean makeObservable) throws ConfigurationException,
 			DynamoInconsistentDataException {
@@ -279,6 +304,18 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return result;
 	}
 
+	/**
+	 * Manufactures a default modelobject controlled by the filecontrol Object
+	 * 
+	 * @param fileControl
+	 *            An array of elementnames that is the template for
+	 *            manufacturing a default object.
+	 * @param makeObservable
+	 *            Flag indicating whether an Object for databinding must be
+	 *            made.
+	 * @return the produced modelobject.
+	 * @throws DynamoConfigurationException
+	 */
 	private LinkedHashMap<String, Object> manufactureDefault(
 			FileControlEnum fileControl, Boolean makeObservable)
 			throws DynamoConfigurationException {
@@ -324,6 +361,17 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return underConstruction;
 	}
 
+	/**
+	 * Handles elements that only wrap other elements.
+	 * 
+	 * @param wrapperType
+	 * @param rootChildControlEnum
+	 * @param level
+	 * @param resultMap
+	 * @param makeObservable
+	 * @return
+	 * @throws DynamoConfigurationException
+	 */
 	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> handleWrapperType(XMLTagEntity wrapperType,
 			FileControlEnum rootChildControlEnum, int level,
@@ -339,7 +387,9 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			if ((wrappedEntity instanceof NumberRangeTypeBase)
 					|| (wrappedEntity instanceof AbstractString)) {
 				if (wrappedEntity instanceof AbstractFlexibleUpperLimitInteger) {
-					log.debug("Setting MAX_VALUE of type " + wrappedEntity.getXMLElementName() + " to " + getIndexLimit());
+					log.debug("Setting MAX_VALUE of type "
+							+ wrappedEntity.getXMLElementName() + " to "
+							+ getIndexLimit());
 					((AbstractFlexibleUpperLimitInteger) wrappedEntity)
 							.setMAX_VALUE(getIndexLimit());
 				}
@@ -365,6 +415,25 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return resultMap;
 	}
 
+	/**
+	 * Constructs intermediate levels of the modelobject. Recurses to itself
+	 * when nescessary.
+	 * 
+	 * @param priorLevel
+	 *            The containing MAp into which the results of manufactoring are
+	 *            placed.
+	 * @param fileControl
+	 *            An array of elementnames that is the template for
+	 *            manufacturing a default object.
+	 * @param currentLevel
+	 *            Keeps track of the level of recursion.
+	 * @param makeObservable
+	 *            Flag indicating whether an Object for databinding must be
+	 *            made.
+	 * @return Reference to the priorLevel Object that has been updated with the
+	 *         results of the manufacturing in this method and its delegates.
+	 * @throws DynamoConfigurationException
+	 */
 	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			FileControlEnum fileControl, int currentLevel,
@@ -382,7 +451,9 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 						.getMaxNumberOfDefaultValues();
 				int minValue = ((NumberRangeTypeBase<Integer>) myType)
 						.getMIN_VALUE();
-				log.debug("Type \"" + myType.getXMLElementName() + "\" minimumValue: " + minValue + " maximumValue: " + maxValue);
+				log.debug("Type \"" + myType.getXMLElementName()
+						+ "\" minimumValue: " + minValue + " maximumValue: "
+						+ maxValue);
 				if (minValue < maxValue) {
 					for (int value = minValue; value <= maxValue; value++) {
 						TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
@@ -428,6 +499,23 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		}
 	}
 
+	/**
+	 * Handles the case of multiple payload-objects in the lowest level
+	 * ContainerType.
+	 * 
+	 * @param priorLevel
+	 *            The containing MAp into which the results of manufactoring are
+	 *            placed.
+	 * @param fileControl
+	 *            An array of elementnames that is the template for
+	 *            manufacturing a default object.
+	 * @param payloadStartIndex
+	 *            Recursion level at which the payloads are to be found.
+	 * @param makeObservable
+	 *            Flag indicating whether an Object for databinding must be
+	 *            made.
+	 * @param value
+	 */
 	private void handleMultiplePayLoads(TypedHashMap<?> priorLevel,
 			FileControlEnum fileControl, int payloadStartIndex,
 			boolean makeObservable, int value) {
@@ -450,24 +538,14 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		priorLevel.put(value, payloadList);
 	}
 
-//	private void handleSinglePayload(TypedHashMap<?> priorLevel,
-//			FileControlEnum controlEnum, int currentLevel,
-//			boolean makeObservable, int value)
-//			throws DynamoConfigurationException {
-//		log.debug("controlEnum" + controlEnum);
-//		/*
-//		 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
-//		 * + ((PayloadType<Number>) leafNodeList.get( currentLevel + 1)));
-//		 */
-//		AtomicTypeBase<?> payloadType = (AtomicTypeBase<?>) controlEnum
-//				.getParameterType4GroupFactory(currentLevel + 1);
-////		Object defaultValue = payloadType.getDefaultValue();
-//		Object defaultObjectValue = manufactureDefaultSinglePayload(
-//				payloadType, makeObservable);
-//		priorLevel.put(value, defaultObjectValue);
-//
-//	}
-
+	/**
+	 * @param type The type that the manufactured subtype of AtomicTypeBase must have.
+	 * @param makeObservable
+	 *            Flag indicating whether an Object for databinding must be
+	 *            made.
+	 * @return
+	 * @throws DynamoConfigurationException
+	 */
 	private Object manufactureDefaultSinglePayload(AtomicTypeBase<?> type,
 			boolean makeObservable) throws DynamoConfigurationException {
 		Object result = null;
@@ -503,10 +581,19 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		return result;
 	}
 
+	/**
+     *
+	 * @return  The upper limit of the index a containertype supports.
+ 	 */
 	public Integer getIndexLimit() {
 		return indexLimit;
 	}
 
+	/**
+	 * Sets the upper limit of the index a containertype will support.
+	 * 
+	 * @param newIndexLimit
+	 */
 	public void setIndexLimit(Integer newIndexLimit) {
 		this.indexLimit = newIndexLimit;
 	}

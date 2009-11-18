@@ -1,10 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories.rootchild;
 
-/**
- * Factory for a single RootChild-configuration node.
- * It was first intended as a base-class, but the overriders have 
- * turned out to be empty so far and are thus unneeded.
- */
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
@@ -16,25 +11,63 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
- public class AgnosticSingleRootChildFactory implements
-		RootChildFactory {
+/**
+ * @author mondeelr
+ * 
+ *         Factory for a single RootChild-configuration node.
+ * 
+ */
+public class AgnosticSingleRootChildFactory implements RootChildFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
+	/**
+	 * Manufactures a modelobject-part based on the passed node of the
+	 * configurationfile.
+	 * 
+	 * @param node
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	public AtomicTypeObjectTuple manufacture(ConfigurationNode node)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		return manufacture(node, false);
 	}
 
+	/**
+	 * Manufactures a default modelobject-part based on the passed type.
+	 * 
+	 * @param type
+	 * @return
+	 * @throws DynamoInconsistentDataException
+	 */
 	public AtomicTypeObjectTuple manufactureDefault(AtomicTypeBase<?> type)
 			throws DynamoInconsistentDataException {
 		return manufactureDefault(type, false);
 	}
 
+	/**
+	 * Manufactures a modelobject-part that can be used for databinding based on
+	 * the passed node of the configurationfile.
+	 * 
+	 * @param node
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	public AtomicTypeObjectTuple manufactureObservable(ConfigurationNode node)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		return manufacture(node, true);
 	}
 
+	/**
+	 * Manufactures a default modelobject-part that can be used for databinding
+	 * based on the passed type.
+	 * 
+	 * @param type
+	 * @return
+	 * @throws DynamoInconsistentDataException
+	 */
 	public AtomicTypeObjectTuple manufactureObservableDefault(
 			AtomicTypeBase<?> type) throws DynamoInconsistentDataException {
 		return manufactureDefault(type, true);
@@ -114,13 +147,14 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 		return underConstruction;
 	}
 
-/**
- * Construct the tuple withor without an observable as required.
- * @param nodeType
- * @param nodeModelValue
- * @param makeObservable
- * @return
- */
+	/**
+	 * Construct the tuple with or without an observable as required.
+	 * 
+	 * @param nodeType
+	 * @param nodeModelValue
+	 * @param makeObservable
+	 * @return
+	 */
 	private AtomicTypeObjectTuple createTuple(AtomicTypeBase<?> nodeType,
 			Object nodeModelValue, boolean makeObservable) {
 		AtomicTypeObjectTuple underConstruction;

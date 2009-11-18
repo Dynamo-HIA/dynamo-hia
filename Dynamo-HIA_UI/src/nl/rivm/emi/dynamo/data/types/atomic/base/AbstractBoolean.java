@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.data.types.atomic.base;
 
-/**
- * 20090331 Converters must convert from Boolean to Boolean when bound to a radiobutton.
- */
 import java.util.regex.Pattern;
 
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
@@ -13,6 +10,14 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * @author mondeelr <br/>
+ *         Specialisation for the support of booleans.<br/>
+ */
+/*
+ * 20090331 Converters must convert from Boolean to Boolean when bound to a
+ * radiobutton.
+ */
 public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		PayloadType<Boolean> {
 	Log log = LogFactory.getLog(getClass().getName());
@@ -22,27 +27,57 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 	 */
 	final public Pattern matchPattern = Pattern.compile("(^true$)(^false$)");
 
+	/**
+	 * Constructor that binds the elementname and assembles and sets nescessary
+	 * converters.
+	 * 
+	 * @param xmlElementName
+	 *            The name of the supported elementname.
+	 */
 	public AbstractBoolean(String XMLElementName) {
 		super(XMLElementName, Boolean.FALSE);
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();
 	}
 
+	/**
+	 *Converts from the view-String to the Boolean needed for the modelobject.
+	 * 
+	 * @param inputString
+	 *            The String produced by the view.
+	 * @return The resulting Boolean after conversion.
+	 */
 	public Boolean fromString(String inputString) {
 		return (Boolean) modelUpdateValueStrategy.convert(inputString);
 	}
 
+	/**
+	 *Converts from the Boolean in the modelobject to the view-String.
+	 * 
+	 * @param inputValue
+	 *            The Boolean from the modelobject.
+	 * @return The String for the view.
+	 */
 	public String toString(Boolean inputValue) {
 		return (String) viewUpdateValueStrategy.convert(inputValue);
 	}
 
+	/**
+	 *Returns the default Boolean value.
+	 * 
+	 * 
+	 * @return The Boolean value that is considered default.
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase#getDefaultValue
+	 * ()
+	 */
 	@Override
 	public Boolean getDefaultValue() {
 		return Boolean.FALSE;
-	}
-
-	public String getElementName() {
-		return XMLElementName;
 	}
 
 	public boolean isMyElement(String elementName) {
@@ -60,7 +95,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 	@Override
 	public String convert4View(Object modelValue) {
-		log.debug("convert4View(" + modelValue + ")"); 
+		log.debug("convert4View(" + modelValue + ")");
 		String result = "0";
 		if (Boolean.TRUE.equals(modelValue)) {
 			result = "1";
@@ -70,46 +105,44 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 
 	@Override
 	public String convert4File(Object modelValue) {
-  		Boolean nakedValue = null;
-		log.debug("convert4File(" + modelValue + ")"); 
+		Boolean nakedValue = null;
+		log.debug("convert4File(" + modelValue + ")");
 		if (modelValue instanceof WritableValue) {
-			log.debug("Type WritableValue: " + 
-					((WritableValue) modelValue).doGetValue());
-			Object value = ((WritableValue) modelValue).doGetValue(); 
+			log.debug("Type WritableValue: "
+					+ ((WritableValue) modelValue).doGetValue());
+			Object value = ((WritableValue) modelValue).doGetValue();
 			if (value instanceof Boolean) {
-				log.debug("Type Boolean"); 
-				nakedValue = (Boolean)((WritableValue) modelValue).doGetValue();
+				log.debug("Type Boolean");
+				nakedValue = (Boolean) ((WritableValue) modelValue)
+						.doGetValue();
 			} else if (value instanceof String) {
-				log.debug("Type String"); 
-				nakedValue = new Boolean ((String)((WritableValue) modelValue).doGetValue());	
-			}			
-		} else {			
+				log.debug("Type String");
+				nakedValue = new Boolean((String) ((WritableValue) modelValue)
+						.doGetValue());
+			}
+		} else {
 			if (modelValue instanceof Boolean) {
-				log.debug("Type Boolean"); 
-				nakedValue = (Boolean) modelValue;	
+				log.debug("Type Boolean");
+				nakedValue = (Boolean) modelValue;
 			} else if (modelValue instanceof String) {
-				log.debug("Type String"); 
-				nakedValue = new Boolean((String) modelValue);	
-			}			
+				log.debug("Type String");
+				nakedValue = new Boolean((String) modelValue);
+			}
 		}
-//		String viewValue = convert4View(nakedValue);
+		// String viewValue = convert4View(nakedValue);
 		String fileValue = "false";
-		if(nakedValue){
+		if (nakedValue) {
 			fileValue = "true";
 		}
 		return fileValue;
-/*
-		String nakedValue = null;
-		if (modelValue instanceof WritableValue) {
-			nakedValue =  (String) ((WritableValue) modelValue).doGetValue();
-		} else {
-			nakedValue =  (String) modelValue;
-		}
-//		String viewValue = convert4View(nakedValue);
-		String fileValue = nakedValue;
-		return fileValue;
-*/
-		}
+		/*
+		 * String nakedValue = null; if (modelValue instanceof WritableValue) {
+		 * nakedValue = (String) ((WritableValue) modelValue).doGetValue(); }
+		 * else { nakedValue = (String) modelValue; } // String viewValue =
+		 * convert4View(nakedValue); String fileValue = nakedValue; return
+		 * fileValue;
+		 */
+	}
 
 	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
@@ -142,29 +175,31 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		}
 
 		public Object convert(Object viewObject) {
-			 log.debug(debugString + " convert(Object) entered with a: " + viewObject.getClass().getName() + " value: "
-			 + viewObject);
-			 Boolean result = null;
-			 if (!(viewObject instanceof String)) {
-			 log.fatal("AbstractBoolean was fed wrong Object type: "
-			 + viewObject.getClass().getName()
-			 + " should be String!");
-			 } else {
-			 result = Boolean.FALSE;
-			 if (("true".equals(viewObject))||("1".equals(viewObject))) {
-			 result = Boolean.TRUE;
-			 }
-			 }
-			 return result;
+			log
+					.debug(debugString + " convert(Object) entered with a: "
+							+ viewObject.getClass().getName() + " value: "
+							+ viewObject);
+			Boolean result = null;
+			if (!(viewObject instanceof String)) {
+				log.fatal("AbstractBoolean was fed wrong Object type: "
+						+ viewObject.getClass().getName()
+						+ " should be String!");
+			} else {
+				result = Boolean.FALSE;
+				if (("true".equals(viewObject)) || ("1".equals(viewObject))) {
+					result = Boolean.TRUE;
+				}
+			}
+			return result;
 		}
 
 		public Object getFromType() {
-			 log.debug(debugString + " getFromType() entered.");
+			log.debug(debugString + " getFromType() entered.");
 			return (Object) Boolean.class;
 		}
 
 		public Object getToType() {
-			 log.debug(debugString + " getToType() entered.");
+			log.debug(debugString + " getToType() entered.");
 			return (Object) String.class;
 		}
 	}
@@ -179,30 +214,31 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		}
 
 		public Object convert(Object modelObject) {
-			 log.debug(debugString + " convert(Object) entered with:" +
-					 modelObject.toString());
-			 String result = null;
-			 if (!(modelObject instanceof Boolean)) {
-			 log.fatal("AbstractBoolean was fed wrong Object type: "
-			 + modelObject.getClass().getName() + " should be Boolean.");
-			 } else {
-			 if (modelObject.equals(Boolean.TRUE)) {
-			 result = "1";
-			 } else {
-			 result = "0";
-			 }
-			 }
-			 return result;
+			log.debug(debugString + " convert(Object) entered with:"
+					+ modelObject.toString());
+			String result = null;
+			if (!(modelObject instanceof Boolean)) {
+				log.fatal("AbstractBoolean was fed wrong Object type: "
+						+ modelObject.getClass().getName()
+						+ " should be Boolean.");
+			} else {
+				if (modelObject.equals(Boolean.TRUE)) {
+					result = "1";
+				} else {
+					result = "0";
+				}
+			}
+			return result;
 		}
 
 		public Object getFromType() {
-			 log.debug(debugString + " getFromType() entered.");
+			log.debug(debugString + " getFromType() entered.");
 			return (Object) Boolean.class;
 		}
 
 		public Object getToType() {
-			 log.debug(debugString + " getToType() entered.");
-			 return (Object) String.class;
+			log.debug(debugString + " getToType() entered.");
+			return (Object) String.class;
 		}
 	}
 }

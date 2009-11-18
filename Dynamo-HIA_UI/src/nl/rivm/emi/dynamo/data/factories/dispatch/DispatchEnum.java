@@ -1,10 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories.dispatch;
 
-/**
- * Enumeration mapping the relations between the name of a root-element in a configuration 
- * file and the Factory Object to turn it into a Configuration Model Object.
- */
-
 import nl.rivm.emi.dynamo.data.factories.DALYWeightsFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseaseIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory;
@@ -39,6 +34,14 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
 
+/**
+ * @author mondeelr
+ *
+ * Enumeration mapping the relations between the name of a root-element in a configuration 
+ * file and the Factory Object to turn it into a Configuration Model Object.
+ *
+ * The instances of the enumeration are put into the DispatchMap to be able to find them by rootelementname.
+ */
 public enum DispatchEnum {
 	/* W01 */
 	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(),
@@ -71,8 +74,7 @@ public enum DispatchEnum {
 	/* W21TdId */// TODO
 	/* W21TdFp */// TODO
 	TRANSITIONDRIFT_NETTO(RootElementNamesEnum.TRANSITIONDRIFT_NETTO
-			.getNodeLabel(), new TransitionDriftNettoFactory(),
-			null), // 
+			.getNodeLabel(), new TransitionDriftNettoFactory(), null), // 
 	/* W21TmMA */
 
 	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
@@ -97,7 +99,8 @@ public enum DispatchEnum {
 	/* W22Con */
 	RISKFACTORPREVALENCES_CONTINUOUS(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
-					.getNodeLabel(), new RiskFactorPrevalencesContinuousFactory(), null), // TODO
+					.getNodeLabel(),
+			new RiskFactorPrevalencesContinuousFactory(), null), // TODO
 	/* W22ComDur */
 	RISKFACTORPREVALENCES_DURATION(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
@@ -129,7 +132,8 @@ public enum DispatchEnum {
 	/* W23Cmp */
 	RELRISKFORDISABLITY_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
-					.getNodeLabel(), new RelRiskForDisabilityCompoundFactory(), null), // TODO
+					.getNodeLabel(), new RelRiskForDisabilityCompoundFactory(),
+			null), // TODO
 	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
 			new DiseasePrevalencesFactory(), null), // TODO
 	/* W32 */
@@ -151,7 +155,8 @@ public enum DispatchEnum {
 	/* W34Cmp */
 	RRISKFORRISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
-					.getNodeLabel(), new RelRiskFromRiskFactorCompoundFactory(), null), // TODO
+					.getNodeLabel(),
+			new RelRiskFromRiskFactorCompoundFactory(), null), // TODO
 	/* W35 */
 	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 			.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),
