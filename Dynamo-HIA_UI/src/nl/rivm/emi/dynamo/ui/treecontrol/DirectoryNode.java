@@ -5,12 +5,29 @@ import java.util.ArrayList;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler;
 
+/**
+ * @author mondeelr <br/>
+ * 
+ *         Node representing an underlying directory in the Tree.
+ */
 public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
-
+	/**
+	 * The BaseNode in the tree this DirectoryNode is situated below.
+	 */
 	ParentNode parent = null;
 
+	/**
+	 * The BaseNodes situated below this node.
+	 */
 	ArrayList<ChildNode> children = new ArrayList<ChildNode>();
 
+	/**
+	 * @param parentNode
+	 *            The BaseNode in the tree this DirectoryNode is situated below.
+	 * @param correspondingPhysicalStorage
+	 *            The physicalstorage this DirectoryNode represents.
+	 * @throws StorageTreeException
+	 */
 	public DirectoryNode(ParentNode parentNode,
 			File correspondingPhysicalStorage) throws StorageTreeException {
 		super(correspondingPhysicalStorage);
@@ -21,6 +38,12 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 		populateChildren();
 	}
 
+	/**
+	 * Adds the nescessary ChildNodes (in practice Directory-nodes) to this
+	 * DirectoryNode.
+	 * 
+	 * @throws StorageTreeException
+	 */
 	public void updateStandardStructure() throws StorageTreeException {
 		StandardDirectoryStructureHandler.process(this);
 	}
@@ -32,13 +55,14 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 				File[] childFiles = physicalStorage.listFiles();
 				for (File childFile : childFiles) {
 					if (childFile.isDirectory()) {
-						DirectoryNode newChildNode = new DirectoryNode(this, childFile);
-						if (NodeFilter.putInTreeButSuppressLargeFiles(newChildNode)) {
-						children.add(newChildNode);
+						DirectoryNode newChildNode = new DirectoryNode(this,
+								childFile);
+						if (NodeFilter.testNode(newChildNode)) {
+							children.add(newChildNode);
 						}
-						} else {
+					} else {
 						FileNode newChildNode = new FileNode(this, childFile);
-						if (NodeFilter.putInTreeButSuppressLargeFiles(newChildNode)) {
+						if (NodeFilter.testNode(newChildNode)) {
 							children.add(newChildNode);
 						}
 					}
@@ -85,7 +109,7 @@ public class DirectoryNode extends BaseNode implements ParentNode, ChildNode {
 	}
 
 	public void addChild(ChildNode childNode) throws StorageTreeException {
-		if (NodeFilter.putInTreeButSuppressLargeFiles(childNode)) {
+		if (NodeFilter.testNode(childNode)) {
 			children.add(childNode);
 		}
 	}

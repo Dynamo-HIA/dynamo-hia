@@ -16,12 +16,29 @@ import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author mondeelr <br/>
+ * 
+ *         Class providing the support for the generation of standard ChildNodes
+ *         (and their physical counterparts) for a newly created DirectoryNode
+ *         in the Tree.<br/>
+ *         For instance the "Reference_Data" and "Simulations" below the
+ *         rootdirectory.
+ */
 public class StandardDirectoryStructureHandler {
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardDirectoryStructureHandler");
 
 	static private StructureCollection theCollection = null;
 
+	/**
+	 * Adds the nescessary ChildNodes (in practice Directory-nodes) to this
+	 * DirectoryNode.
+	 * 
+	 * @param node
+	 *            Node just added to the tree.
+	 * @throws StorageTreeException
+	 */
 	synchronized static public void process(DirectoryNode node)
 			throws StorageTreeException {
 		if (theCollection == null) {
@@ -31,9 +48,19 @@ public class StandardDirectoryStructureHandler {
 		theCollection.process(node);
 	}
 
+	/**
+	 * @author mondeelr <br/>
+	 *         Collection containing the standard structures present in the
+	 *         application.
+	 * 
+	 */
 	static class StructureCollection {
 		Set<StructureElement> theElements = new HashSet<StructureElement>();
 
+		/**
+		 * Constructor creating the StandardStructures and putting them in the
+		 * collection.
+		 */
 		public StructureCollection() {
 			log.debug("Constructing StructureCollection");
 			theElements.add(new BaseDirectoryStructure());
@@ -44,6 +71,13 @@ public class StandardDirectoryStructureHandler {
 					.add(new CompoundRiskFactorDirectoryStructureExtension());
 		}
 
+		/**
+		 * Delegates the addition to all possible standard-structures in turn.
+		 * 
+		 * @param node
+		 *            Node just added to the tree.
+		 * @throws StorageTreeException
+		 */
 		public void process(DirectoryNode node) throws StorageTreeException {
 			log.debug("StructureCollection Processing: "
 					+ node.getPhysicalStorage().getAbsolutePath());
@@ -52,7 +86,13 @@ public class StandardDirectoryStructureHandler {
 			}
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         BaseClass for all possible StandardStructures.
+		 * 
+		 */
 		static private abstract class StructureElement {
+
 			Set<String> requiredNames;
 
 			protected StructureElement() {
@@ -66,6 +106,15 @@ public class StandardDirectoryStructureHandler {
 			abstract public void process(DirectoryNode theNode)
 					throws StorageTreeException;
 
+			/**
+			 * Creates directories with requirednames that are not yet present.<br/>
+			 * DURATIONSDISTRIBUTIONDIRECTORY is created here later than the
+			 * normal time.
+			 * 
+			 * @param node
+			 *            Node just added to the tree.
+			 * @throws StorageTreeException
+			 */
 			protected void checkAndCreateNames(DirectoryNode node)
 					throws StorageTreeException {
 				log.debug("StructureElement: Entering checkAndCreateNames()");
@@ -107,6 +156,11 @@ public class StandardDirectoryStructureHandler {
 			}
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         Standardstructure for the BaseDirectory.
+		 * 
+		 */
 		static private class BaseDirectoryStructure extends StructureElement {
 
 			public BaseDirectoryStructure() {
@@ -129,6 +183,11 @@ public class StandardDirectoryStructureHandler {
 
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         Standardstructure for the Reference_Data directory.
+		 * 
+		 */
 		static private class RefDataDirectoryStructure extends StructureElement {
 
 			public RefDataDirectoryStructure() {
@@ -152,6 +211,11 @@ public class StandardDirectoryStructureHandler {
 			}
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         Standardstructure for a Disease directory.
+		 * 
+		 */
 		static private class DiseaseDirectoryStructure extends StructureElement {
 
 			public DiseaseDirectoryStructure() {
@@ -192,6 +256,11 @@ public class StandardDirectoryStructureHandler {
 			}
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         Standardstructure for a RiskFactor directory.
+		 * 
+		 */
 		static private class RiskFactorDirectoryStructure extends
 				StructureElement {
 
@@ -222,32 +291,19 @@ public class StandardDirectoryStructureHandler {
 									+ " against "
 									+ StandardTreeNodeLabelsEnum.RISKFACTORS
 											.getNodeLabel());
-					// String configurationFileRootElementLabel =
-					// ConfigurationFileUtil
-					// .exceptionFreeExtractRootElementNameFromChildConfiguration(node);
-					// log
-					// .debug("RiskFactorDirectoryStructure, configurationFileRootElementLabel: "
-					// + configurationFileRootElementLabel);
 					if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-							.equals(parentNodeName)
-					// && (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-					// .getNodeLabel().equals(
-					// configurationFileRootElementLabel)
-					// || RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-					// .getNodeLabel()
-					// .equals(
-					// configurationFileRootElementLabel) ||
-					// RootElementNamesEnum.RISKFACTOR_COMPOUND
-					// .getNodeLabel().equals(
-					// configurationFileRootElementLabel))
-					) {
-
+							.equals(parentNodeName)) {
 						checkAndCreateNames(node);
 					}
 				}
 			}
 		}
 
+		/**
+		 * @author mondeelr<br/>
+		 *         Standardstructure for a compound Risk Factor directory.
+		 * 
+		 */
 		static private class CompoundRiskFactorDirectoryStructureExtension
 				extends StructureElement {
 

@@ -30,6 +30,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
 import nl.rivm.emi.dynamo.output.Output_UI;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -279,7 +280,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				}
 			}
 			/* display the output */
-			DynamoOutputFactory output=null;
+			DynamoOutputFactory output = null;
 			try {
 				output = new DynamoOutputFactory(scen, pop);
 
@@ -316,10 +317,17 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			new Output_UI(parentShell, output, simName, this.baseDir);
 			/* write the output object to a file */
-			String resultFileName = this.baseDir + File.separator
-					+ "Simulations" + File.separator + this.simName
-					+ File.separator + "results" + File.separator
-					+ "resultObject.obj";
+			String resultFileName = this.baseDir
+					+ File.separator
+					+ "Simulations"
+					+ File.separator
+					+ this.simName
+					+ File.separator
+					+ /* "results" */StandardTreeNodeLabelsEnum.RESULTS
+							.getNodeLabel()
+					+ File.separator
+					+ /* "resultObject.obj" */StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
+							.getNodeLabel() + ".obj";
 			File resultFile = new File(resultFileName);
 
 			ObjectOutputStream out;
@@ -363,8 +371,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				resultFileStream = new FileInputStream(resultFileName);
 				ObjectInputStream inputStream = new ObjectInputStream(
 						resultFileStream);
-				output = (DynamoOutputFactory) inputStream
-						.readObject();
+				output = (DynamoOutputFactory) inputStream.readObject();
 			} catch (FileNotFoundException e1) {
 				new ErrorMessageWindow(
 						"Error message while reading the results object with message: "

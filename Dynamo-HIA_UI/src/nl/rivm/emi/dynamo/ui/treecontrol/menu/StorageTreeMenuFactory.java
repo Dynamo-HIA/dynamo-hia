@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.menu;
 
-/**
+/*
  * TODO Get rootelement-names from the FileControlEnum.
  * 
  */
@@ -21,6 +21,7 @@ import nl.rivm.emi.dynamo.ui.actions.OverallDALYWeightsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.OverallMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.PopulationSizeXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.RelativeRiskFromRiskSourceAction;
+import nl.rivm.emi.dynamo.ui.actions.ResultsObjFileAction;
 import nl.rivm.emi.dynamo.ui.actions.SimulationUniversalAction;
 import nl.rivm.emi.dynamo.ui.actions.TransitionNoAction;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
@@ -29,9 +30,6 @@ import nl.rivm.emi.dynamo.ui.actions.create.NewbornsXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.DeleteDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.DeleteXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.MessageStrings;
-import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
-import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
-import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -52,19 +50,54 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author mondeelr <br/>
+ *         Class that creates the applicable contextmenu for the BaseNode passed
+ *         to it and adds it to the IMenuManager.
+ * 
+ */
 public class StorageTreeMenuFactory {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	Shell shell;
 	TreeViewer treeViewer;
+	/**
+	 * Factory Class to delegate the creation of RiskFactor context menus to.
+	 */
 	RiskFactorContextMenuFactory contextMenuFactory = new RiskFactorContextMenuFactory();
 
+	/**
+	 * Constructor initializing the context of the TreeControl.
+	 * 
+	 * @param shell
+	 *            Shell containing the TreeControl.
+	 * @param treeViewer
+	 *            The viewer the menus are for.
+	 */
 	public StorageTreeMenuFactory(Shell shell, TreeViewer treeViewer) {
 		this.shell = shell;
 		this.treeViewer = treeViewer;
 	}
 
+	/**
+	 * Entrypoint for the creation of the contextmenus.<br/>
+	 * Determines the level at which the BaseNode is situated and delegates to a
+	 * method for each level based on that.
+	 * 
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param selectedNode
+	 *            The BaseNode selected for this action.
+	 * @throws TreeStructureException
+	 *             Exception thrown when the selected Node didn't fit the
+	 *             expected Tree structure.
+	 * @throws ConfigurationException
+	 *             Exception thrown when a configuration file doesn't have the
+	 *             structure expected.
+	 */
 	public void createRelevantContextMenu(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode)
 			throws TreeStructureException, ConfigurationException {
@@ -103,6 +136,16 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param treeDepth
+	 *            The level at which the selected BaseNode is situated.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 */
 	private void handleLevel2(IMenuManager manager,
 			IStructuredSelection selection, int treeDepth, String nodeLabel) {
 		if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
@@ -118,6 +161,17 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param selectedNode
+	 * @param treeDepth
+	 *            The level at which the selected BaseNode is situated.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 */
 	private void handleLevel3(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode,
 			int treeDepth, String nodeLabel) {
@@ -149,6 +203,20 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param selectedNode
+	 *            The BaseNode selected for this action.
+	 * @param treeDepth
+	 *            The level at which the selected BaseNode is situated.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws TreeStructureException
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleLevel4(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode,
 			int treeDepth, String nodeLabel) throws TreeStructureException,
@@ -207,6 +275,21 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * Handles logistics on level 5. Delegates nodes on functional content or
+	 * creates an error menu for unexpected nodes.
+	 * 
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param selectedNode
+	 *            The BaseNode selected for this action.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws DynamoConfigurationException
+	 * @throws ConfigurationException
+	 */
 	private void handleLevel5(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode,
 			String nodeLabel) throws DynamoConfigurationException,
@@ -226,12 +309,27 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(grandParentLabel)) {
 					buildDiseasesMenus(manager, selection, nodeLabel);
 				} else {
-					createErrorMenu4UnexpectedNodes(manager, selection);
+					if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
+							.equalsIgnoreCase(grandParentLabel)&&StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+							.equalsIgnoreCase(((BaseNode)parentNode).deriveNodeLabel())) {
+						buildResultsMenu(manager, selection, nodeLabel);
+					} else {
+						createErrorMenu4UnexpectedNodes(manager, selection);
+					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param selectedNode
+	 *            The BaseNode selected for this action.
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleLevel6(IMenuManager manager,
 			IStructuredSelection selection, BaseNode selectedNode)
 			throws DynamoConfigurationException {
@@ -242,6 +340,14 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 */
 	private void buildDiseasesMenus(IMenuManager manager,
 			IStructuredSelection selection, String nodeLabel) {
 		if (StandardTreeNodeLabelsEnum.DALYWEIGHTS.getNodeLabel()
@@ -279,6 +385,32 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * Creates the contextmenu and adds it to the manager.
+	 * 
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 */
+	private void buildResultsMenu(IMenuManager manager,
+			IStructuredSelection selection, String nodeLabel) {
+		ResultsObjFileAction action = new ResultsObjFileAction(this.shell, this.treeViewer,(BaseNode)selection.getFirstElement());
+		action.setText("View results");
+		manager.add(action);
+	}
+
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws ConfigurationException
+	 */
 	private void buildRiskFactorsMenus(IMenuManager manager,
 			IStructuredSelection selection, String nodeLabel)
 			throws ConfigurationException {
@@ -325,7 +457,9 @@ public class StorageTreeMenuFactory {
 	 * Error menu to indicate the choice of this Node was unexpected.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu2Ask4RiskFactorConfiguration(
 			final IMenuManager manager, IStructuredSelection selection) {
@@ -341,7 +475,9 @@ public class StorageTreeMenuFactory {
 	 * Use-case 1 of the SimulationUniversalAction.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Simulations(final IMenuManager manager,
 			IStructuredSelection selection) {
@@ -355,8 +491,10 @@ public class StorageTreeMenuFactory {
 	/**
 	 * TODO
 	 * 
-	 * @param mgr
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Simulation(final IMenuManager manager,
 			IStructuredSelection selection) {
@@ -382,7 +520,9 @@ public class StorageTreeMenuFactory {
 	/**
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Populations(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -396,7 +536,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Population(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -488,7 +630,9 @@ public class StorageTreeMenuFactory {
 	/**
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RiskFactors(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -502,7 +646,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @throws TreeStructureException
 	 */
 	private void createMenu4RiskFactor(IMenuManager manager,
@@ -514,7 +660,9 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RiskFactorPrevalence(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -527,7 +675,9 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RiskFactorDurationDistribution(
 			IMenuManager manager, IStructuredSelection selection) {
@@ -543,7 +693,9 @@ public class StorageTreeMenuFactory {
 	 * TODO implement create new transitions file xxxxxxxxxxxxxxxxxxxxxxsss
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @throws ConfigurationException
 	 */
 	private void createMenu4RiskFactorTransitions(IMenuManager manager,
@@ -578,6 +730,12 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
+	/**
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @return The rootelementname of the RiskFactor configuration.
+	 * @throws DynamoConfigurationException
+	 */
 	private String getRiskFactorConfigurationRootElementName(
 			IStructuredSelection selection) throws DynamoConfigurationException {
 		File configurationFile = null;
@@ -601,7 +759,9 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RiskFactorRelRisksForDeath(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -614,7 +774,9 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RiskFactorRelRisksForDisability(
 			IMenuManager manager, IStructuredSelection selection) {
@@ -631,7 +793,9 @@ public class StorageTreeMenuFactory {
 	/**
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Diseases(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -644,7 +808,9 @@ public class StorageTreeMenuFactory {
 	/**
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Disease(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -663,7 +829,9 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Prevalence(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -678,7 +846,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 
 	private void createMenu4DALY_Weights(IMenuManager manager,
@@ -694,7 +864,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 
 	private void createMenu4Excess_Mortalities(IMenuManager manager,
@@ -711,7 +883,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Incidences(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -726,7 +900,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RelRiskFromDiseases(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -737,23 +913,15 @@ public class StorageTreeMenuFactory {
 				theValidator);
 		action.setText("New relative risks from other disease file");
 		manager.add(action);
-		// Testing
-		// IInputValidator theValidator = new
-		// FileAndDirectoryNameInputValidator();
-		// FreeNamePlusDropDownXMLFileAction action2 = new
-		// FreeNamePlusDropDownXMLFileAction(
-		// shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
-		// RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
-		// theValidator);
-		// action2.setText("Testing new box");
-		// manager.add(action2);
 	}
 
 	/**
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4RelRiskFromRiskFactor(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -769,7 +937,9 @@ public class StorageTreeMenuFactory {
 	 * TODO Precondition: The selected Node maps to an XML file.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @throws DynamoConfigurationException
 	 */
 	private void createMenu2EditXML(IMenuManager manager,
@@ -807,7 +977,9 @@ public class StorageTreeMenuFactory {
 	 * TODO Precondition: The selected Node maps to an XML file.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @throws DynamoConfigurationException
 	 */
 	private void createMenu2EditXML4Level6(IMenuManager manager,
@@ -842,6 +1014,17 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws DynamoConfigurationException
+	 */
 	private void createEditMenu4NonConfigXML4RiskFactors(IMenuManager manager,
 			IStructuredSelection selection, FileNode node, String nodeLabel)
 			throws DynamoConfigurationException {
@@ -876,6 +1059,13 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleXMLs(IMenuManager manager, FileNode node)
 			throws DynamoConfigurationException {
 		String rootElementName = addFileEditOrViewAction(manager, node, null);
@@ -902,6 +1092,15 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleRiskFactorPrevalencesXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
@@ -926,6 +1125,15 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleRiskFactorTransitionsXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
@@ -987,6 +1195,15 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @param alternativeRootElementName
+	 * @return
+	 * @throws DynamoConfigurationException
+	 */
 	private String addFileEditOrViewAction(IMenuManager manager, FileNode node,
 			String alternativeRootElementName)
 			throws DynamoConfigurationException {
@@ -1010,6 +1227,15 @@ public class StorageTreeMenuFactory {
 		return rootElementName;
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @throws DynamoConfigurationException
+	 */
 	private void handleRiskFactorDurationDistributionXMLs(IMenuManager manager,
 			IStructuredSelection selection, FileNode node)
 			throws DynamoConfigurationException {
@@ -1017,6 +1243,14 @@ public class StorageTreeMenuFactory {
 		addFileDeleteAction(manager, node);
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @param parentNodeLabel
+	 * @throws DynamoConfigurationException
+	 */
 	private void createEditMenu4XML4Diseases(IMenuManager manager,
 			FileNode node, String parentNodeLabel)
 			throws DynamoConfigurationException {
@@ -1087,6 +1321,12 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 */
 	private void addFileDeleteAction(IMenuManager manager, FileNode node) {
 		DeleteXMLFileAction deleteAction = new DeleteXMLFileAction(shell,
 				treeViewer, (BaseNode) node, node.toString());
@@ -1094,6 +1334,15 @@ public class StorageTreeMenuFactory {
 		manager.add(deleteAction);
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws DynamoConfigurationException
+	 */
 	private void createEditMenu4XML4Simulations(IMenuManager manager,
 			FileNode node, String nodeLabel)
 			throws DynamoConfigurationException {
@@ -1112,6 +1361,13 @@ public class StorageTreeMenuFactory {
 		}
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param facText
+	 */
 	private void addDummy(IMenuManager manager, IStructuredSelection selection,
 			String facText) {
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
@@ -1121,6 +1377,13 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param facText
+	 */
 	public void addTransactionNoAction(IMenuManager manager,
 			IStructuredSelection selection, String facText) {
 		TransitionNoAction action = new TransitionNoAction(shell);
@@ -1130,6 +1393,16 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
+	/**
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param node
+	 *            The BaseNode selected for this action.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 */
 	private void createEditMenu4XML4Populations(IMenuManager manager,
 			IStructuredSelection selection, FileNode node, String nodeLabel) {
 		if ("size".equals(nodeLabel)) {
@@ -1192,7 +1465,9 @@ public class StorageTreeMenuFactory {
 	 * TODO
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createMenu4Scenario(IMenuManager manager,
 			IStructuredSelection selection) {
@@ -1208,8 +1483,11 @@ public class StorageTreeMenuFactory {
 	 * implemented.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @param treeDepth
+	 *            The level at which the selected BaseNode is situated.
 	 */
 	private void createDefaultMenu4UnimplementedNodes(
 			final IMenuManager manager, IStructuredSelection selection,
@@ -1227,7 +1505,9 @@ public class StorageTreeMenuFactory {
 	 * Error menu to indicate the choice of this Node was unexpected.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 */
 	private void createErrorMenu4UnexpectedNodes(final IMenuManager manager,
 			IStructuredSelection selection) {
@@ -1246,8 +1526,11 @@ public class StorageTreeMenuFactory {
 	 * managed by Dynamo-HIA.
 	 * 
 	 * @param manager
+	 *            The IMenuManager to add the Menu to.
 	 * @param selection
+	 *            The selection made just before entering here.
 	 * @param treeDepth
+	 *            The level at which the selected BaseNode is situated.
 	 */
 	private void createInformationMenu4UnimplementedNodes(
 			final IMenuManager manager, IStructuredSelection selection,
@@ -1259,6 +1542,15 @@ public class StorageTreeMenuFactory {
 		manager.add(action);
 	}
 
+	/**
+	 * Determines at which level in the Tree the passed BaseNode is situated.
+	 * This level is also referred to as treeDepth. The basedirectory is
+	 * represented by a Node at level 1.
+	 * 
+	 * @param selectedNode
+	 *            The BaseNode of which the level has to be determined.
+	 * @return The level in the tree the passes BaseNode is at.
+	 */
 	private int findTreeDepth(BaseNode selectedNode) {
 		int depth = 0;
 		BaseNode workNode = selectedNode;
@@ -1268,5 +1560,4 @@ public class StorageTreeMenuFactory {
 		} while (!(workNode instanceof RootNode));
 		return depth;
 	}
-
 }

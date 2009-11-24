@@ -28,21 +28,28 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * @author schutb
+ * @author schutb<br/>
+ *         Intermediate inheritance layer implementing some common behaviour for
+ *         three windows.
  * 
  */
 abstract public class AgnosticModal extends AbstractDataModal {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	/**
-	 * 
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param parentShell
+	 *            Containing Shell
 	 * @param dataFilePath
+	 *            Path where the resulting configuration file is to be saved.
 	 * @param configurationFilePath
+	 *            Path to the imported configurationfile (if any).
 	 * @param rootElementName
+	 *            Name of the rootelement in the resulting configurationfile.
 	 * @param selectedNode
+	 *            Node on which the context menu was invoked to reach this
+	 *            point.
 	 */
 	public AgnosticModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,

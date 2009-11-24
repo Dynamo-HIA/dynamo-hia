@@ -44,6 +44,7 @@ public enum StandardTreeNodeLabelsEnum {
 	PARAMETERS("Parameters"), //
 	RESULTS("Results"), //
 	CONFIGURATIONFILE("configuration"), //
+	RESULTSOBJECTFILE("resultsObject"), //
 	TRANSITIONS("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
 	DURATIONDISTRIBUTIONSDIRECTORY("DurationDistributions"), //

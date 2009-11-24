@@ -41,48 +41,49 @@ public class BaseNode {
 	}
 
 	/**
-	 * Returns the name of the directory/file represented by the Node minus any
-	 * extensions.
+	 * Returns the name of the directory/file represented by the BaseNode minus
+	 * any extensions.
 	 * 
-	 * @param selectedNode
-	 * @return
+	 * @return The label for use in the Tree.
 	 */
 	public String deriveNodeLabel() {
-		String physicalStorageName = physicalStorage.getName();
-		if (physicalStorageName != null) {
-			int firstDotIndex = physicalStorageName.indexOf(".");
-			int lastSlashIndex = physicalStorageName.lastIndexOf("\\");
-			if (lastSlashIndex == -1) {
-				lastSlashIndex = physicalStorageName.lastIndexOf("/");
-			}
-			if (!((lastSlashIndex != -1) && (firstDotIndex != -1) && (firstDotIndex < lastSlashIndex))) {
-				if (lastSlashIndex != -1) {
-					physicalStorageName = physicalStorageName.substring(
-							lastSlashIndex, physicalStorageName.length());
+		String nodeLabel = "null";
+		if (physicalStorage != null) {
+			nodeLabel = physicalStorage.getName();
+			if (nodeLabel != null) {
+				int firstDotIndex = nodeLabel.indexOf(".");
+				int lastSlashIndex = nodeLabel.lastIndexOf("\\");
+				if (lastSlashIndex == -1) {
+					lastSlashIndex = nodeLabel.lastIndexOf("/");
 				}
-				if (firstDotIndex != -1) {
-					physicalStorageName = physicalStorageName.substring(0,
-							firstDotIndex);
+				if (!((lastSlashIndex != -1) && (firstDotIndex != -1) && (firstDotIndex < lastSlashIndex))) {
+					if (lastSlashIndex != -1) {
+						nodeLabel = nodeLabel.substring(
+								lastSlashIndex, nodeLabel.length());
+					}
+					if (firstDotIndex != -1) {
+						nodeLabel = nodeLabel.substring(0,
+								firstDotIndex);
+					}
 				}
 			}
 		}
-		return physicalStorageName;
+		return nodeLabel;
 	}
 
 	/**
-	 * Returns the name of the directory/file represented by the Node minus any
-	 * extensions.
+	 * Indicates whether this node represents an XML file.<br/>
+	 * The test is superficial and passes when the node represents a File and an
+	 * "xml" extension is present. The "xml" is checked case insensitively.
 	 * 
-	 * @param selectedNode
-	 * @return
+	 * @return Flag indicating whether the BaseNode represents an XML file.
 	 */
 	public boolean isXMLFile() {
 		boolean result = false;
 		if (physicalStorage.isFile()) {
 			String physicalStorageName = physicalStorage.getName();
-			int lastDotIndex = lastDotIndex = physicalStorageName.lastIndexOf(".");
-			if ((physicalStorageName != null)
-					&& (lastDotIndex != -1)
+			int lastDotIndex = physicalStorageName.lastIndexOf(".");
+			if ((physicalStorageName != null) && (lastDotIndex != -1)
 					&& (lastDotIndex < physicalStorageName.length())) {
 				String extension = physicalStorageName.substring(
 						lastDotIndex + 1, physicalStorageName.length());
@@ -93,5 +94,4 @@ public class BaseNode {
 		}
 		return result;
 	}
-
 }

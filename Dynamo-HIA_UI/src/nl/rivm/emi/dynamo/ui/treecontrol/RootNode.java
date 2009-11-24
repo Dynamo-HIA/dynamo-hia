@@ -33,7 +33,7 @@ public class RootNode extends BaseNode implements ParentNode {
 	}
 
 	public void addChild(ChildNode storageTreeNode) throws StorageTreeException {
-		if(NodeFilter.putInTreeButSuppressLargeFiles(storageTreeNode)){
+		if(NodeFilter.testNode(storageTreeNode)){
 		if (children.size() == 0) {
 			children.add(storageTreeNode);
 		} else {

@@ -11,23 +11,28 @@ import java.io.File;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
 import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.simulation.RunButtonPanel;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author mondeelr
+ * 
+ *         Top of the inheritance tree for all modal windows used for
+ *         configuration editing..
+ */
 abstract public class DataAndFileContainer {
-	/*
+	/**
 	 * The element name of the xml root
 	 */
 	protected String rootElementName;
-	/*
-	 * Path of the file that contains the data to be read.
+	/**
+	 * Path of the file that contains the imported data to be read.
 	 */
 	protected String dataFilePath;
 
-	/*
+	/**
 	 * Path of the file where the data will be written to or has been written
 	 * Note that in case of an Import action the dataFilePath and
 	 * configurationFilePath differ, and in case of an Save action they are
@@ -46,17 +51,28 @@ abstract public class DataAndFileContainer {
 	protected boolean changed = false;
 	/**
 	 * Flag that is set when the configurationfile being processed is readonly.
-	 * Consequences:
-	 * -The "Import" button is disabled, since importing is no
-	 * use.
-	 * -The "Save" and "Save and close" buttons are disabled when this flag
-	 * is true. 
-	 * -The "Save and Run" button reverts to just Run. 
-	 * -The box after
+	 * Consequences: -The "Import" button is disabled, since importing is no
+	 * use. -The "Save" and "Save and close" buttons are disabled when this flag
+	 * is true. -The "Save and Run" button reverts to just Run. -The box after
 	 * hitting the "Close" button does not appear when content was changed.
 	 */
 	protected boolean configurationFileReadOnly = false;
 
+	/**
+	 * Constructor that sets the nescessary context parameters and
+	 * "intelligently" figures out whether the configuration has been changed.
+	 * 
+	 * @param rootElementName
+	 *            The rootelementname of the file to be edited/created. Must be
+	 *            present, because the file(s) to read it from may not be
+	 *            present.
+	 * @param dataFilePath
+	 *            Path to the dataFile to be imported, null when nothing is
+	 *            going to be imported.
+	 * @param configurationFilePath
+	 *            Path to the (potentially new) configurationfile the data is
+	 *            going to be saved to.
+	 */
 	public DataAndFileContainer(String rootElementName, String dataFilePath,
 			String configurationFilePath/*
 										 * Not yet present, TypedHashMap<?>
@@ -83,7 +99,7 @@ abstract public class DataAndFileContainer {
 			// Imported file.
 			setChanged(true);
 		}
-		if (configurationFile.exists()&& !configurationFile.canWrite()) {
+		if (configurationFile.exists() && !configurationFile.canWrite()) {
 			configurationFileReadOnly = true;
 		}
 	}
@@ -116,15 +132,6 @@ abstract public class DataAndFileContainer {
 	 * Signal the data handled by this Object has changed at least once.
 	 */
 	public void setChanged(boolean changed) {
-// 2009110 RLM runButtonPanel kicked down to where it belongs, the SimulationModal.
-		// Callback to only enable the run-button when the configuration has
-		// been saved.
-//		if ((changed != this.changed) && (runButtonPanel != null)) {
-			// 20091001 It is now a "Save and Run" button and can always be
-			// enabled.
-			// runButtonPanel.enableButton(!changed);
-//			runButtonPanel.enableButton(true);
-//		}
 		this.changed = changed;
 	}
 
@@ -141,26 +148,35 @@ abstract public class DataAndFileContainer {
 	}
 
 	/**
-	 * Possible extra functionality at "save" time.
+	 * Possible extra functionality at "save" time, before the saving happens.
 	 */
 	abstract public SideEffectProcessor getSavePreProcessor();
 
+	/**
+	 * Possible extra functionality at "save" time, after the saving happens.
+	 */
 	abstract public SideEffectProcessor getSavePostProcessor();
 
+	/*
+	 * TODO Methods should not be at this level, refactor later.
+	 */
 	/**
-	 * Methods should not be at this level, refactor later.
 	 * 
-	 * @return
+	 * @return The Shell containing this window.
 	 */
 	abstract public Shell getShell();
-
+	/**
+	 * @return The Shell containing the parent of this window.
+	 */
 	abstract public Shell getParentShell();
 
 	abstract public BaseNode getBaseNode();
 
 	/**
-	 * Too high up the inheritance tree, but anyway. Used to link the buttons to
-	 * the helpsystem.
+	 * Used to link the buttons to the helpsystem.
+	 */
+	/*
+	 * TODO Too high up the inheritance tree, but anyway.
 	 */
 	abstract public HelpGroup getHelpGroup();
 }

@@ -60,14 +60,19 @@ public abstract class AbstractMultiRootChildDataModal extends
 
 	/**
 	 * 
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param parentShell
+	 *            Containing Shell
 	 * @param dataFilePath
-	 *            Path from where the data will be read.
+	 *            Path where the resulting configuration file is to be saved.
 	 * @param configurationFilePath
+	 *            Path to the imported configurationfile (if any).
 	 * @param rootElementName
+	 *            Name of the rootelement in the resulting configurationfile.
 	 * @param selectedNode
+	 *            Node on which the context menu was invoked to reach this
+	 *            point.
 	 */
 	public AbstractMultiRootChildDataModal(Shell parentShell,
 			String dataFilePath, String configurationFilePath,
@@ -83,8 +88,22 @@ public abstract class AbstractMultiRootChildDataModal extends
 		this.shell.setLayout(formLayout);
 	}
 
+	/**
+	 * Creates the text that is put in the title bar of the modal window.
+	 * 
+	 * @param selectedNode2
+	 * @return The text to put in the title bar.
+	 */
 	protected abstract String createCaption(BaseNode selectedNode2);
 
+	/**
+	 * Starts the opening process by creating a DataBindingContext and
+	 * instantiating the Button- and Help-panels. After that the rest is
+	 * delegated to levels lower in the inheritance tree.
+	 * 
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	final protected void open() throws ConfigurationException,
 			DynamoInconsistentDataException {
 		this.dataBindingContext = new DataBindingContext();
@@ -98,6 +117,12 @@ public abstract class AbstractMultiRootChildDataModal extends
 		openModal();
 	}
 
+	/**
+	 * Entrypoint for the delegation of the open() method.
+	 * 
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	protected abstract void openModal() throws ConfigurationException,
 			DynamoInconsistentDataException;
 
@@ -105,7 +130,7 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 * This method constructs a model-object always containing Observables at
 	 * the deepest level because these are needed for the databinding to work.
 	 * 
-	 * @return
+	 * @return The manufactured modelobject.
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
@@ -145,9 +170,10 @@ public abstract class AbstractMultiRootChildDataModal extends
 	}
 
 	/**
-	 * Final forces the entrypoint to this level.
+	 * Starts the modal window.
 	 * 
-	 * (There were other entrypoints, that could cause unexpected behaviour.)
+	 * Final forces the entrypoint to this level. (There were other entrypoints,
+	 * that could cause unexpected behaviour.)
 	 */
 	final public void run() {
 		try {
@@ -182,7 +208,17 @@ public abstract class AbstractMultiRootChildDataModal extends
 		}
 	}
 
-	private String dumpTopOfStackTrace(Throwable thrown) {
+	/**
+	 * Debugging helper method.<br/>
+	 * Returns a String with the top three elements of the stacktrace contained
+	 * in the Throwable passed.
+	 * 
+	 * @param thrown
+	 *            Throwable of which the top of the stacktrace is deemed
+	 *            interesting.
+	 * @return The resulting stacktrace excerpt.
+	 */
+private String dumpTopOfStackTrace(Throwable thrown) {
 		final Integer topSize = 3;
 		StringBuffer resultBuffer = new StringBuffer();
 		StackTraceElement[] stackTraceElementArray = thrown.getStackTrace();
@@ -195,54 +231,90 @@ public abstract class AbstractMultiRootChildDataModal extends
 		return resultBuffer.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getData()
+	 */
 	abstract public Object getData();
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getShell()
+	 */
 	public Shell getShell() {
 		return this.shell;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getBaseNode()
+	 */
 	public BaseNode getBaseNode() {
 		return this.selectedNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getParentShell()
+	 */
 	public Shell getParentShell() {
 		return this.parentShell;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getConfigurationFilePath()
+	 */
 	public String getConfigurationFilePath() {
 		return this.configurationFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getDataFilePath()
+	 */
 	public String getDataFilePath() {
 		return this.dataFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getRootElementName()
+	 */
 	public String getRootElementName() {
 		return this.rootElementName;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setConfigurationFilePath(java.lang.String)
+	 */
 	public void setConfigurationFilePath(String configurationFilePath) {
 		this.configurationFilePath = configurationFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setDataFilePath(java.lang.String)
+	 */
 	public void setDataFilePath(String dataFilePath) {
 		this.dataFilePath = dataFilePath;
 	}
 
 	/**
-	 * Default implementation.
+	 * Default implementation, returns null.
+	 */
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePreProcessor()
 	 */
 	public SideEffectProcessor getSavePreProcessor() {
 		return null;
 	}
 
 	/**
-	 * Default implementation.
+	 * Default implementation, returns null.
+	 */
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePostProcessor()
 	 */
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getHelpGroup()
+	 */
 	public HelpGroup getHelpGroup() {
 		return helpPanel;
 	}

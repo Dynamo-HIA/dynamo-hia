@@ -33,7 +33,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * Abstract class with for the data model screen
+ * Abstract class with for the data model screen for configurations with one
+ * rootchild.
  * 
  * Two paths are used: One for the import file containing the data
  * (dataFilePath) and one for the configured application file
@@ -54,13 +55,19 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 
 	/**
 	 * 
-	 * Constructor
+	 * Constructor.
 	 * 
 	 * @param parentShell
+	 *            Containing Shell
 	 * @param dataFilePath
+	 *            Path where the resulting configuration file is to be saved.
 	 * @param configurationFilePath
+	 *            Path to the imported configurationfile (if any).
 	 * @param rootElementName
+	 *            Name of the rootelement in the resulting configurationfile.
 	 * @param selectedNode
+	 *            Node on which the context menu was invoked to reach this
+	 *            point.
 	 */
 	public AbstractDataModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
@@ -77,8 +84,22 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 		this.shell.setLayout(formLayout);
 	}
 
+	/**
+	 * Creates the text that is put in the title bar of the modal window.
+	 * 
+	 * @param selectedNode2
+	 * @return The text to put in the title bar.
+	 */
 	protected abstract String createCaption(BaseNode selectedNode2);
 
+	/**
+	 * Starts the opening process by creating a DataBindingContext and
+	 * instantiating the Button- and Help-panels. After that the rest is
+	 * delegated to levels lower in the inheritance tree.
+	 * 
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	final protected void open() throws ConfigurationException,
 			DynamoInconsistentDataException {
 		this.dataBindingContext = new DataBindingContext();
@@ -95,9 +116,23 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 		}
 	}
 
+	/**
+	 * Entrypoint for the delegation of the open() method.
+	 * 
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	protected abstract void openModal() throws ConfigurationException,
 			DynamoInconsistentDataException;
 
+	/**
+	 * Creates the modelobject which will be edited/viewed with the modal
+	 * window.
+	 * 
+	 * @return The manufactured modelobject.
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException
+	 */
 	protected TypedHashMap<?> manufactureModelObject()
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<?> producedData = null;
@@ -143,9 +178,10 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 	}
 
 	/**
-	 * Final forces the entrypoint to this level.
+	 * Starts the modal window.
 	 * 
-	 * (There were other entrypoints, that could cause unexpected behaviour.)
+	 * Final forces the entrypoint to this level. (There were other entrypoints,
+	 * that could cause unexpected behaviour.)
 	 */
 	final public void run() {
 		try {
@@ -173,16 +209,25 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 			e.printStackTrace(System.err);
 			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
 			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage("An unexpected error occurred:\n" 
-					+ e.getClass().getSimpleName() + "\n"
-					+ e.getMessage() + "\n" 
-					+ dumpTopOfStackTrace(e));
+			box.setMessage("An unexpected error occurred:\n"
+					+ e.getClass().getSimpleName() + "\n" + e.getMessage()
+					+ "\n" + dumpTopOfStackTrace(e));
 			box.open();
 			this.shell.dispose();
 			// Will things be stable after this???????
 		}
 	}
 
+	/**
+	 * Debugging helper method.<br/>
+	 * Returns a String with the top three elements of the stacktrace contained
+	 * in the Throwable passed.
+	 * 
+	 * @param thrown
+	 *            Throwable of which the top of the stacktrace is deemed
+	 *            interesting.
+	 * @return The resulting stacktrace excerpt.
+	 */
 	private String dumpTopOfStackTrace(Throwable thrown) {
 		final Integer topSize = 3;
 		StringBuffer resultBuffer = new StringBuffer();
@@ -232,40 +277,64 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 		return this.parentShell;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getConfigurationFilePath()
+	 */
 	public String getConfigurationFilePath() {
 		return this.configurationFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getDataFilePath()
+	 */
 	public String getDataFilePath() {
 		return this.dataFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getRootElementName()
+	 */
 	public String getRootElementName() {
 		return this.rootElementName;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setConfigurationFilePath(java.lang.String)
+	 */
 	public void setConfigurationFilePath(String configurationFilePath) {
 		this.configurationFilePath = configurationFilePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setDataFilePath(java.lang.String)
+	 */
 	public void setDataFilePath(String dataFilePath) {
 		this.dataFilePath = dataFilePath;
 	}
 
 	/**
-	 * Default implementation.
+	 * Default implementation, returns null.
+	 */
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePreProcessor()
 	 */
 	public SideEffectProcessor getSavePreProcessor() {
 		return null;
 	}
 
 	/**
-	 * Default implementation.
+	 * Default implementation, returns null.
+	 */
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePostProcessor()
 	 */
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getHelpGroup()
+	 */
 	public HelpGroup getHelpGroup() {
 		return helpPanel;
 	}

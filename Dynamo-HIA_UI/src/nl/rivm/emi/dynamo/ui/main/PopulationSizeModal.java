@@ -25,13 +25,6 @@ public class PopulationSizeModal extends AbstractDataModal {
 	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	/**
-	 * @param parentShell
-	 * @param dataFilePath
-	 * @param configurationFilePath
-	 * @param rootElementName
-	 * @param selectedNode
-	 */
 	public PopulationSizeModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode) {

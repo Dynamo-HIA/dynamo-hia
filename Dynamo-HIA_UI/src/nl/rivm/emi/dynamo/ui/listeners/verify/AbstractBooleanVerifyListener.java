@@ -20,6 +20,9 @@ public class AbstractBooleanVerifyListener extends AbstractNonSAPVerifyListener 
 		this.type = typeParam;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
+	 */
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();
