@@ -15,6 +15,10 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+/**
+ * @author mondeelr
+ *
+ */
 public class ExcessMortalityFactory extends AgnosticGroupFactory {
 	// private Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -30,6 +34,9 @@ public class ExcessMortalityFactory extends AgnosticGroupFactory {
 		super();
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufacture(java.io.File, java.lang.String)
+	 */
 	public ExcessMortalityObject manufacture(File configurationFile,
 			String rootNodeName) throws ConfigurationException,
 			DynamoInconsistentDataException {
@@ -38,6 +45,9 @@ public class ExcessMortalityFactory extends AgnosticGroupFactory {
 		return new ExcessMortalityObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
 	public ExcessMortalityObject manufactureObservable(File configurationFile,
 			String rootNodeName) throws ConfigurationException,
 			DynamoInconsistentDataException {
@@ -46,6 +56,9 @@ public class ExcessMortalityFactory extends AgnosticGroupFactory {
 		return new ExcessMortalityObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureDefault()
+	 */
 	public ExcessMortalityObject manufactureDefault()
 			throws DynamoConfigurationException {
 		if(myEnum==null){
@@ -57,6 +70,9 @@ public class ExcessMortalityFactory extends AgnosticGroupFactory {
 		return new ExcessMortalityObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureObservableDefault()
+	 */
 	public ExcessMortalityObject manufactureObservableDefault()
 			throws DynamoConfigurationException {
 		if(myEnum==null){

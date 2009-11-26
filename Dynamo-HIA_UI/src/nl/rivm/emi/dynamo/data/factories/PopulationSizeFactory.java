@@ -14,35 +14,62 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author mondeelr
+ *
+ */
 public class PopulationSizeFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TypedHashMap manufacture(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
 		return (result);
 	}
 
-	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	public TypedHashMap<Age> manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
+				rootElementName);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
 		return result;
 	}
 
-	public TypedHashMap manufactureDefault()
-			throws ConfigurationException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureDefault()
+	 */
+	public TypedHashMap<Age> manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public TypedHashMap manufactureObservableDefault()
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservableDefault()
+	 */
+	public TypedHashMap<Age> manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
 
+	/**
+	 * Manufactures a new Object from scratch. The AtomicTypeObjectTuples in the
+	 * leafNodeList determine the structure and defaultvalues.
+	 * 
+	 * @param makeObservable
+	 *            Flag indicating the Object must contain WritableValues at the
+	 *            lowest level.
+	 * @return The manufactured default Object.
+	 * @throws ConfigurationException
+	 */
+	@SuppressWarnings("unchecked")
 	private PopulationSizeObject manufactureDefault(boolean makeObservable)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
@@ -56,6 +83,6 @@ public class PopulationSizeFactory extends AgnosticFactory {
 		TypedHashMap<Age> producedMap = manufactureDefault(leafNodeList,
 				makeObservable);
 		PopulationSizeObject result = new PopulationSizeObject(producedMap);
-		return result; 
+		return result;
 	}
 }

@@ -21,6 +21,9 @@ public abstract class AgnosticCategoricalFactory extends AgnosticFactory
 
 	protected Integer numberOfCategories = null;
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.CategoricalFactory#setNumberOfCategories(java.lang.Integer)
+	 */
 	@Override
 	public void setNumberOfCategories(Integer numberOfCategories) {
 		this.numberOfCategories = numberOfCategories;
@@ -33,11 +36,12 @@ public abstract class AgnosticCategoricalFactory extends AgnosticFactory
 	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File,
 	 *      boolean, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public TypedHashMap manufacture(File configurationFile,
+	public TypedHashMap<Age> manufacture(File configurationFile,
 			boolean makeObservable, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		TypedHashMap resultObject = super.manufacture(configurationFile,
+		TypedHashMap<Age> resultObject = super.manufacture(configurationFile,
 				makeObservable, rootElementName);
 		TypedHashMap<Age> ageMap = (TypedHashMap<Age>) resultObject.get(0);
 		TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) ageMap.get(0);
@@ -53,5 +57,4 @@ public abstract class AgnosticCategoricalFactory extends AgnosticFactory
 		}
 		return resultObject;
 	}
-
 }

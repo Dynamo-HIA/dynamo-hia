@@ -13,11 +13,18 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 
+/**
+ * @author mondeelr
+ *
+ */
 public class RiskFactorCategoricalFactory extends AgnosticCategoricalGroupFactory{
 //	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	FileControlEnum myEnum = FileControlEnum.RISKFACTORCATEGORICAL;
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufacture(java.io.File, java.lang.String)
+	 */
 	public RiskFactorCategoricalObject manufacture(File configurationFile,
 			String rootNodeName) throws ConfigurationException,
 			DynamoInconsistentDataException {
@@ -26,6 +33,9 @@ public class RiskFactorCategoricalFactory extends AgnosticCategoricalGroupFactor
 		return new RiskFactorCategoricalObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
 	public RiskFactorCategoricalObject manufactureObservable(
 			File configurationFile, String rootNodeName)
 			throws ConfigurationException, DynamoInconsistentDataException {
@@ -34,12 +44,18 @@ public class RiskFactorCategoricalFactory extends AgnosticCategoricalGroupFactor
 		return new RiskFactorCategoricalObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureDefault()
+	 */
 	public RiskFactorCategoricalObject manufactureDefault()
 			throws DynamoConfigurationException {
 		LinkedHashMap<String, Object> modelMap = super.manufactureDefault(myEnum);
 		return new RiskFactorCategoricalObject(modelMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureObservableDefault()
+	 */
 	public RiskFactorCategoricalObject manufactureObservableDefault()
 			throws DynamoConfigurationException {
 		LinkedHashMap<String, Object> modelMap = super

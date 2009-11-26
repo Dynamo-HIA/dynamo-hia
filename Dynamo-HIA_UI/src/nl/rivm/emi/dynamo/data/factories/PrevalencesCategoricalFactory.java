@@ -18,36 +18,58 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class PrevalencesCategoricalFactory extends AgnosticFactory implements CategoricalFactory{
+/**
+ * @author mondeelr
+ *
+ */
+public class PrevalencesCategoricalFactory extends AgnosticFactory implements
+		CategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	/**
+	 * 
+	 */
 	Integer numberOfCategories = null;
-	
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.CategoricalFactory#setNumberOfCategories(java.lang.Integer)
+	 */
 	public void setNumberOfCategories(Integer numberOfCategories) {
 		this.numberOfCategories = numberOfCategories;
 	}
 
-	public TypedHashMap manufactureObservable(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
+				rootElementName);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
 				producedMap);
 		return (result);
 	}
 
-	public TypedHashMap manufacture(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
 				producedMap);
 		return (result);
 	}
 
-	public TypedHashMap manufactureDefault()
-			throws ConfigurationException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureDefault()
+	 */
+	public TypedHashMap<Age> manufactureDefault() throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufactureDefault(false);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
@@ -55,7 +77,11 @@ public class PrevalencesCategoricalFactory extends AgnosticFactory implements Ca
 		return (result);
 	}
 
-	public TypedHashMap manufactureObservableDefault() throws ConfigurationException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservableDefault()
+	 */
+	public TypedHashMap<Age> manufactureObservableDefault()
+			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufactureDefault(true);
 		PrevalencesCategoricalObject result = new PrevalencesCategoricalObject(
@@ -63,18 +89,38 @@ public class PrevalencesCategoricalFactory extends AgnosticFactory implements Ca
 		return (result);
 	}
 
-	public PrevalencesCategoricalObject manufactureDefault(boolean makeObservable
-			) throws ConfigurationException {
+	/**
+	 * Manufactures a new Object from scratch. The AtomicTypeObjectTuples in the
+	 * leafNodeList determine the structure and defaultvalues.
+	 * 
+	 * @param makeObservable
+	 *            Flag indicating the Object must contain WritableValues at the
+	 *            lowest level.
+	 * @return The manufactured default Object.
+	 * @throws ConfigurationException
+	 */
+	@SuppressWarnings("unchecked")
+	public PrevalencesCategoricalObject manufactureDefault(
+			boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("age"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("sex"), null));
-		CatContainer category = (CatContainer) XMLTagEntitySingleton.getInstance().get(
-				"cat");
+		CatContainer category = (CatContainer) XMLTagEntitySingleton
+				.getInstance().get("cat");
 		// TODO Clone to make threadsafe. Category clone = category.
-		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories); // The loop has <=, so 6 results in 7 categories.
+		Integer oldMaxValue = category.setMAX_VALUE(numberOfCategories); // The
+																			// loop
+																			// has
+																			// <=,
+																			// so
+																			// 6
+																			// results
+																			// in
+																			// 7
+																			// categories.
 		leafNodeList.add(new AtomicTypeObjectTuple(category, null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("percent"), null));

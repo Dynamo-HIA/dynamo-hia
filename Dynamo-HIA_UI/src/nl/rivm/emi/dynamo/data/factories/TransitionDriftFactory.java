@@ -13,39 +13,68 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 /**
  * Precondition is that a dispatcher has chosen this factory based on the
  * root-tagname.
  */
 public class TransitionDriftFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
-	public TypedHashMap manufactureObservable(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
+				rootElementName);
 		TransitionDriftObject result = new TransitionDriftObject(producedMap);
-		return (result); 
+		return (result);
 	}
 
-	public TypedHashMap manufacture(
-			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
+				rootElementName);
 		TransitionDriftObject result = new TransitionDriftObject(producedMap);
-		return (result); 
+		return (result);
 	}
-	
-	public TypedHashMap manufactureDefault() throws ConfigurationException {
+
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureDefault()
+	 */
+	public TypedHashMap<Age> manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
-	public TypedHashMap manufactureObservableDefault()
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservableDefault()
+	 */
+	public TypedHashMap<Age> manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
 
-	private TransitionDriftObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
+	/**
+	 * Manufactures a new Object from scratch. The AtomicTypeObjectTuples in the
+	 * leafNodeList determine the structure and defaultvalues.
+	 * 
+	 * @param makeObservable
+	 *            Flag indicating the Object must contain WritableValues at the
+	 *            lowest level.
+	 * @return The manufactured default Object.
+	 * @throws ConfigurationException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	private TransitionDriftObject manufactureDefault(boolean makeObservable)
+			throws ConfigurationException {
 		log.debug("Starting manufacture.");
 		LeafNodeList leafNodeList = new LeafNodeList();
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
@@ -54,8 +83,9 @@ public class TransitionDriftFactory extends AgnosticFactory {
 				.getInstance().get("sex"), null));
 		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
 				.getInstance().get("mean"), null));
-		TypedHashMap<Age> producedMap = super.manufactureDefault(leafNodeList, makeObservable);
+		TypedHashMap<Age> producedMap = super.manufactureDefault(leafNodeList,
+				makeObservable);
 		TransitionDriftObject result = new TransitionDriftObject(producedMap);
-		return result; 
+		return result;
 	}
 }

@@ -32,6 +32,7 @@ public abstract class AgnosticCategoricalGroupFactory extends
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufacture(java.io.File, boolean, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public LinkedHashMap<String, Object> manufacture(File configurationFile,
 			boolean makeObservable, String rootElementName)

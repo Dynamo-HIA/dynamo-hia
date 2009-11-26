@@ -14,12 +14,18 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author mondeelr
+ *
+ */
 public class DALYWeightsFactory extends AgnosticFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	@SuppressWarnings("unchecked")
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
 	@Override
-	public TypedHashMap<?> manufactureObservable(File configurationFile, String rootElementName)
+	public TypedHashMap<Age> manufactureObservable(File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true, rootElementName);
@@ -27,9 +33,11 @@ public class DALYWeightsFactory extends AgnosticFactory {
 		return (result); 
 	}
 
-	@SuppressWarnings("unchecked")
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File, java.lang.String)
+	 */
 	@Override
-	public TypedHashMap<?> manufacture(
+	public TypedHashMap<Age> manufacture(
 			File configurationFile, String rootElementName) throws ConfigurationException, DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, rootElementName);
@@ -37,18 +45,34 @@ public class DALYWeightsFactory extends AgnosticFactory {
 		return (result); 
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureDefault()
+	 */
 	@Override
-	public TypedHashMap<?> manufactureDefault()
+	public TypedHashMap<Age> manufactureDefault()
 			throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservableDefault()
+	 */
 	@Override
-	public TypedHashMap<?> manufactureObservableDefault()
+	public TypedHashMap<Age> manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
 
+	/**
+	 * Manufactures a new Object from scratch. The AtomicTypeObjectTuples in the
+	 * leafNodeList determine the structure and defaultvalues.
+	 * 
+	 * @param makeObservable
+	 *            Flag indicating the Object must contain WritableValues at the
+	 *            lowest level.
+	 * @return The manufactured default Object.
+	 * @throws ConfigurationException
+	 */
 	@SuppressWarnings("unchecked")
 	private DALYWeightsObject manufactureDefault(boolean makeObservable) throws ConfigurationException {
 		log.debug("Starting manufacture.");

@@ -2,10 +2,12 @@ package nl.rivm.emi.dynamo.data.factories;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
@@ -45,7 +47,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufacture(File configurationFile,
+	abstract public TypedHashMap<Age> manufacture(File configurationFile,
 			String rootElementName) throws ConfigurationException,
 			DynamoInconsistentDataException;
 
@@ -57,7 +59,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	abstract public TypedHashMap<?> manufactureObservable(
+	abstract public TypedHashMap<Age> manufactureObservable(
 			File configurationFile, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException;
 
@@ -67,7 +69,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return the produced TypedHashMap
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureDefault()
+	abstract public TypedHashMap<Age> manufactureDefault()
 			throws ConfigurationException;
 
 	/**
@@ -76,7 +78,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	abstract public TypedHashMap<?> manufactureObservableDefault()
+	abstract public TypedHashMap<Age> manufactureObservableDefault()
 			throws ConfigurationException;
 
 	/**
@@ -90,10 +92,11 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @throws ConfigurationException
 	 * @throws DynamoInconsistentDataException
 	 */
-	public TypedHashMap manufacture(File configurationFile,
+	@SuppressWarnings("unchecked")
+	public TypedHashMap<Age> manufacture(File configurationFile,
 			boolean makeObservable, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
-		TypedHashMap<?> underConstruction = null;
+		TypedHashMap<Age> underConstruction = null;
 		XMLConfiguration configurationFromFile;
 		try {
 			configurationFromFile = new XMLConfiguration(configurationFile);
@@ -115,8 +118,11 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			// is the same as that of the node name where the file is processes
 			if (rootNode.getName() != null
 					&& rootNode.getName().equalsIgnoreCase(rootElementName)) {
-				List<?> list = rootNode.getChildren();
-				List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) list;
+				List<Object> list = rootNode.getChildren();
+				List<ConfigurationNode> rootChildren = new LinkedList<ConfigurationNode>();
+				for (Object childObject : list) {
+					rootChildren.add((ConfigurationNode) childObject);
+				}
 				for (ConfigurationNode rootChild : rootChildren) {
 					log.info("Handle rootChild: " + rootChild.getName());
 					underConstruction = handleRootChild(underConstruction,
@@ -150,7 +156,8 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	private TypedHashMap<?> handleRootChild(TypedHashMap<?> originalObject,
+	@SuppressWarnings("unchecked")
+	private TypedHashMap<Age> handleRootChild(TypedHashMap<?> originalObject,
 			ConfigurationNode rootChild, boolean makeObservable)
 			throws ConfigurationException {
 		LeafNodeList leafNodeList = new LeafNodeList();
@@ -158,8 +165,9 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		log.debug("Handling rootchild. LastContainer " + theLastContainer
 				+ leafNodeList.report());
 		int currentLevel = 0;
-		TypedHashMap<?> updatedObject = makePath(originalObject, leafNodeList,
-				theLastContainer, currentLevel, makeObservable);
+		TypedHashMap<Age> updatedObject = (TypedHashMap<Age>) makePath(
+				originalObject, leafNodeList, theLastContainer, currentLevel,
+				makeObservable);
 		return updatedObject;
 	}
 
@@ -175,6 +183,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makePath(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable)
@@ -191,17 +200,8 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			handleContainerType(priorLevel, leafNodeList, theLastContainer,
 					currentLevel, makeObservable, currentLevelValue);
 		} else {
-
-			// NB(mondeelr) 20090324 All leafEntries will be
-			// AtomicTypeObjectTuples.
-
-			// if (leafNodeList.size() - theLastContainer == 1) {
-			// handlePayLoadType(priorLevel, leafNodeList, currentLevel,
-			// makeObservable, currentLevelValue);
-			// } else {
 			handleAggregatePayLoadTypes(priorLevel, leafNodeList, currentLevel,
 					makeObservable, currentLevelValue);
-			// }
 		}
 		return priorLevel;
 	}
@@ -217,6 +217,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @param currentLevelValue
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private void handleContainerType(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable,
@@ -232,42 +233,42 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		priorLevel.put(currentLevelValue, pathMap);
 	}
 
-	/**
-	 * Processes simple payload types.
-	 * 
-	 * @param priorLevel
-	 * @param leafNodeList
-	 * @param currentLevel
-	 * @param makeObservable
-	 * @param currentLevelValue
-	 * @throws DynamoConfigurationException
-	 */
-	private void handlePayLoadType(TypedHashMap<?> priorLevel,
-			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
-			boolean makeObservable, Integer currentLevelValue)
-			throws DynamoConfigurationException {
-		Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
-				.getValue());
-		if (!makeObservable) {
-			priorLevel.put(currentLevelValue, leafValue);
-		} else {
-			if (leafValue instanceof Integer) {
-				WritableValue writableValue = new WritableValue(leafValue,
-						Integer.class);
-				priorLevel.put(currentLevelValue, writableValue);
-			} else {
-				if (leafValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(leafValue,
-							Float.class);
-					priorLevel.put(currentLevelValue, writableValue);
-				} else {
-					throw new DynamoConfigurationException(
-							"Unsupported leafValueType for IObservable-s :"
-									+ leafValue.getClass().getName());
-				}
-			}
-		}
-	}
+//	/**
+//	 * Processes simple payload types.
+//	 * 
+//	 * @param priorLevel
+//	 * @param leafNodeList
+//	 * @param currentLevel
+//	 * @param makeObservable
+//	 * @param currentLevelValue
+//	 * @throws DynamoConfigurationException
+//	 */
+//	private void handlePayLoadType(TypedHashMap<?> priorLevel,
+//			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
+//			boolean makeObservable, Integer currentLevelValue)
+//			throws DynamoConfigurationException {
+//		Number leafValue = (Number) (leafNodeList.get(currentLevel + 1)
+//				.getValue());
+//		if (!makeObservable) {
+//			priorLevel.put(currentLevelValue, leafValue);
+//		} else {
+//			if (leafValue instanceof Integer) {
+//				WritableValue writableValue = new WritableValue(leafValue,
+//						Integer.class);
+//				priorLevel.put(currentLevelValue, writableValue);
+//			} else {
+//				if (leafValue instanceof Float) {
+//					WritableValue writableValue = new WritableValue(leafValue,
+//							Float.class);
+//					priorLevel.put(currentLevelValue, writableValue);
+//				} else {
+//					throw new DynamoConfigurationException(
+//							"Unsupported leafValueType for IObservable-s :"
+//									+ leafValue.getClass().getName());
+//				}
+//			}
+//		}
+//	}
 
 	/**
 	 * Handles compound payload types.
@@ -334,6 +335,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable)
@@ -365,40 +367,10 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 								makeObservable);
 
 					} else {
-						log.debug("Number of payload nodes: "
-								+ (leafNodeList.size() - theLastContainer));
-						// NB(mondeelr) 20090324 All leafEntries will be
-						// AtomicTypeObjectTuples.
-						// if ((leafNodeList.size() - theLastContainer) == 1) {
-						// // Existing functionality.
-						// handleSinglePayload(priorLevel, leafNodeList,
-						// currentLevel, makeObservable, value);
-						// } else {
-						// Extended functionality.
-						ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
-						for (int count = theLastContainer; count < leafNodeList
-								.size(); count++) {
-							AtomicTypeObjectTuple leafNodeTuple = leafNodeList
-									.get(count);
-							XMLTagEntity type = leafNodeTuple.getType();
-							log.debug("Handling payloadSubType: "
-									+ type.getXMLElementName());
-							Object defaultValue = ((PayloadType) type)
-									.getDefaultValue();
-							AtomicTypeObjectTuple modelTuple = null;
-							if (!makeObservable) {
-								modelTuple = new AtomicTypeObjectTuple(type,
-										defaultValue);
-							} else {
-								WritableValue observable = new WritableValue(
-										defaultValue, defaultValue.getClass());
-								modelTuple = new AtomicTypeObjectTuple(type,
-										observable);
-							}
-							payloadList.add(modelTuple);
-							// }
-							priorLevel.put(value, payloadList);
-						}
+						ArrayList<AtomicTypeObjectTuple> payloadList = handleConsecutivePayLoadElements(
+								priorLevel, leafNodeList, theLastContainer,
+								makeObservable, value);
+						priorLevel.put(value, payloadList);
 					}
 				}
 			}
@@ -410,53 +382,80 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		}
 	}
 
-	/**
-	 * Handles a single payload.
-	 * 
-	 * @param priorLevel
-	 * @param leafNodeList
-	 * @param currentLevel
-	 * @param makeObservable
-	 * @param value
-	 * @throws DynamoConfigurationException
-	 */
-	private void handleSinglePayload(TypedHashMap<?> priorLevel,
-
-	ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
-			boolean makeObservable, int value)
-			throws DynamoConfigurationException {
-		log.debug("leafNodeList" + leafNodeList);/*
-												 * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
-												 * + ((PayloadType<Number>)
-												 * leafNodeList.get(
-												 * currentLevel + 1)));
-												 */
-		Number defaultValue = ((PayloadType<Number>) leafNodeList.get(
-				currentLevel + 1).getType()).getDefaultValue();
-		if (!makeObservable) {
-			log.debug("Adding default leaf " + defaultValue + " at value "
-					+ value);
-			priorLevel.put(value, defaultValue);
-		} else {
-			if (defaultValue instanceof Integer) {
-				WritableValue writableValue = new WritableValue(defaultValue,
-						Integer.class);
-				log.debug("Adding default Writable Integer leaf "
-						+ defaultValue + " at value " + value);
-				priorLevel.put(value, writableValue);
+	@SuppressWarnings("unchecked")
+	private ArrayList<AtomicTypeObjectTuple> handleConsecutivePayLoadElements(
+			TypedHashMap<?> priorLevel,
+			ArrayList<AtomicTypeObjectTuple> leafNodeList,
+			int theLastContainer, boolean makeObservable, int value) {
+		log.debug("Number of payload nodes: "
+				+ (leafNodeList.size() - theLastContainer));
+		ArrayList<AtomicTypeObjectTuple> payloadList = new ArrayList<AtomicTypeObjectTuple>();
+		for (int count = theLastContainer; count < leafNodeList.size(); count++) {
+			AtomicTypeObjectTuple leafNodeTuple = leafNodeList.get(count);
+			XMLTagEntity type = leafNodeTuple.getType();
+			log.debug("Handling payloadSubType: " + type.getXMLElementName());
+			Object defaultValue = ((PayloadType) type).getDefaultValue();
+			AtomicTypeObjectTuple modelTuple = null;
+			if (!makeObservable) {
+				modelTuple = new AtomicTypeObjectTuple(type, defaultValue);
 			} else {
-				if (defaultValue instanceof Float) {
-					WritableValue writableValue = new WritableValue(
-							defaultValue, Float.class);
-					log.debug("Adding default Writable Float leaf "
-							+ defaultValue + " at value " + value);
-					priorLevel.put(value, writableValue);
-				} else {
-					throw new DynamoConfigurationException(
-							"Unsupported leafValueType for IObservable-s :"
-									+ defaultValue.getClass().getName());
-				}
+				WritableValue observable = new WritableValue(defaultValue,
+						defaultValue.getClass());
+				modelTuple = new AtomicTypeObjectTuple(type, observable);
 			}
+			payloadList.add(modelTuple);
+			// }
 		}
+		return payloadList;
 	}
+
+	// /**
+	// * Handles a single payload.
+	// *
+	// * @param priorLevel
+	// * @param leafNodeList
+	// * @param currentLevel
+	// * @param makeObservable
+	// * @param value
+	// * @throws DynamoConfigurationException
+	// */
+	// private void handleSinglePayload(TypedHashMap<?> priorLevel,
+	//
+	// ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
+	// boolean makeObservable, int value)
+	// throws DynamoConfigurationException {
+	// log.debug("leafNodeList" + leafNodeList);/*
+	// * log.debug("((PayloadType<Number>) leafNodeList.get(currentLevel + 1))"
+	// * + ((PayloadType<Number>)
+	// * leafNodeList.get(
+	// * currentLevel + 1)));
+	// */
+	// Number defaultValue = ((PayloadType<Number>) leafNodeList.get(
+	// currentLevel + 1).getType()).getDefaultValue();
+	// if (!makeObservable) {
+	// log.debug("Adding default leaf " + defaultValue + " at value "
+	// + value);
+	// priorLevel.put(value, defaultValue);
+	// } else {
+	// if (defaultValue instanceof Integer) {
+	// WritableValue writableValue = new WritableValue(defaultValue,
+	// Integer.class);
+	// log.debug("Adding default Writable Integer leaf "
+	// + defaultValue + " at value " + value);
+	// priorLevel.put(value, writableValue);
+	// } else {
+	// if (defaultValue instanceof Float) {
+	// WritableValue writableValue = new WritableValue(
+	// defaultValue, Float.class);
+	// log.debug("Adding default Writable Float leaf "
+	// + defaultValue + " at value " + value);
+	// priorLevel.put(value, writableValue);
+	// } else {
+	// throw new DynamoConfigurationException(
+	// "Unsupported leafValueType for IObservable-s :"
+	// + defaultValue.getClass().getName());
+	// }
+	// }
+	// }
+	// }
 }

@@ -20,9 +20,12 @@ import org.apache.commons.logging.LogFactory;
 public class TransitionMatrixFactory extends AgnosticCategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
-	public TypedHashMap manufactureObservable(File configurationFile,
-			String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservable(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufactureObservable(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
 		TypedHashMap<Age> producedMap = manufacture(configurationFile, true,
 				rootElementName);
@@ -30,27 +33,47 @@ public class TransitionMatrixFactory extends AgnosticCategoricalFactory {
 		return (result);
 	}
 
-	public TypedHashMap manufacture(File configurationFile, String rootElementName)
-			throws ConfigurationException, DynamoInconsistentDataException {
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufacture(java.io.File, java.lang.String)
+	 */
+	public TypedHashMap<Age> manufacture(File configurationFile,
+			String rootElementName) throws ConfigurationException,
+			DynamoInconsistentDataException {
 		log.debug("Starting manufacture.");
-		TypedHashMap<Age> producedMap = manufacture(configurationFile, false, 
+		TypedHashMap<Age> producedMap = manufacture(configurationFile, false,
 				rootElementName);
 		TransitionMatrixObject result = new TransitionMatrixObject(producedMap);
 		return (result);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureDefault()
+	 */
 	@Override
-	public TypedHashMap manufactureDefault() throws ConfigurationException {
+	public TypedHashMap<Age> manufactureDefault() throws ConfigurationException {
 		return manufactureDefault(false);
 	}
 
+	/* (non-Javadoc)
+	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticFactory#manufactureObservableDefault()
+	 */
 	@Override
-	public TypedHashMap manufactureObservableDefault()
+	public TypedHashMap<Age> manufactureObservableDefault()
 			throws ConfigurationException {
 		return manufactureDefault(true);
 	}
 
-
+	/**
+	 * Manufactures a new Object from scratch. The AtomicTypeObjectTuples in the
+	 * leafNodeList determine the structure and defaultvalues.
+	 * 
+	 * @param makeObservable
+	 *            Flag indicating the Object must contain WritableValues at the
+	 *            lowest level.
+	 * @return The manufactured default Object.
+	 * @throws ConfigurationException
+	 */
+	@SuppressWarnings("unchecked")
 	public TransitionMatrixObject manufactureDefault(boolean makeObservable)
 			throws ConfigurationException {
 		log.debug("Starting manufacture.");
@@ -70,9 +93,8 @@ public class TransitionMatrixFactory extends AgnosticCategoricalFactory {
 		Integer oldMaxDestination = destination
 				.setMAX_VALUE(numberOfCategories);
 		leafNodeList.add(new AtomicTypeObjectTuple(destination, null));
-//		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntitySingleton
-//				.getInstance().get("value"), null));
-		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.PERCENTAGE.getTheType(), null));
+		leafNodeList.add(new AtomicTypeObjectTuple(XMLTagEntityEnum.PERCENTAGE
+				.getTheType(), null));
 		TransitionMatrixObject theObject = new TransitionMatrixObject(super
 				.manufactureDefault(leafNodeList, makeObservable));
 		source.setMAX_VALUE(oldMaxSource);
