@@ -38,136 +38,150 @@ import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
  * @author mondeelr
  *
  * Enumeration mapping the relations between the name of a root-element in a configuration 
- * file and the Factory Object to turn it into a Configuration Model Object.
+ * file and the Factory Object to turn it into a Model Object.
  *
  * The instances of the enumeration are put into the DispatchMap to be able to find them by rootelementname.
  */
 public enum DispatchEnum {
-	/* W01 */
+	/** Create Object to be edited through W01 */
 	SIMULATION(RootElementNamesEnum.SIMULATION.getNodeLabel(),
 			new DynamoSimulationFactory(), null),
-	/* W11 */
+			/** Create Object to be edited through W11 */
 	POPULATIONSIZE(RootElementNamesEnum.POPULATIONSIZE.getNodeLabel(),
 			new PopulationSizeFactory(), null),
-	/* W12 */
+			/** Create Object to be edited through W12 */
 	OVERALLMORTALITY(RootElementNamesEnum.OVERALLMORTALITY.getNodeLabel(),
 			new OverallMortalityFactory(), null),
-	/* W13 */
+			/** Create Object to be edited through W13 */
 	NEWBORNS(RootElementNamesEnum.NEWBORNS.getNodeLabel(),
 			new NewbornsFactory(), null),
-	/* W14 */
+			/** Create Object to be edited through W14 */
 	OVERALLDALYWEIGHTS(RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(),
 			new OverallDALYWeightsFactory(), null), // TODO
-	/* W20Cat */
+			/** Create Object to be edited through W20Cat */
 	RISKFACTOR_CATEGORICAL(RootElementNamesEnum.RISKFACTOR_CATEGORICAL
 			.getNodeLabel(), new RiskFactorCategoricalFactory(), null),
-	/* W20Con */
+			/** Create Object to be edited through W20Con */
 	RISKFACTOR_CONTINUOUS(RootElementNamesEnum.RISKFACTOR_CONTINUOUS
 			.getNodeLabel(), new RiskFactorContinuousFactory(), null),
-	/* W20Cmp */
+			/** Create Object to be edited through W20Cmp */
 	RISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
 			new RiskFactorCompoundFactory(), null),
-	/* W21TdMA */
+			/** Create Object to be edited through W21TdMA */
 	TRANSITIONDRIFT(RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(),
 			new TransitionDriftFactory(), null), // TODO
-	/* W21TdId */// TODO
-	/* W21TdFp */// TODO
+			/** Create Object to be edited through W21TdId */// TODO
+			/** Create Object to be edited through W21TdFp */// TODO
 	TRANSITIONDRIFT_NETTO(RootElementNamesEnum.TRANSITIONDRIFT_NETTO
 			.getNodeLabel(), new TransitionDriftNettoFactory(), null), // 
-	/* W21TmMA */
+			/** Create Object to be edited through W21TmMA */
 
 	TRANSITIONMATRIX(RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel(),
 			new TransitionMatrixFactory(), null),
-	/* W21TmId */
+			/** Create Object to be edited through W21TmId */
 	TRANSITIONMATRIX_ZERO(RootElementNamesEnum.TRANSITIONMATRIX_ZERO
 			.getNodeLabel(), /*
 							 * new TransitionMatrixFactory()
 							 */
 	new DummyPlaceholderFactory(), null), // TODO
-	/* W21TmFp */
+	/** Create Object to be edited through W21TmFp */
 	TRANSITIONMATRIX_NETTO(RootElementNamesEnum.TRANSITIONMATRIX_NETTO
 			.getNodeLabel(), /*
 							 * new TransitionMatrixFactory()
 							 */
 	new DummyPlaceholderFactory(), null), // TODO
-	/* W22CatCom */
+	/** Create Object to be edited through W22CatCom */
 	RISKFACTORPREVALENCES_CATEGORICAL(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CATEGORICAL
 					.getNodeLabel(),
 			new RiskFactorPrevalencesCategoricalFactory(), null), // TODO
-	/* W22Con */
+			/** Create Object to be edited through W22Con */
 	RISKFACTORPREVALENCES_CONTINUOUS(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_CONTINUOUS
 					.getNodeLabel(),
 			new RiskFactorPrevalencesContinuousFactory(), null), // TODO
-	/* W22ComDur */
+			/** Create Object to be edited through W22ComDur */
 	RISKFACTORPREVALENCES_DURATION(
 			RootElementNamesEnum.RISKFACTORPREVALENCES_DURATION.getNodeLabel(),
 			new DurationDistributionFactory(), null),
-	/* W23Cat */
+			/** Create Object to be edited through W23Cat */
 	RELRISKFORDEATH_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_CATEGORICAL
 					.getNodeLabel(), new RelRiskForDeathCategoricalFactory(),
 			null),
-	/* W23Con */
+			/** Create Object to be edited through W23Con */
 	RELRISKFORDEATH_CONTINUOUS(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_CONTINUOUS
 					.getNodeLabel(), new RelRiskForDeathContinuousFactory(),
 			null),
-	/* W23Cmp */
+			/** Create Object to be edited through W23Cmp */
 	RELRISKFORDEATH_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDEATH_COMPOUND.getNodeLabel(),
 			new RelRiskForDeathCompoundFactory(), null),
-	/* W23Cat */
+			/** Create Object to be edited through W23Cat */
 	RELRISKFORDISABLITY_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CATEGORICAL
 					.getNodeLabel(),
 			new RelRiskForDisabilityCategoricalFactory(), null),
-	/* W23Con */
+			/** Create Object to be edited through W23Con */
 	RELRISKFORDISABLITY_CONTINUOUS(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_CONTINUOUS
 					.getNodeLabel(),
 			new RelRiskForDisabilityContinuousFactory(), null),
-	/* W23Cmp */
+			/** Create Object to be edited through W23Cmp */
 	RELRISKFORDISABLITY_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
 					.getNodeLabel(), new RelRiskForDisabilityCompoundFactory(),
 			null), // TODO
 	DISEASEPREVALENCES(RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
 			new DiseasePrevalencesFactory(), null), // TODO
-	/* W32 */
+			/** Create Object to be edited through W32 */
 	DISEASEINCIDENCES(RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel(),
 			new DiseaseIncidencesFactory(), null),
-	/* W33 */
+			/** Create Object to be edited through W33 */
 	EXCESSMORTALITY(XMLTagEntityEnum.EXCESSMORTALITY.getElementName(),
 			new ExcessMortalityFactory(), null),
-	/* W34Cat */
+			/** Create Object to be edited through W34Cat */
 	RRISKFORRISKFACTOR_CATEGORICAL(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorCategoricalFactory(), null),
-	/* W34Con */
+			/** Create Object to be edited through W34Con */
 	RRISKFORRISKFACTOR_CONTINUOUS(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null),
-	/* W34Cmp */
+			/** Create Object to be edited through W34Cmp */
 	RRISKFORRISKFACTOR_COMPOUND(
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorCompoundFactory(), null), // TODO
-	/* W35 */
+			/** Create Object to be edited through W35 */
 	RRISKFROMDISEASE(RootElementNamesEnum.RELATIVERISKSFROMDISEASE
 			.getNodeLabel(), new RelRiskFromOtherDiseaseFactory(), null),
-	/* W?? */
+			/** Create Object to be edited through W?? */
 	DALYWEIGHTS(RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(),
 			new DALYWeightsFactory(), null);
 
+	/**
+	 * Name of the rootelement of the corresponding configurationfile.
+	 */
 	private final String rootNodeName;
+	/**
+	 * The factory to use to instantiate the modelobject from the configurationfile.
+	 */
 	private final RootLevelFactory theFactory;
+	/**
+	 * Window to use for editing the modelobject.
+	 */
 	private final DataAndFileContainer theModalClass;
 
+	/**
+	 * @param rootNodeName Name of the rootelement of the corresponding configurationfile.
+	 * @param theFactory The factory to use to instantiate the modelobject from the configurationfile.
+	 * @param modalClass Window to use for editing the modelobject.
+	 */
 	private DispatchEnum(String rootNodeName, RootLevelFactory theFactory,
 			DataAndFileContainer modalClass) {
 		this.theFactory = theFactory;
@@ -175,14 +189,23 @@ public enum DispatchEnum {
 		theModalClass = modalClass;
 	}
 
+	/**
+	 * @return Name of the rootelement of the corresponding configurationfile.
+	 */
 	public String getRootNodeName() {
 		return rootNodeName;
 	}
 
+	/**
+	 * @return The factory to use to instantiate the modelobject from the configurationfile.
+	 */
 	public RootLevelFactory getTheFactory() {
 		return theFactory;
 	}
 
+	/**
+	 * @return Window to use for editing the modelobject.
+	 */
 	public DataAndFileContainer getTheModalClass() {
 		return theModalClass;
 	}

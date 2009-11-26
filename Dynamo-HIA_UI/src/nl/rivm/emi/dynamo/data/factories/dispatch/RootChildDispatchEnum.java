@@ -57,19 +57,35 @@ public enum RootChildDispatchEnum {
 	TREND(XMLTagEntityEnum.TREND.getElementName(),
 			new AgnosticSingleRootChildFactory()); //
 
+	/**
+	 * Supported elementname.
+	 */
 	private final String rootChildNodeName;
+	/**
+	 * Factory able to process it.
+	 */
 	private final RootChildFactory theFactory;
 
+	/**
+	 * @param rootNodeName The supported elementname.
+	 * @param theFactory  Factory able to process the elementname (and subnodes).
+	 */
 	private RootChildDispatchEnum(String rootNodeName,
 			RootChildFactory theFactory) {
 		this.theFactory = theFactory;
 		this.rootChildNodeName = rootNodeName;
 	}
 
+	/**
+	 * @return The supported elementname.
+	 */
 	public String getRootNodeName() {
 		return rootChildNodeName;
 	}
 
+	/**
+	 * @return The factory able to process it.
+	 */
 	public RootChildFactory getTheFactory() {
 		return theFactory;
 	}
