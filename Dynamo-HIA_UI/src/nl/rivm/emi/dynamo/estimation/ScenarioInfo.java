@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.estimation;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
@@ -13,7 +14,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 /**
  * @author Hendriek This Class contains information on scenario's
  */
-public class ScenarioInfo {
+public class ScenarioInfo implements Serializable{
 	Log log = LogFactory.getLog(getClass().getName());
 
 	/* simulation information */
