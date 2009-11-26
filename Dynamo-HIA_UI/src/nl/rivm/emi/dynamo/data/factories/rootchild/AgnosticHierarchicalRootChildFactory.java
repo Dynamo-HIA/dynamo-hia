@@ -21,9 +21,11 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
- * Base Factory for hierarchic sub-configurations. This is a modified copy of
- * AgnosticFactory that has about the same functionality but processes a whole
- * configurationfile.
+ * @author mondeelr
+ * 
+ *         Base Factory for hierarchic sub-configurations. This is a modified
+ *         copy of AgnosticFactory that has about the same functionality but
+ *         processes a whole configurationfile.
  */
 public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
@@ -348,7 +350,16 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 		}
 	}
 
-	
+	/**
+	 * Process a solitary payload element from the configurationfile.
+	 * 
+	 * @param priorLevel
+	 * @param leafNodeList
+	 * @param currentLevel
+	 * @param makeObservable
+	 * @param value
+	 * @throws DynamoConfigurationException
+	 */
 	@SuppressWarnings("unchecked")
 	private void handleSinglePayload(TypedHashMap<?> priorLevel,
 			LeafNodeList leafNodeList, int currentLevel,
@@ -382,5 +393,4 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			}
 		}
 	}
-
 }
