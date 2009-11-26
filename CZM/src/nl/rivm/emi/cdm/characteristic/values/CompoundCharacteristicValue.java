@@ -7,8 +7,7 @@ package nl.rivm.emi.cdm.characteristic.values;
  * @author Hendriek
  *
  */
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.Serializable;
 
 import nl.rivm.emi.cdm.characteristic.types.CompoundCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMRunException;
@@ -16,7 +15,9 @@ import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CompoundCharacteristicValue extends CharacteristicValueBase {
+public class CompoundCharacteristicValue extends CharacteristicValueBase implements Serializable{
+	private static final long serialVersionUID = 1150635092009180305L;
+
 	Log log = LogFactory.getLog(getClass().getName());
 
 	float[][] rijtje;

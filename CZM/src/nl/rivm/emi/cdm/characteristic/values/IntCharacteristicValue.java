@@ -1,5 +1,6 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,7 +9,9 @@ import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class IntCharacteristicValue extends CharacteristicValueBase {
+public class IntCharacteristicValue extends CharacteristicValueBase implements Serializable{
+	private static final long serialVersionUID = 1071047282957867095L;
+
 	Log log = LogFactory.getLog(getClass().getName());
 
 	int[] rijtje;
