@@ -309,8 +309,10 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(grandParentLabel)) {
 					buildDiseasesMenus(manager, selection, nodeLabel);
 				} else {
-					if (StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
-							.equalsIgnoreCase(grandParentLabel)&&StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+					BaseNode greatGrandParentNode = (BaseNode)((ChildNode)grandParentNode).getParent();
+					
+					if ((greatGrandParentNode != null)&&StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
+							.equalsIgnoreCase(greatGrandParentNode.deriveNodeLabel())&&StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
 							.equalsIgnoreCase(((BaseNode)parentNode).deriveNodeLabel())) {
 						buildResultsMenu(manager, selection, nodeLabel);
 					} else {
