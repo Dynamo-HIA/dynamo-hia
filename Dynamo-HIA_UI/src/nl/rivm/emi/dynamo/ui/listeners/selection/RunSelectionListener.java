@@ -4,8 +4,9 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
+import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -18,16 +19,31 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author mondeelr<br/>
+ * 
+ *         Listener that is designed to be attached to the "Save and Run" button
+ *         in the simulation configuration screen.<br/>
+ *         It first delegates the saving of the configuration to the
+ *         SaveSelectionListener that knows how to do that.<br/>
+ *         Then it starts the parameter estimation process that is followed by
+ *         the simulation run.
+ * 
+ */
 public class RunSelectionListener implements SelectionListener {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 
-// 20091110 Can be less generic.	DataAndFileContainer modalParent;
+	/**
+	 * The simulation configuration screen.
+	 */
 	SimulationModal modalParent;
+	/**
+	 * Listener to delegate saving to.
+	 */
 	SaveSelectionListener mySaveSelectionListener;
 
 	public RunSelectionListener(SimulationModal modalParent) {
 		this.modalParent = modalParent;
-		// Listener to delegate saving to.
 		this.mySaveSelectionListener = new SaveSelectionListener(modalParent);
 	}
 
@@ -36,29 +52,19 @@ public class RunSelectionListener implements SelectionListener {
 				+ " got widgetDefaultSelected callback.");
 	}
 
-	public void widgetSelected(SelectionEvent arg0) {
-		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
+	public void widgetSelected(SelectionEvent selectionEvent) {
+		log.info("Control "
+				+ ((Control) selectionEvent.getSource()).getClass().getName()
 				+ " got widgetSelected callback.");
 		// First save of not readonly.
-		if(!modalParent.isConfigurationFileReadOnly()){
-		mySaveSelectionListener.widgetSelected(arg0);
+		if (!modalParent.isConfigurationFileReadOnly()) {
+			mySaveSelectionListener.widgetSelected(selectionEvent);
 		}
 		// Then run.
-		Control control = ((Control) arg0.getSource());
+		Control control = ((Control) selectionEvent.getSource());
 		control.setEnabled(false);
 		try {
-			String filePath = modalParent.getConfigurationFilePath();
-			String simulationDirectory = filePath.substring(0, filePath
-					.lastIndexOf(File.separatorChar));
-			String simulationName = simulationDirectory.substring(
-					simulationDirectory.lastIndexOf(File.separatorChar) + 1,
-					simulationDirectory.length());
-			String baseDirectoryPath = simulationDirectory.substring(0,
-					simulationDirectory.lastIndexOf(File.separator
-							+ StandardTreeNodeLabelsEnum.SIMULATIONS
-									.getNodeLabel() + File.separator));
-			// Run the dynamo simulation model (the CDM)
-			runDynamoSimulation(simulationName, baseDirectoryPath);
+			setupAndRunDynamoSimulation();
 		} catch (Throwable t) {
 			log.error("Running the Simulation threw a "
 					+ t.getClass().getSimpleName() + " with message: "
@@ -67,6 +73,21 @@ public class RunSelectionListener implements SelectionListener {
 		} finally {
 			control.setEnabled(true);
 		}
+	}
+
+	private void setupAndRunDynamoSimulation() throws Throwable {
+		String filePath = modalParent.getConfigurationFilePath();
+		String simulationDirectory = filePath.substring(0, filePath
+				.lastIndexOf(File.separatorChar));
+		String simulationName = simulationDirectory.substring(
+				simulationDirectory.lastIndexOf(File.separatorChar) + 1,
+				simulationDirectory.length());
+		String baseDirectoryPath = simulationDirectory.substring(0,
+				simulationDirectory.lastIndexOf(File.separator
+						+ StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
+						+ File.separator));
+		// Run the dynamo simulation model (the CDM)
+		runDynamoSimulation(simulationName, baseDirectoryPath);
 	}
 
 	private void runDynamoSimulation(String simName, String baseDir)
@@ -79,8 +100,9 @@ public class RunSelectionListener implements SelectionListener {
 			preRunChildrenSet.add(preRunChild);
 		}
 		try {
+			DynSimRunPRInterface dsi = new GraphicalDynSimRunPR(parentShell);
 			DynamoSimulationRunnable theSimulation = new DynamoSimulationRunnable(
-					parentShell, simName, baseDir);
+					/* parentShell */ dsi, simName, baseDir);
 			theSimulation.run();
 		} catch (Throwable t) {
 			Shell[] postRunChildren = parentShell.getShells();

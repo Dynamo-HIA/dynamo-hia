@@ -97,7 +97,8 @@ public class ModelParameters {
 	// TODO
 	private Population[] initialPopulation;
 	// empty Constructor
-	private Shell parentShell;
+	// private Shell parentShell;
+	private DynSimRunPRInterface dsi = null;
 	private String globalBaseDir;
 	private boolean warningflag2 = true;
 	private boolean warningflag3 = true;
@@ -109,8 +110,9 @@ public class ModelParameters {
 	 * 
 	 * @param baseDir
 	 */
-	public ModelParameters(String baseDir) {
+	public ModelParameters(String baseDir, DynSimRunPRInterface dsi) {
 		this.globalBaseDir = baseDir;
+		this.dsi = dsi;
 	}
 
 	/**
@@ -143,8 +145,8 @@ public class ModelParameters {
 	 *             could occur when users enter data directly in XML files.
 	 * 
 	 */
-	public ScenarioInfo estimateModelParameters(String simulationName,
-			Shell parentShell) throws DynamoInconsistentDataException,
+	public ScenarioInfo estimateModelParameters(String simulationName
+	/* Shell parentShell */) throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 
 		/** step 1: build input data from baseline directory */
@@ -181,7 +183,7 @@ public class ModelParameters {
 
 		/** * 2. uses the inputdata to estimate the model parameters */
 
-		estimateModelParameters(this.nSim, inputData, parentShell);
+		estimateModelParameters(this.nSim, inputData, /* parentShell */dsi);
 		/* put estimated daly parameters in scenarioInfo */
 
 		scenInfo.setBaselineAbility(this.baselineAbility);
@@ -208,7 +210,7 @@ public class ModelParameters {
 		/** * 4. write the initial population file for all scenarios */
 
 		InitialPopulationFactory popFactory = new InitialPopulationFactory(
-				this.globalBaseDir, this.parentShell);
+				this.globalBaseDir, /* this.parentShell */dsi);
 		int seed = config.getRandomSeed();
 		int nSim = config.getSimPopSize();
 
@@ -258,7 +260,8 @@ public class ModelParameters {
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void estimateModelParameters(int nSim, InputData inputData,
-			Shell parentShell) throws DynamoInconsistentDataException {
+	/* Shell parentShell */DynSimRunPRInterface dsi)
+			throws DynamoInconsistentDataException {
 
 		// first initialize the fields that can be directly copied from the
 		// input data
@@ -272,7 +275,7 @@ public class ModelParameters {
 		 * primitive types TODO check if everywhere are deep copy for arrays
 		 */
 		this.riskType = inputData.getRiskType();
-		
+
 		this.RiskTypeDistribution = inputData.getRiskDistribution();
 		this.refClassCont = inputData.getRefClassCont();
 		if (this.riskType != 2)
@@ -330,7 +333,7 @@ public class ModelParameters {
 
 		}
 		;
-		this.parentShell = parentShell;
+		// this.parentShell = parentShell;
 		this.nCluster = inputData.getNCluster();
 		this.clusterStructure = inputData.clusterStructure;
 		this.durationClass = inputData.getIndexDuurClass();
@@ -350,21 +353,24 @@ public class ModelParameters {
 		NettTransitionRateFactory factory = new NettTransitionRateFactory();
 		/* set up progress bar for this part of the calculations */
 
-		Shell shell = new Shell(parentShell);
-		shell.setText("Parameter estimation in progress .......");
-		shell.setLayout(new FillLayout());
-		shell.setSize(600, 50);
-
-		ProgressBar bar = new ProgressBar(shell, SWT.NULL);
-		bar.setBounds(10, 10, 200, 32);
-		bar.setMinimum(0);
-
-		shell.open();
-		bar.setMaximum(100);
+		// Shell shell = new Shell(parentShell);
+		// shell.setText("Parameter estimation in progress .......");
+		// shell.setLayout(new FillLayout());
+		// shell.setSize(600, 50);
+		//
+		// ProgressBar bar = new ProgressBar(shell, SWT.NULL);
+		// bar.setBounds(10, 10, 200, 32);
+		// bar.setMinimum(0);
+		//
+		// shell.open();
+		ProgressIndicatorInterface pii = dsi
+				.createProgressIndicator("Parameter estimation in progress .......");
+		// bar.setMaximum(100);
+		pii.setMaximum(100);
 
 		for (int a = 0; a < 96; a++) {
-			bar.setSelection(a);
-
+			// bar.setSelection(a);
+			pii.update(a);
 			for (int g = 0; g < 2; g++) {
 				this.log.debug("before first estimate");
 				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
@@ -415,8 +421,8 @@ public class ModelParameters {
 			}
 		}
 
-		bar.setSelection(96);
-
+		// bar.setSelection(96);
+		pii.update(96);
 		if (inputData.getRiskType() == 2) {
 			float drift[][][] = new float[3][96][2];
 			if (inputData.getTransType() == 2) { /* inputted rates */
@@ -449,13 +455,14 @@ public class ModelParameters {
 					}
 			}
 		}
-		bar.setSelection(97);
+		// bar.setSelection(97);
+		pii.update(97);
 		/*
 		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
 		 * display.sleep (); }
 		 */
-		shell.close();
-
+		// shell.close();
+		pii.dispose();
 	};
 
 	private void makeDiseaseNames(DiseaseClusterStructure[] clusterStructure2) {
@@ -3554,11 +3561,11 @@ public class ModelParameters {
 	 * @param e
 	 */
 	private void displayWarningMessage(String message) {
-		Shell shell = new Shell(this.parentShell);
-		MessageBox messageBox = new MessageBox(shell, SWT.OK);
-		messageBox.setMessage(message);
-		messageBox.open();
-
+		// Shell shell = new Shell(this.parentShell);
+		// MessageBox messageBox = new MessageBox(shell, SWT.OK);
+		// messageBox.setMessage(message);
+		// messageBox.open();
+		dsi.usedToBeErrorMessageWindow(message);
 	}
 
 	/**

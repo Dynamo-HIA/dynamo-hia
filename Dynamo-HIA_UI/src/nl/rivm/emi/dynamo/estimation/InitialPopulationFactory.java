@@ -37,8 +37,10 @@ public class InitialPopulationFactory {
 	private int numberOfElements;
 	private String globalBaseDir;
 	private boolean incidenceDebug = true;
-	private Shell parentShell;
-	private ProgressBar bar = null;
+	// private Shell parentShell;
+	private DynSimRunPRInterface dsi = null;
+//	private ProgressBar bar = null;
+	private ProgressIndicatorInterface pii = null;
 	private float[][][][][] prevalenceTransitionMatrix = null;
 	private int riskType = 0;
 
@@ -51,9 +53,11 @@ public class InitialPopulationFactory {
 	 *         populations of newborns
 	 * @param shell
 	 */
-	public InitialPopulationFactory(String baseDir, Shell shell) {
+	public InitialPopulationFactory(String baseDir,/* Shell shell */
+			DynSimRunPRInterface dsi) {
 		this.globalBaseDir = baseDir;
-		this.parentShell = shell;
+		// this.parentShell = shell;
+		this.dsi = dsi;
 	}
 
 	/**
@@ -260,7 +264,7 @@ public class InitialPopulationFactory {
 			agemin = 0;
 		if (newborns)
 			agemax = 0;
-		if (this.bar == null) {
+		if (this.pii == null) {
 			if (scenarioInfo.isWithNewBorns()) {
 				makeProgressBar(scenarioInfo.getYearsInRun()
 						+ scenarioInfo.getMaxSimAge()
@@ -1627,34 +1631,40 @@ public class InitialPopulationFactory {
 	}
 
 	public void makeProgressBar(int length) {
+//		Shell shell = new Shell(parentShell);
+//		shell.setText("Construction of initial population ....");
+//		shell.setLayout(new FillLayout());
+//		shell.setSize(600, 50);
+//
+//		this.bar = new ProgressBar(shell, SWT.NULL);
+//		this.bar.setBounds(10, 10, 200, 32);
+//		this.bar.setMinimum(0);
+//
+//		shell.open();
+		pii = dsi.createProgressIndicator("Construction of initial population ....");
 
-		Shell shell = new Shell(parentShell);
-		shell.setText("Construction of initial population ....");
-		shell.setLayout(new FillLayout());
-		shell.setSize(600, 50);
-
-		this.bar = new ProgressBar(shell, SWT.NULL);
-		this.bar.setBounds(10, 10, 200, 32);
-		this.bar.setMinimum(0);
-
-		shell.open();
 		int size = (length);
 		int step = 10;
-		this.bar.setMaximum(size / step);
+//		this.bar.setMaximum(size / step);
+		pii.setMaximum(size / step);
 		/* initialize populations */
-		this.bar.setSelection(0);
+//		this.bar.setSelection(0);
+	pii.update(0);
 	}
 
 	public void updateProgressBar() {
 
-		int state = this.bar.getSelection();
-		state++;
-		this.bar.setSelection(state);
+//		int state = this.bar.getSelection();
+		int state = pii.getPosition();
+			state++;
+//		this.bar.setSelection(state);
+		pii.update(state);
 
 	}
 
 	public void closeProgressBar() {
-		this.bar.getShell().close();
+//		this.bar.getShell().close();
+		pii.dispose();
 
 	}
 	/**

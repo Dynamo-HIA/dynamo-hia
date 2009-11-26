@@ -1,13 +1,11 @@
 package nl.rivm.emi.dynamo.estimation;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
@@ -50,7 +48,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 	private Simulation simulation;
 
-	private Shell parentShell;
+	// private Shell parentShell;
+	DynSimRunPRInterface pr = null;
 	String errorMessage = null;
 	String preCharConfig;
 	String simName;
@@ -70,10 +69,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 	private ScenarioInfo scen;
 
-	public DynamoSimulationRunnable(Shell parentShell, String simName,
+	public DynamoSimulationRunnable(
+	/* Shell parentShell */DynSimRunPRInterface prObject, String simName,
 			String baseDir) throws DynamoInconsistentDataException {
 		super();
-		this.parentShell = parentShell;
+		// this.parentShell = parentShell;
+		pr = prObject;
 		try {
 			this.errorMessage = null;
 			configureSimulation(simName, baseDir);
@@ -142,9 +143,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 */
 
 		// estimate the parameters
-		p = new ModelParameters(this.baseDir);
+		p = new ModelParameters(this.baseDir, this.pr);
 
-		scen = p.estimateModelParameters(this.simName, this.parentShell);
+		scen = p.estimateModelParameters(this.simName/* , this.parentShell */);
 		/*
 		 * } catch (DynamoConfigurationException e3) { displayErrorMessage(e3,
 		 * null); // log.fatal(e3.getMessage()); e3.printStackTrace(); } catch
@@ -274,7 +275,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					 * could be added that way
 					 */
 
-					runScenario(scennum);
+					runScenario(scennum, pr);
 					// log.info("Run  complete for population " + scennum);
 
 				}
@@ -285,37 +286,49 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				output = new DynamoOutputFactory(scen, pop);
 
 			} catch (DynamoScenarioException e) {
-				new ErrorMessageWindow(e, parentShell);
+				// new ErrorMessageWindow(e, parentShell);
+				pr.usedToBeErrorMessageWindow(e);
 				e.printStackTrace();
 			} catch (DynamoOutputException e) {
 				// TODO let user enter new starting year and make new
 				e.printStackTrace();
-				new ErrorMessageWindow(
-						"starting year of simulation is given as "
+				// new ErrorMessageWindow(
+				// "starting year of simulation is given as "
+				// + scen.getStartYear()
+				// + " while newborn data are only present starting at year "
+				// + scen.getNewbornStartYear()
+				// + ". Therefore starting year of simulation is assumed to be "
+				// + scen.getNewbornStartYear(), this.parentShell);
+				pr
+						.usedToBeErrorMessageWindow("starting year of simulation is given as "
 								+ scen.getStartYear()
 								+ " while newborn data are only present starting at year "
 								+ scen.getNewbornStartYear()
 								+ ". Therefore starting year of simulation is assumed to be "
-								+ scen.getNewbornStartYear(), this.parentShell);
+								+ scen.getNewbornStartYear());
 
 				scen.setStartYear(scen.getNewbornStartYear());
 
 				try {
 					output = new DynamoOutputFactory(scen, pop);
 				} catch (DynamoScenarioException e1) {
-					new ErrorMessageWindow(e1, parentShell);
+					// new ErrorMessageWindow(e1, parentShell);
+					pr.usedToBeErrorMessageWindow(e1);
 
 					e1.printStackTrace();
 				} catch (DynamoOutputException e1) {
 
-					new ErrorMessageWindow(e1, parentShell);
+					// new ErrorMessageWindow(e1, parentShell);
+					pr.usedToBeErrorMessageWindow(e1);
 					e1.printStackTrace();
 				}
 
 			}
 			/* make the output screen */
-
-			new Output_UI(parentShell, output, simName, this.baseDir);
+			Shell parentShell = pr.getShell();
+			if (parentShell != null) {
+				new Output_UI(parentShell, output, simName, this.baseDir);
+			}
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
 			persistScenarioInfo(scen);
@@ -469,7 +482,15 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 	}
 
-	private String handleErrorMessage(String cdmErrorMessage, Exception e,
+	/**
+	 * Beware: Callback from the PR Object.
+	 * 
+	 * @param cdmErrorMessage
+	 * @param e
+	 * @param fileName
+	 * @return
+	 */
+	public String handleErrorMessage(String cdmErrorMessage, Exception e,
 			String fileName) {
 		e.printStackTrace();
 		// Show the error message and the nested cause of the error
@@ -494,30 +515,35 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		return errorMessage;
 	}
 
-	public void runScenario(int scennum) throws Exception {
+	public void runScenario(int scennum, DynSimRunPRInterface dsi)
+			throws Exception {
 
 		Population population = simulation.getPopulation();
 		int stepsInRun = 105;
 
 		int size = population.size();
 
-		Shell shell = new Shell(parentShell);
-		shell.setText("Simulation of scenario " + scennum + " running ....");
-		shell.setLayout(new FillLayout());
-		shell.setSize(600, 50);
-
-		ProgressBar bar = new ProgressBar(shell, SWT.NULL);
-		bar.setBounds(10, 10, 200, 32);
-		bar.setMinimum(0);
-
-		shell.open();
+		// Shell shell = new Shell(parentShell);
+		// shell.setText("Simulation of scenario " + scennum + " running ....");
+		// shell.setLayout(new FillLayout());
+		// shell.setSize(600, 50);
+		//
+		// ProgressBar bar = new ProgressBar(shell, SWT.NULL);
+		// bar.setBounds(10, 10, 200, 32);
+		// bar.setMinimum(0);
+		//
+		// shell.open();
+		ProgressIndicatorInterface pii = dsi
+				.createProgressIndicator("Simulation of scenario " + scennum
+						+ " running ....");
 
 		int step = (int) Math.floor(size / 50);
 		if (step < 1)
 			step = 1;
 		int currentIndividual = 0;
 		int currentProgressIndicator = 0;
-		bar.setMaximum(size / step);
+		// bar.setMaximum(size / step);
+		pii.setMaximum(size / step);
 		Iterator<Individual> individualIterator = population.iterator();
 		while (individualIterator.hasNext()) {
 			currentIndividual++;
@@ -544,7 +570,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			}
 			if (currentIndividual > step * currentProgressIndicator) {
-				bar.setSelection(currentProgressIndicator);
+				// bar.setSelection(currentProgressIndicator);
+				pii.update(currentProgressIndicator);
 				currentProgressIndicator++;
 			}
 		}
@@ -552,20 +579,22 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
 		 * display.sleep (); }
 		 */
-		shell.close();
+		// shell.close();
+		pii.dispose();
 	}
 
 	private void displayErrorMessage(Exception e, String simulationFilePath) {
 
-		Shell shell = new Shell(parentShell);
-		String cause = "";
-		if (e.getCause() != null) {
-			cause += this.handleErrorMessage("", e, simulationFilePath);
-		}
-		MessageBox messageBox = new MessageBox(shell, SWT.OK);
-		messageBox.setMessage("Errors during configuration of the model"
-				+ " Message given: " + e.getMessage() + cause);
-		messageBox.open();
+		// Shell shell = new Shell(parentShell);
+		// String cause = "";
+		// if (e.getCause() != null) {
+		// cause += this.handleErrorMessage("", e, simulationFilePath);
+		// }
+		// MessageBox messageBox = new MessageBox(shell, SWT.OK);
+		// messageBox.setMessage("Errors during configuration of the model"
+		// + " Message given: " + e.getMessage() + cause);
+		// messageBox.open();
+		pr.communicateErrorMessage(this, e, simulationFilePath);
 		e.printStackTrace();
 	}
 
