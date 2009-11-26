@@ -317,36 +317,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			new Output_UI(parentShell, output, simName, this.baseDir);
 			/* write the output object to a file */
-			String resultFileName = this.baseDir
-					+ File.separator
-					+ "Simulations"
-					+ File.separator
-					+ this.simName
-					+ File.separator
-					+ /* "results" */StandardTreeNodeLabelsEnum.RESULTS
-							.getNodeLabel()
-					+ File.separator
-					+ /* "resultObject.obj" */StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
-							.getNodeLabel() + ".obj";
-			File resultFile = new File(resultFileName);
-
-			ObjectOutputStream out;
-			try {
-				out = new ObjectOutputStream(new BufferedOutputStream(
-						new FileOutputStream(resultFile)));
-				out.writeObject(output);
-				// this.output.writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
-				// this.output.readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				this.displayErrorMessage(e, resultFileName);
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				this.displayErrorMessage(e, resultFileName);
-				e.printStackTrace();
-			}
-
+			persistDynamoOutputFactory(output);
+			persistScenarioInfo(scen);
+			persistPopulationArray(pop);
 		} catch (DynamoConfigurationException e) {
 			this.displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
@@ -354,6 +327,106 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			displayErrorMessage(e, simulationFilePath);
 		} catch (Exception e) {
 			displayErrorMessage(e, simulationFilePath);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Uses serialization to persist the DynamoOutputFactoryObject to a file.
+	 * 
+	 * @param output
+	 *            The DynamoOutputFactory Object
+	 */
+	private void persistDynamoOutputFactory(DynamoOutputFactory output) {
+		String resultFileName = this.baseDir
+				+ File.separator
+				+ "Simulations"
+				+ File.separator
+				+ this.simName
+				+ File.separator
+				+ /* "results" */StandardTreeNodeLabelsEnum.RESULTS
+						.getNodeLabel()
+				+ File.separator
+				+ /* "resultObject.obj" */StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
+						.getNodeLabel() + ".obj";
+		File resultFile = new File(resultFileName);
+
+		ObjectOutputStream out;
+		try {
+			out = new ObjectOutputStream(new BufferedOutputStream(
+					new FileOutputStream(resultFile)));
+			out.writeObject(output);
+			// this.output.writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
+			// this.output.readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			this.displayErrorMessage(e, resultFileName);
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			this.displayErrorMessage(e, resultFileName);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Uses serialization to persist the ScenarioInfo to a file.
+	 * 
+	 * @param output
+	 *            The DynamoOutputFactory Object
+	 */
+	private void persistScenarioInfo(ScenarioInfo scenarioInfo) {
+		String resultFileName = this.baseDir
+				+ File.separator
+				+ "Simulations"
+				+ File.separator
+				+ this.simName
+				+ File.separator
+				+ StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+				+ File.separator
+				+ StandardTreeNodeLabelsEnum.SCENARIOINFOOBJECTFILE
+						.getNodeLabel() + ".obj";
+		File resultFile = new File(resultFileName);
+
+		ObjectOutputStream out;
+		try {
+			out = new ObjectOutputStream(new BufferedOutputStream(
+					new FileOutputStream(resultFile)));
+			out.writeObject(scenarioInfo);
+		} catch (FileNotFoundException e) {
+			this.displayErrorMessage(e, resultFileName);
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.displayErrorMessage(e, resultFileName);
+			e.printStackTrace();
+		}
+	}
+
+	private void persistPopulationArray(Population[] populationArray) {
+		String resultFileName = this.baseDir
+				+ File.separator
+				+ "Simulations"
+				+ File.separator
+				+ this.simName
+				+ File.separator
+				+ StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+				+ File.separator
+				+ StandardTreeNodeLabelsEnum.POPULATIONARRAYOBJECTFILE
+						.getNodeLabel() + ".obj";
+		File resultFile = new File(resultFileName);
+
+		ObjectOutputStream out;
+		try {
+			out = new ObjectOutputStream(new BufferedOutputStream(
+					new FileOutputStream(resultFile)));
+			out.writeObject(populationArray);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			this.displayErrorMessage(e, resultFileName);
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.displayErrorMessage(e, resultFileName);
 			e.printStackTrace();
 		}
 	}
