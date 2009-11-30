@@ -76,13 +76,13 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 */
 	public Set<String> getChoosableDiseases(String currentDiseaseName,
 			TreeAsDropdownLists lists) {
-		log.debug("currentDiseasesName: " + currentDiseaseName);
+		log.fatal("currentDiseasesName: " + currentDiseaseName);
 
 		
 		Set diseaseNames = new LinkedHashSet<String>();
 		diseaseNames.addAll(lists.getValidDiseaseNames());
-		log.fatal("diseaseNames: " + diseaseNames);
-		log.fatal("Chosendiseases-1-1-1: " + this);
+		log.fatal("all valid diseaseNames: " + diseaseNames);
+		log.fatal("already Chosen diseases-1-1-1: " + this);
 		//loop over the names that already have been choosen and remove those from the set, unless
 		// this is the current disease
 		if (currentDiseaseName!=null && !diseaseNames.contains(currentDiseaseName)) diseaseNames=null;
@@ -90,7 +90,7 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 		for (String chosenName : (Set<String>) this) {
 			log.debug("REMOVING CHOSENNAME: " + chosenName);
 			// Hendriek 31-10-2009: condition added (see above)
-			if (chosenName != currentDiseaseName)
+			if (!chosenName.equals(currentDiseaseName))
 				diseaseNames.remove(chosenName);
 			
 		}
@@ -98,8 +98,8 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 		/* if the current disease is not a choosable disease, the method should return null */
 		if (diseaseNames!=null && diseaseNames.isEmpty()) diseaseNames=null;
 		// end addition 2-11-2009
-		log.fatal("diseaseNames222: " + diseaseNames);
-		log.fatal("Chosendiseases-2-2-2: " + this);
+		log.fatal("dropdown diseaseNames: " + diseaseNames);
+		log.fatal("all ready Chosendiseases-2-2-2: " + this);
 		
 		return diseaseNames;
 	}
