@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
+import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
+import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -64,30 +67,33 @@ public class ResultsObjFileAction extends ActionBase {
 		String savedFileAbsolutePath = savedFile.getAbsolutePath();
 		String savedFileDirectoryPath = savedFileAbsolutePath.substring(0,
 				savedFileAbsolutePath.lastIndexOf(File.separator));
-		deserializeScenarioInfo(savedFileDirectoryPath);
-		deserializePopulationArray(savedFileDirectoryPath);
+		ScenarioParameters scenParms=deserializeScenarioParameters(savedFileDirectoryPath);
+		DynamoOutputFactory output=deserializeOutputObject(savedFileDirectoryPath);
+		new Output_UI(shell, output, scenParms, savedFileDirectoryPath);
 	}
 
-	private void deserializeScenarioInfo(String savedFileDirectoryPath) {
+	private ScenarioParameters deserializeScenarioParameters(String savedFileDirectoryPath) {
 		ObjectInputStream in;
 		String scenarioInfoFilePath = savedFileDirectoryPath
 				+ File.separator
-				+ StandardTreeNodeLabelsEnum.SCENARIOINFOOBJECTFILE
+				+ StandardTreeNodeLabelsEnum.SCENARIOPARMSOBJECTFILE
 						.getNodeLabel() + ".obj";
 		File scenarioInfoFile = new File(scenarioInfoFilePath);
-		ScenarioInfo scenarioInfoObject = null;
+		ScenarioParameters scenarioInfoObject = null;
 		try {
-			in = new ObjectInputStream(new BufferedInputStream(
-					new FileInputStream(scenarioInfoFile)));
-			scenarioInfoObject = (ScenarioInfo) in.readObject();
-			log.fatal("Deserialized ScenarioInfo, populationSize: "
-					+ scenarioInfoObject.getPopulationSize());
+	//		in = new ObjectInputStream(new BufferedInputStream(
+	//				new FileInputStream(scenarioInfoFile)));
+			in = new ObjectInputStream(
+									new FileInputStream(scenarioInfoFile));
+			scenarioInfoObject = (ScenarioParameters) in.readObject();
+			//inputStream = new ObjectInputStream(new FileInputStream(filename));
+		//	obj = inputStream.readObject()
+			log.fatal("Deserialized ScenarioInfo");
 		} catch (Exception e) {
 			if (scenarioInfoObject == null) {
 				log.fatal("Deserialized scenarioInfoObject is still null.");
 			} else {
-				log.fatal("Deserialized ScenarioInfo, populationSize: "
-						+ scenarioInfoObject.getPopulationSize());
+				log.fatal("Deserialized ScenarioInfo");
 			}
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
@@ -96,39 +102,42 @@ public class ResultsObjFileAction extends ActionBase {
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();
-		}
+		} return scenarioInfoObject; 
 	}
 
-	private void deserializePopulationArray(String savedFileDirectoryPath) {
+	private DynamoOutputFactory deserializeOutputObject(String savedFileDirectoryPath) {
 		ObjectInputStream in;
-		String populationArrayFilePath = savedFileDirectoryPath
+		String outputObjectFilePath = savedFileDirectoryPath
 				+ File.separator
-				+ StandardTreeNodeLabelsEnum.POPULATIONARRAYOBJECTFILE
+				+ StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
 						.getNodeLabel() + ".obj";
-		File populationArrayFile = new File(populationArrayFilePath);
-		Population[] populationArrayObject = null;
+		File outputObjectFile = new File(outputObjectFilePath);
+		DynamoOutputFactory resultObject = null;
 		try {
-			in = new ObjectInputStream(new BufferedInputStream(
-					new FileInputStream(populationArrayFile)));
-			populationArrayObject = (Population[]) in.readObject();
+			//in = new ObjectInputStream(new BufferedInputStream(
+			//		new FileInputStream(outputObjectFile)));
+			in = new ObjectInputStream(
+					new FileInputStream(outputObjectFile));
+			resultObject = (DynamoOutputFactory) in.readObject();
 			log.fatal("Deserialized ScenarioInfo, populationSize: "
-					+ populationArrayObject[0].size());
+					);
 		} catch (Exception e) {
-			if (populationArrayObject == null) {
+			if (resultObject == null) {
 				log.fatal("Deserialized scenarioInfoObject is still null.");
 			} else {
 				log.fatal("Deserialized ScenarioInfo, populationSize: "
-						+ populationArrayObject[0].size());
+					);
 			}
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
 					SWT.ERROR_ITEM_NOT_ADDED);
 			messageBox.setMessage("Creation of \""
-					+ populationArrayFile.getName() + "\"\nresulted in an "
+					+ outputObjectFile.getName() + "\"\nresulted in an "
 					+ e.getClass().getName() + "\nwith message "
 					+ e.getMessage());
 			messageBox.open();
 		}
+		return resultObject;
 	}
 
 }
