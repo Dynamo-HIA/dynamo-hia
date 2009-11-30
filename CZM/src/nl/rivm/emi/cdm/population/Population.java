@@ -128,5 +128,10 @@ public class Population extends ArrayList<Individual> {
 		}
 		return obj;
 	}
+	/* added by Hendriek */
+	/**
+	 * resets the iterator, so it starts at the beginning of the population
+	 */
+	public void resetIterator(){ this.iterator=null;}
 
 }
