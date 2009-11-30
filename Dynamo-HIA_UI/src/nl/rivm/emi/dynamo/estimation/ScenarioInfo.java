@@ -3,7 +3,6 @@
  */
 package nl.rivm.emi.dynamo.estimation;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
@@ -14,7 +13,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 /**
  * @author Hendriek This Class contains information on scenario's
  */
-public class ScenarioInfo implements Serializable{
+public class ScenarioInfo {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	/* simulation information */
@@ -91,7 +90,6 @@ public class ScenarioInfo implements Serializable{
 	private int riskType;
 	private DiseaseClusterStructure[] structure;
 	private int indexDurationClass;
-	private boolean details = false;
 	private float[] cutoffs = null;
 	private float referenceRiskFactorValue=0;
 
@@ -327,7 +325,18 @@ public class ScenarioInfo implements Serializable{
 	}
 
 	public float[] getSuccesrate() {
-		return DynamoLib.deepcopy(succesrate);
+		return DynamoLib.deepcopy(this.succesrate);
+	}
+	
+	/**gets succesrate as double
+	 * @return succesrate by scenario (double [])
+	 */
+	public double[] getDoubleSuccesrate() {
+		double[] returnArray= new double [this.succesrate.length];
+		for (int scen=0; scen<this.succesrate.length;scen++)
+			returnArray[scen]=this.succesrate[scen];
+			
+		return returnArray;
 	}
 
 	public void setSuccesrate(float[] succesrate) {
@@ -534,13 +543,9 @@ public class ScenarioInfo implements Serializable{
 		return yearsInRun;
 	}
 
-	public void setDetails(boolean details) {
-		this.details = details;
-	}
+	
 
-	public boolean isDetails() {
-		return details;
-	}
+
 
 	public void setMeanDrift(float[][][] drift) {
 		this.alternativeMeanDrift = drift;

@@ -39,7 +39,7 @@ public class InitialPopulationFactory {
 	private boolean incidenceDebug = true;
 	// private Shell parentShell;
 	private DynSimRunPRInterface dsi = null;
-//	private ProgressBar bar = null;
+	// private ProgressBar bar = null;
 	private ProgressIndicatorInterface pii = null;
 	private float[][][][][] prevalenceTransitionMatrix = null;
 	private int riskType = 0;
@@ -54,7 +54,7 @@ public class InitialPopulationFactory {
 	 * @param shell
 	 */
 	public InitialPopulationFactory(String baseDir,/* Shell shell */
-			DynSimRunPRInterface dsi) {
+	DynSimRunPRInterface dsi) {
 		this.globalBaseDir = baseDir;
 		// this.parentShell = shell;
 		this.dsi = dsi;
@@ -330,14 +330,26 @@ public class InitialPopulationFactory {
 					nDuurClasses[a][g] = parameters.getDuurFreq()[a][g].length;
 				}
 		}
+		
+		
+		
+		int individualNumber = 0;
+		/* this is the number of the Individual */
 		/*
-		 * calculate the numbers that will be in each riskfactor class. See the
-		 * document "description of calculations" on
-		 * Q:/projecten/emi-dynamohia/description of calculations/ for the
-		 * method used
+		 * as newborns are created separately, they have negative
+		 * numbers, starting at -1
 		 */
+		/* others have positive numbers, starting at +1 */
+
 		for (int a = agemin; a <= agemax; a++)
 			for (int g = 0; g < 2; g++) {
+				
+				/*
+				 * calculate first the numbers that will be in each riskfactor class. See the
+				 * document "description of calculations" on
+				 * Q:/projecten/emi-dynamohia/description of calculations/ for the
+				 * method used
+				 */
 				nSimNew[a][g] = nSim;
 				if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
 
@@ -584,7 +596,7 @@ public class InitialPopulationFactory {
 				 * give the maximum number of times that they will be updated.
 				 * This is given by the variable stepsInSimulation
 				 */
-				int individualNumber = 0;
+			
 				int stepsInSimulation = 105 - a;
 				if (newborns)
 					stepsInSimulation = scenarioInfo.getYearsInRun();
@@ -606,9 +618,13 @@ public class InitialPopulationFactory {
 						 * "ind_" + (i + a nSimNew[a][g] 2 + nSimNew[a][g] g) +
 						 * "_bl");
 						 */
-						Individual currentIndividual = new Individual("ind",
+						if (newborns)
+							individualNumber--;
+						else
+							individualNumber++;
+						Individual currentIndividual = new Individual("scen0",
 								"ind_" + individualNumber + "_ref");
-						individualNumber++;
+
 						/*
 						 * rand2.random returns an integer, while we need a long
 						 * seed. therefore we double the bits. as the random
@@ -802,7 +818,7 @@ public class InitialPopulationFactory {
 						 * 3.- same initial prevalence: just copy reference
 						 * population
 						 * 
-						 * 3 is done in a separate loop (not for this
+						 * 3. is done in a separate loop (not for this
 						 * individual).
 						 * 
 						 * 
@@ -814,6 +830,9 @@ public class InitialPopulationFactory {
 						 * 
 						 * 
 						 * /
+						 * 
+						 * 
+						 * / 1.
 						 * 
 						 * 
 						 * GENERATE SCENARIO POPULATIONS WITH DIFFERENT INITIAL
@@ -901,9 +920,9 @@ public class InitialPopulationFactory {
 							 */
 
 							if (moreScenarios) {
-								currentIndividual = new Individual("ind",
-										"ind_" + (i + a * nSim * 2 + nSim * g)
-												+ "_" + currentpop);
+								currentIndividual = new Individual("scen"
+										+ (currentscen + 1), "ind_"
+										+ individualNumber + "_" + currentpop);
 								currentIndividual
 										.setRandomNumberGeneratorSeed(seed2);
 								currentIndividual.luxeSet(1,
@@ -1027,12 +1046,13 @@ public class InitialPopulationFactory {
 								initialPopulation[currentpop]
 										.addIndividual(currentIndividual);
 								currentscen++;
+								currentpop++;
 							}
 						} // end loop over populations of this individual
 
 						/*
 						 * 
-						 * 
+						 * 2.
 						 * 
 						 * 2. generation of SCENARIO POPULATION for the
 						 * one-for-all population
@@ -1056,13 +1076,10 @@ public class InitialPopulationFactory {
 								&& !newborns) {
 							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividual = new Individual("ind",
-											"ind_"
-													+ (i + a * nSimNew[a][g]
-															* 2 + nSimNew[a][g]
-															* g) + "_"
-													+ currentRiskValue + "_"
-													+ r);
+									currentIndividual = new Individual("scen"
+											+ numberOfTheOneForAllPop, "ind_"
+											+ individualNumber + "_"
+											+ currentRiskValue + "_" + r);
 									currentIndividual
 											.setRandomNumberGeneratorSeed(seed2);
 									currentIndividual.luxeSet(1,
@@ -1131,13 +1148,10 @@ public class InitialPopulationFactory {
 
 							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividual = new Individual("ind",
-											"ind_"
-													+ (i + a * nSimNew[a][g]
-															* 2 + nSimNew[a][g]
-															* g) + "_"
-													+ currentRiskValue + "_"
-													+ r);
+									currentIndividual = new Individual("scen"
+											+ numberOfTheOneForAllPop, "ind_"
+											+ individualNumber + "_"
+											+ currentRiskValue + "_" + r);
 									currentIndividual
 											.setRandomNumberGeneratorSeed(seed2);
 									currentIndividual.luxeSet(1,
@@ -1264,8 +1278,10 @@ public class InitialPopulationFactory {
 				population.getLabel());
 		String label = "";
 		String delims = "[_]";
+		String elementName = null;
 		for (Individual individual : population) {
 			label = individual.getLabel();
+			elementName = individual.getElementName();
 			/*
 			 * if (this.riskType != 2) {
 			 * 
@@ -1280,7 +1296,7 @@ public class InitialPopulationFactory {
 			// .getRijtje()[0];
 			// label = label + riskValue + "_" + riskValue;
 			// }
-			Individual currentIndividual = new Individual("ind", label);
+			Individual currentIndividual = new Individual(elementName, label);
 			currentIndividual.setRandomNumberGeneratorSeed(individual
 					.getRandomNumberGeneratorSeed());
 			currentIndividual.luxeSet(1,
@@ -1631,39 +1647,40 @@ public class InitialPopulationFactory {
 	}
 
 	public void makeProgressBar(int length) {
-//		Shell shell = new Shell(parentShell);
-//		shell.setText("Construction of initial population ....");
-//		shell.setLayout(new FillLayout());
-//		shell.setSize(600, 50);
-//
-//		this.bar = new ProgressBar(shell, SWT.NULL);
-//		this.bar.setBounds(10, 10, 200, 32);
-//		this.bar.setMinimum(0);
-//
-//		shell.open();
-		pii = dsi.createProgressIndicator("Construction of initial population ....");
+		// Shell shell = new Shell(parentShell);
+		// shell.setText("Construction of initial population ....");
+		// shell.setLayout(new FillLayout());
+		// shell.setSize(600, 50);
+		//
+		// this.bar = new ProgressBar(shell, SWT.NULL);
+		// this.bar.setBounds(10, 10, 200, 32);
+		// this.bar.setMinimum(0);
+		//
+		// shell.open();
+		pii = dsi
+				.createProgressIndicator("Construction of initial population ....");
 
 		int size = (length);
 		int step = 10;
-//		this.bar.setMaximum(size / step);
+		// this.bar.setMaximum(size / step);
 		pii.setMaximum(size / step);
 		/* initialize populations */
-//		this.bar.setSelection(0);
-	pii.update(0);
+		// this.bar.setSelection(0);
+		pii.update(0);
 	}
 
 	public void updateProgressBar() {
 
-//		int state = this.bar.getSelection();
+		// int state = this.bar.getSelection();
 		int state = pii.getPosition();
-			state++;
-//		this.bar.setSelection(state);
+		state++;
+		// this.bar.setSelection(state);
 		pii.update(state);
 
 	}
 
 	public void closeProgressBar() {
-//		this.bar.getShell().close();
+		// this.bar.getShell().close();
 		pii.dispose();
 
 	}

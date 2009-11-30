@@ -1043,9 +1043,6 @@ public class InputDataFactory {
 		scenarioInfo.setWithNewBorns(newborn);
 		scenarioInfo.setStepsize(timeStep);
 		scenarioInfo.setSimPopSize(simPopSize);
-		scenarioInfo.setDetails(details);
-
-		scenarioInfo.setDetails(details);
 		/* initialize the arrays in scenarioInfo */
 		scenarioInfo.setNScenarios(scenInfo.size());
 		scenarioInfo.scenarioNames = new String[scenInfo.size()];

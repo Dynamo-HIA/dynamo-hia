@@ -23,7 +23,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.output.Output_WriteOutputTab;
+import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 
 import org.apache.commons.logging.Log;
