@@ -45,7 +45,7 @@ public enum StandardTreeNodeLabelsEnum {
 	RESULTS("Results"), //
 	CONFIGURATIONFILE("configuration"), //
 	RESULTSOBJECTFILE("resultsObject"), //
-	SCENARIOINFOOBJECTFILE("scenarioinfo"), //
+	SCENARIOPARMSOBJECTFILE("scenarioParameters"), //
 	POPULATIONARRAYOBJECTFILE("populationarray"), //
 	TRANSITIONS("Transitions"), //
 	PREVALENCEFILE("prevalence"), //
