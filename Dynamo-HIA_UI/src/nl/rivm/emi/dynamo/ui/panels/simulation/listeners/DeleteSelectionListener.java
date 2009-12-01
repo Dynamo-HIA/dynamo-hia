@@ -1,13 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTab;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseasesTabPlatform;
-import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -21,8 +19,8 @@ import org.eclipse.swt.widgets.MessageBox;
  * @author schutb
  * 
  */
-public class DeleteSelectionListener extends AbstractLoggingClass implements
-		SelectionListener {
+public class DeleteSelectionListener implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 
 	private TabPlatform tabPlatform = null;
 	private DataAndFileContainer theModal;

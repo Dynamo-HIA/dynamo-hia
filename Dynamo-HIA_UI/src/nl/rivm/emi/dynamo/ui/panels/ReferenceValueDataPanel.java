@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.CategoryIndexVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.FloatValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

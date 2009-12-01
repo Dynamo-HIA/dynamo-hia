@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ModelUpdateValueStrate
 import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrategies;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.IntegerVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

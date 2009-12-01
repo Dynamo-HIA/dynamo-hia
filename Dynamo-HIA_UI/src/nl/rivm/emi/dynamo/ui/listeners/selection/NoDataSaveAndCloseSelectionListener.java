@@ -9,9 +9,10 @@ import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.AbstractHelplessModal;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractHelplessModal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -19,8 +20,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class NoDataSaveAndCloseSelectionListener extends AbstractLoggingClass
+public class NoDataSaveAndCloseSelectionListener
 		implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 	AbstractHelplessModal modalParent;
 	Shell shell2Handle;
 

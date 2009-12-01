@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.data.types.interfaces;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 
 /**
- * This class defines the function in the model Object.<br/>
+ * This class defines the function in the configuration Object.<br/>
  * The RootElementType indicates the elementname belongs to a rootelement. It
  * has no value for putting into the modelobject.<br/>
  * 

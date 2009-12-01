@@ -6,6 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
+import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
+import nl.rivm.emi.dynamo.estimation.LoggingDynSimRunPR;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
@@ -52,14 +57,16 @@ public class Runner {
 
 	private void handleFile(File batchFile) {
 		try {
+			String batchFilePath = batchFile.getAbsolutePath();
+			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
+					.lastIndexOf(File.separatorChar) + 1);
+			BaseDirectory.getInstance(baseDirectoryPath);
+			DynSimRunPRInterface dsi = new LoggingDynSimRunPR();
 			FileReader reader = new FileReader(batchFile);
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			if (bufferedReader.ready()) {
 				String simulationName = null;
 				while ((simulationName = bufferedReader.readLine()) != null) {
-					String batchFilePath = batchFile.getAbsolutePath();
-					String baseDirectoryPath = batchFilePath.substring(0,
-							batchFilePath.lastIndexOf(File.separatorChar)+1);
 					String simulationConfigurationPath = baseDirectoryPath
 							+ StandardTreeNodeLabelsEnum.SIMULATIONS
 									.getNodeLabel()
@@ -68,9 +75,16 @@ public class Runner {
 							+ File.separator
 							+ StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 									.getNodeLabel() + ".xml";
-					statLog.debug("SimulationConfigurationPath: "
-							+ simulationConfigurationPath);
-					// @@@@@@
+					statLog
+							.debug("Going to run simulation at configuration path: "
+									+ simulationConfigurationPath);
+					boolean exceptionless = runSimulation(dsi, simulationName,
+							baseDirectoryPath);
+					if (!exceptionless) {
+						statLog.fatal("Simulation at configuration path: "
+								+ simulationConfigurationPath
+								+ " had internal trouble.");
+					}
 				}
 			} else {
 				statLog
@@ -82,7 +96,23 @@ public class Runner {
 			e.printStackTrace();
 		} catch (IOException e) {
 			statLog.fatal(e.getClass().getSimpleName() + " " + e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace(System.err);
+			System.err.flush();
+		}
+	}
+
+	private boolean runSimulation(DynSimRunPRInterface dsi,
+			String simulationName, String baseDirectoryPath) {
+		try {
+			DynamoSimulationRunnable R = new DynamoSimulationRunnable(dsi,
+					simulationName, baseDirectoryPath);
+			R.run();
+			return true;
+		} catch (DynamoInconsistentDataException e) {
+			statLog.info(e.getMessage());
+			e.printStackTrace(System.err);
+			System.err.flush();
+			return false;
 		}
 	}
 }

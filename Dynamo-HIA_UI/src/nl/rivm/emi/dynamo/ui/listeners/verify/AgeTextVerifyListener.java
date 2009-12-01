@@ -8,7 +8,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;

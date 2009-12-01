@@ -4,7 +4,8 @@ import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
+import nl.rivm.emi.dynamo.ui.listeners.ScrollListener;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;

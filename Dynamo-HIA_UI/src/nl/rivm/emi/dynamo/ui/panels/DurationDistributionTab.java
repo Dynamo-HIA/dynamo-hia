@@ -5,7 +5,8 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
-import nl.rivm.emi.dynamo.ui.parametercontrols.ScrollListener;
+import nl.rivm.emi.dynamo.ui.listeners.ScrollListener;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;

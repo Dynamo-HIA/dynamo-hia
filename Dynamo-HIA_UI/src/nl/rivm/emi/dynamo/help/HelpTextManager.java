@@ -1,13 +1,16 @@
 package nl.rivm.emi.dynamo.help;
 
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 /**
- * @author mondeelr
+ * @author mondeelr<br/>
  * 
- * BEWARE: The implementation is fully dependent on the fact, that ONE modal
- * datawindow can be open at a time. When more windows can be open a context
- * must be maintained for each open window.
+ *         Singleton catering helptexts to the current modal window based on
+ *         various events fired by the user interface because of user actions.
+ * 
+ *         BEWARE: The implementation is fully dependent on the fact, that ONE
+ *         modal datawindow can be open at a time. When more windows can be open
+ *         a context must be maintained for each open window.
  * 
  */
 public class HelpTextManager {
@@ -43,18 +46,31 @@ public class HelpTextManager {
 		}
 	}
 
+	/**
+	 * Sets this HelpGroup as the target for the helptexts.
+	 * 
+	 * @param helpGroup
+	 *            The HelpGroup of the current modal window.
+	 */
 	private void setHelpGroup(HelpGroup helpGroup) {
 		this.helpGroup = helpGroup;
 	}
 
 	/**
+	 * Get the single instance.
 	 * 
-	 * @return The properly initialized HelpTextManager of null otherwise.
+	 * @return The properly initialized HelpTextManager or null otherwise.
 	 */
 	public static HelpTextManager getInstance() {
 		return instance;
 	}
 
+	/**
+	 * Updates the field helptext following a getFocus event.
+	 * 
+	 * @param text
+	 *            The text to put into the field part of the HelpGroup.
+	 */
 	synchronized public void setFocusText(String text) {
 		if (text != null) {
 			this.stackedFieldHelpTexts[0] = text;
@@ -65,13 +81,27 @@ public class HelpTextManager {
 		}
 	}
 
+	/**
+	 * Removes the field helptext that was set after the last getFocus event. If
+	 * this text was stacked on a previous text, the previous text is put in the
+	 * HelpGroup again.
+	 * 
+	 */
 	synchronized public void resetFocusText() {
 		this.stackedFieldHelpTexts[0] = null;
-		if (stackedFieldHelpTexts[1] == null) {
+		if (!(stackedFieldHelpTexts[1] == null)) {
+			helpGroup.getFieldHelpGroup().setHelpText(stackedFieldHelpTexts[1]);
+		} else {
 			helpGroup.getFieldHelpGroup().setHelpText("");
 		}
 	}
 
+	/**
+	 * Updates the field helptext following a mouseTrack event.
+	 * 
+	 * @param text
+	 *            The text to put into the field part of the HelpGroup.
+	 */
 	synchronized public void setMouseTrackText(String text) {
 		if ((text != null)
 				&& (!text.equalsIgnoreCase(stackedFieldHelpTexts[1]))) {
@@ -80,6 +110,12 @@ public class HelpTextManager {
 		}
 	}
 
+	/**
+	 * Removes the field helptext that was set after the last mouseTrack event.
+	 * If this text was stacked on a previous text, the previous text is put in
+	 * the HelpGroup again.
+	 * 
+	 */
 	synchronized public void resetMouseTrackText() {
 		this.stackedFieldHelpTexts[1] = null;
 		if (stackedFieldHelpTexts[0] != null) {

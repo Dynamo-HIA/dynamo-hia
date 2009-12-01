@@ -4,7 +4,7 @@ import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveAndCloseSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.NoDataSaveSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.selection.SimpleCancelSelectionListener;
-import nl.rivm.emi.dynamo.ui.main.AbstractHelplessModal;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractHelplessModal;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

@@ -12,11 +12,29 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author mondeelr<br/>
+ * 
+ *         Container mainly used in the factories for the template for the
+ *         default configuration Object.
+ */
 public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 	private static final long serialVersionUID = 4381230502193758915L;
 	private Log log = LogFactory.getLog(this.getClass().getName());
-private int theLastContainer = -1;
+	private int theLastContainer = -1;
 
+	/**
+	 * Fills the contaner based on the filestructure below the passed
+	 * ConfigurationNode.
+	 * 
+	 * @param rootChild
+	 *            The ConfigurationNode below which the data that must be put
+	 *            into the container is situated.
+	 * @return The index of the last ContainerType type.
+	 * @throws ConfigurationException
+	 *             Thrown when the structure of the configuration file cannot be
+	 *             handled.
+	 */
 	public int fill(ConfigurationNode rootChild) throws ConfigurationException {
 		theLastContainer = 0;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
@@ -71,6 +89,11 @@ private int theLastContainer = -1;
 		return theLastContainer;
 	}
 
+	/**
+	 * Provides a readable summary of the content of the container.
+	 * 
+	 * @return
+	 */
 	public String report() {
 		StringBuffer resultStringBuffer = new StringBuffer(", listlength "
 				+ size() + " Values ");
@@ -80,11 +103,19 @@ private int theLastContainer = -1;
 		return resultStringBuffer.toString();
 	}
 
+	/**
+	 * Checks whether the structure is supported.
+	 * 
+	 * @return The index of the last ContainerType.
+	 * @throws ConfigurationException
+	 *             Thrown when an unsupported structure is encountered.
+	 */
 	public int checkContents() throws ConfigurationException {
 		int theLastContainer = 0;
 		log.debug("leafNodeList.LeafNodeList.size()" + this.size());
 		for (; theLastContainer < this.size(); theLastContainer++) {
-			AtomicTypeBase<?> theType = (AtomicTypeBase<?>) get(theLastContainer).getType();
+			AtomicTypeBase<?> theType = (AtomicTypeBase<?>) get(
+					theLastContainer).getType();
 			if (!(theType instanceof ContainerType)) {
 				log.debug("theLastContainer" + theLastContainer);
 				break;
@@ -92,21 +123,26 @@ private int theLastContainer = -1;
 		}
 		if (theLastContainer == 0) {
 			throw new ConfigurationException(
-					"Supporting only XML with at least one dimension (eg. age) for now. LastContainer "
-							+ theLastContainer + report());
+					"Supporting only XML with at least one dimension (eg. age)"
+							+ " for now. LastContainer " + theLastContainer
+							+ report());
 		} else {
-//			if (theLastContainer != size() - 1) {
-//				throw new ConfigurationException(
-//						"Supporting XML with single value only for now. LastContainer "
-//								+ theLastContainer + report());
-//			} else {
-				log.debug("Handling rootchild. LastContainer "
-						+ theLastContainer + report());
-			}
-//		}
+			// if (theLastContainer != size() - 1) {
+			// throw new ConfigurationException(
+			// "Supporting XML with single value only for now. LastContainer "
+			// + theLastContainer + report());
+			// } else {
+			log.debug("Handling rootchild. LastContainer " + theLastContainer
+					+ report());
+		}
+		// }
 		return theLastContainer;
 	}
 
+	/**
+	 * @return The index of the last ContainerType, counted from the rootchild
+	 *         element downwards.
+	 */
 	public int getTheLastContainer() {
 		return theLastContainer;
 	}

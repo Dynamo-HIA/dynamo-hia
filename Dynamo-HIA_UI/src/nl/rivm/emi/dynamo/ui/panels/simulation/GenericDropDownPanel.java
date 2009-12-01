@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.GenericComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 

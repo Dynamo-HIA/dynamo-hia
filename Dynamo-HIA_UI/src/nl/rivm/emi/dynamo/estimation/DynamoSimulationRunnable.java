@@ -27,9 +27,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.output.DynamoOutputFactory_old;
 import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
-
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
@@ -38,10 +36,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ProgressBar;
+
 import org.eclipse.swt.widgets.Shell;
 
 public class DynamoSimulationRunnable extends DomLevelTraverser {
@@ -147,9 +142,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 */
 
 		// estimate the parameters
-		p = new ModelParameters(this.baseDir, this.pr);
+		p = new ModelParameters(this.baseDir);
 
-		scen = p.estimateModelParameters(this.simName/* , this.parentShell */);
+		scen = p.estimateModelParameters(this.simName/* , this.parentShell */,
+				pr);
 		/*
 		 * } catch (DynamoConfigurationException e3) { displayErrorMessage(e3,
 		 * null); // log.fatal(e3.getMessage()); e3.printStackTrace(); } catch
@@ -199,10 +195,15 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			/* get the initial population from the modelparameters object */
 			Population[] pop = p.getInitialPopulation();
-			for (int npop=0;npop<nPopulations;npop++){
-				String iniPopFileName =  directoryName + File.separator
-				+ "modelconfiguration" + File.separator + "initialPop_"+npop;
-				 CSVPopulationWriter.writePopulation(iniPopFileName,pop[npop],0);}
+			log.fatal("Starting to write populations");
+			for (int npop = 0; npop < nPopulations; npop++) {
+				String iniPopFileName = directoryName + File.separator
+						+ "modelconfiguration" + File.separator + "initialPop_"
+						+ npop;
+				CSVPopulationWriter.writePopulation(iniPopFileName, pop[npop],
+						0);
+				log.fatal("Written population #" + npop);
+			}
 
 			// Assemble the simulation file name
 			simulationFilePath = simFileName + ".xml";
@@ -337,7 +338,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			}
 			/* make the output screen */
-			String currentPath=this.baseDir+File.separator+"simulations"+File.separator+simName+File.separator+"results";
+			String currentPath = this.baseDir + File.separator + "simulations"
+					+ File.separator + simName + File.separator + "results";
 			Shell parentShell = pr.getShell();
 			if (parentShell != null) {
 				new Output_UI(parentShell, output, scenParms, currentPath);
@@ -382,10 +384,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		try {
 			out = new ObjectOutputStream(new BufferedOutputStream(
 					new FileOutputStream(resultFile)));
-		//	out = new ObjectOutputStream(
-		//		new FileOutputStream(resultFile));
+			// out = new ObjectOutputStream(
+			// new FileOutputStream(resultFile));
 			out.writeObject(output);
-			
 
 			out.flush();
 			out.close();
@@ -424,11 +425,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		ObjectOutputStream out;
 		try {
-	//		out = new ObjectOutputStream(new BufferedOutputStream(
-	//				new FileOutputStream(resultFile)));
+			// out = new ObjectOutputStream(new BufferedOutputStream(
+			// new FileOutputStream(resultFile)));
 			out = new ObjectOutputStream(new FileOutputStream(resultFile));
 			out.writeObject(scenarioParms);
-	//		out.flush();
+			// out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {
 			this.displayErrorMessage(e, resultFileName);
@@ -439,7 +440,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		}
 	}
 
-	// not used 
+	// not used
 	private void persistPopulationArray(Population[] populationArray) {
 		String resultFileName = this.baseDir
 				+ File.separator
@@ -469,7 +470,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		}
 	}
 
-	public void resultScreen(String baseDir, String simName, Shell parentShell) {
+	public void resultScreen(String baseDir, String simName) {
 		String resultFileName = this.baseDir + File.separator + "Simulations"
 				+ File.separator + this.simName + File.separator + "results"
 				+ File.separator + "resultObject.obj";
@@ -484,27 +485,35 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						resultFileStream);
 				output = (DynamoOutputFactory) inputStream.readObject();
 			} catch (FileNotFoundException e1) {
-				new ErrorMessageWindow(
-						"Error message while reading the results object with message: "
-								+ e1.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the results object with message: "
+				// + e1.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the results object with message: "
+								+ e1.getMessage());
 				e1.printStackTrace();
 			} catch (IOException e2) {
-				new ErrorMessageWindow(
-						"Error message while reading the results object with message: "
-								+ e2.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the results object with message: "
+				// + e2.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the results object with message: "
+								+ e2.getMessage());
 				e2.printStackTrace();
 			} catch (ClassNotFoundException e3) {
-				new ErrorMessageWindow(
-						"Error message while reading the results object with message: "
-								+ e3.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the results object with message: "
+				// + e3.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the results object with message: "
+								+ e3.getMessage());
 				e3.printStackTrace();
 			}
 		}
 
 		else
-			new ErrorMessageWindow("No file with filename " + resultFileName
-					+ " exists to read the results from.", parentShell);
-
+			pr.usedToBeErrorMessageWindow("No file with filename "
+					+ resultFileName + " exists to read the results from.");
 		String parmsFileName = this.baseDir
 				+ File.separator
 				+ "Simulations"
@@ -527,28 +536,42 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						parmsFileStream);
 				scenParms = (ScenarioParameters) inputStream.readObject();
 			} catch (FileNotFoundException e1) {
-				new ErrorMessageWindow(
-						"Error message while reading the resulst object with message: "
-								+ e1.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the resulst object with message: "
+				// + e1.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the resulst object with message: "
+								+ e1.getMessage());
 				e1.printStackTrace();
 			} catch (IOException e2) {
-				new ErrorMessageWindow(
-						"Error message while reading the results object with message: "
-								+ e2.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the results object with message: "
+				// + e2.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the results object with message: "
+								+ e2.getMessage());
 				e2.printStackTrace();
 			} catch (ClassNotFoundException e3) {
-				new ErrorMessageWindow(
-						"Error message while reading the results object with message: "
-								+ e3.getMessage(), parentShell);
+				// new ErrorMessageWindow(
+				// "Error message while reading the results object with message: "
+				// + e3.getMessage(), parentShell);
+				pr
+						.usedToBeErrorMessageWindow("Error message while reading the results object with message: "
+								+ e3.getMessage());
 				e3.printStackTrace();
 			}
-			String currentPath=this.baseDir+File.separator+"simulations"+File.separator+simName+File.separator+"results";
-			
-			new Output_UI(parentShell, output, scenParms, currentPath);
-		} else
-			new ErrorMessageWindow("No file with filename " + resultFileName
-					+ " exists to read the results from.", parentShell);
+			String currentPath = this.baseDir + File.separator + "simulations"
+					+ File.separator + simName + File.separator + "results";
 
+			Shell parentShell = pr.getShell();
+			if (parentShell != null) {
+				new Output_UI(parentShell, output, scenParms, currentPath);
+			}
+		} else
+			// new ErrorMessageWindow("No file with filename " + resultFileName
+			// + " exists to read the results from.", parentShell);
+			pr.usedToBeErrorMessageWindow("No file with filename "
+					+ resultFileName + " exists to read the results from.");
 	}
 
 	/**

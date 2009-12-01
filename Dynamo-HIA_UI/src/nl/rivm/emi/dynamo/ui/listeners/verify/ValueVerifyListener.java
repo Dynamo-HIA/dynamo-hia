@@ -4,7 +4,7 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

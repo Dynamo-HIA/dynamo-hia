@@ -21,17 +21,19 @@ import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
-public class SaveSelectionListener extends AbstractLoggingClass implements
+public class SaveSelectionListener implements
 		SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 	DataAndFileContainer modalParent;
 
 	public SaveSelectionListener(DataAndFileContainer modalParent) {

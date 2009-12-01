@@ -3,6 +3,8 @@ package nl.rivm.emi.dynamo.ui.main;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.TransitionDriftNettoGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 

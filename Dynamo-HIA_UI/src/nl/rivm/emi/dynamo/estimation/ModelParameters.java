@@ -98,7 +98,7 @@ public class ModelParameters {
 	private Population[] initialPopulation;
 	// empty Constructor
 	// private Shell parentShell;
-	private DynSimRunPRInterface dsi = null;
+//	private DynSimRunPRInterface dsi = null;
 	private String globalBaseDir;
 	private boolean warningflag2 = true;
 	private boolean warningflag3 = true;
@@ -110,9 +110,8 @@ public class ModelParameters {
 	 * 
 	 * @param baseDir
 	 */
-	public ModelParameters(String baseDir, DynSimRunPRInterface dsi) {
+	public ModelParameters(String baseDir) {
 		this.globalBaseDir = baseDir;
-		this.dsi = dsi;
 	}
 
 	/**
@@ -146,7 +145,7 @@ public class ModelParameters {
 	 * 
 	 */
 	public ScenarioInfo estimateModelParameters(String simulationName
-	/* Shell parentShell */) throws DynamoInconsistentDataException,
+	/* Shell parentShell */, DynSimRunPRInterface dsi) throws DynamoInconsistentDataException,
 			DynamoConfigurationException {
 
 		/** step 1: build input data from baseline directory */
@@ -373,7 +372,7 @@ public class ModelParameters {
 			pii.update(a);
 			for (int g = 0; g < 2; g++) {
 				this.log.debug("before first estimate");
-				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g);
+				estimateModelParametersForSingleAgeGroup(nSim, inputData, a, g, dsi);
 
 				this.log.debug("parameters estimated for age " + a
 						+ " and gender " + g);
@@ -683,10 +682,11 @@ public class ModelParameters {
 	 *            object with inputdata
 	 * @param age
 	 * @param sex
+	 * @param dsi TODO
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void estimateModelParametersForSingleAgeGroup(int nSim,
-			InputData inputData, int age, int sex)
+			InputData inputData, int age, int sex, DynSimRunPRInterface dsi)
 			throws DynamoInconsistentDataException {
 
 		/**
@@ -726,7 +726,7 @@ public class ModelParameters {
 		boolean withRRmort = inputData.isWithRRForMortality();
 		boolean withRRdisability = inputData.isWithRRForDisability();
 		if (withRRdisability && nWarningRRdis == 0) {
-			displayWarningMessage("RR for disability is implemented but not yet tested, so program might crash");
+			displayWarningMessage("RR for disability is implemented but not yet tested, so program might crash", dsi);
 			nWarningRRdis++;
 		}
 		double log2 = Math.log(2.0); // keep outside loops to prevent
@@ -2033,7 +2033,7 @@ public class ModelParameters {
 									+ " and riskgroup "
 									+ i
 									+ "\no more warnings of this kind will be generated for"
-									+ "other risk, age and gender groups");
+									+ "other risk, age and gender groups", dsi);
 						}
 					}
 
@@ -2103,7 +2103,7 @@ public class ModelParameters {
 											+ " can "
 											+ "be explained completely by differences in disease prevalences due to the riskfactor. "
 											+ "Therefore disability for this group will be calculated solely on disease status and not on risk "
-											+ "factor status" + label);
+											+ "factor status" + label, dsi);
 
 								this.baselineAbility[age][sex] = 1;
 								this.riskFactorAbilityRRcat[age][sex][i] = 1;
@@ -2396,7 +2396,7 @@ public class ModelParameters {
 							+ " and gender "
 							+ sex
 							+ "\nThe program assumes a zero attributable mortality for this disease"
-							+ "\nNo more warning messages of this kind are given for other age/gender/disease groups");
+							+ "\nNo more warning messages of this kind are given for other age/gender/disease groups", dsi);
 					warningflag5 = false;
 				}
 
@@ -2513,7 +2513,7 @@ public class ModelParameters {
 
 			if (this.baselineAbility[age][sex] > 1) {
 				warnForAbilityGreaterOne(age, sex, abilityFromDisease,
-						overallAbility);
+						overallAbility, dsi);
 
 			}
 		}
@@ -2626,7 +2626,7 @@ public class ModelParameters {
 						displayWarningMessage("100% disability calculated for riskclass "
 								+ i
 								+ ". \nAs this gives"
-								+ " numerical problems disability is made slightly less then 100%.");
+								+ " numerical problems disability is made slightly less then 100%.", dsi);
 					this.warningflag2 = false;
 				} else {
 					logAbilityFromOtherCauses[i] = Math
@@ -2679,7 +2679,7 @@ public class ModelParameters {
 					+ (nNegativeOtherMort * 100) + " % of simulated cases"
 					+ " for age " + age + " and gender " + sex
 					+ "\no more warnings of this kind will be generated for"
-					+ "other age and gender groups");
+					+ "other age and gender groups", dsi);
 		}
 		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
 			throw new DynamoInconsistentDataException(
@@ -2870,7 +2870,7 @@ public class ModelParameters {
 			if (this.baselineAbility[age][sex] > 1)
 				warnForAbilityGreaterOne(age, sex,
 						this.baselineAbility[age][sex], 1 - inputData
-								.getOverallDalyWeight()[age][sex]);
+								.getOverallDalyWeight()[age][sex], dsi);
 			/**
 			 * in the fifth stage the sum of the RR's on other cause mortalities
 			 * is calculated in order to estimate the baseline other cause
@@ -3052,7 +3052,7 @@ public class ModelParameters {
 	}
 
 	private void warnForAbilityGreaterOne(int age, int sex, double ability,
-			float overallAbility) {
+			float overallAbility, DynSimRunPRInterface dsi) {
 		String label = "";
 		if (nWarningsDisability == 2)
 			label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
@@ -3068,7 +3068,7 @@ public class ModelParameters {
 					+ (1 - ability)
 					+ " and overall: "
 					+ (1 - overallAbility)
-					+ " . Other cause disability is set" + " to zero." + label);
+					+ " . Other cause disability is set" + " to zero." + label, dsi);
 		nWarningsDisability++;
 		this.baselineAbility[age][sex] = 1;
 	}
@@ -3558,9 +3558,10 @@ public class ModelParameters {
 	}
 
 	/**
+	 * @param pri TODO
 	 * @param e
 	 */
-	private void displayWarningMessage(String message) {
+	private void displayWarningMessage(String message, DynSimRunPRInterface dsi) {
 		// Shell shell = new Shell(this.parentShell);
 		// MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		// messageBox.setMessage(message);

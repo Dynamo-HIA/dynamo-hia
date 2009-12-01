@@ -22,17 +22,18 @@ import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
-public class SaveAndCloseSelectionListener extends AbstractLoggingClass
-		implements SelectionListener {
+public class SaveAndCloseSelectionListener implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 	DataAndFileContainer modalParent;
 
 	public SaveAndCloseSelectionListener(DataAndFileContainer modalParent) {
@@ -72,11 +73,13 @@ public class SaveAndCloseSelectionListener extends AbstractLoggingClass
 				if (modelObject instanceof TypedHashMap) {
 					FileControlEnum fileControl = FileControlSingleton
 							.getInstance().get(rootElementName);
-					if(modelObject instanceof ISanityCheck){
-						if(!((ISanityCheck)modelObject).dataChecksOut()){
-						MessageBox messageBox = new MessageBox(modalParent.getShell(), SWT.OK);
-						messageBox.setMessage(((ISanityCheck)modelObject).getCheckList());
-						messageBox.open();
+					if (modelObject instanceof ISanityCheck) {
+						if (!((ISanityCheck) modelObject).dataChecksOut()) {
+							MessageBox messageBox = new MessageBox(modalParent
+									.getShell(), SWT.OK);
+							messageBox.setMessage(((ISanityCheck) modelObject)
+									.getCheckList());
+							messageBox.open();
 						}
 					}
 					StAXAgnosticTypedHashMapWriter.produceFile(fileControl,
@@ -87,7 +90,7 @@ public class SaveAndCloseSelectionListener extends AbstractLoggingClass
 				} else {
 					if (modelObject instanceof LinkedHashMap) {
 						if (modelObject instanceof DynamoSimulationObject) {
-							Map<Integer,?> map = ((DynamoSimulationObject) modelObject)
+							Map<Integer, ?> map = ((DynamoSimulationObject) modelObject)
 									.getRelativeRiskConfigurations();
 							Set<Integer> keys = map.keySet();
 							for (Integer key : keys) {

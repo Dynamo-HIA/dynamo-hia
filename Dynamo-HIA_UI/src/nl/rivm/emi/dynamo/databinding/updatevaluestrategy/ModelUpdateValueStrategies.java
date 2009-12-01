@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.databinding.updatevaluestrategy;
 
-import nl.rivm.emi.dynamo.databinding.converters.ModelConverters;
+import nl.rivm.emi.dynamo.databinding.converters.SimpleModelConverterFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +33,7 @@ public class ModelUpdateValueStrategies {
 	private static UpdateValueStrategy assembleIntegerModelValueUpdateStrategy(
 			Object type) {
 		UpdateValueStrategy integerUpdateValueStrategy = new UpdateValueStrategy();
-		integerUpdateValueStrategy.setConverter(ModelConverters
+		integerUpdateValueStrategy.setConverter(SimpleModelConverterFactory
 				.getConverter(type));
 		return integerUpdateValueStrategy;
 	}
@@ -41,7 +41,7 @@ public class ModelUpdateValueStrategies {
 	private static UpdateValueStrategy assembleFloatModelValueUpdateStrategy(
 			Object type) {
 		UpdateValueStrategy floatUpdateValueStrategy = new UpdateValueStrategy();
-		floatUpdateValueStrategy.setConverter(ModelConverters
+		floatUpdateValueStrategy.setConverter(SimpleModelConverterFactory
 				.getConverter(type));
 		return floatUpdateValueStrategy;
 	}

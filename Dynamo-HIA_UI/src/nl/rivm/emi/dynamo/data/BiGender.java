@@ -1,13 +1,14 @@
 package nl.rivm.emi.dynamo.data;
+
 /**
-  * @author mondeelr
- * Concentrates the indices and Strings used for the management 
- * of the genders.
+ * @author mondeelr<br/>
+ *         Central point for the indices and Strings used for the management of
+ *         the genders.
  */
 public class BiGender {
-/**
- * Number of genders.
- */
+	/**
+	 * Number of genders.
+	 */
 	static public int NUMBER_OF_CLASSES = 2;
 	/**
 	 * Lowest possible gender index.

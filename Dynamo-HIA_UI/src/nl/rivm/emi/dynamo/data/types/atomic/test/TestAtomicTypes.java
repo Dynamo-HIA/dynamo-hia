@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.data.types.atomic.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
@@ -13,7 +12,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractAge;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;

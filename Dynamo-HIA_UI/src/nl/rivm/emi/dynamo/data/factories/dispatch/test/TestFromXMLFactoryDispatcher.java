@@ -1,21 +1,7 @@
 package nl.rivm.emi.dynamo.data.factories.dispatch.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.io.File;
-
-import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
-import nl.rivm.emi.dynamo.data.objects.ObservableObjectMarker;
-import nl.rivm.emi.dynamo.data.objects.StandardObjectMarker;
-
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -23,6 +9,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Disabled old unit-test Class.<br/>
+ * @author mondeelr
+ *
+ */
 public class TestFromXMLFactoryDispatcher {
 	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;

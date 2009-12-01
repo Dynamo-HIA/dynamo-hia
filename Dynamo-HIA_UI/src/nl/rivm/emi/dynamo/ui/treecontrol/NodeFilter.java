@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
-import nl.rivm.emi.dynamo.data.xml.structure.FileLocationTest;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
+import nl.rivm.emi.dynamo.data.xml.structure.test.FileLocationTest;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;

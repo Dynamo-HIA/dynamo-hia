@@ -10,6 +10,7 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.main.base.AgnosticModal;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksContinuousGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 

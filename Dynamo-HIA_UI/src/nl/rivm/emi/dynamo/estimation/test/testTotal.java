@@ -4,7 +4,9 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
+import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
@@ -47,7 +49,8 @@ Log log = LogFactory.getLog(getClass().getName());
 
 		Display display= new Display();
 		Shell shell=new Shell(display);
-		DynamoSimulationRunnable R= new DynamoSimulationRunnable(shell, simName,baseDir);
+		DynSimRunPRInterface dsi = new GraphicalDynSimRunPR(shell);
+		DynamoSimulationRunnable R= new DynamoSimulationRunnable(dsi, simName,baseDir);
 		 R.run();
 		 while (!shell.isDisposed()) { if (!display.readAndDispatch()) { display.sleep();}}
 		 display.dispose();

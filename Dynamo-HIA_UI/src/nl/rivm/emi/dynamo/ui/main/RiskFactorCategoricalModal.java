@@ -19,6 +19,8 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorCategoricalObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorCategoricalGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;

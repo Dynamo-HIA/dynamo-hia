@@ -11,7 +11,7 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;

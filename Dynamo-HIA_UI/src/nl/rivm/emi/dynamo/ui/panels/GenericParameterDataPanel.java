@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -3,31 +3,18 @@
  */
 package nl.rivm.emi.dynamo.output;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Paint;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Iterator;
-
-import javax.xml.stream.FactoryConfigurationError;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.individual.Individual;
@@ -35,7 +22,6 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
 import nl.rivm.emi.dynamo.estimation.NettTransitionRateFactory;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 

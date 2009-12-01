@@ -18,6 +18,7 @@ import nl.rivm.emi.dynamo.ui.listeners.TypedFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
 import org.apache.commons.logging.Log;

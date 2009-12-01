@@ -451,7 +451,7 @@ public class DynamoOutputFactory_old implements Serializable {
 				}
 			}
 
-		this.details = scenInfo.isDetails();
+	//	this.details = scenInfo.isDetails();
 
 		this.startYear = scenInfo.getStartYear();
 		this.populationSize = scenInfo.getPopulationSize();

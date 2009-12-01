@@ -23,7 +23,7 @@ import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractFileNameVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractStringVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
-import nl.rivm.emi.dynamo.ui.panels.HelpGroup;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.PopulationFileNameComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;

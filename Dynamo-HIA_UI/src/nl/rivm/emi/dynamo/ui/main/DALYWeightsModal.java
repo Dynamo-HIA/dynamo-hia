@@ -7,6 +7,8 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.DALYWeightsGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 

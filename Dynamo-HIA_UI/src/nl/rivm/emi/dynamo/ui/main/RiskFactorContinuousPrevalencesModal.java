@@ -11,6 +11,8 @@ package nl.rivm.emi.dynamo.ui.main;
 
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RiskFactorContinuousPrevalencesGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 

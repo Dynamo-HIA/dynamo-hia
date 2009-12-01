@@ -28,10 +28,25 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author mondeelr<br/>
+ *         The name says it all.<br/>
+ *         The utility methods are all geared to getting specific parts of the
+ *         configuration file without a fuss.
+ */
 public class ConfigurationFileUtil {
 
 	private static Log log = LogFactory.getLog(ConfigurationFileUtil.class);
 
+	/**
+	 * Does what the methodname says.
+	 * 
+	 * @param selectedNode
+	 *            Node where the navigation inside the method must start.
+	 * @return The rootelement that has been extracted.
+	 * @throws TreeStructureException
+	 * @throws DynamoConfigurationException
+	 */
 	static public String extractRootElementNameFromSiblingConfiguration(
 			BaseNode selectedNode) throws TreeStructureException,
 			DynamoConfigurationException {
@@ -43,11 +58,16 @@ public class ConfigurationFileUtil {
 		return rootElementName;
 	}
 
-	@SuppressWarnings("finally")
-	/*
-	 * Does what the methodname says, returns null when the wrapped method
-	 * returns an Exception.
+	/**
+	 * Does what the methodname says. Wraps the method below and suppresses the
+	 * Exeption thrown, returns null instead.
+	 * 
+	 * @param selectedNode
+	 *            Node where the navigation inside the method must start.
+	 * @return The rootelement that has been extracted. null when none was
+	 *         found.
 	 */
+	@SuppressWarnings("finally")
 	static public String exceptionFreeExtractRootElementNameFromChildConfiguration(
 			BaseNode selectedNode) {
 		String resultString = null;
@@ -63,6 +83,18 @@ public class ConfigurationFileUtil {
 		}
 	}
 
+	/**
+	 * Does what the methodname says.
+	 * 
+	 * @param selectedNode
+	 *            Node where the navigation inside the method must start.
+	 * @return The rootelement that has been extracted.
+	 * @throws TreeStructureException
+	 *             Thrown when the structure of the tree was not as expected.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when the structure of the XML configuration file was
+	 *             not as expected.
+	 */
 	static public String extractRootElementNameFromChildConfiguration(
 			BaseNode selectedNode) throws TreeStructureException,
 			DynamoConfigurationException {
@@ -94,6 +126,15 @@ public class ConfigurationFileUtil {
 		return rootElementName;
 	}
 
+	/**
+	 * Does what the methodname says.
+	 * 
+	 * @param configurationFile The File the rootelementname has to be found in.
+	 * @return The rootelement that has been extracted.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when the structure of the XML configuration file was
+	 *             not as expected.
+	 */
 	static public String justExtractRootElementName(File configurationFile)
 			throws DynamoConfigurationException {
 		String rootElementName = null;
@@ -122,6 +163,12 @@ public class ConfigurationFileUtil {
 		// }
 	}
 
+	/**
+	 * Does what the methodname says.
+	 * 
+	 * @param fileName The name of the File the rootelementname has to be found in.
+	 * @return The rootelement that has been extracted.
+	 */
 	static String getRootElementNameUsingSTax(String filename) {
 		String rootElementName = null;
 		FileInputStream fIStream = null;
@@ -212,6 +259,15 @@ public class ConfigurationFileUtil {
 		}
 	}
 
+	/**
+	 * Does what the methodname says.
+	 * 
+	 * @param configurationFile The File the rootelementname has to be extracted from.
+	 * @return The rootelement that has been extracted.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when the structure of the XML configuration file was
+	 *             not as expected.
+	 */
 	static public String extractRootElementNameIncludingSchemaCheck(
 			File configurationFile) throws DynamoConfigurationException {
 		String rootElementName = null;
@@ -249,6 +305,14 @@ public class ConfigurationFileUtil {
 		}
 	}
 
+/**
+ * Returns the number of classes the riskfactor has been configured for. 
+ * The method is meant be called on the configuration of categorical or compound riskfactors.
+ * 
+ * @param configurationFile The File the number of classes must be found in.
+ * @return The number of classes found. Null when no classes have been found.
+ * @throws DynamoConfigurationException Thrown when the filestructure was unexpected.
+ */
 	public static Integer extractNumberOfClasses(File configurationFile)
 			throws DynamoConfigurationException {
 		Integer numberOfCategories = null;
@@ -289,6 +353,14 @@ public class ConfigurationFileUtil {
 		}
 	}
 
+	/**
+	 * Returns the index of the class that has a durationdistribution attached. 
+	 * The method is meant be called on the configuration of compound riskfactors.
+	 * 
+	 * @param configurationFile The File the index of the duration class must be found in.
+	 * @return The index of found duration class. Null when no duration class is founs.
+	 * @throws DynamoConfigurationException Thrown when the filestructure was unexpected.
+	 */
 	public static Integer extractDurationCategoryIndex(File configurationFile)
 			throws DynamoConfigurationException {
 		Integer durationCategoryIndex = null;

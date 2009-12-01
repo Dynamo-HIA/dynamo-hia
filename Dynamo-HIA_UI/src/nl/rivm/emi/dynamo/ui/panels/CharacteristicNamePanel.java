@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;

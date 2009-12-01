@@ -10,7 +10,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * Most used Class during development. Easy way to get the Application up and running.
+ * 
+ * @author mondeelr
+ *
+ */
 public class TestBaseStorageTreeScreen {
 	Log log = LogFactory.getLog(getClass().getName());
 	Display display = null;

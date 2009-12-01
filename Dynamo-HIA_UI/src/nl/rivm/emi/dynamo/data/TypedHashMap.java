@@ -1,12 +1,5 @@
 package nl.rivm.emi.dynamo.data;
 
-/**
- * LinkedHashMap extension to store containertypes in.
- * 
- * 20090330 mondeelr Effectively killed ( :-) generics by changing it from 
- * <Integer,Object> on the LinkedHashMap to <Object,Object> to allow for String keys. 
- * 
- */
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
@@ -19,6 +12,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
+/**
+ * @author mondeelr<br/>
+ *         LinkedHashMap extension to store
+ *         {@link nl.rivm.emi.dynamo.data.types.interfaces.ContainerType<T>} in.<br/>
+ * 
+ *         20090330 mondeelr Effectively killed ( :-) generics by changing it
+ *         from <Integer,Object> on the LinkedHashMap to <Object,Object> to
+ *         allow for String keys.
+ * 
+ */
 public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 	private static final long serialVersionUID = 1345063403320022388L;
 	Log log = LogFactory.getLog(this.getClass().getName());
@@ -47,7 +50,8 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 	 * Copy constructor, instantiates a new Map an fills it with the content of
 	 * the parameter.
 	 * 
-	 * @param map TypedHashMap to be copied.
+	 * @param map
+	 *            TypedHashMap to be copied.
 	 * @throws DynamoConfigurationException
 	 */
 	public TypedHashMap(TypedHashMap<T> map)
@@ -67,21 +71,30 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 				}
 			} // for ends.
 		} else {
-			log.fatal("TypedHashMap(map) failed, the type of the map to be copies is null.");
+			log
+					.fatal("TypedHashMap(map) failed, the type of the map to be copies is null.");
 			throw new DynamoConfigurationException(
 					"Fatal TypedHashMap(map) failure, see logging entries.");
 		}
 	}
 
+	/**
+	 * Returns the type of the data contained in the Map.
+	 * 
+	 * @return
+	 */
 	public T getType() {
 		return type;
 	}
 
 	/**
 	 * Clones contained ArrayLists.
-	 * @param value ArrayList to copy.
+	 * 
+	 * @param value
+	 *            ArrayList to copy.
 	 * @return The copy of the passed ArrayList.
-	 * @throws DynamoConfigurationException Thrown when unsupported Types are encountered.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when unsupported Types are encountered.
 	 */
 	private ArrayList<AtomicTypeObjectTuple> deepCopyEnclosedArrayList(
 			Object value) throws DynamoConfigurationException {

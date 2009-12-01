@@ -4,20 +4,21 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-public class StartingYearUpdateButtonSelectionListener extends
-		AbstractLoggingClass implements SelectionListener {
+public class StartingYearUpdateButtonSelectionListener implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 	DataAndFileContainer modalParent;
 	Text startingYearText;
 	AtomicTypeBase<Integer> startingYearType;

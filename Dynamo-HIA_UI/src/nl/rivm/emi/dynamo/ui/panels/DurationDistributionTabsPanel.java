@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.objects.DurationDistributionObject;
 import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;

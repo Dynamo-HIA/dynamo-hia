@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.ui.main.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

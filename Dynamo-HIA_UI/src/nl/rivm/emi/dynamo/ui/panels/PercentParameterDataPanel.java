@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

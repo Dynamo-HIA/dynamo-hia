@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Set;
 
 import nl.rivm.emi.dynamo.exceptions.ErrorMessageUtil;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;

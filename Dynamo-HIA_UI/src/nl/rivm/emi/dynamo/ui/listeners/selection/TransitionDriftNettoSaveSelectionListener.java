@@ -16,17 +16,18 @@ import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXTransitionDriftNettoWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
-import nl.rivm.emi.dynamo.ui.listeners.for_test.AbstractLoggingClass;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 
-public class TransitionDriftNettoSaveSelectionListener extends
-		AbstractLoggingClass implements SelectionListener {
+public class TransitionDriftNettoSaveSelectionListener implements SelectionListener {
+	protected Log log = LogFactory.getLog(this.getClass().getName());
 	TransitionDriftNettoModal modalParent;
 
 	public TransitionDriftNettoSaveSelectionListener(

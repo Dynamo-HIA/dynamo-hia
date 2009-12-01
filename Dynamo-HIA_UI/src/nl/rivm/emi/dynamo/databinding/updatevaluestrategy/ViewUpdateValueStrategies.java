@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.databinding.updatevaluestrategy;
 
-import nl.rivm.emi.dynamo.databinding.converters.ViewConverters;
+import nl.rivm.emi.dynamo.databinding.converters.SimpleViewConverterFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +23,7 @@ public class ViewUpdateValueStrategies {
 	
 	private static UpdateValueStrategy assembleIntegerViewValueUpdateStrategy(Object type) {
 		UpdateValueStrategy integerUpdateValueStrategy = new UpdateValueStrategy();
-		integerUpdateValueStrategy.setConverter(ViewConverters.getConverter(type));	
+		integerUpdateValueStrategy.setConverter(SimpleViewConverterFactory.getConverter(type));	
 		return integerUpdateValueStrategy;
 	}
 

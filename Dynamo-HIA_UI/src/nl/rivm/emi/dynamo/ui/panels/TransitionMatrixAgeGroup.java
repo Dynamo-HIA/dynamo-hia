@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.TransitionSource;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
+import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.logging.Log;
