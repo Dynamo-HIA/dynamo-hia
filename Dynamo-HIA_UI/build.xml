@@ -14,7 +14,11 @@
 	<property name="nl.rivm.emi.dynamo.dir" value="../nl.rivm.emi.dynamo" />
 	<property name="czm_main.dir" value="../CZM_Main" />
 
-	<target name="clean">
+	<target name="introduction">
+		<echo message="Starting ${ant.file} in project ${ant.project.name}"></echo>
+		</target>
+
+	<target name="clean" depends="introduction">
 		<delete dir="${build.dir}" />
 		<delete dir="${nl.rivm.emi.dynamo.dir}/nl" />
 		<delete dir="${czm_main.dir}/images" />
