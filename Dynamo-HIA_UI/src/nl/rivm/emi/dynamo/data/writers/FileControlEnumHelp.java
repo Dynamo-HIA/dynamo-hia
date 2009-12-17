@@ -37,10 +37,10 @@ public class FileControlEnumHelp {
 			"age", "sex", "value" };
 	/* W13 */
 	static final String[] newbornsStrings = {
-			RootElementNamesEnum.NEWBORNS.getNodeLabel(), XMLTagEntityEnum.SEXRATIO.getElementName(), 
+			RootElementNamesEnum.NEWBORNS.getNodeLabel(),
+			XMLTagEntityEnum.SEXRATIO.getElementName(),
 			XMLTagEntityEnum.STARTINGYEAR.getElementName(),
-			XMLTagEntityEnum.AMOUNTS.getElementName()
-			};
+			XMLTagEntityEnum.AMOUNTS.getElementName() };
 	/* W14 */
 	static final String[] overallDALYWeightsStrings = {
 			RootElementNamesEnum.OVERALLDALYWEIGHTS.getNodeLabel(), "weight",
@@ -75,7 +75,8 @@ public class FileControlEnumHelp {
 			RootElementNamesEnum.TRANSITIONDRIFT.getNodeLabel(), "transition",
 			"age", "sex", "mean" };
 	static final String[] transitionDriftNettoStrings = {
-			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(), XMLTagEntityEnum.TREND.getElementName() };
+			RootElementNamesEnum.TRANSITIONDRIFT_NETTO.getNodeLabel(),
+			XMLTagEntityEnum.TREND.getElementName() };
 	static final String[] transitionDriftZeroStrings = { RootElementNamesEnum.TRANSITIONDRIFT_ZERO
 			.getNodeLabel() };
 	/* W22CatCom */
@@ -118,8 +119,9 @@ public class FileControlEnumHelp {
 			"value" };
 	/* W23Cmp */
 	static final String[] relRiskForDisabilityCompStrings = {
-		RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND.getNodeLabel(),
-		"relriskfordisability", "age", "sex", "cat", "begin", "alfa", "end" };
+			RootElementNamesEnum.RELATIVERISKSFORDISABILITY_COMPOUND
+					.getNodeLabel(), "relriskfordisability", "age", "sex",
+			"cat", "begin", "alfa", "end" };
 	/* W31 */
 	static final String[] diseasePrevalencesStrings = {
 			RootElementNamesEnum.DISEASEPREVALENCES.getNodeLabel(),
@@ -143,7 +145,8 @@ public class FileControlEnumHelp {
 	/* W34Comp */
 	static final String[] relRiskFromRiskfactorCompStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
-					.getNodeLabel(), "relativerisk", "age", "sex", "cat", "begin", "alfa", "end" };
+					.getNodeLabel(), "relativerisk", "age", "sex", "cat",
+			"begin", "alfa", "end" };
 	/* W34Con */
 	static final String[] relRiskFromRiskfactorConStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
@@ -183,9 +186,9 @@ public class FileControlEnumHelp {
 			"isRRto", "isRRFile" };
 	static final String[] cutoffsStrings = {
 			XMLTagEntityEnum.CUTOFFS.getElementName(),
-			XMLTagEntityEnum.CUTOFF.getElementName() ,
-			XMLTagEntityEnum.FLEXDEX.getElementName() ,
-			XMLTagEntityEnum.STANDARDVALUE.getElementName()};
+			XMLTagEntityEnum.CUTOFF.getElementName(),
+			XMLTagEntityEnum.FLEXDEX.getElementName(),
+			XMLTagEntityEnum.STANDARDVALUE.getElementName() };
 	static final String[] mortalityStrings = {
 			XMLTagEntityEnum.MORTALITY.getElementName(),
 			XMLTagEntityEnum.AGE.getElementName(),
@@ -210,13 +213,29 @@ public class FileControlEnumHelp {
 			XMLTagEntityEnum.MEAN.getElementName(),
 			XMLTagEntityEnum.STANDARDDEVIATION.getElementName(),
 			XMLTagEntityEnum.SKEWNESS.getElementName() };
-	static final String[]amountsStrings  = {
-		XMLTagEntityEnum.AMOUNTS.getElementName(),
-		XMLTagEntityEnum.AMOUNT.getElementName(),
-		XMLTagEntityEnum.YEAR.getElementName(),
-		XMLTagEntityEnum.NUMBER.getElementName()};
+	static final String[] amountsStrings = {
+			XMLTagEntityEnum.AMOUNTS.getElementName(),
+			XMLTagEntityEnum.AMOUNT.getElementName(),
+			XMLTagEntityEnum.YEAR.getElementName(),
+			XMLTagEntityEnum.NUMBER.getElementName() };
 	// Alternative, non-conforming structure.
 	static final String[] trendsStrings = {
 			XMLTagEntityEnum.TRENDS.getElementName(),
-			XMLTagEntityEnum.TREND.getElementName()};
+			XMLTagEntityEnum.TREND.getElementName() };
+	/* Estimated parameters */
+	static final String[] attributableMortalitiesStrings = {
+			RootElementNamesEnum.ATTRIBUTABLEMORTALITIES.getNodeLabel(),
+			"attributableMortality", "age", "sex", "value" };
+	static final String[] baselineOtherMortalitiesStrings = {
+		RootElementNamesEnum.BASELINEOTHERMORTALITIES.getNodeLabel(),
+		"baselineOtherMortality", "age", "sex", "value" };
+	static final String[] baselineFatalIncidencesStrings = {
+			RootElementNamesEnum.BASELINEFATALINCIDENCES.getNodeLabel(),
+			"baselineFatalIncidence", "age", "sex", "value" };
+	static final String[] baselineIncidencesStrings = {
+		RootElementNamesEnum.BASELINEINCIDENCES.getNodeLabel(),
+		"baselineIncidence", "age", "sex", "value" };
+	static final String[] relativeRisksStrings = {
+		RootElementNamesEnum.RELATIVERISKS.getNodeLabel(),
+		"baselineIncidence", "age", "sex", "value" };
 }

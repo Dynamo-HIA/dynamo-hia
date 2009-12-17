@@ -95,7 +95,13 @@ public enum FileControlEnum {
 			false, true), //
 	RISKFACTORS(FileControlEnumHelp.riskfactorsStrings, false, true), //
 	RRS(FileControlEnumHelp.rrsStrings, false, true), //
-	TRENDS(FileControlEnumHelp.trendsStrings, false, true); //
+	TRENDS(FileControlEnumHelp.trendsStrings, false, true), //
+	ATTRIBUTABLEMORTALITIES(FileControlEnumHelp.attributableMortalitiesStrings, false, false), //
+	BASELINEOTHERMORTALITIES(FileControlEnumHelp.baselineOtherMortalitiesStrings, false, false), //
+	BASELINEFATALINCIDENCES(FileControlEnumHelp.baselineFatalIncidencesStrings, false, false), //
+	BASELINEINCIDENCES(FileControlEnumHelp.baselineIncidencesStrings, false, false), //
+	RELATIVERISKS(FileControlEnumHelp.relativeRisksStrings, false, false) //
+; //
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
@@ -205,33 +211,33 @@ public enum FileControlEnum {
 			}
 			if (intermediate instanceof WrapperType) {
 				wrapperCount++;
-				// if (payloadCount != 0) {
-				// errorMessage.append("FileControl strings for "
-				// + elementNames[0]
-				// + " have wrong structure at zero based index: "
-				// + count + ", type: "
-				// + intermediate.getClass().getName() + "\n"
-				// + " rootElementCount: " + rootElementCount
-				// + " wrapperCount: " + wrapperCount
-				// + " containerCount: " + containerCount
-				// + " payloadCount: " + payloadCount + "\n");
-				// doBreak = true;
-				// }
+				 if (payloadCount != 0) {
+				 errorMessage.append("FileControl strings for "
+				 + elementNames[0]
+				 + " have wrong structure at zero based index: "
+				 + count + ", type: "
+				 + intermediate.getClass().getName() + "\n"
+				 + " rootElementCount: " + rootElementCount
+				 + " wrapperCount: " + wrapperCount
+				 + " containerCount: " + containerCount
+				 + " payloadCount: " + payloadCount + "\n");
+				 doBreak = true;
+				 }
 			}
 			if (intermediate instanceof ContainerType) {
 				containerCount++;
-				// if (payloadCount != 0) {
-				// errorMessage.append("FileControl strings for "
-				// + elementNames[0]
-				// + " have wrong structure at zero based index: "
-				// + count + ", type: "
-				// + intermediate.getClass().getName() + "\n"
-				// + " rootElementCount: " + rootElementCount
-				// + " wrapperCount: " + wrapperCount
-				// + " containerCount: " + containerCount
-				// + " payloadCount: " + payloadCount + "\n");
-				// doBreak = true;
-				// }
+				 if (payloadCount != 0) {
+				 errorMessage.append("FileControl strings for "
+				 + elementNames[0]
+				 + " have wrong structure at zero based index: "
+				 + count + ", type: "
+				 + intermediate.getClass().getName() + "\n"
+				 + " rootElementCount: " + rootElementCount
+				 + " wrapperCount: " + wrapperCount
+				 + " containerCount: " + containerCount
+				 + " payloadCount: " + payloadCount + "\n");
+				 doBreak = true;
+				 }
 			}
 			if (intermediate instanceof PayloadType) {
 				payloadCount++;
