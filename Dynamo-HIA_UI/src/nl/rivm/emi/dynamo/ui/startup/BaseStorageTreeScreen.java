@@ -163,8 +163,20 @@ public class BaseStorageTreeScreen {
 		item.setMenu(menu);
 
 		addAboutItem(menu);
-		// addDirectoryDialogItem(menu);
+//		addSchemaSystemPropertyItem(menu);
 	}
+
+//	private static final String SCHEMA_PATH_PROPERTY_KEY = "dynamo.schema.dir";
+//
+//	private void addSchemaSystemPropertyItem(Menu menu) {
+//		MenuItem subItem = new MenuItem(menu, SWT.NONE);
+//		subItem.setText(System
+//				.getProperty(SCHEMA_PATH_PROPERTY_KEY));
+//		subItem.addSelectionListener(new SelectionAdapter() {
+//			public void widgetSelected(SelectionEvent e) {
+//				
+//			}
+//		});	}
 
 	private void addAboutItem(Menu menu) {
 		// Help -> About Text Editor

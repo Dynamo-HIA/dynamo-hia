@@ -1,9 +1,12 @@
 package nl.rivm.emi.dynamo.ui.startup;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
+import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -14,6 +17,10 @@ public class ApplicationWrapper {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	Display display;
 	Shell shell;
+
+	public ApplicationWrapper() {
+		super();
+	}
 
 	public void startApplication() throws Exception {
 		BaseStorageTreeScreen application = null;
@@ -28,12 +35,17 @@ public class ApplicationWrapper {
 					BaseDirectory.getInstance(baseDirectoryPath);
 					application = new BaseStorageTreeScreen(baseDirectoryPath);
 					shell = application.open(display);
+					Plugin plugin = ResourcesPlugin.getPlugin();
+					log.debug("Before initialize: Plugin is " + plugin);
+					SchemaFileProviderInitializer.initialize(plugin);
 					log.debug("test completed normally.");
 					if (shell != null) {
 						shell.setText(ApplicationStatics.APPBASENAME + " "
 								+ ApplicationStatics.RELEASE_TAG);
 						shell.open();
 						while (!shell.isDisposed()) {
+							// plugin = ResourcesPlugin.getPlugin();
+							// log.debug("Plugin is " +plugin);
 							if (!display.readAndDispatch())
 								display.sleep();
 						}
