@@ -10,10 +10,13 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 public class FileTreeLabelProvider extends LabelProvider {
+	Log log = LogFactory.getLog(this.getClass().getName());
 
 	Pattern matchPattern = Pattern.compile("^.*\\.xml$");
 
@@ -40,9 +43,11 @@ public class FileTreeLabelProvider extends LabelProvider {
 						RootElementNamesSingleton singleton = RootElementNamesSingleton
 								.getInstance();
 						RootElementNamesEnum renEnum = singleton
-								.get(rootElementName);
+								.get(rootElementName.toLowerCase());
 						if (renEnum != null) {
 							boolean locationOK = renEnum.isLocationOK(theNode);
+							log.debug("RootElementName: " + rootElementName
+									+ " location OK: " + locationOK);
 							if (locationOK) {
 								image = handleRightRootRightPlace(physicalStorage);
 							} else {
@@ -85,6 +90,9 @@ public class FileTreeLabelProvider extends LabelProvider {
 					Util.imageRegistrySupportedXMLFileRightPlaceKey);
 			return image;
 		} catch (ConfigurationException e) {
+			log.warn("Schema check failed, exception: " + e.getClass().getSimpleName()
+					+ " thrown, cause: " + e.getCause() + " message: "
+					+ e.getMessage());
 			image = Util.getImageRegistry().get(
 					Util.imageRegistrySupportedXMLFileWrongPlaceKey);
 			return image;

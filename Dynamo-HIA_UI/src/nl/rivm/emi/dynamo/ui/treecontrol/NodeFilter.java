@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class NodeFilter {
 
-	static final float MAX_XML_FILE_SIZE = 2500000L;
+	static final float MAX_XML_FILE_SIZE = 3000000L;
 	/**
 	 * Pattern used for recognizing files with an "xml" extension.
 	 */
@@ -34,7 +34,7 @@ public class NodeFilter {
 	/**
 	 * Pattern used for recognizing files with an "obj" extension.
 	 */
-	static Pattern objMatchPattern = Pattern.compile("^.*\\.obj$");
+	static Pattern objMatchPattern = Pattern.compile("^resultsObject\\.obj$");
 	/**
 	 * Singleton containing all the valid rootelementnames used in the
 	 * application.
@@ -68,8 +68,8 @@ public class NodeFilter {
 						physicalStorageName);
 			} else {
 				if (baseNode instanceof FileNode) {
-					// log.debug("Called for FileNode: "
-					// + ((BaseNode) element).deriveNodeLabel());
+					log.debug("Processing FileNode: "
+					 + ((BaseNode) baseNode).deriveNodeLabel());
 					FileNode theNode = (FileNode) baseNode;
 					File physicalStorage = theNode.physicalStorage;
 					// log.debug("File size: " + physicalStorage.length());
@@ -107,6 +107,11 @@ public class NodeFilter {
 			// 20090629 Made case-insensitive to match
 			// XML-schema testing.
 			if (rootElementName != null) {
+				if (rootElementName
+						.endsWith(RootElementNamesEnum.RELATIVERISKS
+								.getNodeLabel())) {
+					log.debug("Just a line for debugging.");
+				}
 				RootElementNamesEnum renEnum = singleton.get(rootElementName
 						.toLowerCase());
 				if (renEnum != null) {

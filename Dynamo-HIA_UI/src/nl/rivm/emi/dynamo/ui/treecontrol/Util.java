@@ -10,15 +10,16 @@ import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.jfree.util.Log;
-//import org.jfree.util.Log;
 
 public class Util {
-
+	static private Log log = LogFactory
+			.getLog("nl.rivm.emi.dynamo.ui.treecontrol.Util");
 	private static final String RISK_FACTOR = "Risk_Factor";
 	private static final String TRANSITION = "Transition";
 
@@ -109,9 +110,9 @@ public class Util {
 	static public String[] deriveRiskSourceTypeAndLabelFromSelectedNode(
 			BaseNode selectedNode) throws ConfigurationException,
 			DynamoInconsistentDataException {
-		Log.debug("selectedNode" + selectedNode.deriveNodeLabel());
-//		String foundName = null;
-//		BaseNode riskSourceInstanceNode = null;
+		log.debug("selectedNode" + selectedNode.deriveNodeLabel());
+		// String foundName = null;
+		// BaseNode riskSourceInstanceNode = null;
 		if (selectedNode instanceof FileNode) {
 			/*
 			 * RiskSourcePropertiesMap map = RiskSourcePropertiesMapFactory
@@ -134,10 +135,10 @@ public class Util {
 			 */
 			RiskSourceProperties props = RiskSourcePropertiesMapFactory
 					.getProperties((FileNode) selectedNode);
-			String riskSourceTypeLabel = props.getRiskSourceLabel().replace('_', ' ');
+			String riskSourceTypeLabel = props.getRiskSourceLabel().replace(
+					'_', ' ');
 			String riskSourceInstanceLabel = props.getRiskSourceName();
 
-			
 			String[] result = new String[2];
 			result[0] = riskSourceTypeLabel;
 			result[1] = riskSourceInstanceLabel;
@@ -199,9 +200,12 @@ public class Util {
 				// Test if the application is a (standalone) plug-in, if so load
 				// images by AbstractUIPlugin
 				// folder
+				log.info("Plugin Id: " + DynamoPlugin.PLUGIN_ID);
 				ImageDescriptor folderImageDesriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/tsuite.gif");
+				log.info("Putting : " + imageRegistryFolderKey
+						+ " in imageRegistry with " + folderImageDesriptor.toString());
 				image_registry
 						.put(imageRegistryFolderKey, folderImageDesriptor);
 				// Just a non-XML file.
