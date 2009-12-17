@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
-import org.eclipse.swt.widgets.Shell;
+import nl.rivm.emi.dynamo.output.CDMOutputFactory;
+import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 /**
  * @author mondeelr<br/>
@@ -42,5 +43,14 @@ public interface DynSimRunPRInterface {
 	 * @return A reference to the Shell Object, null if no graphical context is
 	 *         present.
 	 */
-	public Shell getShell();
+//	public Shell getShell();
+
+/**
+ * Create the output screen for graphical version. 
+
+ * @param output
+ * @param scenarioParameters
+ * @param currentpath
+ */
+public void createOutput_UI( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
 }

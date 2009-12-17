@@ -27,8 +27,6 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
-import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -36,8 +34,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.eclipse.swt.widgets.Shell;
 
 public class DynamoSimulationRunnable extends DomLevelTraverser {
 
@@ -340,10 +336,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			/* make the output screen */
 			String currentPath = this.baseDir + File.separator + "simulations"
 					+ File.separator + simName + File.separator + "results";
-			Shell parentShell = pr.getShell();
-			if (parentShell != null) {
-				new Output_UI(parentShell, output, scenParms, currentPath);
-			}
+			// Shell parentShell = pr.getShell();
+			// if (parentShell != null) {
+			// new Output_UI(parentShell, output, scenParms, currentPath);
+			// }
+			pr.createOutput_UI(output, scenParms, currentPath);
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
 			persistScenarioInfo(scenParms);
@@ -563,10 +560,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			String currentPath = this.baseDir + File.separator + "simulations"
 					+ File.separator + simName + File.separator + "results";
 
-			Shell parentShell = pr.getShell();
-			if (parentShell != null) {
-				new Output_UI(parentShell, output, scenParms, currentPath);
-			}
+			// Shell parentShell = pr.getShell();
+			// if (parentShell != null) {
+			// new Output_UI(parentShell, output, scenParms, currentPath);
+			// }
+			pr.createOutput_UI(output, scenParms, currentPath);
 		} else
 			// new ErrorMessageWindow("No file with filename " + resultFileName
 			// + " exists to read the results from.", parentShell);

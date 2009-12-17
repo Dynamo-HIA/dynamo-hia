@@ -1,19 +1,16 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import nl.rivm.emi.dynamo.output.CDMOutputFactory;
+import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.widgets.Shell;
 
 public class LoggingDynSimRunPR implements DynSimRunPRInterface {
 Log log = LogFactory.getLog(this.getClass().getSimpleName());
 
 	public LoggingDynSimRunPR() {
 		super();
-	}
-
-	@Override
-	public Shell getShell() {
-		return null;
 	}
 
 	@Override
@@ -43,5 +40,12 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	public ProgressIndicatorInterface createProgressIndicator(String message) {
 		ProgressIndicatorInterface instance = new ProgressLogger(message); 
 		return instance;
+	}
+
+	@Override
+	public void createOutput_UI(CDMOutputFactory output,
+			ScenarioParameters scenarioParameters, String currentpath) {
+		// TODO Auto-generated method stub
+		
 	}
 }

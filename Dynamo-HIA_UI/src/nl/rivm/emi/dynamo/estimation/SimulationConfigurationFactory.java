@@ -584,7 +584,7 @@ public class SimulationConfigurationFactory {
 
 			writeThreeDimArray(extractFromThreeDimArray(parameters
 					.getRelRiskDiseaseOnDisease(), c), "relativeRisks",
-					"relativeRisk", fileName,false);
+					"relativerisk", fileName,false);
 
 		}
 		/* write the other mortality data */
@@ -604,12 +604,12 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
 			writeTwoDimArray(parameters.getRelRiskOtherMort(), "relativeRisks",
-					"relativeRisk", fileName);
+					"relativerisk", fileName);
 		} else {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortCont(),
-					"relativeRisks", "relativeRisk", fileName);
+					"relativeRisks", "relativerisk", fileName);
 		}
 		if (parameters.getRiskType() == 3) {
 
@@ -620,7 +620,7 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(healthStateRootElement,
 					"endRelativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortEnd(),
-					"relativeRisks", "relativeRisk", fileName);
+					"relativeRisks", "relativerisk", fileName);
 
 			/* begin RR */
 			fileName = directoryName + File.separator
@@ -629,7 +629,7 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(healthStateRootElement,
 					"beginRelativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortBegin(),
-					"relativeRisks", "relativeRisk", fileName);
+					"relativeRisks", "relativerisk", fileName);
 
 			/* alfa */
 			fileName = directoryName + File.separator 
@@ -724,7 +724,7 @@ public class SimulationConfigurationFactory {
 							extractFromTwoDimArray(
 									parameters.getRelRiskClass(), structure
 											.getDiseaseNumber()[d]),
-							"relativeRisks", "relativeRisk", fileName);
+							"relativeRisks", "relativerisk", fileName);
 
 				} else {
 					fileName = directoryName + File.separator
@@ -737,7 +737,7 @@ public class SimulationConfigurationFactory {
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskContinue(),
 							structure.getDiseaseNumber()[d]), "relativeRisks",
-							"relativeRisk", fileName);
+							"relativerisk", fileName);
 				
 
 				}
@@ -756,7 +756,7 @@ public class SimulationConfigurationFactory {
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskDuurEnd(),
 							structure.getDiseaseNumber()[d]), "relativeRisks",
-							"relativeRisk", fileName);
+							"relativerisk", fileName);
 
 					fileName = directoryName + File.separator
 							+ "parameters" + File.separator
@@ -769,7 +769,7 @@ public class SimulationConfigurationFactory {
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getRelRiskDuurBegin(), structure
 							.getDiseaseNumber()[d]), "relativeRisks",
-							"relativeRisk", fileName);
+							"relativerisk", fileName);
 					fileName = directoryName + File.separator
 							+ "parameters" + File.separator + "alfa_"
 							+ ((Integer) c).toString() + "_"

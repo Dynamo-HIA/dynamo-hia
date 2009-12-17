@@ -1,6 +1,9 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
+import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
+import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
@@ -16,12 +19,8 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 	}
 
 	@Override
-	public Shell getShell() {
-		return parentShell;
-	}
-
-	@Override
-	public void communicateErrorMessage(DynamoSimulationRunnable dynSimRun, Exception e, String simulationFilePath) {
+	public void communicateErrorMessage(DynamoSimulationRunnable dynSimRun,
+			Exception e, String simulationFilePath) {
 		Shell shell = new Shell(parentShell);
 		String cause = "";
 		if (e.getCause() != null) {
@@ -45,7 +44,16 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 
 	@Override
 	public ProgressIndicatorInterface createProgressIndicator(String message) {
-		ProgressIndicatorInterface instance = new RCPProgressBar(parentShell, message); 
+		ProgressIndicatorInterface instance = new RCPProgressBar(parentShell,
+				message);
 		return instance;
+	}
+
+	@Override
+	public void createOutput_UI(CDMOutputFactory output,
+			ScenarioParameters scenarioParameters, String currentPath) {
+		if (parentShell != null) {
+			new Output_UI(parentShell, output, scenarioParameters, currentPath);
+		}
 	}
 }
