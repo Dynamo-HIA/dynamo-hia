@@ -7,6 +7,10 @@
     <property name="jar.dir"     value="${build.dir}/jar"/>
 	<property name="lib.dir"     value="lib"/>
 	<property name="nl.rivm.emi.cdm.dir"     value="../nl.rivm.emi.cdm"/>
+
+	<target name="introduction">
+		<echo message="Starting ${ant.file} in project ${ant.project.name}"></echo>
+		</target>
 	
     <target name="clean">
         <delete dir="${build.dir}"/>
@@ -52,6 +56,6 @@
         <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
     </target>
 
-    <target name="main" depends="clean,jar,nl.rivm.emi.cdm"/>
+    <target name="main" depends="introduction, clean,jar,nl.rivm.emi.cdm"/>
 
 </project>

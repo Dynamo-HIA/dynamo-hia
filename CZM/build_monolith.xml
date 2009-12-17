@@ -13,8 +13,13 @@
 	<property name="nl.rivm.emi.dynamo.dir" value="../copy2czm_mono" /> -->
 	<property name="czm_mono.dir" value="../CZM_Mono" />
 
+	<target name="introduction">
+		<echo message="Starting ${ant.file} in project ${ant.project.name}"></echo>
+		</target>
+
 
 	<target name="clean">
+		<delete dir="${czm_mono.dir}/nl" />
 		<delete dir="${build.dir}" />
 	</target>
 
@@ -45,11 +50,11 @@
 	</target>
 
 	<target name="copy2czm_mono">
-		<copy todir="${czm_mono.dir}/classes" overwrite="true">
+		<copy todir="${czm_mono.dir}" overwrite="true">
 			<fileset dir="${classes.dir}" />
 		</copy>
 	</target>
 
-	<target name="main" depends="clean,compile,copy2czm_mono" />
+	<target name="main" depends="introduction, clean,compile,copy2czm_mono" />
 
 </project>
