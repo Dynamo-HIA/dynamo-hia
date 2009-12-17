@@ -1,31 +1,42 @@
 <project name="org.apache.commons.configuration" basedir="." default="main">
-	
-	<property name="src.dir"     value="."/>
-    <property name="build.dir"   value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="lib.dir"     value="lib"/>
-	<property name="plugins.dir"     value="C:/dynamo/eclipse341/plugins"/>	
-	<property name="org.apache.commons.configuration.dir"     value="C:\dynamo\eclipse_workspaces\dynamo\org.apache.commons.configuration"/>
 
-	
-	
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-    </target>
+	<property name="src.dir" value="." />
+	<property name="original.classes.dir" value="orgclasses" />
+	<property name="classes.dir" value="classes" />
+	<property name="lib.dir" value="lib" />
+	<property name="plugins.dir" value="C:/dynamo/eclipse341/plugins" />
+	<property name="org.apache.commons.configuration.dir" value="C:\dynamo\eclipse_workspaces\dynamo\org.apache.commons.configuration" />
 
-    <target name="compile">
-        <!--mkdir dir="${classes.dir}"/-->
-        <!--javac srcdir="${src.dir}" destdir="${classes.dir}"	includes="*${lib.dir}/*.jar" /-->    	
-    	<javac srcdir="${src.dir}" destdir="${org.apache.commons.configuration.dir}"      
-        	         source="1.6"> 
-    		<classpath>
-    			<fileset dir="${plugins.dir}" includes="*.jar" />    			    		
+	<path id="klaaspad">
+		<fileset dir="${plugins.dir}" includes="*.jar" />
+	</path>
+
+	<target name="introduction">
+		<echo message="Project ${ant.project.name}, buildfile ${ant.file}.">
+		</echo>
+	</target>
+
+	<target name="clean">
+		<delete dir="${classes.dir}" />
+	</target>
+
+	<!-- First put a copy of the original Classes in place. -->
+	<target name="copy_classes">
+		<copy todir="${classes.dir}">
+			<fileset dir="${original.classes.dir}" includes="**/*.class" />
+		</copy>
+	</target>
+
+	<!-- Then compile the modified java file to replace its original. -->
+	<target name="compile_java">
+		<property name="klaaspadlist" refid="klaaspad" />
+		<javac srcdir="${src.dir}" verbose="true" destdir="${classes.dir}" includes="**/*.java" excludes="**/orgsource/**" >
+			<classpath>
+				<path refid="klaaspad" />
 			</classpath>
-    	</javac>    	
-    </target>
+		</javac>
+	</target>
 
-    <target name="clean-build" depends="clean"/>
-
-    <target name="main" depends="clean,compile"/>
+	<target name="main" depends="introduction,clean,copy_classes,compile_java" />
 
 </project>
