@@ -309,14 +309,22 @@ public class StorageTreeMenuFactory {
 						.equalsIgnoreCase(grandParentLabel)) {
 					buildDiseasesMenus(manager, selection, nodeLabel);
 				} else {
-					BaseNode greatGrandParentNode = (BaseNode)((ChildNode)grandParentNode).getParent();
-					
-					if ((greatGrandParentNode != null)&&StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()
-							.equalsIgnoreCase(greatGrandParentNode.deriveNodeLabel())&&StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
-							.equalsIgnoreCase(((BaseNode)parentNode).deriveNodeLabel())) {
-						buildResultsMenu(manager, selection, nodeLabel);
-					} else {
-						createErrorMenu4UnexpectedNodes(manager, selection);
+					BaseNode greatGrandParentNode = (BaseNode) ((ChildNode) grandParentNode)
+							.getParent();
+
+					if ((greatGrandParentNode != null)
+							&& StandardTreeNodeLabelsEnum.SIMULATIONS
+									.getNodeLabel().equalsIgnoreCase(
+											greatGrandParentNode
+													.deriveNodeLabel())) {
+						if (StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
+								.equalsIgnoreCase(
+										((BaseNode) parentNode)
+												.deriveNodeLabel())) {
+							buildResultsMenu(manager, selection, nodeLabel);
+						} else {
+							createErrorMenu4UnexpectedNodes(manager, selection);
+						}
 					}
 				}
 			}
@@ -399,9 +407,111 @@ public class StorageTreeMenuFactory {
 	 */
 	private void buildResultsMenu(IMenuManager manager,
 			IStructuredSelection selection, String nodeLabel) {
-		ResultsObjFileAction action = new ResultsObjFileAction(this.shell, this.treeViewer,(BaseNode)selection.getFirstElement());
+		ResultsObjFileAction action = new ResultsObjFileAction(this.shell,
+				this.treeViewer, (BaseNode) selection.getFirstElement());
 		action.setText("View results");
 		manager.add(action);
+	}
+
+	/**
+	 * Creates the contextmenu and adds it to the manager.
+	 * 
+	 * @param manager
+	 *            The IMenuManager to add the Menu to.
+	 * @param selection
+	 *            The selection made just before entering here.
+	 * @param nodeLabel
+	 *            The label of the selected BaseNode.
+	 * @throws DynamoConfigurationException
+	 */
+	private void buildParametersMenu(IMenuManager manager,
+			IStructuredSelection selection, String nodeLabel)
+			throws DynamoConfigurationException {
+		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
+		String rootElementName = ConfigurationFileUtil
+				.justExtractRootElementName(selectedNode.getPhysicalStorage());
+		if (RootElementNamesEnum.ATTRIBUTABLEMORTALITIES.getNodeLabel().equals(
+				rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.ATTRIBUTABLEMORTALITIES.getNodeLabel());
+			action.setText("View attributable mortalities");
+			manager.add(action);
+		} else {
+			if (RootElementNamesEnum.BASELINEFATALINCIDENCES.getNodeLabel()
+					.equals(rootElementName)) {
+				XMLFileAction action = new XMLFileAction(this.shell,
+						this.treeViewer, selectedNode, selectedNode
+								.deriveNodeLabel(),
+						RootElementNamesEnum.BASELINEFATALINCIDENCES
+								.getNodeLabel());
+				action.setText("View baseline fatal incidences");
+				manager.add(action);
+			} else {
+				if (RootElementNamesEnum.BASELINEOTHERMORTALITIES
+						.getNodeLabel().equals(rootElementName)) {
+					XMLFileAction action = new XMLFileAction(this.shell,
+							this.treeViewer, selectedNode, selectedNode
+									.deriveNodeLabel(),
+							RootElementNamesEnum.BASELINEOTHERMORTALITIES
+									.getNodeLabel());
+					action.setText("View baseline other mortalities");
+					manager.add(action);
+				} else {
+					if (RootElementNamesEnum.BASELINEINCIDENCES.getNodeLabel()
+							.equals(rootElementName)) {
+						XMLFileAction action = new XMLFileAction(this.shell,
+								this.treeViewer, selectedNode, selectedNode
+										.deriveNodeLabel(),
+								RootElementNamesEnum.BASELINEINCIDENCES
+										.getNodeLabel());
+						action.setText("View baseline incidences");
+						manager.add(action);
+					} else {
+						if (RootElementNamesEnum.RELATIVERISKS.getNodeLabel()
+								.equals(rootElementName)) {
+							XMLFileAction action = new XMLFileAction(
+									this.shell, this.treeViewer, selectedNode,
+									selectedNode.deriveNodeLabel(),
+									RootElementNamesEnum.RELATIVERISKS
+											.getNodeLabel());
+							action.setText("View relative risks");
+							manager.add(action);
+						} else {
+							if (RootElementNamesEnum.RELATIVERISKSCLUSTER
+									.getNodeLabel().equals(rootElementName)) {
+								XMLFileAction action = new XMLFileAction(
+										this.shell, this.treeViewer,
+										selectedNode, selectedNode
+												.deriveNodeLabel(),
+										RootElementNamesEnum.RELATIVERISKSCLUSTER
+												.getNodeLabel());
+								action.setText("View relative risks for clusters");
+								manager.add(action);
+							} else {
+								if (RootElementNamesEnum.TRANSITIONMATRIX
+										.getNodeLabel().equals(rootElementName)) {
+									XMLFileAction action = new XMLFileAction(
+											this.shell, this.treeViewer,
+											selectedNode, selectedNode
+													.deriveNodeLabel(),
+											RootElementNamesEnum.TRANSITIONMATRIX
+													.getNodeLabel());
+									action.setText("View transition rates");
+									manager.add(action);
+								} else {
+								DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
+										shell);
+								action.setText("Unhandled parameters file");
+								manager.add(action);
+							}
+						}
+					}
+				}
+				}
+				}
+		}
 	}
 
 	/**
@@ -968,7 +1078,12 @@ public class StorageTreeMenuFactory {
 								((BaseNode) grandParentNode).deriveNodeLabel())) {
 					if ("configuration".equals(nodeLabel)) {
 						handleXMLs(manager, node);
-					} else {
+					}
+				} else {
+					if (StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel()
+							.equalsIgnoreCase(
+									((BaseNode) parentNode).deriveNodeLabel())) {
+						buildParametersMenu(manager, selection, nodeLabel);
 					}
 				}
 			}
