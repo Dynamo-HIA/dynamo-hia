@@ -41,7 +41,6 @@ public enum StandardTreeNodeLabelsEnum {
 	RELATIVERISKSFROMDISEASES("Relative_Risks_From_Diseases"), //
 	EXCESSMORTALITIES("Excess_Mortalities"), //
 	MODELCONFIGURATION("Modelconfiguration"), //
-	PARAMETERS("Parameters"), //
 	RESULTS("Results"), //
 	CONFIGURATIONFILE("configuration"), //
 	RESULTSOBJECTFILE("resultsObject"), //
@@ -54,8 +53,9 @@ public enum StandardTreeNodeLabelsEnum {
 	RELRISKFORDEATHDIR("Relative_Risks_For_Death"), //
 // 20090402 RELRISKFORDISABILITYFILE("relriskfordisability"), //
 	RELRISKFORDISABILITYDIR("Relative_Risks_For_Disability"), //
-	TRANSITIONSDIR("Transitions") //
-
+	TRANSITIONSDIR("Transitions"), //
+	/* Estimated parameters directory. */ 
+	PARAMETERS("parameters") //
 	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
