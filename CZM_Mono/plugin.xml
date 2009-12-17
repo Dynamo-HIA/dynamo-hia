@@ -6,41 +6,24 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="czm_main.Application">
+               class="czm_mono.Application">
          </run>
       </application>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            name="Perspective"
-            class="czm_main.Perspective"
-            id="CZM_Main.perspective">
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            name="View"
-            class="czm_main.View"
-            id="CZM_Main.view">
-      </view>
-   </extension>
-   <extension
-         id="product"
+id = "product"
          point="org.eclipse.core.runtime.products">
       <product
             application="CZM_Mono.application"
-            name="RCP Application">
+            name="DynamoHIA">
          <property
                name="windowImages"
                value="icons/alt_window_16.gif,icons/alt_window_32.gif">
          </property>
          <property
                name="appName"
-               value="RCP Application">
+               value="DynamoHIA">
          </property>
       </product>
    </extension>
-
 </plugin>
