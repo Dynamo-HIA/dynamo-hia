@@ -11,6 +11,7 @@ import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.estimation.LoggingDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
@@ -23,14 +24,22 @@ public class Runner {
 
 	static private Runner runner = null;
 
+	public void run() {
+		Runner.main(new String[] { "arg", "arg" });
+	}
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		SchemaFileProviderInitializer.initialize(null);
+
 		StringBuilder sb = new StringBuilder("Started, arguments: ");
 		for (String arg : args) {
 			sb.append(arg + ", ");
 		}
+		System.out.print(sb.toString());
+		System.out.flush();
 		String resultString = sb.toString();
 		statLog.debug(resultString.substring(0, resultString.length() - 2));
 		String usedBatchFileName = defaultBatchFileName;
