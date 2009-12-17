@@ -11,7 +11,7 @@ public class RootElementNamesSingleton extends HashMap<String,RootElementNamesEn
 	private RootElementNamesSingleton(){
 		super();
 		for(RootElementNamesEnum type: RootElementNamesEnum.values()){
-		put(type.getNodeLabel(),type);
+		put(type.getNodeLabel().toLowerCase(),type);
 		}
 	}
 	
