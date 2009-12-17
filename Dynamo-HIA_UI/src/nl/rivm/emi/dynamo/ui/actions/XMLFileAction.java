@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
-/**
- * Develop with populationSize as concrete implementation.
- */
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
@@ -36,6 +33,12 @@ import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.AttributableMortalitiesModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.BaselineFatalIncidencesModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.BaselineIncidencesModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.BaselineOtherMortalitiesModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.RelativeRisksClusterModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.RelativeRisksModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
@@ -58,6 +61,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * Action that initiates the editing/viewing of an existing XML-file.
+ * 
+ */
+
 public class XMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private String fileNameTrunk;
@@ -70,6 +78,22 @@ public class XMLFileAction extends ActionBase {
 	 */
 	private boolean modelObjectChangedButNotYetSaved = false;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param shell
+	 *            The Shell in which the Action must open the windows it may
+	 *            create.
+	 * @param v
+	 *            The TreeViewer that contains the Menu the Action is put in.
+	 * @param node
+	 *            The BaseNode that was right clicked on.
+	 * @param fileNameTrunk
+	 *            The filename without the extension of the file that is going
+	 *            to be edited/viewed.
+	 * @param rootElementName
+	 *            THe rootelementname contained in the file to be edited.
+	 */
 	public XMLFileAction(Shell shell, TreeViewer v, BaseNode node,
 			String fileNameTrunk, String rootElementName) {
 		super(shell, v, node, rootElementName);
@@ -460,10 +484,98 @@ public class XMLFileAction extends ActionBase {
 																																		rootElementName,
 																																		node);
 																															} else {
-																																throw new DynamoConfigurationException(
-																																		"RootElementName "
-																																				+ rootElementName
-																																				+ " not implemented yet.");
+																																/*
+																																 * Estimated
+																																 * parameters
+																																 */
+																																if (RootElementNamesEnum.ATTRIBUTABLEMORTALITIES
+																																		.getNodeLabel()
+																																		.equals(
+																																				rootElementName)) {
+																																	theModal = new AttributableMortalitiesModal(
+																																			shell,
+																																			importFile
+																																					.getAbsolutePath(),
+																																			savedFile
+																																					.getAbsolutePath(),
+																																			rootElementName,
+																																			node);
+																																} else {
+																																	if (RootElementNamesEnum.BASELINEFATALINCIDENCES
+																																			.getNodeLabel()
+																																			.equals(
+																																					rootElementName)) {
+																																		theModal = new BaselineFatalIncidencesModal(
+																																				shell,
+																																				importFile
+																																						.getAbsolutePath(),
+																																				savedFile
+																																						.getAbsolutePath(),
+																																				rootElementName,
+																																				node);
+																																	} else {
+																																		if (RootElementNamesEnum.BASELINEINCIDENCES
+																																				.getNodeLabel()
+																																				.equals(
+																																						rootElementName)) {
+																																			theModal = new BaselineIncidencesModal(
+																																					shell,
+																																					importFile
+																																							.getAbsolutePath(),
+																																					savedFile
+																																							.getAbsolutePath(),
+																																					rootElementName,
+																																					node);
+																																		} else {
+																																			if (RootElementNamesEnum.BASELINEOTHERMORTALITIES
+																																					.getNodeLabel()
+																																					.equals(
+																																							rootElementName)) {
+																																				theModal = new BaselineOtherMortalitiesModal(
+																																						shell,
+																																						importFile
+																																								.getAbsolutePath(),
+																																						savedFile
+																																								.getAbsolutePath(),
+																																						rootElementName,
+																																						node);
+																																			} else {
+																																				if (RootElementNamesEnum.RELATIVERISKS
+																																						.getNodeLabel()
+																																						.equals(
+																																								rootElementName)) {
+																																					theModal = new RelativeRisksModal(
+																																							shell,
+																																							importFile
+																																									.getAbsolutePath(),
+																																							savedFile
+																																									.getAbsolutePath(),
+																																							rootElementName,
+																																							node);
+																																				} else {
+																																					if (RootElementNamesEnum.RELATIVERISKSCLUSTER
+																																							.getNodeLabel()
+																																							.equals(
+																																									rootElementName)) {
+																																						theModal = new RelativeRisksClusterModal(
+																																								shell,
+																																								importFile
+																																										.getAbsolutePath(),
+																																								savedFile
+																																										.getAbsolutePath(),
+																																								rootElementName,
+																																								node);
+																																					} else {
+																																						throw new DynamoConfigurationException(
+																																								"RootElementName "
+																																										+ rootElementName
+																																										+ " not implemented yet.");
+																																					}
+																																				}
+																																			}
+																																		}
+																																	}
+																																}
 																															}
 																														}
 																													}
@@ -504,9 +616,9 @@ public class XMLFileAction extends ActionBase {
 				}
 				theViewer.refresh();
 				// 20091029 Added.
-				if(node instanceof DirectoryNode){
-				((DirectoryNode) node).updateStandardStructure();
-				theViewer.refresh();
+				if (node instanceof DirectoryNode) {
+					((DirectoryNode) node).updateStandardStructure();
+					theViewer.refresh();
 				}
 				// ~ 20091029
 			}
