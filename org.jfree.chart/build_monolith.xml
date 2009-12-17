@@ -2,8 +2,12 @@
 <project name="org.jfree.chart" basedir="." default="copy2czm_mono">
 	<property name="czm_mono.dir" value="../CZM_Mono/" />
 
-	<target name="copy2czm_mono">
-		<copy todir="${czm_mono.dir}/classes" overwrite="true">
+	<target name="introduction">
+		<echo message="Starting ${ant.file} in project ${ant.project.name}"></echo>
+		</target>
+
+	<target name="copy2czm_mono" depends="introduction">
+		<copy todir="${czm_mono.dir}" overwrite="true">
 			<fileset dir="${basedir}">
 				<patternset>
 					<include name="**/*.class" />
