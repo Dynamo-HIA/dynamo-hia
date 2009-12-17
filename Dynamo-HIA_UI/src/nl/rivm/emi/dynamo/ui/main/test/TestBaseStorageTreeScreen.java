@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.main.test;
 
 import static org.junit.Assert.assertNull;
+import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
 import nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper;
 
 import org.apache.commons.logging.Log;
