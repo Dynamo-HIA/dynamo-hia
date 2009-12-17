@@ -7,38 +7,47 @@
 	<property name="ini.dir" value="ini" />
 	<property name="help.dir" value="help" />
 
-	<property name="contrib_name" value="build_monolith.xml" />
+	<property name="contrib_name" value="build_monolith_mkii.xml" />
 
 	<!-- Subproject directories -->
 	<property name="jama.dir" value="../Jama/" />
-<!--	<property name="junit.classes.dir" value="lib/junit-4.1.jar/" /> -->
-	<property name="org.apache.commons.lang.classes.dir" value="../org.apache.commons.lang/" />
-	<property name="org.apache.commons.logging.classes.dir" value="../org.apache.commons.logging/" />
-	<property name="org.apache.log4j.classes.dir" value="../org.apache.log4j/" />
-	<property name="org.apache.commons.collections.classes.dir" value="../org.apache.commons.collections/" />
-	<property name="org.apache.commons.configuration.classes.dir" value="../org.apache.commons.configuration/" />
-	<property name="org.jfree.chart.classes.dir" value="../org.jfree.chart/" />
-	<property name="org.jfree.experimental.chart.classes.dir" value="../org.jfree.experimental.chart/" />
-	<property name="org.jfree.jcommons.classes.dir" value="../org.jfree.jcommons/" />
+	<!--	<property name="junit.classes.dir" value="lib/junit-4.1.jar/" /> -->
+	<property name="org.apache.commons.lang.dir" value="../org.apache.commons.lang/" />
+	<property name="org.apache.commons.logging.dir" value="../org.apache.commons.logging/" />
+	<property name="org.apache.log4j.dir" value="../org.apache.log4j/" />
+	<property name="org.apache.commons.collections.dir" value="../org.apache.commons.collections/" />
+	<property name="org.apache.commons.configuration.dir" value="../org.apache.commons.configuration/" />
+	<property name="org.apache.commons.configuration.classes.dir" value="../org.apache.commons.configuration/classes/" />
+	<property name="org.jfree.chart.dir" value="../org.jfree.chart/" />
+	<property name="org.jfree.experimental.chart.dir" value="../org.jfree.experimental.chart/" />
+	<property name="org.jfree.jcommons.dir" value="../org.jfree.jcommons/" />
 
 	<property name="czm_mono.dir" value="../CZM_Mono/" />
-	<!--	<property id="czm.mono.dir" value="../CZM_Mono/" /> -->
+
 	<property name="czm.dir" value="../CZM/" />
 	<property name="dynamo_hia_ui.dir" value="../Dynamo-HIA_UI/" />
 
+	<target name="introduction">
+		<echo message="Project ${ant.project.name}, starting ${ant.file}.">
+		</echo>
+	</target>
+
 	<!-- ClassPath for use in all subproject builds -->
 	<path id="cross.project.class.path">
-
-		<pathelement path="${org.apache.commons.logging.classes.dir}" />
-		<pathelement path="${org.apache.log4j.classes.dir}" />
-		<pathelement path="${org.apache.commons.configuration.classes.dir}" />
-		<pathelement path="${org.jfree.chart.classes.dir}" />
-		<pathelement path="${org.jfree.experimental.chart.classes.dir}" />
-		<pathelement path="${org.jfree.jcommons.classes.dir}" />
+		<pathelement path="${org.apache.commons.logging.dir}" />
+		<pathelement path="${org.apache.log4j.dir}" />
+		<pathelement path="${org.apache.commons.configuration.dir}/classes" />
+		<pathelement path="${org.jfree.chart.dir}" />
+		<pathelement path="${org.jfree.experimental.chart.dir}" />
+		<pathelement path="${org.jfree.jcommons.dir}" />
 		<pathelement path="${jama.dir}" />
-		<pathelement path="${junit.classes.dir}" />
-		<pathelement path="${czm.dir}build/classes" />
+		<pathelement path="${junit.dir}/classes" />
+		<pathelement path="${czm.dir}/classes" />
 	</path>
+
+	<target name="echoclasspath">
+		<path refid="cross.project.class.path" />
+	</target>
 
 	<target name="clean">
 		<delete dir="${classes.dir}" />
@@ -50,19 +59,19 @@
 
 	<target name="fill">
 		<!-- Run the contributor ant-files and isolate them from this one (for now) -->
-		<ant antfile="${org.jfree.chart.classes.dir}${contrib_name}" dir="${org.jfree.chart.classes.dir}" inheritall="false" inheritrefs="true" />
-		<ant antfile="${org.jfree.experimental.chart.classes.dir}${contrib_name}" dir="${org.jfree.experimental.chart.classes.dir}" inheritall="false" inheritrefs="true" />
-		<ant antfile="${org.jfree.jcommons.classes.dir}${contrib_name}" dir="${org.jfree.jcommons.classes.dir}" inheritall="false" inheritrefs="true" />
-		<ant antfile="${jama.dir}${contrib_name}" dir="${jama.dir}" inheritall="false" inheritrefs="true" />
-		<ant antfile="${org.apache.commons.collections.classes.dir}${contrib_name}" dir="${org.apache.commons.collections.classes.dir}" inheritall="false" inheritrefs="false" />
-		<ant antfile="${org.apache.commons.configuration.classes.dir}${contrib_name}" dir="${org.apache.commons.configuration.classes.dir}" inheritall="false" inheritrefs="false" />
-		<ant antfile="${org.apache.commons.lang.classes.dir}${contrib_name}" dir="${org.apache.commons.lang.classes.dir}" inheritall="false" inheritrefs="false" />
-		<ant antfile="${org.apache.commons.logging.classes.dir}${contrib_name}" dir="${org.apache.commons.logging.classes.dir}" inheritall="false" inheritrefs="false" />
-		<ant antfile="${org.apache.log4j.classes.dir}${contrib_name}" dir="${org.apache.log4j.classes.dir}" inheritall="false" inheritrefs="false" />
-		<ant antfile="${czm.dir}${contrib_name}" dir="${czm.dir}" inheritall="false" inheritrefs="true" />
-		<ant antfile="${dynamo_hia_ui.dir}${contrib_name}" dir="${dynamo_hia_ui.dir}" inheritall="false" inheritrefs="true" />
+		<ant antfile="${org.jfree.chart.dir}${contrib_name}" dir="${org.jfree.chart.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.jfree.experimental.chart.dir}${contrib_name}" dir="${org.jfree.experimental.chart.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.jfree.jcommons.dir}${contrib_name}" dir="${org.jfree.jcommons.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${jama.dir}${contrib_name}" dir="${jama.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.apache.commons.collections.dir}${contrib_name}" dir="${org.apache.commons.collections.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.apache.commons.configuration.dir}${contrib_name}" dir="${org.apache.commons.configuration.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.apache.commons.lang.dir}${contrib_name}" dir="${org.apache.commons.lang.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.apache.commons.logging.dir}${contrib_name}" dir="${org.apache.commons.logging.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${org.apache.log4j.dir}${contrib_name}" dir="${org.apache.log4j.dir}" inheritall="true" inheritrefs="false" />
+		<ant antfile="${czm.dir}${contrib_name}" dir="${czm.dir}" inheritall="true" inheritrefs="true" />
+		<ant antfile="${dynamo_hia_ui.dir}${contrib_name}" dir="${dynamo_hia_ui.dir}" inheritall="true" inheritrefs="true" />
 	</target>
 
-	<target name="main" depends="clean,fill" />
+	<target name="main" depends="introduction,clean,fill" />
 
 </project>

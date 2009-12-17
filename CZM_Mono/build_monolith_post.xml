@@ -13,6 +13,10 @@
 	<property name="jre.linux86.dir" value="jre/" />
 	<property name="winrun4j.dir" value="WinRun4J/" />
 
+	<target name="introduction">
+		<echo message="Starting ${ant.file} in project ${ant.project.name}"></echo>
+		</target>
+
 	<target name="clean_myself">
 		<delete dir="${schemas.dir}" />
 		<delete dir="${images.dir}" />
@@ -20,7 +24,7 @@
 		<delete dir="${help.dir}" />
 	</target>
 
-	<target name="clean_release">
+	<target name="clean_release"> 
 		<delete dir="${release.linux86.dir}${jre.linux86.dir}" />
 		<delete dir="${release.windows.dir}${schemas.dir}" />
 		<delete dir="${release.windows.dir}${images.dir}" />
@@ -77,6 +81,6 @@
 		<exec command="${release.windows.dir}DYNAMO-HIA --WinRun4J:RegisterFileAssociations" />
 	</target>
 
-	<target name="main" depends="clean_release,createdirs,createdynamohiaexec" />
+	<target name="main" depends="introduction, clean_release,createdirs,createdynamohiaexec" />
 
 </project>
