@@ -96,12 +96,16 @@ public enum FileControlEnum {
 	RISKFACTORS(FileControlEnumHelp.riskfactorsStrings, false, true), //
 	RRS(FileControlEnumHelp.rrsStrings, false, true), //
 	TRENDS(FileControlEnumHelp.trendsStrings, false, true), //
-	ATTRIBUTABLEMORTALITIES(FileControlEnumHelp.attributableMortalitiesStrings, false, false), //
-	BASELINEOTHERMORTALITIES(FileControlEnumHelp.baselineOtherMortalitiesStrings, false, false), //
-	BASELINEFATALINCIDENCES(FileControlEnumHelp.baselineFatalIncidencesStrings, false, false), //
-	BASELINEINCIDENCES(FileControlEnumHelp.baselineIncidencesStrings, false, false), //
+	ATTRIBUTABLEMORTALITIES(FileControlEnumHelp.attributableMortalitiesStrings,
+			false, false), //
+	BASELINEOTHERMORTALITIES(
+			FileControlEnumHelp.baselineOtherMortalitiesStrings, false, false), //
+	BASELINEFATALINCIDENCES(FileControlEnumHelp.baselineFatalIncidencesStrings,
+			false, false), //
+	BASELINEINCIDENCES(FileControlEnumHelp.baselineIncidencesStrings, false,
+			false), //
 	RELATIVERISKS(FileControlEnumHelp.relativeRisksStrings, false, false) //
-; //
+	; //
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**
 	 * The enum
@@ -188,7 +192,7 @@ public enum FileControlEnum {
 		int previousTotal = rootElementCount + wrapperCount + containerCount
 				+ payloadCount;
 		if (intermediate == null) {
-			errorMessage.append("FileControl: " + elementNames[0]
+			errorMessage.append("FileControl: " + elementNames[count]
 					+ " is not an XMLTagEntity.\n");
 			doBreak = true;
 		} else {
@@ -211,33 +215,35 @@ public enum FileControlEnum {
 			}
 			if (intermediate instanceof WrapperType) {
 				wrapperCount++;
-				 if (payloadCount != 0) {
-				 errorMessage.append("FileControl strings for "
-				 + elementNames[0]
-				 + " have wrong structure at zero based index: "
-				 + count + ", type: "
-				 + intermediate.getClass().getName() + "\n"
-				 + " rootElementCount: " + rootElementCount
-				 + " wrapperCount: " + wrapperCount
-				 + " containerCount: " + containerCount
-				 + " payloadCount: " + payloadCount + "\n");
-				 doBreak = true;
-				 }
+				// Do not enable, test is not valid anymore!
+				// if (payloadCount != 0) {
+				// errorMessage.append("FileControl strings for "
+				// + elementNames[0]
+				// + " have wrong structure at zero based index: "
+				// + count + ", type: "
+				// + intermediate.getClass().getName() + "\n"
+				// + " rootElementCount: " + rootElementCount
+				// + " wrapperCount: " + wrapperCount
+				// + " containerCount: " + containerCount
+				// + " payloadCount: " + payloadCount + "\n");
+				// doBreak = true;
+				// }
 			}
 			if (intermediate instanceof ContainerType) {
 				containerCount++;
-				 if (payloadCount != 0) {
-				 errorMessage.append("FileControl strings for "
-				 + elementNames[0]
-				 + " have wrong structure at zero based index: "
-				 + count + ", type: "
-				 + intermediate.getClass().getName() + "\n"
-				 + " rootElementCount: " + rootElementCount
-				 + " wrapperCount: " + wrapperCount
-				 + " containerCount: " + containerCount
-				 + " payloadCount: " + payloadCount + "\n");
-				 doBreak = true;
-				 }
+				// Do not enable, test is not valid anymore!
+				// if (payloadCount != 0) {
+				// errorMessage.append("FileControl strings for "
+				// + elementNames[0]
+				// + " have wrong structure at zero based index: "
+				// + count + ", type: "
+				// + intermediate.getClass().getName() + "\n"
+				// + " rootElementCount: " + rootElementCount
+				// + " wrapperCount: " + wrapperCount
+				// + " containerCount: " + containerCount
+				// + " payloadCount: " + payloadCount + "\n");
+				// doBreak = true;
+				// }
 			}
 			if (intermediate instanceof PayloadType) {
 				payloadCount++;
@@ -267,8 +273,10 @@ public enum FileControlEnum {
 	 * @return
 	 */
 	public String getRootElementName() {
-		String result = null;
-		result = parameterTypes4GroupFactory[0].getXMLElementName();
+		String result = "null";
+		if (parameterTypes4GroupFactory[0] != null) {
+			result = parameterTypes4GroupFactory[0].getXMLElementName();
+		}
 		return result;
 	}
 
@@ -295,11 +303,21 @@ public enum FileControlEnum {
 						+ " in the FileControlEnum for "
 						+ parameterTypes4GroupFactory[0]);
 			} else {
-				log.fatal("parameterTypes4GroupFactory[index + 2]"
-						+ parameterTypes4GroupFactory[index + 2]);
-				log.fatal("No AtomicTypeBase found at index: " + (index + 2)
-						+ " in the FileControlEnum for "
-						+ parameterTypes4GroupFactory[0]);
+				if (parameterTypes4GroupFactory[index + 2] instanceof WrapperType) {
+					log
+							.debug("WrapperType: "
+									+ ((WrapperType) parameterTypes4GroupFactory[index + 2])
+											.getClass().getSimpleName()
+									+ " found at index: " + (index + 2)
+									+ " in the FileControlEnum for "
+									+ parameterTypes4GroupFactory[0]);
+				} else {
+					log.fatal("parameterTypes4GroupFactory[index + 2]"
+							+ parameterTypes4GroupFactory[index + 2]);
+					log.fatal("No AtomicTypeBase found at index: "
+							+ (index + 2) + " in the FileControlEnum for "
+							+ parameterTypes4GroupFactory[0]);
+				}
 			}
 		} else {
 			log.fatal("Index: " + (index + 2)
