@@ -5,6 +5,14 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Alfa;
 import nl.rivm.emi.dynamo.data.types.atomic.Amount;
 import nl.rivm.emi.dynamo.data.types.atomic.Amounts;
+import nl.rivm.emi.dynamo.data.types.atomic.AttributableMortalities;
+import nl.rivm.emi.dynamo.data.types.atomic.AttributableMortality;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineFatalIncidence;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineFatalIncidences;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineIncidence;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineIncidences;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineOtherMortalities;
+import nl.rivm.emi.dynamo.data.types.atomic.BaselineOtherMortality;
 import nl.rivm.emi.dynamo.data.types.atomic.Begin;
 import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Classes;
@@ -53,6 +61,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDeath;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDisability;
 import nl.rivm.emi.dynamo.data.types.atomic.RelativeRisk;
 import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
+import nl.rivm.emi.dynamo.data.types.atomic.RelativeRisks;
 import nl.rivm.emi.dynamo.data.types.atomic.ResultType;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactor;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactorTransFileName;
@@ -241,7 +250,16 @@ public enum XMLTagEntityEnum {
 	TRANSITIONDRIFT_ZERO(new TransitionDriftZero()), //
 	TRANSITIONMATRIX(new TransitionMatrix()), //
 	TRANSITIONMATRIX_NETTO(new TransitionMatrixNetto()), //
-	TRANSITIONMATRIX_ZERO(new TransitionMatrixZero()); //
+	TRANSITIONMATRIX_ZERO(new TransitionMatrixZero()), //
+	ATTRIBUTABLEMORTALITIES(new AttributableMortalities()), //
+	ATTRIBUTABLEMORTALITY(new AttributableMortality()), //
+	BASELINEOTHERMORTALITIES(new BaselineOtherMortalities()), //
+	BASELINEOTHERMORTALITY(new BaselineOtherMortality()), //
+	BASELINEFATALINCIDENCES(new BaselineFatalIncidences()), //
+	BASELINEFATALINCIDENCE(new BaselineFatalIncidence()), //
+	BASELINEINCIDENCES(new BaselineIncidences()), //
+	BASELINEINCIDENCE(new BaselineIncidence()), //
+	RELATIVERISKS(new RelativeRisks()); //
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 

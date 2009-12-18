@@ -36,4 +36,14 @@ public class XMLTagEntitySingleton extends HashMap<String, XMLTagEntity> {
 		}
 		return instance;
 	}
+	public XMLTagEntity get(String elementName){
+		XMLTagEntity entity = super.get(elementName);
+		if(entity == null){
+			log.fatal("No XMLTagEntity found for \""
+					+ elementName
+					+ "\".");
+		
+		}
+		return entity;
+	}
 }
