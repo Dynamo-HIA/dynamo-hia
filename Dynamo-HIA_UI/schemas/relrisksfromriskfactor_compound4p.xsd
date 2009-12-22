@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="relrisksfromriskfactor_categorical">
+  <xs:element name="relrisksfromriskfactor_compound4p">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="192" maxOccurs="1920" name="relativerisk">
@@ -26,17 +26,23 @@
               <xs:element name="cat">
                 <xs:simpleType>
                   <xs:restriction base="xs:int">
-                  <!-- Set from 1 to 0 for parameters configuration files. -->
-                    <xs:minInclusive value="0" />
+                    <xs:minInclusive value="1" />
                     <xs:maxInclusive value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="value">
-                <xs:simpleType>
-                  <xs:restriction base="xs:float" />
-                </xs:simpleType>
-              </xs:element>
+              <xs:choice>
+              	<xs:element name="value" type="xs:float" />
+              	<xs:sequence>			                
+	              <xs:element name="begin" type="xs:float" />
+	              <xs:element name="alfa" type="xs:float" />
+	              <xs:element name="end">
+	                <xs:simpleType>
+	                  <xs:restriction base="xs:float" />
+	                </xs:simpleType>
+	              </xs:element>              	
+              	</xs:sequence>
+              </xs:choice>              
             </xs:sequence>
           </xs:complexType>
         </xs:element>

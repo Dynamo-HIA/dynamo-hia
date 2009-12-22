@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--Created with Liquid XML Studio 6.1.18.0 - FREE Community Edition (http://www.liquid-technologies.com)-->
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="relativeRisksCluster">
+  <xs:element name="relativerisks_diseaseondisease">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="192" maxOccurs="57600" name="relativerisk">
