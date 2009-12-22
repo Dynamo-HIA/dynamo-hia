@@ -564,7 +564,7 @@ public class StorageTreeMenuFactory {
 															.setText("View compound relative risks");
 													manager.add(action);
 												} else {
-													if (RootElementNamesEnum.TRANSITIONMATRIX
+													if (RootElementNamesEnum.ALPHAS
 															.getNodeLabel()
 															.equals(
 																	rootElementName)) {
@@ -574,17 +574,89 @@ public class StorageTreeMenuFactory {
 																selectedNode,
 																selectedNode
 																		.deriveNodeLabel(),
-																RootElementNamesEnum.TRANSITIONMATRIX
+																RootElementNamesEnum.ALPHAS
 																		.getNodeLabel());
 														action
-																.setText("View transition rates");
+																.setText("View alphas.");
 														manager.add(action);
 													} else {
-														DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
-																shell);
-														action
-																.setText("Unhandled parameters file");
-														manager.add(action);
+														if (RootElementNamesEnum.ALPHASOTHERMORTALITY
+																.getNodeLabel()
+																.equals(
+																		rootElementName)) {
+															XMLFileAction action = new XMLFileAction(
+																	this.shell,
+																	this.treeViewer,
+																	selectedNode,
+																	selectedNode
+																			.deriveNodeLabel(),
+																	RootElementNamesEnum.ALPHASOTHERMORTALITY
+																			.getNodeLabel());
+															action
+																	.setText("View alphas other mortality.");
+															manager.add(action);
+														} else {
+															if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+																	.getNodeLabel()
+																	.equals(
+																			rootElementName)) {
+																XMLFileAction action = new XMLFileAction(
+																		this.shell,
+																		this.treeViewer,
+																		selectedNode,
+																		selectedNode
+																				.deriveNodeLabel(),
+																		RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+																				.getNodeLabel());
+																action
+																		.setText("View continuous relative risks for other mortality");
+																manager
+																		.add(action);
+															} else {
+																if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+																		.getNodeLabel()
+																		.equals(
+																				rootElementName)) {
+																	XMLFileAction action = new XMLFileAction(
+																			this.shell,
+																			this.treeViewer,
+																			selectedNode,
+																			selectedNode
+																					.deriveNodeLabel(),
+																			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+																					.getNodeLabel());
+																	action
+																			.setText("View continuous relative risks for other mortality");
+																	manager
+																			.add(action);
+																} else {
+																	if (RootElementNamesEnum.TRANSITIONMATRIX
+																			.getNodeLabel()
+																			.equals(
+																					rootElementName)) {
+																		XMLFileAction action = new XMLFileAction(
+																				this.shell,
+																				this.treeViewer,
+																				selectedNode,
+																				selectedNode
+																						.deriveNodeLabel(),
+																				RootElementNamesEnum.TRANSITIONMATRIX
+																						.getNodeLabel());
+																		action
+																				.setText("View transition rates");
+																		manager
+																				.add(action);
+																	} else {
+																		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
+																				shell);
+																		action
+																				.setText("Unhandled parameters file");
+																		manager
+																				.add(action);
+																	}
+																}
+															}
+														}
 													}
 												}
 											}

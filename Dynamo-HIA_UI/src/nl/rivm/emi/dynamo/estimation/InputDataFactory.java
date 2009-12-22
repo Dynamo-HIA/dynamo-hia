@@ -1201,6 +1201,15 @@ public class InputDataFactory {
 				// TODO: Reactivate code below for version 1.1
 				this.riskFactorType = 2;
 				
+//				String testString = ((XMLConfiguration) config).getString("distributiontype");
+//				if ((testString != null) && testString.equalsIgnoreCase("Normal")){
+//					givenAsNormal=true;
+//				} else {
+//					log.fatal("No distributionType found.");
+//					throw new DynamoConfigurationException(
+//							"No distributionType found in XML file: " + configFileName);
+//					}
+					
 			} else {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
@@ -1214,16 +1223,7 @@ public class InputDataFactory {
 					// configFileName);
 					// TODO: Reactivate code below for version 1.1
 					this.riskFactorType = ModelParameters.COMPOUND;
-					
-					String testString = ((XMLConfiguration) config).getString("distributiontype");
-					if ((testString != null) && testString.equalsIgnoreCase("Normal")){
-						givenAsNormal=true;
-					} else {
-						log.fatal("No distributionType found.");
-						throw new DynamoConfigurationException(
-								"No distributionType found in XML file: " + configFileName);
-						}
-								} else
+					} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
 									+ type + " in XML file " + configFileName);

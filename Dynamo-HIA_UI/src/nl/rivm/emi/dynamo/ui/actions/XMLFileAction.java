@@ -34,6 +34,8 @@ import nl.rivm.emi.dynamo.ui.main.SimulationModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.AlphasModal;
+import nl.rivm.emi.dynamo.ui.main.parameters.AlphasOtherMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.AttributableMortalitiesModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.BaselineFatalIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.BaselineIncidencesModal;
@@ -638,10 +640,68 @@ public class XMLFileAction extends ActionBase {
 																																													node,
 																																													null);
 																																										} else {
-																																											throw new DynamoConfigurationException(
-																																													"RootElementName "
-																																															+ rootElementName
-																																															+ " not implemented yet.");
+																																											if (RootElementNamesEnum.ALPHAS
+																																													.getNodeLabel()
+																																													.equals(
+																																															rootElementName)) {
+																																												theModal = new AlphasModal(
+																																														shell,
+																																														importFile
+																																																.getAbsolutePath(),
+																																														savedFile
+																																																.getAbsolutePath(),
+																																														rootElementName,
+																																														node);
+																																											} else {
+																																												if (RootElementNamesEnum.ALPHASOTHERMORTALITY
+																																														.getNodeLabel()
+																																														.equals(
+																																																rootElementName)) {
+																																													theModal = new AlphasOtherMortalityModal(
+																																															shell,
+																																															importFile
+																																																	.getAbsolutePath(),
+																																															savedFile
+																																																	.getAbsolutePath(),
+																																															rootElementName,
+																																															node);
+																																												} else {
+																																													if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+																																															.getNodeLabel()
+																																															.equals(
+																																																	rootElementName)) {
+																																														theModal = new RelRiskFromRiskFactorContinuousModal(
+																																																shell,
+																																																importFile
+																																																		.getAbsolutePath(),
+																																																savedFile
+																																																		.getAbsolutePath(),
+																																																rootElementName,
+																																																node,
+																																																null);
+																																													} else {
+																																														if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+																																																.getNodeLabel()
+																																																.equals(
+																																																		rootElementName)) {
+																																															theModal = new RelRiskFromRiskFactorContinuousModal(
+																																																	shell,
+																																																	importFile
+																																																			.getAbsolutePath(),
+																																																	savedFile
+																																																			.getAbsolutePath(),
+																																																	rootElementName,
+																																																	node,
+																																																	null);
+																																														} else {
+																																															throw new DynamoConfigurationException(
+																																																	"RootElementName "
+																																																			+ rootElementName
+																																																			+ " not implemented yet.");
+																																														}
+																																													}
+																																												}
+																																											}
 																																										}
 																																									}
 																																								}

@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.factories.dispatch;
 
+import nl.rivm.emi.dynamo.data.factories.AlphasFactory;
+import nl.rivm.emi.dynamo.data.factories.AlphasOtherMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.AttributableMortalitiesFactory;
 import nl.rivm.emi.dynamo.data.factories.BaselineFatalIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.BaselineIncidencesFactory;
@@ -190,16 +192,29 @@ public enum DispatchEnum {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorCategoricalFactory(), null), //
-			RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P(
-					RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
-							.getNodeLabel(),
-					new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P(
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+					.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
 	RELATIVERISKS_OTHERMORT_CATEGORICAL(
-			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL.getNodeLabel(),
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+					.getNodeLabel(),
 			new RelRiskFromRiskFactorCategoricalFactory(), null), //
-			RELATIVERISKS_OTHERMORT_CONTINUOUS(
-					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS.getNodeLabel(),
-					new RelRiskFromRiskFactorContinuousFactory(), null);
+	RELATIVERISKS_OTHERMORT_CONTINUOUS(
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+					.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	ALPHAS(RootElementNamesEnum.ALPHAS.getNodeLabel(), new AlphasFactory(),
+			null), //
+	ALPHASOTHERMORTALITY(RootElementNamesEnum.ALPHASOTHERMORTALITY
+			.getNodeLabel(), new AlphasOtherMortalityFactory(), null), //
+	RELATIVERISKS_OTHERMORT_BEGIN(
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_OTHERMORT_END(
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	;
 
 	/**
 	 * Name of the rootelement of the corresponding configurationfile.

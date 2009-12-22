@@ -108,7 +108,7 @@ public class NodeFilter {
 			// XML-schema testing.
 			if (rootElementName != null) {
 				if (rootElementName
-						.endsWith(RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+						.endsWith(RootElementNamesEnum.ALPHASOTHERMORTALITY
 								.getNodeLabel())) {
 					log.debug("Just a line for debugging.");
 				}

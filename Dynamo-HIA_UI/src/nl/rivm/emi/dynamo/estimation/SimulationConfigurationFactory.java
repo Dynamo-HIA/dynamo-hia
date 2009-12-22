@@ -595,15 +595,16 @@ public class SimulationConfigurationFactory {
 				|| parameters.getRiskType() == ModelParameters.COMPOUND) {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
-			writeTwoDimArray(
-					parameters.getRelRiskOtherMort(), /* "relativeRisks" */
-					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL.getNodeLabel(),
-					"relativerisk", fileName);
+			writeTwoDimArray(parameters.getRelRiskOtherMort(), /* "relativeRisks" */
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+					.getNodeLabel(), "relativerisk", fileName);
 		} else {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
-			writeOneDimArray(parameters.getRelRiskOtherMortCont(),
-					/* "relativeRisks" */ RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS.getNodeLabel(), "relativerisk", fileName);
+			writeOneDimArray(
+					parameters.getRelRiskOtherMortCont(),
+					/* "relativeRisks" */RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+							.getNodeLabel(), "relativerisk", fileName);
 		}
 		if (parameters.getRiskType() == ModelParameters.COMPOUND) {
 
@@ -613,22 +614,26 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(healthStateRootElement,
 					"endRelativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortEnd(),
-					"relativeRisks", "relativerisk", fileName);
+					/* "relativeRisks" */RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+					.getNodeLabel(), "relativerisk", fileName);
 
 			/* begin RR */
 			fileName = directoryName + File.separator + "parameters"
 					+ File.separator + "beginRelativeRisk_OtherMort.xml";
 			writeFinalElementToDom(healthStateRootElement,
 					"beginRelativeRiskOtherMortFile", fileName);
-			writeOneDimArray(parameters.getRelRiskOtherMortBegin(),
-					"relativeRisks", "relativerisk", fileName);
+			writeOneDimArray(
+					parameters.getRelRiskOtherMortBegin(),
+					/* "relativeRisks" */RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+							.getNodeLabel(), "relativerisk", fileName);
 
 			/* alfa */
 			fileName = directoryName + File.separator + "parameters"
 					+ File.separator + "alfa_OtherMort.xml";
 			writeFinalElementToDom(healthStateRootElement,
 					"alfaRelRiskOtherMortFile", fileName);
-			writeOneDimArray(parameters.getAlfaOtherMort(), "alfa", "alfa",
+			writeOneDimArray(parameters.getAlfaOtherMort(), /* "alfa" */
+			RootElementNamesEnum.ALPHASOTHERMORTALITY.getNodeLabel(), "alfa",
 					fileName);
 
 		}
@@ -721,7 +726,7 @@ public class SimulationConfigurationFactory {
 								extractFromTwoDimArray(parameters
 										.getRelRiskClass(), structure
 										.getDiseaseNumber()[d]), /* "relativeRisks" */
-								RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+								RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
 										.getNodeLabel(), "relativerisk",
 								fileName);
 
@@ -777,7 +782,8 @@ public class SimulationConfigurationFactory {
 							"alfaFile", fileName);
 					writeOneDimArray(extractFromOneDimArray(parameters
 							.getAlfaDuur(), structure.getDiseaseNumber()[d]),
-							"alfa", "alfa", fileName);
+					/* "alfa" */RootElementNamesEnum.ALPHAS.getNodeLabel(),
+							"alfa", fileName);
 
 				}
 
