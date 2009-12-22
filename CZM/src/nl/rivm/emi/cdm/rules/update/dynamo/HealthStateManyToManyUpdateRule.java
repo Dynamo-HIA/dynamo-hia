@@ -1000,7 +1000,7 @@ public class HealthStateManyToManyUpdateRule extends
 					float[][] inputData2 = new float[96][2];
 					inputData2 = factory.manufactureOneDimArray(
 							getRelRiskEndFileName()[diseaseNo],
-							"relativeRisks", /* "relativeRisk" */"relativerisk",
+							/*"relativeRisks"*/ "relativerisks_othermort_end", /* "relativeRisk" */"relativerisk",
 							false);
 					setRelRiskEnd(inputData2, diseaseNo);
 					log.debug("reading relative risks end for disease "
@@ -1014,7 +1014,7 @@ public class HealthStateManyToManyUpdateRule extends
 					float[][] inputData2 = new float[96][2];
 					inputData2 = factory.manufactureOneDimArray(
 							getRelRiskBeginFileName()[diseaseNo],
-							"relativeRisks", /* "relativeRisk" */"relativerisk",
+							/*"relativeRisks"*/ "relativerisks_othermort_begin", /* "relativeRisk" */"relativerisk",
 							false);
 					setRelRiskBegin(inputData2, diseaseNo);
 					log.debug("reading relative risks begin for disease "
@@ -1251,7 +1251,7 @@ public class HealthStateManyToManyUpdateRule extends
 				setRelRiskEndOtherMortFileName(FileName);
 				float[][] inputData2 = new float[96][2];
 				inputData2 = factory.manufactureOneDimArray(
-						getRelRiskOtherMortEndFileName(), "relativeRisks",
+						getRelRiskOtherMortEndFileName(), /*"relativeRisks"*/ "relativerisks_othermort_end",
 						/* "relativeRisk" */"relativerisk", false);
 				setRelRiskOtherMortEnd(inputData2);
 				/* rr's for begin */
@@ -1263,7 +1263,7 @@ public class HealthStateManyToManyUpdateRule extends
 				setRelRiskBeginOtherMortFileName(FileName);
 
 				inputData2 = factory.manufactureOneDimArray(
-						getRelRiskBeginOtherMortFileName(), "relativeRisks",
+						getRelRiskBeginOtherMortFileName(),  /*"relativeRisks"*/ "relativerisks_othermort_begin",
 						/* "relativeRisk" */"relativerisk", false);
 				setRelRiskOtherMortBegin(inputData2);
 				/* alfa */
@@ -1273,7 +1273,7 @@ public class HealthStateManyToManyUpdateRule extends
 				log.debug("Setting alfaOtherMortalityFilename to: " + FileName);
 				setAlfaOtherMortFileName(FileName);
 				inputData2 = factory.manufactureOneDimArray(
-						getAlfaDuurOtherMortFileName(), "alfa", "alfa", false);
+						getAlfaDuurOtherMortFileName(), /*"alfa"*/ "alphasothermortality", "alfa", false);
 				setAlfaDuurOtherMort(inputData2);
 
 			}
