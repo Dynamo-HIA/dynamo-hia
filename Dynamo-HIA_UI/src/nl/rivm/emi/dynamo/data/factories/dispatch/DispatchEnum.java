@@ -25,6 +25,7 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskFromOtherDiseaseFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorContinuousFactory;
+import nl.rivm.emi.dynamo.data.factories.RelativeRisksClusterFactory;
 import nl.rivm.emi.dynamo.data.factories.RelativeRisksFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
@@ -183,8 +184,22 @@ public enum DispatchEnum {
 			.getNodeLabel(), new BaselineOtherMortalitiesFactory(), null), //
 	RELATIVERISKS(RootElementNamesEnum.RELATIVERISKS.getNodeLabel(),
 			new RelativeRisksFactory(), null), //
-	RELATIVERISKSCLUSTER(RootElementNamesEnum.RELATIVERISKSCLUSTER.getNodeLabel(),
-			new RelativeRisksFactory(), null);
+	RELATIVERISKSCLUSTER(RootElementNamesEnum.RELATIVERISKSCLUSTER
+			.getNodeLabel(), new RelativeRisksClusterFactory(), null), //
+	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P(
+			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
+					.getNodeLabel(),
+			new RelRiskFromRiskFactorCategoricalFactory(), null), //
+			RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P(
+					RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+							.getNodeLabel(),
+					new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_OTHERMORT_CATEGORICAL(
+			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL.getNodeLabel(),
+			new RelRiskFromRiskFactorCategoricalFactory(), null), //
+			RELATIVERISKS_OTHERMORT_CONTINUOUS(
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS.getNodeLabel(),
+					new RelRiskFromRiskFactorContinuousFactory(), null);
 
 	/**
 	 * Name of the rootelement of the corresponding configurationfile.

@@ -13,7 +13,6 @@ import nl.rivm.emi.dynamo.ui.main.DataLessMessageModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionDriftNettoModal;
 import nl.rivm.emi.dynamo.ui.main.TransitionMatrixModal;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;

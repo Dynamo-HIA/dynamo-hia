@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 import java.util.regex.Pattern;
 
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

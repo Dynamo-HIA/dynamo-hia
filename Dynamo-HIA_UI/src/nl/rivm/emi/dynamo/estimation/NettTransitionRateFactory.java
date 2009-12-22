@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.estimation;
 
-import javax.management.RuntimeErrorException;
 
 /**
  * @author Hendriek Boshuizen

@@ -17,7 +17,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;

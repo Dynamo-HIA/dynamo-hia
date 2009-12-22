@@ -22,9 +22,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
+import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,99 +48,97 @@ public class SimulationConfigurationFactory {
 	private String newbornsFileName = null;
 	private int nRules;
 	private String simulationName;
-	
-	/* incidenceDebug= true means that the update rules will also store incidence information */
-	private boolean incidenceDebug=true;
+
+	/*
+	 * incidenceDebug= true means that the update rules will also store
+	 * incidence information
+	 */
+	private boolean incidenceDebug = true;
+
 	/*
 	 * temporary some info needed for proper working of the class this
 	 * information should be supplied by the user interface in the final version
 	 */
 	// private boolean isNullTransition = true;
-
 	/**
 	 * this method writes the characteristicsConfigurationFile that is one of
 	 * the inputs of the SOR CDM model
 	 * 
 	 * @param simName
 	 *            the name of the simulation
-	 * @throws DynamoConfigurationException 
+	 * @throws DynamoConfigurationException
 	 * 
 	 */
 
-	public SimulationConfigurationFactory(String simName) throws DynamoConfigurationException {
+	public SimulationConfigurationFactory(String simName)
+			throws DynamoConfigurationException {
 
-		directoryName = BaseDirectory.getBaseDir() + File.separator  
-					+ "Simulations" + File.separator + simName;
-		charFileName = directoryName + File.separator + "modelconfiguration" + File.separator
-					+ "charconfig.XML";
-		simFileName = directoryName + File.separator + "modelconfiguration" + File.separator + "simulation"; // no
+		directoryName = BaseDirectory.getBaseDir() + File.separator
+				+ "Simulations" + File.separator + simName;
+		charFileName = directoryName + File.separator + "modelconfiguration"
+				+ File.separator + "charconfig.XML";
+		simFileName = directoryName + File.separator + "modelconfiguration"
+				+ File.separator + "simulation"; // no
 		// .xml
 		// because
 		// different
 		// variants
 		// are
 		// needed
-		popFileName = directoryName + File.separator + "modelconfiguration" + File.separator + "population";// no
+		popFileName = directoryName + File.separator + "modelconfiguration"
+				+ File.separator + "population";// no
 		// .xml
 		// because
 		// different
 		// variants
 		// are
 		// needed
-		newbornsFileName = directoryName + File.separator + "modelconfiguration"
-					+ File.separator+ "newborns";
-	
-		
-		/* write a copy of the configuration file to the result
-		 * directory, adding the date and time
+		newbornsFileName = directoryName + File.separator
+				+ "modelconfiguration" + File.separator + "newborns";
+
+		/*
+		 * write a copy of the configuration file to the result directory,
+		 * adding the date and time
 		 */
 		String DATE_FORMAT_NOW = "yyyy_MMdd_HHmmss";
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
-		String date=sdf.format(cal.getTime());
-		String configFileName= directoryName + File.separator + "configuration.XML";
+		String date = sdf.format(cal.getTime());
+		String configFileName = directoryName + File.separator
+				+ "configuration.XML";
 		File infile = new File(configFileName);
 		String outDirectoryName = directoryName + File.separator + "results";
 		File outDirectory = new File(outDirectoryName);
 		boolean isDirectory = outDirectory.isDirectory();
-		if (!isDirectory) 				
+		if (!isDirectory)
 			outDirectory.mkdirs();
-		
-		String logFileName= outDirectoryName
-		+ File.separator+ "runConfiguration_"+date+".XML";
-		File outfile = new File(logFileName); 
+
+		String logFileName = outDirectoryName + File.separator
+				+ "runConfiguration_" + date + ".XML";
+		File outfile = new File(logFileName);
 		InputStream in;
 		try {
 			in = new FileInputStream(infile);
-		
-		OutputStream out = new FileOutputStream(outfile); 
-		
 
-	      byte[] buf = new byte[1024];
-	      int len;
-	      while ((len = in.read(buf)) > 0){
-	        out.write(buf, 0, len);
-	      }
-	      in.close();
-	      out.close();
-	      
-	    }
-	    catch(FileNotFoundException ex){
-	      log.fatal(ex.getMessage() + " file: "+configFileName);
-	      throw new DynamoConfigurationException(ex.getMessage() +  " file: "+configFileName);
-	      
-	    }
-	    catch(IOException e){
-	    	 throw new DynamoConfigurationException(e.getMessage() +  " file: "+configFileName);      
-	    }
-	  
+			OutputStream out = new FileOutputStream(outfile);
 
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
 
+		} catch (FileNotFoundException ex) {
+			log.fatal(ex.getMessage() + " file: " + configFileName);
+			throw new DynamoConfigurationException(ex.getMessage() + " file: "
+					+ configFileName);
 
-		
-		
-
-		 
+		} catch (IOException e) {
+			throw new DynamoConfigurationException(e.getMessage() + " file: "
+					+ configFileName);
+		}
 
 	}
 
@@ -186,29 +184,29 @@ public class SimulationConfigurationFactory {
 		// in the rule to prevent using wrong configuration file with wrong rule
 		// not essential
 		int riskType = parameters.getRiskType();
- 
+
 		for (int population = 0; population < scenInfo.getNPopulations(); population++) {
 
 			String ConfigXMLfileName = null;
-            int scenarioNumber=scenInfo.getPopToScenIndex()[population];
+			int scenarioNumber = scenInfo.getPopToScenIndex()[population];
 			/*
 			 * 
 			 * write rule for categorical risk factor
 			 */
-			if (riskType == 1 || riskType == 3) {
+			if (riskType == ModelParameters.CATEGORICAL
+					|| riskType == ModelParameters.COMPOUND) {
 
 				if (population == 0) {
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) ruleNumber).toString()
-							+ ".xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) ruleNumber).toString() + ".xml";
 
 				} else {
 
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) ruleNumber).toString()
-							+ "_scen_" + population + ".xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) ruleNumber).toString() + "_scen_"
+							+ population + ".xml";
 				}
 
 				Document document = newDocument(fileName);
@@ -231,21 +229,25 @@ public class SimulationConfigurationFactory {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
 						fileName = directoryName + File.separator
-						+ "parameters" + File.separator 
-						+ "transitionrates.xml";
+								+ "parameters" + File.separator
+								+ "transitionrates.xml";
 						writeFinalElementToDom(rootElement, "transitionFile",
 								fileName);
 						writeThreeDimArray(parameters.getTransitionMatrix(),
-								"transitionmatrix", "transition", fileName,true);
-						
+								"transitionmatrix", "transition", fileName,
+								true);
+
 					} else {
 						writeFinalElementToDom(rootElement, "transitionFile",
 								null);
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
-						
+
 					}
-				} else { /* reference scen: population=0, so scen-1 is scenarionumber */
+				} else { /*
+						 * reference scen: population=0, so scen-1 is
+						 * scenarionumber
+						 */
 					if (scenInfo.isZeroTransition(scenarioNumber)
 							|| (!scenInfo.getTransitionType(scenarioNumber) && parameters
 									.isZeroTransition())) {
@@ -260,8 +262,7 @@ public class SimulationConfigurationFactory {
 					{
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
-								+ "transitionrates_scen_" + population
-								+ ".xml";
+								+ "transitionrates_scen_" + population + ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
 						writeFinalElementToDom(rootElement, "transitionFile",
@@ -269,14 +270,14 @@ public class SimulationConfigurationFactory {
 						if (scenInfo.getTransitionType(scenarioNumber))
 							writeThreeDimArray(scenInfo
 									.getTransitionMatrix(scenarioNumber),
-									"transitionmatrix", "transition",
-									fileName,true);
+									"transitionmatrix", "transition", fileName,
+									true);
 
 						else
 							writeThreeDimArray(
 									parameters.getTransitionMatrix(),
-									"transitionmatrix", "transition",
-									fileName,true);
+									"transitionmatrix", "transition", fileName,
+									true);
 						;
 					}
 				}
@@ -298,20 +299,18 @@ public class SimulationConfigurationFactory {
 			 */
 			else {
 				if (population == 0) {
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator 
-							+ "transitiondrift.xml";
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) ruleNumber).toString()
-							+ ".xml";
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "transitiondrift.xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) ruleNumber).toString() + ".xml";
 
 				} else {
 
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) ruleNumber).toString()
-							+ "_scen_" + population + ".xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) ruleNumber).toString() + "_scen_"
+							+ population + ".xml";
 				}
 
 				Document document = newDocument("rule3");
@@ -323,7 +322,7 @@ public class SimulationConfigurationFactory {
 
 				writeFinalElementToDom(rootElement, "refValContinuousVariable",
 						((Float) parameters.getRefClassCont()).toString());
-				if (parameters.getRiskType() == 2) {
+				if (parameters.getRiskType() == ModelParameters.CONTINUOUS) {
 					if (parameters.getRiskTypeDistribution() == "Normal"
 							|| parameters.getRiskTypeDistribution() == "normal"
 							|| parameters.getRiskTypeDistribution() == "NORMAL")
@@ -343,7 +342,7 @@ public class SimulationConfigurationFactory {
 				}
 
 				if (population == 0) {
-					/*  null Transition=1 for a nulltransition */
+					/* null Transition=1 for a nulltransition */
 					if (!parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
@@ -370,13 +369,13 @@ public class SimulationConfigurationFactory {
 						if (parameters.getRiskTypeDistribution()
 								.compareToIgnoreCase("LogNormal") == 0) {
 							fileName = this.directoryName + File.separator
-									+ "parameters" + File.separator 
+									+ "parameters" + File.separator
 									+ "offsetDriftRiskFactor.xml";
 							writeFinalElementToDom(rootElement,
 									"offsetDriftFileName", fileName);
 							writeOneDimArray(parameters.getOffsetDrift(),
 									"offsetdrift", "offsetdrift", fileName);
-							
+
 							fileName = this.directoryName + File.separator
 									+ "parameters" + File.separator
 									+ "offsetRiskFactor.xml";
@@ -401,55 +400,49 @@ public class SimulationConfigurationFactory {
 
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
-								+ "meanDriftRiskFactor_scen_"
-								+ population + ".xml";
+								+ "meanDriftRiskFactor_scen_" + population
+								+ ".xml";
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"0");
 						writeFinalElementToDom(rootElement,
 								"meanDriftFileName", fileName);
 						if (scenInfo.getTransitionType(scenarioNumber))
-							writeOneDimArray(scenInfo.getMeanDrift(scenarioNumber),
-									"meandrift", "meandrift", fileName);
+							writeOneDimArray(scenInfo
+									.getMeanDrift(scenarioNumber), "meandrift",
+									"meandrift", fileName);
 						else
 							writeOneDimArray(parameters.getMeanDrift(),
 									"meandrift", "meandrift", fileName);
-						
+
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
-								+ "stddriftRiskFactor"
-								+ ".xml";
-						writeFinalElementToDom(rootElement,
-								"stddriftFileName", fileName);
-						
-							writeOneDimArray(parameters.getStdDrift(),
-									"stddrift", "stddrift", fileName);
-						
-						
+								+ "stddriftRiskFactor" + ".xml";
+						writeFinalElementToDom(rootElement, "stddriftFileName",
+								fileName);
+
+						writeOneDimArray(parameters.getStdDrift(), "stddrift",
+								"stddrift", fileName);
+
 						if (parameters.getRiskTypeDistribution()
 								.compareToIgnoreCase("LogNormal") == 0) {
-							
+
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
-									+ "offsetRiskFactor"
-									+ ".xml";
+									+ "offsetRiskFactor" + ".xml";
 							writeFinalElementToDom(rootElement,
 									"offsetFileName", fileName);
 							writeOneDimArray(parameters.getMeanDrift(),
-										"offset", "offset", fileName);
-							
+									"offset", "offset", fileName);
+
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
-									+ "offsetDrift"
-		  						    + ".xml";
+									+ "offsetDrift" + ".xml";
 							writeFinalElementToDom(rootElement,
 									"offsetDriftFileName", fileName);
 							writeOneDimArray(parameters.getMeanDrift(),
-										"offsetdrift", "offsetdrift", fileName);
+									"offsetdrift", "offsetdrift", fileName);
 						}
-						
-						
-						
-						
+
 					}
 				}
 
@@ -484,8 +477,8 @@ public class SimulationConfigurationFactory {
 			/* so part of this is redundant */
 
 			String ConfigXMLfileName = directoryName + File.separator
-					+ "modelconfiguration" + File.separator
-					+ "rule" + ((Integer) ruleNumber).toString() + ".xml";
+					+ "modelconfiguration" + File.separator + "rule"
+					+ ((Integer) ruleNumber).toString() + ".xml";
 			Document document = newDocument("rule4");
 
 			Element rootElement = document
@@ -527,8 +520,8 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(healthStateRootElement, "riskType",
 				((Integer) riskType).toString());
 		if (this.incidenceDebug)
-		writeFinalElementToDom(healthStateRootElement, "storeIncidence",
-				((Integer) 1).toString());
+			writeFinalElementToDom(healthStateRootElement, "storeIncidence",
+					((Integer) 1).toString());
 		else
 			writeFinalElementToDom(healthStateRootElement, "storeIncidence",
 					((Integer) 0).toString());
@@ -545,9 +538,9 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(healthStateRootElement, "durationClass",
 					((Integer) parameters.getDurationClass()).toString());
 
-		String ConfigXMLfileName = directoryName + File.separator 
-				+ "modelconfiguration" + File.separator
-				+ "rule" + ((Integer) ruleNumber).toString() + ".xml";
+		String ConfigXMLfileName = directoryName + File.separator
+				+ "modelconfiguration" + File.separator + "rule"
+				+ ((Integer) ruleNumber).toString() + ".xml";
 
 		writeFinalElementToDom(healthStateRootElement, "charID",
 				((Integer) ruleNumber).toString());
@@ -573,9 +566,8 @@ public class SimulationConfigurationFactory {
 			else
 				writeFinalElementToDom(clusterElement, "withCuredFraction", "0");
 
-			fileName = directoryName + File.separator
-					+ "parameters" + File.separator
-					+ "relativeRiskDiseaseOnDisease_cluster"
+			fileName = directoryName + File.separator + "parameters"
+					+ File.separator + "relativeRiskDiseaseOnDisease_cluster"
 					+ ((Integer) c).toString() + ".xml";
 			if (structure.getNInCluster() > 1)
 				writeFinalElementToDom(clusterElement,
@@ -583,58 +575,57 @@ public class SimulationConfigurationFactory {
 			healthStateRootElement.appendChild(clusterElement);
 
 			writeThreeDimArray(extractFromThreeDimArray(parameters
-					.getRelRiskDiseaseOnDisease(), c), "relativeRisks",
-					"relativerisk", fileName,false);
+					.getRelRiskDiseaseOnDisease(), c), /* "relativeRisks" */
+			RootElementNamesEnum.RELATIVERISKSCLUSTER.getNodeLabel(),
+					"relativerisk", fileName, false);
 
 		}
 		/* write the other mortality data */
 
-		fileName = directoryName + File.separator 
-					+ "parameters" + File.separator
-					+ "baselineOtherMort.xml";
+		fileName = directoryName + File.separator + "parameters"
+				+ File.separator + "baselineOtherMort.xml";
 		writeFinalElementToDom(healthStateRootElement, "baselineOtherMortFile",
 				fileName);
 		writeOneDimArray(parameters.getBaselineOtherMortality(),
 				"baselineOtherMortalities", "baselineOtherMortality", fileName);
-		fileName = directoryName + File.separator 
-					+ "parameters" + File.separator
-					+ "relativeRisk_OtherMort.xml";
+		fileName = directoryName + File.separator + "parameters"
+				+ File.separator + "relativeRisk_OtherMort.xml";
 
-		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3) {
+		if (parameters.getRiskType() == ModelParameters.CATEGORICAL
+				|| parameters.getRiskType() == ModelParameters.COMPOUND) {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
-			writeTwoDimArray(parameters.getRelRiskOtherMort(), "relativeRisks",
+			writeTwoDimArray(
+					parameters.getRelRiskOtherMort(), /* "relativeRisks" */
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL.getNodeLabel(),
 					"relativerisk", fileName);
 		} else {
 			writeFinalElementToDom(healthStateRootElement,
 					"relativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortCont(),
-					"relativeRisks", "relativerisk", fileName);
+					/* "relativeRisks" */ RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS.getNodeLabel(), "relativerisk", fileName);
 		}
-		if (parameters.getRiskType() == 3) {
+		if (parameters.getRiskType() == ModelParameters.COMPOUND) {
 
 			/* end RR */
-			fileName = directoryName + File.separator
-					+ "parameters" + File.separator
-					+ "endRelativeRisk_OtherMort.xml";
+			fileName = directoryName + File.separator + "parameters"
+					+ File.separator + "endRelativeRisk_OtherMort.xml";
 			writeFinalElementToDom(healthStateRootElement,
 					"endRelativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortEnd(),
 					"relativeRisks", "relativerisk", fileName);
 
 			/* begin RR */
-			fileName = directoryName + File.separator
-					+ "parameters" + File.separator
-					+ "beginRelativeRisk_OtherMort.xml";
+			fileName = directoryName + File.separator + "parameters"
+					+ File.separator + "beginRelativeRisk_OtherMort.xml";
 			writeFinalElementToDom(healthStateRootElement,
 					"beginRelativeRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getRelRiskOtherMortBegin(),
 					"relativeRisks", "relativerisk", fileName);
 
 			/* alfa */
-			fileName = directoryName + File.separator 
-					+ "parameters" + File.separator
-					+ "alfa_OtherMort.xml";
+			fileName = directoryName + File.separator + "parameters"
+					+ File.separator + "alfa_OtherMort.xml";
 			writeFinalElementToDom(healthStateRootElement,
 					"alfaRelRiskOtherMortFile", fileName);
 			writeOneDimArray(parameters.getAlfaOtherMort(), "alfa", "alfa",
@@ -669,9 +660,8 @@ public class SimulationConfigurationFactory {
 						"diseaseName", name);
 
 				/* baseline (non-fatal) incidence */
-				fileName = directoryName + File.separator 
-						+ "parameters" + File.separator
-						+ "baselineIncidence_"
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "baselineIncidence_"
 						+ ((Integer) c).toString() + "_"
 						+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -683,9 +673,8 @@ public class SimulationConfigurationFactory {
 						"baselineIncidence", fileName);
 
 				/* baseline fatal incidence */
-				fileName = directoryName + File.separator
-						+ "parameters" + File.separator
-						+ "baselineFatalIncidence_"
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "baselineFatalIncidence_"
 						+ ((Integer) c).toString() + "_"
 						+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -697,9 +686,8 @@ public class SimulationConfigurationFactory {
 						"baselineFatalIncidence", fileName);
 
 				/* attributable mortality */
-				fileName = directoryName + File.separator 
-						+ "parameters" + File.separator
-						+ "attributableMort_"
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "attributableMort_"
 						+ ((Integer) c).toString() + "_"
 						+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -711,43 +699,54 @@ public class SimulationConfigurationFactory {
 						"attributableMortality", fileName);
 
 				/* relative risks of risk factor on the disease */
-				if (parameters.getRiskType() != 2) {
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator
-							+ "relativeRisk_"
+				if (parameters.getRiskType() != ModelParameters.CONTINUOUS) {
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "relativeRisk_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
 
 					writeFinalElementToDom(healthStateDiseaseElement,
 							"relativeRiskFile", fileName);
-					writeTwoDimArray(
-							extractFromTwoDimArray(
-									parameters.getRelRiskClass(), structure
-											.getDiseaseNumber()[d]),
-							"relativeRisks", "relativerisk", fileName);
+					if (parameters.getRiskType() == ModelParameters.CATEGORICAL) {
+						writeTwoDimArray(
+								extractFromTwoDimArray(parameters
+										.getRelRiskClass(), structure
+										.getDiseaseNumber()[d]), /* "relativeRisks" */
+								RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
+										.getNodeLabel(), "relativerisk",
+								fileName);
+					} else {
+						/* ModelParameters.COMPOUND */
+						writeTwoDimArray(
+								extractFromTwoDimArray(parameters
+										.getRelRiskClass(), structure
+										.getDiseaseNumber()[d]), /* "relativeRisks" */
+								RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+										.getNodeLabel(), "relativerisk",
+								fileName);
 
+					}
 				} else {
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator
-							+ "relativeRisk_"
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "relativeRisk_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
 					writeFinalElementToDom(healthStateDiseaseElement,
 							"relativeRiskFile", fileName);
-					writeOneDimArray(extractFromOneDimArray(parameters
-							.getRelRiskContinue(),
-							structure.getDiseaseNumber()[d]), "relativeRisks",
-							"relativerisk", fileName);
-				
+					writeOneDimArray(
+							extractFromOneDimArray(parameters
+									.getRelRiskContinue(), structure
+									.getDiseaseNumber()[d]), /* "relativeRisks" */
+							RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+									.getNodeLabel(), "relativerisk", fileName);
 
 				}
 				/*
 				 * write rr's for duration
 				 */
 				if (parameters.getRiskType() == 3) {
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator
-							+ "relativeRisk_end_"
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "relativeRisk_end_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -758,9 +757,8 @@ public class SimulationConfigurationFactory {
 							structure.getDiseaseNumber()[d]), "relativeRisks",
 							"relativerisk", fileName);
 
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator
-							+ "relativeRisk_begin_"
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "relativeRisk_begin_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -770,8 +768,8 @@ public class SimulationConfigurationFactory {
 							.getRelRiskDuurBegin(), structure
 							.getDiseaseNumber()[d]), "relativeRisks",
 							"relativerisk", fileName);
-					fileName = directoryName + File.separator
-							+ "parameters" + File.separator + "alfa_"
+					fileName = directoryName + File.separator + "parameters"
+							+ File.separator + "alfa_"
 							+ ((Integer) c).toString() + "_"
 							+ ((Integer) d).toString() + "_" + name + ".xml";
 
@@ -837,16 +835,16 @@ public class SimulationConfigurationFactory {
 				writeFinalElementToDom(rootElement, "pop", popFileName + ".xml");
 			if (scenInfo.isWithNewBorns()) {
 				if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
-					writeFinalElementToDom(rootElement, "newborns", newbornsFileName
-							+ "_scen_" + scen + ".xml");
+					writeFinalElementToDom(rootElement, "newborns",
+							newbornsFileName + "_scen_" + scen + ".xml");
 				else
-					writeFinalElementToDom(rootElement, "newborns", newbornsFileName
-							+ ".xml");
+					writeFinalElementToDom(rootElement, "newborns",
+							newbornsFileName + ".xml");
 			}
 			int riskType = parameters.getRiskType();
 			// age+sex+riskfactor+diseasestate
 			int nRules = 4;
-			if (riskType == 3)
+			if (riskType == ModelParameters.COMPOUND)
 				nRules++;
 
 			setNRules(nRules);
@@ -895,14 +893,14 @@ public class SimulationConfigurationFactory {
 				writeFinalElementToDom(rule, "classname", ruleName);
 				String ConfigXMLfileName = null;
 				if (scen == 0 || charID != 3)
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) charID).toString() + ".xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) charID).toString() + ".xml";
 				else
-					ConfigXMLfileName = directoryName + File.separator 
-							+ "modelconfiguration" + File.separator
-							+ "rule" + ((Integer) charID).toString()
-							+ "_scen_" + scen + ".xml";
+					ConfigXMLfileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator + "rule"
+							+ ((Integer) charID).toString() + "_scen_" + scen
+							+ ".xml";
 				if (charID > 2)
 					writeFinalElementToDom(rule, "configurationfile",
 							ConfigXMLfileName);
@@ -964,12 +962,14 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(charElement, "id", "3");
 		writeFinalElementToDom(charElement, "lb", "risk factor");
 
-		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3)
+		if (parameters.getRiskType() == ModelParameters.CATEGORICAL
+				|| parameters.getRiskType() == ModelParameters.COMPOUND)
 			writeFinalElementToDom(charElement, "type", "categorical");
 		else
 			writeFinalElementToDom(charElement, "type", "numericalcontinuous");
 
-		if (parameters.getRiskType() == 1 || parameters.getRiskType() == 3) {
+		if (parameters.getRiskType() == ModelParameters.CATEGORICAL
+				|| parameters.getRiskType() == ModelParameters.COMPOUND) {
 			element = document.createElement("possiblevalues");
 			charElement.appendChild(element);
 			for (int r = 0; r < parameters.getPrevRisk()[0][0].length; r++) {
@@ -977,7 +977,7 @@ public class SimulationConfigurationFactory {
 			}
 		}
 
-		if (parameters.getRiskType() == 3) {
+		if (parameters.getRiskType() == ModelParameters.COMPOUND) {
 			firstDiseaseNo++;
 			charElement = document.createElement("ch");
 			rootElement.appendChild(charElement);
@@ -998,12 +998,12 @@ public class SimulationConfigurationFactory {
 		writeFinalElementToDom(charElement, "lb", "healthState");
 		writeFinalElementToDom(charElement, "type", "compound");
 		int numberOfElements = 1;
-		int ndiseases=0;
+		int ndiseases = 0;
 
 		for (int c = 0; c < parameters.getNCluster(); c++) {
 			DiseaseClusterStructure structure = parameters
 					.getClusterStructure()[c];
-			ndiseases+=structure.getNInCluster();
+			ndiseases += structure.getNInCluster();
 			if (structure.getNInCluster() == 1)
 				numberOfElements++;
 			else if (structure.isWithCuredFraction())
@@ -1012,12 +1012,13 @@ public class SimulationConfigurationFactory {
 				numberOfElements += Math.pow(2, structure.getNInCluster()) - 1;
 		}
 		if (!this.incidenceDebug)
-		writeFinalElementToDom(charElement, "numberofelements",
-				((Integer) numberOfElements).toString());
+			writeFinalElementToDom(charElement, "numberofelements",
+					((Integer) numberOfElements).toString());
 
-		else writeFinalElementToDom(charElement, "numberofelements",
-				((Integer) (numberOfElements+ndiseases)).toString());
-		
+		else
+			writeFinalElementToDom(charElement, "numberofelements",
+					((Integer) (numberOfElements + ndiseases)).toString());
+
 		/* write to document */
 
 		document.appendChild(rootElement);
@@ -1193,17 +1194,23 @@ public class SimulationConfigurationFactory {
 
 	}
 
-	/**write an xml file (lower level tags are age/sex/from/to/value or percent
-	 * @param arrayToWrite array that should be written
-	 * @param globalTag global (=first) tag of xml file
-	 * @param tag second level tag
+	/**
+	 * write an xml file (lower level tags are age/sex/from/to/value or percent
+	 * 
+	 * @param arrayToWrite
+	 *            array that should be written
+	 * @param globalTag
+	 *            global (=first) tag of xml file
+	 * @param tag
+	 *            second level tag
 	 * @param fileName
-	 * @param percent (boolean): if true, the values are multiplied with 100 before writing,
-	 * and the tag "percent" is used for them 
+	 * @param percent
+	 *            (boolean): if true, the values are multiplied with 100 before
+	 *            writing, and the tag "percent" is used for them
 	 * @throws DynamoConfigurationException
 	 */
 	private void writeThreeDimArray(float[][][][] arrayToWrite,
-			String globalTag, String tag, String fileName,  boolean percent)
+			String globalTag, String tag, String fileName, boolean percent)
 			throws DynamoConfigurationException {
 
 		int dim1 = arrayToWrite.length;
@@ -1227,15 +1234,20 @@ public class SimulationConfigurationFactory {
 								.toString());
 						writeFinalElementToDom(element, "sex", ((Integer) g)
 								.toString());
-						writeFinalElementToDom(element, "from", ((Integer) (c+1))
-								.toString());
-						writeFinalElementToDom(element, "to", ((Integer) (d+1))
-								.toString());
-						if (percent) writeFinalElementToDom(element, "percent",
-								((Float)(100.0F*arrayToWrite[a][g][c][d])).toString());
-						else 
-						writeFinalElementToDom(element, "value",
-								((Float) arrayToWrite[a][g][c][d]).toString());
+						writeFinalElementToDom(element, "from",
+								((Integer) (c + 1)).toString());
+						writeFinalElementToDom(element, "to",
+								((Integer) (d + 1)).toString());
+						if (percent)
+							writeFinalElementToDom(
+									element,
+									"percent",
+									((Float) (100.0F * arrayToWrite[a][g][c][d]))
+											.toString());
+						else
+							writeFinalElementToDom(element, "value",
+									((Float) arrayToWrite[a][g][c][d])
+											.toString());
 
 					}
 		document.appendChild(rootElement);

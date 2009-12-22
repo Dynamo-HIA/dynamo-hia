@@ -482,35 +482,120 @@ public class StorageTreeMenuFactory {
 							if (RootElementNamesEnum.RELATIVERISKSCLUSTER
 									.getNodeLabel().equals(rootElementName)) {
 								XMLFileAction action = new XMLFileAction(
-										this.shell, this.treeViewer,
-										selectedNode, selectedNode
-												.deriveNodeLabel(),
+										this.shell,
+										this.treeViewer,
+										selectedNode,
+										selectedNode.deriveNodeLabel(),
 										RootElementNamesEnum.RELATIVERISKSCLUSTER
 												.getNodeLabel());
-								action.setText("View relative risks for clusters");
+								action
+										.setText("View relative risks for clusters");
 								manager.add(action);
 							} else {
-								if (RootElementNamesEnum.TRANSITIONMATRIX
+								if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
 										.getNodeLabel().equals(rootElementName)) {
 									XMLFileAction action = new XMLFileAction(
-											this.shell, this.treeViewer,
-											selectedNode, selectedNode
-													.deriveNodeLabel(),
-											RootElementNamesEnum.TRANSITIONMATRIX
+											this.shell,
+											this.treeViewer,
+											selectedNode,
+											selectedNode.deriveNodeLabel(),
+											RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
 													.getNodeLabel());
-									action.setText("View transition rates");
+									action
+											.setText("View categorical relative risks");
 									manager.add(action);
 								} else {
-								DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
-										shell);
-								action.setText("Unhandled parameters file");
-								manager.add(action);
+									if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+											.getNodeLabel().equals(
+													rootElementName)) {
+										XMLFileAction action = new XMLFileAction(
+												this.shell,
+												this.treeViewer,
+												selectedNode,
+												selectedNode.deriveNodeLabel(),
+												RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+														.getNodeLabel());
+										action
+												.setText("View categorical relative risks for other mortality");
+										manager.add(action);
+									} else {
+										if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+												.getNodeLabel().equals(
+														rootElementName)) {
+											XMLFileAction action = new XMLFileAction(
+													this.shell,
+													this.treeViewer,
+													selectedNode,
+													selectedNode
+															.deriveNodeLabel(),
+													RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+															.getNodeLabel());
+											action
+													.setText("View continuous relative risks");
+											manager.add(action);
+										} else {
+											if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+													.getNodeLabel().equals(
+															rootElementName)) {
+												XMLFileAction action = new XMLFileAction(
+														this.shell,
+														this.treeViewer,
+														selectedNode,
+														selectedNode
+																.deriveNodeLabel(),
+														RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+																.getNodeLabel());
+												action
+														.setText("View continuous relative risks for other mortality");
+												manager.add(action);
+											} else {
+												if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
+														.getNodeLabel()
+														.equals(rootElementName)) {
+													XMLFileAction action = new XMLFileAction(
+															this.shell,
+															this.treeViewer,
+															selectedNode,
+															selectedNode
+																	.deriveNodeLabel(),
+															RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
+																	.getNodeLabel());
+													action
+															.setText("View compound relative risks");
+													manager.add(action);
+												} else {
+													if (RootElementNamesEnum.TRANSITIONMATRIX
+															.getNodeLabel()
+															.equals(
+																	rootElementName)) {
+														XMLFileAction action = new XMLFileAction(
+																this.shell,
+																this.treeViewer,
+																selectedNode,
+																selectedNode
+																		.deriveNodeLabel(),
+																RootElementNamesEnum.TRANSITIONMATRIX
+																		.getNodeLabel());
+														action
+																.setText("View transition rates");
+														manager.add(action);
+													} else {
+														DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
+																shell);
+														action
+																.setText("Unhandled parameters file");
+														manager.add(action);
+													}
+												}
+											}
+										}
+									}
+								}
 							}
 						}
 					}
 				}
-				}
-				}
+			}
 		}
 	}
 

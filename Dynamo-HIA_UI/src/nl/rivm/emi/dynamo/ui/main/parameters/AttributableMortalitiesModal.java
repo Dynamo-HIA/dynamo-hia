@@ -11,7 +11,6 @@ package nl.rivm.emi.dynamo.ui.main.parameters;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
-import nl.rivm.emi.dynamo.ui.panels.OverallMortalityGroup;
 import nl.rivm.emi.dynamo.ui.panels.parameters.AttributableMortalitiesGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 

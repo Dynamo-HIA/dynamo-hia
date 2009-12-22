@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
-import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTabDataManager;
 
 import org.apache.commons.logging.Log;

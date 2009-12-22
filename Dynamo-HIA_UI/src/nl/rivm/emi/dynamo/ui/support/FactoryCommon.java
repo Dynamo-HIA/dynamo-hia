@@ -3,14 +3,14 @@ package nl.rivm.emi.dynamo.ui.support;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import org.apache.commons.configuration.ConfigurationException;
-
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+
+import org.apache.commons.configuration.ConfigurationException;
 
 public class FactoryCommon {
 	/** Context definition. */

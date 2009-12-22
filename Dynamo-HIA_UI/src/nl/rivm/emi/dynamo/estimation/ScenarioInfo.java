@@ -5,10 +5,10 @@ package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 /**
  * @author Hendriek This Class contains information on scenario's

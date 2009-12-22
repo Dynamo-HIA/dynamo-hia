@@ -11,6 +11,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
+import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorContinuous4ParametersGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorContinuousGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
@@ -67,11 +68,18 @@ public class RelRiskFromRiskFactorContinuousModal extends AbstractDataModal {
 			BaseNode riskSourceNode = null;
 			if (this.props != null) {
 				riskSourceNode = this.props.getRiskSourceNode();
-			}
+			
 			RelRisksFromRiskFactorContinuousGroup relRisksFromRiskFactorContinuousGroup = new RelRisksFromRiskFactorContinuousGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
 					this.selectedNode, riskSourceNode, this.helpPanel);
 			relRisksFromRiskFactorContinuousGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
+			} else {
+				RelRisksFromRiskFactorContinuous4ParametersGroup relRisksFromRiskFactorContinuousGroup = new RelRisksFromRiskFactorContinuous4ParametersGroup(
+						this.shell, this.modelObject, this.dataBindingContext,
+						this.selectedNode, riskSourceNode, this.helpPanel);
+				relRisksFromRiskFactorContinuousGroup.setFormData(this.helpPanel.getGroup(), buttonPanel);
+				
+			}
 			this.shell.pack();
 			// This is the first place this works.
 			this.shell.setSize(500, ModalStatics.defaultHeight);

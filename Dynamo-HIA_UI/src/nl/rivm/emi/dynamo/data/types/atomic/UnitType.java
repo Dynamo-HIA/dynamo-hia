@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;;
 
 public class UnitType extends AbstractString implements PayloadType<String>{
 

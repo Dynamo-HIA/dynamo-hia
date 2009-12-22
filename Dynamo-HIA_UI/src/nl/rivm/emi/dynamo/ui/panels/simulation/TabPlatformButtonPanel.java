@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import nl.rivm.emi.dynamo.ui.listeners.ButtonFocusListener;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.CreateSelectionListener;

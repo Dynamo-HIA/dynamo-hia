@@ -1,12 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 
-import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.ui.listeners.ScrollListener;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.DistributionTypeComboModifyListener;
-import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;

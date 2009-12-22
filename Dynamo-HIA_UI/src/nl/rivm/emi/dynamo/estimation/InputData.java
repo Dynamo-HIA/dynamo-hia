@@ -1,9 +1,9 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 /**
  * @author Hendriek This class contains the input data for the reference

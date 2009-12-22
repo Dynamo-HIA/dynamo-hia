@@ -1,9 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.objects.RiskFactorContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;

@@ -6,7 +6,6 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
 import nl.rivm.emi.dynamo.ui.panels.simulation.GenericDropDownPanel;
 

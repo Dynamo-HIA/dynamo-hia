@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
 import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabsDataPanel;
-import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

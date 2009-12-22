@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -1212,14 +1213,17 @@ public class InputDataFactory {
 					// "The component Riskfactor Compound has not yet been implemented"),
 					// configFileName);
 					// TODO: Reactivate code below for version 1.1
-					this.riskFactorType = 3;
+					this.riskFactorType = ModelParameters.COMPOUND;
 					
-					
-					if (((XMLConfiguration) config).getString("distributiontype").equalsIgnoreCase("Normal"))
+					String testString = ((XMLConfiguration) config).getString("distributiontype");
+					if ((testString != null) && testString.equalsIgnoreCase("Normal")){
 						givenAsNormal=true;
-					
-					
-				} else
+					} else {
+						log.fatal("No distributionType found.");
+						throw new DynamoConfigurationException(
+								"No distributionType found in XML file: " + configFileName);
+						}
+								} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
 									+ type + " in XML file " + configFileName);
@@ -2123,7 +2127,7 @@ public class InputDataFactory {
 							+ ".xml";
 
 					info.rrDataDis = this.factory.manufactureOneDimArray(
-							configFileName, rrDiseaseTagName, "relativerisk",
+							configFileName, rrDiseaseTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
 							"value", false);
 
 				} else {
@@ -2143,7 +2147,7 @@ public class InputDataFactory {
 							info.rrDataCont = this.factory
 									.manufactureOneDimArray(configFileName,
 											rrContinuousTagName,
-											"relativerisk", "value", false);
+											XMLTagEntityEnum.RELATIVERISK.getElementName(), "value", false);
 						} else if (this.riskFactorType == 1) {
 
 							String configFileName = this.baseDir
@@ -2155,7 +2159,7 @@ public class InputDataFactory {
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
 											rrCategoricalTagName,
-											"relativerisk", "cat", "value",
+											XMLTagEntityEnum.RELATIVERISK.getElementName(), "cat", "value",
 											false);
 						} else {
 							String configFileName = this.baseDir
@@ -2167,19 +2171,19 @@ public class InputDataFactory {
 
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
-											rrCompoundTagName, "relativerisk",
+											rrCompoundTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
 											"cat", "value", true);
 							info.rrDataBegin = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									"relativerisk", "begin", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "begin", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataEnd = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									"relativerisk", "end", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "end", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataAlfa = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									"relativerisk", "alfa", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "alfa", "cat",
 									this.originalNumberDurationClass);
 
 						}

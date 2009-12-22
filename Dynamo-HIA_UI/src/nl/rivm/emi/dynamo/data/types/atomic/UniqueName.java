@@ -2,16 +2,10 @@ package nl.rivm.emi.dynamo.data.types.atomic;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
-import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
 public class UniqueName extends AbstractString implements ContainerType<String> {
 

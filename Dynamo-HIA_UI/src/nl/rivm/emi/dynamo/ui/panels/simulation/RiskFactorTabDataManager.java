@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -10,15 +9,14 @@ import java.util.Set;
 import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
+import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 import nl.rivm.emi.dynamo.ui.support.SimilarityCounter;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
-import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -26,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.TabFolder;
 
 public class RiskFactorTabDataManager implements DynamoTabDataManager {
 

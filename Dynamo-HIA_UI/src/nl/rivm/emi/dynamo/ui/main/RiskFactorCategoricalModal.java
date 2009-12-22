@@ -12,7 +12,6 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 import java.util.LinkedHashMap;
 
-import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;

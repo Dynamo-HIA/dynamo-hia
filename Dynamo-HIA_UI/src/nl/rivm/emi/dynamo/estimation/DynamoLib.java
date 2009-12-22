@@ -5,7 +5,6 @@ package nl.rivm.emi.dynamo.estimation;
 import java.util.Random;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-
 import Jama.Matrix;
 
 /**

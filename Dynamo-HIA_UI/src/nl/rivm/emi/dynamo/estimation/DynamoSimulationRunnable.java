@@ -613,16 +613,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		int size = population.size();
 
-		// Shell shell = new Shell(parentShell);
-		// shell.setText("Simulation of scenario " + scennum + " running ....");
-		// shell.setLayout(new FillLayout());
-		// shell.setSize(600, 50);
-		//
-		// ProgressBar bar = new ProgressBar(shell, SWT.NULL);
-		// bar.setBounds(10, 10, 200, 32);
-		// bar.setMinimum(0);
-		//
-		// shell.open();
 		ProgressIndicatorInterface pii = dsi
 				.createProgressIndicator("Simulation of scenario " + scennum
 						+ " running ....");
@@ -665,25 +655,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				currentProgressIndicator++;
 			}
 		}
-		/*
-		 * while (!shell.isDisposed ()) { if (!display.readAndDispatch ())
-		 * display.sleep (); }
-		 */
-		// shell.close();
 		pii.dispose();
 	}
 
 	private void displayErrorMessage(Exception e, String simulationFilePath) {
-
-		// Shell shell = new Shell(parentShell);
-		// String cause = "";
-		// if (e.getCause() != null) {
-		// cause += this.handleErrorMessage("", e, simulationFilePath);
-		// }
-		// MessageBox messageBox = new MessageBox(shell, SWT.OK);
-		// messageBox.setMessage("Errors during configuration of the model"
-		// + " Message given: " + e.getMessage() + cause);
-		// messageBox.open();
 		pr.communicateErrorMessage(this, e, simulationFilePath);
 		e.printStackTrace();
 	}

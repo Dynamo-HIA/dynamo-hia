@@ -2,8 +2,6 @@ package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.dynamo.data.types.interfaces.PayloadType;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.UpdateValueStrategy;

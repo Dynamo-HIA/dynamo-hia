@@ -2,10 +2,12 @@ package nl.rivm.emi.dynamo.ui.panels.parameters;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.panels.ParametersFileContextPanel;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -20,15 +22,12 @@ public class RelativeRisksCategoricalGroup {
 
 	public RelativeRisksCategoricalGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
-			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {
+			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-//		String[] entityStrings = Util
-//				.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-//		EntityNamePanel entityNamePanel = new EntityNamePanel(theGroup,
-//				entityStrings[0], entityStrings[1], null);
-//		entityNamePanel.putInContainer();
+		ParametersFileContextPanel entityNamePanel = new ParametersFileContextPanel(theGroup, null, selectedNode);
+		entityNamePanel.handlePlacementInContainer();
 		RelativeRisksCategoricalParameterGroup parameterGroup = new RelativeRisksCategoricalParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(null);

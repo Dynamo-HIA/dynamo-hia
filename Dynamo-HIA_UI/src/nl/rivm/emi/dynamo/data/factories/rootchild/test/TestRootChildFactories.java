@@ -13,7 +13,6 @@ import javax.xml.stream.XMLStreamException;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
-import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.RiskFactorCompoundFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;

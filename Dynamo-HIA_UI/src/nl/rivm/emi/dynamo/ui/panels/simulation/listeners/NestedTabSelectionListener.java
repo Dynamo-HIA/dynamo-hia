@@ -1,19 +1,12 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
-import java.util.Set;
-
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTab;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseasesTabPlatform;
 import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRiskTab;
-import nl.rivm.emi.dynamo.ui.panels.simulation.RelativeRisksTabPlatform;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
-import nl.rivm.emi.dynamo.ui.panels.util.NestedTabsMap;
-import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

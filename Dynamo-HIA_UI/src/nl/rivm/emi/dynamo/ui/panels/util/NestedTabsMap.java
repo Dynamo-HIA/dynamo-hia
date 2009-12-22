@@ -2,10 +2,10 @@ package nl.rivm.emi.dynamo.ui.panels.util;
 
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 
 public class NestedTabsMap extends LinkedHashMap<String, NestedTab>{
 	private static final long serialVersionUID = 2493820469196120469L;

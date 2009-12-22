@@ -3,11 +3,11 @@ package nl.rivm.emi.dynamo.data.types.atomic;
  * Index with flexible upper limit and nonstandard lowerlimit 1.
  * Currently in use as index for categories of RiskFactors.
  */
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteger;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class FlexDex extends AbstractFlexibleUpperLimitInteger implements
 		ContainerType<Integer>{

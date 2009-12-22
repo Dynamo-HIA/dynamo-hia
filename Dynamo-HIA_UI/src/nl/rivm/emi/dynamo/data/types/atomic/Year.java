@@ -1,13 +1,7 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
-import java.util.Calendar;
-import java.util.regex.Pattern;
-
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractYear;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
-
-import org.eclipse.core.databinding.UpdateValueStrategy;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 
 /**
  * @author mondeelr

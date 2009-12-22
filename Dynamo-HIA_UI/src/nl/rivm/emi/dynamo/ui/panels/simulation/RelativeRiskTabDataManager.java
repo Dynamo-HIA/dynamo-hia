@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -14,19 +13,14 @@ import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.simulation.listeners.RelativeRiskComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
-import nl.rivm.emi.dynamo.ui.support.ChosenFromList;
-import nl.rivm.emi.dynamo.ui.support.ChosenToList;
 import nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown;
-import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * 

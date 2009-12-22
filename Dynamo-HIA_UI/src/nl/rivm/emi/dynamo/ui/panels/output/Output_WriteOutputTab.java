@@ -11,7 +11,6 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
-import nl.rivm.emi.dynamo.output.DynamoOutputFactory_old;
 import nl.rivm.emi.dynamo.output.ExcelReadableXMLWriter;
 
 import org.eclipse.swt.SWT;
@@ -21,9 +20,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
@@ -31,8 +28,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.jfree.chart.JFreeChart;
-import org.jfree.experimental.chart.swt.ChartComposite;
 
 /**
  * @author  boshuizh

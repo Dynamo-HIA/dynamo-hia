@@ -24,6 +24,7 @@ import nl.rivm.emi.dynamo.ui.main.RelRiskFromOtherDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorContinuousModal;
+import nl.rivm.emi.dynamo.ui.main.RelativeRisksDiseaseOnDiseaseModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalPrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
@@ -557,7 +558,7 @@ public class XMLFileAction extends ActionBase {
 																																							.getNodeLabel()
 																																							.equals(
 																																									rootElementName)) {
-																																						theModal = new RelativeRisksClusterModal(
+																																						theModal = new RelativeRisksDiseaseOnDiseaseModal(
 																																								shell,
 																																								importFile
 																																										.getAbsolutePath(),
@@ -566,10 +567,86 @@ public class XMLFileAction extends ActionBase {
 																																								rootElementName,
 																																								node);
 																																					} else {
-																																						throw new DynamoConfigurationException(
-																																								"RootElementName "
-																																										+ rootElementName
-																																										+ " not implemented yet.");
+																																						if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
+																																								.getNodeLabel()
+																																								.equals(
+																																										rootElementName)) {
+																																							theModal = new RelRiskFromRiskFactorCategoricalModal(
+																																									shell,
+																																									importFile
+																																											.getAbsolutePath(),
+																																									savedFile
+																																											.getAbsolutePath(),
+																																									rootElementName,
+																																									node,
+																																									null);
+																																						} else {
+																																							if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+																																									.getNodeLabel()
+																																									.equals(
+																																											rootElementName)) {
+																																								theModal = new RelRiskFromRiskFactorCategoricalModal(
+																																										shell,
+																																										importFile
+																																												.getAbsolutePath(),
+																																										savedFile
+																																												.getAbsolutePath(),
+																																										rootElementName,
+																																										node,
+																																										null);
+																																							} else {
+																																								if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
+																																										.getNodeLabel()
+																																										.equals(
+																																												rootElementName)) {
+																																									theModal = new RelRiskFromRiskFactorCompoundModal(
+																																											shell,
+																																											importFile
+																																													.getAbsolutePath(),
+																																											savedFile
+																																													.getAbsolutePath(),
+																																											rootElementName,
+																																											node,
+																																											null);
+																																								} else {
+
+																																									if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+																																											.getNodeLabel()
+																																											.equals(
+																																													rootElementName)) {
+																																										theModal = new RelRiskFromRiskFactorContinuousModal(
+																																												shell,
+																																												importFile
+																																														.getAbsolutePath(),
+																																												savedFile
+																																														.getAbsolutePath(),
+																																												rootElementName,
+																																												node,
+																																												null);
+																																									} else {
+																																										if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+																																												.getNodeLabel()
+																																												.equals(
+																																														rootElementName)) {
+																																											theModal = new RelRiskFromRiskFactorContinuousModal(
+																																													shell,
+																																													importFile
+																																															.getAbsolutePath(),
+																																													savedFile
+																																															.getAbsolutePath(),
+																																													rootElementName,
+																																													node,
+																																													null);
+																																										} else {
+																																											throw new DynamoConfigurationException(
+																																													"RootElementName "
+																																															+ rootElementName
+																																															+ " not implemented yet.");
+																																										}
+																																									}
+																																								}
+																																							}
+																																						}
 																																					}
 																																				}
 																																			}

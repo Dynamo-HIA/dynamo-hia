@@ -61,7 +61,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDeath;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDisability;
 import nl.rivm.emi.dynamo.data.types.atomic.RelativeRisk;
 import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
-import nl.rivm.emi.dynamo.data.types.atomic.RelativeRisks;
 import nl.rivm.emi.dynamo.data.types.atomic.ResultType;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactor;
 import nl.rivm.emi.dynamo.data.types.atomic.RiskFactorTransFileName;
@@ -111,6 +110,7 @@ import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDisabilityContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorCompound;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisksCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisksFromDisease;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorCompound;
 import nl.rivm.emi.dynamo.data.types.root.RiskFactorContinuous;
@@ -211,6 +211,7 @@ public enum XMLTagEntityEnum {
 	UNIQUENAME((XMLTagEntity) new UniqueName()), //
 	UNIT((XMLTagEntity) new Unit()), //
 	UNITTYPE((XMLTagEntity) new UnitType()), //
+	VALUE((XMLTagEntity) new Value()), //
 	VIRTUALCUTOFFINDEX((XMLTagEntity) new VirtualCutoffIndex()), //
 	WEIGHT((XMLTagEntity) new Weight()), //
 	YEAR((XMLTagEntity) new Year()), //
@@ -259,7 +260,7 @@ public enum XMLTagEntityEnum {
 	BASELINEFATALINCIDENCE(new BaselineFatalIncidence()), //
 	BASELINEINCIDENCES(new BaselineIncidences()), //
 	BASELINEINCIDENCE(new BaselineIncidence()), //
-	RELATIVERISKS(new RelativeRisks()); //
+	RELATIVERISKSCATEGORICAL(new RelativeRisksCategorical()); //
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 

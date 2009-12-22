@@ -12,19 +12,11 @@ import javax.xml.stream.XMLStreamException;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.ExcessMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.DispatchMap;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
-import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
-
-import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
-
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;

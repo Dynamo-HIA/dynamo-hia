@@ -1,15 +1,12 @@
 package czm_mono_mkii;
 
 import nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper;
-import nl.rivm.emi.dynamo.ui.startup.BaseDirectoryHandler;
-import nl.rivm.emi.dynamo.ui.startup.BaseStorageTreeScreen;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 

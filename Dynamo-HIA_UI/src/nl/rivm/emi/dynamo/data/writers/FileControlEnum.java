@@ -104,7 +104,8 @@ public enum FileControlEnum {
 			false, false), //
 	BASELINEINCIDENCES(FileControlEnumHelp.baselineIncidencesStrings, false,
 			false), //
-	RELATIVERISKS(FileControlEnumHelp.relativeRisksStrings, false, false) //
+	RELATIVERISKS(FileControlEnumHelp.relativeRisksStrings, false, false), //
+//	RELATIVERISKSDISEASEONDISEASE(FileControlEnumHelp.relativeRisksDiseaseOnDiseaseStrings, false, false),//
 	; //
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**

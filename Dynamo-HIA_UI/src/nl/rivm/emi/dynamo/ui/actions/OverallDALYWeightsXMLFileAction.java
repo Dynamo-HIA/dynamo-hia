@@ -6,7 +6,6 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
-import nl.rivm.emi.dynamo.ui.main.OverallMortalityModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;

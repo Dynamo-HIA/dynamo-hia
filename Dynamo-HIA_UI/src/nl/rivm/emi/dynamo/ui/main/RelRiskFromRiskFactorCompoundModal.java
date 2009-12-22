@@ -23,7 +23,6 @@ import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksCompoundGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;

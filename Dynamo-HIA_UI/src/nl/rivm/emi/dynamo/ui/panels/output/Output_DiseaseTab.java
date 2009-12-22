@@ -4,7 +4,6 @@
 package nl.rivm.emi.dynamo.ui.panels.output;
 
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
-import nl.rivm.emi.dynamo.output.DynamoOutputFactory_old;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.SWT;

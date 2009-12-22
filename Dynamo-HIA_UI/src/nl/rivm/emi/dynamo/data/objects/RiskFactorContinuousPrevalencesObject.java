@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.data.interfaces.IDistributionTypeObject;
-import nl.rivm.emi.dynamo.data.interfaces.IMortalityObject;
-import nl.rivm.emi.dynamo.data.interfaces.IUnitTypeObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 

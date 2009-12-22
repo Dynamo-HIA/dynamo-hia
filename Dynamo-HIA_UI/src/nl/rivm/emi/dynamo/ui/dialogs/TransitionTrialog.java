@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.dialogs;
 
-import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
 import org.eclipse.jface.dialogs.IInputValidator;

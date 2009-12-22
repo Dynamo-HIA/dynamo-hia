@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Precondition is that a dispatcher has chosen this factory based on the
  */
-public class RelativeRisksClusterFactory extends AgnosticFactory {
+public class RelativeRisksClusterFactory extends AgnosticCategoricalFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	/* (non-Javadoc)

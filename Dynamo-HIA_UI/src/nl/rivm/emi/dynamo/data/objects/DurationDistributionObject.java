@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.eclipse.core.databinding.observable.value.WritableValue;
-
 import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
@@ -14,6 +12,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.CatContainer;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.data.util.LeafNodeList;
+
+import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class DurationDistributionObject extends TypedHashMap<Age> implements StandardObjectMarker, ISanityCheck {
 	private static final long serialVersionUID = 559843387625531336L;

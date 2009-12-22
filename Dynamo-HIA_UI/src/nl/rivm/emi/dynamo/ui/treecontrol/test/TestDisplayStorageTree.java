@@ -1,8 +1,5 @@
 package nl.rivm.emi.dynamo.ui.treecontrol.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import java.io.File;
 import java.io.IOException;
 

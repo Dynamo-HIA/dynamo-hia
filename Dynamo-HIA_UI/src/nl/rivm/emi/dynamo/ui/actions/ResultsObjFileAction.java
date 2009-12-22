@@ -1,12 +1,9 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;

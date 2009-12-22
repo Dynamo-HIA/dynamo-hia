@@ -136,27 +136,32 @@ public class FileControlEnumHelp {
 			"unittype",
 			/* Alternative, non-conforming layout. */XMLTagEntityEnum.MORTALITIES
 					.getElementName()
-					/*,XMLTagEntityEnum.MORTALITY.getElementName()*/
-					};
+	/* ,XMLTagEntityEnum.MORTALITY.getElementName() */
+	};
 	/* W34Cat */
 	static final String[] relRiskFromRiskfactorCatStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
-					.getNodeLabel(), "relativerisk", "age", "sex", "cat",
-			"value" };
+					.getNodeLabel(),
+			XMLTagEntityEnum.RELATIVERISK.getElementName(), "age", "sex",
+			"cat", "value" };
 	/* W34Comp */
 	static final String[] relRiskFromRiskfactorCompStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
-					.getNodeLabel(), "relativerisk", "age", "sex", "cat",
-			"begin", "alfa", "end" };
+					.getNodeLabel(),
+			XMLTagEntityEnum.RELATIVERISK.getElementName(), "age", "sex",
+			"cat", "begin", "alfa", "end" };
 	/* W34Con */
 	static final String[] relRiskFromRiskfactorConStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS
-					.getNodeLabel(), "relativerisk", "age", "sex", "value" };
+					.getNodeLabel(),
+			XMLTagEntityEnum.RELATIVERISK.getElementName(), "age", "sex",
+			"value" };
 	/* W34Cmp */
 	/* W35 */
 	static final String[] relRiskFromDiseaseStrings = {
 			RootElementNamesEnum.RELATIVERISKSFROMDISEASE.getNodeLabel(),
-			"relativerisk", "age", "sex", "value" };
+			XMLTagEntityEnum.RELATIVERISK.getElementName(), "age", "sex",
+			"value" };
 	/* W?? */
 	static final String[] dALYWeightsStrings = {
 			RootElementNamesEnum.DALYWEIGHTS.getNodeLabel(), "weight", "age",
@@ -238,5 +243,13 @@ public class FileControlEnumHelp {
 			"baselineIncidence", "age", "sex", "value" };
 	static final String[] relativeRisksStrings = {
 			RootElementNamesEnum.RELATIVERISKS.getNodeLabel(),
-			"baselineIncidence", "age", "sex", "value" };
+			XMLTagEntityEnum.RELATIVERISK.getElementName(), "age", "sex",
+			"value" };
+//	static final String[] relativeRisksDiseaseOnDiseaseStrings = {
+//			RootElementNamesEnum.RELATIVERISKSDISEASEONDISEASE.getNodeLabel(),
+//			XMLTagEntityEnum.RELATIVERISK.getElementName(),
+//			XMLTagEntityEnum.AGE.getElementName(),
+//			XMLTagEntityEnum.SEX.getElementName(),
+//			XMLTagEntityEnum.ISRRFROM.getElementName(),
+//			XMLTagEntityEnum.STANDARDVALUE.getElementName() };
 }

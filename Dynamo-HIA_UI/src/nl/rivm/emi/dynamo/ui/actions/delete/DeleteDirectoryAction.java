@@ -12,7 +12,6 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StructureTestUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

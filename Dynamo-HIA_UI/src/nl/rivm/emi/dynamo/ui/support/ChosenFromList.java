@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
-import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

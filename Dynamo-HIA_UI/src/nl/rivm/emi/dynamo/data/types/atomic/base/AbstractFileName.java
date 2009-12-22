@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.data.types.atomic.base;
 
 import java.util.regex.Pattern;
 
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.conversion.IConverter;

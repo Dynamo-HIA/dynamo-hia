@@ -1,8 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.data.types.atomic.Age;
-import nl.rivm.emi.dynamo.data.types.atomic.Mean;
 import nl.rivm.emi.dynamo.ui.listeners.ScrollListener;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 

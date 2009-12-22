@@ -9,11 +9,6 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.ProgressBar;
-import org.eclipse.swt.widgets.Shell;
 
 import Jama.Matrix;
 
@@ -32,6 +27,9 @@ import Jama.Matrix;
  */
 
 public class ModelParameters {
+static public final int CATEGORICAL = 1;
+static public final int CONTINUOUS = 2;
+static public final int COMPOUND = 3;
 
 	// Fields containing the estimated model parameters and other info needed to
 	// run the model

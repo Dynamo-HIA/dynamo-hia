@@ -3,8 +3,6 @@ package nl.rivm.emi.dynamo.ui.actions;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class DynamoHIADummyDebugAction extends Action {

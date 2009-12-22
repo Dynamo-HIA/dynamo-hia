@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.data.interfaces;
 
 import java.util.Map;
 
-import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 
 public interface IRelativeRisks {

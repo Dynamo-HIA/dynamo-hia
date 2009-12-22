@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.databinding.converters;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.conversion.IConverter;
 
 public class IntegerModelConverter implements IConverter {

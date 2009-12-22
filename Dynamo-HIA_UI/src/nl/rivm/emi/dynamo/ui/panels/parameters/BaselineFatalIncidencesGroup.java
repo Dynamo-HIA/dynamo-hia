@@ -2,10 +2,13 @@ package nl.rivm.emi.dynamo.ui.panels.parameters;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.panels.ParametersFileContextPanel;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
+import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
@@ -20,14 +23,14 @@ public class BaselineFatalIncidencesGroup {
 
 	public BaselineFatalIncidencesGroup(Shell shell, TypedHashMap<?> lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
-			HelpGroup helpGroup) throws DynamoConfigurationException {
+			HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
-		DiseaseNamePanel entityNameGroup = new DiseaseNamePanel(theGroup,
-				entityArray[0], entityArray[1], null);
-		entityNameGroup.putInContainer();
+		ParametersFileContextPanel entityNameGroup = new ParametersFileContextPanel(theGroup,
+				 null, selectedNode);
+		entityNameGroup.handlePlacementInContainer();
 		BaselineFatalIncidencesParameterGroup parameterGroup = new BaselineFatalIncidencesParameterGroup(
 				theGroup, lotsOfData, dataBindingContext, helpGroup);
 		parameterGroup.handlePlacementInContainer(entityNameGroup.group);

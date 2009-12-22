@@ -18,14 +18,12 @@ import nl.rivm.emi.dynamo.ui.main.DiseaseIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.DiseasePrevalencesModal;
 import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
-import nl.rivm.emi.dynamo.ui.main.TransitionDriftModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

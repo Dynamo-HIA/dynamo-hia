@@ -11,7 +11,6 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.UnexpectedFileStructureException;
 import nl.rivm.emi.dynamo.data.factories.OverallMortalityFactory;
-import nl.rivm.emi.dynamo.data.factories.PopulationSizeFactory;
 import nl.rivm.emi.dynamo.data.writers.FileControlEnum;
 import nl.rivm.emi.dynamo.data.writers.FileControlSingleton;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticWriter;
