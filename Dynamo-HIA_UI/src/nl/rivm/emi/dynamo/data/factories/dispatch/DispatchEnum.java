@@ -204,7 +204,7 @@ public enum DispatchEnum {
 			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
-	ALPHAS(RootElementNamesEnum.ALPHAS.getNodeLabel(), new AlphasFactory(),
+	ALPHAS(RootElementNamesEnum.ALFAS.getNodeLabel(), new AlphasFactory(),
 			null), //
 	ALPHASOTHERMORTALITY(RootElementNamesEnum.ALPHASOTHERMORTALITY
 			.getNodeLabel(), new AlphasOtherMortalityFactory(), null), //
