@@ -564,7 +564,7 @@ public class StorageTreeMenuFactory {
 															.setText("View compound relative risks");
 													manager.add(action);
 												} else {
-													if (RootElementNamesEnum.ALPHAS
+													if (RootElementNamesEnum.ALFAS
 															.getNodeLabel()
 															.equals(
 																	rootElementName)) {
@@ -574,7 +574,7 @@ public class StorageTreeMenuFactory {
 																selectedNode,
 																selectedNode
 																		.deriveNodeLabel(),
-																RootElementNamesEnum.ALPHAS
+																RootElementNamesEnum.ALFAS
 																		.getNodeLabel());
 														action
 																.setText("View alphas.");
