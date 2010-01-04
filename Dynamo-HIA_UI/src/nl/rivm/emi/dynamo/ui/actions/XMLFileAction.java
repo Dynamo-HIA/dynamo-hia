@@ -640,7 +640,7 @@ public class XMLFileAction extends ActionBase {
 																																													node,
 																																													null);
 																																										} else {
-																																											if (RootElementNamesEnum.ALPHAS
+																																											if (RootElementNamesEnum.ALFAS
 																																													.getNodeLabel()
 																																													.equals(
 																																															rootElementName)) {
