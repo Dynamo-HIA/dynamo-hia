@@ -20,6 +20,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.BaselineIncidences;
 import nl.rivm.emi.dynamo.data.types.atomic.BaselineOtherMortalities;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.root.Alphas;
+import nl.rivm.emi.dynamo.data.types.root.Alphas4Parameters;
 import nl.rivm.emi.dynamo.data.types.root.AlphasOtherMortality;
 import nl.rivm.emi.dynamo.data.types.root.DALYWeights;
 import nl.rivm.emi.dynamo.data.types.root.DiseaseIncidences;
@@ -44,6 +45,8 @@ import nl.rivm.emi.dynamo.data.types.root.RelativeRiskFromRiskFactorContinuous4P
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisksCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisksCluster;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisksFromDisease;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_Begin;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_End;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_OtherMort_Begin;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_OtherMort_Categorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_OtherMort_Continuous;
@@ -123,11 +126,16 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	RELATIVERISKSFROMRISKFACTOR_COMPOUND4P(new RelativeRiskFromRiskFactorCompound4Parameters(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 	RELATIVERISKS_OTHERMORT_CATEGORICAL(new RelativeRisks_OtherMort_Categorical(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 	RELATIVERISKS_OTHERMORT_CONTINUOUS(new RelativeRisks_OtherMort_Continuous(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
-	ALPHAS(new Alphas(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	ALFAS(new Alphas(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	ALPHAS4P(new Alphas4Parameters(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	
 	ALPHASOTHERMORTALITY(new AlphasOtherMortality(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 	RELATIVERISKS_OTHERMORT_BEGIN(new RelativeRisks_OtherMort_Begin(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 	RELATIVERISKS_OTHERMORT_END(new RelativeRisks_OtherMort_End(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
-;
+	RELATIVERISKS_BEGIN(new RelativeRisks_Begin(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	RELATIVERISKS_END(new RelativeRisks_End(),  StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null, StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	
+	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
