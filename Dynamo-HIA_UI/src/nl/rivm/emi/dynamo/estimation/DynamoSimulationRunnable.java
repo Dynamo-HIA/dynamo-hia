@@ -64,6 +64,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 	private ScenarioInfo scen;
 
+	/**
+	 * @param prObject: object containing the logger to which messages are printed
+	 * @param simName: simulation name
+	 * @param baseDir: base directory
+	 * @throws DynamoInconsistentDataException
+	 */
 	public DynamoSimulationRunnable(
 	/* Shell parentShell */DynSimRunPRInterface prObject, String simName,
 			String baseDir) throws DynamoInconsistentDataException {
@@ -340,7 +346,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// if (parentShell != null) {
 			// new Output_UI(parentShell, output, scenParms, currentPath);
 			// }
-			pr.createOutput_UI(output, scenParms, currentPath);
+			pr.createOutput(output, scenParms, currentPath);
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
 			persistScenarioInfo(scenParms);
@@ -564,7 +570,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// if (parentShell != null) {
 			// new Output_UI(parentShell, output, scenParms, currentPath);
 			// }
-			pr.createOutput_UI(output, scenParms, currentPath);
+			pr.createOutput(output, scenParms, currentPath);
 		} else
 			// new ErrorMessageWindow("No file with filename " + resultFileName
 			// + " exists to read the results from.", parentShell);

@@ -1415,7 +1415,7 @@ public class InitialPopulationFactory {
 											* Math
 													.exp(-currentDurationValue
 															* parameters
-																	.getAlfaDuur()[a][g][dnumber])
+																	.getAlphaDuur()[a][g][dnumber])
 											+ parameters.getRelRiskDuurEnd()[a][g][dnumber]);
 					}
 				}

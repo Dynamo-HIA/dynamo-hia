@@ -843,7 +843,7 @@ public class ScenarioInfo {
 		return DynamoLib.deepcopy(alfaAbility);
 	}
 
-	public void setAlfaAbility(float[][] alfaAbility) {
+	public void setAlphaAbility(float[][] alfaAbility) {
 		this.alfaAbility = alfaAbility;
 	}
 

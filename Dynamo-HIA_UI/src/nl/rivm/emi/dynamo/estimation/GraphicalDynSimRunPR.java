@@ -50,7 +50,7 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 	}
 
 	@Override
-	public void createOutput_UI(CDMOutputFactory output,
+	public void createOutput(CDMOutputFactory output,
 			ScenarioParameters scenarioParameters, String currentPath) {
 		if (parentShell != null) {
 			new Output_UI(parentShell, output, scenarioParameters, currentPath);

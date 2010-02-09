@@ -57,7 +57,7 @@ static public final int COMPOUND = 3;
 	private float relRiskOtherMortCont[][] = new float[96][2];
 	private float relRiskOtherMortEnd[][] = new float[96][2];
 	private float relRiskOtherMortBegin[][] = new float[96][2];
-	private float alfaOtherMort[][] = new float[96][2];
+	private float alphaOtherMort[][] = new float[96][2];
 	private float baselineOtherMortality[][] = new float[96][2];
 	private float baselineMortality[][] = new float[96][2]; // geen setter maken
 	private float[] attributableMortality[][] = new float[96][2][];
@@ -82,10 +82,10 @@ static public final int COMPOUND = 3;
 	private float[][] riskFactorAbilityRRcont = new float[96][2];
 	private float[][] riskFactorAbilityRRend = new float[96][2];
 	private float[][] riskFactorAbilityRRbegin = new float[96][2];
-	private float[][] riskFactorAbilityAlfa = new float[96][2];
+	private float[][] riskFactorAbilityAlpha = new float[96][2];
 	private float[][][] relRiskDuurBegin = new float[96][2][];
 	private float[][][] relRiskDuurEnd = new float[96][2][];
-	private float[][][] alfaDuur = new float[96][2][];
+	private float[][][] alphaDuur = new float[96][2][];
 	private float[][][] duurFreq = new float[96][2][];
 	private float[][] meanDrift = new float[96][2];
 	private float[][] stdDrift = new float[96][2];
@@ -102,6 +102,7 @@ static public final int COMPOUND = 3;
 	private boolean warningflag3 = true;
 	private boolean warningflag4 = true;
 	private boolean warningflag5 = true;
+	private boolean warningflag6 = true;
 
 	/**
 	 * contructor sets the baseDir;
@@ -192,7 +193,7 @@ static public final int COMPOUND = 3;
 		scenInfo.setRelRiskAbilityCont(this.riskFactorAbilityRRcont);
 		scenInfo.setRelRiskAbilityBegin(this.riskFactorAbilityRRbegin);
 		scenInfo.setRelRiskAbilityEnd(this.riskFactorAbilityRRend);
-		scenInfo.setAlfaAbility(this.riskFactorAbilityAlfa);
+		scenInfo.setAlphaAbility(this.riskFactorAbilityAlpha);
 		/** * 3. write xml files needed by the simulation module */
 
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
@@ -716,7 +717,7 @@ static public final int COMPOUND = 3;
 			this.relRiskClass[age][sex] = new float[nRiskCat][nDiseases];
 			this.relRiskDuurBegin[age][sex] = new float[nDiseases];
 			this.relRiskDuurEnd[age][sex] = new float[nDiseases];
-			this.alfaDuur[age][sex] = new float[nDiseases];
+			this.alphaDuur[age][sex] = new float[nDiseases];
 			this.diseaseAbility[age][sex] = new float[nDiseases];
 			this.relRiskDiseaseOnDisease[age][sex] = new float[this.nCluster][][];
 
@@ -763,7 +764,7 @@ static public final int COMPOUND = 3;
 						this.relRiskDuurBegin[age][sex][dNumber] = inputData
 								.getClusterData()[age][sex][c]
 								.getRelRiskDuurBegin()[d];
-						this.alfaDuur[age][sex][dNumber] = inputData
+						this.alphaDuur[age][sex][dNumber] = inputData
 								.getClusterData()[age][sex][c].getAlpha()[d];
 
 					}
@@ -807,7 +808,7 @@ static public final int COMPOUND = 3;
 		this.riskFactorAbilityRRcont[age][sex] = 1;
 		this.riskFactorAbilityRRbegin[age][sex] = 1;
 		this.riskFactorAbilityRRend[age][sex] = 1;
-		this.riskFactorAbilityAlfa[age][sex] = 0;
+		this.riskFactorAbilityAlpha[age][sex] = 0;
 		double baselineDisabilityOdds = 0;
 
 		if (inputData.getRiskType() == 1)
@@ -849,10 +850,11 @@ static public final int COMPOUND = 3;
 		double[] abilityFromRiskFactor = new double[nSim];
 		double[] abilityFromDiseases = new double[nSim];
 		double totalAbilityFromRiskFactor = 0;
-
+        boolean oneDuration=false; /* one Duration is a flag that sees whether there is only a
+        single duration present */
 		if (inputData.getRiskType() == 3) {
 			double checkSum = 0;
-
+            int nFilled=0;
 			/*
 			 * despite trying this not only changes the duurFreq, but also the
 			 * original version!
@@ -860,20 +862,37 @@ static public final int COMPOUND = 3;
 			for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++) {
 
 				checkSum += this.duurFreq[age][sex][k];
+				if (this.duurFreq[age][sex][k]>0) nFilled++;
 			}
+			if (nFilled==1) oneDuration=true;
 			/* there is a tolerance of 2% */
 			if (Math.abs(checkSum - 1) > 0.01)
 				throw new DynamoInconsistentDataException(
 						"durations given for compound risk factor class do not sum to 100% but to "
 								+ 100 * checkSum + "%");
 			/* if there is a small deviation, normalize */
-			if (Math.abs(checkSum - 1) > 0.0001) {
+			if (Math.abs(checkSum - 1) > 0.00001) {
 				for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++)
 
 					this.duurFreq[age][sex][k] = (float) (this.duurFreq[age][sex][k] / checkSum);
 
 			}
 		}
+		if (oneDuration && warningflag6 && (withRRdisability || withRRmort)) {
+				warningflag6 = false;
+
+				displayWarningMessage("100% of the initial population has the same duration" +
+						". \nTherefore"
+						+ " it is not possilible to estimate a time dependent other mortality or " +
+								"other disability."
+						+ "\nIn case other mortality/disability is requested, those relative risks will be made constant over time"
+						+ "\nThis warning is give for age "
+						+ age
+						+ " and gender "
+						+ sex
+						+ "\no more warnings of this kind will be generated for"
+						+ "other age and gender groups", dsi);
+			}
 		double weight[] = new double[nSim]; // weight for weighting the
 		// prevalences
 		if (inputData.getRiskType() == 1) {
@@ -1008,7 +1027,7 @@ static public final int COMPOUND = 3;
 							.getRRforDisabilityEnd()[age][sex])
 							* Math
 									.exp(-riskfactor[i]
-											* inputData.getAlfaForDisability()[age][sex])
+											* inputData.getAlphaForDisability()[age][sex])
 							+ inputData.getRRforDisabilityEnd()[age][sex];
 				sumRRDisability += weight[i] * relRiskDisability[i];
 
@@ -1024,7 +1043,7 @@ static public final int COMPOUND = 3;
 
 								relRisk[i][d] = (this.relRiskDuurBegin[age][sex][d] - this.relRiskDuurEnd[age][sex][d])
 										* Math.exp(-riskfactor[i]
-												* this.alfaDuur[age][sex][d])
+												* this.alphaDuur[age][sex][d])
 										+ this.relRiskDuurEnd[age][sex][d];
 
 								if (inputData.isWithRRForMortality())
@@ -2507,7 +2526,7 @@ static public final int COMPOUND = 3;
 			this.riskFactorAbilityRRcont[age][sex] = 1;
 			this.riskFactorAbilityRRend[age][sex] = 1;
 			this.riskFactorAbilityRRbegin[age][sex] = 1;
-			this.riskFactorAbilityAlfa[age][sex] = 1;
+			this.riskFactorAbilityAlpha[age][sex] = 1;
 
 			if (this.baselineAbility[age][sex] > 1) {
 				warnForAbilityGreaterOne(age, sex, abilityFromDisease,
@@ -2790,9 +2809,18 @@ static public final int COMPOUND = 3;
 
 				}
 				try {
-					beta = nonLinearDurationRegression(ydata, xdata,
+					if (! oneDuration) beta = nonLinearDurationRegression(ydata, xdata,
 							weightdata, endRR, beginRR,
 							this.baselineOtherMortality[age][sex]);
+					else { /* now beta is still the old beta from the previous loop */ 
+						double RRdurationclass= Math
+						.exp(beta[inputData.getIndexDuurClass()]);
+						/* put this in all the new beta's */
+						beta=new double[3];
+						beta[0]=RRdurationclass;
+						beta[1]=RRdurationclass;
+							 beta[2]=0;
+					}
 				} catch (Exception e) {
 					this.log.fatal(e.getMessage());
 					e.printStackTrace();
@@ -2801,7 +2829,7 @@ static public final int COMPOUND = 3;
 				}
 				this.relRiskOtherMortBegin[age][sex] = (float) beta[0];
 				this.relRiskOtherMortEnd[age][sex] = (float) beta[1];
-				this.alfaOtherMort[age][sex] = (float) beta[2];
+				this.alphaOtherMort[age][sex] = (float) beta[2];
 
 			}
 		} else /* if not rr for other mortality present */
@@ -2811,7 +2839,7 @@ static public final int COMPOUND = 3;
 			this.relRiskOtherMortCont[age][sex] = 1;
 			this.relRiskOtherMortBegin[age][sex] = 1;
 			this.relRiskOtherMortEnd[age][sex] = 1;
-			this.alfaOtherMort[age][sex] = 1; // does not really matter
+			this.alphaOtherMort[age][sex] = 1; // does not really matter
 		}
 
 		/*
@@ -2909,9 +2937,20 @@ static public final int COMPOUND = 3;
 
 				}
 				try {
-					beta = nonLinearDurationRegression(y2data, x2data,
+					if (!oneDuration) beta = nonLinearDurationRegression(y2data, x2data,
 							weightdata, endRR, beginRR,
 							this.baselineAbility[age][sex]);
+					
+					
+					else { /* now beta is still the old beta from the previous loop */ 
+						double RRdurationclass= Math
+						.exp(beta[inputData.getIndexDuurClass()]);
+						/* put this in all the new beta's */
+						beta=new double[3];
+						beta[0]=RRdurationclass;
+						beta[1]=RRdurationclass;
+							 beta[2]=0;
+					}
 				} catch (Exception e) {
 					this.log.fatal(e.getMessage());
 					e.printStackTrace();
@@ -2920,7 +2959,7 @@ static public final int COMPOUND = 3;
 				}
 				this.riskFactorAbilityRRbegin[age][sex] = (float) beta[0];
 				this.riskFactorAbilityRRend[age][sex] = (float) beta[1];
-				this.riskFactorAbilityAlfa[age][sex] = (float) beta[2];
+				this.riskFactorAbilityAlpha[age][sex] = (float) beta[2];
 
 			}
 		}
@@ -2930,7 +2969,7 @@ static public final int COMPOUND = 3;
 			this.riskFactorAbilityRRcont[age][sex] = 1;
 			this.riskFactorAbilityRRbegin[age][sex] = 1;
 			this.riskFactorAbilityRRend[age][sex] = 1;
-			this.riskFactorAbilityAlfa[age][sex] = 1; // does not really matter
+			this.riskFactorAbilityAlpha[age][sex] = 1; // does not really matter
 		}
 
 		if (age == 0 && sex == 0)
@@ -2947,7 +2986,7 @@ static public final int COMPOUND = 3;
 
 					sumRROtherMort += weight[i]
 							* ((this.relRiskOtherMortBegin[age][sex] - this.relRiskOtherMortEnd[age][sex])
-									* Math.exp(-this.alfaOtherMort[age][sex]
+									* Math.exp(-this.alphaOtherMort[age][sex]
 											* riskfactor[i]) + this.relRiskOtherMortEnd[age][sex]);
 
 				} else {
@@ -3243,7 +3282,7 @@ static public final int COMPOUND = 3;
 
 	/**
 	 * this methods does a non linear regression fitting the model :
-	 * RR=(RRbegin-RRend)exp(-alfa*time)+RRend.
+	 * RR=(RRbegin-RRend)exp(-alpha*time)+RRend.
 	 * 
 	 * @param y_array
 	 *            array with values of the dependent variable (=other cause
@@ -3261,7 +3300,7 @@ static public final int COMPOUND = 3;
 	 *            the regression is y_array/BaselineMort
 	 * @return a array with three values: <ls> <le>[0] = estimate of
 	 *         RRbegin;</le> <le>[1] = estimate of RRend;</le> <le>[2] =
-	 *         estimate of Alfa;</le> </ls>
+	 *         estimate of Alpha;</le> </ls>
 	 * @throws Exception
 	 */
 	private double[] nonLinearDurationRegression(double[] y_array,
@@ -3280,7 +3319,7 @@ static public final int COMPOUND = 3;
 		double jMat[][] = new double[x_array.length][nParam];
 		double currentRRbegin;
 		double currentRRend;
-		double currentAlfa;
+		double currentAlpha;
 		// starting values assume RRbegin and RRend equal to first and last
 		// value and alfa * t = 3 for t is time between first and last moment;
 		if (beginRR == -1)
@@ -3291,11 +3330,11 @@ static public final int COMPOUND = 3;
 			currentRRend = y_array[y_array.length - 1] / baselineMort;
 		else
 			currentRRend = endRR;
-		currentAlfa = 3 / (x_array[x_array.length - 1] - x_array[0]);
+		currentAlpha = 3 / (x_array[x_array.length - 1] - x_array[0]);
 
 		double delRRbegin[] = new double[x_array.length];
 		double delRRend[] = new double[x_array.length];
-		double delAlfa[] = new double[x_array.length];
+		double delAlpha[] = new double[x_array.length];
 		double delY[] = new double[x_array.length];
 		double fitted[] = new double[x_array.length];
 		double Ydata[] = new double[x_array.length];
@@ -3322,14 +3361,14 @@ static public final int COMPOUND = 3;
 
 				Ydata[i] = y_array[i] / baselineMort;
 				fitted[i] = (currentRRbegin - currentRRend)
-						* Math.exp(-currentAlfa * x_array[i]) + currentRRend;
-				delRRbegin[i] = Math.exp(-currentAlfa * x_array[i]);
-				delRRend[i] = 1 - Math.exp(-currentAlfa * x_array[i]);
-				delAlfa[i] = -x_array[i] * (currentRRbegin - currentRRend)
-						* Math.exp(-currentAlfa * x_array[i]);
+						* Math.exp(-currentAlpha * x_array[i]) + currentRRend;
+				delRRbegin[i] = Math.exp(-currentAlpha * x_array[i]);
+				delRRend[i] = 1 - Math.exp(-currentAlpha * x_array[i]);
+				delAlpha[i] = -x_array[i] * (currentRRbegin - currentRRend)
+						* Math.exp(-currentAlpha * x_array[i]);
 				delY[i] = Ydata[i] - fitted[i];
 				Criterium += (delY[i] * delY[i]) * W[i];
-				trace[0] += delAlfa[i];
+				trace[0] += delAlpha[i];
 				if (nParam == 2 && beginRR == -1)
 					trace[1] += delRRend[i] * delRRend[i] * W[i];
 				if (nParam == 2 && endRR == -1)
@@ -3340,30 +3379,30 @@ static public final int COMPOUND = 3;
 			if (nParam == 1)
 				for (int k = 0; k < x_array.length; k++) {
 
-					jMat[k][0] = delAlfa[k];
+					jMat[k][0] = delAlpha[k];
 				}
 			if (nParam == 2 && endRR == -1)
 				for (int k = 0; k < x_array.length; k++) {
 
-					jMat[k][0] = delAlfa[k];
+					jMat[k][0] = delAlpha[k];
 					jMat[k][1] = delRRend[k];
 				}
 			if (nParam == 2 && beginRR == -1)
 				for (int k = 0; k < x_array.length; k++) {
 
-					jMat[k][0] = delAlfa[k];
+					jMat[k][0] = delAlpha[k];
 					jMat[k][1] = delRRbegin[k];
 				}
 			if (nParam == 3)
 				for (int k = 0; k < x_array.length; k++) {
 
-					jMat[k][0] = delAlfa[k];
+					jMat[k][0] = delAlpha[k];
 					jMat[k][1] = delRRbegin[k];
 					jMat[k][2] = delRRend[k];
 				}
 			resultReg = weightedRegression(delY, jMat, W);
 			oldCriterium = Criterium;
-			old1 = currentAlfa;
+			old1 = currentAlpha;
 			old2 = currentRRend;
 			old3 = +currentRRbegin;
 			int iter2 = 0;
@@ -3372,7 +3411,7 @@ static public final int COMPOUND = 3;
 			while (Criterium >= oldCriterium && iter2 < 50) {
 				Criterium = 0;
 				++iter2;
-				currentAlfa = old1 + resultReg[0] / lambda;
+				currentAlpha = old1 + resultReg[0] / lambda;
 				if (endRR == -1 && nParam == 2)
 					currentRRend = old2 + resultReg[1] / lambda;
 				if (endRR == -1 && nParam == 3)
@@ -3383,19 +3422,19 @@ static public final int COMPOUND = 3;
 					currentRRend = 0.001;
 				if (currentRRbegin < 0 && beginRR == -1)
 					currentRRbegin = 0.001;
-				if (currentAlfa < 0.001)
-					currentAlfa = 0.001; /*
+				if (currentAlpha < 0.001)
+					currentAlpha = 0.001; /*
 										 * this forces a linear model with time
 										 * in case of inconsistent data that is
 										 * data for which the time dependency
 										 * does not fit the model
-										 * (r1-r2)exp(-alfat) +r2
+										 * (r1-r2)exp(-alphat) +r2
 										 */
 
 				for (int i = 0; i < x_array.length; i++) {
 					delY[i] = Ydata[i]
 							- ((currentRRbegin - currentRRend)
-									* Math.exp(-currentAlfa * x_array[i]) + currentRRend);
+									* Math.exp(-currentAlpha * x_array[i]) + currentRRend);
 					Criterium += (delY[i] * delY[i]) * W[i];
 				}
 				if (Criterium >= oldCriterium)
@@ -3408,19 +3447,19 @@ static public final int COMPOUND = 3;
 					.debug(" non-linear regression other cause mortality: iteration "
 							+ iter + " criterium = " + Criterium);
 			this.log.debug(" lambda " + lambda + " halvingsteps = " + iter2);
-			this.log.debug("alfa " + currentAlfa + " RR end " + currentRRend
+			this.log.debug("alpha " + currentAlpha + " RR end " + currentRRend
 					+ " RR begin " + currentRRbegin);
 			if (lambda > 1)
 				lambda = lambda / 2;
-			if (Math.abs(old1 - currentAlfa) / old1 < 0.001
+			if (Math.abs(old1 - currentAlpha) / old1 < 0.001
 					&& Math.abs(old2 - currentRRend) / old2 < 0.001
 					&& Math.abs(old3 - currentRRbegin) / old3 < 0.001)
 				break;
 			else if (iter == 499)
 				this.log
 						.fatal(" non-linear regression other cause mortality did not converge in 500 iterations "
-								+ " results: alfa "
-								+ currentAlfa
+								+ " results: alpha "
+								+ currentAlpha
 								+ " RR end "
 								+ currentRRend
 								+ " RR begin "
@@ -3429,7 +3468,7 @@ static public final int COMPOUND = 3;
 		}
 		result[0] = currentRRbegin;
 		result[1] = currentRRend;
-		result[2] = currentAlfa;
+		result[2] = currentAlpha;
 
 		return result;
 	}
@@ -3452,6 +3491,8 @@ static public final int COMPOUND = 3;
 	public double[] weightedRegression(double[] y_array, double[][] x_array,
 			double[] w) throws Exception {
 
+		
+		
 		// check dimensions //
 		if (y_array.length != w.length)
 			throw new Exception(
@@ -3757,18 +3798,18 @@ static public final int COMPOUND = 3;
 	}
 
 	/**
-	 * @return the alfa coefficient (decrease of relative risk with duration)
+	 * @return the alpha coefficient (decrease of relative risk with duration)
 	 *         for other cause mortality. indexes are age and sex
 	 */
-	public float[][] getAlfaOtherMort() {
-		return DynamoLib.deepcopy(this.alfaOtherMort);
+	public float[][] getAlphaOtherMort() {
+		return DynamoLib.deepcopy(this.alphaOtherMort);
 	}
 
 	/**
-	 * @param alfaOtherMort
+	 * @param alphaOtherMort
 	 */
-	public void setAlfaOtherMort(float[][] alfaOtherMort) {
-		this.alfaOtherMort = alfaOtherMort;
+	public void setAlfaOtherMort(float[][] alphaOtherMort) {
+		this.alphaOtherMort = alphaOtherMort;
 	}
 
 	/**
@@ -3920,17 +3961,17 @@ static public final int COMPOUND = 3;
 	}
 
 	/**
-	 * @return the alfa value for decreasing of the relative risk with duration
+	 * @return the alpha value for decreasing of the relative risk with duration
 	 */
-	public float[][][] getAlfaDuur() {
-		return DynamoLib.deepcopy(this.alfaDuur);
+	public float[][][] getAlphaDuur() {
+		return DynamoLib.deepcopy(this.alphaDuur);
 	}
 
 	/**
-	 * @param alfaDuur
+	 * @param alphaDuur
 	 */
-	public void setAlfaDuur(float[][][] alfaDuur) {
-		this.alfaDuur = alfaDuur;
+	public void setAlfaDuur(float[][][] alphaDuur) {
+		this.alphaDuur = alphaDuur;
 	}
 
 	/**

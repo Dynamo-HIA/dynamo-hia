@@ -30,7 +30,7 @@ public class InputData {
 	private DiseaseClusterData[][][] clusterData = new DiseaseClusterData[96][2][];
 	private float[][] mortTot = new float[96][2];
 	// third index is for risk factor class //
-
+      private float temp;
 	private float prevRisk[][][] = new float[96][2][];;
 	private float[][] meanRisk = new float[96][2];
 	private float[][] stdDevRisk = new float[96][2];
@@ -880,7 +880,7 @@ public class InputData {
 		RRforDisabilityEnd = rforDisabilityEnd;
 	}
 
-	public float[][] getAlfaForDisability() {
+	public float[][] getAlphaForDisability() {
 		return alfaForDisability;
 	}
 

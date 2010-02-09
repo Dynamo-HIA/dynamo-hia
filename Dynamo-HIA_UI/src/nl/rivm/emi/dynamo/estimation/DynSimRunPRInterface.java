@@ -52,5 +52,5 @@ public interface DynSimRunPRInterface {
  * @param scenarioParameters
  * @param currentpath
  */
-public void createOutput_UI( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
+public void createOutput( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
 }
