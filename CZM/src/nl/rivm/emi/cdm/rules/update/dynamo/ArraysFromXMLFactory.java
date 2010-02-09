@@ -496,7 +496,7 @@ public class ArraysFromXMLFactory {
 			 * The following schemas are not be validated: relativeRisks.xsd
 			 */
 
-			if (!"relativeRisks".equals(configurationFromFile
+			if (!"relativeRisks".equalsIgnoreCase(configurationFromFile
 					.getRootElementName())) {
 				// Validate the xml by xsd schema
 				// WORKAROUND: clear() is put after the constructor (also calls

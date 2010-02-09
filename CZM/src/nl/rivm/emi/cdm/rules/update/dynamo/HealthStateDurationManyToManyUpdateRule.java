@@ -480,7 +480,7 @@ extends HealthStateManyToManyUpdateRule {
 		incidence = baselineIncidence[diseaseNumber][ageValue][sexValue]
 				* ((relRiskBegin[diseaseNumber][ageValue][sexValue] - relRiskEnd[diseaseNumber][ageValue][sexValue])
 						* Math.exp(-riskDurationValue
-								* alfaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
+								* alphaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
 
 		return incidence;
 	}
@@ -491,7 +491,7 @@ extends HealthStateManyToManyUpdateRule {
 		incidence = baselineFatalIncidence[diseaseNumber][ageValue][sexValue]
 				* ((relRiskBegin[diseaseNumber][ageValue][sexValue] - relRiskEnd[diseaseNumber][ageValue][sexValue])
 						* Math.exp(-riskDurationValue
-								* alfaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
+								* alphaDuur[diseaseNumber][ageValue][sexValue]) + relRiskEnd[diseaseNumber][ageValue][sexValue]);
 
 		return incidence;
 	}
@@ -506,7 +506,7 @@ extends HealthStateManyToManyUpdateRule {
 
 						* Math.exp(
 
-						-alfaDuurOtherMort[ageValue][sexValue]
+						-alphaDuurOtherMort[ageValue][sexValue]
 								* riskDurationValue) + relRiskOtherMortEnd[ageValue][sexValue]))
 						* getTimeStep());
 
