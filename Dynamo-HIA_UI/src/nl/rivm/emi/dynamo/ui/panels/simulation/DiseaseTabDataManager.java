@@ -72,6 +72,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * @param initialSelection
 	 * @throws ConfigurationException
 	 */
+	
 	public DiseaseTabDataManager(BaseNode selectedNode,
 			DynamoSimulationObject dynamoSimulationObject,
 			Set<String> initialSelection) throws ConfigurationException {
