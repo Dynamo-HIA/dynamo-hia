@@ -193,7 +193,7 @@ public class Output_WriteOutputTab  {
 									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName,
 											0, scen);
 
-									fileName = userFileName + "_women_"
+									fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_women_"
 											+ scenarioNamesToWrite[scen]
 											+ ".xml";
 
@@ -222,7 +222,7 @@ public class Output_WriteOutputTab  {
 									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 0,
 											scen);
 
-									fileName = userFileName + "_women_"
+									fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_women_"
 											+ scenarioNamesToWrite[scen]
 											+ ".xml";
 
