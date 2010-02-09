@@ -96,8 +96,20 @@ public class Output_RiskFactorTab {
 		String[] yearNames = new String[output.getStepsInRun() + 1];
 		for (int i = 0; i < output.getStepsInRun() + 1; i++)
 			yearNames[i] = ((Integer) (output.getStartYear() + i)).toString();
+		
+		/* if continuous riskfactor, then the user can also chose to see the mean value of the
+		 * risk factor, so add this to the list of choices
+		 */
+		String [] classNames=output.getRiskClassnames();
+		int nClasses=classNames.length;
+		String [] temp=null;
+		if (output.getRiskType()==2) {temp=new String [nClasses+1];
+		for (int i=0; i<nClasses;i++) temp[i]=classNames[i];
+		temp[nClasses]="average value";
+		classNames=temp;
+			}
 		new RiskClassChoiceGroup(controlComposite, chartComposite, factory,
-				plotInfo, output.getRiskClassnames());
+				plotInfo, classNames);
 		new YearChoiceGroup(controlComposite, chartComposite, factory,
 				plotInfo, yearNames);
 		new GenderChoiceGroup(controlComposite, chartComposite, factory,
