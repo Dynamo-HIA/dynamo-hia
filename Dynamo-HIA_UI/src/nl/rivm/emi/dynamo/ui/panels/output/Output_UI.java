@@ -34,7 +34,7 @@ public class Output_UI {
 	// Population[] pop, String baseDir) {
 	public Output_UI(Shell shell, CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath
 			) {
-        this.currentPath=currentPath;
+        this.currentPath=currentpath;
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell);
 		outputShell.setText("Dynamo Output");
