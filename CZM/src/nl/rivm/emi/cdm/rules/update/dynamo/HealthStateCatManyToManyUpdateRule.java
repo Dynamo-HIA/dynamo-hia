@@ -109,9 +109,10 @@ public class HealthStateCatManyToManyUpdateRule extends
 								+ oldValue[currentStateNo]
 								* ( currentTransMat[1][1]);
 
-						newValue[currentStateNo] = (float) ((1 - oldValue[currentStateNo])
-								* (currentTransMat[1][0] + oldValue[currentStateNo]
-										* currentTransMat[1][1]) / survival);
+						newValue[currentStateNo] = (float) ((
+								(1 - oldValue[currentStateNo])* currentTransMat[1][0]
+								  + oldValue[currentStateNo]* currentTransMat[1][1]
+								                    ) / survival);
 
 						survivalFraction *= survival;
 						currentStateNo++;
