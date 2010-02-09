@@ -1848,7 +1848,7 @@ public class DynamoPlotFactory {
 					}
 				}
 				addToSeries(differencePlot, numbers, scenSeries[thisScen],
-						indat, npop, indatr, npopr, steps);
+						indat, npop, indatr, npopr, steps+this.output.getStartYear());
 
 			}
 			if (thisScen == 0)
@@ -3176,10 +3176,21 @@ public class DynamoPlotFactory {
 				.getRenderer();
 		renderer1.setDrawBarOutline(true);
 
+		
+		GrayPaintScale tint=new GrayPaintScale(1,Math.max(2,this.output.getNScen() + 1));
+		 
+		
+		
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 			/* RGB with increasing number of red */
-			renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
+			if (blackAndWhite)  
+				 renderer.setSeriesPaint(scen, tint.getPaint(scen+1));
+				 else renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
 					/ (this.output.getNScen() + 1)));
+
+		
+		
+		
 
 		// frame1.setVisible(true);
 		// frame1.setSize(300, 300);
@@ -3351,15 +3362,16 @@ public class DynamoPlotFactory {
 					"{2}", new DecimalFormat("0.00"));
 			renderer.setBaseItemLabelGenerator(generator);
 			renderer.setBaseItemLabelsVisible(true);
-			// renderer.setSeriesPaint(0, Color.gray);
-			// renderer.setSeriesPaint(1, Color.orange);
+			GrayPaintScale tint=new GrayPaintScale(1,Math.max(2,this.output.getNScen() + 1));
+			 
 			BarRenderer renderer1 = (BarRenderer) ((CategoryPlot) plot)
 					.getRenderer();
 			renderer1.setDrawBarOutline(true);
-
 			for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 				/* RGB with increasing number of red */
-				renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
+				if (blackAndWhite)  
+					 renderer.setSeriesPaint(scen, tint.getPaint(scen+1));
+					 else renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
 						/ (this.output.getNScen() + 1)));
 
 			// frame1.setVisible(true);
@@ -3640,15 +3652,19 @@ public class DynamoPlotFactory {
 			plot.setDomainAxis(domainAxis);
 			// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 			renderer.setItemMargin(0.15);
-
+			GrayPaintScale tint=null;
+			if (blackAndWhite)  tint=new GrayPaintScale(1,4);
+			
 			// dikte van de lijn// between the scenarios;
 			int currentSeries = 0;
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 				for (int s = 0; s < 2; s++) {
 					renderer.setSeriesPaint(currentSeries, Color.pink);
+					if (blackAndWhite)  renderer.setSeriesPaint(currentSeries, tint.getPaint(2));
 					renderer.setSeriesVisibleInLegend(currentSeries, false);
 					currentSeries++;
 					renderer.setSeriesPaint(currentSeries, Color.pink.darker());
+					if (blackAndWhite)  renderer.setSeriesPaint(currentSeries, tint.getPaint(3));
 					renderer.setSeriesVisibleInLegend(currentSeries, false);
 					currentSeries++;
 
@@ -3886,14 +3902,21 @@ public class DynamoPlotFactory {
 		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 		renderer.setItemMargin(0.15);
 
+		
+		GrayPaintScale tint=null;
+		if (blackAndWhite)  tint=new GrayPaintScale(1,4);
+		
+
 		// dikte van de lijn// between the scenarios;
 		int currentSeries = 0;
 		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 			for (int s = 0; s < 2; s++) {
 				renderer.setSeriesPaint(currentSeries, Color.pink);
+				if (blackAndWhite)  renderer.setSeriesPaint(currentSeries, tint.getPaint(2));
 				renderer.setSeriesVisibleInLegend(currentSeries, false);
 				currentSeries++;
 				renderer.setSeriesPaint(currentSeries, Color.pink.darker());
+				if (blackAndWhite)  renderer.setSeriesPaint(currentSeries, tint.getPaint(3));
 				renderer.setSeriesVisibleInLegend(currentSeries, false);
 				currentSeries++;
 
@@ -3930,7 +3953,7 @@ public class DynamoPlotFactory {
 	 *            : plot difference with reference scenario
 	 * @param blackAndWhite
 	 *            : (boolean) indicates whether the plots are in color (false)
-	 *            or black and white
+	 *            or black and white; here the chart is always black and white, so no effect
 	 * 
 	 * @return a population pyramid chart for scenario "thisScen" compared to
 	 *         the reference scenario and year "timestep"
@@ -4237,7 +4260,7 @@ public class DynamoPlotFactory {
 						nPopByAge[thisScen][timestep][a][1]
 								- withDisease[thisScen][timestep][a][1],
 						thisScen, timestep, a, 1);
-
+/* the values for the reference population are only needed in case it is a difference plot */
 				if (differencePlot) {
 					nRefDiseaseByAge[a][0] += withDisease[0][timestep][a][0];
 					nRefDiseaseByAge[a][1] += withDisease[0][timestep][a][1];
@@ -4338,7 +4361,8 @@ public class DynamoPlotFactory {
 				pyramidDataFemales[0][104 - a] = 0;
 				pyramidDataMales[1][104 - a] = 0;
 				pyramidDataFemales[1][104 - a] = 0;
-
+				if (differencePlot){
+                 
 				pyramidDataMales[2][104 - a] = 0;
 				pyramidDataFemales[2][104 - a] = 0;
 
@@ -4349,7 +4373,7 @@ public class DynamoPlotFactory {
 				pyramidDataFemales[4][104 - a] = 0;
 
 				pyramidDataMales[5][104 - a] = 0;
-				pyramidDataFemales[5][104 - a] = 0;
+				pyramidDataFemales[5][104 - a] = 0;}
 			}
 		}
 
@@ -4609,8 +4633,8 @@ public class DynamoPlotFactory {
 	private int getMaxPop() {
 		int maximum = 0;
 		double[][][][] pop = this.output.getNPopByAge();
-		for (int scen = 0; scen < this.output.getNScen(); scen++)
-			for (int year = 0; year < this.output.getStepsInRun(); year++)
+		for (int scen = 0; scen < this.output.getNScen()+1; scen++)
+			for (int year = 0; year < this.output.getStepsInRun()+1; year++)
 				for (int a = 0; a < 96; a++)
 					for (int s = 0; s < 2; s++)
 						if (pop[scen][year][a][s] > maximum)
