@@ -918,7 +918,8 @@ public class InitialPopulationFactory {
 							if (moreScenarios) {
 								currentIndividual = new Individual("scen"
 										+ (currentscen + 1), "ind_"
-										+ individualNumber + "_" + currentpop);
+										+ individualNumber + "_"
+										+ currentRiskValue + "_" + currentpop);
 								currentIndividual
 										.setRandomNumberGeneratorSeed(seed2);
 								currentIndividual.luxeSet(1,

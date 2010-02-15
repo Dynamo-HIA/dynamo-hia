@@ -148,7 +148,7 @@ public class TestEstimation {
 					+ E3a.getRelRiskOtherMortEnd()[0][0]
 					+ " relRiskOtherMortBegin "
 					+ E3a.getRelRiskOtherMortBegin() + " alfaOtherMort "
-					+ E3a.getAlfaOtherMort()[0][0]);
+					+ E3a.getAlphaOtherMort()[0][0]);
 
 			testdata.getClusterData()[0][0][0].setPrevalence(0);
 			// E1.estimateModelParameters(100,testdata,0,0);

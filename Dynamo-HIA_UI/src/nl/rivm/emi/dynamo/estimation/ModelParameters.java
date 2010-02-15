@@ -815,8 +815,8 @@ static public final int COMPOUND = 3;
 			nSim = nRiskCat;
 		if (inputData.getRiskType() == 3)
 			nSim = nRiskCat + inputData.getDuurFreq()[age][sex].length - 1;
-		if (inputData.getRiskType() == 2 && nSim < 1000)
-			nSim = 1000;
+		if (inputData.getRiskType() == 2 && nSim < 100)
+			nSim = 100;
 		// help variables concerning all cause mortality
 		this.baselineMortality[age][sex] = 0; // Baseline mortality
 
@@ -1245,8 +1245,13 @@ static public final int COMPOUND = 3;
 							+ "from baselineDisabilityOdds = "
 							+ (1 - totalAbilityFromRiskFactor));
 
-		// //////////////////////////////////////////////einde first loop
-		// /////////////////////////////
+		// //////////////////////////////////////////////einde first loop /////////////////////////////
+		
+		///                                start loop 2                                                  //
+		
+		// ///////////////////////////////////////////////////////////////////////////////////////////
+		
+		
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 1");
 		// second loop over persons //
@@ -1371,12 +1376,24 @@ static public final int COMPOUND = 3;
 					log.debug("or trial disease" + d + " = "
 							+ this.baselinePrevalenceOdds[age][sex][d]);
 		}
+		
+		
+
+		// //////////////////////////////////////////////einde second loop /////////////////////////////
+		
+		///                                start iterations for prevalence odds  dependent diseases   ///                                                //
+		
+		// ///////////////////////////////////////////////////////////////////////////////////////////
+	
 		/*
 		 * now calculate Baseline Prevalence Odds for the dependent diseases
 		 * using an iterative procedure; now repeat loop 1 iteratively to
 		 * estimate the baseline odds loop over all diseases
 		 * 
 		 * exception: when input prevalence==0
+		 * 
+		 * 
+		 * 
 		 */
 		if (nDiseases > 0)
 			for (int c = 0; c < inputData.getNCluster(); c++) {
@@ -1456,7 +1473,7 @@ static public final int COMPOUND = 3;
 																* this.baselinePrevalenceOdds[age][sex][Ndd])));
 								}
 								if (age == 0)
-									log.debug("or ct i= " + i + " RR = " + RR
+									log.fatal("or ct i= " + i + " RR = " + RR
 											+ "  sumprevalence  until now: "
 											+ sumPrevCurrent);
 
@@ -1465,7 +1482,7 @@ static public final int COMPOUND = 3;
 							// end loop over all individuals
 							double oldValue = this.baselinePrevalenceOdds[age][sex][Ndd];
 							if (age == 0)
-								log.debug("or loop " + nIter
+								log.fatal("or loop " + nIter
 										+ " sumPrevCurrent = " + sumPrevCurrent
 										+ "  oldvalue: " + oldValue);
 							this.baselinePrevalenceOdds[age][sex][Ndd] = oldValue
@@ -1480,7 +1497,16 @@ static public final int COMPOUND = 3;
 
 			}// end loop over clusters
 		if (age == 0 && sex == 0)
-			this.log.debug("end loop 3");
+			this.log.debug("end loop iterations after loop 2");
+		
+
+
+		// //////////////////////////////////////////////einde second loop /////////////////////////////
+		
+		///             start loop 3     (for AM and (non-fatal) incidence dep diseases           ///                                                //
+		
+		// ///////////////////////////////////////////////////////////////////////////////////////////
+	
 		/**
 		 * <br>
 		 * Phase 3.<br>
@@ -2238,84 +2264,7 @@ static public final int COMPOUND = 3;
 		 * diseases
 		 */
 
-		// for (int i = 0; i < nSim; i++) {
-		// if (withRRdisability) {
-		// abilityFromDiseases[i] = 0;
-		// for (int diseaseCombi = 0; diseaseCombi < Math
-		// .pow(2, nDiseases); diseaseCombi++) {
-		/* use logaritmes to prevent numerical problems */
-		// double logProbCombi = 0;
-		// double abilityCombi = 1;
-		// for (int c = 0; c < nCluster; c++) {
-		/* filter the clusterpart out of the diseaseCombi */
-		/*
-		 * filter heeft enen op de plek van het cluster en elders nullen
-		 */
-		// int filter = (int) Math.round(Math.pow(2,
-		// clusterStructure[c].getNInCluster()) - 1);
-		// filter = filter << clusterStructure[c]
-		// .getDiseaseNumber()[0];
-		// TODO nakijken of dit wel nullen rechts toevoegd
-		// /*
-		// * apply filter to get the diseasestate within the
-		// * cluster
-		// */
-		// int stateInCluster = filter
-		// & diseaseCombi >> clusterStructure[c]
-		// .getDiseaseNumber()[0];
-		// logProbCombi += Math
-		// .log(prevalenceDiseaseStatesForI[c][stateInCluster]);
-		//
-		// /
-		// for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
-		// if ((stateInCluster & (1 << d)) == (1 << d))
-		// abilityCombi *= inputData.getClusterData()[age][sex][c]
-		// .getAbility()[d];
-		//
-		// }
-		//
-		// }
-		// abilityFromDiseases[i] += abilityCombi
-		// * Math.exp(logProbCombi);
-		// double abilityFromOtherCauses = abilityFromRiskFactor[i]
-		// / abilityFromDiseases[i];
-		// if (riskType == 1) {
-		// if (abilityFromOtherCauses < 1) {
-		// if (i == 0) {
-		// this.baselineAbility[age][sex] = (float) -Math
-		// .log(1 - abilityFromOtherCauses);
-		// this.riskFactorDisabilityRRcat[age][sex][0] = 1;
-		// } else
-		// this.riskFactorDisabilityRRcat[age][sex][i] = (float) -Math
-		// .log(1 - abilityFromOtherCauses)
-		// / this.baselineAbility[age][sex];
-		//
-		// } else {
-		// String label = "";
-		// if (nWarningsDisability == 2)
-		// label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
-		// + " OTHER AGE/SEX GROUPS";
-		// if (nWarningsDisability < 3)
-		// displayWarningMessage("the disability given for riskfactor group "
-		// + i
-		// + " in age "
-		// + age
-		// + " and sex "
-		// + sex
-		// + " can "
-		// +
-		// "be explained completely by differences in disease prevalences due to the riskfactor. "
-		// +
-		// "Therefore disability for this group will be calculated solely on disease status and not on risk "
-		// + "factor status" + label);
-		// withRRdisability = false;
-		// nWarningsDisability++;
-		//
-		// }
-		// TODO other risktypes
-		// }
-		// }
-		// }
+		
 		// now calculate the attributable mortality
 		double[] lefthand = new double[nDiseases];
 		if (nDiseases > 0)

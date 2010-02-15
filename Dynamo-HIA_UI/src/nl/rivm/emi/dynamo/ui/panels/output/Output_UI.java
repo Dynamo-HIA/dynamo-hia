@@ -32,9 +32,9 @@ public class Output_UI {
 
 	// public Output_UI(Shell shell, ScenarioInfo scen, String simName,
 	// Population[] pop, String baseDir) {
-	public Output_UI(Shell shell, CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath
+	public Output_UI(Shell shell, CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentPath
 			) {
-        this.currentPath=currentpath;
+        this.currentPath=currentPath;
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell);
 		outputShell.setText("Dynamo Output");

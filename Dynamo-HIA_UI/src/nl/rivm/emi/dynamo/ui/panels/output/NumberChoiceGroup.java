@@ -38,7 +38,7 @@ public class NumberChoiceGroup {
 		// yearButton.setBounds(10,10,20,100);
 
 		Button rateButton = new Button(radiogroup, SWT.RADIO);
-		rateButton.setText("Prevalence rate");
+		rateButton.setText("rate");
 		rateButton.setSelection(true);
 
 		rateButton.addListener(SWT.Selection, (new Listener() {

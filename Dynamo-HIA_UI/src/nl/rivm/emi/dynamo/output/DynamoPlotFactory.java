@@ -2176,7 +2176,7 @@ public class DynamoPlotFactory {
 
 				}
 				addToSeries(differencePlot, numbers, scenSeries[thisScen],
-						indat, denominator, indatr, denominatorr, steps);
+						indat, denominator, indatr, denominatorr, steps+this.output.startYear);
 
 			}
 			if (thisScen == 0)
@@ -2449,7 +2449,7 @@ public class DynamoPlotFactory {
 							dataPresent = false;
 						if (nPopByAge[0][year][age][gender] == 0
 								&& differencePlot)
-							dataPresent = false;
+							dataPresent = false; else dataPresent=true;
 					} else {
 						double nMen = applySuccesrate(
 								nPopByAge[0][year][age][0],
@@ -2460,7 +2460,7 @@ public class DynamoPlotFactory {
 								nPopByAge[thisScen][year][age][1], thisScen,
 								year, age, 1);
 						if (nMen + nWomen == 0)
-							dataPresent = false;
+							dataPresent = false; else dataPresent=true;
 						indat = nMen
 								* applySuccesrateToMean(
 										this.output.getMeanRiskByAge()[0][year][age][0],
@@ -2476,7 +2476,7 @@ public class DynamoPlotFactory {
 										nPopByAge[thisScen][year][age][1],
 										thisScen, year, age, 1);
 						if (dataPresent)
-							indat = indat / (nMen * nWomen);
+							indat = indat / (nMen + nWomen);
 
 						indatR = this.output.getMeanRiskByAge()[0][year][age][0]
 								* nPopByAge[0][year][age][0]
@@ -2512,11 +2512,11 @@ public class DynamoPlotFactory {
 			if (gender == 1)
 				label = "women; " + (this.output.getStartYear() + year);
 
-			String chartTitle = "mean value of riskFactor";
+			String chartTitle = "mean value of risk factor";
 			if (differencePlot)
-				chartTitle = "difference with ref scenario of mean risk factor value";
+				chartTitle = " mean value of risk factor (difference with reference scenario)";
 
-			chartTitle = chartTitle + label;
+			
 			String yTitle = "mean value";
 			if (differencePlot)
 				yTitle = "difference in mean value";
@@ -2614,10 +2614,13 @@ public class DynamoPlotFactory {
 									nPopByAge[thisScen][year][age][gender],
 									thisScen, year, age, gender);
 							weightR = nPopByAge[0][year][age][gender];
-							mean += indat * weight;
-							meanR += indatR * weightR;
-							sumweight += weight;
-							sumweightR += weightR;
+							
+							if ( weight>0) { mean += indat * weight;
+							sumweight += weight;}
+							if ( weightR>0){ meanR += indatR * weightR;
+							sumweightR += weightR;}
+									
+							
 
 						} else {
 							double nMen = applySuccesrate(
@@ -2648,13 +2651,13 @@ public class DynamoPlotFactory {
 									* nPopByAge[0][year][age][1];
 							indatR = indatR
 									/ (nPopByAge[0][year][age][0] + nPopByAge[0][year][age][1]);
-							indat = indat / (nMen * nWomen);
+							indat = indat / (nMen + nWomen);
 							weight = nMen + nWomen;
 							weightR = (nPopByAge[0][year][age][0] + nPopByAge[0][year][age][1]);
-							mean += indat * weight;
-							meanR += indatR * weightR;
-							sumweight += weight;
-							sumweightR += weightR;
+							if ( weight>0) { mean += indat * weight;
+							sumweight += weight;}
+							if ( weightR>0){ meanR += indatR * weightR;
+							sumweightR += weightR;}
 
 						}
 					}

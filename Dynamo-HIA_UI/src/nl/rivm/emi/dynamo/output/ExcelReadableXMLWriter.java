@@ -619,7 +619,7 @@ public class ExcelReadableXMLWriter  {
 							for (int r = 0; r < this.output.nRiskFactorClasses; r++) {
 
 								toBeAveragedRef[r] = this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort][sex];
-								toBeAveragedScen[r] = this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][cohort][sex];
+								toBeAveragedScen[r] = this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex];
 								numbersRef[r] = this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex];
 								numbersScen[r] = this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex];
 							}
@@ -637,8 +637,8 @@ public class ExcelReadableXMLWriter  {
 								for (int s = 0; s < 2; s++) {
 									toBeAveragedScen2[r][s] = this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort][s];
 									toBeAveragedRef2[r][s] = this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort][s];
-									numbersRef2[r][s] = this.output.nPopByRiskClassByAge[0][year][rClass][cohort][s];
-									numbersScen2[r][s] = this.output.nPopByRiskClassByAge[thisScen][year][rClass][cohort][s];
+									numbersRef2[r][s] = this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][s];
+									numbersScen2[r][s] = this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][s];
 
 									;
 								}
@@ -676,8 +676,8 @@ public class ExcelReadableXMLWriter  {
 							mean = this.params.applySuccesrateToMean(
 									this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
 									this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
-									this.output.nPopByRiskClassByAge[0][year][rClass][cohort][sex],
-									this.output.nPopByRiskClassByAge[thisScen][year][rClass][cohort][sex],
+									this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
+									this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
 									thisScen, 0, cohort, sex);
 
 						} else {

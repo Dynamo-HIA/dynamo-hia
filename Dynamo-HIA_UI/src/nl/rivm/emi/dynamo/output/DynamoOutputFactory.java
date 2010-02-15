@@ -28,17 +28,18 @@ import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * @author boshuizh
  * 
- * DynamoOutputFactory takes the populations from the simulation and makes aggregated data-arrays
- * The object is stored for later retrieval
- * it implements the CZMOutputInterface, needed for making the plots in the output interface
- * it extends the abstract CDMoutputFactory, that implements the general methods and fields 
+ *         DynamoOutputFactory takes the populations from the simulation and
+ *         makes aggregated data-arrays The object is stored for later retrieval
+ *         it implements the CZMOutputInterface, needed for making the plots in
+ *         the output interface it extends the abstract CDMoutputFactory, that
+ *         implements the general methods and fields
  * 
  */
-public class DynamoOutputFactory extends CDMOutputFactory implements Serializable , CDMOutputInterface {
+public class DynamoOutputFactory extends CDMOutputFactory implements
+		Serializable, CDMOutputInterface {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
 
@@ -70,6 +71,12 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * summary array of simulated numbers: index=age, sex
 	 */
 	transient int[][] nInSimulationByAge;
+
+	/**
+	 * summary array of simulated numbers: scenario number (0=first alternative
+	 * scenario) , from, to, age, sex,
+	 */
+	transient int[][][][][] nInSimulationByFromByTo;
 	/**
 	 * summary array of simulated numbers of newborns: index=age at the end of
 	 * simulation, sex
@@ -85,15 +92,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 */
 	transient int[][][][] nInSimulationByRiskClassAndDurationByAge;
 
-	
-
-	
 	/* these are a temporary array for making nDiseaseStateByRiskClassByAge */
 	/*
 	 * NB this array is reused, so it contains something different before and
 	 * after applying method makeSummaryArrays
 	 */
 	transient private double pDiseaseStateByRiskClassByAge[][][][][][];
+	/*
+	 * indexes are scenario, step, disease state, original riskclass , original
+	 * age , sex
+	 */
 
 	transient private double pDiseaseStateByOriRiskClassByAge[][][][][][];
 
@@ -116,8 +124,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 	transient private double[][][][][] pSurvivalByRiskClassByAge;
 
-	
-	
 	/*
 	 * this summary array is an exception to the rule that only detailed arrays
 	 * are fields as for riskfactortype=2 means can more easily be calculated
@@ -130,9 +136,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 	private double[][][][] meanRiskByAge;
 
-	
-	
-
 	public double[][][][] getMeanRiskByAge() {
 		return meanRiskByAge;
 	}
@@ -141,18 +144,17 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	DiseaseClusterStructure[] structure;
 	private int nPopulations;
 
-	
 	/**
 	 * details indicates whether information should be written on all disease
 	 * combinations (true) or only per disease (marginals, when false
 	 */
 
-//	private boolean details;
+	// private boolean details;
 	private boolean[] scenInitial;
 	private boolean[] scenTrans;
-//	private float[] cutoffs;
+	// private float[] cutoffs;
 	private int durationClass;
-//	private boolean withNewborns;
+	// private boolean withNewborns;
 	/*
 	 * this array indicates how a population should be handled false= direct ;
 	 * true= as a one-simulation for all scenarios population
@@ -163,7 +165,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	private float[][] populationSize;
 	private int[] newborns;
 	private float mfratio;
-//	String[] riskClassnames;
+	// String[] riskClassnames;
 	/**
 	 * for each scenario the new prevalence rates
 	 */
@@ -177,10 +179,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 */
 	private float[][][] oldDurationNumbers;
 
-//	private String[] diseaseNames;
-//	private String[] scenarioNames;
-//	private int nDim = 106;
-    private float[][] baselineAbility;
+	// private String[] diseaseNames;
+	// private String[] scenarioNames;
+	// private int nDim = 106;
+	private float[][] baselineAbility;
 	private float[][][] diseaseAbility;
 	private float[][][] relRiskAbilityCat;
 	private float[][] relRiskAbilityCont;
@@ -194,65 +196,59 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * simulation. Set this value to the succesrate in percent (value between 0
 	 * and 100)
 	 */
-//	private float[] succesrate = null;
+	// private float[] succesrate = null;
 	/**
 	 * minAge is the lower bound of the age that is affected by the
 	 * intervention. It can be reset at a different value for obtaining new
 	 * results without having to redo the simulation
 	 */
-//	private int[] minAge = null;
+	// private int[] minAge = null;
 	/**
 	 * in Men indicates if the intervention is applied to men. It can be reset
 	 * at a different value for obtaining new results without having to redo the
 	 * simulation
 	 */
 
-//	private boolean[] inWomen = null;
+	// private boolean[] inWomen = null;
 	/**
 	 * in Men indicates if the intervention is applied to men. It can be reset
 	 * at a different value for obtaining new results without having to redo the
 	 * simulation
 	 */
 
-//	private boolean[] inMen = null;
+	// private boolean[] inMen = null;
 	/**
 	 * minAge is the lower bound of the age that is affected by the
 	 * intervention. It can be reset at a different value for obtaining new
 	 * results without having to redo the simulation
 	 */
-//	private int[] maxAge = null;
-
+	// private int[] maxAge = null;
 	/*
 	 * popToScenIndex indicates the first scenario that is simulated by a
 	 * particular population
 	 */
-//	private int minAgeInSimulation = 100;
+	// private int minAgeInSimulation = 100;
 	/**
 	 * minAge is the lower bound of the age that is affected by the
 	 * intervention. It can be reset at a different value for obtaining new
 	 * results without having to redo the simulation
 	 */
-//	private int maxAgeInSimulation = 0;
-
+	// private int maxAgeInSimulation = 0;
 	/*
 	 * popToScenIndex indicates the first scenario that is simulated by a
 	 * particular population
 	 */
-//	private int[] popToScenIndex;
+	// private int[] popToScenIndex;
 	/*
 	 * categorized indicates whether the continuous variable is categorized in
 	 * the output
 	 */
-	
 
 	transient private double[][][][][] pSurvivalByOriRiskClassByOriAge;
 
 	private float[] cutoffs;
 
-	
 	private int[] popToScenIndex;
-
-   
 
 	/**
 	 * The constructor initializes the fields (arrays with all values==0), and
@@ -270,12 +266,12 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 */
 	public DynamoOutputFactory(ScenarioInfo scenInfo, Population[] pop)
 			throws DynamoScenarioException, DynamoOutputException {
-        super();
+		super();
 		/*
 		 * copy the information from scenInfo into the current object (as
 		 * fields)
 		 */
-        this.nDim=106;
+		this.nDim = 106;
 		initializeClassInfo(scenInfo);
 		extractArraysFromPopulations(pop);
 		makeArraysWithNumbers();
@@ -296,8 +292,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	private void initializeClassInfo(ScenarioInfo scenInfo)
 			throws DynamoOutputException {
 
-		this.riskType=(scenInfo.getRiskType());
-		this.nScen=(scenInfo.getNScenarios());
+		this.riskType = (scenInfo.getRiskType());
+		this.nScen = (scenInfo.getNScenarios());
 		this.durationClass = scenInfo.getIndexDurationClass();
 		this.scenInitial = scenInfo.getInitialPrevalenceType();
 		this.scenTrans = scenInfo.getTransitionType();
@@ -312,11 +308,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 			if (this.isOneScenPopulation[i])
 				this.oneScenPopulation = true;
 		this.popToScenIndex = scenInfo.getPopToScenIndex();
-//		setSuccesrate(scenInfo.getSuccesrate());
-//		this.inMen = scenInfo.getInMen();
-//		this.inWomen = scenInfo.getInWomen();
-//		this.minAge = scenInfo.getMinAge();
-//		this.maxAge = scenInfo.getMaxAge();
+		// setSuccesrate(scenInfo.getSuccesrate());
+		// this.inMen = scenInfo.getInMen();
+		// this.inWomen = scenInfo.getInWomen();
+		// this.minAge = scenInfo.getMinAge();
+		// this.maxAge = scenInfo.getMaxAge();
 		this.scenarioNames = new String[scenInfo.getScenarioNames().length + 1];
 		this.scenarioNames[0] = "reference scenario";
 
@@ -328,7 +324,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 		/* calculate the number of one-population-for-all-scenarios situation */
 
-		this.stepsInRun=(scenInfo.getYearsInRun());
+		this.stepsInRun = (scenInfo.getYearsInRun());
 		setStructure(scenInfo.getStructure());
 		setNDiseases(scenInfo.getStructure());
 		setNDiseaseStates(scenInfo.getStructure());
@@ -383,8 +379,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				}
 			}
 
-		
-
 		this.startYear = scenInfo.getStartYear();
 		this.populationSize = scenInfo.getPopulationSize();
 		int newbornStart = scenInfo.getNewbornStartYear();
@@ -430,17 +424,17 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		}
 
 		if (getRiskType() == 1 || getRiskType() == 3)
-			this.nRiskFactorClasses=scenInfo.getRiskClassnames().length;
+			this.nRiskFactorClasses = scenInfo.getRiskClassnames().length;
 		else {
 
 			if (this.cutoffs == null)
-				this.nRiskFactorClasses=5;
+				this.nRiskFactorClasses = 5;
 			/*
 			 * NB the names and cutoffs are taken from the data, this is part of
 			 * the method extractArraysFroPopulations
 			 */
 			else {
-				this.nRiskFactorClasses=this.cutoffs.length + 1;
+				this.nRiskFactorClasses = this.cutoffs.length + 1;
 				this.riskClassnames = new String[getNRiskFactorClasses()];
 				for (int i = 0; i < this.cutoffs.length; i++) {
 					if (i > 0)
@@ -623,10 +617,12 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		String indLabel;
 		String delims = "[_]";
 		String[] tokens = new String[4];
+		float[][] toChange;
 
 		double[] weightOfReferenceIndividual = new double[pop[0].size()];
 
 		for (int thisPop = 0; thisPop < this.nPopulations; thisPop++) {
+
 			int currentIndividualNo = -1;
 			Iterator<Individual> individualIterator = pop[thisPop].iterator();
 
@@ -756,15 +752,17 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 								&& this.riskType != 2) {
 							if (thisPop == 0)
 								weightOfReferenceIndividual[currentIndividualNo] = weight[riskFactor][ageIndex][sexIndex];
-						    if (!oneScenPopulation)	weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
-						  
+							if (!oneScenPopulation)
+								weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
+
 						}
 						if ((stepCount == 0 || ageIndex == 0)
 								&& this.riskType == 3
 								&& riskFactor == this.durationClass) {
 							if (thisPop == 0)
 								weightOfReferenceIndividual[currentIndividualNo] = weight2[riskDurationValue][ageIndex][sexIndex];
-							 if (!oneScenPopulation)	weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
+							if (!oneScenPopulation)
+								weightOfIndividual = weightOfReferenceIndividual[currentIndividualNo];
 						}
 						// log.fatal(ageIndex+" =age; stepCount="+stepCount);
 						if (this.riskType == 3)
@@ -801,16 +799,34 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 								}
 
+								if (scenInitial[thisPop - 1]
+										&& scenTrans[thisPop - 1]) {
+									indLabel = individual.getLabel();
+									tokens = indLabel.split(delims);
+									from = Integer.parseInt(tokens[2]);
+									float[] dummy = new float[this.nRiskFactorClasses];
+									Arrays.fill(dummy, 1);
+									toChange = NettTransitionRateFactory
+											.makeNettTransitionRates(
+													this.oldPrevalence[0][sexIndex],
+													this.newPrevalence[thisPop - 1][0][sexIndex],
+													0, dummy);
+									weightOfIndividual =
+									/* target */toChange[from][riskFactor]
+											* this.oldPrevalence[0][sexIndex][from]
+											/* 1/sampled */* nInSimulationByAge[ageIndex][sexIndex]
+											/ nInSimulationByFromByTo[thisPop - 1][from][riskFactor][ageIndex][sexIndex];
+								}
 							}
 
-						if (ageAtStart == 3 && sexIndex == 0 && stepCount < 3
+						if (ageAtStart == 0 && sexIndex == 0 && stepCount < 3
 								&& thisPop > 0)
 							log
-									.debug("a,g,step,r: " + ageIndex + " "
+									.fatal("a,g,step,r: " + ageIndex + " "
 											+ sexIndex + " " + stepCount + " "
 											+ riskFactor + " weight "
 											+ weightOfIndividual + " surv: "
-											+ survival);
+											+ survival );
 
 						/*
 						 * add the data read to the summary arrays
@@ -1027,15 +1043,15 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 							}
 
 						}
-						if (ageAtStart == 3 && sexIndex == 0 && stepCount < 5
+						if (ageAtStart == 0 && sexIndex == 0 && stepCount < 2
 								&& stepCount < this.stepsInRun)
 							log
-									.debug("pSurvival_scen voor from "
-											+ from
-											+ " to "
-											+ to
-											+ " "
-											+ pSurvivalByRiskClassByAge_scen[stepCount][from][to][to][ageIndex][sexIndex]);
+									.fatal("pDiseaseState "
+											+ this.pDiseaseStateByRiskClassByAge[0][stepCount][sexIndex][riskFactor][ageIndex][sexIndex] 
+											+ " riskfactor "
+											+riskFactor
+											+ " weight "
+											+ weightOfIndividual);
 
 						// TODO for with cured fraction
 						// float [] disease = (float[]) individual.get(4)
@@ -1064,7 +1080,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		if (this.oneScenPopulation) {
 			float[] dummy = new float[this.nRiskFactorClasses];
 			Arrays.fill(dummy, 1);
-			float[][] toChange;
+
 			int minSimAge = Math.max(0, this.minAgeInSimulation);
 			int maxSimAge = this.maxAgeInSimulation;
 
@@ -1245,16 +1261,64 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 		}
 
+		/*
+		 * arrays for average riskfactor value now contain the sum of
+		 * value times survival This should be divided by survival
+		 */
+		int minSimAge = Math.max(0, this.minAgeInSimulation);
+		int maxSimAge = this.maxAgeInSimulation;
+		for (int popnr = 0; popnr <= this.nScen; popnr++) {
+			for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++) {
+				int amax = Math.min(maxSimAge + 1 + stepCount, nDim);
+				/* only do for ages that are in simulation */
+				int minimumForLoop = minSimAge + stepCount;
+				/* if there are newborns, then always start at zero */
+				if (this.minAgeInSimulation < 0)
+					minimumForLoop = 0;
+				for (int a = minimumForLoop; a < amax; a++)
+					for (int s = 0; s < 2; s++) {
+						double survtot = 0;
+						for (int r = 0; r < this.nRiskFactorClasses; r++) {
+							survtot += pSurvivalByRiskClassByAge[popnr][stepCount][r][a][s];
+							this.meanRiskByRiskClassByAge[popnr][stepCount][r][a][s] =
+								this.meanRiskByRiskClassByAge[popnr][stepCount][r][a][s]                                    
+									/ this.pSurvivalByRiskClassByAge[popnr][stepCount][r][a][s];
+						}
+						this.meanRiskByAge[popnr][stepCount][a][s] = this.meanRiskByAge[popnr][stepCount][a][s]
+								/ survtot;
+if (a==0) log.fatal("meanriskbyage"+this.meanRiskByAge[popnr][stepCount][a][s] +" survtot "+ survtot);
+					}
+			}
+			/*
+			 * and also for the arrays with based on original age and risk
+			 * factor
+			 */
+			for (int stepCount = 0; stepCount < this.nDim; stepCount++)
+				for (int a = minSimAge; a < maxSimAge + 1; a++)
+					for (int s = 0; s < 2; s++) {
+						for (int r = 0; r < this.nRiskFactorClasses; r++)
+							this.meanRiskByOriRiskClassByOriAge[popnr][stepCount][r][a][s] = this.meanRiskByOriRiskClassByOriAge[popnr][stepCount][r][a][s]
+									/ this.pSurvivalByOriRiskClassByOriAge[popnr][stepCount][r][a][s];
+					}
+		}
 	}
 
 	/**
-	 * returns a Daly value for a particular age, gender, riskfactorstate combination
-	 * @param compoundData : disease data as in Dynamo-simulation object
-	 * @param riskFactor : riskfactor category
-	 * @param riskValue : continuous risk factor state
-	 * @param riskDurationValue : duration state
-	 * @param ageIndex : age
-	 * @param sexIndex : gender
+	 * returns a Daly value for a particular age, gender, riskfactorstate
+	 * combination
+	 * 
+	 * @param compoundData
+	 *            : disease data as in Dynamo-simulation object
+	 * @param riskFactor
+	 *            : riskfactor category
+	 * @param riskValue
+	 *            : continuous risk factor state
+	 * @param riskDurationValue
+	 *            : duration state
+	 * @param ageIndex
+	 *            : age
+	 * @param sexIndex
+	 *            : gender
 	 * @return daly-value (double)
 	 */
 	private double makeDaly(float[] compoundData, int riskFactor,
@@ -1336,10 +1400,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		return daly;
 	}
 
-		/**
+	/**
 	 * The array takes a 6-dimensional array with disease state, and returns a 6
-	 * dimensional array in which the diseasestates are summed to diseases
-	 * Is internal for the DYNAMO-output
+	 * dimensional array in which the diseasestates are summed to diseases Is
+	 * internal for the DYNAMO-output
 	 * 
 	 * @param stateArray
 	 *            : 6-dimensional array where the third index indicates the
@@ -1825,12 +1889,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 				for (int g = 0; g < 2; g++)
 					for (int stepCount = 0; stepCount < this.nDim; stepCount++)
-						if (pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][age][g] != 0)
-							nDisabled[scen][stepCount][g] += nPopByOriRiskClassByOriAge[scen][stepCount][r][age][g]
-									* pDisabilityByOriRiskClassByOriAge[scen][stepCount][r][age][g]
-									/ pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][age][g];
-						else
-							nDisabled[scen][stepCount][g] += 0;
+
+						nDisabled[scen][stepCount][g] += nPopByOriRiskClassByOriAge[scen][stepCount][r][age][g]
+								* pDisabilityByOriRiskClassByOriAge[scen][stepCount][r][age][g];
 
 		return nDisabled;
 
@@ -1840,10 +1901,14 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * @param pop
 	 */
 	private void extractNumberInSimulationFromPopulation(Population[] pop) {
+
 		int sexIndex;
 		int ageIndex;
 		this.minAgeInSimulation = 100;
 		this.maxAgeInSimulation = 0;
+
+		/* look at general numbers in the population in the reference population */
+
 		Iterator<Individual> individualIterator1 = pop[0].iterator();
 
 		while (individualIterator1.hasNext()) {
@@ -1852,6 +1917,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 			ageIndex = (int) Math
 					.round(((Float) individual.get(1).getValue(0)));
 			sexIndex = (int) (Integer) individual.get(2).getValue(0);
+
+			/* look for maximum and minimum age in simulation */
 			if (ageIndex > this.maxAgeInSimulation)
 				this.maxAgeInSimulation = ageIndex;
 			if (ageIndex < this.minAgeInSimulation)
@@ -1902,6 +1969,37 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				}
 			}
 		}
+
+		/*
+		 * now count in the scenarios with categorical (compound) riskfactors
+		 * which simultaneously differ in both scenario prevalence and in
+		 * scenario transitions the number of particular from-to combinations;
+		 */
+		String delims = "[_]";
+		if (pop.length > 1 && this.riskType != 2)
+			for (int scen = 0; scen < pop.length - 1; scen++)
+				if (scenInitial[scen] && scenTrans[scen]) {
+					Iterator<Individual> individualIterator2 = pop[scen + 1]
+							.iterator();
+
+					while (individualIterator2.hasNext()) {
+						Individual individual = individualIterator2.next();
+
+						ageIndex = (int) Math.round(((Float) individual.get(1)
+								.getValue(0)));
+						sexIndex = (int) (Integer) individual.get(2)
+								.getValue(0);
+						int to = (int) (Integer) individual.get(3).getValue(0);
+
+						String indLabel = individual.getLabel();
+						String[] tokens = indLabel.split(delims);
+						int from = Integer.parseInt(tokens[2]);
+
+						this.nInSimulationByFromByTo[scen][from][to][ageIndex][sexIndex]++;
+
+					}
+				}
+
 	}
 
 	/**
@@ -2029,7 +2127,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 							this.nPopByRiskClassByAge[scen][stepCount][r][a][s] = ratio
 									* this.pSurvivalByRiskClassByAge[scen][stepCount][r][a][s];
-
+							if (this.pSurvivalByRiskClassByAge[scen][stepCount][r][a][s] != 0)
+								this.pDisabilityByRiskClassByAge[scen][stepCount][r][a][s] = this.pDisabilityByRiskClassByAge[scen][stepCount][r][a][s]
+										/ this.pSurvivalByRiskClassByAge[scen][stepCount][r][a][s];
 							for (int state = 0; state < this.nDiseaseStates; state++) {
 
 								this.nDiseaseStateByRiskClassByAge[scen][stepCount][state][r][a][s] = ratio
@@ -2045,6 +2145,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		 * repeat for the cohort-based arrays based on original age and original
 		 * riskclass
 		 */
+		/* a = original age */
 		for (int a = 0; a < 96; a++) {
 			for (int stepCount = 0; stepCount < this.nDim - a; stepCount++) {
 				float ratio = 0;
@@ -2063,6 +2164,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 						for (int r = 0; r < this.nRiskFactorClasses; r++) {
 							this.nPopByOriRiskClassByOriAge[scen][stepCount][r][a][s] = ratio
 									* this.pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+							if (pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s] != 0)
+								pDisabilityByOriRiskClassByOriAge[scen][stepCount][r][a][s] = pDisabilityByOriRiskClassByOriAge[scen][stepCount][r][a][s]
+										/ pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
 							for (int state = 0; state < this.nDiseaseStates; state++) {
 								this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s] = ratio
 										* this.pDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s];
@@ -2087,9 +2191,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		 */
 
 	}
-
-	
-	
 
 	/**
 	 * 
@@ -2233,10 +2334,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 	}
 
-	
-
-	
-
 	/**
 	 * @return array with objects (one for each disease cluster) containing the
 	 *         information in each cluster
@@ -2267,10 +2364,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	}
 
 	/**
-	
-
-	
-	/**
+	 * /**
+	 * 
 	 * @param s
 	 */
 	private void setNDiseaseStates(DiseaseClusterStructure[] s) {
@@ -2288,17 +2383,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 			}
 	}
 
-	
-	
-	
-
-	
-
-	
-
-
-	
-     /**
+	/**
 	 * @return number of newborns in the simulation by age (=year when added)
 	 *         and gender
 	 */
@@ -2316,7 +2401,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	/**
 	 * @return number of persons with the disease by riskclass
 	 */
-/* this method is never used?? */
+	/* this method is never used?? */
 	public double[][][][][] getNDiseaseByRiskClass() {
 		double[][][][][] nDiseaseByRiskClass = new double[nScen + 1][stepsInRun + 1][nDiseases][this.nRiskFactorClasses][2];
 		;
@@ -2336,7 +2421,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	/**
 	 * @return number of persons with the disease
 	 */
-/* never used */
+	/* never used */
 	public double[][][][] makeNDisease() {
 		double[][][][] nDisease = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseases][2];
 		;
@@ -2355,7 +2440,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	/**
 	 * @return number of persons with the disease by age
 	 */
-/* never used */
+	/* never used */
 	public double[][][][][] getNDiseaseByAge() {
 		double[][][][][] nDiseaseByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseases][96 + this.stepsInRun][2];
 		;
@@ -2383,17 +2468,18 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	public double[][][][] getNDiseaseByAge(int disease) {
 		double[][][][] nDiseaseByAge = new double[this.nScen + 1][this.stepsInRun + 1][96 + this.stepsInRun][2];
 		;
-		if (disease>=0){
-		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
-		for (int r = 0; r < this.nRiskFactorClasses; r++)
+		if (disease >= 0) {
+			double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
+			for (int r = 0; r < this.nRiskFactorClasses; r++)
 
-			for (int scen = 0; scen < this.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.stepsInRun; a++)
-					for (int g = 0; g < 2; g++)
-						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
-							nDiseaseByAge[scen][stepCount][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][disease][r][a][g];
-		} else  nDiseaseByAge =getNumberOfDiseasedPersons();
-		
+				for (int scen = 0; scen < this.nScen + 1; scen++)
+					for (int a = 0; a < 96 + this.stepsInRun; a++)
+						for (int g = 0; g < 2; g++)
+							for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
+								nDiseaseByAge[scen][stepCount][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][disease][r][a][g];
+		} else
+			nDiseaseByAge = getNumberOfDiseasedPersons();
+
 		return nDiseaseByAge;
 	}
 
@@ -2437,12 +2523,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				for (int a = 0; a < 96 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
-							if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
-								nDisabledByAge[scen][stepCount][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
-										* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
-										/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
-							else
-								nDisabledByAge[scen][stepCount][a][g] += 0;
+
+							nDisabledByAge[scen][stepCount][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g];
 
 		return nDisabledByAge;
 	}
@@ -2463,12 +2546,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				for (int a = 0; a < 96 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 
-						if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
-							nDisabledByAge[scen][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
-									* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
-									/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
-						else
-							nDisabledByAge[scen][a][g] += 0;
+						nDisabledByAge[scen][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+								* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g];
 
 		return nDisabledByAge;
 	}
@@ -2488,12 +2567,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				for (int a = 0; a < 96 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
-							if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
-								nDisabledByAge[scen][stepCount][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
-										* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
-										/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
-							else
-								nDisabledByAge[scen][stepCount][r][a][g] += 0;
+
+							nDisabledByAge[scen][stepCount][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g];
 
 		return nDisabledByAge;
 	}
@@ -2513,12 +2589,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 				for (int a = 0; a < 96 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 
-						if (pSurvivalByRiskClassByAge[scen][stepCount][r][a][g] != 0)
-							nDisabledByAge[scen][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
-									* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g]
-									/ pSurvivalByRiskClassByAge[scen][stepCount][r][a][g];
-						else
-							nDisabledByAge[scen][r][a][g] += 0;
+						nDisabledByAge[scen][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+								* pDisabilityByRiskClassByAge[scen][stepCount][r][a][g];
 
 		return nDisabledByAge;
 	}
@@ -2529,7 +2601,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * @param g
 	 * @return nm
 	 */
-/* never used */
+	/* never used */
 	public double[][] getNDiseaseByAge(int scen, int stepCount, int g) {
 		double[][] nDiseaseByAge = new double[this.nDiseases][96 + this.stepsInRun];
 		;
@@ -2563,25 +2635,27 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 
 	/**
 	 * @param age
-	 * @param d  disease number , -1=all diseases together
+	 * @param d
+	 *            disease number , -1=all diseases together
 	 * @return
 	 */
 	@Override
 	public double[][][] getNDiseaseByOriAge(int age, int d) {
 		double[][][] nDiseaseByAge = new double[this.nScen + 1][this.nDim - age][2];
 		;
-		if (d>=0){
-		double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByOriRiskClassByOriAge);
-		for (int r = 0; r < this.nRiskFactorClasses; r++)
+		if (d >= 0) {
+			double[][][][][][] nDiseaseByRiskClassByAge = makeDiseaseArray(this.nDiseaseStateByOriRiskClassByOriAge);
+			for (int r = 0; r < this.nRiskFactorClasses; r++)
 
-			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int scen = 0; scen < this.nScen + 1; scen++)
 
-				for (int g = 0; g < 2; g++)
+					for (int g = 0; g < 2; g++)
 
-					for (int stepCount = 0; stepCount < this.nDim - age; stepCount++)
-						nDiseaseByAge[scen][stepCount][g] += nDiseaseByRiskClassByAge[scen][stepCount][d][r][age][g];
-		
-		}else nDiseaseByAge=getNumberOfOriDiseasedPersons(age);
+						for (int stepCount = 0; stepCount < this.nDim - age; stepCount++)
+							nDiseaseByAge[scen][stepCount][g] += nDiseaseByRiskClassByAge[scen][stepCount][d][r][age][g];
+
+		} else
+			nDiseaseByAge = getNumberOfOriDiseasedPersons(age);
 		return nDiseaseByAge;
 	}
 
@@ -2590,18 +2664,17 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * 
 	 * @param d
 	 *            : diseasenumber of disease to return
-	 * @return: array with diseaseNumbers. indexes scenario, 
-	 *          risk factorclass, age, sex
+	 * @return: array with diseaseNumbers. indexes scenario, risk factorclass,
+	 *          age, sex
 	 */
 	@Override
-	public double[][][][] getNDiseaseByRiskClassByAge(int d ,int year) {
+	public double[][][][] getNDiseaseByRiskClassByAge(int d, int year) {
 
 		double[][][][] returnArray = makeDiseaseArray(
 				this.nDiseaseStateByRiskClassByAge, year, d);
 
 		return returnArray;
 	}
-	
 
 	/**
 	 * get the array of diseaseNumbers .
@@ -2613,13 +2686,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	@Override
 	public double[][][][][][] getNDiseaseByRiskClassByAge() {
 
-		double[][][][][][] returnArray = makeDiseaseArray(
-				this.nDiseaseStateByRiskClassByAge);
+		double[][][][][][] returnArray = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
 
 		return returnArray;
 	}
 
-	
 	/**
 	 * get the array of diseaseNumbers for disease d.
 	 * 
@@ -2668,8 +2739,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	public double[][][][][] getMeanRiskByRiskClassByAge() {
 		return this.meanRiskByRiskClassByAge;
 	}
-
-	
 
 	/**
 	 * @return number in population by age
@@ -2735,7 +2804,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	 * @param g
 	 * @return
 	 */
-/* never used */
+	/* never used */
 	public double[] getNPopByAge(int scen, int stepCount, int g) {
 		double[] nPopByAge = new double[96 + this.stepsInRun];
 		for (int r = 0; r < this.nRiskFactorClasses; r++)
@@ -2747,7 +2816,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	/**
 	 * @return
 	 */
-/* never used */
+	/* never used */
 	public double[][][] getNPop() {
 
 		double[][][] nPop = new double[this.nScen + 1][this.stepsInRun + 1][2];
@@ -2767,7 +2836,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 	/**
 	 * @return
 	 */
-	/* never used  */
+	/* never used */
 	public double[][][][] getNPopByOriAge() {
 
 		double[][][][] nPopByAge = new double[this.nScen + 1][this.nDim][96][2];
@@ -2783,6 +2852,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		return nPopByAge;
 
 	}
+
 	/* never used */
 	public double[][][][] getNPopByOriAge(int riskClass) {
 
@@ -2796,9 +2866,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements Serializabl
 		return nPopByAge;
 
 	}
-
-	
-
 
 	public void setCategorized(boolean categorized) {
 		this.categorized = categorized;

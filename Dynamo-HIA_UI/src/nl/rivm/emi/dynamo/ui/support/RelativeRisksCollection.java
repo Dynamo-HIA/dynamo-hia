@@ -169,8 +169,12 @@ public class RelativeRisksCollection {
 			if (relRiskChild instanceof FileNode) {
 				String relRiskFileName = ((BaseNode) relRiskChild)
 						.deriveNodeLabel();
+				String delims = "[-]";
+				String[] nameParts = relRiskFileName.split(delims);
+				/* the part after the last - contains the source of the relative risk */
+				String sourceName=nameParts[nameParts.length-1];
 				for (String validSourceName : validSourceNames) {
-					if (relRiskFileName.contains(validSourceName)) {
+					if (sourceName.equalsIgnoreCase(validSourceName)) {
 						log.debug("Found relative risk \"" + relRiskFileName
 								+ "\" from \"" + validSourceName + "\" on \""
 								+ diseaseChildName + "\"");
