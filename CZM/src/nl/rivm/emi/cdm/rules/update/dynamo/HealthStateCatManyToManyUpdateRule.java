@@ -109,10 +109,10 @@ public class HealthStateCatManyToManyUpdateRule extends
 								+ oldValue[currentStateNo]
 								* ( currentTransMat[1][1]);
 
-						newValue[currentStateNo] = (float) ((
-								(1 - oldValue[currentStateNo])* currentTransMat[1][0]
-								  + oldValue[currentStateNo]* currentTransMat[1][1]
-								                    ) / survival);
+						newValue[currentStateNo] = (float) (  (
+								 (1 - oldValue[currentStateNo])	* currentTransMat[1][0] 
+								      + oldValue[currentStateNo]* currentTransMat[1][1])
+								      / survival);
 
 						survivalFraction *= survival;
 						currentStateNo++;
@@ -188,8 +188,14 @@ public class HealthStateCatManyToManyUpdateRule extends
 					} // end if statement for cluster diseases
 
 				} // end loop over clusters
+				if (riskFactorValue==1){
+					int i=0;
+					i++;
+					
+				}
+				
 				newValue[currentStateNo] = (float) survivalFraction
-						* oldValue[currentStateNo];
+				* oldValue[currentStateNo];
 
 				return newValue;
 			}

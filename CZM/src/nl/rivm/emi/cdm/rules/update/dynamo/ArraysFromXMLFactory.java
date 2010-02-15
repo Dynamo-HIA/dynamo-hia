@@ -503,12 +503,14 @@ public class ArraysFromXMLFactory {
 				// load()).
 				// The config cannot be loaded twice,
 				// because the contents will be doubled.
-				configurationFromFile.clear();
+				
+				//configurationFromFile.clear();
 
 				// Validate the xml by xsd schema
 				//TODO er nog uithalen
-				configurationFromFile.setValidating(true);
-				configurationFromFile.load();
+				
+				// configurationFromFile.setValidating(true);
+				//configurationFromFile.load();
 			}
 
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();

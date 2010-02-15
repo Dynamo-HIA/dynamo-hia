@@ -4,6 +4,7 @@
 package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -74,9 +75,9 @@ extends HealthStateManyToManyUpdateRule {
 	float[][][][][] RRdisFatal;
 
 	/*
-	 * indexes are :age, gender, cluster number, number of fatal disease (number
-	 * as given in disFatalIndex). RRdisFatal gives the disease related RR's for
-	 * each location in the matrix for the fatal diseases
+	 * indexes are :age, gender, cluster number, diseasenumber of the fatal
+	 * disease (number as given in disFatalIndex). RRdisFatal gives the disease
+	 * related RR's for each location in the matrix for the fatal diseases
 	 */
 
 	float[][][] nonCuredRatio;
@@ -200,8 +201,9 @@ extends HealthStateManyToManyUpdateRule {
 									* expI + (atMort * oldValue[d] - incidence)
 									* expA)
 									/ (atMort - incidence);
-						else survivalFraction*=
-								 expA * (incidence * (1-oldValue[d])* timeStep+1);
+						else
+							survivalFraction *= expA
+									* (incidence * (1 - oldValue[d]) * timeStep + 1);
 						currentStateNo++;
 						/* update diseases with cured fraction */
 					} else if (withCuredFraction[c]) {
@@ -280,6 +282,7 @@ extends HealthStateManyToManyUpdateRule {
 							incidence = calculateIncidence(riskFactorValue,
 									ageValue, sexValue, d);
 							atMort = attributableMortality[d][ageValue][sexValue];
+							/* >>1 is fast for /2 */
 							for (int loc = 0; loc < nCombinations[c] >> 1; loc++) {
 								rateMatrix[incIndex[c][dc][loc]][incIndex[c][dc][loc]] += -incidence
 										* RRdis[ageValue][sexValue][c][dc][loc];
@@ -296,20 +299,22 @@ extends HealthStateManyToManyUpdateRule {
 						 * running time
 						 */
 						if (disFatalIndex[ageValue][sexValue][c][0] >= 0)
-							for (int fataldis = 0; fataldis < disFatalIndex[ageValue][sexValue][c].length;fataldis++) {
+							for (int fataldisnr = 0; fataldisnr < disFatalIndex[ageValue][sexValue][c].length; fataldisnr++) {
+
 								incidence = calculateFatalIncidence(
 										riskFactorValue,
 										ageValue,
 										sexValue,
-										fataldis
+										disFatalIndex[ageValue][sexValue][c][fataldisnr]
 												+ clusterStartsAtDiseaseNumber[c]);
 								for (int loc = 0; loc < nCombinations[c]; loc++) {
 
-									rateMatrix[disFatalIndex[ageValue][sexValue][c][loc]][disFatalIndex[ageValue][sexValue][c][loc]] += -incidence
-											* RRdisFatal[ageValue][sexValue][c][fataldis][loc];
+									rateMatrix[loc][loc] += -incidence
+											* RRdisFatal[ageValue][sexValue][c][fataldisnr][loc];
 
 								} // end loop over locations
 							} // end loop over fatal diseases
+						
 						float[][] transMat = matExp
 								.exponentiateFloatMatrix(rateMatrix);
 
@@ -324,7 +329,7 @@ extends HealthStateManyToManyUpdateRule {
 										* oldValue[state2 - 1 + currentStateNo];
 						}
 						/* calculate survival */
-                        survival=0;
+						survival = 0;
 						for (int state = 0; state < nCombinations[c]; state++) {
 							survival += unconditionalNewValues[state];
 						}
@@ -372,9 +377,9 @@ extends HealthStateManyToManyUpdateRule {
 	private double calculateFatalIncidence(float riskFactorValue, int ageValue,
 			int sexValue, int diseaseNumber) {
 		double incidence = 0;
-		incidence = baselineIncidence[diseaseNumber][ageValue][sexValue]
-				* Math.pow((riskFactorValue - referenceValueContinous),
-						relRiskContinous[diseaseNumber][ageValue][sexValue]);
+		incidence = baselineFatalIncidence[diseaseNumber][ageValue][sexValue]
+				* Math.pow(relRiskContinous[diseaseNumber][ageValue][sexValue],
+						(riskFactorValue - referenceValueContinous));
 
 		return incidence;
 	}
@@ -398,18 +403,19 @@ extends HealthStateManyToManyUpdateRule {
 		try {
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
-			
+
 			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// WORKAROUND: clear() is put after the constructor (also calls
+			// load()).
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
 			configurationFileConfiguration.clear();
-			
+
 			// Validate the xml by xsd schema
-		// TODO weeraanzetten	configurationFileConfiguration.setValidating(true);			
+			// TODO weeraanzetten
+			// configurationFileConfiguration.setValidating(true);
 			configurationFileConfiguration.load();
-		
-			
+
 			ConfigurationNode rootNode = configurationFileConfiguration
 					.getRootNode();
 			if (configurationFileConfiguration.getRootElementName() != globalTagName)
@@ -441,6 +447,10 @@ extends HealthStateManyToManyUpdateRule {
 			disFatalIndex = new int[96][2][nCluster][];
 			nonCuredRatio = new float[96][2][nCluster];
 			for (int c = 0; c < nCluster; c++) {
+				/* as the indexes give the locations, and both incidence and attributable
+				 * mortality are needed only for half the states, we can save memory space by using 
+				 * only nCombination/n
+				 */
 				atIndex[c] = new int[numberOfDiseasesInCluster[c]][nCombinations[c] / 2];
 				incIndex[c] = new int[numberOfDiseasesInCluster[c]][nCombinations[c] / 2];
 				incRowIndex[c] = new int[numberOfDiseasesInCluster[c]][nCombinations[c] / 2];
@@ -463,12 +473,17 @@ extends HealthStateManyToManyUpdateRule {
 							disFatalIndex[a][g][c] = new int[1];
 							disFatalIndex[a][g][c][0] = -1;
 						}
+						/*
+						 * Extract the number of the diseases with fatal
+						 * incidence, and place them in the array disFatalIndex
+						 */
 						int indexFatal = 0;
 						for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) {
 							int dd = clusterStartsAtDiseaseNumber[c] + d;
-							if (baselineFatalIncidence[dd][a][g] > 0)
+							if (baselineFatalIncidence[dd][a][g] > 0) {
 								disFatalIndex[a][g][c][indexFatal] = d;
-
+								indexFatal++;
+							}
 						}
 
 					}
@@ -506,23 +521,9 @@ extends HealthStateManyToManyUpdateRule {
 						for (int column = 0; column < nCombinations[c]; column++) {
 
 							/*
-							 * first add fatal incidence irrespective of value
-							 * of d
+							 * add the relative risks for disease on disease for
+							 * each fatal disease
 							 */
-
-							for (int a = 0; a < 96; a++)
-								for (int g = 0; g < 2; g++) {
-									if (disFatalIndex[a][g][c][0] == -1) {
-
-										for (int f = 0; f < disFatalIndex[a][g][c].length; f++)
-											if (disFatalIndex[a][g][c][0] == d) {
-												RRdisFatal[a][g][c][disFatalIndex[a][g][c][f]][f] = 1;
-												for (int dCause = 0; dCause < getNDiseases(); dCause++)
-													if ((column & (1 << dCause)) == (1 << dCause))
-														RRdisFatal[a][g][c][disFatalIndex[a][g][c][f]][f] *= relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
-											}
-									}
-								}
 
 							if ((column & (1 << d)) != (1 << d)) {
 								/*
@@ -540,7 +541,7 @@ extends HealthStateManyToManyUpdateRule {
 									for (int g = 0; g < 2; g++) {
 										RRdis[a][g][c][d][nInc] = 1;
 
-										for (int dCause = 0; dCause < getNDiseases(); dCause++)
+										for (int dCause = 0; dCause < numberOfDiseasesInCluster[c]; dCause++)
 											if ((column & (1 << dCause)) == (1 << dCause))
 												RRdis[a][g][c][d][nInc] *= relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
 
@@ -556,6 +557,45 @@ extends HealthStateManyToManyUpdateRule {
 						}
 						// end loop over columns
 
+						/* now part for fatal diseases */
+						for (int a = 0; a < 96; a++)
+							for (int g = 0; g < 2; g++) {
+								/* only for fatal diseases */
+								if (disFatalIndex[a][g][c][0] > -1) {
+									/* look if disease d is a fatal disease */
+									int diseaseNumberOfFatalDisease = 0;
+									for (int fatalDiseaseNumber = 0; fatalDiseaseNumber < disFatalIndex[a][g][c].length; fatalDiseaseNumber++) {
+										diseaseNumberOfFatalDisease = disFatalIndex[a][g][c][fatalDiseaseNumber];
+										if (diseaseNumberOfFatalDisease == d)
+										/*
+										 * if yes, add RR terms to the
+										 * RRdisFatal entry for this disease
+										 */
+
+										{
+											/*
+											 * these terms are 1 is it is an
+											 * independent disease
+											 */
+											Arrays
+													.fill(
+															RRdisFatal[a][g][c][fatalDiseaseNumber],
+															1);
+											/*
+											 * if the column contains a
+											 * potential causal disease then add
+											 * the RR from this disease (=1 if
+											 * not causal)
+											 */
+											for (int dCause = 0; dCause < numberOfDiseasesInCluster[c]; dCause++)
+												for (int column = 0; column < nCombinations[c]; column++)
+													if ((column & (1 << dCause)) == (1 << dCause))
+														RRdisFatal[a][g][c][fatalDiseaseNumber][column] *= relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
+										}
+									}
+								}
+							}
+
 					}// end loop over diseases within cluster
 
 					currentStateNo += nCombinations[c] - 1;
@@ -567,16 +607,16 @@ extends HealthStateManyToManyUpdateRule {
 			success = true;
 			return success;
 		} catch (NoSuchElementException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), new ConfigurationException(
-					CDMConfigurationException.noConfigurationTagMessage
-					+ this.nDiseasesLabel), configurationFile.getAbsolutePath());						
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(),
+					new ConfigurationException(
+							CDMConfigurationException.noConfigurationTagMessage
+									+ this.nDiseasesLabel), configurationFile
+							.getAbsolutePath());
 		} catch (DynamoUpdateRuleConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e, 
+			ErrorMessageUtil.handleErrorMessage(this.log, e.getMessage(), e,
 					configurationFile.getAbsolutePath());
 		}
 		return success;
 	}
 
-
-	
 }

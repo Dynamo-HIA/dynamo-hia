@@ -32,63 +32,7 @@ import nl.rivm.emi.cdm.rules.update.base.DynamoManyToManyUpdateRuleBase;
  * 
  */
 
-/**
- * 
- * 
- * 
- * 
- * @author boshuizh configuration file should look like: <?xml version="1.0"
- *         encoding="UTF-8" standalone="no" ?> - <updateRuleConfiguration>
- *         <name>survival</name> <riskType>1</riskType> <nCat>2</nCat>
- *         <refValContinuousVariable>0.0</refValContinuousVariable> - <disease>
- *         <ClusterNumber>0</ClusterNumber>
- *         <diseaseNumberWithinCluster>0</diseaseNumberWithinCluster>
- *         <diseaseName>ziekte1</diseaseName>
- *         <baselineIncidenceFile>c:\hendriek\
- *         java\dynamohome\Simulations\testsimulation
- *         \parameters\baselineIncidence_4_ziekte1.xml</baselineIncidenceFile>
- *         <baselineFatalIncidenceFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\baselineFatalIncidence_4_ziekte1
- *         .xml</baselineFatalIncidenceFile>
- *         <attributableMortFile>c:\hendriek\java
- *         \dynamohome\Simulations\testsimulation
- *         \parameters\attributableMort_4_ziekte1.xml</attributableMortFile>
- *         <relativeRiskFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\relativeRisk_4_ziekte1.xml</relativeRiskFile> </disease>
- *         - <disease> <ClusterNumber>0</ClusterNumber>
- *         <diseaseNumberWithinCluster>1</diseaseNumberWithinCluster>
- *         <diseaseName>ziekte2</diseaseName>
- *         <baselineIncidenceFile>c:\hendriek\
- *         java\dynamohome\Simulations\testsimulation
- *         \parameters\baselineIncidence_4_ziekte2.xml</baselineIncidenceFile>
- *         <baselineFatalIncidenceFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\baselineFatalIncidence_4_ziekte2
- *         .xml</baselineFatalIncidenceFile>
- *         <attributableMortFile>c:\hendriek\java
- *         \dynamohome\Simulations\testsimulation
- *         \parameters\attributableMort_4_ziekte2.xml</attributableMortFile>
- *         <relativeRiskFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\relativeRisk_4_ziekte2.xml</relativeRiskFile> </disease>
- *         <charID>7</charID> <nclusters>1</nclusters> - <clusterInformation>
- *         <clusterNumber>0</clusterNumber>
- *         <startsAtDiseaseNumber>0</startsAtDiseaseNumber>
- *         <numberOfDiseasesInCluster>2</numberOfDiseasesInCluster>
- *         <diseaseOnDiseaseRelativeRiskFile
- *         >c:\hendriek\java\dynamohome\Simulations
- *         \testsimulation\parameters\relativeRiskDiseaseOnDisease_cluster0
- *         .xml</diseaseOnDiseaseRelativeRiskFile> </clusterInformation>
- *         <baselineOtherMortFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\baselineOtherMort.xml</baselineOtherMortFile>
- *         <relativeRiskOtherMortFile
- *         >c:\hendriek\java\dynamohome\Simulations\testsimulation
- *         \parameters\relativeRisk_OtherMort.xml</relativeRiskOtherMortFile>
- *         </updateRuleConfiguration>
- */
+
 
 public class HealthStateManyToManyUpdateRule extends
 		DynamoManyToManyUpdateRuleBase implements ConfigurationEntryPoint {
@@ -515,8 +459,8 @@ public class HealthStateManyToManyUpdateRule extends
 			incidence = baselineIncidence[diseaseNumber][ageValue][sexValue]
 					* Math
 							.pow(
-									(riskFactorValue - referenceValueContinous),
-									relRiskContinous[diseaseNumber][ageValue][sexValue]);
+									
+									relRiskContinous[diseaseNumber][ageValue][sexValue],(riskFactorValue - referenceValueContinous));
 
 		}
 		if (riskType == 3) {
@@ -555,9 +499,8 @@ public class HealthStateManyToManyUpdateRule extends
 			float riskFactorValue = getFloat(currentValues, riskFactorIndex1);
 			fatalIncidence = baselineFatalIncidence[diseaseNumber][ageValue][sexValue]
 					* Math
-							.pow(
-									(riskFactorValue - referenceValueContinous),
-									relRiskContinous[diseaseNumber][ageValue][sexValue]);
+							.pow(						
+									relRiskContinous[diseaseNumber][ageValue][sexValue],(riskFactorValue - referenceValueContinous));
 
 		}
 		if (riskType == 3) {
@@ -594,9 +537,8 @@ public class HealthStateManyToManyUpdateRule extends
 
 			float riskFactorValue = getFloat(currentValues, riskFactorIndex1);
 			otherCauseMortality = baselineOtherMort[ageValue][sexValue]
-					* Math.pow(
-							(riskFactorValue - getReferenceValueContinous()),
-							relRiskOtherMortContinous[ageValue][sexValue]);
+					* Math.pow(	relRiskOtherMortContinous[ageValue][sexValue],
+							(riskFactorValue - getReferenceValueContinous()));
 
 		}
 		if (riskType == 3) {
