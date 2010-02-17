@@ -694,10 +694,40 @@ public class XMLFileAction extends ActionBase {
 																																																	node,
 																																																	null);
 																																														} else {
-																																															throw new DynamoConfigurationException(
-																																																	"RootElementName "
-																																																			+ rootElementName
-																																																			+ " not implemented yet.");
+																																															if (RootElementNamesEnum.RELATIVERISKS_BEGIN
+																																																	.getNodeLabel()
+																																																	.equals(
+																																																			rootElementName)) {
+																																																theModal = new RelRiskFromRiskFactorContinuousModal(
+																																																		shell,
+																																																		importFile
+																																																				.getAbsolutePath(),
+																																																		savedFile
+																																																				.getAbsolutePath(),
+																																																		rootElementName,
+																																																		node,
+																																																		null);
+																																															} else {
+																																																if (RootElementNamesEnum.RELATIVERISKS_END
+																																																		.getNodeLabel()
+																																																		.equals(
+																																																				rootElementName)) {
+																																																	theModal = new RelRiskFromRiskFactorContinuousModal(
+																																																			shell,
+																																																			importFile
+																																																					.getAbsolutePath(),
+																																																			savedFile
+																																																					.getAbsolutePath(),
+																																																			rootElementName,
+																																																			node,
+																																																			null);
+																																																} else {
+																																																	throw new DynamoConfigurationException(
+																																																			"RootElementName "
+																																																					+ rootElementName
+																																																					+ " not implemented yet.");
+																																																}
+																																															}
 																																														}
 																																													}
 																																												}
