@@ -204,8 +204,7 @@ public enum DispatchEnum {
 			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
 					.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
-	ALPHAS(RootElementNamesEnum.ALFAS.getNodeLabel(), new AlphasFactory(),
-			null), //
+	ALPHAS(RootElementNamesEnum.ALFAS.getNodeLabel(), new AlphasFactory(), null), //
 	ALPHASOTHERMORTALITY(RootElementNamesEnum.ALPHASOTHERMORTALITY
 			.getNodeLabel(), new AlphasOtherMortalityFactory(), null), //
 	RELATIVERISKS_OTHERMORT_BEGIN(
@@ -213,6 +212,11 @@ public enum DispatchEnum {
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
 	RELATIVERISKS_OTHERMORT_END(
 			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_BEGIN(
+			RootElementNamesEnum.RELATIVERISKS_BEGIN.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_END(RootElementNamesEnum.RELATIVERISKS_END.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
 	;
 
