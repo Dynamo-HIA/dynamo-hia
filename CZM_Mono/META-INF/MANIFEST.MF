@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
+Main-Class: nl.rivm.emi.dynamo.batch.Runner 
 Bundle-ManifestVersion: 2
 Bundle-Name: CZM_Mono Plug-in
 Bundle-SymbolicName: CZM_Mono;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: czm_main.Activator
+Bundle-Activator: czm_mono.Activator
 Bundle-Vendor: RIVM
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
