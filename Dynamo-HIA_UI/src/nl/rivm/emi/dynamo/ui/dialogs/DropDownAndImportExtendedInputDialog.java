@@ -8,6 +8,7 @@ package nl.rivm.emi.dynamo.ui.dialogs;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.NoRiskSourceFoundException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;
@@ -93,7 +94,7 @@ public class DropDownAndImportExtendedInputDialog extends
 				MessageBox messageBox = new MessageBox(super.getParentShell());
 				messageBox.setMessage("No risk sources could be found.");
 				messageBox.open();
-				return null;
+				throw new NoRiskSourceFoundException();
 			}
 
 		} catch (ConfigurationException e) {
