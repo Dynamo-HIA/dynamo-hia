@@ -1,10 +1,9 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
-import javax.xml.parsers.ParserConfigurationException;
+import nl.rivm.emi.cdm.population.CSVPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Element;
 
 public class CSVCharacteristicValueWriter {
 	static Log log = LogFactory
@@ -39,7 +38,6 @@ public class CSVCharacteristicValueWriter {
 			returnString = ((Float) value).toString();
 			return returnString;
 		}
-
 	}
 
 	public static String generateString(
@@ -57,11 +55,9 @@ public class CSVCharacteristicValueWriter {
 				if (i == 0)
 					returnString = ((Float) value[i]).toString();
 				else
-					returnString += ";" + ((Float) value[i]).toString();
-
+					returnString += /*";"*/ CSVPopulationWriter.SEPARATOR + ((Float) value[i]).toString();
 			}
 			return returnString;
 		}
 	}
-
 }
