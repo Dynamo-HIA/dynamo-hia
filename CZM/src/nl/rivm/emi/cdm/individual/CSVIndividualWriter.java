@@ -2,15 +2,12 @@ package nl.rivm.emi.cdm.individual;
 
 import java.util.Iterator;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import nl.rivm.emi.cdm.characteristic.values.CSVCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
-import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.individual.Individual.CharacteristicValueIterator;
+import nl.rivm.emi.cdm.population.CSVPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +29,7 @@ public class CSVIndividualWriter {
 		String individualRecord = "";
 
 		String elementName = individual.getElementName();
-		individualRecord += elementName + ";";
+		individualRecord += elementName + /*";"*/ CSVPopulationWriter.SEPARATOR;
 		/* elementname in Dynamo contains "scen"+ scenarioNumber */
 		String label = individual.getLabel();
 
@@ -42,7 +39,7 @@ public class CSVIndividualWriter {
 
 		Iterator<CharacteristicValueBase> iterator = individual.iterator();
 		while (iterator.hasNext()) {
-			individualRecord+=";";
+			individualRecord+=/*";"*/ CSVPopulationWriter.SEPARATOR;
 			CharacteristicValueBase charVal = iterator.next();
 			if (charVal instanceof IntCharacteristicValue) {
 				individualRecord += CSVCharacteristicValueWriter
