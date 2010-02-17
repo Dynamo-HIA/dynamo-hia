@@ -630,7 +630,7 @@ public class StorageTreeMenuFactory {
 																	manager
 																			.add(action);
 																} else {
-																	if (RootElementNamesEnum.TRANSITIONMATRIX
+																	if (RootElementNamesEnum.RELATIVERISKS_BEGIN
 																			.getNodeLabel()
 																			.equals(
 																					rootElementName)) {
@@ -640,19 +640,61 @@ public class StorageTreeMenuFactory {
 																				selectedNode,
 																				selectedNode
 																						.deriveNodeLabel(),
-																				RootElementNamesEnum.TRANSITIONMATRIX
+																				RootElementNamesEnum.RELATIVERISKS_BEGIN
 																						.getNodeLabel());
 																		action
-																				.setText("View transition rates");
+																				.setText("View relative risks begin"); // TODO
+																														// More
+																														// sensible
+																														// text.
 																		manager
 																				.add(action);
 																	} else {
-																		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
-																				shell);
-																		action
-																				.setText("Unhandled parameters file");
-																		manager
-																				.add(action);
+																		if (RootElementNamesEnum.RELATIVERISKS_END
+																				.getNodeLabel()
+																				.equals(
+																						rootElementName)) {
+																			XMLFileAction action = new XMLFileAction(
+																					this.shell,
+																					this.treeViewer,
+																					selectedNode,
+																					selectedNode
+																							.deriveNodeLabel(),
+																					RootElementNamesEnum.RELATIVERISKS_END
+																							.getNodeLabel());
+																			action
+																					.setText("View relative risks end"); // TODO
+																															// More
+																															// sensible
+																															// text.
+																			manager
+																					.add(action);
+																		} else {
+																			if (RootElementNamesEnum.TRANSITIONMATRIX
+																					.getNodeLabel()
+																					.equals(
+																							rootElementName)) {
+																				XMLFileAction action = new XMLFileAction(
+																						this.shell,
+																						this.treeViewer,
+																						selectedNode,
+																						selectedNode
+																								.deriveNodeLabel(),
+																						RootElementNamesEnum.TRANSITIONMATRIX
+																								.getNodeLabel());
+																				action
+																						.setText("View transition rates");
+																				manager
+																						.add(action);
+																			} else {
+																				DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
+																						shell);
+																				action
+																						.setText("Unhandled parameters file");
+																				manager
+																						.add(action);
+																			}
+																		}
 																	}
 																}
 															}
