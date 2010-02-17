@@ -39,6 +39,8 @@
 	<target name="createdirs" depends="createwindows_aditionals,createlinux86_aditionals" />
 
 	<target name="createwindows_aditionals">
+		<copy todir="${release.windows.dir}" file="log4j.properties" />
+		<copy todir="${release.windows.dir}" file="runbatch.bat" />
 		<copy todir="${release.windows.dir}${schemas.dir}">
 			<fileset dir="${schemas.dir}" />
 		</copy>

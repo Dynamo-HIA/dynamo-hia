@@ -1,17 +1,21 @@
 <project name="CZM_Mono" basedir="." default="main">
 
 	<!-- Own subdirectories. -->
-	<property name="classes.dir" value="classes" />
+	<property name="com.dir" value="com" />
+	<property name="org.dir" value="org" />
+	<property name="nl.dir" value="nl" />
+	<property name="jamaclasses.dir" value="Jama" />
+	<property name="czm_mono.dir" value="czm_mono" />
 	<property name="schemas.dir" value="schemas" />
 	<property name="images.dir" value="images" />
 	<property name="ini.dir" value="ini" />
+	<property name="icons.dir" value="icons" />
 	<property name="help.dir" value="help" />
 
 	<property name="contrib_name" value="build_monolith_mkii.xml" />
 
 	<!-- Subproject directories -->
 	<property name="jama.dir" value="../Jama/" />
-	<!--	<property name="junit.classes.dir" value="lib/junit-4.1.jar/" /> -->
 	<property name="org.apache.commons.lang.dir" value="../org.apache.commons.lang/" />
 	<property name="org.apache.commons.logging.dir" value="../org.apache.commons.logging/" />
 	<property name="org.apache.log4j.dir" value="../org.apache.log4j/" />
@@ -50,11 +54,15 @@
 	</target>
 
 	<target name="clean">
-		<delete dir="${classes.dir}" />
-		<delete dir="${schemas.dir}" />
-		<delete dir="${images.dir}" />
-		<delete dir="${ini.dir}" />
-		<delete dir="${help.dir}" />
+		<delete dir="${com.dir}" failonerror="true" />
+		<delete dir="${org.dir}" failonerror="true" />
+		<delete dir="${nl.dir}" failonerror="true" />
+		<delete dir="${jamaclasses.dir}" failonerror="true" />
+		<delete dir="${czm_mono.dir}" failonerror="true" />
+		<delete dir="${schemas.dir}" failonerror="true" />
+		<delete dir="${images.dir}" failonerror="true" />
+		<delete dir="${ini.dir}" failonerror="true" />
+		<delete dir="${help.dir}" failonerror="true" />
 	</target>
 
 	<target name="fill">
