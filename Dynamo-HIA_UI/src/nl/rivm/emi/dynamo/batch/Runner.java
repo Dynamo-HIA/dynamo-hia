@@ -10,7 +10,6 @@ import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.estimation.LoggingDynSimRunPR;
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -69,6 +68,7 @@ public class Runner {
 			String batchFilePath = batchFile.getAbsolutePath();
 			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
 					.lastIndexOf(File.separatorChar) + 1);
+			statLog.debug("Using basedirectory: " + baseDirectoryPath);
 			BaseDirectory.getInstance(baseDirectoryPath);
 			DynSimRunPRInterface dsi = new LoggingDynSimRunPR();
 			FileReader reader = new FileReader(batchFile);
@@ -85,8 +85,8 @@ public class Runner {
 							+ StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 									.getNodeLabel() + ".xml";
 					statLog
-							.debug("Going to run simulation at configuration path: "
-									+ simulationConfigurationPath);
+							.debug("STARTING simulation: "
+									+ simulationName);
 					boolean exceptionless = runSimulation(dsi, simulationName,
 							baseDirectoryPath);
 					if (!exceptionless) {
@@ -117,8 +117,8 @@ public class Runner {
 					simulationName, baseDirectoryPath);
 			R.run();
 			return true;
-		} catch (DynamoInconsistentDataException e) {
-			statLog.info(e.getMessage());
+		} catch (Throwable e) {
+			statLog.fatal(e.getMessage());
 			e.printStackTrace(System.err);
 			System.err.flush();
 			return false;
