@@ -27,6 +27,7 @@ import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -204,6 +205,18 @@ public class SimulationUniversalAction extends ActionBase {
 				+ simulationsPath, "Enter name for new simulation",
 				"SimulationName", new FileAndDirectoryNameInputValidator());
 		inputDialog.open();
+		int returnCode = inputDialog.getReturnCode();
+		if(returnCode == Window.OK){
+		newSimulationDirectoryNode =  handleOKedSimulationName(simulationsNode,
+				newSimulationDirectoryNode, simulationsPath, inputDialog);
+	}
+		return newSimulationDirectoryNode;
+	}
+
+	private DirectoryNode handleOKedSimulationName(
+			DirectoryNode simulationsNode,
+			DirectoryNode newSimulationDirectoryNode, String simulationsPath,
+			InputDialog inputDialog) throws StorageTreeException {
 		String candidateSimulationName = inputDialog.getValue();
 		String candidateSimulationPath = simulationsPath + File.separator
 				+ candidateSimulationName;
