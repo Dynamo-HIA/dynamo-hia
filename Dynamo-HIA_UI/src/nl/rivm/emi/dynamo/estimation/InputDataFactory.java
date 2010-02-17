@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+//import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -2127,7 +2127,7 @@ public class InputDataFactory {
 							+ ".xml";
 
 					info.rrDataDis = this.factory.manufactureOneDimArray(
-							configFileName, rrDiseaseTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
+							configFileName, rrDiseaseTagName, /* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
 							"value", false);
 
 				} else {
@@ -2147,7 +2147,7 @@ public class InputDataFactory {
 							info.rrDataCont = this.factory
 									.manufactureOneDimArray(configFileName,
 											rrContinuousTagName,
-											XMLTagEntityEnum.RELATIVERISK.getElementName(), "value", false);
+											/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "value", false);
 						} else if (this.riskFactorType == 1) {
 
 							String configFileName = this.baseDir
@@ -2159,7 +2159,7 @@ public class InputDataFactory {
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
 											rrCategoricalTagName,
-											XMLTagEntityEnum.RELATIVERISK.getElementName(), "cat", "value",
+											/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "cat", "value",
 											false);
 						} else {
 							String configFileName = this.baseDir
@@ -2171,19 +2171,19 @@ public class InputDataFactory {
 
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
-											rrCompoundTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
+											rrCompoundTagName, /* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
 											"cat", "value", true);
 							info.rrDataBegin = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "begin", "cat",
+									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "begin", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataEnd = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "end", "cat",
+									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "end", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataAlfa = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "alfa", "cat",
+									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "alfa", "cat",
 									this.originalNumberDurationClass);
 
 						}
