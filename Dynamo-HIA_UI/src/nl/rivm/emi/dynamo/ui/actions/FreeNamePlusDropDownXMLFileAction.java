@@ -11,6 +11,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.exceptions.NoRiskSourceFoundException;
 import nl.rivm.emi.dynamo.ui.dialogs.DropDownAndImportExtendedInputDialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.DALYWeightsModal;
@@ -43,8 +44,8 @@ public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 	protected String rootElementName;
 	protected IInputValidator theValidator = null;
 
-	public FreeNamePlusDropDownXMLFileAction(Shell shell, TreeViewer v, BaseNode node,
-			String rootElementName, IInputValidator theValidator) {
+	public FreeNamePlusDropDownXMLFileAction(Shell shell, TreeViewer v,
+			BaseNode node, String rootElementName, IInputValidator theValidator) {
 		super(shell, v, node, rootElementName);
 		this.rootElementName = rootElementName;
 		this.theValidator = theValidator;
@@ -64,47 +65,51 @@ public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 	}
 
 	protected String getNewFilePath() {
-		String selectionPath = node.getPhysicalStorage().getAbsolutePath();
-		String newPath = null;
-		// Call the input trialog modal here (trialog includes input field,
-		// import, ok and cancel buttons)
-		DropDownAndImportExtendedInputDialog inputDialog = new DropDownAndImportExtendedInputDialog(
-				shell,node,
-				"Enter name for a new xml file", "Name", theValidator);
-		int openValue = inputDialog.open();
+		try {
+			String selectionPath = node.getPhysicalStorage().getAbsolutePath();
+			String newPath = null;
+			// Call the input trialog modal here (trialog includes input field,
+			// import, ok and cancel buttons)
+			DropDownAndImportExtendedInputDialog inputDialog = new DropDownAndImportExtendedInputDialog(
+					shell, node, "Enter name for a new xml file", "Name",
+					theValidator);
+			int openValue = inputDialog.open();
 
-		log.debug("OpenValue is: " + openValue);
+			log.debug("OpenValue is: " + openValue);
 
-		int returnCode = inputDialog.getReturnCode();
+			int returnCode = inputDialog.getReturnCode();
 
-		log.debug("ReturnCode is: " + returnCode);
-		if (returnCode != Window.CANCEL) {
-			String candidateName = inputDialog.getValue();
-			String candidatePath = selectionPath + File.separator
-					+ candidateName + ".xml";
-			File candidateFile = new File(candidatePath);
-			if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
-				newPath = candidateFile.getAbsolutePath();
-				File savedFile = new File(newPath);
-				File dataFile = null;
-				// Supply the location of dataFile
-				if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
-					dataFile = this.getImportFile();
+			log.debug("ReturnCode is: " + returnCode);
+			if (returnCode != Window.CANCEL) {
+				String candidateName = inputDialog.getValue();
+				String candidatePath = selectionPath + File.separator
+						+ candidateName + ".xml";
+				File candidateFile = new File(candidatePath);
+				if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
+					newPath = candidateFile.getAbsolutePath();
+					File savedFile = new File(newPath);
+					File dataFile = null;
+					// Supply the location of dataFile
+					if (returnCode == ImportExtendedInputTrialog.IMPORT_ID) {
+						dataFile = this.getImportFile();
+					} else {
+						dataFile = savedFile;
+					}
+
+					// Process the modal
+					processThroughModal(dataFile, savedFile);
 				} else {
-					dataFile = savedFile;
+					MessageBox messageBox = new MessageBox(shell,
+							SWT.ERROR_ITEM_NOT_ADDED);
+					messageBox.setMessage("\"" + candidateName
+							+ "\"\n exists already.");
+					messageBox.open();
 				}
-
-				// Process the modal
-				processThroughModal(dataFile, savedFile);
-			} else {
-				MessageBox messageBox = new MessageBox(shell,
-						SWT.ERROR_ITEM_NOT_ADDED);
-				messageBox.setMessage("\"" + candidateName
-						+ "\"\n exists already.");
-				messageBox.open();
 			}
+			return newPath;
+		} catch (NoRiskSourceFoundException e) {
+			return null;
 		}
-		return newPath;
 	}
 
 	protected void processThroughModal(File dataFile, File savedFile) {
@@ -159,7 +164,7 @@ public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 				((ParentNode) node).addChild((ChildNode) new FileNode(
 						(ParentNode) node, savedFile));
 				FileCreationFlag.isOld = true;
-				}
+			}
 			theViewer.refresh();
 		} catch (Exception e) {
 			e.printStackTrace();
