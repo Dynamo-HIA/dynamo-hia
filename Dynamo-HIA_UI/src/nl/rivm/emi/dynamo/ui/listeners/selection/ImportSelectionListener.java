@@ -3,8 +3,12 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
+import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
+import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
+import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,8 +17,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 
-public class ImportSelectionListener implements
-		SelectionListener {
+public class ImportSelectionListener implements SelectionListener {
 	protected Log log = LogFactory.getLog(this.getClass().getName());
 	DataAndFileContainer modalParent;
 
@@ -56,6 +59,20 @@ public class ImportSelectionListener implements
 					.getParentShell(), TreeViewerPlusCustomMenu
 					.getTreeViewerInstance(), this.modalParent.getBaseNode(),
 					rootElementName, rootElementName);
+
+			/* Workaround for import for an unsaved configuration file. */
+			if (this.modalParent instanceof RelRiskFromRiskFactorCategoricalModal) {
+				CategoricalRiskFactorProperties props = ((RelRiskFromRiskFactorCategoricalModal) this.modalParent)
+						.getProps();
+				action.setProps(props);
+			} else {
+				if (this.modalParent instanceof RelRiskFromRiskFactorCompoundModal) {
+					CompoundRiskFactorProperties props = ((RelRiskFromRiskFactorCompoundModal) this.modalParent)
+							.getProps();
+					action.setProps(props);
+				}
+
+			}
 			// Assume a different file has been imported.
 			this.modalParent.setChanged(true);
 			action.processThroughModal(dataFile, new File(this.modalParent
