@@ -89,7 +89,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 					/**
 					 * Set the diagonal to 100 on the diagonal.
 					 */
-					observableValue.doSetValue(new Float(100F));
+				/* 20100218 RM Put this after the construction of the default modelObject	observableValue.doSetValue(new Float(100F)); */
 				} else {
 					observableValue = (WritableValue) parameterList.get(0)
 							.getValue();
