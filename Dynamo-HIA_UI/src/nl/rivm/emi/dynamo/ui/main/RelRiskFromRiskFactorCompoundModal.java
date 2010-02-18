@@ -39,6 +39,10 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 	 */
 	private CompoundRiskFactorProperties props;
 
+	public CompoundRiskFactorProperties getProps() {
+		return props;
+	}
+
 	private TypedHashMap<?> modelObject;
 	int numberOfCategories;
 	int durationClassIndex;

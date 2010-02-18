@@ -43,8 +43,8 @@ import org.eclipse.swt.widgets.Shell;
 public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private CategoricalRiskFactorProperties props;
-
-	/**
+	
+		/**
 	 * 
 	 * Constructor
 	 * 
@@ -64,6 +64,10 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 		this.props = props;
 	}
 
+	public CategoricalRiskFactorProperties getProps() {
+			return props;
+		}
+
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
 		return "Relative risks from categorical riskfactor.";
@@ -81,11 +85,11 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 		BaseNode riskSourceNode = null;
 		if (this.props != null) {
 			riskSourceNode = this.props.getRiskSourceNode();
-		RelRisksFromRiskFactorCategoricalGroup relRiskFromRiskFactorCategoricalGroup = new RelRisksFromRiskFactorCategoricalGroup(
-				this.shell, this.modelObject, this.dataBindingContext,
-				this.selectedNode, riskSourceNode, this.helpPanel);
-		relRiskFromRiskFactorCategoricalGroup.setFormData(this.helpPanel
-				.getGroup(), buttonPanel);
+			RelRisksFromRiskFactorCategoricalGroup relRiskFromRiskFactorCategoricalGroup = new RelRisksFromRiskFactorCategoricalGroup(
+					this.shell, this.modelObject, this.dataBindingContext,
+					this.selectedNode, riskSourceNode, this.helpPanel);
+			relRiskFromRiskFactorCategoricalGroup.setFormData(this.helpPanel
+					.getGroup(), buttonPanel);
 		} else {
 			RelRisksFromRiskFactorCategorical4ParametersGroup relRiskFromRiskFactorCategoricalGroup = new RelRisksFromRiskFactorCategorical4ParametersGroup(
 					this.shell, this.modelObject, this.dataBindingContext,
@@ -119,15 +123,21 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 					if (props == null) {
 						props = createProps();
 					}
-					((AgnosticCategoricalFactory) factory)
-							.setNumberOfCategories(props
-									.getNumberOfCategories());
+					if (props != null) {
+						((AgnosticCategoricalFactory) factory)
+								.setNumberOfCategories(props
+										.getNumberOfCategories());
+					} else {
+						throw new ConfigurationException(
+								"Could not create properties needed to find out the number of categories.");
+					}
 				} else {
 					// Added functionality for files in parameters directory.
-					int numberOfCategories = RelativeRisksUtil.extractNumberOfCategories(dataFile);
+					int numberOfCategories = RelativeRisksUtil
+							.extractNumberOfCategories(dataFile);
 					((AgnosticCategoricalFactory) factory)
-					.setNumberOfCategories(numberOfCategories);
-		}
+							.setNumberOfCategories(numberOfCategories);
+				}
 				producedData = factory.manufactureObservable(dataFile,
 						this.rootElementName);
 				if (producedData == null) {
@@ -153,23 +163,27 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 		CategoricalRiskFactorProperties localProps = null;
 		RiskSourcePropertiesMap propsMap = null;
 		String selectedNodeLabel = selectedNode.deriveNodeLabel();
-		if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
-				.getNodeLabel().equals(selectedNodeLabel)) {
-			propsMap = RiskSourcePropertiesMapFactory
-					.makeMap4OneRiskSourceType((BaseNode) selectedNode);
-		} else {
-			propsMap = RiskSourcePropertiesMapFactory
-					.makeMap4OneRiskSourceType((BaseNode) ((ChildNode) selectedNode)
-							.getParent());
-		}
-		// String selectedNodeLabel = selectedNode.deriveNodeLabel();
-		Set<String> nameSet = propsMap.keySet();
-		for (String riskSourceName : nameSet) {
-			if ((selectedNodeLabel != null) && !"".equals(selectedNodeLabel)) {
+		if ((selectedNodeLabel != null) && !"".equals(selectedNodeLabel)) {
+			log.debug("Searching properties for selectedNodeLabel: "
+					+ selectedNodeLabel);
+			if (StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
+					.getNodeLabel().equals(selectedNodeLabel)) {
+				propsMap = RiskSourcePropertiesMapFactory
+						.makeMap4OneRiskSourceType((BaseNode) selectedNode);
+			} else {
+				propsMap = RiskSourcePropertiesMapFactory
+						.makeMap4OneRiskSourceType((BaseNode) ((ChildNode) selectedNode)
+								.getParent());
+			}
+			// String selectedNodeLabel = selectedNode.deriveNodeLabel();
+			Set<String> nameSet = propsMap.keySet();
+			for (String riskSourceName : nameSet) {
+				log.debug("Testing riskSourceName : " + riskSourceName);
 				int location = selectedNodeLabel.indexOf(riskSourceName);
 				if ((location != -1)
 						&& (location + riskSourceName.length() == selectedNodeLabel
 								.length())) {
+					log.debug("Found!");
 					localProps = (CategoricalRiskFactorProperties) propsMap
 							.get(riskSourceName);
 					break;
@@ -177,5 +191,13 @@ public class RelRiskFromRiskFactorCategoricalModal extends AbstractDataModal {
 			}
 		}
 		return localProps;
+	}
+
+	public int getNumberOfCategories() {
+		int numberOfCategories = -1;
+		if (props != null) {
+			numberOfCategories = props.getNumberOfCategories();
+		}
+		return numberOfCategories;
 	}
 }

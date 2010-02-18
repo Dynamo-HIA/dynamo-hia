@@ -1,6 +1,7 @@
 package nl.rivm.emi.dynamo.ui.main;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticCategoricalFactory;
@@ -8,7 +9,10 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
+import nl.rivm.emi.dynamo.data.types.atomic.Sex;
+import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
@@ -18,6 +22,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
@@ -28,7 +33,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class TransitionMatrixModal extends AbstractDataModal {
 
-	/** Flag indicating the ModelObject in this class has been filled with standard values.
+	/**
+	 * Flag indicating the ModelObject in this class has been filled with
+	 * standard values.
 	 * 
 	 */
 	private boolean hasDefaultObject = false;
@@ -126,9 +133,42 @@ public class TransitionMatrixModal extends AbstractDataModal {
 			((CategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();
+			initializeDiagonal(producedData);
 			setHasDefaultObject(true);
 		}
 		return producedData;
+	}
+
+	/**
+	 * This method initializes the values on the diagonal (equal source and
+	 * destination indexes) to 100.
+	 * 
+	 * 
+	 * @param producedData
+	 */
+	private void initializeDiagonal(TypedHashMap<?> producedData) {
+		for (int ageCount = Age.MINAGE.intValue(); ageCount < producedData
+				.size(); ageCount++) {
+			TypedHashMap<?> sexMap = (TypedHashMap<?>) producedData
+					.get(ageCount);
+			for (int sexCount = 0; sexCount < sexMap.size(); sexCount++) {
+				TypedHashMap<?> fromMap = (TypedHashMap<?>) sexMap
+						.get(sexCount);
+				for (int fromCount = 1; fromCount <= fromMap.size(); fromCount++) {
+					TypedHashMap<?> toMap = (TypedHashMap<?>) fromMap
+							.get(fromCount);
+					for (int toCount = 1; toCount <= toMap.size(); toCount++) {
+						if (fromCount == toCount) {
+							ArrayList<AtomicTypeObjectTuple> tupleArray = (ArrayList<AtomicTypeObjectTuple>) toMap
+									.get(toCount);
+							WritableValue value = (WritableValue) tupleArray
+									.get(0).getValue();
+							value.doSetValue(new Float(100F));
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void setHasDefaultObject(boolean hasDefaultObject) {
