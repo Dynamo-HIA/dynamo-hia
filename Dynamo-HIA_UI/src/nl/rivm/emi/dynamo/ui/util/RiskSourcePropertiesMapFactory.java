@@ -92,22 +92,13 @@ public class RiskSourcePropertiesMapFactory {
 	 */
 	static public RiskSourcePropertiesMap makeMap4OneRiskSourceType(
 			BaseNode selectedNode) throws ConfigurationException {
+	log.debug("Entering makeMap4OneRiskSourceType for selectNode: " + selectedNode.deriveNodeLabel());
 		RiskSourcePropertiesMap theMap = null;
 		String selectedNodeLabel = selectedNode.deriveNodeLabel();
 		if (!(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
 				.getNodeLabel().equalsIgnoreCase(selectedNodeLabel) || StandardTreeNodeLabelsEnum.RELATIVERISKSFROMRISKFACTOR
 				.getNodeLabel().equalsIgnoreCase(selectedNodeLabel))) {
-			ConfigurationException exception = new ConfigurationException(
-					"Method entered with wrong selectedNode: " + selectedNodeLabel);
-			StackTraceElement[] elements = exception.getStackTrace();
-			StringBuffer logMessage = new StringBuffer(exception.getMessage() + "\n");
-			logMessage.append(exception.getClass().getSimpleName() + "\n");
-			for (int count = 0; count < Math.min(elements.length, 6); count++) {
-				logMessage.append(elements[count] + "\n");
-			}
-			log.error(logMessage.toString());
-			exception = new ConfigurationException(logMessage.toString());
-			throw exception;
+			handleUnexpectedNode(selectedNodeLabel);
 		}
 		ParentNode parentOfRiskSourceNodes = getRiskSourceTypeNode(selectedNode);
 		if (parentOfRiskSourceNodes != null) {
@@ -138,6 +129,21 @@ public class RiskSourcePropertiesMapFactory {
 							+ selectedNodeLabel + " cannot be handled.");
 		}
 		return theMap;
+	}
+
+	private static void handleUnexpectedNode(String selectedNodeLabel)
+			throws ConfigurationException {
+		ConfigurationException exception = new ConfigurationException(
+				"Method entered with wrong selectedNode: " + selectedNodeLabel);
+		StackTraceElement[] elements = exception.getStackTrace();
+		StringBuffer logMessage = new StringBuffer(exception.getMessage() + "\n");
+		logMessage.append(exception.getClass().getSimpleName() + "\n");
+		for (int count = 0; count < Math.min(elements.length, 6); count++) {
+			logMessage.append(elements[count] + "\n");
+		}
+		log.error(logMessage.toString());
+		exception = new ConfigurationException(logMessage.toString());
+		throw exception;
 	}
 
 	/**

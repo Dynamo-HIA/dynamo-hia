@@ -56,9 +56,13 @@ public class RiskFactorPropertiesMapFactory {
 				for (Object riskSourceNode : riskSourceNodes) {
 					RiskFactorProperties properties = createRiskFactorPropertiesObject(riskSourceNode);
 					if (properties != null) {
+						log.debug("Adding propertiesObject with key: "
+								+ properties.getFileNameMainPart());
 						theMap
 								.put(properties.getFileNameMainPart(),
 										properties);
+					} else {
+						log.debug("Null propertiesObject.");
 					}
 				}
 			}
@@ -68,6 +72,7 @@ public class RiskFactorPropertiesMapFactory {
 
 	private static RiskFactorProperties createRiskFactorPropertiesObject(
 			Object child) throws DynamoConfigurationException {
+		log.debug("Entering create...");
 		RiskFactorProperties properties = createSpecializedRiskFactorProperties(child);
 		if (properties != null) {
 			String name = ((BaseNode) child).deriveNodeLabel();
@@ -85,6 +90,7 @@ public class RiskFactorPropertiesMapFactory {
 
 	private static RiskFactorProperties createSpecializedRiskFactorProperties(
 			Object child) throws DynamoConfigurationException {
+		log.debug("Entering createSpecialized...");
 		try {
 			RiskFactorProperties theProperties = null;
 			Object[] grandChildNodes = ((ParentNode) child).getChildren();
@@ -95,80 +101,7 @@ public class RiskFactorPropertiesMapFactory {
 					String grandChildNodeLabel = ((BaseNode) grandChildNode)
 							.deriveNodeLabel();
 					if ("configuration".equals(grandChildNodeLabel)) {
-						File configurationFile = ((BaseNode) grandChildNode)
-								.getPhysicalStorage();
-						// Leave this in for the checking.
-						String rootElementName = ConfigurationFileUtil
-								.extractRootElementNameIncludingSchemaCheck(configurationFile);
-						XMLConfiguration configurationFromFile = new XMLConfiguration(
-								configurationFile);
-						if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL
-								.getNodeLabel().equalsIgnoreCase(
-										rootElementName)) {
-							theProperties = new CategoricalRiskFactorProperties(rootElementName);
-						} else {
-							if (RootElementNamesEnum.RISKFACTOR_COMPOUND
-									.getNodeLabel().equalsIgnoreCase(
-											rootElementName)) {
-								theProperties = new CompoundRiskFactorProperties(rootElementName);
-							} else {
-								if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS
-										.getNodeLabel().equalsIgnoreCase(
-												rootElementName)) {
-									theProperties = new ContinuousRiskFactorProperties(rootElementName);
-								} else {
-									throw new DynamoConfigurationException(
-											"createSpecializedRiskSourceProperties() - Unexpected RootElementName: "
-													+ rootElementName);
-								}
-							}
-						}
-						// Initialization done, now fill it.
-						ConfigurationNode rootNode = configurationFromFile
-								.getRootNode();
-						List<?> rootChildren = rootNode.getChildren();
-						for (Object rootChild : rootChildren) {
-							ConfigurationNode rootChildConfigurationNode = (ConfigurationNode) rootChild;
-							if (XMLTagEntityEnum.CLASSES.getElementName()
-									.equals(
-											rootChildConfigurationNode
-													.getName())) {
-								int numberOfCategories = rootChildConfigurationNode
-										.getChildrenCount();
-								((CategoricalRiskFactorProperties) theProperties)
-										.setNumberOfCategories(numberOfCategories);
-							}
-							if (XMLTagEntityEnum.REFERENCECLASS.getElementName()
-									.equals(
-											rootChildConfigurationNode
-													.getName())) {
-								String referenceClassIndexString = (String) rootChildConfigurationNode
-								.getValue();
-								int referenceClassIndex = Integer.decode(referenceClassIndexString);
-								((CategoricalRiskFactorProperties) theProperties)
-										.setReferenceClassIndex(referenceClassIndex);
-							}
-							if (XMLTagEntityEnum.REFERENCEVALUE.getElementName()
-									.equals(
-											rootChildConfigurationNode
-													.getName())) {
-								String referenceValueString = (String) rootChildConfigurationNode
-								.getValue();
-								float referenceValue = Float.parseFloat(referenceValueString);
-								((ContinuousRiskFactorProperties) theProperties)
-										.setReferenceValue(referenceValue);
-							}
-							if (XMLTagEntityEnum.DURATIONCLASS.getElementName()
-									.equals(
-											rootChildConfigurationNode
-													.getName())) {
-								String durationClassIndexString = (String) rootChildConfigurationNode
-								.getValue();
-								int durationClassIndex = Integer.decode(durationClassIndexString);
-								((CompoundRiskFactorProperties) theProperties)
-										.setDurationClassIndex(durationClassIndex);
-							}
-						}
+						theProperties = constructSpecializedRiskfactorProperties(grandChildNode);
 
 					}
 				}
@@ -177,6 +110,89 @@ public class RiskFactorPropertiesMapFactory {
 		} catch (ConfigurationException e) {
 			e.printStackTrace();
 			throw new DynamoConfigurationException(e.getMessage());
+		}
+	}
+
+	private static RiskFactorProperties constructSpecializedRiskfactorProperties(
+			Object grandChildNode) throws DynamoConfigurationException,
+			ConfigurationException {
+		log.debug("Entering constructSpecialized...");
+		
+		RiskFactorProperties theProperties = null;
+		File configurationFile = ((BaseNode) grandChildNode)
+				.getPhysicalStorage();
+		// Leave this in for the checking.
+		String rootElementName = ConfigurationFileUtil
+				.extractRootElementNameIncludingSchemaCheck(configurationFile);
+		XMLConfiguration configurationFromFile = new XMLConfiguration(
+				configurationFile);
+		if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
+				.equalsIgnoreCase(rootElementName)) {
+			theProperties = new CategoricalRiskFactorProperties(rootElementName);
+		} else {
+			if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
+					.equalsIgnoreCase(rootElementName)) {
+				theProperties = new CompoundRiskFactorProperties(
+						rootElementName);
+			} else {
+				if (RootElementNamesEnum.RISKFACTOR_CONTINUOUS.getNodeLabel()
+						.equalsIgnoreCase(rootElementName)) {
+					theProperties = new ContinuousRiskFactorProperties(
+							rootElementName);
+				} else {
+					throw new DynamoConfigurationException(
+							"createSpecializedRiskSourceProperties() - Unexpected RootElementName: "
+									+ rootElementName);
+				}
+			}
+		}
+		// Initialization done, now fill it.
+		fillSpecializedRiskFactorProperties(theProperties,
+				configurationFromFile);
+		return theProperties;
+	}
+
+	private static void fillSpecializedRiskFactorProperties(
+			RiskFactorProperties theProperties,
+			XMLConfiguration configurationFromFile) {
+		log.debug("Entering fillSpecialized...");
+		ConfigurationNode rootNode = configurationFromFile.getRootNode();
+		List<?> rootChildren = rootNode.getChildren();
+		for (Object rootChild : rootChildren) {
+			ConfigurationNode rootChildConfigurationNode = (ConfigurationNode) rootChild;
+			if (XMLTagEntityEnum.CLASSES.getElementName().equals(
+					rootChildConfigurationNode.getName())) {
+				int numberOfCategories = rootChildConfigurationNode
+						.getChildrenCount();
+				((CategoricalRiskFactorProperties) theProperties)
+						.setNumberOfCategories(numberOfCategories);
+			}
+			if (XMLTagEntityEnum.REFERENCECLASS.getElementName().equals(
+					rootChildConfigurationNode.getName())) {
+				String referenceClassIndexString = (String) rootChildConfigurationNode
+						.getValue();
+				int referenceClassIndex = Integer
+						.decode(referenceClassIndexString);
+				((CategoricalRiskFactorProperties) theProperties)
+						.setReferenceClassIndex(referenceClassIndex);
+			}
+			if (XMLTagEntityEnum.REFERENCEVALUE.getElementName().equals(
+					rootChildConfigurationNode.getName())) {
+				String referenceValueString = (String) rootChildConfigurationNode
+						.getValue();
+				float referenceValue = Float.parseFloat(referenceValueString);
+				((ContinuousRiskFactorProperties) theProperties)
+						.setReferenceValue(referenceValue);
+			}
+			if (XMLTagEntityEnum.DURATIONCLASS.getElementName().equals(
+					rootChildConfigurationNode.getName())) {
+				String durationClassIndexString = (String) rootChildConfigurationNode
+						.getValue();
+				int durationClassIndex = Integer
+						.decode(durationClassIndexString);
+				((CompoundRiskFactorProperties) theProperties)
+						.setDurationClassIndex(durationClassIndex);
+			}
 		}
 	}
 }
