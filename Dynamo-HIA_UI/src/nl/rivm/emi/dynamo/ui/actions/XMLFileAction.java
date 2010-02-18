@@ -40,7 +40,6 @@ import nl.rivm.emi.dynamo.ui.main.parameters.AttributableMortalitiesModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.BaselineFatalIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.BaselineIncidencesModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.BaselineOtherMortalitiesModal;
-import nl.rivm.emi.dynamo.ui.main.parameters.RelativeRisksClusterModal;
 import nl.rivm.emi.dynamo.ui.main.parameters.RelativeRisksModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
@@ -49,6 +48,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
+import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
@@ -82,6 +82,13 @@ public class XMLFileAction extends ActionBase {
 	private boolean modelObjectChangedButNotYetSaved = false;
 
 	/**
+	 * Importing a file for a new (unsaved) categorical or compound relative
+	 * risk from the modal screen blew up.
+     * Workaround.
+	 */
+	RiskSourceProperties props = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param shell
@@ -102,6 +109,10 @@ public class XMLFileAction extends ActionBase {
 		super(shell, v, node, rootElementName);
 		this.fileNameTrunk = fileNameTrunk;
 		this.rootElementName = rootElementName;
+	}
+
+	public void setProps(RiskSourceProperties props) {
+		this.props = props;
 	}
 
 	@Override
@@ -282,14 +293,14 @@ public class XMLFileAction extends ActionBase {
 																					.getAbsolutePath(),
 																			rootElementName,
 																			node,
-																			null);
+																			(CategoricalRiskFactorProperties) /* null */ props);
 																} else {
 																	if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
 																			.getNodeLabel()
 																			.equals(
 																					rootElementName)) {
-																		RiskSourceProperties props = RiskSourcePropertiesMapFactory
-																				.getProperties((FileNode) node);
+																	/*	RiskSourceProperties props = RiskSourcePropertiesMapFactory
+																				.getProperties((FileNode) node); */
 																		theModal = new RelRiskFromRiskFactorCompoundModal(
 																				shell,
 																				importFile
