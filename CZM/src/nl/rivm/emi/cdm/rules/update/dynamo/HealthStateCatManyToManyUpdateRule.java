@@ -188,11 +188,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 					} // end if statement for cluster diseases
 
 				} // end loop over clusters
-				if (riskFactorValue==1){
-					int i=0;
-					i++;
-					
-				}
+				
 				
 				newValue[currentStateNo] = (float) survivalFraction
 				* oldValue[currentStateNo];
@@ -335,11 +331,10 @@ public class HealthStateCatManyToManyUpdateRule extends
 
 								if (Math.abs(incidence[d] - atMort[d]) > 1E-15)
 									transMat[a][g][r][c][1][0] = (float) (Math
-											.exp(-incidence[d] - atMort[d]
-													- fatalIncidence[d])
+											.exp( - fatalIncidence[d])
 											* incidence[d]
-											* (Math.exp(incidence[d]) - Math
-													.exp(atMort[d])) / (incidence[d] - atMort[d]));
+											* (Math.exp(- atMort[d]) - Math
+													.exp(-incidence[d])) / (incidence[d] - atMort[d]));
 								else
 									/*
 									 * if incidence equal to attributable
@@ -354,44 +349,56 @@ public class HealthStateCatManyToManyUpdateRule extends
 							} else if (withCuredFraction[c]) {
 
 								/*
-								 * zeroth disease state=healthy first disease
-								 * state = cured disease (d) second disease
-								 * state = not cured disease (d+1)
+								 * zeroth disease state=healthy 
+								 * first disease state = cured disease (d) 
+								 * second disease state = not cured disease (d+1)
+								 * 
 								 */
 
 								/*
 								 * Officially it is not possible to have both
 								 * fatal incidences >0 and with cured fraction,
-								 * so fatal incidence is not included
+								 * However, fatal incidence is also included here in the formulae
+								 * for possibly future use, under the assumption
+								 * that the incidence of fatal disease is the same in 
+								 * healthy, with cured and with non-cured disease
+								 * This implies that all transition rates are 
+								 * multiplied with a term:
+								 *     Math.exp( - fatalIncidence[d])
+								 * where we assume the fatalincidence to independent of having both
+								 * the cured and uncured disease
 								 */
 								transMat[a][g][r][c] = new float[3][3];
 								int d = clusterStartsAtDiseaseNumber[c];
 								transMat[a][g][r][c][0][0] = (float) Math
-										.exp(-incidence[d] - incidence[d + 1]);
+										.exp(-incidence[d] - incidence[d + 1]- fatalIncidence[d]);
 								transMat[a][g][r][c][0][1] = 0;
 								transMat[a][g][r][c][0][2] = 0;
 								if ((incidence[d] + incidence[d + 1]) == 0)
 									transMat[a][g][r][c][1][0] = 0;
 								else
-									transMat[a][g][r][c][1][0] = (float) ((float) (1 - Math
+									transMat[a][g][r][c][1][0] = (float) (Math
+									.exp( - fatalIncidence[d])* (1 - Math
 											.exp(-incidence[d]
 													- incidence[d + 1]))
 											* incidence[d] / (incidence[d] + incidence[d + 1]));
-								transMat[a][g][r][c][1][1] = 1;
+								transMat[a][g][r][c][1][1] = (float) Math
+								.exp( - fatalIncidence[d]);
 								transMat[a][g][r][c][1][2] = 0;
 								if (incidence[d] + incidence[d + 1] == atMort[d + 1])
 									transMat[a][g][r][c][2][0] = (float) (Math
 											.exp(-incidence[d]
-													- incidence[d + 1]) * incidence[d + 1]);
+													- incidence[d + 1] - fatalIncidence[d]) * incidence[d + 1]);
 								else
 									transMat[a][g][r][c][2][0] = (float) (((Math
 											.exp(-atMort[d + 1]) - Math
 											.exp(-incidence[d]
-													- incidence[d + 1])) * incidence[d + 1]) / (incidence[d]
+													- incidence[d + 1])) * incidence[d + 1])* Math
+													.exp( - fatalIncidence[d])/ (incidence[d]
 											+ incidence[d + 1] - atMort[d + 1]));
 								transMat[a][g][r][c][2][1] = 0;
 								transMat[a][g][r][c][2][2] = (float) Math
-										.exp(-atMort[d + 1]);
+										.exp(-atMort[d + 1]-fatalIncidence[d]);
 								currentStateNo += 2;
 
 							} else // cluster of dependent diseases

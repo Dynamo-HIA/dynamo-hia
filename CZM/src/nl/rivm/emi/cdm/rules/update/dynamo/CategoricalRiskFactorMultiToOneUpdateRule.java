@@ -259,7 +259,7 @@ public class CategoricalRiskFactorMultiToOneUpdateRule extends
 
 	static int draw(float[] p, double d) throws CDMUpdateRuleException {
 		// Generates a random draws from an array with percentages
-		// To do: check if sum p=1 otherwise error
+		// check if sum p=1 otherwise error
 		float sumP=0;
 		for (float prev:p) sumP+=prev;
 		if(Math.abs(sumP-1.0)>1E-4) throw new CDMUpdateRuleException("row of transition matrix for risk factor does not sum to 1");

@@ -251,7 +251,7 @@ extends HealthStateManyToManyUpdateRule {
 						 * the same time
 						 */
 						survivalFraction *= survival;
-
+                        currentStateNo+=2;
 					}
 
 					else /* now cluster diseases */
