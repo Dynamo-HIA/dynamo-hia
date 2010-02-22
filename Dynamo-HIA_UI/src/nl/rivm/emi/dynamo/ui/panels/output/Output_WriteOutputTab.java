@@ -303,7 +303,11 @@ public class Output_WriteOutputTab  {
 	 * @param scenarioNamesToWrite
 	 */
 	private String[] cleanUpScenarioNames(String[] scenarioNames) {
-		String[] scenarioNamesToWrite = scenarioNames;
+		
+		String[] scenarioNamesToWrite = new String[scenarioNames.length];
+		
+		for (int i = 0; i < scenarioNames.length; i++) scenarioNamesToWrite[i] =scenarioNames[i];
+		
 		for (int i = 0; i < scenarioNames.length; i++) {
 			/*
 			 * remove any underscore and spaces from the file name as this will
