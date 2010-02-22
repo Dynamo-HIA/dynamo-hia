@@ -36,7 +36,7 @@ public class InitialPopulationFactory {
 	// private Shell parentShell;
 	private DynSimRunPRInterface dsi = null;
 	// private ProgressBar bar = null;
-	private ProgressIndicatorInterface pii = null;
+	private ProgressIndicatorInterface progressbar = null;
 	private float[][][][][] prevalenceTransitionMatrix = null;
 	private int riskType = 0;
 
@@ -260,11 +260,11 @@ public class InitialPopulationFactory {
 			agemin = 0;
 		if (newborns)
 			agemax = 0;
-		if (this.pii == null) {
+		if (this.progressbar == null) {
 			if (scenarioInfo.isWithNewBorns()) {
 				makeProgressBar(scenarioInfo.getYearsInRun()
 						+ scenarioInfo.getMaxSimAge()
-						- scenarioInfo.getMinSimAge() + 1);
+						- scenarioInfo.getMinSimAge() + 3);
 			} else {
 				makeProgressBar(scenarioInfo.getMaxSimAge()
 						- scenarioInfo.getMinSimAge());
@@ -898,6 +898,9 @@ public class InitialPopulationFactory {
 																		 * population
 																		 */
 									currentpop++;
+							/* find the next scenario that is not a 1 for all scenario, and also not a
+							 * scenario that is copied later	
+							 */
 								if (!isOneForAllPopulation[i1]
 										&& scenarioInfo
 												.getInitialPrevalenceType()[i1]) {
@@ -905,6 +908,16 @@ public class InitialPopulationFactory {
 									found = true;
 									break;
 								}
+							/* if scenario has same initial pop, it is just copied from the reference scenario,
+							 * This is done later, so we have to skip filling the population here 	
+							 */
+								if (!isOneForAllPopulation[i1]
+															&& !scenarioInfo
+																	.getInitialPrevalenceType()[i1]) 
+														currentpop++;
+														
+													
+								
 								/* if no such scenario is found */
 
 							}
@@ -1654,31 +1667,31 @@ public class InitialPopulationFactory {
 		// this.bar.setMinimum(0);
 		//
 		// shell.open();
-		pii = dsi
+		progressbar = dsi
 				.createProgressIndicator("Construction of initial population ....");
 
 		int size = (length);
-		int step = 10;
+		int step = 1;
 		// this.bar.setMaximum(size / step);
-		pii.setMaximum(size / step);
+		progressbar.setMaximum(size / step);
 		/* initialize populations */
 		// this.bar.setSelection(0);
-		pii.update(0);
+		progressbar.update(0);
 	}
 
 	public void updateProgressBar() {
 
 		// int state = this.bar.getSelection();
-		int state = pii.getPosition();
+		int state = progressbar.getPosition();
 		state++;
 		// this.bar.setSelection(state);
-		pii.update(state);
+		progressbar.update(state);
 
 	}
 
 	public void closeProgressBar() {
 		// this.bar.getShell().close();
-		pii.dispose();
+		progressbar.dispose();
 
 	}
 	/**

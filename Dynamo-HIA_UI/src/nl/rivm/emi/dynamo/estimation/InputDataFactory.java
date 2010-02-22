@@ -102,7 +102,7 @@ public class InputDataFactory {
 
 	private String riskFactorTransFileName;
 	private String riskFactorPrevFileName;
-	private String durationPrevFileName="name";
+	private String durationPrevFileName="durationprevalence";
 
 	private int originalNumberDurationClass;
 
@@ -2171,8 +2171,8 @@ public class InputDataFactory {
 
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
-											rrCompoundTagName, /* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
-											"cat", "value", true);
+											rrCompoundTagName, /*XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
+											"cat", "begin", true);
 							info.rrDataBegin = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
 									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "begin", "cat",

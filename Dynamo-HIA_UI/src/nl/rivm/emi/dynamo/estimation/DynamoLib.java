@@ -4,6 +4,9 @@ package nl.rivm.emi.dynamo.estimation;
  */
 import java.util.Random;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import Jama.Matrix;
 
@@ -20,7 +23,7 @@ import Jama.Matrix;
  *
  */
 public class DynamoLib {
-
+	
 	static private DynamoLib instance = null;
     static private int NumberInTable=100;
 	/**
@@ -112,13 +115,18 @@ public class DynamoLib {
 		double cump = 0; // cump is cumulative p
 
 		double d = rand.nextDouble(); // d is random value between 0 and 1
+		
 		int i;
 		for (i = 0; i < p.length - 1; i++) {
-			cump = +p[i];
+			cump += p[i];
 			if (d < cump)
 				break;
 		}
+		//System.out.print("\nrandom "+d+" p "+p[0]+" "+ p[1]+" "+ p[2]+" result " + i);
+		
+		
 		return i;
+		
 
 	}
 

@@ -278,6 +278,7 @@ public class SimulationConfigurationFactory {
 									parameters.getTransitionMatrix(),
 									"transitionmatrix", "transition", fileName,
 									true);
+
 						;
 					}
 				}
@@ -1264,7 +1265,7 @@ public class SimulationConfigurationFactory {
 
 	}
 
-	/**
+	/** writes a document to XML
 	 * @param fileName
 	 * @param document
 	 * @throws CDMConfigurationException
@@ -1277,8 +1278,10 @@ public class SimulationConfigurationFactory {
 		File directory = new File(directoryName);
 		boolean isDirectory = XMLfile.isDirectory();
 		boolean canWrite = XMLfile.canWrite();
+		if (!canWrite)
+			XMLfile.delete();
 		try {
-			boolean isNewDirectory = directory.mkdirs();
+			directory.mkdirs();
 			boolean isNew = XMLfile.createNewFile();
 			if (!isDirectory && (canWrite || isNew)) {
 				Source source = new DOMSource(document);
@@ -1288,6 +1291,8 @@ public class SimulationConfigurationFactory {
 				Transformer transformer = transformerFactory.newTransformer();
 				transformer.transform(source, result);
 			}
+			XMLfile.setReadOnly();
+
 		} catch
 
 		(IOException e) {
