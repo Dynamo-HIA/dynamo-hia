@@ -9,4 +9,8 @@ public class TargetSex extends AbstractRangedInteger implements PayloadType<Inte
 	public TargetSex(){
 		super(XMLElementName, new Integer(0), new Integer(2));
 	}
+	
+	public Integer getDefaultValue() {
+		return new Integer(2);
+	}
 }
