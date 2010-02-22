@@ -22,9 +22,11 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.annotations.CategoryTextAnnotation;
+import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.SubCategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.CategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
@@ -1037,7 +1039,7 @@ public class DynamoPlotFactory {
 		 * first calculate for men and women separately
 		 */
 
-		for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+		for (int age = 0; age < 96 /*+ this.output.getStepsInRun()*/; age++) {
 			indat0 = applySuccesrate(nDiseaseByAge[0][year][age][0],
 					nDiseaseByAge[thisScen][year][age][0], thisScen, year, age,
 					0);
@@ -1197,7 +1199,7 @@ public class DynamoPlotFactory {
 			scenSeries[thisScen] = new XYSeries(
 					this.output.getScenarioNames()[thisScen]);
 
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < 96 /* + this.output.getStepsInRun()*/; age++) {
 				indat0 = 0;
 				indat1 = 0;
 				npop0 = 0;
@@ -1972,7 +1974,7 @@ public class DynamoPlotFactory {
 			double womendatr = 0;
 			double menpopr = 0;
 			double womenpopr = 0;
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < 96/* + this.output.getStepsInRun()*/; age++) {
 				if (age == 50) {
 					int ii = 0;
 					ii++;
@@ -2288,7 +2290,7 @@ public class DynamoPlotFactory {
 			double indatR = 0;
 			double denominatorR = 0;
 
-			for (int age = 0; age < this.output.getMaxAgeInSimulation() + year; age++) {
+			for (int age = 0; age < Math.min(this.output.getMaxAgeInSimulation() + year,96); age++) {
 				if (gender < 2) {
 					indat = applySuccesrate(
 							this.output.getNPopByRiskClassByAge()[0][year][riskClass][age][gender],
@@ -2432,7 +2434,7 @@ public class DynamoPlotFactory {
 
 				double indatR = 0;
 				boolean dataPresent = true;
-				int nDimLocal = nPopByAge[0][0].length;
+				int nDimLocal =Math.min(95,nPopByAge[0][0].length);
 				for (int age = 0; age < nDimLocal; age++) {
 					if (gender < 2) {
 						indat = applySuccesrateToMean(
@@ -2960,7 +2962,7 @@ public class DynamoPlotFactory {
 				 * datapoint for mortality than for most other outcomes
 				 */
 
-				for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+				for (int age = 0; age < 96 /* + this.output.getStepsInRun()*/; age++) {
 
 					double indat0 = 0;
 					double denominator0 = 0;
@@ -3165,6 +3167,7 @@ public class DynamoPlotFactory {
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
 		Plot plot = chart.getPlot();
 
+		
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 		renderer.setBaseOutlinePaint(Color.black);
@@ -3347,6 +3350,8 @@ public class DynamoPlotFactory {
 			// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart",
 			// chart);
 			Plot plot = chart.getPlot();
+
+			
 			String label;
 			if (ageOfLE > 0)
 				label = " at age " + ageOfLE + " in year "
@@ -3615,7 +3620,7 @@ public class DynamoPlotFactory {
 			else
 				label = "" + (this.output.getStartYear() + year) + ", at birth";
 			JFreeChart chart = ChartFactory.createStackedBarChart(chartTitle,
-					"", "years", dataset, PlotOrientation.VERTICAL, true, true,
+					"", "years", dataset, PlotOrientation.HORIZONTAL, true, true,
 					false);
 			TextTitle title = chart.getTitle();
 			title.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -3648,10 +3653,19 @@ public class DynamoPlotFactory {
 			domainAxis.setCategoryMargin(0.2); // gap between men and women:
 			// does
 			// not work
+			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN,9));
+			
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 				domainAxis
 						.addSubCategory(this.output.getScenarioNames()[scenario]);
+			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD,
+					14));
 			CategoryPlot plot = (CategoryPlot) chart.getPlot();
+			AxisSpace space = new AxisSpace();
+			space.setTop(30);/* enough space is needed for the titles */
+			space.setLeft(100);/* enough space in needed for the scenario names */
+			space.setBottom(10);
+			plot.setFixedRangeAxisSpace(space);
 			plot.setDomainAxis(domainAxis);
 			// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 			renderer.setItemMargin(0.15);
@@ -3679,9 +3693,11 @@ public class DynamoPlotFactory {
 			renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van
 			// de
 			// lijn
-
+			
 			plot.setRenderer(renderer);
 			// plot.setFixedLegendItems(makeLegend(disease));
+
+		
 
 			CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
 					"{2}", new DecimalFormat("0.00"));
@@ -3867,7 +3883,7 @@ public class DynamoPlotFactory {
 		else
 			label = " at birth";
 		JFreeChart chart = ChartFactory.createStackedBarChart(chartTitle, "",
-				"years", dataset, PlotOrientation.VERTICAL, true, true, false);
+				"years", dataset, PlotOrientation.HORIZONTAL, true, true, false);
 		TextTitle title = chart.getTitle();
 		title.setFont(new Font("SansSerif", Font.BOLD, 14));
 		TextTitle subTitle = new TextTitle(label);
@@ -3896,11 +3912,27 @@ public class DynamoPlotFactory {
 		renderer.setSeriesToGroupMap(map);
 
 		SubCategoryAxis domainAxis = new SubCategoryAxis("");
+		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD,
+				12));
 		domainAxis.setCategoryMargin(0.2); // gap between men and women: does
+		
+		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN,11));
+
 		// not work
 		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 			domainAxis.addSubCategory(this.output.getScenarioNames()[scenario]);
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		AxisSpace space = new AxisSpace();
+		space.setTop(30);/* enough space is needed for the titles */
+		space.setLeft(80);/* enough space in needed for the scenario names */
+		space.setBottom(10);
+		plot.setFixedRangeAxisSpace(space);
+        ValueAxis valueAxis = plot.getRangeAxis();
+       
+        double lowerBound = valueAxis.getLowerMargin();
+        valueAxis.setLowerMargin(lowerBound+0.5);
+		domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD,
+				14));
 		plot.setDomainAxis(domainAxis);
 		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 		renderer.setItemMargin(0.15);
@@ -3930,10 +3962,10 @@ public class DynamoPlotFactory {
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van de
 		// lijn
-
+		
 		plot.setRenderer(renderer);
 		// plot.setFixedLegendItems(makeLegend(disease));
-
+		
 		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
 				"{2}", new DecimalFormat("0.00"));
 		renderer.setBaseItemLabelGenerator(generator);
