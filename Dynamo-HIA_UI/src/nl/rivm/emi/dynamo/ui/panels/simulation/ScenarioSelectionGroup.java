@@ -317,4 +317,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 		scenarioFormData.bottom = new FormAttachment(60, 0);
 		scenarioDefGroup.setLayoutData(scenarioFormData);
 	}
+	
+	public void remove() {
+		this.scenarioDefGroup.dispose();
+	}
 }

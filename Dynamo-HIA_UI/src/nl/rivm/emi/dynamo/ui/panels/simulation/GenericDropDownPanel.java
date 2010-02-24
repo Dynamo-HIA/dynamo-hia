@@ -75,7 +75,7 @@ public class GenericDropDownPanel {
 		// Get the default value
 		String currentValue = 
 			myDataManager.getCurrentValue(this.getLabel());
-		log.fatal("CURRENTVALUEDEF: " + currentValue);
+		log.debug("CURRENTVALUEDEF: " + currentValue);
 		log.debug("getCurrentIndex(currentValue)" + getCurrentIndex(currentValue));
 		
 		// Retrieve the index value
@@ -147,10 +147,10 @@ public class GenericDropDownPanel {
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		// Remove old value (is choosable again)
-		log.fatal("REFRESH removes old default " + this.getLabel());
+		log.debug("REFRESH removes old default " + this.getLabel());
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Set the new default (can be the same value as the removed one)
-		log.fatal("REFRESH SETS default " );
+		log.debug("REFRESH SETS default " );
 		setDefaultValue();
 		
 		dropDown.addModifyListener(this.genericComboModifyListener);		

@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 /**
@@ -52,31 +53,31 @@ public class ScenarioResultGroup {
 		this.dynamoTabDataManager = dynamoTabDataManager;
 		this.helpGroup = helpGroup;
 
-		group = new Composite(plotComposite, SWT.NONE);
+		this.group = new Composite(plotComposite, SWT.NONE);
 		handleLayout();
 		createDropDownArea(topNeighbour);
 	}
 
 	private void createDropDownArea(Composite topNeighbour)
-			throws ConfigurationException, NoMoreDataException,
-			DynamoNoValidDataException {
+			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException
+			 {
 
 		handleLayoutData(topNeighbour);
 
-		Label label = new Label(group, SWT.LEFT);
+		Label label = new Label(this.group, SWT.LEFT);
 		label.setText(CHANGE_WITH_RESPECT_BASELINE_SIMULATION);
-		Label emptyLabel = new Label(group, SWT.LEFT);
+		Label emptyLabel = new Label(this.group, SWT.LEFT);
 		emptyLabel.setText("");
-		Label emptyLabel2 = new Label(group, SWT.LEFT);
+		Label emptyLabel2 = new Label(this.group, SWT.LEFT);
 		emptyLabel2.setText("");
-
+         
 		String chosenRiskFactorName = null;
 		if (this.selections != null) {
 			for (String chosenName : selections) {
 				chosenRiskFactorName = chosenName;
 			}
 		}
-
+		try {
 		this.transitionDropDownPanel = createDropDown(TRANSITION,
 				dynamoTabDataManager.getDropDownSet(TRANSITION,
 						chosenRiskFactorName));
@@ -84,9 +85,15 @@ public class ScenarioResultGroup {
 				.registerDropDown(transitionDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(transitionDropDownPanel
 				.getDropDown(), TRANSITION);
-		this.riskFactorPrevalenceDropDownPanel = createDropDown(
-				RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
-						RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
+		
+			this.riskFactorPrevalenceDropDownPanel = createDropDown(
+					RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
+							RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
+		} catch (DynamoNoValidDataException e) {
+			for (Control childwidget:this.group.getChildren())
+				childwidget.dispose();
+			throw new DynamoNoValidDataException(e.getMessage());
+		}
 		// Register with the drop down from the selector
 		this.scenarioDropDownModifyListener
 				.registerDropDown(riskFactorPrevalenceDropDownPanel);
@@ -125,5 +132,10 @@ public class ScenarioResultGroup {
 //		formData.bottom = new FormAttachment(97, 5);
 		formData.bottom = new FormAttachment(100, -5);
 		group.setLayoutData(formData);
+	}
+	public void remove() {
+		
+		this.group.dispose();
+		
 	}
 }

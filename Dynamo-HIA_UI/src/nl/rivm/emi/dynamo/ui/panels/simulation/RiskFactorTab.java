@@ -89,7 +89,7 @@ public class RiskFactorTab {
 				messageShell.dispose();
 			}
 
-			messageShell.open();
+			
 			
 		} catch (DynamoNoValidDataException e) {
 			Shell messageShell=new Shell(upperTabFolder.getDisplay());

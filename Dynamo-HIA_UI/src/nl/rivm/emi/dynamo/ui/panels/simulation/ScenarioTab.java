@@ -93,6 +93,9 @@ public class ScenarioTab extends NestedTab {
 		
 		} catch (DynamoNoValidDataException e) {
 			this.dynamoTabDataManager.removeFromDynamoSimulationObject();
+			// new feb 2010
+			if (this.scenarioSelectionGroup!= null) this.scenarioSelectionGroup.remove();
+			if (this.scenarioResultGroup!= null) this.scenarioResultGroup.remove();
 			throw new NoMoreDataException(e.getMessage());
 			
 		}

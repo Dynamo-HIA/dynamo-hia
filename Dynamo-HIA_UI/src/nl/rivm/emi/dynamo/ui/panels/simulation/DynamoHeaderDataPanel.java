@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
+import java.util.Set;
+
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
@@ -123,7 +125,6 @@ public class DynamoHeaderDataPanel extends Composite {
 			DropDownPropertiesSet contentsSet = new DropDownPropertiesSet();
 			contentsSet.addAll(treeLists.getPopulations());
 			log.debug("contentsSet" + contentsSet);
-
 			Label label = new Label(this, SWT.NONE);
 			label.setText(POP_FILE_NAME + ":");
 

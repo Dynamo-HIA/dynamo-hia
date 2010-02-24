@@ -72,8 +72,8 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 			throws ConfigurationException {
 		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
-		// The name is still empty
-		if (chosenRiskFactorName == null) {
+		// The name is still empty or does not exist anymore
+		if (chosenRiskFactorName == null || !this.treeLists.getRiskFactorNames().contains(chosenRiskFactorName)) {
 			// No risk factor is chosen, get the first name from the treelist
 			chosenRiskFactorName = getFirstRiskFactorOfTreeList();
 		}

@@ -261,9 +261,9 @@ public abstract class TabPlatform extends Tab {
 			int newIndexName = index + 1;
 			String tabName = getNestedTabPrefix() + newIndexName;
 			item.setText(tabName);
-			log.fatal("OLDTABNAME: " + oldTabName + "  index  " + index);
-			log.fatal("TEMPNESTEDTABS: " + tempNestedTabs);
-			log.fatal("ADDING NESTEDTAB: " + tempNestedTabs.get(oldTabName));
+			log.debug("OLDTABNAME: " + oldTabName + "  index  " + index);
+			log.debug("TEMPNESTEDTABS: " + tempNestedTabs);
+			log.debug("ADDING NESTEDTAB: " + tempNestedTabs.get(oldTabName));
 			// next 3 lines (plus new method) added by Hendriek because did not
 			// work properly when deleting tabs. Refreshes the configuration
 			// from the model object

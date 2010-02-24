@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRiskFactorConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabScenarioConfigurationData;
+import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
@@ -274,7 +275,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
  * */
 	public DropDownPropertiesSet getDropDownSet(String name,
 			String chosenScenarioName) throws ConfigurationException,
-			NoMoreDataException {
+			NoMoreDataException, DynamoNoValidDataException {
 		log.debug("HIERALOOK");
 		String chosenRiskFactorName = null;
 		// The model object already exists, get the name
@@ -291,7 +292,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 		if (contents != null)
 			set.addAll(contents);
-		else throw new NoMoreDataException("no alternative prevalence or transition file" +
+		else throw new DynamoNoValidDataException("no alternative prevalence or transition file" +
 				" is availlable in the database. \nGo to the Reference_Data section and define such a file" +
 				" for the chosen riskfactor");
 	
@@ -300,7 +301,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 	}
 
 	public DropDownPropertiesSet getRefreshedDropDownSet(String label)
-			throws ConfigurationException, NoMoreDataException {
+			throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException {
 		return getDropDownSet(label, null);
 	}
 
