@@ -76,13 +76,13 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 */
 	public Set<String> getChoosableDiseases(String currentDiseaseName,
 			TreeAsDropdownLists lists) {
-		log.fatal("currentDiseasesName: " + currentDiseaseName);
+		log.debug("currentDiseasesName: " + currentDiseaseName);
 
 		
 		Set diseaseNames = new LinkedHashSet<String>();
 		diseaseNames.addAll(lists.getValidDiseaseNames());
-		log.fatal("all valid diseaseNames: " + diseaseNames);
-		log.fatal("already Chosen diseases-1-1-1: " + this);
+		log.debug("all valid diseaseNames: " + diseaseNames);
+		log.debug("already Chosen diseases-1-1-1: " + this);
 		//loop over the names that already have been choosen and remove those from the set, unless
 		// this is the current disease
 		if (currentDiseaseName!=null && !diseaseNames.contains(currentDiseaseName)) diseaseNames=null;
@@ -98,8 +98,8 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 		/* if the current disease is not a choosable disease, the method should return null */
 		if (diseaseNames!=null && diseaseNames.isEmpty()) diseaseNames=null;
 		// end addition 2-11-2009
-		log.fatal("dropdown diseaseNames: " + diseaseNames);
-		log.fatal("all ready Chosendiseases-2-2-2: " + this);
+		log.debug("dropdown diseaseNames: " + diseaseNames);
+		log.debug("all ready Chosendiseases-2-2-2: " + this);
 		
 		return diseaseNames;
 	}
@@ -115,8 +115,8 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 		log.debug("Chosendiseases111BEFORE: " + this);
 		if( chosenDiseaseName!=null) this.add(chosenDiseaseName);
 		log.debug("Chosendiseases111AFTER: " + this);
-		log.fatal("Chosendiseases added: " + chosenDiseaseName);
-		log.fatal("Chosendiseases : " + this);
+		log.debug("Chosendiseases added: " + chosenDiseaseName);
+		log.debug("Chosendiseases : " + this);
 	}
 
 	/* this make the disease choosable again */
@@ -126,8 +126,8 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 		// String name = ((String) this.toArray()[index]);
 		log.debug("removename:" + name);
 		this.remove(name);
-		log.fatal("Chosendiseases removed: " + name);
-		log.fatal("Chosendiseases: " + this);
+		log.debug("Chosendiseases removed: " + name);
+		log.debug("Chosendiseases: " + this);
 	}
 
 	/**

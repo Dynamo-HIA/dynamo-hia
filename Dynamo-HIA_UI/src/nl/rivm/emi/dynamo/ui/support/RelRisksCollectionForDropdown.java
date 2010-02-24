@@ -248,8 +248,16 @@ public class RelRisksCollectionForDropdown {
 					.getDiseaseConfigurations().keySet();
 			if (riskfactors != null)
 				configuredFromValues.addAll(riskfactors);
+			
+			Set<String> allDiseaseNames = new LinkedHashSet<String>();
+			allDiseaseNames.addAll(this.treeLists.getValidDiseaseNames());
+			if (allDiseaseNames!=null) configuredFromValues.addAll(allDiseaseNames);
 			if (diseases != null) {
-				configuredFromValues.addAll(diseases);
+				/* changed as we decided to let the user select all possible RRs, also those from
+				 * diseases that have not yet been choosen
+				 * in this case the configuredToValues are probably no longer needed, but are kept anyway
+				 */
+			//	configuredFromValues.addAll(diseases);
 				configuredToValues.addAll(diseases);
 			}
 			// These two are always present.
@@ -281,6 +289,7 @@ public class RelRisksCollectionForDropdown {
 			 * been selected in the current simulation
 			 */
 			/* remove unconfigured from values */
+			/* changed into only removing RR based on not configured riskfactors 
 			Iterator<String> it = localAvaillableRelRisks.keySet().iterator();
 			while (it.hasNext()) {
 				String currentFrom = it.next();
@@ -304,6 +313,36 @@ public class RelRisksCollectionForDropdown {
 					// localAvaillableRelRisks.put(currentFrom, toObject);
 				}
 			}
+			
+			*/
+			
+			
+			
+			
+			
+			/* remove unconfigured from values */
+			Iterator<String> it = localAvaillableRelRisks.keySet().iterator();
+			while (it.hasNext()) {
+				String currentFrom = it.next();
+
+				if (!configuredFromValues.contains(currentFrom)) {
+					it.remove();
+					instLog.debug(currentFrom + " is removed from fromlist");
+				} 
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			instLog.debug("PossibleRelativeRisks after cleaning: "
 					+ localAvaillableRelRisks.dump4Log());
 
