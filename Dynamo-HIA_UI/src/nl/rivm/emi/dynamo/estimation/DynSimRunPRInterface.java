@@ -46,7 +46,7 @@ public interface DynSimRunPRInterface {
 //	public Shell getShell();
 
 /**
- * Create the output screen for graphical version. 
+ * Create the output screen for graphical version or output on file for the batch version. 
 
  * @param output
  * @param scenarioParameters

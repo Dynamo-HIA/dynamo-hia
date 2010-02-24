@@ -197,15 +197,16 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			/* get the initial population from the modelparameters object */
 			Population[] pop = p.getInitialPopulation();
-			log.fatal("Starting to write populations");
-			for (int npop = 0; npop < nPopulations; npop++) {
-				String iniPopFileName = directoryName + File.separator
-						+ "modelconfiguration" + File.separator + "initialPop_"
-						+ npop;
-				CSVPopulationWriter.writePopulation(iniPopFileName, pop[npop],
-						0);
-				log.fatal("Written population #" + npop);
-			}
+			/* population is not written to disc */
+	//		log.fatal("Starting to write populations");
+	//		for (int npop = 0; npop < nPopulations; npop++) {
+	//			String iniPopFileName = directoryName + File.separator
+	//					+ "modelconfiguration" + File.separator + "initialPop_"
+	//					+ npop;
+	//			CSVPopulationWriter.writePopulation(iniPopFileName, pop[npop],
+	//					0);
+	//			log.fatal("Written population #" + npop);
+	//		}
 
 			// Assemble the simulation file name
 			simulationFilePath = simFileName + ".xml";

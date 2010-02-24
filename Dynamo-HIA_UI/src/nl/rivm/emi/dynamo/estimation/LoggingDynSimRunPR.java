@@ -54,7 +54,7 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 			ScenarioParameters scenarioParameters, String currentpath) {
 		/* creates output for DYNAMO-BATCH runner */
 		CSVWriter writer= new CSVWriter(output, scenarioParameters);
-		String fileName=currentpath+File.separator+"batchoutput.csv";
+		String fileName=currentpath+File.separator+"batchoutput";
 		try {
 			writer.writeBatchOutputCSV(fileName);
 		} catch (FactoryConfigurationError e) {
