@@ -2366,7 +2366,7 @@ public class ModelParameters {
 				}
 				vMat[d][d] = 1;
 				AMsetToZero[d] = true;
-				if (warningflag5 && diseasePrevalence[d] > 0) {
+				if (warningflag5 && Math.abs(diseasePrevalence[d]) > 0.00001) {
 					displayWarningMessage(
 							"Excess mortality of disease "
 									+ diseaseNames[d]

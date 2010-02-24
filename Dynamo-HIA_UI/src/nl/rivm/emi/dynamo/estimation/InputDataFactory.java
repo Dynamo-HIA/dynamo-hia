@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
-//import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -1732,8 +1732,10 @@ public class InputDataFactory {
 
 				else
 					throw new DynamoConfigurationException(
-							"netto transition file not possbile for alternative scenario."
-									+ "For alternative scenario's one should enter an explicite file");
+							"Nett transitions are defined as nett transitions for the distribution"+
+							" of the reference scenario. They can only be used in an alternative scenario when"+
+							" they are also used in the reference scenario." 
+									+ "\nPlease alter the input to comply with this requirement");
 
 			}
 
@@ -2127,7 +2129,7 @@ public class InputDataFactory {
 							+ ".xml";
 
 					info.rrDataDis = this.factory.manufactureOneDimArray(
-							configFileName, rrDiseaseTagName, /* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
+							configFileName, rrDiseaseTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
 							"value", false);
 
 				} else {
@@ -2147,7 +2149,7 @@ public class InputDataFactory {
 							info.rrDataCont = this.factory
 									.manufactureOneDimArray(configFileName,
 											rrContinuousTagName,
-											/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "value", false);
+											XMLTagEntityEnum.RELATIVERISK.getElementName(), "value", false);
 						} else if (this.riskFactorType == 1) {
 
 							String configFileName = this.baseDir
@@ -2159,7 +2161,7 @@ public class InputDataFactory {
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
 											rrCategoricalTagName,
-											/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "cat", "value",
+											XMLTagEntityEnum.RELATIVERISK.getElementName(), "cat", "value",
 											false);
 						} else {
 							String configFileName = this.baseDir
@@ -2171,19 +2173,19 @@ public class InputDataFactory {
 
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
-											rrCompoundTagName, /*XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk",
+											rrCompoundTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
 											"cat", "begin", true);
 							info.rrDataBegin = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "begin", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "begin", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataEnd = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "end", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "end", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataAlfa = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									/* XMLTagEntityEnum.RELATIVERISK.getElementName()*/"relativerisk", "alfa", "cat",
+									XMLTagEntityEnum.RELATIVERISK.getElementName(), "alfa", "cat",
 									this.originalNumberDurationClass);
 
 						}
