@@ -363,18 +363,21 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						}
 						currentState++;
 					}
-
+				
+				
+				if (this.structure[c].getNInCluster() == 1
+						|| this.structure[c].isWithCuredFraction())
+					for (int d = 0; d < this.structure[c].getNInCluster(); d++){
+  				this.stateNames[currentState] = this.structure[c]
+							.getDiseaseName().get(d);
+					currentState++;
+				}
+/* this is the same for all clusters */
 				for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
 					this.diseaseNames[currentDis] = this.structure[c]
 							.getDiseaseName().get(d);
 					currentDis++;
-					if (this.structure[c].getNInCluster() == 1
-							|| this.structure[c].isWithCuredFraction()) {
-
-						this.stateNames[currentState] = this.structure[c]
-								.getDiseaseName().get(d);
-						currentState++;
-					}
+					
 
 				}
 			}

@@ -42,7 +42,7 @@ public class CSVWriter {
 
 	private ScenarioParameters params;
 
-	private boolean details = false;
+	private boolean details = true;
 
 	public boolean isDetails() {
 		return details;
@@ -126,13 +126,13 @@ public class CSVWriter {
 				 * last disease state is survival and is equal to total numbers
 				 * so not included
 				 */
-				for (int col = 0; col < this.output.getNDiseaseStates() - 1; col++) {
+				for (int col = 0; col < this.output.getNDiseaseStates()-1; col++) {
 					writer.append(this.delimiter
 							+ this.output.getStateNames()[col]);
 
 				}
 			} else {
-				for (int col = 0; col < this.output.nDiseases - 1; col++) {
+				for (int col = 0; col < this.output.nDiseases ; col++) {
 					writer.append(this.delimiter
 							+ this.output.diseaseNames[col]);
 
@@ -275,7 +275,7 @@ public class CSVWriter {
 														this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
 														thisScen, year, a, sex);
 
-										if (col == this.output.nDiseases + 3)
+										if (col == this.output.nDiseaseStates + 3)
 											writer.append(((Double) data)
 													.toString());
 										else
