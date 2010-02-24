@@ -40,6 +40,7 @@ public class DeleteSelectionListener implements SelectionListener {
 		// Remove the selected tab
 		try {
 			// this.tabPlatform.getTabManager().deleteNestedTab();
+			log.fatal("deleting nested tab from "+tabPlatform);
 			tabPlatform.deleteNestedTab_FromManager();
 			theModal.setChanged(true);
 		} catch (ConfigurationException ce) {
