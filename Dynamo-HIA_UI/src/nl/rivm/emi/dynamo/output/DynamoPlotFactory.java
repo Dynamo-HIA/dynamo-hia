@@ -1309,101 +1309,7 @@ public class DynamoPlotFactory {
 		return chart;
 	}
 
-	/**
-	 * method plots the mean value of the riskFactor
-	 * 
-	 * @param gender
-	 * @param differencePlot
-	 * @param blackAndWhite
-	 *            : (boolean) indicates whether the plots are in color (false)
-	 *            or black and white
-	 * 
-	 * @return Chart with plot of mean of riskfactor
-	 */
-	public JFreeChart makeYearMeanOfRiskfactorByScenarioPlots(int gender,
-			boolean differencePlot, boolean blackAndWhite) {
-		double[][][][] nPopByAge = this.output.getNPopByAge();
-
-		XYSeries dataSeries = null;
-
-		XYDataset xyDataset = null;
-		for (int thisScen = 0; thisScen < this.output.getNScen(); thisScen++) {
-			for (int steps = 0; steps < this.output.getStepsInRun() + 1; steps++) {
-				double meandat = 0;
-				double meandatR = 0;
-				if (thisScen == 0) {
-					dataSeries = new XYSeries("reference scenario");
-				} else
-					dataSeries = new XYSeries("scenario "
-							+ this.output.getScenarioNames()[thisScen]);
-				for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
-
-					meandat += applySuccesrateToMean(
-							this.output.getMeanRiskByAge()[0][steps][age][gender],
-							this.output.getMeanRiskByAge()[thisScen][steps][age][gender],
-							nPopByAge[0][steps][age][gender],
-							nPopByAge[thisScen][steps][age][gender], thisScen,
-							steps, age, gender);
-					meandat += this.output.getMeanRiskByAge()[0][steps][age][gender];
-				}
-
-				if (!differencePlot)
-					dataSeries.add((double) steps + this.output.getStartYear(),
-							meandat);
-				else
-					dataSeries.add((double) steps + this.output.getStartYear(),
-							meandat - meandatR);
-
-			}
-			if (thisScen == 0)
-				xyDataset = new XYSeriesCollection(dataSeries);
-			else
-				((XYSeriesCollection) xyDataset).addSeries(dataSeries);
-		}
-		JFreeChart chart;
-		String label = "both sexes";
-		if (gender == 0)
-			label = "men";
-		if (gender == 1)
-			label = "women";
-		String chartTitle = "mean value of riskfactor ";
-		if (differencePlot)
-			chartTitle = "mean value of riskfactor compared to reference scenario";
-		chart = ChartFactory.createXYLineChart(chartTitle, "year",
-				"mean value", xyDataset, PlotOrientation.VERTICAL, true, true,
-				false);
-		TextTitle title = chart.getTitle();
-		title.setFont(new Font("SansSerif", Font.BOLD, 14));
-		TextTitle subTitle = new TextTitle(label);
-		subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
-
-		chart.addSubtitle(subTitle);
-		XYPlot plot = (XYPlot) chart.getPlot();
-		NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
-		xAxis.setNumberFormatOverride(new DecimalFormat("0000"));
-		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-		for (int thisScen = 0; thisScen <= this.output.getNScen(); thisScen++) {
-			setLineProperties(renderer, thisScen, blackAndWhite);
-		}
-		plot.setRenderer(renderer);
-		return chart;
-		/*
-		 * ChartFrame frame1 = new ChartFrame("RiskfactorAverage", chart);
-		 * frame1.setVisible(true); frame1.setSize(300, 300);
-		 * 
-		 * final ChartPanel chartPanel = new ChartPanel(chart);
-		 * chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-		 * 
-		 * try { writeCategoryChart( baseDir + File.separator + "simulations" +
-		 * File.separator + simulationName + File.separator + "results" +
-		 * File.separator + "riskfactorAverage" + ".jpg", chart); } catch
-		 * (Exception e) { System.out.println(e.getMessage()); System.out
-		 * .println
-		 * ("Problem occurred creating chart. for average of riskfactor"); }
-		 */
-
-	}
-
+	
 	/**
 	 * method that averages the prevalence over all ages for a particular
 	 * scenario
@@ -2664,10 +2570,10 @@ public class DynamoPlotFactory {
 						}
 					}
 					if (!differencePlot && sumweight > 0)
-						scenSeries[thisScen].add((double) year, mean
+						scenSeries[thisScen].add((double) year+this.output.startYear, mean
 								/ sumweight);
 					if (differencePlot && sumweight > 0 && sumweightR > 0)
-						scenSeries[thisScen].add((double) year, mean
+						scenSeries[thisScen].add((double) year+this.output.startYear, mean
 								/ sumweight - (meanR / sumweightR));
 				}
 				if (thisScen == 0)
@@ -2693,7 +2599,7 @@ public class DynamoPlotFactory {
 				yTitle = "difference in mean value";
 
 			JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
-					"age", yTitle, xyDataset, PlotOrientation.VERTICAL, true,
+					"year", yTitle, xyDataset, PlotOrientation.VERTICAL, true,
 					true, false);
 			if (this.output.getStepsInRun() == 0)
 				drawMarkers(chart);
