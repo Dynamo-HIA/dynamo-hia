@@ -384,8 +384,10 @@ public class DynamoLib {
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
 		double sigma;
+		double sigma2; /* just for checking */
 				try {
-					sigma = findRoot(skewness);
+					sigma2 = findRoot(skewness);
+					sigma = findSigma(skewness);
 				} catch (Exception e) {
 					
 					e.printStackTrace();
@@ -427,7 +429,7 @@ public class DynamoLib {
 	
 	/** find Sigma calculates the sigma of a logNormal distributrion from its skewness
 	 * It uses the analytical way to solve this, rather than the rootsearching 
-	 * doen in find Root *implemented to check, bu
+	 * implemented before in logNorminv2
 	 * @param skew
 	 * @return
 	

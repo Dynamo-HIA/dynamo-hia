@@ -300,9 +300,11 @@ public class ModelParameters {
 						float skew = inputData.getSkewnessRisk()[a][g];
 						this.stdDevRisk[a][g] = (float) DynamoLib
 								.findSigma(skew);
-
-						this.meanRisk[a][g] = (float) (0.5 * (Math.log(skew
-								* skew)
+                /* NB
+                 * stdDevRisk in inputData is the standard deviation on the measured scale, while this.stdDevRisk
+                 *         is the standard deviation on the log-scale!
+                 */
+						this.meanRisk[a][g] = (float) (0.5 * (Math.log(Math.pow((double)inputData.getStdDevRisk()[a][g],2))
 								- Math.log(Math.exp(this.stdDevRisk[a][g]
 										* stdDevRisk[a][g]) - 1) - this.stdDevRisk[a][g]
 								* this.stdDevRisk[a][g]));
@@ -1469,7 +1471,7 @@ public class ModelParameters {
 															2);
 									if (age == 0)
 										log
-												.fatal(" cat i= "
+												.debug(" cat i= "
 														+ i
 														+ " disease "
 														+ Ndd
@@ -1483,7 +1485,7 @@ public class ModelParameters {
 																* this.baselinePrevalenceOdds[age][sex][Ndd])));
 								}
 								if (age == 0)
-									log.fatal("or ct i= " + i + " RR = " + RR
+									log.debug("or ct i= " + i + " RR = " + RR
 											+ "  sumprevalence  until now: "
 											+ sumPrevCurrent);
 
