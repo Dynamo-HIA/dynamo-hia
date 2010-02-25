@@ -83,8 +83,7 @@ public class XMLFileAction extends ActionBase {
 
 	/**
 	 * Importing a file for a new (unsaved) categorical or compound relative
-	 * risk from the modal screen blew up.
-     * Workaround.
+	 * risk from the modal screen blew up. Workaround.
 	 */
 	RiskSourceProperties props = null;
 
@@ -293,14 +292,16 @@ public class XMLFileAction extends ActionBase {
 																					.getAbsolutePath(),
 																			rootElementName,
 																			node,
-																			(CategoricalRiskFactorProperties) /* null */ props);
+																			(CategoricalRiskFactorProperties) /* null */props);
 																} else {
 																	if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND
 																			.getNodeLabel()
 																			.equals(
 																					rootElementName)) {
-																	/*	RiskSourceProperties props = RiskSourcePropertiesMapFactory
-																				.getProperties((FileNode) node); */
+																		if (props == null) {
+																			props = RiskSourcePropertiesMapFactory
+																					.getProperties((FileNode) node);
+																		}
 																		theModal = new RelRiskFromRiskFactorCompoundModal(
 																				shell,
 																				importFile

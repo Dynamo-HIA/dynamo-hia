@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteg
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.listeners.verify.PercentVerifyListener;
 import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
@@ -108,6 +109,8 @@ public class DurationDistributionParameterDataPanel extends Composite {
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				modelType.getModelUpdateValueStrategy(), modelType
 						.getViewUpdateValueStrategy());
+		text.addVerifyListener(new PercentVerifyListener(theHelpGroup
+				.getTheModal()));
 	}
 
 	private void createHeader() {

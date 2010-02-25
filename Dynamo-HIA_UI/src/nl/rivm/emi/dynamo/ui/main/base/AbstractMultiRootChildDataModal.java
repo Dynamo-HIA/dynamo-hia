@@ -84,6 +84,8 @@ public abstract class AbstractMultiRootChildDataModal extends
 				| SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText(createCaption(selectedNode));
+		// 20100222 Added setLocation.
+		this.shell.setLocation(25, 25);
 		FormLayout formLayout = new FormLayout();
 		this.shell.setLayout(formLayout);
 	}

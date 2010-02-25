@@ -162,21 +162,9 @@ public class BaseStorageTreeScreen {
 		Menu menu = new Menu(shell, SWT.DROP_DOWN);
 		item.setMenu(menu);
 
+		addTreeItem(menu);
 		addAboutItem(menu);
-//		addSchemaSystemPropertyItem(menu);
 	}
-
-//	private static final String SCHEMA_PATH_PROPERTY_KEY = "dynamo.schema.dir";
-//
-//	private void addSchemaSystemPropertyItem(Menu menu) {
-//		MenuItem subItem = new MenuItem(menu, SWT.NONE);
-//		subItem.setText(System
-//				.getProperty(SCHEMA_PATH_PROPERTY_KEY));
-//		subItem.addSelectionListener(new SelectionAdapter() {
-//			public void widgetSelected(SelectionEvent e) {
-//				
-//			}
-//		});	}
 
 	private void addAboutItem(Menu menu) {
 		// Help -> About Text Editor
@@ -185,8 +173,30 @@ public class BaseStorageTreeScreen {
 		subItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				MessageBox box = new MessageBox(shell, SWT.NONE);
-				box.setText("About_1");
-				box.setMessage("About_2");
+				box.setText("About Dynamo-HIA");
+				box.setMessage("DYNAMO-HIA is a program projecting "
+						+ "the health consequences\nof risk factor "
+						+ "changes, intended for Health Impact Assessment.\n\n"
+						+ "This software was developed by RIVM\n"
+						+ "in cooperation with ErasmusMC\n"
+						+ "with funding of DG-SANCO.\n\n"
+						+ "See  'www.dynamo-hia.eu' for more information.");
+				box.open();
+			}
+		});
+	}
+
+	private void addTreeItem(Menu menu) {
+		MenuItem subItem = new MenuItem(menu, SWT.NONE);
+		subItem.setText("Tree navigation");
+		subItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				MessageBox box = new MessageBox(shell, SWT.NONE);
+				box.setText("Tree navigation help");
+				box.setMessage("Tree elements can be expanded "
+						+ "by (left) clicking on the '+' sign.\n"
+						+ "Clicking on the '-' sign collapses them.\n\n"
+						+ "Right click on the text items for context menus.");
 				box.open();
 			}
 		});

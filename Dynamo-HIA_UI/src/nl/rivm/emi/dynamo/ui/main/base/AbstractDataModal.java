@@ -78,6 +78,8 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 				| SWT.TITLE /* Parts of DIALOG_TRIM */| SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText(createCaption(selectedNode));
+		// 20100222 Added setLocation.
+		this.shell.setLocation(25, 25);
 //		this.shell.addShellListener(new MyShellListener());
 		FormLayout formLayout = new FormLayout();
 		this.shell.setLayout(formLayout);

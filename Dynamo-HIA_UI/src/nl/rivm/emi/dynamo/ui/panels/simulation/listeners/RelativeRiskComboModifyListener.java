@@ -415,7 +415,7 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 	private void updateFile(String newText) throws ConfigurationException {
 		if ((newText != null)
 				&& (!newText
-						.equalsIgnoreCase(myConfiguration.getDataFileName()))) {
+						.equals(myConfiguration.getDataFileName()))) {
 			helpGroup.getTheModal().setChanged(true);
 			dataManager.setConfiguredFileName(newText);
 			myConfiguration.setDataFileName(newText);

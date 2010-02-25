@@ -58,7 +58,7 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for death from compound riskfactor";
+		return "Relative risks from compound riskfactor";
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(600, ModalStatics.defaultSimulationWidth);
+			this.shell.setSize(500, ModalStatics.defaultModalHeight);
 			this.shell.open();
 	}
 
