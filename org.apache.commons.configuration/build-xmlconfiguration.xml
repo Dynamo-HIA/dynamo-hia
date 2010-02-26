@@ -30,13 +30,16 @@
 	<!-- Then compile the modified java file to replace its original. -->
 	<target name="compile_java">
 		<property name="klaaspadlist" refid="klaaspad" />
-		<javac srcdir="${src.dir}" verbose="true" destdir="${classes.dir}" includes="**/*.java" excludes="**/orgsource/**" >
+		<javac srcdir="${src.dir}" verbose="true" destdir="${classes.dir}" includes="**/*.java" excludes="**/orgsource/**">
 			<classpath>
 				<path refid="klaaspad" />
 			</classpath>
 		</javac>
 	</target>
+	
+	<target name="refresh_classes">
+	</target>
 
-	<target name="main" depends="introduction,clean,copy_classes,compile_java" />
+	<target name="main" depends="introduction,clean,copy_classes,compile_java,refresh_classes" />
 
 </project>
