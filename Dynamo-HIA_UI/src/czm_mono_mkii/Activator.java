@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends /*Plugin*/ AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "CZM_Mono_MKII";
+	public static final String PLUGIN_ID = "CZM_Mono";
 
 	// The shared instance
 	private static Activator plugin;

@@ -6,6 +6,7 @@
 	<property name="jar.dir" value="${build.dir}/addimages" />
 	<property name="lib.dir" value="lib" />
 	<property name="plugins.dir" value="C:/dynamo/eclipse341/plugins" />
+	<!--	<eclipse.convertPath filesystempath="C:/dynamo/eclipse341/plugins" property="plugins.dir" />  -->
 	<property name="images.dir" value="images" />
 	<property name="ini.dir" value="ini" />
 	<property name="schemas.dir" value="schemas" />
@@ -30,7 +31,7 @@
 	</target>
 
 	<target name="compile">
-		<!-- <echo message="${java.class.path}" /> -->
+		<echo message="plugins.dir: ${plugins.dir}" />
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" verbose="false">
 			<patternset>
