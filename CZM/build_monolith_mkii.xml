@@ -14,7 +14,7 @@
 
 	<target name="clean">
 		<delete dir="${product.dir}/nl" />
-		<delete dir="${build.dir}" />
+		<delete dir="${classes.dir}" />
 	</target>
 
 	<target name="compile">
