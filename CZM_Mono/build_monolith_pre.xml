@@ -77,6 +77,7 @@
 		<ant antfile="${org.apache.commons.logging.dir}${contrib_name}" dir="${org.apache.commons.logging.dir}" inheritall="true" inheritrefs="true" />
 		<ant antfile="${org.apache.log4j.dir}${contrib_name}" dir="${org.apache.log4j.dir}" inheritall="true" inheritrefs="false" />
 		<ant antfile="${czm.dir}${contrib_name}" dir="${czm.dir}" inheritall="true" inheritrefs="true" />
+		<eclipse.refreshLocal resource="${org.apache.commons.configuration.dir}/classes" depth="infinite" />
 		<ant antfile="${dynamo_hia_ui.dir}${contrib_name}" dir="${dynamo_hia_ui.dir}" inheritall="true" inheritrefs="true" />
 	</target>
 

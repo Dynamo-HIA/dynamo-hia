@@ -6,7 +6,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="czm_mono.Application">
+               class="czm_mono_mkii.Application">
          </run>
       </application>
    </extension>

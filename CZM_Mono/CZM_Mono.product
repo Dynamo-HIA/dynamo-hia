@@ -3,7 +3,6 @@
 
 <product name="DynamoHIA" id="CZM_Mono.product" application="CZM_Mono.application" version="1.0.0" useFeatures="false">
 
-
    <configIni use="default">
    </configIni>
 
@@ -23,7 +22,6 @@
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
       <linux>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6</linux>
