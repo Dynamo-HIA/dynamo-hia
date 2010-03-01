@@ -300,11 +300,14 @@ public class ModelParameters {
 						float skew = inputData.getSkewnessRisk()[a][g];
 						this.stdDevRisk[a][g] = (float) DynamoLib
 								.findSigma(skew);
-                /* NB
-                 * stdDevRisk in inputData is the standard deviation on the measured scale, while this.stdDevRisk
-                 *         is the standard deviation on the log-scale!
-                 */
-						this.meanRisk[a][g] = (float) (0.5 * (Math.log(Math.pow((double)inputData.getStdDevRisk()[a][g],2))
+						/*
+						 * NB stdDevRisk in inputData is the standard deviation
+						 * on the measured scale, while this.stdDevRisk is the
+						 * standard deviation on the log-scale!
+						 */
+						this.meanRisk[a][g] = (float) (0.5 * (Math.log(Math
+								.pow((double) inputData.getStdDevRisk()[a][g],
+										2))
 								- Math.log(Math.exp(this.stdDevRisk[a][g]
 										* stdDevRisk[a][g]) - 1) - this.stdDevRisk[a][g]
 								* this.stdDevRisk[a][g]));
@@ -471,17 +474,17 @@ public class ModelParameters {
 
 		this.diseaseNames = new String[getNDiseases()];
 		int currentDisease = 0;
-		if (clusterStructure !=null) 
-		for (int c = 0; c < clusterStructure.length; c++) {
+		if (clusterStructure != null)
+			for (int c = 0; c < clusterStructure.length; c++) {
 
-			ArrayList<String> currentNames = clusterStructure[c]
-					.getDiseaseName();
-			for (String name : currentNames) {
-				this.diseaseNames[currentDisease] = name;
-				currentDisease++;
+				ArrayList<String> currentNames = clusterStructure[c]
+						.getDiseaseName();
+				for (String name : currentNames) {
+					this.diseaseNames[currentDisease] = name;
+					currentDisease++;
+				}
+
 			}
-
-		}
 
 	}
 
@@ -613,27 +616,26 @@ public class ModelParameters {
 							temp[cat][1] = RRcat[cat][0];
 						}
 						newdata.setRelRiskCat(temp);
-						
-						
+
 						RRcont = inputData.getClusterData()[a][g][c]
 								.getRelRiskCont()[0];
-						float []temp2=new float[2];
-						
-						temp2[0]=RRcont;
-						temp2[1]=RRcont;
+						float[] temp2 = new float[2];
+
+						temp2[0] = RRcont;
+						temp2[1] = RRcont;
 						newdata.setRelRiskCont(temp2);
-						
-						temp2=new float[2];
+
+						temp2 = new float[2];
 						RRduurBegin = inputData.getClusterData()[a][g][c]
 								.getRelRiskDuurBegin()[0];
-						temp2[0]=RRduurBegin;
-						temp2[1]=RRduurBegin;
+						temp2[0] = RRduurBegin;
+						temp2[1] = RRduurBegin;
 						newdata.setRelRiskDuurBegin(temp2);
-						temp2=new float[2];
+						temp2 = new float[2];
 						RRduurEnd = inputData.getClusterData()[a][g][c]
 								.getRelRiskDuurEnd()[0];
-						temp2[0]=RRduurEnd;
-						temp2[1]=RRduurEnd;
+						temp2[0] = RRduurEnd;
+						temp2[1] = RRduurEnd;
 						newdata.setRelRiskDuurEnd(temp2);
 						inputData.setClusterData(newdata, a, g, c);
 						prevalence[a] = inputData.getClusterData()[a][g][c]
@@ -1798,6 +1800,7 @@ public class ModelParameters {
 				}
 			}
 		double[] abilityFromOtherCauses = new double[nSim];
+		double sumAbilityFromDiseases= 0;
 		if (nDiseases > 0)
 			for (int i = 0; i < nSim; i++) {
 				if (age == 70) {
@@ -2057,7 +2060,7 @@ public class ModelParameters {
 				 * other disease, as well as the baseline hazard for other
 				 * diseases
 				 */
-				if (withRRdisability) {
+				
 					abilityFromDiseases[i] = calculateAbilityFromDiseases(
 							inputData.getClusterData()[age][sex], nDiseases,
 							prevalenceDiseaseStatesForI);
@@ -2094,6 +2097,19 @@ public class ModelParameters {
 					}
 
 					else
+						
+						
+						if (!withRRdisability) {
+							
+							/*
+							 *here we just need the calculate the sum of the ability from diseases, 
+							 *
+							 */
+							
+							sumAbilityFromDiseases+= weight[i]*abilityFromDiseases[i];
+					
+			
+						} else {
 						abilityFromOtherCauses[i] = abilityFromRiskFactor[i]
 								/ abilityFromDiseases[i];
 
@@ -2176,9 +2192,26 @@ public class ModelParameters {
 					// other risktype are done later on (together with
 					// mortality)
 
-				} // end part on disability
+				} // end part on disability 
 
 			}// end loop over i
+		
+		if (!withRRdisability){
+		float overallAbility = 1 - inputData.getOverallDalyWeight()[age][sex];
+		this.baselineAbility[age][sex] = (float) (overallAbility / sumAbilityFromDiseases);
+		for (int i = 0; i < nRiskCat; i++)
+			this.riskFactorAbilityRRcat[age][sex][i] = 1;
+		this.riskFactorAbilityRRcont[age][sex] = 1;
+		this.riskFactorAbilityRRend[age][sex] = 1;
+		this.riskFactorAbilityRRbegin[age][sex] = 1;
+		this.riskFactorAbilityAlpha[age][sex] = 1;
+
+		if (this.baselineAbility[age][sex] > 1) {
+			warnForAbilityGreaterOne(age, sex, sumAbilityFromDiseases,
+					overallAbility, dsi);
+
+		}
+	}
 		// TODO other risktypes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// TODO fatal diseases
 
@@ -2202,13 +2235,14 @@ public class ModelParameters {
 
 		if (nDiseases > 0)
 			for (int c = 0; c < inputData.getNCluster(); c++) {
-
-				/* d is within cluster number, but d2 is over all diseases */
+              
+				/* d is within cluster number, but d2 and d1 are over all diseases */
 				for (int d = 0; d < this.clusterStructure[c].getNInCluster(); d++) {
+					  int d1=this.clusterStructure[c].getDiseaseNumber()[d]; 
 					{
 						for (int d2 = 0; d2 < nDiseases; d2++) {
-							sumForCF[d] += fatalIncidenceEgivenD[d2][d];
-							/* d= E, d2=D */
+							sumForCF[d1] += fatalIncidenceEgivenD[d2][d1];
+							/* e= E, d2=D */
 							if (inputData.isWithRRForMortality()) {
 								/*
 								 * with rr this is sum of CF given d - sum over
@@ -2225,10 +2259,10 @@ public class ModelParameters {
 								// they were used above
 								for (int i = 0; i < nSim; i++) {
 									sum += fatalIncidence[i][d2]
-											* probDisease[i][d] * weight[i];
+											* probDisease[i][d1] * weight[i];
 								}
-								if (diseasePrevalence[d] != 0)
-									sumForCF[d] -= sum / diseasePrevalence[d];
+								if (diseasePrevalence[d1] != 0)
+									sumForCF[d1] -= sum / diseasePrevalence[d1];
 
 								// TODO checken of klopt ; is al wel een extra
 								// keer gechecked
@@ -2242,7 +2276,7 @@ public class ModelParameters {
 								 */
 
 								for (int i = 0; i < nSim; i++) {
-									sumForCF[d] -= fatalIncidence[i][d2]
+									sumForCF[d1] -= fatalIncidence[i][d2]
 											* weight[i];
 								}
 
@@ -2461,45 +2495,7 @@ public class ModelParameters {
 							+ " the mortality from acutely fatal disease is larger than excess mortality. ");
 		// TODO throw exception
 
-		/*
-		 * estimate disability other cause disability using
-		 * prevalenceDiseaseStates[c][state] for the case that there is no RR
-		 * disability
-		 * 
-		 * to do so, loop over all possible disease combinations and calculate
-		 * the disease-cause disability, and sum these to obtain the total
-		 * disability caused by disease the fraction disability from other
-		 * causes then is: (total disability- disability caused by diseases)/
-		 * total disability
-		 * 
-		 * In case there is also disability based on risk factors:
-		 * 
-		 * disabilityFromRiskFactor
-		 */
-		;
-
-		if (!withRRdisability) {
-
-			double abilityFromDisease = calculateAbilityFromDiseases(inputData
-					.getClusterData()[age][sex], nDiseases,
-					prevalenceDiseaseStates);
-
-			float overallAbility = 1 - inputData.getOverallDalyWeight()[age][sex];
-			this.baselineAbility[age][sex] = (float) (overallAbility / abilityFromDisease);
-			for (int i = 0; i < nRiskCat; i++)
-				this.riskFactorAbilityRRcat[age][sex][i] = 1;
-			this.riskFactorAbilityRRcont[age][sex] = 1;
-			this.riskFactorAbilityRRend[age][sex] = 1;
-			this.riskFactorAbilityRRbegin[age][sex] = 1;
-			this.riskFactorAbilityAlpha[age][sex] = 1;
-
-			if (this.baselineAbility[age][sex] > 1) {
-				warnForAbilityGreaterOne(age, sex, abilityFromDisease,
-						overallAbility, dsi);
-
-			}
-		}
-
+		
 		;
 		/**
 		 * <br>
@@ -2962,7 +2958,16 @@ public class ModelParameters {
 
 		if (age == 0 && sex == 0)
 			this.log.debug("begin loop 5");
-
+		if (age == 0 && sex == 0) {
+			this.log.fatal("baseline ability for age 0, sex 0 : "
+					+ this.baselineAbility[age][sex]);
+			if (this.riskType != 2)
+				this.log.fatal("RR category 2 : "
+						+ this.riskFactorAbilityRRcat[age][sex][1]);
+			else
+				this.log.fatal("\nRR  "
+						+ this.riskFactorAbilityRRcont[age][sex]);
+		}
 		// fifth loop over all persons i to calculate sum of RR other
 		// mortality to check baselineOtherMortality
 		// only temporary to check method
@@ -2997,9 +3002,9 @@ public class ModelParameters {
 					+ baselineOtherMortality2 + " after calibration and  "
 					+ this.baselineOtherMortality[age][sex] + " before");
 		if (baselineOtherMortality2 != 0)
-			if (Math.abs(baselineOtherMortality2
+			if ((Math.abs(baselineOtherMortality2
 					- this.baselineOtherMortality[age][sex])
-					/ baselineOtherMortality2 > 0.01)
+					/ baselineOtherMortality2 > 0.00001))
 				this.log
 						.fatal("different baseline mortalities calculated after calibration nl "
 								+ baselineOtherMortality2
@@ -3024,6 +3029,12 @@ public class ModelParameters {
 		 * is the contribution of ability of those without the disease
 		 * (ability=1 for this group) and pA the ability from those with the
 		 * disease
+		 * 
+		 * 
+		* to calculate within the cluster, loop over all possible disease combinations and calculate
+		* the disease-cause disability, and sum these to obtain the total
+		* disability caused by disease 
+							 
 		 */
 
 		double abilityFromDiseases = 1;
@@ -3536,42 +3547,33 @@ public class ModelParameters {
 		for (int a = 1; a < n; a++) {
 			// TODO Testen van deze methode (kloppen berekeningen)
 			/*
-			(E^(at t) inotcured (-1 + p) + E^(inotcured t) (inotcured - at p))/(
-					at E^(at t) (-1 + p) + E^(inotcured t) (inotcured - at p))
-			is equal to next formula
-			*/
+			 * (E^(at t) inotcured (-1 + p) + E^(inotcured t) (inotcured - at
+			 * p))/( at E^(at t) (-1 + p) + E^(inotcured t) (inotcured - at p))
+			 * is equal to next formula
+			 */
 			// finci = ((p0 * em - i) * exp((i - em) * time) + i * (1 - p0)) /
-			// ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0)) 
+			// ((p0 * em - i) * exp((i - em) * time) + em * (1 - p0))
 			/*
 			 * 
-			 *  next prevalence not cured 
-			 *  as function of total prevalence :
-			 *  ((icured + inotcured) (E^at inotcured (-1 + p1 + p2) + 
-     E^(icured + 
-       inotcured) (inotcured - 
-        inotcured p1 + (-at + icured) p2)))/(at E^
-    at inotcured (-1 + p1 + p2) + 
-   E^(icured + 
-     inotcured) (-E^
-        at (-at + icured + inotcured) (-inotcured p1 + 
-         icured (-1 + p2)) + (icured + inotcured) (inotcured - 
-         inotcured p1 + (-at + icured) p2)))
-			
-			This is too complicated, and we therefore ignore the cured cases, and proceed as if they are
-			still at risk
-			
-			Then we get next not cured prevalence as function of last (p):
-			(E^at inotcured (-1 + p) + E^inotcured (inotcured - at p))/(
-              at E^at (-1 + p) + E^inotcured (inotcured - at p))
-			where inc is incidence of not cured, and at the excess mortality
-			
-			Multiply with -E^-at /-E^-at:
-			nominator: 
-						inotcured (1-p ) + E^( i - at)(at p - i)
-			denominator:
-						(1-p)at + E^(i - at)(at p - i)
-			
-			*/
+			 * next prevalence not cured as function of total prevalence :
+			 * ((icured + inotcured) (E^at inotcured (-1 + p1 + p2) + E^(icured
+			 * + inotcured) (inotcured - inotcured p1 + (-at + icured) p2)))/(at
+			 * E^ at inotcured (-1 + p1 + p2) + E^(icured + inotcured) (-E^ at
+			 * (-at + icured + inotcured) (-inotcured p1 + icured (-1 + p2)) +
+			 * (icured + inotcured) (inotcured - inotcured p1 + (-at + icured)
+			 * p2)))
+			 * 
+			 * This is too complicated, and we therefore ignore the cured cases,
+			 * and proceed as if they are still at risk
+			 * 
+			 * Then we get next not cured prevalence as function of last (p):
+			 * (E^at inotcured (-1 + p) + E^inotcured (inotcured - at p))/( at
+			 * E^at (-1 + p) + E^inotcured (inotcured - at p)) where inc is
+			 * incidence of not cured, and at the excess mortality
+			 * 
+			 * Multiply with -E^-at /-E^-at: nominator: inotcured (1-p ) + E^( i
+			 * - at)(at p - i) denominator: (1-p)at + E^(i - at)(at p - i)
+			 */
 			expDifferenceIncExcessMort = Math.exp((1 - curedFraction[a - 1])
 					* inc[a - 1] - excessmort[a - 1]);
 			if ((1 - curedFraction[a - 1]) * inc[a - 1] != excessmort[a - 1])

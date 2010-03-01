@@ -68,6 +68,8 @@ public class GenericComboModifyListener implements ModifyListener {
 		try {
 			synchronized (this.dropDown) {
 				this.dropDown.updateDataObjectModel(newText);
+				if (newText.toLowerCase().contains("proxy")) this.dropDown.setWarningColor();
+				else this.dropDown.disableWarningColor();
 			}
 		} catch (ConfigurationException ce) {
 			this.handleErrorMessage(ce, dropDown);

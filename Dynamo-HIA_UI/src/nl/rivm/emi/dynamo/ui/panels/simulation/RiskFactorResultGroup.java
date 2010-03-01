@@ -75,23 +75,25 @@ public class RiskFactorResultGroup {
 			}
 		}
 
-		GenericDropDownPanel transitionDropDownPanel = createDropDown(
-				TRANSITION, dynamoTabDataManager.getDropDownSet(TRANSITION,
-						chosenRiskFactorName));
-		this.riskDropDownModifyListener
-				.registerDropDown(transitionDropDownPanel);
-		HelpTextListenerUtil.addHelpTextListeners(transitionDropDownPanel
-				.getDropDown(), TRANSITION);
+		
 		GenericDropDownPanel riskFactorPrevalenceDropDownPanel = createDropDown(
 				RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 						RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
-
+		riskFactorPrevalenceDropDownPanel.setWarningColor();
 		// Register with the drop down from the selector
 		this.riskDropDownModifyListener
 				.registerDropDown(riskFactorPrevalenceDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(
 				riskFactorPrevalenceDropDownPanel.getDropDown(),
 				RISK_FACTOR_PREVALENCE);
+		GenericDropDownPanel transitionDropDownPanel = createDropDown(
+				TRANSITION, dynamoTabDataManager.getDropDownSet(TRANSITION,
+						chosenRiskFactorName));
+		transitionDropDownPanel.setWarningColor();
+		this.riskDropDownModifyListener
+				.registerDropDown(transitionDropDownPanel);
+		HelpTextListenerUtil.addHelpTextListeners(transitionDropDownPanel
+				.getDropDown(), TRANSITION);
 	}
 
 	private GenericDropDownPanel createDropDown(String label,

@@ -82,7 +82,7 @@ public class DiseaseResultGroup {
 		GenericDropDownPanel diseasePrevalenceDropDownPanel = createDropDown(
 				DISEASE_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 						DISEASE_PREVALENCE, chosenDiseaseName));
-
+		diseasePrevalenceDropDownPanel.setWarningColor();
 		// Register with the drop down from the selector
 		this.diseaseDropDownModifyListener
 				.registerDropDown(diseasePrevalenceDropDownPanel);
@@ -92,6 +92,7 @@ public class DiseaseResultGroup {
 		GenericDropDownPanel incidenceDropDownPanel = createDropDown(INCIDENCE,
 				dynamoTabDataManager.getDropDownSet(INCIDENCE,
 						chosenDiseaseName));
+		incidenceDropDownPanel.setWarningColor();
 		this.diseaseDropDownModifyListener
 				.registerDropDown(incidenceDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(incidenceDropDownPanel
@@ -99,6 +100,7 @@ public class DiseaseResultGroup {
 		GenericDropDownPanel excessMortalityDropDownPanel = createDropDown(
 				EXCESS_MORTALITY, dynamoTabDataManager.getDropDownSet(
 						EXCESS_MORTALITY, chosenDiseaseName));
+		excessMortalityDropDownPanel.setWarningColor();
 		this.diseaseDropDownModifyListener
 				.registerDropDown(excessMortalityDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(excessMortalityDropDownPanel
@@ -106,6 +108,7 @@ public class DiseaseResultGroup {
 		GenericDropDownPanel dalyWeightsDropDownPanel = createDropDown(
 				DALY_WEIGHTS, dynamoTabDataManager.getDropDownSet(DALY_WEIGHTS,
 						chosenDiseaseName));
+		dalyWeightsDropDownPanel.setWarningColor();
 		this.diseaseDropDownModifyListener
 				.registerDropDown(dalyWeightsDropDownPanel);
 		HelpTextListenerUtil.addHelpTextListeners(dalyWeightsDropDownPanel

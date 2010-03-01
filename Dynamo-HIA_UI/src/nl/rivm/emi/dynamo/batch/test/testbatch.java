@@ -26,7 +26,8 @@ public class testbatch {
 	@Before
 	public void setUp() throws Exception {
 	
-		files[0]="C:\\DYNAMO-HIA\\TESTDATA\\test";
+		files[0]="C:\\DYNAMO-HIA\\TESTDATA\\tests_to_run";
+	//	files[0]="C:\\DYNAMO-HIA\\TESTDATA\\temp";
     	
         
 	}
@@ -34,9 +35,9 @@ public class testbatch {
 
 	@Test
 	public void test() {
-		files[0]="C:\\DYNAMO-HIA\\TESTDATA\\test";
+		
    
-    log.fatal(files[0]+" is read ");
+   
 	Runner.main(files); }
 
 	@After

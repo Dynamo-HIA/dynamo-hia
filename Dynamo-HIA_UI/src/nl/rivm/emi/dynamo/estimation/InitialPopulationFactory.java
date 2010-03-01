@@ -32,7 +32,7 @@ public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private int numberOfElements;
 	private String globalBaseDir;
-	private boolean incidenceDebug = true;
+	private boolean incidenceDebug = false;
 	// private Shell parentShell;
 	private DynSimRunPRInterface dsi = null;
 	// private ProgressBar bar = null;
@@ -182,6 +182,7 @@ public class InitialPopulationFactory {
 		if (this.incidenceDebug)
 			this.numberOfElements += parameters.getNDiseases();
 		int nClasses = 1;
+		
 		this.riskType = parameters.getRiskType();
 		if (this.riskType != 2)
 			nClasses = parameters.getPrevRisk()[0][0].length;
