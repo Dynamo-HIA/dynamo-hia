@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.estimation.LoggingDynSimRunPR;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -32,7 +33,7 @@ public class Runner {
 	 */
 	public static void main(String[] args) {
 		SchemaFileProviderInitializer.initialize(null);
-
+       
 		StringBuilder sb = new StringBuilder("Started, arguments: ");
 		for (String arg : args) {
 			sb.append(arg + ", ");
@@ -68,14 +69,14 @@ public class Runner {
 			String batchFilePath = batchFile.getAbsolutePath();
 			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
 					.lastIndexOf(File.separatorChar) + 1);
-			statLog.debug("Using basedirectory: " + baseDirectoryPath);
 			BaseDirectory.getInstance(baseDirectoryPath);
 			DynSimRunPRInterface dsi = new LoggingDynSimRunPR();
 			FileReader reader = new FileReader(batchFile);
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			if (bufferedReader.ready()) {
 				String simulationName = null;
-				while ((simulationName = bufferedReader.readLine()) != null) {
+				while ((simulationName = bufferedReader.readLine()) != null) 
+				if (!simulationName.equals("")){
 					String simulationConfigurationPath = baseDirectoryPath
 							+ StandardTreeNodeLabelsEnum.SIMULATIONS
 									.getNodeLabel()
@@ -85,8 +86,8 @@ public class Runner {
 							+ StandardTreeNodeLabelsEnum.CONFIGURATIONFILE
 									.getNodeLabel() + ".xml";
 					statLog
-							.debug("STARTING simulation: "
-									+ simulationName);
+							.debug("Going to run simulation at configuration path: "
+									+ simulationConfigurationPath);
 					boolean exceptionless = runSimulation(dsi, simulationName,
 							baseDirectoryPath);
 					if (!exceptionless) {
@@ -117,8 +118,8 @@ public class Runner {
 					simulationName, baseDirectoryPath);
 			R.run();
 			return true;
-		} catch (Throwable e) {
-			statLog.fatal(e.getMessage());
+		} catch (DynamoInconsistentDataException e) {
+			statLog.info(e.getMessage());
 			e.printStackTrace(System.err);
 			System.err.flush();
 			return false;

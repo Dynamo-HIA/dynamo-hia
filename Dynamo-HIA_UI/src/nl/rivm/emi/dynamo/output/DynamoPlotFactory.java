@@ -3569,7 +3569,7 @@ public class DynamoPlotFactory {
 	 *         type=1 gives the healthy life expectancy; [0][0] is made -1 if
 	 *         calculation fails
 	 */
-	private double[][] calculateSullivanLifeExpectancy(int year, int ageOfLE,
+	public double[][] calculateSullivanLifeExpectancy(int year, int ageOfLE,
 			int disease, int scenario) {
 
 		double[][] HLE = new double[2][2];
@@ -3889,7 +3889,7 @@ public class DynamoPlotFactory {
 	 *         and type=1 gives the healthy life expectancy
 	 * 
 	 */
-	private double[][] calculateCohortHealthExpectancy(int age, int scenario,
+	public double[][] calculateCohortHealthExpectancy(int age, int scenario,
 			int disease) {
 
 		double HLE[][] = new double[2][2];

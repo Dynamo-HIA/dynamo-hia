@@ -647,7 +647,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				int ageAtStart = (int) Math.round(((Float) individual.get(1)
 						.getValue(0)));
 
-				int nSteps = 105 - ageAtStart;
+				int nSteps = 105 - ageAtStart+1;
 				if (ageAtStart < 0)
 					nSteps = this.stepsInRun + 1;
 

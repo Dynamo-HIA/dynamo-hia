@@ -1496,7 +1496,7 @@ public class ModelParameters {
 							// end loop over all individuals
 							double oldValue = this.baselinePrevalenceOdds[age][sex][Ndd];
 							if (age == 0)
-								log.fatal("or loop " + nIter
+								log.debug("or loop " + nIter
 										+ " sumPrevCurrent = " + sumPrevCurrent
 										+ "  oldvalue: " + oldValue);
 							this.baselinePrevalenceOdds[age][sex][Ndd] = oldValue
@@ -2106,9 +2106,26 @@ public class ModelParameters {
 							 *
 							 */
 							
+
+							
 							sumAbilityFromDiseases+= weight[i]*abilityFromDiseases[i];
-					
-			
+								
+
+								
+
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+								
+							
 						} else {
 						abilityFromOtherCauses[i] = abilityFromRiskFactor[i]
 								/ abilityFromDiseases[i];
@@ -2959,13 +2976,13 @@ public class ModelParameters {
 		if (age == 0 && sex == 0)
 			this.log.debug("begin loop 5");
 		if (age == 0 && sex == 0) {
-			this.log.fatal("baseline ability for age 0, sex 0 : "
+			this.log.fatal("\nbaseline ability for age 0, sex 0 : "
 					+ this.baselineAbility[age][sex]);
 			if (this.riskType != 2)
-				this.log.fatal("RR category 2 : "
+				this.log.fatal("\nand  RR ability for category 2 : "
 						+ this.riskFactorAbilityRRcat[age][sex][1]);
 			else
-				this.log.fatal("\nRR  "
+				this.log.fatal("\nand RR ability :"
 						+ this.riskFactorAbilityRRcont[age][sex]);
 		}
 		// fifth loop over all persons i to calculate sum of RR other
@@ -3004,7 +3021,7 @@ public class ModelParameters {
 		if (baselineOtherMortality2 != 0)
 			if ((Math.abs(baselineOtherMortality2
 					- this.baselineOtherMortality[age][sex])
-					/ baselineOtherMortality2 > 0.00001))
+					/ baselineOtherMortality2 > 0.001))
 				this.log
 						.fatal("different baseline mortalities calculated after calibration nl "
 								+ baselineOtherMortality2
