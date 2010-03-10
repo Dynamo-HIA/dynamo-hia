@@ -901,7 +901,7 @@ public class ModelParameters {
 			displayWarningMessage(
 					"100% of the initial population has the same duration"
 							+ ". \nTherefore"
-							+ " it is not possilible to estimate a time dependent other mortality or "
+							+ " it is not possible to estimate a time dependent other mortality or "
 							+ "other disability."
 							+ "\nIn case other mortality/disability is requested, those relative risks will be made constant over time"
 							+ "\nThis warning is give for age "
