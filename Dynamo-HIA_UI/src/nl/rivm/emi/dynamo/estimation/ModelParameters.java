@@ -737,11 +737,11 @@ public class ModelParameters {
 		boolean withRRdisability = inputData.isWithRRForDisability();
 		if (withRRdisability && nWarningRRdis == 0) {
 			displayWarningMessage(
-					"RR for disability is implemented but not yet tested, so program might crash",
+					"RR for disability is not yet implemented, so program ignores this RR",
 					dsi);
 			nWarningRRdis++;
+			withRRdisability=false;
 		}
-		double log2 = Math.log(2.0); // keep outside loops to prevent
 		// recalculation
 		/* put prevalence also in a single array for easy access */
 		float[] excessMortality = new float[nDiseases];
