@@ -71,7 +71,8 @@ public class CharacteristicsConfigurationMapSingleton extends
 		Set keySet = this.keySet();
 		Iterator iterator = keySet.iterator();
 		while(iterator.hasNext()){
-			remove(iterator.next());
+			iterator.next();
+			iterator.remove();
 		}
 	}
 	public String humanReadableReport(){

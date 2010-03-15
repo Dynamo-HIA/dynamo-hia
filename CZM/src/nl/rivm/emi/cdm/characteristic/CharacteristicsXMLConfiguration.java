@@ -69,10 +69,12 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 	private CharacteristicsConfigurationMapSingleton populateSingleton()
 			throws ConfigurationException {
 		CharacteristicsConfigurationMapSingleton singleton = null;
+		
 		List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
 		if (characteristicConfigurations.size() > 0) {
 			// The XML contains at least one Characteristic-tag.
 			singleton = CharacteristicsConfigurationMapSingleton.getInstance();
+			singleton.clear();
 			if (singleton.isEmpty()) {
 				Iterator<HierarchicalConfiguration> characteristicConfigurationsIterator = characteristicConfigurations
 						.iterator();
