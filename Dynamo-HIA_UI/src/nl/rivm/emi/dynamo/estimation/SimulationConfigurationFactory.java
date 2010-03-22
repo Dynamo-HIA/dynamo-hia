@@ -286,7 +286,7 @@ public class SimulationConfigurationFactory {
 				// random seeds meegeven: dat gaat nu per persoon dus niet
 				// meer nodig
 				writeFinalElementToDom(rootElement, "randomSeed",
-						((Integer) scenInfo.getRandomSeed()).toString());
+						((Long) scenInfo.getRandomSeed()).toString());
 				document.appendChild(rootElement);
 				writeDomToXML(ConfigXMLfileName, document);
 

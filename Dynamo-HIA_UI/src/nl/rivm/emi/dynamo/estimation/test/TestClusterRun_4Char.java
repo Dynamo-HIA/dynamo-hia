@@ -113,8 +113,8 @@ public class TestClusterRun_4Char {
 		try {
 			Simulation sim;
 			log.fatal("Starting manufacturing initial population.");
-			InitialPopulationFactory E2 = new InitialPopulationFactory(baseDir, null);
-			E2.writeInitialPopulation(p, 10, simName, 1111, false, null);
+	//		InitialPopulationFactory E2 = new InitialPopulationFactory(baseDir, null);
+	//		E2.writeInitialPopulation(p, 10, simName, 1111, false, null);
 			log.fatal("Starting run.");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);

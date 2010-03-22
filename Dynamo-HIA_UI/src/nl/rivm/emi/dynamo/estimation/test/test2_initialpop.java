@@ -43,8 +43,8 @@ public void test() {
 		InputData testdata = new InputData();
 		testdata.makeTest1Data();
 		E1.estimateModelParameters(100,testdata, null);
-		InitialPopulationFactory E2=new InitialPopulationFactory(baseDir, null);
-		E2.manufactureInitialPopulation(E1,"simname",10, 111,true, null);
+	//	InitialPopulationFactory E2=new InitialPopulationFactory(baseDir, null);
+	//	E2.manufactureInitialPopulation(E1,"simname",10, 111,true, null);
 		// test weighted regression
 
 		

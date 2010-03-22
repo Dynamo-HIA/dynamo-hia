@@ -25,7 +25,7 @@ public class ScenarioInfo {
 	private int yearsInRun;
 	private int startYear;
 	private int newbornStartYear;
-	private int randomSeed;
+	private long randomSeed;
 
 	private int nScenarios = 1;
 	// nScenarios give the number of alternative scenario's (the baseline
@@ -103,6 +103,9 @@ public class ScenarioInfo {
 
 
 
+	/**
+	 * firstOneForAllPopScenario : -3 if not initialized, and -1 if no OneForAll population is present
+	 */
 	private int firstOneForAllPopScenario = -3;
 	private boolean[] thisScenarioUsedOneForAllPop;
 
@@ -186,8 +189,9 @@ public class ScenarioInfo {
 	}
 
 	/**
+	 * gets number of populations and sets all the indicator variables
 	 * 
-	 * @return number of populations
+	 * @return number of populations 
 	 */
 	public int getNPopulations() {
 
@@ -754,8 +758,12 @@ public class ScenarioInfo {
 		this.minSimAge = minSimAge;
 	}
 
-	public int getRandomSeed() {
+	public long getRandomSeed() {
 		return randomSeed;
+	}
+
+	public void setRandomSeed(long randomSeed) {
+		this.randomSeed = randomSeed;
 	}
 
 	public void setRandomSeed(int randomSeed) {

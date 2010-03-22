@@ -32,13 +32,41 @@ public class InitialPopulationFactory {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private int numberOfElements;
 	private String globalBaseDir;
-	private boolean incidenceDebug = false;
+	private boolean incidenceDebug = true;
 	// private Shell parentShell;
 	private DynSimRunPRInterface dsi = null;
-	// private ProgressBar bar = null;
+	//private ProgressBar bar = null;
 	private ProgressIndicatorInterface progressbar = null;
 	private float[][][][][] prevalenceTransitionMatrix = null;
 	private int riskType = 0;
+	private int nClasses = 0;
+
+	int nSim = 50;
+
+	/* in case of debugging, more elements are needed */
+
+	int[][] nDuurClasses = new int[96][2];
+
+	int[][] nSimNew = new int[96][2];
+
+	Random rand; // used to draw the initial population
+	MTRand rand2; /*
+				 * used to generate seeds which are entered as information with
+				 * each generated individual, and will be used by the update
+				 * rules // TODO inlezen baseDir aanpassen aan userinterface
+				 */
+	Random rand3; // used to draw the scenario population
+	// here the seed is reset by hand, so it does not matter that it used
+	// the same seed here
+	/* make a table of point from the inverse normal distribution */
+	private int nPopulations;
+	private int numberOfTheOneForAllPop;
+	private boolean isAtLeastOneAllForOnePopulation;
+	private boolean[][][][] shouldChangeInto;
+	private int individualNumber;
+	private boolean[] isOneForAllPopulation;
+	private ModelParameters parameters;
+	private ScenarioInfo scenarioInfo;
 
 	/* indexes are: scenario, age ,sex, transitionmatrix */
 
@@ -47,16 +75,27 @@ public class InitialPopulationFactory {
 	/**
 	 * @author Boshuizh This class generates the initial population and
 	 *         populations of newborns
-	 * @param shell
+	 * 
 	 */
-	public InitialPopulationFactory(String baseDir,/* Shell shell */
-	DynSimRunPRInterface dsi) {
-		this.globalBaseDir = baseDir;
+	/**
+	 * @param params: modelparameters
+	 * @param scenInfo: scenario Info object
+	 */
+	public InitialPopulationFactory(ModelParameters params,
+			
+			ScenarioInfo scenInfo,DynSimRunPRInterface dsi)
+	 {
+		
+		initializeInitialPopulationFactory( params,
+				
+				 scenInfo) ;
 		// this.parentShell = shell;
 		this.dsi = dsi;
 	}
 
 	/**
+	 * OBSOLETE and does not work anymore
+	 * 
 	 * @param parameters
 	 * @param nSim
 	 * @param simulationName
@@ -73,8 +112,7 @@ public class InitialPopulationFactory {
 			String simulationName, long seed, boolean newborns,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
 
-		Population[] pop = manufactureInitialPopulation(parameters,
-				simulationName, nSim, seed, newborns, scenarioInfo);
+		Population[] pop = null;// manufactureInitialPopulation();
 
 		String baseDir = this.globalBaseDir;
 		String directoryName = baseDir + File.separator + "Simulations\\"
@@ -165,9 +203,9 @@ public class InitialPopulationFactory {
 	 *            ; object with scenario information
 	 * @return
 	 */
-	public Population[] manufactureInitialPopulation(
-			ModelParameters parameters, String simulationName, int nSim,
-			long seed, boolean newborns, ScenarioInfo scenarioInfo) {
+	public void initializeInitialPopulationFactory(ModelParameters params,
+			
+			ScenarioInfo scenInfo) {
 
 		/*
 		 * at this moment:
@@ -176,48 +214,36 @@ public class InitialPopulationFactory {
 		 * once for the newborns
 		 */
 		/* Make some indexes that are needed */
-
+		this.parameters = params;
+		this.scenarioInfo = scenInfo;
 		this.numberOfElements = getNumberOfDiseaseStateElements(parameters);
 		/* in case of debugging, more elements are needed */
 		if (this.incidenceDebug)
 			this.numberOfElements += parameters.getNDiseases();
-		int nClasses = 1;
-		
+		this.nClasses = 1;
 		this.riskType = parameters.getRiskType();
 		if (this.riskType != 2)
-			nClasses = parameters.getPrevRisk()[0][0].length;
-		int[][] nDuurClasses = new int[96][2];
-		int[] cumulativeNSimPerClass;
-		int[] nSimPerClass;
-		int[] nSimPerDurationClass;
-		int[] cumulativeNSimPerDurationClass;
-		float[] rest;
-		float[] restDuration;
-		int currentRiskValue = 0;
-		int[][] nSimNew = new int[96][2];
-
-		Random rand = new Random(seed); // used to draw the initial population
-		MTRand rand2 = new MTRand(seed + 111777444); /*
-													 * used to generate seeds
-													 * which are entered as
-													 * information with each
-													 * generated individual, and
-													 * will be used by the
-													 * update rules // TODO
-													 * inlezen baseDir aanpassen
-													 * aan userinterface
-													 */
-		Random rand3 = new Random(seed); // used to draw the scenario population
+			this.nClasses = parameters.getPrevRisk()[0][0].length;
+		long seed = scenInfo.getRandomSeed();
+		this.nSim = scenInfo.getSimPopSize();
+		rand = new Random(seed); // used to draw the initial population
+		rand2 = new MTRand(seed + 111777444); /*
+											 * used to generate seeds which are
+											 * entered as information with each
+											 * generated individual, and will be
+											 * used by the update rules // TODO
+											 * inlezen baseDir aanpassen aan
+											 * userinterface
+											 */
+		rand3 = new Random(seed); // used to draw the scenario population
 		// here the seed is reset by hand, so it does not matter that it used
 		// the same seed here
 		/* make a table of point from the inverse normal distribution */
 		if (parameters.getRiskType() == 2 && nSim == 0) {
-			nSim = 50;
+			this.nSim = 50;
 			log.fatal(" zero simulated group size  asked for"
 					+ " continuous riskfactor; this is changed into 50 ");
 		}
-		if (parameters.getRiskType() == 2)
-			DynamoLib.getInstance(nSim);
 
 		/*
 		 * calculate the number of populations that should be generated
@@ -229,69 +255,48 @@ public class InitialPopulationFactory {
 		 * all subjects that are potentially changed under each scenario.
 		 */
 
-		int nPopulations = scenarioInfo.getNPopulations();
+		this.nPopulations = scenarioInfo.getNPopulations();
 		/*
 		 * numberOfOneForAllPop = the number of the population that contains the
 		 * one for all scenario
 		 */
-		int numberOfTheOneForAllPop = scenarioInfo
+		this.numberOfTheOneForAllPop = scenarioInfo
 				.getFirstOneForAllPopScenario() + 1;
 
-		boolean isAtLeastOneAllForOnePopulation = false;
+		this.isAtLeastOneAllForOnePopulation = false;
 		if (numberOfTheOneForAllPop > 0)
 			isAtLeastOneAllForOnePopulation = true;
-		boolean[] isOneForAllPopulation = scenarioInfo
-				.getthisScenarioUsedOneForAllPop();
+		isOneForAllPopulation = scenarioInfo.getthisScenarioUsedOneForAllPop();
 
 		/* add the one-for-all-scenario that still needs to be simulated */
 		if (scenarioInfo.getNTranstionScenarios() != 0
 				&& scenarioInfo.getRiskType() != 2)
 			makeTransitionMatrixForPrevalence(parameters, scenarioInfo);
 
-		Population[] initialPopulation = new Population[nPopulations];
 		/* initialize the ranges for the populations to generate */
 
-		int agemax = scenarioInfo.getMaxSimAge();
-		if (agemax > 95)
-			agemax = 95;
-		if (newborns)
-			agemax = 0;
-		int agemin = scenarioInfo.getMinSimAge();
-		if (newborns)
-			agemin = 0;
-		if (newborns)
-			agemax = 0;
-		if (this.progressbar == null) {
-			if (scenarioInfo.isWithNewBorns()) {
-				makeProgressBar(scenarioInfo.getYearsInRun()
-						+ scenarioInfo.getMaxSimAge()
-						- scenarioInfo.getMinSimAge() + 3);
-			} else {
-				makeProgressBar(scenarioInfo.getMaxSimAge()
-						- scenarioInfo.getMinSimAge());
-
-			}
-		}
-		for (int scen = 0; scen < nPopulations; scen++) {
-			initialPopulation[scen] = new Population(simulationName, null);
-		}
 		/*
 		 * see which riskfactor classes should be changed into another class in
 		 * the one-for-all scenario population
 		 */
-
-		boolean[][][][] shouldChangeInto = null;
+		int agemax = scenarioInfo.getMaxSimAge();
+		if (agemax > 95)
+			agemax = 95;
+		int agemin = scenarioInfo.getMinSimAge();
+		
 		if (isAtLeastOneAllForOnePopulation) {
 			int nCat = parameters.getPrevRisk()[0][0].length;
 			float[] RR = new float[nCat];
-			shouldChangeInto = new boolean[agemax + 1][2][nCat][nCat];
+
 			// initialize arrays;
 			Arrays.fill(RR, 1);
+
+			this.shouldChangeInto = new boolean[agemax + 1][2][nCat][nCat];
 			for (int a = agemin; a < agemax + 1; a++)
 				for (int g = 0; g < 2; g++)
 					for (int r1 = 0; r1 < nCat; r1++)
 						for (int r2 = 0; r2 < nCat; r2++)
-							shouldChangeInto[a][g][r1][r2] = false;
+							this.shouldChangeInto[a][g][r1][r2] = false;
 
 			for (int a = agemin; a < agemax + 1; a++)
 				for (int g = 0; g < 2; g++)
@@ -316,9 +321,6 @@ public class InitialPopulationFactory {
 		 * a new cohort of newborns is generated for each step in the
 		 * simulation, the existing population needs to be generated only once
 		 */
-		int generationMax = 1;
-		if (newborns)
-			generationMax = scenarioInfo.getYearsInRun();
 
 		/* count the number of duration categories in each age class */
 		if (parameters.getRiskType() == 3) {
@@ -327,30 +329,65 @@ public class InitialPopulationFactory {
 					nDuurClasses[a][g] = parameters.getDuurFreq()[a][g].length;
 				}
 		}
-		
-		
-		
-		int individualNumber = 0;
+
+		individualNumber = 0;
+	}
+
+	/**
+	 * @param agemin; 0 for newborns
+	 * @param agemax; 0 for newborns
+	 * @param gmin
+	 *            : minimum gender index (0 or 1)
+	 * @param gmax
+	 *            : maximum gender index (0 or 1)
+	 * @param generationMin
+	 *            for newborns: 1 <= generationMin <=
+	 *            scenarioInfo.getYearsInRun()
+	 * @param generationMax
+	 *            for newborns: 1 <= generationMax <=
+	 *            scenarioInfo.getYearsInRun(); Not newborns: both are 1;
+	 * @param newborns
+	 * @return
+	 */
+	public Population[] manufactureInitialPopulation(int agemin, int agemax,
+			int gmin, int gmax,
+
+			int generationMin, int generationMax, boolean newborns) {
+
+		Population[] initialPopulation = new Population[nPopulations];
+		for (int scen = 0; scen < nPopulations; scen++) {
+			initialPopulation[scen] = new Population("Population nr " + scen,
+					null);
+		}
+
+		int[] cumulativeNSimPerClass;
+		int[] nSimPerClass;
+		int[] nSimPerDurationClass;
+		int[] cumulativeNSimPerDurationClass;
+		float[] rest;
+		float[] restDuration;
+		int currentRiskValue = 0;
 		/* this is the number of the Individual */
 		/*
-		 * as newborns are created separately, they have negative
-		 * numbers, starting at -1
+		 * as newborns are created separately, they have negative numbers,
+		 * starting at -1
 		 */
 		/* others have positive numbers, starting at +1 */
-
+		if (parameters.getRiskType() == 2)
+			DynamoLib.getInstance(nSim);
 		for (int a = agemin; a <= agemax; a++)
-			for (int g = 0; g < 2; g++) {
-				
+			for (int g = gmin; g <= gmax; g++) {
+
 				/*
-				 * calculate first the numbers that will be in each riskfactor class. See the
-				 * document "description of calculations" on
-				 * Q:/projecten/emi-dynamohia/description of calculations/ for the
-				 * method used
+				 * calculate first the numbers that will be in each riskfactor
+				 * class. See the document "description of calculations" on
+				 * Q:/projecten/emi-dynamohia/description of calculations/ for
+				 * the method used
 				 */
 				nSimNew[a][g] = nSim;
-				if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
+			/*	if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
 
-					updateProgressBar();
+					updateProgressBar(); */
 
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
@@ -593,18 +630,18 @@ public class InitialPopulationFactory {
 				 * give the maximum number of times that they will be updated.
 				 * This is given by the variable stepsInSimulation
 				 */
-			
+
 				int stepsInSimulation = 105 - a;
 				if (newborns)
 					stepsInSimulation = scenarioInfo.getYearsInRun();
 
 				/* for newborns repeat this for all generations */
-				for (int generation = 1; generation <= generationMax; generation++) {
-					if (Math.abs(Math.round(generation / 10)
+				for (int generation = generationMin; generation <= generationMax; generation++) {
+		/*			if (Math.abs(Math.round(generation / 10)
 							- ((float) generation) / 10) < 0.01
 							&& g == 1)
 
-						updateProgressBar();
+						updateProgressBar(); */
 					for (int i = 0; i < nSimNew[a][g]; i++) {
 						/*
 						 * werktte niet omdat Class Individual protected;
@@ -899,9 +936,11 @@ public class InitialPopulationFactory {
 																		 * population
 																		 */
 									currentpop++;
-							/* find the next scenario that is not a 1 for all scenario, and also not a
-							 * scenario that is copied later	
-							 */
+								/*
+								 * find the next scenario that is not a 1 for
+								 * all scenario, and also not a scenario that is
+								 * copied later
+								 */
 								if (!isOneForAllPopulation[i1]
 										&& scenarioInfo
 												.getInitialPrevalenceType()[i1]) {
@@ -909,16 +948,17 @@ public class InitialPopulationFactory {
 									found = true;
 									break;
 								}
-							/* if scenario has same initial pop, it is just copied from the reference scenario,
-							 * This is done later, so we have to skip filling the population here 	
-							 */
+								/*
+								 * if scenario has same initial pop, it is just
+								 * copied from the reference scenario, This is
+								 * done later, so we have to skip filling the
+								 * population here
+								 */
 								if (!isOneForAllPopulation[i1]
-															&& !scenarioInfo
-																	.getInitialPrevalenceType()[i1]) 
-														currentpop++;
-														
-													
-								
+										&& !scenarioInfo
+												.getInitialPrevalenceType()[i1])
+									currentpop++;
+
 								/* if no such scenario is found */
 
 							}
@@ -1245,8 +1285,8 @@ public class InitialPopulationFactory {
 
 			}
 		}
-		if (newborns || !scenarioInfo.isWithNewBorns())
-			closeProgressBar();
+	/*	if (newborns || !scenarioInfo.isWithNewBorns())
+			closeProgressBar(); */
 		return initialPopulation;
 	}
 
@@ -1600,7 +1640,7 @@ public class InitialPopulationFactory {
 	 * @param parameters
 	 * @return
 	 */
-	private int getNumberOfDiseaseStateElements(ModelParameters parameters) {
+	int getNumberOfDiseaseStateElements(ModelParameters parameters) {
 		int numberOfElements = 1;
 
 		for (int c = 0; c < parameters.getNCluster(); c++) {
@@ -1679,6 +1719,7 @@ public class InitialPopulationFactory {
 		// this.bar.setSelection(0);
 		progressbar.update(0);
 	}
+
 
 	public void updateProgressBar() {
 

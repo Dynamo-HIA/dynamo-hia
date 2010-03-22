@@ -205,37 +205,8 @@ public class ModelParameters {
 		this.log.debug("CharacteristicsConfigurationFile written ");
 		s.manufactureUpdateRuleConfigurationFiles(this, scenInfo);
 		this.log.debug("UpdateRuleConfigurationFile written ");
-
-		/** * 4. write the initial population file for all scenarios */
-
-		InitialPopulationFactory popFactory = new InitialPopulationFactory(
-				this.globalBaseDir, /* this.parentShell */dsi);
-		int seed = config.getRandomSeed();
-		int nSim = config.getSimPopSize();
-
-		this.initialPopulation = popFactory.manufactureInitialPopulation(this,
-				simulationName, nSim, seed, false, scenInfo);
-		/*
-		 * : obsolete: write popFactory.writeInitialPopulation(this, nSim,
-		 * simulationName, seed, false, scenInfo);
-		 */
-		/** * 5. writes a population of newborns */
-
-		if (scenInfo.isWithNewBorns()) {
-			Population[] newborns = popFactory.manufactureInitialPopulation(
-					this, simulationName, nSim, seed, true, scenInfo);
-
-			/*
-			 * : obsolete: write if (scenInfo.isWithNewBorns())
-			 * popFactory.writeInitialPopulation(this, nSim, simulationName,
-			 * seed, true, scenInfo);
-			 */
-			for (int p = 0; p < this.initialPopulation.length; p++) {
-				newborns[p].addAll(this.initialPopulation[p]);
-				this.initialPopulation[p] = newborns[p];
-				// initialPopulation[p].addAll(newborns[p]);
-			}
-		}
+   
+	
 		return scenInfo;
 
 	}
@@ -737,11 +708,11 @@ public class ModelParameters {
 		boolean withRRdisability = inputData.isWithRRForDisability();
 		if (withRRdisability && nWarningRRdis == 0) {
 			displayWarningMessage(
-					"RR for disability is not yet implemented, so program ignores this RR",
+					"RR for disability is implemented but not yet tested, so program might crash",
 					dsi);
 			nWarningRRdis++;
-			withRRdisability=false;
 		}
+		double log2 = Math.log(2.0); // keep outside loops to prevent
 		// recalculation
 		/* put prevalence also in a single array for easy access */
 		float[] excessMortality = new float[nDiseases];
@@ -901,7 +872,7 @@ public class ModelParameters {
 			displayWarningMessage(
 					"100% of the initial population has the same duration"
 							+ ". \nTherefore"
-							+ " it is not possible to estimate a time dependent other mortality or "
+							+ " it is not possilible to estimate a time dependent other mortality or "
 							+ "other disability."
 							+ "\nIn case other mortality/disability is requested, those relative risks will be made constant over time"
 							+ "\nThis warning is give for age "
@@ -2675,7 +2646,7 @@ public class ModelParameters {
 			displayWarningMessage("negative other mortality  in  "
 					+ (nNegativeOtherMort * 100) + " % of simulated cases"
 					+ " for age " + age + " and gender " + sex
-					+ "\no more warnings of this kind will be generated for"
+					+ "\nno more warnings of this kind will be generated for "
 					+ "other age and gender groups", dsi);
 		}
 		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
