@@ -366,7 +366,7 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 			throws ConfigurationException {
 		try {
 			String fileName = simulationConfiguration
-					.getString(meanDriftFileNameLabel);
+					.getString(offsetDriftFileNameLabel);
 			log.debug("Setting offsetDriftFileName to " + fileName);
 			setOffsetDriftFileName(fileName);
 		} catch (NoSuchElementException e) {
