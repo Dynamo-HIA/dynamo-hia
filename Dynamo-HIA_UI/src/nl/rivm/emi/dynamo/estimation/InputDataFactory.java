@@ -1101,12 +1101,12 @@ public class InputDataFactory {
 							.manufactureOneDimArrayFromTreeLayeredXML(
 									completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalences", "prevalence",
-									"standarddeviation", true), this.factory
+									"prevalences", "prevalence","mean"
+									, true), this.factory
 							.manufactureOneDimArrayFromTreeLayeredXML(
 									completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalences", "prevalence", "mean", true),
+									"prevalences", "prevalence","standarddeviation", true),
 							this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											completePrevFileName,
@@ -1748,6 +1748,7 @@ public class InputDataFactory {
 									"transitionmatrix", "transition", "from",
 									"to", "percent"));
 					
+					
 				}
 
 				else if (scenInfo != null)
@@ -1842,6 +1843,8 @@ public class InputDataFactory {
 											.getRootElementName());
 		}
 	}
+
+
 
 	/**
 	 * This method adds the disease info from the input XML files to the objects

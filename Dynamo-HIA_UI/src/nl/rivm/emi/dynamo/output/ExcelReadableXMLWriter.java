@@ -24,54 +24,119 @@ import org.apache.commons.logging.LogFactory;
  * @author boshuizh
  * 
  */
-public class ExcelReadableXMLWriter  {
+public class ExcelReadableXMLWriter {
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
 
 	/* object with the output data */
 	private CDMOutputFactory output;
-	
-	private ScenarioParameters params; 
-	
-	private boolean details=false;
+
+	private ScenarioParameters params;
+
+	private boolean details = false;
+
+	private double NDaly[][][][][];
+	private double NDisease[][][][][];
+	private double NOriDaly[][][][][];
+	private double NoriDisease[][][][][];
 
 	public boolean isDetails() {
 		return details;
 	}
+
 	public void setDetails(boolean details) {
 		this.details = details;
 	}
+
 	/**
 	 * 
 	 * 
 	 * 
-	 * The constructor initializes the fields (arrays with all values==0), including the object that contais
-	 * the output data and the object that holds the current successrate values
+	 * The constructor initializes the fields (arrays with all values==0),
+	 * including the object that contais the output data and the object that
+	 * holds the current successrate values
 	 * 
-	
-	 * @param outputFactory:  object with aggregated output of the model
-	 * @param scenParams:  object with the successrate etc of the scenarios
+	 * 
+	 * @param outputFactory
+	 *            : object with aggregated output of the model
+	 * @param scenParams
+	 *            : object with the successrate etc of the scenarios
 	 * @throws DynamoScenarioException
 	 * @throws DynamoOutputException
 	 */
-	public ExcelReadableXMLWriter(CDMOutputFactory outputFactory, ScenarioParameters scenParams )
-	{
+	public ExcelReadableXMLWriter(CDMOutputFactory outputFactory,
+			ScenarioParameters scenParams) {
 		this.output = outputFactory;
-		this.params=scenParams;
+		this.params = scenParams;
+		makeDALYArrays();
+		makeDiseaseArrays();
 		/*
 		 * copy the information from scenInfo into the current object (as
 		 * fields)
 		 */
 
 	}
+
+	private void makeDiseaseArrays() {
+
+		
+		NoriDisease=new double [this.output.nScen + 1][this.output.nDim][this.output.nRiskFactorClasses][this.output.maxAgeInSimulation + 1][2];
+		NDisease=new double [this.output.nScen + 1][this.output.stepsInRun+1][this.output.nRiskFactorClasses][96+ this.output.stepsInRun][2];
+		
+		double[][][][][] nOriPop = this.output.getNPopByOriRiskClassByOriAge();
+
+		double[][][][][] probTotOriDisease = this.output
+				.getPTotalDiseaseByOriRiskClassByOriAge();
+		for (int scen = 0; scen < this.output.nScen + 1; scen++)
+			for (int stepCount = 0; stepCount < this.output.nDim; stepCount++)
+				for (int a = Math.max(0,this.output.minAgeInSimulation); a < this.output.maxAgeInSimulation + 1; a++)
+					for (int s = 0; s <= 1; s++)
+						for (int r = 0; r < this.output.nRiskFactorClasses; r++) {
+							NoriDisease[scen][stepCount][r][a][s] = nOriPop[scen][stepCount][r][a][s]
+									* probTotOriDisease[scen][stepCount][r][a][s];
+
+						}
+		for (int r = 0; r < this.output.nRiskFactorClasses; r++)
+			for (int scen = 0; scen < this.output.nScen + 1; scen++)
+				for (int a = 0; a < 96 + this.output.stepsInRun; a++)
+					for (int g = 0; g < 2; g++)
+						for (int stepCount = 0; stepCount < this.output.stepsInRun + 1; stepCount++)
+
+							NDisease[scen][stepCount][r][a][g] += output.nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									* output.getPDisabilityByRiskClassByAge()[scen][stepCount][r][a][g];
+
+	}
+
+	private void makeDALYArrays() {
+		NDaly = this.output.getNDisabledByRiskClassByAge();
+		NOriDaly=new double [this.output.nScen + 1][this.output.nDim][this.output.nRiskFactorClasses][this.output.maxAgeInSimulation + 1][2];
+		
+		for (int scen = 0; scen < this.output.nScen + 1; scen++)
+			for (int stepCount = 0; stepCount < this.output.nDim; stepCount++)
+				for (int a = Math.max(0,this.output.minAgeInSimulation); a < this.output.maxAgeInSimulation + 1; a++)
+					for (int s = 0; s <= 1; s++)
+						for (int r = 0; r < this.output.nRiskFactorClasses; r++){
+						//	log.fatal(" scen a s r"+scen+" "+a+" "+s+" "+r);
+							NOriDaly[scen][stepCount][r][a][s] = this.output
+									.getNPopByOriRiskClassByOriAge()[scen][stepCount][r][a][s]
+									* this.output
+											.getPDisabilityByOriRiskClassByOriAge()[scen][stepCount][r][a][s];
+						}
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * makes a array of mortality by scenario, year, age and sex It is not
 	 * possible to do so also by riskfactor or by disease In order to do so,
 	 * this should be included as state in the update rule
 	 * 
-	 * @param numbers (boolean) : if true returns numbers, otherwise rates
-	 * @param riskFactor : value of the riskfactor ; -1= total mortality (irrespective of risk factor)
-	 * @return array of mortality by  scenario, year, age and sex 
+	 * @param numbers
+	 *            (boolean) : if true returns numbers, otherwise rates
+	 * @param riskFactor
+	 *            : value of the riskfactor ; -1= total mortality (irrespective
+	 *            of risk factor)
+	 * @return array of mortality by scenario, year, age and sex
 	 */
 	public double[][][][] getMortality(boolean numbers, int riskFactor) {
 		double[][][][] mortality = null;
@@ -97,15 +162,17 @@ public class ExcelReadableXMLWriter  {
 							double nominator = 0;
 							double personsAtnextAge = 0;
 							for (int r = loopBegin; r < loopEnd; r++) {
-								denominator += this.params.applySuccesrate(
-										this.output.nPopByRiskClassByAge[0][stepCount][r][a][g],
-										this.output.nPopByRiskClassByAge[scen][stepCount][r][a][g],
-										scen, stepCount, a, g);
+								denominator += this.params
+										.applySuccesrate(
+												this.output.nPopByRiskClassByAge[0][stepCount][r][a][g],
+												this.output.nPopByRiskClassByAge[scen][stepCount][r][a][g],
+												scen, stepCount, a, g);
 
-								personsAtnextAge += this.params.applySuccesrate(
-										this.output.nPopByRiskClassByAge[0][stepCount + 1][r][a + 1][g],
-										this.output.nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g],
-										scen, stepCount + 1, a + 1, g);
+								personsAtnextAge += this.params
+										.applySuccesrate(
+												this.output.nPopByRiskClassByAge[0][stepCount + 1][r][a + 1][g],
+												this.output.nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g],
+												scen, stepCount + 1, a + 1, g);
 							}
 							nominator = denominator - personsAtnextAge;
 
@@ -209,13 +276,15 @@ public class ExcelReadableXMLWriter  {
 		/* make one worksheet per calendar year */
 		for (int year = 0; year < this.output.stepsInRun + 1; year++) {
 			writer.writeStartElement("Worksheet");
-			writer.writeAttribute("ss:Name", "year " + (this.output.startYear + year));
+			writer.writeAttribute("ss:Name", "year "
+					+ (this.output.startYear + year));
 			writer.writeStartElement("Table");
 			writer.writeStartElement("Row");
 			/* write column headings */
 
 			/* risk factor info */
-			if (this.output.riskType == 1 || this.output.riskType == 3 || this.output.categorized) {
+			if (this.output.riskType == 1 || this.output.riskType == 3
+					|| this.output.categorized) {
 				writeCell(writer, "riskClass");
 			} else {
 				writeCell(writer, "mean_riskFactor");
@@ -258,6 +327,8 @@ public class ExcelReadableXMLWriter  {
 
 				}
 			}
+			writeCell(writer, "disability");
+			writeCell(writer, "with disease");
 			writer.writeEndElement();// </row>
 
 			/* write the data */
@@ -297,14 +368,19 @@ public class ExcelReadableXMLWriter  {
 							numbersScen = new double[this.output.nRiskFactorClasses];
 							for (int r = 0; r < this.output.nRiskFactorClasses; r++) {
 
-								toByAveragedRef[r] = this.output.getMeanRiskByRiskClassByAge()[0][year][rClass][a][sex];
-								toByAveragedScen[r] = this.output.getMeanRiskByRiskClassByAge()[thisScen][year][rClass][a][sex];
-								numbersRef[r] = this.output.getNPopByRiskClassByAge()[0][year][rClass][a][sex];
-								numbersScen[r] = this.output.getNPopByRiskClassByAge()[thisScen][year][rClass][a][sex];
+								toByAveragedRef[r] = this.output
+										.getMeanRiskByRiskClassByAge()[0][year][rClass][a][sex];
+								toByAveragedScen[r] = this.output
+										.getMeanRiskByRiskClassByAge()[thisScen][year][rClass][a][sex];
+								numbersRef[r] = this.output
+										.getNPopByRiskClassByAge()[0][year][rClass][a][sex];
+								numbersScen[r] = this.output
+										.getNPopByRiskClassByAge()[thisScen][year][rClass][a][sex];
 							}
-							mean = this.params.applySuccesrateToMean(toByAveragedRef,
-									toByAveragedScen, numbersRef, numbersScen,
-									thisScen, year, a, sex);
+							mean = this.params.applySuccesrateToMean(
+									toByAveragedRef, toByAveragedScen,
+									numbersRef, numbersScen, thisScen, year, a,
+									sex);
 
 						} else {
 							toByAveragedRef = new double[this.output.nRiskFactorClasses * 2];
@@ -319,12 +395,15 @@ public class ExcelReadableXMLWriter  {
 											* this.output.nRiskFactorClasses] = this.output.meanRiskByRiskClassByAge[0][year][rClass][a][s];
 									toByAveragedScen[r + s
 											* this.output.nRiskFactorClasses] = this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a][s];
-									numbersRef[r + s * this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[0][year][rClass][a][s];
-									numbersScen[r + s * this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][s];
+									numbersRef[r + s
+											* this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[0][year][rClass][a][s];
+									numbersScen[r + s
+											* this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][s];
 								}
-							mean = this.params.applySuccesrateToMean(toByAveragedRef,
-									toByAveragedScen, numbersRef, numbersScen,
-									thisScen, year, a, 2);
+							mean = this.params.applySuccesrateToMean(
+									toByAveragedRef, toByAveragedScen,
+									numbersRef, numbersScen, thisScen, year, a,
+									2);
 						}
 
 						writeCell(writer, mean);
@@ -351,20 +430,22 @@ public class ExcelReadableXMLWriter  {
 
 						if (sex < 2) {
 
-							mean = this.params.applySuccesrateToMean(
-									this.output.meanRiskByRiskClassByAge[0][year][rClass][a][sex],
-									this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a][sex],
-									this.output.nPopByRiskClassByAge[0][year][rClass][a][sex],
-									this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
-									thisScen, year, a, sex);
+							mean = this.params
+									.applySuccesrateToMean(
+											this.output.meanRiskByRiskClassByAge[0][year][rClass][a][sex],
+											this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a][sex],
+											this.output.nPopByRiskClassByAge[0][year][rClass][a][sex],
+											this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
+											thisScen, year, a, sex);
 
 						} else {
-							mean = this.params.applySuccesrateToMean(
-									this.output.meanRiskByRiskClassByAge[0][year][rClass][a],
-									this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a],
-									this.output.nPopByRiskClassByAge[0][year][rClass][a],
-									this.output.nPopByRiskClassByAge[thisScen][year][rClass][a],
-									thisScen, year, a, sex);
+							mean = this.params
+									.applySuccesrateToMean(
+											this.output.meanRiskByRiskClassByAge[0][year][rClass][a],
+											this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a],
+											this.output.nPopByRiskClassByAge[0][year][rClass][a],
+											this.output.nPopByRiskClassByAge[thisScen][year][rClass][a],
+											thisScen, year, a, sex);
 
 						}
 
@@ -379,17 +460,19 @@ public class ExcelReadableXMLWriter  {
 					/* write total numbers in group(row) */
 					double data = 0;
 					if (sex < 2) {
-						data = this.params.applySuccesrate(
-								this.output.nPopByRiskClassByAge[0][year][rClass][a][sex],
-								this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
-								thisScen, year, a, sex);
+						data = this.params
+								.applySuccesrate(
+										this.output.nPopByRiskClassByAge[0][year][rClass][a][sex],
+										this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
+										thisScen, year, a, sex);
 
 					} else {
 
-						data = this.params.applySuccesrateToBothGenders(
-								this.output.nPopByRiskClassByAge[0][year][rClass][a],
-								this.output.nPopByRiskClassByAge[thisScen][year][rClass][a],
-								thisScen, year, a);
+						data = this.params
+								.applySuccesrateToBothGenders(
+										this.output.nPopByRiskClassByAge[0][year][rClass][a],
+										this.output.nPopByRiskClassByAge[thisScen][year][rClass][a],
+										thisScen, year, a);
 
 					}
 					writeCell(writer, data);
@@ -403,17 +486,19 @@ public class ExcelReadableXMLWriter  {
 						 */
 						for (int col = 4; col < this.output.nDiseaseStates + 3; col++) {
 							if (sex < 2) {
-								data = this.params.applySuccesrate(
-										this.output.nDiseaseStateByRiskClassByAge[0][year][col - 4][rClass][a][sex],
-										this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
-										thisScen, year, a, sex);
+								data = this.params
+										.applySuccesrate(
+												this.output.nDiseaseStateByRiskClassByAge[0][year][col - 4][rClass][a][sex],
+												this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
+												thisScen, year, a, sex);
 
 							} else {
 
-								data = this.params.applySuccesrateToBothGenders(
-										this.output.nDiseaseStateByRiskClassByAge[0][year][col - 4][rClass][a],
-										this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a],
-										thisScen, year, a);
+								data = this.params
+										.applySuccesrateToBothGenders(
+												this.output.nDiseaseStateByRiskClassByAge[0][year][col - 4][rClass][a],
+												this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a],
+												thisScen, year, a);
 
 							}
 							writeCell(writer, data);
@@ -424,22 +509,25 @@ public class ExcelReadableXMLWriter  {
 							 * diseases
 							 */
 						/* make summary array */
-						double[][][][][][] nDiseaseByRiskClassByAge = this.output.getNDiseaseByRiskClassByAge();
+						double[][][][][][] nDiseaseByRiskClassByAge = this.output
+								.getNDiseaseByRiskClassByAge();
 
 						for (int col = 4; col < this.output.nDiseases + 4; col++) {
 
 							if (sex < 2) {
-								data = this.params.applySuccesrate(
-										nDiseaseByRiskClassByAge[0][year][col - 4][rClass][a][sex],
-										nDiseaseByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
-										thisScen, year, a, sex);
+								data = this.params
+										.applySuccesrate(
+												nDiseaseByRiskClassByAge[0][year][col - 4][rClass][a][sex],
+												nDiseaseByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
+												thisScen, year, a, sex);
 
 							} else {
 
-								data = this.params.applySuccesrateToBothGenders(
-										nDiseaseByRiskClassByAge[0][year][col - 4][rClass][a],
-										nDiseaseByRiskClassByAge[thisScen][year][col - 4][rClass][a],
-										thisScen, year, a);
+								data = this.params
+										.applySuccesrateToBothGenders(
+												nDiseaseByRiskClassByAge[0][year][col - 4][rClass][a],
+												nDiseaseByRiskClassByAge[thisScen][year][col - 4][rClass][a],
+												thisScen, year, a);
 
 							}
 							writeCell(writer, data);
@@ -447,7 +535,39 @@ public class ExcelReadableXMLWriter  {
 
 					}
 
-					writer.writeEndElement();// </row>
+					if (sex < 2) {
+						data = this.params.applySuccesrate(
+								NDaly[0][year][rClass][a][sex],
+								NDaly[thisScen][year][rClass][a][sex], thisScen,
+								year, a,sex);
+						writeCell(writer, data);
+
+						
+
+						data = this.params.applySuccesrate(
+								NDisease[0][year][rClass][a][sex],
+								NDisease[thisScen][year][rClass][a][sex], thisScen,
+								year, a,sex);
+						writeCell(writer, data);
+					} else {
+						data = this.params.applySuccesrateToBothGenders(
+								NDaly[0][year][rClass][a],
+								NDaly[thisScen][year][rClass][a], thisScen,
+								year, a);
+						writeCell(writer, data);
+
+						
+
+						data = this.params.applySuccesrateToBothGenders(
+								NDisease[0][year][rClass][a],
+								NDisease[thisScen][year][rClass][a], thisScen,
+								year, a);
+						writeCell(writer, data);
+					}
+
+					writer.writeEndElement();
+
+					// </row>
 				}// end risk class and age loop
 
 			writer.writeEndElement();
@@ -531,7 +651,8 @@ public class ExcelReadableXMLWriter  {
 			/* write column headings */
 
 			/* risk factor info */
-			if (this.output.riskType == 1 || this.output.riskType == 3 || this.output.categorized) {
+			if (this.output.riskType == 1 || this.output.riskType == 3
+					|| this.output.categorized) {
 				writeCell(writer, "riskClass");
 			} else {
 				writeCell(writer, "mean_riskFactor");
@@ -574,6 +695,8 @@ public class ExcelReadableXMLWriter  {
 
 				}
 			}
+			writeCell(writer, "disability");
+			writeCell(writer, "with disease");
 			writer.writeEndElement();// </row>
 
 			/*
@@ -624,9 +747,10 @@ public class ExcelReadableXMLWriter  {
 								numbersScen[r] = this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex];
 							}
 
-							mean = this.params.applySuccesrateToMean(toBeAveragedRef,
-									toBeAveragedScen, numbersRef, numbersScen,
-									thisScen, 0, cohort, sex);
+							mean = this.params.applySuccesrateToMean(
+									toBeAveragedRef, toBeAveragedScen,
+									numbersRef, numbersScen, thisScen, 0,
+									cohort, sex);
 						} else {
 							double[][] toBeAveragedRef2 = new double[this.output.nRiskFactorClasses * 2][2];
 							double[][] toBeAveragedScen2 = new double[this.output.nRiskFactorClasses * 2][2];
@@ -642,10 +766,11 @@ public class ExcelReadableXMLWriter  {
 
 									;
 								}
-							mean = this.params.applySuccesrateToMeanToBothGenders(
-									toBeAveragedRef2, toBeAveragedScen2,
-									numbersRef2, numbersScen2, thisScen, 0,
-									cohort);
+							mean = this.params
+									.applySuccesrateToMeanToBothGenders(
+											toBeAveragedRef2,
+											toBeAveragedScen2, numbersRef2,
+											numbersScen2, thisScen, 0, cohort);
 						}
 						// TODO veranderen
 
@@ -673,20 +798,22 @@ public class ExcelReadableXMLWriter  {
 
 						if (sex < 2) {
 
-							mean = this.params.applySuccesrateToMean(
-									this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
-									this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
-									this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
-									this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
-									thisScen, 0, cohort, sex);
+							mean = this.params
+									.applySuccesrateToMean(
+											this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
+											this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
+											this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
+											this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
+											thisScen, 0, cohort, sex);
 
 						} else {
-							mean = this.params.applySuccesrateToMeanToBothGenders(
-									this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort],
-									this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
-									this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort],
-									this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
-									thisScen, 0, cohort);
+							mean = this.params
+									.applySuccesrateToMeanToBothGenders(
+											this.output.meanRiskByOriRiskClassByOriAge[0][year][rClass][cohort],
+											this.output.meanRiskByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
+											this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort],
+											this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
+											thisScen, 0, cohort);
 
 						}
 
@@ -701,17 +828,19 @@ public class ExcelReadableXMLWriter  {
 					/* write total numbers in group(row) */
 					double data = 0;
 					if (sex < 2) {
-						data = this.params.applySuccesrate(
-								this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
-								this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
-								thisScen, 0, cohort, sex);
+						data = this.params
+								.applySuccesrate(
+										this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
+										this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort][sex],
+										thisScen, 0, cohort, sex);
 
 					} else {
 
-						data = this.params.applySuccesrateToBothGenders(
-								this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort],
-								this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
-								thisScen, 0, cohort);
+						data = this.params
+								.applySuccesrateToBothGenders(
+										this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort],
+										this.output.nPopByOriRiskClassByOriAge[thisScen][year][rClass][cohort],
+										thisScen, 0, cohort);
 
 					}
 					writeCell(writer, data);
@@ -725,17 +854,19 @@ public class ExcelReadableXMLWriter  {
 						 */
 						for (int col = 4; col < this.output.nDiseaseStates + 3; col++) {
 							if (sex < 2) {
-								data = this.params.applySuccesrate(
-										this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort][sex],
-										this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort][sex],
-										thisScen, 0, cohort, sex);
+								data = this.params
+										.applySuccesrate(
+												this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort][sex],
+												this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort][sex],
+												thisScen, 0, cohort, sex);
 
 							} else {
 
-								data = this.params.applySuccesrateToBothGenders(
-										this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort],
-										this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort],
-										thisScen, 0, cohort);
+								data = this.params
+										.applySuccesrateToBothGenders(
+												this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort],
+												this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort],
+												thisScen, 0, cohort);
 
 							}
 							writeCell(writer, data);
@@ -745,17 +876,19 @@ public class ExcelReadableXMLWriter  {
 						/* if details is false: then write the data of diseases */
 						for (int col = 4; col < this.output.nDiseases + 4; col++) {
 							if (sex < 2) {
-								data = this.params.applySuccesrate(
-										this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort][sex],
-										this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort][sex],
-										thisScen, 0, cohort, sex);
+								data = this.params
+										.applySuccesrate(
+												this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort][sex],
+												this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort][sex],
+												thisScen, 0, cohort, sex);
 
 							} else {
 
-								data = this.params.applySuccesrateToBothGenders(
-										this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort],
-										this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort],
-										thisScen, 0, cohort);
+								data = this.params
+										.applySuccesrateToBothGenders(
+												this.output.nDiseaseStateByOriRiskClassByOriAge[0][year][col - 4][rClass][cohort],
+												this.output.nDiseaseStateByOriRiskClassByOriAge[thisScen][year][col - 4][rClass][cohort],
+												thisScen, 0, cohort);
 
 							}
 							writeCell(writer, data);
@@ -763,6 +896,42 @@ public class ExcelReadableXMLWriter  {
 
 					}
 
+					if (sex < 2) {
+						data = this.params
+								.applySuccesrate(
+										this.NOriDaly[0][year][rClass][cohort][sex],
+										this.NOriDaly[thisScen][year][rClass][cohort][sex],
+										thisScen, 0, cohort, sex);
+
+					} else {
+
+						data = this.params
+								.applySuccesrateToBothGenders(
+										this.NOriDaly[0][year][rClass][cohort],
+										this.NOriDaly[thisScen][year][rClass][cohort],
+										thisScen, 0, cohort);
+
+					}
+					writeCell(writer, data);
+					
+					if (sex < 2) {
+						data = this.params
+								.applySuccesrate(
+										this.NoriDisease[0][year][rClass][cohort][sex],
+										this.NoriDisease[thisScen][year][rClass][cohort][sex],
+										thisScen, 0, cohort, sex);
+
+					} else {
+
+						data = this.params
+								.applySuccesrateToBothGenders(
+										this.NoriDisease[0][year][rClass][cohort],
+										this.NoriDisease[thisScen][year][rClass][cohort],
+										thisScen, 0, cohort);
+
+					}
+					writeCell(writer, data);
+					
 					writer.writeEndElement();// </row>
 				}// end risk class and age loop
 
@@ -786,8 +955,6 @@ public class ExcelReadableXMLWriter  {
 
 		}
 	}
-
-
 
 	/**
 	 * this method writes the XML for a cell of an excell spreadsheet
@@ -904,6 +1071,5 @@ public class ExcelReadableXMLWriter  {
 		writer.writeEndElement();
 		writer.writeEndElement();
 	}
-
 
 }

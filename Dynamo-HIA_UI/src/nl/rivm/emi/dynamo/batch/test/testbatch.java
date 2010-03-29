@@ -51,7 +51,7 @@ public class testbatch {
 	@Test
 	public void test() {
 
-		 runTest("run_test_1", "test01", 11.83285, 6.95871, 10.064339,
+	  runTest("run_test_1", "test01", 11.83285, 6.95871, 10.064339,
 		 7.263274,
 		 0, 0);
 		 runTest("run_test_2", "test02", 11.84868, 7.33809, 10.064933,
@@ -65,10 +65,10 @@ public class testbatch {
 		 10.430651, 9.04908649);
 		 runTest("run_test_5", "test05", 11.86262859, 10.323828, 10.06424551,
 		 9.057820083,
-		 10.544173, 9.057820963);
+		 10.544173, 9.057820963); 
 		 runTest("run_test_6", "test06", 10.94401469, 7.098233, 10.44058873,
 		 7.572985171,
-		 9.666941, 9.414778818);
+		 9.666941, 9.414778818); 
 		 runTest("run_test_7", "test07", 11.02311413, 7.387165, 10.44525728,
 		 7.846585711,
 		 9.721771, 9.420975178);
@@ -199,30 +199,37 @@ public class testbatch {
 		files[0] = baseDir + File.separator + batchFileName;
 		log.fatal(testName + " started ");
 		Runner.main(files);
+		log.fatal("runner has run");
 		DynamoOutputFactory output = null;
 		output = getOutput(baseDir, testName);
 		ScenarioParameters scenParms = getScenParms(baseDir, testName);
+		int nScenarios=scenParms.getSuccesPercentage().length;
+		log.fatal("starting plotfactory");
 		DynamoPlotFactory factory = new DynamoPlotFactory(output, scenParms);
+		log.fatal("plotfactory ready");
+		for (int scen=0; scen<nScenarios+1; scen++){
+			log.fatal( "checking scenario "+scen);
 		if (HLEcohort != 0) {
-			double[][] hle = factory.calculateCohortHealthExpectancy(0, 0, -1);
+			double[][] hle = factory.calculateCohortHealthExpectancy(0, scen, -1);
 			Assert.assertEquals(" LE cohort is " + hle[0][0] + "but should be "
 					+ LEcohort, true, Math.abs(hle[0][0] - LEcohort) < 1E-4);
 			Assert.assertEquals(" HLE cohort is " + (hle[0][0] - hle[0][1])
 					+ "but should be " + HLEcohort, true, Math.abs(hle[0][0]
 					- hle[0][1] - HLEcohort) < 1E-4);
 		}
+		log.fatal(" HLE cohort is OK ");
 		if (HLESullivan != 0) {
 			double[][] hle2 = factory.calculateSullivanLifeExpectancy(0, 0, -1,
-					0);
+					scen);
 			Assert.assertTrue(" LE-Period is " + hle2[0][0] + "but should be "
 					+ LEPeriod, Math.abs(hle2[0][0] - LEPeriod) < 1E-4);
 			Assert.assertEquals(" HLE-Period is " + (hle2[0][0] - hle2[0][1])
 					+ "but should be " + HLESullivan, true, Math.abs(hle2[0][0]
 					- hle2[0][1] - HLESullivan) < 1E-4);
 		}
-
+		log.fatal(" HLE Sullivan is OK ");
 		if (DALYcohort != 0) {
-			double[][] hle3 = factory.calculateCohortHealthExpectancy(0, 0, -2);
+			double[][] hle3 = factory.calculateCohortHealthExpectancy(0, scen, -2);
 			Assert.assertEquals(" LE-cohort is " + hle3[0][0]
 					+ "but should be " + LEcohort, true, Math.abs(hle3[0][0]
 					- LEcohort) < 1E-4);
@@ -230,15 +237,18 @@ public class testbatch {
 					+ "but should be " + DALYcohort, true, Math.abs(hle3[0][0]
 					- hle3[0][1] - DALYcohort) < 1E-4);
 		}
+		log.fatal(" DALY cohort is OK ");
 		if (DALYSullivan != 0) {
 			double[][] hle4 = factory.calculateSullivanLifeExpectancy(0, 0, -2,
-					0);
+					scen);
 			Assert.assertEquals(" LE-Period is " + hle4[0][0]
 					+ "but should be " + LEPeriod, true, Math.abs(hle4[0][0]
 					- LEPeriod) < 1E-4);
 			Assert.assertEquals(" DALE-Period is " + (hle4[0][0] - hle4[0][1])
 					+ "but should be " + DALYSullivan, true, Math
 					.abs(hle4[0][0] - hle4[0][1] - DALYSullivan) < 1E-4);
+		}
+		log.fatal(" Daly sullivan is OK ");
 		}
 		log.fatal(testName + " successfully completed ");
 	}

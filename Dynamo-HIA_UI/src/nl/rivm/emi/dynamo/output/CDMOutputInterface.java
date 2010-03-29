@@ -50,6 +50,8 @@ public interface CDMOutputInterface {
 	public double[][][][][] getNDiseaseByOriRiskClassByOriAge(int d);
 	
 	public double[][][][] getNDisabledByAge() ;
+	
+	public double[][][] getNTotDiseaseByOriAge(int age) ;
 
 	public double[][][] getNDisabledByAge(int year) ;
 	

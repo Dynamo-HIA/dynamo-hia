@@ -215,6 +215,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			Population[] pop = null;
 			DynamoOutputFactory output = new DynamoOutputFactory(scen);
 			/* for test: made 10 time lower: TODO change 200 in 2 later */
+			/* with test1-12 (mostly nsim=2 or 10) this is 136 seconds in 1 run, and 160 second when running all runs separately
+			 * by age and sex; so not that much difference 
+			 */
 			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
 				pop = popFactory.manufactureInitialPopulation(agemin, agemax,
 						0, 1, 1, 1, false);
@@ -231,6 +234,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					}
 				}
 				output = runPopulation(pop, simFileName, output);
+				log.fatal("population has run" );
 			} else {
 				this.runInOne = false; 
 				
@@ -263,7 +267,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			/** * finalize output */
 
 			output.makeArraysWithPopulationNumbers();
-
+            log.fatal("output object finalized");
 			// log.fatal("Starting to write populations");
 			// for (int npop = 0; npop < nPopulations; npop++) {
 			// String iniPopFileName = directoryName + File.separator
@@ -285,9 +289,12 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// if (parentShell != null) {
 			// new Output_UI(parentShell, output, scenParms, currentPath);
 			// }
+			/* temporarily disabled for testing */
 			pr.createOutput(output, scenParms, currentPath);
+			log.fatal("output created");
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
+			log.fatal("output written");
 			persistScenarioInfo(scenParms);
 			// persistPopulationArray(pop);
 		} catch (DynamoConfigurationException e) {
@@ -405,7 +412,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		int npop = scen.getNPopulations();
 		int nclasses = 1;
 		if (p.getRiskType() != 2)
-			nclasses = p.getPrevRisk().length;
+			nclasses = p.getPrevRisk()[0][0].length;
 		/*
 		 * the onefor all scenario may have many more individuals than another
 		 * type of populations, therefore for safety count this as the maximum

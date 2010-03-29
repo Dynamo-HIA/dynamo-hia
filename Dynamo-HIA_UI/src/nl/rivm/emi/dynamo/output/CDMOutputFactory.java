@@ -10,9 +10,47 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 	/* simple fields and getters */
 	
+	/**
+	 * percentage disability (or daly) by age and riskclass at start of
+	 * simulation
+	 */
+	protected double[][][][][] pDisabilityByRiskClassByAge;
+	protected double[][][][][] pDisabilityByOriRiskClassByOriAge;
+
+	
+	public double[][][][][] getPDisabilityByOriRiskClassByOriAge() {
+		return pDisabilityByOriRiskClassByOriAge;
+	}
+
+	public double[][][][][] getPDisabilityByRiskClassByAge() {
+		return pDisabilityByRiskClassByAge;
+	}
+
     /**
 	 * 
 	 */
+	
+	protected double[][][][][] pTotalDiseaseByRiskClassByAge;
+
+	/**
+	 * percentage of total diseases by age and riskclass at start of simulation
+	 */
+	protected double[][][][][] pTotalDiseaseByOriRiskClassByOriAge;
+
+	/*
+	 * temporary arrays that contain simulated survival by risk class by Age;
+	 * indexes are: scenario, time, risk class, age, and sex NB this array is
+	 * reused, so it contains something different before and after applying
+	 * method makeSummaryArrays
+	 */
+
+	public double[][][][][] getPTotalDiseaseByRiskClassByAge() {
+		return pTotalDiseaseByRiskClassByAge;
+	}
+
+	public double[][][][][] getPTotalDiseaseByOriRiskClassByOriAge() {
+		return pTotalDiseaseByOriRiskClassByOriAge;
+	}
 	private static final long serialVersionUID = 1L;
 	protected int stepsInRun;
     
@@ -270,11 +308,28 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 						nPopByAge[scen][stepcount][a][g] += this.nPopByRiskClassByAge[scen][stepcount][riskClass][a][g];
 		return nPopByAge;
 	}
-	
+	public double[][][][][] getNTotalDiseaseByRiskClassByAge() {
+
+		double[][][][][] NDisease = new double[this.nScen + 1][this.stepsInRun + 1][nRiskFactorClasses][96 + this.stepsInRun][2];
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < 96 + this.stepsInRun; a++)
+					for (int g = 0; g < 2; g++)
+						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
+							NDisease[scen][stepCount][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
+									* getPTotalDiseaseByRiskClassByAge()[scen][stepCount][r][a][g];
+
+		return NDisease;
+	}
 
 	public double[][][][][] getNPopByOriRiskClassByOriAge() {
 		
 		return this.nPopByOriRiskClassByOriAge;
+	}
+
+	public double[][][] getNTotDiseaseByOriAge(int age) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/* **************   mortality methods ****************************************/	

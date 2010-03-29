@@ -323,24 +323,23 @@ public class SimulationConfigurationFactory {
 
 				writeFinalElementToDom(rootElement, "refValContinuousVariable",
 						((Float) parameters.getRefClassCont()).toString());
-				if (parameters.getRiskType() == ModelParameters.CONTINUOUS) {
-					if (parameters.getRiskTypeDistribution() == "Normal"
-							|| parameters.getRiskTypeDistribution() == "normal"
-							|| parameters.getRiskTypeDistribution() == "NORMAL")
 
-						writeFinalElementToDom(rootElement, "DistributionType",
-								"normal");
-					else if (parameters.getRiskTypeDistribution() == "LogNormal"
-							|| parameters.getRiskTypeDistribution() == "lognormal"
-							|| parameters.getRiskTypeDistribution() == "logNormal"
-							|| parameters.getRiskTypeDistribution() == "LOGNORMAL")
-						writeFinalElementToDom(rootElement, "DistributionType",
-								"lognormal");
-					else
-						throw new DynamoConfigurationException(
-								"unknown distribution type for continuous risk factor"
-										+ parameters.getRiskTypeDistribution());
-				}
+				if (parameters.getRiskTypeDistribution() == "Normal"
+						|| parameters.getRiskTypeDistribution() == "normal"
+						|| parameters.getRiskTypeDistribution() == "NORMAL")
+
+					writeFinalElementToDom(rootElement, "DistributionType",
+							"normal");
+				else if (parameters.getRiskTypeDistribution() == "LogNormal"
+						|| parameters.getRiskTypeDistribution() == "lognormal"
+						|| parameters.getRiskTypeDistribution() == "logNormal"
+						|| parameters.getRiskTypeDistribution() == "LOGNORMAL")
+					writeFinalElementToDom(rootElement, "DistributionType",
+							"lognormal");
+				else
+					throw new DynamoConfigurationException(
+							"unknown distribution type for continuous risk factor"
+									+ parameters.getRiskTypeDistribution());
 
 				if (population == 0) {
 					/* null Transition=1 for a nulltransition */
@@ -414,11 +413,13 @@ public class SimulationConfigurationFactory {
 						else
 							writeOneDimArray(parameters.getMeanDrift(),
 									"meandrift", "meandrift", fileName);
-
+/* the standard deviation drift is identical for all scenario's (except the zero-transition
+ * scenario's, so only a single filename is written here
+ */
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
 								+ "stddriftRiskFactor" + ".xml";
-						writeFinalElementToDom(rootElement, "stddriftFileName",
+						writeFinalElementToDom(rootElement, "stdDriftFileName",
 								fileName);
 
 						writeOneDimArray(parameters.getStdDrift(), "stddrift",
@@ -434,7 +435,9 @@ public class SimulationConfigurationFactory {
 									"offsetFileName", fileName);
 							writeOneDimArray(parameters.getMeanDrift(),
 									"offset", "offset", fileName);
-
+							/* the offset drift is identical for all scenario's (except the zero-transition
+							 * scenario's, so only a single filename is written here
+							 */
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
 									+ "offsetDrift" + ".xml";
@@ -1265,7 +1268,9 @@ public class SimulationConfigurationFactory {
 
 	}
 
-	/** writes a document to XML
+	/**
+	 * writes a document to XML
+	 * 
 	 * @param fileName
 	 * @param document
 	 * @throws CDMConfigurationException

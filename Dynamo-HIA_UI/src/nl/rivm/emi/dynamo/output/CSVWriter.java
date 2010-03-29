@@ -3,6 +3,10 @@
  */
 package nl.rivm.emi.dynamo.output;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -47,7 +51,9 @@ public class CSVWriter {
 	public boolean isDetails() {
 		return details;
 	}
-
+     private double [][][][][] nDisabledByRiskClassByAge;
+     private double [][][][][] nTotDiseaseByRiskClassByAge;
+     
 	public void setDetails(boolean details) {
 		this.details = details;
 	}
@@ -73,6 +79,8 @@ public class CSVWriter {
 		super();
 		this.params = params;
 		this.output = output;
+		this.nDisabledByRiskClassByAge=this.output.getNDisabledByRiskClassByAge();
+		this.nTotDiseaseByRiskClassByAge=this.output.getNTotalDiseaseByRiskClassByAge();
 	}
 
 	
@@ -86,39 +94,51 @@ public class CSVWriter {
 
 			// TOADD writer.flush();
 			// writer.close();
+	//		StringBuilder CSVstring = new StringBuilder(); 
+	
+		  StringBuilder toWriteCSVString = new StringBuilder(); 
+		
 
-			/* make one worksheet per calendar year */
+	//	    FileOutputStream fos =
+	 //           new FileOutputStream(args[0]);
+	 //       BufferedoutputStream bos =
+	 //           new BufferedOutputStream(fos);
+	    //    DataOutputStream dos =
+	   //         new DataOutputStream(bos);
+	  
+	      
+
 
 			/* write column headings */
-			writer.append("year" + this.delimiter);
-			writer.append("scenario" + this.delimiter);
-			writer.append("gender" + this.delimiter);
+			toWriteCSVString.append("year" + this.delimiter);
+			toWriteCSVString.append("scenario" + this.delimiter);
+			toWriteCSVString.append("gender" + this.delimiter);
 			/* risk factor info */
 			if (this.output.riskType == 1 || this.output.riskType == 3
 					|| this.output.categorized) {
-				writer.append("riskClass" + this.delimiter);
+				toWriteCSVString.append("riskClass" + this.delimiter);
 			} else {
-				writer.append("mean_riskFactor" + this.delimiter);
-				writer.append("std_riskFactor" + this.delimiter);
-				writer.append("skewness" + this.delimiter);
+				toWriteCSVString.append("mean_riskFactor" + this.delimiter);
+				toWriteCSVString.append("std_riskFactor" + this.delimiter);
+				toWriteCSVString.append("skewness" + this.delimiter);
 
 			}
 			if (this.output.riskType == 3) {
 
-				writer.append("mean duration" + this.delimiter);
+				toWriteCSVString.append("mean duration" + this.delimiter);
 
 			}
 			if (this.output.riskType == 2 && this.output.categorized) {
 
-				writer.append("mean riskFactor" + this.delimiter);
+				toWriteCSVString.append("mean riskFactor" + this.delimiter);
 
 			}
 
 			/* age */
-			writer.append("age" + this.delimiter);
+			toWriteCSVString.append("age" + this.delimiter);
 
 			/* total number */
-			writer.append("total number");
+			toWriteCSVString.append("total number");
 
 			/* disease info */
 			if (this.details) {
@@ -126,23 +146,27 @@ public class CSVWriter {
 				 * last disease state is survival and is equal to total numbers
 				 * so not included
 				 */
-				for (int col = 0; col < this.output.getNDiseaseStates()-1; col++) {
-					writer.append(this.delimiter
+				for (int col = 0; col < this.output.getNDiseaseStates() - 1; col++) {
+					toWriteCSVString.append(this.delimiter
 							+ this.output.getStateNames()[col]);
 
 				}
 			} else {
 				for (int col = 0; col < this.output.nDiseases ; col++) {
-					writer.append(this.delimiter
+					toWriteCSVString.append(this.delimiter
 							+ this.output.diseaseNames[col]);
 
 				}
 			}
+			toWriteCSVString.append(this.delimiter+"with disability");
+			toWriteCSVString.append(this.delimiter+"with disease");
 			/* the end of the line */
-			writer.append("\n");// </row>
-
+			toWriteCSVString.append("\n");// </row>
+			writer.append(toWriteCSVString); 
+			
 			/* now write the data */
-			for (int year = 0; year < this.output.stepsInRun + 1; year++)
+			for (int year = 0; year < this.output.stepsInRun + 1; year++){
+				toWriteCSVString = new StringBuilder(); 
 				for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++)
 					for (int sex = 0; sex < 2; sex++) {
 
@@ -152,15 +176,15 @@ public class CSVWriter {
 						for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
 
 							for (int a = 0; a < 96; a++) {
-								writer.append(year + this.delimiter);
-								writer.append(thisScen + this.delimiter);
-								writer.append(sex + this.delimiter);
+								toWriteCSVString.append(year + this.delimiter);
+								toWriteCSVString.append(thisScen + this.delimiter);
+								toWriteCSVString.append(sex + this.delimiter);
 								/* write risk factor info */
 								if (this.output.riskType == 1
 										|| this.output.riskType == 3
 										|| this.output.categorized) {
 
-									writer
+									toWriteCSVString
 											.append(this.output.riskClassnames[rClass]
 													+ this.delimiter);
 
@@ -201,12 +225,13 @@ public class CSVWriter {
 										numbersScen[r] = this.output
 												.getNPopByRiskClassByAge()[thisScen][year][rClass][a][sex];
 									}
+						//			log.fatal(" write mean risk");
 									mean = this.params.applySuccesrateToMean(
 											toByAveragedRef, toByAveragedScen,
 											numbersRef, numbersScen, thisScen,
 											year, a, sex);
 
-									writer.append(mean + this.delimiter);
+									toWriteCSVString.append(mean + this.delimiter);
 								}
 								/*
 								 * write the standard deviation of the
@@ -216,10 +241,10 @@ public class CSVWriter {
 								if (this.output.riskType == 2
 										&& !this.output.categorized) {
 
-									writer.append(rClass + this.delimiter);
+									toWriteCSVString.append(rClass + this.delimiter);
 									// TODO vervangen door std risk factor
 
-									writer.append(rClass + this.delimiter);
+									toWriteCSVString.append(rClass + this.delimiter);
 
 								}
 
@@ -240,24 +265,24 @@ public class CSVWriter {
 													this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
 													thisScen, year, a, sex);
 
-									writer.append(mean + this.delimiter);
+									toWriteCSVString.append(mean + this.delimiter);
 
 								}
 
 								/* write age */
 
-								writer.append(a + this.delimiter);
+								toWriteCSVString.append(a + this.delimiter);
 
 								/* write total numbers in group(row) */
 								double data = 0;
-
+						//		log.fatal(" write population total");
 								data = this.params
 										.applySuccesrate(
 												this.output.nPopByRiskClassByAge[0][year][rClass][a][sex],
 												this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][sex],
 												thisScen, year, a, sex);
 
-								writer.append(data + this.delimiter);
+								toWriteCSVString.append(data + this.delimiter);
 								/* write disease info */
 
 								if (this.details) {
@@ -268,20 +293,20 @@ public class CSVWriter {
 									 * survival is in the output
 									 */
 									for (int col = 4; col < this.output.nDiseaseStates + 3; col++) {
-
+									//	log.fatal(" write diseasestate "+col);
 										data = this.params
 												.applySuccesrate(
 														this.output.nDiseaseStateByRiskClassByAge[0][year][col - 4][rClass][a][sex],
 														this.output.nDiseaseStateByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
 														thisScen, year, a, sex);
 
-										if (col == this.output.nDiseaseStates + 3)
+								/*		if (col == this.output.nDiseaseStates + 3) 
 											writer.append(((Double) data)
 													.toString());
-										else
-											writer
+										else */
+											toWriteCSVString
 													.append(data
-															+ this.delimiter);
+															+ this.delimiter); 
 									}
 
 								} else { /*
@@ -300,22 +325,41 @@ public class CSVWriter {
 														nDiseaseByRiskClassByAge[thisScen][year][col - 4][rClass][a][sex],
 														thisScen, year, a, sex);
 
-										if (col == this.output.nDiseases + 3)
+									/*	if (col == this.output.nDiseases + 3) 
 											writer.append(((Double) data)
 													.toString());
-										else
-											writer
+										else */
+											toWriteCSVString
 													.append(data
 															+ this.delimiter);
 									}
 
 								}
+								
+								data = this.params
+								.applySuccesrate(
+										nDisabledByRiskClassByAge[0][year][rClass][a][sex],
+										nDisabledByRiskClassByAge[thisScen][year][rClass][a][sex],
+										thisScen, year, a, sex);
+							//	log.fatal(" write disabled");
+								toWriteCSVString
+								.append(data
+										+ this.delimiter);
+								data = this.params
+								.applySuccesrate(
+										nTotDiseaseByRiskClassByAge[0][year][rClass][a][sex],
+										nTotDiseaseByRiskClassByAge[thisScen][year][rClass][a][sex],
+										thisScen, year, a, sex);
+
+							//	log.fatal(" write total disease");
+							toWriteCSVString.append(((Double) data).toString());
+						
 								// writeEndElement
-								writer.append("\n");// </row>
+								toWriteCSVString.append("\n");// </row>
 							}// end risk class and age loop
-
-					}// end loop over years, scenarios and gender
-
+    //  log.fatal("writing year "+ year + " for gender " +sex+ " scenario " + thisScen);
+					}writer.append(toWriteCSVString); }// end loop over years, scenarios and gender
+			
 			writer.flush();
 			writer.close();
 

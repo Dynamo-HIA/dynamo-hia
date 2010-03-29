@@ -53,6 +53,7 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	public void createOutput(CDMOutputFactory output,
 			ScenarioParameters scenarioParameters, String currentpath) {
 		/* creates output for DYNAMO-BATCH runner */
+		log.fatal("start writing CSV");
 		CSVWriter writer= new CSVWriter(output, scenarioParameters);
 		String fileName=currentpath+File.separator+"batchoutput";
 		try {

@@ -779,7 +779,7 @@ public class InputData {
 				float sum=0;
 				for (int i11=0;i11<dim3;i11++)
 					sum+=transitionMatrix[i][i1][i11][i111];
-				if (Math.abs(sum-100)>0.01) throw new DynamoInconsistentDataException("transitionrates from category "+
+				if (Math.abs(sum-1)>0.0001) throw new DynamoInconsistentDataException("transitionrates from category "+
 						(i111+1)+" do not sum to 100% for age "+i+" and gender "+i1);
 						
 			}

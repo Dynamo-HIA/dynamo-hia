@@ -469,7 +469,21 @@ public class ScenarioInfo {
 	}
 	
 	public void setAlternativeTransitionMatrix(
-			float[][][][] alternativeTransitionMatrix, int scen) {
+			float[][][][] alternativeTransitionMatrix, int scen) throws DynamoInconsistentDataException {
+		int dim1=alternativeTransitionMatrix.length;
+		int dim2=alternativeTransitionMatrix[0].length;
+		int dim3=alternativeTransitionMatrix[0][0].length;
+		int dim4=alternativeTransitionMatrix[0][0][0].length;
+		for (int i=0;i<dim1;i++)
+			for (int i1=0;i1<dim2;i1++)
+				for (int i111=0;i111<dim4;i111++){
+				float sum=0;
+				for (int i11=0;i11<dim3;i11++)
+					sum+=alternativeTransitionMatrix[i][i1][i11][i111];
+				if (Math.abs(sum-1)>0.0001) throw new DynamoInconsistentDataException("transitionrates for scenario "+ scen+" from category "+
+						(i111+1)+" do not sum to 100% for age "+i+" and gender "+i1);
+						
+			}
 		this.alternativeTransitionMatrix[scen] = alternativeTransitionMatrix;
 	}
 
@@ -664,8 +678,8 @@ public class ScenarioInfo {
 										+ inputSkew[a][g]);
 
 					}
-					newMean[i][a][g] = (float) (0.5 * (Math.log(inputSkew[a][g]
-							* inputSkew[a][g])
+					newMean[i][a][g] = (float) (0.5 * (Math.log(inputSTD[a][g]
+							* inputSTD[a][g])
 							- Math.log(Math.exp(newStd[i][a][g]
 									* newStd[i][a][g]) - 1) - newStd[i][a][g]
 							* newStd[i][a][g]));
@@ -695,7 +709,7 @@ public class ScenarioInfo {
 	}
 
 	public float[][][] getNewOffset() {
-		return newStd;
+		return newOffset;
 	}
 
 	public void setNewMean(float[][][] newMean) {

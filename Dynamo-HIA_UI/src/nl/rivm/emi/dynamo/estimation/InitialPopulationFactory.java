@@ -993,9 +993,9 @@ public class InitialPopulationFactory {
 								if (parameters.getRiskType() == 2) {
 									if (parameters.getRiskTypeDistribution()
 											.compareToIgnoreCase("normal") == 0)
-										riskFactorValue = (scenarioInfo
+										riskFactorValue = scenarioInfo
 												.getNewMean()[currentscen][a][g] + scenarioInfo
-												.getNewStd()[currentscen][a][g])
+												.getNewStd()[currentscen][a][g]
 
 												* (float) DynamoLib
 														.normInv((i + 0.5)
@@ -1276,10 +1276,11 @@ public class InitialPopulationFactory {
 		if (parameters.getRiskType() == 2
 				|| !(isAtLeastOneAllForOnePopulation && nPopulations == 2)) {
 
-			for (int i1 = 0; i1 < scenarioInfo.getNScenarios(); i1++) {
-				if (!scenarioInfo.getInitialPrevalenceType()[i1]
-						&& !isOneForAllPopulation[i1]) {
-					initialPopulation[i1 + 1] = deepCopy(initialPopulation[0]);
+			for (int i1 = 1; i1 < nPopulations; i1++) {
+				int scenNum=scenarioInfo.getPopToScenIndex()[i1];
+				if (!scenarioInfo.getInitialPrevalenceType()[scenNum]
+						&& !isOneForAllPopulation[scenNum]) {
+					initialPopulation[i1 ] = deepCopy(initialPopulation[0]);
 
 				}
 
