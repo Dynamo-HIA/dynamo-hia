@@ -6,6 +6,7 @@ import java.net.URL;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
+import nl.rivm.emi.dynamo.ui.util.RiskFactorPropertiesMapFactory;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
@@ -111,28 +112,7 @@ public class Util {
 			BaseNode selectedNode) throws ConfigurationException,
 			DynamoInconsistentDataException {
 		log.debug("selectedNode" + selectedNode.deriveNodeLabel());
-		// String foundName = null;
-		// BaseNode riskSourceInstanceNode = null;
 		if (selectedNode instanceof FileNode) {
-			/*
-			 * RiskSourcePropertiesMap map = RiskSourcePropertiesMapFactory
-			 * 
-			 * .makeMap4OneRiskSourceType(selectedNode); String
-			 * selectedNodeLabel = selectedNode.deriveNodeLabel(); Set<String>
-			 * labelKeys = map.keySet(); for (String key : labelKeys) { int
-			 * index = selectedNodeLabel.indexOf(key); if ((index != -1) &&
-			 * (index == (selectedNodeLabel.length() - key.length()))) {
-			 * foundName = key; RiskSourceProperties riskSourceProperties =
-			 * map.get(key); riskSourceInstanceNode = riskSourceProperties
-			 * .getRiskSourceNode(); break; } } } if (riskSourceInstanceNode !=
-			 * null) { String riskSourceInstanceLabel = ((BaseNode)
-			 * riskSourceInstanceNode) .toString(); ParentNode
-			 * riskSourceTypeNode = ((ChildNode) riskSourceInstanceNode)
-			 * .getParent(); String riskSourceTypeLabel = ((BaseNode)
-			 * riskSourceTypeNode) .toString(); riskSourceTypeLabel =
-			 * riskSourceTypeLabel.substring(0, riskSourceTypeLabel.length() -
-			 * 1);
-			 */
 			RiskSourceProperties props = RiskSourcePropertiesMapFactory
 					.getProperties((FileNode) selectedNode);
 			String riskSourceTypeLabel = props.getRiskSourceLabel().replace(
@@ -144,9 +124,24 @@ public class Util {
 			result[1] = riskSourceInstanceLabel;
 			return result;
 		} else {
+			if (selectedNode instanceof DirectoryNode) {
+//				ParentNode parentNode = ((ChildNode)selectedNode).getParent();
+				RiskSourceProperties props = RiskSourcePropertiesMapFactory
+				.getProperties((DirectoryNode)/*parentNode*/ selectedNode);
+		String riskSourceTypeLabel = props.getRiskSourceLabel().replace(
+				'_', ' ');
+		String riskSourceInstanceLabel = props.getRiskSourceName();
+		String[] result = new String[2];
+		result[0] = riskSourceTypeLabel;
+		result[1] = riskSourceInstanceLabel;
+		return result;
+				
+			}else {
 			throw new DynamoInconsistentDataException(
-					"RiskSource not found for filename: \""
-							+ selectedNode.deriveNodeLabel() + "\"");
+					"Can only handle File- and selected DirectoryNodes, \""
+							+ selectedNode.deriveNodeLabel() + "\" is a "
+							+ selectedNode.getClass().getSimpleName());
+			}
 		}
 	}
 
@@ -205,7 +200,8 @@ public class Util {
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/tsuite.gif");
 				log.info("Putting : " + imageRegistryFolderKey
-						+ " in imageRegistry with " + folderImageDesriptor.toString());
+						+ " in imageRegistry with "
+						+ folderImageDesriptor.toString());
 				image_registry
 						.put(imageRegistryFolderKey, folderImageDesriptor);
 				// Just a non-XML file.

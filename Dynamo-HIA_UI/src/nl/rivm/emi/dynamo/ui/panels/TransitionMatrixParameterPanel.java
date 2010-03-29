@@ -43,8 +43,6 @@ public class TransitionMatrixParameterPanel extends Composite /*
 	 */
 	private int numberOfCategories = -1;
 
-	// AtomicTypeBase myType = new Unit();
-
 	public TransitionMatrixParameterPanel(Composite parent, Text topNeighbour,
 			TypedHashMap<TransitionSource> transitionFromClassToClassObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -96,7 +94,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 				}
 				AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) parameterList
 						.get(0).getType();
-				bindValue(observableValue, theType);
+				bindAndLayoutValue(observableValue, theType);
 			}
 			// Once should be enough.
 			((TransitionMatrixModal) helpGroup.getTheModal()).setHasDefaultObject(false);
@@ -109,29 +107,18 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		 */
 	}
 
-	private void bindValue(WritableValue observableClassName,
+	private void bindAndLayoutValue(WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
 		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
-		text.setText("Bla"); // theType.convert4View(observableClassName.doGetValue()));
-		// FocusListener focusListener = new
-		// TypedFocusListener(theType,theHelpGroup);
-		// text.addFocusListener(
-		// // new FocusListener() {
-		// // public void focusGained(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("1");
-		// // }
-		// //
-		// // public void focusLost(FocusEvent arg0) {
-		// // theHelpGroup.getFieldHelpGroup().setHelpText("48"); // Out of
-		// // // range.
-		// // }
-		// //
-		// // }
-		// focusListener);
+		text.setText("Bla"); 
 		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		GridData textLayoutData = new GridData(GridData.FILL_HORIZONTAL);
 		textLayoutData.minimumWidth = 35;
 		textLayoutData.horizontalAlignment = GridData.END;
+		// Added to prevent stretching out of data in right panel.
+		textLayoutData.grabExcessHorizontalSpace = false;
+		textLayoutData.widthHint =35; // The above line also collapses short fields, this fixes that.
+		// Addition ends.
 		text.setLayoutData(textLayoutData);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
@@ -141,7 +128,6 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
 						.getViewUpdateValueStrategy());
-		// text.addVerifyListener(new ValueVerifyListener());
 		text.addVerifyListener(new PercentVerifyListener(theHelpGroup
 				.getTheModal()));
 	}

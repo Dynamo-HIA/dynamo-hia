@@ -28,14 +28,20 @@ public class RelativeRisksCompoundGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
-		RelativeRiskContextPanel relRiskPanel = new RelativeRiskContextPanel(
+		RelativeRiskContextInterface relRiskPanel = null;
+		if(riskSourceNode != null){
+		relRiskPanel = new RelativeRiskContextPanel(
 				theGroup, riskSourceNode, selectedNode);
+		} else {
+			relRiskPanel = new RelativeRiskForDStarContextPanel(
+					theGroup, selectedNode);
+		}
 		relRiskPanel.handlePlacementInContainer();
 		log.debug("Now for RelativeRisksCompoundParameterGroup");
 		RelativeRisksCompoundParameterGroup parameterGroup = new RelativeRisksCompoundParameterGroup(
 				theGroup, modelObject, dataBindingContext, helpGroup,
 				durationClassIndex);
-		parameterGroup.handlePlacementInContainer(relRiskPanel.group);
+		parameterGroup.handlePlacementInContainer(relRiskPanel.getGroup());
 //		parameterGroup.handlePlacementInContainer(null);
 		}
 

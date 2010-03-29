@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
+import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -46,7 +47,7 @@ public class RiskFactorPropertiesMapFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	public static RiskSourcePropertiesMap fillMap(ParentNode riskFactorsNode)
+	public static RiskSourcePropertiesMap fillMapForParentNode(ParentNode riskFactorsNode)
 			throws DynamoConfigurationException {
 		RiskSourcePropertiesMap theMap = new RiskSourcePropertiesMap();
 		if (riskFactorsNode != null) {
@@ -54,20 +55,53 @@ public class RiskFactorPropertiesMapFactory {
 					.getChildren();
 			if (riskSourceNodes.length != 0) {
 				for (Object riskSourceNode : riskSourceNodes) {
-					RiskFactorProperties properties = createRiskFactorPropertiesObject(riskSourceNode);
-					if (properties != null) {
-						log.debug("Adding propertiesObject with key: "
-								+ properties.getFileNameMainPart());
-						theMap
-								.put(properties.getFileNameMainPart(),
-										properties);
-					} else {
-						log.debug("Null propertiesObject.");
-					}
+					handleRiskSourceNode(theMap, riskSourceNode);
 				}
 			}
 		}
 		return theMap;
+	}
+
+	/**
+	 * Create and fill the RiskSourcePropertiesMap with the passed RiskSourceNode only.
+	 * 
+	 * Intended for use from relative risk for death or disability nodes.
+	 * 
+	 * @param riskSourceNode
+	 * 
+	 * @return
+	 * @throws DynamoConfigurationException
+	 */
+	public static RiskSourcePropertiesMap fillMapForRiskFactorNode(DirectoryNode riskSourceNode)
+			throws DynamoConfigurationException {
+		RiskSourcePropertiesMap theMap = null;
+		if (riskSourceNode != null) {
+			ParentNode parentNode = ((ChildNode)riskSourceNode).getParent();
+			String parentNodeName = ((BaseNode)parentNode).deriveNodeLabel();
+			if(StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(parentNodeName)){
+				theMap = new RiskSourcePropertiesMap();
+				handleRiskSourceNode(theMap, riskSourceNode);
+			} else {
+				throw new DynamoConfigurationException("Method needs a RiskFactor node.");
+			}
+		} else {
+			throw new DynamoConfigurationException("Null riskFactor node passed.");
+		}
+		return theMap;
+	}
+
+	private static void handleRiskSourceNode(RiskSourcePropertiesMap theMap,
+			Object riskSourceNode) throws DynamoConfigurationException {
+		RiskFactorProperties properties = createRiskFactorPropertiesObject(riskSourceNode);
+		if (properties != null) {
+			log.debug("Adding propertiesObject with key: "
+					+ properties.getFileNameMainPart());
+			theMap
+					.put(properties.getFileNameMainPart(),
+							properties);
+		} else {
+			log.debug("Null propertiesObject.");
+		}
 	}
 
 	private static RiskFactorProperties createRiskFactorPropertiesObject(

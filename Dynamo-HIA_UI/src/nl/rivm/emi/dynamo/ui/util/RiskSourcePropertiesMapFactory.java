@@ -7,6 +7,7 @@ package nl.rivm.emi.dynamo.ui.util;
  */
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
@@ -43,7 +44,8 @@ public class RiskSourcePropertiesMapFactory {
 	 * @return
 	 * @throws ConfigurationException
 	 */
-	static public RiskSourceProperties getProperties(FileNode selectedNode) throws ConfigurationException {
+	static public RiskSourceProperties getProperties(FileNode selectedNode)
+			throws ConfigurationException {
 		String fileName = selectedNode.deriveNodeLabel();
 		// Clip of the extension.
 		int pointDex = fileName.indexOf(".");
@@ -54,9 +56,51 @@ public class RiskSourcePropertiesMapFactory {
 		return fillProperties(fileName, parentNode);
 	}
 
+	/**
+	 * Returns the RiskSourceProperties for the RiskFactor the RelativeRisks 
+	 * are situated under.
+	 * 
+	 * This method must to be called from one of the "RelativeRiskForDeath" or
+	 * "RelativeRiskForDisability" nodes.
+	 * 
+	 * @param selectedNode
+	 *            Currently the Node from which a new
+	 *            RelativeRisks-configuration is being constructed.
+	 * @return
+	 * @throws ConfigurationException
+	 * @throws DynamoInconsistentDataException 
+	 */
+	static public RiskSourceProperties getProperties(DirectoryNode selectedNode) throws ConfigurationException, DynamoInconsistentDataException {
+		String directoryName = selectedNode.deriveNodeLabel();
+		if(StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel().equals(directoryName)
+				||StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel().equals(directoryName)){
+		ParentNode parentNode = ((ChildNode) selectedNode).getParent();
+		return fillProperties(parentNode);
+		} else {
+			throw new DynamoInconsistentDataException(
+					"Unexpected directoryNode-name \"" + directoryName + "\".\n Can only handle \"" 
+					+ StandardTreeNodeLabelsEnum.RELRISKFORDEATHDIR.getNodeLabel()
+					+ "\" and \"" + StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR.getNodeLabel()
+					+ "\".");
+		}
+	}
+
 	private static RiskSourceProperties fillProperties(String fileName,
 			ParentNode parentNode) throws ConfigurationException {
 		RiskSourcePropertiesMap map = makeMap4OneRiskSourceType((BaseNode) parentNode);
+		RiskSourceProperties props = getPropertiesByNameFromPropertiesMap(fileName,
+				map);
+		return props;
+	}
+
+	private static RiskSourceProperties fillProperties(ParentNode parentNode) throws ConfigurationException {
+		RiskSourcePropertiesMap map = RiskFactorPropertiesMapFactory.fillMapForRiskFactorNode((DirectoryNode) parentNode);
+		RiskSourceProperties props = map.get(map.keySet().iterator().next());
+		return props;
+	}
+
+	private static RiskSourceProperties getPropertiesByNameFromPropertiesMap(
+			String fileName, RiskSourcePropertiesMap map) {
 		Set<String> nameSet = map.keySet();
 		boolean found = false;
 		RiskSourceProperties props = null;
@@ -78,12 +122,13 @@ public class RiskSourcePropertiesMapFactory {
 	}
 
 	/**
-	 * This method is meant to be called with one of the
-	 * "RelativeRiskFromDisease" or "RelativeRiskFromRiskFactor" nodes. Method
-	 * that generates a RiskSourcePropertiesMap of sibling nodes ("RiskSource"
+	 * Generates a RiskSourcePropertiesMap of sibling nodes ("RiskSource"
 	 * nodes, either diseases or riskfactors) in the directorytree. The siblings
 	 * are the children of a parentnode that is found by name.
-	 * 
+	 *
+	 * This method is meant to be called with one of the
+	 * "RelativeRiskFromDisease" or "RelativeRiskFromRiskFactor" nodes.
+	 *   
 	 * @param selectedNode
 	 *            Currently the Node from which a new
 	 *            RelativeRisks-configuration is being constructed.
@@ -92,7 +137,8 @@ public class RiskSourcePropertiesMapFactory {
 	 */
 	static public RiskSourcePropertiesMap makeMap4OneRiskSourceType(
 			BaseNode selectedNode) throws ConfigurationException {
-	log.debug("Entering makeMap4OneRiskSourceType for selectNode: " + selectedNode.deriveNodeLabel());
+		log.debug("Entering makeMap4OneRiskSourceType for selectNode: "
+				+ selectedNode.deriveNodeLabel());
 		RiskSourcePropertiesMap theMap = null;
 		String selectedNodeLabel = selectedNode.deriveNodeLabel();
 		if (!(StandardTreeNodeLabelsEnum.RELATIVERISKSFROMDISEASES
@@ -114,7 +160,7 @@ public class RiskSourcePropertiesMapFactory {
 								((BaseNode) parentOfRiskSourceNodes)
 										.deriveNodeLabel())) {
 					theMap = RiskFactorPropertiesMapFactory
-							.fillMap(parentOfRiskSourceNodes);
+							.fillMapForParentNode(parentOfRiskSourceNodes);
 				} else {
 					throw new ConfigurationException(
 							"RiskSourcePropertiesMapFactory: The parentNode: "
@@ -130,13 +176,16 @@ public class RiskSourcePropertiesMapFactory {
 		}
 		return theMap;
 	}
+	
+	
 
 	private static void handleUnexpectedNode(String selectedNodeLabel)
 			throws ConfigurationException {
 		ConfigurationException exception = new ConfigurationException(
 				"Method entered with wrong selectedNode: " + selectedNodeLabel);
 		StackTraceElement[] elements = exception.getStackTrace();
-		StringBuffer logMessage = new StringBuffer(exception.getMessage() + "\n");
+		StringBuffer logMessage = new StringBuffer(exception.getMessage()
+				+ "\n");
 		logMessage.append(exception.getClass().getSimpleName() + "\n");
 		for (int count = 0; count < Math.min(elements.length, 6); count++) {
 			logMessage.append(elements[count] + "\n");

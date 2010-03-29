@@ -72,7 +72,9 @@ public class TransitionMatrixAgeGroup extends Composite {
 				- minGender + 1];
 		refreshTransitionMatrices(currentAge, ageDropDownPanel);
 		parent.pack(true);
-		initialSize = transMatGroups[0].theGroup.getSize();
+		Point groupSize = transMatGroups[0].theGroup.getSize();
+		Point minAgeDropdownPanelSize = new Point(200,60);
+		initialSize = (groupSize.x<minAgeDropdownPanelSize.x)?minAgeDropdownPanelSize:groupSize;
 	}
 
 	private Group createAgeDropDownPanel(Composite parent, HelpGroup helpPanel) {
@@ -114,6 +116,10 @@ public class TransitionMatrixAgeGroup extends Composite {
 		copyButton.addSelectionListener(new ApplyButtonSelectionListener());
 		GridData copyButtonLayoutData = new GridData();
 		copyButtonLayoutData.horizontalSpan = 2;
+		// THIS DOESN'T WORK. Preventing half hidden button at low category counts.
+//		copyButtonLayoutData.grabExcessHorizontalSpace = true;
+//		copyButtonLayoutData.minimumWidth = 200;
+        //		
 		copyButton.setLayoutData(copyButtonLayoutData);
 		return ageDropDownPanel;
 	}
