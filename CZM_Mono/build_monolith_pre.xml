@@ -31,11 +31,6 @@
 	<property name="czm.dir" value="../CZM/" />
 	<property name="dynamo_hia_ui.dir" value="../Dynamo-HIA_UI/" />
 
-	<target name="introduction">
-		<echo message="Project ${ant.project.name}, starting ${ant.file}.">
-		</echo>
-	</target>
-
 	<!-- ClassPath for use in all subproject builds -->
 	<path id="cross.project.class.path">
 		<pathelement path="${org.apache.commons.logging.dir}" />
@@ -53,16 +48,21 @@
 		<path refid="cross.project.class.path" />
 	</target>
 
+	<target name="introduction">
+		<echo message="Project ${ant.project.name}, starting ${ant.file}.">
+		</echo>
+	</target>
+
 	<target name="clean">
-		<delete dir="${com.dir}" failonerror="true" />
-		<delete dir="${org.dir}" failonerror="true" />
-		<delete dir="${nl.dir}" failonerror="true" />
-		<delete dir="${jamaclasses.dir}" failonerror="true" />
-		<delete dir="${czm_mono.dir}" failonerror="true" />
-		<delete dir="${schemas.dir}" failonerror="true" />
-		<delete dir="${images.dir}" failonerror="true" />
-		<delete dir="${ini.dir}" failonerror="true" />
-		<delete dir="${help.dir}" failonerror="true" />
+		<delete dir="${com.dir}" failonerror="true" verbose="true"/>
+		<delete dir="${org.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${nl.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${jamaclasses.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${czm_mono.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${schemas.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${images.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${ini.dir}" failonerror="true"  verbose="true"/>
+		<delete dir="${help.dir}" failonerror="true"  verbose="true"/>
 	</target>
 
 	<target name="fill">
