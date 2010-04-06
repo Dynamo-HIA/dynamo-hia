@@ -103,15 +103,10 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 
 	double[] d = { 7.784695709041462e-03, 3.224671290700398e-01,
 			2.445134137142996e+00, 3.754408661907416e+00 };
-	//  break-points for norm Inverse.
+	// break-points for norm Inverse.
 	double plow = 0.02425;
 	double phigh = 1 - plow;
-	
-	
-	
-	
-	
-	
+
 	public ContinuousRiskFactorMultiToOneUpdateRule()
 			throws ConfigurationException, CDMUpdateRuleException {
 		// constructor fills the parameters
@@ -161,9 +156,9 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 
 		try {
 			/* only the highest 32 bits are to be used */
-		
+
 			double pRandom = (((int) (seed >>> 16)) + 2147483648.0) / 4294967295.0;
-			
+
 			Float newValue = null;
 			float oldValue = getFloat(currentValues, characteristicIndex);
 			if (isNullTransitions()) {
@@ -179,18 +174,27 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 					int sexValue = getInteger(currentValues, sexIndex);
 					if (ageValue > 95)
 						ageValue = 95;
-                    if (isNormal)   {
-					newValue = (float) (oldValue + meanDrift[ageValue][sexValue]+stdDrift[ageValue][sexValue]*normInverse(pRandom));
-                    } else{
-                    	 double newOnLogScale = 0;
-                    	if (oldValue>offset[ageValue][sexValue])
-                    newOnLogScale= Math.log(oldValue-offset[ageValue][sexValue])+meanDrift[ageValue][sexValue]+stdDrift[ageValue][sexValue]*normInverse(pRandom);
-                    newValue=(float) (Math.exp(newOnLogScale)+offset[ageValue][sexValue]+offsetDrift[ageValue][sexValue]);
-                   
-                    	
-                    }
+					if (isNormal) {
+						newValue = (float) (oldValue
+								+ meanDrift[ageValue][sexValue] + stdDrift[ageValue][sexValue]
+								* normInverse(pRandom));
+					} else {
+						double newOnLogScale = 0;
+						if (oldValue > offset[ageValue][sexValue]){
+							newOnLogScale = Math.log(oldValue
+									- offset[ageValue][sexValue])
+									+ meanDrift[ageValue][sexValue]
+									+ stdDrift[ageValue][sexValue]
+									* normInverse(pRandom);
+						
+						    newValue = (float) (Math.exp(newOnLogScale)
+								+ offset[ageValue][sexValue] + offsetDrift[ageValue][sexValue]);}
+						/* this is an at hoc solution for a situation that should  occur only very rarely */
+						else newValue=offset[ageValue][sexValue]+offsetDrift[ageValue][sexValue];
+
+					}
 					return newValue;
-					
+
 				}
 			}
 		} catch (CDMUpdateRuleException e) {
@@ -213,37 +217,39 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 		try {
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
-			
+
 			// Validate the xml by xsd schema
-			// WORKAROUND: clear() is put after the constructor (also calls load()). 
+			// WORKAROUND: clear() is put after the constructor (also calls
+			// load()).
 			// The config cannot be loaded twice,
 			// because the contents will be doubled.
 			configurationFileConfiguration.clear();
-			
+
 			// Validate the xml by xsd schema
 			// TODO weer aanzetten
-		//	configurationFileConfiguration.setValidating(true);			
+			// configurationFileConfiguration.setValidating(true);
 			configurationFileConfiguration.load();
-			
+
 			// long seed = 21223445;
 			// randomGenerator = new java.util.Random(seed);
-	
+
 			handleCharID(configurationFileConfiguration);
 			handleIsNullTransition(configurationFileConfiguration);
 			if (!isNullTransitions) {
 				handleIsNormal(configurationFileConfiguration);
 				handleMeanDriftFileName(configurationFileConfiguration);
-				setMeanDrift(loadData(meanDriftFileName, "meandrift", "meandrift"));
+				setMeanDrift(loadData(meanDriftFileName, "meandrift",
+						"meandrift"));
 				handleStdDriftFileName(configurationFileConfiguration);
 				setStdDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
 				if (!isNormal) {
-	
+
 					handleOffsetDriftFileName(configurationFileConfiguration);
 					setOffsetDrift(loadData(offsetDriftFileName, "offsetdrift",
 							"offsetdrift"));
 					handleOffsetFileName(configurationFileConfiguration);
 					setOffset(loadData(offsetFileName, "offset", "offset"));
-	
+
 				}
 				/*
 				 * left out are reading of files needed for more complex update
@@ -253,24 +259,23 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 				 * 
 				 * handleMeanValueFileName(configurationFileConfiguration);
 				 * 
-				 * setMeanDrift(loadData(stdDriftFileName, "stddrift", "stddrift"));
-				 * if (!isNormal) {
+				 * setMeanDrift(loadData(stdDriftFileName, "stddrift",
+				 * "stddrift")); if (!isNormal) {
 				 * 
 				 * 
 				 * } setAimValues();
 				 */
-	
+
 			}
 			success = true;
-			return success;			
+			return success;
 		} catch (ConfigurationException e) {
-			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), 
-					e, configurationFile.getAbsolutePath());
-			return success;	
-		}							
+			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
+					configurationFile.getAbsolutePath());
+			return success;
+		}
 	}
-	
-	
+
 	/*
 	 * private void setAimValues() { meanByStepByAge = new float[200][96][2]; if
 	 * (!isNormal) offsetByStepByAge = new float[200][96][2]; for (int a = 0; a
@@ -442,36 +447,32 @@ public class ContinuousRiskFactorMultiToOneUpdateRule extends
 							+ isNullTransitions);
 	}
 
-	
-	public double normInverse(double p){
-		
-	// Rational approximation for lower region:
-	if (p < plow) {
-		double q = Math.sqrt(-2 * Math.log(p));
-		return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4])
-				* q + c[5])
-				/ ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+	public double normInverse(double p) {
+
+		// Rational approximation for lower region:
+		if (p < plow) {
+			double q = Math.sqrt(-2 * Math.log(p));
+			return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4])
+					* q + c[5])
+					/ ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+		}
+
+		// Rational approximation for upper region:
+		if (phigh < p) {
+			double q = Math.sqrt(-2 * Math.log(1 - p));
+			return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4])
+					* q + c[5])
+					/ ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+		}
+
+		// Rational approximation for central region:
+		double q = p - 0.5;
+		double r = q * q;
+		return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5])
+				* q
+				/ (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
 	}
 
-	// Rational approximation for upper region:
-	if (phigh < p) {
-		double q = Math.sqrt(-2 * Math.log(1 - p));
-		return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4])
-				* q + c[5])
-				/ ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
-	}
-
-	// Rational approximation for central region:
-	double q = p - 0.5;
-	double r = q * q;
-	return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5])
-			* q
-			/ (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
-}
-
-	
-	
-	
 	public String getOffsetDriftFileNameLabel() {
 		return offsetDriftFileNameLabel;
 	}

@@ -1,5 +1,7 @@
 package nl.rivm.emi.cdm.rules.update.dynamo;
 
+import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
+
 
 
 /**
@@ -50,7 +52,7 @@ public final class MatrixExponential {
 	}
 	public void setNumberOfIterations(int Niterations){NExpIterations=Niterations;};
 	
-	public float[][] exponentiateFloatMatrix(double[][] AT) {
+	public float[][] exponentiateFloatMatrix(double[][] AT) throws CDMUpdateRuleException {
 		int dim=AT.length;
 		float [][] returnMatrix=new float [dim][dim];
 		double [][] matrix=	exponentiateMatrix(AT);
@@ -64,7 +66,7 @@ public final class MatrixExponential {
 		
 	};
 	
-	public double[][] exponentiateMatrix(double[][] AT) {
+	public double[][] exponentiateMatrix(double[][] AT) throws CDMUpdateRuleException {
 		// ----------------------------------------------------------------------------------------------------------------
 		// External variables whose values are shared with the calling program
 		// ----------------------------------------------------------------------------------------------------------------
@@ -163,7 +165,7 @@ public final class MatrixExponential {
 																					// to
 																					// below
 																					// 1/4.
-		if (MDivisor > 0) // If MDivisor > 0 then we need to divide ATMat
+		if (MDivisor > 0 && MDivisor<21) // If MDivisor > 0 then we need to divide ATMat
 			// by 2^MDivisor
 			for (int j1 = 0; j1 < dim; j1++)
 				for (int j2 = 0; j2 < dim; j2++)
@@ -172,6 +174,10 @@ public final class MatrixExponential {
 					
 					
 					ATMat[j1][j2] = ATMat[j1][j2] / TwoPower[MDivisor];
+		else if (MDivisor>20)
+		{
+			throw new CDMUpdateRuleException("Incidence and mortality data are unrealistically high");
+		}
 
 		// ---------------------------------------------------------------------------------------------------------------
 		// Algorithm 1: core processing for estimating the exponential of

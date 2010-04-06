@@ -977,8 +977,14 @@ extends HealthStateManyToManyUpdateRule {
 									double[][] rateMatrix = fillRateMatrixForCluster(
 											a, g, r, c);
 
-									transMat[a][g][r][c] = matExp
-											.exponentiateFloatMatrix(rateMatrix);
+									try {
+										transMat[a][g][r][c] = matExp
+												.exponentiateFloatMatrix(rateMatrix);
+									} catch (CDMUpdateRuleException e) {
+										throw new CDMConfigurationException(e.getMessage()+" for risk class "+r 
+												+" and disease cluster "+ c + ", age: "+a+ " sex: "+g);
+										
+									}
 
 								}
 							} // end loop over clusters

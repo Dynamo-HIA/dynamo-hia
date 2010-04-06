@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.logging_1.0.4.v20080605-1930.jar"/>
 	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.lang_2.3.0.v200803061910.jar"/>
-	<classpathentry kind="lib" path="/org.apache.commons.configuration/classes"/>
+	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.configuration_1.5.0.jar"/>
 	<classpathentry kind="lib" path="/Jama"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

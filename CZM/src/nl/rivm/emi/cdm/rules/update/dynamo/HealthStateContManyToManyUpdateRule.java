@@ -114,6 +114,12 @@ extends HealthStateManyToManyUpdateRule {
 					ageValue = 95;
 				float riskFactorValue = getFloat(currentValues,
 						riskFactorIndex1);
+				if (ageValue==56 && sexValue==1){
+					
+					int stop=0;
+					stop++;
+					
+				}
 
 				newValue = new float[oldValue.length];
 				float[] currentDiseaseStateValues = new float[oldValue.length];
@@ -314,9 +320,14 @@ extends HealthStateManyToManyUpdateRule {
 
 								} // end loop over locations
 							} // end loop over fatal diseases
-						
-						float[][] transMat = matExp
-								.exponentiateFloatMatrix(rateMatrix);
+						float[][] transMat=null;
+						try{ transMat = matExp
+								.exponentiateFloatMatrix(rateMatrix);}
+						catch (CDMUpdateRuleException e){ 
+							String message=e.getMessage();
+						    throw new CDMUpdateRuleException(message+" for cluster" +c+
+						    		"containing disease "+ this.getDiseaseNames()[clusterStartsAtDiseaseNumber[c]]+"and risk factor value "+riskFactorValue);
+						}
 
 						for (int state1 = 0; state1 < nCombinations[c]; state1++) // row
 						{ /* transitionProbabilities are [to][from] */
@@ -329,6 +340,7 @@ extends HealthStateManyToManyUpdateRule {
 										* oldValue[state2 - 1 + currentStateNo];
 						}
 						/* calculate survival */
+						
 						survival = 0;
 						for (int state = 0; state < nCombinations[c]; state++) {
 							survival += unconditionalNewValues[state];

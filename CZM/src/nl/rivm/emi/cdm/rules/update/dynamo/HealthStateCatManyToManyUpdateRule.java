@@ -505,8 +505,14 @@ public class HealthStateCatManyToManyUpdateRule extends
 
 								transMat[a][g][r][c] = new float[nCombinations[c]][nCombinations[c]];
 
-								transMat[a][g][r][c] = matExp
-										.exponentiateFloatMatrix(rateMatrix);
+								try {
+									transMat[a][g][r][c] = matExp
+											.exponentiateFloatMatrix(rateMatrix);
+								} catch (CDMUpdateRuleException e) {
+									throw new CDMConfigurationException(e.getMessage()+" for risk class "+r 
+											+" and disease cluster "+ c+ ", age: "+a+ " sex: "+g);
+									
+								}
 
 								currentStateNo += nCombinations[c] - 1;
 							} // end if statement for cluster diseases
