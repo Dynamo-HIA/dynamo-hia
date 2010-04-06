@@ -51,7 +51,7 @@ public class testbatch {
 	@Test
 	public void test() {
 
-	  runTest("run_test_1", "test01", 11.83285, 6.95871, 10.064339,
+	/* runTest("run_test_1", "test01", 11.83285, 6.95871, 10.064339,
 		 7.263274,
 		 0, 0);
 		 runTest("run_test_2", "test02", 11.84868, 7.33809, 10.064933,
@@ -87,9 +87,13 @@ public class testbatch {
 		 10.449351, 9.047160194);
 		 runTest("run_test_12", "test12", 11.64373307, 8.627173, 10.05454054,
 		 7.509649749,
-		 10.430651, 9.04908649);
-		 //this.baseDir = "C:\\DYNAMO-HIA\\Sweden_SL";
-//		runTest("testLarge","Deregulation", 0,0,0,0,0,0);
+		 10.430651, 9.04908649); */
+		/*
+		this.baseDir = "C:\\DYNAMO-HIA\\Sweden_SL";
+		runTest("testLarge","Deregulation", 0,0,0,0,0,0); */
+		
+		this.baseDir = "C:\\DYNAMO-HIA\\Netherlands";
+		runTest("runExample","ReturnTo1990", 0,0,0,0,0,0);
 
 		/*checkParameters("test12", 0.0035560585F, 0.004974321F, 0.0039015845F,
 				0.043575432F, 2.4666753F, 2.4666753F, 0.5F, 0.039915062F, true);*/

@@ -32,8 +32,13 @@ public class InputData {
 	// third index is for risk factor class //
       private float temp;
 	private float prevRisk[][][] = new float[96][2][];;
+	/** mean as entered into the model, also for the lognormal distribution */
 	private float[][] meanRisk = new float[96][2];
+
+	/** standard deviation of the riskfactor as entered into the model, also for the lognormal distribution */
 	private float[][] stdDevRisk = new float[96][2];
+
+	/** skewness of the risk factor as entered into the model, also for the lognormal distribution */
 	private float[][] skewnessRisk = new float[96][2];
 	private float[][] relRiskDuurMortBegin = new float[96][2];
 	private float[][] relRiskDuurMortEnd = new float[96][2];
@@ -41,7 +46,7 @@ public class InputData {
 	private float[][] alphaMort = new float[96][2];
 	private float[][][] relRiskMortCat = new float[96][2][];
 	private float[][] relRiskMortCont = new float[96][2];
-
+    private float trendInDrift=0;
 	// transition data
 	private int transType = -1;
 	/* transtype: 0= null, 1= netto, 2= as inputted */
@@ -775,12 +780,12 @@ public class InputData {
 		int dim4=transitionMatrix[0][0][0].length;
 		for (int i=0;i<dim1;i++)
 			for (int i1=0;i1<dim2;i1++)
-				for (int i111=0;i111<dim4;i111++){
+				for (int i11=0;i11<dim3;i11++){
 				float sum=0;
-				for (int i11=0;i11<dim3;i11++)
+				for (int i111=0;i111<dim4;i111++)
 					sum+=transitionMatrix[i][i1][i11][i111];
-				if (Math.abs(sum-1)>0.0001) throw new DynamoInconsistentDataException("transitionrates from category "+
-						(i111+1)+" do not sum to 100% for age "+i+" and gender "+i1);
+				if (Math.abs(sum-1)>0.0001) throw new DynamoInconsistentDataException("transitionrates for reference scenario from category "+
+						(i11+1)+" do not sum to 100% for age "+i+" and gender "+i1);
 						
 			}
 		this.transitionMatrix = transitionMatrix;
@@ -886,6 +891,14 @@ public class InputData {
 
 	public void setAlfaForDisability(float[][] alfaForDisability) {
 		this.alfaForDisability = alfaForDisability;
+	}
+
+	public void setTrendInDrift(float trendInDrift) {
+		this.trendInDrift = trendInDrift;
+	}
+
+	public float getTrendInDrift() {
+		return trendInDrift;
 	}
 
 }

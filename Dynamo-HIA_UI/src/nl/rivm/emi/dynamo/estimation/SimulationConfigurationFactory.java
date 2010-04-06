@@ -343,7 +343,7 @@ public class SimulationConfigurationFactory {
 
 				if (population == 0) {
 					/* null Transition=1 for a nulltransition */
-					if (!parameters.isZeroTransition()) {
+					if (parameters.isZeroTransition()) {
 						writeFinalElementToDom(rootElement, "nullTransition",
 								"1");
 						writeFinalElementToDom(rootElement,
@@ -413,15 +413,17 @@ public class SimulationConfigurationFactory {
 						else
 							writeOneDimArray(parameters.getMeanDrift(),
 									"meandrift", "meandrift", fileName);
-/* the standard deviation drift is identical for all scenario's (except the zero-transition
- * scenario's, so only a single filename is written here
+/* the standard deviation drift is identical for all scenario's , 
+ * so only a single filename is written here
  */
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
 								+ "stddriftRiskFactor" + ".xml";
 						writeFinalElementToDom(rootElement, "stdDriftFileName",
 								fileName);
-
+/* this is written for the second time, so could be left out, not done in order not to fix
+ * what works
+ */
 						writeOneDimArray(parameters.getStdDrift(), "stddrift",
 								"stddrift", fileName);
 
@@ -433,17 +435,28 @@ public class SimulationConfigurationFactory {
 									+ "offsetRiskFactor" + ".xml";
 							writeFinalElementToDom(rootElement,
 									"offsetFileName", fileName);
-							writeOneDimArray(parameters.getMeanDrift(),
-									"offset", "offset", fileName);
-							/* the offset drift is identical for all scenario's (except the zero-transition
-							 * scenario's, so only a single filename is written here
+							/* this is written for the second time, so could be left out, not done in order not to fix
+							 * what works
 							 */
+								
+							writeOneDimArray(parameters.getOffsetRisk(),
+									"offset", "offset", fileName);
+							/* the offset drift is identical for all scenario's 
+							 * , so only a single filename is written here
+							 */
+							
+							
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
-									+ "offsetDrift" + ".xml";
+									+ "offsetDriftRiskFactor" + ".xml";
+							
+								
 							writeFinalElementToDom(rootElement,
 									"offsetDriftFileName", fileName);
-							writeOneDimArray(parameters.getMeanDrift(),
+							/* this is written for the second time, so could be left out, not done in order not to fix
+							 * what works
+							 */
+							writeOneDimArray(parameters.getOffsetDrift(),
 									"offsetdrift", "offsetdrift", fileName);
 						}
 

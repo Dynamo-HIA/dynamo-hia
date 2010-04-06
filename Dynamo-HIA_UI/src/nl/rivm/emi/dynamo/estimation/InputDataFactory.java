@@ -292,7 +292,7 @@ public class InputDataFactory {
 	public InputDataFactory(String simName, String baseDir)
 			throws DynamoConfigurationException {
 		this.baseDir = baseDir;
-		doIt(simName);
+		loadConfigurationFile(simName);
 
 	}
 
@@ -301,7 +301,7 @@ public class InputDataFactory {
 	 * @throws DynamoConfigurationException
 	 */
 	@SuppressWarnings("unchecked")
-	private void doIt(String simName) throws DynamoConfigurationException {
+	private void loadConfigurationFile(String simName) throws DynamoConfigurationException {
 		;
 
 		String fileName = this.baseDir + File.separator + simulationDir
@@ -360,6 +360,11 @@ public class InputDataFactory {
 			throw new DynamoConfigurationException(" the minimum age " + minAge
 					+ " for simulation" + " is larger than the maximum age of "
 					+ maxAge + "\nPlease change these values");
+		
+		if (minAge > 0 && newborn)
+			throw new DynamoConfigurationException(" adding Newborns to the population is only possible" +
+					" when the minimum age in the population is 0. Minimum age is now set to " + minAge
+					+ "\nPlease change these values");
 
 		if (timeStep != 1)
 			this.log.fatal("timestep given in configuration is " + timeStep
@@ -1729,7 +1734,7 @@ public class InputDataFactory {
 			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_netto") {
 				if (inputData != null)
 					inputData.setTransType(1);
-
+									
 				else
 					throw new DynamoConfigurationException(
 							"Nett transitions are defined as nett transitions for the distribution"+
@@ -1804,6 +1809,7 @@ public class InputDataFactory {
 			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_netto") {
 				if (inputData != null) {
 					inputData.setTransType(1);
+					inputData.setTrendInDrift(config.getFloat("trend"));
 				} else
 					throw new DynamoConfigurationException(
 							"netto transition file not possbile for alternative scenario."
@@ -1843,6 +1849,7 @@ public class InputDataFactory {
 											.getRootElementName());
 		}
 	}
+
 
 
 

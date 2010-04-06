@@ -25,6 +25,7 @@ import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.annotations.CategoryTextAnnotation;
 import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.SubCategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -3029,7 +3030,8 @@ public class DynamoPlotFactory {
 		double[][] lifeExp = new double[this.output.getNScen() + 1][2];
 		double baselinePop = 0;
 		double[][][][] nPopByAge = getNPopByOriAge();
-		LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
+		/* enable 3 statements for daly in bars */
+	//	LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
 		int yearsLeft = this.output.getNDim() - age;
 		/*
 		 * age of the simulated population is the exact age , so everyone is
@@ -3071,7 +3073,7 @@ public class DynamoPlotFactory {
 					lifeExp[scenario][s] = lifeExp[scenario][s] / baselinePop;
 				else
 					lifeExp[scenario][s] = 0;
-				generator.setDaly(scenario, s, baselinePop*lifeExp[scenario][s]);
+		//		generator.setDaly(scenario, s, baselinePop*lifeExp[scenario][s]);
 
 			}
 		String[] gender = { "men", "women" };
@@ -3092,15 +3094,25 @@ public class DynamoPlotFactory {
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
 		Plot plot = chart.getPlot();
 		SubCategoryAxis domainAxis = new SubCategoryAxis("");
+		
 		domainAxis
 				.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
+		domainAxis.setCategoryLabelPositionOffset(-12);
+			
+		domainAxis.setMaximumCategoryLabelWidthRatio(3f);
+
+
+
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f));
-		
+		/* disable next 2 statements for daly in bars */
+		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+				"{2}", new DecimalFormat("0.00"));
 		renderer.setBaseItemLabelGenerator(generator);
-		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER,/*-Math.PI/2*/0));
+	
+		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER, /*-Math.PI/2*/0));
 		renderer.setBaseItemLabelsVisible(true);
 		// renderer.setSeriesPaint(0, Color.gray);
 		// renderer.setSeriesPaint(1, Color.orange);
@@ -3110,7 +3122,6 @@ public class DynamoPlotFactory {
 
 		GrayPaintScale tint = new GrayPaintScale(1, Math.max(2, this.output
 				.getNScen() + 1));
-
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 			/* RGB with increasing number of red */
 			if (blackAndWhite)
@@ -3166,8 +3177,8 @@ public class DynamoPlotFactory {
 			boolean differencePlot, boolean blackAndWhite) {
 
 		
-		
-		LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
+		/* enable  3 statements for daly in bars */
+	//	LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
 		if (this.output.getStepsInRun() > 0) {
 			double[][] lifeExp = new double[this.output.getNScen() + 1][2];
 			String chartTitle = ("Cross-sectional life expectancy");
@@ -3249,7 +3260,7 @@ public class DynamoPlotFactory {
 						double totalPopulationYearsOfLife=applySuccesrate(getNPopByOriAge(scenario,year, ageOfLE, sex),
 								getNPopByOriAge(scenario,year, ageOfLE, sex), scenario,
 								0, ageOfLE, sex)*lifeExp[scenario][sex];
-						generator.setDaly(scenario, sex,totalPopulationYearsOfLife);
+		//				generator.setDaly(scenario, sex,totalPopulationYearsOfLife);
 			}
 			}
 			String[] gender = { "men", "women" };
@@ -3286,6 +3297,10 @@ public class DynamoPlotFactory {
 			renderer.setBaseOutlinePaint(Color.black);
 			renderer.setBaseOutlineStroke(new BasicStroke(1.5f));
 			
+	//		renderer.setBaseItemLabelGenerator(generator);
+			/* disable next 2 statements for daly in bars */
+			CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+					"{2}", new DecimalFormat("0.00"));
 			renderer.setBaseItemLabelGenerator(generator);
 			renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER,/*-Math.PI/2*/0));
 			renderer.setBaseItemLabelsVisible(true);
@@ -3540,7 +3555,9 @@ public class DynamoPlotFactory {
 				label = "" + (this.output.getStartYear() + year)
 						+ ", at birth";
 
-			LabelGenerator labelGenerator=new LabelGenerator(dalyLabel,this.output.getNScen(),true);
+			// enable this (three times) for DALY in bars 
+			
+			//LabelGenerator labelGenerator=new LabelGenerator(dalyLabel,this.output.getNScen(),true);
 			
 			
 			/* make data */
@@ -3571,7 +3588,7 @@ public class DynamoPlotFactory {
 									.getScenarioNames()[scenario]
 									+ "(withDisease)", genderLabel[sex]);
 						}
-						labelGenerator.setDaly(scenario,sex,HLE[sex][2]);
+		//				labelGenerator.setDaly(scenario,sex,HLE[sex][2]);
 					}
 				}
 
@@ -3655,7 +3672,7 @@ public class DynamoPlotFactory {
 
 					}
 					
-				renderer.setBaseItemLabelGenerator(labelGenerator);
+		//		renderer.setBaseItemLabelGenerator(labelGenerator);
 				
 				
 				renderer.setSeriesVisibleInLegend(0, true);
@@ -3669,10 +3686,10 @@ public class DynamoPlotFactory {
 
 				plot.setRenderer(renderer);
 				// plot.setFixedLegendItems(makeLegend(disease));
-
-		//		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
-		//				"{2}", new DecimalFormat("0.00"));
-		//		renderer.setBaseItemLabelGenerator(generator);
+                /* disable next 2 statements for daly in bars */
+				CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+						"{2}", new DecimalFormat("0.00"));
+				renderer.setBaseItemLabelGenerator(generator);
 				renderer.setBaseItemLabelsVisible(true);
 				/*
 				 * this is necessary as otherwise the tooltips are made
@@ -3880,7 +3897,8 @@ public class DynamoPlotFactory {
 			legend[1] = "with " + this.output.getDiseaseNames()[disease];
 			itemLabel="years without "+this.output.getDiseaseNames()[disease];
 		}
-		LabelGenerator generator=new LabelGenerator(itemLabel,this.output.getNScen(),true);
+		/* endable 3 statements for daly in bars */
+//		LabelGenerator generator=new LabelGenerator(itemLabel,this.output.getNScen(),true);
 		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++){
 			/*
 			 * the function calculateHealthExpectancy return a 2 by 2 array,
@@ -3893,7 +3911,7 @@ public class DynamoPlotFactory {
 			
 			for (int s = 0; s < 2; s++) {
 
-				generator.setDaly(scenario,s,HLE[s][2]);
+	//			generator.setDaly(scenario,s,HLE[s][2]);
 				log.fatal("setting DALY for scen "+scenario+ " sex "+s+" to :  "+HLE[s][2]);
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
@@ -4018,8 +4036,11 @@ public class DynamoPlotFactory {
 		plot.setRenderer(renderer);
 		// plot.setFixedLegendItems(makeLegend(disease));
 
+		/* disable next 2 statements for daly in bars */
+		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+				"{2}", new DecimalFormat("0.00"));
+		renderer.setBaseItemLabelGenerator(generator);		
 		
-		renderer.setBaseItemLabelGenerator(generator);
 		renderer.setBaseItemLabelsVisible(true);
 		renderer
 				.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());

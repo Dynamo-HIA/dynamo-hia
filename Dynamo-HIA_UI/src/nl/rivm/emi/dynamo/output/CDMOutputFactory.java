@@ -137,10 +137,23 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	}
 
 	
+	protected int minAgeInSimulationAtStart;
+	public int getMinAgeInSimulationAtStart() {
+		return minAgeInSimulationAtStart;
+	}
+
+	
+
+	/**
+	 * @return minimum age of the simulated population
+	 */
+	
+
 	protected int minAgeInSimulation;
 	/**
 	 * @return minimum age of the simulated population
 	 */
+	
 	public int getMinAgeInSimulation() {
 		
 		return minAgeInSimulation;

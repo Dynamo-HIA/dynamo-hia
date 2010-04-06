@@ -462,6 +462,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		this.pDiseaseStateByOriRiskClassByAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
 		this.nDiseaseStateByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
 		this.minAgeInSimulation = 100;
+		this.minAgeInSimulationAtStart = 100;
 		this.maxAgeInSimulation = 0;
 		this.nInSimulation = new int[2];
 		this.nInSimulationByAge = new int[this.nDim][2];
@@ -531,6 +532,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 		double weight[][][] = new double[this.nRiskFactorClasses][96][2];
 		double[][][] weight2 = new double[100][96][2];
+		double weightNewborns[][] = new double[this.nRiskFactorClasses][2];
+		double[][] weight2Newborns = new double[100][2];
 
 		float[] compoundData;
 		float survival;
@@ -623,17 +626,58 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											 * hier gaat het fout out of bounds
 											 * -20
 											 */
-						weight[r][age][s] = this.oldPrevalence[age][s][r]
-								* this.nInSimulationByAge[age][s]
-								/ this.nInSimulationByRiskClassByAge[r][age][s];
+		/* NB if there are newborns but no zero-year olds at the start of the simulation,
+		 * the zero year olds will get a weight of zero
+		 */
+						
+						
+						if (this.nInSimulationByRiskClassByAge[r][age][s] > 0)
+							weight[r][age][s] = this.oldPrevalence[age][s][r]
+									* this.nInSimulationByAge[age][s]
+									/ this.nInSimulationByRiskClassByAge[r][age][s];
+						else
+							weight[r][age][s] = 0;
+						if (weight[r][age][s] == 0
+								&& this.oldPrevalence[age][s][r] != 0
+								&& this.minAgeInSimulationAtStart>=age 
+								&& this.maxAgeInSimulation<=age)
+							throw new DynamoScenarioException(
+									" no simulated individuals with riskclass "
+											+ this.riskClassnames[r]
+											+ " in simulation, while the prevalence of this riskclass is "
+											+ this.oldPrevalence[age][s][r] +
+											" for age " + age + " and gender "
+											+ s);
 						if (this.riskType == 3 && r == this.durationClass)
-							for (int duur = 0; duur < this.oldDurationNumbers[age][s].length; duur++)
-								weight2[duur][age][s] = this.oldPrevalence[age][s][r]
-										* this.oldDurationNumbers[age][s][duur]
-										* this.nInSimulationByAge[age][s]
-										/ this.nInSimulationByRiskClassAndDurationByAge[r][duur][age][s];
-					} else
+							for (int duur = 0; duur < this.oldDurationNumbers[age][s].length; duur++) {
+								if (this.nInSimulationByRiskClassAndDurationByAge[r][duur][age][s] > 0)
+									weight2[duur][age][s] = this.oldPrevalence[age][s][r]
+											* this.oldDurationNumbers[age][s][duur]
+											* this.nInSimulationByAge[age][s]
+											/ this.nInSimulationByRiskClassAndDurationByAge[r][duur][age][s];
+								else
+									weight2[duur][age][s] = 0;
+								if (weight2[r][age][s] == 0
+										&& (this.oldPrevalence[age][s][r] * this.oldDurationNumbers[age][s][duur]) != 0
+										&& this.minAgeInSimulationAtStart>=age
+										&& this.maxAgeInSimulation<=age)
+									throw new DynamoScenarioException(
+											" no simulated individuals with riskclass "
+													+ this.riskClassnames[r]
+													+ " and duration "
+													+ duur
+													+ " in simulation, while the prevalence of this riskclass is "
+													+ this.oldPrevalence[age][s][r]
+													* this.oldDurationNumbers[age][s][duur]
+													+
+
+													" for age " + age
+													+ " and gender " + s);
+							}
+
+					} else{
 						weight[r][age][s] = 1;
+						weightNewborns[r][s]=1;}
 
 			}
 
@@ -806,6 +850,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						else
 							compoundData = ((CompoundCharacteristicValue) individual
 									.get(4)).getUnwrappedValue(stepCount);
+						if (ageIndex==57 && stepCount==1 && sexIndex==1) {
+							
+							int stop=1;
+							stop++;
+						}
 						survival = compoundData[getNDiseaseStates() - 1];
 						double daly = makeDaly(compoundData, riskFactor,
 								riskValue, riskDurationValue, ageIndex,
@@ -1082,20 +1131,19 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 												* compoundData[s] * survival;
 								}
 							if (thisPop == 0) {
-							 /*
-																 * riskClassAtStart
-																 * plays role of both
-																 * from and to here
-																 */
+								/*
+								 * riskClassAtStart plays role of both from and
+								 * to here
+								 */
 
-									if (this.oneScenPopulation) {
-										if (stepCount <= this.stepsInRun) pDiseaseStateByRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
+								if (this.oneScenPopulation) {
+									if (stepCount <= this.stepsInRun)
+										pDiseaseStateByRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 												* compoundData[s] * survival;
-										if (ageAtStart >= 0)
-											pDiseaseStateByOriRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
-													* compoundData[s]
-													* survival;
-									}
+									if (ageAtStart >= 0)
+										pDiseaseStateByOriRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* compoundData[s] * survival;
+								}
 
 								if (stepCount <= this.stepsInRun)
 									this.pDiseaseStateByRiskClassByAge[0][stepCount][s][riskFactor][ageIndex][sexIndex] += weightOfIndividual
@@ -2203,6 +2251,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				this.maxAgeInSimulation = ageIndex;
 			if (ageIndex < this.minAgeInSimulation)
 				this.minAgeInSimulation = ageIndex;
+			if (ageIndex < this.minAgeInSimulationAtStart && ageIndex >= 0)
+				this.minAgeInSimulationAtStart = ageIndex;
 
 			if (ageIndex < 0)
 				this.nNewBornsInSimulationByAge[ageIndex + this.stepsInRun][sexIndex]++;
@@ -2277,6 +2327,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 			 * 
 			 * String indLabel = individual.getLabel(); String[] tokens =
 			 * indLabel.split(delims); int from = Integer.parseInt(tokens[2]);
+			 * 
 			 * 
 			 * 
 			 * 
@@ -2470,21 +2521,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							for (int state = 0; state < this.nDiseaseStates; state++) {
 								this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s] = ratio
 										* this.pDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s];
-							/*	if (s == 0 && a == 50)
-									log
-											.fatal("scenario "
-													+ scen
-													+ "step "
-													+ stepCount
-													+ " state "
-													+ state
-													+ " r "
-													+ r
-													+ "pdis "
-													+ this.pDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s]
-													+ "ndis "
-													+ this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s]);
-							*/ }
+								/*
+								 * if (s == 0 && a == 50) log .fatal("scenario "
+								 * + scen + "step " + stepCount + " state " +
+								 * state + " r " + r + "pdis " +
+								 * this.pDiseaseStateByOriRiskClassByAge
+								 * [scen][stepCount][state][r][a][s] + "ndis " +
+								 * this
+								 * .nDiseaseStateByOriRiskClassByOriAge[scen]
+								 * [stepCount][state][r][a][s]);
+								 */}
 						}
 					}
 				}// end loop sex
