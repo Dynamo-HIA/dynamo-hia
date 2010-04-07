@@ -66,10 +66,16 @@ public class ModelParameters {
 	// (disease);
 	private float[][][] relRiskContinue = new float[96][2][];
 	private float prevRisk[][][] = new float[96][2][];;
-	/** mean of the risk factor, for the lognormal distribution this is the mean on the logscale */
+	/**
+	 * mean of the risk factor, for the lognormal distribution this is the mean
+	 * on the logscale
+	 */
 	private float[][] meanRisk = new float[96][2];
 
-	/** standard deviation of the risk factor, for the lognormal distribution this is the mean on the logscale */
+	/**
+	 * standard deviation of the risk factor, for the lognormal distribution
+	 * this is the mean on the logscale
+	 */
 	private float[][] stdDevRisk = new float[96][2];
 	private float[][] offsetRisk = new float[96][2];
 	private String[] diseaseNames;
@@ -2489,7 +2495,7 @@ public class ModelParameters {
 			this.log.debug("begin loop 4");
 		double sumOtherMort = 0;
 
-		double[] beta;
+		double[] beta = null;
 
 		double otherMort[] = new double[nSim];
 		double logOtherMort[] = new double[nSim];
@@ -2598,19 +2604,22 @@ public class ModelParameters {
 					otherMort[i] -= this.attributableMortality[age][sex][d]
 							* probDisease[i][d] + fatalIncidence[i][d];
 				}
-			;
+
 			sumOtherMort += weight[i] * otherMort[i];
 			if (otherMort[i] > 0)
 				logOtherMort[i] = Math.log(otherMort[i]);
 			else {
-				this.log
-						.fatal("negative other mortality  = " + otherMort[i]
-								+ " for person  " + i + " for riskclass "
-								+ riskclass[i] + " and for riskfactor "
-								+ riskfactor[i] + " age: "+ age + " sex: "+sex);
-				logOtherMort[i] = -16; /* -16  is approx one in 10 million which is
-				sufficiently rare to be close to zero, and hopefully not to large in order to
-				be too influential in the regression */
+				this.log.fatal("negative other mortality  = " + otherMort[i]
+						+ " for person  " + i + " for riskclass "
+						+ riskclass[i] + " and for riskfactor " + riskfactor[i]
+						+ " age: " + age + " sex: " + sex);
+				logOtherMort[i] = -16; /*
+										 * -16 is approx one in 10 million which
+										 * is sufficiently rare to be close to
+										 * zero, and hopefully not to large in
+										 * order to be too influential in the
+										 * regression
+										 */
 				nNegativeOtherMort += weight[i];
 			}
 		}
@@ -2665,7 +2674,9 @@ public class ModelParameters {
 		// factors;
 		if (inputData.isWithRRForMortality()) {
 			try {
+
 				beta = weightedRegression(yValue, xMatrix, wVector);
+
 			} catch (Exception e) {
 
 				e.printStackTrace();
@@ -2703,22 +2714,23 @@ public class ModelParameters {
 				// last beta is the coefficient for the continuous risk
 				// factor
 				// //
-				//this.relRiskOtherMortCont[age][sex] = (float) Math
-				//		.exp(beta[beta.length - 1]);
+				// this.relRiskOtherMortCont[age][sex] = (float) Math
+				// .exp(beta[beta.length - 1]);
 			}
-			if (age==56){
-				
-				int stop=1;
+			if (age == 56) {
+
+				int stop = 1;
 				stop++;
 			}
-			 
+
 			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 				this.relRiskOtherMortCont[age][sex] = 1;
 			else
 				this.relRiskOtherMortCont[age][sex] = (float) Math.exp(beta[1]);
 
 			this.baselineOtherMortality[age][sex] = (float) Math.exp(beta[0]);
-			if (this.baselineOtherMortality[age][sex]==0) this.relRiskOtherMortCont[age][sex] = 1;
+			if (this.baselineOtherMortality[age][sex] == 0)
+				this.relRiskOtherMortCont[age][sex] = 1;
 			/**
 			 * in the fifth stage the sum of the RR's on other cause mortalities
 			 * is calculated in order to estimate the baseline other cause
@@ -3003,6 +3015,14 @@ public class ModelParameters {
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 6");
 
+	}
+
+	private boolean constantY(double[] value) {
+		boolean constantY = true;
+		for (int i = 0; i < value.length; i++)
+			if (value[i] != value[0])
+				constantY = false;
+		return constantY;
 	}
 
 	private double calculateAbilityFromDiseases(DiseaseClusterData[] inputData,
@@ -3484,23 +3504,33 @@ public class ModelParameters {
 			throw new Exception(
 					" Array lengths of x and y differ in method weighted regression");
 
-		for (int i = 0; i < w.length; i++) {
-			double weight = Math.sqrt(w[i]);
-			y_array[i] = weight * y_array[i];
-			for (int j = 0; j < x_array[0].length; j++)
-				x_array[i][j] = x_array[i][j] * weight;
-		}
-		;
+		double[] coef;
+		/* check if all Y-values are the same */
+		if (!constantY(y_array)) {
 
-		Matrix X = new Matrix(x_array);
-		Matrix Y = new Matrix(y_array, y_array.length);
-		Matrix XT = X.transpose();
-		Matrix XX = XT.times(X);
-		Matrix inverseXX = XX.inverse();
-		Matrix XY = XT.times(Y);
-		// beta are the regression coefficients;
-		Matrix Beta = inverseXX.times(XY);
-		double coef[] = Beta.getColumnPackedCopy();
+			for (int i = 0; i < w.length; i++) {
+				double weight = Math.sqrt(w[i]);
+				y_array[i] = weight * y_array[i];
+				for (int j = 0; j < x_array[0].length; j++)
+					x_array[i][j] = x_array[i][j] * weight;
+			}
+			;
+
+			Matrix X = new Matrix(x_array);
+			Matrix Y = new Matrix(y_array, y_array.length);
+			Matrix XT = X.transpose();
+			Matrix XX = XT.times(X);
+			Matrix inverseXX = XX.inverse();
+			Matrix XY = XT.times(Y);
+			// beta are the regression coefficients;
+			Matrix Beta = inverseXX.times(XY);
+			coef = Beta.getColumnPackedCopy();
+		} else {
+			/* if all Y-values are the same, fill the coefficient by hand */
+			coef = new double[x_array[0].length];
+			Arrays.fill(coef, 0);
+			coef[0] = y_array[0];
+		}
 		return coef;
 	};
 

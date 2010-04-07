@@ -87,7 +87,7 @@ public class NettTransitionRateFactory {
 			// New variables are after selective mortality
 			double[] meanNew = new double[nAgeGroups];
 			double[] checkMeanNew = new double[nAgeGroups]; // to calibrate away
-															// the
+			// the
 			// effect of the
 			// simulation
 			double[] stdNew = new double[nAgeGroups];
@@ -179,7 +179,7 @@ public class NettTransitionRateFactory {
 					// origin
 					stdNew[a] += survival * pdfTable[i]
 							* Math.pow(riskfactor[i][a], 2);// second moment
-															// around
+					// around
 					// the origin
 					// skewness is not needed in this way of calculation
 
@@ -224,12 +224,31 @@ public class NettTransitionRateFactory {
 					// the
 					// mean
 				}
-				stdNew[a] = Math.sqrt(stdNew[a] / meanSurv - meanNew[a]
-						* meanNew[a] / meanSurv / meanSurv);
+				if (a == 18) {
+
+					int stop = 0;
+					stop++;
+
+				}
+				/*
+				 * with zero stdnew numerical errors sometimes make the
+				 * difference slightly larger than 0
+				 */
+				if (stdNew[a] / meanSurv > meanNew[a] * meanNew[a] / meanSurv
+						/ meanSurv)
+					stdNew[a] = Math.sqrt(stdNew[a] / meanSurv - meanNew[a]
+							* meanNew[a] / meanSurv / meanSurv);
+				else
+					stdNew[a] = 0;
 				// second moment around the mean
-				checkStdNew[a] = Math.sqrt(checkStdNew[a] / checkMeanSurv
-						- checkMeanNew[a] * checkMeanNew[a] / checkMeanSurv
-						/ checkMeanSurv); // second moment
+				if (checkStdNew[a] / checkMeanSurv > checkMeanNew[a]
+						* checkMeanNew[a] / checkMeanSurv / checkMeanSurv)
+
+					checkStdNew[a] = Math.sqrt(checkStdNew[a] / checkMeanSurv
+							- checkMeanNew[a] * checkMeanNew[a] / checkMeanSurv
+							/ checkMeanSurv);
+				else
+					checkStdNew[a] = 0;// second moment
 				// around the mean
 				meanNew[a] = meanNew[a] / meanSurv; // first moment around the
 				// mean
@@ -240,31 +259,41 @@ public class NettTransitionRateFactory {
 
 				if (lognorm == true) {
 					muNew[a] = muNew[a] / meanSurv; // ditto for the lognormal
-													// mean
+					// mean
 					checkMuNew[a] = checkMuNew[a] / checkMeanSurv;
 
+					if (sigmaNew[a] / meanSurv>muNew[a]
+							* muNew[a])
 					sigmaNew[a] = Math.sqrt(sigmaNew[a] / meanSurv - muNew[a]
-							* muNew[a]); // second moment around the mean for
-											// the
+							* muNew[a]);
+					
+					else sigmaNew[a]=0; 
+					// second moment around the mean for
+					// the
 					// lognormal
 					// calibrated:
-					checkSigmaNew[a] = Math.sqrt(checkSigmaNew[a]
-							/ checkMeanSurv - checkMuNew[a] * checkMuNew[a]); // second
-																				// moment
+					if (checkSigmaNew[a]
+										/ checkMeanSurv >checkMuNew[a] * checkMuNew[a])
+										
+										checkSigmaNew[a] = Math.sqrt(checkSigmaNew[a]
+							/ checkMeanSurv - checkMuNew[a] * checkMuNew[a]);
+					else checkSigmaNew[a]=0;// second
+					// moment
 					// around the mean
 					// for the
 					// lognormal
 				}
 				// calibrated:
-				meanNew[a] = meanNew[a] * meanRisk[a][s] / (checkMeanNew[a]);
+				if (checkMeanNew[a] != 0) meanNew[a] = meanNew[a] * meanRisk[a][s] / (checkMeanNew[a]);
+				/* if checkMeanNew[a]== 0 do not calibrate */
 				// calibrated:
-				stdNew[a] = stdNew[a] * stdRisk[a][s] / (checkStdNew[a]);
-
+				if (checkStdNew[a] != 0) stdNew[a] = stdNew[a] * stdRisk[a][s] / (checkStdNew[a]);
+				/* if checkSTDNew[a]== 0 do not calibrate */
 				if (lognorm == true) {
 					// calibrated:
-					muNew[a] = muNew[a] * mu[a][s] / (checkMuNew[a]);
+					if (checkMuNew[a] != 0)muNew[a] = muNew[a] * mu[a][s] / (checkMuNew[a]);
 					// calibrated:
-					sigmaNew[a] = sigmaNew[a] * sigma[a][s]
+					if (checkSigmaNew[a] != 0) sigmaNew[a] = sigmaNew[a] * sigma[a][s]
 							/ (checkSigmaNew[a]);
 				}
 
@@ -289,31 +318,31 @@ public class NettTransitionRateFactory {
 						nettDrift[0][a - 1][s] = (float) (meanRisk[a][s]
 								- meanNew[a - 1] + trend);
 						if (stdNew[a - 1] != 0) {
-							nettDrift[1][a - 1][s] = (float) (stdRisk[a][s]-stdNew[a - 1]); // old:
-																	// divided
-																	// by
-																	// stdNew[a
-																	// - 1];
+							nettDrift[1][a - 1][s] = (float) (stdRisk[a][s] - stdNew[a - 1]); // old:
+							// divided
+							// by
+							// stdNew[a
+							// - 1];
 						} else
 							nettDrift[1][a - 1][s] = 0;
 						nettDrift[2][a - 1][s] = 0; // not defined, but make it
-													// 0 anyway
+						// 0 anyway
 					} else {
 						nettDrift[0][a - 1][s] = (float) (mu[a][s] - muNew[a - 1]);
 						if (sigmaNew[a - 1] != 0) {
-							nettDrift[1][a - 1][s] = (float)( sigma[a][s]-sigmaNew[a - 1]); // old:
-																			// divided
-																			// by
-																			// sigmaNew[a
-																			// -
-																			// 1];
+							nettDrift[1][a - 1][s] = (float) (sigma[a][s] - sigmaNew[a - 1]); // old:
+							// divided
+							// by
+							// sigmaNew[a
+							// -
+							// 1];
 
 						}
 
 						else {
 							nettDrift[1][a - 1][s] = 0;
 						}
-						
+
 						nettDrift[2][a - 1][s] = (float) (offset[a][s]
 								- offsetNew[a - 1] + trend);
 					}
