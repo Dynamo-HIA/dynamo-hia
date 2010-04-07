@@ -12,6 +12,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFixedXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
@@ -992,7 +993,7 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createMenu4RiskFactorDurationDistribution(
 			IMenuManager manager, IStructuredSelection selection) {
-		DurationDistributionFreeXMLFilePlusTypeBulletsAction action = new DurationDistributionFreeXMLFilePlusTypeBulletsAction(
+		DurationDistributionFixedXMLFilePlusTypeBulletsAction action = new DurationDistributionFixedXMLFilePlusTypeBulletsAction(
 				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
 				RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel(),
 				"aaa_riskfactorname", "bbb_riskfactortype");

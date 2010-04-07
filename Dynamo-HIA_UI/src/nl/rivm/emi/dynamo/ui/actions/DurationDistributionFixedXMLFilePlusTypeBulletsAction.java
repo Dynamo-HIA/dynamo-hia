@@ -16,6 +16,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
+import nl.rivm.emi.dynamo.ui.validators.UltraConservativeNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
@@ -26,14 +27,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
-public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends
+public class DurationDistributionFixedXMLFilePlusTypeBulletsAction extends
 		FreeNameXMLFileAction {
 
 	private String bulletButtonName;
 	private String riskFactorName;
 	private String riskFactorType;
 
-	public DurationDistributionFreeXMLFilePlusTypeBulletsAction(Shell shell,
+	public DurationDistributionFixedXMLFilePlusTypeBulletsAction(Shell shell,
 			TreeViewer v, BaseNode node, String rootElementName,
 			String riskFactorName, String riskFactorType) {
 		super(shell, v, node, rootElementName, null);
@@ -56,8 +57,8 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends
 		// import, ok and cancel buttons)
 		DurationDistributionTrialog inputDialog = new DurationDistributionTrialog(
 				shell, "BasePath: " + selectionPath,
-				"Enter name for the new duration distribution file:", "Name",
-				new FileAndDirectoryNameInputValidator(), this.riskFactorName,
+				"This is the only valid name for the duration distribution file:", "durationprevalence",
+				new UltraConservativeNameInputValidator(), this.riskFactorName,
 				this.riskFactorType);
 
 		// /TODO Use

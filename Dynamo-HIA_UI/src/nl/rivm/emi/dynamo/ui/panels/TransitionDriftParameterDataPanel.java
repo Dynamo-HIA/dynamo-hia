@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Mean;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.listeners.verify.MeanVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
@@ -94,7 +95,7 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				type.getModelUpdateValueStrategy(), type
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+		text.addVerifyListener(new MeanVerifyListener(theHelpGroup
 				.getTheModal()));
 	}
 
