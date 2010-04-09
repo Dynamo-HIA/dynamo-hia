@@ -1,6 +1,8 @@
                                           Overall Mortality 
 For the selected population, enter the overall mortality by sex and age class (either manually or via import).  
 
+Files of this format can be created using the "Overall mortality rates" worksheet in the "macro/1-Population/Population.xml" workbook.
+
 Save the results ("Save") and close the window ("cancel").
 
 The overall mortality rate, sometimes total mortality rate, is the number of death per 10000 xxx in the population for the respective age and sex groups.

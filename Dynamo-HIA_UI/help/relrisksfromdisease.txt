@@ -2,6 +2,8 @@ Relative Risks from other Diseases
 
 For the selected disease, enter relative risk of obtaining the selected disease when having another (intermediate) disease for each sex and age class (either manually or via import). The intermediate disease has to be specified before creating this window. 
 
+Files of this format can be created using the "Rel risk from other diseas_Cat" worksheet in the "macro/9-Relative risk from other disease/Relative risk from other disease.xml" workbook.
+ 
 Save the results ("Save") and close the window ("cancel").
 
 The risk of contracting a disease can be increased when already having another, intermediate disease. Not every disease has an intermediate disease or acts an intermediate disease.

@@ -2,6 +2,8 @@ Excess Mortality
 
 For the selected disease, enter the excess mortality for each sex and age class (either manually or via import). This can be done either by choosing "Rate" or "Median Survival". "Acutely Fatal" and "Cured Fraction" can always be entered. 
 
+Files of this format can be created using the "Disease mortality (per case)" worksheet in the "macro/2-Disease/Disease.xml" workbook.
+ 
 Save the results ("Save") and close the window ("cancel")
 
 Excess Mortality as a Rate, sometimes called "case fatality rate", is the difference in mortality rate between those with the disease and those without the disease.

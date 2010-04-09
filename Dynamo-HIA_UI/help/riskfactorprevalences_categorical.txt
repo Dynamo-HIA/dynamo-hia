@@ -1,0 +1,1 @@
+Files of this format can be created using the "Risk factor prevalence_Cat" worksheet in the "macro/5-Risk factor categorical/Riskfactor categorical.xml" workbook.

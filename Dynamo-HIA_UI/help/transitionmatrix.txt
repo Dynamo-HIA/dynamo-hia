@@ -1,6 +1,8 @@
 Transition Matrix
 For the selected categorical risk factor, enter the probability of moving from one risk factor class to another risk factor by age and sex (either manually or via import). The button “Apply current sheet to all higher ages” assigns the current values to all older age groups.
 
+Files of this format can be created using the "transition matrix" worksheet in the "macro/5-Risk factor categorical/Riskfactor categorical.xml" workbook.
+
 Save the results (“Save”) and close the window (“Cancel”).
 
 An example is the transition from class 1 (“never-smoker”) to class 2 (“light smoker”); not all possible transition are plausible (e.g. from “light-smoker” to “non-smoker”) and should be set to zero. 

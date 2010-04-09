@@ -1,7 +1,8 @@
 Transition Drift
 For the selected continuous risk factor, enter the transition drift. This number gives the increase in the mean of the distribution for every additional year. Hence, the distribution “drifts” towards the right, when the chosen number is positive. 
 
-Save the results (“Save”) and close the window (“Cancel”).
+Files of this format can be created using the "Transition Contin (drift)" worksheet in the "macro/4-Risk factor continuous/Risk factor continuous.xml" workbook.
 
+Save the results (“Save”) and close the window (“Cancel”).
 
 Sources for the transition rates are the scientific literature and scientific considerations. 
