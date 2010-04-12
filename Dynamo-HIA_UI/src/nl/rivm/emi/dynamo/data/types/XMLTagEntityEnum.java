@@ -46,6 +46,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.Mortality;
 import nl.rivm.emi.dynamo.data.types.atomic.Name;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberOfYears;
+import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.data.types.atomic.Percent;
 import nl.rivm.emi.dynamo.data.types.atomic.PopFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
@@ -168,6 +169,7 @@ public enum XMLTagEntityEnum {
 	NAME((XMLTagEntity) new Name()), //
 	NUMBER((XMLTagEntity) new Number()), //
 	NUMBEROFYEARS((XMLTagEntity) new NumberOfYears()), //
+	PARAMETERTYPE((XMLTagEntity) new ParameterType()), //
 	PERCENTAGE((XMLTagEntity) new Percent()), // 
 	POPFILENAME((XMLTagEntity) new PopFileName()), //
 	PREVALENCE((XMLTagEntity) new Prevalence()), //

@@ -195,7 +195,7 @@ public class XMLFileAction extends ActionBase {
 													importFile
 															.getAbsolutePath(),
 													savedFile.getAbsolutePath(),
-													rootElementName, node);
+													rootElementName, node, null);
 										} else {
 
 											if (RootElementNamesEnum.RELATIVERISKSFROMDISEASE

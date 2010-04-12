@@ -133,7 +133,7 @@ public class FileControlEnumHelp {
 	/* W33 */
 	static final String[] excessMortalityStrings = {
 			RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
-			"unittype",
+			"unittype", "parametertype",
 			/* Alternative, non-conforming layout. */XMLTagEntityEnum.MORTALITIES
 					.getElementName()
 	/* ,XMLTagEntityEnum.MORTALITY.getElementName() */

@@ -126,7 +126,7 @@ public class FreeNamePlusDropDownXMLFileAction extends ActionBase {
 						rootElementName)) {
 					theModal = new ExcessMortalityModal(shell, dataFile
 							.getAbsolutePath(), savedFile.getAbsolutePath(),
-							rootElementName, node);
+							rootElementName, node, null);
 				} else {
 					if (RootElementNamesEnum.DISEASEINCIDENCES.getNodeLabel()
 							.equals(rootElementName)) {

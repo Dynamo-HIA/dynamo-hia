@@ -68,7 +68,7 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						.getAbsolutePath();
 				String rootElementName = ConfigurationFileUtil
 						.extractRootElementNameFromSiblingConfiguration(node);
-				log.debug("Creating prevalences file for rootelement: "
+				log.debug(super.getText() + " for rootelement: "
 						+ rootElementName);
 
 				/**
@@ -253,8 +253,8 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName)) {
 							// TODO Implement getting category-int-s.
-							int numberOfCategories = 3;
-							int durationCategoryIndex = 3;
+							//int numberOfCategories = 3;
+							//int durationCategoryIndex = 3;
 							if (communicationEnum
 									.equals(RiskFactorStringConstantsEnum.RISKFACTORPREVALENCES)) {
 								theModal = new RiskFactorCompoundPrevalencesModal(

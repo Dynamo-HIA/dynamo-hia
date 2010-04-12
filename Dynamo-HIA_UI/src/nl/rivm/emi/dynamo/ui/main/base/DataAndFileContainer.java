@@ -45,6 +45,12 @@ abstract public class DataAndFileContainer {
 	protected DataBindingContext dataBindingContext = null;
 
 	/**
+	 * Flag that indicates whether the content of the modelobject originates
+	 * from an "import" action.
+	 */
+	private boolean imported = false;
+
+	/**
 	 * Flag that indicates whether any content of the modelobject has changed
 	 * since the last save.
 	 */
@@ -98,6 +104,7 @@ abstract public class DataAndFileContainer {
 		} else {
 			// Imported file.
 			setChanged(true);
+			setImported(true);
 		}
 		if (configurationFile.exists() && !configurationFile.canWrite()) {
 			configurationFileReadOnly = true;
@@ -148,6 +155,26 @@ abstract public class DataAndFileContainer {
 	}
 
 	/**
+	 * Returns the flag that indicates the data was imported from a different file
+	 * than the one it is going to be saved to.
+	 * 
+	 * @return imported
+	 */
+	public boolean isImported() {
+		return imported;
+	}
+
+	/**
+	 * Sets the flag that indicates the data was imported from a different file
+	 * than the one it is going to be saved to.
+	 * 
+	 * @param imported
+	 */
+	private void setImported(boolean imported) {
+		this.imported = imported;
+	}
+
+	/**
 	 * Possible extra functionality at "save" time, before the saving happens.
 	 */
 	abstract public SideEffectProcessor getSavePreProcessor();
@@ -165,6 +192,7 @@ abstract public class DataAndFileContainer {
 	 * @return The Shell containing this window.
 	 */
 	abstract public Shell getShell();
+
 	/**
 	 * @return The Shell containing the parent of this window.
 	 */

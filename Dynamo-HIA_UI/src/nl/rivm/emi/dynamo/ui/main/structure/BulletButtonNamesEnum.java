@@ -1,5 +1,8 @@
 package nl.rivm.emi.dynamo.ui.main.structure;
 
+import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,7 +20,9 @@ public enum BulletButtonNamesEnum {
 	TRANSITION_USER_SPECIFIED("User specified", null), //
 	TRANSITION_NETTO("Netto", null), //
 	DURATION_USER_SPECIFIED("User specified", "riskfactorprevalences_duration"), //
-	DURATION_UNIFORM("Uniform", "riskfactorprevalences_duration_uniform");
+	DURATION_UNIFORM("Uniform", "riskfactorprevalences_duration_uniform"), //
+	ACUTELY_FATAL(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL,RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel()), //
+	CURED_FRACTION(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION,RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel());
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 	/**

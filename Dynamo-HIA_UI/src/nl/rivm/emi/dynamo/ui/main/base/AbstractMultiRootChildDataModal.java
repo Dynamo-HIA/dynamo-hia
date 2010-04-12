@@ -178,36 +178,50 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 * that could cause unexpected behaviour.)
 	 */
 	final public void run() {
-		try {
-			open();
-			Display display = this.shell.getDisplay();
-			while (!this.shell.isDisposed()) {
-				if (!display.readAndDispatch())
-					display.sleep();
+		if (ok2Run()) {
+			try {
+				open();
+				if (!this.shell.isDisposed()) {
+					Display display = this.shell.getDisplay();
+					while (!this.shell.isDisposed()) {
+						if (!display.readAndDispatch())
+							display.sleep();
+					}
+				}
+			} catch (ConfigurationException e) {
+				MessageBox box = new MessageBox(this.shell,
+						SWT.ERROR_UNSPECIFIED);
+				box.setText("Processing " + this.configurationFilePath);
+				box.setMessage(e.getMessage());
+				box.open();
+				this.shell.dispose();
+			} catch (DynamoInconsistentDataException e) {
+				MessageBox box = new MessageBox(this.shell,
+						SWT.ERROR_UNSPECIFIED);
+				box.setText("Processing " + this.configurationFilePath);
+				box.setMessage(e.getMessage());
+				box.open();
+				this.shell.dispose();
+			} catch (Throwable e) {
+				e.printStackTrace(System.err);
+				MessageBox box = new MessageBox(this.shell,
+						SWT.ERROR_UNSPECIFIED);
+				box.setText("Processing " + this.configurationFilePath);
+				box.setMessage("An unexpected error occurred:\n"
+						+ e.getClass().getSimpleName() + "\n" + e.getMessage()
+						+ "\n" + dumpTopOfStackTrace(e));
+				box.open();
+				this.shell.dispose();
+				// Will things be stable after this???????
 			}
-		} catch (ConfigurationException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-			this.shell.dispose();
-		} catch (DynamoInconsistentDataException e) {
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage(e.getMessage());
-			box.open();
-			this.shell.dispose();
-		} catch (Throwable e) {
-			e.printStackTrace(System.err);
-			MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
-			box.setText("Processing " + this.configurationFilePath);
-			box.setMessage("An unexpected error occurred:\n"
-					+ e.getClass().getSimpleName() + "\n" + e.getMessage()
-					+ "\n" + dumpTopOfStackTrace(e));
-			box.open();
-			this.shell.dispose();
-			// Will things be stable after this???????
 		}
+	}
+
+	/**
+	 * Override to stop the screen from showing.
+	 */
+	protected boolean ok2Run() {
+		return true;
 	}
 
 	/**
@@ -220,7 +234,7 @@ public abstract class AbstractMultiRootChildDataModal extends
 	 *            interesting.
 	 * @return The resulting stacktrace excerpt.
 	 */
-private String dumpTopOfStackTrace(Throwable thrown) {
+	private String dumpTopOfStackTrace(Throwable thrown) {
 		final Integer topSize = 3;
 		StringBuffer resultBuffer = new StringBuffer();
 		StackTraceElement[] stackTraceElementArray = thrown.getStackTrace();
@@ -233,62 +247,86 @@ private String dumpTopOfStackTrace(Throwable thrown) {
 		return resultBuffer.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getData()
 	 */
 	abstract public Object getData();
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getShell()
 	 */
 	public Shell getShell() {
 		return this.shell;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getBaseNode()
 	 */
 	public BaseNode getBaseNode() {
 		return this.selectedNode;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getParentShell()
 	 */
 	public Shell getParentShell() {
 		return this.parentShell;
 	}
 
-	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getConfigurationFilePath()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getConfigurationFilePath
+	 * ()
 	 */
 	public String getConfigurationFilePath() {
 		return this.configurationFilePath;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getDataFilePath()
 	 */
 	public String getDataFilePath() {
 		return this.dataFilePath;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getRootElementName()
 	 */
 	public String getRootElementName() {
 		return this.rootElementName;
 	}
 
-	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setConfigurationFilePath(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setConfigurationFilePath
+	 * (java.lang.String)
 	 */
 	public void setConfigurationFilePath(String configurationFilePath) {
 		this.configurationFilePath = configurationFilePath;
 	}
 
-	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setDataFilePath(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#setDataFilePath(java.
+	 * lang.String)
 	 */
 	public void setDataFilePath(String dataFilePath) {
 		this.dataFilePath = dataFilePath;
@@ -297,8 +335,11 @@ private String dumpTopOfStackTrace(Throwable thrown) {
 	/**
 	 * Default implementation, returns null.
 	 */
-	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePreProcessor()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePreProcessor()
 	 */
 	public SideEffectProcessor getSavePreProcessor() {
 		return null;
@@ -307,14 +348,19 @@ private String dumpTopOfStackTrace(Throwable thrown) {
 	/**
 	 * Default implementation, returns null.
 	 */
-	/* (non-Javadoc)
-	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePostProcessor()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getSavePostProcessor()
 	 */
 	public SideEffectProcessor getSavePostProcessor() {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.DataAndFileContainer#getHelpGroup()
 	 */
 	public HelpGroup getHelpGroup() {

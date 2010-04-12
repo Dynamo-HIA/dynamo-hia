@@ -15,6 +15,7 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFixedXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
+import nl.rivm.emi.dynamo.ui.actions.ExcessMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeNameXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.InputBulletsFreeXMLFileAction;
@@ -1174,6 +1175,7 @@ public class StorageTreeMenuFactory {
 
 	/**
 	 * TODO
+	 * 20100409 AcutelyFatal OR CuredFraction may be filled, not both. 
 	 * 
 	 * @param manager
 	 *            The IMenuManager to add the Menu to.
@@ -1183,10 +1185,13 @@ public class StorageTreeMenuFactory {
 
 	private void createMenu4Excess_Mortalities(IMenuManager manager,
 			IStructuredSelection selection) {
-		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
+//		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
+//				treeViewer, (DirectoryNode) selection.getFirstElement(),
+//				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
+//				new FileAndDirectoryNameInputValidator());
+		ExcessMortalityXMLFileAction action = new ExcessMortalityXMLFileAction(shell,
 				treeViewer, (DirectoryNode) selection.getFirstElement(),
-				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
-				new FileAndDirectoryNameInputValidator());
+				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel());
 		action.setText("New disease excess mortalities file");
 		manager.add(action);
 	}

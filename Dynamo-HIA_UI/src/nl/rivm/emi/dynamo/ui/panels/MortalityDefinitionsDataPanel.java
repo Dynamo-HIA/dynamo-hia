@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IMortalityObject;
+import nl.rivm.emi.dynamo.data.interfaces.IParameterTypeObject;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
@@ -11,6 +12,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
@@ -48,10 +50,15 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 			UnitTypeComboModifyListener unitTypeModifyListener) {
 		super(parent, SWT.NONE);
 		this.myMortalityObject = iMortalityObject;
+		// 20100409
+		boolean acutelyFaltalChosen = ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL
+				.equals(((IParameterTypeObject) myMortalityObject)
+						.getParameterType());
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 7;
+		// layout.numColumns = 7;
+		layout.numColumns = 5;
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		// Second line
@@ -59,28 +66,40 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		Label filler2Label = new Label(this, SWT.NONE);
-		Label filler3Label = new Label(this, SWT.NONE);
+		// Label filler3Label = new Label(this, SWT.NONE);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
 		Label filler4Label = new Label(this, SWT.NONE);
-		Label filler5Label = new Label(this, SWT.NONE);
+		// Label filler5Label = new Label(this, SWT.NONE);
 		// Second line
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");
 		Label unitLabel = new Label(this, SWT.NONE);
 		String unitText = unitTypeModifyListener.registerLabel(unitLabel);
 		unitLabel.setText(unitText);
-		Label acutelyFatalLabel = new Label(this, SWT.NONE);
-		acutelyFatalLabel.setText("Acutely Fatal");
-		Label curedFractionLabel = new Label(this, SWT.NONE);
-		curedFractionLabel.setText("Cured Fraction");
+		// Label acutelyFatalLabel = new Label(this, SWT.NONE);
+		// acutelyFatalLabel.setText("Acutely Fatal");
+		// Label curedFractionLabel = new Label(this, SWT.NONE);
+		// curedFractionLabel.setText("Cured Fraction");
+		Label parameterLabel = new Label(this, SWT.NONE);
+		if (acutelyFaltalChosen) {
+			parameterLabel
+					.setText(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL);
+		} else {
+			parameterLabel
+					.setText(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION);
+		}
 		Label femaleUnitLabel = new Label(this, SWT.NONE);
 		unitText = unitTypeModifyListener.registerLabel(femaleUnitLabel);
 		femaleUnitLabel.setText(unitText);
-		Label femaleAcutelyFatalLabel = new Label(this, SWT.NONE);
-		femaleAcutelyFatalLabel.setText("Acutely Fatal");
-		Label femaleCuredFractionLabel = new Label(this, SWT.NONE);
-		femaleCuredFractionLabel.setText("Cured Fraction");
+		Label femaleParameterLabel = new Label(this, SWT.NONE);
+		if (acutelyFaltalChosen) {
+			femaleParameterLabel
+					.setText(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL);
+		} else {
+			femaleParameterLabel
+					.setText(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION);
+		}
 		// Data panel.
 		// int numberOfAges = iMortalityObject.getNumberOfMortalities();
 		TypedHashMap<Age> ageMap = iMortalityObject.getMortalities();
@@ -94,12 +113,14 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 				ArrayList<AtomicTypeObjectTuple> arrayList = (ArrayList<AtomicTypeObjectTuple>) sexMap
 						.get(sexCount);
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
-					AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
-					WritableValue observableClassName = (WritableValue) tuple
-							.getValue();
-					XMLTagEntity theType = tuple.getType();
-					bindValue(observableClassName,
-							(AtomicTypeBase<Float>) theType);
+					if (!((acutelyFaltalChosen && (paramCount == 2)) || (!acutelyFaltalChosen && (paramCount == 1)))) {
+						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						WritableValue observableClassName = (WritableValue) tuple
+								.getValue();
+						XMLTagEntity theType = tuple.getType();
+						bindValue(observableClassName,
+								(AtomicTypeBase<Float>) theType);
+					}
 				}
 			}
 
@@ -116,9 +137,9 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 			AtomicTypeBase<Float> theType) {
 		Text text = createAndPlaceTextField();
 		text.setText(theType.convert4View(observableClassName.doGetValue()));
-//		FocusListener focusListener = new TypedFocusListener(theType,
-//				theHelpGroup);
-//		text.addFocusListener(focusListener);
+		// FocusListener focusListener = new TypedFocusListener(theType,
+		// theHelpGroup);
+		// text.addFocusListener(focusListener);
 		HelpTextListenerUtil.addHelpTextListeners(text, theType);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());

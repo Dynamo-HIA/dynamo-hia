@@ -82,8 +82,11 @@ public class RelRiskForDeathCompoundModal extends AbstractDataModal {
 					"No Factory found for rootElementName: "
 							+ this.rootElementName);
 		}
-		File configurationFile = new File(this.configurationFilePath);
-		if (configurationFile.exists()) {
+// Datafile path because otherwise the import does not work.		
+//		File configurationFile = new File(this.configurationFilePath);
+		File configurationFile = new File(this.dataFilePath);
+		
+			if (configurationFile.exists()) {
 			if (configurationFile.isFile() && configurationFile.canRead()) {
 				// 20090929 Added.
 				int numberOfClasses = RiskFactorUtil

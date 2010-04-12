@@ -143,4 +143,13 @@ public class GenericButtonPanel extends Composite {
 		closeButton.setLayoutData(formData);
 		return closeButton;
 	}
+
+	/**
+	 * Added to allow closing from inside the softwae.
+	 * 
+	 * @return closeButton
+	 */
+	public Button getCloseButton() {
+		return closeButton;
+	}
 }

@@ -220,7 +220,7 @@ public class DynamoSimulationObject extends
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
 		if (riskFactorMap != null) {
 			log.debug("Getting >" + riskFactorMap.size()
-					+ "< RiskFactorConfigurations from instance: " + this);
+					+ "< RiskFactorConfigurations");
 			Set<Object> namesSet = riskFactorMap.keySet();
 			for (Object nameObject : namesSet) {
 				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
@@ -316,6 +316,7 @@ public class DynamoSimulationObject extends
 			TabRelativeRiskConfigurationData data = new TabRelativeRiskConfigurationData();
 			data.initialize(index, relativeRiskModelData);
 			resultMap.put(index, data);
+			log.debug("Put relative risk #" + index + " from: " + data.getFrom() + " to: "  + data.getTo());
 		}
 		return resultMap;
 	}

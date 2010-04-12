@@ -98,7 +98,13 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		if (flagObject instanceof WritableValue) {
 			flag = (String) ((WritableValue) flagObject).doGetValue();
 		} else {
+			// 20100409
+			if(flagObject instanceof AtomicTypeObjectTuple){
+				AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple)flagObject;
+				flag = (String) ((WritableValue)tuple.getValue()).doGetValue();
+			}else {
 			flag = (String) flagObject;
+			}
 		}
 		return flag;
 	}

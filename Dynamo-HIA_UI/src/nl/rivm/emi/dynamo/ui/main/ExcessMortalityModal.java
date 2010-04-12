@@ -10,8 +10,16 @@ package nl.rivm.emi.dynamo.ui.main;
  * Modal dialog to create and edit the population size XML files. 
  */
 
+import java.io.File;
+import java.util.LinkedHashMap;
+
+import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
+import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
+import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.ui.dialogs.ExcessMortalityAddParameterTypeDialog;
+import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
@@ -20,6 +28,12 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.core.databinding.observable.value.WritableValue;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -29,12 +43,23 @@ import org.eclipse.swt.widgets.Shell;
 public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	// private static final String EXCESSMORTALITY = "excess_mortality";
 
-	@SuppressWarnings("unused")
-	private Log log = LogFactory.getLog(this.getClass().getName());
+	private Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	/**
 	 * Must be "global"to be available to the save-listener.
 	 */
 	private ExcessMortalityObject modelObject;
+
+	public static class ParameterTypeHelperClass {
+		static public final String CHOOSE = ParameterType.CHOOSE;
+		static public final String ACUTELY_FATAL = ParameterType.ACUTELY_FATAL;
+		static public final String CURED_FRACTION = ParameterType.CURED_FRACTION;
+		// Add functionality without breaking other code.
+		static public final String[] PARAMETERTYPES = { ACUTELY_FATAL,
+				CURED_FRACTION };
+		static public String chosenParameterName = null;
+	}
+
+	private boolean abortModalHandling = false;
 
 	/**
 	 * 
@@ -45,12 +70,17 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	 * @param configurationFilePath
 	 * @param rootElementName
 	 * @param selectedNode
+	 * @param parameterName
+	 *            TODO
 	 */
 	public ExcessMortalityModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
-			BaseNode selectedNode) {
+			BaseNode selectedNode, String parameterName) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
+		if (!isImported()) {
+			ParameterTypeHelperClass.chosenParameterName = parameterName;
+		}
 	}
 
 	/*
@@ -71,17 +101,137 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractMultiRootChildDataModal#open()
 	 */
 	@Override
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		boolean doNotOpenModal = false;
 		this.modelObject = (ExcessMortalityObject) manufactureModelObject();
-		ExcessMortalityGroup excessMortalityGroup = new ExcessMortalityGroup(
-				this.shell, this.modelObject, this.dataBindingContext,
-				this.selectedNode, this.helpPanel);
-		excessMortalityGroup
-				.setFormData(this.helpPanel.getGroup(), buttonPanel);
-		this.shell.pack();
-		// This is the first place this works.
-		this.shell.setSize(600, ModalStatics.defaultHeight);
-		this.shell.open();
+		doNotOpenModal = checkForParameterTypeAndAddWhenNescessary();
+		// Now check whether a new default Object has been created.
+		if (!doNotOpenModal) {
+			File dataFile = new File(this.dataFilePath);
+			if (!dataFile.exists()) {
+				updateModelObjectWithChosenParameterType(false);
+			}
+			ExcessMortalityGroup excessMortalityGroup = new ExcessMortalityGroup(
+					this.shell, this.modelObject, this.dataBindingContext,
+					this.selectedNode, this.helpPanel);
+			excessMortalityGroup.setFormData(this.helpPanel.getGroup(),
+					buttonPanel);
+
+			this.shell.pack();
+			// This is the first place this works.
+			this.shell.setSize(600, ModalStatics.defaultHeight);
+			this.shell.open();
+		} else {
+			shell.dispose();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void updateModelObjectWithChosenParameterType(boolean zapOtherColumn) {
+		if (ParameterTypeHelperClass.CURED_FRACTION
+				.equals(ParameterTypeHelperClass.chosenParameterName)) {
+			modelObject.insertParameterType(ParameterType.CURED_FRACTION, zapOtherColumn);
+			changed = true;
+		} else {
+			if (ParameterTypeHelperClass.ACUTELY_FATAL
+					.equals(ParameterTypeHelperClass.chosenParameterName)) {
+				modelObject.insertParameterType(ParameterType.ACUTELY_FATAL, zapOtherColumn);
+				changed = true;
+			}
+		}
+	}
+
+	@Override
+	protected boolean ok2Run() {
+		return !abortModalHandling;
+	}
+
+	/**
+	 * 
+	 */
+	private boolean checkForParameterTypeAndAddWhenNescessary() {
+		boolean doNotOpenModal = false;
+		if (ParameterTypeHelperClass.chosenParameterName == null) {
+			log.debug("chosenParameterType unavailable.");
+			if (modelObject.hasNoParameterType()) {
+				log.debug("modelObject without parameterType ");
+				if (Boolean.TRUE.equals(modelObject
+						.getNotAllAcutelyFatalsAreZeroAtConstructionTime())) {
+					if (Boolean.FALSE
+							.equals(modelObject
+									.getNotAllCuredFractionsAreZeroAtConstructionTime())) {
+						log
+								.debug("modelObject has only ACUTELY_FATAL nonzeroes, updating automagically. ");
+						modelObject
+								.insertParameterType(ParameterType.ACUTELY_FATAL, false);
+					} else {
+						// Both have non-zeroes.
+						log
+								.debug("modelObject has nonzeroes for both, start dilemma handling.");
+						ExcessMortalityAddParameterTypeDialog dialog = new ExcessMortalityAddParameterTypeDialog(
+								this.shell,
+								"ExcessMortality configuration file",
+								"It is not possible to have non-zero values in both\n"
+										+ "\"Acutely Fatal\" and \"Cured Fraction\" columns.\n\n"
+										+ "WARNING: There are non-zero values in both columns.\n"
+										+ " these will be lost in the column you do not choose!!!!\n\n"
+										+ "Please choose the column you want to use:");
+
+						dialog.open();
+						int returnCode = dialog.getReturnCode();
+						log.debug("ReturnCode is: " + returnCode);
+						if (returnCode == Window.OK) {
+							log
+									.debug("Dilemma: Updating modelObject with: "
+											+ ParameterTypeHelperClass.chosenParameterName);
+							updateModelObjectWithChosenParameterType(true);
+						} else {
+							doNotOpenModal = true;
+							abortModalHandling = true;
+						}
+					}
+				} else {
+					if (Boolean.FALSE
+							.equals(modelObject
+									.getNotAllCuredFractionsAreZeroAtConstructionTime())) {
+						// Both have only zeroes.
+						log
+								.debug("modelObject has nonzeroes for neither, start choice handling.");
+						ExcessMortalityAddParameterTypeDialog dialog = new ExcessMortalityAddParameterTypeDialog(
+								this.shell,
+								"ExcessMortality configuration file",
+								"It is not possible to have non-zero values in both\n"
+										+ "\"Acutely Fatal\" and \"Cured Fraction\" columns.\n\n"
+										+ "Please choose the column you want to use:");
+						dialog.open();
+						int returnCode = dialog.getReturnCode();
+						log.debug("ReturnCode is: " + returnCode);
+						if (returnCode == Window.OK) {
+							log
+									.debug("Choice: Updating modelObject with: "
+											+ ParameterTypeHelperClass.chosenParameterName);
+							updateModelObjectWithChosenParameterType(false);
+						} else {
+							doNotOpenModal = true;
+							abortModalHandling = true;
+						}
+					} else {
+						log
+								.debug("modelObject has only CURED_FRACTION nonzeroes, updating automagically. ");
+						modelObject
+								.insertParameterType(ParameterType.CURED_FRACTION, false);
+					}
+				}
+			} else {
+				log.debug("modelObject with parameterType ");
+			}
+		} else {
+			log.debug("chosenParameterType available.");
+		}
+		return doNotOpenModal;
 	}
 
 	/*
