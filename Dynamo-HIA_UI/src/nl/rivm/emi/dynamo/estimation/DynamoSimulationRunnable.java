@@ -221,6 +221,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
 				pop = popFactory.manufactureInitialPopulation(agemin, agemax,
 						0, 1, 1, 1, false);
+				if (agemin==20)
+			     {
+			    	 int stop=0;
+			    	 stop++;
+			     }
 				if (scen.isWithNewBorns()) {
 					Population[] newborns = popFactory
 							.manufactureInitialPopulation(0, 0, 0, 1, 1, scen
@@ -407,7 +412,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * The number is set so that 250000 characteristics are processed in a
 		 * single run /
 		 */
-		int nIndividuals = 2500000;
+		int nIndividuals = 500000;
 		nIndividuals /= numberOfElements;
 		int npop = scen.getNPopulations();
 		int nclasses = 1;
@@ -442,31 +447,37 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				+ File.separator
 				+ /* "resultObject.obj" */StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
 						.getNodeLabel() + ".obj";
-		File resultFile = new File(resultFileName);
-
+		
 		ObjectOutputStream out;
-
 		try {
-			out = new ObjectOutputStream(new BufferedOutputStream(
-					new FileOutputStream(resultFile)));
-			// out = new ObjectOutputStream(
-			// new FileOutputStream(resultFile));
-			out.writeObject(output);
+		out = new ObjectOutputStream(new BufferedOutputStream(
+					new FileOutputStream(resultFileName)));
+		
+		// out = new ObjectOutputStream(
+		// new FileOutputStream(resultFile));
+		out.writeObject(output);
 
-			out.flush();
-			out.close();
+		out.flush();
+		out.close();;
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		this.displayErrorMessage(e, resultFileName);
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		this.displayErrorMessage(e, resultFileName);
+		e.printStackTrace();
+	}
+		
+		
+		//OutputWritingRunnable writer=new OutputWritingRunnable(resultFileName, output);
+		
+		
+			//writer.run();
 
 			// this.output.writeDataToDisc("c:\\hendriek\\java\\~datastream.obj");
 			// this.output.readDataFromDisc("c:\\hendriek\\java\\~datastream.obj");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			this.displayErrorMessage(e, resultFileName);
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			this.displayErrorMessage(e, resultFileName);
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**

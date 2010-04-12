@@ -377,7 +377,11 @@ public class InitialPopulationFactory {
 			DynamoLib.getInstance(nSim);
 		for (int a = agemin; a <= agemax; a++)
 			for (int g = gmin; g <= gmax; g++) {
-
+     if (a==60)
+     {
+    	 int stop=0;
+    	 stop++;
+     }
 				/*
 				 * calculate first the numbers that will be in each riskfactor
 				 * class. See the document "description of calculations" on
@@ -408,9 +412,10 @@ public class InitialPopulationFactory {
 								* nSimNew[a][g]);
 						/*
 						 * if zero case in a class, add a person to the
-						 * simulated population
+						 * simulated population, in case such persons exist in the population
 						 */
-						if (nSimPerClass[c] == 0) {
+						if (nSimPerClass[c] == 0 && parameters
+								.getPrevRisk()[a][g][c]>0 ) {
 							nSimPerClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -487,8 +492,11 @@ public class InitialPopulationFactory {
 						/*
 						 * if zero case in a class, add a person to the
 						 * simulated population
+						 * but not if such persons do not exist in the population
+						 * 
 						 */
-						if (nSimPerClass[c] == 0) {
+						if (nSimPerClass[c] == 0 && parameters
+								.getPrevRisk()[a][g][c]>0) {
 							nSimPerClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -544,13 +552,16 @@ public class InitialPopulationFactory {
 					}
 
 					;
-
+          
 					for (c = 0; c < nDuurClasses[a][g]; c++) {
 						nSimPerDurationClass[c] = (int) Math.floor(parameters
 								.getDuurFreq()[a][g][c]
 								* nSimPerClass[parameters.getDurationClass()]);
-						/* if no cases in duration class, add an extra case */
-						if (nSimPerDurationClass[c] == 0) {
+						/* if no cases in duration class, add an extra case
+						 * in case such persons exist */
+						if (nSimPerDurationClass[c] == 0 &&  nSimPerClass[parameters.getDurationClass()]>0
+								&& parameters
+								.getDuurFreq()[a][g][c]>0) {
 							nSimPerDurationClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -584,8 +595,7 @@ public class InitialPopulationFactory {
 					 * durations would not have been present), adjust the arrays
 					 * for the overall classes
 					 */
-					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1] != parameters
-							.getDurationClass()) {
+					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1]> nSimPerClass[parameters.getDurationClass()]) {
 						nSimPerClass[parameters.getDurationClass()] = cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1];
 						for (c = 0; c < nClasses; c++) {
 

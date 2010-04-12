@@ -34,6 +34,7 @@ public class ModelParameters {
 	// Fields containing the estimated model parameters and other info needed to
 	// run the model
 	Log log = LogFactory.getLog(getClass().getName());
+	DynSimRunPRInterface dsi;
 	private int nSim = 100;
 	private int riskType = -1;
 	private int nWarningsDisability = 0;
@@ -172,6 +173,7 @@ public class ModelParameters {
 		// BaseDirectory B = BaseDirectory
 		// .getInstance("c:\\");
 		// String BaseDir = B.getBaseDir();
+		this.dsi = dsi;
 		InputDataFactory config = new InputDataFactory(simulationName,
 				this.globalBaseDir);
 		InputData inputData = new InputData();
@@ -191,7 +193,7 @@ public class ModelParameters {
 
 		/** * 2. uses the inputdata to estimate the model parameters */
 
-		estimateModelParameters(this.nSim, inputData, /* parentShell */dsi);
+		estimateModelParameters(this.nSim, inputData);
 		/* put estimated daly parameters in scenarioInfo */
 
 		scenInfo.setBaselineAbility(this.baselineAbility);
@@ -237,8 +239,7 @@ public class ModelParameters {
 	 *          for postprocessing
 	 * @throws DynamoInconsistentDataException
 	 */
-	public void estimateModelParameters(int nSim, InputData inputData,
-	/* Shell parentShell */DynSimRunPRInterface dsi)
+	public void estimateModelParameters(int nSim, InputData inputData)
 			throws DynamoInconsistentDataException {
 
 		// first initialize the fields that can be directly copied from the
@@ -889,7 +890,7 @@ public class ModelParameters {
 							+ age
 							+ " and gender "
 							+ sex
-							+ "\no more warnings of this kind will be generated for"
+							+ "\nNo more warnings of this kind will be generated for "
 							+ "other age and gender groups", dsi);
 		}
 		double weight[] = new double[nSim]; // weight for weighting the
@@ -2063,15 +2064,15 @@ public class ModelParameters {
 						displayWarningMessage(
 								"100% of the initial population has disability due to at least one disease. \nTherefore"
 										+ " it is not possilible to estimate the disability from other (not modelled) diseases."
-										+ "/nThis is made 0 (no disability from other diseases"
+										+ "\nThis is made 0 (no disability from other diseases"
 										+ "\nThis warning is give for age "
 										+ age
 										+ " and gender "
 										+ sex
 										+ " and riskgroup "
 										+ i
-										+ "\no more warnings of this kind will be generated for"
-										+ "other risk, age and gender groups",
+										+ "\nNo more warnings of this kind will be generated for"
+										+ " other risk, age and gender groups",
 								dsi);
 					}
 				}
@@ -2154,7 +2155,7 @@ public class ModelParameters {
 													+ sex
 													+ " can "
 													+ "be explained completely by differences in disease prevalences due to the riskfactor. "
-													+ "Therefore disability for this group will be calculated solely on disease status and not on risk "
+													+ "\nTherefore disability for this group will be calculated solely on disease status and not on risk "
 													+ "factor status" + label,
 											dsi);
 
@@ -2516,13 +2517,17 @@ public class ModelParameters {
 		double[][] xMatrix = new double[nSim][2];
 
 		/* count number of valid categories */
-		int nValidCategories = 0;
+
 		int[] indexForCategories = new int[nRiskCat];
+		Arrays.fill(indexForCategories, -1);
+		int nValidCategories = 0;
 		if (riskType != 2)
 			for (int i = 0; i < nRiskCat; i++) {
-				indexForCategories[nValidCategories] = i;
-				if (inputData.getPrevRisk()[age][sex][i] > 0)
+
+				if (inputData.getPrevRisk()[age][sex][i] > 0) {
+					indexForCategories[nValidCategories] = i;
 					nValidCategories++;
+				}
 
 				;
 			}
@@ -2530,6 +2535,7 @@ public class ModelParameters {
 		/* count number of valid rows */
 		int nValidRows = 0;
 		int[] indexForRows = new int[nSim];
+		Arrays.fill(indexForRows, -1);
 		int[] reverseIndexForRows = new int[nSim];
 		for (int i = 0; i < nSim; i++) {
 			if (weight[i] > 0) {
@@ -2655,7 +2661,12 @@ public class ModelParameters {
 					"Other mortality becomes negative in"
 							+ " more than 30% ( "
 							+ (nNegativeOtherMort * 100)
-							+ " %) of cases. The amount of disease specific mortality given to the model"
+							+ " %) of cases. "
+							+ " for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ "The amount of disease specific mortality given to the model"
 							+ " exceeds the overall mortality given to the model.  Please lower excess mortality rates or"
 							+ " case fatality rates or disease prevalence rates, or increase total mortality rates");
 
@@ -2776,11 +2787,50 @@ public class ModelParameters {
 
 				}
 				try {
-					if (!oneDuration && Math.abs(sumDif) > 0.00001)
-						beta = nonLinearDurationRegression(ydata, xdata,
-								weightdata, endRR, beginRR,
-								this.baselineOtherMortality[age][sex]);
-					else if (!oneDuration) {
+					if (age == 80) {
+						int stop = 0;
+						stop++;
+
+					}
+					double RRdurationclass = 1;
+					for (int j = 0; j < nRiskCat; j++)
+						if (indexForCategories[j] == inputData
+								.getIndexDuurClass())
+
+							RRdurationclass = Math.exp(beta[j]);
+					if (!oneDuration && Math.abs(sumDif) > 0.00001) {
+						log.fatal("age: " + age + " sex: " + sex);
+						try {
+							if (age == 80 && sex == 1)
+
+							{
+								int stop = 1;
+								stop++;
+							}
+							beta = nonLinearDurationRegression(ydata, xdata,
+									weightdata, endRR, beginRR,
+									this.baselineOtherMortality[age][sex]);
+						} catch (DynamoInconsistentDataException e) {
+							displayWarningMessage(
+									e.getMessage()
+											+ " while average RR is "
+											+ RRdurationclass
+											+ " for age "
+											+ age
+											+ " and sex "
+											+ sex
+											+ "\nTherefore the RR for other mortality is put to "
+											+ RRdurationclass
+											+ " for all durations"
+											+ "\nNote that incidence of "
+											+ "diseases is still duration dependent as specified",
+									dsi);
+							beta = new double[3];
+							beta[0] = RRdurationclass;
+							beta[1] = RRdurationclass;
+							beta[2] = 0;
+						}
+					} else if (!oneDuration) {
 						beta = new double[3];
 						beta[0] = ydata[0]
 								/ this.baselineOtherMortality[age][sex]; /* RRbegin */
@@ -2793,8 +2843,9 @@ public class ModelParameters {
 							 * now beta is still the old beta from the previous
 							 * loop
 							 */
-						double RRdurationclass = Math.exp(beta[inputData
-								.getIndexDuurClass()]);
+
+						// in case of duration class set rr to 1;
+
 						/* put this in all the new beta's */
 						beta = new double[3];
 						beta[0] = RRdurationclass;
@@ -2916,30 +2967,46 @@ public class ModelParameters {
 					}
 
 				}
-				try {
-					if (!oneDuration)
+
+				double RRdurationclass = Math.exp(beta[inputData
+						.getIndexDuurClass()]);
+				if (!oneDuration)
+					try {
 						beta = nonLinearDurationRegression(y2data, x2data,
 								weightdata, endRR, beginRR,
 								this.baselineAbility[age][sex]);
+					} catch (Exception e) {
+						this.log.fatal(e.getMessage());
+						displayWarningMessage(
+								e.getMessage()
+										+ " while average RR is "
+										+ RRdurationclass
+										+ " for age: "
+										+ age
+										+ " and sex "
+										+ sex
+										+ "\nTherefore other disability is assumed not to "
+										+ "dependent on duration of exposure in this age/sex combination. Note that incidence of "
+										+ "diseases is still duration dependent as specified",
+								dsi);
 
-					else { /*
-							 * now beta is still the old beta from the previous
-							 * loop
-							 */
-						double RRdurationclass = Math.exp(beta[inputData
-								.getIndexDuurClass()]);
-						/* put this in all the new beta's */
 						beta = new double[3];
 						beta[0] = RRdurationclass;
 						beta[1] = RRdurationclass;
 						beta[2] = 0;
-					}
-				} catch (Exception e) {
-					this.log.fatal(e.getMessage());
-					e.printStackTrace();
-					throw new RuntimeException(e.getMessage());
 
+					}
+				else { /*
+						 * now beta is still the old beta from the previous loop
+						 */
+
+					/* put this in all the new beta's */
+					beta = new double[3];
+					beta[0] = RRdurationclass;
+					beta[1] = RRdurationclass;
+					beta[2] = 0;
 				}
+
 				this.riskFactorAbilityRRbegin[age][sex] = (float) beta[0];
 				this.riskFactorAbilityRRend[age][sex] = (float) beta[1];
 				this.riskFactorAbilityAlpha[age][sex] = (float) beta[2];
@@ -3009,7 +3076,7 @@ public class ModelParameters {
 								+ baselineOtherMortality2
 								+ " after calibration while  "
 								+ this.baselineOtherMortality[age][sex]
-								+ " before.");
+								+ " before (age=" + age + "; sex=" + sex + ").");
 		this.baselineOtherMortality[age][sex] = (float) baselineOtherMortality2;
 
 		if (age == 0 && sex == 0)
@@ -3403,47 +3470,56 @@ public class ModelParameters {
 					jMat[k][1] = delRRbegin[k];
 					jMat[k][2] = delRRend[k];
 				}
-			resultReg = weightedRegression(delY, jMat, W);
-			oldCriterium = Criterium;
-			old1 = currentAlpha;
-			old2 = currentRRend;
-			old3 = +currentRRbegin;
 			int iter2 = 0;
-			if (lambda > 10)
-				lambda = 8;
-			while (Criterium >= oldCriterium && iter2 < 50) {
-				Criterium = 0;
-				++iter2;
-				currentAlpha = old1 + resultReg[0] / lambda;
-				if (endRR == -1 && nParam == 2)
-					currentRRend = old2 + resultReg[1] / lambda;
-				if (endRR == -1 && nParam == 3)
-					currentRRend = old2 + resultReg[2] / lambda;
-				if (beginRR == -1)
-					currentRRbegin = old3 + resultReg[1] / lambda;
-				if (currentRRend < 0 && endRR == -1)
-					currentRRend = 0.001;
-				if (currentRRbegin < 0 && beginRR == -1)
-					currentRRbegin = 0.001;
-				if (currentAlpha < 0.001)
-					currentAlpha = 0.001; /*
-										 * this forces a linear model with time
-										 * in case of inconsistent data that is
-										 * data for which the time dependency
-										 * does not fit the model
-										 * (r1-r2)exp(-alphat) +r2
-										 */
+			if (checkX(jMat)) {
+				resultReg = weightedRegression(delY, jMat, W);
 
-				for (int i = 0; i < x_array.length; i++) {
-					delY[i] = Ydata[i]
-							- ((currentRRbegin - currentRRend)
-									* Math.exp(-currentAlpha * x_array[i]) + currentRRend);
-					Criterium += (delY[i] * delY[i]) * W[i];
+				oldCriterium = Criterium;
+				old1 = currentAlpha;
+				old2 = currentRRend;
+				old3 = +currentRRbegin;
+
+				if (lambda > 10)
+					lambda = 8;
+				while (Criterium >= oldCriterium && iter2 < 50) {
+					Criterium = 0;
+					++iter2;
+					currentAlpha = old1 + resultReg[0] / lambda;
+					if (endRR == -1 && nParam == 2)
+						currentRRend = old2 + resultReg[1] / lambda;
+					if (endRR == -1 && nParam == 3)
+						currentRRend = old2 + resultReg[2] / lambda;
+					if (beginRR == -1)
+						currentRRbegin = old3 + resultReg[1] / lambda;
+					if (currentRRend < 0 && endRR == -1)
+						currentRRend = 0.001;
+					if (currentRRbegin < 0 && beginRR == -1)
+						currentRRbegin = 0.001;
+					if (currentAlpha < 0.001)
+						currentAlpha = 0.001; /*
+											 * this forces a linear model with
+											 * time in case of inconsistent data
+											 * that is data for which the time
+											 * dependency does not fit the model
+											 * (r1-r2)exp(-alphat) +r2
+											 */
+
+					for (int i = 0; i < x_array.length; i++) {
+						delY[i] = Ydata[i]
+								- ((currentRRbegin - currentRRend)
+										* Math.exp(-currentAlpha * x_array[i]) + currentRRend);
+						Criterium += (delY[i] * delY[i]) * W[i];
+					}
+					if (Criterium >= oldCriterium)
+						lambda = lambda * 2;
+					this.log.debug(" lambda " + lambda + " halvingsteps = "
+							+ iter2);
 				}
-				if (Criterium >= oldCriterium)
-					lambda = lambda * 2;
-				this.log
-						.debug(" lambda " + lambda + " halvingsteps = " + iter2);
+			} else {
+				throw new DynamoInconsistentDataException(
+						"No duration dependence can be estimate for other mortality as data do not"
+								+ " support the assumed model, which assumes an RR between "
+								+ beginRR + " and " + endRR);
 			}
 
 			this.log
@@ -3475,6 +3551,16 @@ public class ModelParameters {
 		return result;
 	}
 
+	private boolean checkX(double[][] mat) {
+		double first = mat[0][0];
+		boolean equal = true;
+		for (int i = 0; i < mat.length; i++)
+			for (int j = 0; j < mat[i].length; j++)
+				if (mat[i][j] != first)
+					equal = false;
+		return !equal;
+	}
+
 	/**
 	 * this method does a weighted regression
 	 * 
@@ -3491,23 +3577,34 @@ public class ModelParameters {
 	 *             if dimensions do not match
 	 */
 	public double[] weightedRegression(double[] y_array, double[][] x_array,
-			double[] w) throws Exception {
+			double[] w) throws DynamoInconsistentDataException {
 
 		// check dimensions //
+
 		if (y_array.length != w.length)
-			throw new Exception(
+			throw new DynamoInconsistentDataException(
 					" Array lengths of y and weights differ in method weighted regression");
 		if (x_array.length != w.length)
-			throw new Exception(
+			throw new DynamoInconsistentDataException(
 					" Array lengths of x and weights differ in method weighted regression");
 		if (y_array.length != x_array.length)
-			throw new Exception(
+			throw new DynamoInconsistentDataException(
 					" Array lengths of x and y differ in method weighted regression");
 
-		double[] coef;
+		double[] coef = null;
 		/* check if all Y-values are the same */
 		if (!constantY(y_array)) {
 
+			/* throw out data with zero weight by first shifting all data to the front
+			 *  and then truncating the arrays to this part */
+			int numberOfValidDataPoints=shiftZeroWeights(y_array, x_array, w);
+			if (numberOfValidDataPoints!=w.length){
+				x_array=truncate(numberOfValidDataPoints,x_array);
+				y_array=truncate(numberOfValidDataPoints,y_array);
+				w=truncate(numberOfValidDataPoints,w);
+			}
+
+			
 			for (int i = 0; i < w.length; i++) {
 				double weight = Math.sqrt(w[i]);
 				y_array[i] = weight * y_array[i];
@@ -3520,11 +3617,24 @@ public class ModelParameters {
 			Matrix Y = new Matrix(y_array, y_array.length);
 			Matrix XT = X.transpose();
 			Matrix XX = XT.times(X);
-			Matrix inverseXX = XX.inverse();
-			Matrix XY = XT.times(Y);
-			// beta are the regression coefficients;
-			Matrix Beta = inverseXX.times(XY);
-			coef = Beta.getColumnPackedCopy();
+			try {
+				Matrix inverseXX = XX.inverse();
+
+				Matrix XY = XT.times(Y);
+				// beta are the regression coefficients;
+
+				Matrix Beta = inverseXX.times(XY);
+				coef = Beta.getColumnPackedCopy();
+			} catch (Exception e) {
+				log.fatal(e.getMessage() + "  y + x = ");
+				for (int i = 0; i < y_array.length; i++) {
+					String data = y_array[i] + " ";
+					for (int j = 0; j < x_array[0].length; j++)
+						data += x_array[i][j] + " ";
+					log.fatal(data);
+					throw new DynamoInconsistentDataException(e.getMessage());
+				}
+			}
 		} else {
 			/* if all Y-values are the same, fill the coefficient by hand */
 			coef = new double[x_array[0].length];
@@ -3533,6 +3643,62 @@ public class ModelParameters {
 		}
 		return coef;
 	};
+
+	/** Returns an array with only the first toN elements of the inputArray
+	 * @param toN
+	 * @param inputArray
+	 * @return
+	 */
+	private double[] truncate(int toN, double[] inputArray) {
+		double[] returnArray = new double[toN];
+		for (int i = 0; i < toN; i++) {
+			returnArray[i] = inputArray[i];
+		}
+		return returnArray;
+	}
+
+	/** Returns an array with only the first toN elements of the inputArray
+	 * @param toN
+	 * @param inputArray
+	 * @return
+	 */
+	private double[][] truncate(int toN, double[][] inputArray) {
+		double[][] returnArray = new double[toN][];
+		for (int i = 0; i < toN; i++) {
+			returnArray[i] = inputArray[i];
+		}
+
+		return returnArray;
+	}
+
+	private int shiftZeroWeights(double[] y_array, double[][] x_array,
+			double[] w) {
+
+		int numberOfZeroWeights = 0;
+		for (int i = 0; i < w.length; i++) {
+			if (w[i] == 0)
+				numberOfZeroWeights++;
+		}
+		int newLength = w.length - numberOfZeroWeights;
+		if (numberOfZeroWeights > 0) {
+
+			int currentPointer = 0;
+			int step = 0;
+			while (step < w.length) {
+				step++;
+				if (w[currentPointer] == 0) /* shift all data one to the front */
+					for (int i = currentPointer; i < w.length - 1; i++) {
+						w[i] = w[i + 1];
+						y_array[i] = y_array[i + 1];
+						x_array[i] = x_array[i + 1];
+					}
+				else
+					currentPointer++;
+
+			}
+		}
+		return newLength;
+	}
 
 	/**
 	 * This method calculates the prevalence of not cured disease, by
