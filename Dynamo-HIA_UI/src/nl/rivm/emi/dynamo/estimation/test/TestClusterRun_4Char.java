@@ -70,7 +70,8 @@ public class TestClusterRun_4Char {
 			InputData i = new InputData();
 			// i.makeTest2Data();
 			i.makeTest1Data();
-			p.estimateModelParameters(100, i, null);
+// 20100412			p.estimateModelParameters(100, i, null);
+			p.estimateModelParameters(100, i);
 			log.fatal("ModelParameters estimated ");
 			p.setRiskType(1);
 
