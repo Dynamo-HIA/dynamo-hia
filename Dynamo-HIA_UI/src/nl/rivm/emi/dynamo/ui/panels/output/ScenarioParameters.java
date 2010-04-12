@@ -42,16 +42,15 @@ public class ScenarioParameters implements Serializable {
 	 */
 	public ScenarioParameters(ScenarioInfo scenInfo) {
 		super();
-		this.inMen=scenInfo.getInMen();
-		this.inWomen=scenInfo.getInWomen();
-		this.maxAge=scenInfo.getMaxAge();
-		this.minAge=scenInfo.getMinAge();
+		this.inMen = scenInfo.getInMen();
+		this.inWomen = scenInfo.getInWomen();
+		this.maxAge = scenInfo.getMaxAge();
+		this.minAge = scenInfo.getMinAge();
 		/* in scenInfo the succes rate is in percentage */
 		/* in this object it is as fraction (between 0 and 1) */
 		/* in the output_screen again it is in percentage */
 		this.setSuccesPercentage(scenInfo.getDoubleSuccesrate());
-		
-		
+
 		/*
 		 * scenInfo contains the information given to the simulation by the user
 		 * before running the simulation
@@ -196,7 +195,7 @@ public class ScenarioParameters implements Serializable {
 	 * successrates. As this needs to be a weighted mean (weighted by the number
 	 * of persons) it also needs the weights (numbers in each scenario) This
 	 * method uses the fields: successrate, minage and maxage, inMen and
-	 * inWomen, so changing these fields will give different outputs If in
+	 * inWomen, so changing these fields will give different outputs If
 	 * gender=2, the array should be of dimension [2], and inMen and InWomen are
 	 * to applied
 	 * 
@@ -247,22 +246,28 @@ public class ScenarioParameters implements Serializable {
 			}
 			if (!doApply)
 				for (int i = 0; i < nToAdd; i++) {
-					nominator += inputRef[i] * nInRef[i];
+					if (nInRef[i] != 0)
+						nominator += inputRef[i] * nInRef[i];
 					denominator += nInRef[i];
 				}
 			else if (a - year >= 0) /* if not newborns */{
 				if (this.getMinAge()[thisScen - 1] > a - year
 						|| this.getMaxAge(thisScen - 1) < a - year)
 					for (int i = 0; i < nToAdd; i++) {
-						nominator += inputRef[i] * nInRef[i];
+						if (nInRef[i] != 0)
+							nominator += inputRef[i] * nInRef[i];
 						denominator += nInRef[i];
 					}
 				else {
 					for (int i = 0; i < nToAdd; i++) {
-						nominator += (1 - this.getSuccesrate()[thisScen - 1])
-								* inputRef[i] * nInRef[i]
-								+ (this.getSuccesrate()[thisScen - 1])
-								* inputScen[i] * nInScen[i];
+						if ((nInRef[i]
+										* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+										&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i]) != 0))
+							nominator += (1 - this.getSuccesrate()[thisScen - 1])
+									* inputRef[i]
+									* nInRef[i]
+									+ (this.getSuccesrate()[thisScen - 1])
+									* inputScen[i] * nInScen[i];
 						;
 						denominator += (1 - this.getSuccesrate()[thisScen - 1])
 								* nInRef[i]
@@ -274,15 +279,20 @@ public class ScenarioParameters implements Serializable {
 			{
 				if (this.getMinAge()[thisScen - 1] > 0)
 					for (int i = 0; i < nToAdd; i++) {
-						nominator += inputRef[i] * nInRef[i];
+						if (nInRef[i] != 0)
+							nominator += inputRef[i] * nInRef[i];
 						denominator += nInRef[i];
 					}
 				else {
 					for (int i = 0; i < nToAdd; i++) {
-						nominator += (1 - this.getSuccesrate()[thisScen - 1])
-								* inputRef[i] * nInRef[i]
-								+ (this.getSuccesrate()[thisScen - 1])
-								* inputScen[i] * nInScen[i];
+						if ((nInRef[i]
+										* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+										&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i]) != 0))
+							nominator += (1 - this.getSuccesrate()[thisScen - 1])
+									* inputRef[i]
+									* nInRef[i]
+									+ (this.getSuccesrate()[thisScen - 1])
+									* inputScen[i] * nInScen[i];
 						;
 						denominator += (1 - this.getSuccesrate()[thisScen - 1])
 								* nInRef[i]
@@ -300,6 +310,113 @@ public class ScenarioParameters implements Serializable {
 		return data;
 	}
 
+	/**
+	 * Applies success rate to the input arrays containing both data of men and
+	 * of women, and return a mean for both sexes together
+	 * 
+	 * @param inputRef
+	 * @param inputScen
+	 * @param nInRef
+	 * @param nInScen
+	 * @param thisScen
+	 * @param year
+	 * @param a
+	 * @return
+	 */
+	public double applySuccesrateToMean(double[][] inputRef,
+			double[][] inputScen, double[][] nInRef, double[][] nInScen,
+			int thisScen, int year, int a) throws DynamoOutputException {
+
+		double data = 0.0;
+
+		double denominator = 0;
+		double nominator = 0;
+		int nToAdd = inputRef.length;
+		boolean doApply = true;
+		if (thisScen == 0)
+			doApply = false;
+
+		if (!doApply)
+			for (int i = 0; i < nToAdd; i++)
+				for (int s = 0; s < 2; s++) {
+					if (nInRef[i][s] != 0)
+						nominator += inputRef[i][s] * nInRef[i][s];
+					denominator += nInRef[i][s];
+				}
+		else if (a - year >= 0) /* if not newborns */{
+			for (int s = 0; s < 2; s++) {
+				boolean inThisGender = false;
+				if (s == 0 && this.inMen[thisScen - 1])
+					inThisGender = true;
+				if (s == 1 && this.inWomen[thisScen - 1])
+					inThisGender = true;
+				if (this.getMinAge()[thisScen - 1] > a - year
+						|| this.getMaxAge(thisScen - 1) < a - year
+						|| !inThisGender)
+					for (int i = 0; i < nToAdd; i++) {
+						if (nInRef[i][s] != 0)
+							nominator += inputRef[i][s] * nInRef[i][s];
+						denominator += nInRef[i][s];
+					}
+				else {
+					for (int i = 0; i < nToAdd; i++) {
+						if ((nInRef[i][s]
+										* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+										&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][s]) != 0))
+							nominator += (1 - this.getSuccesrate()[thisScen - 1])
+									* inputRef[i][s]
+									* nInRef[i][s]
+									+ (this.getSuccesrate()[thisScen - 1])
+									* inputScen[i][s] * nInScen[i][s];
+						;
+						denominator += (1 - this.getSuccesrate()[thisScen - 1])
+								* nInRef[i][s]
+								+ (this.getSuccesrate()[thisScen - 1])
+								* nInScen[i][s];
+					}
+				}
+			}
+		} else /* if newborns */
+		{
+			for (int s = 0; s < 2; s++) {
+				boolean inThisGender = false;
+				if (s == 0 && this.inMen[thisScen - 1])
+					inThisGender = true;
+				if (s == 1 && this.inWomen[thisScen - 1])
+					inThisGender = true;
+				if (this.getMinAge()[thisScen - 1] > 0 || !inThisGender)
+					for (int i = 0; i < nToAdd; i++) {
+						if (nInRef[i][s] != 0) nominator += inputRef[i][s] * nInRef[i][s];
+						denominator += nInRef[i][s];
+					}
+				else {
+					for (int i = 0; i < nToAdd; i++) {
+						if ((nInRef[i][s]
+								* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+								&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][s]) != 0))
+							nominator += (1 - this.getSuccesrate()[thisScen - 1])
+									* inputRef[i][s]
+									* nInRef[i][s]
+									+ (this.getSuccesrate()[thisScen - 1])
+									* inputScen[i][s] * nInScen[i][s];
+						;
+						denominator += (1 - this.getSuccesrate()[thisScen - 1])
+								* nInRef[i][s]
+								+ (this.getSuccesrate()[thisScen - 1])
+								* nInScen[i][s];
+					}
+				}
+			}
+		}
+		;
+		if (denominator != 0)
+			data = nominator / denominator;
+		else
+			data = -99999;
+
+		return data;
+	}
+
 	public double applySuccesrateToMeanToBothGenders(double[] inputRef,
 			double[] inputScen, double[] nInRef, double[] nInScen,
 			int thisScen, int year, int a) throws DynamoOutputException {
@@ -313,18 +430,21 @@ public class ScenarioParameters implements Serializable {
 		if (thisScen == 0)
 
 			for (int i = 0; i < 2; i++) {
-				nominator += inputRef[i] * nInRef[i];
+				if (nInRef[i] != 0) nominator += inputRef[i] * nInRef[i];
 				denominator += nInRef[i];
 			}
 		else if (a - year >= 0) /* if not newborns */{
 			if (this.getMinAge(thisScen - 1) > a - year
 					|| this.getMaxAge(thisScen - 1) < a - year)
 				for (int i = 0; i < 2; i++) {
-					nominator += inputRef[i] * nInRef[i];
+					if (nInRef[i] != 0)nominator += inputRef[i] * nInRef[i];
 					denominator += nInRef[i];
 				}
 			else {
 				if (this.getInMen(thisScen - 1)) {
+					if ((nInRef[0]
+									* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+									&& ((this.getSuccesrate()[thisScen - 1] * nInScen[0]) != 0))
 					nominator += (1 - this.getSuccesrate(thisScen - 1))
 							* inputRef[0] * nInRef[0]
 							+ (this.getSuccesrate()[thisScen - 1])
@@ -334,10 +454,13 @@ public class ScenarioParameters implements Serializable {
 							* nInRef[0] + (this.getSuccesrate()[thisScen - 1])
 							* nInScen[0];
 				} else {
-					nominator += inputRef[0] * nInRef[0];
+					if (nInRef[0] != 0) nominator += inputRef[0] * nInRef[0];
 					denominator += nInRef[0];
 				}
 				if (this.getInWomen()[thisScen - 1]) {
+					if ((nInRef[1]
+								* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+								&& ((this.getSuccesrate()[thisScen - 1] * nInScen[1]) != 0))
 					nominator += (1 - this.getSuccesrate()[thisScen - 1])
 							* inputRef[1] * nInRef[1]
 							+ (this.getSuccesrate()[thisScen - 1])
@@ -347,7 +470,7 @@ public class ScenarioParameters implements Serializable {
 							* nInRef[1] + (this.getSuccesrate()[thisScen - 1])
 							* nInScen[1];
 				} else {
-					nominator += inputRef[1] * nInRef[1];
+					if (nInRef[1] != 0) nominator += inputRef[1] * nInRef[1];
 					denominator += nInRef[1];
 				}
 
@@ -356,11 +479,15 @@ public class ScenarioParameters implements Serializable {
 		{
 			if (this.getMinAge()[thisScen - 1] > 0)
 				for (int i = 0; i < 2; i++) {
-					nominator += inputRef[i] * nInRef[i];
+					if (nInRef[i] != 0) nominator += inputRef[i] * nInRef[i];
 					denominator += nInRef[i];
 				}
 			else {
 				if (this.getInMen()[thisScen - 1]) {
+				
+					if ((nInRef[0]
+								* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+								&& ((this.getSuccesrate()[thisScen - 1] * nInScen[0]) != 0))
 					nominator += (1 - this.getSuccesrate()[thisScen - 1])
 							* inputRef[0] * nInRef[0]
 							+ (this.getSuccesrate()[thisScen - 1])
@@ -370,10 +497,13 @@ public class ScenarioParameters implements Serializable {
 							* nInRef[0] + (this.getSuccesrate()[thisScen - 1])
 							* nInScen[0];
 				} else {
-					nominator += inputRef[0] * nInRef[0];
+					if (nInRef[0] != 0) nominator += inputRef[0] * nInRef[0];
 					denominator += nInRef[0];
 				}
 				if (this.getInWomen()[thisScen - 1]) {
+					if ((nInRef[1]
+								* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+								&& ((this.getSuccesrate()[thisScen - 1] * nInScen[1]) != 0))
 					nominator += (1 - this.getSuccesrate()[thisScen - 1])
 							* inputRef[1] * nInRef[1]
 							+ (this.getSuccesrate()[thisScen - 1])
@@ -383,7 +513,7 @@ public class ScenarioParameters implements Serializable {
 							* nInRef[1] + (this.getSuccesrate()[thisScen - 1])
 							* nInScen[1];
 				} else {
-					nominator += inputRef[1] * nInRef[1];
+					if (nInRef[1] != 0)nominator += inputRef[1] * nInRef[1];
 					denominator += nInRef[1];
 				}
 			}
@@ -430,23 +560,26 @@ public class ScenarioParameters implements Serializable {
 
 		if (thisScen == 0)
 			for (int i = 0; i < nToAdd; i++) {
-				nominator0 += inputRef[i][0] * nInRef[i][0];
+				if (nInRef[i][0]!=0) nominator0 += inputRef[i][0] * nInRef[i][0];
 				denominator0 += nInRef[i][0];
-				nominator1 += inputRef[i][1] * nInRef[i][1];
+				if (nInRef[i][1]!=0)nominator1 += inputRef[i][1] * nInRef[i][1];
 				denominator1 += nInRef[i][1];
 			}
 		else if (a - year >= 0) /* if not newborns */{
 			if (this.getMinAge(thisScen - 1) > a - year
 					|| this.getMaxAge(thisScen - 1) < a - year)
 				for (int i = 0; i < nToAdd; i++) {
-					nominator0 += inputRef[i][0] * nInRef[i][0];
+					if (nInRef[i][0]!=0) nominator0 += inputRef[i][0] * nInRef[i][0];
 					denominator0 += nInRef[i][0];
-					nominator1 += inputRef[i][1] * nInRef[i][1];
+					if (nInRef[i][1]!=0) nominator1 += inputRef[i][1] * nInRef[i][1];
 					denominator1 += nInRef[i][1];
 				}
 			else {
 				for (int i = 0; i < nToAdd; i++) {
 					if (this.getInMen()[thisScen - 1]) {
+						if ((nInRef[i][0]
+									* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+									&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][0]) != 0))
 						nominator0 += (1 - this.getSuccesrate()[thisScen - 1])
 								* inputRef[i][0] * nInRef[i][0]
 								+ (this.getSuccesrate()[thisScen - 1])
@@ -457,10 +590,13 @@ public class ScenarioParameters implements Serializable {
 								+ (this.getSuccesrate()[thisScen - 1])
 								* nInScen[i][0];
 					} else {
-						nominator0 += inputRef[i][0] * nInRef[i][0];
+						if (nInRef[i][0]!=0) nominator0 += inputRef[i][0] * nInRef[i][0];
 						denominator0 += nInRef[i][0];
 					}
 					if (this.getInWomen()[thisScen - 1]) {
+						if ((nInRef[i][1]
+									* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+									&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][1]) != 0))
 						nominator1 += (1 - this.getSuccesrate()[thisScen - 1])
 								* inputRef[i][1] * nInRef[i][1]
 								+ (this.getSuccesrate()[thisScen - 1])
@@ -473,7 +609,7 @@ public class ScenarioParameters implements Serializable {
 					}
 
 					else {
-						nominator1 += inputRef[i][1] * nInRef[i][1];
+						if (nInRef[i][1]!=0) nominator1 += inputRef[i][1] * nInRef[i][1];
 						denominator1 += nInRef[i][1];
 					}
 				}
@@ -482,14 +618,17 @@ public class ScenarioParameters implements Serializable {
 		{
 			if (this.getMinAge()[thisScen - 1] > 0)
 				for (int i = 0; i < nToAdd; i++) {
-					nominator0 += inputRef[i][0] * nInRef[i][0];
+					if (nInRef[i][0]!=0) nominator0 += inputRef[i][0] * nInRef[i][0];
 					denominator0 += nInRef[i][0];
-					nominator1 += inputRef[i][1] * nInRef[i][1];
+					if (nInRef[i][1]!=0)  nominator1 += inputRef[i][1] * nInRef[i][1];
 					denominator1 += nInRef[i][1];
 				}
 			else {
 				for (int i = 0; i < nToAdd; i++) {
 					if (this.getInMen()[thisScen - 1]) {
+						if ((nInRef[i][0]
+										* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+										&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][0]) != 0))
 						nominator0 += (1 - this.getSuccesrate()[thisScen - 1])
 								* inputRef[i][0] * nInRef[i][0]
 								+ (this.getSuccesrate()[thisScen - 1])
@@ -500,11 +639,13 @@ public class ScenarioParameters implements Serializable {
 								+ (this.getSuccesrate()[thisScen - 1])
 								* nInScen[i][0];
 					} else {
-						nominator0 += inputRef[i][0] * nInRef[i][0];
+						if (nInRef[i][0]!=0) nominator0 += inputRef[i][0] * nInRef[i][0];
 						denominator0 += nInRef[i][0];
 					}
 					if (this.getInWomen()[thisScen - 1]) {
-						nominator1 += (1 - this.getSuccesrate()[thisScen - 1])
+						if ((nInRef[i][1]
+										* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+										&& ((this.getSuccesrate()[thisScen - 1] * nInScen[i][1]) != 0)) nominator1 += (1 - this.getSuccesrate()[thisScen - 1])
 								* inputRef[i][1] * nInRef[i][1]
 								+ (this.getSuccesrate()[thisScen - 1])
 								* inputScen[i][1] * nInScen[i][1];
@@ -514,7 +655,7 @@ public class ScenarioParameters implements Serializable {
 								+ (this.getSuccesrate()[thisScen - 1])
 								* nInScen[i][1];
 					} else {
-						nominator1 += inputRef[i][1] * nInRef[i][1];
+						if (nInRef[i][1]!=0) nominator1 += inputRef[i][1] * nInRef[i][1];
 						denominator1 += nInRef[i][1];
 					}
 				}
@@ -570,15 +711,17 @@ public class ScenarioParameters implements Serializable {
 		}
 		if (!doApply) {
 
-			nominator += inputRef * nInRef;
+			if (nInRef!=0) nominator += inputRef * nInRef;
 			denominator += nInRef;
 		} else if (a - year >= 0)/* if not newborns */{
 			if (this.getMinAge(thisScen - 1) > a - year
 					|| this.getMaxAge(thisScen - 1) < a - year) {
-				nominator += inputRef * nInRef;
+				if (nInRef!=0) nominator += inputRef * nInRef;
 				denominator += nInRef;
 			} else {
-
+				if ((nInRef
+								* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+								&& ((this.getSuccesrate()[thisScen - 1] * nInScen) != 0))
 				nominator += (1 - this.getSuccesrate(thisScen - 1)) * inputRef
 						* nInRef + (this.getSuccesrate()[thisScen - 1])
 						* inputScen * nInScen;
@@ -590,10 +733,12 @@ public class ScenarioParameters implements Serializable {
 			}
 		} else { /* for newborns */
 			if (this.getMinAge()[thisScen - 1] > 0) {
-				nominator += inputRef * nInRef;
+				if (nInRef!=0)nominator += inputRef * nInRef;
 				denominator += nInRef;
 			} else {
-
+				if ((nInRef
+						* (1 - this.getSuccesrate()[thisScen - 1]) != 0)
+						&& ((this.getSuccesrate()[thisScen - 1] * nInScen) != 0))
 				nominator += (1 - this.getSuccesrate()[thisScen - 1])
 						* inputRef * nInRef
 						+ (this.getSuccesrate()[thisScen - 1]) * inputScen
@@ -613,9 +758,6 @@ public class ScenarioParameters implements Serializable {
 		return data;
 	}
 
-	
-
-	
 	/**
 	 * @param scen
 	 *            scenario number
@@ -746,20 +888,20 @@ public class ScenarioParameters implements Serializable {
 			returnvalue[i] = this.succesrate[i] * 100;
 		return returnvalue;
 	}
-	
-	
+
 	/**
 	 * @return success percentage of intervention i
 	 */
 	public double getSuccesPercentage(int i) {
-		double returnvalue ;
-		
-			returnvalue = this.succesrate[i] * 100;
+		double returnvalue;
+
+		returnvalue = this.succesrate[i] * 100;
 		return returnvalue;
 	}
 
 	/**
-	 * @param success percentage for all scenarios
+	 * @param success
+	 *            percentage for all scenarios
 	 */
 	public void setSuccesPercentage(double[] succesrateIn) {
 
@@ -770,8 +912,10 @@ public class ScenarioParameters implements Serializable {
 	}
 
 	/**
-	 * @param succes Percentage of scenario i
-	 * @param i scenario number
+	 * @param succes
+	 *            Percentage of scenario i
+	 * @param i
+	 *            scenario number
 	 */
 	public void setSuccesPercentage(double succesrate, int i) {
 		this.succesrate[i] = succesrate / 100;
@@ -784,23 +928,23 @@ public class ScenarioParameters implements Serializable {
 	public double[] getSuccesrate() {
 		double[] returnvalue = new double[this.succesrate.length];
 		for (int i = 0; i < this.succesrate.length; i++)
-			returnvalue[i] = this.succesrate[i] ;
-		return returnvalue;
-	}
-	
-	
-	/**
-	 * @return succesrate of intervention i
-	 */
-	public double getSuccesrate(int i) {
-		double returnvalue ;
-		
-			returnvalue = this.succesrate[i] ;
+			returnvalue[i] = this.succesrate[i];
 		return returnvalue;
 	}
 
 	/**
-	 * @param array with succesrates of scenarios
+	 * @return succesrate of intervention i
+	 */
+	public double getSuccesrate(int i) {
+		double returnvalue;
+
+		returnvalue = this.succesrate[i];
+		return returnvalue;
+	}
+
+	/**
+	 * @param array
+	 *            with succesrates of scenarios
 	 */
 	public void setSuccesrate(double[] succesrateIn) {
 
@@ -811,14 +955,15 @@ public class ScenarioParameters implements Serializable {
 	}
 
 	/**
-	 * @param succesrate of scenario i
-	 * @param i scenario number
+	 * @param succesrate
+	 *            of scenario i
+	 * @param i
+	 *            scenario number
 	 */
 	public void setSuccesrate(double succesrate, int i) {
-		this.succesrate[i] = succesrate ;
+		this.succesrate[i] = succesrate;
 
 	}
-
 
 	public int[] getMaxAge() {
 		return this.maxAge;

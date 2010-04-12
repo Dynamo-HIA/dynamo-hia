@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
@@ -14,8 +15,10 @@ import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.ExcelReadableXMLWriter;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -43,6 +46,8 @@ public class Output_WriteOutputTab  {
 	boolean singleFile = true;
 	boolean cohortStyle;
 	ScenarioParameters params;
+	String[] scenarioNamesToWrite ;
+	String userFileName;
 	/* currentPath in first instance is the directory results in the simulation directory, 
 	 * but is changed to the directory given by the user
 	 */
@@ -99,7 +104,7 @@ public class Output_WriteOutputTab  {
 		 * make new scenarionames that are part of the standard file name which
 		 * do not contain any underscores any more
 		 */
-		final String[] scenarioNamesToWrite = cleanUpScenarioNames(this.output
+		this.scenarioNamesToWrite = cleanUpScenarioNames(this.output
 				.getScenarioNames());
 
 		runButton.addSelectionListener(new SelectionAdapter() {
@@ -108,7 +113,7 @@ public class Output_WriteOutputTab  {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fd = new FileDialog(Output_WriteOutputTab.this.outputShell, SWT.SAVE);
-
+                 
 				fd.setText("Give filename for reference scenario:");
 				// TODO: juiste basedir meegeven
 				
@@ -119,7 +124,7 @@ public class Output_WriteOutputTab  {
 					directory.mkdirs();
 				boolean canWrite = directory.canWrite();
 				
-				
+		//	InputStream inputStream=this.getClass().getResourceAsStream("wait30trans.gif"); 
 				if (canWrite) fd.setFilterPath(Output_WriteOutputTab.this.currentPath
 						);
 				String[] filterExt = { "*.xml" };
@@ -136,116 +141,147 @@ public class Output_WriteOutputTab  {
 					
 					Output_WriteOutputTab.this.currentPath=fd.getFilterPath();
 					/* remove the extension from the path */
-					String userFileName=fd.getFileName();
+					Output_WriteOutputTab.this.userFileName=fd.getFileName();
 					userFileName = cleanPath(userFileName);
+					Image image = new Image(e.widget.getDisplay(),
+							this.getClass().getResourceAsStream("wait30trans.gif"));
+					((Button) e.widget).setImage(image);
+					Runnable writer=new Runnable (){ 
+						
+						public void run() {
+						writeFiles(scenarioNamesToWrite, userFileName);
+					}};
+					BusyIndicator.showWhile(Output_WriteOutputTab.this.outputShell.getDisplay(),
+					writer);
+					((Button) e.widget).setImage(null);
+				}
 
-					if (Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
+					
+			}
+
+			
+			
+	public void writeFiles(final String[] scenarioNamesToWrite,
+					String userFileName) {
+				boolean done;
+				if (Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
+					for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+						String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_"
+								+ scenarioNamesToWrite[scen] + ".xml";
+						try {
+							Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName, 2,
+									scen);
+							done=true;
+							//new ErrorMessageWindow("finished with writing of  "+fileName,outputShell);
+						} catch (FileNotFoundException e1) {
+							new ErrorMessageWindow(e1, Output_WriteOutputTab.this.outputShell);
+							e1.printStackTrace();
+						} catch (FactoryConfigurationError e1) {
+							new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (XMLStreamException e1) {
+							new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+							
+						} catch (DynamoOutputException e1) {
+							new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+							
+						}
+
+					}
+				else {
+					if (!Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
 						for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
 							String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_"
 									+ scenarioNamesToWrite[scen] + ".xml";
 							try {
-								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName, 2,
+								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 2,
 										scen);
+								done=true;//new ErrorMessageWindow("finished with writing of  "+fileName,outputShell);
 							} catch (FileNotFoundException e1) {
-								new ErrorMessageWindow(e1, Output_WriteOutputTab.this.outputShell);
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
 								e1.printStackTrace();
 							} catch (FactoryConfigurationError e1) {
 								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							} catch (XMLStreamException e1) {
 								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-								
+								e1.printStackTrace();
 							} catch (DynamoOutputException e1) {
 								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							}
+						}
+					else if (Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
+						
+						
+						for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+							
+							try {
 								
-							}
 
-						}
-					else {
-						if (!Output_WriteOutputTab.this.cohortStyle && Output_WriteOutputTab.this.singleFile)
-							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
-								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_"
-										+ scenarioNamesToWrite[scen] + ".xml";
-								try {
-									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 2,
-											scen);
-								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (FactoryConfigurationError e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								}
-							}
-						else if (Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
-							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
 								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+userFileName + "_men_"
-										+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
+								+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
+								+ ".xml";
+								
+								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName,
+										0, scen);
+
+								fileName =Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_women_"
+										+ scenarioNamesToWrite[scen]
 										+ ".xml";
-								try {
-									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName,
-											0, scen);
 
-									fileName =Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_women_"
-											+ scenarioNamesToWrite[scen]
-											+ ".xml";
-
-									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName,
-											1, scen);
-								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (FactoryConfigurationError e1) {
-									// TODO: handle this exception
-									e1.printStackTrace();
-								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								}
-							}
-						} else if (!Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
-							for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
-								String fileName = Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_men_"
-										+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
-										+ ".xml";
-								try {
-									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 0,
-											scen);
-
-									fileName =Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_women_"
-											+ scenarioNamesToWrite[scen]
-											+ ".xml";
-
-									Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 1,
-											scen);
-								} catch (FileNotFoundException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (FactoryConfigurationError e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (XMLStreamException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								} catch (DynamoOutputException e1) {
-									new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
-									e1.printStackTrace();
-								}
+								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyCohort(fileName,
+										1, scen);
+								done=true;//new ErrorMessageWindow("finished with writing of files",outputShell);
+							} catch (FileNotFoundException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							} catch (FactoryConfigurationError e1) {
+								// TODO: handle this exception
+								e1.printStackTrace();
+							} catch (XMLStreamException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							} catch (DynamoOutputException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
 							}
 						}
+					} else if (!Output_WriteOutputTab.this.cohortStyle && !Output_WriteOutputTab.this.singleFile) {
+						for (int scen = 0; scen < Output_WriteOutputTab.this.output.getNScen() + 1; scen++) {
+							String fileName = Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_men_"
+									+ Output_WriteOutputTab.this.output.getScenarioNames()[scen]
+									+ ".xml";
+							try {
+								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 0,
+										scen);
 
+								fileName =Output_WriteOutputTab.this.currentPath+File.separator+ userFileName + "_women_"
+										+ scenarioNamesToWrite[scen]
+										+ ".xml";
+
+								Output_WriteOutputTab.this.writer.writeWorkBookXMLbyYear(fileName, 1,
+										scen);
+								done=true;//new ErrorMessageWindow("finished with writing of files",outputShell);
+							} catch (FileNotFoundException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							} catch (FactoryConfigurationError e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							} catch (XMLStreamException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							} catch (DynamoOutputException e1) {
+								new ErrorMessageWindow( e1, Output_WriteOutputTab.this.outputShell);
+								e1.printStackTrace();
+							}
+						}
 					}
+
 				}
+				
 			}
 
 			/**

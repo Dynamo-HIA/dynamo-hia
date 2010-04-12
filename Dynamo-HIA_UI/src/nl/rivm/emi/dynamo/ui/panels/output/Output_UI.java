@@ -6,6 +6,8 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Event;
@@ -22,7 +24,7 @@ public class Output_UI {
 
 	final Shell parentShell;
 	final Shell outputShell;
-
+	Log log = LogFactory.getLog(this.getClass().getName());
 	CDMOutputFactory output;
 
 	// Contains the base directory of the application data
@@ -41,9 +43,9 @@ public class Output_UI {
 		outputShell.setBounds(30, 30, 750, 650);
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
+        log.fatal("start making plotFactory");
 		this.plotFactory=new DynamoPlotFactory(output,scenarioParameters);
-
-		makeOutputDisplay(outputShell);
+        makeOutputDisplay(outputShell);
 		
 
 	}
@@ -58,6 +60,7 @@ public class Output_UI {
 	public void makeOutputDisplay(Shell shell) {
 
 		/* tab for pyramid plots */
+		log.fatal("start making tabfolder");
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
 
 		tabFolder1.setLayout(new FillLayout());
@@ -66,16 +69,22 @@ public class Output_UI {
 		/* tab for changing the parameters of the scenarios */
 
 		final Output_PyramidTab tab0 = new Output_PyramidTab(tabFolder1, this.plotFactory);
+		log.fatal("tab pyramid made");
 		final Output_DiseaseTab tab1 = new Output_DiseaseTab(tabFolder1, this.plotFactory);
+		log.fatal("tab diseases made");
 		final Output_RiskFactorTab tab2 = new Output_RiskFactorTab(tabFolder1,
 				this.plotFactory);
+		log.fatal("tab risk factor made");
 		final Output_LifeExpTab tab3 = new Output_LifeExpTab(tabFolder1, this.plotFactory);
 		final Output_SurvivalTab tab4 = new Output_SurvivalTab(tabFolder1,
 				this.plotFactory);
+		log.fatal("tab survival made");
 		final Output_WriteOutputTab tab5 = new Output_WriteOutputTab(
 				outputShell, currentPath, tabFolder1, this.output, scenarioParameters);
+		log.fatal("tab writing made");
 		final Output_ChangeScenarioTab tab6 = new Output_ChangeScenarioTab(
 				tabFolder1, this.output,this.scenarioParameters);
+		log.fatal("tab scenarioparams made");
 
 		shell.open();
 		tabFolder1.addListener(SWT.Selection, new Listener() {
