@@ -11,6 +11,14 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
+        <xs:element name="parametertype" minOccurs="0" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Acutely Fatal" />
+              <xs:enumeration value="Cured Fraction" />
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
 		  <xs:element name="mortalities"  minOccurs="1" maxOccurs="1">
 		    <xs:complexType>
 		      <xs:sequence>
