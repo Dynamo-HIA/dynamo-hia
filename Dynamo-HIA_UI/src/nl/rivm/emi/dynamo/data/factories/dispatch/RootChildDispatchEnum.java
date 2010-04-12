@@ -4,14 +4,16 @@ import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChild
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
+
 /**
  * @author mondeelr
- *
- * Enumeration mapping the relations between the name of a rootchild-element in a configuration 
- * file and the Factory Object to turn it into a configuration modelobject part.
- *
- * The instances of the enumeration are put into the RootChildDispatchMap to be able to find them 
- * by rootchildelementname.
+ * 
+ *         Enumeration mapping the relations between the name of a
+ *         rootchild-element in a configuration file and the Factory Object to
+ *         turn it into a configuration modelobject part.
+ * 
+ *         The instances of the enumeration are put into the
+ *         RootChildDispatchMap to be able to find them by rootchildelementname.
  */
 public enum RootChildDispatchEnum {
 	AMOUNTS("amounts", new AgnosticHierarchicalRootChildFactory()), //
@@ -24,6 +26,8 @@ public enum RootChildDispatchEnum {
 	REFERENCECLASS("referenceclass", new AgnosticSingleRootChildFactory()), //
 	REFERENCEVALUE("referencevalue", new AgnosticSingleRootChildFactory()), //
 	UNITTYPE("unittype", new AgnosticSingleRootChildFactory()), //
+	PARAMETERTYPE(XMLTagEntityEnum.PARAMETERTYPE.getElementName(),
+			new AgnosticSingleRootChildFactory()), //
 	MORTALITIES("mortalities", new AgnosticHierarchicalRootChildFactory()), //
 	PREVALENCES("prevalences", new AgnosticHierarchicalRootChildFactory()), //
 	STARTINGYEAR(XMLTagEntityEnum.STARTINGYEAR.getElementName(),
@@ -67,8 +71,10 @@ public enum RootChildDispatchEnum {
 	private final RootChildFactory theFactory;
 
 	/**
-	 * @param rootNodeName The supported elementname.
-	 * @param theFactory  Factory able to process the elementname (and subnodes).
+	 * @param rootNodeName
+	 *            The supported elementname.
+	 * @param theFactory
+	 *            Factory able to process the elementname (and subnodes).
 	 */
 	private RootChildDispatchEnum(String rootNodeName,
 			RootChildFactory theFactory) {
