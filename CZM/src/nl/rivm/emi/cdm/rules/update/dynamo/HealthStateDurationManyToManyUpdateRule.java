@@ -190,7 +190,8 @@ extends HealthStateManyToManyUpdateRule {
 							 * denominator becomes zero and we need another
 							 * formula
 							 */
-							if (disFatalIndex[ageValue][sexValue][c][0] == 0)
+							if (disFatalIndex[ageValue][sexValue][c][0] == 0
+									&& expAI != 1)
 								survivalFraction *= Math.exp(-getTimeStep()
 										* calculateFatalIncidence(
 												riskDurationValue, ageValue,
@@ -198,11 +199,22 @@ extends HealthStateManyToManyUpdateRule {
 										* (atMort * (1 - oldValue[d]) * expI + (atMort
 												* oldValue[d] - incidence)
 												* expA) / (atMort - incidence);
-							else
+							else if (expAI != 1)
 								survivalFraction *= (atMort * (1 - oldValue[d])
 										* expI + (atMort * oldValue[d] - incidence)
 										* expA)
 										/ (atMort - incidence);
+							else if (disFatalIndex[ageValue][sexValue][c][0] != 0)
+								survivalFraction *= expA
+										* (incidence * (1 - oldValue[d]) + 1);
+							else 
+								survivalFraction *= Math.exp(-getTimeStep()
+										* calculateFatalIncidence(
+												riskDurationValue, ageValue,
+												sexValue, d))
+										* expA
+										* (incidence * (1 - oldValue[d]) + 1);
+
 							currentStateNo++;
 							/* update diseases with cured fraction */
 						} else if (withCuredFraction[c]) {
@@ -250,7 +262,7 @@ extends HealthStateManyToManyUpdateRule {
 							 * at the same time
 							 */
 							survivalFraction *= survival;
-							currentStateNo+=2;
+							currentStateNo += 2;
 						}
 
 						else /* now cluster diseases */
@@ -338,7 +350,7 @@ extends HealthStateManyToManyUpdateRule {
 
 							newValue[currentStateNo] = (float) (((1 - oldValue[currentStateNo])
 									* currentTransMat[1][0] + oldValue[currentStateNo]
-											* currentTransMat[1][1]) / survival);
+									* currentTransMat[1][1]) / survival);
 
 							survivalFraction *= survival;
 							currentStateNo++;
@@ -753,14 +765,10 @@ extends HealthStateManyToManyUpdateRule {
 			 * DiseaseNumberWithinCluster;== array over diseases
 			 */
 
-			
-
 			for (int c = 0; c < nCluster; c++) {
 				if (numberOfDiseasesInCluster[c] == 1) {
 
-					
 				} else if (withCuredFraction[c]) {
-					
 
 				} else // cluster of dependent diseases
 				{
@@ -849,8 +857,6 @@ extends HealthStateManyToManyUpdateRule {
 							}
 					}// end loop over diseases within cluster
 
-					
-
 				} // end if statement for cluster diseases
 
 			} // end loop over clusters
@@ -918,7 +924,6 @@ extends HealthStateManyToManyUpdateRule {
 												.exp(-incidence
 														- fatalIncidence) * incidence);
 
-							
 								} else if (withCuredFraction[c]) {
 
 									/*
@@ -933,7 +938,8 @@ extends HealthStateManyToManyUpdateRule {
 									 * fraction, so fatal incidence is not
 									 * included
 									 * 
-									 * This has not be consistently done through the code
+									 * This has not be consistently done through
+									 * the code
 									 */
 									d = clusterStartsAtDiseaseNumber[c];
 									incidence = calculateIncidence(r, a, g, d);
@@ -965,7 +971,6 @@ extends HealthStateManyToManyUpdateRule {
 									transMat[a][g][r][c][2][1] = 0;
 									transMat[a][g][r][c][2][2] = (float) Math
 											.exp(-attrMort[d + 1]);
-									
 
 								} else // cluster of dependent diseases
 
@@ -981,9 +986,14 @@ extends HealthStateManyToManyUpdateRule {
 										transMat[a][g][r][c] = matExp
 												.exponentiateFloatMatrix(rateMatrix);
 									} catch (CDMUpdateRuleException e) {
-										throw new CDMConfigurationException(e.getMessage()+" for risk class "+r 
-												+" and disease cluster "+ c + ", age: "+a+ " sex: "+g);
-										
+										throw new CDMConfigurationException(e
+												.getMessage()
+												+ " for risk class "
+												+ r
+												+ " and disease cluster "
+												+ c
+												+ ", age: " + a + " sex: " + g);
+
 									}
 
 								}

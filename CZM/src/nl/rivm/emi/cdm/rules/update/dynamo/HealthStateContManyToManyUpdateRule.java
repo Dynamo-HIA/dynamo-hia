@@ -195,7 +195,7 @@ extends HealthStateManyToManyUpdateRule {
 						 * denominator becomes zero and we need another formula
 						 */
 						// only calculate fatal part if there are fatal diseases
-						if (disFatalIndex[ageValue][sexValue][c][0] == 0)
+						if (disFatalIndex[ageValue][sexValue][c][0] == 0 && expAI !=1)
 							survivalFraction *= Math.exp(-getTimeStep()
 									* calculateFatalIncidence(riskFactorValue,
 											ageValue, sexValue, d))
@@ -207,9 +207,13 @@ extends HealthStateManyToManyUpdateRule {
 									* expI + (atMort * oldValue[d] - incidence)
 									* expA)
 									/ (atMort - incidence);
-						else
+						else if (disFatalIndex[ageValue][sexValue][c][0] != 0)
 							survivalFraction *= expA
 									* (incidence * (1 - oldValue[d]) * timeStep + 1);
+						else survivalFraction *=Math.exp(-getTimeStep()
+								* calculateFatalIncidence(riskFactorValue,
+										ageValue, sexValue, d))*expA
+										* (incidence * (1 - oldValue[d]) * timeStep + 1);
 						currentStateNo++;
 						/* update diseases with cured fraction */
 					} else if (withCuredFraction[c]) {
