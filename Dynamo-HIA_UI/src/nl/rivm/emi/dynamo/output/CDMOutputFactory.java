@@ -330,7 +330,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
 							NDisease[scen][stepCount][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]
-									* getPTotalDiseaseByRiskClassByAge()[scen][stepCount][r][a][g];
+									* pTotalDiseaseByRiskClassByAge[scen][stepCount][r][a][g];
 
 		return NDisease;
 	}

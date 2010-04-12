@@ -39,7 +39,7 @@ public class ExcelReadableXMLWriter {
 	private double NDisease[][][][][];
 	private double NOriDaly[][][][][];
 	private double NoriDisease[][][][][];
-
+	private double[][][][][][] nDiseaseByRiskClassByAge ;
 	public boolean isDetails() {
 		return details;
 	}
@@ -70,6 +70,8 @@ public class ExcelReadableXMLWriter {
 		this.params = scenParams;
 		makeDALYArrays();
 		makeDiseaseArrays();
+		this.nDiseaseByRiskClassByAge = this.output
+		.getNDiseaseByRiskClassByAge();
 		/*
 		 * copy the information from scenInfo into the current object (as
 		 * fields)
@@ -96,6 +98,9 @@ public class ExcelReadableXMLWriter {
 									* probTotOriDisease[scen][stepCount][r][a][s];
 
 						}
+		
+		double[][][][][] probTotDisease = this.output
+		.getPTotalDiseaseByRiskClassByAge();
 		for (int r = 0; r < this.output.nRiskFactorClasses; r++)
 			for (int scen = 0; scen < this.output.nScen + 1; scen++)
 				for (int a = 0; a < 96 + this.output.stepsInRun; a++)
@@ -103,7 +108,7 @@ public class ExcelReadableXMLWriter {
 						for (int stepCount = 0; stepCount < this.output.stepsInRun + 1; stepCount++)
 
 							NDisease[scen][stepCount][r][a][g] += output.nPopByRiskClassByAge[scen][stepCount][r][a][g]
-									* output.getPDisabilityByRiskClassByAge()[scen][stepCount][r][a][g];
+									* probTotDisease[scen][stepCount][r][a][g];
 
 	}
 
@@ -288,9 +293,9 @@ public class ExcelReadableXMLWriter {
 				writeCell(writer, "riskClass");
 			} else {
 				writeCell(writer, "mean_riskFactor");
-				writeCell(writer, "std_riskFactor");
-				writeCell(writer, "skewness");
-
+			//	writeCell(writer, "std_riskFactor");
+			//	writeCell(writer, "skewness");
+				writeCell(writer, "risk class");
 			}
 			if (this.output.riskType == 3) {
 
@@ -338,6 +343,7 @@ public class ExcelReadableXMLWriter {
 				for (int a = 0; a < 96; a++) {
 					writer.writeStartElement("Row");
 					/* write risk factor info */
+				//	log.fatal("start row");
 					if (this.output.riskType == 1 || this.output.riskType == 3
 							|| this.output.categorized) {
 
@@ -356,21 +362,27 @@ public class ExcelReadableXMLWriter {
 						 * 
 						 * / make arrays with the data needed to be averaged
 						 */
-						double[] toByAveragedRef;
-						double[] toByAveragedScen;
+						double[] toBeAveragedRef;
+						double[] toBeAveragedScen;
 						double[] numbersRef;
 						double[] numbersScen;
 						double mean;
 						if (sex < 2) {
-							toByAveragedRef = new double[this.output.nRiskFactorClasses];
-							toByAveragedScen = new double[this.output.nRiskFactorClasses];
+							toBeAveragedRef = new double[this.output.nRiskFactorClasses];
+							toBeAveragedScen = new double[this.output.nRiskFactorClasses];
 							numbersRef = new double[this.output.nRiskFactorClasses];
 							numbersScen = new double[this.output.nRiskFactorClasses];
+							
+							/* here we add the same value nriskclass times to the array
+							 * not very efficient, but it works
+							 * 
+							 * 
+							 */
 							for (int r = 0; r < this.output.nRiskFactorClasses; r++) {
 
-								toByAveragedRef[r] = this.output
+								toBeAveragedRef[r] = this.output
 										.getMeanRiskByRiskClassByAge()[0][year][rClass][a][sex];
-								toByAveragedScen[r] = this.output
+								toBeAveragedScen[r] = this.output
 										.getMeanRiskByRiskClassByAge()[thisScen][year][rClass][a][sex];
 								numbersRef[r] = this.output
 										.getNPopByRiskClassByAge()[0][year][rClass][a][sex];
@@ -378,41 +390,37 @@ public class ExcelReadableXMLWriter {
 										.getNPopByRiskClassByAge()[thisScen][year][rClass][a][sex];
 							}
 							mean = this.params.applySuccesrateToMean(
-									toByAveragedRef, toByAveragedScen,
+									toBeAveragedRef, toBeAveragedScen,
 									numbersRef, numbersScen, thisScen, year, a,
 									sex);
 
 						} else {
-							toByAveragedRef = new double[this.output.nRiskFactorClasses * 2];
-							toByAveragedScen = new double[this.output.nRiskFactorClasses * 2];
-							numbersRef = new double[this.output.nRiskFactorClasses * 2];
-							numbersScen = new double[this.output.nRiskFactorClasses * 2];
-							for (int s = 0; s < 2; s++)
+							double[][] toBeAveragedRef2 = new double[this.output.nRiskFactorClasses] [ 2];
+							double[][] toBeAveragedScen2 = new double[this.output.nRiskFactorClasses][ 2];
+							double[][] numbersRef2 = new double[this.output.nRiskFactorClasses][ 2];
+							double[][] numbersScen2 = new double[this.output.nRiskFactorClasses][ 2];
+							
 
 								for (int r = 0; r < this.output.nRiskFactorClasses; r++) {
 
-									toByAveragedRef[r + s
-											* this.output.nRiskFactorClasses] = this.output.meanRiskByRiskClassByAge[0][year][rClass][a][s];
-									toByAveragedScen[r + s
-											* this.output.nRiskFactorClasses] = this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a][s];
-									numbersRef[r + s
-											* this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[0][year][rClass][a][s];
-									numbersScen[r + s
-											* this.output.nRiskFactorClasses] = this.output.nPopByRiskClassByAge[thisScen][year][rClass][a][s];
+									toBeAveragedRef2[r] = this.output.meanRiskByRiskClassByAge[0][year][rClass][a];
+									toBeAveragedScen2[r] = this.output.meanRiskByRiskClassByAge[thisScen][year][rClass][a];
+									numbersRef2[r]= this.output.nPopByRiskClassByAge[0][year][rClass][a];
+									numbersScen2[r ] = this.output.nPopByRiskClassByAge[thisScen][year][rClass][a];
 								}
 							mean = this.params.applySuccesrateToMean(
-									toByAveragedRef, toByAveragedScen,
-									numbersRef, numbersScen, thisScen, year, a,
-									2);
+									toBeAveragedRef2, toBeAveragedScen2,
+									numbersRef2, numbersScen2, thisScen, year, a
+									);
 						}
-
+//log.fatal("write mean");
 						writeCell(writer, mean);
 					}
-					/* write the standard deviation of the continuous riskfactor */
+					/* write the standard deviation of the continuous riskfactor TODO */
 
 					if (this.output.riskType == 2 && !this.output.categorized) {
 
-						writeCell(writer, rClass);
+					//	writeCell(writer, rClass);
 						// TODO vervangen door std risk factor
 
 						writeCell(writer, rClass);
@@ -451,6 +459,7 @@ public class ExcelReadableXMLWriter {
 
 						writeCell(writer, mean);
 
+						//log.fatal("write mean");
 					}
 
 					/* write age */
@@ -476,6 +485,8 @@ public class ExcelReadableXMLWriter {
 
 					}
 					writeCell(writer, data);
+
+			//		log.fatal("write npop");
 					/* write disease info */
 
 					if (this.details) {
@@ -502,6 +513,8 @@ public class ExcelReadableXMLWriter {
 
 							}
 							writeCell(writer, data);
+
+							//log.fatal("write diseasestate");
 						}
 
 					} else { /*
@@ -509,8 +522,7 @@ public class ExcelReadableXMLWriter {
 							 * diseases
 							 */
 						/* make summary array */
-						double[][][][][][] nDiseaseByRiskClassByAge = this.output
-								.getNDiseaseByRiskClassByAge();
+						
 
 						for (int col = 4; col < this.output.nDiseases + 4; col++) {
 
@@ -531,6 +543,7 @@ public class ExcelReadableXMLWriter {
 
 							}
 							writeCell(writer, data);
+						//	log.fatal("write diseasestate");
 						}
 
 					}
@@ -542,13 +555,16 @@ public class ExcelReadableXMLWriter {
 								year, a,sex);
 						writeCell(writer, data);
 
-						
+
+					//	log.fatal("write daly");
 
 						data = this.params.applySuccesrate(
 								NDisease[0][year][rClass][a][sex],
 								NDisease[thisScen][year][rClass][a][sex], thisScen,
 								year, a,sex);
 						writeCell(writer, data);
+
+					//	log.fatal("write nDisease");
 					} else {
 						data = this.params.applySuccesrateToBothGenders(
 								NDaly[0][year][rClass][a],
@@ -556,13 +572,14 @@ public class ExcelReadableXMLWriter {
 								year, a);
 						writeCell(writer, data);
 
-						
+					//	log.fatal("write daly");
 
 						data = this.params.applySuccesrateToBothGenders(
 								NDisease[0][year][rClass][a],
 								NDisease[thisScen][year][rClass][a], thisScen,
 								year, a);
 						writeCell(writer, data);
+					//	log.fatal("write nDisease");
 					}
 
 					writer.writeEndElement();

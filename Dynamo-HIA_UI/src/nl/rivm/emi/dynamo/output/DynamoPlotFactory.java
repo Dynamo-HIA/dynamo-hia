@@ -3473,7 +3473,7 @@ public class DynamoPlotFactory {
 
 			if (!this.output.isWithNewborns() && (ageOfLE < year))
 				ageOfLE = year;
-			String chartTitle = ("Cross-sectional life expectancy with and without");
+			String chartTitle = ("Cross-sectional life expectancy with and without ");
 
 			if (ageOfLE > 95)
 				chartTitle = (" no simulated persons of age 95 and younger in year " + (this.output
