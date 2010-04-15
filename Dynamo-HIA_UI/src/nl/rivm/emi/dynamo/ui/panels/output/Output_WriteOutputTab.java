@@ -143,9 +143,9 @@ public class Output_WriteOutputTab  {
 					/* remove the extension from the path */
 					Output_WriteOutputTab.this.userFileName=fd.getFileName();
 					userFileName = cleanPath(userFileName);
-					Image image = new Image(e.widget.getDisplay(),
-							this.getClass().getResourceAsStream("wait30trans.gif"));
-					((Button) e.widget).setImage(image);
+				//	Image image = new Image(e.widget.getDisplay(),
+				//			this.getClass().getResourceAsStream("wait30trans.gif"));
+				//	((Button) e.widget).setImage(image);
 					Runnable writer=new Runnable (){ 
 						
 						public void run() {
