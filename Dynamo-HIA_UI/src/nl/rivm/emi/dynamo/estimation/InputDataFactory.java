@@ -1913,13 +1913,12 @@ public class InputDataFactory {
 
 			/*
 			 * flag which relative risks are for disease on disease, and put
-			 * them in an array array size to large, but does not matter because
-			 * temporary
+			 * them in an array 
 			 */
 
-			String[] isRRfrom = new String[nDiseases * nDiseases];
-			String[] isRRto = new String[nDiseases * nDiseases];
-			int[] rrNumber = new int[nDiseases * nDiseases];
+			String[] isRRfrom = new String[rrInfo.size()];
+			String[] isRRto = new String[rrInfo.size()];
+			int[] rrNumber = new int[rrInfo.size()];
 
 			RRInfo info;
 			int currentRR = 0;

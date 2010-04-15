@@ -1723,11 +1723,47 @@ public class ModelParameters {
 					 */
 					sumRRmDisease[d] += probDisease[i][d] * relRiskMort[i]
 							* weight[i];
-					// sumExpectedCF[d]+=
+
 				}
-				// calculate matrix V=
+
+				// if without RR for mortality, calculate the contribution to
+				// matrix V of the off-diagonal cluster blocks:
 				// average(probdisease (d1 &d2,i))/p(d1)-
 				// * average(probdisease(d1,i)*probdisease(d2,i))/p(d1)
+				// = (as independent given i)
+				// 1/p(d1) * [ sum probdisease(d1,i)*probdisease(d2,i)*weigth(i)
+				// - p(d1)*p(d2)]
+				//     =
+				// 1/p(d1) * sum probdisease(d1,i)*probdisease(d2,i)*weigth(i) -
+				// p(d2) 
+				//     =
+				// sum [probdisease(d1,i)*probdisease(d2,i)*weigth(i)/p(d1) ] -
+				// sum [p(d2,i)*weight(i)]
+				//     = 
+				// sum [{probdisease(d1,i)*probdisease(d2,i)*weigth(i)/p(d1) -
+				// p(d2,i)}*weight(i)]
+				  
+				// if RR for mortality is present, the off diagonal element are zero, so nothing
+				// needs to be done 
+				//
+				//
+				if (!withRRmort)
+					for (int c1 = 0; c1 < nCluster; c1++)
+						for (int c2 = 0; c2 < nCluster; c2++)
+							if (c1 != c2)
+								for (int dd = 0; dd < inputData.clusterStructure[c1]
+										.getNInCluster(); dd++)
+									for (int ee = 0; ee < inputData.clusterStructure[c2]
+											.getNInCluster(); ee++) {
+										int d1 = inputData.clusterStructure[c1]
+												.getDiseaseNumber()[dd];
+										int d2 = inputData.clusterStructure[c2]
+												.getDiseaseNumber()[ee];
+										vMat[d1][d2] += weight[i]
+												* (probDisease[i][d1]
+														* probDisease[i][d2]
+														/ diseasePrevalence[d1] - diseasePrevalence[d2]);
+									}
 
 			}// end third loop over all persons i
 
@@ -3595,16 +3631,17 @@ public class ModelParameters {
 		/* check if all Y-values are the same */
 		if (!constantY(y_array)) {
 
-			/* throw out data with zero weight by first shifting all data to the front
-			 *  and then truncating the arrays to this part */
-			int numberOfValidDataPoints=shiftZeroWeights(y_array, x_array, w);
-			if (numberOfValidDataPoints!=w.length){
-				x_array=truncate(numberOfValidDataPoints,x_array);
-				y_array=truncate(numberOfValidDataPoints,y_array);
-				w=truncate(numberOfValidDataPoints,w);
+			/*
+			 * throw out data with zero weight by first shifting all data to the
+			 * front and then truncating the arrays to this part
+			 */
+			int numberOfValidDataPoints = shiftZeroWeights(y_array, x_array, w);
+			if (numberOfValidDataPoints != w.length) {
+				x_array = truncate(numberOfValidDataPoints, x_array);
+				y_array = truncate(numberOfValidDataPoints, y_array);
+				w = truncate(numberOfValidDataPoints, w);
 			}
 
-			
 			for (int i = 0; i < w.length; i++) {
 				double weight = Math.sqrt(w[i]);
 				y_array[i] = weight * y_array[i];
@@ -3644,7 +3681,9 @@ public class ModelParameters {
 		return coef;
 	};
 
-	/** Returns an array with only the first toN elements of the inputArray
+	/**
+	 * Returns an array with only the first toN elements of the inputArray
+	 * 
 	 * @param toN
 	 * @param inputArray
 	 * @return
@@ -3657,7 +3696,9 @@ public class ModelParameters {
 		return returnArray;
 	}
 
-	/** Returns an array with only the first toN elements of the inputArray
+	/**
+	 * Returns an array with only the first toN elements of the inputArray
+	 * 
 	 * @param toN
 	 * @param inputArray
 	 * @return
