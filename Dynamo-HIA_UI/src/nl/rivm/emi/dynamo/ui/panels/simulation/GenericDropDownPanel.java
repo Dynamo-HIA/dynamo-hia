@@ -10,6 +10,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -121,7 +122,10 @@ public class GenericDropDownPanel {
 	private void updateRegisteredDropDown(String newText)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
+		
 		dropDown.removeAll();
+
+		
 		log.debug("newText" + newText);
 		log.debug("this.getLabel()" + this.getLabel());
 		this.selectablePropertiesSet.clear();
@@ -130,6 +134,7 @@ public class GenericDropDownPanel {
 		log.debug("SET" + this.selectablePropertiesSet);
 		fill(this.selectablePropertiesSet);
 		dropDown.select(0);
+		
 	}
 
 	/**

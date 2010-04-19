@@ -86,9 +86,15 @@ public class ScenarioResultGroup {
 		HelpTextListenerUtil.addHelpTextListeners(transitionDropDownPanel
 				.getDropDown(), TRANSITION);
 		
-			this.riskFactorPrevalenceDropDownPanel = createDropDown(
+		this.riskFactorPrevalenceDropDownPanel = createDropDown(
 					RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 							RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
+		// added 2010-4-18 by Hendriek but does not work
+		this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(transitionDropDownPanel);
+		// added 2010-4-18 by Hendriek
+		this.transitionDropDownPanel.genericComboModifyListener.registerDropDown(riskFactorPrevalenceDropDownPanel);
+		
+		
 		} catch (DynamoNoValidDataException e) {
 			for (Control childwidget:this.group.getChildren())
 				childwidget.dispose();

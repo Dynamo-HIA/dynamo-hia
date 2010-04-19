@@ -438,13 +438,13 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 
 	private String checkRelativeRisks() throws ConfigurationException {
 		String riskfactorName = singleConfiguration.getName();
-		Map<String, ITabDiseaseConfiguration> diseaseConfiguration = this.dynamoSimulationObject
-				.getDiseaseConfigurations();
-		Set<String> diseaseNames = new LinkedHashSet<String>();
-		for (String key : diseaseConfiguration.keySet())
-			if (key != null)
-				diseaseNames.add(key);
-
+		//Map<String, ITabDiseaseConfiguration> diseaseConfiguration = this.dynamoSimulationObject
+		//		.getDiseaseConfigurations();
+		//Set<String> diseaseNames = new LinkedHashSet<String>();
+		//for (String key : diseaseConfiguration.keySet())
+		//	if (key != null)
+		//		diseaseNames.add(key);
+		Set<String> diseaseNames = this.treeLists.getValidDiseaseNames();
 		Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations = this.dynamoSimulationObject
 				.getRelativeRiskConfigurations();
 

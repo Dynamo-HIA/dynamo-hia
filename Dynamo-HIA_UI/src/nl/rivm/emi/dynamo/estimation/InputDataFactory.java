@@ -2144,10 +2144,11 @@ public class InputDataFactory {
 				} else {
 					/*
 					 * only read in rr's for diseases, not for death or
-					 * disability
+					 * disability, and also only when from a riskfactor (ignore relative risks from
+					 * non configured diseases as they have a different format so will cause errors)
 					 */
 					if (info.to.compareToIgnoreCase("death") != 0
-							&& info.to.compareToIgnoreCase("disability") != 0)
+							&& info.to.compareToIgnoreCase("disability") != 0 && info.from.equals(this.riskFactorName))
 						if (this.riskFactorType == 2) {
 							String configFileName = this.baseDir
 									+ File.separator + referenceDataDir

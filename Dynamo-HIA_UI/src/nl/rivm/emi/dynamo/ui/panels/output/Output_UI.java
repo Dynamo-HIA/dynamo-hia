@@ -3,6 +3,8 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import java.io.File;
+
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -29,6 +31,7 @@ public class Output_UI {
 
 	// Contains the base directory of the application data
 	private String currentPath;
+	
 	private DynamoPlotFactory plotFactory;
 	private ScenarioParameters scenarioParameters;
 
@@ -37,9 +40,14 @@ public class Output_UI {
 	public Output_UI(Shell shell, CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentPath
 			) {
         this.currentPath=currentPath;
+        /* nb you need a double escape sequence here to make this work 
+         * TO be tested for other platforms as Windows */
+        String delim="[\\"+File.separator+"]";
+        String [] tokens = currentPath.split(delim);
+        
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell);
-		outputShell.setText("Dynamo Output");
+		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
 		outputShell.setBounds(30, 30, 750, 650);
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
