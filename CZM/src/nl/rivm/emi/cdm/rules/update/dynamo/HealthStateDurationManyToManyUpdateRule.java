@@ -135,7 +135,7 @@ extends HealthStateManyToManyUpdateRule {
 				// NB All transitions are [to][from]
 				if (riskFactorValue == durationClass) {
 					int currentStateNo = 0;
-					double survival = 0;
+					
 					double survivalFraction = calculateOtherCauseSurvival(
 							riskDurationValue, ageValue, sexValue);
 
@@ -147,6 +147,7 @@ extends HealthStateManyToManyUpdateRule {
 					double incidence2;
 					double atMort;
 					for (int c = 0; c < nCluster; c++) {
+						double survival = 0;
 						/* update single diseases */
 						if (numberOfDiseasesInCluster[c] == 1) {
 
@@ -223,8 +224,12 @@ extends HealthStateManyToManyUpdateRule {
 							atMort = attributableMortality[d + 1][ageValue][sexValue];
 							incidence2 = calculateIncidence(riskDurationValue,
 									ageValue, sexValue, d + 1);
-							incidence = incidence2
+							/* non cured ratio can be only zero when either incidence d+1= zero,
+							 *  or both are zero, so the last option can not occur */
+							if (nonCuredRatio[ageValue][sexValue][c]!=0) incidence = incidence2
 									/ nonCuredRatio[ageValue][sexValue][c];
+							else if (incidence2==0) incidence=0;
+							else incidence=0;
 
 							/*
 							 * for faster execution for results that are used
@@ -330,11 +335,12 @@ extends HealthStateManyToManyUpdateRule {
 				/* for categories without duration */
 				else {
 					int currentStateNo = 0;
-					double survival = 0;
+					
 					double survivalFraction = OtherMortalitySurvival[ageValue][sexValue][riskFactorValue];
 
 					float[][] currentTransMat;
 					for (int c = 0; c < nCluster; c++) {
+						double survival = 0;
 						currentTransMat = transMat[ageValue][sexValue][riskFactorValue][c];
 						if (numberOfDiseasesInCluster[c] == 1) {
 
@@ -737,8 +743,11 @@ extends HealthStateManyToManyUpdateRule {
 							if (baselineFatalIncidence[dd][a][g] > 0)
 								nFatal++;
 							if (withCuredFraction[c] && d == 0)
+								
+								if (baselineIncidence[dd][a][g] + baselineIncidence[dd + 1][a][g]!=0)
 								nonCuredRatio[a][g][c] = baselineIncidence[dd + 1][a][g]
 										/ (baselineIncidence[dd][a][g] + baselineIncidence[dd + 1][a][g]);
+								else nonCuredRatio[a][g][c]=0;
 						}
 						if (nFatal > 0) {
 							disFatalIndex[a][g][c] = new int[nFatal];

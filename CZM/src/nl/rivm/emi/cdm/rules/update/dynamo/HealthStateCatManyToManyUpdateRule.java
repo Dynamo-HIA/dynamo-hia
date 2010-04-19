@@ -91,11 +91,12 @@ public class HealthStateCatManyToManyUpdateRule extends
 				// private int[] DiseaseNumberWithinCluster;== array over
 				// diseases
 				int currentStateNo = 0;
-				double survival = 0;
+				
 				double survivalFraction = OtherMortalitySurvival[ageValue][sexValue][riskFactorValue];
 
 				float[][] currentTransMat;
 				for (int c = 0; c < nCluster; c++) {
+					double survival = 0;
 					currentTransMat = transMat[ageValue][sexValue][riskFactorValue][c];
 					
 					/* update single diseases */
