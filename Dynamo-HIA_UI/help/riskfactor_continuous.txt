@@ -1,8 +1,6 @@
-Continuous Risk Factor Configuration
-
 For the selected continuous risk factor, enter the values for the cut-off to specify different classes (either manually or via import).
 
-Save the results ("Save") and close the window ("cancel")
+No macro is provided for this configuration.
 
 The cut-off values specify risk factor classes. An example for BMI is for Index 1 "20" ("under weight"), Index 2 "25" ("normal weight"), Index 3 "30" ("overweight") etc. In a following screen a distribution can be specified. 
 

@@ -1,1 +1,1 @@
-gnuff
+No macro is provided for this configuration.

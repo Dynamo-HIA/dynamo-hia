@@ -1,12 +1,6 @@
-Relative Risk for Disability from Continuous  Risk Factor
-
 For the selected continuous risk factor, enter the relative risk on disability by age and sex (either manually or via import).
 This gives the increase in RR for every increase in one unit of the risk factor.
 
 Files of this format can be created using the "rr for disability_contin" worksheet in the "macro/7-Relative risk for riskfactor continuous/Relative risk for riskfactor continuous.xml" workbook.
- 
-Save the results (“Save”) and close the window (“Cancel”).
 
 This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases. These are needed to calculate summary measures such das DALE (Disability adjusted life expectancy)
-
-Sources for the relative risk on xxx

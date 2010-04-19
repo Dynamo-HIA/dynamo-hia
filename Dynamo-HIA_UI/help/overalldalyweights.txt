@@ -1,12 +1,7 @@
-Overall DALY-Weights
 For the selected population, enter DALY-Weights for each sex and age class (either manually or via import)
 
 Files of this format can be created using the "Overall daly weights" worksheet in the "macro/1-Population/Population.xml" workbook.
 
-Save the results ("Save") and close the window ("cancel")
-
 DALY (disability adjusted life years), sometimes called "health state valuations", are measures of disease severity. A value of xxx means no impairment through disease, a value of xxx means a health state as worse death. 
 
 To calculate population summary measures, such as disability adjusted life years, it is important to have the overall DALY weights as just providing disease specific DALY weights would lead to underestimation as only a limited number of diseases that cause disabilities are modeled. 
-
-Sources for overall DALY-weights xxx. 

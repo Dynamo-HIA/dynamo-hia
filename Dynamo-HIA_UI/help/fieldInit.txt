@@ -1,1 +1,4 @@
-fieldInit.txt
+In this help-panel help is shown about the items within this screen.
+
+You can access the help by hovering the mouse over an item or selecting it (not a good idea for buttons).
+The help found by hovering has precedence over the selection help.

@@ -1,4 +1,3 @@
-Newborns
 For the selected population, enter the number of newborns for each year (either manually or via import and "Save" the data before you exit the window).
 
 Files of this format can be created using the "Newborns(Projected)" worksheet in the "macro/1-Population/Population.xml" workbook.
