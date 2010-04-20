@@ -89,9 +89,9 @@ public class ScenarioResultGroup {
 		this.riskFactorPrevalenceDropDownPanel = createDropDown(
 					RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
 							RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
-		// added 2010-4-18 by Hendriek but does not work
-		this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(transitionDropDownPanel);
-		// added 2010-4-18 by Hendriek
+		// added 2010-4-18 by Hendriek and removed again as causes "rondzingen "
+		//this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(transitionDropDownPanel);
+		// added 2010-4-18 by Hendriek : one is OK
 		this.transitionDropDownPanel.genericComboModifyListener.registerDropDown(riskFactorPrevalenceDropDownPanel);
 		
 		

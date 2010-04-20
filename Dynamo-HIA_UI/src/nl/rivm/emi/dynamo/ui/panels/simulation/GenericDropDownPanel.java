@@ -97,6 +97,29 @@ public class GenericDropDownPanel {
 		return selectablePropertiesSet.getSelectedIndex(currentValue);
 	}
 
+	/** update the drowdown set with minimal changes in order not to trigger
+	 * any modify-events, however does not work, still triggers to much
+	 * @param newSet
+	 */
+	public void fill_experimental(DropDownPropertiesSet newSet) {
+		if (dropDown.getSelectionIndex()==-1) fill(newSet);
+		else {
+		String [] currentDropDownSet=dropDown.getItems();
+		/* remove items not in newSet */
+		for (String item : currentDropDownSet) {
+			if (!newSet.contains(item)) 
+			dropDown.remove(item);
+					
+		}
+		/* add items from newSet that are not in oldSet */
+		for (String itemNew : newSet){
+			boolean itemFound=false;
+			for (String itemOld : currentDropDownSet) {
+			if (itemNew.equals(itemOld)) itemFound=true;
+			if (!itemFound) dropDown.add(itemNew);
+			}
+		} 
+	}}
 	public void fill(DropDownPropertiesSet set) {
 		int index = 0;
 		for (String item : set) {
