@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.util.ArrayList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -41,7 +43,7 @@ public class DiseaseClusterData {
 	private float[] rrAlpha = { 5 };
 	private float[][] relRiskCat = { { 1 } };
 	private float[] ability;
-
+    private ArrayList<String> diseaseNames;
 	/**
 	 * @param Structure : cluster structure
 	 * @param nClasses: number of riskfactor classes 
@@ -66,7 +68,7 @@ public class DiseaseClusterData {
 		this.relRiskDuurEnd = new float[Structure.getNInCluster()];
 		this.rrAlpha = new float[Structure.getNInCluster()];
 		this.relRiskCat = new float[nClasses][Structure.getNInCluster()];
-
+        this.diseaseNames=Structure.getDiseaseName();
 		// this.RRdis = RRdis;
 		// RRdisExtended is a RR matrix for all diseases, as this make looking
 		// up the
@@ -246,8 +248,8 @@ public class DiseaseClusterData {
 	 */
 	public void setRelRiskDuurBegin(float relRiskDuurBegin, int d) throws DynamoInconsistentDataException {
 		this.relRiskDuurBegin[d] = relRiskDuurBegin;
-		if (relRiskDuurBegin<0.000001) throw new DynamoInconsistentDataException("begin relative risk for disease" +
-				"number "+d+" is zero. This is not allowed. Please change the input"); 
+		if (relRiskDuurBegin<0.000001) throw new DynamoInconsistentDataException("begin relative risk for disease " +
+				diseaseNames.get(d)+" is zero. This is not allowed. Please change the input"); 
 	}
 
 	/**
@@ -308,8 +310,8 @@ public class DiseaseClusterData {
 	public void setRelRiskCont(float[] relRiskContIn) throws DynamoInconsistentDataException {
 		
 		for (int d=0;d<relRiskContIn.length;d++)
-			if (relRiskContIn[d]<0.000001) throw new DynamoInconsistentDataException("relative risk for disease" +
-					"number "+d+" is zero. This is not allowed. Please change the input"); 
+			if (relRiskContIn[d]<0.000001) throw new DynamoInconsistentDataException("relative risk for disease " +
+					diseaseNames.get(d)+" is zero. This is not allowed. Please change the input"); 
 		this.relRiskCont = relRiskContIn;
 	}
 
@@ -319,8 +321,8 @@ public class DiseaseClusterData {
 	 * @throws DynamoInconsistentDataException 
 	 */
 	public void setRelRiskCont(float relRiskCont, int d) throws DynamoInconsistentDataException {
-		if (relRiskCont<0.000001) throw  new DynamoInconsistentDataException("relative risk for disease" +
-				"number "+d+" is zero. This is not allowed. Please change the input"); 
+		if (relRiskCont<0.000001) throw  new DynamoInconsistentDataException("relative risk for disease " +
+				diseaseNames.get(d)+" is zero. This is not allowed. Please change the input"); 
 		this.relRiskCont[d] = relRiskCont;
 	}
 
@@ -396,7 +398,7 @@ public class DiseaseClusterData {
 			checksum+=relRiskCatIn[cat][d];
 			 this.relRiskCat[cat][d]=relRiskCatIn[cat][d];
 			}
-		if (Math.abs(checksum)<0.00001) throw new DynamoInconsistentDataException("all relative risks for disease nr "+d+
+		if (Math.abs(checksum)<0.00001) throw new DynamoInconsistentDataException("all relative risks for disease "+diseaseNames.get(d)+
 				" are zero. This is not allowed.");
 			}
 		
@@ -413,7 +415,7 @@ public class DiseaseClusterData {
 		double checksum=0;
 		for (int cat = 0; cat < relRiskCat.length; cat++){checksum+=relRiskCat[cat];
 			this.relRiskCat[cat][d] = relRiskCat[cat];}
-		if (checksum<0.0000001)throw new DynamoInconsistentDataException("all relative risks for disease nr "+d+
+		if (checksum<0.0000001)throw new DynamoInconsistentDataException("all relative risks for disease  "+diseaseNames.get(d)+
 		" are zero. This is not allowed.");
 	}
 
