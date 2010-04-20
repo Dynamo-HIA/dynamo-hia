@@ -78,7 +78,8 @@ public class RiskFactorContinuousModal extends AbstractMultiRootChildDataModal {
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(500, ModalStatics.defaultHeight);
+//			this.shell.setSize(500, ModalStatics.defaultHeight);
+			this.shell.setSize(575, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 

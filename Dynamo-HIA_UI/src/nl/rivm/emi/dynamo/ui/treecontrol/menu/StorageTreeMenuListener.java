@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Shell;
 public class StorageTreeMenuListener implements IMenuListener {
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
-	
+
 	Shell shell;
 	TreeViewer treeViewer;
-	StorageTreeMenuFactory stmf; 
+	StorageTreeMenuFactory stmf;
 
 	public StorageTreeMenuListener(Shell shell, TreeViewer treeViewer) {
 		this.shell = shell;
@@ -40,9 +40,11 @@ public class StorageTreeMenuListener implements IMenuListener {
 		IStructuredSelection selection = (IStructuredSelection) treeViewer
 				.getSelection();
 		if (!selection.isEmpty()) {
-			BaseNode selectedNode = (BaseNode) selection.getFirstElement();			
+			BaseNode selectedNode = (BaseNode) selection.getFirstElement();
 			try {
-				stmf.createRelevantContextMenu(manager, selection, selectedNode);
+				stmf
+						.createRelevantContextMenu(manager, selection,
+								selectedNode);
 			} catch (DynamoConfigurationException dce) {
 				showErrorMessage(dce);
 			} catch (TreeStructureException tse) {
@@ -52,14 +54,14 @@ public class StorageTreeMenuListener implements IMenuListener {
 			}
 		}
 	}
-	
+
 	private void showErrorMessage(Exception e) {
 		this.log.fatal(e);
-		e.printStackTrace();
+//		log.warn(e.getStackTrace());
 		MessageBox box = new MessageBox(this.shell, SWT.ERROR_UNSPECIFIED);
 		box.setText("Error occured during save " + e.getMessage());
 		box.setMessage(e.getMessage());
 		box.open();
-	}	
-	
+	}
+
 }

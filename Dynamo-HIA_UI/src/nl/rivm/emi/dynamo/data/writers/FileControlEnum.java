@@ -156,8 +156,7 @@ public enum FileControlEnum {
 	private void fillParameterTypes4GroupFactory(String[] elementNames) {
 		/* Exceptions not allowed. */
 		if (elementNames.length == 0) {
-			log
-					.fatal("A FileControlEnum should be based on at least one String!");
+			log.fatal("A FileControlEnum should be based on at least one String!");
 		} else {
 			// rootElementName = elementNames[0];
 			parameterTypes4GroupFactory = new XMLTagEntity[elementNames.length];
@@ -313,8 +312,8 @@ public enum FileControlEnum {
 									+ " in the FileControlEnum for "
 									+ parameterTypes4GroupFactory[0]);
 				} else {
-					log.fatal("parameterTypes4GroupFactory[index + 2]"
-							+ parameterTypes4GroupFactory[index + 2]);
+//					log.fatal("parameterTypes4GroupFactory[index + 2]"
+//							+ parameterTypes4GroupFactory[index + 2]);
 					log.fatal("No AtomicTypeBase found at index: "
 							+ (index + 2) + " in the FileControlEnum for "
 							+ parameterTypes4GroupFactory[0]);

@@ -74,6 +74,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.SimPopSize;
 import nl.rivm.emi.dynamo.data.types.atomic.Size;
 import nl.rivm.emi.dynamo.data.types.atomic.Skewness;
 import nl.rivm.emi.dynamo.data.types.atomic.StandardDeviation;
+import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
 import nl.rivm.emi.dynamo.data.types.atomic.StartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.SuccessRate;
 import nl.rivm.emi.dynamo.data.types.atomic.TargetMaxAge;
@@ -131,8 +132,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public enum XMLTagEntityEnum {
-	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), AGE(
-			(XMLTagEntity) new Age()), //
+	ACUTELYFATAL((XMLTagEntity) new AcutelyFatalType()), //
+	AGE((XMLTagEntity) new Age()), //
 	ALFA((XMLTagEntity) new Alfa()), //
 	AMOUNT((XMLTagEntity) new Amount()), //
 	AMOUNTS((XMLTagEntity) new Amounts()), //
@@ -196,7 +197,7 @@ public enum XMLTagEntityEnum {
 	SIMPOPSIZE((XMLTagEntity) new SimPopSize()), //
 	SIZE((XMLTagEntity) new Size()), //
 	SKEWNESS((XMLTagEntity) new Skewness()), //
-	STANDARDVALUE((XMLTagEntity) new Value()), //
+	STANDARDVALUE((XMLTagEntity) new StandardValue()), //
 	STANDARDDEVIATION((XMLTagEntity) new StandardDeviation()), //
 	STARTINGYEAR((XMLTagEntity) new StartingYear()), //
 	SUCCESSRATE((XMLTagEntity) new SuccessRate()), //

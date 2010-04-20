@@ -124,9 +124,9 @@ public class StAXAgnosticTypedHashMapWriter {
 			TypedHashMap configurationLevel, LeafValueMap leafValueMap,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoOutputException {
-		log.error("Recursing at level " + leafValueMap.size());
-		log.error("configurationLevel " + configurationLevel);
-		log.error("configurationLevel.size() " + configurationLevel.size());
+		log.debug("Recursing at level " + leafValueMap.size());
+		log.debug("configurationLevel " + configurationLevel);
+		log.debug("configurationLevel.size() " + configurationLevel.size());
 		
 		Set<Map.Entry<Integer, Object>> entrySet = configurationLevel
 				.entrySet();
@@ -202,7 +202,7 @@ public class StAXAgnosticTypedHashMapWriter {
 		for (; tupleIndex < list.size(); tupleIndex++) {
 			AtomicTypeObjectTuple tuple = list.get(tupleIndex);
 			XMLTagEntity tupleType = tuple.getType();
-			log.error("Got tuple, type \""
+			log.debug("Got tuple, type \""
 					+ tuple.getType().getXMLElementName() + "\"");
 			Object tupleValue = tuple.getValue();
 			if (tupleValue instanceof WritableValue) {
@@ -223,7 +223,7 @@ public class StAXAgnosticTypedHashMapWriter {
 			// String xmlElementName = ((AtomicTypeBase) fileControl
 			// .getParameterType(leafValueMap.size() - 1))
 			// .getXMLElementName();
-			log.error("Removing leafValue \"" + (leafValueMap.get(tupleIndex))
+			log.debug("Removing leafValue \"" + (leafValueMap.get(tupleIndex))
 					+ "\", size: " + leafValueMap.size() + ".");
 			leafValueMap.removeLast();
 		}

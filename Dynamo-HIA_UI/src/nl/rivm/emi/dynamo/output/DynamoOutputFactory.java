@@ -558,9 +558,13 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		int minimumGender = minMaxData[2];
 		int numberOfAgesInPop = minMaxData[1] - minimumAge + 1;
 		int numberOfGendersInPop = minMaxData[3] - minimumGender + 1;
-		log.fatal("minimum age " + minimumAge + " maximumAge " + minMaxData[1]
+
+		Runtime s_runtime = Runtime.getRuntime ();
+		long used_memory = s_runtime.totalMemory () - s_runtime.freeMemory ();
+
+		log.info("minimum age " + minimumAge + " maximumAge " + minMaxData[1]
 				+ "\nminimum sex " + minimumGender + " maximum gender "
-				+ minMaxData[3]);
+				+ minMaxData[3] + " used memory: " + used_memory);
 
 		/*
 		 * these arrays are kept as small as possible by letting starting age
@@ -1391,7 +1395,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											if (a == 0 && s == 0
 													&& stepCount == 50)
 												log
-														.fatal("scen "
+														.info("scen "
 																+ scen
 																+ 1
 																+ " from "
@@ -1702,7 +1706,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				RR = this.relRiskAbilityCat[age2][sex][riskFactor];
 			daly = (1 - this.baselineAbility[age2][sex] * RR * ability);
 			if (this.alfaAbility[age2][sex] < 0)
-				log.fatal("!!!! NEGATIVE alfa-ability");
+				log.warn("!!!! NEGATIVE alfa-ability");
 		}
 		if (age == 0) {
 			int b = 0;
@@ -3063,7 +3067,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						for (int stepCount = 0; stepCount < this.nDim - age; stepCount++) {
 							nDiseaseByAge[scen][stepCount][g] += nDiseaseByOriRiskClassByOriAge[scen][stepCount][d][r][age][g];
 							if (scen == 1 && g == 0)
-								log.fatal(" stepcount " + stepCount
+								log.debug(" stepcount " + stepCount
 										+ " NDisease "
 										+ nDiseaseByAge[scen][stepCount][g]);
 						}

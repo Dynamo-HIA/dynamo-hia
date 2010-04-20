@@ -53,6 +53,14 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 	 * classes the riskfactor will have.
 	 */
 	int numberOfClasses;
+	/**
+	 * The index of the duration class that is now chosen beforehand and is
+	 * fixed.
+	 */
+	int durationClassIndex;
+	/**
+	 * The TreeViewer this modal is displayed in.
+	 */
 	TreeViewer theViewer;
 
 	/**
@@ -66,17 +74,24 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 	 * @param selectedNode
 	 * @param numberOfCompoundClasses
 	 *            TODO
+	 * @param selectedDurationClassIndex
+	 *            TODO
 	 * @param theViewer
 	 *            TODO
 	 */
 	public RiskFactorCompoundModal(Shell parentShell, String dataFilePath,
 			String configurationFilePath, String rootElementName,
 			BaseNode selectedNode, int numberOfCompoundClasses,
-			TreeViewer theViewer) {
+			int selectedDurationClassIndex, TreeViewer theViewer) {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 		numberOfClasses = numberOfCompoundClasses;
+		this.durationClassIndex = selectedDurationClassIndex;
 		this.theViewer = theViewer;
+	}
+
+	public int getDurationClassIndex() {
+		return durationClassIndex;
 	}
 
 	@Override
@@ -87,6 +102,10 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 	public synchronized void openModal() throws ConfigurationException,
 			DynamoInconsistentDataException {
 		this.modelObject = (RiskFactorCompoundObject) manufactureModelObject();
+		// If this is a new configuration.
+		if (durationClassIndex != -1) {
+			this.modelObject.putDurationClass(durationClassIndex);
+		}
 		RiskFactorCompoundGroup riskFactorCategoricalGroup = new RiskFactorCompoundGroup(
 				this.shell, this.modelObject, this.dataBindingContext,
 				this.selectedNode, this.helpPanel);
@@ -94,7 +113,8 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 				buttonPanel);
 		this.shell.pack();
 		// This is the first place this works.
-		this.shell.setSize(400, ModalStatics.defaultHeight);
+//		this.shell.setSize(400, ModalStatics.defaultHeight);
+		this.shell.setSize(475, ModalStatics.defaultHeight);
 		this.shell.open();
 	}
 

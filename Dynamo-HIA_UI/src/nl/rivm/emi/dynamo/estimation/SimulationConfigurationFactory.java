@@ -1078,7 +1078,7 @@ public class SimulationConfigurationFactory {
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
 		if (dim2 != 2 || dim1 != 96)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
@@ -1111,7 +1111,7 @@ public class SimulationConfigurationFactory {
 		int dim2 = inArray[0].length;
 		int dim1 = inArray.length;
 		if (dim2 != 2 || dim1 != 96)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 		float[][] newArray = new float[dim1][dim2];
 
 		for (int a = 0; a < dim1; a++)
@@ -1147,9 +1147,9 @@ public class SimulationConfigurationFactory {
 		int dim4 = inArray[0][0][c].length;
 		int dim5 = inArray[0][0][c][0].length;
 		if (dim2 != 2 || dim1 != 96)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 		if (dim4 != dim5)
-			log.fatal(" matrix of relative risks on disease is not square but "
+			log.warn(" matrix of relative risks on disease is not square but "
 					+ dim4 + ":" + dim5);
 		float[][][][] newArray = new float[dim1][dim2][dim4][dim5];
 
@@ -1176,7 +1176,7 @@ public class SimulationConfigurationFactory {
 		int dim2 = inArray[0].length;
 		int dim3 = inArray[0][0].length;
 		if (dim2 != 2 || dim1 != 96)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 		float[][][] newArray = new float[dim1][dim2][dim3];
 
 		for (int a = 0; a < dim1; a++)
@@ -1194,7 +1194,7 @@ public class SimulationConfigurationFactory {
 		int dim2 = arrayToWrite[0].length;
 		int dim1 = arrayToWrite.length;
 		if (dim1 != 96 || dim2 != 2)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 
 		Document document = newDocument(fileName);
 		Element rootElement = document.createElement(globalTag);
@@ -1243,7 +1243,7 @@ public class SimulationConfigurationFactory {
 		int dim3 = arrayToWrite[0][0].length;
 		int dim4 = arrayToWrite[0][0][0].length;
 		if (dim1 != 96 || dim2 != 2)
-			log.fatal("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
 
 		Document document = newDocument(fileName);
 

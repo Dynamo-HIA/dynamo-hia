@@ -246,7 +246,7 @@ public class ExcelReadableXMLWriter {
 			throws FileNotFoundException, FactoryConfigurationError,
 			XMLStreamException, DynamoOutputException {
 		OutputStream out = new FileOutputStream(fileName);
-		log.fatal("output written to " + fileName);
+		log.info("About to write output to " + fileName);
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;
 		try {
@@ -628,7 +628,7 @@ public class ExcelReadableXMLWriter {
 			throws FactoryConfigurationError, XMLStreamException,
 			DynamoOutputException, FileNotFoundException {
 		OutputStream out = new FileOutputStream(fileName);
-		log.fatal("output written to " + fileName);
+		log.info("About to write output to: " + fileName);
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
 		XMLStreamWriter writer = null;

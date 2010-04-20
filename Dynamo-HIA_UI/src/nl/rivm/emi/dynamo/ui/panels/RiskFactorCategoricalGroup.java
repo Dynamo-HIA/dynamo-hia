@@ -24,7 +24,7 @@ public class RiskFactorCategoricalGroup {
 	public RiskFactorCategoricalGroup(Shell shell, RiskFactorCategoricalObject lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws ConfigurationException {
-		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
+		log.info("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

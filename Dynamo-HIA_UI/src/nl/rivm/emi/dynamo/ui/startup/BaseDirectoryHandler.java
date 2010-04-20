@@ -92,7 +92,7 @@ public class BaseDirectoryHandler {
 				.setMessage("This directory is not an existing workdirectory.\n"
 						+ "Create a new one?");
 		int returnCode = messageBox.open();
-		log.fatal("ReturnCode: " + returnCode);
+		log.info("ReturnCode: " + returnCode);
 		switch (returnCode) {
 		case (SWT.YES):
 			baseDirectoryOK = true;
@@ -113,7 +113,7 @@ public class BaseDirectoryHandler {
 		messageBox.setMessage("You have not chosen a directory.\n"
 				+ "Try again?");
 		int returnCode = messageBox.open();
-		log.fatal("ReturnCode: " + returnCode);
+		log.debug("ReturnCode: " + returnCode);
 		if (SWT.YES == returnCode) {
 			tryAgain = true;
 		}
@@ -154,14 +154,14 @@ public class BaseDirectoryHandler {
 			if (propertyDirectoryPath != null) {
 				workDirectoryPath = propertyDirectoryPath;
 			}
-			log.fatal("Returning workDirectoryPath: " + workDirectoryPath);
+			log.info("Returning workDirectoryPath: " + workDirectoryPath);
 			return workDirectoryPath;
 		} catch (FileNotFoundException e) {
 			return workDirectoryPath;
 		} catch (IOException e) {
 			return workDirectoryPath;
 		} finally {
-			log.fatal("Tree-Base-Directory: " + workDirectoryPath);
+			log.info("Tree-Base-Directory: " + workDirectoryPath);
 		}
 	}
 

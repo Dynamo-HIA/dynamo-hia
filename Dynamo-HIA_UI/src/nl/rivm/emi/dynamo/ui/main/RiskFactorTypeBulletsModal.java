@@ -60,7 +60,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 	public RiskFactorTypeBulletsModal(Shell parentShell,
 			String configurationFilePath, BaseNode selectedNode) {
 		this.selectedNode = selectedNode;
-		this.shell = new Shell(parentShell, SWT.DIALOG_TRIM | SWT.PRIMARY_MODAL
+		this.shell = new Shell(parentShell, SWT.TITLE | SWT.PRIMARY_MODAL
 				| SWT.RESIZE);
 		this.shell.setText("Choose the risk factor type:");
 		FormLayout formLayout = new FormLayout();
@@ -221,12 +221,29 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 
 		// Default.
 		radioButtons[0].setSelection(true);
+
+		addPushButtons();
+		shell.pack();
+		// This is the first place this works.
+		shell.setSize(350, 250);
+		shell.open();
+		Display display = shell.getDisplay();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void addPushButtons() {
 		Button okButton = new Button(shell, SWT.PUSH);
 		okButton.setText("OK");
 		FormData okButtonFormData = new FormData();
-		okButtonFormData.left = new FormAttachment(0, 15);
-		okButtonFormData.right = new FormAttachment(0, 60);
-		okButtonFormData.bottom = new FormAttachment(100, -15);
+		okButtonFormData.left = new FormAttachment(100, -140);
+		okButtonFormData.right = new FormAttachment(100, -80);
+		okButtonFormData.bottom = new FormAttachment(100, -10);
 		okButton.setLayoutData(okButtonFormData);
 		okButton.addSelectionListener(new SelectionListener() {
 
@@ -246,8 +263,9 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		Button cancelButton = new Button(shell, SWT.PUSH);
 		cancelButton.setText("Cancel");
 		FormData cancelButtonFormData = new FormData();
-		cancelButtonFormData.left = new FormAttachment(okButton, 15);
-		cancelButtonFormData.bottom = new FormAttachment(100, -15);
+		cancelButtonFormData.left = new FormAttachment(100, -70);
+		cancelButtonFormData.right = new FormAttachment(100, -10);
+		cancelButtonFormData.bottom = new FormAttachment(100, -10);
 		cancelButton.setLayoutData(cancelButtonFormData);
 		cancelButton.addSelectionListener(new SelectionListener() {
 
@@ -262,15 +280,6 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			}
 
 		});
-		shell.pack();
-		// This is the first place this works.
-		shell.setSize(350, 250);
-		shell.open();
-		Display display = shell.getDisplay();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
 	}
 
 	public void run() {

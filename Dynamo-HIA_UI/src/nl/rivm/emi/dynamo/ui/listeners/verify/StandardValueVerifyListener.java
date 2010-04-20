@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
+import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
@@ -35,7 +36,7 @@ public class StandardValueVerifyListener extends AbstractNonSAPVerifyListener {
 				myText.setBackground(new Color(null, 0xff, 0xff, 0xcc));
 				arg0.doit = true;
 			} else {
-				if ((((Value) XMLTagEntityEnum.STANDARDVALUE.getTheType()).matchPattern
+				if ((((StandardValue) XMLTagEntityEnum.STANDARDVALUE.getTheType()).matchPattern
 						.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
 					if (((NumberRangeTypeBase<Float>) XMLTagEntitySingleton

@@ -60,7 +60,6 @@ public class GenericComboModifyListener implements ModifyListener {
 	public void eventlessModifyText(Combo myCombo) {
 		String newText = myCombo.getText();
 
-		log.fatal("newText in listener" + newText);
 		log.debug("newText in listeber" + newText);
 
 		// First update the model

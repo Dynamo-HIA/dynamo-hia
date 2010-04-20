@@ -4,6 +4,7 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.ui.main.CompoundRiskFactorDurationClassIndexModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.main.RiskFactorContinuousModal;
@@ -42,7 +43,6 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 					theModal);
 			String candidatePath = theModal.getNewFilePath();
 			File file = new File(candidatePath);
-
 			if (file != null && !file.getName().isEmpty()) {
 				if (file.exists()) {
 					MessageBox alreadyExistsMessageBox = new MessageBox(shell,
@@ -99,17 +99,28 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 								selectedRootElementName, node,
 								selectedNumberOfCutoffs);
 					} else {
+						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
+								.getNodeLabel().equals(selectedRootElementName)) {
 						int selectedNumberOfCompoundClasses = previousModal
 								.getNumberOfCompoundClasses();
 						log.debug("selectedNumberOfCompoundClasses: "
 								+ selectedNumberOfCompoundClasses);
-						// TODO(mondeelr) Add variable number of classes here.
-						if (RootElementNamesEnum.RISKFACTOR_COMPOUND
-								.getNodeLabel().equals(selectedRootElementName)) {
-							theModal = new RiskFactorCompoundModal(shell, file
-									.getAbsolutePath(), file.getAbsolutePath(),
-									selectedRootElementName, node,
-									selectedNumberOfCompoundClasses, theViewer);
+							// Insert another screen here.
+							CompoundRiskFactorDurationClassIndexModal durationClassIndexModal = new CompoundRiskFactorDurationClassIndexModal(
+									shell, selectedNumberOfCompoundClasses);
+							Realm.runWithDefault(SWTObservables
+									.getRealm(Display.getDefault()), durationClassIndexModal);
+							int durationClassIndex = durationClassIndexModal
+									.getDurationCategoryIndex();
+							// Not Cancelled.
+							if (durationClassIndex != -1) {
+								theModal = new RiskFactorCompoundModal(shell,
+										file.getAbsolutePath(), file
+												.getAbsolutePath(),
+										selectedRootElementName, node,
+										selectedNumberOfCompoundClasses,
+										durationClassIndex, theViewer);
+							}
 						} else {
 							throw new DynamoConfigurationException(
 									"RootElementName "
@@ -118,16 +129,18 @@ public class RiskFactorTypeBulletsAction extends ActionBase {
 						}
 					}
 				}
-				Realm.runWithDefault(SWTObservables.getRealm(Display
-						.getDefault()), theModal);
-				boolean isPresentAfter = file.exists();
-				if (isPresentAfter && !FileCreationFlag.isOld) {
-					((ParentNode) node).addChild((ChildNode) new FileNode(
-							(ParentNode) node, file));
-				theViewer.refresh();
-				((DirectoryNode)node).updateStandardStructure();
-				theViewer.refresh();
-				FileCreationFlag.isOld = true;
+				if (theModal != null) {
+					Realm.runWithDefault(SWTObservables.getRealm(Display
+							.getDefault()), theModal);
+					boolean isPresentAfter = file.exists();
+					if (isPresentAfter && !FileCreationFlag.isOld) {
+						((ParentNode) node).addChild((ChildNode) new FileNode(
+								(ParentNode) node, file));
+						theViewer.refresh();
+						((DirectoryNode) node).updateStandardStructure();
+						theViewer.refresh();
+						FileCreationFlag.isOld = true;
+					}
 				}
 			}
 		} catch (Exception e) {

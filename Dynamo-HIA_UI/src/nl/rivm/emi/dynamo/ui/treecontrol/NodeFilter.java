@@ -134,7 +134,7 @@ public class NodeFilter {
 						+ "\" suppressed: No valid RootElementName found.");
 			}
 		} else {
-			log.fatal("File \"" + ((FileNode) baseNode).physicalStorage
+			log.warn("File \"" + ((FileNode) baseNode).physicalStorage
 					+ "\" suppressed: Size: \"" + physicalStorage.length()
 					+ "\" larger than current test can endure.");
 		}

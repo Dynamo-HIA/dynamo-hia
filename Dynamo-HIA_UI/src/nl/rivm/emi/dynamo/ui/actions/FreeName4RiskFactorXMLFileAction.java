@@ -93,7 +93,7 @@ public class FreeName4RiskFactorXMLFileAction extends ActionBase {
 							new FileAndDirectoryNameInputValidator());
 					inputDialog.open();
 					int returnCode = inputDialog.getReturnCode();
-					log.fatal("ReturnCode is: " + returnCode);
+					log.debug("ReturnCode is: " + returnCode);
 					if (returnCode != Window.CANCEL) {
 						String candidateName = inputDialog.getValue();
 						String candidatePath = selectionPath + File.separator

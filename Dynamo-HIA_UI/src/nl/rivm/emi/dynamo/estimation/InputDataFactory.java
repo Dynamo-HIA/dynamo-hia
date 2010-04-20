@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
-import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -102,7 +101,7 @@ public class InputDataFactory {
 
 	private String riskFactorTransFileName;
 	private String riskFactorPrevFileName;
-	private String durationPrevFileName="durationprevalence";
+	private String durationPrevFileName = "durationprevalence";
 
 	private int originalNumberDurationClass;
 
@@ -274,7 +273,7 @@ public class InputDataFactory {
 	private static final String riskfactorXMLname = "configuration.xml";
 
 	private static final String riskfactorPrevDir = "prevalences";
-	private static final String durationPrevDir ="DurationDistributions";
+	private static final String durationPrevDir = "DurationDistributions";
 	private static final String durationXMLname = "durationdistribution.xml";
 	private static final String allcauseRRXMLname = "relriskfordeath.xml";
 	private static final String dalyRRXMLname = "relriskfordisability.xml";
@@ -301,7 +300,8 @@ public class InputDataFactory {
 	 * @throws DynamoConfigurationException
 	 */
 	@SuppressWarnings("unchecked")
-	private void loadConfigurationFile(String simName) throws DynamoConfigurationException {
+	private void loadConfigurationFile(String simName)
+			throws DynamoConfigurationException {
 		;
 
 		String fileName = this.baseDir + File.separator + simulationDir
@@ -360,14 +360,15 @@ public class InputDataFactory {
 			throw new DynamoConfigurationException(" the minimum age " + minAge
 					+ " for simulation" + " is larger than the maximum age of "
 					+ maxAge + "\nPlease change these values");
-		
+
 		if (minAge > 0 && newborn)
-			throw new DynamoConfigurationException(" adding Newborns to the population is only possible" +
-					" when the minimum age in the population is 0. Minimum age is now set to " + minAge
-					+ "\nPlease change these values");
+			throw new DynamoConfigurationException(
+					" adding Newborns to the population is only possible"
+							+ " when the minimum age in the population is 0. Minimum age is now set to "
+							+ minAge + "\nPlease change these values");
 
 		if (timeStep != 1)
-			this.log.fatal("timestep given in configuration is " + timeStep
+			this.log.warn("timestep given in configuration is " + timeStep
 					+ ". In Dynamo timestep should be "
 					+ " 1, thus it is changed to 1 ");
 		timeStep = 1;
@@ -1099,19 +1100,20 @@ public class InputDataFactory {
 					scenarioInfo.setNewPrevalence(this.factory
 							.manufactureTwoDimArray(completePrevFileName,
 									"riskfactorprevalences_categorical",
-									"prevalence", "cat", "percent",false),
+									"prevalence", "cat", "percent", false),
 							scen);
 				else {
 					scenarioInfo.setNewMeanSTD(this.factory
 							.manufactureOneDimArrayFromTreeLayeredXML(
 									completePrevFileName,
 									"riskfactorprevalences_continuous",
-									"prevalences", "prevalence","mean"
-									, true), this.factory
-							.manufactureOneDimArrayFromTreeLayeredXML(
-									completePrevFileName,
-									"riskfactorprevalences_continuous",
-									"prevalences", "prevalence","standarddeviation", true),
+									"prevalences", "prevalence", "mean", true),
+							this.factory
+									.manufactureOneDimArrayFromTreeLayeredXML(
+											completePrevFileName,
+											"riskfactorprevalences_continuous",
+											"prevalences", "prevalence",
+											"standarddeviation", true),
 							this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											completePrevFileName,
@@ -1189,7 +1191,7 @@ public class InputDataFactory {
 					e, configFileName);
 		}
 		String type = ((XMLConfiguration) config).getRootElementName();
-		boolean givenAsNormal=false;
+		boolean givenAsNormal = false;
 		if (type == "riskfactor_categorical") {
 			this.riskFactorType = 1;
 		} else {
@@ -1205,16 +1207,18 @@ public class InputDataFactory {
 				// configFileName);
 				// TODO: Reactivate code below for version 1.1
 				this.riskFactorType = 2;
-				
-//				String testString = ((XMLConfiguration) config).getString("distributiontype");
-//				if ((testString != null) && testString.equalsIgnoreCase("Normal")){
-//					givenAsNormal=true;
-//				} else {
-//					log.fatal("No distributionType found.");
-//					throw new DynamoConfigurationException(
-//							"No distributionType found in XML file: " + configFileName);
-//					}
-					
+
+				// String testString = ((XMLConfiguration)
+				// config).getString("distributiontype");
+				// if ((testString != null) &&
+				// testString.equalsIgnoreCase("Normal")){
+				// givenAsNormal=true;
+				// } else {
+				// log.fatal("No distributionType found.");
+				// throw new DynamoConfigurationException(
+				// "No distributionType found in XML file: " + configFileName);
+				// }
+
 			} else {
 				if (type == "riskfactor_compound") {
 					// TODO: Temporary build message: not yet implemented
@@ -1228,7 +1232,7 @@ public class InputDataFactory {
 					// configFileName);
 					// TODO: Reactivate code below for version 1.1
 					this.riskFactorType = ModelParameters.COMPOUND;
-					} else
+				} else
 					throw new DynamoConfigurationException(
 							"no valid main tag (riskfactor_type) found but found  "
 									+ type + " in XML file " + configFileName);
@@ -1243,10 +1247,11 @@ public class InputDataFactory {
 
 		/* now read in all the data in the sequence of the user data document */
 
-		if (this.riskFactorType == 2){
+		if (this.riskFactorType == 2) {
 			inputData.setRefClassCont(getFloat("referencevalue", config));
-		    scenarioInfo.setReferenceRiskFactorValue(getFloat("referencevalue", config));}
-		else
+			scenarioInfo.setReferenceRiskFactorValue(getFloat("referencevalue",
+					config));
+		} else
 			inputData.setRefClassCont(0);
 		if (this.riskFactorType == 3) {
 			inputData.setIndexDuurClass(getInteger("durationclass", config));
@@ -1426,10 +1431,13 @@ public class InputDataFactory {
 				for (int g = 0; g < 2; g++)
 					if (skewness[a][g] != 0)
 						normal = false;
-			if (normal && !givenAsNormal) log.fatal("log-normal distribution asked, but as all skewness"
-					+ " are zero, normal distribution is used");
-			if (!normal && givenAsNormal) log.fatal("normal distribution asked, but as skewness"
-					+ " is not equal to ero, lognormal distribution is used");
+			if (normal && !givenAsNormal)
+				log.warn("log-normal distribution asked, but as all skewness"
+						+ " are zero, normal distribution is used");
+			if (!normal && givenAsNormal)
+				log
+						.warn("normal distribution asked, but as skewness"
+								+ " is not equal to zero, lognormal distribution is used");
 			if (normal)
 				inputData.setRiskDistribution("Normal");
 			else
@@ -1439,7 +1447,8 @@ public class InputDataFactory {
 		if (this.riskFactorType == 3) {
 			configFileName = this.baseDir + File.separator + referenceDataDir
 					+ File.separator + riskFactorDir + File.separator
-					+ this.riskFactorName +File.separator + durationPrevDir+ File.separator + this.durationPrevFileName+".xml" ;
+					+ this.riskFactorName + File.separator + durationPrevDir
+					+ File.separator + this.durationPrevFileName + ".xml";
 
 			inputData.setDuurFreq(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_duration",
@@ -1693,11 +1702,12 @@ public class InputDataFactory {
 	 *            for reference scenario
 	 * 
 	 * @throws DynamoConfigurationException
-	 * @throws DynamoInconsistentDataException 
+	 * @throws DynamoInconsistentDataException
 	 */
 	private void readTransitionData(String configFileName, InputData inputData,
 			ScenarioInfo scenInfo, int scenNumber)
-			throws DynamoConfigurationException, DynamoInconsistentDataException {
+			throws DynamoConfigurationException,
+			DynamoInconsistentDataException {
 
 		XMLConfiguration config = null;
 		if (this.riskFactorType != 2) {
@@ -1734,12 +1744,12 @@ public class InputDataFactory {
 			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_netto") {
 				if (inputData != null)
 					inputData.setTransType(1);
-									
+
 				else
 					throw new DynamoConfigurationException(
-							"Nett transitions are defined as nett transitions for the distribution"+
-							" of the reference scenario. They can only be used in an alternative scenario when"+
-							" they are also used in the reference scenario." 
+							"Nett transitions are defined as nett transitions for the distribution"
+									+ " of the reference scenario. They can only be used in an alternative scenario when"
+									+ " they are also used in the reference scenario."
 									+ "\nPlease alter the input to comply with this requirement");
 
 			}
@@ -1752,15 +1762,14 @@ public class InputDataFactory {
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
 									"to", "percent"));
-					
-					
+
 				}
 
 				else if (scenInfo != null)
-					scenInfo.setAlternativeTransitionMatrix( this.factory
+					scenInfo.setAlternativeTransitionMatrix(this.factory
 							.manufactureThreeDimArray(configFileName,
 									"transitionmatrix", "transition", "from",
-									"to", "percent"),scenNumber);
+									"to", "percent"), scenNumber);
 				else
 					throw new DynamoConfigurationException(
 							"Both scenInfo and Input data are null in method"
@@ -1816,42 +1825,35 @@ public class InputDataFactory {
 									+ "For alternative scenario's one should enter an explicite file");
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift"){
+			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift") {
 				if (inputData != null) {
 					inputData.setTransType(2);
 					inputData.setMeanDrift(this.factory.manufactureOneDimArray(
 							configFileName, "transitiondrift", "transition",
 							"mean", true));
-					
-					
-					
+
 				} else if (scenInfo != null)
 					scenInfo.setMeanDrift(this.factory.manufactureOneDimArray(
 							configFileName, "transitiondrift", "transition",
-							"mean", true),scenNumber);
-					/*
-					 * obsolete but kept for potential future use inputData
-					 * .setStdDrift(factory.manufactureOneDimArray(
-					 * configFileName, "transitionmatrix", "transition",
-					 * "standarddevivation", true)); inputData.setOffsetDrift
-					 * (factory.manufactureOneDimArray( configFileName,
-					 * "transitionmatrix", "transition", "skewness", true));
-					 */
-				}
+							"mean", true), scenNumber);
+				/*
+				 * obsolete but kept for potential future use inputData
+				 * .setStdDrift(factory.manufactureOneDimArray( configFileName,
+				 * "transitionmatrix", "transition", "standarddevivation",
+				 * true)); inputData.setOffsetDrift
+				 * (factory.manufactureOneDimArray( configFileName,
+				 * "transitionmatrix", "transition", "skewness", true));
+				 */
+			}
 
-				else
-					throw new DynamoConfigurationException(
-							" Tagname "
-									+ "transitionmatrix/drift (_zero,_netto) "
-									+ " expected in main simulation configuration file "
-									+ "but found tag "
-									+ ((XMLConfiguration) config)
-											.getRootElementName());
+			else
+				throw new DynamoConfigurationException(" Tagname "
+						+ "transitionmatrix/drift (_zero,_netto) "
+						+ " expected in main simulation configuration file "
+						+ "but found tag "
+						+ ((XMLConfiguration) config).getRootElementName());
 		}
 	}
-
-
-
 
 	/**
 	 * This method adds the disease info from the input XML files to the objects
@@ -1913,7 +1915,7 @@ public class InputDataFactory {
 
 			/*
 			 * flag which relative risks are for disease on disease, and put
-			 * them in an array 
+			 * them in an array
 			 */
 
 			String[] isRRfrom = new String[rrInfo.size()];
@@ -2138,7 +2140,10 @@ public class InputDataFactory {
 							+ ".xml";
 
 					info.rrDataDis = this.factory.manufactureOneDimArray(
-							configFileName, rrDiseaseTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
+							configFileName, rrDiseaseTagName, /*
+															 * XMLTagEntityEnum.RELATIVERISK
+															 * .getElementName()
+															 */"relativerisk",
 							"value", false);
 
 				} else {
@@ -2159,7 +2164,10 @@ public class InputDataFactory {
 							info.rrDataCont = this.factory
 									.manufactureOneDimArray(configFileName,
 											rrContinuousTagName,
-											XMLTagEntityEnum.RELATIVERISK.getElementName(), "value", false);
+											/*
+											 * XMLTagEntityEnum.RELATIVERISK.getElementName
+											 * ()
+											 */"relativerisk", "value", false);
 						} else if (this.riskFactorType == 1) {
 
 							String configFileName = this.baseDir
@@ -2171,7 +2179,10 @@ public class InputDataFactory {
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
 											rrCategoricalTagName,
-											XMLTagEntityEnum.RELATIVERISK.getElementName(), "cat", "value",
+											/*
+											 * XMLTagEntityEnum.RELATIVERISK.getElementName
+											 * ()
+											 */"relativerisk", "cat", "value",
 											false);
 						} else {
 							String configFileName = this.baseDir
@@ -2183,19 +2194,34 @@ public class InputDataFactory {
 
 							info.rrDataCat = this.factory
 									.manufactureTwoDimArray(configFileName,
-											rrCompoundTagName, XMLTagEntityEnum.RELATIVERISK.getElementName(),
-											"cat", "begin", true);
+											rrCompoundTagName, /*
+																 * XMLTagEntityEnum.
+																 * RELATIVERISK
+																 * .getElementName
+																 * ()
+																 */
+											"relativerisk", "cat", "begin",
+											true);
 							info.rrDataBegin = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "begin", "cat",
+									/*
+									 * XMLTagEntityEnum.RELATIVERISK.getElementName
+									 * ()
+									 */"relativerisk", "begin", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataEnd = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "end", "cat",
+									/*
+									 * XMLTagEntityEnum.RELATIVERISK.getElementName
+									 * ()
+									 */"relativerisk", "end", "cat",
 									this.originalNumberDurationClass);
 							info.rrDataAlfa = this.factory.selectOneDimArray(
 									configFileName, rrCompoundTagName,
-									XMLTagEntityEnum.RELATIVERISK.getElementName(), "alfa", "cat",
+									/*
+									 * XMLTagEntityEnum.RELATIVERISK.getElementName
+									 * ()
+									 */"relativerisk", "alfa", "cat",
 									this.originalNumberDurationClass);
 
 						}
@@ -2362,8 +2388,8 @@ public class InputDataFactory {
 
 						/* enter the data from diseases */
 						for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
-							clusterData[a][g][c].setPrevalence(
-									pData[d][a][g], d);
+							clusterData[a][g][c].setPrevalence(pData[d][a][g],
+									d);
 							clusterData[a][g][c]
 									.setIncidence(iData[d][a][g], d);
 							clusterData[a][g][c].setExcessMortality(
@@ -2372,17 +2398,18 @@ public class InputDataFactory {
 							// wordt ingevoerd
 							clusterData[a][g][c].setAbility(
 									(1 - dData[d][a][g]), d);
-							
+
 							/* divide by 100 as this is not done automatically */
-							/* divide by 100 as this is not done automatically 
+							/*
+							 * divide by 100 as this is not done automatically
 							 * because these do not have the xml tag percent
-							 * */
+							 */
 							clusterData[a][g][c].setCuredFraction(
-									cData[d][a][g] /100, d,
+									cData[d][a][g] / 100, d,
 									clusterStructure[c]);
-												
+
 							clusterData[a][g][c].setCaseFatality(
-									fData[d][a][g]  /100 , d);
+									fData[d][a][g] / 100, d);
 
 							// initialize all rr values to 1 in case no rr's are
 							// read
@@ -2450,14 +2477,18 @@ public class InputDataFactory {
 		for (int g = 0; g < 2; g++) {
 			if (medianSurvival[95][g] == 0)
 				throw new DynamoInconsistentDataException(
-						"median survival of zero for disease "+diseaseLabel+" is not"
+						"median survival of zero for disease "
+								+ diseaseLabel
+								+ " is not"
 								+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
 			drate[95][g] = (log2 / medianSurvival[95][g]);
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
 				if (medianSurvival[a][g] == 0)
 					throw new DynamoInconsistentDataException(
-							"median survival of zero for disease "+diseaseLabel+" is not"
+							"median survival of zero for disease "
+									+ diseaseLabel
+									+ " is not"
 									+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
 				medianAge = a + medianSurvival[a][g] + 0.5;
 				yearOfMedian = Math.floor(medianAge);

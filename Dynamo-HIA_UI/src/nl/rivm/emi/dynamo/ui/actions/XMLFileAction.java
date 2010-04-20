@@ -277,7 +277,7 @@ public class XMLFileAction extends ActionBase {
 																				.getAbsolutePath(),
 																		rootElementName,
 																		node,
-																		-1,
+																		-1, -1,
 																		theViewer);
 															} else {
 																if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL
@@ -338,6 +338,7 @@ public class XMLFileAction extends ActionBase {
 																								.getAbsolutePath(),
 																						rootElementName,
 																						node,
+																						-1,
 																						-1,
 																						theViewer);
 																			} else {

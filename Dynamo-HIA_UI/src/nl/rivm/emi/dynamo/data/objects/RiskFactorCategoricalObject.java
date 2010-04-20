@@ -70,7 +70,7 @@ public class RiskFactorCategoricalObject extends
 		Object currentCategory = currentCategoryTuple.getValue();
 		if (currentCategory == null) {
 			log
-					.fatal("!!!!!!!!!!putCategory() may not be used to add categories!!!!!!!!!!!!");
+					.warn("!!!!!!!!!!putCategory() may not be used to add categories!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
 		WritableValue newName = new WritableValue(name, name.getClass());

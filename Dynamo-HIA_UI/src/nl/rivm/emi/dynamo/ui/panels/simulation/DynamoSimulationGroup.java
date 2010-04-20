@@ -33,7 +33,7 @@ public class DynamoSimulationGroup {
 			HelpGroup helpGroup, SimulationModal simulationModal, boolean configurationFileExists) 
 			throws ConfigurationException {
 		log.debug("dynamoSimulationObject" + dynamoSimulationObject);
-		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
+		log.info("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Composite(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

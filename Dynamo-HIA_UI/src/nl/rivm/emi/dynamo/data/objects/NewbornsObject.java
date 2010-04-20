@@ -128,8 +128,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
 		Object currentNumber = numberTuple.getValue();
 		if (currentNumber == null) {
-			log
-					.fatal("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
+			log.warn("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
 		WritableValue newNumber = new WritableValue(number, number.getClass());
@@ -157,8 +156,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		// Assumption, always writable.
 		WritableValue numberWritable = (WritableValue) numberTuple.getValue();
 		if (numberWritable == null) {
-			log
-					.fatal("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
+			log.warn("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
 		} else {
 			numberWritable.doSetValue(number);
 		}

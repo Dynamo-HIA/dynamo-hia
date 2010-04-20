@@ -118,7 +118,7 @@ public class DiseaseClusterData {
 	 */
 	public void setPrevalence(float[] Input) {
 		if (Input.length != this.prevalence.length && this.curedFraction[0]==0)
-			log.fatal("unequal length in initialisation "
+			log.info("unequal length in initialisation "
 					+ "of prevalences in DiseaseCluster");
 		this.prevalence=new float[Input.length];
 		for (int i = 0; i < Input.length; i++) {
@@ -349,7 +349,7 @@ public class DiseaseClusterData {
 	 */
 	public void setExcessMortality(float Input) {
 		if (this.excessMortality.length != 1 )
-			log.fatal("unequal length in initialisation "
+			log.info("unequal length in initialisation "
 					+ "of excess mortality in DiseaseCluster; "
 					+ this.excessMortality.length + "instead of 1");
 		this.excessMortality[0] = Input;

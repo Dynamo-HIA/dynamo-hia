@@ -82,9 +82,8 @@ public class RiskFactorUtil {
 			ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
 			// BaseDirectory-Node.
 			ParentNode greatGrandParentNode = ((ChildNode) grandParentNode)
-			.getParent();
-			Object[] grandParentSiblings = greatGrandParentNode
-					.getChildren();
+					.getParent();
+			Object[] grandParentSiblings = greatGrandParentNode.getChildren();
 			for (Object childNode : grandParentSiblings) {
 				String childNodeLabel = ((BaseNode) childNode)
 						.deriveNodeLabel();
@@ -95,8 +94,8 @@ public class RiskFactorUtil {
 					for (Object childNode1 : parentSiblings) {
 						String childNode1Label = ((BaseNode) childNode1)
 								.deriveNodeLabel();
-						if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel()
-								.equals(childNode1Label)) {
+						if (StandardTreeNodeLabelsEnum.RISKFACTORS
+								.getNodeLabel().equals(childNode1Label)) {
 							Object[] parentNeighbourSiblings = ((ParentNode) childNode1)
 									.getChildren();
 							for (Object childNode2 : parentNeighbourSiblings) {
@@ -297,17 +296,48 @@ public class RiskFactorUtil {
 		if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
 				((BaseNode) grandParentNode).deriveNodeLabel())) {
 			Object[] children = parentNode.getChildren();
-			durationCategoryIndex = findNumberOfCategories(children);
+			durationCategoryIndex = findDurationCategoryIndex(children);
 		} else {
 			if (StandardTreeNodeLabelsEnum.RISKFACTORS.getNodeLabel().equals(
 					((BaseNode) parentNode).deriveNodeLabel())) {
 				Object[] children = ((ParentNode) startNode).getChildren();
-				durationCategoryIndex = findNumberOfCategories(children);
+				durationCategoryIndex = findDurationCategoryIndex(children);
 			} else {
 				throw new ConfigurationException(
 						"RiskFactorUtil: getNumberOfRiskFactorClasses called from wrong place in the Tree: "
 								+ selectedNode.deriveNodeLabel());
 			}
+		}
+		return durationCategoryIndex;
+	}
+
+	private static Integer findDurationCategoryIndex(Object[] children)
+			throws DynamoConfigurationException {
+		Integer numberOfCategories = null;
+		for (Object childNode : children) {
+			String childNodeLabel = ((BaseNode) childNode).deriveNodeLabel();
+			if ("configuration".equals(childNodeLabel)) {
+				File configurationFile = ((BaseNode) childNode)
+						.getPhysicalStorage();
+				numberOfCategories = extractDurationCategoryIndex(configurationFile);
+				break;
+			}
+		}
+		return numberOfCategories;
+	}
+
+	public static Integer extractDurationCategoryIndex(File configurationFile)
+			throws DynamoConfigurationException {
+		Integer durationCategoryIndex;
+		String rootElementName = ConfigurationFileUtil
+				.extractRootElementNameIncludingSchemaCheck(configurationFile);
+		if ((rootElementName != null)
+				&& ((RootElementNamesEnum.RISKFACTOR_COMPOUND
+						.getNodeLabel().equals(rootElementName)))) {
+			durationCategoryIndex = ConfigurationFileUtil
+					.extractDurationCategoryIndex(configurationFile);
+		} else {
+			durationCategoryIndex = new Integer(0);
 		}
 		return durationCategoryIndex;
 	}

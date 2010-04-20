@@ -64,12 +64,13 @@ public class ResultsObjFileAction extends ActionBase {
 		String savedFileAbsolutePath = savedFile.getAbsolutePath();
 		String savedFileDirectoryPath = savedFileAbsolutePath.substring(0,
 				savedFileAbsolutePath.lastIndexOf(File.separator));
-		ScenarioParameters scenParms=deserializeScenarioParameters(savedFileDirectoryPath);
-		DynamoOutputFactory output=deserializeOutputObject(savedFileDirectoryPath);
+		ScenarioParameters scenParms = deserializeScenarioParameters(savedFileDirectoryPath);
+		DynamoOutputFactory output = deserializeOutputObject(savedFileDirectoryPath);
 		new Output_UI(shell, output, scenParms, savedFileDirectoryPath);
 	}
 
-	private ScenarioParameters deserializeScenarioParameters(String savedFileDirectoryPath) {
+	private ScenarioParameters deserializeScenarioParameters(
+			String savedFileDirectoryPath) {
 		ObjectInputStream in;
 		String scenarioInfoFilePath = savedFileDirectoryPath
 				+ File.separator
@@ -78,19 +79,16 @@ public class ResultsObjFileAction extends ActionBase {
 		File scenarioInfoFile = new File(scenarioInfoFilePath);
 		ScenarioParameters scenarioInfoObject = null;
 		try {
-	//		in = new ObjectInputStream(new BufferedInputStream(
-	//				new FileInputStream(scenarioInfoFile)));
-			in = new ObjectInputStream(
-									new FileInputStream(scenarioInfoFile));
+			in = new ObjectInputStream(new FileInputStream(scenarioInfoFile));
 			scenarioInfoObject = (ScenarioParameters) in.readObject();
-			//inputStream = new ObjectInputStream(new FileInputStream(filename));
-		//	obj = inputStream.readObject()
-			log.fatal("Deserialized ScenarioInfo");
+			log.info("Deserialized ScenarioInfo");
 		} catch (Exception e) {
 			if (scenarioInfoObject == null) {
 				log.fatal("Deserialized scenarioInfoObject is still null.");
 			} else {
-				log.fatal("Deserialized ScenarioInfo");
+				log.fatal("Deserialized scenarioInfoObject is not null"
+						+ " but an " + ENABLED.getClass().getSimpleName()
+						+ " was thrown.");
 			}
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
@@ -99,39 +97,37 @@ public class ResultsObjFileAction extends ActionBase {
 					+ "\"\nresulted in an " + e.getClass().getName()
 					+ "\nwith message " + e.getMessage());
 			messageBox.open();
-		} return scenarioInfoObject; 
+		}
+		return scenarioInfoObject;
 	}
 
-	private DynamoOutputFactory deserializeOutputObject(String savedFileDirectoryPath) {
+	private DynamoOutputFactory deserializeOutputObject(
+			String savedFileDirectoryPath) {
 		ObjectInputStream in;
-		String outputObjectFilePath = savedFileDirectoryPath
-				+ File.separator
-				+ StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE
-						.getNodeLabel() + ".obj";
+		String outputObjectFilePath = savedFileDirectoryPath + File.separator
+				+ StandardTreeNodeLabelsEnum.RESULTSOBJECTFILE.getNodeLabel()
+				+ ".obj";
 		File outputObjectFile = new File(outputObjectFilePath);
 		DynamoOutputFactory resultObject = null;
 		try {
-			//in = new ObjectInputStream(new BufferedInputStream(
-			//		new FileInputStream(outputObjectFile)));
-			in = new ObjectInputStream(
-					new FileInputStream(outputObjectFile));
+			// in = new ObjectInputStream(new BufferedInputStream(
+			// new FileInputStream(outputObjectFile)));
+			in = new ObjectInputStream(new FileInputStream(outputObjectFile));
 			resultObject = (DynamoOutputFactory) in.readObject();
-			log.fatal("Deserialized ScenarioInfo, populationSize: "
-					);
+			log.info("Deserialized ScenarioInfo, populationSize: ");
 		} catch (Exception e) {
 			if (resultObject == null) {
 				log.fatal("Deserialized scenarioInfoObject is still null.");
 			} else {
-				log.fatal("Deserialized ScenarioInfo, populationSize: "
-					);
+				log.fatal("Deserialized ScenarioInfo is not null, " + "but a "
+						+ e.getClass().getSimpleName() + " was thrown.");
 			}
 			e.printStackTrace();
 			MessageBox messageBox = new MessageBox(shell,
 					SWT.ERROR_ITEM_NOT_ADDED);
-			messageBox.setMessage("Creation of \""
-					+ outputObjectFile.getName() + "\"\nresulted in an "
-					+ e.getClass().getName() + "\nwith message "
-					+ e.getMessage());
+			messageBox.setMessage("Creation of \"" + outputObjectFile.getName()
+					+ "\"\nresulted in an " + e.getClass().getName()
+					+ "\nwith message " + e.getMessage());
 			messageBox.open();
 		}
 		return resultObject;

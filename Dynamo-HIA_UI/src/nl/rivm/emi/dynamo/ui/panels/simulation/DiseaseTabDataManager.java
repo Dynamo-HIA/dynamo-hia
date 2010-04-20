@@ -197,13 +197,13 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			throws ConfigurationException, NoMoreDataException {
 		log.debug(name + ": " + selectedValue);
 
-		log.fatal("UPDATING OBJECT STATE for "+name+ " and selected value "+selectedValue);
+		log.info("UPDATING OBJECT STATE for "+name+ " and selected value "+selectedValue);
 		if (singleConfiguration != null) 
-			log.fatal("name current singleConfiguration "+singleConfiguration.getName());
-		else log.fatal(" current singleConfiguration == null, so new disease is added");
+			log.info("name current singleConfiguration "+singleConfiguration.getName());
+		else log.info(" current singleConfiguration == null, so new disease is added");
 		if (this.initialSelection != null) 
-			log.fatal("this.initialSelection" +this.initialSelection);
-		else log.fatal("this.initialSelection == null");	
+			log.info("this.initialSelection" +this.initialSelection);
+		else log.info("this.initialSelection == null");	
 			
 			
 			
@@ -333,7 +333,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		
 		
 		String removedDisease = this.singleConfiguration.getName();
-		log.fatal("REMOVING FROM OBJECT STATE: "+removedDisease);
+		log.info("REMOVING FROM OBJECT STATE: "+removedDisease);
 		ChoosableDiseases.getInstance().removeChosenDisease(
 				removedDisease);
 
@@ -474,7 +474,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	public void removeOldDefaultValue(String name)
 			throws ConfigurationException {
 		if (this.singleConfiguration != null) {
-			log.fatal("OLDDEFAULT to remove for " + name + " : "
+			log.info("OLDDEFAULT to remove for " + name + " : "
 					+ this.singleConfiguration.getName());}
 			
 				

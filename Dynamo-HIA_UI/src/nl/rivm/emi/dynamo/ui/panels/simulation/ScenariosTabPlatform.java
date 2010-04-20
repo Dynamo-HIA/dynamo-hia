@@ -145,7 +145,7 @@ public class ScenariosTabPlatform extends TabPlatform {
 		 * if the number of old tabs is larger than the number of new ones,
 		 * delete the extra tabs
 		 */
-		log.fatal("# oude tabs: " + oldTabNumber + " wordt " + newTabNumber);
+		log.info("# oude tabs: " + oldTabNumber + " wordt " + newTabNumber);
 		for (int i = 0; i < oldTabNumber - newTabNumber; i++) {
 			/*
 			 * note the the tabfolder in this object is the super tabfolder (of
@@ -154,7 +154,7 @@ public class ScenariosTabPlatform extends TabPlatform {
 			 */
 			TabItem tabItem = getTabFolder().getItem(oldTabNumber - i - 1);
 			tabItem.dispose();
-			log.fatal(" dispose tab " + i);
+			log.info(" dispose tab " + i);
 		}
 		int i = 1;/* the first tab is tab 1 */
 		/*
@@ -171,7 +171,7 @@ public class ScenariosTabPlatform extends TabPlatform {
 			 * let the datamanage refresh the data of the singleconfiguration
 			 * from the DYNAMOsimulation object
 			 */
-			log.fatal(" refresh scenario tab " + i);
+			log.info(" refresh scenario tab " + i);
 			dataManager.refreshConfigurations(scenName);
 			refreshNestedTab(nestedTabs.get(tabName));
 			i++;

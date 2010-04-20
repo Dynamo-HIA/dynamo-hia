@@ -66,7 +66,8 @@ public class HelpGroup {
 		formData.top = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(buttonPane, -5);
-		formData.left = new FormAttachment(100, -155);
+//		formData.left = new FormAttachment(100, -155);
+		formData.left = new FormAttachment(100, -230);
 		myComposite.setLayoutData(formData);
 	}
 

@@ -480,7 +480,7 @@ public class ScenarioInfo {
 				float sum=0;
 				for (int i111=0;i111<dim4;i111++)
 					sum+=alternativeTransitionMatrix[i][i1][i11][i111];
-				if (Math.abs(sum-1)>0.0001) throw new DynamoInconsistentDataException("transitionrates for scenario "+ (scen+1)+" from category "+
+				if (Math.abs(sum-1)>0.001) throw new DynamoInconsistentDataException("transitionrates for scenario "+ (scen+1)+" from category "+
 						(i11+1)+" do not sum to 100% for age "+i+" and gender "+i1);
 						
 			}

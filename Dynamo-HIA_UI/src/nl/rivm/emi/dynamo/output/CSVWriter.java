@@ -412,7 +412,7 @@ public class CSVWriter {
 			throws FactoryConfigurationError, XMLStreamException,
 			DynamoOutputException {
 
-		log.fatal("output written to " + fileName);
+		log.info("About to write CSV output to " + fileName);
 		try {
 			FileWriter writer = new FileWriter(fileName + ".csv");
 
@@ -732,7 +732,7 @@ public class CSVWriter {
 
 	{
 		OutputStream out = new FileOutputStream(fileName);
-		log.fatal("output written to " + fileName);
+		log.fatal("About to write CSV output to " + fileName);
 		try {
 			FileWriter writer = new FileWriter(fileName + ".csv");
 

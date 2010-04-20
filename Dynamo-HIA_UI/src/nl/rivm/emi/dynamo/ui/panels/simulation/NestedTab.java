@@ -55,7 +55,7 @@ public abstract class NestedTab extends Tab {
 					public void handleEvent(Event event) {
 						TabItem item = (TabItem) event.item;
 						String tabId = item.getText();
-						log.fatal("THIS TAB IS SELECTED" + tabId);
+						log.info("THIS TAB IS SELECTED" + tabId);
 					}
 				});
 				youCanUseMe = true;

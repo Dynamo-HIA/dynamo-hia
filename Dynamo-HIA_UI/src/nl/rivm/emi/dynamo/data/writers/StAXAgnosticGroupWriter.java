@@ -55,8 +55,8 @@ public class StAXAgnosticGroupWriter {
 			HashMap<String, Object> theModel, File outputFile)
 			throws XMLStreamException, UnexpectedFileStructureException,
 			IOException, DynamoConfigurationException, DynamoOutputException {
-		log.fatal("Entering produceFile");
-		log.fatal("theModel" + theModel);
+		log.debug("Entering produceFile");
+		log.debug("theModel" + theModel);
 		if (theModel != null) { // We're in business.
 			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 			Writer fileWriter;
@@ -103,7 +103,7 @@ public class StAXAgnosticGroupWriter {
 		while (rootChildNameIterator.hasNext()) {
 			String rootChildElementName = rootChildNameIterator.next();
 			Object rootChildObject = theModel.get(rootChildElementName);
-			log.fatal("RootChildName: " + rootChildElementName);
+			log.debug("RootChildName: " + rootChildElementName);
 			streamRootChildStart(writer, eventFactory, rootChildElementName);
 			if (rootChildObject instanceof TypedHashMap<?>) {
 				// handleHierarchicRootChildData(writer, eventFactory,
@@ -144,7 +144,7 @@ public class StAXAgnosticGroupWriter {
 				writer.add(event);
 			}
 		} else {
-			log.fatal("No type found with name " + rootChildElementName);
+			log.warn("No type found with name " + rootChildElementName);
 			XMLEvent event = eventFactory
 					.createCharacters("Fatality, see logfile");
 			writer.add(event);

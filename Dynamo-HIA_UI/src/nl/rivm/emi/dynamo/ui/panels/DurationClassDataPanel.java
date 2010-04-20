@@ -5,6 +5,7 @@ import nl.rivm.emi.dynamo.data.interfaces.IDurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.DurationClass;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
+import nl.rivm.emi.dynamo.ui.main.RiskFactorCompoundModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.DurationClassIndexComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -25,7 +26,7 @@ import org.eclipse.swt.widgets.MessageBox;
 
 public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory.getLog(this.getClass().getName());
-	IDurationClass myReferenceCategoryObject;
+	IDurationClass myDurationClassObject;
 	final Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
@@ -35,10 +36,10 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 	DurationClassIndexComboModifyListener durationClassIndexComboModifyListener = null;
 
 	public DurationClassDataPanel(Composite parent, Composite topNeighbour,
-			IDurationClass referenceCategoryObject,
+			IDurationClass durationClassObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
-		this.myReferenceCategoryObject = referenceCategoryObject;
+		this.myDurationClassObject = durationClassObject;
 		this.dataBindingContext = dataBindingContext;
 		theHelpGroup = helpGroup;
 		GridLayout layout = new GridLayout();
@@ -50,71 +51,56 @@ public class DurationClassDataPanel extends Composite /* implements Runnable */{
 		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Duration class index:");
 		indexLabel.setLayoutData(gridData);
-		WritableValue observableObject = referenceCategoryObject
-				.getObservableDurationClass();
-		if (observableObject != null) {
-//			bindValue(observableObject);
-			createAndHookupDropDown(observableObject,
-					(ICategoricalObject)referenceCategoryObject);
-		} else {
-			MessageBox box = new MessageBox(parent.getShell());
-			box.setText("Duration Class error");
-			box.setMessage("Duration Class is absent.");
-			box.open();
-		}
+		// 20100415 The durationClass index is no longer changeable.
+		//
+		// WritableValue observableObject = referenceCategoryObject
+		// .getObservableDurationClass();
+		// if (observableObject != null) {
+		// createAndHookupDropDown(observableObject,
+		// (ICategoricalObject)referenceCategoryObject);
+		// } else {
+		// MessageBox box = new MessageBox(parent.getShell());
+		// box.setText("Duration Class error");
+		// box.setMessage("Duration Class is absent.");
+		// box.open();
+		// }
+		Integer durationClassIndex = durationClassObject.getDurationClass();
+		Label durationClassIndexLabel = new Label(this, SWT.NONE);
+		durationClassIndexLabel.setText(durationClassIndex.toString());
 	}
 
-//	private void bindValue(WritableValue observableObject) {
-//		final Text text = createAndPlaceTextField();
-//		text.setText((String) myType
-//				.convert4View(observableObject.doGetValue()));
-//		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-//		// Too early, see below. text.addVerifyListener(new
-//		// StandardValueVerifyListener());
-//		IObservableValue textObservableValue = SWTObservables.observeText(text,
-//				SWT.Modify);
-//		dataBindingContext.bindValue(textObservableValue, observableObject,
-//				myType.getModelUpdateValueStrategy(), myType
-//						.getViewUpdateValueStrategy());
-//		text.addVerifyListener(new CategoryIndexVerifyListener(theHelpGroup
-//				.getTheModal(), (NumberRangeTypeBase<Integer>) myType));
-//	}
-//
-//	private Text createAndPlaceTextField() {
-//		final Text text = new Text(this, SWT.NONE);
-//		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-//		gridData.widthHint = 50;
-//		text.setLayoutData(gridData);
-//		return text;
-//	}
-	private void createAndHookupDropDown(WritableValue writableValue,
-			ICategoricalObject riskFactorConfig) {
-		int numberOfClasses = riskFactorConfig.getNumberOfCategories();
-		dropDown = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
-		HelpTextListenerUtil.addHelpTextListeners(dropDown, myType);
-		GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
-		dropDown.setLayoutData(dropDownGridData);
-		DropDownPropertiesSet selectableReferenceClassIndexPropertiesSet = new DropDownPropertiesSet();
-		for (int count = 1; count <= numberOfClasses; count++) {
-			selectableReferenceClassIndexPropertiesSet.add((new Integer(count)
-					.toString()));
-			dropDown.add((new Integer(count)).toString(), count - 1);
-		}
-		int initialIndex = 0;
-		if (writableValue != null) {
-			String initialValue = (String) (writableValue.doGetValue())
-					.toString();
-			if (selectableReferenceClassIndexPropertiesSet
-					.contains(initialValue)) {
-				initialIndex = selectableReferenceClassIndexPropertiesSet
-						.getSelectedIndex(initialValue);
-			}
-		}
-		this.durationClassIndexComboModifyListener = new DurationClassIndexComboModifyListener(
-				writableValue);
-		dropDown.addModifyListener(durationClassIndexComboModifyListener);
-		dropDown.select(initialIndex);
-	}
+	// 20100415 The durationClass index is no longer changeable.
+	//
+	// private void createAndHookupDropDown(WritableValue writableValue,
+	// ICategoricalObject riskFactorConfig) {
+	// int numberOfClasses = riskFactorConfig.getNumberOfCategories();
+	// dropDown = new Combo(this, SWT.DROP_DOWN | SWT.READ_ONLY);
+	// HelpTextListenerUtil.addHelpTextListeners(dropDown, myType);
+	// GridData dropDownGridData = new GridData(GridData.FILL_HORIZONTAL);
+	// dropDown.setLayoutData(dropDownGridData);
+	// DropDownPropertiesSet selectableReferenceClassIndexPropertiesSet = new
+	// DropDownPropertiesSet();
+	// for (int count = 1; count <= numberOfClasses; count++) {
+	// selectableReferenceClassIndexPropertiesSet.add((new Integer(count)
+	// .toString()));
+	// dropDown.add((new Integer(count)).toString(), count - 1);
+	// }
+	// int initialIndex = 0;
+	// if (writableValue != null) {
+	// String initialValue = (String) (writableValue.doGetValue())
+	// .toString();
+	// if (selectableReferenceClassIndexPropertiesSet
+	// .contains(initialValue)) {
+	// initialIndex = selectableReferenceClassIndexPropertiesSet
+	// .getSelectedIndex(initialValue);
+	// }
+	// }
+	// this.durationClassIndexComboModifyListener = new
+	// DurationClassIndexComboModifyListener(
+	// writableValue);
+	// dropDown.addModifyListener(durationClassIndexComboModifyListener);
+	// dropDown.select(initialIndex);
+	// }
 
 	public void handlePlacementInContainer(DurationClassDataPanel panel,
 			Label topNeighbour) {

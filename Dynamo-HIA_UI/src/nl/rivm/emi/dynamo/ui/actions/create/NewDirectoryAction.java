@@ -45,7 +45,7 @@ public class NewDirectoryAction extends NewActionBase {
 						new FileAndDirectoryNameInputValidator());
 				inputDialog.open();
 				int returnCode = inputDialog.getReturnCode();
-				log.fatal("ReturnCode is: " + returnCode);
+				log.debug("ReturnCode is: " + returnCode);
 				if (returnCode != Window.CANCEL) {
 					String candidateName = inputDialog.getValue();
 					String candidatePath = node.getPhysicalStorage()
@@ -53,20 +53,11 @@ public class NewDirectoryAction extends NewActionBase {
 							+ File.separator + candidateName;
 					handleCreation(candidateName, candidatePath);
 				}
-				// else {
-				// MessageBox messageBox = new MessageBox(shell);
-				// messageBox.setMessage("New cancelled.");
-				// messageBox.open();
-				// }
 			} else {
 				String candidatePath = node.getPhysicalStorage()
 						.getAbsolutePath()
 						+ File.separator + directoryName;
 				handleCreation(directoryName, candidatePath);
-				// MessageBox messageBox = new MessageBox(shell);
-				// messageBox.setMessage("Directory: " + directoryName
-				// + " created.");
-				// messageBox.open();
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();

@@ -3401,7 +3401,7 @@ public class DynamoPlotFactory {
 	
 	double value = (double) (Double)dataset.getValue(series, category);
 	double reference_value=(double)(Double) dataset.getValue(0, category);
-	log.fatal("series: "+series+ " category: "+category+" value: "+value);
+	log.info("series: "+series+ " category: "+category+" value: "+value);
 	
 	if (value != 0) {
 	
@@ -3912,7 +3912,7 @@ public class DynamoPlotFactory {
 			for (int s = 0; s < 2; s++) {
 
 	//			generator.setDaly(scenario,s,HLE[s][2]);
-				log.fatal("setting DALY for scen "+scenario+ " sex "+s+" to :  "+HLE[s][2]);
+				log.debug("setting DALY for scen "+scenario+ " sex "+s+" to :  "+HLE[s][2]);
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
 				 * general different label

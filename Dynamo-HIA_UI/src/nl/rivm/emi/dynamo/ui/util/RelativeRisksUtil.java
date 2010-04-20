@@ -59,7 +59,7 @@ public class RelativeRisksUtil {
 						previousToIndex = toIndex;
 					}
 				} else {
-					log.fatal("RootElementName: " + rootElementName
+					log.warn("RootElementName: " + rootElementName
 							+ " found in: "
 							+ configurationFile.getAbsolutePath()
 							+ " using DOM.");
@@ -114,7 +114,7 @@ public class RelativeRisksUtil {
 						previousFromIndex = fromIndex;
 					}
 				} else {
-					log.fatal("RootElementName: " + rootElementName
+					log.warn("RootElementName: " + rootElementName
 							+ " found in: "
 							+ configurationFile.getAbsolutePath()
 							+ " using DOM.");

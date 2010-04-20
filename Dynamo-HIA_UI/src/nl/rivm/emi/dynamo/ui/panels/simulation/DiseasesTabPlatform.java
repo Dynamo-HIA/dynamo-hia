@@ -152,7 +152,7 @@ public class DiseasesTabPlatform extends TabPlatform {
 		int i=1;
 		for (String diseaseName:  this.getConfigurations()){
 			String tabName = "Disease" + Integer.toString(i);
-			log.fatal("refresh diseasename "+diseaseName+"in tab "+tabName);
+			log.info("refresh diseasename "+diseaseName+"in tab "+tabName);
 			/* get the name of the nested tab */			
 		    refreshNestedTab(nestedTabs.get(tabName));
 		    i++;

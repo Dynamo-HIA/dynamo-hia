@@ -38,7 +38,7 @@ public class NewConfigurableXMLFileAction extends NewActionBase {
 						"Enter name for new " + abstractName, "Name", null);
 				inputDialog.open();
 				int returnCode = inputDialog.getReturnCode();
-				log.fatal("ReturnCode is: " + returnCode);
+				log.debug("ReturnCode is: " + returnCode);
 				if (returnCode != Window.CANCEL) {
 					String candidateName = inputDialog.getValue();
 					String candidatePath = node.getPhysicalStorage()
@@ -72,33 +72,8 @@ public class NewConfigurableXMLFileAction extends NewActionBase {
 			//			popSizeModal.open();
 			popSizeModal.run();
 				} else {
-			log.fatal("What else?");
+			log.info("What else?");
 		}
-
-		// File candidateFile = new File(candidatePath + ".xml");
-		// if (!candidateFile.exists()/* && candidateFile.createNewFile() */) {
-		// AgnosticFactory factory = FactoryProvider
-		// .getRelevantFactoryByRootNodeName(rootElementName);
-		// TypedHashMap modelObject = factory.manufactureDefault();
-		// MessageBox messageBox = new MessageBox(shell);
-		// messageBox.setMessage("\"" + candidateName
-		// + "\"\nhas been created.");
-		// messageBox.open();
-		// node.addChild(new DirectoryNode(node, candidateFile));
-		// theViewer.refresh();
-		// } else {
-		// MessageBox messageBox = new MessageBox(shell,
-		// SWT.ERROR_ITEM_NOT_ADDED);
-		// messageBox.setMessage("\"" + candidateName
-		// + "\"\ncould not be created.");
-		// messageBox.open();
-		// }
-		// } catch (Exception e) {
-		// throw new StorageTreeException(
-		// e.getClass().getName() + " thrown during creation of file "
-		// + candidatePath + " with message: "
-		// + e.getMessage());
-		// }
 	}
 
 }

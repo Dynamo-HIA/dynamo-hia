@@ -87,7 +87,7 @@ public class RiskFactorContinuousObject extends
 		Object currentCutoffValue = currentCutoffValueTuple.getValue();
 		if (currentCutoffValue == null) {
 			log
-					.fatal("!!!!!!!!!!putCutoff() may not be used to add cutoffs!!!!!!!!!!!!");
+					.warn("!!!!!!!!!!putCutoff() may not be used to add cutoffs!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
 		WritableValue newValue = new WritableValue(value, value.getClass());

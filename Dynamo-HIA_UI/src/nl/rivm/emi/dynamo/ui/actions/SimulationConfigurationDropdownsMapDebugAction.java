@@ -31,14 +31,10 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 	@Override
 	public void run() {
 		try {
-			log.fatal("Starting test");
+			log.info("Starting test");
 			SimulationConfigurationDropdownsMapFactory a = new SimulationConfigurationDropdownsMapFactory();
 			HashMap<String, Object> product = SimulationConfigurationDropdownsMapFactory
 					.make(node);
-			// MessageBox box = new MessageBox(shell, SWT.ICON_INFORMATION);
-			// box.setText("Debug");
-			// box.setMessage("Dropdowns Factory ran without blowing up.");
-			// box.open();
 			TreeAsDropdownLists treeList = TreeAsDropdownLists.getInstance(node);
 			RelativeRisksCollection collection = new RelativeRisksCollection(
 					node, treeList);

@@ -94,7 +94,7 @@ public class RelativeRisksTabPlatform extends TabPlatform {
 		if (tabItemNames.length() > 2) {
 			tabItemNames.setLength(tabItemNames.length() - 2);
 		}
-		log.fatal(debugInfo + " - TabFolder-identityHash: "
+		log.debug(debugInfo + " - TabFolder-identityHash: "
 				+ System.identityHashCode(tabFolder) + ", tooltip: "
 				+ tabFolder.getToolTipText() + ",\n tabItems: "
 				+ tabItemNames.toString());

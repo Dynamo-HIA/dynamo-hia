@@ -167,7 +167,7 @@ public class InitialPopulationFactory {
 					}
 				else if (scenarioInfo.getInitialPrevalenceType()[0])
 					log
-							.fatal("trying to write non existing initial population for scenario "
+							.warn("trying to write non existing initial population for scenario "
 									+ scen);
 			}
 
@@ -241,7 +241,7 @@ public class InitialPopulationFactory {
 		/* make a table of point from the inverse normal distribution */
 		if (parameters.getRiskType() == 2 && nSim == 0) {
 			this.nSim = 50;
-			log.fatal(" zero simulated group size  asked for"
+			log.warn(" zero simulated group size  asked for"
 					+ " continuous riskfactor; this is changed into 50 ");
 		}
 

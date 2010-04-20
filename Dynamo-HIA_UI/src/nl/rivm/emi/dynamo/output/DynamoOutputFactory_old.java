@@ -1385,7 +1385,7 @@ public class DynamoOutputFactory_old implements Serializable {
 				RR = this.relRiskAbilityCat[age2][sex][riskFactor];
 			daly = (1 - this.baselineAbility[age2][sex] * RR * ability);
 			if (this.alfaAbility[age2][sex] < 0)
-				log.fatal("!!!! NEGATIVE alfa-ability");
+				log.warn("!!!! NEGATIVE alfa-ability");
 		}
 		if (age == 0) {
 			int b = 0;
@@ -1941,22 +1941,22 @@ public class DynamoOutputFactory_old implements Serializable {
 									healthyPersons[scen][steps][r][g] = 0;
 								if (steps == 70) {
 									log
-											.fatal("population "
+											.info("population "
 													+ this.nPopByOriRiskClassByOriAge[scen][steps][r][age][g]);
 									log
-											.fatal("c "
+											.info("c "
 													+ c
 													+ " healthy "
 													+ healthyPersons[scen][steps][r][g]);
 									// volgen
 									log
-											.fatal("nwithDisease "
+											.info("nwithDisease "
 													+ this.nDiseaseStateByOriRiskClassByOriAge[scen][steps][currentClusterStart - 1][r][age][g]);
 
-									log.fatal("n with Disease new "
+									log.info("n with Disease new "
 											+ nWithDisease);
 									log
-											.fatal("prob disease "
+											.info("prob disease "
 													+ (this.nPopByOriRiskClassByOriAge[scen][steps][r][age][g] - nWithDisease)
 													/ this.nPopByOriRiskClassByOriAge[scen][steps][r][age][g]);
 								}
@@ -2299,7 +2299,7 @@ public class DynamoOutputFactory_old implements Serializable {
 			throws FileNotFoundException, FactoryConfigurationError,
 			XMLStreamException, DynamoOutputException {
 		OutputStream out = new FileOutputStream(fileName);
-		log.fatal("output written to " + fileName);
+		log.info("About to write output to: " + fileName);
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 		XMLStreamWriter writer;
 		try {
@@ -2614,7 +2614,7 @@ public class DynamoOutputFactory_old implements Serializable {
 			throws FactoryConfigurationError, XMLStreamException,
 			DynamoOutputException, FileNotFoundException {
 		OutputStream out = new FileOutputStream(fileName);
-		log.fatal("output written to " + fileName);
+		log.info("About to write output to " + fileName);
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
 		XMLStreamWriter writer = null;

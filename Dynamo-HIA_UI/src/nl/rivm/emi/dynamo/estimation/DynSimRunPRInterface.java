@@ -35,7 +35,7 @@ public interface DynSimRunPRInterface {
 	 * @param simulationFilePath
 	 */
 	public void communicateErrorMessage(DynamoSimulationRunnable dynSimRun,
-			Exception e, String simulationFilePath);
+			Throwable e, String simulationFilePath);
 
 	/**
 	 * Gets the graphical shell.

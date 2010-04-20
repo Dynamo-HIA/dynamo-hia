@@ -25,7 +25,7 @@ public class RiskFactorCategoricalPrevalencesGroup {
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, HelpGroup helpGroup)
 			throws ConfigurationException {
-		log.fatal("selectedNode-label: " + selectedNode.deriveNodeLabel());
+		log.debug("selectedNode-label: " + selectedNode.deriveNodeLabel());
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);

@@ -20,7 +20,7 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 
 	@Override
 	public void communicateErrorMessage(DynamoSimulationRunnable dynSimRun,
-			Exception e, String simulationFilePath) {
+			Throwable e, String simulationFilePath) {
 		Shell shell = new Shell(parentShell);
 		String cause = "";
 		if (e.getCause() != null) {

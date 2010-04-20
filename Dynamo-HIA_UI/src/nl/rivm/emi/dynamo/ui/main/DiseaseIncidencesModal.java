@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.ui.main;
+
 /**
  * 
  * Exception handling OK
@@ -57,16 +58,18 @@ public class DiseaseIncidencesModal extends AbstractDataModal {
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#open()
 	 */
 	@Override
-	public synchronized void openModal() throws ConfigurationException, DynamoInconsistentDataException {
-			this.modelObject = manufactureModelObject();
-			DiseaseIncidencesGroup diseaseIncidencesGroup = new DiseaseIncidencesGroup(
-					this.shell, this.modelObject, this.dataBindingContext,
-					this.selectedNode, this.helpPanel);
-			diseaseIncidencesGroup.setFormData(this.helpPanel.getGroup(),
-					buttonPanel);
-			this.shell.pack();
-			// This is the first place this works.
-			this.shell.setSize(500, ModalStatics.defaultHeight);
-			this.shell.open();
+	public synchronized void openModal() throws ConfigurationException,
+			DynamoInconsistentDataException {
+		this.modelObject = manufactureModelObject();
+		DiseaseIncidencesGroup diseaseIncidencesGroup = new DiseaseIncidencesGroup(
+				this.shell, this.modelObject, this.dataBindingContext,
+				this.selectedNode, this.helpPanel);
+		diseaseIncidencesGroup.setFormData(this.helpPanel.getGroup(),
+				buttonPanel);
+		this.shell.pack();
+		// This is the first place this works.
+		// this.shell.setSize(500, ModalStatics.defaultHeight);
+		this.shell.setSize(575, ModalStatics.defaultHeight);
+		this.shell.open();
 	}
 }

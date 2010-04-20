@@ -194,7 +194,7 @@ public class GenericDropDownPanel {
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
 		// Remove old value (is choosable again)
-		log.fatal(" remove old default " + this.getLabel());
+		log.info(" remove old default " + this.getLabel());
 		this.myDataManager.removeOldDefaultValue(this.getLabel());
 		// Add new value
 		this.myDataManager.updateObjectState(this.getLabel(), newText);

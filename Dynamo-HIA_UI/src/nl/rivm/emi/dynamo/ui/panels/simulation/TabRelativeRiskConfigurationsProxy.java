@@ -140,7 +140,7 @@ public class TabRelativeRiskConfigurationsProxy extends
 					|| singleRRconfiguration.getTo().equals(removedDisease))
 				iter.remove();
 
-			log.fatal("stop5: " + "size: " + relRiskConfiguration.size());
+			log.info("stop5: " + "size: " + relRiskConfiguration.size());
 		}
 		dynamoSimulationObject
 				.setRelativeRiskConfigurations(relRiskConfiguration);

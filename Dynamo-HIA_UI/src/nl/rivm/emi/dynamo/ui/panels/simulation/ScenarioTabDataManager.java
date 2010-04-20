@@ -357,7 +357,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		} else if (ScenarioResultGroup.RISK_FACTOR_PREVALENCE.equals(name)) {
 			singleConfiguration.setAltPrevalenceFileName(selectedValue);
 		} else {
-			log.fatal(name + " could not be handled!!!!!");
+			log.warn(name + " could not be handled!!!!!");
 		}
 		updateDynamoSimulationObject();
 	}
@@ -457,7 +457,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 			.getScenarioConfigurations();
 		   this.singleConfiguration = configurations.get(name);
-		   log.fatal("singleconfiguration"+this.singleConfiguration);
+		   log.debug("singleconfiguration"+this.singleConfiguration);
 
 		}
 	

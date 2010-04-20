@@ -66,9 +66,19 @@ public class RunSelectionListener implements SelectionListener {
 		try {
 			setupAndRunDynamoSimulation();
 		} catch (Throwable t) {
+// Existing message.
 			log.error("Running the Simulation threw a "
 					+ t.getClass().getSimpleName() + " with message: "
-					+ t.getMessage());
+					+ t.getMessage() + "\n");
+// Additional message.
+			StackTraceElement[] elements = t.getStackTrace();
+			StringBuffer logMessage = new StringBuffer(t.getMessage()
+					+ "\n");
+			logMessage.append(t.getClass().getSimpleName() + "\n");
+			for (int count = 0; count < Math.min(elements.length, 6); count++) {
+				logMessage.append(elements[count] + "\n");
+			}
+			log.error(logMessage.toString());
 			displayErrorMessage(t);
 		} finally {
 			control.setEnabled(true);

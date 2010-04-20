@@ -129,7 +129,8 @@ public class ConfigurationFileUtil {
 	/**
 	 * Does what the methodname says.
 	 * 
-	 * @param configurationFile The File the rootelementname has to be found in.
+	 * @param configurationFile
+	 *            The File the rootelementname has to be found in.
 	 * @return The rootelement that has been extracted.
 	 * @throws DynamoConfigurationException
 	 *             Thrown when the structure of the XML configuration file was
@@ -166,7 +167,8 @@ public class ConfigurationFileUtil {
 	/**
 	 * Does what the methodname says.
 	 * 
-	 * @param fileName The name of the File the rootelementname has to be found in.
+	 * @param fileName
+	 *            The name of the File the rootelementname has to be found in.
 	 * @return The rootelement that has been extracted.
 	 */
 	static String getRootElementNameUsingSTax(String filename) {
@@ -262,7 +264,8 @@ public class ConfigurationFileUtil {
 	/**
 	 * Does what the methodname says.
 	 * 
-	 * @param configurationFile The File the rootelementname has to be extracted from.
+	 * @param configurationFile
+	 *            The File the rootelementname has to be extracted from.
 	 * @return The rootelement that has been extracted.
 	 * @throws DynamoConfigurationException
 	 *             Thrown when the structure of the XML configuration file was
@@ -299,20 +302,75 @@ public class ConfigurationFileUtil {
 		} catch (ConfigurationException e) {
 			// Exception is not thrown again
 			// because the application has to continue
-			ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
-					configurationFile.getAbsolutePath());
-			return rootElementName;
+			String exceptionMessage = e.getMessage();
+			if ((exceptionMessage != null)
+					&& exceptionMessage
+							.contains("Unable to load the configuration")) {
+				handleErrorMessage(log, e.getMessage(), e, configurationFile
+						.getAbsolutePath());
+				return rootElementName;
+			} else {
+				ErrorMessageUtil.handleErrorMessage(log, e.getMessage(), e,
+						configurationFile.getAbsolutePath());
+				return rootElementName;
+			}
 		}
 	}
 
-/**
- * Returns the number of classes the riskfactor has been configured for. 
- * The method is meant be called on the configuration of categorical or compound riskfactors.
- * 
- * @param configurationFile The File the number of classes must be found in.
- * @return The number of classes found. Null when no classes have been found.
- * @throws DynamoConfigurationException Thrown when the filestructure was unexpected.
- */
+	/**
+	 * 
+	 * Handles the error messages provided, in case the root cause has to be
+	 * shown
+	 * 
+	 * Cloned and adapted from: ErrorMessageUtil.handleErrorMessage(...)
+	 * 
+	 * @param log
+	 * @param cdmErrorMessage
+	 * @param e
+	 * @param fileName
+	 * @throws DynamoConfigurationException
+	 */
+	public static void handleErrorMessage(Log log, String cdmErrorMessage,
+			Exception e, String fileName) throws DynamoConfigurationException {
+		// e.printStackTrace();
+		// Show the error message and the nested cause of the error
+		String errorMessage = "";
+		if (e.getCause() != null) {
+			errorMessage = "Could not read the data from file:\n\n"
+					+ fileName
+					+ "\n\nbecause the format contains one or more errors."
+					+ " Below is a technical message that contains the specifics.\n\n";
+
+			if (!e.getCause().getMessage().contains(":")) {
+				errorMessage += "XML-schema validation error: "
+						+ e.getCause().getMessage();
+			} else {
+				errorMessage += "XML-schema  validation error: ";
+				String[] splits = e.getCause().getMessage().split(":");
+				for (int i = 1; i < splits.length; i++) {
+					errorMessage += splits[i];
+				}
+			}
+			// errorMessage += " related to file: " + fileName;
+		} else {
+			errorMessage = cdmErrorMessage;
+		}
+		log.error(errorMessage);
+		throw new DynamoConfigurationException(errorMessage);
+	}
+
+	/**
+	 * Returns the number of classes the riskfactor has been configured for. The
+	 * method is meant be called on the configuration of categorical or compound
+	 * riskfactors.
+	 * 
+	 * @param configurationFile
+	 *            The File the number of classes must be found in.
+	 * @return The number of classes found. Null when no classes have been
+	 *         found.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when the filestructure was unexpected.
+	 */
 	public static Integer extractNumberOfClasses(File configurationFile)
 			throws DynamoConfigurationException {
 		Integer numberOfCategories = null;
@@ -354,12 +412,16 @@ public class ConfigurationFileUtil {
 	}
 
 	/**
-	 * Returns the index of the class that has a durationdistribution attached. 
-	 * The method is meant be called on the configuration of compound riskfactors.
+	 * Returns the index of the class that has a durationdistribution attached.
+	 * The method is meant be called on the configuration of compound
+	 * riskfactors.
 	 * 
-	 * @param configurationFile The File the index of the duration class must be found in.
-	 * @return The index of found duration class. Null when no duration class is founs.
-	 * @throws DynamoConfigurationException Thrown when the filestructure was unexpected.
+	 * @param configurationFile
+	 *            The File the index of the duration class must be found in.
+	 * @return The index of found duration class. Null when no duration class is
+	 *         founs.
+	 * @throws DynamoConfigurationException
+	 *             Thrown when the filestructure was unexpected.
 	 */
 	public static Integer extractDurationCategoryIndex(File configurationFile)
 			throws DynamoConfigurationException {
@@ -391,8 +453,9 @@ public class ConfigurationFileUtil {
 					if (rootChildren.size() == 1) {
 						ConfigurationNode durationCategoryNode = (ConfigurationNode) rootChildren
 								.get(0);
-						durationCategoryIndex = (Integer) durationCategoryNode
-								.getValue();
+						durationCategoryIndex = Integer
+								.parseInt((String) durationCategoryNode
+										.getValue());
 					}
 				}
 			}

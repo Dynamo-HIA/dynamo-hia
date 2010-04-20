@@ -63,7 +63,8 @@ public class TransitionDriftModal extends AbstractDataModal {
 					buttonPanel);
 			this.shell.pack();
 			// This is the first place this works.
-			this.shell.setSize(400, ModalStatics.defaultHeight);
+//			this.shell.setSize(400, ModalStatics.defaultHeight);
+			this.shell.setSize(475, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 }
