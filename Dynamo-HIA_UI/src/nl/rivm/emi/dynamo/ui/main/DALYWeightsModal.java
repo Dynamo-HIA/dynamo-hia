@@ -65,7 +65,7 @@ public class DALYWeightsModal extends AbstractDataModal {
 			this.shell.pack();
 			// This is the first place this works.
 //			this.shell.setSize(900, ModalStatics.defaultHeight);
-			this.shell.setSize(975, ModalStatics.defaultHeight);
+			this.shell.setSize(475, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 }
