@@ -11,6 +11,7 @@
 	<property name="ini.dir" value="ini" />
 	<property name="schemas.dir" value="schemas" />
 	<property name="help.dir" value="help" />
+	<property name="macro.dir" value="macro" />
 	<property name="product.dir" value="../CZM_Mono/" />
 
 	<target name="introduction">
@@ -24,6 +25,7 @@
 		<delete dir="${product.dir}/ini" />
 		<delete dir="${product.dir}/schemas" />
 		<delete dir="${product.dir}/help" />
+		<delete dir="${product.dir}/macro" />
 	</target>
 
 	<target name="clean-build">
@@ -84,6 +86,9 @@
 		</copy>
 		<copy todir="${product.dir}/help" overwrite="true">
 			<fileset dir="${help.dir}" />
+		</copy>
+		<copy todir="${product.dir}/macro" overwrite="true">
+			<fileset dir="${macro.dir}" />
 		</copy>
 	</target>
 
