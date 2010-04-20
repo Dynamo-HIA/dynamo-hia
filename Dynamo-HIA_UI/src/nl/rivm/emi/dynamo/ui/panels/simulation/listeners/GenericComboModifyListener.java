@@ -85,10 +85,11 @@ public class GenericComboModifyListener implements ModifyListener {
 		log.debug("this.registeredDropDowns.size()"
 				+ this.registeredDropDowns.size());
 		// Update the registered (dependend) drop downs
+		// does not work as now the model state is no longer updated when changes are made
 		// first remove the listerners to prevent that they trigger eachother
-		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
-			registeredDropDown.getDropDown().removeModifyListener(registeredDropDown.getGenericComboModifyListener());
-		}
+	//	for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
+	//		registeredDropDown.getDropDown().removeModifyListener(registeredDropDown.getGenericComboModifyListener());
+	//	}
 		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
 			log.debug("registeredCombo" + registeredDropDown);
 			try {
@@ -105,9 +106,9 @@ public class GenericComboModifyListener implements ModifyListener {
 			
 			
 		} // and add the listeners again
-		for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
-			registeredDropDown.getDropDown().addModifyListener(registeredDropDown.getGenericComboModifyListener());
-		}
+	//	for (GenericDropDownPanel registeredDropDown : this.registeredDropDowns) {
+	//		registeredDropDown.getDropDown().addModifyListener(registeredDropDown.getGenericComboModifyListener());
+	//	}
 	}
 
 	private void handleErrorMessage(Exception e,
