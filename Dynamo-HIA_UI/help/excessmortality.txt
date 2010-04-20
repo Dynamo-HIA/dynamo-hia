@@ -1,11 +1,9 @@
-Enter the excess mortality for each sex and age class. This can be done either by choosing "Rate" or "Median Survival". 
+Enter the excess mortality for each sex and age class.
 
 Files of this format can be created using the "Disease mortality (per case)" worksheet in the "macro/2-Disease/Disease.xml" workbook.
 
 Excess Mortality(rate) is the difference in mortality rate between those with the disease and those without the disease.
-
 Excess Mortality(Median Survival) is the number of years from the onset of disease at which half of the not cured patients are still alive.
-
 The Acutely Fatal is the percentage of the people that dies immediately of the disease.
 The Cured Fraction is the percentage of patients that is cured, e.g. has a zero excess mortality.
 
