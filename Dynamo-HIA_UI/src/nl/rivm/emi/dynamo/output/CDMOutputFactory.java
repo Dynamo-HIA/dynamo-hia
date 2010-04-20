@@ -130,12 +130,14 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 	protected int maxAgeInSimulation;
 	/**
-	 * @return maximum age of the simulated population
+	 * @return maximum age of the simulated population (at the start of the simulation)
 	 */
 	public int getMaxAgeInSimulation() {
 		return this.maxAgeInSimulation;
 	}
-
+	/**
+	 * @return minimum age of the simulated population (at the start of the simulation, and >=0)
+	 */
 	
 	protected int minAgeInSimulationAtStart;
 	public int getMinAgeInSimulationAtStart() {
@@ -145,10 +147,10 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	
 
 	/**
-	 * @return minimum age of the simulated population
+	 * @return minimum age of the simulated population at the start of the simulation and can be lower than 0
 	 */
 	
-
+	
 	protected int minAgeInSimulation;
 	/**
 	 * @return minimum age of the simulated population

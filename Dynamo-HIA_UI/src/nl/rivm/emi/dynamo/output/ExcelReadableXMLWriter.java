@@ -338,9 +338,11 @@ public class ExcelReadableXMLWriter {
 
 			/* write the data */
 			/* each row is a risk-class / age combination */
+			int astart=this.output.minAgeInSimulationAtStart+year;
+			if (this.output.withNewborns) astart=this.output.minAgeInSimulationAtStart;
 			for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
-
-				for (int a = 0; a < 96; a++) {
+				
+				for (int a =astart; a < Math.min(this.output.maxAgeInSimulation+year+1,this.output.nDim); a++) {
 					writer.writeStartElement("Row");
 					/* write risk factor info */
 				//	log.fatal("start row");
@@ -659,9 +661,9 @@ public class ExcelReadableXMLWriter {
 		writer.writeAttribute("xmlns:html", "http://www.w3.org/TR/REC-html40");
 		// for (int year = 0; year < stepsInRun; year++)
 		/* make one worksheet per cohort */
-		for (int cohort = 0; cohort < 96; cohort++) {
+		for (int cohort = this.output.minAgeInSimulationAtStart; cohort < this.output.maxAgeInSimulation+1; cohort++) {
 			writer.writeStartElement("Worksheet");
-			writer.writeAttribute("ss:Name", "age " + cohort + "in "
+			writer.writeAttribute("ss:Name", "age " + cohort + " in "
 					+ this.output.startYear);
 			writer.writeStartElement("Table");
 			writer.writeStartElement("Row");
@@ -673,8 +675,8 @@ public class ExcelReadableXMLWriter {
 				writeCell(writer, "riskClass");
 			} else {
 				writeCell(writer, "mean_riskFactor");
-				writeCell(writer, "std_riskFactor");
-				writeCell(writer, "skewness");
+				//writeCell(writer, "std_riskFactor");
+				//writeCell(writer, "skewness");
 
 			}
 			if (this.output.riskType == 3) {
@@ -795,14 +797,14 @@ public class ExcelReadableXMLWriter {
 					}
 					/* write the standard deviation of the continuous riskfactor */
 
-					if (this.output.riskType == 2 && !this.output.categorized) {
+			//		if (this.output.riskType == 2 && !this.output.categorized) {
 
-						writeCell(writer, rClass);
+				//		writeCell(writer, rClass);
 						// TODO vervangen door std risk factor
 
-						writeCell(writer, rClass);
+				//		writeCell(writer, rClass);
 
-					}
+				//	}
 
 					/*
 					 * write the mean value of the continuous riskfactor within
