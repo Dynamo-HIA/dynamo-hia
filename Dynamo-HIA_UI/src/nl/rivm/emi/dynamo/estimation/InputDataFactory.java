@@ -1999,7 +1999,7 @@ public class InputDataFactory {
 					for (int rr = 0; rr < nRRsDisease; rr++) {
 						if (diseaseName[d].compareToIgnoreCase(isRRfrom[rr]) == 0) {
 							for (int d2 = 0; d2 < nDiseases; d2++) {
-								if (isRRto[rr] == diseaseName[d2]) {
+								if (isRRto[rr].equalsIgnoreCase(diseaseName[d2])) {
 									// now give dependent and causal disease the
 									// same
 									// (lowest) cluster number;
@@ -2010,6 +2010,19 @@ public class InputDataFactory {
 								}
 							}
 						}
+				/*		if (diseaseName[d].compareToIgnoreCase(isRRto[rr]) == 0) {
+							for (int d2 = 0; d2 < nDiseases; d2++) {
+								if (isRRfrom[rr] == diseaseName[d2]) {
+									// now give dependent and causal disease the
+									// same
+									// (lowest) cluster number;
+									if (clusternumber[d] < clusternumber[d2])
+										clusternumber[d2] = clusternumber[d];
+									if (clusternumber[d2] < clusternumber[d])
+										clusternumber[d] = clusternumber[d2];
+								}
+							}
+						} */
 					}// end loop over all rr's related to d
 					clusterSum += clusternumber[d];
 				}
