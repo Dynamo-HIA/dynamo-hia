@@ -1001,8 +1001,7 @@ public class InitialPopulationFactory {
 								 * population
 								 */
 								if (parameters.getRiskType() == 2) {
-									if (parameters.getRiskTypeDistribution()
-											.compareToIgnoreCase("normal") == 0)
+									if (scenarioInfo.getIsNormal()[currentscen])
 										riskFactorValue = scenarioInfo
 												.getNewMean()[currentscen][a][g] + scenarioInfo
 												.getNewStd()[currentscen][a][g]

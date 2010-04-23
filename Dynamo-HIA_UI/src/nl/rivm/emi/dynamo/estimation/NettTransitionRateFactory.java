@@ -317,8 +317,8 @@ public class NettTransitionRateFactory {
 
 						nettDrift[0][a - 1][s] = (float) (meanRisk[a][s]
 								- meanNew[a - 1] + trend);
-						if (stdNew[a - 1] != 0) {
-							nettDrift[1][a - 1][s] = (float) (stdRisk[a][s] - stdNew[a - 1]); // old:
+						if (stdRisk[a][s]>stdNew[a - 1]) {
+							nettDrift[1][a - 1][s] = (float) (stdRisk[a][s]* stdRisk[a][s]- stdNew[a - 1]*stdNew[a - 1]); // old:
 							// divided
 							// by
 							// stdNew[a
@@ -329,8 +329,8 @@ public class NettTransitionRateFactory {
 						// 0 anyway
 					} else {
 						nettDrift[0][a - 1][s] = (float) (mu[a][s] - muNew[a - 1]);
-						if (sigmaNew[a - 1] != 0) {
-							nettDrift[1][a - 1][s] = (float) (sigma[a][s] - sigmaNew[a - 1]); // old:
+						if (sigma[a][s]>sigmaNew[a - 1]) {
+							nettDrift[1][a - 1][s] = (float) (sigma[a][s]*sigma[a][s] - sigmaNew[a - 1]*sigmaNew[a - 1]); // old:
 							// divided
 							// by
 							// sigmaNew[a
