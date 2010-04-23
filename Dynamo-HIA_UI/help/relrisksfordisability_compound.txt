@@ -1,7 +1,2 @@
-For the selected compound risk factor, enter the relative risk on disability by age, sex, and risk factor class (either manually or via import).
-
-Files of this format can be created using the "rr for disability compound" worksheet in the "macro/8-Relative risk for riskfactor cat/Relative risk for riskfactor compound.xml" workbook.
- 
-This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases. These are needed to calculate summary measures such das DALE (Disability adjusted life expectancy)
-
-Sources for the relative risk on overall mortality are the scientific literature. 
+Relative risk on disability for a compound risk factor. This is defined by a function where “begin” is the relative risk in the first year and “end” the relative risk in the last year. The value for “alpha” gives the speed at which the relative risk changes with duration of membership. This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases. 
+Import-ready xml-files for this window can be created using the "rr for disability compound" worksheet in the Excel-file "Relative risk for riskfactor compound.xls".

@@ -1,8 +1,5 @@
-For the selected disease, enter DALY-Weights for each sex and age class
+DALY (disability adjusted life years), sometimes called health state valuations, are measures of disease severity. A value of zero means no impairment through disease, a value of 100 means a health state as worse death. To calculate population summary measures,  the prevalence of the disease is multiplied by the entered DALY-weight. 
 
-Files of this format can be created using the "DALY weights for disease" worksheet in the "macro/2-Disease/Disease.xml" workbook.
-
-DALY(disability adjusted life years)-weights are measures of disease severity. A value of 0 means no impairment through disease, a value of 100 means a health state as worse as death. 
- 
+Import-ready xml-files for this window can be created using the "DALY weights for disease" worksheet in the Excel-file "Disease.xls".
 
 

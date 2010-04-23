@@ -1,7 +1,4 @@
-Enter the disease incidence for each sex and age class.
- 
-Files of this format can be created using the "Disease incidence" worksheet in the "macro/2-Disease/Disease.xml" workbook.
-
+Enter the disease incidence for each sex and age class. 
 The incidence rate is defined as the number of new cases per number of (lifetime) first cases per person-year, where the population at risk (denominator) are those still free of the disease
 
-
+Import-ready xml-files for this window can be created using the "Disease incidence" worksheet in the Excel-file "Disease.xls".

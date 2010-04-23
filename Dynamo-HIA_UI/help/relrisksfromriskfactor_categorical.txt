@@ -1,5 +1,2 @@
-For the selected disease, enter relative risk of obtaining the selected disease given the risk factor class by age and sex. 
-
-Files of this format can be created using the "Relative risk for riskfactor_Cat" worksheet in the "macro/6-Relative risk for riskfactor cat/Relative risk for riskfactor cat.xml" workbook.
- 
-The risk of contracting a disease depends on the degree of exposure to a given risk factor. It usually, but not necessarily increases with higher risk factor classes. 
+For the selected disease, enter relative risk of obtaining the selected disease given the risk factor class by age and sex. The risk of contracting a disease depends on the degree of exposure to a given risk factor. The risk factor has to be specified unter "Risk_Factors" before entering them for individual diseases. Other options are continuous and compounding risk factors.
+Import-ready xml-files for this window can be created using the "Rel risk for riskfactor_Cat" worksheet in the Excel-file "Relative risk for riskfactor cat.xls".

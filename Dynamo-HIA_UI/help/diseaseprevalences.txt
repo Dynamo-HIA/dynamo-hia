@@ -1,9 +1,4 @@
-Disease Prevalence
-
-For the selected disease, enter the disease prevalence for each sex and age class. 
-
-Files of this format can be created using the "Disease prevalence (percent)" worksheet in the "macro/2-Disease/Disease.xml" workbook.
-
-The prevalence rate is defined as the percentage of the population in the given age and sex subgroup with the selected disease.
-
+For the selected disease, enter the disease prevalence for each sex and age class.
+The prevalence rate is defined as the percentage (range 0 to 100) of the population in the given age and sex class with the selected disease.
+Import-ready xml-files for this window can be created using the "Disease Prevalence (percent)" worksheet in the Excel-file "Disease.xls".
 

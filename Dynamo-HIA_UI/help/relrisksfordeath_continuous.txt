@@ -1,7 +1,5 @@
-For the selected continuous risk factor, enter the relative risk on total mortality by age and sex (either manually or via import). 
+For the selected continuous risk factor, enter the relative risk on total mortality by age and sex. 
+For continuous risk factors, the increase per unit of risk factor is required. 
+This captures the increased mortality of exposure to a risk factor in general and not just via the included diseases.
+Import-ready xml-files for this window can be created using the "Rel risk for death_Contin" worksheet in the Excel-file "Relative risk for riskfactor continuous.xls". 
 
-Files of this format can be created using the "Rel risk for death_Contin" worksheet in the "macro/7-Relative risk for riskfactor continuous/Relative risk for riskfactor continuous.xml" workbook.
- 
-This captures the increased mortality of exposure to a risk factor in general and not just via the modelled diseases. An example is smoking which not only leads to, say, lung cancer but increase mortality through a number of other diseases which are not specifically modeled. 
-
-Sources for the relative risk on overall mortality are the scientific literature. 

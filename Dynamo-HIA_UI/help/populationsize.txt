@@ -1,7 +1,4 @@
 For the selected population, enter the population size by sex and age class.  
-
-Files of this format can be created using the "Population size(Jan,1)" worksheet in the "macro/1-Population/Population.xml" workbook.
-
 The population size is an absolute number (e.g. the actual number of people, no fractions) for every age and sex category.
-
+Import-ready xml-files for this window can be created using the "Population size (Jan, 1)" worksheet in the Excel-file "Populations.xls".
 

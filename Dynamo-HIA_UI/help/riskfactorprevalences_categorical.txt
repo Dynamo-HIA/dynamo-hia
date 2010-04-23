@@ -1,1 +1,2 @@
-Files of this format can be created using the "Risk factor prevalence_Cat" worksheet in the "macro/5-Risk factor categorical/Riskfactor categorical.xml" workbook.
+Enter here the prevalence for the risk factor by age and in percentage (0-100)
+Import-ready xml-files for this window can be created using the "Risk factor prevalence_Cat" worksheet in the Excel-file "Risk factor categorical.xls". 

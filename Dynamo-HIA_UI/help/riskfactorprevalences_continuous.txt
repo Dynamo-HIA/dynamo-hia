@@ -1,5 +1,3 @@
-For the selected continuous risk factor, the distribution of the prevalence of the risk factor in the population by age can be specifying be entering the mean, standard deviation and skewness of either the normal or log-normal distribution (either manually or via import).
-
-The normal and log-normal distribution are similar in shape, however, the log-normal distribution is only defined for positive values which makes it more appropriate for some risk factors (e.g. BMI). The standard deviation defines the spread of the prevalence around the mean, the skewness defines whether the distribution is symmetric (value of zero) or whether one tail is longer relavitve to the other.  
-
-Files of this format can be created using the "Risk factor prevalence_Contin" worksheet in the "macro/4-Risk factor continuous/Risk factor continuous.xml" workbook.
+For the selected continuous risk factor, the distribution of the prevalence of the risk factor in the population by age can be specifying be entering the mean, standard deviation and skewness of either the normal or log-normal distribution.
+The log-normal distribution is only defined for positive values which makes it more appropriate for some risk factors (e.g. BMI). 
+Import-ready xml-files for this window can be created using the "Risk factor prevalence_Contin" worksheet in the Excel-file "Risk factor Continuous.xls". 

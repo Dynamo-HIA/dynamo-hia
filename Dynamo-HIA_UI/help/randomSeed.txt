@@ -1,0 +1,1 @@
+Enter the random seed for the simulation. Any integer will do. Using the same random seed allows to reproduce a simulation run.

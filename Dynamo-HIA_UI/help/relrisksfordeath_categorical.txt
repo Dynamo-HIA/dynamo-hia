@@ -1,7 +1,2 @@
-For the selected categorical risk factor, enter the relative risk on total mortality for each age, sex, and risk factor class (either manually or via import).
-
-Files of this format can be created using the "Rel risk for death_Cat" worksheet in the "macro/6-Relative risk for riskfactor cat/Relative risk for riskfactor cat.xml" workbook.
- 
-This captures the increased mortality of exposure to a risk factor in general and not just via the modelled diseases. An example is smoking which not only leads to, say, lung cancer but increase mortality through a number of other diseases which are not specifically modeled. 
-
-Sources for the relative risk on overall mortality are the scientific literature. 
+For the selected categorical risk factor, enter the relative risk on total mortality for each age, sex, and risk factor class. This captures the increased mortality of exposure to a risk factor in total and not just via included diseases. An example is alcohol which not only leads to, say, cancer but increase mortality through, say, accidents or diseases that are not explicitly modeled. 
+Import-ready xml-files for this window can be created using the "Rel risk for death_Cat" worksheet in the Excel-file "Relative risk for riskfactor cat.xls".
