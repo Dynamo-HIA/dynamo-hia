@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 import static org.junit.Assert.assertEquals;
 
-public class TestGenerator {
+public class TestGeneratorIteration4 {
 	Log log = LogFactory.getLog(getClass().getName());
 
 	File testNoFile = new File("bzzzt.xml"); // Do not provide this file :-)
@@ -64,16 +64,18 @@ public class TestGenerator {
 			"C:/eclipse321/workspace/CZM/unittestdata/generator_perfect.xml");
 
 	File testFile_OK_huge = new File(
-	"C:/eclipse321/workspace/CZM/unittestdata/generator_hugepop.xml");
+			"C:/eclipse321/workspace/CZM/unittestdata/generator_hugepop.xml");
 
 	File testFile_OK_huge_mersenne = new File(
-	"C:/eclipse321/workspace/CZM/unittestdata/generator_huge_mersenne.xml");
+			"C:/eclipse321/workspace/CZM/unittestdata/generator_huge_mersenne.xml");
 
 	String existingFileName_MultiChar = "C:/eclipse321/workspace/CZM/unittestdata/iteration2/charconf1.xml";
 
-@Before
+	@Before
 	synchronized public void setup() throws ConfigurationException {
-	String multipleCharacteristicsFileName = existingFileName_MultiChar;
+		log.fatal("Current working directory: "
+				+ System.getProperty("user.dir"));
+		String multipleCharacteristicsFileName = existingFileName_MultiChar;
 		System.out.println(multipleCharacteristicsFileName);
 		File multipleCharacteristicsFile = new File(
 				multipleCharacteristicsFileName);
@@ -317,8 +319,7 @@ public class TestGenerator {
 	}
 
 	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.population.test.TestGenerator.class);
+		return new JUnit4TestAdapter(TestGeneratorIteration4.class);
 	}
 
 }
