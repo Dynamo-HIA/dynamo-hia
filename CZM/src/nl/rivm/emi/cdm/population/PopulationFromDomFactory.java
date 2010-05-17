@@ -27,7 +27,7 @@ public class PopulationFromDomFactory extends XMLConfiguredObjectFactory {
 	 * 
 	 * @param node
 	 * @param numberOfSteps
-	 *            TODO
+	 *            
 	 * @param Simulation
 	 *            to put Population into.
 	 * @throws CZMConfigurationException

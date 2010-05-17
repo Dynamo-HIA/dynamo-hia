@@ -11,6 +11,9 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -18,6 +21,8 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.prngutil.RandomConstants;
 
 public class Generator {
+
+	private Log log	= LogFactory.getLog(this.getClass().getSimpleName());
 
 	private String label = null;
 
@@ -78,7 +83,7 @@ public class Generator {
 	/**
 	 * Check whether the Characteristic instance has a minimal set of values.
 	 * 
-	 * @return The this reference when this test is OK, null otherwise. TODO
+	 * @return The this reference when this test is OK, null otherwise. 
 	 *         This test must be kept in sync with the structure of the XML
 	 *         configuration.
 	 * @throws CDMConfigurationException
@@ -149,6 +154,7 @@ public class Generator {
 				writeDocument(output);
 				output.flush();
 				output.close();
+				log.info("XML population written in " + newBornCohort.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
 				throw new CDMConfigurationException(String.format(

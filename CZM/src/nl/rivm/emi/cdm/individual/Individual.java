@@ -29,7 +29,10 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	 */
 	private String elementName;
 
-	private String label = "Not initialized.";
+	/**
+	 * 
+	 */
+	private String name = "Not initialized.";
 
 	public static final String xmlElementName = "ind";
 
@@ -44,22 +47,22 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	}
 
 	
-		public Individual(String elementName, String label, boolean isNewborn, int generation2) {
+		public Individual(String elementName, String name, boolean isNewborn, int generation2) {
 			super();
 			this.elementName = elementName;
-			this.label = label;
+			this.name = name;
 			
 		}	
 	
 	
-	public void setLabel(String label) {
-			this.label = label;
+	public void setLabel(String name) {
+			this.name = name;
 		}
 
-	public Individual(String elementName, String label) {
+	public Individual(String elementName, String name) {
 		super();
 		this.elementName = elementName;
-		this.label = label;
+		this.name = name;
 	}
 
 	public String getElementName() {
@@ -226,15 +229,12 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 	}
 
 	public String getLabel() {
-		return label;
+		return name;
 	}
 
 	public Iterator<CharacteristicValueBase> iterator() {
 		return new CharacteristicValueIterator();
 	}
-
-	
-
 
 	class CharacteristicValueIterator implements
 			Iterator<CharacteristicValueBase> {

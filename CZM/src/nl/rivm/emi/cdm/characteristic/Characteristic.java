@@ -161,7 +161,7 @@ public class Characteristic {
 	/**
 	 * Check whether the Characteristic instance has a minimal set of values.
 	 * 
-	 * @return The this reference when this test is OK, null otherwise. TODO
+	 * @return The this reference when this test is OK, null otherwise.
 	 *         This test must be kept in sync with the structure of the XML
 	 *         configuration.
 	 */

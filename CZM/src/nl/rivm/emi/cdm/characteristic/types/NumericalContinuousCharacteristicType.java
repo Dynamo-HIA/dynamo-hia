@@ -6,6 +6,10 @@ package nl.rivm.emi.cdm.characteristic.types;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStringParser;
+import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
+
 public class NumericalContinuousCharacteristicType extends
 		AbstractContinuousCharacteristicType {
 
@@ -33,16 +37,16 @@ public class NumericalContinuousCharacteristicType extends
 		}
 		return match;
 	}
-	
+
 	@Override
 	public boolean setLimits(Float lowerLimit, Float upperLimit) {
-		if(lowerLimit != null){
-		this.lowerLimit = ((Float) lowerLimit).floatValue();
+		if (lowerLimit != null) {
+			this.lowerLimit = ((Float) lowerLimit).floatValue();
 		} else {
 			lowerLimit = Float.MIN_VALUE;
 		}
-		if(upperLimit != null){
-		this.upperLimit = ((Float) upperLimit).floatValue();
+		if (upperLimit != null) {
+			this.upperLimit = ((Float) upperLimit).floatValue();
 		} else {
 			upperLimit = Float.MAX_VALUE;
 		}
@@ -53,8 +57,17 @@ public class NumericalContinuousCharacteristicType extends
 	public String humanReadableReport() {
 		StringBuffer resultBuffer = new StringBuffer();
 		resultBuffer.append("Typelabel: " + myTypeLabel + "\n");
-		resultBuffer.append("Lower limit: " + lowerLimit +  "\n");
-		resultBuffer.append("Upper limit: " + upperLimit +  "\n");
+		resultBuffer.append("Lower limit: " + lowerLimit + "\n");
+		resultBuffer.append("Upper limit: " + upperLimit + "\n");
 		return resultBuffer.toString();
+	}
+
+	@Override
+	public Object convertFromString(String valueAsString,
+			int indexInConfiguration) {
+		Float value = CharacteristicValueStringParser
+				.parseStringToFloat(valueAsString);
+		FloatCharacteristicValue charValue = new FloatCharacteristicValue(1, indexInConfiguration,value);
+		return charValue;
 	}
 }

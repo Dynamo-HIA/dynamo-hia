@@ -37,39 +37,49 @@ import static org.junit.Assert.assertEquals;
 public class TestGeneratorIteration4 {
 	Log log = LogFactory.getLog(getClass().getName());
 
+	String projectBaseDir = System.getProperty("user.dir");
+
 	File testNoFile = new File("bzzzt.xml"); // Do not provide this file :-)
 
-	File testFileNoLabel = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornolabel.xml");
+	File testFileNoLabel = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generatornolabel.xml");
 
-	File testFileNoPopulationSize = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornopopulationsize.xml");
+	File testFileNoPopulationSize = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generatornopopulationsize.xml");
 
-	File testFileNoRngClassName = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornorngclassname.xml");
+	File testFileNoRngClassName = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generatornorngclassname.xml");
 
-	File testFileNoRngSeed = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornorngseed.xml");
+	File testFileNoRngSeed = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generatornorngseed.xml");
 
-	File testFileNoCharacteristics = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornocharacteristics.xml");
+	File testFileNoCharacteristics = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator
+			+ "generatornocharacteristics.xml");
 
-	File testFileNoCharacteristicId = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatornocharacteristicid.xml");
+	File testFileNoCharacteristicId = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator
+			+ "generatornocharacteristicid.xml");
 
-	File testFileInvalidRNGClassName = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generatorinvalidrngclassname.xml");
+	File testFileInvalidRNGClassName = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator
+			+ "generatorinvalidrngclassname.xml");
 
-	File testFile_OK = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generator_perfect.xml");
+	File testFile_OK = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generator_perfect.xml");
 
-	File testFile_OK_huge = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generator_hugepop.xml");
+	File testFile_OK_huge = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generator_hugepop.xml");
 
-	File testFile_OK_huge_mersenne = new File(
-			"C:/eclipse321/workspace/CZM/unittestdata/generator_huge_mersenne.xml");
+	File testFile_OK_huge_mersenne = new File(projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "generator_huge_mersenne.xml");
 
-	String existingFileName_MultiChar = "C:/eclipse321/workspace/CZM/unittestdata/iteration2/charconf1.xml";
+	String generatorConfigurationFileName_MultiChar = projectBaseDir
+			+ File.separator + "unittestdata" + File.separator
+			+ "generatorconfig_3chars.xml";
+
+	String existingFileName_MultiChar = projectBaseDir + File.separator
+			+ "unittestdata" + File.separator + "characteristics_1.xml";
 
 	@Before
 	synchronized public void setup() throws ConfigurationException {
@@ -307,6 +317,34 @@ public class TestGeneratorIteration4 {
 			log.fatal("Generating 100k population with MersenneTwisterRNG.");
 			generator.generateNewborns();
 			log.fatal("100k population ready with MersenneTwisterRNG.");
+		} catch (CDMConfigurationException e) {
+			log.warn(e.getMessage());
+			assertNull(e); // Force error.
+		} catch (ConfigurationException e1) {
+			assertNull(e1); // Force error.
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertNull(e); // Force error.
+		}
+	}
+
+	@Test
+	public void genMultiChar() {
+		XMLConfiguration configuration;
+		try {
+			String multipleCharacteristicsFileName = generatorConfigurationFileName_MultiChar;
+			System.out.println(multipleCharacteristicsFileName);
+			File multipleCharacteristicsFile = new File(
+					multipleCharacteristicsFileName);
+			configuration = new XMLConfiguration(multipleCharacteristicsFile);
+			Generator generator = GeneratorFromXMLFactory
+					.manufacture(configuration);
+			assertNotNull(generator);
+			assertNotNull(generator.isValid());
+			log
+					.fatal("Generating 10k population with MersenneTwisterRNG and multiple characteristics");
+			generator.generateNewborns();
+			log.fatal("Population ready.");
 		} catch (CDMConfigurationException e) {
 			log.warn(e.getMessage());
 			assertNull(e); // Force error.

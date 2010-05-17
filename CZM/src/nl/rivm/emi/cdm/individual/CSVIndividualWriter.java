@@ -7,7 +7,7 @@ import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.population.CSVPopulationWriter;
+import nl.rivm.emi.cdm.csv.file.population.CSVPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -31,4 +31,7 @@ abstract public class AbstractCharacteristicType {
 	abstract public boolean isCompoundType();
 
 	abstract public String humanReadableReport();
+
+	abstract public Object convertFromString(String valueAsString,
+			int indexInConfiguration);
 }

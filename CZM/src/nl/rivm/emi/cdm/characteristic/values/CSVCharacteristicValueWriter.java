@@ -1,13 +1,13 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
-import nl.rivm.emi.cdm.population.CSVPopulationWriter;
+import nl.rivm.emi.cdm.csv.file.population.CSVPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class CSVCharacteristicValueWriter {
 	static Log log = LogFactory
-			.getLog("nl.rivm.emi.cdm.characteristic.CharacteristicWriter");
+			.getLog("nl.rivm.emi.cdm.characteristic.values.CSVCharacteristicValueWriter");
 
 	public static String generateString(
 			IntCharacteristicValue characteristicValue, int stepNumber) {

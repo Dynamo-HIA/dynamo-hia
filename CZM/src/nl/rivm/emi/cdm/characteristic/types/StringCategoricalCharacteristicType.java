@@ -2,6 +2,9 @@ package nl.rivm.emi.cdm.characteristic.types;
 
 import java.util.ArrayList;
 
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStringParser;
+import nl.rivm.emi.cdm.characteristic.values.StringCharacteristicValue;
+
 public class StringCategoricalCharacteristicType extends
 		AbstractCategoricalCharacteristicType {
 	static final String myTypeLabel = "categorical";
@@ -53,5 +56,13 @@ public class StringCategoricalCharacteristicType extends
 					+ " value " + possibleValues.get(count) + "\n");
 		}
 		return resultBuffer.toString();
+	}
+
+	@Override
+	public Object convertFromString(String valueAsString,
+			int indexInConfiguration) {
+		StringCharacteristicValue stringCV = new StringCharacteristicValue(1,
+				indexInConfiguration, valueAsString);
+		return stringCV;
 	}
 }

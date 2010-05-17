@@ -13,7 +13,7 @@ public class CopyOfCDMConfigurationException extends ConfigurationException {
 
 	static public final String wrongClassMessage = "Class of type SubnodeConfiguration expected at this point.";
 
-	// TODO: 6-2-2009 Determine merge of this class attribute
+	// 6-2-2009 Determine merge of this class attribute
 	//public static final String noConfigurationTagMessage = "Configuration doesn't contain the tag searched.";
 	/* Characteristic */
 	static public final String noFileMessage = "Configuration file missing or cannot be read: ";
@@ -26,7 +26,7 @@ public class CopyOfCDMConfigurationException extends ConfigurationException {
 
 	static public final String noCharacteristicLabelMessage = "No label for Characteristic found in configuration: ";
 
-	// TODO: 6-2-2009 Determine merge of this class attribute
+	// 6-2-2009 Determine merge of this class attribute
 	//public static final String noUpdateCharIDMessage = "No message in CDMConfigurationException.noUpdateCharIDMessage";
 	
 	/* added by hendriek */
@@ -98,7 +98,7 @@ public class CopyOfCDMConfigurationException extends ConfigurationException {
 
 	public static final String invalidUpdateRuleConfigurationFileFormatMessage = "Invalid configuration file %1$s for UpdateRule %2$s.";
 
-	// TODO: 6-2-2009 Determine merge of this class attribute
+	// 6-2-2009 Determine merge of this class attribute
 	//public static final String noUpdateTransitionMatrixFileNameMessage = "No message for CDMConfigurationException.noUpdateTransitionMatrixFileNameMessage yet.";
 
 	static public final String noUpdateCharIDMessage = "No CharID found in configurationfile for update rule: ";

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStringParser;
+import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
+
 public class IntegerCategoricalCharacteristicType extends
 		AbstractCategoricalCharacteristicType {
 
@@ -75,5 +78,15 @@ public class IntegerCategoricalCharacteristicType extends
 
 	public ArrayList<Integer> getPossibleValues() {
 		return possibleValues;
+	}
+
+	@Override
+	public Object convertFromString(String valueAsString,
+			int indexInConfiguration) {
+		Integer integerValue = CharacteristicValueStringParser
+				.parseStringToInteger(valueAsString);
+		IntCharacteristicValue intCharVal = new IntCharacteristicValue(1,
+				indexInConfiguration, integerValue);
+		return intCharVal;
 	}
 }

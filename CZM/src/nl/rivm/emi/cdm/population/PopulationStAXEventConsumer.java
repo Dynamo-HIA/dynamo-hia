@@ -58,7 +58,6 @@ public class PopulationStAXEventConsumer extends
 	 * @param reader
 	 * @param elementName
 	 * @param mother
-	 *            TODO
 	 * @return
 	 * @throws XMLStreamException
 	 * @throws UnexpectedFileStructureException

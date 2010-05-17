@@ -60,6 +60,13 @@ public class CompoundCharacteristicType  extends
 			resultBuffer.append("Upper limit: " + upperLimit +  "\n");
 			return resultBuffer.toString();
 		}
+
+		@Override
+		public Object convertFromString(String valueAsString,
+				int indexInConfiguration) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 

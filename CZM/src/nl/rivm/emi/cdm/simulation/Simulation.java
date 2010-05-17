@@ -113,7 +113,7 @@ public class Simulation extends DomLevelTraverser {
 	 * 
 	 * @param label
 	 * @param stepsInRun
-	 *            TODO
+	 *            
 	 */
 	public Simulation(String label, int stepsInRun) {
 		super();

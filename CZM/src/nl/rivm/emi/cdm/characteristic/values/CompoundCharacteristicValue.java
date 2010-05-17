@@ -202,28 +202,4 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 		
 		return rijtje[numberFilled-1][nElementFilled-1];
 	}
-
-	
-	
-/* this seems obsolete (could not find any references to it, so no version made for this new class 
- * 
- */
-	/*
-	public boolean appendDiseaseValue(String stringValue) throws CDMRunException {
-		String floatRegex = "^\\d++\\.?\\d*$";
-		Pattern pattern = Pattern.compile(floatRegex);
-		Matcher matcher = pattern.matcher(stringValue);
-		boolean success = matcher.matches();
-		try {
-			if (success) {
-				float numberToSet = Float.parseFloat(stringValue);
-				appendValue(numberToSet);
-			}
-			return success;
-			// The Regex should prevent this from happening.
-		} catch (NumberFormatException e) {
-			success = false;
-			return success;
-		}
-	} */
 }
