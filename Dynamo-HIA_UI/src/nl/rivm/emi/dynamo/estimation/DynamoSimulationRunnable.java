@@ -50,6 +50,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	String simName;
 	String baseDir;
 	private boolean runInOne = true;
+
+	/**
+	 * Flag added to allow the production of population files.
+	 */
+	private boolean writePopulations = false;
 	/*
 	 * model parameter is an object containing the parameters of the model and
 	 * the initial population. The parameters are written to XML files that are
@@ -93,6 +98,24 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			errorMessage = "model can not be run due to configuration errors";
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Extra constructor to enable the writing of populations.
+	 * 
+	 * @param prObject
+	 *            : object containing the logger to which messages are printed
+	 * @param simName
+	 *            : simulation name
+	 * @param baseDir
+	 *            : base directory
+	 * @throws DynamoInconsistentDataException
+	 */
+	public DynamoSimulationRunnable(DynSimRunPRInterface prObject,
+			String simName, String baseDir, boolean writePopulations)
+			throws DynamoInconsistentDataException {
+		this(prObject, simName, baseDir);
+		this.writePopulations = writePopulations;
 	}
 
 	/*
@@ -267,16 +290,17 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			output.makeArraysWithPopulationNumbers();
 			log.info("output object finalized");
-			// log.fatal("Starting to write populations");
-			// for (int npop = 0; npop < nPopulations; npop++) {
-			// String iniPopFileName = directoryName + File.separator
-			// + "modelconfiguration" + File.separator + "initialPop_"
-			// + npop;
-			// CSVPopulationWriter.writePopulation(iniPopFileName, pop[npop],
-			// 0);
-			// log.fatal("Written population #" + npop);
-			// }
-
+			if (writePopulations) {
+				log.fatal("Starting to write populations");
+				for (int npop = 0; npop < /* nPopulations */pop.length; npop++) {
+					String iniPopFileName = directoryName + File.separator
+							+ "modelconfiguration" + File.separator
+							+ "initialPop_" + npop;
+					CSVPopulationWriter.writePopulation(iniPopFileName,
+							pop[npop], 0);
+					log.fatal("Written population #" + npop);
+				}
+			}
 			/* display the output */
 
 			ScenarioParameters scenParms = null;
