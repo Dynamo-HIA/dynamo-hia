@@ -44,7 +44,7 @@ public void test() {
 		// y1 730.55 0.10 -0.10 0.90 ...
 		Simplx result= new Simplx(augmented,4,4,2,1,1);
 		/* m,n,m1,m2,m3 */
-		float [][]augmented = {{0,2,-4},{2,-6,1},{8,3,-4}};
+		double[][]augmented = {{0,2,-4},{2,-6,1},{8,3,-4}};
 		// outcome should be x1=0 x2=3.33 x4=4.73 en x4=0.95 */
 		
 		Simplx result= new Simplx(augmented,2,2,0,0,2);
@@ -69,7 +69,7 @@ public void test() {
 		float [] pnew={0.7189476F, 0.2255193F, 0.05553312F} ;
 		float [] hulp = new float[3];
 		
-		float[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},
+		double[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},
 		                       {poud[0], -1, -1, -1,  0,  0,  0,  0,  0,  0},
 		                       {poud[1],  0,  0,  0, -1, -1, -1,  0,  0,  0},
 		                       {poud[2],  0,  0,  0,  0,  0,  0, -1, -1, -1},

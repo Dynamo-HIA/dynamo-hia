@@ -21,11 +21,11 @@ public class Simplx {
 	//of a. These variables are all zero in the solution. The meaning ofi > N is the same
 	//as above, except that i >N +m1 +m2 denotes an artificial or slack variable which
 	//was used only internally and should now be entirely ignored.
-	float[][] a;
+	double[][] a;
 // er zit een goto in die anders moet worden georganiseerd. */
 	
 	
-	public Simplx(float[][]ainput,int m, int n, int m1, int m2, int m3) {
+	public Simplx(double[][]ainput,int m, int n, int m1, int m2, int m3) {
 
 		// Here EPS is the absolute precision, which should be adjusted to the
 		// scale of your variables.
@@ -52,7 +52,7 @@ public class Simplx {
 		 */
 		
 		
-		double EPS = 1.0e-6;
+		double EPS = 1.0e-8;
 		int i = 0;
 		int ir = 0;
 		int is = 0;
@@ -68,14 +68,14 @@ public class Simplx {
 		 * This input occupies the M + 1 rows and N + 1 columns of a[1..m+1][1..n+1].
 		 * Note, however, that reference is made internally to row M + 2 of a 
 		 * (used for the auxiliary objective function, just as in 10.8.18). */
-		a=new float[m+3][n+2];
+		a=new double[m+3][n+2];
 		for (int ii=1;ii<=m+1;ii++) for (int jj=1;jj<=n+1;jj++)
 		a[ii][jj]=ainput[ii-1][jj-1];
 			
 		
 		boolean goto_one = false; // this is an added flag needed in stead of a goto-statement;
-		float q1 = 0;
-		float bmax = 0;
+		double q1 = 0;
+		double bmax = 0;
 		if (m != (m1 + m2 + m3))
 			System.out.println("Bad input constraint counts in simplx");
 		int[] l1 = new int[n + 2];
@@ -222,7 +222,7 @@ public class Simplx {
 
 	// The preceding routine makes use of the following utility functions.
 	// #include <math.h>;
-	float simp1(float[][] a, int mm, int ll[], int nll, int iabf)
+	double simp1(double[][] a, int mm, int ll[], int nll, int iabf)
 	// Determines the maximum of those elements whose index is contained in the
 	// supplied list ll,
 	// either with or without taking the absolute value, as flagged by iabf.
@@ -233,8 +233,8 @@ public class Simplx {
 		
 		
 		int k;
-		float test;
-		float bmax;
+		double test;
+		double bmax;
 		this.kp = ll[1]; /* kijken of dit goed gaat met pointers */
 		bmax = a[mm + 1][this.kp + 1];
 		for (k = 2; k <= nll; k++) {
@@ -249,7 +249,7 @@ public class Simplx {
 		} return bmax;
 	}
 
-	float simp2(float[][] a, int n, int l2[],int kp, int nl2,  float q1)
+	double simp2(double[][] a, int n, int l2[],int kp, int nl2,  double q1)
 	// Locate a pivot element, taking degeneracy into account.
 	
 	// return variables are ip and q1
@@ -260,9 +260,9 @@ public class Simplx {
 		int k;
 		int ii;
 		int i;
-		float qp = 0;
-		float q0 = 0;
-		float q;
+		double qp = 0;
+		double q0 = 0;
+		double q;
 		this.ip=0;
 		for (i = 1; i <= nl2; i++)
 			if (a[l2[i] + 1][kp + 1] < -EPS)
@@ -292,12 +292,12 @@ public class Simplx {
 		} return q1 ;
 	}
 
-	float [][] simp3(float[][] a, int i1, int k1, int ip, int kp)
+	double [][] simp3(double[][] a, int i1, int k1, int ip, int kp)
 	// Matrix operations to exchange a left-hand and right-hand variable (see
 	// text).
 	{
 		int kk, ii;
-		float piv;
+		double piv;
 		piv = 1.0f / a[ip + 1][kp + 1];
 		for (ii = 1; ii <= i1 + 1; ii++)
 			if (ii - 1 != ip) {
@@ -339,7 +339,7 @@ public class Simplx {
 		// y1 730.55 0.10 -0.10 0.90 ...
 		Simplx result= new Simplx(augmented,4,4,2,1,1);
 		/* m,n,m1,m2,m3 */
-		float [][]augmented = {{0,2,-4},{2,-6,1},{8,3,-4}};
+		double [][]augmented = {{0,2,-4},{2,-6,1},{8,3,-4}};
 		// outcome should be x1=0 x2=3.33 x4=4.73 en x4=0.95 */
 		
 		Simplx result= new Simplx(augmented,2,2,0,0,2);
@@ -360,11 +360,11 @@ public class Simplx {
 		/* test transitiekansen 
 		a = [0.7304662, 0.2169622, 0.05257154]
 				b = [0.7189476, 0.2255193, 0.05553312] */
-		float [] poud={0.7304662F, 0.2169622F, 0.05257154F} ;
-		float [] pnew={0.7189476F, 0.2255193F, 0.05553312F} ;
-		float [] hulp = new float[3];
+		double [] poud={0.7304662F, 0.2169622F, 0.05257154F} ;
+		double [] pnew={0.7189476F, 0.2255193F, 0.05553312F} ;
+		double [] hulp = new double[3];
 		
-		float[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},
+		double[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},
 		                       {poud[0], -1, -1, -1,  0,  0,  0,  0,  0,  0},
 		                       {poud[1],  0,  0,  0, -1, -1, -1,  0,  0,  0},
 		                       {poud[2],  0,  0,  0,  0,  0,  0, -1, -1, -1},
@@ -382,7 +382,7 @@ public class Simplx {
 			+	" 5 " + result2.a[6][1]+" 6 " + result2.a[7][1] ); 	
 }
 
-	public float[][] getA() {
+	public double[][] getA() {
 		return a;
 	}
 

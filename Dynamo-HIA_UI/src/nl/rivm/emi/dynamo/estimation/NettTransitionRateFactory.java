@@ -317,8 +317,8 @@ public class NettTransitionRateFactory {
 
 						nettDrift[0][a - 1][s] = (float) (meanRisk[a][s]
 								- meanNew[a - 1] + trend);
-						if (stdRisk[a][s]>stdNew[a - 1]) {
-							nettDrift[1][a - 1][s] = (float) (stdRisk[a][s]* stdRisk[a][s]- stdNew[a - 1]*stdNew[a - 1]); // old:
+						if (stdRisk[a][s]>stdNew[a - 1] ) {
+							nettDrift[1][a - 1][s] = (float)Math.sqrt (stdRisk[a][s]*stdRisk[a][s] - stdNew[a - 1]*stdNew[a - 1]); // old:
 							// divided
 							// by
 							// stdNew[a
@@ -329,8 +329,8 @@ public class NettTransitionRateFactory {
 						// 0 anyway
 					} else {
 						nettDrift[0][a - 1][s] = (float) (mu[a][s] - muNew[a - 1]);
-						if (sigma[a][s]>sigmaNew[a - 1]) {
-							nettDrift[1][a - 1][s] = (float) (sigma[a][s]*sigma[a][s] - sigmaNew[a - 1]*sigmaNew[a - 1]); // old:
+						if (sigma[a][s]>sigmaNew[a - 1] ) {
+							nettDrift[1][a - 1][s] = (float)Math.sqrt (sigma[a][s]*sigma[a][s] - sigmaNew[a - 1]*sigmaNew[a - 1]); // old:
 							// divided
 							// by
 							// sigmaNew[a
@@ -498,7 +498,7 @@ public class NettTransitionRateFactory {
 		// first make a copy in the long way, otherwise despite being private
 		// etc.
 		// the value of riskPrev in INPUT data changes
-		float[] oldPrev = new float[nCat];
+		double[] oldPrev = new double[nCat];
 		for (int i = 0; i < nCat; i++) {
 			oldPrev[i] = oldPrevOriginal[i];
 		}
@@ -508,7 +508,7 @@ public class NettTransitionRateFactory {
 			survtot += Math.exp(-baselineMort * RR[i]) * oldPrev[i];
 		}
 		for (int i = 0; i < nCat; i++) {
-			oldPrev[i] = (float) (Math.exp(-baselineMort * RR[i]) * oldPrev[i] / survtot);
+			oldPrev[i] = Math.exp(-baselineMort * RR[i]) * oldPrev[i] / survtot;
 		}
 
 		int numEq = 2 * nCat + 1; // numEq=number of equations
@@ -523,7 +523,7 @@ public class NettTransitionRateFactory {
 		// all transitions from
 		// a category should sum to 1
 
-		float[][] table = new float[numEq][numVar + 1]; // linear table to solve
+		double[][] table = new double[numEq][numVar + 1]; // linear table to solve
 		// see numberical recipes 18.10
 
 		// first make the first row of the table (function to maximize)
@@ -551,7 +551,7 @@ public class NettTransitionRateFactory {
 
 				}
 			;
-			table[ieq][0] = (float) oldPrev[ieq - 1]; // zou ook -1 kunnen
+			table[ieq][0] =  oldPrev[ieq - 1]; // zou ook -1 kunnen
 			// zijn
 
 		}
@@ -570,11 +570,11 @@ public class NettTransitionRateFactory {
 
 				}
 			;
-			table[ieq][0] = (float) newPrev[ieq - nCat - 1];
+			table[ieq][0] =  newPrev[ieq - nCat - 1];
 
 		}
 
-		float[][] oldtable = table;
+		double[][] oldtable = table;
 		Simplx result = new Simplx(table, 2 * nCat, numVar, 0, 0, 2 * nCat);
 
 		// Extract transitionrates
@@ -584,10 +584,17 @@ public class NettTransitionRateFactory {
 				int variableNum = (i) * nCat + j + 1;
 				for (int k = 1; k <= 2 * nCat; k++)
 					if (result.iposv[k] == variableNum) {
-						transitionRates[i][j] = result.a[k + 1][1] / oldPrev[i];
+						transitionRates[i][j] = (float) (result.a[k + 1][1] / oldPrev[i]);
+						
 						// K+1 WANT RIJ 1 BEVAT KOSTEN
 					}
-				;
+				/*  in case the old prevalence is zero, there are no
+				 * data to calculate nett transitions from
+				 * Therefore in this case we use zero transitions for this category */
+				
+				if (oldPrev[i]==0 && i!=j)transitionRates[i][j] = 0 ;
+				if (oldPrev[i]==0 && i==j)transitionRates[i][j] = 1 ;
+				
 			}
 		return transitionRates;
 
