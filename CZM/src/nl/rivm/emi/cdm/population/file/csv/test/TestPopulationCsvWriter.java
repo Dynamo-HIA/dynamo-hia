@@ -51,7 +51,7 @@ public class TestPopulationCsvWriter {
 					+ "populationfilecorrectheadersoneind.csv");
 			boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 			assertTrue(result);
-			population = reader.readPopulation(null);
+			population = reader.readPopulation(30);
 			assertNotNull(population);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();

@@ -87,7 +87,7 @@ public class TestPopulationCsvReader {
 				+ "populationfilecorrectheaders.csv");
 		boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 		assertTrue(result);
-		Population population = reader.readPopulation(null);
+		Population population = reader.readPopulation(30);
 		// Empty configuration should not produce a population.
 		assertNull(population);
 	}
@@ -99,7 +99,7 @@ public class TestPopulationCsvReader {
 				+ "populationfilecorrectheadersoneind.csv");
 		boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 		assertTrue(result);
-		Population population = reader.readPopulation(null);
+		Population population = reader.readPopulation(30);
 		// Empty configuration should not produce a population.
 		assertNotNull(population);
 	}
