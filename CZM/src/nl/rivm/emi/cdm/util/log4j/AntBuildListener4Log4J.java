@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.log4j.appender;
+package nl.rivm.emi.cdm.util.log4j;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

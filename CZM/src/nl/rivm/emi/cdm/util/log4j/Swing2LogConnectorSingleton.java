@@ -1,9 +1,9 @@
-package nl.rivm.emi.cdm.log4j.appender;
+package nl.rivm.emi.cdm.util.log4j;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import nl.rivm.emi.cdm.log4j.appender.SwingAppender.SwingLogOutputStream;
+import nl.rivm.emi.cdm.util.log4j.SwingAppender.SwingLogOutputStream;
 
 public class Swing2LogConnectorSingleton {
 	/**

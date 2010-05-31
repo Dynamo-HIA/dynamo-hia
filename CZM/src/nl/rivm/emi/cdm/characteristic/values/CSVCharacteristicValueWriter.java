@@ -1,6 +1,6 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
-import nl.rivm.emi.cdm.csv.file.population.CSVPopulationWriter;
+import nl.rivm.emi.cdm.population.file.csv.CSVPopulationWriter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

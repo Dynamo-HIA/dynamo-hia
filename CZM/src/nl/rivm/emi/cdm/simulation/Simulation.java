@@ -1,21 +1,14 @@
 package nl.rivm.emi.cdm.simulation;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
-
 import nl.rivm.emi.cdm.DomLevelTraverser;
-import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
@@ -28,13 +21,14 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
+import nl.rivm.emi.cdm.population.file.csv.PopulationCsvReader;
 import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
-
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
+import nl.rivm.emi.cdm.ui.SetProgressInterface;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -45,7 +39,7 @@ public class Simulation extends DomLevelTraverser {
 
 	private static final long serialVersionUID = 6377558357121377722L;
 
-	private Log log = LogFactory.getLog(getClass().getName());
+	private Log log = LogFactory.getLog(getClass().getSimpleName());
 
 	/**
 	 * Label of this Simulation.
@@ -84,6 +78,15 @@ public class Simulation extends DomLevelTraverser {
 	private Population population = null;
 
 	/**
+	 * Local field for progress indication.
+	 */
+	private double totalSteps = 0;
+	/**
+	 * Percentage change at which the progressbar must be updated.
+	 */
+	private int progressPercentageStep = 20;
+
+	/**
 	 * Configured updaterules.
 	 */
 	private UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
@@ -113,7 +116,7 @@ public class Simulation extends DomLevelTraverser {
 	 * 
 	 * @param label
 	 * @param stepsInRun
-	 *            
+	 * 
 	 */
 	public Simulation(String label, int stepsInRun) {
 		super();
@@ -323,6 +326,7 @@ public class Simulation extends DomLevelTraverser {
 		}
 	}
 
+
 	public void setPopulation(Population population) {
 		this.population = population;
 	}
@@ -393,28 +397,6 @@ public class Simulation extends DomLevelTraverser {
 
 	}
 
-	/*
-	 * added by Hendriek : also run the newborns: not used as other solution is
-	 * choosen
-	 */
-
-	/*
-	 * public void runNewborns() throws CDMRunException {
-	 * 
-	 * // TODO newborns: make work for stepSize not equal to 1;
-	 * 
-	 * int numberOfGenerations = (int) Math.floor(stepsInRun stepSize); for (int
-	 * nGeneration = 1; nGeneration < numberOfGenerations; nGeneration++) {
-	 * Iterator<Individual> individualIterator = newBorns[nGeneration]
-	 * .iterator(); while (individualIterator.hasNext()) { Individual individual
-	 * = individualIterator.next();
-	 * log.debug("Longitudinal: Processing individual " +
-	 * individual.getLabel()); for (int stepCount = 0; stepCount < stepsInRun -
-	 * nGeneration stepSize; stepCount++) { processCharVals(individual); } } }
-	 * 
-	 * } / end added by Hendriek
-	 */
-
 	private void runTransversal() throws CDMRunException {
 		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
 			Iterator<Individual> individualIterator = population.iterator();
@@ -423,6 +405,69 @@ public class Simulation extends DomLevelTraverser {
 				log.debug("Transversal: Processing individual "
 						+ individual.getLabel());
 				processCharVals(individual);
+			}
+		}
+	}
+
+	public void run(SetProgressInterface progressCallBack, int progressPercentageStep)
+			throws CDMRunException {
+		log.debug("one");
+		this.progressPercentageStep = progressPercentageStep;
+		log.debug("two " + population);
+		double numIndividuals = population.size();
+		log.debug("three");
+		totalSteps = numIndividuals * stepsInRun;
+		log.debug("four");
+		if (RunModes.LONGITUDINAL.equalsIgnoreCase(runMode)) {
+			log.debug("five");
+			runLongitudinal(progressCallBack);
+		} else {
+			if (RunModes.TRANSVERSAL.equalsIgnoreCase(runMode)) {
+				log.debug("six");
+				runTransversal(progressCallBack);
+			} else {
+				throw new CDMRunException("Illegal runmode: " + runMode);
+			}
+		}
+	}
+
+	private void runLongitudinal(SetProgressInterface progressCallBack)
+			throws CDMRunException {
+		double numIndividuals = population.size();
+		double progressStep = numIndividuals * progressPercentageStep / 100 ;
+		double individualCount = 0;
+		Iterator<Individual> individualIterator = population.iterator();
+		while (individualIterator.hasNext()) {
+			Individual individual = individualIterator.next();
+			log.debug("Longitudinal: Processing individual "
+					+ individual.getLabel());
+			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
+				processCharVals(individual);
+
+			}
+			individualCount++;
+			if (individualCount % progressStep == 0) {
+				progressCallBack
+						.setMyProgress((int) (individualCount / numIndividuals) * 100);
+			}
+		}
+
+	}
+
+	private void runTransversal(SetProgressInterface progressCallBack)
+			throws CDMRunException {
+		int progressStep = stepsInRun * progressPercentageStep / 100 ;
+		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
+			Iterator<Individual> individualIterator = population.iterator();
+			while (individualIterator.hasNext()) {
+				Individual individual = individualIterator.next();
+				log.debug("Transversal: Processing individual "
+						+ individual.getLabel());
+				processCharVals(individual);
+			}
+			if (stepCount % progressStep == 0) {
+				progressCallBack
+						.setMyProgress((int) (stepCount / stepsInRun) * 100);
 			}
 		}
 	}
@@ -673,15 +718,19 @@ public class Simulation extends DomLevelTraverser {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
 								if (charValBase != null) {/*
-									 * changed by Hendriek in order to make the
-									 * current values equal to the not yet updated
-									 * values
-									 */
+														 * changed by Hendriek
+														 * in order to make the
+														 * current values equal
+														 * to the not yet
+														 * updated values
+														 */
 									Object currValue;
 									if (count < charValIndex)
-										currValue = charValBase.getPreviousValue();
+										currValue = charValBase
+												.getPreviousValue();
 									else
-										currValue = charValBase.getCurrentValue();
+										currValue = charValBase
+												.getCurrentValue();
 									charVals[count] = currValue;
 								} else {
 									charVals[count] = null;
@@ -773,7 +822,7 @@ public class Simulation extends DomLevelTraverser {
 							CharacteristicValueBase charValBase = individual
 									.get(count);
 							if (charValBase != null) {
-								
+
 								Object currValue;
 								if (count < charValIndex)
 									currValue = charValBase.getPreviousValue();
@@ -794,8 +843,7 @@ public class Simulation extends DomLevelTraverser {
 							log.debug("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
-									+ oldValue[0] 
-									+ " to " + newValue[0] );
+									+ oldValue[0] + " to " + newValue[0]);
 							keep = true;
 						} else {
 							throw new CDMRunException(
@@ -821,7 +869,7 @@ public class Simulation extends DomLevelTraverser {
 
 	public void setCharacteristics(
 			CharacteristicsConfigurationMapSingleton characteristics) {
-		characteristics = characteristics;
+		this.characteristics = characteristics;
 	}
 
 	public void setTimeStep(float stepSize) {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<newborngenerator>
+   <lb>babygen_1</lb>
+   <populationsize>1000</populationsize>
+   <rngclassname>nl.rivm.emi.cdm.prngcollection.MersenneTwister</rngclassname>
+   <rngseed>1</rngseed>
+   <characteristics>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+   </characteristics>
+</newborngenerator>

@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.csv.file.population.test;
+package nl.rivm.emi.cdm.population.file.csv.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,8 +10,8 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.csv.file.population.PopulationCsvReader;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.file.csv.PopulationCsvReader;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -87,7 +87,7 @@ public class TestPopulationCsvReader {
 				+ "populationfilecorrectheaders.csv");
 		boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 		assertTrue(result);
-		Population population = reader.readPopulation();
+		Population population = reader.readPopulation(null);
 		// Empty configuration should not produce a population.
 		assertNull(population);
 	}
@@ -99,13 +99,13 @@ public class TestPopulationCsvReader {
 				+ "populationfilecorrectheadersoneind.csv");
 		boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 		assertTrue(result);
-		Population population = reader.readPopulation();
+		Population population = reader.readPopulation(null);
 		// Empty configuration should not produce a population.
 		assertNotNull(population);
 	}
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(
-				nl.rivm.emi.cdm.csv.file.population.test.TestPopulationCsvReader.class);
+				nl.rivm.emi.cdm.population.file.csv.test.TestPopulationCsvReader.class);
 	}
 }

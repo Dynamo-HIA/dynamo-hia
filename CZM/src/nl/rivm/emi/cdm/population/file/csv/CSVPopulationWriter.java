@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.csv.file.population;
+package nl.rivm.emi.cdm.population.file.csv;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,8 +12,10 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class CSVPopulationWriter {
 	// Original value refactored.
-	 static public final String SEPARATOR = ";";
-	//static public final String SEPARATOR = "\t";
+	static public final String SEPARATOR = ";";
+	// static public final String SEPARATOR = "\t";
+
+	static public final int CHARACTERISTICSOFFSET = 2;
 
 	Log log = LogFactory.getLog(getClass().getName());
 

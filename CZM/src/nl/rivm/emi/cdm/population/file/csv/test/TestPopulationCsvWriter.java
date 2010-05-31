@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.csv.file.population.test;
+package nl.rivm.emi.cdm.population.file.csv.test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -10,9 +10,9 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.csv.file.population.PopulationCsvReader;
-import nl.rivm.emi.cdm.csv.file.population.PopulationCsvWriter;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.cdm.population.file.csv.PopulationCsvReader;
+import nl.rivm.emi.cdm.population.file.csv.PopulationCsvWriter;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -51,7 +51,7 @@ public class TestPopulationCsvWriter {
 					+ "populationfilecorrectheadersoneind.csv");
 			boolean result = reader.checkFileAndHeadersAgainstCharacteristics();
 			assertTrue(result);
-			population = reader.readPopulation();
+			population = reader.readPopulation(null);
 			assertNotNull(population);
 		} catch (ConfigurationException e) {
 			e.printStackTrace();

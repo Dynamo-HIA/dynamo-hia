@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package nl.rivm.emi.cdm.log4j.appender;
+package nl.rivm.emi.cdm.util.log4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -161,7 +161,7 @@ public class SwingAppender extends WriterAppender {
 	 */
 	static public class SwingLogOutputStream extends OutputStream {
 		Log streamLog = LogFactory.getLog(getClass().getSimpleName());
-		
+
 		Queue<String> logQueue;
 
 		public SwingLogOutputStream() {
@@ -177,7 +177,9 @@ public class SwingAppender extends WriterAppender {
 		public void write(final byte[] b) throws IOException {
 			String string = new String(b);
 			logQueue.add(string);
-			/*streamLog.debug*/ System.out.println("Array: Added \"" + string.substring(0, string.length()-2) + "\" to queue, length: " + logQueue.size() + ".");
+			streamLog.debug("Array: Added \""
+					+ string.substring(0, string.length() - 2)
+					+ "\" to queue, length: " + logQueue.size() + ".");
 		}
 
 		public void write(final byte[] b, final int off, final int len)
@@ -188,21 +190,23 @@ public class SwingAppender extends WriterAppender {
 			}
 			String string = new String(copyOfB);
 			logQueue.add(string);
-			/*streamLog.debug*/ System.out.println("Array(o,l): Added \"" + string.substring(0, string.length()-2) + "\" to queue, length: " + logQueue.size() + ".");
+			streamLog.debug("Array(o,l): Added \""
+					+ string.substring(0, string.length() - 2)
+					+ "\" to queue, length: " + logQueue.size() + ".");
 		}
 
 		public void write(final int b) throws IOException {
 			String string = Integer.toString(b);
 			logQueue.add(string);
-			/*streamLog.debug*/ System.out.println("Int: Added \"" + string + "\" to queue, length: " + logQueue.size() + ".");
+			streamLog.debug("Int: Added \"" + string + "\" to queue, length: "
+					+ logQueue.size() + ".");
 		}
 
 		public String read() {
 			String string = logQueue.poll();
-			/*streamLog.debug*/
-			if(string != null)
-			{
-				System.out.println("Getting \"" + string + "\" from queue, length: " + logQueue.size() + ".");
+			if (string != null) {
+				streamLog.debug("Getting \"" + string
+						+ "\" from queue, length: " + logQueue.size() + ".");
 			}
 			return string;
 		}

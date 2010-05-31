@@ -3,9 +3,16 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.logging_1.0.4.v20080605-1930.jar"/>
-	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.lang_2.3.0.v200803061910.jar"/>
-	<classpathentry kind="lib" path="C:/dynamo/eclipse341/plugins/org.apache.commons.configuration_1.5.0.jar"/>
 	<classpathentry kind="lib" path="/Jama"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.apache.commons.configuration"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/org.apache.commons.configuration/classes"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar" sourcepath="D:/download/apache/apache-ant-1.8.1-src.zip"/>
+	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

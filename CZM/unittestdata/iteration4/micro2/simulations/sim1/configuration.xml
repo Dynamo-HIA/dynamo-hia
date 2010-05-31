@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<sim>
+<lb/>
+<timestep>1</timestep>
+<runmode>longitudinal</runmode>
+<stepsbetweensaves>1</stepsbetweensaves>
+<stepsinrun>30</stepsinrun>
+<stoppingcondition/>
+<pop>D:\DynamoHIA_testspaces\PopWriter20100526\eclipse\..\..\Batchtest1\\Simulations\1\modelconfiguration\population.xml</pop>
+<newborns>D:\DynamoHIA_testspaces\PopWriter20100526\eclipse\..\..\Batchtest1\\Simulations\1\modelconfiguration\newborns.xml</newborns>
+<updaterules>
+<updaterule>
+<characteristicid>1</characteristicid>
+<classname>nl.rivm.emi.cdm.rules.update.dynamo.AgeOneToOneUpdateRule</classname>
+</updaterule>
+<updaterule>
+<characteristicid>2</characteristicid>
+<classname>nl.rivm.emi.cdm.rules.update.dynamo.SexOneToOneUpdateRule</classname>
+</updaterule>
+<updaterule>
+<characteristicid>3</characteristicid>
+<classname>nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorIdentityUpdateRule</classname>
+</updaterule>
+</updaterules>
+</sim>

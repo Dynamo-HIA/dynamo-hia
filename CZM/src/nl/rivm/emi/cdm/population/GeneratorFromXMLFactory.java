@@ -10,7 +10,6 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class GeneratorFromXMLFactory {
 	public static final String labelLabel = "lb";

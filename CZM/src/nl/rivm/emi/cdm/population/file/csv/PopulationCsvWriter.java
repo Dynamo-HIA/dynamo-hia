@@ -1,4 +1,4 @@
-package nl.rivm.emi.cdm.csv.file.population;
+package nl.rivm.emi.cdm.population.file.csv;
 
 import java.io.File;
 import java.io.FileNotFoundException;
