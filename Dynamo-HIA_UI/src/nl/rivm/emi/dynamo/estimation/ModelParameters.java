@@ -2454,7 +2454,7 @@ public class ModelParameters {
 
 		for (int d = 0; d < nDiseases; d++) {
 
-			if (excessMortality[d] == 0) {
+			if (excessMortality[d] == 0 || diseasePrevalence[d] == 0) {
 				for (int d1 = 0; d1 < nDiseases; d1++) {
 					/*
 					 * this is done by setting the rows and columns of vMat to
@@ -2548,7 +2548,24 @@ public class ModelParameters {
 			}
 			niter++;
 
-		} // einde herhaling schatting van Attributable mortality
+		} 
+		for (int d = 0; d < nDiseases; d++) 
+		if (excessMortality[d] > 0 && diseasePrevalence[d] == 0) {
+			log
+			.fatal("WARNING:\nExcess mortality of disease "
+					+ diseaseNames[d]
+					+ " is not zero for age "
+					+ age
+					+ " and gender "
+					+ sex
+					+ " while prevalence is zero. In this situation no attributable mortality can be calculated."
+					+ "\nThe program assumes a attributable mortality for this disease that is equal to the input excess mortality"
+			/* ,dsi */);
+			this.attributableMortality[age][sex][d]=excessMortality[d];
+			
+		}
+		
+		// einde herhaling schatting van Attributable mortality
 		if (niter == 10)
 			throw new DynamoInconsistentDataException(
 					" negative attributable mortality estimated after 10 iterations!! \n"
