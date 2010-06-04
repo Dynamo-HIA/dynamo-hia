@@ -2630,16 +2630,41 @@ public class ModelParameters {
 
 		/* count number of valid rows */
 		int nValidRows = 0;
+		
+		
 		int[] indexForRows = new int[nSim];
 		Arrays.fill(indexForRows, -1);
-		int[] reverseIndexForRows = new int[nSim];
-		for (int i = 0; i < nSim; i++) {
+		/* nValidRiskClass contains the renumbered riskfactor classes: so if there are 6 riskclasses, 0,1,2,3,4,5 but 4 is empty,
+		 * the new numbers are 0,1,2,3,4 were 5 is renumbered to 4
+		 */
+		int[] validRiskClass = new int[nSim];
+		Arrays.fill(validRiskClass, -1);
+		if (riskType !=3)
+			for (int i = 0; i < nSim; i++) {
 			if (weight[i] > 0) {
 				indexForRows[nValidRows] = i;
-				reverseIndexForRows[i] = nValidRows;
-				nValidRows++;
+				validRiskClass[i] = nValidRows;
+			    nValidRows++;
+				
 			}
 		}
+		else {
+			 nValidRows = 0;
+			 int currentCat=-1;
+			 boolean workingOnDuration=false;
+			for (int i = 0; i < nSim; i++) {
+			if (weight[i] > 0) {
+				/* increase currentCat unless the last valid riskclass was also a durationclass */
+				if(!workingOnDuration || riskclass[i]!=inputData.getIndexDuurClass()) currentCat++;
+					if(riskclass[i]==inputData.getIndexDuurClass()) 
+						workingOnDuration=true; 
+					else workingOnDuration=false; 
+				indexForRows[nValidRows] = i;
+				validRiskClass[i] = currentCat;
+				nValidRows++;
+				
+			}
+		}}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
 		double[] wVector = new double[nValidRows];
@@ -2657,13 +2682,14 @@ public class ModelParameters {
 
 			// add dummies except for the first class = reference
 			// category
-			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
+			if (inputData.getRiskType() == 1 ||inputData.getRiskType() == 3) {
 				if (weight[i] > 0) {
 					
 						xMatrix[nrow][0] = 1.0;
 						wVector[nrow] = weight[i];
 						for (int rc = 1; rc < nValidCategories; rc++) {
-							if (riskclass[reverseIndexForRows[i]] == rc)
+							
+								if (validRiskClass[i] == rc)
 								xMatrix[nrow][rc] = 1.0;
 							else
 								xMatrix[nrow][rc] = 0.0;
@@ -2673,6 +2699,8 @@ public class ModelParameters {
 					
 				}
 			}
+			
+			
 			;
 			
 			// add continuous risk factor only for type=2
@@ -2786,6 +2814,15 @@ public class ModelParameters {
 
 		// carry out the regression of log other mortality on the risk
 		// factors;
+		
+	if (age==15){
+			
+			
+			int stop=0;
+			stop++;
+		}
+		
+		
 		if (inputData.isWithRRForMortality()) {
 			try {
 
@@ -3703,7 +3740,9 @@ public class ModelParameters {
 											 * dependency does not fit the model
 											 * (r1-r2)exp(-alphat) +r2
 											 */
-
+					if (currentAlpha > 35)
+						currentAlpha = 35; 
+					/* if alfa is larger than 35, it causes numerical problems */
 					for (int i = 0; i < x_array.length; i++) {
 						delY[i] = Ydata[i]
 								- ((currentRRbegin - currentRRend)
