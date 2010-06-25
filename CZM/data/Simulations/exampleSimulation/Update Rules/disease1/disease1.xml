@@ -9,7 +9,7 @@
 			<causal_factor></causal_factor>
 			<reference_value></reference_value>
 			<constant></constant>
-			<filename>baselineIncidenceDisease1</filename>
+			<filename>baselineIncidence_disease1</filename>
 		</parameter>
 	</parametergroup>
 	<parametergroup>
@@ -21,39 +21,12 @@
 			<constant></constant>
 			<filename>RR_BMI_disease1</filename>
 		</parameter>
-		<parameter>
-			<causal_factor>HDL</causal_factor>
-			<reference_value>2</reference_value>
-			<constant></constant>
-			<filename>RR_HDL_disease1</filename>
-		</parameter>
-		<parameter>
-			<causal_factor>LDL</causal_factor>
-			<reference_value>2</reference_value>
-			<constant></constant>
-			<filename>RR_LDL_disease1</filename>
-		</parameter>
-		<parameter>
-			<causal_factor>SBP</causal_factor>
-			<reference_value>120</reference_value>
-			<constant></constant>
-			<filename>RR_SBP_disease1</filename>
-		</parameter>
-		<parameter>
-			<causal_factor>DBP</causal_factor>
-			<reference_value>80</reference_value>
-			<constant></constant>
-			<filename>RR_DBP_disease1</filename>
-		</parameter>
+		
 	</parametergroup>
 	<parametergroup>
 		<name> relativeRisksCategorical
 		</name>
-		<parameter>
-			<causal_factor>smoking</causal_factor>
-			<reference_value>1</reference_value>
-			<constant></constant>
-			<filename>RR_smoking_disease1</filename>
-		</parameter>
+		<parameter/>
+			
 	</parametergroup>
 </updateRuleConfiguration>
