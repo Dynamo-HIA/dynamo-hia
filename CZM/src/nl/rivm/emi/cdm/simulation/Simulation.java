@@ -21,14 +21,12 @@ import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
-import nl.rivm.emi.cdm.population.file.csv.PopulationCsvReader;
 import nl.rivm.emi.cdm.rules.update.base.ManyToManyUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
-import nl.rivm.emi.cdm.ui.SetProgressInterface;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -405,69 +403,6 @@ public class Simulation extends DomLevelTraverser {
 				log.debug("Transversal: Processing individual "
 						+ individual.getLabel());
 				processCharVals(individual);
-			}
-		}
-	}
-
-	public void run(SetProgressInterface progressCallBack, int progressPercentageStep)
-			throws CDMRunException {
-		log.debug("one");
-		this.progressPercentageStep = progressPercentageStep;
-		log.debug("two " + population);
-		double numIndividuals = population.size();
-		log.debug("three");
-		totalSteps = numIndividuals * stepsInRun;
-		log.debug("four");
-		if (RunModes.LONGITUDINAL.equalsIgnoreCase(runMode)) {
-			log.debug("five");
-			runLongitudinal(progressCallBack);
-		} else {
-			if (RunModes.TRANSVERSAL.equalsIgnoreCase(runMode)) {
-				log.debug("six");
-				runTransversal(progressCallBack);
-			} else {
-				throw new CDMRunException("Illegal runmode: " + runMode);
-			}
-		}
-	}
-
-	private void runLongitudinal(SetProgressInterface progressCallBack)
-			throws CDMRunException {
-		double numIndividuals = population.size();
-		double progressStep = numIndividuals * progressPercentageStep / 100 ;
-		double individualCount = 0;
-		Iterator<Individual> individualIterator = population.iterator();
-		while (individualIterator.hasNext()) {
-			Individual individual = individualIterator.next();
-			log.debug("Longitudinal: Processing individual "
-					+ individual.getLabel());
-			for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
-				processCharVals(individual);
-
-			}
-			individualCount++;
-			if (individualCount % progressStep == 0) {
-				progressCallBack
-						.setMyProgress((int) (individualCount / numIndividuals) * 100);
-			}
-		}
-
-	}
-
-	private void runTransversal(SetProgressInterface progressCallBack)
-			throws CDMRunException {
-		int progressStep = stepsInRun * progressPercentageStep / 100 ;
-		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
-			Iterator<Individual> individualIterator = population.iterator();
-			while (individualIterator.hasNext()) {
-				Individual individual = individualIterator.next();
-				log.debug("Transversal: Processing individual "
-						+ individual.getLabel());
-				processCharVals(individual);
-			}
-			if (stepCount % progressStep == 0) {
-				progressCallBack
-						.setMyProgress((int) (stepCount / stepsInRun) * 100);
 			}
 		}
 	}

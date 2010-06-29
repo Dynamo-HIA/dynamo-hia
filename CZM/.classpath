@@ -10,9 +10,5 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="lib/ant-apache-log4j.jar"/>
-	<classpathentry kind="lib" path="lib/ant-commons-logging.jar"/>
-	<classpathentry kind="lib" path="lib/ant.jar" sourcepath="D:/download/apache/apache-ant-1.8.1-src.zip"/>
-	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
