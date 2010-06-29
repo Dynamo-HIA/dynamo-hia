@@ -25,5 +25,9 @@ public class ButtonStates {
 	 int minAge;
 	 boolean newborns;
 	 boolean blackAndWhite;
+	int cumulative;
+	/*
+	 * cumulative is 0 for no cumulative data, 1 for cumulative, and 2 for single age
+	 */
 	 public ButtonStates(){}
 }

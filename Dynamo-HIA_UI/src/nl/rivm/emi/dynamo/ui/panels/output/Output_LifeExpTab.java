@@ -79,7 +79,7 @@ public class Output_LifeExpTab  {
 		controlComposite.setLayoutData(controlData);
 		
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, this.plotGenerator.makeCohortLifeExpectancyPlot(this.plotInfo.currentDisease,this.plotInfo.differencePlot,this.plotInfo.blackAndWhite ), true);
+				this.plotComposite, SWT.NONE, this.plotGenerator.makeCohortLifeExpectancyPlot(this.plotInfo.currentDisease,this.plotInfo.differencePlot,this.plotInfo.blackAndWhite, this.plotInfo.cumulative), true);
 		
 		 GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 					| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
@@ -124,6 +124,8 @@ public class Output_LifeExpTab  {
 			yearNames[y] = ((Integer) (y+start)).toString();
 		
 		new YearChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, yearNames);
+		
+		if  (output.getNScen()>0) new CumulativeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 		// chartComposite4.setBounds(0, 0, 400, 500);
 		
 		 new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);

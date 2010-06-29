@@ -105,6 +105,20 @@ public class SullivanChoiceGroup {
 					else childControls[j].setEnabled(false);
 				}
 			}
+		/* reverse for the cumulative button which is only availlable for cohort expectancies */	
+			
+			if (otherControls[i].getToolTipText() == "Choose whether the years gained or lost are future years for only the chosen age or include all higher ages") {
+				if (plotInfo.Sullivan  ) otherControls[i].setEnabled(false);
+				else otherControls[i].setEnabled(true);
+				Control[] childControls = ((Composite) otherControls[i])
+						.getChildren();
+				for (int j = 0; j < childControls.length; j++) {
+					if (plotInfo.Sullivan  )childControls[j].setEnabled(false);
+					else childControls[j].setEnabled(true);
+				}
+			}
+			
+			
 			/* this method is called from the sullivan button
 			 * if this is called, the previously entered year is used.
 			 * 

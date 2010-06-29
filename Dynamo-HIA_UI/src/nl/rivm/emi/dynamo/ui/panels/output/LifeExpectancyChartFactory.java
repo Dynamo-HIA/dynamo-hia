@@ -32,13 +32,13 @@ public final class LifeExpectancyChartFactory implements PlotDrawer {
 		switch (info.currentDisease) {
 		case 0:
 			if (info.Sullivan) chart = plotFactory.makeYearLifeExpectancyPlot(info.currentYear, info.currentAge, info.differencePlot,info.blackAndWhite);
-			else chart = plotFactory.makeCohortLifeExpectancyPlot(info.currentAge, info.differencePlot,info.blackAndWhite);
+			else chart = plotFactory.makeCohortLifeExpectancyPlot(info.currentAge, info.differencePlot,info.blackAndWhite, info.cumulative);
 			break;
 		default:
 			if (info.Sullivan) chart =
 				plotFactory.makeYearHealthyLifeExpectancyPlot(info.currentYear, info.currentAge, info.currentDisease - 3, info.differencePlot,info.blackAndWhite);
 			else chart = plotFactory.makeCohortHealthyLifeExpectancyPlot(
-				 info.currentAge, info.currentDisease - 3,info.blackAndWhite);
+				 info.currentAge, info.currentDisease - 3,info.blackAndWhite, info.cumulative);
 			break;
 		}
 		
