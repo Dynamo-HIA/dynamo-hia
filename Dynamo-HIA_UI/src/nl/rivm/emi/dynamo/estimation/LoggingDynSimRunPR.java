@@ -24,7 +24,7 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	public void communicateErrorMessage(DynamoSimulationRunnable dynSimRun, Throwable e, String simulationFilePath) {
 		String cause = "";
 		if (e.getCause() != null) {
-			cause += dynSimRun.handleErrorMessage("", e, simulationFilePath);
+			cause += dynSimRun.handleErrorMessage("",(Exception) e, simulationFilePath);
 		}
 		log.error("Errors during configuration of the model"
 				+ " Message given: " + e.getMessage() + cause);

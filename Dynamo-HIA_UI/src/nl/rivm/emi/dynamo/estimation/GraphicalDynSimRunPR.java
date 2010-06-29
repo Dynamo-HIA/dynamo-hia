@@ -24,7 +24,7 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 		Shell shell = new Shell(parentShell);
 		String cause = "";
 		if (e.getCause() != null) {
-			cause += dynSimRun.handleErrorMessage("", e, simulationFilePath);
+			cause += dynSimRun.handleErrorMessage("", (Exception) e, simulationFilePath);
 		}
 		MessageBox messageBox = new MessageBox(shell, SWT.OK);
 		messageBox.setMessage("Errors during configuration of the model"

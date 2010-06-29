@@ -52,7 +52,7 @@ public class Simplx {
 		 */
 		
 		
-		double EPS = 1.0e-8;
+		double EPS = 1.0e-12;
 		int i = 0;
 		int ir = 0;
 		int is = 0;

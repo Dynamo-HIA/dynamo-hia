@@ -50,11 +50,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	String simName;
 	String baseDir;
 	private boolean runInOne = true;
-
-	/**
-	 * Flag added to allow the production of population files.
-	 */
-	private boolean writePopulations = false;
 	/*
 	 * model parameter is an object containing the parameters of the model and
 	 * the initial population. The parameters are written to XML files that are
@@ -98,24 +93,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			errorMessage = "model can not be run due to configuration errors";
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Extra constructor to enable the writing of populations.
-	 * 
-	 * @param prObject
-	 *            : object containing the logger to which messages are printed
-	 * @param simName
-	 *            : simulation name
-	 * @param baseDir
-	 *            : base directory
-	 * @throws DynamoInconsistentDataException
-	 */
-	public DynamoSimulationRunnable(DynSimRunPRInterface prObject,
-			String simName, String baseDir, boolean writePopulations)
-			throws DynamoInconsistentDataException {
-		this(prObject, simName, baseDir);
-		this.writePopulations = writePopulations;
 	}
 
 	/*
@@ -175,6 +152,14 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		scen = p.estimateModelParameters(this.simName/* , this.parentShell */,
 				pr);
+		/*
+		 * } catch (DynamoConfigurationException e3) { displayErrorMessage(e3,
+		 * null); // log.fatal(e3.getMessage()); e3.printStackTrace(); } catch
+		 * (DynamoInconsistentDataException e) { // TODO Auto-generated catch
+		 * blockdisplayErrorMessage(e3); // log.fatal(e.getMessage());
+		 * displayInconsistentDataMessage(e); e.printStackTrace(); }
+		 */
+		// " .XML";
 	}
 
 	/**
@@ -255,7 +240,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					}
 				}
 				output = runPopulation(pop, simFileName, output);
-				log.info("population has run");
+				log.fatal("population has run");
 			} else {
 				this.runInOne = false;
 
@@ -266,6 +251,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				int currentProgressIndicator = 1;
 				// bar.setMaximum(size / step);
 				pii.setMaximum(agemax - agemin + 1);
+				if (scen.isWithNewBorns())
+					pii.setMaximum(agemax - agemin + 1 + scen.getYearsInRun());
 				for (int a = agemin; a <= agemax; a++) {
 					for (int g = 0; g < 2; g++) {
 						pop = popFactory.manufactureInitialPopulation(a, a, g,
@@ -276,31 +263,33 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					currentProgressIndicator++;
 				}
 				if (scen.isWithNewBorns()) {
-					for (int generation = 1; generation <= scen.getYearsInRun(); generation++)
+					for (int generation = 1; generation <= scen.getYearsInRun(); generation++) {
 						for (int g = 0; g < 2; g++) {
 							pop = popFactory.manufactureInitialPopulation(0, 0,
 									g, g, generation, generation, true);
 							output = runPopulation(pop, simFileName, output);
 						}
-
+						pii.update(currentProgressIndicator);
+						currentProgressIndicator++;
+					}
 				}
+				pii.dispose();
 			}
 
 			/** * finalize output */
 
 			output.makeArraysWithPopulationNumbers();
-			log.info("output object finalized");
-			if (writePopulations) {
-				log.fatal("Starting to write populations");
-				for (int npop = 0; npop < /* nPopulations */pop.length; npop++) {
-					String iniPopFileName = directoryName + File.separator
-							+ "modelconfiguration" + File.separator
-							+ "initialPop_" + npop;
-					CSVPopulationWriter.writePopulation(iniPopFileName,
-							pop[npop], 0);
-					log.fatal("Written population #" + npop);
-				}
-			}
+			log.fatal("output object finalized");
+			// log.fatal("Starting to write populations");
+			// for (int npop = 0; npop < nPopulations; npop++) {
+			// String iniPopFileName = directoryName + File.separator
+			// + "modelconfiguration" + File.separator + "initialPop_"
+			// + npop;
+			// CSVPopulationWriter.writePopulation(iniPopFileName, pop[npop],
+			// 0);
+			// log.fatal("Written population #" + npop);
+			// }
+
 			/* display the output */
 
 			ScenarioParameters scenParms = null;
@@ -314,10 +303,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// }
 			/* temporarily disabled for testing */
 			pr.createOutput(output, scenParms, currentPath);
-			log.info("output created");
+			log.fatal("output created");
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
-			log.info("output written");
+			log.fatal("output written");
 			persistScenarioInfo(scenParms);
 			// persistPopulationArray(pop);
 		} catch (DynamoConfigurationException e) {
@@ -328,12 +317,6 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		} catch (Exception e) {
 			displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
-		}
-		// 20100415 Added to prevent "damage" to the simulation screen after a
-		// blowup in the output-screen.
-		catch (Throwable t) {
-			displayErrorMessage(t, simulationFilePath);
-			t.printStackTrace();
 		}
 	}
 
@@ -393,7 +376,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				 * the false means that the initial population should not be
 				 * read from xml file
 				 */
-				/* deze stap neemt veel tijd: daarom maar één maal doen */
+				/* deze stap neemt veel tijd: daarom maar een maal doen */
 				if (simulation[scennum].getLabel().equals("Not initialized"))
 					simulation[scennum] = SimulationFromXMLFactory
 							.manufacture_DOMPopulationTree(
@@ -684,7 +667,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 * @param fileName
 	 * @return
 	 */
-	public String handleErrorMessage(String cdmErrorMessage, Throwable e,
+	public String handleErrorMessage(String cdmErrorMessage, Exception e,
 			String fileName) {
 		e.printStackTrace();
 		// Show the error message and the nested cause of the error
@@ -769,7 +752,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			pii.dispose();
 	}
 
-	private void displayErrorMessage(Throwable e, String simulationFilePath) {
+	private void displayErrorMessage(Exception e, String simulationFilePath) {
 		pr.communicateErrorMessage(this, e, simulationFilePath);
 		e.printStackTrace();
 	}

@@ -22,6 +22,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.individual.DOMIndividualWriter;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -67,6 +68,13 @@ public class InitialPopulationFactory {
 	private boolean[] isOneForAllPopulation;
 	private ModelParameters parameters;
 	private ScenarioInfo scenarioInfo;
+	private double[] baselineOdds;
+	private float[] relRiskDuurBegin;
+	private float[] relRiskDuurEnd;
+	private float[][] relativeRisksCat;
+	private float[] relativeRisksCont;
+	private float[] alphaDuur;
+	private float[][][] RRdiseaseOnDisease;
 
 	/* indexes are: scenario, age ,sex, transitionmatrix */
 
@@ -80,10 +88,11 @@ public class InitialPopulationFactory {
 	/**
 	 * @param params: modelparameters
 	 * @param scenInfo: scenario Info object
+	 * @throws DynamoInconsistentDataException 
 	 */
 	public InitialPopulationFactory(ModelParameters params,
 			
-			ScenarioInfo scenInfo,DynSimRunPRInterface dsi)
+			ScenarioInfo scenInfo,DynSimRunPRInterface dsi) throws DynamoInconsistentDataException
 	 {
 		
 		initializeInitialPopulationFactory( params,
@@ -202,10 +211,11 @@ public class InitialPopulationFactory {
 	 * @param scenarioInfo
 	 *            ; object with scenario information
 	 * @return
+	 * @throws DynamoInconsistentDataException 
 	 */
 	public void initializeInitialPopulationFactory(ModelParameters params,
 			
-			ScenarioInfo scenInfo) {
+			ScenarioInfo scenInfo) throws DynamoInconsistentDataException {
 
 		/*
 		 * at this moment:
@@ -377,6 +387,11 @@ public class InitialPopulationFactory {
 			DynamoLib.getInstance(nSim);
 		for (int a = agemin; a <= agemax; a++)
 			for (int g = gmin; g <= gmax; g++) {
+				
+/* start with copying the needed info from the parameter object into fields in this class;
+ * This aims to speed up the program as they do not need to be repeatedly looked up 
+ */
+				 extractDiseaseDataForThisAgeSexGroup( a, g);
      if (a==60)
      {
     	 int stop=0;
@@ -788,7 +803,8 @@ public class InitialPopulationFactory {
 						if (parameters.getRiskType() == 3) {
 							if (flagForRandomlyAdded)
 								currentDurationValue = DynamoLib.draw(
-										parameters.getDuurFreq()[a][g], rand);
+										parameters.getDuurFreq(a,g), rand);
+							
 							else {
 								int relativeI;
 								if (currentRiskValue == parameters
@@ -1306,7 +1322,7 @@ public class InitialPopulationFactory {
 	}
 
 	private void makeTransitionMatrixForPrevalence(ModelParameters parameters,
-			ScenarioInfo scenarioInfo) {
+			ScenarioInfo scenarioInfo) throws DynamoInconsistentDataException {
 		int nCat = parameters.getPrevRisk()[0][0].length;
 		float[] RR = new float[nCat];
 		Arrays.fill(RR, 1);
@@ -1438,7 +1454,7 @@ public class InitialPopulationFactory {
 			 */
 			double[] logitDisease = new double[parameters.getClusterStructure()[cluster]
 					.getNInCluster()];
-
+			float[]relativeRisksCont=parameters.getRelRiskContinue(a,g);
 			for (int d = 0; d < parameters.getClusterStructure()[cluster]
 					.getNInCluster(); d++) {
 
@@ -1451,37 +1467,35 @@ public class InitialPopulationFactory {
 				// onafhankelijkheden
 				int dnumber = parameters.getClusterStructure()[cluster]
 						.getDiseaseNumber()[d];
-
+				
 				/* only needed if disease is present */
-				if (parameters.getBaselinePrevalenceOdds()[a][g][dnumber] != 0)
+				if (baselineOdds[dnumber] != 0)
 
 				{
-					logitDisease[d] = Math.log(parameters
-							.getBaselinePrevalenceOdds()[a][g][dnumber]);
+					logitDisease[d] = Math.log(baselineOdds[dnumber]);
 					if (parameters.getRiskType() == 1)
 						logitDisease[d] += Math
-								.log(parameters.getRelRiskClass()[a][g][currentRiskValue][dnumber]);
+								.log(relativeRisksCat[currentRiskValue][dnumber]);
 					if (parameters.getRiskType() == 2)
 						logitDisease[d] += Math
 								.log(Math
 										.pow(
-												parameters.getRelRiskContinue()[a][g][dnumber],
+												relativeRisksCont[dnumber],
 												riskFactorValue
 														- parameters
 																.getRefClassCont()));
 					if (parameters.getRiskType() == 3) {
 						if (currentRiskValue != parameters.getDurationClass())
 							logitDisease[d] += Math
-									.log(parameters.getRelRiskClass()[a][g][currentRiskValue][dnumber]);
+									.log(relativeRisksCat[currentRiskValue][dnumber]);
 						else
 							logitDisease[d] += Math
-									.log((parameters.getRelRiskDuurBegin()[a][g][dnumber] - parameters
-											.getRelRiskDuurEnd()[a][g][dnumber])
+									.log((relRiskDuurBegin[dnumber] - 
+											relRiskDuurEnd[dnumber])
 											* Math
 													.exp(-currentDurationValue
-															* parameters
-																	.getAlphaDuur()[a][g][dnumber])
-											+ parameters.getRelRiskDuurEnd()[a][g][dnumber]);
+															* alphaDuur[dnumber])
+											+ relRiskDuurEnd[dnumber]);
 					}
 				}
 			}
@@ -1548,7 +1562,7 @@ public class InitialPopulationFactory {
 
 							if (parameters.getClusterStructure()[cluster]
 									.getDependentDisease()[d1]) {
-								if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+								if (baselineOdds[d1number] != 0) {
 									double logitCurrent = logitDisease[d1];
 
 									for (int d2 = 0; d2 < parameters
@@ -1556,9 +1570,8 @@ public class InitialPopulationFactory {
 											.getNInCluster(); d2++) {
 										if ((combi & (1 << d2)) == (1 << d2)) {
 
-											logitCurrent += Math
-													.log(parameters
-															.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
+											logitCurrent += Math 
+													.log(RRdiseaseOnDisease[cluster][d2][d1]);
 										}
 										probCurrent = 1 / (1 + Math
 												.exp(-logitCurrent));
@@ -1568,7 +1581,7 @@ public class InitialPopulationFactory {
 
 							} else
 							/* == independent disease */
-							if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0)
+							if (baselineOdds[d1number] != 0)
 								probCurrent = 1 / (1 + Math
 										.exp(-logitDisease[d1]));
 							else
@@ -1576,7 +1589,7 @@ public class InitialPopulationFactory {
 
 						}/* end if disease d1 ==1 */else {
 							/* now if d1 is zero in combination */;
-							if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0) {
+							if (baselineOdds[d1number] != 0) {
 
 								if (parameters.getClusterStructure()[cluster]
 										.getDependentDisease()[d1]) {
@@ -1587,8 +1600,7 @@ public class InitialPopulationFactory {
 											.getNInCluster(); d2++)
 										if ((combi & (1 << d2)) == (1 << d2))
 											logitCurrent += Math
-													.log(parameters
-															.getRelRiskDiseaseOnDisease()[a][g][cluster][d2][d1]);
+													.log(RRdiseaseOnDisease[cluster][d2][d1]);
 									/*
 									 * NB now exp(+x) as this is 1-p in stead of
 									 * p
@@ -1617,13 +1629,13 @@ public class InitialPopulationFactory {
 			else {/* is withCuredFraction */
 				d1number = parameters.getClusterStructure()[cluster]
 						.getDiseaseNumber()[0];
-				if (parameters.getBaselinePrevalenceOdds()[a][g][d1number] != 0)
+				if (baselineOdds[d1number] != 0)
 					CharValues[elementIndex] = (float) (1 / (1 + Math
 							.exp(-logitDisease[0])));
 				else
 					CharValues[elementIndex] = 0;
 				elementIndex++;
-				if (parameters.getBaselinePrevalenceOdds()[a][g][d1number + 1] != 0)
+				if (baselineOdds[d1number + 1] != 0)
 					CharValues[elementIndex] = (float) (1 / (1 + Math
 							.exp(-logitDisease[1])));
 				else
@@ -1644,6 +1656,18 @@ public class InitialPopulationFactory {
 					+ "fit number calculated, that is : " + elementIndex
 					+ " not equal " + numberOfElements);
 		return CharValues;
+	}
+
+	private void extractDiseaseDataForThisAgeSexGroup(
+			 int a, int g) {
+		baselineOdds=parameters.getBaselinePrevalenceOdds(a,g);
+		 relativeRisksCat=parameters.getRelRiskClass(a,g);
+		 relativeRisksCont=parameters.getRelRiskContinue(a,g);
+		 relRiskDuurBegin=parameters.getRelRiskDuurBegin(a,g);
+		 relRiskDuurEnd=parameters.getRelRiskDuurBegin(a,g);
+		 alphaDuur=parameters.getAlphaDuur(a,g);
+		 RRdiseaseOnDisease=parameters
+			.getRelRiskDiseaseOnDisease(a,g);
 	}
 
 	/**

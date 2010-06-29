@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+
 /**
  * @author Hendriek Boshuizen
  * 
@@ -113,6 +115,12 @@ public class NettTransitionRateFactory {
 				// and we weight with the probability of having this value
 				// this weight is preprocessed in DynamoLib.cdfTable
 				// this is most accurate for calculating standard deviations
+				if (a == 20) {
+
+					int stop = 0;
+					stop++;
+
+				}
 				if (skewRisk[a][s] == 0) {
 					lognorm = false;
 					for (int i = 0; i < nSim; i++) {
@@ -224,12 +232,7 @@ public class NettTransitionRateFactory {
 					// the
 					// mean
 				}
-				if (a == 18) {
-
-					int stop = 0;
-					stop++;
-
-				}
+				
 				/*
 				 * with zero stdnew numerical errors sometimes make the
 				 * difference slightly larger than 0
@@ -262,39 +265,46 @@ public class NettTransitionRateFactory {
 					// mean
 					checkMuNew[a] = checkMuNew[a] / checkMeanSurv;
 
-					if (sigmaNew[a] / meanSurv>muNew[a]
-							* muNew[a])
-					sigmaNew[a] = Math.sqrt(sigmaNew[a] / meanSurv - muNew[a]
-							* muNew[a]);
-					
-					else sigmaNew[a]=0; 
+					if (sigmaNew[a] / meanSurv > muNew[a] * muNew[a])
+						sigmaNew[a] = Math.sqrt(sigmaNew[a] / meanSurv
+								- muNew[a] * muNew[a]);
+
+					else
+						sigmaNew[a] = 0;
 					// second moment around the mean for
 					// the
 					// lognormal
 					// calibrated:
-					if (checkSigmaNew[a]
-										/ checkMeanSurv >checkMuNew[a] * checkMuNew[a])
-										
-										checkSigmaNew[a] = Math.sqrt(checkSigmaNew[a]
-							/ checkMeanSurv - checkMuNew[a] * checkMuNew[a]);
-					else checkSigmaNew[a]=0;// second
+					if (checkSigmaNew[a] / checkMeanSurv > checkMuNew[a]
+							* checkMuNew[a])
+
+						checkSigmaNew[a] = Math
+								.sqrt(checkSigmaNew[a] / checkMeanSurv
+										- checkMuNew[a] * checkMuNew[a]);
+					else
+						checkSigmaNew[a] = 0;// second
 					// moment
 					// around the mean
 					// for the
 					// lognormal
 				}
 				// calibrated:
-				if (checkMeanNew[a] != 0) meanNew[a] = meanNew[a] * meanRisk[a][s] / (checkMeanNew[a]);
+				if (checkMeanNew[a] != 0)
+					meanNew[a] = meanNew[a] * meanRisk[a][s]
+							/ (checkMeanNew[a]);
 				/* if checkMeanNew[a]== 0 do not calibrate */
 				// calibrated:
-				if (checkStdNew[a] != 0) stdNew[a] = stdNew[a] * stdRisk[a][s] / (checkStdNew[a]);
+				if (checkStdNew[a] != 0)
+					stdNew[a] = stdNew[a] * stdRisk[a][s] / (checkStdNew[a]);
 				/* if checkSTDNew[a]== 0 do not calibrate */
 				if (lognorm == true) {
 					// calibrated:
-					if (checkMuNew[a] != 0)muNew[a] = muNew[a] * mu[a][s] / (checkMuNew[a]);
+					if (checkMuNew[a] != 0)
+						muNew[a] = muNew[a] * mu[a][s] / (checkMuNew[a]);
 					// calibrated:
-					if (checkSigmaNew[a] != 0) sigmaNew[a] = sigmaNew[a] * sigma[a][s]
-							/ (checkSigmaNew[a]);
+					if (checkSigmaNew[a] != 0)
+						sigmaNew[a] = sigmaNew[a] * sigma[a][s]
+								/ (checkSigmaNew[a]);
 				}
 
 				// skewNew[a]=skewNew[a]/Math.pow(stdNew[a],3); //skewness
@@ -311,14 +321,26 @@ public class NettTransitionRateFactory {
 				 * variables to the (mean)drift, for lognormal variables to the
 				 * offset
 				 */
+				/*
+				 * NB: the "New" variables are the old variables adjusted for
+				 * mortality, the variable names without new are the new targets
+				 */
+				if (a == 21) {
 
+					int stop = 0;
+					stop++;
+
+				}
 				if (a > 0) {
 					if (!lognorm) {
 
 						nettDrift[0][a - 1][s] = (float) (meanRisk[a][s]
 								- meanNew[a - 1] + trend);
-						if (stdRisk[a][s]>stdNew[a - 1] ) {
-							nettDrift[1][a - 1][s] = (float)Math.sqrt (stdRisk[a][s]*stdRisk[a][s] - stdNew[a - 1]*stdNew[a - 1]); // old:
+						if ((double)stdRisk[a][s] > stdNew[a - 1]) {
+							nettDrift[1][a - 1][s] = (float) Math
+									.sqrt((((double)stdRisk[a][s] * (double)stdRisk[a][s]))
+											- stdNew[a - 1] * stdNew[a - 1]);
+							// old:
 							// divided
 							// by
 							// stdNew[a
@@ -329,8 +351,10 @@ public class NettTransitionRateFactory {
 						// 0 anyway
 					} else {
 						nettDrift[0][a - 1][s] = (float) (mu[a][s] - muNew[a - 1]);
-						if (sigma[a][s]>sigmaNew[a - 1] ) {
-							nettDrift[1][a - 1][s] = (float)Math.sqrt (sigma[a][s]*sigma[a][s] - sigmaNew[a - 1]*sigmaNew[a - 1]); // old:
+						if (sigma[a][s] > sigmaNew[a - 1]) {
+							nettDrift[1][a - 1][s] = (float) Math
+									.sqrt(sigma[a][s] * sigma[a][s]
+											- sigmaNew[a - 1] * sigmaNew[a - 1]); // old:
 							// divided
 							// by
 							// sigmaNew[a
@@ -488,10 +512,12 @@ public class NettTransitionRateFactory {
 	 * Altijd: kosten van uiterste: < losse stappen om er tekomen
 	 * 
 	 * @return
+	 * @throws DynamoInconsistentDataException
 	 */
 
 	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
-			float[] newPrev, double baselineMort, float[] RR) {
+			float[] newPrev, double baselineMort, float[] RR)
+			throws DynamoInconsistentDataException {
 
 		int nCat = oldPrevOriginal.length;
 		// first calculate oldPrev including selective mortality;
@@ -523,7 +549,8 @@ public class NettTransitionRateFactory {
 		// all transitions from
 		// a category should sum to 1
 
-		double[][] table = new double[numEq][numVar + 1]; // linear table to solve
+		double[][] table = new double[numEq][numVar + 1]; // linear table to
+		// solve
 		// see numberical recipes 18.10
 
 		// first make the first row of the table (function to maximize)
@@ -551,7 +578,7 @@ public class NettTransitionRateFactory {
 
 				}
 			;
-			table[ieq][0] =  oldPrev[ieq - 1]; // zou ook -1 kunnen
+			table[ieq][0] = oldPrev[ieq - 1]; // zou ook -1 kunnen
 			// zijn
 
 		}
@@ -570,7 +597,7 @@ public class NettTransitionRateFactory {
 
 				}
 			;
-			table[ieq][0] =  newPrev[ieq - nCat - 1];
+			table[ieq][0] = newPrev[ieq - nCat - 1];
 
 		}
 
@@ -585,17 +612,68 @@ public class NettTransitionRateFactory {
 				for (int k = 1; k <= 2 * nCat; k++)
 					if (result.iposv[k] == variableNum) {
 						transitionRates[i][j] = (float) (result.a[k + 1][1] / oldPrev[i]);
-						
+
 						// K+1 WANT RIJ 1 BEVAT KOSTEN
 					}
-				/*  in case the old prevalence is zero, there are no
-				 * data to calculate nett transitions from
-				 * Therefore in this case we use zero transitions for this category */
-				
-				if (oldPrev[i]==0 && i!=j)transitionRates[i][j] = 0 ;
-				if (oldPrev[i]==0 && i==j)transitionRates[i][j] = 1 ;
-				
+				/*
+				 * in case the old prevalence is zero, there are no data to
+				 * calculate nett transitions from Therefore in this case we use
+				 * zero transitions for this category
+				 */
+
+				if (oldPrev[i] == 0 && i != j)
+					transitionRates[i][j] = 0;
+				if (oldPrev[i] == 0 && i == j)
+					transitionRates[i][j] = 1;
+
 			}
+		/* in case of very small oldprev values, the accuracy can be too small
+		 * yielding transition rates that do not sum to 100% */
+		/* therefore these are adjusted, and the missing is added (or substracted) to
+		 * the transitions nearest to the diagonal
+		 * 
+		 */
+		for (int i = 0; i < nCat; i++)
+			if (oldPrev[i] < 0.05) {
+				double sum = 0;
+				for (int j = 0; j < nCat; j++) {
+					sum += transitionRates[i][j];
+				}
+				if (Math.abs(sum - 1.0) > 1E-5) {
+					/* add the missing fraction to the categories closed to i */
+					int closestUnder = 10;
+					int closestOver = 10;
+					boolean canStay = false;
+					for (int j = 0; j < nCat; j++) {
+						if (newPrev[j] > 0) {
+							if (j > i && (j - i) < closestOver)
+								closestOver = j - i;
+							if (i > j && (i - j) < closestUnder)
+								closestUnder = i - j;
+							if (i == j)
+								canStay = true;
+						}
+					}
+
+					if (canStay)
+						transitionRates[i][i] += (1 - sum);
+					else if (closestUnder < 10 && closestOver < 10) {
+						transitionRates[i][i - closestUnder] += (1 - sum) / 2;
+						transitionRates[i][i + closestOver] += (1 - sum) / 2;
+					} else if (closestUnder < 10) {
+						transitionRates[i][i - closestUnder] += (1 - sum);
+
+					} else if (closestOver < 10) {
+
+						transitionRates[i][i + closestOver] += (1 - sum);
+					} else
+						throw new DynamoInconsistentDataException(
+								"something goes wrong with estimation of nett transitionrates"
+										+ " because all new prevalence rates are zero");
+				}
+
+			}
+
 		return transitionRates;
 
 	}

@@ -1,4 +1,5 @@
 package nl.rivm.emi.dynamo.estimation;
+
 /**
  * 
  */
@@ -20,12 +21,12 @@ import Jama.Matrix;
 
 /**
  * @author Hendriek
- *
+ * 
  */
 public class DynamoLib {
-	
+
 	static private DynamoLib instance = null;
-    static private int NumberInTable=100;
+	static private int NumberInTable = 100;
 	/**
 	 * @field cfdTable: a table with the normal cumulative density in 100 bins
 	 *        between -4 sd to + 4 sd. The figures add up to 1. The first bin is
@@ -33,68 +34,77 @@ public class DynamoLib {
 	 *        infinity to -4+8/100 The last bin goes form 4-8/100 to plus
 	 *        infinity. All other bins have length 8/100
 	 */
-	private static double[] cdfTable ;
+	private static double[] cdfTable;
 
 	private DynamoLib(int NinTable) {
-		cdfTable= new double[NinTable];
+		cdfTable = new double[NinTable];
 		double prefCDF = 0; // previous value of CDF
 		double nextCDF = 0;
 		for (int i = 0; i < NinTable; i++) {
-			if (i == NinTable-1){
-				cdfTable[i] = 1 - prefCDF;}
-			else {
+			if (i == NinTable - 1) {
+				cdfTable[i] = 1 - prefCDF;
+			} else {
 				nextCDF = normp(-4.0 + (i + 1.0) * 8.0 / NinTable);
-			    cdfTable[i] = nextCDF - prefCDF;
-			    prefCDF = nextCDF; }
+				cdfTable[i] = nextCDF - prefCDF;
+				prefCDF = nextCDF;
+			}
 		}
-	};
-	
-	
-	
-	/**makes a table with CDF (cum. density function) of the normal distribution for NinTable points between -4 and +4
-	 * standard deviations. The points -4 and + 4 are not part of the table
-	 * @param NinTable
-	 */
-	public static void makeCDFTable(int NinTable) {
-	/* check whether the right CDF table has already  been made, in that case 
-	 * do not make it again	
-	 */
-		if (NinTable != NumberInTable){
-			NumberInTable=NinTable;	
-		cdfTable= new double[NinTable];
-		double prefCDF = 0; // previous value of CDF
-		double nextCDF = 0;
-		for (int i = 0; i < NinTable; i++) {
-			if (i == NinTable-1){
-				cdfTable[i] = 1 - prefCDF;}
-			else {
-				nextCDF = normp(-4.0 + (i + 1.0) * 8.0 / NinTable);
-			    cdfTable[i] = nextCDF - prefCDF;
-			    prefCDF = nextCDF; }
-		}}
 	};
 
 	/**
-	 * DynamoLib is a singleton, and DynamoLib.getInstance() only makes a new instance if there is 
-	 * no earlier instance;
-	 * When called, a new CDF table is made with NinTable entries
-	 * @param NinTable : 
+	 * makes a table with CDF (cum. density function) of the normal distribution
+	 * for NinTable points between -4 and +4 standard deviations. The points -4
+	 * and + 4 are not part of the table
+	 * 
+	 * @param NinTable
+	 */
+	public static void makeCDFTable(int NinTable) {
+		/*
+		 * check whether the right CDF table has already been made, in that case
+		 * do not make it again
+		 */
+		if (NinTable != NumberInTable) {
+			NumberInTable = NinTable;
+			cdfTable = new double[NinTable];
+			double prefCDF = 0; // previous value of CDF
+			double nextCDF = 0;
+			for (int i = 0; i < NinTable; i++) {
+				if (i == NinTable - 1) {
+					cdfTable[i] = 1 - prefCDF;
+				} else {
+					nextCDF = normp(-4.0 + (i + 1.0) * 8.0 / NinTable);
+					cdfTable[i] = nextCDF - prefCDF;
+					prefCDF = nextCDF;
+				}
+			}
+		}
+	};
+
+	/**
+	 * DynamoLib is a singleton, and DynamoLib.getInstance() only makes a new
+	 * instance if there is no earlier instance; When called, a new CDF table is
+	 * made with NinTable entries
+	 * 
+	 * @param NinTable
+	 *            :
 	 * 
 	 * @return instance of DynamoLib
 	 */
-	/* check whether the right CDF table has already  been made, in that case 
-	 * do not make it again	
+	/*
+	 * check whether the right CDF table has already been made, in that case do
+	 * not make it again
 	 */
 	synchronized static public DynamoLib getInstance(int NinTable) {
-		if (instance == null ||NinTable != NumberInTable) {
-			NumberInTable=NinTable;	
+		if (instance == null || NinTable != NumberInTable) {
+			NumberInTable = NinTable;
 			instance = new DynamoLib(NinTable);
 		}
 		return instance;
 	}
 
 	/**
-	 * @return table with CDF values from normal distribution between -4 and +4 standard deviations
+	 * @return table with CDF values from normal distribution between -4 and +4
+	 *         standard deviations
 	 */
 	public double[] getCdfTable() {
 		return cdfTable;
@@ -103,11 +113,13 @@ public class DynamoLib {
 	/**
 	 * method draw generates a random draws from an array with percentages
 	 * 
-	 * @param  p : array with percentages
-	 * @param 
-	 *            rand : a random value generator
+	 * @param p
+	 *            : array with percentages
+	 * @param rand
+	 *            : a random value generator
 	 * @author Hendriek
-	 * @return a random draw : a number between (and including) 0 and (length of p)-1
+	 * @return a random draw : a number between (and including) 0 and (length of
+	 *         p)-1
 	 */
 	public static int draw(float p[], Random rand) {
 		// Generates a random draws from an array with percentages
@@ -115,22 +127,20 @@ public class DynamoLib {
 		double cump = 0; // cump is cumulative p
 
 		double d = rand.nextDouble(); // d is random value between 0 and 1
-		
+
 		int i;
 		for (i = 0; i < p.length - 1; i++) {
 			cump += p[i];
 			if (d < cump)
 				break;
 		}
-		//System.out.print("\nrandom "+d+" p "+p[0]+" "+ p[1]+" "+ p[2]+" result " + i);
-		
-		
+		// System.out.print("\nrandom "+d+" p "+p[0]+" "+ p[1]+" "+
+		// p[2]+" result " + i);
+
 		return i;
-		
 
 	}
 
-	
 	/**
 	 *@param z
 	 *            The method returns the value of the normal cumulative
@@ -140,17 +150,15 @@ public class DynamoLib {
 	 * 
 	 * 
 	 * @Author Peter J. Acklam /Javascript version by Alankar Misra @ Digital
-	 *          Sutras (alankar@digitalsutras.com)) / JAVA version by Hendriek
-	 *          E-mail: pjacklam@online.no WWW URL:
-	 *          http://home.online.no/~pjacklam
-	 *          
-	 *       
+	 *         Sutras (alankar@digitalsutras.com)) / JAVA version by Hendriek
+	 *         E-mail: pjacklam@online.no WWW URL:
+	 *         http://home.online.no/~pjacklam
+	 * 
+	 * 
 	 * @return the method returns the value of the normal cumulative
-	 *            distribution function at z.
+	 *         distribution function at z.
 	 * 
 	 */
-
-		
 
 	public static double normp(double z) {
 
@@ -180,8 +188,6 @@ public class DynamoLib {
 
 		zabs = Math.abs(z);
 
-	
-
 		if (z > 37.0) {
 
 			p = 1.0;
@@ -198,13 +204,9 @@ public class DynamoLib {
 
 		}
 
-	
-
 		expntl = Math.exp(-.5 * zabs * zabs);
 
 		pdf = expntl / root2pi;
-
-		
 
 		if (zabs < cutoff) {
 
@@ -238,59 +240,61 @@ public class DynamoLib {
 
 	}
 
-	/**Inverse of the cumulative distribution of a normal
-	 * variable 
-	 * @param p cumulative probability distribution value
+	/**
+	 * Inverse of the cumulative distribution of a normal variable
+	 * 
+	 * @param p
+	 *            cumulative probability distribution value
 	 * @return inverse value (z -value)
 	 * 
-	 * /**
-	 * Method for Inverse Cumulative Standard Normal Distribution Function *
+	 *         /** Method for Inverse Cumulative Standard Normal Distribution
+	 *         Function *
 	 * 
 	 * 
 	 * 
 	 * 
-	 *        This function returns an approximation of the inverse cumulative
-	 *        standard normal distribution function. I.e., given P, it returns
-	 *        an approximation to the X satisfying P = Pr{Z <= X} where Z is a
-	 *        random variable from the standard normal distribution.
+	 *         This function returns an approximation of the inverse cumulative
+	 *         standard normal distribution function. I.e., given P, it returns
+	 *         an approximation to the X satisfying P = Pr{Z <= X} where Z is a
+	 *         random variable from the standard normal distribution.
 	 * 
-	 *        The algorithm uses a minimax approximation by rational functions
-	 *        and the result has a relative error whose absolute value is less
-	 *        than 1.15e-9.
-	 *        
-	 *        
-	 *        
+	 *         The algorithm uses a minimax approximation by rational functions
+	 *         and the result has a relative error whose absolute value is less
+	 *         than 1.15e-9.
 	 * 
-	 *This method calculates the normal cumulative distribution function.
-	 *<p>
-	 *It is based upon algorithm 5666 for the error function, from:
-	 * <p>
 	 * 
-	 * <pre>
+	 * 
+	 * 
+	 *         This method calculates the normal cumulative distribution
+	 *         function.
+	 *         <p>
+	 *         It is based upon algorithm 5666 for the error function, from:
+	 *         <p>
+	 * 
+	 *         <pre>
 	 *       Hart, J.F. et al, 'Computer Approximations', Wiley 1968
 	 *</pre>
-	 *<p>
-	 * The FORTRAN programmer was Alan Miller. The documentation in the FORTRAN
-	 * code claims that the function is "accurate to 1.e-15."
-	 * <p>
-	 * Steve Verrill translated the FORTRAN code (the March 30, 1986 version)
-	 * into Java. This translation was performed on January 10, 2001.
+	 *         <p>
+	 *         The FORTRAN programmer was Alan Miller. The documentation in the
+	 *         FORTRAN code claims that the function is "accurate to 1.e-15."
+	 *         <p>
+	 *         Steve Verrill translated the FORTRAN code (the March 30, 1986
+	 *         version) into Java. This translation was performed on January 10,
+	 *         2001.
 	 * 
 	 * 
 	 * 
-	 * Here is a copy of the documentation in the FORTRAN code:
+	 *         Here is a copy of the documentation in the FORTRAN code:
 	 * 
-	 * SUBROUTINE NORMP(Z, P, Q, PDF) C C Normal distribution probabilities
-	 * accurate to 1.e-15. C Z = no. of standard deviations from the mean. C P,
-	 * Q = probabilities to the left & right of Z. P + Q = 1. C PDF = the
-	 * probability density. C C Based upon algorithm 5666 for the error
-	 * function, from: C Hart, J.F. et al, 'Computer Approximations', Wiley 1968
-	 * C C Programmer: Alan Miller C C Latest revision - 30 March 1986 C
-	 
+	 *         SUBROUTINE NORMP(Z, P, Q, PDF) C C Normal distribution
+	 *         probabilities accurate to 1.e-15. C Z = no. of standard
+	 *         deviations from the mean. C P, Q = probabilities to the left &
+	 *         right of Z. P + Q = 1. C PDF = the probability density. C C Based
+	 *         upon algorithm 5666 for the error function, from: C Hart, J.F. et
+	 *         al, 'Computer Approximations', Wiley 1968 C C Programmer: Alan
+	 *         Miller C C Latest revision - 30 March 1986 C
 	 */
-	 
-	
-	
+
 	static public double normInv(double p) {
 		// Coefficients in rational approximations
 		double[] a = { -3.969683028665376e+01, 2.209460984245205e+02,
@@ -379,23 +383,22 @@ public class DynamoLib {
 	static double logNormInv2(double p, double skewness, double mean, double std)
 			throws DynamoInconsistentDataException {
 
-		
 		if (std <= 0)
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
 		double sigma;
 		double sigma2; /* just for checking */
-				try {
-					sigma2 = findRoot(skewness);
-					sigma = findSigma(skewness);
-				} catch (Exception e) {
-					
-					e.printStackTrace();
-					throw new DynamoInconsistentDataException(
-					" STD of lognormal distribution in combination with skewness can" +
-					"not represent a lognormal distribution");
-				}
-		
+		try {
+			sigma2 = findRoot(skewness);
+			sigma = findSigma(skewness);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new DynamoInconsistentDataException(
+					" STD of lognormal distribution in combination with skewness can"
+							+ "not represent a lognormal distribution");
+		}
+
 		double mu = 0.5 * (Math.log(std * std)
 				- Math.log(Math.exp(sigma * sigma) - 1) - sigma * sigma);
 		double offset = mean - Math.exp(mu + 0.5 * sigma * sigma);
@@ -426,40 +429,41 @@ public class DynamoLib {
 			return 1;
 
 	};
-	
-	/** find Sigma calculates the sigma of a logNormal distributrion from its skewness
-	 * It uses the analytical way to solve this, rather than the rootsearching 
-	 * implemented before in logNorminv2
+
+	/**
+	 * find Sigma calculates the sigma of a logNormal distributrion from its
+	 * skewness It uses the analytical way to solve this, rather than the
+	 * rootsearching implemented before in logNorminv2
+	 * 
 	 * @param skew
 	 * @return
-	
 	 */
-	protected static double findSigma(double skew)  {
-		double sigma=0; 
-		double hulp=0;
-		hulp=2/(2+Math.pow(skew,2)+Math.sqrt(4*Math.pow(skew,2)+Math.pow(skew,4)));
-		hulp=Math.pow(hulp,1.0/3.0);
-		sigma=Math.sqrt(Math.log(-1.0+hulp+1.0/hulp));
-		
+	protected static double findSigma(double skew) {
+		double sigma = 0;
+		double hulp = 0;
+		hulp = 2 / (2 + Math.pow(skew, 2) + Math.sqrt(4 * Math.pow(skew, 2)
+				+ Math.pow(skew, 4)));
+		hulp = Math.pow(hulp, 1.0 / 3.0);
+		sigma = Math.sqrt(Math.log(-1.0 + hulp + 1.0 / hulp));
+
 		return sigma;
-		
+
 	};
-	
 
 	/**
 	 * 
 	 * findRoot solves sigma from the equation for skewness as a function of
 	 * sigma in case of a lognormal distribution using a root finding algoritm
-	 * This is implemented only to check findSigma, that uses the analytical solution, that
-	 * is to be preferred. Here sigma is the standard
-	 * deviation parameter of the lognormal distribution. findRoot uses the
-	 * Brent algorithm (see numerical recipies); By replacing method f with
-	 * another function, and if necessary adapting the range in which a solution
-	 * is sought, one can use this method also for finding roots of other
-	 * functions
+	 * This is implemented only to check findSigma, that uses the analytical
+	 * solution, that is to be preferred. Here sigma is the standard deviation
+	 * parameter of the lognormal distribution. findRoot uses the Brent
+	 * algorithm (see numerical recipies); By replacing method f with another
+	 * function, and if necessary adapting the range in which a solution is
+	 * sought, one can use this method also for finding roots of other functions
 	 * 
-	 * @param skew  the given value of the variable (skewness) for which
-	 *        the value of sigma should be found
+	 * @param skew
+	 *            the given value of the variable (skewness) for which the value
+	 *            of sigma should be found
 	 * @return double : the sigma value for which the function is zero
 	 */
 	protected static double findRoot(double skew) throws Exception {
@@ -487,7 +491,7 @@ public class DynamoLib {
 
 		// Verification of range
 		if (m_xmin >= m_xmax || Sign(fa) == Sign(fb))
-		//	throw new DynamoInconsistentDataException(
+			// throw new DynamoInconsistentDataException(
 			throw new Exception(
 					" InvalidRange for searching root in estimation of lognormal parameters; possible cause: negative skewness");
 		int iiter = 0;
@@ -557,8 +561,10 @@ public class DynamoLib {
 	/**
 	 * method regression(y,x) does a regression of array y on matrix x
 	 * 
-	 * @param y_array double [] Y-values
-	 * @param x_array double [][] X-values (including intercept)
+	 * @param y_array
+	 *            double [] Y-values
+	 * @param x_array
+	 *            double [][] X-values (including intercept)
 	 * @return double [] regression coefficients
 	 * */
 
@@ -577,11 +583,13 @@ public class DynamoLib {
 		return coef;
 	};
 
-	/**main was used for testing
+	/**
+	 * main was used for testing
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		float[] p = { 0.1F, 0.4F, 0.5F };
 		int int1;
 		Random rand1 = new Random(123);
@@ -622,81 +630,106 @@ public class DynamoLib {
 	 */
 	public static float[][] deepcopy(float[][] inarray) {
 		float[][] returnarray = null;
-		if (inarray !=null) {returnarray=new float[inarray.length][inarray[0].length];
-		for (int i = 0; i < inarray.length; i++)
-			System.arraycopy(inarray[i], 0, returnarray[i], 0,
-					inarray[0].length);}
+		if (inarray != null) {
+			returnarray = new float[inarray.length][inarray[0].length];
+			for (int i = 0; i < inarray.length; i++)
+				System.arraycopy(inarray[i], 0, returnarray[i], 0,
+						inarray[0].length);
+		}
 		return returnarray;
 
 	}
+
 	/**
 	 * @param inarray
 	 * @return deepcopy of input array
 	 */
 	public static float[][][] deepcopy(float[][][] inarray) {
 		float[][][] returnarray = null;
-		if (inarray !=null) { returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);}
+		if (inarray != null) {
+			returnarray = new float[inarray.length][][];
+			for (int i = 0; i < inarray.length; i++) {
+				returnarray [i]= new float[inarray[i].length][];
+				for (int j = 0; j < inarray[i].length; j++) {
+					returnarray [i][j]= new float [inarray[i][j].length];
+					System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
+							inarray[i][j].length);
+				}
+			}
+		}
 		return returnarray;
 
 	}
+
 	/**
 	 * @param inarray
 	 * @return deepcopy of input array
 	 */
 	public static double[][][] deepcopy(double[][][] inarray) {
-		
-		double[][][]  returnarray = null;
-		if (inarray !=null) { returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
-						inarray[0][0].length);}
+
+		double[][][] returnarray = null;
+		if (inarray != null) {
+			returnarray = new double[inarray.length][inarray[0].length][inarray[0][0].length];
+			for (int i = 0; i < inarray.length; i++)
+				for (int j = 0; j < inarray[0].length; j++)
+					System.arraycopy(inarray[i][j], 0, returnarray[i][j], 0,
+							inarray[0][0].length);
+		}
 		return returnarray;
 
 	}
-	/** makes a deep copy of a four dimension array. The array is assumed to be regular (same size) with the exception
-	 * of the last two indexes, that can have different dimensions
+
+	/**
+	 * makes a deep copy of a four dimension array. The array is assumed to be
+	 * regular (same size) with the exception of the last two indexes, that can
+	 * have different dimensions
+	 * 
 	 * @param inarray
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][] deepcopy(float[][][][] inarray) {
-		float[][][][]  returnarray = null;
-		if (inarray !=null) {returnarray = new float[inarray.length][inarray[0].length][][];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-			{returnarray[i][j]= new float [inarray[i][j].length][inarray[i][j][0].length];
-				for (int k = 0; k < inarray[i][j].length; k++)
-					System.arraycopy(inarray[i][j][k], 0, returnarray[i][j][k],
-							0, inarray[i][j][k].length);}}
+		float[][][][] returnarray = null;
+		if (inarray != null) {
+			returnarray = new float[inarray.length][inarray[0].length][][];
+			for (int i = 0; i < inarray.length; i++)
+				for (int j = 0; j < inarray[0].length; j++) {
+					returnarray[i][j] = new float[inarray[i][j].length][inarray[i][j][0].length];
+					for (int k = 0; k < inarray[i][j].length; k++)
+						System.arraycopy(inarray[i][j][k], 0,
+								returnarray[i][j][k], 0,
+								inarray[i][j][k].length);
+				}
+		}
 		return returnarray;
 
 	}
-	/** makes a deep copy of a five dimension array. The array is assumed to be regular (same size) with the exception
-	 * of the last two indexes, that can have different dimensions
-	 * @param inarray Input array
+
+	/**
+	 * makes a deep copy of a five dimension array. The array is assumed to be
+	 * regular (same size) with the exception of the last two indexes, that can
+	 * have different dimensions
+	 * 
+	 * @param inarray
+	 *            Input array
 	 * @return deepcopy of input array
 	 */
 	public static float[][][][][] deepcopy(float[][][][][] inarray) {
-		float[][][][][]  returnarray = null;
-		if (inarray !=null) {returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][][];
-		for (int i = 0; i < inarray.length; i++)
-			for (int j = 0; j < inarray[0].length; j++)
-				for (int c = 0; c < inarray[0][0].length; c++)
-					{returnarray[i][j][c]=new float [inarray[i][j][c].length][inarray[i][j][c][0].length];
-					for (int l = 0; l < inarray[i][j][c].length; l++)
-						for (int m = 0; m < inarray[i][j][c][0].length; m++)
-						
-								returnarray[i][j][c][l][m]=
-								inarray[i][j][c][l][m];}}
+		float[][][][][] returnarray = null;
+		if (inarray != null) {
+			returnarray = new float[inarray.length][inarray[0].length][inarray[0][0].length][][];
+			for (int i = 0; i < inarray.length; i++)
+				for (int j = 0; j < inarray[0].length; j++)
+					for (int c = 0; c < inarray[0][0].length; c++) {
+						returnarray[i][j][c] = new float[inarray[i][j][c].length][inarray[i][j][c][0].length];
+						for (int l = 0; l < inarray[i][j][c].length; l++)
+							for (int m = 0; m < inarray[i][j][c][0].length; m++)
+
+								returnarray[i][j][c][l][m] = inarray[i][j][c][l][m];
+					}
+		}
 		return returnarray;
 
 	}
-
-
 
 	/**
 	 * @param inarray
@@ -704,13 +737,13 @@ public class DynamoLib {
 	 */
 	public static float[] deepcopy(float[] inarray) {
 		float[] result = null;
-		if (inarray !=null) { result=new float [inarray.length];
-		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];}
+		if (inarray != null) {
+			result = new float[inarray.length];
+			for (int i = 0; i < inarray.length; i++)
+				result[i] = inarray[i];
+		}
 		return result;
 	}
-
-
 
 	/**
 	 * @param inarray
@@ -718,13 +751,13 @@ public class DynamoLib {
 	 */
 	public static int[] deepcopy(int[] inarray) {
 		int[] result = null;
-		if (inarray !=null) {result=new int [inarray.length];
-		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];}
+		if (inarray != null) {
+			result = new int[inarray.length];
+			for (int i = 0; i < inarray.length; i++)
+				result[i] = inarray[i];
+		}
 		return result;
 	}
-
-
 
 	/**
 	 * @param inarray
@@ -732,13 +765,13 @@ public class DynamoLib {
 	 */
 	public static boolean[] deepcopy(boolean[] inarray) {
 		boolean[] result = null;
-		if (inarray !=null) {result=new boolean [inarray.length];
-		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];}
+		if (inarray != null) {
+			result = new boolean[inarray.length];
+			for (int i = 0; i < inarray.length; i++)
+				result[i] = inarray[i];
+		}
 		return result;
 	}
-
-
 
 	/**
 	 * @param inarray
@@ -746,13 +779,22 @@ public class DynamoLib {
 	 */
 	public static String[] deepcopy(String[] inarray) {
 		String[] result = null;
-		if (inarray !=null) {
-	result=new String [inarray.length];
-		for (int i = 0; i < inarray.length; i++)
-			result[i]=inarray[i];}
+		if (inarray != null) {
+			result = new String[inarray.length];
+			for (int i = 0; i < inarray.length; i++)
+				result[i] = inarray[i];
+		}
 		return result;
 	}
 
-	
-	
+	public static double[] deepcopy(double[] inarray) {
+		double[] result = null;
+		if (inarray != null) {
+			result = new double[inarray.length];
+			for (int i = 0; i < inarray.length; i++)
+				result[i] = inarray[i];
+		}
+		return result;
+	}
+
 }

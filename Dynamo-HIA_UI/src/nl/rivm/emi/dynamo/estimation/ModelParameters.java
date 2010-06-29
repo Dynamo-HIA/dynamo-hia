@@ -375,6 +375,14 @@ public class ModelParameters {
 					if (inputData.getTransType() == 1) { /*
 														 * nett transition rates
 														 */
+						if (a==79 && g==1){
+							
+							int stop=0;
+							stop++;
+							
+						}
+						
+						
 						this.transitionMatrix[a][g] = NettTransitionRateFactory
 								.makeNettTransitionRates(getPrevRisk()[a][g],
 										inputData.getPrevRisk()[anext][g],
@@ -4149,6 +4157,15 @@ public class ModelParameters {
 	public float[][][][][] getRelRiskDiseaseOnDisease() {
 		return DynamoLib.deepcopy(this.relRiskDiseaseOnDisease);
 	}
+	
+	
+	/**
+	 * @return relative risks for diseases on other diseases for age a and sex s . NB this is an
+	 *         irregular array indexes: age, gender, cluster, from, to
+	 */
+	public float[][][] getRelRiskDiseaseOnDisease(int a, int s) {
+		return DynamoLib.deepcopy(this.relRiskDiseaseOnDisease[a][s]);
+	}
 
 	/**
 	 * @param relRiskDiseaseOnDisease
@@ -4177,6 +4194,14 @@ public class ModelParameters {
 	 */
 	public double[][][] getBaselinePrevalenceOdds() {
 		return DynamoLib.deepcopy(this.baselinePrevalenceOdds);
+	}
+	
+	
+	/**
+	 * @return baseline prevalence odds for age and sex. Index is diseasenumber
+	 */
+	public double[] getBaselinePrevalenceOdds(int age, int sex) {
+		return DynamoLib.deepcopy(this.baselinePrevalenceOdds[age][sex]);
 	}
 
 	/**
@@ -4297,6 +4322,14 @@ public class ModelParameters {
 	public float[][][][] getRelRiskClass() {
 		return DynamoLib.deepcopy(this.relRiskClass);
 	}
+	
+	/**
+	 * @return relative risk for categorical risk factor for age and sex. Indexes are:
+	 *         from, to=diseasenumber
+	 */
+	public float[][] getRelRiskClass(int age, int sex) {
+		return DynamoLib.deepcopy(this.relRiskClass[age][sex]);
+	}
 
 	/**
 	 * @param relRiskClass
@@ -4312,7 +4345,15 @@ public class ModelParameters {
 	public float[][][] getRelRiskContinue() {
 		return DynamoLib.deepcopy(this.relRiskContinue);
 	}
+	/**
+	 * @return relative risk for a continuous risk factor for age and sex. Index is         and diseaseNumber
+	 */
+	public float[] getRelRiskContinue(int age , int sex) {
+		return DynamoLib.deepcopy(this.relRiskContinue[age][sex]);
+	}
 
+	
+	
 	/**
 	 * @param relRiskContinue
 	 */
@@ -4402,6 +4443,24 @@ public class ModelParameters {
 	public float[][][] getRelRiskDuurBegin() {
 		return DynamoLib.deepcopy(this.relRiskDuurBegin);
 	}
+	
+	
+	/**
+	 * @return relative risk at the beginning of the duration in the duration
+	 *         class of a compound riskfactor for age age and sex sex,. Index is disease
+	 */
+	public float[] getRelRiskDuurBegin(int age , int sex) {
+		return DynamoLib.deepcopy(this.relRiskDuurBegin[age][sex]);
+	}
+	
+	
+	/**
+	 * @return relative risk at the end of the duration in the duration
+	 *         class of a compound riskfactor for age age and sex sex,. Index is disease
+	 */
+	public float[] getRelRiskDuurEnd(int age , int sex) {
+		return DynamoLib.deepcopy(this.relRiskDuurEnd[age][sex]);
+	}
 
 	/**
 	 * @param relRiskDuurBegin
@@ -4432,6 +4491,14 @@ public class ModelParameters {
 	public float[][][] getAlphaDuur() {
 		return DynamoLib.deepcopy(this.alphaDuur);
 	}
+	
+	
+	/**
+	 * @return the alpha value for decreasing of the relative risk with duration
+	 */
+	public float[] getAlphaDuur(int age , int sex) {
+		return DynamoLib.deepcopy(this.alphaDuur[age][sex]);
+	}
 
 	/**
 	 * @param alphaDuur
@@ -4446,6 +4513,15 @@ public class ModelParameters {
 	 */
 	public float[][][] getDuurFreq() {
 		return DynamoLib.deepcopy(this.duurFreq);
+	}
+	
+	
+	/**
+	 * @return initial frequency of durations in the duration class of a
+	 *         compound risk factor
+	 */
+	public float[] getDuurFreq(int age, int sex) {
+		return DynamoLib.deepcopy(this.duurFreq[age][sex]);
 	}
 
 	/**
