@@ -22,6 +22,7 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
 import nl.rivm.emi.dynamo.estimation.NettTransitionRateFactory;
 import nl.rivm.emi.dynamo.estimation.ScenarioInfo;
+import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
 
@@ -490,10 +491,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 * 
 	 * 
 	 * @throws DynamoScenarioException
+	 * @throws DynamoInconsistentDataException 
 	 * 
 	 */
 	public void extractNumbersFromPopulation(Population[] pop)
-			throws DynamoScenarioException {
+			throws DynamoScenarioException, DynamoInconsistentDataException {
 
 		// TODO newborns weighting
 		// TODO weighting of initial scenario that is not a one-for-all scenario
@@ -558,13 +560,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		int minimumGender = minMaxData[2];
 		int numberOfAgesInPop = minMaxData[1] - minimumAge + 1;
 		int numberOfGendersInPop = minMaxData[3] - minimumGender + 1;
-
-		Runtime s_runtime = Runtime.getRuntime ();
-		long used_memory = s_runtime.totalMemory () - s_runtime.freeMemory ();
-
-		log.info("minimum age " + minimumAge + " maximumAge " + minMaxData[1]
+		log.fatal("minimum age " + minimumAge + " maximumAge " + minMaxData[1]
 				+ "\nminimum sex " + minimumGender + " maximum gender "
-				+ minMaxData[3] + " used memory: " + used_memory);
+				+ minMaxData[3]);
 
 		/*
 		 * these arrays are kept as small as possible by letting starting age
@@ -1395,7 +1393,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											if (a == 0 && s == 0
 													&& stepCount == 50)
 												log
-														.info("scen "
+														.fatal("scen "
 																+ scen
 																+ 1
 																+ " from "
@@ -1706,7 +1704,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				RR = this.relRiskAbilityCat[age2][sex][riskFactor];
 			daly = (1 - this.baselineAbility[age2][sex] * RR * ability);
 			if (this.alfaAbility[age2][sex] < 0)
-				log.warn("!!!! NEGATIVE alfa-ability");
+				log.fatal("!!!! NEGATIVE alfa-ability");
 		}
 		if (age == 0) {
 			int b = 0;
@@ -3067,7 +3065,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						for (int stepCount = 0; stepCount < this.nDim - age; stepCount++) {
 							nDiseaseByAge[scen][stepCount][g] += nDiseaseByOriRiskClassByOriAge[scen][stepCount][d][r][age][g];
 							if (scen == 1 && g == 0)
-								log.debug(" stepcount " + stepCount
+								log.fatal(" stepcount " + stepCount
 										+ " NDisease "
 										+ nDiseaseByAge[scen][stepCount][g]);
 						}

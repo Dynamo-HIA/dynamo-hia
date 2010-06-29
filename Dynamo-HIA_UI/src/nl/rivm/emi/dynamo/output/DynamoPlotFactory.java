@@ -3014,7 +3014,7 @@ public class DynamoPlotFactory {
 	 * 
 	 */
 	public JFreeChart makeCohortLifeExpectancyPlot(int age,
-			boolean differencePlot, boolean blackAndWhite) {
+			boolean differencePlot, boolean blackAndWhite, int cumulative) {
 
 		/*
 		 * for (int steps = 0; steps < stepsInRun; steps++) { double indat = 0;
@@ -3028,10 +3028,12 @@ public class DynamoPlotFactory {
 
 		// TODO throw exception if stepsInrun < 105-age
 		double[][] lifeExp = new double[this.output.getNScen() + 1][2];
+		double[][] cumlifeExp = new double[this.output.getNScen() + 1][2];
 		double baselinePop = 0;
 		double[][][][] nPopByAge = getNPopByOriAge();
 		/* enable 3 statements for daly in bars */
-	//	LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
+		LabelGenerator generator1 = new LabelGenerator("years of life",
+				this.output.getNScen(), false);
 		int yearsLeft = this.output.getNDim() - age;
 		/*
 		 * age of the simulated population is the exact age , so everyone is
@@ -3073,9 +3075,36 @@ public class DynamoPlotFactory {
 					lifeExp[scenario][s] = lifeExp[scenario][s] / baselinePop;
 				else
 					lifeExp[scenario][s] = 0;
-		//		generator.setDaly(scenario, s, baselinePop*lifeExp[scenario][s]);
+				if (cumulative == 2)
+					generator1.setDaly(scenario, s, baselinePop
+							* lifeExp[scenario][s]);
 
 			}
+
+		if (cumulative == 1)
+			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
+
+				for (int s = 0; s < 2; s++) {
+					cumlifeExp[scenario][s]=0;
+					for (int a = age; a <= this.output.getMaxAgeInSimulation(); a++) {
+						double ageWeight = 0.5;
+						int yearsLeftcum = this.output.getNDim() - a;
+						for (int steps = 0; steps < yearsLeftcum; steps++) {
+							cumlifeExp[scenario][s] += ageWeight
+									* applySuccesrate(
+											nPopByAge[0][steps][a][s],
+											nPopByAge[scenario][steps][a][s],
+											scenario, 0, a, s);
+							if (steps == 0) {
+								ageWeight = 1;
+							}
+						}
+					}
+
+					generator1.setDaly(scenario, s, cumlifeExp[scenario][s]);
+
+				}
+
 		String[] gender = { "men", "women" };
 		String[] legend = this.output.getScenarioNames();
 
@@ -3094,25 +3123,27 @@ public class DynamoPlotFactory {
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
 		Plot plot = chart.getPlot();
 		SubCategoryAxis domainAxis = new SubCategoryAxis("");
-		
-		domainAxis
-				.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
+
+		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
 		domainAxis.setCategoryLabelPositionOffset(-12);
-			
+
 		domainAxis.setMaximumCategoryLabelWidthRatio(3f);
-
-
 
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f));
 		/* disable next 2 statements for daly in bars */
-		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+		CategoryItemLabelGenerator generator0 = new StandardCategoryItemLabelGenerator(
 				"{2}", new DecimalFormat("0.00"));
-		renderer.setBaseItemLabelGenerator(generator);
-	
-		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER, /*-Math.PI/2*/0));
+		if (cumulative == 0)
+			renderer.setBaseItemLabelGenerator(generator0);
+		else
+			renderer.setBaseItemLabelGenerator(generator1);
+
+		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
+				ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER, /*-Math.PI/2*/
+				0));
 		renderer.setBaseItemLabelsVisible(true);
 		// renderer.setSeriesPaint(0, Color.gray);
 		// renderer.setSeriesPaint(1, Color.orange);
@@ -3176,16 +3207,13 @@ public class DynamoPlotFactory {
 	public JFreeChart makeYearLifeExpectancyPlot(int year, int ageOfLE,
 			boolean differencePlot, boolean blackAndWhite) {
 
-		
-		/* enable  3 statements for daly in bars */
-	//	LabelGenerator generator=new LabelGenerator("years of life",this.output.getNScen(),false);
+		/* enable 3 statements for daly in bars */
+		// LabelGenerator generator=new
+		// LabelGenerator("years of life",this.output.getNScen(),false);
 		if (this.output.getStepsInRun() > 0) {
 			double[][] lifeExp = new double[this.output.getNScen() + 1][2];
 			String chartTitle = ("Cross-sectional life expectancy");
-			
-			
-			
-			
+
 			if (ageOfLE > 95)
 				chartTitle = (" no simulated persons of age 95 and younger in year " + (this.output
 						.getStartYear() + year));
@@ -3234,7 +3262,7 @@ public class DynamoPlotFactory {
 				// expectancy and simple life expectancy
 				double[][][] nPopByAge = new double[this.output.getNScen() + 1][Math
 						.min(96 + year, this.output.getNDim() - 1) + 1][2];
-				
+
 				for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 					for (int sex = 0; sex < 2; sex++) {
 						nPopByAge[scenario][ageOfLE][sex] = 1;
@@ -3243,7 +3271,7 @@ public class DynamoPlotFactory {
 
 							nPopByAge[scenario][age][sex] = nPopByAge[scenario][age - 1][sex]
 									* (1 - mortality[scenario][year][age - 1][sex]);
-							
+
 							lifeExp[scenario][sex] += 0.5 * (nPopByAge[scenario][age - 1][sex] + nPopByAge[scenario][age][sex]);
 						}
 						/*
@@ -3257,11 +3285,14 @@ public class DynamoPlotFactory {
 							lifeExp[scenario][sex] += nPopByAge[scenario][maxAgeInSimulation[sex]][sex]
 									/ rate;
 						}
-						double totalPopulationYearsOfLife=applySuccesrate(getNPopByOriAge(scenario,year, ageOfLE, sex),
-								getNPopByOriAge(scenario,year, ageOfLE, sex), scenario,
-								0, ageOfLE, sex)*lifeExp[scenario][sex];
-		//				generator.setDaly(scenario, sex,totalPopulationYearsOfLife);
-			}
+						double totalPopulationYearsOfLife = applySuccesrate(
+								getNPopByOriAge(scenario, year, ageOfLE, sex),
+								getNPopByOriAge(scenario, year, ageOfLE, sex),
+								scenario, 0, ageOfLE, sex)
+								* lifeExp[scenario][sex];
+						// generator.setDaly(scenario,
+						// sex,totalPopulationYearsOfLife);
+					}
 			}
 			String[] gender = { "men", "women" };
 			String[] legend = this.output.getScenarioNames();
@@ -3290,19 +3321,20 @@ public class DynamoPlotFactory {
 			subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
 			chart.addSubtitle(subTitle);
 			SubCategoryAxis domainAxis = new SubCategoryAxis("");
-			domainAxis
-					.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
+			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
 			/* assign a generator to a CategoryItemRenderer, */
 			CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 			renderer.setBaseOutlinePaint(Color.black);
 			renderer.setBaseOutlineStroke(new BasicStroke(1.5f));
-			
-	//		renderer.setBaseItemLabelGenerator(generator);
+
+			// renderer.setBaseItemLabelGenerator(generator);
 			/* disable next 2 statements for daly in bars */
 			CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
 					"{2}", new DecimalFormat("0.00"));
 			renderer.setBaseItemLabelGenerator(generator);
-			renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER,/*-Math.PI/2*/0));
+			renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
+					ItemLabelAnchor.CENTER, TextAnchor.CENTER,
+					TextAnchor.CENTER,/*-Math.PI/2*/0));
 			renderer.setBaseItemLabelsVisible(true);
 			GrayPaintScale tint = new GrayPaintScale(1, Math.max(2, this.output
 					.getNScen() + 1));
@@ -3339,102 +3371,125 @@ public class DynamoPlotFactory {
 		}
 	}
 
-	
 	/**
-	* A custom label generator.
-	*/
-	
+	 * A custom label generator.
+	 */
+
 	static class LabelGenerator extends AbstractCategoryItemLabelGenerator
-	implements CategoryItemLabelGenerator {
-	/**
+			implements CategoryItemLabelGenerator {
+		/**
 		 * 
 		 */
-	private static final long serialVersionUID = 1L;
-	String type;
-	boolean stacked;
-	private double[][] dalys;/* index:  scenario sex */
-	private DecimalFormat df2 = new DecimalFormat ("#.00");
-	
-	public double[][] getDalys() {
-		return dalys;
+		private static final long serialVersionUID = 1L;
+		String type;
+		boolean stacked;
+		private double[][] dalys;/* index: scenario sex */
+		private DecimalFormat df2 = new DecimalFormat("#.00");
+
+		public double[][] getDalys() {
+			return dalys;
+		}
+
+		/**
+		 * @param scenario
+		 * @param sex
+		 * @param d
+		 *            : value in personyears
+		 */
+		public void setDaly(int scenario, int sex, double d) {
+			if (dalys != null)
+				dalys[scenario][sex] = d;
+
+		}
+
+		public void setDalys(double[][] dalys) {
+			this.dalys = dalys;
+
+		}
+
+		/**
+		 * Creates a new generator that only displays labels that are greater
+		 * than or equal to the threshold value.
+		 * 
+		 * @param type
+		 *            : the type of difference
+		 */
+		public LabelGenerator(String type, int nScen, boolean stacked) {
+			super("", NumberFormat.getInstance());
+			this.type = type;
+			this.dalys = new double[nScen + 1][2];
+			this.stacked = stacked;
+
+		}
+
+		/**
+		 * Generates a label for the specified item. The label is typically a
+		 * formatted version of the data value, but any text can be used.
+		 * 
+		 * @param dataset
+		 *            the dataset (<code>null</code> not permitted).
+		 * @param series
+		 *            the series index (zero-based).
+		 * @param category
+		 *            the category index (zero-based).
+		 * 
+		 * @return the label (possibly <code>null</code>).
+		 */
+		public String generateLabel(CategoryDataset dataset, int series,
+				int category) {
+			String result = null;
+
+			double value = (double) (Double) dataset.getValue(series, category);
+			double reference_value = (double) (Double) dataset.getValue(0,
+					category);
+			log.fatal("series: " + series + " category: " + category
+					+ " value: " + value);
+
+			if (value != 0) {
+
+				String qualifyer = "pop. gain in " + this.type + ": ";
+				if (reference_value > value)
+					qualifyer = "pop. loss of " + type + ": ";
+				result = df2.format(value);
+				/* category: sex */
+				/*
+				 * stacked series: 0=with /1=without disease 2/ without
+				 * scenario1 3/ with scenario1 etc
+				 */
+				/* unstacked series =scenario */
+				int scenario = series;
+				if (stacked)
+					scenario = (int) (series / 2);
+				boolean outputPopulationDifference = false;
+				if (2 * scenario == series || !stacked)
+					outputPopulationDifference = true;
+				if (scenario > 0 && outputPopulationDifference)
+					result += " ("
+							+ qualifyer
+							+ (int) Math.abs(dalys[scenario][category]
+									- dalys[0][category]) + ")";
+
+			}
+
+			return result;
+		}
+
+		/* column keys are:[0] men,[1] women */
+		public String generateColumnLabel(CategoryDataset dataset, int arg) {
+			return dataset.getColumnKey(arg).toString();
+		}
+
+		/*
+		 * row keys are: [0]healthy reference scen,[1] with disease reference
+		 * scen [2] healthy scen1 [3] with disease scen 1 etc
+		 */
+		/* data: first index= rows, second index=columns */
+		public String generateRowLabel(CategoryDataset dataset, int arg) {
+			return dataset.getRowKey(arg).toString();
+		}
+
 	}
-	/**
-	 * @param scenario
-	 * @param sex
-	 * @param d: value in personyears
-	 */
-	public void setDaly(int scenario, int sex, double d) {
-		if (dalys!=null) dalys[scenario][sex]=d;
-		
-	}
-	public void setDalys(double[][] dalys) {
-		this.dalys = dalys;
-		
-	}
-	/**
-	* Creates a new generator that only displays labels that are greater
-	* than or equal to the threshold value.
-	*
-	* @param type: the type of difference
-	*/
-	public LabelGenerator(String type, int nScen, boolean stacked) {
-	super("", NumberFormat.getInstance());
-	this.type=type;
-	this.dalys=new double [nScen+1][2];
-	this.stacked=stacked;
- 
-	}
-	/**
-	* Generates a label for the specified item. The label is typically a
-	* formatted version of the data value, but any text can be used.
-	*
-	* @param dataset the dataset (<code>null</code> not permitted).
-	* @param series the series index (zero-based).
-	* @param category the category index (zero-based).
-	*
-	* @return the label (possibly <code>null</code>).
-	*/
-	public String generateLabel(CategoryDataset dataset,
-	int series,
-	int category) {
-	String result = null;
-	
-	double value = (double) (Double)dataset.getValue(series, category);
-	double reference_value=(double)(Double) dataset.getValue(0, category);
-	log.info("series: "+series+ " category: "+category+" value: "+value);
-	
-	if (value != 0) {
-	
-	String qualifyer="pop. gain in "+this.type+": ";
-	if (reference_value > value) qualifyer="pop. loss of "+type+ ": ";
-	result =df2.format(value); 
-	/* category: sex */
-	/* stacked series: 0=with /1=without disease 2/ without scenario1 3/ with scenario1 etc */
-	/* unstacked series =scenario */
-	int scenario=series;
-	if (stacked) scenario=(int)(series/2);
-	boolean outputPopulationDifference=false;
-	if (2*scenario==series || !stacked) outputPopulationDifference=true;
-	if (scenario>0 && outputPopulationDifference) result+=" ("+qualifyer+(int)Math.abs(dalys[scenario][category]-dalys[0][category]) +")";
-	
-	
-	}
-	
-	return result;
-	}
-	/* column keys are:[0] men,[1] women */
-	public String generateColumnLabel(CategoryDataset dataset, int arg) {
-		return dataset.getColumnKey(arg).toString();
-	}
-	/* row keys are: [0]healthy reference scen,[1] with disease reference scen [2] healthy scen1 [3] with disease scen 1 etc */
-	/* data: first index= rows, second index=columns */
-	public String generateRowLabel(CategoryDataset dataset, int arg) {
-		return dataset.getRowKey(arg).toString();
-	}
-	
-	}
-	
-	
+
 	/**
 	 * the method produces a bargraph for life-expectancy in different
 	 * scenario's for those who have age a at baseline. This is a Sullivan
@@ -3479,7 +3534,7 @@ public class DynamoPlotFactory {
 				chartTitle = (" no simulated persons of age 95 and younger in year " + (this.output
 						.getStartYear() + year));
 			else {
-				
+
 				/* check the range of age values availlable */
 
 				int[] maxAgeInSimulation = getmaxAgeInSimulation(year, ageOfLE);
@@ -3519,9 +3574,9 @@ public class DynamoPlotFactory {
 								+ maxAgeInSimulation[1]
 								+ " (women)" + " with and without ");
 
-				}}
-				
-			
+				}
+			}
+
 			String[] legend = new String[2];
 			legend[0] = "healthy";
 			if (disease == -1)
@@ -3529,183 +3584,172 @@ public class DynamoPlotFactory {
 			else if (disease == -2)
 				legend[1] = "with disablity";
 			else
-				legend[1] = "with "
-						+ this.output.getDiseaseNames()[disease];
+				legend[1] = "with " + this.output.getDiseaseNames()[disease];
 
 			String label;
 			String dalyLabel;
-			if (disease == -1){
+			if (disease == -1) {
 				chartTitle = chartTitle + "disease" + " (Sullivan Method)";
-			    dalyLabel="years without disease";	
-			}
-			else if (disease == -2){
-				chartTitle = chartTitle + "disability"
-						+ " (Sullivan Method)";
-				 dalyLabel="dalys";	}
-			else{
+				dalyLabel = "years without disease";
+			} else if (disease == -2) {
+				chartTitle = chartTitle + "disability" + " (Sullivan Method)";
+				dalyLabel = "dalys";
+			} else {
 				chartTitle = chartTitle
 						+ this.output.getDiseaseNames()[disease]
 						+ " (Sullivan Method)";
-				 dalyLabel="years without "+this.output.getDiseaseNames()[disease];}
+				dalyLabel = "years without "
+						+ this.output.getDiseaseNames()[disease];
+			}
 
 			if (ageOfLE > 0)
 				label = (this.output.getStartYear() + year) + ", at age "
 						+ ageOfLE;
 			else
-				label = "" + (this.output.getStartYear() + year)
-						+ ", at birth";
+				label = "" + (this.output.getStartYear() + year) + ", at birth";
 
-			// enable this (three times) for DALY in bars 
-			
-			//LabelGenerator labelGenerator=new LabelGenerator(dalyLabel,this.output.getNScen(),true);
-			
-			
+			// enable this (three times) for DALY in bars
+
+			// LabelGenerator labelGenerator=new
+			// LabelGenerator(dalyLabel,this.output.getNScen(),true);
+
 			/* make data */
-                  
-				DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-				for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++) {
-					double[][] HLE = calculateSullivanLifeExpectancy(year,
-							ageOfLE, disease, scenario);
-					
-                    
-                    
-					for (int sex = 0; sex < 2; sex++) {
-						if (HLE[0][0] == -1){
-							HLE[sex][1] = 0;
-							HLE[sex][0] = 0;
-						}
 
-						if (scenario == 0) {
-							dataset.addValue(HLE[sex][0] - HLE[sex][1],
-									"healthy", genderLabel[sex]);
-							dataset.addValue(HLE[sex][1], "with disease",
-									genderLabel[sex]);
-						} else {
-							dataset.addValue(HLE[sex][0] - HLE[sex][1],
-									this.output.getScenarioNames()[scenario]
-											+ "(healthy)", genderLabel[sex]);
-							dataset.addValue(HLE[sex][1], this.output
-									.getScenarioNames()[scenario]
-									+ "(withDisease)", genderLabel[sex]);
-						}
-		//				labelGenerator.setDaly(scenario,sex,HLE[sex][2]);
+			DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++) {
+				double[][] HLE = calculateSullivanLifeExpectancy(year, ageOfLE,
+						disease, scenario);
+
+				for (int sex = 0; sex < 2; sex++) {
+					if (HLE[0][0] == -1) {
+						HLE[sex][1] = 0;
+						HLE[sex][0] = 0;
 					}
+
+					if (scenario == 0) {
+						dataset.addValue(HLE[sex][0] - HLE[sex][1], "healthy",
+								genderLabel[sex]);
+						dataset.addValue(HLE[sex][1], "with disease",
+								genderLabel[sex]);
+					} else {
+						dataset.addValue(HLE[sex][0] - HLE[sex][1], this.output
+								.getScenarioNames()[scenario]
+								+ "(healthy)", genderLabel[sex]);
+						dataset.addValue(HLE[sex][1], this.output
+								.getScenarioNames()[scenario]
+								+ "(withDisease)", genderLabel[sex]);
+					}
+					// labelGenerator.setDaly(scenario,sex,HLE[sex][2]);
+				}
+			}
+
+			JFreeChart chart = ChartFactory.createStackedBarChart(chartTitle,
+					"", "years", dataset, PlotOrientation.HORIZONTAL, true,
+					true, false);
+			TextTitle title = chart.getTitle();
+			title.setFont(new Font("SansSerif", Font.BOLD, 14));
+			TextTitle subTitle = new TextTitle(label);
+			subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
+			chart.addSubtitle(subTitle);
+			GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
+			KeyToGroupMap map = new KeyToGroupMap(this.output
+					.getScenarioNames()[0]);
+			map.mapKeyToGroup("healthy", this.output.getScenarioNames()[0]);
+			map
+					.mapKeyToGroup("with disease", this.output
+							.getScenarioNames()[0]);
+			map.mapKeyToGroup("with disability",
+					this.output.getScenarioNames()[0]);
+
+			for (int scenario = 1; scenario < this.output.getNScen() + 1; scenario++)
+
+				for (int s = 0; s < 2; s++) {
+					map.mapKeyToGroup(this.output.getScenarioNames()[scenario]
+							+ "(healthy)",
+							this.output.getScenarioNames()[scenario]);
+					map.mapKeyToGroup(this.output.getScenarioNames()[scenario]
+							+ "(withDisease)",
+							this.output.getScenarioNames()[scenario]);
+				}
+			renderer.setSeriesToGroupMap(map);
+
+			SubCategoryAxis domainAxis = new SubCategoryAxis("");
+			domainAxis.setCategoryMargin(0.2); // gap between men and women:
+			// does
+			// not work
+			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 10));
+
+			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
+				domainAxis
+						.addSubCategory(this.output.getScenarioNames()[scenario]);
+			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 14));
+			CategoryPlot plot = (CategoryPlot) chart.getPlot();
+
+			AxisSpace space = new AxisSpace();
+			space.setTop(30);/* enough space is needed for the titles */
+			space.setLeft(100);/*
+								 * enough space in needed for the scenario names
+								 */
+			space.setBottom(10);
+			plot.setFixedRangeAxisSpace(space);
+			plot.setDomainAxis(domainAxis);
+			// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
+			renderer.setItemMargin(0.15);
+			GrayPaintScale tint = null;
+			if (blackAndWhite)
+				tint = new GrayPaintScale(1, 4);
+
+			// dikte van de lijn// between the scenarios;
+			int currentSeries = 0;
+			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
+				for (int s = 0; s < 2; s++) {
+					renderer.setSeriesPaint(currentSeries, Color.pink);
+					if (blackAndWhite)
+						renderer
+								.setSeriesPaint(currentSeries, tint.getPaint(2));
+					renderer.setSeriesVisibleInLegend(currentSeries, false);
+					currentSeries++;
+					renderer.setSeriesPaint(currentSeries, Color.pink.darker());
+					if (blackAndWhite)
+						renderer
+								.setSeriesPaint(currentSeries, tint.getPaint(3));
+					renderer.setSeriesVisibleInLegend(currentSeries, false);
+					currentSeries++;
+
 				}
 
-						JFreeChart chart = ChartFactory.createStackedBarChart(
-						chartTitle, "", "years", dataset,
-						PlotOrientation.HORIZONTAL, true, true, false);
-				TextTitle title = chart.getTitle();
-				title.setFont(new Font("SansSerif", Font.BOLD, 14));
-				TextTitle subTitle = new TextTitle(label);
-				subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
-				chart.addSubtitle(subTitle);
-				GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
-				KeyToGroupMap map = new KeyToGroupMap(this.output
-						.getScenarioNames()[0]);
-				map.mapKeyToGroup("healthy", this.output.getScenarioNames()[0]);
-				map.mapKeyToGroup("with disease", this.output
-						.getScenarioNames()[0]);
-				map.mapKeyToGroup("with disability", this.output
-						.getScenarioNames()[0]);
+			// renderer.setBaseItemLabelGenerator(labelGenerator);
 
-				for (int scenario = 1; scenario < this.output.getNScen() + 1; scenario++)
+			renderer.setSeriesVisibleInLegend(0, true);
+			renderer.setSeriesVisibleInLegend(1, true);
+			renderer.setDrawBarOutline(true);
+			renderer.setBaseOutlinePaint(Color.black);
+			renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte
+			// van
+			// de
+			// lijn
 
-					for (int s = 0; s < 2; s++) {
-						map.mapKeyToGroup(
-								this.output.getScenarioNames()[scenario]
-										+ "(healthy)", this.output
-										.getScenarioNames()[scenario]);
-						map.mapKeyToGroup(
-								this.output.getScenarioNames()[scenario]
-										+ "(withDisease)", this.output
-										.getScenarioNames()[scenario]);
-					}
-				renderer.setSeriesToGroupMap(map);
+			plot.setRenderer(renderer);
+			// plot.setFixedLegendItems(makeLegend(disease));
+			/* disable next 2 statements for daly in bars */
+			CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
+					"{2}", new DecimalFormat("0.00"));
+			renderer.setBaseItemLabelGenerator(generator);
+			renderer.setBaseItemLabelsVisible(true);
+			/*
+			 * this is necessary as otherwise the tooltips are made invisible
+			 * together with the in legend invisibility
+			 */
+			renderer
+					.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 
-				SubCategoryAxis domainAxis = new SubCategoryAxis("");
-				domainAxis.setCategoryMargin(0.2); // gap between men and women:
-				// does
-				// not work
-				domainAxis
-						.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 10));
-
-				for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
-					domainAxis
-							.addSubCategory(this.output.getScenarioNames()[scenario]);
-				domainAxis
-						.setTickLabelFont(new Font("SansSerif", Font.BOLD, 14));
-				CategoryPlot plot = (CategoryPlot) chart.getPlot();
-				
-				AxisSpace space = new AxisSpace();
-				space.setTop(30);/* enough space is needed for the titles */
-				space.setLeft(100);/*
-									 * enough space in needed for the scenario
-									 * names
-									 */
-				space.setBottom(10);
-				plot.setFixedRangeAxisSpace(space);
-				plot.setDomainAxis(domainAxis);
-				// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
-				renderer.setItemMargin(0.15);
-				GrayPaintScale tint = null;
-				if (blackAndWhite)
-					tint = new GrayPaintScale(1, 4);
-
-				// dikte van de lijn// between the scenarios;
-				int currentSeries = 0;
-				for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
-					for (int s = 0; s < 2; s++) {
-						renderer.setSeriesPaint(currentSeries, Color.pink);
-						if (blackAndWhite)
-							renderer.setSeriesPaint(currentSeries, tint
-									.getPaint(2));
-						renderer.setSeriesVisibleInLegend(currentSeries, false);
-						currentSeries++;
-						renderer.setSeriesPaint(currentSeries, Color.pink
-								.darker());
-						if (blackAndWhite)
-							renderer.setSeriesPaint(currentSeries, tint
-									.getPaint(3));
-						renderer.setSeriesVisibleInLegend(currentSeries, false);
-						currentSeries++;
-
-					}
-					
-		//		renderer.setBaseItemLabelGenerator(labelGenerator);
-				
-				
-				renderer.setSeriesVisibleInLegend(0, true);
-				renderer.setSeriesVisibleInLegend(1, true);
-				renderer.setDrawBarOutline(true);
-				renderer.setBaseOutlinePaint(Color.black);
-				renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte
-																		// van
-				// de
-				// lijn
-
-				plot.setRenderer(renderer);
-				// plot.setFixedLegendItems(makeLegend(disease));
-                /* disable next 2 statements for daly in bars */
-				CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
-						"{2}", new DecimalFormat("0.00"));
-				renderer.setBaseItemLabelGenerator(generator);
-				renderer.setBaseItemLabelsVisible(true);
-				/*
-				 * this is necessary as otherwise the tooltips are made
-				 * invisible together with the in legend invisibility
-				 */
-				renderer
-						.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
-
-				return chart;
-				/*
-				 * mortality can only be calculated if there is at least one
-				 * year of follow-up (stepsinrun>0) If this is not the case,
-				 * return an empty plot
-				 */
-			}
-		 else {
+			return chart;
+			/*
+			 * mortality can only be calculated if there is at least one year of
+			 * follow-up (stepsinrun>0) If this is not the case, return an empty
+			 * plot
+			 */
+		} else {
 			JFreeChart chart = makeEmptyPlot();
 			return chart;
 		}
@@ -3721,8 +3765,8 @@ public class DynamoPlotFactory {
 	 *            weighted life expectancy
 	 * @param scenario
 	 * @return array [sex][type] where type=0 gives total life expectancy and
-	 *         type=1 gives the healthy life expectancy and type=2 the starting population; [0][0] is made -1 if
-	 *         calculation fails
+	 *         type=1 gives the healthy life expectancy and type=2 the starting
+	 *         population; [0][0] is made -1 if calculation fails
 	 */
 	public double[][] calculateSullivanLifeExpectancy(int year, int ageOfLE,
 			int disease, int scenario) {
@@ -3768,9 +3812,9 @@ public class DynamoPlotFactory {
 				HLE[sex][2] = applySuccesrate(nPopByAge[0][year][ageOfLE][sex],
 						nPopByAge[scenario][year][ageOfLE][sex], scenario,
 						year, ageOfLE, sex);
-				
+
 				for (int age = ageOfLE + 1; age <= maxAgeInSimulation[sex]; age++) {
-                    
+
 					nInLifeTable[scenario][age][sex] = nInLifeTable[scenario][age - 1][sex]
 							* (1 - mortality[scenario][year][age - 1][sex]);
 					HLE[sex][0] += 0.5 * (nInLifeTable[scenario][age - 1][sex] + nInLifeTable[scenario][age][sex]);
@@ -3785,13 +3829,13 @@ public class DynamoPlotFactory {
 						diseasePerc = diseasePerc / nPop;
 					else
 						errorFlag = true;
-					
+
 					HLE[sex][1] += 0.5
 							* (nInLifeTable[scenario][age - 1][sex] + nInLifeTable[scenario][age][sex])
 							* diseasePerc;
 
 				}
-				
+
 				if (maxAgeInSimulation[sex] >= 95) {
 					double rate = -Math
 							.log(1 - mortality[scenario][year][maxAgeInSimulation[sex]][sex]);
@@ -3812,7 +3856,7 @@ public class DynamoPlotFactory {
 					HLE[sex][1] += (nInLifeTable[scenario][maxAgeInSimulation[sex]][sex] / rate)
 							* diseasePerc;
 				}
-				HLE[sex][2]*=(HLE[sex][0]-HLE[sex][1]);
+				HLE[sex][2] *= (HLE[sex][0] - HLE[sex][1]);
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
 				 * general different label
@@ -3880,26 +3924,30 @@ public class DynamoPlotFactory {
 	 * 
 	 */
 	public JFreeChart makeCohortHealthyLifeExpectancyPlot(int age, int disease,
-			boolean blackAndWhite) {
+			boolean blackAndWhite, int cumulative) {
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		String[] genderLabel = { "men", "women" };
-		String itemLabel=null;
+		String itemLabel = null;
 		String[] legend = new String[2];
 		legend[0] = "healthy";
-		if (disease == -1){
+		if (disease == -1) {
 			legend[1] = "with disease";
-			itemLabel="years without disease";}
-		else if (disease == -2){
+			itemLabel = "years without disease";
+		} else if (disease == -2) {
 			legend[1] = "with disability";
-			itemLabel="dalys";}
-		else{
+			itemLabel = "dalys";
+		} else {
 			legend[1] = "with " + this.output.getDiseaseNames()[disease];
-			itemLabel="years without "+this.output.getDiseaseNames()[disease];
+			itemLabel = "years without "
+					+ this.output.getDiseaseNames()[disease];
 		}
 		/* endable 3 statements for daly in bars */
-//		LabelGenerator generator=new LabelGenerator(itemLabel,this.output.getNScen(),true);
-		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++){
+		LabelGenerator generator1 = new LabelGenerator(itemLabel, this.output
+				.getNScen(), true);
+		CategoryItemLabelGenerator generator0 = new StandardCategoryItemLabelGenerator(
+				"{2}", new DecimalFormat("0.00"));
+		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++) {
 			/*
 			 * the function calculateHealthExpectancy return a 2 by 2 array,
 			 * first index is sex, second: 0 = life expectancy, 1= health
@@ -3907,12 +3955,18 @@ public class DynamoPlotFactory {
 			 */
 			double[][] HLE = calculateCohortHealthExpectancy(age, scenario,
 					disease);
-			
-			
+			double[] cumHLE = new double[2];
+			if (cumulative == 1)
+				cumHLE = calculateCumulativeDalys(age, disease, scenario, HLE);
 			for (int s = 0; s < 2; s++) {
 
-	//			generator.setDaly(scenario,s,HLE[s][2]);
-				log.debug("setting DALY for scen "+scenario+ " sex "+s+" to :  "+HLE[s][2]);
+				if (cumulative == 2)
+					generator1.setDaly(scenario, s, HLE[s][2]);
+				else if (cumulative == 1)
+					generator1.setDaly(scenario, s, cumHLE[s]);
+
+				log.fatal("setting DALY for scen " + scenario + " sex " + s
+						+ " to :  " + HLE[s][2]);
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
 				 * general different label
@@ -3934,8 +3988,9 @@ public class DynamoPlotFactory {
 								.getScenarioNames()[scenario]
 								+ "(with disability)", genderLabel[s]);
 				}
-			}}
-        
+			}
+		}
+
 		String chartTitle = ("Cohort life expectancy with and without ");
 
 		String label;
@@ -3950,8 +4005,7 @@ public class DynamoPlotFactory {
 			label = " at age " + age;
 		else
 			label = " at birth";
-		
-		
+
 		JFreeChart chart = ChartFactory
 				.createStackedBarChart(chartTitle, "", "years", dataset,
 						PlotOrientation.HORIZONTAL, true, true, false);
@@ -4036,16 +4090,32 @@ public class DynamoPlotFactory {
 		plot.setRenderer(renderer);
 		// plot.setFixedLegendItems(makeLegend(disease));
 
-		/* disable next 2 statements for daly in bars */
-		CategoryItemLabelGenerator generator = new StandardCategoryItemLabelGenerator(
-				"{2}", new DecimalFormat("0.00"));
-		renderer.setBaseItemLabelGenerator(generator);		
-		
+		/* next statement for no daly in bars */
+
+		if (cumulative == 0)
+			renderer.setBaseItemLabelGenerator(generator0);
+		else
+			renderer.setBaseItemLabelGenerator(generator1);
+
 		renderer.setBaseItemLabelsVisible(true);
 		renderer
 				.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 
 		return chart;
+	}
+
+	private double[] calculateCumulativeDalys(int age, int disease,
+			int scenario, double[][] HLE) {
+		double[] cumHLE = new double[2];
+		cumHLE[0] = HLE[0][2];
+		cumHLE[1] = HLE[1][2];
+		double[][] temHLE;
+		for (int a = age + 1; a <= this.output.getMaxAgeInSimulation(); a++) {
+			temHLE = calculateCohortHealthExpectancy(a, scenario, disease);
+			cumHLE[0] += temHLE[0][2];
+			cumHLE[1] += temHLE[1][2];
+		}
+		return cumHLE;
 	}
 
 	/**
@@ -4066,7 +4136,6 @@ public class DynamoPlotFactory {
 
 		double HLE[][] = new double[2][3];
 
-		
 		double[][][][] nPopByAge = getNPopByOriAge();
 
 		double[][][] diseased;
@@ -4097,17 +4166,19 @@ public class DynamoPlotFactory {
 		 * we now implicitly assume that everyone at the last birthday in the
 		 * simulation has a life-expectancy left of 0.5 years
 		 */
-		
-		/* most arrays below are for debugging purposes, and are not needed 
-		 * for the result */
+
+		/*
+		 * most arrays below are for debugging purposes, and are not needed for
+		 * the result
+		 */
 		double lifeExp[] = new double[2];
 		double withDiseaseExp[] = new double[2];
 		double lifeTableL[][] = new double[2][this.output.getNDim()];
 		double percDisease[][] = new double[2][this.output.getNDim()];
-		double [][]lifeTableDiseasesL = new double[2][this.output.getNDim()];
+		double[][] lifeTableDiseasesL = new double[2][this.output.getNDim()];
 		double lifeTableN[][] = new double[2][this.output.getNDim()];
-		double [][]lifeTableDiseasesN = new double[2][this.output.getNDim()];
-	
+		double[][] lifeTableDiseasesN = new double[2][this.output.getNDim()];
+
 		for (int s = 0; s < 2; s++) {
 			double baselinePop = 0;
 			double ageWeight = 0.5;
@@ -4117,30 +4188,32 @@ public class DynamoPlotFactory {
 						* applySuccesrate(nPopByAge[0][steps][age][s],
 								nPopByAge[scenario][steps][age][s], scenario,
 								0, age, s);
-				
+
 				withDiseaseExp[s] += ageWeight
 						* applySuccesrate(diseased[0][steps][s],
 								diseased[scenario][steps][s], scenario, 0, age,
 								s);
-				lifeTableN[s][steps]=ageWeight
-				* applySuccesrate(nPopByAge[0][steps][age][s],
-						nPopByAge[scenario][steps][age][s], scenario,
-						0, age, s);
-				lifeTableDiseasesN[s][steps]=ageWeight
-				* applySuccesrate(diseased[0][steps][s],
-						diseased[scenario][steps][s], scenario, 0, age,
-						s);
-				percDisease[s][steps]=lifeTableDiseasesN[s][steps]/lifeTableN[s][steps];
+				lifeTableN[s][steps] = ageWeight
+						* applySuccesrate(nPopByAge[0][steps][age][s],
+								nPopByAge[scenario][steps][age][s], scenario,
+								0, age, s);
+				lifeTableDiseasesN[s][steps] = ageWeight
+						* applySuccesrate(diseased[0][steps][s],
+								diseased[scenario][steps][s], scenario, 0, age,
+								s);
+				percDisease[s][steps] = lifeTableDiseasesN[s][steps]
+						/ lifeTableN[s][steps];
 				if (steps == 0) {
 					baselinePop += applySuccesrate(nPopByAge[0][steps][age][s],
 							nPopByAge[scenario][steps][age][s], scenario, 0,
 							age, s);
 					ageWeight = 1;
 				}
-				
-				lifeTableL[s][steps]=lifeTableN[s][steps]/baselinePop;
-				
-				lifeTableDiseasesL[s][steps]=lifeTableDiseasesN[s][steps]/baselinePop;
+
+				lifeTableL[s][steps] = lifeTableN[s][steps] / baselinePop;
+
+				lifeTableDiseasesL[s][steps] = lifeTableDiseasesN[s][steps]
+						/ baselinePop;
 
 			}
 
@@ -4154,7 +4227,7 @@ public class DynamoPlotFactory {
 
 			HLE[s][0] = lifeExp[s];
 			HLE[s][1] = withDiseaseExp[s];
-			HLE[s][2] = baselinePop*(lifeExp[s]-withDiseaseExp[s]);
+			HLE[s][2] = baselinePop * (lifeExp[s] - withDiseaseExp[s]);
 		}
 		return HLE;
 	}
@@ -4830,8 +4903,7 @@ public class DynamoPlotFactory {
 		return nPopByAge;
 
 	}
-	
-	
+
 	/**
 	 * @return
 	 */
@@ -4842,13 +4914,12 @@ public class DynamoPlotFactory {
 	 * @param sex
 	 * @return
 	 */
-	public double getNPopByOriAge(int scen, int stepCount,int age, int sex) {
+	public double getNPopByOriAge(int scen, int stepCount, int age, int sex) {
 
-		double nPopByAge=0 ;
+		double nPopByAge = 0;
 
 		for (int r = 0; r < this.output.getNRiskFactorClasses(); r++)
-				nPopByAge += this.output
-									.getNPopByOriRiskClassByOriAge()[scen][stepCount][r][age][sex];
+			nPopByAge += this.output.getNPopByOriRiskClassByOriAge()[scen][stepCount][r][age][sex];
 		return nPopByAge;
 
 	}
