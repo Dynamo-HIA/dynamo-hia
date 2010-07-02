@@ -2570,6 +2570,7 @@ public class DynamoPlotFactory {
 									* nPopByAge[0][year][age][0]
 									+ this.output.getMeanRiskByAge()[0][year][age][1]
 									* nPopByAge[0][year][age][1];
+
 							indatR = indatR
 									/ (nPopByAge[0][year][age][0] + nPopByAge[0][year][age][1]);
 							indat = indat / (nMen + nWomen);
@@ -2578,6 +2579,11 @@ public class DynamoPlotFactory {
 							if (weight > 0) {
 								mean += indat * weight;
 								sumweight += weight;
+							}
+							if (Double.isNaN(mean)) {
+								int stop = 0;
+								stop++;
+
 							}
 							if (weightR > 0) {
 								meanR += indatR * weightR;
@@ -3085,7 +3091,7 @@ public class DynamoPlotFactory {
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 
 				for (int s = 0; s < 2; s++) {
-					cumlifeExp[scenario][s]=0;
+					cumlifeExp[scenario][s] = 0;
 					for (int a = age; a <= this.output.getMaxAgeInSimulation(); a++) {
 						double ageWeight = 0.5;
 						int yearsLeftcum = this.output.getNDim() - a;
@@ -3451,6 +3457,7 @@ public class DynamoPlotFactory {
 				if (reference_value > value)
 					qualifyer = "pop. loss of " + type + ": ";
 				result = df2.format(value);
+
 				/* category: sex */
 				/*
 				 * stacked series: 0=with /1=without disease 2/ without
@@ -3463,11 +3470,17 @@ public class DynamoPlotFactory {
 				boolean outputPopulationDifference = false;
 				if (2 * scenario == series || !stacked)
 					outputPopulationDifference = true;
-				if (scenario > 0 && outputPopulationDifference)
+				if (scenario > 0 && outputPopulationDifference) {
+					int dalyResult=(int) Math.abs(dalys[scenario][category]
+					             									- dalys[0][category]);
+					/* only give 3 significant digits */
+					if (dalyResult>1000) dalyResult=10*Math.round(dalyResult/10);
+					if (dalyResult>10000) dalyResult=100*Math.round(dalyResult/100);
+					if (dalyResult>100000) dalyResult=1000*Math.round(dalyResult/1000);
 					result += " ("
 							+ qualifyer
-							+ (int) Math.abs(dalys[scenario][category]
-									- dalys[0][category]) + ")";
+							+ dalyResult + ")";
+				}
 
 			}
 

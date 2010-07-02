@@ -1444,7 +1444,10 @@ public class InitialPopulationFactory {
 			float currentDurationValue) {
 
 		float[] CharValues = new float[numberOfElements];
-
+if (a==36){
+	int stop=0;
+	stop++;
+}
 		int elementIndex = 0;
 		for (int cluster = 0; cluster < parameters.getNCluster(); cluster++) {
 
@@ -1664,7 +1667,7 @@ public class InitialPopulationFactory {
 		 relativeRisksCat=parameters.getRelRiskClass(a,g);
 		 relativeRisksCont=parameters.getRelRiskContinue(a,g);
 		 relRiskDuurBegin=parameters.getRelRiskDuurBegin(a,g);
-		 relRiskDuurEnd=parameters.getRelRiskDuurBegin(a,g);
+		 relRiskDuurEnd=parameters.getRelRiskDuurEnd(a,g);
 		 alphaDuur=parameters.getAlphaDuur(a,g);
 		 RRdiseaseOnDisease=parameters
 			.getRelRiskDiseaseOnDisease(a,g);

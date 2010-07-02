@@ -560,8 +560,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		int minimumGender = minMaxData[2];
 		int numberOfAgesInPop = minMaxData[1] - minimumAge + 1;
 		int numberOfGendersInPop = minMaxData[3] - minimumGender + 1;
-		log.fatal("minimum age " + minimumAge + " maximumAge " + minMaxData[1]
-				+ "\nminimum sex " + minimumGender + " maximum gender "
+		log.fatal("minimum age " + minimumAge + " maximum age " + minMaxData[1]
+				+ "\nminimum sex " + minimumGender + " maximum sex "
 				+ minMaxData[3]);
 
 		/*
@@ -998,6 +998,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									if (stepCount <= this.stepsInRun)
 										this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex] += weightOfIndividual
 												* riskValue * survival;
+									if (stepCount <= this.stepsInRun) if (Double.isNaN(this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex])){
+										int stop=0;
+										stop++;
+										
+									}
 								}
 								if (this.riskType == 3) {
 									if (stepCount <= this.stepsInRun)
@@ -1042,6 +1047,13 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									this.meanRiskByOriRiskClassByOriAge[0][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 											* riskValue * survival;
 
+								if (stepCount <= this.stepsInRun) if (Double.isNaN(this.meanRiskByAge[0][stepCount][ageIndex][sexIndex])){
+									int stop=0;
+									stop++;
+									
+								}
+								
+								
 							}
 							if (this.riskType == 3) {
 								if (stepCount <= this.stepsInRun)
