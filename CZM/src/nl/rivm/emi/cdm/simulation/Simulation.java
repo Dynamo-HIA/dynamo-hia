@@ -1,14 +1,21 @@
 package nl.rivm.emi.cdm.simulation;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
+
 import nl.rivm.emi.cdm.DomLevelTraverser;
+import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
@@ -26,6 +33,7 @@ import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
+
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -37,7 +45,7 @@ public class Simulation extends DomLevelTraverser {
 
 	private static final long serialVersionUID = 6377558357121377722L;
 
-	private Log log = LogFactory.getLog(getClass().getSimpleName());
+	private Log log = LogFactory.getLog(getClass().getName());
 
 	/**
 	 * Label of this Simulation.
@@ -76,15 +84,6 @@ public class Simulation extends DomLevelTraverser {
 	private Population population = null;
 
 	/**
-	 * Local field for progress indication.
-	 */
-	private double totalSteps = 0;
-	/**
-	 * Percentage change at which the progressbar must be updated.
-	 */
-	private int progressPercentageStep = 20;
-
-	/**
 	 * Configured updaterules.
 	 */
 	private UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
@@ -114,7 +113,7 @@ public class Simulation extends DomLevelTraverser {
 	 * 
 	 * @param label
 	 * @param stepsInRun
-	 * 
+	 *            TODO
 	 */
 	public Simulation(String label, int stepsInRun) {
 		super();
@@ -324,7 +323,6 @@ public class Simulation extends DomLevelTraverser {
 		}
 	}
 
-
 	public void setPopulation(Population population) {
 		this.population = population;
 	}
@@ -394,6 +392,28 @@ public class Simulation extends DomLevelTraverser {
 		}
 
 	}
+
+	/*
+	 * added by Hendriek : also run the newborns: not used as other solution is
+	 * choosen
+	 */
+
+	/*
+	 * public void runNewborns() throws CDMRunException {
+	 * 
+	 * // TODO newborns: make work for stepSize not equal to 1;
+	 * 
+	 * int numberOfGenerations = (int) Math.floor(stepsInRun stepSize); for (int
+	 * nGeneration = 1; nGeneration < numberOfGenerations; nGeneration++) {
+	 * Iterator<Individual> individualIterator = newBorns[nGeneration]
+	 * .iterator(); while (individualIterator.hasNext()) { Individual individual
+	 * = individualIterator.next();
+	 * log.debug("Longitudinal: Processing individual " +
+	 * individual.getLabel()); for (int stepCount = 0; stepCount < stepsInRun -
+	 * nGeneration stepSize; stepCount++) { processCharVals(individual); } } }
+	 * 
+	 * } / end added by Hendriek
+	 */
 
 	private void runTransversal() throws CDMRunException {
 		for (int stepCount = 0; stepCount < stepsInRun; stepCount++) {
@@ -653,19 +673,15 @@ public class Simulation extends DomLevelTraverser {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
 								if (charValBase != null) {/*
-														 * changed by Hendriek
-														 * in order to make the
-														 * current values equal
-														 * to the not yet
-														 * updated values
-														 */
+									 * changed by Hendriek in order to make the
+									 * current values equal to the not yet updated
+									 * values
+									 */
 									Object currValue;
 									if (count < charValIndex)
-										currValue = charValBase
-												.getPreviousValue();
+										currValue = charValBase.getPreviousValue();
 									else
-										currValue = charValBase
-												.getCurrentValue();
+										currValue = charValBase.getCurrentValue();
 									charVals[count] = currValue;
 								} else {
 									charVals[count] = null;
@@ -757,7 +773,7 @@ public class Simulation extends DomLevelTraverser {
 							CharacteristicValueBase charValBase = individual
 									.get(count);
 							if (charValBase != null) {
-
+								
 								Object currValue;
 								if (count < charValIndex)
 									currValue = charValBase.getPreviousValue();
@@ -778,7 +794,8 @@ public class Simulation extends DomLevelTraverser {
 							log.debug("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
-									+ oldValue[0] + " to " + newValue[0]);
+									+ oldValue[0] 
+									+ " to " + newValue[0] );
 							keep = true;
 						} else {
 							throw new CDMRunException(
@@ -798,13 +815,14 @@ public class Simulation extends DomLevelTraverser {
 					+ " has a characteristicValue at index " + charValIndex
 					+ " with updaterule mismatch: "
 					+ updateRule.getClass().getName() + ", removing it.");
-			return keep;
+			throw new CDMRunException(e.getMessage());
+		
 		}
 	}
 
 	public void setCharacteristics(
 			CharacteristicsConfigurationMapSingleton characteristics) {
-		this.characteristics = characteristics;
+		characteristics = characteristics;
 	}
 
 	public void setTimeStep(float stepSize) {

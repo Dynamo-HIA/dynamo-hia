@@ -220,6 +220,9 @@ extends HealthStateManyToManyUpdateRule {
 						d = clusterStartsAtDiseaseNumber[c];
 						// TODO: change input with cured fraction in stead of
 						// two diseases
+						/* incidence 1: cured
+						 * incidence2: non-cured
+						 */
 						atMort = attributableMortality[d + 1][ageValue][sexValue];
 						incidence2 = calculateIncidence(riskFactorValue,
 								ageValue, sexValue, d + 1);
@@ -334,8 +337,9 @@ extends HealthStateManyToManyUpdateRule {
 								.exponentiateFloatMatrix(rateMatrix);}
 						catch (CDMUpdateRuleException e){ 
 							String message=e.getMessage();
-						    throw new CDMUpdateRuleException(message+" for cluster" +c+
-						    		"containing disease "+ this.getDiseaseNames()[clusterStartsAtDiseaseNumber[c]]+"and risk factor value "+riskFactorValue);
+						    throw new CDMUpdateRuleException(message+" for cluster " +c+
+						    		" containing disease "+ this.getDiseaseNames()[clusterStartsAtDiseaseNumber[c]]+". \nThis occurs for risk factor value "+riskFactorValue+
+						    		  ", age "+ageValue+" and gender "+ sexValue);
 						}
 
 						for (int state1 = 0; state1 < nCombinations[c]; state1++) // row
