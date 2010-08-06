@@ -876,6 +876,140 @@ public class DynamoPlotFactory {
 		return chart;
 	}
 
+	
+	
+	/**
+	 * This method makes a plot for the numbers in the population over time for all
+	 * scenario's. <br>
+	 * Survival plotted is that of all individuals in the population without the
+	 * newborns <br>
+	 * Survival is the fraction of persons with whom the simulation starts
+	 * 
+	 * @param gender
+	 *            : 0= for men; 1= for women; 2= for entire population
+	 * @param differencePlot
+	 *            (boolean) true if the difference with the reference scenario
+	 *            should be plotted
+	 * @param numbers
+	 *            (boolean) if true absolute numbers are plotted in stead of
+	 *            percentage of starting population
+	 * @param blackAndWhite
+	 *            : (boolean) indicates whether the plots are in color (false)
+	 *            or black and white
+	 * 
+	 * @return freechart plot
+	 */
+	public JFreeChart makeYearPopulationNumberPlotByScenario(int gender, int riskClass,
+			boolean differencePlot,  boolean blackAndWhite) {
+		XYDataset xyDataset = null;
+		double[][][][] nPopByAge = null;
+		if (riskClass < 0)
+			
+			nPopByAge=this.output.getNPopByAge(); 
+		else
+			nPopByAge = this.output.getNPopByAgeForRiskclass(riskClass);
+		int nDim2 = nPopByAge[0][0].length;
+		for (int thisScen = 0; thisScen <= this.output.getNScen(); thisScen++) {
+			XYSeries series = new XYSeries(
+					this.output.getScenarioNames()[thisScen]);
+			double dat0 = 0;
+
+			for (int steps = 0; steps < this.output.getStepsInRun() + 1; steps++) {
+				double indat = 0;
+				double indatr = 0;
+				/*
+				 * popByAge has value 1 at steps= 0) // TODO this does not work
+				 * OK when ageMax and min are applied
+				 */
+
+				for (int age = 0; age < nDim2; age++)
+					if (gender < 2) {
+						indat += applySuccesrate(
+								nPopByAge[0][steps][age][gender],
+								nPopByAge[thisScen][steps][age][gender],
+								thisScen, steps, age, gender);
+						indatr += nPopByAge[0][steps][age][gender];
+					} else {
+						indat += applySuccesrate(nPopByAge[0][steps][age][0],
+								nPopByAge[thisScen][steps][age][0], thisScen,
+								steps, age, 0)
+								+ applySuccesrate(nPopByAge[0][steps][age][1],
+										nPopByAge[thisScen][steps][age][1],
+										thisScen, steps, age, 1);
+						indatr += nPopByAge[0][steps][age][0]
+								+ nPopByAge[0][steps][age][1];
+					}
+
+				if (steps == 0)
+					dat0 = indat;
+
+				if (dat0 > 0) {
+					
+					
+					if (differencePlot )
+						series.add((double) steps, (indat) - (indatr));
+					if (!differencePlot )
+						series.add((double) steps, indat);
+
+				}
+			}
+
+			if (thisScen == 0)
+				xyDataset = new XYSeriesCollection(series);
+			else
+				((XYSeriesCollection) xyDataset).addSeries(series);
+		}
+		String label;
+		String chartTitle = "population numbers ";
+		if (differencePlot)
+			chartTitle = "excess numbers in population"
+					+ " compared to ref scenario";
+		
+		if (!differencePlot)
+			chartTitle = "numbers in population ";
+		String yTitle = "numbers in population";
+		
+		if (!differencePlot )
+			yTitle = "population numbers";
+		
+
+		if (gender == 0)
+			label = "men";
+		else if (gender == 1)
+			label = "women";
+		else
+			label = "";
+
+		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+				"years of simulation", yTitle, xyDataset,
+				PlotOrientation.VERTICAL, true, true, false);
+		if (this.output.getStepsInRun() == 0)
+			drawMarkers(chart);
+		TextTitle title = chart.getTitle();
+		title.setFont(new Font("SansSerif", Font.BOLD, 14));
+		TextTitle subTitle = new TextTitle(label);
+		subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
+		chart.addSubtitle(subTitle);
+
+		XYPlot plot = (XYPlot) chart.getPlot();
+		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+		for (int thisScen = 0; thisScen <= this.output.getNScen(); thisScen++) {
+			setLineProperties(renderer, thisScen, blackAndWhite);
+		}
+		plot.setRenderer(renderer);
+
+		/*
+		 * ChartFrame frame1 = new ChartFrame("Survival Chart " + label, chart);
+		 * frame1.setVisible(true); frame1.setSize(300, 300); try {
+		 * writeCategoryChart(baseDir + File.separator + "simulations" +
+		 * File.separator + simulationName + File.separator + "results" +
+		 * File.separator + "survivalplot_" + label + ".jpg", chart); } catch
+		 * (Exception e) { System.out.println(e.getMessage());
+		 * System.out.println("Problem occurred creating chart."); }
+		 */
+		return chart;
+	}
+
 	/**
 	 * makes a plot of the prevalence of disease d by gender with year on the
 	 * axis for one scenario
@@ -2980,6 +3114,149 @@ public class DynamoPlotFactory {
 				yTitle = "number of deaths";
 			if (differencePlot && numbers)
 				yTitle = "excess number of deaths";
+
+			JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
+					"age", yTitle, xyDataset, PlotOrientation.VERTICAL, true,
+					true, false);
+			TextTitle title = chart.getTitle();
+			title.setFont(new Font("SansSerif", Font.BOLD, 14));
+			TextTitle subTitle = new TextTitle(label);
+			subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
+			chart.addSubtitle(subTitle);
+			XYPlot plot = (XYPlot) chart.getPlot();
+			XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+			for (int thisScen = 0; thisScen <= this.output.getNScen(); thisScen++) {
+				setLineProperties(renderer, thisScen, blackAndWhite);
+			}
+			plot.setRenderer(renderer);
+			return chart;
+		} else
+			return makeEmptyPlot();
+	}
+	/**
+	 * makes plot of mortality by scenario with age on the x-axis
+	 * 
+	 * @param year
+	 *            : year for which to plot (0=start of simulation)
+	 * @param gender
+	 *            : 0=men, 1=women, 2=both
+	 * @param riskClass
+	 *            : riskClass to plot
+	 * @param differencePlot
+	 *            : plot difference with reference scenario
+	 * @param numbers
+	 *            : plot absolute numbers
+	 * @param blackAndWhite
+	 *            : (boolean) indicates whether the plots are in color (false)
+	 *            or black and white
+	 * @return JFreeChart plot of riskfactorclass data for a single scenario
+	 *         separate for men and women
+	 * @return JFreeChart plot of mortality by scenario with age on the x-axis
+	 */
+	public JFreeChart makeAgePopulationNumberPlotByScenario(int year, int gender,
+			int riskClass, boolean differencePlot, 
+			boolean blackAndWhite) {
+
+		XYDataset xyDataset = null;
+
+		double[][][][] population ;
+		if (riskClass<0) population=this.output.getNPopByAge(); else
+			population = this.output.getNPopByAgeForRiskclass(riskClass);
+		if (population != null && year < this.output.getStepsInRun()) {
+			
+
+			XYSeries scenSeries[] = new XYSeries[this.output.getNScen() + 1];
+
+			for (int thisScen = 0; thisScen < this.output.getNScen() + 1; thisScen++) {
+
+				scenSeries[thisScen] = new XYSeries(this.output
+						.getScenarioNames()[thisScen]);
+				/*
+				 * mortality is calculated from the difference between the
+				 * previous year and the current year therefor there is one less
+				 * datapoint for mortality than for most other outcomes
+				 */
+
+				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+
+					double indat0 = 0;
+					
+					double indat1 = 0;
+					
+					double indat0r = 0;
+					
+					double indat1r = 0;
+					
+					/*
+					 * check if mortality is present (next age in dataset)
+					 * mortality=-1 flags absence
+					 */
+					if (population[0][year][age][0] >= 0
+							&& population[thisScen][year][age][0] >= 0) {
+
+						indat0 = population[thisScen][year][age][0];
+						
+
+						indat0r = population[0][year][age][0];
+						
+					}
+					if (population[0][year][age][1] >= 0
+							&& population[thisScen][year][age][1] >= 0)
+
+					{
+						indat1 = population[thisScen][year][age][1];
+						
+						
+						indat1r = population[0][year][age][1];
+
+						
+
+					}
+					if (gender == 0)
+						addToSeries(differencePlot, true,
+								scenSeries[thisScen], indat0,1,
+								indat0r, 1, age);
+
+					if (gender == 1)
+						addToSeries(differencePlot, true,
+								scenSeries[thisScen], indat1,1,
+								indat1r, 1, age);
+
+					if (gender == 2)
+						addToSeries(differencePlot, true,
+								scenSeries[thisScen], indat0 + indat1,
+								1, indat0r + indat1r,
+								1, age);
+				}
+
+				if (thisScen == 0)
+					xyDataset = new XYSeriesCollection(scenSeries[thisScen]);
+				else
+					((XYSeriesCollection) xyDataset)
+							.addSeries(scenSeries[thisScen]);
+
+			} // end scenario loop
+			String label;
+			if (gender == 0)
+				label = "men; " + (this.output.getStartYear() + year);
+			else if (gender == 1)
+				label = "women; " + (this.output.getStartYear() + year);
+			else
+				label = "" + (this.output.getStartYear() + year);
+
+			String chartTitle = "population numbers";
+			if (differencePlot)
+				chartTitle = "excess numbers of in population"
+						+ " compared to ref scenario";
+			
+			if (!differencePlot)
+				chartTitle = "number in population ";
+			String yTitle = "numbers in population";
+			
+			if (!differencePlot )
+				yTitle = "numbers in population";
+			if (differencePlot)
+				yTitle = "excess number in population";
 
 			JFreeChart chart = ChartFactory.createXYLineChart(chartTitle,
 					"age", yTitle, xyDataset, PlotOrientation.VERTICAL, true,

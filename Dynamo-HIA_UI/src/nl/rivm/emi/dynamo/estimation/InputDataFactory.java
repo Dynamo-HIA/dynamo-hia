@@ -373,6 +373,7 @@ public class InputDataFactory {
 					+ " 1, thus it is changed to 1 ");
 		timeStep = 1;
 		randomSeed = getInteger(randomSeedLabel);
+		
 		String resultTypeS = getName(resultTypeLabel);
 		if (resultTypeS.compareToIgnoreCase("aggregated") == 0)
 			details = false;
@@ -1049,6 +1050,7 @@ public class InputDataFactory {
 		scenarioInfo.setMaxSimAge(maxAge);
 		scenarioInfo.setWithNewBorns(newborn);
 		scenarioInfo.setStepsize(timeStep);
+		scenarioInfo.setRandomSeed(randomSeed);
 		scenarioInfo.setSimPopSize(simPopSize);
 		/* initialize the arrays in scenarioInfo */
 		scenarioInfo.setNScenarios(scenInfo.size());

@@ -43,10 +43,20 @@ public final class SurvivalChartFactory implements PlotDrawer {
 				if ((info.survival) && info.axisIsAge)
 					chart = plotFactory.makeSurvivalPlotByScenario(info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot,info.numbers,info.blackAndWhite);
-				if ((!info.survival) && info.axisIsAge)
+				
+				if ((info.population) && !info.axisIsAge)
+
+					chart = plotFactory.makeYearPopulationNumberPlotByScenario(info.genderChoice,info.riskClassChoice-1,
+							info.differencePlot, info.blackAndWhite);
+
+				if ((info.population) && info.axisIsAge)
+					chart = plotFactory.makeAgePopulationNumberPlotByScenario(info.currentYear,info.genderChoice,info.riskClassChoice-1,
+							info.differencePlot,info.blackAndWhite);
+				
+				if ((!info.survival && !info.population) && info.axisIsAge)
 					chart = plotFactory.makeAgeMortalityPlotByScenario(info.currentYear,
 							info.genderChoice,info.riskClassChoice-1, info.differencePlot, info.numbers,info.blackAndWhite);
-				if ((!info.survival) && !info.axisIsAge)
+				if ((!info.survival && !info.population) && !info.axisIsAge)
 					chart = plotFactory.makeYearMortalityPlotByScenario(info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot,info.numbers,info.blackAndWhite);
 

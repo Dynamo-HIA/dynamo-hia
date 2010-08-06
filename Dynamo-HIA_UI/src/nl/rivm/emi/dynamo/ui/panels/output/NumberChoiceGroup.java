@@ -33,7 +33,7 @@ public class NumberChoiceGroup {
 		// radiogroup.setBounds(10,10,200,150);
 		radiogroup.setText("Y-axis:");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
-
+		radiogroup.setToolTipText("choose rate or numbers");
 		radiogroup.setLayout(new RowLayout(SWT.VERTICAL));
 		// yearButton.setBounds(10,10,20,100);
 

@@ -52,6 +52,7 @@ public class Output_SurvivalTab  {
 		plotInfo.currentDisease = 0;
 		plotInfo.currentYear = 0;
 		plotInfo.plotType = 1;
+		plotInfo.population = false;
 		plotInfo.differencePlot = false;
 		plotInfo.axisIsAge = false;
 		plotInfo.numbers = false;

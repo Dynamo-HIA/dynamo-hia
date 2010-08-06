@@ -19,6 +19,7 @@ public class ButtonStates {
 	 boolean axisIsAge;
 	 boolean numbers;
 	 boolean survival;
+	 boolean population;
 	 boolean Sullivan;
 	// String [] availlableAges;
 	 int maxAge;

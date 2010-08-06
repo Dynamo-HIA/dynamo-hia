@@ -330,8 +330,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 			for (int c = 0; c < this.structure.length; c++) {
 				if (this.structure[c].getNInCluster() > 1
 						&& !this.structure[c].isWithCuredFraction())
-					for (int i = 1; i < Math.pow(this.structure[c]
-							.getNInCluster(), 2); i++) {
+					for (int i = 1; i < Math.pow(2,this.structure[c]
+							.getNInCluster()); i++) {
 						this.stateNames[currentState] = "";
 						for (int d1 = 0; d1 < this.structure[c].getNInCluster(); d1++) {
 
