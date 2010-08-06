@@ -197,24 +197,24 @@ extends HealthStateManyToManyUpdateRule {
 										* calculateFatalIncidence(
 												riskDurationValue, ageValue,
 												sexValue, d))
-										* (atMort * (1 - oldValue[d]) * expI + (atMort
-												* oldValue[d] - incidence)
+										* (atMort * (1 - oldValue[currentStateNo]) * expI + (atMort
+												* oldValue[currentStateNo] - incidence)
 												* expA) / (atMort - incidence);
 							else if (expAI != 1)
-								survivalFraction *= (atMort * (1 - oldValue[d])
-										* expI + (atMort * oldValue[d] - incidence)
+								survivalFraction *= (atMort * (1 - oldValue[currentStateNo])
+										* expI + (atMort * oldValue[currentStateNo] - incidence)
 										* expA)
 										/ (atMort - incidence);
 							else if (disFatalIndex[ageValue][sexValue][c][0] != 0)
 								survivalFraction *= expA
-										* (incidence * (1 - oldValue[d]) + 1);
+										* (incidence * (1 - oldValue[currentStateNo]) + 1);
 							else 
 								survivalFraction *= Math.exp(-getTimeStep()
 										* calculateFatalIncidence(
 												riskDurationValue, ageValue,
 												sexValue, d))
 										* expA
-										* (incidence * (1 - oldValue[d]) + 1);
+										* (incidence * (1 - oldValue[currentStateNo]) + 1);
 
 							currentStateNo++;
 							/* update diseases with cured fraction */
@@ -253,15 +253,15 @@ extends HealthStateManyToManyUpdateRule {
 								transMat20 = (expA - expI) * incidence2
 										/ (incidence - atMort);
 
-							survival = (1 - oldValue[d] - oldValue[d + 1])
-									* expI + oldValue[d] + oldValue[d + 1]
+							survival = (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* expI + oldValue[currentStateNo] + oldValue[currentStateNo + 1]
 									* expA
-									+ (1 - oldValue[d] - oldValue[d + 1])
+									+ (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
 									* (transMat10 + transMat20);
-							newValue[currentStateNo] = (float) (((1 - oldValue[d] - oldValue[d + 1])
-									* transMat10 + oldValue[d]) / survival);
-							newValue[currentStateNo + 1] = (float) (((1 - oldValue[d] - oldValue[d + 1])
-									* transMat20 + oldValue[d + 1] * expA) / survival);
+							newValue[currentStateNo] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* transMat10 + oldValue[currentStateNo]) / survival);
+							newValue[currentStateNo + 1] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* transMat20 + oldValue[currentStateNo + 1] * expA) / survival);
 							/*
 							 * NB disease with cured fraction can not be fatal
 							 * at the same time
@@ -293,6 +293,11 @@ extends HealthStateManyToManyUpdateRule {
 
 							double[][] rateMatrix = fillRateMatrixForCluster(
 									ageValue, sexValue, riskDurationValue, c);
+							if (ageValue==46){
+								int stop=0;
+								stop++;
+								
+							}
 							float[][] transMat = matExp
 									.exponentiateFloatMatrix(rateMatrix);
 
