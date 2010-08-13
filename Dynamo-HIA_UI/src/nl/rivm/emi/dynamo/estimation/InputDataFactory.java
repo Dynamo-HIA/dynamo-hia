@@ -2422,6 +2422,12 @@ public class InputDataFactory {
 							clusterData[a][g][c].setCuredFraction(
 									cData[d][a][g] / 100, d,
 									clusterStructure[c]);
+							if (clusterStructure[c].isWithCuredFraction() && clusterStructure[c].getNInCluster()>1)
+								throw new DynamoInconsistentDataException(
+										"Disease "
+												+ diseaseName[d]
+												+ " is related to another disease and has a cured fraction. This combination is not allowed. Please change this");
+						
 
 							clusterData[a][g][c].setCaseFatality(
 									fData[d][a][g] / 100, d);

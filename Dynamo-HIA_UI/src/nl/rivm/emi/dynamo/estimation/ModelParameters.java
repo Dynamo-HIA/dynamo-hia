@@ -1,5 +1,8 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,7 +33,7 @@ public class ModelParameters {
 	static public final int CATEGORICAL = 1;
 	static public final int CONTINUOUS = 2;
 	static public final int COMPOUND = 3;
-
+	static public final String SEPARATOR = ";";
 	// Fields containing the estimated model parameters and other info needed to
 	// run the model
 	Log log = LogFactory.getLog(getClass().getName());
@@ -67,6 +70,8 @@ public class ModelParameters {
 	// (disease);
 	private float[][][] relRiskContinue = new float[96][2][];
 	private float prevRisk[][][] = new float[96][2][];;
+
+	final StringBuilder toCVS = new StringBuilder("");
 	/**
 	 * mean of the risk factor, for the lognormal distribution this is the mean
 	 * on the logscale
@@ -151,12 +156,13 @@ public class ModelParameters {
 	 *             wrong reading the user data if the user interface is
 	 *             implemented well, this should not occur in practise, but
 	 *             could occur when users enter data directly in XML files.
+	 * @throws IOException
 	 * 
 	 */
 	public ScenarioInfo estimateModelParameters(String simulationName
 	/* Shell parentShell */, DynSimRunPRInterface dsi)
 			throws DynamoInconsistentDataException,
-			DynamoConfigurationException {
+			DynamoConfigurationException, IOException {
 
 		/** step 1: build input data from baseline directory */
 
@@ -194,8 +200,22 @@ public class ModelParameters {
 		/** * 2. uses the inputdata to estimate the model parameters */
 
 		estimateModelParameters(this.nSim, inputData);
-		/* put estimated daly parameters in scenarioInfo */
+		/* write the fitted other mortality to a file for further inspection */
 
+		if (!this.toCVS.toString().equals("")) {
+			String dirName = this.globalBaseDir + File.separator
+					+ "Simulations" + File.separator + simulationName
+					+ File.separator + "parameters";
+			File dir = new File(dirName);
+			if (!dir.exists())
+				dir.mkdir();
+			FileWriter writer = new FileWriter(dirName + File.separator
+					+ "otherMortData.csv");
+			writer.append(this.toCVS.toString());
+			writer.flush();
+			writer.close();
+		}
+		/* put estimated daly parameters in scenarioInfo */
 		scenInfo.setBaselineAbility(this.baselineAbility);
 		if (this.getNDiseases() > 0)
 			scenInfo.setDiseaseAbility(this.diseaseAbility);
@@ -375,14 +395,13 @@ public class ModelParameters {
 					if (inputData.getTransType() == 1) { /*
 														 * nett transition rates
 														 */
-						if (a==79 && g==1){
-							
-							int stop=0;
+						if (a == 79 && g == 1) {
+
+							int stop = 0;
 							stop++;
-							
+
 						}
-						
-						
+
 						this.transitionMatrix[a][g] = NettTransitionRateFactory
 								.makeNettTransitionRates(getPrevRisk()[a][g],
 										inputData.getPrevRisk()[anext][g],
@@ -2556,23 +2575,23 @@ public class ModelParameters {
 			}
 			niter++;
 
-		} 
-		for (int d = 0; d < nDiseases; d++) 
-		if (excessMortality[d] > 0 && diseasePrevalence[d] == 0) {
-			log
-			.fatal("WARNING:\nExcess mortality of disease "
-					+ diseaseNames[d]
-					+ " is not zero for age "
-					+ age
-					+ " and gender "
-					+ sex
-					+ " while prevalence is zero. In this situation no attributable mortality can be calculated."
-					+ "\nThe program assumes a attributable mortality for this disease that is equal to the input excess mortality"
-			/* ,dsi */);
-			this.attributableMortality[age][sex][d]=excessMortality[d];
-			
 		}
-		
+		for (int d = 0; d < nDiseases; d++)
+			if (excessMortality[d] > 0 && diseasePrevalence[d] == 0) {
+				log
+						.fatal("WARNING:\nExcess mortality of disease "
+								+ diseaseNames[d]
+								+ " is not zero for age "
+								+ age
+								+ " and gender "
+								+ sex
+								+ " while prevalence is zero. In this situation no attributable mortality can be calculated."
+								+ "\nThe program assumes a attributable mortality for this disease that is equal to the input excess mortality"
+						/* ,dsi */);
+				this.attributableMortality[age][sex][d] = excessMortality[d];
+
+			}
+
 		// einde herhaling schatting van Attributable mortality
 		if (niter == 10)
 			throw new DynamoInconsistentDataException(
@@ -2603,11 +2622,70 @@ public class ModelParameters {
 		double[] beta = null;
 
 		double otherMort[] = new double[nSim];
+		double mortalityFromDisease[] = new double[nSim];
 		double logOtherMort[] = new double[nSim];
 
 		double logAbilityFromOtherCauses[] = new double[nSim];
 		double nNegativeOtherMort = 0;
+		
+		if (age == 57 ) {
 
+			int stop = 0;
+			stop++;
+
+		}
+		for (int i = 0; i < nSim; i++) {
+
+			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
+			// for riskType==1 the relative risks have already been made above
+			if (withRRdisability && riskType != 1) {
+
+				// abilityFromOtherCauses[i] = 1;
+				logAbilityFromOtherCauses[i] = 0;
+
+				if (abilityFromRiskFactor[i] == 0) {
+					abilityFromOtherCauses[i] = 0.00000;
+					logAbilityFromOtherCauses[i] = -14;
+					if (this.warningflag2)
+						displayWarningMessage(
+								"WARNING:\n100% disability calculated for riskclass "
+										+ i
+										+ ". \nAs this gives"
+										+ " numerical problems disability is made slightly less then 100%.",
+								dsi);
+					this.warningflag2 = false;
+				} else {
+					logAbilityFromOtherCauses[i] = Math
+							.log(abilityFromOtherCauses[i]);
+
+				}
+			}
+
+			if (nDiseases > 0)
+				for (int d = 0; d < nDiseases; d++) {
+					otherMort[i] -= this.attributableMortality[age][sex][d]
+							* probDisease[i][d] + fatalIncidence[i][d];
+					mortalityFromDisease[i] += this.attributableMortality[age][sex][d]
+							* probDisease[i][d] + fatalIncidence[i][d];
+				}
+
+			sumOtherMort += weight[i] * otherMort[i];
+			if (otherMort[i] > 0)
+				logOtherMort[i] = Math.log(otherMort[i]);
+			else {
+				this.log.fatal("negative other mortality  = " + otherMort[i]
+						+ " for person  " + i + " for riskclass "
+						+ riskclass[i] + " and for riskfactor " + riskfactor[i]
+						+ " age: " + age + " sex: " + sex);
+				logOtherMort[i] = (1.0 / 0.0) * 0.0; /*
+													 * This gives NaN
+													 */
+				// if (riskType==1 || (riskType==3 &&
+				// riskclass[i]!=durationClass))
+				nNegativeOtherMort += weight[i];
+			}
+
+		}
 		// make design matrix for regression (including dummy variables
 		// for
 		// each risk class)
@@ -2638,79 +2716,81 @@ public class ModelParameters {
 
 		/* count number of valid rows */
 		int nValidRows = 0;
-		
-		
+
 		int[] indexForRows = new int[nSim];
 		Arrays.fill(indexForRows, -1);
-		/* nValidRiskClass contains the renumbered riskfactor classes: so if there are 6 riskclasses, 0,1,2,3,4,5 but 4 is empty,
-		 * the new numbers are 0,1,2,3,4 were 5 is renumbered to 4
+		/*
+		 * nValidRiskClass contains the renumbered riskfactor classes: so if
+		 * there are 6 riskclasses, 0,1,2,3,4,5 but 4 is empty, the new numbers
+		 * are 0,1,2,3,4 were 5 is renumbered to 4
 		 */
 		int[] validRiskClass = new int[nSim];
 		Arrays.fill(validRiskClass, -1);
-		if (riskType !=3)
+		if (riskType != 3)
 			for (int i = 0; i < nSim; i++) {
-			if (weight[i] > 0) {
-				indexForRows[nValidRows] = i;
-				validRiskClass[i] = nValidRows;
-			    nValidRows++;
-				
+				if (weight[i] > 0 ) {
+					indexForRows[nValidRows] = i;
+					validRiskClass[i] = nValidRows;
+					nValidRows++;
+
+				}
+			}
+		else {
+			nValidRows = 0;
+			int currentCat = -1;
+			boolean workingOnDuration = false;
+			for (int i = 0; i < nSim; i++) {
+				if (weight[i] > 0) {
+					/*
+					 * increase currentCat unless the last valid riskclass was
+					 * also a durationclass
+					 */
+					if (!workingOnDuration
+							|| riskclass[i] != inputData.getIndexDuurClass())
+						currentCat++;
+					if (riskclass[i] == inputData.getIndexDuurClass())
+						workingOnDuration = true;
+					else
+						workingOnDuration = false;
+					indexForRows[nValidRows] = i;
+					validRiskClass[i] = currentCat;
+					nValidRows++;
+
+				}
 			}
 		}
-		else {
-			 nValidRows = 0;
-			 int currentCat=-1;
-			 boolean workingOnDuration=false;
-			for (int i = 0; i < nSim; i++) {
-			if (weight[i] > 0) {
-				/* increase currentCat unless the last valid riskclass was also a durationclass */
-				if(!workingOnDuration || riskclass[i]!=inputData.getIndexDuurClass()) currentCat++;
-					if(riskclass[i]==inputData.getIndexDuurClass()) 
-						workingOnDuration=true; 
-					else workingOnDuration=false; 
-				indexForRows[nValidRows] = i;
-				validRiskClass[i] = currentCat;
-				nValidRows++;
-				
-			}
-		}}
 		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
 			xMatrix = new double[nValidRows][nValidCategories];
 		double[] wVector = new double[nValidRows];
 		// fourth loop over all persons i: fill the design matrix
 		int nrow = 0;
-		if (age == 84 && sex == 1) {
+		
 
-			int stop = 0;
-			stop++;
-
-		}
 		for (int i = 0; i < nSim; i++) {
-
 			// add intercept
 
 			// add dummies except for the first class = reference
 			// category
-			if (inputData.getRiskType() == 1 ||inputData.getRiskType() == 3) {
+			if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3) {
 				if (weight[i] > 0) {
-					
-						xMatrix[nrow][0] = 1.0;
-						wVector[nrow] = weight[i];
-						for (int rc = 1; rc < nValidCategories; rc++) {
-							
-								if (validRiskClass[i] == rc)
-								xMatrix[nrow][rc] = 1.0;
-							else
-								xMatrix[nrow][rc] = 0.0;
 
-						}
-						nrow++;
-					
+					xMatrix[nrow][0] = 1.0;
+					wVector[nrow] = weight[i];
+					for (int rc = 1; rc < nValidCategories; rc++) {
+
+						if (validRiskClass[i] == rc)
+							xMatrix[nrow][rc] = 1.0;
+						else
+							xMatrix[nrow][rc] = 0.0;
+
+					}
+					nrow++;
+
 				}
 			}
-			
-			
+
 			;
-			
+
 			// add continuous risk factor only for type=2
 			// for type=3 the compound part is dealt with separately
 			// here nrow==i;
@@ -2721,60 +2801,29 @@ public class ModelParameters {
 						- inputData.getRefClassCont();
 
 			}
-			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
-			// for riskType==1 the relative risks have already been made above
-			if (withRRdisability && riskType != 1) {
-
-				// abilityFromOtherCauses[i] = 1;
-				logAbilityFromOtherCauses[i] = 0;
-
-				if (abilityFromRiskFactor[i] == 0) {
-					abilityFromOtherCauses[i] = 0.00000;
-					logAbilityFromOtherCauses[i] = -14;
-					if (this.warningflag2)
-						displayWarningMessage(
-								"WARNING:\n100% disability calculated for riskclass "
-										+ i
-										+ ". \nAs this gives"
-										+ " numerical problems disability is made slightly less then 100%.",
-								dsi);
-					this.warningflag2 = false;
-				} else {
-					logAbilityFromOtherCauses[i] = Math
-							.log(abilityFromOtherCauses[i]);
-
-				}
-			}
-
-			if (nDiseases > 0)
-				for (int d = 0; d < nDiseases; d++) {
-					otherMort[i] -= this.attributableMortality[age][sex][d]
-							* probDisease[i][d] + fatalIncidence[i][d];
-				}
-
-			sumOtherMort += weight[i] * otherMort[i];
-			if (otherMort[i] > 0)
-				logOtherMort[i] = Math.log(otherMort[i]);
-			else {
-				this.log.fatal("negative other mortality  = " + otherMort[i]
-						+ " for person  " + i + " for riskclass "
-						+ riskclass[i] + " and for riskfactor " + riskfactor[i]
-						+ " age: " + age + " sex: " + sex);
-				logOtherMort[i] = -16; /*
-										 * -16 is approx one in 10 million which
-										 * is sufficiently rare to be close to
-										 * zero, and hopefully not to large in
-										 * order to be too influential in the
-										 * regression
-										 */
-				nNegativeOtherMort += weight[i];
-			}
 		}
-		double[] yValue = logOtherMort;
+		double[] yValue = new double[nSim];
+		if (riskType == 2)
+			yValue = logOtherMort;
+		else for (int i = 0; i < nSim; i++)
+			
+			/* make negative values a small positive value, small is relative to all cause mortality at this age */
+			/* if this happens to the reference value, relative risks will be in the order of 1000 */
+			/* for other categories also zero could have been used, but then changing the category order would
+			 * give different results, so this is not done
+			 */
+			if (otherMort[i]<=0) 
+				yValue[i]=baselineMortality[age][sex]/1000;
+			else yValue[i]=otherMort[i];
 		if (nValidRows < nSim) {
 			yValue = new double[nValidRows];
-			for (int i = 0; i < nValidRows; i++)
-				yValue[i] = logOtherMort[indexForRows[i]];
+			if (riskType == 2) {
+				for (int i = 0; i < nValidRows; i++)
+					yValue[i] = logOtherMort[indexForRows[i]];
+			} else {
+				for (int i = 0; i < nValidRows; i++)
+					yValue[i] = otherMort[indexForRows[i]];
+			}
 
 		}
 		double[] y2Value = logAbilityFromOtherCauses;
@@ -2788,14 +2837,20 @@ public class ModelParameters {
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
 
-		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality()
+		if (nNegativeOtherMort > 0.2 && inputData.isWithRRForMortality()
 				&& (warningflag4)) {
 			warningflag4 = false;
-			displayWarningMessage("WARNING: \nnegative other mortality  in  "
-					+ (nNegativeOtherMort * 100) + " % of simulated cases"
-					+ " for age " + age + " and gender " + sex
-					+ "\nno more warnings of this kind will be generated for "
-					+ "other age and gender groups", dsi);
+			displayWarningMessage(
+					"WARNING: \nnegative other mortality  in  "
+							+ (nNegativeOtherMort * 100)
+							+ " % of simulated cases"
+							+ " for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ "\nData for further inspection will be written to the file parameters/otherMortData.csv"
+							+ "\nno more warnings of this kind will be generated for "
+							+ "other age and gender groups", dsi);
 		}
 		/*
 		 * if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
@@ -2822,19 +2877,24 @@ public class ModelParameters {
 
 		// carry out the regression of log other mortality on the risk
 		// factors;
-		
-	if (age==15){
-			
-			
-			int stop=0;
+
+		if (age == 15) {
+
+			int stop = 0;
 			stop++;
 		}
-		
-		
+
 		if (inputData.isWithRRForMortality()) {
 			try {
 
 				beta = weightedRegression(yValue, xMatrix, wVector);
+				
+				if (age==57){
+					
+					int stop=0;
+					stop++;
+					
+				}
 
 			} catch (Exception e) {
 
@@ -2862,8 +2922,17 @@ public class ModelParameters {
 				// class
 				// //
 				{
-					this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) Math
-							.exp(beta[j]);
+					// old version on log scale
+					// this.relRiskOtherMort[age][sex][indexForCategories[j]] =
+					// (float) Math
+					// .exp(beta[j]);
+					if (beta[0] > 0)
+						this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) ((beta[j]+beta[0]) / beta[0]);
+					else {
+						log.fatal("zero or negative baseline other mortality: "
+								+ beta[0] + " therefore RR set to 1");
+						this.relRiskOtherMort[age][sex][indexForCategories[j]] = 0;
+					}
 					// in case of duration class set rr to 1;
 					if (inputData.getRiskType() == 3
 							&& inputData.getIndexDuurClass() == j)
@@ -2881,8 +2950,11 @@ public class ModelParameters {
 				this.relRiskOtherMortCont[age][sex] = 1;
 			else
 				this.relRiskOtherMortCont[age][sex] = (float) Math.exp(beta[1]);
-
-			this.baselineOtherMortality[age][sex] = (float) Math.exp(beta[0]);
+			if (inputData.getRiskType() == 2)
+				this.baselineOtherMortality[age][sex] = (float) Math
+						.exp(beta[0]);
+			else
+				this.baselineOtherMortality[age][sex] = (float) beta[0];
 			if (this.baselineOtherMortality[age][sex] == 0)
 				this.relRiskOtherMortCont[age][sex] = 1;
 			/**
@@ -3269,6 +3341,93 @@ public class ModelParameters {
 
 		}
 		baselineOtherMortality2 = sumOtherMort / sumRROtherMort;
+		/* check on RR's total mortality */
+		double RRmortNew[] = new double[nSim];
+
+		for (int i = 0; i < nSim; i++) {
+			if (age == 55 && sex == 1 && i > 22) {
+
+				int stop = 0;
+				stop++;
+			}
+			if (inputData.getRiskType() == 1)
+				RRmortNew[i] = mortalityFromDisease[i]
+						+ baselineOtherMortality2
+						* this.relRiskOtherMort[age][sex][riskclass[i]];
+			if (inputData.getRiskType() == 2)
+				RRmortNew[i] = mortalityFromDisease[i]
+						+ baselineOtherMortality2
+						* Math.pow(this.relRiskOtherMortCont[age][sex],
+								riskfactor[i] - inputData.getRefClassCont());
+			if (inputData.getRiskType() == 3)
+				RRmortNew[i] = mortalityFromDisease[i]
+						+ baselineOtherMortality2
+						* ((this.relRiskOtherMortBegin[age][sex] - this.relRiskOtherMortEnd[age][sex])
+								* Math.exp(-this.alphaOtherMort[age][sex]
+										* riskfactor[i]) + this.relRiskOtherMortEnd[age][sex]);
+			/*
+			 * we take the old baseline mortality as reference, and calculate
+			 * all RR relative to that
+			 */
+			/*
+			 * this might mean that there are no categories with RR=1 , or that
+			 * the RR is not 1 for RefClassCont()
+			 */
+			double RRmort = RRmortNew[i] / this.baselineMortality[age][sex];
+
+			if (Math.abs(relRiskMort[i] - RRmortNew[i]) > 0.02)
+				this.log
+						.fatal(" RR used for mortality differs from RR given for age: "
+								+ age
+								+ " sex: "
+								+ sex
+								+ " riskclass: "
+								+ i
+								+ " old RR: "
+								+ relRiskMort[i]
+								+ " new RR: "
+								+ RRmort
+								+ "\nMortality from diseases: "
+								+ mortalityFromDisease[i]
+								+ " totalMort: "
+								+ RRmortNew[i]);
+			RRmortNew[i] = RRmort;
+		}
+
+		if (!warningflag4 || (riskType == 2 && withRRmort)
+				|| (riskType == 3 && withRRmort)) {
+			if (this.toCVS.toString().equals(""))
+				this.toCVS.append("age" + SEPARATOR + "sex" + SEPARATOR
+						+ "riskfactor" + SEPARATOR + "otherMort" + SEPARATOR
+						+ "otherMortFitted" + SEPARATOR + "diseaseMort"
+						+ SEPARATOR + "totalMort" + "\n");
+			for (int i = 0; i < nSim; i++) {
+				double fitted = 0;
+				if (inputData.getRiskType() == 1)
+					fitted = baselineOtherMortality2
+							* this.relRiskOtherMort[age][sex][riskclass[i]];
+				if (inputData.getRiskType() == 2)
+					fitted = baselineOtherMortality2
+							* Math
+									.pow(this.relRiskOtherMortCont[age][sex],
+											riskfactor[i]
+													- inputData
+															.getRefClassCont());
+				if (inputData.getRiskType() == 3)
+					fitted = baselineOtherMortality2
+							* ((this.relRiskOtherMortBegin[age][sex] - this.relRiskOtherMortEnd[age][sex])
+									* Math.exp(-this.alphaOtherMort[age][sex]
+											* riskfactor[i]) + this.relRiskOtherMortEnd[age][sex]);
+				String data = age + SEPARATOR + sex + SEPARATOR + riskfactor[i]
+						+ SEPARATOR + otherMort[i] + SEPARATOR + fitted
+						+ SEPARATOR + mortalityFromDisease[i] + SEPARATOR
+						+ relRiskMort[i] * this.baselineMortality[age][sex]
+						+ "\n";
+				this.toCVS.append(data);
+
+			}
+		}
+		;
 		if (age == 0
 				&& sex == 0
 				&& baselineOtherMortality2 != this.baselineOtherMortality[age][sex])
@@ -3638,6 +3797,10 @@ public class ModelParameters {
 		else
 			currentRRend = endRR;
 		currentAlpha = 3 / (x_array[x_array.length - 1] - x_array[0]);
+		if ((new Double(currentRRbegin)).isNaN())
+			currentRRbegin = 0.1;
+		if ((new Double(currentRRend)).isNaN())
+			currentRRend = 0.1;
 
 		double delRRbegin[] = new double[x_array.length];
 		double delRRend[] = new double[x_array.length];
@@ -3674,14 +3837,16 @@ public class ModelParameters {
 				delAlpha[i] = -x_array[i] * (currentRRbegin - currentRRend)
 						* Math.exp(-currentAlpha * x_array[i]);
 				delY[i] = Ydata[i] - fitted[i];
-				Criterium += (delY[i] * delY[i]) * W[i];
-				trace[0] += delAlpha[i];
-				if (nParam == 2 && beginRR == -1)
-					trace[1] += delRRend[i] * delRRend[i] * W[i];
-				if (nParam == 2 && endRR == -1)
-					trace[1] += delRRbegin[i] * delRRbegin[i] * W[i];
-				if (nParam == 3)
-					trace[2] += delRRend[i] * delRRend[i] * W[i];
+				if (!Double.isNaN(Ydata[i])) {
+					Criterium += (delY[i] * delY[i]) * W[i];
+					trace[0] += delAlpha[i];
+					if (nParam == 2 && beginRR == -1)
+						trace[1] += delRRend[i] * delRRend[i] * W[i];
+					if (nParam == 2 && endRR == -1)
+						trace[1] += delRRbegin[i] * delRRbegin[i] * W[i];
+					if (nParam == 3)
+						trace[2] += delRRend[i] * delRRend[i] * W[i];
+				}
 			}
 			if (nParam == 1)
 				for (int k = 0; k < x_array.length; k++) {
@@ -3749,13 +3914,14 @@ public class ModelParameters {
 											 * (r1-r2)exp(-alphat) +r2
 											 */
 					if (currentAlpha > 35)
-						currentAlpha = 35; 
+						currentAlpha = 35;
 					/* if alfa is larger than 35, it causes numerical problems */
 					for (int i = 0; i < x_array.length; i++) {
 						delY[i] = Ydata[i]
 								- ((currentRRbegin - currentRRend)
 										* Math.exp(-currentAlpha * x_array[i]) + currentRRend);
-						Criterium += (delY[i] * delY[i]) * W[i];
+						if (!Double.isNaN(Ydata[i]))
+							Criterium += (delY[i] * delY[i]) * W[i];
 					}
 					if (Criterium >= oldCriterium)
 						lambda = lambda * 2;
@@ -3823,21 +3989,39 @@ public class ModelParameters {
 	 * @throws Exception
 	 *             if dimensions do not match
 	 */
-	public double[] weightedRegression(double[] y_array, double[][] x_array,
-			double[] w) throws DynamoInconsistentDataException {
+	public double[] weightedRegression(double[] y_array_input, double[][] x_array_input,
+			double[] w_input) throws DynamoInconsistentDataException {
 
 		// check dimensions //
 
-		if (y_array.length != w.length)
+		if (y_array_input.length != w_input.length)
 			throw new DynamoInconsistentDataException(
 					" Array lengths of y and weights differ in method weighted regression");
-		if (x_array.length != w.length)
+		if (x_array_input.length != w_input.length)
 			throw new DynamoInconsistentDataException(
 					" Array lengths of x and weights differ in method weighted regression");
-		if (y_array.length != x_array.length)
+		if (y_array_input.length != x_array_input.length)
 			throw new DynamoInconsistentDataException(
 					" Array lengths of x and y differ in method weighted regression");
 
+		/* remove NAN values by making the weight equal to 0 */
+		/*
+		 * use new arrays, in order not to overwrite the old array that might be used
+		 * again in the main program
+		 */
+		double[] w = new double[w_input.length];
+		double[] y_array = new double [w_input.length];
+		double[][] x_array= new double [w_input.length][x_array_input[0].length];
+		for (int i = 0; i < w_input.length; i++) {
+			w[i] = w_input[i];
+			y_array[i]=y_array_input[i];
+			if ((new Double(y_array[i])).isNaN())
+				w[i] = 0;
+			for (int j = 0; j < x_array[0].length; j++){
+				if ((new Double(x_array[i][j])).isNaN())
+					w[i] = 0;
+			x_array[i][j]=x_array_input[i][j];
+		}}
 		double[] coef = null;
 		/* check if all Y-values are the same */
 		if (!constantY(y_array)) {
@@ -4157,11 +4341,11 @@ public class ModelParameters {
 	public float[][][][][] getRelRiskDiseaseOnDisease() {
 		return DynamoLib.deepcopy(this.relRiskDiseaseOnDisease);
 	}
-	
-	
+
 	/**
-	 * @return relative risks for diseases on other diseases for age a and sex s . NB this is an
-	 *         irregular array indexes: age, gender, cluster, from, to
+	 * @return relative risks for diseases on other diseases for age a and sex s
+	 *         . NB this is an irregular array indexes: age, gender, cluster,
+	 *         from, to
 	 */
 	public float[][][] getRelRiskDiseaseOnDisease(int a, int s) {
 		return DynamoLib.deepcopy(this.relRiskDiseaseOnDisease[a][s]);
@@ -4195,8 +4379,7 @@ public class ModelParameters {
 	public double[][][] getBaselinePrevalenceOdds() {
 		return DynamoLib.deepcopy(this.baselinePrevalenceOdds);
 	}
-	
-	
+
 	/**
 	 * @return baseline prevalence odds for age and sex. Index is diseasenumber
 	 */
@@ -4322,10 +4505,10 @@ public class ModelParameters {
 	public float[][][][] getRelRiskClass() {
 		return DynamoLib.deepcopy(this.relRiskClass);
 	}
-	
+
 	/**
-	 * @return relative risk for categorical risk factor for age and sex. Indexes are:
-	 *         from, to=diseasenumber
+	 * @return relative risk for categorical risk factor for age and sex.
+	 *         Indexes are: from, to=diseasenumber
 	 */
 	public float[][] getRelRiskClass(int age, int sex) {
 		return DynamoLib.deepcopy(this.relRiskClass[age][sex]);
@@ -4345,15 +4528,15 @@ public class ModelParameters {
 	public float[][][] getRelRiskContinue() {
 		return DynamoLib.deepcopy(this.relRiskContinue);
 	}
+
 	/**
-	 * @return relative risk for a continuous risk factor for age and sex. Index is         and diseaseNumber
+	 * @return relative risk for a continuous risk factor for age and sex. Index
+	 *         is and diseaseNumber
 	 */
-	public float[] getRelRiskContinue(int age , int sex) {
+	public float[] getRelRiskContinue(int age, int sex) {
 		return DynamoLib.deepcopy(this.relRiskContinue[age][sex]);
 	}
 
-	
-	
 	/**
 	 * @param relRiskContinue
 	 */
@@ -4443,22 +4626,21 @@ public class ModelParameters {
 	public float[][][] getRelRiskDuurBegin() {
 		return DynamoLib.deepcopy(this.relRiskDuurBegin);
 	}
-	
-	
+
 	/**
 	 * @return relative risk at the beginning of the duration in the duration
-	 *         class of a compound riskfactor for age age and sex sex,. Index is disease
+	 *         class of a compound riskfactor for age age and sex sex,. Index is
+	 *         disease
 	 */
-	public float[] getRelRiskDuurBegin(int age , int sex) {
+	public float[] getRelRiskDuurBegin(int age, int sex) {
 		return DynamoLib.deepcopy(this.relRiskDuurBegin[age][sex]);
 	}
-	
-	
+
 	/**
-	 * @return relative risk at the end of the duration in the duration
-	 *         class of a compound riskfactor for age age and sex sex,. Index is disease
+	 * @return relative risk at the end of the duration in the duration class of
+	 *         a compound riskfactor for age age and sex sex,. Index is disease
 	 */
-	public float[] getRelRiskDuurEnd(int age , int sex) {
+	public float[] getRelRiskDuurEnd(int age, int sex) {
 		return DynamoLib.deepcopy(this.relRiskDuurEnd[age][sex]);
 	}
 
@@ -4491,12 +4673,11 @@ public class ModelParameters {
 	public float[][][] getAlphaDuur() {
 		return DynamoLib.deepcopy(this.alphaDuur);
 	}
-	
-	
+
 	/**
 	 * @return the alpha value for decreasing of the relative risk with duration
 	 */
-	public float[] getAlphaDuur(int age , int sex) {
+	public float[] getAlphaDuur(int age, int sex) {
 		return DynamoLib.deepcopy(this.alphaDuur[age][sex]);
 	}
 
@@ -4514,8 +4695,7 @@ public class ModelParameters {
 	public float[][][] getDuurFreq() {
 		return DynamoLib.deepcopy(this.duurFreq);
 	}
-	
-	
+
 	/**
 	 * @return initial frequency of durations in the duration class of a
 	 *         compound risk factor

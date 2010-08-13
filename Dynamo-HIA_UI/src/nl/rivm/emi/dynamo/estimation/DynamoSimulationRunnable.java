@@ -89,6 +89,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			wrapAndThrowErrorMessage(e, simName);
 			errorMessage = "model can not be run due to configuration errors";
 			e.printStackTrace();
+		} catch (IOException e) {
+			wrapAndThrowErrorMessage(e, simName);
+			errorMessage = "model can not be run due to writing errors";
+			e.printStackTrace();
+			
 		}
 	}
 
@@ -107,12 +112,13 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 *            , String baseDir
 	 * @throws DynamoInconsistentDataException
 	 * @throws DynamoConfigurationException
+	 * @throws IOException 
 	 * 
 	 * 
 	 */
 	private void configureSimulation(String simName, String baseDir)
 			throws DynamoConfigurationException,
-			DynamoInconsistentDataException {
+			DynamoInconsistentDataException, IOException {
 
 		/*
 		 * make an instance of the basedirectory object that is a singleton
