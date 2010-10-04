@@ -1787,6 +1787,27 @@ public class DynamoPlotFactory {
 			}
 
 		}
+		else{
+
+			
+			switch (seriesNumber) {
+			case 0:
+				renderer.setSeriesPaint(seriesNumber, Color.BLUE);
+				
+				break;
+			case 1:
+				renderer.setSeriesPaint(seriesNumber, Color.RED);
+				
+				break;
+			case 2:
+				renderer.setSeriesPaint(seriesNumber, Color.MAGENTA);
+				
+				
+			
+			
+			}
+
+	}
 
 	}
 
