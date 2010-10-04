@@ -1162,11 +1162,11 @@ public class DynamoPlotFactory {
 
 		double indat0 = 0; /* diseasenumbers for men */
 		double indat1 = 0;/* diseasenumbers for women */
-		double npop0 = 0;/* total numbers for women */
+		double npop0 = 0;/* total numbers for men */
 		double npop1 = 0;/* total numbers for women */
 		double indat0r = 0; /* diseasenumbers for men in reference scenario */
 		double indat1r = 0;/* diseasenumbers for women in reference scenario */
-		double npop0r = 0;/* total numbers for women in reference scenario */
+		double npop0r = 0;/* total numbers for men in reference scenario */
 		double npop1r = 0;/* total numbers for women in reference scenario */
 		double[][][][] nPopByAge = this.output.getNPopByAge();
 		double[][][][] nDiseaseByAge = null;
@@ -1189,11 +1189,11 @@ public class DynamoPlotFactory {
 			npop0r = nPopByAge[0][year][age][0];
 			indat1 = applySuccesrate(nDiseaseByAge[0][year][age][1],
 					nDiseaseByAge[thisScen][year][age][1], thisScen, year, age,
-					0);
+					1);
 			npop1 = applySuccesrate(nPopByAge[0][year][age][1],
 					nPopByAge[thisScen][year][age][1], thisScen, year, age, 1);
-			indat1r = nDiseaseByAge[thisScen][year][age][1];
-			npop1r = nPopByAge[thisScen][year][age][1];
+			indat1r = nDiseaseByAge[0][year][age][1];
+			npop1r = nPopByAge[0][year][age][1];
 			addToSeries(differencePlot, numbers, menSeries, indat0, npop0,
 					indat0r, npop0r, age);
 
@@ -1201,7 +1201,7 @@ public class DynamoPlotFactory {
 					indat1r, npop1r, age);
 
 			addToSeries(differencePlot, numbers, totalSeries, indat1 + indat0,
-					npop1 + npop0, indat1r + indat0, npop1r + npop0r, age);
+					npop1 + npop0, indat1r + indat0r, npop1r + npop0r, age);
 
 		}
 
@@ -1384,7 +1384,7 @@ public class DynamoPlotFactory {
 
 				} else {
 					addToSeries(differencePlot, numbers, scenSeries[thisScen],
-							indat1 + indat0, npop1 + npop0, indat1r + indat0,
+							indat1 + indat0, npop1 + npop0, indat1r + indat0r,
 							npop1r + npop0r, age);
 
 				}
@@ -1802,6 +1802,31 @@ public class DynamoPlotFactory {
 			case 2:
 				renderer.setSeriesPaint(seriesNumber, Color.MAGENTA);
 				
+				break;
+			case 3:
+				renderer.setSeriesPaint(seriesNumber, Color.GREEN);
+				break;
+			case 4:
+				renderer.setSeriesPaint(seriesNumber, Color.CYAN);
+				break;
+			case 5:
+				renderer.setSeriesPaint(seriesNumber, new Color(0xC0, 0xC0, 0x00));
+				/*  dark yellow */
+				break;
+			case 6:
+				renderer.setSeriesPaint(seriesNumber, Color.GRAY);
+				break;
+			case 7:
+				renderer.setSeriesPaint(seriesNumber, new Color(0x60, 0x60, 0x00));
+				/*  very dark yellow= greenish */
+				break;
+			case 8:
+				renderer.setSeriesPaint(seriesNumber, Color.BLACK);
+				
+				break;
+			case 9:
+				renderer.setSeriesPaint(seriesNumber, Color.ORANGE);
+				break;
 				
 			
 			
@@ -2557,8 +2582,8 @@ public class DynamoPlotFactory {
 								* nPopByAge[0][year][age][0]
 								+ this.output.getMeanRiskByAge()[0][year][age][1]
 								* nPopByAge[0][year][age][1];
-						if (nPopByAge[0][year][age][0]
-								+ nPopByAge[0][year][age][1] == 0
+						if ((nPopByAge[0][year][age][0]
+								+ nPopByAge[0][year][age][1] )== 0
 								&& differencePlot)
 							dataPresent = false;
 						if (dataPresent)
@@ -2928,7 +2953,7 @@ public class DynamoPlotFactory {
 				if (gender == 2)
 					addToSeries(differencePlot, numbers, scenSeries[thisScen],
 							indat0 + indat1, denominator0 + denominator1,
-							indat0r + indat1r, denominator0 + denominator1r,
+							indat0r + indat1r, denominator0r + denominator1r,
 							steps + this.output.getStartYear());
 			}
 
@@ -3032,6 +3057,10 @@ public class DynamoPlotFactory {
 																	 * riskclass
 																	 * together
 																	 */
+		
+		/* NB: getMortality already applies succesrate etc., so no apply succesrates should'
+		 * be used on mortality*/
+		
 		if (mortality != null && year < this.output.getStepsInRun()) {
 			double[][][][] nPopByAge = this.output.getNPopByAge();
 
@@ -3101,7 +3130,7 @@ public class DynamoPlotFactory {
 						addToSeries(differencePlot, numbers,
 								scenSeries[thisScen], indat0 + indat1,
 								denominator0 + denominator1, indat0r + indat1r,
-								denominator0 + denominator1r, age);
+								denominator0r + denominator1r, age);
 				}
 
 				if (thisScen == 0)
