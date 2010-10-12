@@ -307,7 +307,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
-		log.error("REMOVING OBJECT STATE");
+		log.debug("REMOVING OBJECT STATE");
 		Map<String, ITabScenarioConfiguration> configurations = this.dynamoSimulationObject
 		.getScenarioConfigurations();
 		configurations.remove(this.singleConfiguration.getName());
@@ -395,7 +395,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 	}
 
 	public void updateDynamoSimulationObject() {
-		log.error("UPDATING");
+		log.debug("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()"
 				+ singleConfiguration.getName());
@@ -406,20 +406,20 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
 
 		/**
-		 * TODO REMOVE: LOGGING BELOW
+		 * 
 		 */
 		Map map = this.dynamoSimulationObject.getScenarioConfigurations();
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map
 					.get(key);
-			log.error("conf.getName()" + conf.getName());
-			log.error("conf.getMinAge()" + conf.getMinAge());
-			log.error("conf.getMaxAge()" + conf.getMaxAge());
-			log.error("conf.getTargetSex()" + conf.getTargetSex());
-			log.error("conf.getAltTransitionFileName()"
+			log.debug("conf.getName()" + conf.getName());
+			log.debug("conf.getMinAge()" + conf.getMinAge());
+			log.debug("conf.getMaxAge()" + conf.getMaxAge());
+			log.debug("conf.getTargetSex()" + conf.getTargetSex());
+			log.debug("conf.getAltTransitionFileName()"
 					+ conf.getAltTransitionFileName());
-			log.error("conf.getAltPrevalenceFileName()"
+			log.debug("conf.getAltPrevalenceFileName()"
 					+ conf.getAltPrevalenceFileName());
 		}
 		log.debug("configurations.size()" + configurations.size());
@@ -445,7 +445,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map
 					.get(key);
-			log.error("conf.getName()" + conf.getName());
+			log.debug("conf.getName()" + conf.getName());
 			chosenRiskFactorName = conf.getName();
 		}
 		return chosenRiskFactorName;
