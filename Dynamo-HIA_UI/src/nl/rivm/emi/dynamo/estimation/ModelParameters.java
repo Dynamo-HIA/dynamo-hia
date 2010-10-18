@@ -3305,13 +3305,13 @@ public class ModelParameters {
 		if (age == 0 && sex == 0)
 			this.log.debug("begin loop 5");
 		if (age == 0 && sex == 0) {
-			this.log.fatal("\nbaseline ability for age 0, sex 0 : "
+			this.log.debug("\nbaseline ability for age 0, sex 0 : "
 					+ this.baselineAbility[age][sex]);
 			if (this.riskType != 2)
-				this.log.fatal("\nand  RR ability for category 2 : "
+				this.log.debug("\nand  RR ability for category 2 : "
 						+ this.riskFactorAbilityRRcat[age][sex][1]);
 			else
-				this.log.fatal("\nand RR ability :"
+				this.log.debug("\nand RR ability :"
 						+ this.riskFactorAbilityRRcont[age][sex]);
 		}
 		// fifth loop over all persons i to calculate sum of RR other
@@ -3375,9 +3375,9 @@ public class ModelParameters {
 			 */
 			double RRmort = RRmortNew[i] / this.baselineMortality[age][sex];
 
-			if (Math.abs(relRiskMort[i] - RRmortNew[i]) > 0.02)
+			if (Math.abs(relRiskMort[i] - RRmort) > 0.1)
 				this.log
-						.fatal(" RR used for mortality differs from RR given for age: "
+						.fatal("WARNING: RR used for mortality differs from RR given for age: "
 								+ age
 								+ " sex: "
 								+ sex
@@ -3439,7 +3439,7 @@ public class ModelParameters {
 					- this.baselineOtherMortality[age][sex])
 					/ baselineOtherMortality2 > 0.001))
 				this.log
-						.fatal("different baseline mortalities calculated after calibration nl "
+						.debug("different baseline mortalities calculated after calibration nl "
 								+ baselineOtherMortality2
 								+ " after calibration while  "
 								+ this.baselineOtherMortality[age][sex]
@@ -3949,7 +3949,7 @@ public class ModelParameters {
 				break;
 			else if (iter == 499)
 				this.log
-						.fatal(" non-linear regression other cause mortality did not converge in 500 iterations "
+						.fatal("ERROR: non-linear regression other cause mortality did not converge in 500 iterations "
 								+ " results: alpha "
 								+ currentAlpha
 								+ " RR end "
