@@ -94,7 +94,7 @@ public class SaveSelectionListener implements
 							for (Integer key : keys) {
 								TabRelativeRiskConfigurationData conf = (TabRelativeRiskConfigurationData) map
 										.get(key);
-								log.error("conf.getName()"
+								log.debug("conf.getName()"
 										+ conf.getDataFileName());
 								if (conf.getDataFileName() == null
 										|| conf.getDataFileName().isEmpty()) {

@@ -193,7 +193,11 @@ public class DynamoPlotFactory {
 	 * @return the result for a scenario to which the successrates and
 	 *         min-maximum age have been applied
 	 * */
-
+/*
+ * 
+ * NB copies of this method is in ScenarioParameters, so any errors here must be also changed there
+ * 
+ */
 	private double applySuccesrate(double inputRef, double inputScen,
 			int thisScen, int year, int a, int gender) {
 		double data = 0.0;
@@ -215,18 +219,14 @@ public class DynamoPlotFactory {
 					|| this.params.getMaxAge(thisScen - 1) < a - year)
 				data = inputRef;
 			else
-				data = (1 - this.params.getSuccesrate()[thisScen - 1])
-						* inputRef
-						+ (this.params.getSuccesrate()[thisScen - 1])
-						* inputScen;
+				data = (1 - this.params.getSuccesrate()[thisScen - 1])	* inputRef
+						+ (this.params.getSuccesrate()[thisScen - 1])	* inputScen;
 		} else {
 			if (this.params.getMinAge()[thisScen - 1] > 0)
 				data = inputRef;
 			else
-				data = (1 - this.params.getSuccesrate()[thisScen - 1])
-						* inputRef
-						+ (this.params.getSuccesrate()[thisScen - 1])
-						* inputScen;
+				data = (1 - this.params.getSuccesrate()[thisScen - 1])		* inputRef
+						+ (this.params.getSuccesrate()[thisScen - 1])		* inputScen;
 		}
 		;
 

@@ -258,7 +258,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	}
 
 	public void updateDynamoSimulationObject() {
-		log.error("UPDATING");
+		log.debug("UPDATING");
 		log.debug("singleConfiguration" + singleConfiguration);
 		log.debug("singleConfiguration.getName()"
 				+ singleConfiguration.getName());
@@ -276,14 +276,14 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		for (String key : keys) {
 			ITabDiseaseConfiguration conf = (ITabDiseaseConfiguration) map
 					.get(key);
-			log.error("conf.getName()" + conf.getName());
-			log.error("conf.getPrevalenceFileName()"
+			log.debug("conf.getName()" + conf.getName());
+			log.debug("conf.getPrevalenceFileName()"
 					+ conf.getPrevalenceFileName());
-			log.error("conf.getIncidenceFileName()"
+			log.debug("conf.getIncidenceFileName()"
 					+ conf.getIncidenceFileName());
-			log.error("conf.getExcessMortalityFileName()"
+			log.debug("conf.getExcessMortalityFileName()"
 					+ conf.getExcessMortalityFileName());
-			log.error("conf.getDalyWeightsFileName()"
+			log.debug("conf.getDalyWeightsFileName()"
 					+ conf.getDalyWeightsFileName());
 		}
 		log.debug("configurations.size()" + configurations.size());

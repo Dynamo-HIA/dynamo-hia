@@ -560,7 +560,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		int minimumGender = minMaxData[2];
 		int numberOfAgesInPop = minMaxData[1] - minimumAge + 1;
 		int numberOfGendersInPop = minMaxData[3] - minimumGender + 1;
-		log.fatal("minimum age " + minimumAge + " maximum age " + minMaxData[1]
+		
+		/* next statement is nice to see howfar the program has progressed, but not used in final release 
+		
+		log.debug("minimum age " + minimumAge + " maximum age " + minMaxData[1]
 				+ "\nminimum sex " + minimumGender + " maximum sex "
 				+ minMaxData[3]);
 
@@ -1240,7 +1243,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								 * this.pDiseaseStateByRiskClassByAge[scen +
 								 * 1][stepCount][state][r][a][s] = 0; }
 								 */
-								if (a >= stepCount)
+								
+								if (a >= stepCount){
 									toChange = NettTransitionRateFactory
 											.makeNettTransitionRates(
 													this.oldPrevalence[a
@@ -1248,13 +1252,14 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 													this.newPrevalence[scen][a
 															- stepCount][s], 0,
 													dummy);
-								else
+									}
+								else{
 									/* for newborns */
 									toChange = NettTransitionRateFactory
 											.makeNettTransitionRates(
 													this.oldPrevalence[0][s],
 													this.newPrevalence[scen][0][s],
-													0, dummy);
+													0, dummy);}
 
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
@@ -1303,8 +1308,24 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											for (int r = 0; r < this.nRiskFactorClasses; r++)
 												sum += pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a][s
 														- minimumGender];
+											
+											boolean zeroToPrevalence=false;
+											boolean zeroFromPrevalence=false;
+											 if (a >= stepCount) {
+												if( newPrevalence[scen][a - stepCount][s][to]==0) zeroToPrevalence=true;
+												if( oldPrevalence[a	- stepCount][s][to]==0) zeroFromPrevalence=true;
+											 }
+												
+									else {
+										/* for newborns */ 
+										if( newPrevalence[scen][0][s][to]==0) zeroToPrevalence=true;
+										if( oldPrevalence[0][s][to]==0) zeroFromPrevalence=true;
+										}
+											 /* if from prevalence is zero, than for [to=from] the change is made 1 
+											  * this should not given an error */
+											 /* zeroToPrevalence is probably redundant as than the toChange is also 0 */
 											if (sum == 0
-													&& toChange[from][to] > 0) {
+													&& toChange[from][to] > 0 && (!zeroToPrevalence) && ( !(zeroFromPrevalence && to==from)) ) {
 												log
 														.fatal(" not enough simulated information to calculate scenario "
 																+ scen
@@ -1405,7 +1426,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											if (a == 0 && s == 0
 													&& stepCount == 50)
 												log
-														.fatal("scen "
+														.debug("scen "
 																+ scen
 																+ 1
 																+ " from "
@@ -1465,9 +1486,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											for (int r = 0; r < this.nRiskFactorClasses; r++)
 												sum += pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a][s
 														- minimumGender];
+											
+											boolean zeroToPrevalence=false;
+											boolean zeroFromPrevalence=false;
+											 
+												if( newPrevalence[scen][a ][s][to]==0) zeroToPrevalence=true;
+												if( oldPrevalence[a	][s][to]==0) zeroFromPrevalence=true;
+											 
 
 											if (sum == 0
-													&& toChange[from][to] > 0) {
+													&& toChange[from][to] > 0 && ( !(zeroFromPrevalence && to==from))) {
 												log
 														.fatal(" not enough simulated information to calculate scenario "
 																+ scen
@@ -3077,7 +3105,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						for (int stepCount = 0; stepCount < this.nDim - age; stepCount++) {
 							nDiseaseByAge[scen][stepCount][g] += nDiseaseByOriRiskClassByOriAge[scen][stepCount][d][r][age][g];
 							if (scen == 1 && g == 0)
-								log.fatal(" stepcount " + stepCount
+								log.debug(" stepcount " + stepCount
 										+ " NDisease "
 										+ nDiseaseByAge[scen][stepCount][g]);
 						}

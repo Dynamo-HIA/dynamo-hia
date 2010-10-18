@@ -672,7 +672,7 @@ public class ExcelReadableXMLWriter {
 			/* risk factor info */
 			if (this.output.riskType == 1 || this.output.riskType == 3
 					|| this.output.categorized) {
-				writeCell(writer, "riskClass");
+				writeCell(writer, "risk class in "+this.output.startYear);
 			} else {
 				writeCell(writer, "mean_riskFactor");
 				//writeCell(writer, "std_riskFactor");

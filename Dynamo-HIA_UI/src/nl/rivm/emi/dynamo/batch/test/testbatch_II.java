@@ -83,9 +83,9 @@ public class testbatch_II {
 
 	@Test
 	public void test_5() {
-		 runTest("run_test_5", "test05", 11.86262859, 10.323828, 10.06424551,
-		 9.057820083,
-		 10.544173, 9.057820963); 
+		runTest("run_test_5", "test05", 11.86143824, 10.319618, 10.06416548,
+				 9.057748055,
+				 10.541925, 9.057748935); 
 	}
 
 	@Test
@@ -118,9 +118,9 @@ public class testbatch_II {
 
 	@Test
 	public void test_10() {
-	     runTest("run_test_10", "test10", 11.09527441, 9.680941, 10.43985847,
-		 9.447335957,
-		 9.871448, 9.415172457);
+		  runTest("run_test_10", "test10", 11.09238588, 9.669386, 10.4396114,
+					 9.447112375,
+					 9.865490, 9.414949636);
 	}
 
 	@Test
@@ -143,7 +143,18 @@ public class testbatch_II {
 		 7.509649749,
 		 10.430651, 9.04908649); 
 	}
-
+	@Test
+	public void test_12a() {
+		checkParameters("test12", 0.0035560585F, 0.004974321F, 0.0039015845F,
+				0.043575432F, 2.4666753F, 2.4666753F, 0.5F, 0.039915062F, true); 
+	}
+	
+	@Test
+	public void test_13() {
+	 runTest("run_test_13", "test13", 11.86143824, 10.319618, 10.06416548,
+			 9.057748055,
+			 10.541925, 9.057748935); 
+	}
 	@Test
 	public void test_14() {
 		 runTest("run_test_14", "test14", 9.955002415, 7.037181, 10.00184631,
@@ -157,6 +168,21 @@ public class testbatch_II {
 				 7.47140266,
 				 8.895412, 9.002998958); 
 	}
+	
+	@Test
+	public void test_17() {
+		 runTest("run_test_17", "test17", 11.62399547, 8.426732, 10.05240022,
+				 7.25465746,
+				 10.449351, 9.047160194);
+	}
+	@Test
+	public void test_20() {
+		 runTest("run_test_20", "test20", 11.62399547, 8.426732, 10.05240022,
+				 7.25465746,
+				 10.449351, 9.047160194);
+	}
+	
+
 
 	private void checkParameters(String simName, float baselineIncidenceA,
 			float baselineIncidenceB, float atmort1, float atmort2,
