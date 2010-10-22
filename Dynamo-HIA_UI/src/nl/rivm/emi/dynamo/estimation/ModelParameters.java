@@ -107,7 +107,7 @@ public class ModelParameters {
 	private float[][] offsetDrift = new float[96][2];
 	private float[][][][] transitionMatrix = new float[96][2][][];
 	private boolean zeroTransition;
-	// TODO
+	
 	private Population[] initialPopulation;
 	// empty Constructor
 	// private Shell parentShell;
@@ -272,7 +272,7 @@ public class ModelParameters {
 		/*
 		 * NB this is not very safe, as copying like this means that changing
 		 * the object here will change it also in inputData So only possible for
-		 * primitive types TODO check if everywhere are deep copy for arrays
+		 * primitive types 
 		 */
 		this.riskType = inputData.getRiskType();
 
@@ -388,20 +388,12 @@ public class ModelParameters {
 				if (a == 95)
 					anext = 95;
 
-				// TODO
-				/*
-				 * nog testen
-				 */
+				
 				if (inputData.getRiskType() != 2) {
 					if (inputData.getTransType() == 1) { /*
 														 * nett transition rates
 														 */
-						if (a == 79 && g == 1) {
-
-							int stop = 0;
-							stop++;
-
-						}
+						
 
 						this.transitionMatrix[a][g] = NettTransitionRateFactory
 								.makeNettTransitionRates(getPrevRisk()[a][g],
@@ -701,7 +693,7 @@ public class ModelParameters {
 	 * @param age
 	 * @param sex
 	 * @param dsi
-	 *            TODO
+	 *            
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void estimateModelParametersForSingleAgeGroup(int nSim,
@@ -2301,8 +2293,7 @@ public class ModelParameters {
 
 			}
 		}
-		// TODO other risktypes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// TODO fatal diseases
+		
 
 		/* calculate the mortality from acutely fatal diseases */
 		/*
@@ -2356,8 +2347,7 @@ public class ModelParameters {
 								if (diseasePrevalence[d1] != 0)
 									sumForCF[d1] -= sum / diseasePrevalence[d1];
 
-								// TODO checken of klopt ; is al wel een extra
-								// keer gechecked
+							
 
 							} else { // without rr:
 								/*
@@ -2440,7 +2430,7 @@ public class ModelParameters {
 				 * + ExcessMort(1-prevalence(D))
 				 * 
 				 * other mort = morttot - attributable terms - sum over i of all
-				 * CF TODO nog checken
+				 * CF
 				 * 
 				 * than the lefthand becomes: excessmort(1-prevalence(D)+ sum
 				 * over I of all CF - sum of CF given d
@@ -2603,7 +2593,7 @@ public class ModelParameters {
 							+ sex
 							+ "\n Most common reason is that"
 							+ " the mortality from acutely fatal disease is larger than excess mortality. ");
-		// TODO throw exception
+		// 
 
 		;
 		/**
@@ -2629,12 +2619,7 @@ public class ModelParameters {
 		double logAbilityFromOtherCauses[] = new double[nSim];
 		double nNegativeOtherMort = 0;
 		
-		if (age == 57 ) {
-
-			int stop = 0;
-			stop++;
-
-		}
+		
 		for (int i = 0; i < nSim; i++) {
 
 			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
@@ -2867,7 +2852,7 @@ public class ModelParameters {
 		 * );
 		 */
 		if (sumOtherMort < 0)
-			// TODO add more info on mortality per disease
+			// TODO making debugging file with disease specific mortality 
 			throw new DynamoInconsistentDataException(
 					"FATAL ERROR: Attributable Mortality from diseases exceeds the overall mortality for age "
 							+ age
@@ -3338,11 +3323,7 @@ public class ModelParameters {
 		double RRmortNew[] = new double[nSim];
 
 		for (int i = 0; i < nSim; i++) {
-			if (age == 55 && sex == 1 && i > 22) {
-
-				int stop = 0;
-				stop++;
-			}
+			
 			if (inputData.getRiskType() == 1)
 				RRmortNew[i] = mortalityFromDisease[i]
 						+ baselineOtherMortality2
@@ -3387,7 +3368,7 @@ public class ModelParameters {
 			RRmortNew[i] = RRmort;
 		}
 
-		if (negativeMortality || (riskType == 2 && withRRmort)
+		if ((negativeMortality && withRRmort)|| (riskType == 2 && withRRmort)
 				|| (riskType == 3 && withRRmort)) {
 			if (this.toCVS.toString().equals(""))
 				this.toCVS.append("age" + SEPARATOR + "sex" + SEPARATOR
@@ -4156,7 +4137,7 @@ public class ModelParameters {
 		double expDifferenceIncExcessMort;
 		notCuredPrev[0] = (1 - curedFraction[0]) * prev[0];
 		for (int a = 1; a < n; a++) {
-			// TODO Testen van deze methode (kloppen berekeningen)
+			// 
 			/*
 			 * (E^(at t) inotcured (-1 + p) + E^(inotcured t) (inotcured - at
 			 * p))/( at E^(at t) (-1 + p) + E^(inotcured t) (inotcured - at p))
@@ -4229,10 +4210,10 @@ public class ModelParameters {
 		return notCuredPrev;
 	}
 
+	
 	/**
-	 * @param pri
-	 *            TODO
-	 * @param e
+	 * @param message: content of message
+	 * @param dsi: interface to which to send message
 	 */
 	private void displayWarningMessage(String message, DynSimRunPRInterface dsi) {
 		// Shell shell = new Shell(this.parentShell);

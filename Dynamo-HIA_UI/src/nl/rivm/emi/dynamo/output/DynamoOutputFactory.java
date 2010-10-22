@@ -2613,7 +2613,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s] = ratio
 										* this.pDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s];
 								/*
-								 * if (s == 0 && a == 50) log .fatal("scenario "
+								 * if (s == 0 && a == 50) log .("scenario "
 								 * + scen + "step " + stepCount + " state " +
 								 * state + " r " + r + "pdis " +
 								 * this.pDiseaseStateByOriRiskClassByAge

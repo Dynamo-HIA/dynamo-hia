@@ -226,10 +226,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
 				pop = popFactory.manufactureInitialPopulation(agemin, agemax,
 						0, 1, 1, 1, false);
-				if (agemin == 20) {
-					int stop = 0;
-					stop++;
-				}
+				
 				if (scen.isWithNewBorns()) {
 					Population[] newborns = popFactory
 							.manufactureInitialPopulation(0, 0, 0, 1, 1, scen
