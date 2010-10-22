@@ -118,6 +118,7 @@ public class ModelParameters {
 	private boolean warningflag4 = true;
 	private boolean warningflag5 = true;
 	private boolean warningflag6 = true;
+	private boolean negativeMortality = false;
 
 	/**
 	 * contructor sets the baseDir;
@@ -2836,10 +2837,11 @@ public class ModelParameters {
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
-
-		if (nNegativeOtherMort > 0.2 && inputData.isWithRRForMortality()
+		if (nNegativeOtherMort > 0) negativeMortality=true; 
+		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality()
 				&& (warningflag4)) {
 			warningflag4 = false;
+			
 			displayWarningMessage(
 					"WARNING: \nnegative other mortality  in  "
 							+ (nNegativeOtherMort * 100)
@@ -2878,23 +2880,14 @@ public class ModelParameters {
 		// carry out the regression of log other mortality on the risk
 		// factors;
 
-		if (age == 15) {
-
-			int stop = 0;
-			stop++;
-		}
+		
 
 		if (inputData.isWithRRForMortality()) {
 			try {
 
 				beta = weightedRegression(yValue, xMatrix, wVector);
 				
-				if (age==57){
-					
-					int stop=0;
-					stop++;
-					
-				}
+				
 
 			} catch (Exception e) {
 
@@ -3394,7 +3387,7 @@ public class ModelParameters {
 			RRmortNew[i] = RRmort;
 		}
 
-		if (!warningflag4 || (riskType == 2 && withRRmort)
+		if (negativeMortality || (riskType == 2 && withRRmort)
 				|| (riskType == 3 && withRRmort)) {
 			if (this.toCVS.toString().equals(""))
 				this.toCVS.append("age" + SEPARATOR + "sex" + SEPARATOR

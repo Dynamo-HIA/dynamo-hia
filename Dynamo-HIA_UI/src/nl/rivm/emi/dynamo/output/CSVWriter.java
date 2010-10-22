@@ -175,7 +175,7 @@ public class CSVWriter {
 
 						for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
 
-							for (int a = 0; a < 96; a++) {
+							for (int a = 0; a < 96+year; a++) {
 								toWriteCSVString.append(year + this.delimiter);
 								toWriteCSVString.append(thisScen + this.delimiter);
 								toWriteCSVString.append(sex + this.delimiter);
