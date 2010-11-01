@@ -119,8 +119,8 @@ public class CSVWriter {
 				toWriteCSVString.append("riskClass" + this.delimiter);
 			} else {
 				toWriteCSVString.append("mean_riskFactor" + this.delimiter);
-				toWriteCSVString.append("std_riskFactor" + this.delimiter);
-				toWriteCSVString.append("skewness" + this.delimiter);
+				/*toWriteCSVString.append("std_riskFactor" + this.delimiter);
+				toWriteCSVString.append("skewness" + this.delimiter);*/
 
 			}
 			if (this.output.riskType == 3) {
