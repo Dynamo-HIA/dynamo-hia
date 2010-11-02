@@ -89,13 +89,7 @@ public class BaseNode {
 						lastDotIndex + 1, physicalStorageName.length());
 				if ("xml".equalsIgnoreCase(extension)) {
 					result = true;
-					/* added by Hendriek in order not to screen 
-					 * the result files as they are very large and
-					 * this slows down the program */
-					int startPositionDirectoryName=1+physicalStorage.getPath().lastIndexOf(File.separator);
-					String dirName=physicalStorage.getPath().substring(startPositionDirectoryName, physicalStorageName.length());
-					if (dirName.equalsIgnoreCase("results")) result=false;
-					 /* end addition hendriek */
+					
 				}
 			}
 		}
