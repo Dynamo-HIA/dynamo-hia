@@ -4,6 +4,6 @@ import java.io.File;
 
 public class ApplicationStatics {
 	public static final String APPBASENAME = "DYNAMO-HIA";
-	public static final String RELEASE_TAG = "Version 1.1.4, Release date: 20101022, build 1214.";
+	public static final String RELEASE_TAG = "Version 1.2.0, Release date: 20101104, build 1208.";
 	public static final String DEFAULTWORKDATADIRECTORY = "C:"+File.separator+"DYNAMO-HIA"+File.separator+"Netherlands";
 }

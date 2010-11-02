@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CSVWriter {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
+			.getLog("nl.rivm.emi.dynamo.output.CSVWriter");
 
 	/* object with the output data */
 	private CDMOutputFactory output;
@@ -119,7 +119,7 @@ public class CSVWriter {
 				toWriteCSVString.append("riskClass" + this.delimiter);
 			} else {
 				toWriteCSVString.append("mean_riskFactor" + this.delimiter);
-				/*toWriteCSVString.append("std_riskFactor" + this.delimiter);
+			/*	toWriteCSVString.append("std_riskFactor" + this.delimiter);
 				toWriteCSVString.append("skewness" + this.delimiter);*/
 
 			}
@@ -175,7 +175,7 @@ public class CSVWriter {
 
 						for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
 
-							for (int a = 0; a < 96+year; a++) {
+							for (int a = 0; a < Math.min(96+this.output.getStepsInRun(),this.output.getNDim()); a++) {
 								toWriteCSVString.append(year + this.delimiter);
 								toWriteCSVString.append(thisScen + this.delimiter);
 								toWriteCSVString.append(sex + this.delimiter);

@@ -25,6 +25,7 @@ import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.annotations.CategoryTextAnnotation;
 import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPosition;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.SubCategoryAxis;
@@ -35,6 +36,8 @@ import org.jfree.chart.labels.ItemLabelAnchor;
 import org.jfree.chart.labels.ItemLabelPosition;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.labels.StandardXYToolTipGenerator;
+import org.jfree.chart.labels.XYToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -44,6 +47,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.GroupedStackedBarRenderer;
 import org.jfree.chart.renderer.category.StackedBarRenderer;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.KeyToGroupMap;
@@ -53,6 +57,7 @@ import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 
 /**
@@ -61,7 +66,7 @@ import org.jfree.ui.TextAnchor;
  */
 public class DynamoPlotFactory {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
+			.getLog("nl.rivm.emi.dynamo.output.DynamoPlotFactory");
 
 	/* object with the output data */
 	public CDMOutputFactory output;
@@ -863,6 +868,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		/*
 		 * ChartFrame frame1 = new ChartFrame("Survival Chart " + label, chart);
@@ -997,6 +1005,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		/*
 		 * ChartFrame frame1 = new ChartFrame("Survival Chart " + label, chart);
@@ -1111,6 +1122,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, gender, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		return chart;
 	}
@@ -1249,6 +1263,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, gender, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		return chart;
 	}
@@ -1446,6 +1463,10 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
+		
 		return chart;
 	}
 
@@ -1697,6 +1718,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, r, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		return chart;
 		/*
@@ -1750,7 +1774,7 @@ public class DynamoPlotFactory {
 				break;
 			case 1:
 				renderer.setSeriesPaint(seriesNumber, Color.BLACK);
-				renderer.setSeriesStroke(seriesNumber, LONG_DASH);
+				renderer.setSeriesStroke(seriesNumber, VERYSHORT_DASH);
 				break;
 			case 2:
 				renderer.setSeriesPaint(seriesNumber, Color.BLACK);
@@ -1762,7 +1786,7 @@ public class DynamoPlotFactory {
 				break;
 			case 4:
 				renderer.setSeriesPaint(seriesNumber, Color.GRAY);
-				renderer.setSeriesStroke(seriesNumber, LONG_DASH);
+				renderer.setSeriesStroke(seriesNumber, VERYSHORT_DASH);
 				break;
 			case 5:
 				renderer.setSeriesPaint(seriesNumber, Color.GRAY);
@@ -1840,13 +1864,15 @@ public class DynamoPlotFactory {
 	BasicStroke SOLID = new BasicStroke(2.0f);
 	BasicStroke DOTTED_DASH = new BasicStroke(2.0f, BasicStroke.CAP_ROUND,
 			BasicStroke.JOIN_ROUND, 1.0f,
-			new float[] { 10.0F, 5.0F, 1.0F, 5.0F }, 0.0f);
+			new float[] { 8.0F, 2.0F, 1.0F, 2.0F }, 0.0f);
 	BasicStroke DOTTED = new BasicStroke(3.0f, BasicStroke.CAP_ROUND,
 			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 1.0F, 4.0F }, 0.0f);
 	BasicStroke LONG_DASH = new BasicStroke(2.0f, BasicStroke.CAP_ROUND,
-			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 16.0f, 4.0f }, 0.0f);
+			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 12.0f, 2.0f }, 0.0f);
 	BasicStroke SHORT_DASH = new BasicStroke(2.0f, BasicStroke.CAP_ROUND,
-			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 6.0f, 6.0f }, 0.0f);
+			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 8.0f, 2.0f }, 0.0f);
+	BasicStroke VERYSHORT_DASH = new BasicStroke(2.0f, BasicStroke.CAP_ROUND,
+			BasicStroke.JOIN_ROUND, 1.0f, new float[] { 5.0f, 2.0f }, 0.0f);
 
 	/**
 	 * makes a plot of the prevalence against year of simulation, or for the
@@ -1993,6 +2019,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		return chart;
 		/*
@@ -2175,6 +2204,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, r, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 		return chart;
 		/*
 		 * ChartFrame frame1 = new ChartFrame(diseaseNames[d] +
@@ -2327,6 +2359,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
 		// frame1.setVisible(true);
@@ -2476,6 +2511,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
 		// frame1.setVisible(true);
@@ -2637,6 +2675,9 @@ public class DynamoPlotFactory {
 				setLineProperties(renderer, thisScen, blackAndWhite);
 			}
 			plot.setRenderer(renderer);
+			XYItemRenderer renderer2 = plot.getRenderer();
+			renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+			plot.setRenderer(renderer2);
 
 			// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
 			// frame1.setVisible(true);
@@ -2820,6 +2861,9 @@ public class DynamoPlotFactory {
 				setLineProperties(renderer, thisScen, blackAndWhite);
 			}
 			plot.setRenderer(renderer);
+			XYItemRenderer renderer2 = plot.getRenderer();
+			renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+			plot.setRenderer(renderer2);
 
 			// ChartFrame frame1 = new ChartFrame("RiskFactor Chart", chart);
 			// frame1.setVisible(true);
@@ -3007,6 +3051,9 @@ public class DynamoPlotFactory {
 			setLineProperties(renderer, thisScen, blackAndWhite);
 		}
 		plot.setRenderer(renderer);
+		XYItemRenderer renderer2 = plot.getRenderer();
+		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+		plot.setRenderer(renderer2);
 
 		return chart;
 
@@ -3179,6 +3226,9 @@ public class DynamoPlotFactory {
 				setLineProperties(renderer, thisScen, blackAndWhite);
 			}
 			plot.setRenderer(renderer);
+			XYItemRenderer renderer2 = plot.getRenderer();
+			renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+			plot.setRenderer(renderer2);
 			return chart;
 		} else
 			return makeEmptyPlot();
@@ -3322,6 +3372,9 @@ public class DynamoPlotFactory {
 				setLineProperties(renderer, thisScen, blackAndWhite);
 			}
 			plot.setRenderer(renderer);
+			XYItemRenderer renderer2 = plot.getRenderer();
+			renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+			plot.setRenderer(renderer2);
 			return chart;
 		} else
 			return makeEmptyPlot();
@@ -3454,13 +3507,16 @@ public class DynamoPlotFactory {
 		title.setFont(new Font("SansSerif", Font.BOLD, 14));
 
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
-		Plot plot = chart.getPlot();
-		SubCategoryAxis domainAxis = new SubCategoryAxis("");
+		CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		CategoryAxis domainAxis = plot.getDomainAxis();
+      
+		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
+		domainAxis.setCategoryLabelPositionOffset(10);
+		domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
 
-		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
-		domainAxis.setCategoryLabelPositionOffset(-12);
-
-		domainAxis.setMaximumCategoryLabelWidthRatio(3f);
+		if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
+		
+	//	domainAxis.setMaximumCategoryLabelWidthRatio(3f);
 
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
@@ -3473,26 +3529,54 @@ public class DynamoPlotFactory {
 			renderer.setBaseItemLabelGenerator(generator0);
 		else
 			renderer.setBaseItemLabelGenerator(generator1);
-
+		
+		renderer
+				.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
+		/* if it does not fit, no text is shown */
+		if (this.output.getNScen()>9) renderer.setBaseItemLabelFont(new Font("SansSerif", Font.PLAIN, 10));
 		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
-				ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER, /*-Math.PI/2*/
-				0));
+				ItemLabelAnchor.CENTER, TextAnchor.CENTER ));/*, TextAnchor.BASELINE_CENTER, /*-Math.PI/2
+	//		0));*/
+	//	renderer.setBaseNegativeItemLabelPosition(new ItemLabelPosition(
+	//			ItemLabelAnchor.CENTER, TextAnchor.CENTER , TextAnchor.CENTER, /*-Math.PI/2
+	//		*/	0));
 		renderer.setBaseItemLabelsVisible(true);
+		
+		
+		
+	
+		renderer.setSeriesPaint(0, new Color(200, 200, 200)); 
 		// renderer.setSeriesPaint(0, Color.gray);
 		// renderer.setSeriesPaint(1, Color.orange);
 		BarRenderer renderer1 = (BarRenderer) ((CategoryPlot) plot)
 				.getRenderer();
 		renderer1.setDrawBarOutline(true);
 
+		
+		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
+		renderer1.setItemMargin(0.15);
+		
+		
+		
+		
 		GrayPaintScale tint = new GrayPaintScale(1, Math.max(2, this.output
 				.getNScen() + 1));
+		renderer.setSeriesPaint(0, new Color(200, 200, 200)); 
+		
+		renderer.setBaseItemLabelPaint(Color.black);
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 			/* RGB with increasing number of red */
 			if (blackAndWhite)
-				renderer.setSeriesPaint(scen, tint.getPaint(scen + 1));
+			{	renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
+			// clear general settings, otherwise it does not work ;
+			
+			renderer.setSeriesItemLabelPaint(scen, Color.black); 
+			
+			if (scen==0 || scen<((this.output.getNScen()+1)/3)) renderer.setSeriesItemLabelPaint(scen, Color.white);}
 			else
 				renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
 						/ (this.output.getNScen() + 1)));
+			
 
 		// frame1.setVisible(true);
 		// frame1.setSize(300, 300);
@@ -3641,7 +3725,7 @@ public class DynamoPlotFactory {
 
 			// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart",
 			// chart);
-			Plot plot = chart.getPlot();
+			CategoryPlot plot = (CategoryPlot) chart.getPlot();
 
 			String label;
 			if (ageOfLE > 0)
@@ -3653,8 +3737,14 @@ public class DynamoPlotFactory {
 			TextTitle subTitle = new TextTitle(label);
 			subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
 			chart.addSubtitle(subTitle);
-			SubCategoryAxis domainAxis = new SubCategoryAxis("");
-			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 9));
+			CategoryAxis domainAxis = plot.getDomainAxis();
+			domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
+			domainAxis.setCategoryLabelPositionOffset(10);
+			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
+
+			if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
+			
+			if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
 			/* assign a generator to a CategoryItemRenderer, */
 			CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 			renderer.setBaseOutlinePaint(Color.black);
@@ -3675,10 +3765,13 @@ public class DynamoPlotFactory {
 			BarRenderer renderer1 = (BarRenderer) ((CategoryPlot) plot)
 					.getRenderer();
 			renderer1.setDrawBarOutline(true);
+			renderer.setBaseItemLabelPaint(Color.black); 
 			for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 				/* RGB with increasing number of red */
 				if (blackAndWhite)
-					renderer.setSeriesPaint(scen, tint.getPaint(scen + 1));
+				{	renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
+				renderer.setSeriesItemLabelPaint(scen, Color.black); 
+				if (scen==0 || scen<((this.output.getNScen()+1)/3)) renderer.setSeriesItemLabelPaint(scen, Color.white);}
 				else
 					renderer1.setSeriesPaint(scen, new Color(178, 100, scen
 							* 255 / (this.output.getNScen() + 1)));
@@ -3775,7 +3868,7 @@ public class DynamoPlotFactory {
 			double value = (double) (Double) dataset.getValue(series, category);
 			double reference_value = (double) (Double) dataset.getValue(0,
 					category);
-			log.fatal("series: " + series + " category: " + category
+			log.debug("series: " + series + " category: " + category
 					+ " value: " + value);
 
 			if (value != 0) {
@@ -4015,16 +4108,30 @@ public class DynamoPlotFactory {
 
 			SubCategoryAxis domainAxis = new SubCategoryAxis("");
 			domainAxis.setCategoryMargin(0.2); // gap between men and women:
-			// does
-			// not work
-			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 10));
-
+			if (this.output.getNScen()>4)domainAxis.setCategoryMargin(0.1);
+			
+			/* sub labels are the scenario names */
+			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 11));
+			/* put a little more space for the scenario name */
+	        domainAxis.setCategoryLabelPositionOffset(25);
+	        /* put a little more space for the scenario name */
+			
+	     
+	      
+		      
+	       
+	        
+	       
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 				domainAxis
-						.addSubCategory(this.output.getScenarioNames()[scenario]);
+						.addSubCategory(this.output.getScenarioNames()[scenario]+" ");
+			/* make more room for the scenario labels default=0.3 of axis length) */
+			domainAxis.setMaximumCategoryLabelWidthRatio(0.4F);
+			
 			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 14));
 			CategoryPlot plot = (CategoryPlot) chart.getPlot();
-
+		// This should work in newer versions of JFREECHART to get the labels visible: 	
+		//plot.setMaximumCategoryLabelWidthRatio(0.4);
 			AxisSpace space = new AxisSpace();
 			space.setTop(30);/* enough space is needed for the titles */
 			space.setLeft(100);/*
@@ -4293,6 +4400,7 @@ public class DynamoPlotFactory {
 			 * first index is sex, second: 0 = life expectancy, 1= health
 			 * expectancy
 			 */
+			
 			double[][] HLE = calculateCohortHealthExpectancy(age, scenario,
 					disease);
 			double[] cumHLE = new double[2];
@@ -4305,7 +4413,7 @@ public class DynamoPlotFactory {
 				else if (cumulative == 1)
 					generator1.setDaly(scenario, s, cumHLE[s]);
 
-				log.fatal("setting DALY for scen " + scenario + " sex " + s
+				log.debug("setting DALY for scen " + scenario + " sex " + s
 						+ " to :  " + HLE[s][2]);
 				/*
 				 * the legend plots the labels of scenario 0, so here we use a
@@ -4377,14 +4485,18 @@ public class DynamoPlotFactory {
 		renderer.setSeriesToGroupMap(map);
 
 		SubCategoryAxis domainAxis = new SubCategoryAxis("");
-		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
-		domainAxis.setCategoryMargin(0.2); // gap between men and women: does
-
-		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 10));
-
-		// not work
+		
+		domainAxis.setCategoryMargin(0.2); // gap between men and women:
+        if (this.output.getNScen()>4)domainAxis.setCategoryMargin(0.1);
+        /* put a little more space for the scenario name */
+        domainAxis.setCategoryLabelPositionOffset(25);
+        /* make more room for the scenario labels default=0.3 of axis length) */
+		domainAxis.setMaximumCategoryLabelWidthRatio(0.4F);
+		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 11));
+		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 14));
+		// add space after scenario name to make room between the axis and the label
 		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
-			domainAxis.addSubCategory(this.output.getScenarioNames()[scenario]);
+			domainAxis.addSubCategory(this.output.getScenarioNames()[scenario]+" ");
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		AxisSpace space = new AxisSpace();
 		space.setTop(30);/* enough space is needed for the titles */

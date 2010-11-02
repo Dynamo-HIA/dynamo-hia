@@ -174,13 +174,19 @@ public class BaseStorageTreeScreen {
 			public void widgetSelected(SelectionEvent e) {
 				MessageBox box = new MessageBox(shell, SWT.NONE);
 				box.setText("About Dynamo-HIA");
-				box.setMessage("DYNAMO-HIA is a program projecting "
-						+ "the health consequences\nof risk factor "
-						+ "changes, intended for Health Impact Assessment.\n\n"
-						+ "This software was developed by RIVM\n"
-						+ "in cooperation with ErasmusMC\n"
-						+ "with funding of DG-SANCO.\n\n"
-						+ "See  'www.dynamo-hia.eu' for more information.");
+				box
+						.setMessage("DYNAMO-HIA is a program projecting "
+								+ "the health consequences of risk factor "
+								+ "changes, intended for Health Impact Assessment.\n\n"
+								+ "This software was developed by RIVM "
+								+ "in cooperation with ErasmusMC "
+								+ "with partial funding of DG-SANCO within the framework of grant agreement 2006116.\n\n"
+								+ "See  'www.dynamo-hia.eu' for more information."
+								+ "\n\n This product was developped using Eclipse SDK (http://www.eclipse.org/)," +
+										" includes software developed by the"
+								+ " Apache Software Foundation (http://www.apache.org/) and uses the libraries "
+								+ "JFreeChart (http://www.jfree.org/jfreechart)"
+								+ " and JAMA (http://math.nist.gov/javanumerics/jama)");
 				box.open();
 			}
 		});

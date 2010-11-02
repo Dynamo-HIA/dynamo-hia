@@ -60,8 +60,7 @@ public class DynamoTabsDataPanel {
 
 		upperTabFolder.setLayout(new FillLayout());
 		// tabFolder.setBackground(new Color(null, 0x00, 0x00,0x00)); // white
-		scenariosTabPlatform = new ScenariosTabPlatform(upperTabFolder, dynamoSimulationObject,
-				dataBindingContext, selectedNode, theHelpGroup);
+		
 
 		riskFactorTab = new RiskFactorTab(upperTabFolder,
 				dynamoSimulationObject, dataBindingContext, selectedNode,
@@ -72,6 +71,14 @@ public class DynamoTabsDataPanel {
 
 		relativeRisksTabPlatform = new RelativeRisksTabPlatform(upperTabFolder,
 				dynamoSimulationObject, selectedNode, theHelpGroup);
+		scenariosTabPlatform = new ScenariosTabPlatform(upperTabFolder, dynamoSimulationObject,
+				dataBindingContext, selectedNode, theHelpGroup);
+		/* count the number of disease-, relativerisk- and scenarioTabs */
+		int tabsMade=0;
+		tabsMade+=diseasesTabPlatform.getNestedTabs().size()+relativeRisksTabPlatform.getNestedTabs().size()
+		+scenariosTabPlatform.getNestedTabs().size();
+		/* select the scenario tab when there is content present in the configuration*/
+		if (tabsMade>0) upperTabFolder.setSelection(upperTabFolder.getItem(3));
 		upperTabFolder.addListener(SWT.Selection, 
 				(Listener) new TabPlatformListener(this));
 	}

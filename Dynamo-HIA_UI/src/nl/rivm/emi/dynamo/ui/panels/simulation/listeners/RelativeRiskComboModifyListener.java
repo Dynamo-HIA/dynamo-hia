@@ -164,7 +164,7 @@ public class RelativeRiskComboModifyListener implements ModifyListener {
 			}
 			 } else {
 			 log
-			 .error("Error: Should not load configuration more than once.");
+			 .warn("Error: Should not load configuration more than once.");
 			 }
 		} catch (Exception e) {
 			handleErrorMessage(e, currentCombo);

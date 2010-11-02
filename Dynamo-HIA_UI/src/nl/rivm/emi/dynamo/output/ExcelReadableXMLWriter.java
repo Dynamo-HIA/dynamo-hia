@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ExcelReadableXMLWriter {
 	static private Log log = LogFactory
-			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
+			.getLog("nl.rivm.emi.dynamo.output.ExcelReadableXMLWriter");
 
 	/* object with the output data */
 	private CDMOutputFactory output;

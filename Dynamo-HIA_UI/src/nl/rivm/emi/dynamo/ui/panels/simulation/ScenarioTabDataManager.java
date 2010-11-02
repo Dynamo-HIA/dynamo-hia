@@ -406,7 +406,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		this.dynamoSimulationObject.setScenarioConfigurations(configurations);
 
 		/**
-		 * 
+		 * TODO REMOVE: LOGGING BELOW
 		 */
 		Map map = this.dynamoSimulationObject.getScenarioConfigurations();
 		Set<String> keys = map.keySet();
