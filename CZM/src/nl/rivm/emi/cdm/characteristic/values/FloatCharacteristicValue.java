@@ -117,6 +117,12 @@ public class FloatCharacteristicValue extends CharacteristicValueBase implements
 		if (numberFilled == rijtje.length) full=true;
 		return full;
 	}
+	
+	/* added by hendriek */
+	public void setFirstValue(float value)  {
+		 rijtje[0]=value;
+		
+	}
 	/*
 	 * end addition hendriek
 	 */

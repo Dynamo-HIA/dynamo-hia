@@ -221,7 +221,7 @@ public class Individual extends ArrayList<CharacteristicValueBase> {
 			}
 			add(count, value);
 		} else {
-			log.warn("Replacing CharacteristicValue.");
+			log.debug("Replacing CharacteristicValue.");
 			result = this.get(index);
 			set(index, value);
 		}

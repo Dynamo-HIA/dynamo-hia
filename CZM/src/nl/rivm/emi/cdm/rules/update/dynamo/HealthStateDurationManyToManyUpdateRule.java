@@ -679,8 +679,13 @@ extends HealthStateManyToManyUpdateRule {
 			throws ConfigurationException {
 		boolean success = false;
 		try {
-			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-					configurationFile);
+			/*XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+			configurationFile);              OUD     vervangen door volgende regels*/
+	
+	
+	XMLConfiguration configurationFileConfiguration = new XMLConfiguration();
+	configurationFileConfiguration.setDelimiterParsingDisabled(true); 
+	configurationFileConfiguration.load(configurationFile) ;
 
 			// Validate the xml by xsd schema
 			// TODO put schema's in again but these do not work

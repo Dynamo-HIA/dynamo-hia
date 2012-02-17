@@ -571,8 +571,13 @@ public class HealthStateManyToManyUpdateRule extends
 			throws ConfigurationException {
 		boolean success = false;
 		try {
-			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-					configurationFile);
+			/*XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+			configurationFile);              OUD     vervangen door volgende regels*/
+	
+	
+	XMLConfiguration configurationFileConfiguration = new XMLConfiguration();
+	configurationFileConfiguration.setDelimiterParsingDisabled(true); 
+	configurationFileConfiguration.load(configurationFile) ;
 
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls

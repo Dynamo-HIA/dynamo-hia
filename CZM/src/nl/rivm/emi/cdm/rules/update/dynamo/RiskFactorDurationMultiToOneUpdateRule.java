@@ -91,10 +91,13 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 			throws ConfigurationException {
 		boolean success = false;
 		try {
-			XMLConfiguration configurationFileConfiguration;
+			/*XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
+			configurationFile);              OUD     vervangen door volgende regels*/
 	
-			configurationFileConfiguration = new XMLConfiguration(configurationFile);
 	
+	XMLConfiguration configurationFileConfiguration = new XMLConfiguration();
+	configurationFileConfiguration.setDelimiterParsingDisabled(true); 
+	configurationFileConfiguration.load(configurationFile) ;	
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls load()). 
 			// The config cannot be loaded twice,

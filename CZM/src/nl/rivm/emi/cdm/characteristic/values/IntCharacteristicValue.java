@@ -119,6 +119,12 @@ public class IntCharacteristicValue extends CharacteristicValueBase implements S
 			throw new CDMRunException("previous Step storage is empty, no newest value available.");
 		}
 	}
+	
+	/* added by hendriek */
+	public void setFirstValue(int value)  {
+		 rijtje[0]=value;
+		
+	}
 
 	
 	public boolean appendIntegerValue(String stringValue) throws CDMRunException {

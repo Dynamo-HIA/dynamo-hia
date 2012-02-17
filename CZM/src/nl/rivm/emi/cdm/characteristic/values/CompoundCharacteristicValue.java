@@ -22,7 +22,7 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 
 	float[][] rijtje;
 
-	int numberFilled = 0;
+	private int numberFilled = 0;
 
 	private int nElementFilled=0;
 
@@ -67,7 +67,7 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 		for (int i=0;i<value.length;i++)
 		this.rijtje[0][i] = value[i];
 		
-		this.numberFilled=1;
+		numberFilled=1;;
 	}
 	
 	/**
@@ -79,10 +79,10 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	
 	
 		public void shiftFirstValue(int i) throws CDMRunException {
-			if (numberFilled > 0) {
-				float [] current = rijtje[numberFilled - 1];
+			if (getNumberFilled() > 0) {
+				float [] current = rijtje[getNumberFilled() - 1];
 				rijtje[i]=current;
-				numberFilled=i+1;
+				numberFilled=(i+1);
 				for (int j=0;j<i;j++)
 					for (int ichar=0;ichar<rijtje.length;ichar++)
 					rijtje[j][ichar]=-1;
@@ -109,9 +109,9 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	}
 
 	public void appendValue(float [] value) throws CDMRunException {
-		if (numberFilled < rijtje.length) {
-			rijtje[numberFilled] = value;
-			numberFilled++;
+		if (getNumberFilled() < rijtje.length) {
+			rijtje[getNumberFilled()] = value;
+			numberFilled=(getNumberFilled() + 1);
 		} else {
 			log.warn("Steps are full!");
 			throw new CDMRunException("Step storage (size " + rijtje.length
@@ -133,11 +133,11 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	}
 	
 	public Float[] getCurrentValue() throws CDMRunException {
-		if (numberFilled > 0) {
+		if (getNumberFilled() > 0) {
 			
 			
-			Float[]	returnArray= new Float[rijtje[numberFilled - 1].length];
-	        for (int i=0;i<rijtje[numberFilled - 1].length;i++) returnArray[i]=rijtje[numberFilled - 1][i];
+			Float[]	returnArray= new Float[rijtje[getNumberFilled() - 1].length];
+	        for (int i=0;i<rijtje[getNumberFilled() - 1].length;i++) returnArray[i]=rijtje[getNumberFilled() - 1][i];
 			return returnArray;
 			
 		} else {
@@ -149,11 +149,11 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	
 	
 	public Float[] getPreviousValue() throws CDMRunException {
-		if (numberFilled > 1) {
+		if (getNumberFilled() > 1) {
 			
 			
-			Float[]	returnArray= new Float[rijtje[numberFilled - 2].length];
-	        for (int i=0;i<rijtje[numberFilled - 2].length;i++) returnArray[i]=rijtje[numberFilled -2][i];
+			Float[]	returnArray= new Float[rijtje[getNumberFilled() - 2].length];
+	        for (int i=0;i<rijtje[getNumberFilled() - 2].length;i++) returnArray[i]=rijtje[getNumberFilled() -2][i];
 			return returnArray;
 			
 		} else {
@@ -173,10 +173,10 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	 * @throws CDMRunException
 	 */
 	public float[] getCurrentWrapperlessValue() throws CDMRunException {
-		if (numberFilled > 0) {
+		if (getNumberFilled() > 0) {
 			
 			
-			return rijtje[numberFilled - 1];
+			return rijtje[getNumberFilled() - 1];
 			
 		} else {
 			log.warn("Steps are empty!");
@@ -200,6 +200,12 @@ public class CompoundCharacteristicValue extends CharacteristicValueBase impleme
 	public float getLastValue() {
 		// TODO Auto-generated method stub
 		
-		return rijtje[numberFilled-1][nElementFilled-1];
+		return rijtje[getNumberFilled()-1][nElementFilled-1];
+	}
+
+	
+
+	public int getNumberFilled() {
+		return numberFilled;
 	}
 }

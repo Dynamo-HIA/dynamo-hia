@@ -13,7 +13,6 @@ import java.util.Iterator;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
-
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -33,6 +32,9 @@ import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
+import nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorManyToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.ContinuousRiskFactorManyToOneUpdateRule;
+import nl.rivm.emi.cdm.rules.update.dynamo.RiskFactorDurationMultiToOneUpdateRule;
 
 import nl.rivm.emi.cdm.stax.StAXEntryPoint;
 
@@ -430,6 +432,13 @@ public class Simulation extends DomLevelTraverser {
 	public void processCharVals(Individual individual) throws CDMRunException {
 		Iterator<CharacteristicValueBase> charValIterator = individual
 				.iterator();
+		if (DALYSCEN)
+		{
+			int iii=0;
+		iii++;
+		}
+		
+		
 		while (charValIterator.hasNext()) {
 			CharacteristicValueBase charValBase = charValIterator.next();
 			if (charValBase instanceof IntCharacteristicValue) {
@@ -450,6 +459,55 @@ public class Simulation extends DomLevelTraverser {
 				{
 					if (charValBase instanceof CompoundCharacteristicValue) {
 						CompoundCharacteristicValue charVal = (CompoundCharacteristicValue) charValBase;
+						
+						/* now the big trick for DALY calculation: here we need to change the exposure 
+						 * only during the first step (year) of update but later years of exposure should not
+						 * be influenced by this. 
+						 * Therefore we give the reference (unchanged) exposure to the population, update the
+						 * risk factor status using the reference exposure (giving the right exposure for the
+						 * second year) and then replace the exposure in the first year (=step 0) with 
+						 * the changed exposure. This should happen before the healthstatus is updated, as
+						 * the health status update in the first year is determined by the changed exposure
+						 * The changed exposure is stored in the label of the individual,as element [4]
+						 * 
+						 *  For duration, the value is always 0 after change, either because the change just happed, or because they are
+						 *  in another category. Those staying in the duration category are not in the one for all scenario.
+						 *  and all for one is the only way to obtain dalys (with different transitions no dalys are calculated)
+						 */
+						if (DALYSCEN && charVal.getNumberFilled()==1){
+							 String label=individual.getLabel();
+							
+							 log.fatal(" in breakarea ");
+							 /* split at the place of the  underscore 			 */
+							 /* elements are: "ind", indno, currentriskfactor, duration or to (optional), new Value of DALY */
+							 String delims="_";
+							 String[] tokens = label.split(delims);
+							 
+							
+							CharacteristicValueBase riskVal=individual.get(3);
+							if (riskVal instanceof FloatCharacteristicValue){
+								FloatCharacteristicValue riskValue = (FloatCharacteristicValue) riskVal;
+								riskValue.setFirstValue(Float.parseFloat(tokens[4]));
+							}
+							if (riskVal instanceof IntCharacteristicValue){
+								IntCharacteristicValue riskValue = (IntCharacteristicValue) riskVal;
+								riskValue.setFirstValue(Integer.parseInt(tokens[4]));
+							}
+							/* if with duration  */
+							if (charVal.getIndex()==5)  {
+								FloatCharacteristicValue duurVal=(FloatCharacteristicValue) individual.get(4);
+								duurVal.setFirstValue(0F);}
+													  
+						}
+						/* if DALY: riskfactorCharVal=individual[3]
+						 * replaceCharVal(riskfactorCharVal, individual)
+						 * if (charVal.getIndex()==5) {;
+						 * durationCharVal=individual[4]
+						 * replaceCharVal(riskfactorCharVal, individual)}
+						 * NB checken of inderdaad nummer 5 ,4 en 3
+						 * 
+						 *  TODO
+						 *  */
 						if (!handleCompoundCharVal(charVal, individual)) {
 							charValIterator.remove();
 						}
@@ -516,6 +574,8 @@ public class Simulation extends DomLevelTraverser {
 								charVals[count] = null;
 							}
 						}
+
+						// criteria is als geval van riskfactorrule
 						int oldValue = intCharVal.getCurrentValue();
 						// int index = floatCharVal.getIndex();
 
@@ -529,6 +589,7 @@ public class Simulation extends DomLevelTraverser {
 						Long seed = individual.getRandomNumberGeneratorSeed();
 						Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
 								.update(charVals, seed);
+
 						individual.setRandomNumberGeneratorSeed(nextSeed(seed));
 						/* end change by Hendriek */
 						if (newValue != null) {
@@ -538,6 +599,10 @@ public class Simulation extends DomLevelTraverser {
 									+ individual.getLabel() + " from "
 									+ oldValue + " to " + newValue);
 							keep = true;
+							// TODO here add terug zetten van expositie in geval
+							// van DALY
+							// if(updateRule instanceof ManyToOneUpdateRuleBase
+							// || ) {
 						} else {
 							throw new CDMRunException(
 									"ManyToOne update rule produced a null result, aborting.");
@@ -616,6 +681,84 @@ public class Simulation extends DomLevelTraverser {
 		}
 	}
 
+	
+	/* added by Hendriek to replace the first value for DALY calculations */
+	private boolean replaceIntCharVal(IntCharacteristicValue intCharVal,
+			Individual individual) throws CDMRunException {
+
+		boolean isReplaced = false;
+
+		int charValIndex = intCharVal.getIndex();
+		UpdateRuleMarker updateRule = updateRuleStorage
+				.getUpdateRule(charValIndex);
+		int replaceValue = Integer
+				.parseInt(individual.getLabel().split("_")[4]);
+
+		if (!characteristics.containsKey(charValIndex)) {
+			log.warn("Individual " + individual.getLabel()
+					+ " has a value at index " + charValIndex
+					+ " for a non configured characteristic removing it.");
+		} else {
+			if (updateRule == null) {
+				log.warn("Individual " + individual.getLabel()
+						+ " has a characteristicValue at index " + charValIndex
+						+ " without updaterules, removing it.");
+			} else {
+				if (updateRule instanceof RiskFactorDurationMultiToOneUpdateRule
+						|| updateRule instanceof CategoricalRiskFactorManyToOneUpdateRule) {
+					intCharVal.setFirstValue(replaceValue);
+					isReplaced = true;
+
+					log.debug("Updated charval at " + intCharVal.getIndex()
+							+ " for " + individual.getLabel() + " to "
+							+ replaceValue);
+
+					
+				}
+
+			}
+		}
+
+		return isReplaced;
+	}
+	private boolean replaceFloatCharVal(FloatCharacteristicValue floatCharVal,
+			Individual individual) throws CDMRunException {
+
+		boolean isReplaced = false;
+
+		int charValIndex = floatCharVal.getIndex();
+		UpdateRuleMarker updateRule = updateRuleStorage
+				.getUpdateRule(charValIndex);
+		int replaceValue = Integer
+				.parseInt(individual.getLabel().split("_")[4]);
+
+		if (!characteristics.containsKey(charValIndex)) {
+			log.warn("Individual " + individual.getLabel()
+					+ " has a value at index " + charValIndex
+					+ " for a non configured characteristic removing it.");
+		} else {
+			if (updateRule == null) {
+				log.warn("Individual " + individual.getLabel()
+						+ " has a characteristicValue at index " + charValIndex
+						+ " without updaterules, removing it.");
+			} else {
+				if ( updateRule instanceof ContinuousRiskFactorManyToOneUpdateRule) {
+					floatCharVal.setFirstValue(replaceValue);
+					isReplaced = true;
+
+					log.debug("Updated charval at " + floatCharVal.getIndex()
+							+ " for " + individual.getLabel() + " to "
+							+ replaceValue);
+
+					
+				}
+
+			}
+		}
+
+		return isReplaced;
+	}
+
 	/* added by Hendriek */
 
 	/**
@@ -673,15 +816,19 @@ public class Simulation extends DomLevelTraverser {
 								CharacteristicValueBase charValBase = individual
 										.get(count);
 								if (charValBase != null) {/*
-									 * changed by Hendriek in order to make the
-									 * current values equal to the not yet updated
-									 * values
-									 */
+														 * changed by Hendriek
+														 * in order to make the
+														 * current values equal
+														 * to the not yet
+														 * updated values
+														 */
 									Object currValue;
 									if (count < charValIndex)
-										currValue = charValBase.getPreviousValue();
+										currValue = charValBase
+												.getPreviousValue();
 									else
-										currValue = charValBase.getCurrentValue();
+										currValue = charValBase
+												.getCurrentValue();
 									charVals[count] = currValue;
 								} else {
 									charVals[count] = null;
@@ -773,7 +920,7 @@ public class Simulation extends DomLevelTraverser {
 							CharacteristicValueBase charValBase = individual
 									.get(count);
 							if (charValBase != null) {
-								
+
 								Object currValue;
 								if (count < charValIndex)
 									currValue = charValBase.getPreviousValue();
@@ -794,8 +941,7 @@ public class Simulation extends DomLevelTraverser {
 							log.debug("Updated charval at "
 									+ diseaseCharVal.getIndex() + " for "
 									+ individual.getLabel() + " from "
-									+ oldValue[0] 
-									+ " to " + newValue[0] );
+									+ oldValue[0] + " to " + newValue[0]);
 							keep = true;
 						} else {
 							throw new CDMRunException(
@@ -816,7 +962,7 @@ public class Simulation extends DomLevelTraverser {
 					+ " with updaterule mismatch: "
 					+ updateRule.getClass().getName() + ", removing it.");
 			throw new CDMRunException(e.getMessage());
-		
+
 		}
 	}
 
@@ -839,6 +985,13 @@ public class Simulation extends DomLevelTraverser {
 
 	public void setStepsBetweenSaves(int stepsBetweenSaves) {
 		this.stepsBetweenSaves = stepsBetweenSaves;
+	}
+
+	boolean DALYSCEN = false;
+
+	public void setIsDaly(boolean value) {
+		DALYSCEN = value;
+
 	}
 
 	/* added by hendriek */
