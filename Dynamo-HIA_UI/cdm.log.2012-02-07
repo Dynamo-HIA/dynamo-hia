@@ -1,0 +1,436 @@
+2012-02-07 23:22:13,703 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test03RR started 
+2012-02-07 23:22:16,625 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:22:16,671 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 1 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:22:16,671 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 1 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR OTHER AGE/SEX GROUPS
+2012-02-07 23:22:20,171 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:22:21,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:21,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:22:21,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:21,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:22:22,015 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:22,156 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:22:22,890 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:22,968 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-02-07 23:22:22,968 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:25,140 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:22:25,140 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:22:25,140 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:22:25,140 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:22:25,140 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:22:25,156 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:22:25,156 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.7084973603487015
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate1.7084972585143232
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.8146472126245499
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.8146471640677921
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.324312771204041
+2012-02-07 23:22:25,171 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease2.324312632664204
+2012-02-07 23:22:25,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:22:25,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.15294836888453966
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate2688.0037626559633
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate1709.174885515211
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.3320446816005773
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate15754.395253903149
+2012-02-07 23:22:25,562 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate7512.024588412699
+2012-02-07 23:22:25,656 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:22:26,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:22:28,015 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:22:28,015 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:22:34,875 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:22:35,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:22:35,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario -1
+2012-02-07 23:22:35,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-02-07 23:22:35,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test04RR started 
+2012-02-07 23:22:36,156 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:22:36,156 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 1 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:22:36,156 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 1 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR OTHER AGE/SEX GROUPS
+2012-02-07 23:22:37,593 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:22:38,312 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:38,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:22:38,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:38,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:22:39,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:39,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:22:40,328 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:40,453 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-02-07 23:22:40,453 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:42,906 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:22:42,906 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:22:42,906 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:22:42,906 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:22:42,906 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:22:42,921 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:22:42,921 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:22:42,921 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 2 pDiseasestate0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.3014654517173767
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate1.3014653741439908
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.39432548359036446
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.3943254600867341
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 2 pDiseasestate0.4203217290341854
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 2 pDiseasestate0.42032170398105806
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.1161126643419266
+2012-02-07 23:22:42,937 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease2.116112538211783
+2012-02-07 23:22:43,250 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:22:43,250 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.13832444325089455
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate2117.3770357694325
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate1261.0964519286445
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 2 nDiseasestate448.07843358656646
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.3023018091917038
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate12001.072762249023
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate3636.1540095684836
+2012-02-07 23:22:43,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 2 nDiseasestate3875.8705788442153
+2012-02-07 23:22:43,343 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:22:43,796 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:22:46,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:22:46,484 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:22:53,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:22:53,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:22:53,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario -1
+2012-02-07 23:22:53,875 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-02-07 23:22:53,875 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test05RR started 
+2012-02-07 23:22:54,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease diseasecompletelycured_cured is zero for age 0 and gender 0
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2012-02-07 23:22:55,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:22:56,687 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:56,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:22:57,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:57,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:22:57,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:57,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:22:57,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:22:59,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 0 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 0 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 0 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 0 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na change from 0 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 1 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 1 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na change from 1 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 1 to: 1 state: 0 pDiseasestate0.32802290841937065
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 1 to: 1 state: 0 pDiseasestate0.3280228888676817
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 voor  from 1 to: 1 state: 1 pDiseasestate0.4909687638282776
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na     from 1 to: 1 state: 1 pDiseasestate0.4909687345642588
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease0.8189916461706161
+2012-02-07 23:22:59,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 na change from 1 to: 1 ptotdisease0.81899159735491
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 0 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 0 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 0 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 0 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na change from 0 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 1 to: 0 state: 0 pDiseasestate0.07197705786066877
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 1 to: 0 state: 1 pDiseasestate0.10903121998720011
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na change from 1 to: 0 ptotdisease0.181008283435804
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 1 to: 1 state: 0 pDiseasestate0.32802290841937065
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 1 to: 1 state: 0 pDiseasestate0.3280228888676817
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 voor  from 1 to: 1 state: 1 pDiseasestate0.4909687638282776
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na     from 1 to: 1 state: 1 pDiseasestate0.4909687345642588
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease0.8189916461706161
+2012-02-07 23:22:59,593 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 na change from 1 to: 1 ptotdisease0.81899159735491
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 0 TotalnDiseasestate0.060336098074913025
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 0 state: 0 nDiseasestate663.714860002818
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 0 state: 1 nDiseasestate1005.3987070411298
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 1 TotalnDiseasestate0.11699880659580231
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 1 state: 0 nDiseasestate3024.764726893637
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 1 r: 1 state: 1 nDiseasestate4527.320991056275
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 0 TotalnDiseasestate0.060336098074913025
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 0 state: 0 nDiseasestate663.714860002818
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 0 state: 1 nDiseasestate1005.3987070411298
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 1 TotalnDiseasestate0.11699880659580231
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 1 state: 0 nDiseasestate3024.764726893637
+2012-02-07 23:22:59,890 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 2 r: 1 state: 1 nDiseasestate4527.320991056275
+2012-02-07 23:22:59,984 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:23:00,328 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:23:02,468 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:23:02,468 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:23:09,234 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:23:09,234 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:23:09,234 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario -1
+2012-02-07 23:23:09,265 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-02-07 23:23:09,265 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test06RR started 
+2012-02-07 23:23:09,468 WARN [nl.rivm.emi.dynamo.estimation.InputDataFactory] - log-normal distribution asked, but as all skewness are zero, normal distribution is used
+2012-02-07 23:23:12,593 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:23:12,953 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:13,062 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:23:13,281 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:13,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:23:13,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:13,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:23:13,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:14,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:23:14,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:23:14,687 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:23:15,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:23:18,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:23:18,609 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:23:30,062 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:23:30,062 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:23:30,062 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario -1
+2012-02-07 23:23:30,093 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-02-07 23:23:30,093 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test07RR started 
+2012-02-07 23:23:30,218 WARN [nl.rivm.emi.dynamo.estimation.InputDataFactory] - log-normal distribution asked, but as all skewness are zero, normal distribution is used
+2012-02-07 23:23:34,015 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:23:35,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:35,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:23:36,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:36,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:23:37,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:23:38,296 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:23:39,156 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:12,812 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test03RR started 
+2012-02-07 23:27:14,250 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:27:14,281 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 1 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:27:14,281 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 1 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR OTHER AGE/SEX GROUPS
+2012-02-07 23:27:16,312 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:27:17,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:17,234 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:27:17,234 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:17,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:27:18,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:18,234 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:27:18,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:19,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-02-07 23:27:19,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:27:21,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:27:21,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:27:21,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:27:21,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:27:21,187 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:27:21,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:27:21,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:27:21,203 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.7084973603487015
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate1.7084972585143232
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.8146472126245499
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.8146471640677921
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.324312771204041
+2012-02-07 23:27:21,218 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease2.324312632664204
+2012-02-07 23:27:21,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:27:21,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.15294836888453966
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate2688.0037626559633
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate1709.174885515211
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.3320446816005773
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate15754.395253903149
+2012-02-07 23:27:21,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate7512.024588412699
+2012-02-07 23:27:21,656 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:27:22,062 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:27:24,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:27:24,046 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:27:30,781 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:27:30,859 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:27:30,859 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario -1
+2012-02-07 23:29:38,421 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test03RR started 
+2012-02-07 23:29:39,750 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:29:39,796 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 1 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:29:39,796 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 1 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR OTHER AGE/SEX GROUPS
+2012-02-07 23:29:41,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:29:42,531 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:29:42,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:29:42,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:29:42,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:29:43,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:29:43,593 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:29:44,296 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:29:44,406 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-02-07 23:29:44,406 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:29:46,671 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:29:46,671 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:29:46,671 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:29:46,671 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:29:46,671 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:29:46,687 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:29:46,687 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:29:46,687 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:29:46,687 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.2915025924740666
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.1853527577011127
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease0.4588450793043194
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.7084973603487015
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate1.7084972585143232
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.8146472126245499
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.8146471640677921
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.324312771204041
+2012-02-07 23:29:46,703 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease2.324312632664204
+2012-02-07 23:29:46,984 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:29:46,984 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.15294836888453966
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate2688.0037626559633
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate1709.174885515211
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.3320446816005773
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate15754.395253903149
+2012-02-07 23:29:47,000 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate7512.024588412699
+2012-02-07 23:29:47,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:29:47,500 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:29:50,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:29:50,031 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:29:56,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:29:56,968 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:29:56,968 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2012-02-07 23:29:57,000 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-02-07 23:29:57,015 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-02-07 23:29:57,046 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-02-07 23:29:57,046 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test04RR started 
+2012-02-07 23:29:57,687 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:29:57,687 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 0 and sex 1 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status
+2012-02-07 23:29:57,687 ERROR [LoggingDynSimRunPR] - WARNING:
+the disability given for riskfactor group 0 in age 1 and sex 0 can be explained completely by differences in disease prevalences due to the riskfactor. 
+Therefore disability for this group will be calculated solely on disease status and not on risk factor status NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR OTHER AGE/SEX GROUPS
+2012-02-07 23:29:59,187 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-07 23:29:59,890 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:30:00,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-07 23:30:00,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:30:00,203 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-07 23:30:00,953 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:30:01,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-07 23:30:01,859 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:30:02,000 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-02-07 23:30:02,000 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-07 23:30:04,250 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:30:04,250 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:30:04,250 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:30:04,250 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:30:04,250 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:30:04,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:30:04,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:30:04,265 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 2 pDiseasestate0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.0
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease0.41497330501834573
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.3014654517173767
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate1.3014653741439908
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.39432548359036446
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.3943254600867341
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 2 pDiseasestate0.4203217290341854
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 2 pDiseasestate0.42032170398105806
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.1161126643419266
+2012-02-07 23:30:04,281 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease2.116112538211783
+2012-02-07 23:30:04,703 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-07 23:30:04,703 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.13832444325089455
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate2117.3770357694325
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate1261.0964519286445
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 2 nDiseasestate448.07843358656646
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.3023018091917038
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate12001.072762249023
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate3636.1540095684836
+2012-02-07 23:30:04,718 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 2 nDiseasestate3875.8705788442153
+2012-02-07 23:30:04,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-07 23:30:05,250 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-07 23:30:07,296 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-07 23:30:07,296 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-02-07 23:30:14,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-02-07 23:30:14,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-02-07 23:30:14,843 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2012-02-07 23:30:14,875 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-02-07 23:30:14,875 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-02-07 23:30:14,890 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 

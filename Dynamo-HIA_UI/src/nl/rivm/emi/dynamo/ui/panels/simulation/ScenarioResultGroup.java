@@ -78,6 +78,17 @@ public class ScenarioResultGroup {
 			}
 		}
 		try {
+			this.riskFactorPrevalenceDropDownPanel = createDropDown(
+					RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
+							RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
+			// added by Hendriek 11/2011 uit analogie
+			HelpTextListenerUtil.addHelpTextListeners(riskFactorPrevalenceDropDownPanel
+					.getDropDown(), RISK_FACTOR_PREVALENCE);
+		// added 2010-4-18 by Hendriek and removed again as causes "rondzingen "
+		//this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(transitionDropDownPanel);
+		// added 2010-4-18 by Hendriek : one is OK
+		//this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(riskFactorPrevalenceDropDownPanel);
+		
 		this.transitionDropDownPanel = createDropDown(TRANSITION,
 				dynamoTabDataManager.getDropDownSet(TRANSITION,
 						chosenRiskFactorName));
@@ -86,13 +97,6 @@ public class ScenarioResultGroup {
 		HelpTextListenerUtil.addHelpTextListeners(transitionDropDownPanel
 				.getDropDown(), TRANSITION);
 		
-		this.riskFactorPrevalenceDropDownPanel = createDropDown(
-					RISK_FACTOR_PREVALENCE, dynamoTabDataManager.getDropDownSet(
-							RISK_FACTOR_PREVALENCE, chosenRiskFactorName));
-		// added 2010-4-18 by Hendriek and removed again as causes "rondzingen "
-		//this.riskFactorPrevalenceDropDownPanel.genericComboModifyListener.registerDropDown(transitionDropDownPanel);
-		// added 2010-4-18 by Hendriek : one is OK
-		this.transitionDropDownPanel.genericComboModifyListener.registerDropDown(riskFactorPrevalenceDropDownPanel);
 		
 		
 		} catch (DynamoNoValidDataException e) {

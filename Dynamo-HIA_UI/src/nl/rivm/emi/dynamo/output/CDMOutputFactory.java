@@ -16,21 +16,71 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 */
 	protected double[][][][][] pDisabilityByRiskClassByAge;
 	protected double[][][][][] pDisabilityByOriRiskClassByOriAge;
-
+	
 	
 	public double[][][][][] getPDisabilityByOriRiskClassByOriAge() {
 		return pDisabilityByOriRiskClassByOriAge;
 	}
 
-	public double[][][][][] getPDisabilityByRiskClassByAge() {
-		return pDisabilityByRiskClassByAge;
+	/**
+	 * number of new cases in the next year by age and riskclass at start of
+	 * simulation
+	 * indexes: scenario, year in run, disease, riskclass, age, sex ;
+	 */
+	
+	protected double[][][][][][] newCasesByRiskClassByAge;
+	
+	public synchronized double getNewCasesByOriRiskClassByOriAge(int scen, int step,int d, int r, int a, int g) {
+		return newCasesByOriRiskClassByOriAge[scen][step][d][r][a][g];
 	}
 
+	protected double[][][][][][] newCasesByOriRiskClassByOriAge;
+	
+	
+
+	
+	public synchronized double[][][][][][] getNewCasesByRiskClassByAge(int scen, int step,int d, int r, int a, int g) {
+		return newCasesByRiskClassByAge;
+	}
+	
+	/** number of new deaths in the next year by age and riskclass 
+	 * indexes: scenario, year in run, riskclass, age, sex ;
+	 */
+	
+	
+	protected double[][][][][] mortalityByRiskClassByAge;
+	public synchronized double getMortalityByRiskClassByAge(int scen, int step, int r, int a, int g) {
+		return mortalityByRiskClassByAge[scen][step][r][a][g];
+	}
+
+	public synchronized double getMortalityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return mortalityByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+	/** number of new deaths in the next year by age and riskclass at the start of simulation
+	 * indexes: scenario, year in run, riskclass, age, sex ;
+	 */
+	protected double[][][][][] mortalityByOriRiskClassByOriAge;
+	
+
+	public synchronized double getPDisabilityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pDisabilityByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+
+	public synchronized double getPDisabilityByRiskClassByAge(int scen, int step, int r, int a, int g) {
+		return pDisabilityByRiskClassByAge[scen][step][r][a][g];
+	}
+	
     /**
 	 * 
 	 */
 	
 	protected double[][][][][] pTotalDiseaseByRiskClassByAge;
+
+	public double[][][][][] getPTotalDiseaseByRiskClassByAge() {
+		return pTotalDiseaseByRiskClassByAge;
+	}
+
+	
 
 	/**
 	 * percentage of total diseases by age and riskclass at start of simulation
@@ -44,12 +94,16 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 * method makeSummaryArrays
 	 */
 
-	public double[][][][][] getPTotalDiseaseByRiskClassByAge() {
-		return pTotalDiseaseByRiskClassByAge;
-	}
-
 	public double[][][][][] getPTotalDiseaseByOriRiskClassByOriAge() {
 		return pTotalDiseaseByOriRiskClassByOriAge;
+	}
+
+	public synchronized double getPTotalDiseaseByRiskClassByAge(int scen, int step, int r, int a, int g) {
+		return pTotalDiseaseByRiskClassByAge[scen][step][r][a][g];
+	}
+
+	public synchronized double getPTotalDiseaseByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pTotalDiseaseByOriRiskClassByOriAge[scen][step][r][a][g];
 	}
 	private static final long serialVersionUID = 1L;
 	protected int stepsInRun;
@@ -201,8 +255,8 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 */
 	protected double[][][][][] meanRiskByRiskClassByAge;
 	
-	public double[][][][][] getMeanRiskByRiskClassByAge() {
-		return meanRiskByRiskClassByAge;
+	public synchronized  double getMeanRiskByRiskClassByAge(int scen, int step, int r, int a, int g) {
+		return meanRiskByRiskClassByAge[scen][step][r][a][g];
 	}
 
 	/**
@@ -213,8 +267,10 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 * 
 	 */
 	protected double[][][][][] meanRiskByOriRiskClassByOriAge;
-	public double[][][][][] getMeanRiskByOriRiskClassByOriAge() {
-		return meanRiskByOriRiskClassByOriAge;
+	
+	
+	public synchronized double getMeanRiskByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return meanRiskByOriRiskClassByOriAge[scen][step][r][a][g];
 	}
 
 	/**
@@ -223,7 +279,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 */
 	protected double[][][][][] nPopByRiskClassByAge;
 	/**
-	 * number in risk class by Age; indexes are: scenario, time risk class age
+	 * number in risk class by Age; indexes are: scenario, time ,risk class ,age
 	 * and sex
 	 */
 	
@@ -240,8 +296,8 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 * state, risk class, age and sex
 	 */
 	protected double nDiseaseStateByRiskClassByAge[][][][][][];
-	public double[][][][][][] getNDiseaseStateByRiskClassByAge() {
-		return nDiseaseStateByRiskClassByAge;
+	public synchronized double getNDiseaseStateByRiskClassByAge(int scen, int step,int s, int r, int a, int g) {
+		return nDiseaseStateByRiskClassByAge[scen][step][s][r][a][g];
 	}
 
 	/**
@@ -261,8 +317,8 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		return nDiseaseStates;
 	}
 
-	public double[][][][][][] getNDiseaseStateByOriRiskClassByOriAge() {
-		return nDiseaseStateByOriRiskClassByOriAge;
+	public double getNDiseaseStateByOriRiskClassByOriAge(int scen, int step,int s, int r, int a, int g) {
+		return nDiseaseStateByOriRiskClassByOriAge[scen][step][s][r][a][g];
 	}
 /* ******************  POPULATION NUMBERS  ************************************************************/
 	/*  methods returning population number information */
@@ -346,6 +402,133 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public double[][][][] getNIncidenceByAge(int d) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double[][][][] getIncidenceByRiskClassByAge(int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public double[][][][][] getNewCasesByRiskClassByAge(int d) {
+
+			return null;
+	}public double[][][][] getNewCasesByRiskClassByAge(int d, int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double[][][][] getNewCasesByAge(int d) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double[][][] getNewCasesByAge(int d, int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public double[][][] getPopDALY() {
+		return popDALY;
+	}
+
+	public void setPopDALY(double[][][] popDALY) {
+		this.popDALY = popDALY;
+	}
+
+	public double[][][] getTotDiseaseDALY() {
+		return totDiseaseDALY;
+	}
+
+	public void setTotDiseaseDALY(double[][][] totDiseaseDALY) {
+		this.totDiseaseDALY = totDiseaseDALY;
+	}
+
+	public double[][][][] getDiseaseStateDALY() {
+		return diseaseStateDALY;
+	}
+
+	public void setDiseaseStateDALY(double[][][][] diseaseStateDALY) {
+		this.diseaseStateDALY = diseaseStateDALY;
+	}
+
+	public double[][][] getDisabilityDALY() {
+		return disabilityDALY;
+	}
+
+	public void setDisabilityDALY(double[][][] disabilityDALY) {
+		this.disabilityDALY = disabilityDALY;
+	}
+
+	protected double[][][] popDALY;
+
+	protected double[][][] totDiseaseDALY;
+ /* indexes: scenario, diseasestate, age, gender */
+	protected double[][][][] diseaseStateDALY;
+	
+	protected double[][][][] diseaseDALY;
+
+	protected double[][][] disabilityDALY;
+
+	public double[][][] getDiseaseDALY(int disease){
+		return null;
+	}
+//	public double getMortalityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+//		return mortalityByOriRiskClassByOriAge[scen][step][r][a][g]=value;
+//	}
+	public synchronized void setMaxAgeInSimulation(int maxAgeInSimulation) {
+		this.maxAgeInSimulation = maxAgeInSimulation;
+	}
+
+	public synchronized void setMinAgeInSimulation(int minAgeInSimulation) {
+		this.minAgeInSimulation = minAgeInSimulation;
+	}
+
+	public synchronized void setPDisabilityByRiskClassByAge(int scen, int step, int r, int a, int g,double value
+			) {
+		pDisabilityByRiskClassByAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized  void setPTotalDiseaseByRiskClassByAge(int scen, int step, int r, int a, int g,double value
+		) {
+		pTotalDiseaseByRiskClassByAge [scen][step][r][a][g]=value;
+	}
+
+	public  synchronized  void  setMortalityByRiskClassByAge(int scen, int step, int r, int a, int g,double value
+			) {
+		this.mortalityByRiskClassByAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized void setPDisabilityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g,double value
+			) {
+		pDisabilityByOriRiskClassByOriAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized void setPTotalDiseaseByOriRiskClassByOriAge(int scen, int step, int r, int a, int g,double value
+			) {
+		pTotalDiseaseByOriRiskClassByOriAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized void setMortalityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g,double value
+			) {
+		this.mortalityByOriRiskClassByOriAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized void setMeanRiskByRiskClassByAge(int scen, int step, int r, int a, int g,double value
+		) {
+		this.meanRiskByRiskClassByAge [scen][step][r][a][g]=value;
+	}
+
+	public synchronized void setMeanRiskByOriRiskClassByOriAge(int scen, int step, int r, int a, int g,double value
+			) {
+		this.meanRiskByOriRiskClassByOriAge [scen][step][r][a][g]=value;
+	}
+		
+	}
+
 	
 	/* **************   mortality methods ****************************************/	
 
@@ -420,4 +603,4 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 	
 
-}
+

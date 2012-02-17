@@ -4,6 +4,10 @@ package nl.rivm.emi.dynamo.ui.panels.help;
  * First actual helptekst panel.
  * Commented out from the working debug version.
  */
+
+/* hendriek changed the group into browser, permitting html formatting of the text */
+/* the finding of the default help text (not hovering) seems different now, should be looked at 
+ * not a showstopper */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,6 +16,7 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -22,8 +27,9 @@ import org.eclipse.swt.widgets.Label;
 public class ElementNameScrollableHelpGroup {
 	Log log = LogFactory.getLog(this.getClass().getName());
 	final Composite parent;
-	final public Group theGroup;
-	final Label label;
+	//final public Group theGroup;
+	final public Browser theGroup;
+	//final Label label;
 	Point preferredSize = null;
 	String borderText;
 	int count = 0;
@@ -35,11 +41,14 @@ public class ElementNameScrollableHelpGroup {
 		this.parent = parent;
 		this.borderText = borderText;
 		this.helpDirectoryPath = helpDirectoryPath;
-		theGroup = new Group(parent, SWT.V_SCROLL);
+		//theGroup = new Group(parent, SWT.V_SCROLL);
+		theGroup  = new Browser(parent, SWT.NONE);
+		
+		
 		theGroup.setText(borderText);
 		FillLayout fillLayout = new FillLayout();
 		theGroup.setLayout(fillLayout);
-		label = new Label(theGroup, SWT.WRAP);
+		//label = new Label(theGroup, SWT.WRAP);
 		doSetHelpText(elementName);
 	}
 
@@ -83,16 +92,24 @@ public class ElementNameScrollableHelpGroup {
 				if (!theGroup.isDisposed()) {
 					// Sometimes a race condition occurs where the group has
 					// been disposed of before the helptext is set...
-					Rectangle clientArea = theGroup.getClientArea();
-					label.setBounds(clientArea);
-					label.setText(helpContent);
-					label.update();
+				//	Rectangle clientArea = theGroup.getClientArea();
+				
+				//	label.setBounds(clientArea);
+				//	label.setText(helpContent);
+				//	label.update();		
+				theGroup.setText(helpContent);	
+				theGroup.update();
 				}
 			}
 		}
 	}
 
-	public Group getGroup() {
+//	public Group getGroup() {
+	//	return theGroup;
+//	}
+	
+	
+	public Browser getGroup() {
 		return theGroup;
 	}
 

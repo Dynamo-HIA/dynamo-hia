@@ -131,7 +131,8 @@ public class Output_LifeExpTab  {
 		 new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
 			
 		TabItem item4 = new TabItem(this.tabFolder, SWT.NONE);
-		item4.setText("life expectancy plots");
+		// cahnge dd 22/11/ 2011 item4.setText("life expectancy plots");
+		item4.setText("Life expectancy");
 		item4.setControl(this.plotComposite);
 		
 		

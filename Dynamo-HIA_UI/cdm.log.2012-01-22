@@ -1,0 +1,149 @@
+2012-01-22 21:30:46,859 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test03 started 
+2012-01-22 21:30:56,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-01-22 21:30:57,328 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:30:57,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-01-22 21:30:57,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:30:57,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-01-22 21:30:58,328 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:30:58,468 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-01-22 21:30:59,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:30:59,218 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-01-22 21:30:59,218 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:01,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-01-22 21:31:01,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-01-22 21:31:02,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-01-22 21:31:02,468 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-01-22 21:31:04,796 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-01-22 21:31:04,828 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-01-22 21:31:11,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-01-22 21:31:12,218 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-01-22 21:31:12,218 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2012-01-22 21:31:12,250 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:12,375 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:12,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:12,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:12,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 1
+2012-01-22 21:31:12,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:12,421 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:12,437 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:12,453 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:12,453 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 2
+2012-01-22 21:31:12,453 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:12,468 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:12,484 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:12,484 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:12,484 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 3
+2012-01-22 21:31:12,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:12,515 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:12,531 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:12,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:12,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test03 successfully completed 
+2012-01-22 21:31:19,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:19,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:19,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:19,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-01-22 21:31:19,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test04 started 
+2012-01-22 21:31:21,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-01-22 21:31:22,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:22,187 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-01-22 21:31:22,187 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:22,390 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-01-22 21:31:23,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:23,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-01-22 21:31:24,015 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:24,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 4
+2012-01-22 21:31:24,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:26,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-01-22 21:31:26,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-01-22 21:31:26,796 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-01-22 21:31:27,234 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-01-22 21:31:29,281 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-01-22 21:31:29,546 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-01-22 21:31:37,187 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-01-22 21:31:37,187 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-01-22 21:31:37,187 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2012-01-22 21:31:37,203 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:37,203 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:37,234 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:37,250 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:37,250 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 1
+2012-01-22 21:31:37,265 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:37,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:37,296 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:37,296 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:37,296 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 2
+2012-01-22 21:31:37,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:37,328 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:37,343 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:37,343 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:37,343 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 3
+2012-01-22 21:31:37,359 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:31:37,375 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:31:37,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:31:37,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:31:37,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test04 successfully completed 
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:44,921 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:31:44,937 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:31:44,953 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 
+2012-01-22 21:31:44,953 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test05 started 
+2012-01-22 21:31:45,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease diseasecompletelycured_cured is zero for age 0 and gender 0
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2012-01-22 21:31:46,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-01-22 21:31:47,453 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:47,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-01-22 21:31:48,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:48,406 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-01-22 21:31:48,406 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:48,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-01-22 21:31:48,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-01-22 21:31:50,421 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-01-22 21:31:50,421 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-01-22 21:31:50,515 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-01-22 21:31:50,890 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-01-22 21:31:53,390 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-01-22 21:31:53,531 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2012-01-22 21:32:00,328 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2012-01-22 21:32:00,328 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2012-01-22 21:32:00,328 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2012-01-22 21:32:00,328 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:32:00,343 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:32:00,359 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:32:00,359 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:32:00,375 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 1
+2012-01-22 21:32:00,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:32:00,390 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:32:00,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:32:00,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:32:00,406 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 2
+2012-01-22 21:32:00,421 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:32:00,421 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:32:00,437 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:32:00,453 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:32:00,453 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 3
+2012-01-22 21:32:00,468 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2012-01-22 21:32:00,484 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2012-01-22 21:32:00,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2012-01-22 21:32:00,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2012-01-22 21:32:00,500 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - test05 successfully completed 
+2012-01-22 21:32:07,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:32:07,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:32:07,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:32:07,281 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:32:07,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:32:07,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:32:07,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence A OK
+2012-01-22 21:32:07,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  incidence B OK
+2012-01-22 21:32:07,312 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 

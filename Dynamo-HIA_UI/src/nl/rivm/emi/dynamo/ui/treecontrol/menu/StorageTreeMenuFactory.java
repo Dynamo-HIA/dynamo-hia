@@ -1541,7 +1541,7 @@ public class StorageTreeMenuFactory {
 				(BaseNode) node, node.toString(), rootElementName);
 		File nodeFile = node.getPhysicalStorage();
 		if (nodeFile.canWrite()) {
-			action.setText("Edit");
+			action.setText("View or Edit");
 		} else {
 			action.setText("View");
 		}

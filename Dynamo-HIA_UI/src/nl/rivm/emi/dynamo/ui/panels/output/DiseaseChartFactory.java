@@ -35,24 +35,24 @@ public final class DiseaseChartFactory implements PlotDrawer {
 			 * TODO
 			 */
 			if ((info.plotType == 2) && !info.axisIsAge)
-				chart = plotFactory.makeYearPrevalenceByGenderPlot(info.currentScen,
-						info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite);
+				chart = plotFactory.makeYearDiseaseByGenderPlot(info.currentScen,
+						info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite,true);
 			if ((info.plotType == 1) && !info.axisIsAge)
-				chart = plotFactory.makeYearPrevalenceByScenarioPlots(info.genderChoice,
-						info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite);
+				chart = plotFactory.makeYearDiseaseByScenarioPlots(info.genderChoice,
+						info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite,true);
 			if ((info.plotType == 0) && !info.axisIsAge)
-				chart = plotFactory.makeYearPrevalenceByRiskFactorPlots(info.genderChoice,
-						info.currentScen, info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite);
+				chart = plotFactory.makeYearDiseaseByRiskFactorPlots(info.genderChoice,
+						info.currentScen, info.currentDisease, info.differencePlot, info.numbers,info.blackAndWhite,true);
 			if ((info.plotType == 2) && info.axisIsAge)
-				chart = plotFactory.makeAgePrevalenceByGenderPlot(info.currentScen,
-						info.currentDisease, info.currentYear, info.differencePlot, info.numbers,info.blackAndWhite);
+				chart = plotFactory.makeAgeDiseaseByGenderPlot(info.currentScen,
+						info.currentDisease, info.currentYear, info.differencePlot, info.numbers,info.blackAndWhite,true);
 			if ((info.plotType == 1) && info.axisIsAge)
-				chart = plotFactory.makeAgePrevalenceByScenarioPlot(info.genderChoice, info.currentDisease,
-						info.currentYear, info.differencePlot, info.numbers,info.blackAndWhite);
+				chart = plotFactory.makeAgeDiseaseByScenarioPlot(info.genderChoice, info.currentDisease,
+						info.currentYear, info.differencePlot, info.numbers,info.blackAndWhite,true);
 			if ((info.plotType == 0) && info.axisIsAge)
-				chart = plotFactory.makeAgePrevalenceByRiskFactorPlots(info.genderChoice,
+				chart = plotFactory.makeAgeDiseaseByRiskFactorPlots(info.genderChoice,
 						info.currentScen, info.currentDisease, info.currentYear, info.differencePlot,
-						info.numbers,info.blackAndWhite);
+						info.numbers,info.blackAndWhite,true);
 			
 			((ChartComposite) composite).setChart(chart);
 			((ChartComposite) composite).forceRedraw();

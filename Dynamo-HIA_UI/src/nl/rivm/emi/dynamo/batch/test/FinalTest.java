@@ -16,6 +16,7 @@ import junit.framework.Assert;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 import nl.rivm.emi.dynamo.batch.Runner;
+import nl.rivm.emi.dynamo.estimation.InputDataFactory.ScenInfo;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
@@ -29,6 +30,7 @@ import org.junit.Test;
 
 /**
  * @author boshuizh
+ * This unit test contains the complete battery of tests for DYNAMO-HIA
  * 
  */
 
@@ -39,7 +41,17 @@ public class FinalTest {
 	 */
 	Log log = LogFactory.getLog(getClass().getName());
 	String[] files = new String[1];
-	String baseDir = "C:\\DYNAMO-HIA\\TESTDATA";
+	/*
+	 * 
+	 * 
+	 * NB the base directory needs to be put in by hand !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * 
+	 * 
+	 */
+	
+	
+	
+	String baseDir = "C:\\HENDRIEK\\TESTDATA";
 	ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 
 	@Before
@@ -48,7 +60,7 @@ public class FinalTest {
 		// files[0]="C:\\DYNAMO-HIA\\TESTDATA\\temp";
 
 	}
-
+/*
 	@Test
 	public void test_1() {
 
@@ -70,12 +82,14 @@ public class FinalTest {
 		 7.517412,
 		 0, 0);
 	}
+	
 
 	@Test
 	public void test_3() {
 		 runTest("run_test_3", "test03", 11.62399547, 8.426732, 10.05240022,
 		 7.25465746,
 		 10.449351, 9.047160194);
+		 checkIncidence("test03",0.008909634,0.016263301);
 	}
 
 	@Test
@@ -83,6 +97,7 @@ public class FinalTest {
 		 runTest("run_test_4", "test04", 11.64373307, 8.627173, 10.05454054,
 		 7.509649749,
 		 10.430651, 9.04908649);
+		 checkIncidence("test04",0.0089100496,0.01629827);
 	}
 
 	@Test
@@ -90,8 +105,9 @@ public class FinalTest {
 		runTest("run_test_5", "test05", 11.86143824, 10.319618, 10.06416548,
 				 9.057748055,
 				 10.541925, 9.057748935); 
+		checkIncidence("test05",0.005111861,0.003407907);
 	}
-
+*/
 	@Test
 	public void test_6() {
 		 runTest("run_test_6", "test06", 10.94401469, 7.098233, 10.44058873,
@@ -126,7 +142,7 @@ public class FinalTest {
 					 9.447112375,
 					 9.865490, 9.414949636);
 	}
-
+/*
 	@Test
 	public void test_11() {
 		 runTest("run_test_11", "test11", 11.62399547, 8.426732, 10.05240022,
@@ -186,7 +202,7 @@ public class FinalTest {
 				 10.449351, 9.047160194);
 	}
 	
-
+*/
 
 	private void checkParameters(String simName, float baselineIncidenceA,
 			float baselineIncidenceB, float atmort1, float atmort2,
@@ -245,10 +261,10 @@ public class FinalTest {
 					.abs(atmortB_model - atmort2) < 1E-5);
 			Assert.assertTrue(" baseline incidence disease A is " + incA
 					+ "but should be " + baselineIncidenceA, Math
-					.abs(baselineIncidenceA - incA) < 1E-5);
+					.abs(baselineIncidenceA - incA) < 1E-6);
 			Assert.assertTrue(" baseline incidence disease B is " + incB
 					+ "but should be " + baselineIncidenceB, Math
-					.abs(baselineIncidenceB - incB) < 1E-5);
+					.abs(baselineIncidenceB - incB) < 1E-6);
 			Assert.assertTrue(" RR otherMort begin is " + RRbegin
 					+ "but should be " + rrOMbegin, Math.abs(rrOMbegin
 					- RRbegin) < 1E-5);
@@ -257,7 +273,7 @@ public class FinalTest {
 					Math.abs(rrOMend - RRend) < 1E-5);
 			Assert.assertTrue(" baseline otherMort is " + baselineOM
 					+ "but should be " + baselineOtherMort, Math
-					.abs(baselineOtherMort - baselineOM) < 1E-5);
+					.abs(baselineOtherMort - baselineOM) < 1E-6);
 
 		} catch (DynamoConfigurationException e) {
 
@@ -265,6 +281,34 @@ public class FinalTest {
 		}
 
 	}
+	
+	
+	
+	
+	private void checkIncidence( String testName, double annualIncidenceA,
+			double annualIncidenceB) {
+
+		
+		DynamoOutputFactory output = getOutput(baseDir, testName);
+		
+	for (int scen=0;scen<=output.getNScen();scen++)	{	
+	double incA = output.getNewCasesByAge(1)[scen][0][0][0]/output.getNPopByAge()[0][0][0][0];
+	double incB = output.getNewCasesByAge(0)[scen][0][0][0]/output.getNPopByAge()[0][0][0][0];
+	
+			
+
+			Assert.assertTrue(" incidence disease A for scenario "+scen+" is "
+					+ incA + "but should be " + annualIncidenceA, Math
+					.abs(incA - annualIncidenceA) < 1E-8);
+			if (Math.abs(incA - annualIncidenceA) < 1E-8) log.fatal(" incidence A OK");
+			Assert.assertTrue(" incidence disease B for scenario "+scen+" is "
+					+ incB + "but should be " + annualIncidenceB, Math
+					.abs(incB - annualIncidenceB) < 1E-8);
+			if (Math.abs(incB - annualIncidenceB) < 1E-8) log.fatal(" incidence B OK");
+
+	
+
+	}}
 
 	/**
 	 * test comparing health and life expectancies of the test with the expected
@@ -278,12 +322,12 @@ public class FinalTest {
 	 * @param HLEcohort
 	 * @param LEPeriod
 	 * @param HLESullivan
-	 * @param DALYcohort
-	 * @param DALYSullivan
+	 * @param DALEcohort
+	 * @param DALESullivan
 	 */
 	private void runTest(String batchFileName, String testName,
 			double LEcohort, double HLEcohort, double LEPeriod,
-			double HLESullivan, double DALYcohort, double DALYSullivan) {
+			double HLESullivan, double DALEcohort, double DALESullivan) {
 		/* test 01 */
 
 	//	String baseDir = "C:\\DYNAMO-HIA\\TESTDATA";
@@ -320,30 +364,35 @@ public class FinalTest {
 					- hle2[0][1] - HLESullivan) < 1E-4);
 		}
 		log.fatal(" HLE Sullivan is OK ");
-		if (DALYcohort != 0) {
+		if (DALEcohort != 0) {
 			double[][] hle3 = factory.calculateCohortHealthExpectancy(0, scen, -2);
 			Assert.assertEquals(" LE-cohort is " + hle3[0][0]
 					+ "but should be " + LEcohort, true, Math.abs(hle3[0][0]
 					- LEcohort) < 1E-4);
 			Assert.assertEquals(" DALE-cohort is " + (hle3[0][0] - hle3[0][1])
-					+ "but should be " + DALYcohort, true, Math.abs(hle3[0][0]
-					- hle3[0][1] - DALYcohort) < 1E-4);
+					+ "but should be " + DALEcohort, true, Math.abs(hle3[0][0]
+					- hle3[0][1] - DALEcohort) < 1E-4);
 		}
-		log.fatal(" DALY cohort is OK ");
-		if (DALYSullivan != 0) {
+		log.fatal(" DALE cohort is OK ");
+		if (DALESullivan != 0) {
 			double[][] hle4 = factory.calculateSullivanLifeExpectancy(0, 0, -2,
 					scen);
 			Assert.assertEquals(" LE-Period is " + hle4[0][0]
 					+ "but should be " + LEPeriod, true, Math.abs(hle4[0][0]
 					- LEPeriod) < 1E-4);
 			Assert.assertEquals(" DALE-Period is " + (hle4[0][0] - hle4[0][1])
-					+ "but should be " + DALYSullivan, true, Math
-					.abs(hle4[0][0] - hle4[0][1] - DALYSullivan) < 1E-4);
+					+ "but should be " + DALESullivan, true, Math
+					.abs(hle4[0][0] - hle4[0][1] - DALESullivan) < 1E-4);
 		}
-		log.fatal(" Daly sullivan is OK ");
+		log.fatal(" Dale sullivan is OK ");
 		}
 		log.fatal(testName + " successfully completed ");
 	}
+	
+	
+	
+	
+	
 
 	@After
 	public void teardown() {

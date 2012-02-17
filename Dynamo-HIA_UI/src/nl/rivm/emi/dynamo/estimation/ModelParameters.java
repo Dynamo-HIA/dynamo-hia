@@ -2858,7 +2858,7 @@ public class ModelParameters {
 							+ " and sex = "
 							+ sex
 
-							+ "./N  Please lower excess mortality rates or"
+							+ ".\n  Please lower excess mortality rates or"
 							+ " case fatality rates or disease prevalence rates, or increase total mortality rates");
 
 		// carry out the regression of log other mortality on the risk

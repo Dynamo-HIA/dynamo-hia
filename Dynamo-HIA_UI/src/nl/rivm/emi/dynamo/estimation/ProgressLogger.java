@@ -31,11 +31,43 @@ public class ProgressLogger implements ProgressIndicatorInterface {
 		position = percent;
 		log.info(message + ": Position set to " + percent);
 	}
+	
+	
+	@Override
+	public void update() {
+		position++;
+		
+		log.info(message + ": Position set to " + position);
+	}
 
 	@Override
 	public int getPosition() {
 		log.info(message + ": Position requested, returned: " + position);
 		return position;
+	}
+
+	@Override
+	public int getSelection() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isDisposed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setSelection(int newValue) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setIndeterminate(String text) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

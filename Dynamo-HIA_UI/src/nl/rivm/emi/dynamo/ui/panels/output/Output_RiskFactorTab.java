@@ -117,7 +117,8 @@ public class Output_RiskFactorTab {
 		 new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
 			
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
-		item.setText("riskfactor plots");
+	//	change dd 22/11/2011 item.setText("riskfactor plots");
+		item.setText("Risk factor");
 		item.setControl(plotComposite);
 		/*
 		 * item2.addListener(SWT.Selection, new Listener() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.data.BiGender;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
@@ -71,7 +72,7 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 					checkList.append("For age: "
 							+ age
 							+ " and sex: "
-							+ ((((Integer) sex).intValue() == 1) ? "Male"
+							+ ((((Integer) sex).intValue() == BiGender.MALE_INDEX) ? "Male"
 									: "Female") + " the sum is: "
 							+ prevalenceSum + "\n");
 					soFarSoGood = false;

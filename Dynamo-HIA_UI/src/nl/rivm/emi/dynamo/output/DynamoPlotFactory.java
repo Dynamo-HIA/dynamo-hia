@@ -10,6 +10,7 @@ import java.awt.Paint;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
@@ -184,7 +185,7 @@ public class DynamoPlotFactory {
 	 * @param inputRef
 	 *            : value with data for 100% successfull alternative scenario
 	 * @param thisScen
-	 *            : number of scenario
+	 *            : number of scenario, with 0=reference scenario
 	 * @param year
 	 *            : year (step): years after the age to which minimum and
 	 *            maximum should be applied. This should be zero for "ori"
@@ -198,11 +199,11 @@ public class DynamoPlotFactory {
 	 * @return the result for a scenario to which the successrates and
 	 *         min-maximum age have been applied
 	 * */
-/*
- * 
- * NB copies of this method is in ScenarioParameters, so any errors here must be also changed there
- * 
- */
+	/*
+	 * 
+	 * NB copies of this method is in ScenarioParameters, so any errors here
+	 * must be also changed there
+	 */
 	private double applySuccesrate(double inputRef, double inputScen,
 			int thisScen, int year, int a, int gender) {
 		double data = 0.0;
@@ -224,14 +225,18 @@ public class DynamoPlotFactory {
 					|| this.params.getMaxAge(thisScen - 1) < a - year)
 				data = inputRef;
 			else
-				data = (1 - this.params.getSuccesrate()[thisScen - 1])	* inputRef
-						+ (this.params.getSuccesrate()[thisScen - 1])	* inputScen;
+				data = (1 - this.params.getSuccesrate()[thisScen - 1])
+						* inputRef
+						+ (this.params.getSuccesrate()[thisScen - 1])
+						* inputScen;
 		} else {
 			if (this.params.getMinAge()[thisScen - 1] > 0)
 				data = inputRef;
 			else
-				data = (1 - this.params.getSuccesrate()[thisScen - 1])		* inputRef
-						+ (this.params.getSuccesrate()[thisScen - 1])		* inputScen;
+				data = (1 - this.params.getSuccesrate()[thisScen - 1])
+						* inputRef
+						+ (this.params.getSuccesrate()[thisScen - 1])
+						* inputScen;
 		}
 		;
 
@@ -884,11 +889,9 @@ public class DynamoPlotFactory {
 		return chart;
 	}
 
-	
-	
 	/**
-	 * This method makes a plot for the numbers in the population over time for all
-	 * scenario's. <br>
+	 * This method makes a plot for the numbers in the population over time for
+	 * all scenario's. <br>
 	 * Survival plotted is that of all individuals in the population without the
 	 * newborns <br>
 	 * Survival is the fraction of persons with whom the simulation starts
@@ -907,13 +910,13 @@ public class DynamoPlotFactory {
 	 * 
 	 * @return freechart plot
 	 */
-	public JFreeChart makeYearPopulationNumberPlotByScenario(int gender, int riskClass,
-			boolean differencePlot,  boolean blackAndWhite) {
+	public JFreeChart makeYearPopulationNumberPlotByScenario(int gender,
+			int riskClass, boolean differencePlot, boolean blackAndWhite) {
 		XYDataset xyDataset = null;
 		double[][][][] nPopByAge = null;
 		if (riskClass < 0)
-			
-			nPopByAge=this.output.getNPopByAge(); 
+
+			nPopByAge = this.output.getNPopByAge();
 		else
 			nPopByAge = this.output.getNPopByAgeForRiskclass(riskClass);
 		int nDim2 = nPopByAge[0][0].length;
@@ -952,11 +955,10 @@ public class DynamoPlotFactory {
 					dat0 = indat;
 
 				if (dat0 > 0) {
-					
-					
-					if (differencePlot )
+
+					if (differencePlot)
 						series.add((double) steps, (indat) - (indatr));
-					if (!differencePlot )
+					if (!differencePlot)
 						series.add((double) steps, indat);
 
 				}
@@ -972,14 +974,13 @@ public class DynamoPlotFactory {
 		if (differencePlot)
 			chartTitle = "excess numbers in population"
 					+ " compared to ref scenario";
-		
+
 		if (!differencePlot)
 			chartTitle = "numbers in population ";
 		String yTitle = "numbers in population";
-		
-		if (!differencePlot )
+
+		if (!differencePlot)
 			yTitle = "population numbers";
-		
 
 		if (gender == 0)
 			label = "men";
@@ -1040,34 +1041,43 @@ public class DynamoPlotFactory {
 	 * 
 	 * @return JFreeChart with the plot
 	 */
-	public JFreeChart makeYearPrevalenceByGenderPlot(int thisScen, int d,
-			boolean differencePlot, boolean numbers, boolean blackAndWhite) {
+	public JFreeChart makeYearDiseaseByGenderPlot(int thisScen, int d,
+			boolean differencePlot, boolean numbers, boolean blackAndWhite,
+			boolean prevalence) {
 
 		XYSeries menSeries = new XYSeries("men");
 
 		XYSeries womenSeries = new XYSeries("women");
 		XYSeries totalSeries = new XYSeries("total");
-		for (int steps = 0; steps < this.output.getStepsInRun() + 1; steps++) {
+		int plusone=0;
+		if (prevalence) plusone=1;
+		for (int steps = 0; steps < this.output.getStepsInRun() + plusone; steps++) {
 			double indat = 0;
 			double indatr = 0;
-			indat = calculateAveragePrevalence(thisScen, steps, d, 0, numbers);
-			indatr = calculateAveragePrevalence(0, steps, d, 0, numbers);
+			indat = calculateAveragePrevalence(thisScen, steps, d, 0, numbers,
+					prevalence);
+			indatr = calculateAveragePrevalence(0, steps, d, 0, numbers,
+					prevalence);
 			if (!differencePlot)
 				menSeries.add((double) steps + this.output.getStartYear(),
 						indat);
 			else
 				menSeries.add((double) steps + this.output.getStartYear(),
 						indat - indatr);
-			indat = calculateAveragePrevalence(thisScen, steps, d, 1, numbers);
-			indatr = calculateAveragePrevalence(0, steps, d, 1, numbers);
+			indat = calculateAveragePrevalence(thisScen, steps, d, 1, numbers,
+					prevalence);
+			indatr = calculateAveragePrevalence(0, steps, d, 1, numbers,
+					prevalence);
 			if (!differencePlot)
 				womenSeries.add((double) steps + this.output.getStartYear(),
 						indat);
 			else
 				womenSeries.add((double) steps + this.output.getStartYear(),
 						indat - indatr);
-			indat = calculateAveragePrevalence(thisScen, steps, d, 2, numbers);
-			indatr = calculateAveragePrevalence(0, steps, d, 2, numbers);
+			indat = calculateAveragePrevalence(thisScen, steps, d, 2, numbers,
+					prevalence);
+			indatr = calculateAveragePrevalence(0, steps, d, 2, numbers,
+					prevalence);
 			if (!differencePlot)
 				totalSeries.add((double) steps + this.output.getStartYear(),
 						indat);
@@ -1085,6 +1095,10 @@ public class DynamoPlotFactory {
 		if (d < output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
 		String chartTitle = "prevalence of " + name;
+		String yTitle = "prevalence rate (%)" + name;
+		String label = "" + this.output.getScenarioNames()[thisScen];
+		if (prevalence){
+		if (!prevalence) chartTitle="incidence of "+ name;
 		if (numbers && differencePlot)
 			chartTitle = "Excess number with " + name
 					+ " compared to the ref scenario";
@@ -1092,18 +1106,36 @@ public class DynamoPlotFactory {
 			chartTitle = "Excess prevalence of " + name
 					+ " compared to the ref scenario";
 		if (numbers && !differencePlot)
-			chartTitle = "number of persons with " + name;
+			chartTitle = "Number of persons with " + name;
 
-		String label = "" + this.output.getScenarioNames()[thisScen];
+		
 
-		String yTitle = "prevalence rate (%)" + name;
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
 			yTitle = "number with " + name;
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + name;
+		}
+		else
+		{   chartTitle = "incidence of " + name;
+		    yTitle = "incidence rate (per 100 py)" + name;
+			if (numbers && differencePlot)
+				chartTitle = "Excess new cases of " + name
+						+ " compared to the ref scenario";
+			if (!numbers && differencePlot)
+				chartTitle = "Excess incidence rate of " + name
+						+ " compared to the ref scenario";
+			if (numbers && !differencePlot)
+				chartTitle = "New cases of " + name;
 
+			if (differencePlot && !numbers)
+				yTitle = "excess incidence rate (per 100 py) " + name;
+			if (!differencePlot && numbers)
+				yTitle = "new cases of " + name;
+			if (differencePlot && numbers)
+				yTitle = "excess new cases of " + name;
+			}
 		chart = ChartFactory.createXYLineChart(chartTitle, "year", yTitle,
 				xyDataset, PlotOrientation.VERTICAL, true, true, false);
 		if (this.output.getStepsInRun() == 0)
@@ -1166,9 +1198,9 @@ public class DynamoPlotFactory {
 	 *         on the axis for one scenario
 	 * 
 	 */
-	public JFreeChart makeAgePrevalenceByGenderPlot(int thisScen, int d,
+	public JFreeChart makeAgeDiseaseByGenderPlot(int thisScen, int d,
 			int year, boolean differencePlot, boolean numbers,
-			boolean blackAndWhite) {
+			boolean blackAndWhite, boolean prevalence) {
 
 		XYSeries menSeries = new XYSeries("men");
 		XYSeries womenSeries = new XYSeries("women");
@@ -1184,15 +1216,18 @@ public class DynamoPlotFactory {
 		double npop1r = 0;/* total numbers for women in reference scenario */
 		double[][][][] nPopByAge = this.output.getNPopByAge();
 		double[][][][] nDiseaseByAge = null;
-		if (d < this.output.getNDiseases())
+		if (prevalence && d < this.output.getNDiseases())
 			nDiseaseByAge = this.output.getNDiseaseByAge(d);
-		else
+		else if (prevalence)
 			nDiseaseByAge = this.output.getNDisabledByAge();
+		else
+			nDiseaseByAge = this.output.getNewCasesByAge(d);
 
 		/*
 		 * first calculate for men and women separately
 		 */
-
+      
+        if (prevalence || year<this.output.getStepsInRun() )
 		for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
 			indat0 = applySuccesrate(nDiseaseByAge[0][year][age][0],
 					nDiseaseByAge[thisScen][year][age][0], thisScen, year, age,
@@ -1227,25 +1262,48 @@ public class DynamoPlotFactory {
 		if (d < this.output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
 		String yTitle = "prevalence rate (%)" + name;
+		if (prevalence){
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
 			yTitle = "number with " + name;
 		if (differencePlot && numbers)
-			yTitle = "excess number with " + name;
+			yTitle = "excess number with " + name;}
+		else {
+			yTitle = "incidence rate (per 100 py)" + name;
+		
+		if (differencePlot && !numbers)
+			yTitle = "excess incidence rate (per 100 py) " + name;
+		if (!differencePlot && numbers)
+			yTitle = "new cases of " + name;
+		if (differencePlot && numbers)
+			yTitle = "excess new cases of " + name;}
 
 		String label = this.output.getScenarioNames()[thisScen] + "; "
 				+ (this.output.getStartYear() + year);
 
-		String chartTitle = "prevalence of " + name;
+		String chartTitle = "Prevalence of " + name;
+		if (!prevalence) chartTitle="Incidence of "+ name;
+		if (prevalence){
 		if (!numbers && differencePlot)
-			chartTitle = "excess prevalence of " + name
+			chartTitle = "Excess prevalence of " + name
 					+ "compared to ref scenario";
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers of " + name
+			chartTitle = "Excess numbers of " + name
 					+ "compared to ref scenario";
 		if (numbers && !differencePlot)
-			chartTitle = "number of persons with " + name;
+			chartTitle = "Number of persons with " + name;}
+		else
+		{
+			if (!numbers && differencePlot)
+				chartTitle = "Excess incidence of " + name
+						+ "compared to ref scenario";
+			if (numbers && differencePlot)
+				chartTitle = "Excess new cases of " + name
+						+ "compared to ref scenario";
+			if (numbers && !differencePlot)
+				chartTitle = "Number of new cases of " + name;}
+			
 
 		chart = ChartFactory.createXYLineChart(chartTitle, "age", yTitle,
 				xyDataset, PlotOrientation.VERTICAL, true, true, false);
@@ -1325,9 +1383,9 @@ public class DynamoPlotFactory {
 	 *         axis for one scenario
 	 * 
 	 */
-	public JFreeChart makeAgePrevalenceByScenarioPlot(int gender, int d,
-			int year, boolean differencePlot, boolean numbers,
-			boolean blackAndWhite) {
+	public JFreeChart makeAgeDiseaseByScenarioPlot(int gender, int d, int year,
+			boolean differencePlot, boolean numbers, boolean blackAndWhite,
+			boolean prevalence) {
 
 		XYSeries scenSeries[] = new XYSeries[this.output.getNScen() + 1];
 		XYDataset xyDataset = null;
@@ -1342,11 +1400,12 @@ public class DynamoPlotFactory {
 		double npop1r = 0;/* total numbers for women in reference scenario */
 		double[][][][] nPopByAge = this.output.getNPopByAge();
 		double[][][][] nDiseaseByAge = null;
-		if (d < this.output.getNDiseases())
+		if (d < this.output.getNDiseases() && prevalence)
 			nDiseaseByAge = this.output.getNDiseaseByAge(d);
-		else
+		else if (prevalence)
 			nDiseaseByAge = this.output.getNDisabledByAge();
-
+		else
+			nDiseaseByAge = this.output.getNewCasesByAge(d);
 		/*
 		 * first calculate for men and women separately
 		 */
@@ -1355,7 +1414,7 @@ public class DynamoPlotFactory {
 
 			scenSeries[thisScen] = new XYSeries(
 					this.output.getScenarioNames()[thisScen]);
-
+			 if (prevalence || year<this.output.getStepsInRun() )
 			for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
 				indat0 = 0;
 				indat1 = 0;
@@ -1415,6 +1474,13 @@ public class DynamoPlotFactory {
 		}
 
 		JFreeChart chart;
+		String type = "incidence";
+		if (prevalence)
+			type = "prevalence";
+		String newcases = "";
+		if (!prevalence)
+			newcases = "new ";
+
 		String label = "" + (this.output.getStartYear() + year);
 		if (gender == 0)
 			label = " men; " + (this.output.getStartYear() + year);
@@ -1424,28 +1490,32 @@ public class DynamoPlotFactory {
 		if (d < this.output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
 
-		String chartTitle = "prevalence of " + name;
+		String chartTitle = type + " of " + name;
+		String yTitle = "prevalence rate (%)" + name;
+		if (!prevalence) yTitle = "incidence rate (per 100 py)" + name;
 		if (!numbers && differencePlot)
-			chartTitle = "excess prevalence of " + name
+			chartTitle = "excess " + type + " of " + name
 					+ " compared to ref scenario";
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers of " + name
+			chartTitle = "excess numbers of " + newcases + name
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot && gender == 0)
-			chartTitle = "number of men with " + name;
+			chartTitle = "number of men with " + newcases + name;
 		if (numbers && !differencePlot && gender == 1)
-			chartTitle = "number of women with " + name;
+			chartTitle = "number of women with " + newcases + name;
 
 		if (numbers && !differencePlot && gender == 2)
-			chartTitle = "number of persons with " + name;
+			chartTitle = "number of persons with " + newcases + name;
 
-		String yTitle = "prevalence rate (%)" + name;
+		
 		if (differencePlot && !numbers)
-			yTitle = "excess prevalence rate (%) " + name;
+			yTitle = "excess " + type + " rate (%) " + name;
+		if (!prevalence && differencePlot && !numbers)
+			yTitle = "excess " + type + " rate (per 100 py) " + name;
 		if (!differencePlot && numbers)
-			yTitle = "number with " + name;
+			yTitle = "number with " + newcases + name;
 		if (differencePlot && numbers)
-			yTitle = "excess number with " + name;
+			yTitle = "excess number with " + newcases + name;
 
 		chart = ChartFactory.createXYLineChart(chartTitle, "age", yTitle,
 				xyDataset, PlotOrientation.VERTICAL, true, true, false);
@@ -1466,7 +1536,7 @@ public class DynamoPlotFactory {
 		XYItemRenderer renderer2 = plot.getRenderer();
 		renderer2.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
 		plot.setRenderer(renderer2);
-		
+
 		return chart;
 	}
 
@@ -1486,17 +1556,18 @@ public class DynamoPlotFactory {
 	 * 
 	 */
 	private double calculateAveragePrevalence(int thisScen, int year, int d,
-			int gender, boolean numbers) {
+			int gender, boolean numbers, boolean prevalence) {
 
 		double nominator = 0;
 		double denominator = 0;
 		double[][][] nPopByAge = this.output.getNPopByAge(year);
 		double[][][] nDiseaseByAge = null;
-		if (d < this.output.getNDiseases())
+		if (d < this.output.getNDiseases() && prevalence)
 			nDiseaseByAge = this.output.getNDiseaseByAge(d, year);
-		else
+		else if (prevalence)
 			nDiseaseByAge = this.output.getNDisabledByAge(year);
-
+		else
+			nDiseaseByAge = this.output.getNewCasesByAge(d, year);
 		nominator = 0;
 		denominator = 0;
 		if (gender < 2) {
@@ -1556,18 +1627,21 @@ public class DynamoPlotFactory {
 	 *         numbers
 	 */
 	private double calculateAveragePrevalenceByRiskClass(int thisScen,
-			int steps, int d, int r, int gender, boolean numbers) {
+			int steps, int d, int r, int gender, boolean numbers,
+			boolean prevalence) {
 		double nominator = 0;
 		double denominator = 0;
 		denominator = 0;
 		double[][][][] nDiseaseByRiskClassByAge = null;
-		if (d < this.output.getNDiseases())
+		if (d < this.output.getNDiseases() && prevalence)
 			nDiseaseByRiskClassByAge = this.output.getNDiseaseByRiskClassByAge(
 					d, steps);
-		else
+		else if (prevalence)
 			nDiseaseByRiskClassByAge = this.output
 					.getNDisabledByRiskClassByAge(steps);
-
+		else
+			nDiseaseByRiskClassByAge = this.output.getNewCasesByRiskClassByAge(
+					 d,steps);
 		if (gender < 2) {
 			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
 				if (d >= 0)
@@ -1639,24 +1713,25 @@ public class DynamoPlotFactory {
 	 * 
 	 * @return plot (JFreeChart)
 	 */
-	public JFreeChart makeYearPrevalenceByRiskFactorPlots(int gender,
+	public JFreeChart makeYearDiseaseByRiskFactorPlots(int gender,
 			int thisScen, int d, boolean differencePlot, boolean numbers,
-			boolean blackAndWhite) {
+			boolean blackAndWhite, boolean prevalence) {
 		XYDataset xyDataset = null;
 
 		for (int r = 0; r < this.output.getNRiskFactorClasses(); r++) {
 			XYSeries series = null;
 
 			series = new XYSeries(this.output.getRiskClassnames()[r]);
-			for (int steps = 0; steps < this.output.getStepsInRun() + 1; steps++) {
-				/*
+			int plusone=0;
+			if (prevalence) plusone=1;
+			for (int steps = 0; steps < this.output.getStepsInRun() + plusone; steps++) {	/*
 				 * calculateAveragePrevalenceByRiskClass already multiplies the
 				 * prevalence rate with 100 to get percentages
 				 */
 				double indat0 = calculateAveragePrevalenceByRiskClass(thisScen,
-						steps, d, r, gender, numbers);
+						steps, d, r, gender, numbers, prevalence);
 				double refdat0 = calculateAveragePrevalenceByRiskClass(0,
-						steps, d, r, gender, numbers);
+						steps, d, r, gender, numbers, prevalence);
 				if (!differencePlot)
 					series.add((double) steps + this.output.getStartYear(),
 							indat0);
@@ -1681,6 +1756,9 @@ public class DynamoPlotFactory {
 		if (d < this.output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
 		String chartTitle = "prevalence of " + name;
+		if (!prevalence) chartTitle="incidence of "+ name;
+		String yTitle = "prevalence rate (%)" + name;
+		if (prevalence){
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of " + name
 					+ " compared to ref scenario";
@@ -1693,13 +1771,35 @@ public class DynamoPlotFactory {
 			chartTitle = "number of women with " + name;
 		if (numbers && !differencePlot && gender == 2)
 			chartTitle = "number of persons with " + name;
-		String yTitle = "prevalence rate (%)" + name;
+		
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
 			yTitle = "number with " + name;
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + name;
+		}
+		else {
+			if (numbers && differencePlot)
+				chartTitle = "excess new cases of " + name
+						+ " compared to ref scenario";
+			if (!numbers && differencePlot)
+				chartTitle = "excess incidence rate of " + name
+						+ " compared to ref scenario";
+			if (numbers && !differencePlot && gender == 0)
+				chartTitle = "number of new male cases of " + name;
+			if (numbers && !differencePlot && gender == 1)
+				chartTitle = "number of new female cases of " + name;
+			if (numbers && !differencePlot && gender == 2)
+				chartTitle = "number of new cases of " + name;
+			yTitle = "incidence rate (per 100 py)" + name;
+			if (differencePlot && !numbers)
+				yTitle = "excess incidence rate (per 100 py) " + name;
+			if (!differencePlot && numbers)
+				yTitle = "new cases of " + name;
+			if (differencePlot && numbers)
+				yTitle = "excess new cases of " + name;
+			}
 
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "year",
 				yTitle, xyDataset, PlotOrientation.VERTICAL, true, true, false);
@@ -1810,22 +1910,20 @@ public class DynamoPlotFactory {
 				break;
 			}
 
-		}
-		else{
+		} else {
 
-			
 			switch (seriesNumber) {
 			case 0:
 				renderer.setSeriesPaint(seriesNumber, Color.BLUE);
-				
+
 				break;
 			case 1:
 				renderer.setSeriesPaint(seriesNumber, Color.RED);
-				
+
 				break;
 			case 2:
 				renderer.setSeriesPaint(seriesNumber, Color.MAGENTA);
-				
+
 				break;
 			case 3:
 				renderer.setSeriesPaint(seriesNumber, Color.GREEN);
@@ -1834,29 +1932,29 @@ public class DynamoPlotFactory {
 				renderer.setSeriesPaint(seriesNumber, Color.CYAN);
 				break;
 			case 5:
-				renderer.setSeriesPaint(seriesNumber, new Color(0xC0, 0xC0, 0x00));
-				/*  dark yellow */
+				renderer.setSeriesPaint(seriesNumber, new Color(0xC0, 0xC0,
+						0x00));
+				/* dark yellow */
 				break;
 			case 6:
 				renderer.setSeriesPaint(seriesNumber, Color.GRAY);
 				break;
 			case 7:
-				renderer.setSeriesPaint(seriesNumber, new Color(0x60, 0x60, 0x00));
-				/*  very dark yellow= greenish */
+				renderer.setSeriesPaint(seriesNumber, new Color(0x60, 0x60,
+						0x00));
+				/* very dark yellow= greenish */
 				break;
 			case 8:
 				renderer.setSeriesPaint(seriesNumber, Color.BLACK);
-				
+
 				break;
 			case 9:
 				renderer.setSeriesPaint(seriesNumber, Color.ORANGE);
 				break;
-				
-			
-			
+
 			}
 
-	}
+		}
 
 	}
 
@@ -1896,23 +1994,28 @@ public class DynamoPlotFactory {
 	 *         scenario for disease d and gender g
 	 * 
 	 */
-	public JFreeChart makeYearPrevalenceByScenarioPlots(int gender, int d,
-			boolean differencePlot, boolean numbers, boolean blackAndWhite)
+	public JFreeChart makeYearDiseaseByScenarioPlots(int gender, int d,
+			boolean differencePlot, boolean numbers, boolean blackAndWhite,
+			boolean prevalence)
 	/* throws DynamoOutputException */{
 		double[][][][][] nDiseaseByRiskClassByAge = null;
-		if (d < this.output.getNDiseases())
+		if (d < this.output.getNDiseases() && prevalence)
 			nDiseaseByRiskClassByAge = this.output
 					.getNDiseaseByRiskClassByAge(d);
-		else
+		else if (prevalence)
 			nDiseaseByRiskClassByAge = this.output
 					.getNDisabledByRiskClassByAge();
+		else
+			nDiseaseByRiskClassByAge = this.output
+					.getNewCasesByRiskClassByAge(d);
 		XYDataset xyDataset = null;
 		XYSeries[] scenSeries = new XYSeries[this.output.getNScen() + 1];
 		for (int thisScen = 0; thisScen < this.output.getNScen() + 1; thisScen++) {
 			scenSeries[thisScen] = new XYSeries(
 					this.output.getScenarioNames()[thisScen]);
-			for (int steps = 0; steps < this.output.getStepsInRun() + 1; steps++) {
-				double indat = 0;
+			int plusone=0;
+			if (prevalence) plusone=1;
+			for (int steps = 0; steps < this.output.getStepsInRun() + plusone; steps++) {	double indat = 0;
 				double npop = 0;
 				double indatr = 0;
 				double npopr = 0;
@@ -1978,6 +2081,8 @@ public class DynamoPlotFactory {
 
 		}
 		String label = "";
+		String type="prevalence";
+		if (!prevalence) type="incidence";
 		if (gender == 0)
 			label = "men";
 		if (gender == 1)
@@ -1985,22 +2090,35 @@ public class DynamoPlotFactory {
 		String name = "disability (average dalyweight)";
 		if (d < this.output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
-		String chartTitle = "prevalence of " + name;
+		String chartTitle = type +" of " + name;
+		
 		if (numbers && differencePlot)
 			chartTitle = "excess numbers of " + name
 					+ " compared to ref scenario";
+		if (!prevalence && numbers && differencePlot)
+			chartTitle = "excess new cases of " + name
+					+ " compared to ref scenario";
 		if (!numbers && differencePlot)
-			chartTitle = "excess prevalence of " + name
+			chartTitle = "excess "+type+" of " + name
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot)
 			chartTitle = "number of persons with " + name;
+		if (!prevalence && numbers && !differencePlot)
+			chartTitle = "number of new cases with " + name;
 		String yTitle = "prevalence rate (%) " + name;
+		if (!prevalence) yTitle = "incidence rate (per 100 py) " + name;
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
+		if (!prevalence && differencePlot && !numbers)
+			yTitle = "excess incidence rate (per 100 py) " + name;
 		if (!differencePlot && numbers)
 			yTitle = "number with " + name;
+		if (!prevalence && !differencePlot && numbers)
+			yTitle = "new cases with " + name;
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + name;
+		if (!prevalence && differencePlot && numbers)
+			yTitle = "excess new cases with " + name;
 
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "year",
 				yTitle, xyDataset, PlotOrientation.VERTICAL, true, true, false);
@@ -2067,17 +2185,20 @@ public class DynamoPlotFactory {
 	 * @return JFreeChart plot
 	 * 
 	 */
-	public JFreeChart makeAgePrevalenceByRiskFactorPlots(int gender,
-			int thisScen, int d, int year, boolean differencePlot,
-			boolean numbers, boolean blackAndWhite) {
+	public JFreeChart makeAgeDiseaseByRiskFactorPlots(int gender, int thisScen,
+			int d, int year, boolean differencePlot, boolean numbers,
+			boolean blackAndWhite, boolean prevalence) {
 		XYDataset xyDataset = null;
 		double[][][][] nDiseaseByRiskClassByAge = null;
-		if (d < this.output.getNDiseases())
+		if (d < this.output.getNDiseases() && prevalence)
 			nDiseaseByRiskClassByAge = this.output.getNDiseaseByRiskClassByAge(
 					d, year);
-		else
+		else if (prevalence)
 			nDiseaseByRiskClassByAge = this.output
 					.getNDisabledByRiskClassByAge(year);
+		else
+			nDiseaseByRiskClassByAge = this.output.getNewCasesByRiskClassByAge(
+					d, year);
 		for (int r = 0; r < this.output.getNRiskFactorClasses(); r++) {
 
 			XYSeries menSeries = new XYSeries(
@@ -2093,7 +2214,7 @@ public class DynamoPlotFactory {
 			double mendatr = 0;
 			double womendatr = 0;
 			double menpopr = 0;
-			double womenpopr = 0;
+			double womenpopr = 0; if (prevalence || year<this.output.getStepsInRun() )
 			for (int age = 0; age < 96/* + this.output.getStepsInRun() */; age++) {
 				if (age == 50) {
 					int ii = 0;
@@ -2166,28 +2287,58 @@ public class DynamoPlotFactory {
 		String name = "disability (average dalyweight)";
 		if (d < this.output.getNDiseases())
 			name = this.output.getDiseaseNames()[d];
-		String chartTitle = "prevalence of " + name;
+		String chartTitle = "Prevalence of " + name;
+		String yTitle = "prevalence rate (%) " + name;
+		if (prevalence){
+		if (!prevalence) chartTitle="Incidence of "+ name;
 		if (numbers && differencePlot)
-			chartTitle = "excess numbers of " + name
+			chartTitle = "Excess numbers of " + name
 					+ " compared to ref scenario";
 		if (!numbers && differencePlot)
-			chartTitle = "excess prevalence of " + name
+			chartTitle = "Excess prevalence of " + name
 					+ " compared to ref scenario";
 		if (numbers && !differencePlot)
 			if (gender == 0)
-				chartTitle = "number of men with " + name;
+				chartTitle = "Number of men with " + name;
 			else if (gender == 1)
-				chartTitle = "number of women with " + name;
+				chartTitle = "Number of women with " + name;
 			else
-				chartTitle = "number of persons with " + name;
-		String yTitle = "prevalence rate (%) " + name;
+				chartTitle = "Number of persons with " + name;
+		
 		if (differencePlot && !numbers)
 			yTitle = "excess prevalence rate (%) " + name;
 		if (!differencePlot && numbers)
 			yTitle = "number with " + name;
 		if (differencePlot && numbers)
 			yTitle = "excess number with " + name;
-
+		}else
+		{ chartTitle = "Incidece of " + name;
+		 yTitle = "incidence rate (per 100 py) " + name;
+			
+			if (numbers && differencePlot)
+				chartTitle = "Excess new cases of " + name
+						+ " compared to ref scenario";
+			if (!numbers && differencePlot)
+				chartTitle = "Excess incidence of " + name
+						+ " compared to ref scenario";
+			if (numbers && !differencePlot)
+				if (gender == 0)
+					chartTitle = "Number of new male cases of " + name;
+				else if (gender == 1)
+					chartTitle = "Number of new female cases of " + name;
+				else
+					chartTitle = "Number of new cases of " + name;
+			
+			if (differencePlot && !numbers)
+				yTitle = "excess incidence rate (%) " + name;
+			if (!differencePlot && numbers)
+				yTitle = "new cases of " + name;
+			if (differencePlot && numbers)
+				yTitle = "excess new cases of " + name;
+			}
+		
+		
+		
 		JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, "age",
 				yTitle, xyDataset, PlotOrientation.VERTICAL, true, true, false);
 		if (this.output.getMaxAgeInSimulation() == this.output
@@ -2620,8 +2771,7 @@ public class DynamoPlotFactory {
 								* nPopByAge[0][year][age][0]
 								+ this.output.getMeanRiskByAge()[0][year][age][1]
 								* nPopByAge[0][year][age][1];
-						if ((nPopByAge[0][year][age][0]
-								+ nPopByAge[0][year][age][1] )== 0
+						if ((nPopByAge[0][year][age][0] + nPopByAge[0][year][age][1]) == 0
 								&& differencePlot)
 							dataPresent = false;
 						if (dataPresent)
@@ -3104,10 +3254,12 @@ public class DynamoPlotFactory {
 																	 * riskclass
 																	 * together
 																	 */
-		
-		/* NB: getMortality already applies succesrate etc., so no apply succesrates should'
-		 * be used on mortality*/
-		
+
+		/*
+		 * NB: getMortality already applies succesrate etc., so no apply
+		 * succesrates should' be used on mortality
+		 */
+
 		if (mortality != null && year < this.output.getStepsInRun()) {
 			double[][][][] nPopByAge = this.output.getNPopByAge();
 
@@ -3233,6 +3385,7 @@ public class DynamoPlotFactory {
 		} else
 			return makeEmptyPlot();
 	}
+
 	/**
 	 * makes plot of mortality by scenario with age on the x-axis
 	 * 
@@ -3253,17 +3406,18 @@ public class DynamoPlotFactory {
 	 *         separate for men and women
 	 * @return JFreeChart plot of mortality by scenario with age on the x-axis
 	 */
-	public JFreeChart makeAgePopulationNumberPlotByScenario(int year, int gender,
-			int riskClass, boolean differencePlot, 
+	public JFreeChart makeAgePopulationNumberPlotByScenario(int year,
+			int gender, int riskClass, boolean differencePlot,
 			boolean blackAndWhite) {
 
 		XYDataset xyDataset = null;
 
-		double[][][][] population ;
-		if (riskClass<0) population=this.output.getNPopByAge(); else
+		double[][][][] population;
+		if (riskClass < 0)
+			population = this.output.getNPopByAge();
+		else
 			population = this.output.getNPopByAgeForRiskclass(riskClass);
 		if (population != null && year < this.output.getStepsInRun()) {
-			
 
 			XYSeries scenSeries[] = new XYSeries[this.output.getNScen() + 1];
 
@@ -3280,13 +3434,13 @@ public class DynamoPlotFactory {
 				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
 
 					double indat0 = 0;
-					
+
 					double indat1 = 0;
-					
+
 					double indat0r = 0;
-					
+
 					double indat1r = 0;
-					
+
 					/*
 					 * check if mortality is present (next age in dataset)
 					 * mortality=-1 flags absence
@@ -3295,38 +3449,30 @@ public class DynamoPlotFactory {
 							&& population[thisScen][year][age][0] >= 0) {
 
 						indat0 = population[thisScen][year][age][0];
-						
 
 						indat0r = population[0][year][age][0];
-						
+
 					}
 					if (population[0][year][age][1] >= 0
 							&& population[thisScen][year][age][1] >= 0)
 
 					{
 						indat1 = population[thisScen][year][age][1];
-						
-						
-						indat1r = population[0][year][age][1];
 
-						
+						indat1r = population[0][year][age][1];
 
 					}
 					if (gender == 0)
-						addToSeries(differencePlot, true,
-								scenSeries[thisScen], indat0,1,
-								indat0r, 1, age);
+						addToSeries(differencePlot, true, scenSeries[thisScen],
+								indat0, 1, indat0r, 1, age);
 
 					if (gender == 1)
-						addToSeries(differencePlot, true,
-								scenSeries[thisScen], indat1,1,
-								indat1r, 1, age);
+						addToSeries(differencePlot, true, scenSeries[thisScen],
+								indat1, 1, indat1r, 1, age);
 
 					if (gender == 2)
-						addToSeries(differencePlot, true,
-								scenSeries[thisScen], indat0 + indat1,
-								1, indat0r + indat1r,
-								1, age);
+						addToSeries(differencePlot, true, scenSeries[thisScen],
+								indat0 + indat1, 1, indat0r + indat1r, 1, age);
 				}
 
 				if (thisScen == 0)
@@ -3348,12 +3494,12 @@ public class DynamoPlotFactory {
 			if (differencePlot)
 				chartTitle = "excess numbers of in population"
 						+ " compared to ref scenario";
-			
+
 			if (!differencePlot)
 				chartTitle = "number in population ";
 			String yTitle = "numbers in population";
-			
-			if (!differencePlot )
+
+			if (!differencePlot)
 				yTitle = "numbers in population";
 			if (differencePlot)
 				yTitle = "excess number in population";
@@ -3490,6 +3636,30 @@ public class DynamoPlotFactory {
 					generator1.setDaly(scenario, s, cumlifeExp[scenario][s]);
 
 				}
+		
+		if (cumulative == 0)
+			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
+
+				for (int s = 0; s < 2; s++) {
+					cumlifeExp[scenario][s] = 0;
+					for (int a = age; a <= this.output.getMaxAgeInSimulation(); a++) {
+						double ageWeight = 0.5;
+						int yearsLeftcum = this.output.getNDim() - a;
+						for (int steps = 0; steps < yearsLeftcum; steps++) {
+							cumlifeExp[scenario][s] += ageWeight
+									* applySuccesrate(
+											nPopByAge[0][steps][a][s],
+											nPopByAge[scenario][steps][a][s],
+											scenario, 0, a, s);
+							if (steps == 0) {
+								ageWeight = 1;
+							}
+						}
+					}
+
+					generator1.setDaly(scenario, s, cumlifeExp[scenario][s]);
+
+				}
 
 		String[] gender = { "men", "women" };
 		String[] legend = this.output.getScenarioNames();
@@ -3509,14 +3679,15 @@ public class DynamoPlotFactory {
 		// ChartFrame frame1 = new ChartFrame("LifeExpectancy Chart", chart);
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		CategoryAxis domainAxis = plot.getDomainAxis();
-      
+
 		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 12));
 		domainAxis.setCategoryLabelPositionOffset(10);
 		domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
 
-		if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
-		
-	//	domainAxis.setMaximumCategoryLabelWidthRatio(3f);
+		if (this.output.getNScen() > 4)
+			domainAxis.setCategoryMargin(0.1);
+
+		// domainAxis.setMaximumCategoryLabelWidthRatio(3f);
 
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
@@ -3529,54 +3700,54 @@ public class DynamoPlotFactory {
 			renderer.setBaseItemLabelGenerator(generator0);
 		else
 			renderer.setBaseItemLabelGenerator(generator1);
-		
+
 		renderer
 				.setBaseToolTipGenerator(new StandardCategoryToolTipGenerator());
 		/* if it does not fit, no text is shown */
-		if (this.output.getNScen()>9) renderer.setBaseItemLabelFont(new Font("SansSerif", Font.PLAIN, 10));
+		if (this.output.getNScen() > 9)
+			renderer
+					.setBaseItemLabelFont(new Font("SansSerif", Font.PLAIN, 10));
 		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
-				ItemLabelAnchor.CENTER, TextAnchor.CENTER ));/*, TextAnchor.BASELINE_CENTER, /*-Math.PI/2
-	//		0));*/
-	//	renderer.setBaseNegativeItemLabelPosition(new ItemLabelPosition(
-	//			ItemLabelAnchor.CENTER, TextAnchor.CENTER , TextAnchor.CENTER, /*-Math.PI/2
-	//		*/	0));
+				ItemLabelAnchor.CENTER, TextAnchor.CENTER));/*
+															 * ,TextAnchor.
+															 * BASELINE_CENTER,
+															 * /*-Math.PI/2 //
+															 * 0));
+															 */
+		// renderer.setBaseNegativeItemLabelPosition(new ItemLabelPosition(
+		// ItemLabelAnchor.CENTER, TextAnchor.CENTER , TextAnchor.CENTER,
+		// /*-Math.PI/2
+		// */ 0));
 		renderer.setBaseItemLabelsVisible(true);
-		
-		
-		
-	
-		renderer.setSeriesPaint(0, new Color(200, 200, 200)); 
+
+		renderer.setSeriesPaint(0, new Color(200, 200, 200));
 		// renderer.setSeriesPaint(0, Color.gray);
 		// renderer.setSeriesPaint(1, Color.orange);
 		BarRenderer renderer1 = (BarRenderer) ((CategoryPlot) plot)
 				.getRenderer();
 		renderer1.setDrawBarOutline(true);
 
-		
 		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 		renderer1.setItemMargin(0.15);
-		
-		
-		
-		
+
 		GrayPaintScale tint = new GrayPaintScale(1, Math.max(2, this.output
 				.getNScen() + 1));
-		renderer.setSeriesPaint(0, new Color(200, 200, 200)); 
-		
+		renderer.setSeriesPaint(0, new Color(200, 200, 200));
+
 		renderer.setBaseItemLabelPaint(Color.black);
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 			/* RGB with increasing number of red */
-			if (blackAndWhite)
-			{	renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
-			// clear general settings, otherwise it does not work ;
-			
-			renderer.setSeriesItemLabelPaint(scen, Color.black); 
-			
-			if (scen==0 || scen<((this.output.getNScen()+1)/3)) renderer.setSeriesItemLabelPaint(scen, Color.white);}
-			else
+			if (blackAndWhite) {
+				renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
+				// clear general settings, otherwise it does not work ;
+
+				renderer.setSeriesItemLabelPaint(scen, Color.black);
+
+				if (scen == 0 || scen < ((this.output.getNScen() + 1) / 3))
+					renderer.setSeriesItemLabelPaint(scen, Color.white);
+			} else
 				renderer1.setSeriesPaint(scen, new Color(178, 100, scen * 255
 						/ (this.output.getNScen() + 1)));
-			
 
 		// frame1.setVisible(true);
 		// frame1.setSize(300, 300);
@@ -3742,9 +3913,11 @@ public class DynamoPlotFactory {
 			domainAxis.setCategoryLabelPositionOffset(10);
 			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 12));
 
-			if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
-			
-			if (this.output.getNScen()>4) domainAxis.setCategoryMargin(0.1);
+			if (this.output.getNScen() > 4)
+				domainAxis.setCategoryMargin(0.1);
+
+			if (this.output.getNScen() > 4)
+				domainAxis.setCategoryMargin(0.1);
 			/* assign a generator to a CategoryItemRenderer, */
 			CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 			renderer.setBaseOutlinePaint(Color.black);
@@ -3765,14 +3938,15 @@ public class DynamoPlotFactory {
 			BarRenderer renderer1 = (BarRenderer) ((CategoryPlot) plot)
 					.getRenderer();
 			renderer1.setDrawBarOutline(true);
-			renderer.setBaseItemLabelPaint(Color.black); 
+			renderer.setBaseItemLabelPaint(Color.black);
 			for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 				/* RGB with increasing number of red */
-				if (blackAndWhite)
-				{	renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
-				renderer.setSeriesItemLabelPaint(scen, Color.black); 
-				if (scen==0 || scen<((this.output.getNScen()+1)/3)) renderer.setSeriesItemLabelPaint(scen, Color.white);}
-				else
+				if (blackAndWhite) {
+					renderer1.setSeriesPaint(scen, tint.getPaint(scen + 1));
+					renderer.setSeriesItemLabelPaint(scen, Color.black);
+					if (scen == 0 || scen < ((this.output.getNScen() + 1) / 3))
+						renderer.setSeriesItemLabelPaint(scen, Color.white);
+				} else
 					renderer1.setSeriesPaint(scen, new Color(178, 100, scen
 							* 255 / (this.output.getNScen() + 1)));
 
@@ -3891,15 +4065,16 @@ public class DynamoPlotFactory {
 				if (2 * scenario == series || !stacked)
 					outputPopulationDifference = true;
 				if (scenario > 0 && outputPopulationDifference) {
-					int dalyResult=(int) Math.abs(dalys[scenario][category]
-					             									- dalys[0][category]);
+					int dalyResult = (int) Math.abs(dalys[scenario][category]
+							- dalys[0][category]);
 					/* only give 3 significant digits */
-					if (dalyResult>1000) dalyResult=10*Math.round(dalyResult/10);
-					if (dalyResult>10000) dalyResult=100*Math.round(dalyResult/100);
-					if (dalyResult>100000) dalyResult=1000*Math.round(dalyResult/1000);
-					result += " ("
-							+ qualifyer
-							+ dalyResult + ")";
+					if (dalyResult > 1000)
+						dalyResult = 10 * Math.round(dalyResult / 10);
+					if (dalyResult > 10000)
+						dalyResult = 100 * Math.round(dalyResult / 100);
+					if (dalyResult > 100000)
+						dalyResult = 1000 * Math.round(dalyResult / 1000);
+					result += " (" + qualifyer + dalyResult + ")";
 				}
 
 			}
@@ -4108,30 +4283,30 @@ public class DynamoPlotFactory {
 
 			SubCategoryAxis domainAxis = new SubCategoryAxis("");
 			domainAxis.setCategoryMargin(0.2); // gap between men and women:
-			if (this.output.getNScen()>4)domainAxis.setCategoryMargin(0.1);
-			
+			if (this.output.getNScen() > 4)
+				domainAxis.setCategoryMargin(0.1);
+
 			/* sub labels are the scenario names */
 			domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 11));
 			/* put a little more space for the scenario name */
-	        domainAxis.setCategoryLabelPositionOffset(25);
-	        /* put a little more space for the scenario name */
-			
-	     
-	      
-		      
-	       
-	        
-	       
+			domainAxis.setCategoryLabelPositionOffset(25);
+			/* put a little more space for the scenario name */
+
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 				domainAxis
-						.addSubCategory(this.output.getScenarioNames()[scenario]+" ");
-			/* make more room for the scenario labels default=0.3 of axis length) */
+						.addSubCategory(this.output.getScenarioNames()[scenario]
+								+ " ");
+			/*
+			 * make more room for the scenario labels default=0.3 of axis
+			 * length)
+			 */
 			domainAxis.setMaximumCategoryLabelWidthRatio(0.4F);
-			
+
 			domainAxis.setTickLabelFont(new Font("SansSerif", Font.BOLD, 14));
 			CategoryPlot plot = (CategoryPlot) chart.getPlot();
-		// This should work in newer versions of JFREECHART to get the labels visible: 	
-		//plot.setMaximumCategoryLabelWidthRatio(0.4);
+			// This should work in newer versions of JFREECHART to get the
+			// labels visible:
+			// plot.setMaximumCategoryLabelWidthRatio(0.4);
 			AxisSpace space = new AxisSpace();
 			space.setTop(30);/* enough space is needed for the titles */
 			space.setLeft(100);/*
@@ -4400,10 +4575,13 @@ public class DynamoPlotFactory {
 			 * first index is sex, second: 0 = life expectancy, 1= health
 			 * expectancy
 			 */
-			
+
 			double[][] HLE = calculateCohortHealthExpectancy(age, scenario,
 					disease);
 			double[] cumHLE = new double[2];
+			double[] daly = new double[2];
+			if (cumulative == 0)
+				daly = calculateDALY(age,disease,scenario);
 			if (cumulative == 1)
 				cumHLE = calculateCumulativeDalys(age, disease, scenario, HLE);
 			for (int s = 0; s < 2; s++) {
@@ -4412,6 +4590,8 @@ public class DynamoPlotFactory {
 					generator1.setDaly(scenario, s, HLE[s][2]);
 				else if (cumulative == 1)
 					generator1.setDaly(scenario, s, cumHLE[s]);
+				else if (cumulative == 0)
+					generator1.setDaly(scenario, s, daly[s]);
 
 				log.debug("setting DALY for scen " + scenario + " sex " + s
 						+ " to :  " + HLE[s][2]);
@@ -4485,18 +4665,21 @@ public class DynamoPlotFactory {
 		renderer.setSeriesToGroupMap(map);
 
 		SubCategoryAxis domainAxis = new SubCategoryAxis("");
-		
+
 		domainAxis.setCategoryMargin(0.2); // gap between men and women:
-        if (this.output.getNScen()>4)domainAxis.setCategoryMargin(0.1);
-        /* put a little more space for the scenario name */
-        domainAxis.setCategoryLabelPositionOffset(25);
-        /* make more room for the scenario labels default=0.3 of axis length) */
+		if (this.output.getNScen() > 4)
+			domainAxis.setCategoryMargin(0.1);
+		/* put a little more space for the scenario name */
+		domainAxis.setCategoryLabelPositionOffset(25);
+		/* make more room for the scenario labels default=0.3 of axis length) */
 		domainAxis.setMaximumCategoryLabelWidthRatio(0.4F);
 		domainAxis.setSubLabelFont(new Font("SansSerif", Font.PLAIN, 11));
 		domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 14));
-		// add space after scenario name to make room between the axis and the label
+		// add space after scenario name to make room between the axis and the
+		// label
 		for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
-			domainAxis.addSubCategory(this.output.getScenarioNames()[scenario]+" ");
+			domainAxis.addSubCategory(this.output.getScenarioNames()[scenario]
+					+ " ");
 		CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		AxisSpace space = new AxisSpace();
 		space.setTop(30);/* enough space is needed for the titles */
@@ -4544,7 +4727,7 @@ public class DynamoPlotFactory {
 
 		/* next statement for no daly in bars */
 
-		if (cumulative == 0)
+		if (cumulative == 3)
 			renderer.setBaseItemLabelGenerator(generator0);
 		else
 			renderer.setBaseItemLabelGenerator(generator1);
@@ -4569,7 +4752,49 @@ public class DynamoPlotFactory {
 		}
 		return cumHLE;
 	}
+	
+	
+	/**
+	 * @param age
+	 * @param disease
+	 * @param scenario
+	 * 
+	 * @return
+	 */
+	private double[] calculateDALY(int age, int disease,
+			int scenario) {
+		double[] daly = new double[2];
+		Arrays.fill(daly,0);
+		double[][] dataScen=new double[96][2];
+		double[][] dataRef=new double[96][2];
+		if (disease==-2){
+			dataScen = this.output.getDisabilityDALY()[scenario];
+			dataRef = this.output.getDisabilityDALY()[0];
+		    }
+		else if (disease==-1){
+			dataScen = this.output.getTotDiseaseDALY()[scenario];
+			dataRef = this.output.getTotDiseaseDALY()[0];
+		    }
+		else {
+			dataScen = this.output.getDiseaseDALY(disease)[scenario];
+			dataRef = this.output.getDiseaseDALY(disease)[0];
+		    }
+		
+		for (int a=age;a<96;a++)
+			for (int g=0;g<2;g++)
+				daly[g]+=applySuccesrate(dataScen[a][g], dataRef[a][g],scenario,0,a,g)-dataRef[a][g];
+		
+		
+		
+		
+		return daly;
+	}/*
+	this.popDALY[scen][a][s] += this.nPopDALYByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
 
+	disabilityDALY[scen][a][s] += pDALYDisabilityByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
+	totDiseaseDALY[scen][a][s] += pDALYTotalDiseaseByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
+	for (int state = 0; state < this.nDiseaseStates; state++)
+	diseaseStateDALY[*/
 	/**
 	 * calculates the cohort healthy life expectancy
 	 * 

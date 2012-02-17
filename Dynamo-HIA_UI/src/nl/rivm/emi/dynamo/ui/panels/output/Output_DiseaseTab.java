@@ -124,7 +124,8 @@ public class Output_DiseaseTab  {
 		
 
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
-		item.setText("disease plots");
+		// changed item.setText("prevalence plots");
+		item.setText("Prevalence");
 		item.setControl(this.plotComposite);
 		/*item2.addListener(SWT.Selection, new Listener() {
 			

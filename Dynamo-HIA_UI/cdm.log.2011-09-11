@@ -1,0 +1,48 @@
+2011-09-11 15:49:34,875 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-09-11 15:49:37,218 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 15:49:37,218 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 15:49:37,218 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 15:49:52,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2011-09-11 15:49:52,140 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2011-09-11 15:49:52,171 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2011-09-11 15:49:54,406 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
+2011-09-11 15:49:54,468 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
+2011-09-11 15:49:54,515 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
+2011-09-11 15:49:56,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2011-09-11 15:49:58,515 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2011-09-11 16:30:01,546 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-09-11 16:30:03,796 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 16:30:03,796 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 16:30:03,796 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 16:30:17,015 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2011-09-11 17:06:42,843 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-09-11 17:06:43,546 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 17:06:43,546 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 17:06:43,546 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 17:06:56,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2011-09-11 17:06:56,656 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2011-09-11 17:06:56,671 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2011-09-11 17:06:58,515 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
+2011-09-11 17:06:58,593 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
+2011-09-11 17:06:58,625 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
+2011-09-11 17:06:59,843 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2011-09-11 17:07:02,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2011-09-11 20:28:56,484 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-09-11 20:28:58,359 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:28:58,359 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:28:58,359 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:29:10,484 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2011-09-11 20:32:38,578 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-09-11 20:32:39,296 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:32:39,296 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:32:39,296 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-09-11 20:32:49,703 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2011-09-11 20:32:49,781 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2011-09-11 20:32:49,796 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2011-09-11 20:32:51,953 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
+2011-09-11 20:32:52,000 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
+2011-09-11 20:32:52,031 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
+2011-09-11 20:32:53,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2011-09-11 20:32:55,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2011-09-11 20:51:31,250 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Exception caught: java.lang.ArrayIndexOutOfBoundsException with message: 2
+2011-09-11 20:51:47,546 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occured during startup: java.lang.ArrayIndexOutOfBoundsException: 2

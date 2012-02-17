@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 public class InputDataFactory {
 
 	Log log = LogFactory.getLog(getClass().getName());
-
+    int AGE_ARRAYSIZE=96;
 	/**
 	 * Currently implemented structure: see Dynamo-Hia User data document of
 	 * Rene Mondeel version 0.93
@@ -1063,10 +1063,10 @@ public class InputDataFactory {
 		scenarioInfo.setTransitionType(new boolean[scenInfo.size()]);
 		scenarioInfo.setInitialPrevalenceType(new boolean[scenInfo.size()]);
 		scenarioInfo.setZeroTransition(new boolean[scenInfo.size()]);
-		scenarioInfo.setNewPrevalence(new float[scenInfo.size()][96][2][]);
-		scenarioInfo.setNewOffset(new float[scenInfo.size()][96][2]);
-		scenarioInfo.setNewMean(new float[scenInfo.size()][96][2]);
-		scenarioInfo.setNewStd(new float[scenInfo.size()][96][2]);
+		scenarioInfo.setNewPrevalence(new float[scenInfo.size()][AGE_ARRAYSIZE][2][]);
+		scenarioInfo.setNewOffset(new float[scenInfo.size()][AGE_ARRAYSIZE][2]);
+		scenarioInfo.setNewMean(new float[scenInfo.size()][AGE_ARRAYSIZE][2]);
+		scenarioInfo.setNewStd(new float[scenInfo.size()][AGE_ARRAYSIZE][2]);
 		scenarioInfo.setIsNormal(new boolean[scenInfo.size()]);
 		scenarioInfo
 				.setAlternativeTransitionMatrix(new float[scenInfo.size()][][][][]);
@@ -1408,28 +1408,28 @@ public class InputDataFactory {
 		/* first for categorical/compound */
 		//
 		if (this.riskFactorType != 2) {
-			inputData.setPrevRisk(this.factory.manufactureTwoDimArray(
+			inputData.setPrevRisk(takeValueAtNextBirthDay(this.factory.manufactureTwoDimArray(
 					configFileName, "riskfactorprevalences_categorical",
-					"prevalence", "cat", "percent", false));
+					"prevalence", "cat", "percent", false)));
 			scenarioInfo.setOldPrevalence(inputData.getPrevRisk());
 
 		} else {
 
-			inputData.setMeanRisk(this.factory
+			inputData.setMeanRisk(takeValueAtNextBirthDay(this.factory
 					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
 							"riskfactorprevalences_continuous", "prevalences",
-							"prevalence", "mean", true));
-			inputData.setStdDevRisk(this.factory
+							"prevalence", "mean", true)));
+			inputData.setStdDevRisk(takeValueAtNextBirthDay(this.factory
 					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
 							"riskfactorprevalences_continuous", "prevalences",
-							"prevalence", "standarddeviation", true));
-			inputData.setSkewnessRisk(this.factory
+							"prevalence", "standarddeviation", true)));
+			inputData.setSkewnessRisk(takeValueAtNextBirthDay(this.factory
 					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
 							"riskfactorprevalences_continuous", "prevalences",
-							"prevalence", "skewness", true));
+							"prevalence", "skewness", true)));
 			float[][] skewness = inputData.getSkewnessRisk();
 			boolean normal = true;
-			for (int a = 0; a < 96; a++)
+			for (int a = 0; a < AGE_ARRAYSIZE; a++)
 				for (int g = 0; g < 2; g++)
 					if (skewness[a][g] != 0)
 						normal = false;
@@ -1491,9 +1491,9 @@ public class InputDataFactory {
 			nClasses = inputData.getPrevRisk()[0][0].length;
 		else
 			nClasses = 1;
-		float[][][] data3dim = new float[96][2][nClasses];
-		float[][] data2dim = new float[96][2];
-		for (int a = 0; a < 96; a++)
+		float[][][] data3dim = new float[AGE_ARRAYSIZE][2][nClasses];
+		float[][] data2dim = new float[AGE_ARRAYSIZE][2];
+		for (int a = 0; a < AGE_ARRAYSIZE; a++)
 			for (int g = 0; g < 2; g++) {
 				Arrays.fill(data3dim[a][g], 1);
 				data2dim[a][g] = 1;
@@ -1593,9 +1593,9 @@ public class InputDataFactory {
 			DynamoConfigurationException {
 		String configFileName;
 
-		float[][][] data3dim = new float[96][2][1];
-		float[][] data2dim = new float[96][2];
-		for (int a = 0; a < 96; a++)
+		float[][][] data3dim = new float[AGE_ARRAYSIZE][2][1];
+		float[][] data2dim = new float[AGE_ARRAYSIZE][2];
+		for (int a = 0; a < AGE_ARRAYSIZE; a++)
 			for (int g = 0; g < 2; g++) {
 				data3dim[a][g][0] = 1;
 				data2dim[a][g] = 1;
@@ -2244,16 +2244,16 @@ public class InputDataFactory {
 				}
 			}// end loop over rr's
 
-			DiseaseClusterData[][][] clusterData = new DiseaseClusterData[96][2][nClusters];
+			DiseaseClusterData[][][] clusterData = new DiseaseClusterData[AGE_ARRAYSIZE][2][nClusters];
 
 			for (int c = 0; c < nClusters; c++) {
 
-				pData = new float[clusterStructure[c].getNInCluster()][96][2];
-				iData = new float[clusterStructure[c].getNInCluster()][96][2];
-				eData = new float[clusterStructure[c].getNInCluster()][96][2];
-				fData = new float[clusterStructure[c].getNInCluster()][96][2];
-				cData = new float[clusterStructure[c].getNInCluster()][96][2];
-				dData = new float[clusterStructure[c].getNInCluster()][96][2];
+				pData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
+				iData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
+				eData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
+				fData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
+				cData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
+				dData = new float[clusterStructure[c].getNInCluster()][AGE_ARRAYSIZE][2];
 
 				for (int d = 0; d < clusterStructure[c].getNInCluster(); d++) {
 					String thisDisease = clusterStructure[c].getDiseaseName()
@@ -2281,30 +2281,30 @@ public class InputDataFactory {
 									+ thisDisease + File.separator
 									+ incidencesDir + File.separator
 									+ info2.incFileName + ".xml";
-							iData[d] = this.factory.manufactureOneDimArray(
+							iData[d] = takeValueAtNextBirthDay(this.factory.manufactureOneDimArray(
 									configFileName, "diseaseincidences",
-									"incidence", "value", false);
+									"incidence", "value", false));
 							configFileName = this.baseDir + File.separator
 									+ referenceDataDir + File.separator
 									+ diseasesDir + File.separator
 									+ thisDisease + File.separator
 									+ excessMoratalitiesDir + File.separator
 									+ info2.emFileName + ".xml";
-							eData[d] = this.factory
+							eData[d] = takeValueAtNextBirthDay(this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality", "unit",
-											true);
-							fData[d] = this.factory
+											true));
+							fData[d] = takeValueAtNextBirthDay(this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality",
-											"acutelyfatal", true);
-							cData[d] = this.factory
+											"acutelyfatal", true));
+							cData[d] = takeValueAtNextBirthDay(this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality",
-											"curedfraction", true);
+											"curedfraction", true));
 							XMLConfiguration config = null;
 							try {
 								config = new XMLConfiguration(configFileName);
@@ -2358,7 +2358,7 @@ public class InputDataFactory {
 				float[][] RRdisExtended = new float[clusterStructure[c]
 						.getNInCluster()][clusterStructure[c].getNInCluster()];
 
-				for (int a = 0; a < 96; a++)
+				for (int a = 0; a < AGE_ARRAYSIZE; a++)
 					for (int g = 0; g < 2; g++) {
 						/*
 						 * first make RRdis
@@ -2487,9 +2487,9 @@ public class InputDataFactory {
 	 */
 	public float[][] makeExcessRate(float[][] medianSurvival,
 			String diseaseLabel) throws DynamoInconsistentDataException {
-		float[][] rate = new float[96][2];
+		float[][] rate = new float[AGE_ARRAYSIZE][2];
 		double log2 = Math.log(2);
-		double[][] drate = new double[96][2];
+		double[][] drate = new double[AGE_ARRAYSIZE][2];
 		double medianAge;
 		double aaRate;
 		double yearOfMedian;
@@ -2502,7 +2502,7 @@ public class InputDataFactory {
 								+ diseaseLabel
 								+ " is not"
 								+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
-			drate[95][g] = (log2 / medianSurvival[95][g]);
+			drate[95][g] = (log2 / medianSurvival[AGE_ARRAYSIZE-1][g]);
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
 				if (medianSurvival[a][g] == 0)
@@ -2722,6 +2722,38 @@ public class InputDataFactory {
 	public static void setSimPopSize(int simPopSize) {
 		InputDataFactory.simPopSize = simPopSize;
 	}
+	private float[][] takeValueAtNextBirthDay( float[][] inputArray){
+		
+		float[][] returnArray;
+		returnArray= new float [AGE_ARRAYSIZE][2];
+		for(int g=0 ; g<2;g++){
+		for(int a=0 ; a<AGE_ARRAYSIZE-1;a++)
+			
+				returnArray[a][g]=0.5F*(inputArray[a][g]+inputArray[a+1][g]);
+		/* extrapolate the highest age */
+		returnArray[AGE_ARRAYSIZE-1][g]=inputArray[AGE_ARRAYSIZE-1][g];}
+			
+		return returnArray;
+		
+	}
 
+private float[][][] takeValueAtNextBirthDay( float[][][] inputArray){
+		
+		float[][][] returnArray;
+		returnArray= new float [AGE_ARRAYSIZE][2][];
+		
+		for(int g=0 ; g<2;g++){
+		for(int a=0 ; a<AGE_ARRAYSIZE-1;a++){
+			returnArray[a][g]=new float [inputArray[a][g].length];
+			for(int r=0 ; r<inputArray[a][g].length;r++)	
+				returnArray[a][g][r]=0.5F*(inputArray[a][g][r]+inputArray[a+1][g][r]);}
+		/* extrapolate the highest age */
+		returnArray[AGE_ARRAYSIZE-1][g]=new float [inputArray[AGE_ARRAYSIZE-1][g].length];
+		for(int r=0 ; r<inputArray[AGE_ARRAYSIZE-1][g].length;r++)
+			returnArray[AGE_ARRAYSIZE-1][g][r]=inputArray[AGE_ARRAYSIZE-1][g][r];}
+			
+		return returnArray;
+		
+	}
 } // end class
 

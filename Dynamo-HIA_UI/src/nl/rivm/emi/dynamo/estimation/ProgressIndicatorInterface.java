@@ -17,6 +17,8 @@ public interface ProgressIndicatorInterface {
 	 * 
 	 * @return
 	 */
+
+
 	public void update(int percent);
 
 	/**
@@ -24,5 +26,17 @@ public interface ProgressIndicatorInterface {
 	 * @return
 	 */
 	public void dispose();
+
+	
+
+	public void update();
+
+	public boolean isDisposed();
+
+	public int getSelection();
+
+	public void setSelection(int newValue);
+
+	void setIndeterminate(String text);
 
 }

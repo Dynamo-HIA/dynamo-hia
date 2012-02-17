@@ -1,0 +1,72 @@
+2012-02-02 16:31:14,203 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_referencescenario.xml" suppressed: Size: "3790447" larger than current test can endure.
+2012-02-02 16:31:14,203 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_Scenario2.xml" suppressed: Size: "3782262" larger than current test can endure.
+2012-02-02 16:31:14,203 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_Scenario3.xml" suppressed: Size: "3782271" larger than current test can endure.
+2012-02-02 16:31:14,234 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_referencescenario.xml" suppressed: Size: "3790447" larger than current test can endure.
+2012-02-02 16:31:14,234 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_Scenario2.xml" suppressed: Size: "3782262" larger than current test can endure.
+2012-02-02 16:31:14,234 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_Scenario3.xml" suppressed: Size: "3782278" larger than current test can endure.
+2012-02-02 16:31:31,593 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2012-02-02 16:31:37,281 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2012-02-02 16:31:37,281 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2012-02-02 16:31:37,281 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2012-02-02 16:31:37,281 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2012-02-02 16:31:56,343 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2012-02-02 16:31:57,515 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-02 16:31:57,765 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2012-02-02 16:31:58,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-02 16:31:58,765 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2012-02-02 16:31:59,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-02 16:31:59,859 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 3
+2012-02-02 16:32:00,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2012-02-02 16:32:04,484 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-02 16:32:04,484 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 0 pDiseasestate0.22962054731723303
+2012-02-02 16:32:04,484 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-02 16:32:04,484 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 1 pDiseasestate0.13676055450674518
+2012-02-02 16:32:04,484 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-02 16:32:04,500 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 0 state: 2 pDiseasestate0.04859220319436752
+2012-02-02 16:32:04,500 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 0 ptotdisease0.41497330501834573
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 0 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 1 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 0 to: 1 state: 2 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 0 to: 1 ptotdisease0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 0 to: 1 ptotdisease0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 0 pDiseasestate0.5357813090085983
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 0 pDiseasestate0.7654018563258314
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 1 pDiseasestate0.3191079795360565
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 1 pDiseasestate0.4558685340428017
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 0 state: 2 pDiseasestate0.11338181421160698
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 0 state: 2 pDiseasestate0.1619740174059745
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 0 ptotdisease0.9682711027562618
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 0 ptotdisease1.3832444077746076
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 0 pDiseasestate1.3014654517173767
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 0 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 1 pDiseasestate0.39432548359036446
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 1 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 voor  from 1 to: 1 state: 2 pDiseasestate0.4203217290341854
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na     from 1 to: 1 state: 2 pDiseasestate0.0
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen:  voor change0 from 1 to: 1 ptotdisease2.1161126643419266
+2012-02-02 16:32:04,515 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 na change from 1 to: 1 ptotdisease0.0
+2012-02-02 16:32:05,000 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2012-02-02 16:32:05,000 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 TotalnDiseasestate0.13832444325089455
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 0 nDiseasestate76.54018563258313
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 1 nDiseasestate45.58685340428017
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 0 state: 2 nDiseasestate16.19740174059745
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 TotalnDiseasestate0.0
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 0 nDiseasestate0.0
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 1 nDiseasestate0.0
+2012-02-02 16:32:05,015 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - scen: 0 r: 1 state: 2 nDiseasestate0.0
+2012-02-02 16:32:05,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2012-02-02 16:32:05,156 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2012-02-02 16:32:11,281 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2012-02-02 16:32:13,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2012-02-02 16:57:02,296 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_referencescenario.xml" suppressed: Size: "3790447" larger than current test can endure.
+2012-02-02 16:57:02,296 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_Scenario2.xml" suppressed: Size: "3782262" larger than current test can endure.
+2012-02-02 16:57:02,296 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\cohortdata_Scenario3.xml" suppressed: Size: "3782271" larger than current test can endure.
+2012-02-02 16:57:02,296 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_referencescenario.xml" suppressed: Size: "3790447" larger than current test can endure.
+2012-02-02 16:57:02,312 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_Scenario2.xml" suppressed: Size: "3782262" larger than current test can endure.
+2012-02-02 16:57:02,328 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\TestData\Simulations\TestDALY\results\excelcohortdata_Scenario3.xml" suppressed: Size: "3782278" larger than current test can endure.
+2012-02-02 16:57:28,343 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory

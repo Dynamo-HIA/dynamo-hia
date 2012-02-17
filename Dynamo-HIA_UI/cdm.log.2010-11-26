@@ -1,0 +1,844 @@
+2010-11-15 09:42:03,203 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Netherlands\Simulations\minimumWageIncrease\results\excelcohortdata_men_referencescenario.xml" suppressed: Size: "7551982" larger than current test can endure.
+2010-11-15 09:42:03,203 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Netherlands\Simulations\minimumWageIncrease\results\excelcohortdata_men_Scenario1.xml" suppressed: Size: "7451141" larger than current test can endure.
+2010-11-15 09:54:11,468 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Netherlands\Simulations\minimumWageIncrease\results\excelcohortdata_men_referencescenario.xml" suppressed: Size: "7551982" larger than current test can endure.
+2010-11-15 09:54:11,468 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Netherlands\Simulations\minimumWageIncrease\results\excelcohortdata_men_Scenario1.xml" suppressed: Size: "7451141" larger than current test can endure.
+2010-11-26 11:15:49,718 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2010-11-26 11:15:53,343 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:15:53,343 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:15:53,343 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:15:53,343 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,453 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,468 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,484 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,500 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 30 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,515 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 31 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 32 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 33 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:15:57,531 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:36,953 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2010-11-26 11:16:37,765 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:16:37,765 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:16:37,765 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:16:37,765 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:16:40,187 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,203 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 30 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 31 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 32 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 33 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:16:40,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:19,875 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2010-11-26 11:17:20,687 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:17:20,687 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:17:20,687 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:17:20,687 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:17:27,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,218 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,234 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,250 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,265 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 30 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 31 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,281 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 32 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,296 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 33 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,296 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,296 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,296 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:27,296 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:17:38,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2010-11-26 11:17:38,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2010-11-26 11:17:41,906 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2010-11-26 11:17:46,515 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2010-11-26 11:18:27,640 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2010-11-26 11:18:28,578 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:18:28,578 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:18:28,578 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:18:28,578 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 0 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 1 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 2 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 3 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 4 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 5 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,578 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 6 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 7 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 8 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 9 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 10 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 11 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 12 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 13 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,593 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 14 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 15 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 17 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 18 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 19 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 20 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 21 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,609 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 22 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 23 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 24 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 25 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 26 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 27 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 28 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 29 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,625 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 30 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 31 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 32 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stomach_Cancer is not zero for age 33 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2010-11-26 11:18:31,640 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality

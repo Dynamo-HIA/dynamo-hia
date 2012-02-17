@@ -52,9 +52,10 @@ public class Output_WriteOutputTab  {
 	 * but is changed to the directory given by the user
 	 */
 	String currentPath;
+	protected boolean cvsFormat;
 	/**
 	 * @param outputShell
-	 * @param baseDir
+	 * @param data.getBaseDir()
 	 * @param tabfolder
 	 * @param outputFactory
 	 */
@@ -80,10 +81,7 @@ public class Output_WriteOutputTab  {
 		gridLayout.numColumns = 2;
 		UIComposite.setLayout(gridLayout);
 
-		/*
-		 * the composite has two elements: - a column with control elements
-		 * where the user can make choices - a plot area
-		 */
+	
 
 		/* create a composite that contains the control elements */
 
@@ -98,6 +96,7 @@ public class Output_WriteOutputTab  {
 		makeCohortStyleButton(controlComposite);
 		makeGenderOutputButton(controlComposite);
 		makeDiseaseStyleButton(controlComposite);
+		//makeFileFormatButton(controlComposite);
 		Button runButton = new Button(controlComposite, SWT.PUSH);
 		runButton.setText("Write data");
 		/*
@@ -128,6 +127,7 @@ public class Output_WriteOutputTab  {
 				if (canWrite) fd.setFilterPath(Output_WriteOutputTab.this.currentPath
 						);
 				String[] filterExt = { "*.xml" };
+				if (Output_WriteOutputTab.this.cvsFormat)filterExt[0] =  "*.csv" ;
 				fd.setFilterExtensions(filterExt);
 				if (Output_WriteOutputTab.this.cohortStyle)
 					fd.setFileName("excelcohortdata.xml");
@@ -375,9 +375,9 @@ public class Output_WriteOutputTab  {
 
 	/**
 	 * makes a radio group for chosing the style of the output to write: by
-	 * cohort or by year
+	 * disease or diseasestate
 	 * 
-	 * @param controlComposite
+	 * @param controlComposite: parent controlComposite
 	 */
 	private void makeDiseaseStyleButton(Composite controlComposite) {
 		/*
@@ -427,10 +427,10 @@ public class Output_WriteOutputTab  {
 	}
 
 	/**
-	 * makes a radio group for chosing the style of the output to write: by
+	 * makes a radio group for chosing the type of output to write: by
 	 * cohort or by year
 	 * 
-	 * @param controlComposite
+	 * @param controlComposite: parent controlComposite
 	 */
 	private void makeCohortStyleButton(Composite controlComposite) {
 		/*
@@ -445,36 +445,109 @@ public class Output_WriteOutputTab  {
 		// yearButton.setBounds(10,10,20,100);
 
 		Button yearButton = new Button(radiogroup1, SWT.RADIO);
-		yearButton.setText("per year of simulation");
-		yearButton.setSelection(true);
+		yearButton.setText("excel readable XML by year of simulation");
 		
-
+		
+		
+		
 	
 	  yearButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
 					Output_WriteOutputTab.this.cohortStyle=false;
+					Output_WriteOutputTab.this.cvsFormat=false;
 				}
 
 			}
 		}));
 		
 		
-		Button ageButton = new Button(radiogroup1, SWT.RADIO);
-		ageButton.setText("by cohort");
+		Button cohortButton = new Button(radiogroup1, SWT.RADIO);
+		cohortButton.setText("excel readable XML by cohort");
 		// ageButton.setBounds(10,50,20,100);
 		
 		
 		
-		ageButton.addListener(SWT.Selection, (new Listener() {
+		cohortButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
 					Output_WriteOutputTab.this.cohortStyle=true;
+					Output_WriteOutputTab.this.cvsFormat=false;
+				}
+
+			}
+		}));
+		Button csvButton = new Button(radiogroup1, SWT.RADIO);
+		csvButton.setText("CSV (all in one table)");
+		csvButton.setSelection(true);
+		
+		csvButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					Output_WriteOutputTab.this.cvsFormat=true;
+				}
+
+			}
+		}));
+		
+	
+
+	
+	
+}
+
+	/**
+	 * makes a radio group for chosing the output format of the output to write: excel readable XML or csv	
+	 * -- NOT USED -- * 
+	 * @param controlComposite: the parent controlComposite
+	 */
+	private void makeFileFormatButton(Composite controlComposite) {
+		/*
+		 * first radio group
+		 */
+		Group radiogroup1 = new Group(controlComposite, SWT.VERTICAL);
+		// radiogroup.setBounds(10,10,200,150);
+
+		radiogroup1.setText("format of files:");
+		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
+		radiogroup1.setLayout(new RowLayout(SWT.VERTICAL));
+		// yearButton.setBounds(10,10,20,100);
+
+		Button xmlButton = new Button(radiogroup1, SWT.RADIO);
+		xmlButton.setText("excel readable XML");
+		xmlButton.setSelection(true);
+		
+
+	
+	  xmlButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					Output_WriteOutputTab.this.cvsFormat=false;
+				}
+
+			}
+		}));
+		
+		
+		Button csvButton = new Button(radiogroup1, SWT.RADIO);
+		csvButton.setText("CSV");
+		// ageButton.setBounds(10,50,20,100);
+		
+		
+		
+		csvButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					Output_WriteOutputTab.this.cvsFormat=true;
 				}
 
 			}
 		}));
 	}
+
+	
+	
+
 
 	
 

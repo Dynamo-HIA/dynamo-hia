@@ -36,7 +36,7 @@ public class InitialPopulationFactory {
 	private boolean incidenceDebug = true;
 	// private Shell parentShell;
 	private DynSimRunPRInterface dsi = null;
-	//private ProgressBar bar = null;
+	// private ProgressBar bar = null;
 	private ProgressIndicatorInterface progressbar = null;
 	private float[][][][][] prevalenceTransitionMatrix = null;
 	private int riskType = 0;
@@ -63,6 +63,8 @@ public class InitialPopulationFactory {
 	private int nPopulations;
 	private int numberOfTheOneForAllPop;
 	private boolean isAtLeastOneAllForOnePopulation;
+	private boolean hasDalyScenarios;
+	private int[] numberOfDalypopulation;
 	private boolean[][][][] shouldChangeInto;
 	private int individualNumber;
 	private boolean[] isOneForAllPopulation;
@@ -86,18 +88,20 @@ public class InitialPopulationFactory {
 	 * 
 	 */
 	/**
-	 * @param params: modelparameters
-	 * @param scenInfo: scenario Info object
-	 * @throws DynamoInconsistentDataException 
+	 * @param params
+	 *            : modelparameters
+	 * @param scenInfo
+	 *            : scenario Info object
+	 * @throws DynamoInconsistentDataException
 	 */
 	public InitialPopulationFactory(ModelParameters params,
-			
-			ScenarioInfo scenInfo,DynSimRunPRInterface dsi) throws DynamoInconsistentDataException
-	 {
-		
-		initializeInitialPopulationFactory( params,
-				
-				 scenInfo) ;
+
+	ScenarioInfo scenInfo, DynSimRunPRInterface dsi)
+			throws DynamoInconsistentDataException {
+
+		initializeInitialPopulationFactory(params,
+
+		scenInfo);
 		// this.parentShell = shell;
 		this.dsi = dsi;
 	}
@@ -211,11 +215,11 @@ public class InitialPopulationFactory {
 	 * @param scenarioInfo
 	 *            ; object with scenario information
 	 * @return
-	 * @throws DynamoInconsistentDataException 
+	 * @throws DynamoInconsistentDataException
 	 */
 	public void initializeInitialPopulationFactory(ModelParameters params,
-			
-			ScenarioInfo scenInfo) throws DynamoInconsistentDataException {
+
+	ScenarioInfo scenInfo) throws DynamoInconsistentDataException {
 
 		/*
 		 * at this moment:
@@ -226,6 +230,7 @@ public class InitialPopulationFactory {
 		/* Make some indexes that are needed */
 		this.parameters = params;
 		this.scenarioInfo = scenInfo;
+		
 		this.numberOfElements = getNumberOfDiseaseStateElements(parameters);
 		/* in case of debugging, more elements are needed */
 		if (this.incidenceDebug)
@@ -264,8 +269,10 @@ public class InitialPopulationFactory {
 		 * population is manufactured (the "one-for-all" population), containing
 		 * all subjects that are potentially changed under each scenario.
 		 */
-
+		
 		this.nPopulations = scenarioInfo.getNPopulations();
+		/* added 11-2011 */
+		this.hasDalyScenarios = scenInfo.hasDalyScenarios();
 		/*
 		 * numberOfOneForAllPop = the number of the population that contains the
 		 * one for all scenario
@@ -293,7 +300,7 @@ public class InitialPopulationFactory {
 		if (agemax > 95)
 			agemax = 95;
 		int agemin = scenarioInfo.getMinSimAge();
-		
+
 		if (isAtLeastOneAllForOnePopulation) {
 			int nCat = parameters.getPrevRisk()[0][0].length;
 			float[] RR = new float[nCat];
@@ -344,8 +351,10 @@ public class InitialPopulationFactory {
 	}
 
 	/**
-	 * @param agemin; 0 for newborns
-	 * @param agemax; 0 for newborns
+	 * @param agemin
+	 *            ; 0 for newborns
+	 * @param agemax
+	 *            ; 0 for newborns
 	 * @param gmin
 	 *            : minimum gender index (0 or 1)
 	 * @param gmax
@@ -376,7 +385,7 @@ public class InitialPopulationFactory {
 		int[] cumulativeNSimPerDurationClass;
 		float[] rest;
 		float[] restDuration;
-		int currentRiskValue = 0;
+		
 		/* this is the number of the Individual */
 		/*
 		 * as newborns are created separately, they have negative numbers,
@@ -387,16 +396,13 @@ public class InitialPopulationFactory {
 			DynamoLib.getInstance(nSim);
 		for (int a = agemin; a <= agemax; a++)
 			for (int g = gmin; g <= gmax; g++) {
-				
-/* start with copying the needed info from the parameter object into fields in this class;
- * This aims to speed up the program as they do not need to be repeatedly looked up 
- */
-				 extractDiseaseDataForThisAgeSexGroup( a, g);
-     if (a==60)
-     {
-    	 int stop=0;
-    	 stop++;
-     }
+
+				/*
+				 * start with copying the needed info from the parameter object
+				 * into fields in this class; This aims to speed up the program
+				 * as they do not need to be repeatedly looked up
+				 */
+				extractDiseaseDataForThisAgeSexGroup(a, g);
 				/*
 				 * calculate first the numbers that will be in each riskfactor
 				 * class. See the document "description of calculations" on
@@ -404,9 +410,11 @@ public class InitialPopulationFactory {
 				 * the method used
 				 */
 				nSimNew[a][g] = nSim;
-			/*	if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
-
-					updateProgressBar(); */
+				/*
+				 * if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
+				 * 
+				 * updateProgressBar();
+				 */
 
 				// calculate the number of persons in each risk factor class
 				cumulativeNSimPerClass = new int[nClasses];
@@ -427,10 +435,11 @@ public class InitialPopulationFactory {
 								* nSimNew[a][g]);
 						/*
 						 * if zero case in a class, add a person to the
-						 * simulated population, in case such persons exist in the population
+						 * simulated population, in case such persons exist in
+						 * the population
 						 */
-						if (nSimPerClass[c] == 0 && parameters
-								.getPrevRisk()[a][g][c]>0 ) {
+						if (nSimPerClass[c] == 0
+								&& parameters.getPrevRisk()[a][g][c] > 0) {
 							nSimPerClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -506,12 +515,11 @@ public class InitialPopulationFactory {
 								* nSimNew[a][g]);
 						/*
 						 * if zero case in a class, add a person to the
-						 * simulated population
-						 * but not if such persons do not exist in the population
-						 * 
+						 * simulated population but not if such persons do not
+						 * exist in the population
 						 */
-						if (nSimPerClass[c] == 0 && parameters
-								.getPrevRisk()[a][g][c]>0) {
+						if (nSimPerClass[c] == 0
+								&& parameters.getPrevRisk()[a][g][c] > 0) {
 							nSimPerClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -567,16 +575,18 @@ public class InitialPopulationFactory {
 					}
 
 					;
-          
+
 					for (c = 0; c < nDuurClasses[a][g]; c++) {
 						nSimPerDurationClass[c] = (int) Math.floor(parameters
 								.getDuurFreq()[a][g][c]
 								* nSimPerClass[parameters.getDurationClass()]);
-						/* if no cases in duration class, add an extra case
-						 * in case such persons exist */
-						if (nSimPerDurationClass[c] == 0 &&  nSimPerClass[parameters.getDurationClass()]>0
-								&& parameters
-								.getDuurFreq()[a][g][c]>0) {
+						/*
+						 * if no cases in duration class, add an extra case in
+						 * case such persons exist
+						 */
+						if (nSimPerDurationClass[c] == 0
+								&& nSimPerClass[parameters.getDurationClass()] > 0
+								&& parameters.getDuurFreq()[a][g][c] > 0) {
 							nSimPerDurationClass[c] = 1;
 							nSimNew[a][g]++;
 
@@ -610,7 +620,8 @@ public class InitialPopulationFactory {
 					 * durations would not have been present), adjust the arrays
 					 * for the overall classes
 					 */
-					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1]> nSimPerClass[parameters.getDurationClass()]) {
+					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1] > nSimPerClass[parameters
+							.getDurationClass()]) {
 						nSimPerClass[parameters.getDurationClass()] = cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1];
 						for (c = 0; c < nClasses; c++) {
 
@@ -655,18 +666,19 @@ public class InitialPopulationFactory {
 				 * give the maximum number of times that they will be updated.
 				 * This is given by the variable stepsInSimulation
 				 */
-
+				int currentRiskValue = 0;
 				int stepsInSimulation = 105 - a;
 				if (newborns)
 					stepsInSimulation = scenarioInfo.getYearsInRun();
 
 				/* for newborns repeat this for all generations */
 				for (int generation = generationMin; generation <= generationMax; generation++) {
-		/*			if (Math.abs(Math.round(generation / 10)
-							- ((float) generation) / 10) < 0.01
-							&& g == 1)
-
-						updateProgressBar(); */
+					/*
+					 * if (Math.abs(Math.round(generation / 10) - ((float)
+					 * generation) / 10) < 0.01 && g == 1)
+					 * 
+					 * updateProgressBar();
+					 */
 					for (int i = 0; i < nSimNew[a][g]; i++) {
 						/*
 						 * werktte niet omdat Class Individual protected;
@@ -683,6 +695,7 @@ public class InitialPopulationFactory {
 							individualNumber++;
 						Individual currentIndividual = new Individual("scen0",
 								"ind_" + individualNumber + "_ref");
+						Individual currentIndividualS=null; /* to be used in the scenario-populations */
 
 						/*
 						 * rand2.random returns an integer, while we need a long
@@ -803,8 +816,8 @@ public class InitialPopulationFactory {
 						if (parameters.getRiskType() == 3) {
 							if (flagForRandomlyAdded)
 								currentDurationValue = DynamoLib.draw(
-										parameters.getDuurFreq(a,g), rand);
-							
+										parameters.getDuurFreq(a, g), rand);
+
 							else {
 								int relativeI;
 								if (currentRiskValue == parameters
@@ -861,7 +874,10 @@ public class InitialPopulationFactory {
 
 						initialPopulation[0].addIndividual(currentIndividual);
 
-						/* ******************************************************************************************/
+						/*
+						 * ******************************************************
+						 * ***********************************
+						 */
 
 						/*
 						 * GENERATION OF SCENARIO POPULATIONS
@@ -877,6 +893,9 @@ public class InitialPopulationFactory {
 						 * 
 						 * 3.- same initial prevalence: just copy reference
 						 * population
+						 * 
+						 * 4. - daly scenarios: just copy reference population,
+						 * but with different label, and different health status for newborns
 						 * 
 						 * 3. is done in a separate loop (not for this
 						 * individual).
@@ -911,20 +930,23 @@ public class InitialPopulationFactory {
 						 * only 2 populations, this means no such situation
 						 * exists and than this part can be skipped)
 						 */
-
+						int newRiskValue = -1;
+						float newDurationValue=-1;
+						float newRiskFactorValue=-1;
 						int currentscen = 0;
 						int currentpop = 1; // population 0 is the reference
 						// population
 						boolean moreScenarios = true;
-						if (isAtLeastOneAllForOnePopulation
-								&& nPopulations == 2)
+						if ((isAtLeastOneAllForOnePopulation && nPopulations == 2)
+								|| (isAtLeastOneAllForOnePopulation
+										&& nPopulations == 3 && this.hasDalyScenarios))
 							moreScenarios = false;
 
 						while ((currentpop < nPopulations) && moreScenarios) {
 
 							/*
 							 * look for next scenario that has an different
-							 * initial prevalence (intialprevalencetype) and is
+							 * initial prevalence (initialprevalencetype) and is
 							 * not an all for One Population type
 							 */
 							boolean found = false;
@@ -996,17 +1018,22 @@ public class InitialPopulationFactory {
 							 */
 
 							if (moreScenarios) {
-								currentIndividual = new Individual("scen"
+									
+								String riskFactorLevel="";
+								if (riskType==1) riskFactorLevel=Float.toString(currentRiskValue);
+								if (riskType==2) riskFactorLevel=Float.toString(riskFactorValue);
+								if (riskType==3) riskFactorLevel=Float.toString(currentRiskValue)+"_"+Float.toString(currentDurationValue);
+								currentIndividualS = new Individual("scen"
 										+ (currentscen + 1), "ind_"
 										+ individualNumber + "_"
-										+ currentRiskValue + "_" + currentpop);
-								currentIndividual
+										+ riskFactorLevel + "_" + currentpop);
+								currentIndividualS
 										.setRandomNumberGeneratorSeed(seed2);
-								currentIndividual.luxeSet(1,
+								currentIndividualS.luxeSet(1,
 										new FloatCharacteristicValue(
 												stepsInSimulation, 1,
 												(float) agestart));
-								currentIndividual.luxeSet(2,
+								currentIndividualS.luxeSet(2,
 										new IntCharacteristicValue(
 												stepsInSimulation, 2, g));
 
@@ -1016,18 +1043,19 @@ public class InitialPopulationFactory {
 								 * maintains his/her old ranking in the
 								 * population
 								 */
+
 								if (parameters.getRiskType() == 2) {
 									if (scenarioInfo.getIsNormal()[currentscen])
-										riskFactorValue = scenarioInfo
-												.getNewMean()[currentscen][a][g] + scenarioInfo
-												.getNewStd()[currentscen][a][g]
+										newRiskFactorValue = scenarioInfo
+												.getNewMean()[currentscen][a][g]
+												+ scenarioInfo.getNewStd()[currentscen][a][g]
 
 												* (float) DynamoLib
 														.normInv((i + 0.5)
 																/ nSim);
 									// simulate equi-probable points
 									else {
-										riskFactorValue = (float) scenarioInfo
+										newRiskFactorValue = (float) scenarioInfo
 												.getNewOffset()[currentscen][a][g]
 												+ (float) Math
 														.exp(scenarioInfo
@@ -1041,10 +1069,10 @@ public class InitialPopulationFactory {
 
 									}
 
-									currentIndividual.luxeSet(3,
+									currentIndividualS.luxeSet(3,
 											new FloatCharacteristicValue(
 													stepsInSimulation, 3,
-													riskFactorValue));
+													newRiskFactorValue));
 
 								}
 
@@ -1067,35 +1095,32 @@ public class InitialPopulationFactory {
 									 */
 
 									rand3.setSeed(seed2 + 5);
-
-									currentIndividual
+									newRiskValue = DynamoLib.draw(
+											trans[currentRiskValue], rand3);
+									currentIndividualS
 											.add(new IntCharacteristicValue(
-													stepsInSimulation,
-													3,
-													DynamoLib
-															.draw(
-																	trans[currentRiskValue],
-																	rand3)));
+													stepsInSimulation, 3,
+													newRiskValue));
 
 								}
 								// if compound riskfactor */
 
 								if (parameters.getRiskType() == 3) {
-									float newDuration = currentDurationValue;
+									newDurationValue = currentDurationValue;
 									/*
 									 * if the new value is the duration-class
 									 * value, make the duration zero
 									 */
-									if ((int) (Integer) currentIndividual
+									if ((int) (Integer) currentIndividualS
 											.get(3).getValue(0) == scenarioInfo
 											.getIndexDurationClass()
 											&& currentRiskValue != scenarioInfo
 													.getIndexDurationClass())
-										newDuration = 0;
-									currentIndividual.luxeSet(4,
+										newDurationValue = 0;
+									currentIndividualS.luxeSet(4,
 											new FloatCharacteristicValue(
 													stepsInSimulation, 4,
-													newDuration));
+													newDurationValue));
 								}
 
 								/*
@@ -1109,20 +1134,50 @@ public class InitialPopulationFactory {
 								if (newborns || a == 0)
 
 									CharValues = calculateDiseaseStates(
-											parameters, currentRiskValue, a, g,
-											riskFactorValue,
-											currentDurationValue);
+											parameters, newRiskValue, a, g,
+											newRiskFactorValue,
+											newDurationValue);
 
-								currentIndividual.luxeSet(characteristicIndex,
+								currentIndividualS.luxeSet(characteristicIndex,
 										new CompoundCharacteristicValue(
 												stepsInSimulation,
 												characteristicIndex,
 												numberOfElements, CharValues));
 
 								initialPopulation[currentpop]
-										.addIndividual(currentIndividual);
+										.addIndividual(currentIndividualS);
+
+								/* also add the daly-scenarios */
+								/* daly is een copy van het referentiescenario with the exception of the health state of newborns */
+								
+									if (this.scenarioInfo.getNumberOfDalyPopForThisScenario() [currentscen]>-1) {
+									Individual dalyIndividual=deepCopy(currentIndividual);
+									if (newborns || a == 0)
+										dalyIndividual.luxeSet(characteristicIndex,
+												new CompoundCharacteristicValue(
+														stepsInSimulation,
+														characteristicIndex,
+														numberOfElements, CharValues));
+
+										
+										
+									String riskLabel="";
+								
+									if (riskType==1||riskType==3) riskLabel= Integer.toString(newRiskValue);
+									if (riskType==2) riskLabel=Float.toString(newRiskFactorValue);
+									/* durations needs no labeling, as it is always zero after change */
+								//	if (riskType==3) riskLabel=Integer.toString(newRiskValue)+"_dur_"+ Float.toString(newDurationValue);
+									
+									setLabelDalyIndividual(dalyIndividual,riskLabel);
+									initialPopulation[this.scenarioInfo.getNumberOfDalyPopForThisScenario() [currentscen]]
+														.addIndividual(dalyIndividual);
+								}
+								
+			
+
 								currentscen++;
 								currentpop++;
+
 							}
 						} // end loop over populations of this individual
 
@@ -1135,6 +1190,8 @@ public class InitialPopulationFactory {
 						 */
 
 						/*
+						 * 
+						 * 
 						 * for categorical covariates, but not for newborns and
 						 * 0 year old (=newborns in the existing population) as
 						 * the latter will start "clean", that is without having
@@ -1152,22 +1209,22 @@ public class InitialPopulationFactory {
 								&& !newborns) {
 							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividual = new Individual("scen"
+									currentIndividualS = new Individual("scen"
 											+ numberOfTheOneForAllPop, "ind_"
 											+ individualNumber + "_"
 											+ currentRiskValue + "_" + r);
-									currentIndividual
+									currentIndividualS
 											.setRandomNumberGeneratorSeed(seed2);
-									currentIndividual.luxeSet(1,
+									currentIndividualS.luxeSet(1,
 											new FloatCharacteristicValue(
 													stepsInSimulation, 1,
 													(float) agestart));
-									currentIndividual.luxeSet(2,
+									currentIndividualS.luxeSet(2,
 											new IntCharacteristicValue(
 													stepsInSimulation, 2, g));
 									if (parameters.getRiskType() == 1
 											|| parameters.getRiskType() == 3)
-										currentIndividual
+										currentIndividualS
 												.luxeSet(
 														3,
 														new IntCharacteristicValue(
@@ -1178,7 +1235,7 @@ public class InitialPopulationFactory {
 									// other categories
 									characteristicIndex = 4;
 									if (parameters.getRiskType() == 3) {
-										currentIndividual
+										currentIndividualS
 												.luxeSet(
 														4,
 														new FloatCharacteristicValue(
@@ -1202,15 +1259,50 @@ public class InitialPopulationFactory {
 												a, g, riskFactorValue,
 												currentDurationValue);
 
-									currentIndividual.luxeSet(
+									currentIndividualS.luxeSet(
 											characteristicIndex,
 											new CompoundCharacteristicValue(
 													stepsInSimulation,
 													characteristicIndex,
 													numberOfElements,
 													CharValues));
+									
+									
 									initialPopulation[numberOfTheOneForAllPop]
-											.addIndividual(currentIndividual);
+											.addIndividual(currentIndividualS);
+									
+									
+									
+									
+									/* also add the daly-scenarios */
+									/* daly is een copy van the one for all
+									 * but all riskfactors back to the reference value 
+									  */
+									if (this.scenarioInfo.getFirstOneForAllDalyPop()>-1) {
+										Individual dalyIndividual=deepCopy(currentIndividualS);
+										
+										dalyIndividual
+										.luxeSet(
+												3,
+												new IntCharacteristicValue(
+														stepsInSimulation,
+														3, currentRiskValue));
+										if (riskType==3) dalyIndividual
+										.luxeSet(
+												4,
+												new FloatCharacteristicValue(
+														stepsInSimulation,
+														4, currentDurationValue));
+											
+										String riskLabel="";
+										/* durations needs no labeling, as it is always zero after change */
+										if (riskType==1) riskLabel= Integer.toString(r);
+										setLabelDalyIndividual(dalyIndividual,riskLabel);
+									
+										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]
+															.addIndividual(dalyIndividual);
+										// end daly addition
+									}
 								}
 							}
 
@@ -1224,22 +1316,22 @@ public class InitialPopulationFactory {
 
 							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
 								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividual = new Individual("scen"
+									currentIndividualS = new Individual("scen"
 											+ numberOfTheOneForAllPop, "ind_"
 											+ individualNumber + "_"
 											+ currentRiskValue + "_" + r);
-									currentIndividual
+									currentIndividualS
 											.setRandomNumberGeneratorSeed(seed2);
-									currentIndividual.luxeSet(1,
+									currentIndividualS.luxeSet(1,
 											new FloatCharacteristicValue(
 													stepsInSimulation, 1,
 													agestart));
-									currentIndividual.luxeSet(2,
+									currentIndividualS.luxeSet(2,
 											new IntCharacteristicValue(
 													stepsInSimulation, 2, g));
 									if (parameters.getRiskType() == 1
 											|| parameters.getRiskType() == 3)
-										currentIndividual
+										currentIndividualS
 												.luxeSet(
 														3,
 														new IntCharacteristicValue(
@@ -1250,7 +1342,7 @@ public class InitialPopulationFactory {
 									// other categories
 									characteristicIndex = 4;
 									if (parameters.getRiskType() == 3) {
-										currentIndividual
+										currentIndividualS
 												.luxeSet(
 														4,
 														new FloatCharacteristicValue(
@@ -1273,7 +1365,7 @@ public class InitialPopulationFactory {
 												parameters, r, a, g,
 												riskFactorValue,
 												currentDurationValue);
-									currentIndividual.luxeSet(
+									currentIndividualS.luxeSet(
 											characteristicIndex,
 											new CompoundCharacteristicValue(
 													stepsInSimulation,
@@ -1281,13 +1373,38 @@ public class InitialPopulationFactory {
 													numberOfElements,
 													CharValues));
 									initialPopulation[numberOfTheOneForAllPop]
-											.addIndividual(currentIndividual);
-								}
+											.addIndividual(currentIndividualS);
+									
+									// add daly individual: this starts with having  reference values 
+									
+									if (this.scenarioInfo.getFirstOneForAllDalyPop()>-1) {
+										Individual dalyIndividual=deepCopy(currentIndividualS);
+										
+										dalyIndividual
+										.luxeSet(
+												3,
+												new IntCharacteristicValue(
+														stepsInSimulation,
+														3, currentRiskValue));
+										if (riskType==3) dalyIndividual
+										.luxeSet(
+												4,
+												new FloatCharacteristicValue(
+														stepsInSimulation,
+														4, currentDurationValue));
+											
+										String riskLabel="";
+										if (riskType==1) riskLabel= Integer.toString(r);
+										setLabelDalyIndividual(dalyIndividual,riskLabel);
+									
+										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]
+															.addIndividual(dalyIndividual);
+									}
 							}
 					}
 				}// end sim loop
 				;
-
+				}
 			}
 		// end age and sex group
 
@@ -1302,18 +1419,39 @@ public class InitialPopulationFactory {
 				|| !(isAtLeastOneAllForOnePopulation && nPopulations == 2)) {
 
 			for (int i1 = 1; i1 < nPopulations; i1++) {
-				int scenNum=scenarioInfo.getPopToScenIndex()[i1];
+				int scenNum = scenarioInfo.getPopToScenIndex()[i1];
 				if (!scenarioInfo.getInitialPrevalenceType()[scenNum]
 						&& !isOneForAllPopulation[scenNum]) {
-					initialPopulation[i1 ] = deepCopy(initialPopulation[0]);
+					initialPopulation[i1] = deepCopy(initialPopulation[0]);
 
 				}
 
 			}
 		}
-	/*	if (newborns || !scenarioInfo.isWithNewBorns())
-			closeProgressBar(); */
+		/*
+		 * if (newborns || !scenarioInfo.isWithNewBorns()) closeProgressBar();
+		 */
 		return initialPopulation;
+	}
+
+	private void setLabelDalyIndividual(Individual dalyIndividual, String riskLabel) {
+
+/* for the one for all population, elements [2] and [3] (=3e+4e)  are used for indicating to and from; here we use 4 and 5 (duration) for the daly info */
+		
+		String oldLabel=dalyIndividual.getLabel();
+		
+		 String label = "DALY"; 
+		 /* split at the place of the  underscore 			 */
+		 /* elements are: "ind", indno, currentriskfactor, duration or to (optional), popnumber */
+		 /* for the reference individual continuous risk factor it is only ind, indno en ref */
+		 String delims="_";
+		 String[] tokens = oldLabel.split(delims);
+		 if (tokens[2].equalsIgnoreCase("ref")) label+=tokens[0] + "_"+tokens[1] + "_"+"DALY" + "_"+"cont" + "_";
+			/* put together again */
+		 else for (int i = 0; i < 4; i++){
+			 label += tokens[i] + "_";		}	
+			 label += riskLabel;
+			 dalyIndividual.setLabel(label);
 	}
 
 	private float[][] getPrevalenceTransitionMatrix(int currentscen, int a,
@@ -1400,6 +1538,45 @@ public class InitialPopulationFactory {
 
 		return copy;
 	}
+	
+	
+	private Individual deepCopy(Individual individual) {
+
+		
+		 
+			String label = individual.getLabel();
+			String elementName = individual.getElementName();
+			
+			Individual copy = new Individual(elementName, label);
+			copy.setRandomNumberGeneratorSeed(individual
+					.getRandomNumberGeneratorSeed());
+			copy.luxeSet(1,
+					deepCopy((FloatCharacteristicValue) individual.get(1)));
+			copy.luxeSet(2,
+					deepCopy((IntCharacteristicValue) individual.get(2)));
+			if (this.riskType == 2)
+				copy.luxeSet(3,
+						deepCopy((FloatCharacteristicValue) individual.get(3)));
+			if (this.riskType != 2)
+				copy.luxeSet(3,
+						deepCopy((IntCharacteristicValue) individual.get(3)));
+			int lastIndex = 4;
+			if (this.riskType == 3) {
+				copy.luxeSet(4,
+						deepCopy((FloatCharacteristicValue) individual.get(4)));
+				lastIndex = 5;
+			}
+			copy.luxeSet(lastIndex,
+					deepCopy((CompoundCharacteristicValue) individual
+							.get(lastIndex)));
+			
+		
+
+		return copy;
+	}
+	
+	
+	
 
 	private FloatCharacteristicValue deepCopy(FloatCharacteristicValue original) {
 		float[] rijtje = original.getRijtje();
@@ -1444,10 +1621,10 @@ public class InitialPopulationFactory {
 			float currentDurationValue) {
 
 		float[] CharValues = new float[numberOfElements];
-if (a==36){
-	int stop=0;
-	stop++;
-}
+		if (a == 36) {
+			int stop = 0;
+			stop++;
+		}
 		int elementIndex = 0;
 		for (int cluster = 0; cluster < parameters.getNCluster(); cluster++) {
 
@@ -1457,7 +1634,7 @@ if (a==36){
 			 */
 			double[] logitDisease = new double[parameters.getClusterStructure()[cluster]
 					.getNInCluster()];
-			float[]relativeRisksCont=parameters.getRelRiskContinue(a,g);
+			float[] relativeRisksCont = parameters.getRelRiskContinue(a, g);
 			for (int d = 0; d < parameters.getClusterStructure()[cluster]
 					.getNInCluster(); d++) {
 
@@ -1470,7 +1647,7 @@ if (a==36){
 				// onafhankelijkheden
 				int dnumber = parameters.getClusterStructure()[cluster]
 						.getDiseaseNumber()[d];
-				
+
 				/* only needed if disease is present */
 				if (baselineOdds[dnumber] != 0)
 
@@ -1480,24 +1657,18 @@ if (a==36){
 						logitDisease[d] += Math
 								.log(relativeRisksCat[currentRiskValue][dnumber]);
 					if (parameters.getRiskType() == 2)
-						logitDisease[d] += Math
-								.log(Math
-										.pow(
-												relativeRisksCont[dnumber],
-												riskFactorValue
-														- parameters
-																.getRefClassCont()));
+						logitDisease[d] += Math.log(Math.pow(
+								relativeRisksCont[dnumber], riskFactorValue
+										- parameters.getRefClassCont()));
 					if (parameters.getRiskType() == 3) {
 						if (currentRiskValue != parameters.getDurationClass())
 							logitDisease[d] += Math
 									.log(relativeRisksCat[currentRiskValue][dnumber]);
 						else
 							logitDisease[d] += Math
-									.log((relRiskDuurBegin[dnumber] - 
-											relRiskDuurEnd[dnumber])
-											* Math
-													.exp(-currentDurationValue
-															* alphaDuur[dnumber])
+									.log((relRiskDuurBegin[dnumber] - relRiskDuurEnd[dnumber])
+											* Math.exp(-currentDurationValue
+													* alphaDuur[dnumber])
 											+ relRiskDuurEnd[dnumber]);
 					}
 				}
@@ -1573,7 +1744,7 @@ if (a==36){
 											.getNInCluster(); d2++) {
 										if ((combi & (1 << d2)) == (1 << d2)) {
 
-											logitCurrent += Math 
+											logitCurrent += Math
 													.log(RRdiseaseOnDisease[cluster][d2][d1]);
 										}
 										probCurrent = 1 / (1 + Math
@@ -1661,16 +1832,14 @@ if (a==36){
 		return CharValues;
 	}
 
-	private void extractDiseaseDataForThisAgeSexGroup(
-			 int a, int g) {
-		baselineOdds=parameters.getBaselinePrevalenceOdds(a,g);
-		 relativeRisksCat=parameters.getRelRiskClass(a,g);
-		 relativeRisksCont=parameters.getRelRiskContinue(a,g);
-		 relRiskDuurBegin=parameters.getRelRiskDuurBegin(a,g);
-		 relRiskDuurEnd=parameters.getRelRiskDuurEnd(a,g);
-		 alphaDuur=parameters.getAlphaDuur(a,g);
-		 RRdiseaseOnDisease=parameters
-			.getRelRiskDiseaseOnDisease(a,g);
+	private void extractDiseaseDataForThisAgeSexGroup(int a, int g) {
+		baselineOdds = parameters.getBaselinePrevalenceOdds(a, g);
+		relativeRisksCat = parameters.getRelRiskClass(a, g);
+		relativeRisksCont = parameters.getRelRiskContinue(a, g);
+		relRiskDuurBegin = parameters.getRelRiskDuurBegin(a, g);
+		relRiskDuurEnd = parameters.getRelRiskDuurEnd(a, g);
+		alphaDuur = parameters.getAlphaDuur(a, g);
+		RRdiseaseOnDisease = parameters.getRelRiskDiseaseOnDisease(a, g);
 	}
 
 	/**
@@ -1756,7 +1925,6 @@ if (a==36){
 		// this.bar.setSelection(0);
 		progressbar.update(0);
 	}
-
 
 	public void updateProgressBar() {
 

@@ -12,6 +12,7 @@ import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.Display;
 
 public class LoggingDynSimRunPR implements DynSimRunPRInterface {
 Log log = LogFactory.getLog(this.getClass().getSimpleName());
@@ -80,5 +81,23 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 				+ ". ");
     e.printStackTrace();
 		
+	}
+
+	@Override
+	public void updateProgressIndicator() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RCPProgressBar getBar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Display getDisplay() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

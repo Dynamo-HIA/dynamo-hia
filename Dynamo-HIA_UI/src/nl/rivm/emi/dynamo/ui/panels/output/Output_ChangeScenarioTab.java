@@ -63,7 +63,7 @@ public class Output_ChangeScenarioTab {
 		heading1.setLayoutData(data1);
 		
 		Label heading2 = new Label(tabComposite, SWT.NONE);
-		heading2.setText("Succes rate:");
+		heading2.setText("% of Population Reached:");
 		GridData data2 = new GridData();
 		// data2.widthHint = 60;
 		data2.horizontalSpan = 2;

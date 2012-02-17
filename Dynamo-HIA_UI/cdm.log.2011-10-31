@@ -1,0 +1,135 @@
+2011-10-31 15:07:22,341 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,482 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,497 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,497 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,497 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,497 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:25,497 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:07:44,466 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,466 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Colorectal_Cancer is zero for age 15 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2011-10-31 15:07:44,466 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,466 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,482 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,497 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,497 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,513 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,513 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:07:44,575 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -0.0011085336172031576 for person  2 for riskclass 2 and for riskfactor 0.0 age: 70 sex: 1
+2011-10-31 15:07:44,591 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -3.178819904019487E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 71 sex: 1
+2011-10-31 15:07:44,591 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -4.6608580033109717E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 72 sex: 1
+2011-10-31 15:07:44,591 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -7.242257020024434E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 73 sex: 1
+2011-10-31 15:14:07,464 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:08,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:14:24,870 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,870 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Colorectal_Cancer is zero for age 15 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2011-10-31 15:14:24,870 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,870 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,870 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,901 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,901 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,901 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,901 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:14:24,979 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -0.0011085336172031576 for person  2 for riskclass 2 and for riskfactor 0.0 age: 70 sex: 1
+2011-10-31 15:14:24,979 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -3.178819904019487E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 71 sex: 1
+2011-10-31 15:14:24,979 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -4.6608580033109717E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 72 sex: 1
+2011-10-31 15:14:24,979 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -7.242257020024434E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 73 sex: 1
+2011-10-31 15:15:16,573 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2011-10-31 15:15:17,463 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:17,479 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2011-10-31 15:15:32,494 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,494 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Colorectal_Cancer is zero for age 15 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2011-10-31 15:15:32,494 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,510 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,510 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,541 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,541 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,541 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,541 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2011-10-31 15:15:32,619 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -0.0011085336172031576 for person  2 for riskclass 2 and for riskfactor 0.0 age: 70 sex: 1
+2011-10-31 15:15:32,635 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -3.178819904019487E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 71 sex: 1
+2011-10-31 15:15:32,635 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -4.6608580033109717E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 72 sex: 1
+2011-10-31 15:15:32,635 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -7.242257020024434E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 73 sex: 1

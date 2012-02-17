@@ -199,7 +199,7 @@ public class Output_PyramidTab  {
 			
 		/* make the tab */
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
-		item.setText("population Pyramid");
+		item.setText("Population Pyramid");
 		item.setControl(this.plotComposite);
 		
        

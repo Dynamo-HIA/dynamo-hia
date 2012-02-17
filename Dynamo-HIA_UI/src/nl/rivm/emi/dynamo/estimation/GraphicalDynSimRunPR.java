@@ -6,12 +6,14 @@ import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 
 	Shell parentShell = null;
+	ProgressIndicatorInterface bar=null;
 
 	public GraphicalDynSimRunPR(Shell parentShell) {
 		super();
@@ -44,10 +46,20 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 
 	@Override
 	public ProgressIndicatorInterface createProgressIndicator(String message) {
-		ProgressIndicatorInterface instance = new RCPProgressBar(parentShell,
+		bar = new RCPProgressBar(parentShell,
 				message);
-		return instance;
+		return bar;
+	//	while (!parentShell.isDisposed ()) {
+	//		if (!parentShell.getDisplay().readAndDispatch ()) parentShell.getDisplay().sleep ();
+	//	}
+
+		
 	}
+	
+	
+
+	
+
 
 	@Override
 	public void createOutput(CDMOutputFactory output,
@@ -55,5 +67,29 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 		if (parentShell != null) {
 			new Output_UI(parentShell, output, scenarioParameters, currentPath);
 		}
+	}
+
+	@Override
+	public void updateProgressIndicator() {
+		Display display=this.parentShell.getDisplay();
+		if (display.isDisposed()) return;
+		display.asyncExec(new Runnable() {
+			public void run() {
+			if (bar.isDisposed ()) return;
+			 int newValue=bar.getSelection()+1;
+				bar.setSelection(newValue);
+			}
+		});
+		// TODO Auto-generated method stub
+		
+	}
+	public RCPProgressBar getBar(){
+		return (RCPProgressBar) this.bar;
+	}
+
+	@Override
+	public Display getDisplay() {
+		return	this.parentShell.getDisplay();
+		 
 	}
 }

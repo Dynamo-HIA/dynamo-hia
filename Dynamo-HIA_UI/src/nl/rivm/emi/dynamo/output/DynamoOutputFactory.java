@@ -114,7 +114,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 * from crude data
 	 */
 	/**
-	 * average value of riskvalue by Age; indexes are: scenario, time age, and
+	 * average value of riskvalue by Age; indexes are: scenario, time, age, and
 	 * sex
 	 */
 
@@ -136,6 +136,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	// private boolean details;
 	private boolean[] scenInitial;
 	private boolean[] scenTrans;
+	transient private boolean[] dalyType;
 	// private float[] cutoffs;
 	private int durationClass;
 	// private boolean withNewborns;
@@ -174,6 +175,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	private float[][] relRiskAbilityEnd;
 	private float[][] alfaAbility;
 	private float referenceRiskFactorValue = 0;
+	private transient int firstOneForAllDalyPop;
 	/**
 	 * succesrate is the successrate of the intervention can be reset at a
 	 * different value for obtaining new results without having to redo the
@@ -234,6 +236,20 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	private int[] popToScenIndex;
 
+	private int nScenIncludingDalys;
+
+	transient private double[][][][][] pDALYSurvivalByOriRiskClassByOriAge;
+
+	transient private double[][][][][] pDALYDisabilityByOriRiskClassByOriAge;
+
+	transient private double[][][][][] pDALYTotalDiseaseByOriRiskClassByOriAge;
+
+	transient private double[][][][][] nPopDALYByOriRiskClassByOriAge;
+
+	transient private double[][][][][][] nDALYDiseaseStateByOriRiskClassByOriAge;
+
+	transient private double[][][][][][] pDALYDiseaseStateByOriRiskClassByAge;
+
 	/**
 	 * The constructor initializes the fields (arrays with all values==0), and
 	 * copies the information from the scenarioInfo object to the fields in this
@@ -270,7 +286,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	/**
 	 * @param scenInfo
-	 * @param simName
+	 * @param data.getSimName()
 	 * @throws DynamoOutputException
 	 */
 	private void initializeClassInfo(ScenarioInfo scenInfo)
@@ -278,9 +294,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 		this.riskType = (scenInfo.getRiskType());
 		this.nScen = (scenInfo.getNScenarios());
+		this.nScenIncludingDalys = (scenInfo.getNScenariosIncludingDalys());
 		this.durationClass = scenInfo.getIndexDurationClass();
 		this.scenInitial = scenInfo.getInitialPrevalenceType();
 		this.scenTrans = scenInfo.getTransitionType();
+		this.dalyType = scenInfo.getDalyType();
 		this.withNewborns = scenInfo.isWithNewBorns();
 		/*
 		 * this is an indicator that indicates whether one-for-all populations
@@ -288,6 +306,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		 */
 		this.oneScenPopulation = false;
 		this.isOneScenPopulation = scenInfo.getIsOneScenPopulation();
+		this.firstOneForAllDalyPop = scenInfo.getFirstOneForAllDalyPop();
 		for (int i = 0; i < this.isOneScenPopulation.length; i++)
 			if (this.isOneScenPopulation[i])
 				this.oneScenPopulation = true;
@@ -330,7 +349,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 			for (int c = 0; c < this.structure.length; c++) {
 				if (this.structure[c].getNInCluster() > 1
 						&& !this.structure[c].isWithCuredFraction())
-					for (int i = 1; i < Math.pow(2,this.structure[c]
+					for (int i = 1; i < Math.pow(2, this.structure[c]
 							.getNInCluster()); i++) {
 						this.stateNames[currentState] = "";
 						for (int d1 = 0; d1 < this.structure[c].getNInCluster(); d1++) {
@@ -436,32 +455,59 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		 * as the starting situation is also part of the results, the dimension
 		 * of the arrays should be stepsInRun+1
 		 */
+		/* with DALYs it should be including scenarios */
+		int scendim = scenInfo.getNScenarios() + 1;
 		int nClasses = getNRiskFactorClasses();
-		this.meanRiskByAge = new double[this.nScen + 1][this.stepsInRun + 1][96 + this.stepsInRun][2];
-		this.pSurvivalByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
-		this.pSurvivalByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][nClasses][96][2];
-		this.pDisabilityByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
-		this.pDisabilityByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][nClasses][96][2];
-		this.pTotalDiseaseByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
-		this.pTotalDiseaseByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][nClasses][96][2];
+		this.meanRiskByAge = new double[scendim][this.stepsInRun + 1][96 + this.stepsInRun][2];
+		this.pSurvivalByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+		this.pSurvivalByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.pDisabilityByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+		this.pDisabilityByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.pTotalDiseaseByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+		this.pTotalDiseaseByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.mortalityByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+		this.mortalityByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
 
-		this.nPopByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
-		this.nPopByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][nClasses][96][2];
-		this.meanRiskByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][nClasses][96][2];
+		this.nPopByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+		this.nPopByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.meanRiskByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
 		if (this.riskType == 2)
-			this.meanRiskByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+			this.meanRiskByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
 		if (this.riskType == 3)
-			this.meanRiskByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
+			this.meanRiskByRiskClassByAge = new double[scendim][this.stepsInRun + 1][nClasses][96 + this.stepsInRun][2];
 
 		/*
 		 * NB the dimension can be nClasses (nClasses-1) but this makes life
 		 * more difficult for now we suppose we have enough room for doing it
-		 * this way
+		 * this way --->??
+		 * 
+		 * The dimensions are made this.nDiseaseStates-1 as nDiseaseStates includes the survival state
+		 * 
 		 */
-		this.pDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][96 + this.stepsInRun][2];
-		this.nDiseaseStateByRiskClassByAge = new double[this.nScen + 1][this.stepsInRun + 1][this.nDiseaseStates][nClasses][96 + this.stepsInRun][2];
-		this.pDiseaseStateByOriRiskClassByAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
-		this.nDiseaseStateByOriRiskClassByOriAge = new double[this.nScen + 1][this.nDim][this.nDiseaseStates][nClasses][96][2];
+		this.pDiseaseStateByRiskClassByAge = new double[scendim][this.stepsInRun + 1][this.nDiseaseStates-1][nClasses][96 + this.stepsInRun][2];
+		this.nDiseaseStateByRiskClassByAge = new double[scendim][this.stepsInRun + 1][this.nDiseaseStates-1][nClasses][96 + this.stepsInRun][2];
+		this.pDiseaseStateByOriRiskClassByAge = new double[scendim][this.nDim][this.nDiseaseStates-1][nClasses][96][2];
+		this.nDiseaseStateByOriRiskClassByOriAge = new double[scendim][this.nDim][this.nDiseaseStates-1][nClasses][96][2];
+
+		this.newCasesByRiskClassByAge = new double[scendim][this.stepsInRun + 1][this.nDiseases][nClasses][96 + this.stepsInRun][2];
+		this.newCasesByOriRiskClassByOriAge = new double[scendim][this.nDim][this.nDiseases][nClasses][96][2];
+
+		/*
+		 * for DALYs we make similar temporary files containing the
+		 * DALYscenarios
+		 * 
+		 * NB these start with the alternative scenario, not with the reference
+		 * scenario!!!!
+		 */
+
+		scendim = scenInfo.getNScenarios();
+		this.pDALYSurvivalByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.pDALYDisabilityByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.pDALYTotalDiseaseByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.nPopDALYByOriRiskClassByOriAge = new double[scendim][this.nDim][nClasses][96][2];
+		this.nDALYDiseaseStateByOriRiskClassByOriAge = new double[scendim][this.nDim][this.nDiseaseStates-1][nClasses][96][2];
+		this.pDALYDiseaseStateByOriRiskClassByAge = new double[scendim][this.nDim][this.nDiseaseStates-1][nClasses][96][2];
+
 		this.minAgeInSimulation = 100;
 		this.minAgeInSimulationAtStart = 100;
 		this.maxAgeInSimulation = 0;
@@ -491,7 +537,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 * 
 	 * 
 	 * @throws DynamoScenarioException
-	 * @throws DynamoInconsistentDataException 
+	 * @throws DynamoInconsistentDataException
 	 * 
 	 */
 	public void extractNumbersFromPopulation(Population[] pop)
@@ -538,7 +584,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		double[][] weight2Newborns = new double[100][2];
 
 		float[] compoundData;
-		float survival;
+		float survival = 0;
 
 		/*
 		 * for categorical / compound variables: get information on the number
@@ -560,15 +606,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		int minimumGender = minMaxData[2];
 		int numberOfAgesInPop = minMaxData[1] - minimumAge + 1;
 		int numberOfGendersInPop = minMaxData[3] - minimumGender + 1;
-		
-		/* next statement is nice to see howfar the program has progressed, but not used in final release 
-		
-		log.debug("minimum age " + minimumAge + " maximum age " + minMaxData[1]
-				+ "\nminimum sex " + minimumGender + " maximum sex "
-				+ minMaxData[3]);
 
 		/*
-		 * these arrays are kept as small as possible by letting starting age
+		 * next statement is nice to see howfar the program has progressed, but
+		 * not used in final release
+		 * 
+		 * log.debug("minimum age " + minimumAge + " maximum age " +
+		 * minMaxData[1] + "\nminimum sex " + minimumGender + " maximum sex " +
+		 * minMaxData[3]);
+		 * 
+		 * /* these arrays are kept as small as possible by letting starting age
 		 * start at zero (ori arrays only) and gender always at zero
 		 */
 		/* this requires accurate bookkeeping */
@@ -577,6 +624,14 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		 * in the arrays the riskfactor at start is the one that is changed,
 		 * while the riskfactor during follow-up is different, therefor three
 		 * indexes for riskfactor are required: from, to, and current
+		 */
+		/*
+		 * nov 2011: added an extra index (first) indicating whether this is
+		 * from a daly scenario [1] or the regular scenario [0]
+		 */
+		/*
+		 * this is only necessary for the cohort type (=by original age) as the
+		 * others are not needed for DALY calculation
 		 */
 		double[][][][][][] pSurvivalByRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
@@ -587,28 +642,47 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		double[][][][][][] pTotalDiseaseByRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
 			pTotalDiseaseByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
+		double[][][][][][] mortalityByRiskClassByAge_scen = null;
+		if (this.oneScenPopulation)
+			mortalityByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
 
 		double[][][][][][][] pDiseaseStateByRiskClassByAge_scen = null;
-		if (this.oneScenPopulation)
+		double[][][][][][][] newCasesByRiskClassByAge_scen = null;
+		if (this.oneScenPopulation) {
 
-			pDiseaseStateByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nDiseaseStates][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
+			pDiseaseStateByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nDiseaseStates-1][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
+			newCasesByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nDiseases][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
+
+		}
 		/* in the ori-version the current riskclass is not needed */
-		double[][][][][] pSurvivalByOriRiskClassByAge_scen = null;
+		double[][][][][][] pSurvivalByOriRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
-			pSurvivalByOriRiskClassByAge_scen = new double[this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
-		double[][][][][] pDisabilityByOriRiskClassByAge_scen = null;
+			pSurvivalByOriRiskClassByAge_scen = new double[2][this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+		double[][][][][][] pDisabilityByOriRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
-			pDisabilityByOriRiskClassByAge_scen = new double[this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
-		double[][][][][] pTotalDiseaseByOriRiskClassByAge_scen = null;
+			pDisabilityByOriRiskClassByAge_scen = new double[2][this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+		double[][][][][][] pTotalDiseaseByOriRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
-			pTotalDiseaseByOriRiskClassByAge_scen = new double[this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+			pTotalDiseaseByOriRiskClassByAge_scen = new double[2][this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+		double[][][][][][] mortalityByOriRiskClassByAge_scen = null;
+		if (this.oneScenPopulation)
+			mortalityByOriRiskClassByAge_scen = new double[2][this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
 
-		double[][][][][][] pDiseaseStateByOriRiskClassByAge_scen = null;
+		double[][][][][][][] pDiseaseStateByOriRiskClassByAge_scen = null;
 		if (this.oneScenPopulation)
-			pDiseaseStateByOriRiskClassByAge_scen = new double[this.nDim][this.nDiseaseStates][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+			pDiseaseStateByOriRiskClassByAge_scen = new double[2][this.nDim][this.nDiseaseStates-1][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
+		double[][][][][][][] newCasesByOriRiskClassByAge_scen = null;
+		if (this.oneScenPopulation)
+			newCasesByOriRiskClassByAge_scen = new double[2][this.nDim][this.nDiseases][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
 
 		double[][][][][][] MeanRiskByRiskClassByAge_scen = null;
-		double[][][][][] MeanRiskByOriRiskClassByAge_scen = null;
+		double[][][][][] MeanRiskByOriRiskClassByAge_scen = null; /*
+																 * ori mean is
+																 * also not
+																 * needed for
+																 * DALY
+																 * calculation
+																 */
 		if (this.riskType == 3 && this.oneScenPopulation) {
 			MeanRiskByRiskClassByAge_scen = new double[this.stepsInRun + 1][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nRiskFactorClasses][this.nDim][numberOfGendersInPop];
 			MeanRiskByOriRiskClassByAge_scen = new double[this.nDim][this.nRiskFactorClasses][this.nRiskFactorClasses][numberOfAgesInPop][numberOfGendersInPop];
@@ -722,7 +796,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 				int riskClassAtStart = -1;
 
-				int ageAtStart = (int) Math.round(((Float) individual.get(1)
+				int ageAtStart = Math.round(((Float) individual.get(1)
 						.getValue(0)));
 				int ageAtStartRelativeToMinimum = ageAtStart - minimumAge;
 
@@ -734,15 +808,18 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 					int ii = 0;
 					ii++;
 				}
+				float lastSurvival = 1;
 
 				for (int stepCount = 0; stepCount < nSteps; stepCount++) {
 					/*
 					 * get the information of this individual at the stepCount
 					 * step for the simulation
 					 */
-					ageIndex = (int) Math.round(((Float) individual.get(1)
+					if (stepCount > 0)
+						lastSurvival = survival;
+					ageIndex = Math.round(((Float) individual.get(1)
 							.getValue(stepCount)));
-					sexIndex = (int) (Integer) individual.get(2).getValue(
+					sexIndex = (Integer) individual.get(2).getValue(
 							stepCount);
 					int ageIndexRelativeToMinimum = ageIndex - minimumAge;
 					int sexIndexRelativeToMinimum = sexIndex - minimumGender;
@@ -753,11 +830,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						int riskDurationValue = 0;
 
 						if (this.riskType != 2) {
-							riskFactor = (int) (Integer) individual.get(3)
+							riskFactor = (Integer) individual.get(3)
 									.getValue(stepCount);
 
 						} else {
-							riskValue = (float) (Float) individual.get(3)
+							riskValue = (Float) individual.get(3)
 									.getValue(stepCount);
 							int i = 0;
 							if (this.riskClassnames.length > 1) {
@@ -788,7 +865,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						if (this.riskType == 3)
 
 							riskDurationValue = Math
-									.round((float) (Float) individual.get(4)
+									.round((Float) individual.get(4)
 											.getValue(stepCount));
 
 						/*
@@ -805,8 +882,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						}
 						/* this will also work for newborns */
 						if (riskClassAtStart == -1) {
-							riskClassAtStart = riskFactor;
 
+							/* if(!dalyType[thisPop]) */riskClassAtStart = riskFactor;
+							/*
+							 * else { delims="_"; indLabel =
+							 * individual.getLabel(); tokens =
+							 * indLabel.split(delims); riskClassAtStart=
+							 * Integer.parseInt(tokens[4]);
+							 * 
+							 * }
+							 */
 						}
 
 						/*
@@ -944,24 +1029,43 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							 */
 
 							if (this.isOneScenPopulation[thisPop]) {
+								int type = 0;
+								if (this.firstOneForAllDalyPop == thisPop)
+									type = 1;
 
-								if (stepCount <= this.stepsInRun) {
+								if (stepCount <= this.stepsInRun && (type == 0)) {
 									pSurvivalByRiskClassByAge_scen[stepCount][from][to][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival;
 									pDisabilityByRiskClassByAge_scen[stepCount][from][to][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival * daly;
 									pTotalDiseaseByRiskClassByAge_scen[stepCount][from][to][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival * totalDisease;
+									if (stepCount > 0 && ageIndex > 0)
+										mortalityByRiskClassByAge_scen[stepCount - 1][from][to][riskFactor][ageIndex - 1][sexIndexRelativeToMinimum] = weightOfIndividual
+												* (survival - lastSurvival);
 								}
 								if (ageAtStart >= 0) {
-									pSurvivalByOriRiskClassByAge_scen[stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+									if (stepCount < 0
+											|| ageAtStartRelativeToMinimum < 0
+											|| from < 0 || to < 0
+											|| sexIndexRelativeToMinimum < 0
+											|| type < 0) {
+										int kk = 0;
+										kk++;
+
+									}
+
+									pSurvivalByOriRiskClassByAge_scen[type][stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival;
-									pDisabilityByOriRiskClassByAge_scen[stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+									pDisabilityByOriRiskClassByAge_scen[type][stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival * daly;
-									pTotalDiseaseByOriRiskClassByAge_scen[stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+									pTotalDiseaseByOriRiskClassByAge_scen[type][stepCount][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival * totalDisease;
+									if (stepCount > 0)
+										mortalityByOriRiskClassByAge_scen[type][stepCount - 1][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] = weightOfIndividual
+												* (survival - lastSurvival);
 								}
-								if (this.riskType == 3) {
+								if (this.riskType == 3 && (type == 0)) {
 									if (stepCount <= this.stepsInRun)
 										MeanRiskByRiskClassByAge_scen[stepCount][from][to][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 												* riskDurationValue * survival;
@@ -972,14 +1076,22 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 								/* for a "one-for-one" scenario */
 
-							} else {
+							} else if (!this.dalyType[thisPop]) {
 								if (stepCount <= this.stepsInRun) {
-									this.pSurvivalByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount][riskFactor][ageIndex][sexIndex] += weightOfIndividual
-											* survival;
-									this.pDisabilityByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount][riskFactor][ageIndex][sexIndex] += weightOfIndividual
-											* daly * survival;
-									this.pTotalDiseaseByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount][riskFactor][ageIndex][sexIndex] += weightOfIndividual
-											* totalDisease * survival;
+									
+									
+									this.setPSurvivalByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex,
+											   this.getPSurvivalByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex)  + weightOfIndividual
+											* survival);
+									this.setPDisabilityByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex,
+									this.getPDisabilityByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex )
+									  + weightOfIndividual 	* daly * survival);
+									this.setPTotalDiseaseByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex,
+											this.getPTotalDiseaseByRiskClassByAge(this.popToScenIndex[thisPop] + 1,stepCount,riskFactor,ageIndex,sexIndex )+ weightOfIndividual
+											* totalDisease * survival);
+									if (stepCount > 0 && ageIndex > 0)
+										this.mortalityByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount - 1][riskFactor][ageIndex - 1][sexIndex] += weightOfIndividual
+												* (lastSurvival - survival);
 
 								}
 								if (ageAtStart >= 0) {
@@ -989,6 +1101,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											* daly * survival;
 									this.pTotalDiseaseByOriRiskClassByOriAge[this.popToScenIndex[thisPop] + 1][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 											* totalDisease * survival;
+									if (stepCount > 0)
+										this.mortalityByOriRiskClassByOriAge[this.popToScenIndex[thisPop] + 1][stepCount - 1][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+												* (lastSurvival - survival);
 								}
 								if (this.riskType == 2) {
 									if (stepCount <= this.stepsInRun)
@@ -1001,11 +1116,13 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									if (stepCount <= this.stepsInRun)
 										this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex] += weightOfIndividual
 												* riskValue * survival;
-									if (stepCount <= this.stepsInRun) if (Double.isNaN(this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex])){
-										int stop=0;
-										stop++;
-										
-									}
+									if (stepCount <= this.stepsInRun)
+										if (Double
+												.isNaN(this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex])) {
+											int stop = 0;
+											stop++;
+
+										}
 								}
 								if (this.riskType == 3) {
 									if (stepCount <= this.stepsInRun)
@@ -1017,6 +1134,24 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 								}
 							}
+
+							else if (this.dalyType[thisPop]) {
+
+								if (ageAtStart >= 0) {
+									this.pDALYSurvivalByOriRiskClassByOriAge[this.popToScenIndex[thisPop]
+											][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+											* survival;
+									this.pDALYDisabilityByOriRiskClassByOriAge[this.popToScenIndex[thisPop]
+											][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+											* daly * survival;
+									this.pDALYTotalDiseaseByOriRiskClassByOriAge[this.popToScenIndex[thisPop]
+											][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+											* totalDisease * survival;
+
+								}
+
+							}
+
 						}
 
 						/*
@@ -1030,6 +1165,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 										* survival * daly;
 								this.pTotalDiseaseByRiskClassByAge[0][stepCount][riskFactor][ageIndex][sexIndex] += weightOfIndividual
 										* survival * totalDisease;
+								if (stepCount > 0 && ageIndex > 0)
+									this.mortalityByRiskClassByAge[0][stepCount - 1][riskFactor][ageIndex - 1][sexIndex] += weightOfIndividual
+											* (lastSurvival - survival);
 							}
 							if (ageAtStart >= 0) {
 								this.pSurvivalByOriRiskClassByOriAge[0][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
@@ -1038,6 +1176,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 										* survival * daly;
 								this.pTotalDiseaseByOriRiskClassByOriAge[0][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 										* survival * totalDisease;
+								if (stepCount > 0)
+									this.mortalityByOriRiskClassByOriAge[0][stepCount - 1][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+											* (lastSurvival - survival);
+
 							}
 							if (this.riskType == 2) {
 								if (stepCount <= this.stepsInRun)
@@ -1050,13 +1192,14 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									this.meanRiskByOriRiskClassByOriAge[0][stepCount][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 											* riskValue * survival;
 
-								if (stepCount <= this.stepsInRun) if (Double.isNaN(this.meanRiskByAge[0][stepCount][ageIndex][sexIndex])){
-									int stop=0;
-									stop++;
-									
-								}
-								
-								
+								if (stepCount <= this.stepsInRun)
+									if (Double
+											.isNaN(this.meanRiskByAge[0][stepCount][ageIndex][sexIndex])) {
+										int stop = 0;
+										stop++;
+
+									}
+
 							}
 							if (this.riskType == 3) {
 								if (stepCount <= this.stepsInRun)
@@ -1076,6 +1219,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							 */
 
 							if (this.oneScenPopulation) {
+								int repeats = 0;
+								if (this.firstOneForAllDalyPop > 0)
+									repeats = 1;
 								if (stepCount <= this.stepsInRun) {
 									/*
 									 * the "from" value is identical to the
@@ -1087,15 +1233,23 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											* survival * daly;
 									pTotalDiseaseByRiskClassByAge_scen[stepCount][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 											* survival * totalDisease;
+									if (stepCount > 0 && ageIndex > 0)
+										mortalityByRiskClassByAge_scen[stepCount - 1][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex - 1][sexIndexRelativeToMinimum] += weightOfIndividual
+												* (lastSurvival - survival);
 								}
-								if (ageAtStart >= 0) {
-									pSurvivalByOriRiskClassByAge_scen[stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
-											* survival;
-									pDisabilityByOriRiskClassByAge_scen[stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
-											* survival * daly;
-									pTotalDiseaseByOriRiskClassByAge_scen[stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
-											* survival * totalDisease;
-								}
+
+								if (ageAtStart >= 0)
+									for (int type = 0; type <= repeats; type++) {
+										pSurvivalByOriRiskClassByAge_scen[type][stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* survival;
+										pDisabilityByOriRiskClassByAge_scen[type][stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* survival * daly;
+										pTotalDiseaseByOriRiskClassByAge_scen[type][stepCount][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* survival * totalDisease;
+										if (stepCount > 0)
+											mortalityByOriRiskClassByAge_scen[type][stepCount - 1][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+													* (lastSurvival - survival);
+									}
 								if (this.riskType == 3) {
 									if (stepCount <= this.stepsInRun)
 										MeanRiskByRiskClassByAge_scen[stepCount][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
@@ -1130,25 +1284,38 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						 * add disease states to disease state arrays in a
 						 * similar fashion
 						 */
-						for (int s = 0; s < this.nDiseaseStates; s++) {
+						for (int s = 0; s < this.nDiseaseStates-1; s++) {
 
 							if (thisPop > 0)
 								if (this.isOneScenPopulation[thisPop]) {
-									if (stepCount <= this.stepsInRun)
+									int type = 0;
+									if (this.firstOneForAllDalyPop == thisPop)
+										type = 1;
+									if (stepCount <= this.stepsInRun
+											&& type == 0)
 										pDiseaseStateByRiskClassByAge_scen[stepCount][s][from][to][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 												* compoundData[s] * survival;
 									if (ageAtStart >= 0)
-										pDiseaseStateByOriRiskClassByAge_scen[stepCount][s][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+										pDiseaseStateByOriRiskClassByAge_scen[type][stepCount][s][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
 												* compoundData[s] * survival;
 
-								} else {
+								} else if (!dalyType[thisPop]) {
 									if (stepCount <= this.stepsInRun)
 										this.pDiseaseStateByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount][s][riskFactor][ageIndex][sexIndex] += weightOfIndividual
 												* compoundData[s] * survival;
 									if (ageAtStart >= 0)
 										this.pDiseaseStateByOriRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount][s][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 												* compoundData[s] * survival;
+
+								} else if (dalyType[thisPop]) {
+
+									if (ageAtStart >= 0)
+										this.pDALYDiseaseStateByOriRiskClassByAge[this.popToScenIndex[thisPop]
+												][stepCount][s][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+												* compoundData[s] * survival;
+
 								}
+
 							if (thisPop == 0) {
 								/*
 								 * riskClassAtStart plays role of both from and
@@ -1156,11 +1323,14 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								 */
 
 								if (this.oneScenPopulation) {
+									int type = 0;
+									if (this.firstOneForAllDalyPop == thisPop)
+										type = 1;
 									if (stepCount <= this.stepsInRun)
 										pDiseaseStateByRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex][sexIndexRelativeToMinimum] += weightOfIndividual
 												* compoundData[s] * survival;
 									if (ageAtStart >= 0)
-										pDiseaseStateByOriRiskClassByAge_scen[stepCount][s][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+										pDiseaseStateByOriRiskClassByAge_scen[type][stepCount][s][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
 												* compoundData[s] * survival;
 								}
 
@@ -1174,15 +1344,94 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							}
 
 						}
-						if (ageAtStart == 0 && sexIndex == 0 && stepCount < 2
-								&& stepCount < this.stepsInRun)
-							log
-									.debug("pDiseaseState "
-											+ this.pDiseaseStateByRiskClassByAge[0][stepCount][sexIndex][riskFactor][ageIndex][sexIndex]
-											+ " riskfactor " + riskFactor
-											+ " weight " + weightOfIndividual);
 
-						// TODO for with cured fraction
+						/*
+						 * add events to new cases arrays in a similar fashion
+						 * 
+						 * NB: at this stage of data extraction, these arrays
+						 * contain the average incidence, not the events
+						 */
+
+						for (int d = 0; d < this.nDiseases; d++) {
+							/*
+							 * the incidence in the compound data starts after
+							 * the disease states + the survival
+							 */
+							int sequenceNumber = this.nDiseaseStates + d;
+							/*
+							 * the variabe nDiseaseStates includes the survival
+							 * state, and as first index is 0, survival is in
+							 * index nDiseaseStates-1, and the first disease
+							 * incidence has index nDiseaseStates
+							 * 
+							 * 
+							 * The incidence used for calculating the first time
+							 * step is stored in newValues , which in turn is
+							 * stored in the compoundData at index [1]. time
+							 * step 0 stores the original population data, so
+							 * the incidence needs to be stored one step earlier
+							 * 
+							 * Also note that this is the 1-year cumulative
+							 * incidence, with denominator the starting
+							 * population at the start of the interval
+							 */
+							if (thisPop > 0 && stepCount > 0)
+								if (this.isOneScenPopulation[thisPop]) {
+									int type = 0;
+									if (this.firstOneForAllDalyPop == thisPop)
+										type = 1;
+									if (stepCount < this.stepsInRun
+											&& ageIndex > 0 && type == 0)
+										newCasesByRiskClassByAge_scen[stepCount - 1][d][from][to][riskFactor][ageIndex - 1][sexIndexRelativeToMinimum] += weightOfIndividual
+												* compoundData[sequenceNumber];
+									if (ageAtStart >= 0)
+										newCasesByOriRiskClassByAge_scen[type][stepCount - 1][d][from][to][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* compoundData[sequenceNumber];
+
+								} else if (!dalyType[thisPop]) {
+									if (stepCount < this.stepsInRun
+											&& ageIndex > 0)
+										this.newCasesByRiskClassByAge[this.popToScenIndex[thisPop] + 1][stepCount - 1][d][riskFactor][ageIndex - 1][sexIndex] += weightOfIndividual
+												* compoundData[sequenceNumber];
+									if (ageAtStart >= 0)
+										this.newCasesByOriRiskClassByOriAge[this.popToScenIndex[thisPop] + 1][stepCount - 1][d][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+												* compoundData[sequenceNumber];
+
+								}
+							if (thisPop == 0 && stepCount > 0) {
+								/*
+								 * riskClassAtStart plays role of both from and
+								 * to here
+								 */
+
+								if (this.oneScenPopulation) {
+									int type = 0;
+									if (this.firstOneForAllDalyPop == thisPop)
+										type = 1;
+									if (stepCount < this.stepsInRun
+											&& stepCount > 0 && ageIndex > 0)
+										newCasesByRiskClassByAge_scen[stepCount - 1][d][riskClassAtStart][riskClassAtStart][riskFactor][ageIndex - 1][sexIndexRelativeToMinimum] += weightOfIndividual
+												* compoundData[sequenceNumber];
+									if (ageAtStart >= 0 && stepCount > 0)
+										newCasesByOriRiskClassByAge_scen[type][stepCount - 1][d][riskClassAtStart][riskClassAtStart][ageAtStartRelativeToMinimum][sexIndexRelativeToMinimum] += weightOfIndividual
+												* compoundData[sequenceNumber];
+								}
+
+								if (stepCount < this.stepsInRun
+										&& stepCount > 0 && ageIndex > 0)
+									this.newCasesByRiskClassByAge[0][stepCount - 1][d][riskFactor][ageIndex - 1][sexIndex] += weightOfIndividual
+											* compoundData[sequenceNumber];
+								if (ageAtStart >= 0 && stepCount > 0)
+									this.newCasesByOriRiskClassByOriAge[0][stepCount - 1][d][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
+											* compoundData[sequenceNumber];
+
+							}
+
+						}
+
+						
+
+						// TODO for with cured fraction: combine the diseases??? 
 						// float [] disease = (float[]) individual.get(4)
 						// .getValue(stepCount);
 
@@ -1243,8 +1492,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								 * this.pDiseaseStateByRiskClassByAge[scen +
 								 * 1][stepCount][state][r][a][s] = 0; }
 								 */
-								
-								if (a >= stepCount){
+
+								if (a >= stepCount) {
 									toChange = NettTransitionRateFactory
 											.makeNettTransitionRates(
 													this.oldPrevalence[a
@@ -1252,24 +1501,30 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 													this.newPrevalence[scen][a
 															- stepCount][s], 0,
 													dummy);
-									}
-								else{
+								} else {
 									/* for newborns */
 									toChange = NettTransitionRateFactory
 											.makeNettTransitionRates(
 													this.oldPrevalence[0][s],
 													this.newPrevalence[scen][0][s],
-													0, dummy);}
+													0, dummy);
+								}
 
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 										for (int r = 0; r < this.nRiskFactorClasses; r++) {
 
-											for (int state = 0; state < this.nDiseaseStates; state++)
+											for (int state = 0; state < this.nDiseaseStates-1; state++)
 												if (pDiseaseStateByRiskClassByAge_scen[stepCount][state][from][to][r][a][s
 														- minimumGender] != 0)
 													this.pDiseaseStateByRiskClassByAge[scen + 1][stepCount][state][r][a][s] += toChange[from][to]
 															* pDiseaseStateByRiskClassByAge_scen[stepCount][state][from][to][r][a][s
+																	- minimumGender];
+											for (int d = 0; d < this.nDiseases; d++)
+												if (newCasesByRiskClassByAge_scen[stepCount][d][from][to][r][a][s
+														- minimumGender] != 0)
+													this.newCasesByRiskClassByAge[scen + 1][stepCount][d][r][a][s] += toChange[from][to]
+															* newCasesByRiskClassByAge_scen[stepCount][d][from][to][r][a][s
 																	- minimumGender];
 											if (pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a][s
 													- minimumGender] != 0)
@@ -1286,6 +1541,12 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 												this.pTotalDiseaseByRiskClassByAge[scen + 1][stepCount][r][a][s] += toChange[from][to]
 														* pTotalDiseaseByRiskClassByAge_scen[stepCount][from][to][r][a][s
+																- minimumGender];
+											if (mortalityByRiskClassByAge_scen[stepCount][from][to][r][a][s
+													- minimumGender] != 0)
+
+												this.mortalityByRiskClassByAge[scen + 1][stepCount][r][a][s] += toChange[from][to]
+														* mortalityByRiskClassByAge_scen[stepCount][from][to][r][a][s
 																- minimumGender];
 
 											if (this.riskType > 1
@@ -1308,24 +1569,38 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											for (int r = 0; r < this.nRiskFactorClasses; r++)
 												sum += pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a][s
 														- minimumGender];
-											
-											boolean zeroToPrevalence=false;
-											boolean zeroFromPrevalence=false;
-											 if (a >= stepCount) {
-												if( newPrevalence[scen][a - stepCount][s][to]==0) zeroToPrevalence=true;
-												if( oldPrevalence[a	- stepCount][s][to]==0) zeroFromPrevalence=true;
-											 }
-												
-									else {
-										/* for newborns */ 
-										if( newPrevalence[scen][0][s][to]==0) zeroToPrevalence=true;
-										if( oldPrevalence[0][s][to]==0) zeroFromPrevalence=true;
-										}
-											 /* if from prevalence is zero, than for [to=from] the change is made 1 
-											  * this should not given an error */
-											 /* zeroToPrevalence is probably redundant as than the toChange is also 0 */
+
+											boolean zeroToPrevalence = false;
+											boolean zeroFromPrevalence = false;
+											if (a >= stepCount) {
+												if (newPrevalence[scen][a
+														- stepCount][s][to] == 0)
+													zeroToPrevalence = true;
+												if (oldPrevalence[a - stepCount][s][to] == 0)
+													zeroFromPrevalence = true;
+											}
+
+											else {
+												/* for newborns */
+												if (newPrevalence[scen][0][s][to] == 0)
+													zeroToPrevalence = true;
+												if (oldPrevalence[0][s][to] == 0)
+													zeroFromPrevalence = true;
+											}
+											/*
+											 * if from prevalence is zero, than
+											 * for [to=from] the change is made
+											 * 1 this should not given an error
+											 */
+											/*
+											 * zeroToPrevalence is probably
+											 * redundant as than the toChange is
+											 * also 0
+											 */
 											if (sum == 0
-													&& toChange[from][to] > 0 && (!zeroToPrevalence) && ( !(zeroFromPrevalence && to==from)) ) {
+													&& toChange[from][to] > 0
+													&& (!zeroToPrevalence)
+													&& (!(zeroFromPrevalence && to == from))) {
 												log
 														.fatal(" not enough simulated information to calculate scenario "
 																+ scen
@@ -1414,55 +1689,97 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 										{
 
-											for (int state = 0; state < this.nDiseaseStates; state++)
+											for (int state = 0; state < this.nDiseaseStates-1; state++)
 
-												if (pDiseaseStateByOriRiskClassByAge_scen[stepCount][state][from][to][a
+											{
+												if (pDiseaseStateByOriRiskClassByAge_scen[0][stepCount][state][from][to][a
 														- minimumAge][s
 														- minimumGender] > 0)
 													this.pDiseaseStateByOriRiskClassByAge[scen + 1][stepCount][state][to][a][s] += toChange[from][to]
-															* pDiseaseStateByOriRiskClassByAge_scen[stepCount][state][from][to][a
+															* pDiseaseStateByOriRiskClassByAge_scen[0][stepCount][state][from][to][a
 																	- minimumAge][s
 																	- minimumGender];
-											if (a == 0 && s == 0
-													&& stepCount == 50)
-												log
-														.debug("scen "
-																+ scen
-																+ 1
-																+ " from "
-																+ from
-																+ " to "
-																+ to
-																+ " change "
-																+ toChange[from][to]
-																+ " scen var "
-																+ pDiseaseStateByOriRiskClassByAge_scen[stepCount][0][from][to][a
-																		- minimumAge][s
-																		- minimumGender]
-																+ " results in "
-																+ this.pDiseaseStateByOriRiskClassByAge[scen + 1][stepCount][0][to][a][s]);
-											if (pSurvivalByOriRiskClassByAge_scen[stepCount][from][to][a
+												if (pDiseaseStateByOriRiskClassByAge_scen[1][stepCount][state][from][to][a
+														- minimumAge][s
+														- minimumGender] > 0)
+													this.pDALYDiseaseStateByOriRiskClassByAge[scen][stepCount][state][to][a][s] += toChange[from][to]
+															* pDiseaseStateByOriRiskClassByAge_scen[1][stepCount][state][from][to][a
+																	- minimumAge][s
+																	- minimumGender];
+											}
+
+											for (int d = 0; d < this.nDiseases; d++) {
+												if (newCasesByOriRiskClassByAge_scen[0][stepCount][d][from][to][a
+														- minimumAge][s
+														- minimumGender] > 0)
+													this.newCasesByOriRiskClassByOriAge[scen + 1][stepCount][d][to][a][s] += toChange[from][to]
+															* newCasesByOriRiskClassByAge_scen[0][stepCount][d][from][to][a
+																	- minimumAge][s
+																	- minimumGender];
+
+												/*
+												 * NB: no reference scenario in
+												 * the arrays for daly data
+												 */
+											}
+
+											if (pSurvivalByOriRiskClassByAge_scen[0][stepCount][from][to][a
 													- minimumAge][s
 													- minimumGender] > 0)
 												this.pSurvivalByOriRiskClassByOriAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
-														* pSurvivalByOriRiskClassByAge_scen[stepCount][from][to][a
+														* pSurvivalByOriRiskClassByAge_scen[0][stepCount][from][to][a
 																- minimumAge][s
 																- minimumGender];
-											if (pDisabilityByOriRiskClassByAge_scen[stepCount][from][to][a
+											if (pDisabilityByOriRiskClassByAge_scen[0][stepCount][from][to][a
 													- minimumAge][s
 													- minimumGender] > 0)
 												this.pDisabilityByOriRiskClassByOriAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
-														* pDisabilityByOriRiskClassByAge_scen[stepCount][from][to][a
+														* pDisabilityByOriRiskClassByAge_scen[0][stepCount][from][to][a
 																- minimumAge][s
 																- minimumGender];
-											if (pTotalDiseaseByOriRiskClassByAge_scen[stepCount][from][to][a
+											if (pTotalDiseaseByOriRiskClassByAge_scen[0][stepCount][from][to][a
 													- minimumAge][s
 													- minimumGender] > 0)
 												this.pTotalDiseaseByOriRiskClassByOriAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
-														* pTotalDiseaseByOriRiskClassByAge_scen[stepCount][from][to][a
+														* pTotalDiseaseByOriRiskClassByAge_scen[0][stepCount][from][to][a
+																- minimumAge][s
+																- minimumGender];
+											if (mortalityByOriRiskClassByAge_scen[0][stepCount][from][to][a
+													- minimumAge][s
+													- minimumGender] > 0)
+												this.mortalityByOriRiskClassByOriAge[scen + 1][stepCount][to][a][s] += toChange[from][to]
+														* mortalityByOriRiskClassByAge_scen[0][stepCount][from][to][a
 																- minimumAge][s
 																- minimumGender];
 
+											/* repeat for the DALY data */
+											/*
+											 * NB: no reference scenario in the
+											 * daly data, so index for scenario
+											 * is lower
+											 */
+
+											if (pSurvivalByOriRiskClassByAge_scen[1][stepCount][from][to][a
+													- minimumAge][s
+													- minimumGender] > 0)
+												this.pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][to][a][s] += toChange[from][to]
+														* pSurvivalByOriRiskClassByAge_scen[1][stepCount][from][to][a
+																- minimumAge][s
+																- minimumGender];
+											if (pDisabilityByOriRiskClassByAge_scen[1][stepCount][from][to][a
+													- minimumAge][s
+													- minimumGender] > 0)
+												this.pDALYDisabilityByOriRiskClassByOriAge[scen][stepCount][to][a][s] += toChange[from][to]
+														* pDisabilityByOriRiskClassByAge_scen[1][stepCount][from][to][a
+																- minimumAge][s
+																- minimumGender];
+											if (pTotalDiseaseByOriRiskClassByAge_scen[1][stepCount][from][to][a
+													- minimumAge][s
+													- minimumGender] > 0)
+												this.pDALYTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][to][a][s] += toChange[from][to]
+														* pTotalDiseaseByOriRiskClassByAge_scen[1][stepCount][from][to][a
+																- minimumAge][s
+																- minimumGender];
 											if (this.riskType > 1
 													&& MeanRiskByOriRiskClassByAge_scen[stepCount][from][to][a
 															- minimumAge][s
@@ -1486,16 +1803,18 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											for (int r = 0; r < this.nRiskFactorClasses; r++)
 												sum += pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a][s
 														- minimumGender];
-											
-											boolean zeroToPrevalence=false;
-											boolean zeroFromPrevalence=false;
-											 
-												if( newPrevalence[scen][a ][s][to]==0) zeroToPrevalence=true;
-												if( oldPrevalence[a	][s][to]==0) zeroFromPrevalence=true;
-											 
+
+											boolean zeroToPrevalence = false;
+											boolean zeroFromPrevalence = false;
+
+											if (newPrevalence[scen][a][s][to] == 0)
+												zeroToPrevalence = true;
+											if (oldPrevalence[a][s][to] == 0)
+												zeroFromPrevalence = true;
 
 											if (sum == 0
-													&& toChange[from][to] > 0 && ( !(zeroFromPrevalence && to==from))) {
+													&& toChange[from][to] > 0
+													&& (!(zeroFromPrevalence && to == from))) {
 												log
 														.fatal(" not enough simulated information to calculate scenario "
 																+ scen
@@ -1583,7 +1902,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							int r = this.durationClass;
 
 							double survtot = pSurvivalByRiskClassByAge[popnr][stepCount][r][a][s];
-							
+
 							this.meanRiskByRiskClassByAge[popnr][stepCount][r][a][s] = this.meanRiskByRiskClassByAge[popnr][stepCount][r][a][s]
 									/ this.pSurvivalByRiskClassByAge[popnr][stepCount][r][a][s];
 
@@ -1598,8 +1917,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				}
 				/*
 				 * and also for the arrays with based on original age and risk
-				 * factor
-				 * Here we can have also mean durations in other classes 
+				 * factor Here we can have also mean durations in other classes
 				 */
 				for (int stepCount = 0; stepCount < this.nDim; stepCount++)
 					for (int a = minSimAge; a < maxSimAge + 1; a++)
@@ -1611,6 +1929,59 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 			}
 		}
 
+	}
+
+	public synchronized double getPDALYTotalDiseaseByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pDALYTotalDiseaseByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+
+	public synchronized void setPDALYTotalDiseaseByOriRiskClassByOriAge(int scen, int step, int r, int a, int g, double value)
+			 {
+		pDALYTotalDiseaseByOriRiskClassByOriAge[scen][step][r][a][g] = value;
+	}
+	
+	
+	
+
+	public synchronized double getPDALYDisabilityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pDALYDisabilityByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+
+	public synchronized void setPDALYDisabilityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g, double value) {
+		pDALYDisabilityByOriRiskClassByOriAge [scen][step][r][a][g] = value;
+	}
+
+	public synchronized double getPDALYSurvivalByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pDALYSurvivalByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+
+	public synchronized void setPDALYSurvivalByOriRiskClassByOriAge(int scen, int step, int r, int a, int g, double value) {
+		pDALYSurvivalByOriRiskClassByOriAge [scen][step][r][a][g] = value;
+	}
+
+	public synchronized void setMeanRiskByAge(int scen, int step,  int a, int g, double value) {
+		this.meanRiskByAge[scen][step][a][g] = value;
+	}
+	public synchronized double getMeanRiskByAge(int scen, int step,  int a, int g) {
+		return this.meanRiskByAge[scen][step][a][g];
+	}
+
+	public synchronized double getPSurvivalByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
+		return pSurvivalByOriRiskClassByOriAge[scen][step][r][a][g];
+	}
+
+	public synchronized void setPSurvivalByOriRiskClassByOriAge(int scen, int step, int r, int a, int g, double value)
+			 {
+		pSurvivalByOriRiskClassByOriAge [scen][step][r][a][g] = value;
+	}
+
+	public synchronized double getPSurvivalByRiskClassByAge(int scen, int step, int r, int a, int g) {
+		return pSurvivalByRiskClassByAge[scen][step][r][a][g];
+	}
+
+	public  synchronized void setPSurvivalByRiskClassByAge(int scen, int step, int r, int a, int g, double value)
+			 {
+		pSurvivalByRiskClassByAge [scen][step][r][a][g] = value;
 	}
 
 	private double makeTotalDisease(float[] compoundData) {
@@ -1763,14 +2134,15 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 * @param stateArray
 	 *            : 6-dimensional array where the third index indicates the
 	 *            disease state = combination of diseases
-	 * @return 6-dimensional array where the third index indicates the disease
+	 * @return 6-dimensional array where the third index indicates the disease or null if there are no diseases
 	 */
 	private double[][][][][][] makeDiseaseArray(double[][][][][][] stateArray) {
+		
+		if (this.nDiseases==0) return null;
 		int currentDisease = 0;
 		int currentClusterStart = 0;
 		int dim1 = stateArray.length;
 		int dim2 = stateArray[0].length;
-
 		int dim4 = stateArray[0][0][0].length;
 		int dim5 = stateArray[0][0][0][0].length;
 		int dim6 = stateArray[0][0][0][0][0].length;
@@ -2021,9 +2393,22 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									for (int r = 0; r < dim4; r++)
 										for (int stepCount = 0; stepCount < dim2; stepCount++)
 											for (int a = 0; a < dim5; a++)
-												for (int g = 0; g < dim6; g++)
+												for (int g = 0; g < dim6; g++) {
+													int st = currentClusterStart
+															+ state - 1;
+													log.debug("disease: "
+															+ disease
+															+ " scen: " + scen
+															+ " stepcOUNT: "
+															+ stepCount
+															+ " r: " + r
+															+ " state: " + st
+															+ " a: " + a
+															+ " g: " + g);
 													diseaseArray[scen][stepCount][r][a][g] += stateArray[scen][stepCount][currentClusterStart
 															+ state - 1][r][a][g];
+
+												}
 							}
 						}
 						break;
@@ -2091,6 +2476,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									this.nPopByRiskClassByAge[scen][stepCount][r][a][g];
 						}
 		return diseasedPersons;
+
 		/*
 		 * 
 		 * verouderd, dit kan alleen zo worden berekend bij homogene groepen,
@@ -2325,9 +2711,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		while (individualIterator1.hasNext()) {
 			Individual individual = individualIterator1.next();
 
-			ageIndex = (int) Math
+			ageIndex = Math
 					.round(((Float) individual.get(1).getValue(0)));
-			sexIndex = (int) (Integer) individual.get(2).getValue(0);
+			sexIndex = (Integer) individual.get(2).getValue(0);
 			if (sexIndex == 1)
 				maxgender = 1;
 			if (sexIndex == 0)
@@ -2353,16 +2739,16 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				float riskValue;
 				int durationValue;
 				if (this.riskType != 2) {
-					int riskFactor = (int) (Integer) individual.get(3)
+					int riskFactor = (Integer) individual.get(3)
 							.getValue(0);
 					this.nInSimulationByRiskClassByAge[riskFactor][ageIndex][sexIndex]++;
 					if (this.riskType == 3) {
-						durationValue = Math.round((float) (Float) individual
+						durationValue = Math.round((Float) individual
 								.get(4).getValue(0));
 						this.nInSimulationByRiskClassAndDurationByAge[riskFactor][durationValue][ageIndex][sexIndex]++;
 					}
 				} else {
-					riskValue = (float) (Float) individual.get(3).getValue(0);
+					riskValue = (Float) individual.get(3).getValue(0);
 					int riskFactor;
 					int i = 0;
 					if (this.riskClassnames.length > 1) {
@@ -2397,44 +2783,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		return results;
 
 		/*
-		 * now count in the scenarios with categorical (compound) riskfactors
-		 * which simultaneously differ in both scenario prevalence and in
-		 * scenario transitions the number of particular from-to combinations;
-		 *//*
-			 * not yet used so commented out (gave errors) String delims =
-			 * "[_]"; if (pop.length > 1 && this.riskType != 2) for (int scen =
-			 * 0; scen < pop.length - 1; scen++) if (scenInitial[scen] &&
-			 * scenTrans[scen]) { Iterator<Individual> individualIterator2 =
-			 * pop[scen + 1] .iterator();
-			 * 
-			 * while (individualIterator2.hasNext()) { Individual individual =
-			 * individualIterator2.next();
-			 * 
-			 * ageIndex = (int) Math.round(((Float) individual.get(1)
-			 * .getValue(0))); sexIndex = (int) (Integer) individual.get(2)
-			 * .getValue(0); int to = (int) (Integer)
-			 * individual.get(3).getValue(0);
-			 * 
-			 * String indLabel = individual.getLabel(); String[] tokens =
-			 * indLabel.split(delims); int from = Integer.parseInt(tokens[2]);
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * this.nInSimulationByFromByTo[scen][from][to][ageIndex][sexIndex]++
-			 * ;
-			 * 
-			 * } }
-			 */
+		 * not implemented: count in the scenarios with categorical (compound)
+		 * riskfactors which simultaneously differ in both scenario prevalence
+		 * and in scenario transitions the number of particular from-to
+		 * combinations;
+		 */
 
 	}
 
@@ -2459,7 +2812,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 					float riskValue;
 
-					riskValue = (float) (Float) individual.get(3).getValue(0);
+					riskValue = (Float) individual.get(3).getValue(0);
 					if (riskValue > maxRisk)
 						maxRisk = riskValue;
 					if (riskValue < minRisk)
@@ -2547,9 +2900,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 					} else
 						ratio = 0;
 
-					// TODO hierboven gok nog nagaan en zorgen dat alles goed
-					// geinitialiseerd is
-
 					/*
 					 * nb: scen is the scenario number starting with scen =0 is
 					 * the reference scenario. in arrays with scenario info the
@@ -2569,7 +2919,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							if (this.pSurvivalByRiskClassByAge[scen][stepCount][r][a][s] != 0)
 								this.pTotalDiseaseByRiskClassByAge[scen][stepCount][r][a][s] = this.pTotalDiseaseByRiskClassByAge[scen][stepCount][r][a][s]
 										/ this.pSurvivalByRiskClassByAge[scen][stepCount][r][a][s];
-							for (int state = 0; state < this.nDiseaseStates; state++) {
+							for (int state = 0; state < this.nDiseaseStates-1; state++) {
 
 								this.nDiseaseStateByRiskClassByAge[scen][stepCount][state][r][a][s] = ratio
 										* this.pDiseaseStateByRiskClassByAge[scen][stepCount][state][r][a][s];
@@ -2609,12 +2959,12 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							if (pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s] != 0)
 								pTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][r][a][s] = pTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][r][a][s]
 										/ pSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
-							for (int state = 0; state < this.nDiseaseStates; state++) {
+							for (int state = 0; state < this.nDiseaseStates-1; state++) {
 								this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s] = ratio
 										* this.pDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s];
 								/*
-								 * if (s == 0 && a == 50) log .("scenario "
-								 * + scen + "step " + stepCount + " state " +
+								 * if (s == 0 && a == 50) log .("scenario " +
+								 * scen + "step " + stepCount + " state " +
 								 * state + " r " + r + "pdis " +
 								 * this.pDiseaseStateByOriRiskClassByAge
 								 * [scen][stepCount][state][r][a][s] + "ndis " +
@@ -2624,22 +2974,240 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								 */}
 						}
 					}
+
+					/* repeat for the daly data */
+					/*
+					 * nb: in the daly data arrays there is no reference
+					 * scenario, so the are one scenario shorter then other
+					 * arrays
+					 */
+
+					for (int scen = 0; scen < nScen; scen++) {
+						if (!scenTrans[scen])
+							for (int r = 0; r < this.nRiskFactorClasses; r++) {
+								this.nPopDALYByOriRiskClassByOriAge[scen][stepCount][r][a][s] = ratio
+										* this.pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+								if (pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s] != 0)
+									pDALYDisabilityByOriRiskClassByOriAge[scen][stepCount][r][a][s] = ratio
+											* pDALYDisabilityByOriRiskClassByOriAge[scen][stepCount][r][a][s]
+											/ pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+								if (pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s] != 0)
+									pDALYTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][r][a][s] = ratio
+											* pDALYTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][r][a][s]
+											/ pDALYSurvivalByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+								for (int state = 0; state < this.nDiseaseStates-1; state++) {
+									this.nDALYDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s] = ratio
+											* this.pDALYDiseaseStateByOriRiskClassByAge[scen][stepCount][state][r][a][s];
+
+								}
+							}
+					}
+
 				}// end loop sex
 
 			} // end loop stepcount
 		} // end loop age
 
 		/*
-		 * uptill now all arrays contain numbers of simulated population in the
-		 * category. The next part changes those into percentages (or means) by
-		 * dividing by the right denominator (indicated by the name, and also by
-		 * sex and timeStep (stepCount) and scenario
-		 * 
-		 * denominator: -- for survival the numbers in the initial population
-		 * (stepcount=0) in the particular group -- for disease(state) : the
-		 * fraction surviving (pop(stepcount))
+		 * make the arrays of mortality cases (Nmortality) by multiplying the
+		 * mortality with the population numbers at the start: (mortality*npop)
 		 */
 
+		/*
+		 *  similarly make the arrays with incident cases by multiplying the incidence
+		 * with the population numbers at the start of the period: The incidence made in the update-rule is the cumulative incidence for
+		 * the person (100 present at the start of the step). The decline of (healthy) personyears during the time-step is included in
+		 * the 1-yr incidence as calculated by the update rule, so no need to take this into account here
+		 * 
+		 * 
+		 * However, incidence has been summed over the individuals in the
+		 * population, using weigth to adjust for differences in prevalence.
+		 * Therefore, to get the incidence (or mortality) we should divide by
+		 * the sum of the weights that have been used. 
+		 * 
+		 * These weight are calculated as follows:
+		 * For categorical this is
+		 * oldprev*NSIM in case of a reference scenario or not-one-for-all
+		 * scenario. FOR CONTINUOUS THIS IS nSIMByRiskClass for scenario
+		 * berekent uit one for all population: newprev*nsim
+		 * 
+		 * However, the incidence is the sum over all simulated persons, so
+		 * first divide by the numbers in the simulation * prevalence of that
+		 * risk group,
+		 */
+
+		for (int s = 0; s < 2; s++)
+			for (int scen = 0; scen <= this.nScen; scen++)
+				for (int r = 0; r < this.nRiskFactorClasses; r++) {
+					/* hier -1 weggelaat uit criterium */
+
+					for (int a = 0; a < 96; a++) {
+						double inverseSimnumber = sumweightPerRiskClass(s,
+								scen, r, a);
+						for (int stepCount = 0; stepCount < this.nDim - a; stepCount++) {
+							this.mortalityByOriRiskClassByOriAge[scen][stepCount][r][a][s] *= inverseSimnumber
+									* this.nPopByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+
+							for (int d = 0; d < this.nDiseases; d++) {
+								this.newCasesByOriRiskClassByOriAge[scen][stepCount][d][r][a][s] *= inverseSimnumber
+										* this.nPopByOriRiskClassByOriAge[scen][stepCount][r][a][s] ;
+
+							}
+						}
+					}
+					for (int stepCount = 0; stepCount < this.stepsInRun; stepCount++)
+						for (int a = 0; a < Math.min(this.nDim,
+								(96 + stepCount)); a++) {
+							double inverseSimnumber = 0;
+							if (a >= stepCount)
+								inverseSimnumber = sumweightPerRiskClass(s,
+										scen, r, a - stepCount);
+							/*
+							 * the next assumes that the number of simulated
+							 * newborns in each step and with each risk factor
+							 * is equal to that at the start of simulation
+							 */
+							else if (isWithNewborns()
+									&& this.nNewBornsInSimulationByAge[stepCount - 1][s] != 0)
+								inverseSimnumber = sumweightPerRiskClass(s,
+										scen, r, 0);
+							/*
+							 * if no persons in simulation, set incidence
+							 * /mortality to zero
+							 */
+
+							this.mortalityByRiskClassByAge[scen][stepCount][r][a][s] *= inverseSimnumber
+									* this.nPopByRiskClassByAge[scen][stepCount][r][a][s];
+							for (int d = 0; d < this.nDiseases; d++)
+								this.newCasesByRiskClassByAge[scen][stepCount][d][r][a][s] *= inverseSimnumber
+										* this.nPopByRiskClassByAge[scen][stepCount][r][a][s] ;
+
+						}
+				}
+		makeDalyArrays();
+	}
+
+	/**
+	 * makes DALY arrays summarizing the DALY data, as only the cumulative
+	 * totals are needed, so no reason to store all the detailed data from the
+	 * calculations
+	 * 
+	 * 
+	 */
+	private void makeDalyArrays() {
+		/*
+		 * there might be scenarios without daly-data; in that case the arrays
+		 * will be empty ; here we just calculate their results as this is
+		 * faster than thinking about how to skip;
+		 */
+
+		/* initialize arrays */
+		this.popDALY = new double[nScen + 1][96][2];
+		this.disabilityDALY = new double[nScen + 1][96][2];
+		this.totDiseaseDALY = new double[nScen + 1][96][2];
+		this.diseaseStateDALY = new double[nScen + 1][this.nDiseaseStates-1][96][2];
+
+		for (int scen = 0; scen <= this.nScen; scen++) {
+
+			/*
+			 * for the daly we need to summarize the future years (total, with
+			 * disease X etc.) by age at start en sex at start summarizing by
+			 * riskfactor at start does not make sense. for daly we only need
+			 * the difference with the reference scenario, but for sake of
+			 * transparancy we will also calculate the reference scenario data
+			 */
+			/* check if daly scenario, otherwise null */
+
+			double factor = 1;
+			for (int a = 0; a < 96; a++)
+				for (int stepCount = 0; stepCount < this.nDim - a; stepCount++) {
+					/*
+					 * the years in each interval are the average of the years
+					 * at the beginning and at the end; in the last interval it
+					 * is equal to that in the beginning (compensating for survival extending after this interval;
+					 * assuming a life expectancy of 1 at this age) this means that
+					 * all value are summed twice times half= 1 except the first
+					 *
+					 */
+					if (stepCount == 0 )
+						factor = 0.5;
+					else
+						factor = 1;
+					for (int s = 0; s < 2; s++)
+						for (int r = 0; r < this.nRiskFactorClasses; r++) {
+
+							if (scen == 0) {
+								this.popDALY[scen][a][s] += factor
+										* this.nPopByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+
+								disabilityDALY[scen][a][s] += factor
+										* pDisabilityByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+								totDiseaseDALY[scen][a][s] += factor
+										* pTotalDiseaseByOriRiskClassByOriAge[scen][stepCount][r][a][s];
+								for (int state = 0; state < this.nDiseaseStates-1; state++)
+									diseaseStateDALY[scen][state][a][s] += factor
+											* this.nDiseaseStateByOriRiskClassByOriAge[scen][stepCount][state][r][a][s];
+							} else if (!this.scenTrans[scen - 1]) {
+								log.debug(" a: " + a + " s: " + s + " scen: "
+										+ scen + " stepCount: " + stepCount
+										+ " r: " + r);
+								this.popDALY[scen][a][s] += factor
+										* this.nPopDALYByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
+
+								disabilityDALY[scen][a][s] += factor
+										* pDALYDisabilityByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
+								totDiseaseDALY[scen][a][s] += factor
+										* pDALYTotalDiseaseByOriRiskClassByOriAge[scen - 1][stepCount][r][a][s];
+								for (int state = 0; state < this.nDiseaseStates-1; state++)
+									diseaseStateDALY[scen][state][a][s] += factor
+											* this.nDALYDiseaseStateByOriRiskClassByOriAge[scen - 1][stepCount][state][r][a][s];
+							}
+
+						}
+				}
+		}
+
+	}
+
+	/**
+	 * returns the inverse of the expected numbers in the risk class if there
+	 * are simulated persons in the riskclass and 0 in other cases
+	 * 
+	 * @param s
+	 *            : gender
+	 * @param scen
+	 *            : scenario number with 0=reference scenario
+	 * @param r
+	 *            : risk factor class
+	 * @param a
+	 *            : age
+	 * @return inverse of the expected numbers in the risk class
+	 */
+	private double sumweightPerRiskClass(int s, int scen, int r, int a) {
+		double inverseSimnumber = 0;
+		if (this.nInSimulationByAge[a][s] > 0) {
+			if (this.riskType == 2)// continuous risk factor
+				inverseSimnumber = 1.0 / this.nInSimulationByRiskClassByAge[r][a][s];
+			else if (scen == 0)
+				if (this.oldPrevalence[a][s][r] != 0)// reference scenario
+					inverseSimnumber = 1.0 / (this.oldPrevalence[a][s][r] * nInSimulationByAge[a][s]);
+				else
+					inverseSimnumber = 0.0;
+			else if (this.scenInitial[scen - 1] && !this.scenTrans[scen - 1])// scenario
+				// from
+				// one-pop-for-all
+				if (this.newPrevalence[scen - 1][a][s][r] != 0)
+					inverseSimnumber = 1.0 / (this.newPrevalence[scen - 1][a][s][r] * nInSimulationByAge[a][s]);
+				else
+					inverseSimnumber = 0.0;
+			else
+			// other categorical /duration risk factor
+			if (this.oldPrevalence[a][s][r] != 0)
+				inverseSimnumber = 1.0 / (this.oldPrevalence[a][s][r] * nInSimulationByAge[a][s]);
+			else
+				inverseSimnumber = 0.0;
+		}
+		return inverseSimnumber;
 	}
 
 	/**
@@ -2671,10 +3239,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							for (int d = 0; d < this.nDiseaseStates; d++)
+							for (int state = 0; state < this.nDiseaseStates-1; state++)
 								try {
 									out
-											.writeDouble(this.nDiseaseStateByOriRiskClassByOriAge[scen][steps][d][r][age][s]);
+											.writeDouble(this.nDiseaseStateByOriRiskClassByOriAge[scen][steps][state][r][age][s]);
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -2695,10 +3263,10 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							for (int d = 0; d < this.nDiseaseStates; d++)
+							for (int state = 0; state < this.nDiseaseStates-1; state++)
 								try {
 									out
-											.writeDouble(this.nDiseaseStateByRiskClassByAge[scen][steps][d][r][age][s]);
+											.writeDouble(this.nDiseaseStateByRiskClassByAge[scen][steps][state][r][age][s]);
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -2740,9 +3308,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							for (int d = 0; d < this.nDiseaseStates; d++)
+							for (int state = 0; state < this.nDiseaseStates-1; state++)
 								try {
-									this.nDiseaseStateByOriRiskClassByOriAge[scen][steps][d][r][age][s] = indata
+									this.nDiseaseStateByOriRiskClassByOriAge[scen][steps][state][r][age][s] = indata
 											.readDouble();
 								} catch (EOFException e) {
 								} catch (IOException e) {
@@ -2766,9 +3334,9 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							for (int d = 0; d < this.nDiseaseStates; d++)
+							for (int state = 0; state < this.nDiseaseStates-1; state++)
 								try {
-									this.nDiseaseStateByRiskClassByAge[scen][steps][d][r][age][s] = indata
+									this.nDiseaseStateByRiskClassByAge[scen][steps][state][r][age][s] = indata
 											.readDouble();
 								} catch (EOFException e) {
 								} catch (IOException e) {
@@ -2815,7 +3383,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	/**
 	 * /**
-	 * 
+	 * returns the number of disease states, including survival state
 	 * @param s
 	 */
 	private void setNDiseaseStates(DiseaseClusterStructure[] s) {
@@ -2930,6 +3498,29 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								nDiseaseByAge[scen][stepCount][a][g] += nDiseaseByRiskClassByAge[scen][stepCount][disease][r][a][g];
 		} else
 			nDiseaseByAge = getNumberOfDiseasedPersons();
+
+		return nDiseaseByAge;
+	}
+
+	/**
+	 * gets number of persons that get the disease in the next year
+	 * 
+	 * @param disease
+	 *            : diseasenumber
+	 * @return array [][][][] with number of new persons with this disease
+	 *         (index: scenario, year of follow-up (simulation), age, sex)
+	 */
+	@Override
+	public double[][][][] getNewCasesByAge(int disease) {
+		double[][][][] nDiseaseByAge = new double[this.nScen + 1][this.stepsInRun + 1][96 + this.stepsInRun][2];
+
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < 96 + this.stepsInRun - 1; a++)
+					for (int g = 0; g < 2; g++)
+						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
+							nDiseaseByAge[scen][stepCount][a][g] += this.newCasesByRiskClassByAge[scen][stepCount][disease][r][a][g];
 
 		return nDiseaseByAge;
 	}
@@ -3140,6 +3731,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 */
 	@Override
 	public double[][][][][][] getNDiseaseByRiskClassByAge() {
+		if (this.nDiseases==0) return null;
 
 		double[][][][][][] returnArray = makeDiseaseArray(this.nDiseaseStateByRiskClassByAge);
 
@@ -3161,6 +3753,82 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				this.nDiseaseStateByRiskClassByAge, d);
 
 		return returnArray;
+	}
+
+	@Override
+	public double[][][][][] getNewCasesByRiskClassByAge(int d) {
+
+		int dim6 = this.newCasesByRiskClassByAge[0][0][0][0][0].length;
+		int dim4 = this.newCasesByRiskClassByAge[0][0][0].length;
+		int dim5 = this.newCasesByRiskClassByAge[0][0][0][0].length;
+		int dim2 = this.newCasesByRiskClassByAge[0].length;
+		int dim1 = this.newCasesByRiskClassByAge.length;
+		double returnArray[][][][][] = new double[dim1][dim2][dim4][dim5][dim6];
+
+		for (int scen = 0; scen < dim1; scen++)
+			for (int r = 0; r < dim4; r++)
+				for (int stepCount = 0; stepCount < dim2; stepCount++)
+					for (int a = 0; a < dim5; a++)
+						for (int g = 0; g < dim6; g++) {
+
+							returnArray[scen][stepCount][r][a][g] += this.newCasesByRiskClassByAge[scen][stepCount][d][r][a][g];
+
+						}
+		return returnArray;
+	}
+
+	/**
+	 * get the array of diseaseNumbers for disease d for the year year.
+	 * 
+	 * @param d
+	 *            : diseasenumber of disease to return
+	 * @return: array with diseaseNumbers. indexes scenario, risk factorclass,
+	 *          age, sex
+	 */
+	@Override
+	public double[][][][] getNewCasesByRiskClassByAge(int d, int year) {
+		int dim6 = this.newCasesByRiskClassByAge[0][0][0][0][0].length;
+		int dim4 = this.newCasesByRiskClassByAge[0][0][0].length;
+		int dim5 = this.newCasesByRiskClassByAge[0][0][0][0].length;
+		int dim1 = this.newCasesByRiskClassByAge.length;
+		double returnArray[][][][] = new double[dim1][dim4][dim5][dim6];
+
+		for (int scen = 0; scen < dim1; scen++)
+			for (int r = 0; r < dim4; r++)
+
+				for (int a = 0; a < dim5; a++)
+					for (int g = 0; g < dim6; g++) {
+
+						returnArray[scen][r][a][g] += this.newCasesByRiskClassByAge[scen][year][d][r][a][g];
+
+					}
+		return returnArray;
+
+	}
+
+	/**
+	 * gets number of new persons with disease
+	 * 
+	 * @param disease
+	 *            : diseasenumber
+	 * @return array [][][] with number of persons with this disease (index:
+	 *         scenario, age,sex)
+	 */
+	@Override
+	public double[][][] getNewCasesByAge(int disease, int stepCount) {
+		double[][][] nDiseaseByAge = new double[this.nScen + 1][96 + this.stepsInRun][2];
+		;
+
+		double[][][][] nDiseaseByRiskClassByAge = getNewCasesByRiskClassByAge(
+				disease, stepCount);
+		for (int r = 0; r < this.nRiskFactorClasses; r++)
+
+			for (int scen = 0; scen < this.nScen + 1; scen++)
+				for (int a = 0; a < 96 + this.stepsInRun; a++)
+					for (int g = 0; g < 2; g++)
+
+						nDiseaseByAge[scen][a][g] += nDiseaseByRiskClassByAge[scen][r][a][g];
+		return nDiseaseByAge;
 	}
 
 	/**
@@ -3328,6 +3996,98 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	public boolean isCategorized() {
 		return categorized;
+	}
+
+	@Override
+	public double[][][] getDiseaseDALY(int disease) {
+		if (diseaseStateDALY == null)
+			return null;
+		else {
+			if (this.diseaseDALY == null)
+				makeDiseaseDaly();
+			double[][][] returnArray = new double[nScen][96][2];
+			for (int scen = 0; scen < nScen; scen++)
+				returnArray[scen] = this.diseaseDALY[scen][disease];
+			return returnArray;
+
+		}
+	}
+
+	private void makeDiseaseDaly() {
+		for (int disease = 0; disease < this.nDiseases; disease++) {
+			int currentDisease = 0;
+			int currentClusterStart = 0;
+
+			boolean diseaseFound = false;
+			int nScens = diseaseStateDALY.length;
+			this.diseaseDALY = new double[nScens][this.nDiseases][96][2];
+
+			for (int c = 0; c < this.structure.length; c++) {
+				if (!this.structure[c].isWithCuredFraction()) {
+					for (int d = 0; d < this.structure[c].getNInCluster(); d++) {
+						if (this.structure[c].getDiseaseNumber()[d] == disease) {
+							diseaseFound = true;
+
+							for (int state = 1; state < Math.pow(2,
+									this.structure[c].getNInCluster()); state++) {
+
+								if ((state & (1 << d)) == (1 << d)) {
+									/*
+									 * if d =1 in the state, add this state to
+									 * the disease
+									 */
+									for (int scen = 0; scen < nScens; scen++)
+
+										for (int a = 0; a < 96; a++)
+											for (int g = 0; g < 2; g++)
+												diseaseDALY[scen][disease][a][g] += diseaseStateDALY[scen][currentClusterStart
+														+ state - 1][a][g];
+								}
+							}
+							break;
+						}
+						currentDisease++;
+					}
+					currentClusterStart += Math.pow(2, this.structure[c]
+							.getNInCluster()) - 1;
+					if (diseaseFound)
+						break;
+				} else {
+
+					if (this.structure[c].getDiseaseNumber()[0] == disease) {
+						diseaseFound = true;
+
+						for (int scen = 0; scen < nScens; scen++)
+
+							for (int a = 0; a < 96; a++)
+								for (int g = 0; g < 2; g++)
+									diseaseDALY[scen][disease][a][g] = diseaseStateDALY[scen][currentClusterStart][a][g];
+					}
+					if (this.structure[c].getDiseaseNumber()[1] == disease) {
+						diseaseFound = true;
+
+						for (int scen = 0; scen < nScens; scen++)
+
+							for (int a = 0; a < 96; a++)
+								for (int g = 0; g < 2; g++)
+									diseaseDALY[scen][disease][a][g] = diseaseStateDALY[scen][currentClusterStart + 1][a][g];
+					}
+
+					currentDisease += 2;
+
+					currentClusterStart += 2;
+					if (diseaseFound)
+						break;
+				} // end if with cured fraction
+			}// end loop over clusters
+
+		} // end loop over diseases ;
+	} // end method
+
+	@Override
+	public double[][][][][] getMeanRiskByOriRiskClassByOriAge() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

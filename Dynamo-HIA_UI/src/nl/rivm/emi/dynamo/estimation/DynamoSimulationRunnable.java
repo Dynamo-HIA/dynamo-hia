@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.awt.event.ActionEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +10,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -24,6 +28,7 @@ import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
+import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -31,6 +36,9 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 public class DynamoSimulationRunnable extends DomLevelTraverser {
 
@@ -61,6 +69,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 */
 
 	private ScenarioInfo scen;
+	
+	private ProgressIndicatorInterface pii;
+
+	private String simulationFilePath;
 
 	/**
 	 * @param prObject
@@ -93,7 +105,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			wrapAndThrowErrorMessage(e, simName);
 			errorMessage = "model can not be run due to writing errors";
 			e.printStackTrace();
-			
+
 		}
 	}
 
@@ -112,7 +124,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 *            , String baseDir
 	 * @throws DynamoInconsistentDataException
 	 * @throws DynamoConfigurationException
-	 * @throws IOException 
+	 * @throws IOException
 	 * 
 	 * 
 	 */
@@ -172,7 +184,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 */
 	public void run() {
 
-		String simulationFilePath = null;
+		simulationFilePath = null;
 		try {
 			if (this.errorMessage != null)
 				throw new DynamoConfigurationException(this.errorMessage);
@@ -184,10 +196,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * simulation is an object that contains the population that is
 			 * simulated and carries out the simulation
 			 */
-
-			simulation = new Simulation[scen.getNPopulations()];
-			for (int n = 0; n < scen.getNPopulations(); n++)
-				simulation[n] = new Simulation();
+//log.fatal("start simulation");
+		//	simulation = new Simulation[scen.getNPopulations()];
+		//	for (int n = 0; n < scen.getNPopulations(); n++)
+		//		simulation[n] = new Simulation();
 
 			// log.info("ModelParameters estimated and written");
 
@@ -209,6 +221,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// TODO: ONLY INI output = new DynamoOutputFactory(scen, pop);
 			InitialPopulationFactory popFactory = new InitialPopulationFactory(
 					p, scen, pr);
+			
+			
+			
+
+
 
 			int nIndividuals = getNIndividuals(popFactory);
 			int agemax = scen.getMaxSimAge();
@@ -224,6 +241,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * so not that much difference
 			 */
 			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
+				simulation = new Simulation[scen.getNPopulations()];
+				for (int n = 0; n < scen.getNPopulations(); n++)
+					simulation[n] = new Simulation();
+				this.runInOne = true;
 				pop = popFactory.manufactureInitialPopulation(agemin, agemax,
 						0, 1, 1, 1, false);
 				
@@ -232,7 +253,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 							.manufactureInitialPopulation(0, 0, 0, 1, 1, scen
 									.getYearsInRun(), true);
 
-					this.runInOne = true;
+					
 					for (int p = 0; p < pop.length; p++) {
 						newborns[p].addAll(pop[p]);
 						pop[p] = newborns[p];
@@ -241,44 +262,114 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				}
 				output = runPopulation(pop, simFileName, output);
 				log.fatal("population has run");
+				pii = pr.createProgressIndicator("");
 			} else {
 				this.runInOne = false;
+			//	ExecutorService exec = Executors.newFixedThreadPool(2);
 
-				ProgressIndicatorInterface pii = pr
+                  pii = pr
 						.createProgressIndicator("Simulation of scenarios "
 								+ "running ....");
 
-				int currentProgressIndicator = 1;
+				
 				// bar.setMaximum(size / step);
-				pii.setMaximum(agemax - agemin + 1);
+				pii.setMaximum(2*agemax - 2*agemin + 2);
 				if (scen.isWithNewBorns())
-					pii.setMaximum(agemax - agemin + 1 + scen.getYearsInRun());
+					pii.setMaximum(agemax*2 - agemin*2 + 2 + 2*scen.getYearsInRun());
 				for (int a = agemin; a <= agemax; a++) {
 					for (int g = 0; g < 2; g++) {
-						pop = popFactory.manufactureInitialPopulation(a, a, g,
-								g, 1, 1, false);
-						output = runPopulation(pop, simFileName, output);
+						log.fatal("simulation start for age:: "+a+" gender: "+ g);
+						
+						DynamoSimulationRunnableWorker worker =new DynamoSimulationRunnableWorker(pr.getDisplay(),log, 
+								pr,   p, scen, simFileName, output, a, g, 1, false);
+						worker.addExceptionListener(new ExceptionListener() {								
+							
+							public void actionPerformed(ActionEvent event){
+								DynamoSimulationRunnable.this.displayErrorMessage((Exception)event.getSource(),
+										DynamoSimulationRunnable.this.simulationFilePath);
+								
+								
+							}
+
+							});
+						/*
+						 * this did not work, now done with asyncexec 
+						 * worker.addFinishingListener(new FinishingListener() {								
+							
+							public void actionPerformed(ActionEvent event){
+								DynamoSimulationRunnable.this.pii.update();}
+								
+								
+							});*/
+						//exec.execute(worker);
+						// next line is alternative without multithreading
+						worker.run();
+						
+						
+						
+					//	pop = popFactory.manufactureInitialPopulation(a, a, g,
+					//			g, 1, 1, false);
+					//	log.fatal("simulation pop made");
+					//	output = runPopulation(pop, simFileName, output);
 					}
-					pii.update(currentProgressIndicator);
-					currentProgressIndicator++;
+					
 				}
 				if (scen.isWithNewBorns()) {
 					for (int generation = 1; generation <= scen.getYearsInRun(); generation++) {
 						for (int g = 0; g < 2; g++) {
-							pop = popFactory.manufactureInitialPopulation(0, 0,
-									g, g, generation, generation, true);
-							output = runPopulation(pop, simFileName, output);
+							DynamoSimulationRunnableWorker worker =new DynamoSimulationRunnableWorker(pr.getDisplay(),log, 
+									pr,   p, scen, simFileName, output, 0, g, generation, true);
+							worker.addExceptionListener(new ExceptionListener() {
+											
+								
+								public void actionPerformed(ActionEvent event){
+									DynamoSimulationRunnable.this.displayErrorMessage((Exception)event.getSource(),
+											DynamoSimulationRunnable.this.simulationFilePath);
+									
+									
+								}
+
+								});
+							
+					/*		worker.addFinishingListener(new FinishingListener() {								
+								
+								public void actionPerformed(ActionEvent event){
+									DynamoSimulationRunnable.this.pii.update();}
+									
+									
+								});*/
+						//	exec.execute(worker);
+							
+							// next line is alternative without multithreading
+							worker.run();
+							/* flush the event queue as it otherwise does not work */
+							while(pr.getDisplay().readAndDispatch()){};
+							log.fatal("newborn simulation start for generation: "+generation+" gender: "+ g);
+
+						//	pop = popFactory.manufactureInitialPopulation(0, 0,
+						//			g, g, generation, generation, true);
+							log.fatal("start simulation newborns");
+						//	output = runPopulation(pop, simFileName, output);
 						}
-						pii.update(currentProgressIndicator);
-						currentProgressIndicator++;
+						
 					}
 				}
-				pii.dispose();
+				
+			
+/* make sure that all treads are finished before doing the final combination of data */
+			
+		/*	exec.shutdown(); try {   exec.awaitTermination(6000, TimeUnit.SECONDS); } catch (InterruptedException e) {
+				this.displayErrorMessage(e, simulationFilePath);
+				e.printStackTrace();
+				} */
+				
+				
 			}
-
 			/** * finalize output */
-
+			pii.setIndeterminate("summarizing results ...... ");
+			// TODO: PI making output adding
 			output.makeArraysWithPopulationNumbers();
+			pii.dispose();
 			log.fatal("output object finalized");
 			// log.fatal("Starting to write populations");
 			// for (int npop = 0; npop < nPopulations; npop++) {
@@ -314,6 +405,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			e.printStackTrace();
 		} catch (ConfigurationException e) {
 			displayErrorMessage(e, simulationFilePath);
+			e.printStackTrace();
 		} catch (Exception e) {
 			displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
@@ -330,13 +422,14 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		// log.debug("simulationFilePath" + simulationFilePath);
 
 		/* run the simulation for each population */
-		for (int scennum = 0; scennum < scen.getNPopulations(); scennum++) {
+
+		for (int popNum = 0; popNum < scen.getNPopulations(); popNum++) {
 			File simulationConfigurationFile;
-			if (scennum != 0)
-				simulationFilePath = simFileName + "_scen_" + scennum + ".xml";
+			if (popNum != 0)
+				simulationFilePath = simFileName + "_scen_" + popNum + ".xml";
 
 			simulationConfigurationFile = new File(simulationFilePath);
-			// log.info("simulationFile made for scenario " + scennum);
+			log.info("simulationFile made for scenario ");
 
 			// assertTrue(CharacteristicsConfigurationMapSingleton
 			// .getInstance().size() > 1);
@@ -347,8 +440,17 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// calculate frequency of risk factor values during simulation
 
 			if (simulationConfigurationFile.exists()) {
-				simulationConfiguration = new XMLConfiguration(
-						simulationConfigurationFile);
+				/* oud */
+				/*
+				 * simulationConfiguration = new XMLConfiguration(
+				 * simulationConfigurationFile);
+				 */
+
+				simulationConfiguration = new XMLConfiguration();
+				simulationConfiguration.setDelimiterParsingDisabled(true);
+				simulationConfiguration.setFile(simulationConfigurationFile);
+				simulationConfiguration.load();
+
 				// log.info("simulationconfuration made for scenario "
 				// + scennum);
 
@@ -367,7 +469,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					simulationConfiguration.clear();
 
 					// Validate the xml by xsd schema
-					simulationConfiguration.setValidating(true);
+					simulationConfiguration.setValidating(false);
 					simulationConfiguration.load();
 				}
 
@@ -377,22 +479,30 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				 * read from xml file
 				 */
 				/* deze stap neemt veel tijd: daarom maar een maal doen */
-				if (simulation[scennum].getLabel().equals("Not initialized"))
-					simulation[scennum] = SimulationFromXMLFactory
+				if (simulation[popNum].getLabel().equals("Not initialized"))
+					simulation[popNum] = SimulationFromXMLFactory
 							.manufacture_DOMPopulationTree(
 									simulationConfiguration, false);
 				/*
 				 * set the initial population to the population (taken earlier
 				 * from the Modelparameter object
 				 */
-				simulation[scennum].setPopulation(pop[scennum]);
+				simulation[popNum].setPopulation(pop[popNum]);
+				/*
+				 * daly type is an array over the alternative scenario's , thus
+				 * not including the reference scenario
+				 */
+				if (popNum > 0 && scen.getDalyType()[popNum])
+					simulation[popNum].setIsDaly(true);
+				else
+					simulation[popNum].setIsDaly(false);
 
 				// log.info("simulationFile loaded for scenario " +
 				// scennum);
 
-				if (pop[scennum] == null)
+				if (pop[popNum] == null)
 					throw new CDMConfigurationException(
-							"no population found for scenario " + scennum);
+							"no population found for scenario " + popNum);
 				// log.info("starting run for population " + scennum);
 				/*
 				 * run the simulation for this population This is done by the
@@ -401,8 +511,8 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				 * as a field) as for instance a progress bar could be added
 				 * that way
 				 */
-
-				runScenario(scennum, pr);
+				log.info("start running scenario ");
+				runScenario(popNum, pr);
 
 				// todo: remove progress indicator and add to output
 				// log.info("Run  complete for population " + scennum);
@@ -410,6 +520,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			}
 		}
 		output.extractNumbersFromPopulation(pop);
+		log.fatal("numbers are extracted");
 		return output;
 	}
 
@@ -692,10 +803,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		return errorMessage;
 	}
 
-	public void runScenario(int scennum, DynSimRunPRInterface dsi)
+	public void runScenario(int populationNum, DynSimRunPRInterface dsi)
 			throws Exception {
 
-		Population population = simulation[scennum].getPopulation();
+		log.fatal("start of runScenario for scen " + populationNum);
+		Population population = simulation[populationNum].getPopulation();
 		int stepsInRun = 105;
 
 		int size = population.size();
@@ -705,7 +817,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		int currentProgressIndicator = 0;
 		if (runInOne) {
 			pii = dsi.createProgressIndicator("Simulation of scenario "
-					+ scennum + " running ....");
+					+ populationNum + " running ....");
 
 			step = (int) Math.floor(size / 50);
 			if (step < 1)
@@ -738,7 +850,9 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				}
 				/* if not, simulate */
 
-				simulation[scennum].processCharVals(individual);
+				simulation[populationNum].processCharVals(individual);
+
+				// TODO if (stepCount==0 ) simulation[scennum].disableIsDaly();
 
 			}
 			if (runInOne)
@@ -748,12 +862,13 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					currentProgressIndicator++;
 				}
 		}
+		log.fatal("end simulation");
 		if (runInOne)
 			pii.dispose();
 	}
 
-	private void displayErrorMessage(Exception e, String simulationFilePath) {
-		pr.communicateErrorMessage(this, e, simulationFilePath);
+	private void displayErrorMessage(Exception e, String SimFilePath) {
+		pr.communicateErrorMessage(this, e, SimFilePath);
 		e.printStackTrace();
 	}
 

@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -49,7 +50,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public static final String NAME = "Name";
-	public static final String SUCCESS_RATE = "Success Rate";
+	public static final String SUCCESS_RATE = "% of Population Reached";
 	public static final String MIN_AGE = "Min. Age";
 	public static final String MAX_AGE = "Max. Age";
 	public static final String GENDER = "Gender";
@@ -121,6 +122,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 
 			// In case a new tab is created, set the 100 as initial Success Rate
 			dynamoTabDataManager.updateObjectState(SUCCESS_RATE, "100");
+			dynamoTabDataManager.updateObjectState(MAX_AGE, "95");
+			dynamoTabDataManager.updateObjectState(GENDER, "Male and Female");
 		}
 		String labelValue = NAME;
 		WritableValue observable = (WritableValue) dynamoTabDataManager
@@ -133,9 +136,12 @@ public class ScenarioSelectionGroup { // extends Composite {
 		bindHeaderValue(observable2, labelValue, new SuccessRate());
 
 		Label label = new Label(scenarioDefGroup, SWT.LEFT);
+		
 		GridData ld = new GridData();
 		ld.horizontalSpan = 6;
 		ld.verticalIndent = 4;
+		
+		
 		label.setText(TARGET_OF_INTERVENTION);
 		label.setLayoutData(ld);
 
@@ -302,17 +308,23 @@ public class ScenarioSelectionGroup { // extends Composite {
 
 	private void handleLayout() {
 		GridLayout scenarioGridLayout = new GridLayout();
-		scenarioGridLayout.makeColumnsEqualWidth = true;
+		scenarioGridLayout.makeColumnsEqualWidth = false;
 		scenarioGridLayout.numColumns = 6;
 		scenarioGridLayout.marginHeight = 3; // Changed from -3.
 		scenarioDefGroup.setLayout(scenarioGridLayout);
+		scenarioGridLayout.marginWidth=50;
+		scenarioGridLayout.marginRight=90;
+		
+		
+		
 	}
 
 	private void handleLayoutData() {
 		FormData scenarioFormData = new FormData();
 		scenarioFormData.top = new FormAttachment(0, 6);
 		scenarioFormData.left = new FormAttachment(0, 5);
-		scenarioFormData.right = new FormAttachment(100, -5);
+		/* was 100*/
+		scenarioFormData.right = new FormAttachment(120, -5);
 //		scenarioFormData.bottom = new FormAttachment(53, 0);
 		scenarioFormData.bottom = new FormAttachment(60, 0);
 		scenarioDefGroup.setLayoutData(scenarioFormData);

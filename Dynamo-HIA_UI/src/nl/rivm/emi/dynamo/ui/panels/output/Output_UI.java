@@ -46,12 +46,12 @@ public class Output_UI {
         String [] tokens = currentPath.split(delim);
         
 		this.parentShell = shell;
-		outputShell = new Shell(parentShell);
+		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN);
 		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
 		outputShell.setBounds(30, 30, 750, 650);
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
-        log.debug("start making plotFactory");
+        log.fatal("start making plotFactory");
 		this.plotFactory=new DynamoPlotFactory(output,scenarioParameters);
         makeOutputDisplay(outputShell);
 		
@@ -78,15 +78,18 @@ public class Output_UI {
 
 		final Output_PyramidTab tab0 = new Output_PyramidTab(tabFolder1, this.plotFactory);
 		log.debug("tab pyramid made");
-		final Output_DiseaseTab tab1 = new Output_DiseaseTab(tabFolder1, this.plotFactory);
-		log.debug("tab diseases made");
+		
 		final Output_RiskFactorTab tab2 = new Output_RiskFactorTab(tabFolder1,
 				this.plotFactory);
 		log.debug("tab risk factor made");
-		final Output_LifeExpTab tab3 = new Output_LifeExpTab(tabFolder1, this.plotFactory);
+		final Output_DiseaseTab tab1 = new Output_DiseaseTab(tabFolder1, this.plotFactory);
+		log.debug("tab diseases made");
+		final Output_IncidenceTab tab7 = new Output_IncidenceTab(tabFolder1, this.plotFactory);
+		log.debug("tab incidences made");
 		final Output_SurvivalTab tab4 = new Output_SurvivalTab(tabFolder1,
 				this.plotFactory);
 		log.debug("tab survival made");
+		final Output_LifeExpTab tab3 = new Output_LifeExpTab(tabFolder1, this.plotFactory);
 		final Output_WriteOutputTab tab5 = new Output_WriteOutputTab(
 				outputShell, currentPath, tabFolder1, this.output, scenarioParameters);
 		log.debug("tab writing made");
@@ -102,8 +105,10 @@ public class Output_UI {
 				String tabId = item.getText();
 				if (tabId == "population Pyramid")
 					tab0.redraw();
-				if (tabId == "disease plots")
+				if (tabId == "prevalence plots")
 					tab1.redraw();
+				if (tabId == "incidence plots")
+					tab7.redraw();
 				if (tabId == "riskfactor plots")
 					tab2.redraw();
 				if (tabId == "life expectancy plots")

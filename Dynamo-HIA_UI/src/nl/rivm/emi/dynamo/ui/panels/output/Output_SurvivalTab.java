@@ -119,7 +119,8 @@ public class Output_SurvivalTab  {
 		
 
 		TabItem item = new TabItem(tabFolder, SWT.NONE);
-		item.setText("mortality/survival plots");
+		//change dd 22/11/2011 
+		item.setText("Mortality/Survival");
 		item.setControl(plotComposite);
 		
 

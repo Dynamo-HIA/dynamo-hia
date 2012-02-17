@@ -833,12 +833,13 @@ public class SimulationConfigurationFactory {
 		// temporary name for testing
 
 		/* set general info for simulation */
+		/* we need one file for each population */
 
 		String fileName = simFileName + ".xml";
 
-		for (int scen = 0; scen <= scenInfo.getNScenarios(); scen++) {
-			if (scen > 0)
-				fileName = simFileName + "_scen_" + scen + ".xml";
+		for (int pop = 0; pop < scenInfo.getNPopulations(); pop++) {
+			if (pop > 0)
+				fileName = simFileName + "_scen_" + pop + ".xml";
 			Document document = newDocument(fileName);
 
 			Element rootElement = document.createElement("sim");
@@ -853,15 +854,18 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(rootElement, "stepsinrun",
 					((Integer) scenInfo.getYearsInRun()).toString());
 			writeFinalElementToDom(rootElement, "stoppingcondition", null);
-			if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
+			/* these are redundant as we do no longer write and read the population in DYNAMO:
+			 * however, the SOR-aCDM engine expects this information, therefore this is kept here
+			 */
+			if (pop > 0 && (scenInfo.getIsOneScenPopulation()[pop] || scenInfo.getInitialPrevalenceType()[scenInfo.getPopToScenIndex()[pop]]))
 				writeFinalElementToDom(rootElement, "pop", popFileName
-						+ "_scen_" + scen + ".xml");
+						+ "_pop_" + pop + ".xml");
 			else
 				writeFinalElementToDom(rootElement, "pop", popFileName + ".xml");
 			if (scenInfo.isWithNewBorns()) {
-				if (scen > 0 && scenInfo.getInitialPrevalenceType()[scen - 1])
+				if (pop > 0 && (scenInfo.getIsOneScenPopulation()[pop] || scenInfo.getInitialPrevalenceType()[scenInfo.getPopToScenIndex()[pop]]))
 					writeFinalElementToDom(rootElement, "newborns",
-							newbornsFileName + "_scen_" + scen + ".xml");
+							newbornsFileName + "_pop_" + pop + ".xml");
 				else
 					writeFinalElementToDom(rootElement, "newborns",
 							newbornsFileName + ".xml");
@@ -892,9 +896,9 @@ public class SimulationConfigurationFactory {
 					break;
 				case 3:
 					if (riskType != 2)
-						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule";
+						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorManyToOneUpdateRule";
 					else
-						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.ContinuousRiskFactorMultiToOneUpdateRule";
+						ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.ContinuousRiskFactorManyToOneUpdateRule";
 
 					break;
 				case 4:
@@ -917,14 +921,14 @@ public class SimulationConfigurationFactory {
 						((Integer) charID).toString());
 				writeFinalElementToDom(rule, "classname", ruleName);
 				String ConfigXMLfileName = null;
-				if (scen == 0 || charID != 3)
+				if (pop == 0 || charID != 3)
 					ConfigXMLfileName = directoryName + File.separator
 							+ "modelconfiguration" + File.separator + "rule"
 							+ ((Integer) charID).toString() + ".xml";
 				else
 					ConfigXMLfileName = directoryName + File.separator
 							+ "modelconfiguration" + File.separator + "rule"
-							+ ((Integer) charID).toString() + "_scen_" + scen
+							+ ((Integer) charID).toString() + "_scen_" + pop
 							+ ".xml";
 				if (charID > 2)
 					writeFinalElementToDom(rule, "configurationfile",

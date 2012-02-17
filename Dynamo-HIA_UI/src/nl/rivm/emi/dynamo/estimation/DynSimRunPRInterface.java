@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import org.eclipse.swt.widgets.Display;
+
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
@@ -19,6 +21,10 @@ public interface DynSimRunPRInterface {
 	 * @return
 	 */
 	public ProgressIndicatorInterface createProgressIndicator(String message);
+	
+	
+	
+	public void updateProgressIndicator();
 
 	/**
 	 * @param e
@@ -53,4 +59,10 @@ public interface DynSimRunPRInterface {
  * @param currentpath
  */
 public void createOutput( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
+
+public RCPProgressBar getBar();
+
+
+
+public Display getDisplay();
 }
