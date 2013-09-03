@@ -28,7 +28,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class HealthStateDurationManyToManyUpdateRule
 
-extends HealthStateManyToManyUpdateRule {
+extends HealthStateCatManyToManyUpdateRule {
 
 	int[][][] atIndex;
 	/*
@@ -80,17 +80,6 @@ extends HealthStateManyToManyUpdateRule {
 	 * indexes are :age, gender, cluster number gives the ratio not-cured/total
 	 */
 
-	float transMat[][][][][][];
-	/*
-	 * indexes are : age sex riskfactor diseaseCluster from to
-	 */
-
-	float OtherMortalitySurvival[][][];
-
-	/*
-	 * indexes are : age sex riskfactor status
-	 */
-
 	MatrixExponential matExp = new MatrixExponential();
 
 	public HealthStateDurationManyToManyUpdateRule()
@@ -105,15 +94,14 @@ extends HealthStateManyToManyUpdateRule {
 
 		try {
 			int ageValue = (int) getFloat(currentValues, getAgeIndex());
+			double[] currentHealthyState = new double[nCluster];
 			float[] oldValue = getValues(currentValues,
 					getCharacteristicIndex());
 			if (ageValue < 0) {
 				newValue = oldValue;
 				return newValue;
 			} else {
-				int sexValue = getInteger(currentValues, getSexIndex());
-				if (ageValue > 95)
-					ageValue = 95;
+
 				int riskFactorValue = getInteger(currentValues,
 						riskFactorIndex1);
 				float riskDurationValue = getFloat(currentValues,
@@ -128,14 +116,17 @@ extends HealthStateManyToManyUpdateRule {
 				newValue = new float[oldValue.length];
 				float[] currentDiseaseStateValues = new float[oldValue.length];
 
-				/*
-				 * UPDATE OF DURATION CLASS
-				 */
+				if (riskFactorValue != durationClass) {
 
-				// NB All transitions are [to][from]
-				if (riskFactorValue == durationClass) {
+					return updatedHealthStates(currentValues, ageValue,
+							currentHealthyState, oldValue);
+				} else { // durationclass
+					int sexValue = getInteger(currentValues, getSexIndex());
+					if (ageValue > 95)
+						ageValue = 95;
+
 					int currentStateNo = 0;
-					
+
 					double survivalFraction = calculateOtherCauseSurvival(
 							riskDurationValue, ageValue, sexValue);
 
@@ -197,24 +188,29 @@ extends HealthStateManyToManyUpdateRule {
 										* calculateFatalIncidence(
 												riskDurationValue, ageValue,
 												sexValue, d))
-										* (atMort * (1 - oldValue[currentStateNo]) * expI + (atMort
+										* (atMort
+												* (1 - oldValue[currentStateNo])
+												* expI + (atMort
 												* oldValue[currentStateNo] - incidence)
 												* expA) / (atMort - incidence);
 							else if (expAI != 1)
-								survivalFraction *= (atMort * (1 - oldValue[currentStateNo])
-										* expI + (atMort * oldValue[currentStateNo] - incidence)
+								survivalFraction *= (atMort
+										* (1 - oldValue[currentStateNo]) * expI + (atMort
+										* oldValue[currentStateNo] - incidence)
 										* expA)
 										/ (atMort - incidence);
 							else if (disFatalIndex[ageValue][sexValue][c][0] != 0)
 								survivalFraction *= expA
-										* (incidence * (1 - oldValue[currentStateNo]) + 1);
-							else 
+										* (incidence
+												* (1 - oldValue[currentStateNo]) + 1);
+							else
 								survivalFraction *= Math.exp(-getTimeStep()
 										* calculateFatalIncidence(
 												riskDurationValue, ageValue,
 												sexValue, d))
 										* expA
-										* (incidence * (1 - oldValue[currentStateNo]) + 1);
+										* (incidence
+												* (1 - oldValue[currentStateNo]) + 1);
 
 							currentStateNo++;
 							/* update diseases with cured fraction */
@@ -224,12 +220,18 @@ extends HealthStateManyToManyUpdateRule {
 							atMort = attributableMortality[d + 1][ageValue][sexValue];
 							incidence2 = calculateIncidence(riskDurationValue,
 									ageValue, sexValue, d + 1);
-							/* non cured ratio can be only zero when either incidence d+1= zero,
-							 *  or both are zero, so the last option can not occur */
-							if (nonCuredRatio[ageValue][sexValue][c]!=0) incidence = incidence2
-									/ nonCuredRatio[ageValue][sexValue][c];
-							else if (incidence2==0) incidence=0;
-							else incidence=0;
+							/*
+							 * non cured ratio can be only zero when either
+							 * incidence d+1= zero, or both are zero, so the
+							 * last option can not occur
+							 */
+							if (nonCuredRatio[ageValue][sexValue][c] != 0)
+								incidence = incidence2
+										/ nonCuredRatio[ageValue][sexValue][c];
+							else if (incidence2 == 0)
+								incidence = 0;
+							else
+								incidence = 0;
 
 							/*
 							 * for faster execution for results that are used
@@ -254,14 +256,434 @@ extends HealthStateManyToManyUpdateRule {
 										/ (incidence - atMort);
 
 							survival = (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
-									* expI + oldValue[currentStateNo] + oldValue[currentStateNo + 1]
+									* expI
+									+ oldValue[currentStateNo]
+									+ oldValue[currentStateNo + 1]
 									* expA
 									+ (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
 									* (transMat10 + transMat20);
 							newValue[currentStateNo] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
 									* transMat10 + oldValue[currentStateNo]) / survival);
 							newValue[currentStateNo + 1] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
-									* transMat20 + oldValue[currentStateNo + 1] * expA) / survival);
+									* transMat20 + oldValue[currentStateNo + 1]
+									* expA) / survival);
+							/*
+							 * NB disease with cured fraction can not be fatal
+							 * at the same time
+							 */
+							survivalFraction *= survival;
+							currentStateNo += 2;
+						}
+
+						else /* now cluster diseases */
+						{
+
+							/*
+							 * Multiply the matrix with the old values (column
+							 * vector)
+							 */
+							double unconditionalNewValues[] = new double[nCombinations[c]];
+
+							/* calculate the healthy state */
+							currentHealthyState[c] = 1;
+							for (int state = currentStateNo; state < currentStateNo
+									+ nCombinations[c] - 1; state++)
+								currentHealthyState[c] -= oldValue[state];
+
+							/*
+							 * NB the unconditional new state starts at 0 with
+							 * the healthy state, so oldvalue[1] belongs with
+							 * unconditionalnewstate[0]
+							 */
+
+							double[][] rateMatrix = fillRateMatrixForCluster(
+									ageValue, sexValue, riskDurationValue, c);
+							if (ageValue == 46) {
+								int stop = 0;
+								stop++;
+
+							}
+							float[][] transMat = matExp
+									.exponentiateFloatMatrix(rateMatrix);
+
+							for (int state1 = 0; state1 < nCombinations[c]; state1++) // row
+							{ /* transitionProbabilities are [to][from] */
+								unconditionalNewValues[state1] = transMat[state1][0]
+										* currentHealthyState[c];
+								for (int state2 = 1; state2 < nCombinations[c]; state2++)
+									// column=from
+
+									unconditionalNewValues[state1] += transMat[state1][state2]
+											* oldValue[state2 - 1
+													+ currentStateNo];
+							}
+							/* calculate survival */
+							survival = 0;
+							for (int state = 0; state < nCombinations[c]; state++) {
+								survival += unconditionalNewValues[state];
+							}
+							survivalFraction *= survival;
+							for (int state = currentStateNo; state < currentStateNo
+									+ nCombinations[c] - 1; state++) {
+								newValue[state] = (float) (unconditionalNewValues[state
+										- currentStateNo + 1] / survival);
+							}
+							;
+							currentStateNo += nCombinations[c] - 1;
+						} // end if statement for cluster diseases
+
+					} // end loop over clusters
+					newValue[currentStateNo] = (float) survivalFraction
+							* oldValue[currentStateNo];
+// *********************************************************************************/
+
+					/* calculate incidence */
+					/*
+					 * copied from HenthStateContMany met alleen RiskValue verandert in RiskDuration
+					 * 
+					 * //
+					 * *******************************************************
+					 * *************************
+					 */
+					int currentStateNo2 = 0; /*
+											 * this is the disease-state index,
+											 * while currentStateNo is the state
+											 * in the output-array (newvalues).
+											 * i.o.w. CurrentStateNo is the
+											 * index for the place where the
+											 * incidence data are stored
+											 */
+					for (int c = 0; c < nCluster; c++) {
+
+						/* update single diseases */
+						float incidenceC = 0F;
+						float fatalIncidenceC = 0F;
+						if (numberOfDiseasesInCluster[c] == 1) {
+							currentStateNo++;
+							d = clusterStartsAtDiseaseNumber[c];
+
+							/*  hier aangepast aan duration */
+							incidenceC = (float) calculateIncidence(
+									riskDurationValue, ageValue, sexValue, d);
+							fatalIncidenceC = (float) calculateFatalIncidence(
+									riskDurationValue, ageValue, sexValue, d);
+
+							/*
+							 * incidence = incidence(in disease free) * fraction
+							 * of personyears free of disease + fatal incidence;
+							 */
+							/*
+							 * person years with disease= average of prevalence
+							 * at beginning and end
+							 */
+							newValue[currentStateNo] = (float) ((0.5
+									* survivalFraction
+									* (1 - newValue[currentStateNo2]) + 0.5 * (1 - oldValue[currentStateNo2]))
+									* incidenceC + fatalIncidenceC
+									* (0.5 + 0.5 * survivalFraction));
+
+							currentStateNo2++;
+
+							/* update diseases with cured fraction */
+						} else if (withCuredFraction[c]) {
+							currentStateNo++;
+							d = clusterStartsAtDiseaseNumber[c];
+							/*
+							 * indexes are : age sex riskfactor diseaseCluster
+							 * TOdiseaseWithinCluster diseaseStateWithinCluster
+							 */
+							/* incidence is only from the healthy states */
+							double newHealthyState = 1
+									- newValue[currentStateNo2]
+									- newValue[currentStateNo2 + 1];
+							double oldHealthyState = 1
+									- oldValue[currentStateNo2]
+									- oldValue[currentStateNo2 + 1];
+							incidenceC = (float) calculateIncidence(
+									riskDurationValue, ageValue, sexValue, d);
+							fatalIncidenceC = (float) calculateFatalIncidence(
+									riskDurationValue, ageValue, sexValue, d);
+							// incidence =
+							// calculateIncidence(riskFactorValue,ageValue,
+							// sexValue, d);
+							newValue[currentStateNo] = (float) ((0.5
+									* newHealthyState * survivalFraction + 0.5 * oldHealthyState)
+									* incidenceC + fatalIncidenceC
+									* (0.5 + 0.5 * survivalFraction));
+							currentStateNo++;
+							incidenceC = (float) calculateIncidence(
+									riskDurationValue, ageValue, sexValue, d + 1);
+							fatalIncidenceC = (float) calculateFatalIncidence(
+									riskDurationValue, ageValue, sexValue, d + 1);
+
+							newValue[currentStateNo] = (float) ((0.5
+									* newHealthyState * survivalFraction + 0.5 * oldHealthyState)
+									* incidenceC + fatalIncidenceC
+									* (0.5 + 0.5 * survivalFraction));
+							currentStateNo2++;
+							currentStateNo2++;
+						}
+
+						/* update cluster diseases */
+						else {
+
+												
+							int dInCluster = 0;
+							/*
+							 * calculate the healthy state at the end of the
+							 * time period
+							 */
+							double newHealthyState = 1;
+							int startState = currentStateNo2;
+							for (int state = startState; state < startState
+									+ nCombinations[c] - 1; state++)
+								newHealthyState -= newValue[state];
+
+							for (int dd = clusterStartsAtDiseaseNumber[c]; dd < clusterStartsAtDiseaseNumber[c]
+									+ numberOfDiseasesInCluster[c]; dd++) {
+								currentStateNo++;
+								int numberInCluster = DiseaseNumberWithinCluster[dd];
+								/*
+								 * first add incidence from healthy state
+								 * including fatal incidence
+								 */
+
+								/*
+								 * NB: first index flags whether this is
+								 * incidence (0) or fatal incidence (1)
+								 * 
+								 * second index: disease for which this is the incidence
+								 */
+							
+								double[][][] incidenceInStateForDuration = calculateIncidenceInState(
+										riskDurationValue, ageValue, sexValue, c);
+
+								double incidenceD = 0.5
+										* (currentHealthyState[c] + newHealthyState
+												* survivalFraction)
+										* (incidenceInStateForDuration[0][numberInCluster][0] + incidenceInStateForDuration[1][numberInCluster][0]);
+								/* add incidence from the non-healthy states */
+								for (int state = 1; state < nCombinations[c]; state++) {
+
+									if ((state & (1 << numberInCluster)) != (1 << numberInCluster))
+										incidenceD += (0.5
+												* newValue[startState + state
+														- 1] * survivalFraction + 0.5 * oldValue[startState
+												+ state - 1])
+												* incidenceInStateForDuration[0][numberInCluster][state];
+									/* fatal incidence is for all */
+									incidenceD += (0.5
+											* newValue[startState + state - 1]
+											* survivalFraction + 0.5 * oldValue[startState
+											+ state - 1])
+											* incidenceInStateForDuration[1][numberInCluster][state];
+								}
+
+								newValue[currentStateNo] = (float) incidenceD;
+
+							} /* end loop over diseases in cluster */
+							currentStateNo2 += nCombinations[c] - 1;
+
+						} // end if statement for cluster diseases
+
+					} // end loop over clusters
+
+					return newValue;
+
+				}
+
+			}
+		} catch (CDMUpdateRuleException e) {
+			log.fatal(e.getMessage());
+			log
+					.fatal("this message was issued by HealthStateDurationMultiToOneUpdateRule"
+							+ " when updating characteristic number "
+							+ getCharacteristicIndex());
+			e.printStackTrace();
+			throw e;
+
+		}
+
+	}
+
+	public Object update_old(Object[] currentValues)
+			throws CDMUpdateRuleException {
+
+		float[] newValue = null;
+
+		try {
+			int ageValue = (int) getFloat(currentValues, getAgeIndex());
+			float[] oldValue = getValues(currentValues,
+					getCharacteristicIndex());
+			if (ageValue < 0) {
+				newValue = oldValue;
+				return newValue;
+			} else {
+				int sexValue = getInteger(currentValues, getSexIndex());
+				if (ageValue > 95)
+					ageValue = 95;
+				int riskFactorValue = getInteger(currentValues,
+						riskFactorIndex1);
+				float riskDurationValue = getFloat(currentValues,
+						riskFactorIndex2);
+				// TODO dit beter oplossen: op een of ander manier wordt deze
+				// steeds
+				// -1;
+				// wellicht doordat setter in andere classe dan deze??
+				if (getCharacteristicIndex() > 0)
+					setCharacteristicIndex(5);
+
+				newValue = new float[oldValue.length];
+				float[] currentDiseaseStateValues = new float[oldValue.length];
+
+				/*
+				 * UPDATE OF DURATION CLASS
+				 */
+
+				// NB All transitions are [to][from]
+				if (riskFactorValue == durationClass) {
+					int currentStateNo = 0;
+
+					double survivalFraction = calculateOtherCauseSurvival(
+							riskDurationValue, ageValue, sexValue);
+
+					double expAI;
+					double expI;
+					double expA;
+					int d;
+					double incidence;
+					double incidence2;
+					double atMort;
+					for (int c = 0; c < nCluster; c++) {
+						double survival = 0;
+						/* update single diseases */
+						if (numberOfDiseasesInCluster[c] == 1) {
+
+							d = clusterStartsAtDiseaseNumber[c];
+							atMort = attributableMortality[d][ageValue][sexValue];
+							incidence = calculateIncidence(riskDurationValue,
+									ageValue, sexValue, d);
+							/*
+							 * for faster execution for results that are used
+							 * multiple times: only perform Math.exp once and
+							 * save results
+							 */
+							expA = Math.exp(-atMort * timeStep);
+							expI = Math.exp(-incidence * timeStep);
+							if (Math.abs(incidence - atMort) > 1E-15)
+								expAI = expA / expI;
+							else
+								expAI = 1;
+							// finci = ((p0 * em - i) * exp((i - em) * time) + i
+							// *
+							// (1 -
+							// p0))
+							// / ((p0 * em - i) * exp((i - em) * time) + em * (1
+							// -
+							// p0))
+							if (expAI != 1)
+								newValue[currentStateNo] = (float) (((oldValue[currentStateNo]
+										* atMort - incidence)
+										* expAI + incidence
+										* (1 - (double) oldValue[currentStateNo])) / ((oldValue[currentStateNo]
+										* atMort - incidence)
+										* expAI + atMort
+										* (1 - (double) oldValue[currentStateNo])));
+							else
+								newValue[currentStateNo] = (float) (1 - (1 - oldValue[currentStateNo])
+										/ (1 + incidence
+												* (1 - oldValue[currentStateNo])
+												* timeStep));
+							/*
+							 * if incidence equal to attributable mortality, the
+							 * denominator becomes zero and we need another
+							 * formula
+							 */
+							if (disFatalIndex[ageValue][sexValue][c][0] == 0
+									&& expAI != 1)
+								survivalFraction *= Math.exp(-getTimeStep()
+										* calculateFatalIncidence(
+												riskDurationValue, ageValue,
+												sexValue, d))
+										* (atMort
+												* (1 - oldValue[currentStateNo])
+												* expI + (atMort
+												* oldValue[currentStateNo] - incidence)
+												* expA) / (atMort - incidence);
+							else if (expAI != 1)
+								survivalFraction *= (atMort
+										* (1 - oldValue[currentStateNo]) * expI + (atMort
+										* oldValue[currentStateNo] - incidence)
+										* expA)
+										/ (atMort - incidence);
+							else if (disFatalIndex[ageValue][sexValue][c][0] != 0)
+								survivalFraction *= expA
+										* (incidence
+												* (1 - oldValue[currentStateNo]) + 1);
+							else
+								survivalFraction *= Math.exp(-getTimeStep()
+										* calculateFatalIncidence(
+												riskDurationValue, ageValue,
+												sexValue, d))
+										* expA
+										* (incidence
+												* (1 - oldValue[currentStateNo]) + 1);
+
+							currentStateNo++;
+							/* update diseases with cured fraction */
+						} else if (withCuredFraction[c]) {
+							d = clusterStartsAtDiseaseNumber[c];
+
+							atMort = attributableMortality[d + 1][ageValue][sexValue];
+							incidence2 = calculateIncidence(riskDurationValue,
+									ageValue, sexValue, d + 1);
+							/*
+							 * non cured ratio can be only zero when either
+							 * incidence d+1= zero, or both are zero, so the
+							 * last option can not occur
+							 */
+							if (nonCuredRatio[ageValue][sexValue][c] != 0)
+								incidence = incidence2
+										/ nonCuredRatio[ageValue][sexValue][c];
+							else if (incidence2 == 0)
+								incidence = 0;
+							else
+								incidence = 0;
+
+							/*
+							 * for faster execution for results that are used
+							 * multipletimes: only perform Math.exp once and
+							 * save results
+							 */
+
+							expI = Math.exp(-incidence * timeStep);
+							expA = Math.exp(-atMort * timeStep);
+							double transMat10;
+							double transMat20;
+							if (incidence != 0)
+								transMat10 = (1 - expI)
+										* (incidence - incidence2) / incidence;
+							else
+								transMat10 = 0;
+
+							if (incidence == atMort)
+								transMat20 = expI * incidence2;
+							else
+								transMat20 = (expA - expI) * incidence2
+										/ (incidence - atMort);
+
+							survival = (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* expI
+									+ oldValue[currentStateNo]
+									+ oldValue[currentStateNo + 1]
+									* expA
+									+ (1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* (transMat10 + transMat20);
+							newValue[currentStateNo] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* transMat10 + oldValue[currentStateNo]) / survival);
+							newValue[currentStateNo + 1] = (float) (((1 - oldValue[currentStateNo] - oldValue[currentStateNo + 1])
+									* transMat20 + oldValue[currentStateNo + 1]
+									* expA) / survival);
 							/*
 							 * NB disease with cured fraction can not be fatal
 							 * at the same time
@@ -293,10 +715,10 @@ extends HealthStateManyToManyUpdateRule {
 
 							double[][] rateMatrix = fillRateMatrixForCluster(
 									ageValue, sexValue, riskDurationValue, c);
-							if (ageValue==46){
-								int stop=0;
+							if (ageValue == 46) {
+								int stop = 0;
 								stop++;
-								
+
 							}
 							float[][] transMat = matExp
 									.exponentiateFloatMatrix(rateMatrix);
@@ -340,7 +762,7 @@ extends HealthStateManyToManyUpdateRule {
 				/* for categories without duration */
 				else {
 					int currentStateNo = 0;
-					
+
 					double survivalFraction = OtherMortalitySurvival[ageValue][sexValue][riskFactorValue];
 
 					float[][] currentTransMat;
@@ -447,7 +869,7 @@ extends HealthStateManyToManyUpdateRule {
 					newValue[currentStateNo] = (float) survivalFraction
 							* oldValue[currentStateNo];
 
-				}
+				} // end of update for not duration class
 				return newValue;
 			}
 		} catch (CDMUpdateRuleException e) {
@@ -569,6 +991,118 @@ extends HealthStateManyToManyUpdateRule {
 	}
 
 	/**
+	 * this method fills the incidence in states matrix for a riskfactor-category
+	 * WITHOUT duration classes
+	 * 
+	 * @param ageValue
+	 * @param sexValue
+	 * @param riskDurationValue
+	 * @param c
+	 * @return
+	 */
+	private float[][] fillIncidenceForCluster(int ageValue, int sexValue,
+			int riskCat, int c) {
+
+		/* make transition rate matrix */
+		float[][] incidenceMatrix = new float[this.numberOfDiseasesInCluster[c]][nCombinations[c]];
+
+		for (int row = 0; row < nCombinations[c]; row++)
+
+		/*
+		 * Matrix entry is formed as: / - attributable Mortality for each
+		 * disease that is 1 in combi - sum incidence to all other disease that
+		 * are 0 in combi (including RR's as above) - sum fatal incidences
+		 */
+		{
+
+			for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) {
+
+				/*
+				 * first add fatal incidence irrespective of value of d
+				 */
+				
+
+				if ((row & (1 << d)) != (1 << d))
+
+				/*
+				 * d is 0, thus incidence should be added
+				 */
+				{
+					double RR = 1;
+					for (int dCause = 0; dCause < getNDiseases(); dCause++)
+						if ((row & (1 << dCause)) == (1 << dCause))
+							RR *= relativeRiskDiseaseOnDisease[c][ageValue][sexValue][dCause][d];
+
+					
+						incidenceMatrix[d][row] = (float) (RR* calculateIncidence(
+								riskCat, ageValue, sexValue,
+								clusterStartsAtDiseaseNumber[c] + d));
+					// or d=1, then atmort
+					// should be added
+				}
+			}
+		}
+
+		/*
+		 * first add fatal incidence irrespective of value of d
+		 */
+		
+
+		return incidenceMatrix;
+	}
+
+	/**
+	 * this method fills the Fatal Incidence in States matrix for a
+	 * riskfactor-category WITHOUT duration classes
+	 * 
+	 * @param ageValue
+	 * @param sexValue
+	 * @param riskDurationValue
+	 * @param c
+	 * @return
+	 */
+	private float[][] fillFatalIncidenceForCluster(int ageValue, int sexValue,
+			int riskCat, int c) {
+
+		/* make transition rate matrix */
+		float[][] incidenceMatrix = new float[this.numberOfDiseasesInCluster[c]][nCombinations[c]];
+
+		for (int row = 0; row < nCombinations[c]; row++)
+
+		/*
+		 * Matrix entry is formed as: / - attributable Mortality for each
+		 * disease that is 1 in combi - sum incidence to all other disease that
+		 * are 0 in combi (including RR's as above) - sum fatal incidences
+		 */
+		{
+
+			for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) {
+
+				/*
+				 * first add fatal incidence irrespective of value of d
+				 */
+				double RR = 1;
+				for (int dCause = 0; dCause < getNDiseases(); dCause++) {
+					/*
+					 * if dCause==1 in row=column)
+					 */
+					if ((row & (1 << dCause)) == (1 << dCause))
+						RR *= this.relativeRiskDiseaseOnDisease[c][ageValue][sexValue][dCause][d];
+				}
+
+				incidenceMatrix[d][row] = (float) (RR
+						* calculateFatalIncidence(riskCat, ageValue, sexValue,
+								clusterStartsAtDiseaseNumber[c] + d));
+
+			}
+		}
+
+	
+
+		return incidenceMatrix;
+	}
+
+	/**
 	 * Calculates the Incidence for riskfactor with durationValue equal to
 	 * riskDurationValue
 	 * 
@@ -679,13 +1213,15 @@ extends HealthStateManyToManyUpdateRule {
 			throws ConfigurationException {
 		boolean success = false;
 		try {
-			/*XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
-			configurationFile);              OUD     vervangen door volgende regels*/
-	
-	
-	XMLConfiguration configurationFileConfiguration = new XMLConfiguration();
-	configurationFileConfiguration.setDelimiterParsingDisabled(true); 
-	configurationFileConfiguration.load(configurationFile) ;
+			/*
+			 * XMLConfiguration configurationFileConfiguration = new
+			 * XMLConfiguration( configurationFile); OUD vervangen door volgende
+			 * regels
+			 */
+
+			XMLConfiguration configurationFileConfiguration = new XMLConfiguration();
+			configurationFileConfiguration.setDelimiterParsingDisabled(true);
+			configurationFileConfiguration.load(configurationFile);
 
 			// Validate the xml by xsd schema
 			// TODO put schema's in again but these do not work
@@ -740,6 +1276,9 @@ extends HealthStateManyToManyUpdateRule {
 			RRdisFatal = new float[96][2][nCluster][][];
 			disFatalIndex = new int[96][2][nCluster][];
 			nonCuredRatio = new float[96][2][nCluster];
+			incidenceInState = new float[96][2][nCat][nCluster][][];
+			fatalIncidenceInState = new float[96][2][nCat][nCluster][][];
+
 			for (int c = 0; c < nCluster; c++) {
 				atIndex[c] = new int[numberOfDiseasesInCluster[c]][nCombinations[c] / 2];
 				incIndex[c] = new int[numberOfDiseasesInCluster[c]][nCombinations[c] / 2];
@@ -753,11 +1292,13 @@ extends HealthStateManyToManyUpdateRule {
 							if (baselineFatalIncidence[dd][a][g] > 0)
 								nFatal++;
 							if (withCuredFraction[c] && d == 0)
-								
-								if (baselineIncidence[dd][a][g] + baselineIncidence[dd + 1][a][g]!=0)
-								nonCuredRatio[a][g][c] = baselineIncidence[dd + 1][a][g]
-										/ (baselineIncidence[dd][a][g] + baselineIncidence[dd + 1][a][g]);
-								else nonCuredRatio[a][g][c]=0;
+
+								if (baselineIncidence[dd][a][g]
+										+ baselineIncidence[dd + 1][a][g] != 0)
+									nonCuredRatio[a][g][c] = baselineIncidence[dd + 1][a][g]
+											/ (baselineIncidence[dd][a][g] + baselineIncidence[dd + 1][a][g]);
+								else
+									nonCuredRatio[a][g][c] = 0;
 						}
 						if (nFatal > 0) {
 							disFatalIndex[a][g][c] = new int[nFatal];
@@ -919,12 +1460,16 @@ extends HealthStateManyToManyUpdateRule {
 									 */
 
 									transMat[a][g][r][c] = new float[2][2];
-
+									
 									transMat[a][g][r][c][0][0] = (float) Math
 											.exp(-incidence - fatalIncidence);
 									transMat[a][g][r][c][0][1] = 0;
 									transMat[a][g][r][c][1][1] = (float) Math
 											.exp(-attrMort[d] - fatalIncidence);
+									incidenceInState[a][g][r][c]= new float [1][1];
+									fatalIncidenceInState[a][g][r][c]= new float [1][1];
+									incidenceInState[a][g][r][c][0][0] = (float) incidence;
+									fatalIncidenceInState[a][g][r][c][0][0] = (float) fatalIncidence;
 
 									if (Math.abs(incidence - attrMort[d]) > 1E-15)
 										transMat[a][g][r][c][1][0] = (float) ((Math
@@ -959,6 +1504,13 @@ extends HealthStateManyToManyUpdateRule {
 									 * 
 									 * This has not be consistently done through
 									 * the code
+									 * 
+									 * in the similar code for the categorical risk factor this is included
+								
+								
+								
+									 * 
+									 * 
 									 */
 									d = clusterStartsAtDiseaseNumber[c];
 									incidence = calculateIncidence(r, a, g, d);
@@ -966,6 +1518,8 @@ extends HealthStateManyToManyUpdateRule {
 											d + 1)
 											+ incidence;
 									transMat[a][g][r][c] = new float[3][3];
+									incidenceInState[a][g][r][c] = new float[2][3];
+									fatalIncidenceInState[a][g][r][c] = new float[2][3];
 
 									transMat[a][g][r][c][0][0] = (float) Math
 											.exp(-incidence2);
@@ -979,10 +1533,12 @@ extends HealthStateManyToManyUpdateRule {
 												* incidence / (incidence2));
 									transMat[a][g][r][c][1][1] = 1;
 									transMat[a][g][r][c][1][2] = 0;
+									// incidence 2 is the total incidence, not that of disease 2
 									if (incidence2 == attrMort[d + 1])
 										transMat[a][g][r][c][2][0] = (float) (Math
 												.exp(-incidence2) * (incidence2 - incidence));
 									else
+										
 										transMat[a][g][r][c][2][0] = (float) ((Math
 												.exp(-attrMort[d + 1]) - Math
 												.exp(-incidence2))
@@ -991,15 +1547,33 @@ extends HealthStateManyToManyUpdateRule {
 									transMat[a][g][r][c][2][2] = (float) Math
 											.exp(-attrMort[d + 1]);
 
+									incidenceInState[a][g][r][c][0][0] = (float) incidence;
+									incidenceInState[a][g][r][c][0][1] = 0;
+									incidenceInState[a][g][r][c][0][2] = 0;
+									// incidence 2 is the total incidence, not that of disease 2
+									incidenceInState[a][g][r][c][1][0] = (float) (incidence2-incidence);
+									incidenceInState[a][g][r][c][1][1] = 0;
+									incidenceInState[a][g][r][c][1][2] = 0;
+									/*
+									 * no fatal incidence together with cured
+									 * fraction, so it is 0
+									 */
+									fatalIncidenceInState[a][g][r][c][0][0] = 0;
+
 								} else // cluster of dependent diseases
 
 								{
 
 									transMat[a][g][r][c] = new float[nCombinations[c]][nCombinations[c]];
+									incidenceInState[a][g][r][c] = fillIncidenceForCluster(
+											a, g, r, c);;
+									fatalIncidenceInState[a][g][r][c] = fillFatalIncidenceForCluster(
+											a, g, r, c);
 
 									/* make transition rate matrix */
 									double[][] rateMatrix = fillRateMatrixForCluster(
 											a, g, r, c);
+									
 
 									try {
 										transMat[a][g][r][c] = matExp
@@ -1039,4 +1613,86 @@ extends HealthStateManyToManyUpdateRule {
 		return success;
 	}
 
+	/**
+	 * This function returns a 3-dimension array with the fatal incidences and
+	 * incidences per state in cluster c
+	 * 
+	 * @param a
+	 *            : age
+	 * @param g
+	 *            : gender
+	 * @param r
+	 *            : risk duration  value (float)
+	 * @param c
+	 *            : cluster number
+	 * @return 3-dimensional array with indexes: indicator (0=incidence, 1=fatal
+	 *         incidence) ; disease (number within cluster) ; state
+	 */
+	private double[][][] calculateIncidenceInState(float r, int a, int g, int c) {
+		/* copied from HealthStateContMany.... */
+		double[][][] incidenceInState = new double[2][this.numberOfDiseasesInCluster[c]][nCombinations[c]];
+		double[] incidence = new double[this.numberOfDiseasesInCluster[c]];
+		double[] fatalIncidence = new double[this.numberOfDiseasesInCluster[c]];
+		/*
+		 * first calculate the incidences without taking other diseases into
+		 * account
+		 */
+		for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) {
+
+			fatalIncidence[d] = calculateFatalIncidence(r, a, g, d);
+			incidence[d] = calculateIncidence(r, a, g, d);
+		}
+		/*
+		 * first= changed state (row) second :sources of change(change=number in
+		 * second state entry in matrix
+		 * 
+		 * thus [to][from]
+		 */
+
+		for (int state = 0; state < nCombinations[c]; state++)
+
+		/*
+		 * Matrix entry is formed as: / - attributable Mortality for each
+		 * disease that is 1 in combi - sum incidence to all other disease that
+		 * are 0 in combi (including RR's as above) - sum fatal incidences
+		 */
+		{
+
+			for (int d = 0; d < numberOfDiseasesInCluster[c]; d++) {
+
+				/*
+				 * first add fatal incidence irrespective of value of d
+				 */
+				double RR = 1;
+				for (int dCause = 0; dCause < getNDiseases(); dCause++) {
+					/*
+					 * if dCause==1 in row=column)
+					 */
+					if ((state & (1 << dCause)) == (1 << dCause))
+						RR *= this.relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
+				}
+
+				incidenceInState[1][d][state] = (float) (RR * fatalIncidence[clusterStartsAtDiseaseNumber[c]
+						+ d]);
+
+				if ((state & (1 << d)) != (1 << d))
+
+				/*
+				 * d is 0, thus incidence should be added
+				 */
+				{
+					RR = 1;
+					for (int dCause = 0; dCause < getNDiseases(); dCause++)
+						if ((state & (1 << dCause)) == (1 << dCause))
+							RR *= relativeRiskDiseaseOnDisease[c][a][g][dCause][d];
+
+					incidenceInState[0][d][state] = (float) (RR * incidence[clusterStartsAtDiseaseNumber[c]
+							+ d]);
+					// or d=1, then atmort
+					// should be added
+				}
+			}
+		}
+		return incidenceInState;
+	}
 }

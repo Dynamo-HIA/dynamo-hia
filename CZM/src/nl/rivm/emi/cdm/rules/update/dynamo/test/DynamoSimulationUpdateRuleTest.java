@@ -52,7 +52,7 @@ public class DynamoSimulationUpdateRuleTest {
 		public void setup() throws ConfigurationException {
 			System.out.println(preCharConfig);
 			try {
-				//CategoricalRiskFactorMultiToOneUpdateRule rule4=new CategoricalRiskFactorMultiToOneUpdateRule(baseDir+"/rule2.xml");
+				//CategoricalRiskFactorManyToOneUpdateRule rule4=new CategoricalRiskFactorManyToOneUpdateRule(baseDir+"/rule2.xml");
 				
 				
 				File multipleCharacteristicsFile = new File(
