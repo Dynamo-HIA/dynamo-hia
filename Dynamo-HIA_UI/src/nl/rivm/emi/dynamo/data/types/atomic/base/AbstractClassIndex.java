@@ -20,7 +20,7 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	final public Pattern matchPattern = Pattern.compile("^\\d*$");
 
 	static final protected Integer hardLowerLimit = new Integer(1);
-	static final protected Integer hardUpperLimit = new Integer(10);
+	static final protected Integer hardUpperLimit = new Integer(50);
 
 
 	/**

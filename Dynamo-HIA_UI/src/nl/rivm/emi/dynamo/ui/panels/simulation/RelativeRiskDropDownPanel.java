@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Label;
  * The generic drop down present in all tabs
  * 
  * @author schutb
- * 
+ * netto
  */
 public class RelativeRiskDropDownPanel {
 
@@ -30,7 +30,7 @@ public class RelativeRiskDropDownPanel {
 	 */
 	public static final String FROM = "From";
 	public static final String TO = "To";
-	public static final String RELATIVE_RISK = "Relative Risk";
+	public static final String RELATIVE_RISK = "Relative Risk (or Odds Ratio for disability)";
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 

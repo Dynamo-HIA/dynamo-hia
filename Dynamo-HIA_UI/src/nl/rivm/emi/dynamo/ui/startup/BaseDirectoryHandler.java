@@ -8,6 +8,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.JFileChooser;
+
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -31,7 +33,10 @@ public class BaseDirectoryHandler {
 
 	public BaseDirectoryHandler(Display display) {
 		super();
-		this.display = display;
+		this.display = display;		
+	    defaultDataPath =  new JFileChooser().getFileSystemView().getDefaultDirectory()+File.separator+ ApplicationStatics.APPBASENAME + File.separator
+		+ ApplicationStatics.DEFAULTWORKDATADIRECTORY;
+		/* weggehaald mei 2013 door hendriek en vervangen door regelget my doc hierboven
 		String userDir = System.getProperty("user.dir");
 		String userDirOneUp = userDir.substring(0, userDir
 				.lastIndexOf(File.separator));
@@ -39,7 +44,7 @@ public class BaseDirectoryHandler {
 				.lastIndexOf(File.separator));
 		defaultDataPath = userDirTwoUp + File.separator
 				+ ApplicationStatics.APPBASENAME + File.separator
-				+ ApplicationStatics.DEFAULTWORKDATADIRECTORY;
+				+ ApplicationStatics.DEFAULTWORKDATADIRECTORY;*/
 		log.debug("Constructed defaultWorkDirectoryPath: " + defaultDataPath);
 	}
 

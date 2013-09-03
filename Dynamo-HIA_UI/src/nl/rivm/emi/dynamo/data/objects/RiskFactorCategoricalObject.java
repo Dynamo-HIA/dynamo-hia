@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.data.objects;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
@@ -87,9 +88,16 @@ public class RiskFactorCategoricalObject extends
 				.getElementName());
 	}
 
-	public WritableValue getObservableReferenceClass() {
-		return getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCECLASS
-				.getElementName());
+	public WritableValue getObservableReferenceClass() throws DynamoConfigurationException {
+		WritableValue value=null;
+		try {
+			 value = getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCECLASS
+					.getElementName());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return value;
 	}
 
 	public Object putReferenceClass(Integer index) {

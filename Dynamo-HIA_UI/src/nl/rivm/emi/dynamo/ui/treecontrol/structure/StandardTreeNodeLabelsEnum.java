@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
  * entities postfixed with "_MK2".
  * 
  * @author mondeelr
- * 
+ * in DYNAMO version 2 the name of the overalldisability file has been changed
  */
 
 public enum StandardTreeNodeLabelsEnum {
@@ -28,13 +28,13 @@ public enum StandardTreeNodeLabelsEnum {
 	POPULATIONSIZEFILE("size"), //
 	POPULATIONOVERALLMORTALITYFILE("overallmortality"), //
 	POPULATIONNEWBORNSFILE("newborns"), //
-	POPULATIONOVERALLDALYWEIGHTSFILE("overalldalyweights"), //
+	POPULATIONOVERALLDALYWEIGHTSFILE("overalldisability"), //
 	RISKFACTORS("Risk_Factors"), //
 	DELETE("Delete"), //
 	DISEASES("Diseases"), //
 	PREVALENCES("Prevalences"), //
 	INCIDENCES("Incidences"), //
-	DALYWEIGHTS("DALY_Weights"), //
+	DALYWEIGHTS("Disability"), //
 	// Not in the tree, but anyway.
 	RELATIVERISKS("Relative_Risks"), //
 	RELATIVERISKSFROMRISKFACTOR("Relative_Risks_From_Risk_Factor"), //
@@ -52,7 +52,7 @@ public enum StandardTreeNodeLabelsEnum {
 // 20090402 Not used anymore	RELRISKFORDEATHFILE("relriskfordeath"), //
 	RELRISKFORDEATHDIR("Relative_Risks_For_Death"), //
 // 20090402 RELRISKFORDISABILITYFILE("relriskfordisability"), //
-	RELRISKFORDISABILITYDIR("Relative_Risks_For_Disability"), //
+	RELRISKFORDISABILITYDIR("Odds_Ratios_For_Disability"), //
 	TRANSITIONSDIR("Transitions"), //
 	/* Estimated parameters directory. */ 
 	PARAMETERS("parameters") //

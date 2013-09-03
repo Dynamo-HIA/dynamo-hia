@@ -97,7 +97,8 @@ public class RelativeRisksUtil {
 				if ((rootElementName != null)
 						&& (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
 								.getNodeLabel().equals(rootElementName) || RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
-								.getNodeLabel().equals(rootElementName))) {
+								.getNodeLabel().equals(rootElementName) || RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CAT
+										.getNodeLabel().equals(rootElementName ) )) {
 					NodeList nodeList = doc
 							.getElementsByTagName(XMLTagEntityEnum.CAT
 									.getElementName());

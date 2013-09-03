@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.dialogs;
 
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -10,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.jfree.util.Log;
+
 
 /**
  * 
@@ -25,7 +27,7 @@ import org.jfree.util.Log;
 public class ExcessMortalityTrialog extends InputBulletsTrialog {
 
 	private static final String NAME = "Disease name:";
-
+	Log log = LogFactory.getLog(getClass().getName());
 	private String diseaseName;
 
 	private Control diseaseArea;
@@ -64,7 +66,7 @@ public class ExcessMortalityTrialog extends InputBulletsTrialog {
 	}
 
 	protected void initializeRadioButtons() {
-		Log.debug("RootElementName is: " + rootElementName);
+		log.debug("RootElementName is: " + rootElementName);
 		radioButtons[0].setSelection(true);
 		selectedBulletButtonIndex = 0; // Quick fix.
 	}

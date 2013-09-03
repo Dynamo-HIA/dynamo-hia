@@ -18,7 +18,7 @@ public enum BulletButtonNamesEnum {
 
 	TRANSITION_ZERO("Zero", null),
 	TRANSITION_USER_SPECIFIED("User specified", null), //
-	TRANSITION_NETTO("Netto", null), //
+	TRANSITION_NETTO("Nett", null), //
 	DURATION_USER_SPECIFIED("User specified", "riskfactorprevalences_duration"), //
 	DURATION_UNIFORM("Uniform", "riskfactorprevalences_duration_uniform"), //
 	ACUTELY_FATAL(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL,RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel()), //

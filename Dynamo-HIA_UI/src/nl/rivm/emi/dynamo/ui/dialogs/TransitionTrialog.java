@@ -2,6 +2,8 @@ package nl.rivm.emi.dynamo.ui.dialogs;
 
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -10,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.jfree.util.Log;
+
 
 /**
  * 
@@ -26,7 +28,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 
 	private static final String NAME = "Risk_Factor name:";
 	private static final String TYPE = "Risk_Factor type:";
-
+	Log log = LogFactory.getLog(getClass().getName());
 	private String riskFactorName;
 	private String riskFactorType;
 
@@ -69,7 +71,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 	}
 
 	protected void initializeRadioButtons() {
-		Log.debug("RootElementName is: " + rootElementName);
+		log.debug("RootElementName is: " + rootElementName);
 		radioButtons[1].setSelection(true);
 //		selectedBulletButtonName = BulletButtonNamesEnum.TRANSITION_USER_SPECIFIED
 //				.getBulletButtonName();

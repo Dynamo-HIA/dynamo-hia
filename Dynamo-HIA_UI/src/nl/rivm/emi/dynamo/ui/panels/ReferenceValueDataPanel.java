@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
@@ -51,8 +52,14 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING );
 		indexLabel.setLayoutData(gridData);
 	
-		WritableValue observableObject = referenceValueObject
-				.getObservableReferenceValue();
+		WritableValue observableObject=null;
+		try {
+			observableObject = referenceValueObject
+					.getObservableReferenceValue();
+		} catch (DynamoConfigurationException e) {
+			// TODO Auto-generated catch block 
+			e.printStackTrace();
+		}
 		if (observableObject != null) {
 			bindValue(observableObject);
 		} else {

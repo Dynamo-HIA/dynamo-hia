@@ -66,22 +66,43 @@ public class SullivanChoiceGroup {
 		}
 
 		));
-		Button sullivanButton = new Button(radiogroup, SWT.RADIO);
-		sullivanButton.setText("period (Sullivan Method)");
+		Button sullivanButton1 = new Button(radiogroup, SWT.RADIO);
+		sullivanButton1.setText("period (Sullivan Method)");
 		cohortButton.setToolTipText("choose period life table (with diseases: Sullivan Method)");
-		sullivanButton.setSelection(false);
+		sullivanButton1.setSelection(false);
 		// ageButton.setBounds(10,50,20,100);
-		sullivanButton.addListener(SWT.Selection, (new Listener() {
+		sullivanButton1.addListener(SWT.Selection, (new Listener() {
 
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
 					plotInfo.Sullivan = true;
+					plotInfo.oldSullivan = false;
 					setEnabled(controlComposite,plotInfo);
 					plotDrawer.drawChartAction(plotInfo, chartComposite);
                    
 				}
 			}
 		}));
+		
+		Button sullivanButton2 = new Button(radiogroup, SWT.RADIO);
+		sullivanButton2.setText("period (Sullivan Method): old");
+		cohortButton.setToolTipText("choose period life table (with diseases: Sullivan Method)-method as in previous DYNAMO version");
+		sullivanButton2.setSelection(false);
+		// ageButton.setBounds(10,50,20,100);
+		sullivanButton2.addListener(SWT.Selection, (new Listener() {
+
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+					plotInfo.Sullivan = true;
+					plotInfo.oldSullivan = true;
+					setEnabled(controlComposite,plotInfo);
+					plotDrawer.drawChartAction(plotInfo, chartComposite);
+                   
+				}
+			}
+		}));
+		
+		
 
 	}
 
@@ -107,7 +128,8 @@ public class SullivanChoiceGroup {
 			}
 		/* reverse for the cumulative button which is only availlable for cohort expectancies */	
 			
-			if (otherControls[i].getToolTipText() == "Choose whether the years gained or lost are future years for only the chosen age or include all higher ages") {
+			if (otherControls[i].getToolTipText() == "Choose whether the years gained or lost are DALYs (effect of 1 year exposure changes), future years (permanent change of exposure) for entire population >= age"+
+					  " or future years (permanent change of exposure) of single age cohort") {
 				if (plotInfo.Sullivan  ) otherControls[i].setEnabled(false);
 				else otherControls[i].setEnabled(true);
 				Control[] childControls = ((Composite) otherControls[i])

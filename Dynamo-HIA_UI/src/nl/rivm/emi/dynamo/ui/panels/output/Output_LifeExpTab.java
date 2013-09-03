@@ -64,7 +64,7 @@ public class Output_LifeExpTab  {
 		this.plotComposite.setLayout(gridLayout);
 		this.plotInfo=new ButtonStates();
 		this.plotInfo.currentScen = 0;
-		
+/* standard starting is total disease */		
 		this.plotInfo.currentDisease = 2;
 		if (this.output.getNDiseases()==0) this.plotInfo.currentDisease = 1;
 		this.plotInfo.currentYear = 0;
@@ -79,15 +79,20 @@ public class Output_LifeExpTab  {
 		controlComposite.setLayoutData(controlData);
 		
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, this.plotGenerator.makeCohortLifeExpectancyPlot(this.plotInfo.currentDisease,this.plotInfo.differencePlot,this.plotInfo.blackAndWhite, this.plotInfo.cumulative), true);
+				this.plotComposite, SWT.NONE, this.plotGenerator.makeCohortHealthyLifeExpectancyPlot(this.plotInfo.currentAge,this.plotInfo.currentDisease-3,this.plotInfo.blackAndWhite, this.plotInfo.cumulative), true);
 		
 		 GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 					| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL);
 		
 		chartComposite.setLayoutData(chartData);
-		String[] items =new String[2];
+		// chartComposite4.setBounds(0, 0, 400, 500);
 		
+		
+		
+		
+		/* make disease choice group */
+		String[] items =new String[2];		
 		if (this.output.getNDiseases()>0){ items = new String[this.output.getNDiseases() + 3];
 		items[2] = "total disease";
 		String[] names = this.output.getDiseaseNames();
@@ -95,12 +100,13 @@ public class Output_LifeExpTab  {
 			items[i + 3] = names[i];}
 		items[0] = "none";
 		items[1] = "disability";
-		
-	
-		
 		new DiseaseChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, items);
 		
+		/* make Sullivan/cohort choice group */
 		new SullivanChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
+		
+		
+		/* make age choice group */
 		final int minA = Math.max(0,this.output.getMinAgeInSimulation());
 		plotInfo.maxAge=this.output.getMaxAgeInSimulation();
 		plotInfo.currentAge=minA;
@@ -113,23 +119,30 @@ public class Output_LifeExpTab  {
 			ageNames[0] = ((Integer) minA).toString();
 		for (int i = 1; i < length; i++)
 			ageNames[i] = ((Integer) (minA + i)).toString();
-		plotInfo.minAge=minA;
+		plotInfo.minAge=minA;		
 		new AgeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, ageNames);
-		// chartComposite4.setBounds(0, 0, 400, 500);
+		
+		
+		/* make year choice group */		
 		int start=output.getStartYear();
 		int maxyears=output.getStepsInRun();
 		if (!this.output.isWithNewborns()) maxyears=Math.min(output.getStepsInRun(),95); 
 		String[] yearNames=new String [maxyears];
 		for (int y=0;y<maxyears;y++)
-			yearNames[y] = ((Integer) (y+start)).toString();
-		
+			yearNames[y] = ((Integer) (y+start)).toString();		
 		new YearChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo, yearNames);
 		
-		if  (output.getNScen()>0) new CumulativeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
-		// chartComposite4.setBounds(0, 0, 400, 500);
 		
-		 new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
+		/* make cumulative choice group */		
+		if  (output.getNScen()>0) new CumulativeChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
+		
+		
+		/* make color choice group */
+	    new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
 			
+	    
+	    
+	    
 		TabItem item4 = new TabItem(this.tabFolder, SWT.NONE);
 		// cahnge dd 22/11/ 2011 item4.setText("life expectancy plots");
 		item4.setText("Life expectancy");

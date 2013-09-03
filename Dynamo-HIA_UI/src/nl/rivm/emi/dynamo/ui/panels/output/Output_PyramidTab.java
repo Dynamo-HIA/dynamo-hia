@@ -7,6 +7,8 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -23,12 +25,15 @@ import org.eclipse.swt.widgets.TabItem;
 import org.jfree.chart.JFreeChart;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+
 /**
  * @author  boshuizh
  */
 public class Output_PyramidTab  {
 	
-	
+	Log log = LogFactory
+	.getLog("nl.rivm.emi.dynamo.Output_PyramidTab");
+
 	private TabFolder tabFolder;
 	/* plotGenerator is the general object that contains the data and makes all possible plots */
 	DynamoPlotFactory plotGenerator;
@@ -37,7 +42,7 @@ public class Output_PyramidTab  {
 	 * information in the button states 
 	 */
 	PyramidChartFactory plotFactory;
-	ChartComposite chartComposite;
+     ChartComposite chartComposite;
 	private Composite plotComposite;
 
 	/**
@@ -162,8 +167,13 @@ public class Output_PyramidTab  {
 				this.plotInfo.currentScen, this.plotInfo.currentYear, this.plotInfo.currentDisease-3,this.plotInfo.differencePlot,this.plotInfo.blackAndWhite);
 		
 		// RowData rowData3 = new RowData(450, 500);
-	    this.chartComposite = new ChartComposite(this.plotComposite, SWT.NONE,
-				pyramidChart, true);
+//	 this.chartComposite =  new ChartComposite(this.plotComposite, SWT.NONE,
+	//	pyramidChart, true, true ,true,true, true);
+	 log.fatal(this.chartComposite.DEFAULT_HEIGHT+" "+this.chartComposite.DEFAULT_WIDTH+  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_HEIGHT
+			 +  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_WIDTH+  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_HEIGHT
+			 +  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_WIDTH);
+
+	    this.chartComposite= new ChartComposite(this.plotComposite, SWT.NONE, pyramidChart, 680, 420, 300, 200, 800,600, true, true ,true,true, true, true);
 	    this.chartComposite.setDisplayToolTips(true);
 	    this.chartComposite.setHorizontalAxisTrace(false);
 	    this.chartComposite.setVerticalAxisTrace(false);
@@ -210,8 +220,8 @@ public class Output_PyramidTab  {
 	public void redraw(){
 		
 		Control[] subcomp= this.plotComposite.getChildren();
-		this.plotFactory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
-		this.plotComposite.redraw();
+		this.plotFactory.drawChartAction(this.plotInfo, (PyramidChartComposite) subcomp[1]);
+		//this.plotComposite.redraw();
 		
 	}
 		}

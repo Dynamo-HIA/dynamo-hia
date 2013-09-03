@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.estimation;
 
+import java.util.Arrays;
+
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 /**
@@ -516,7 +518,7 @@ public class NettTransitionRateFactory {
 	 */
 
 	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
-			float[] newPrev, double baselineMort, float[] RR)
+			float[] newPrevOriginal, double baselineMort, float[] RR)
 			throws DynamoInconsistentDataException {
 
 		int nCat = oldPrevOriginal.length;
@@ -524,11 +526,22 @@ public class NettTransitionRateFactory {
 		// first make a copy in the long way, otherwise despite being private
 		// etc.
 		// the value of riskPrev in INPUT data changes
-		double[] oldPrev = new double[nCat];
+		double[] oldPrev = checkedRates (oldPrevOriginal);
+		double[] newPrev = checkedRates (newPrevOriginal);
+		boolean same=true;
 		for (int i = 0; i < nCat; i++) {
-			oldPrev[i] = oldPrevOriginal[i];
+			if (oldPrev[i] !=newPrev[i]) same=false;
 		}
-
+        if (baselineMort==0 && same)
+        {  float [][] oneMatrix= new float [nCat][nCat];
+        for (int i = 0; i < nCat; i++) 
+        	oneMatrix[i][i]=1;
+        	return oneMatrix;
+        }
+        	
+        	
+        	
+        	
 		double survtot = 0;
 		for (int i = 0; i < nCat; i++) {
 			survtot += Math.exp(-baselineMort * RR[i]) * oldPrev[i];
@@ -726,4 +739,43 @@ public class NettTransitionRateFactory {
 	public void setDrift(float[][][] drift) {
 		this.nettDrift = drift;
 	}
-}
+	
+	
+	public static  double[] checkedRates(float[] prevalence) throws DynamoInconsistentDataException{
+		double sumP = 0;
+		double[] returnp=new double[prevalence.length];
+		for (int i = 0; i < prevalence.length; i++){
+			returnp[i]=prevalence[i];
+			sumP +=  returnp[i];
+		
+		}
+					
+			if (Math.abs(sumP - 1.0) > 1E-3)
+				throw new DynamoInconsistentDataException(
+						"Risk factor prevalence does not sum "
+								+ "to 100% but to " + 100 * sumP + "%"
+								);
+			else if (Math.abs(sumP - 1.0) !=0)
+				returnp[prevalence.length - 1] += 1 - sumP;
+		
+		return returnp;
+	}
+	
+	
+	/** makes nett transition rates without taking mortality into account
+	 * @param oldPrevOriginal
+	 * @param newPrevOriginal
+	 * @return
+	 * @throws DynamoInconsistentDataException
+	 */
+	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
+			float[] newPrevOriginal)
+			throws DynamoInconsistentDataException {
+		
+		float[] RR= new float[oldPrevOriginal.length];
+		double baselineMort=0;
+		Arrays.fill(RR,1);
+		return makeNettTransitionRates( oldPrevOriginal,
+				 newPrevOriginal, baselineMort,  RR);
+				
+}}

@@ -73,7 +73,7 @@ public class ScenarioParameters implements Serializable {
 	 *            : year (step): years after the age to which minimum and
 	 *            maximum should be applied This should be zero for "ori" arrays
 	 * @param a
-	 *            : age: the age for which to return the result
+	 *            : age: the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
 	 * 
 	 * 
 	 * @return the result for a scenario to which the successrates and
@@ -131,7 +131,7 @@ public class ScenarioParameters implements Serializable {
 		;
 		return data;
 	}
-
+	
 	/**
 	 * applies the succesrate, minimum target age, maximum target age and target
 	 * gender (todo) to the
@@ -208,9 +208,9 @@ public class ScenarioParameters implements Serializable {
 	 * @param thisScen
 	 *            : number of scenario
 	 * @param year
-	 *            : year (step)
+	 *            : year (step). Should be zero for the "ori" arrays
 	 * @param a
-	 *            : age
+	 *            : age: the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
 	 * @param gender
 	 *            : gender: 0=men, 1=women, 2=both, inplying that the
 	 *            application of succesrates to gender already took place
@@ -319,8 +319,8 @@ public class ScenarioParameters implements Serializable {
 	 * @param nInRef
 	 * @param nInScen
 	 * @param thisScen
-	 * @param year
-	 * @param a
+	 * @param year: years after the age to which apply the selections. Should be zero for "ori" arrays 
+	 * @param a the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
 	 * @return
 	 */
 	public double applySuccesrateToMean(double[][] inputRef,
@@ -416,7 +416,28 @@ public class ScenarioParameters implements Serializable {
 
 		return data;
 	}
-
+	/**
+	 * the methods calculates the mean of an outcome after applying
+	 * successrates, using data from both sexes. As this needs to be a weighted
+	 * mean (weighted by the number of persons) it also needs the weights
+	 * (numbers in each scenario) This method uses the fields: successrate,
+	 * minage and maxage, so changing these fields will give different outputs
+	 * 
+	 * @param inputRef
+	 *            : array with data for reference scenario
+	 * @param inputRef
+	 *            : array with data for 100% successfull alternative scenario
+	 * @param thisScen
+	 *            : number of scenario
+	 * @param year
+	 *            : year (step) after the year for which to apply the selections. Should be zero for "ori" arrays
+	 * @param a
+	 *            : age: the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
+	 * 
+	 * 
+	 * @return the result for a scenario to which the successrates and
+	 *         min-maximum age have been applied
+	 */
 	public double applySuccesrateToMeanToBothGenders(double[] inputRef,
 			double[] inputScen, double[] nInRef, double[] nInScen,
 			int thisScen, int year, int a) throws DynamoOutputException {
@@ -528,26 +549,29 @@ public class ScenarioParameters implements Serializable {
 
 	/**
 	 * the methods calculates the mean of an outcome after applying
-	 * successrates, using data from both sexes. As this needs to be a weighted
+	 * success rates, using data from both sexes. As this needs to be a weighted
 	 * mean (weighted by the number of persons) it also needs the weights
-	 * (numbers in each scenario) This method uses the fields: successrate,
+	 * (numbers in each scenario) This method uses the fields: success rate,
 	 * minage and maxage, so changing these fields will give different outputs
 	 * 
 	 * @param inputRef
-	 *            : array with data for reference scenario
+	 *            : array with data for reference scenario, with indexes i (to sum over) and sex
 	 * @param inputRef
-	 *            : array with data for 100% successfull alternative scenario
+	 *            : array with data for 100% successful alternative scenario, with indexes i (to sum over) and sex
+	 * @param nInRef: : array with numbers for reference scenario, with indexes i (to sum over) and sex
+	 * @param nInScen : array with numbers for alternative scenario, with indexes i (to sum over) and sex
 	 * @param thisScen
-	 *            : number of scenario
+	 *            : number of scenario,
 	 * @param year
-	 *            : year (step)
+	 *            : year (step) after the year for which to apply the selections. Should be zero for "ori" arrays
 	 * @param a
-	 *            : age
+	 *            : age: the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
 	 * 
 	 * 
-	 * @return the result for a scenario to which the successrates and
+	 * @return the result for a scenario to which the success rates and
 	 *         min-maximum age have been applied
 	 */
+	
 	public double applySuccesrateToMeanToBothGenders(double[][] inputRef,
 			double[][] inputScen, double[][] nInRef, double[][] nInScen,
 			int thisScen, int year, int a) {
@@ -683,9 +707,9 @@ public class ScenarioParameters implements Serializable {
 	 * @param thisScen
 	 *            : number of scenario
 	 * @param year
-	 *            : year (step)
+	 *            : year (step): should be zero for the "ori" arrays
 	 * @param a
-	 *            : age
+	 *            : the age for which to return the result = the age in the input arrays = age at start for "ori" arrays
 	 * @param gender
 	 *            : gender
 	 * 

@@ -131,78 +131,9 @@ public class ExcelReadableXMLWriter {
 
 	}
 
-	/**
-	 * makes a array of mortality by scenario, year, age and sex It is not
-	 * possible to do so also by riskfactor or by disease In order to do so,
-	 * this should be included as state in the update rule
-	 * 
-	 * @param numbers
-	 *            (boolean) : if true returns numbers, otherwise rates
-	 * @param riskFactor
-	 *            : value of the riskfactor ; -1= total mortality (irrespective
-	 *            of risk factor)
-	 * @return array of mortality by scenario, year, age and sex
-	 */
-	public double[][][][] getMortality(boolean numbers, int riskFactor) {
-		double[][][][] mortality = null;
-		int loopBegin = riskFactor;
-		int loopEnd = riskFactor + 1;
-		if (riskFactor < 0) {
-			loopBegin = 0;
-			loopEnd = this.output.nRiskFactorClasses;
-		}
-		if (this.output.stepsInRun > 0) {
-			mortality = new double[this.output.nScen + 1][this.output.stepsInRun][96 + this.output.stepsInRun][2];
-			/*
-			 * number of persons now and after a year are calculated for all
-			 * possible combinations of age and years, regardless of whether
-			 * there are persons available at a particular age and year
-			 * combination
-			 */
-			for (int scen = 0; scen < this.output.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.output.stepsInRun - 1; a++)
-					for (int g = 0; g < 2; g++)
-						for (int stepCount = 0; stepCount < this.output.stepsInRun; stepCount++) {
-							double denominator = 0;
-							double nominator = 0;
-							double personsAtnextAge = 0;
-							for (int r = loopBegin; r < loopEnd; r++) {
-								denominator += this.params
-										.applySuccesrate(
-												this.output.nPopByRiskClassByAge[0][stepCount][r][a][g],
-												this.output.nPopByRiskClassByAge[scen][stepCount][r][a][g],
-												scen, stepCount, a, g);
-
-								personsAtnextAge += this.params
-										.applySuccesrate(
-												this.output.nPopByRiskClassByAge[0][stepCount + 1][r][a + 1][g],
-												this.output.nPopByRiskClassByAge[scen][stepCount + 1][r][a + 1][g],
-												scen, stepCount + 1, a + 1, g);
-							}
-							nominator = denominator - personsAtnextAge;
-
-							if (denominator != 0 && !numbers
-									&& personsAtnextAge > 0)
-								mortality[scen][stepCount][a][g] = nominator
-										/ denominator;
-							if (denominator != 0 && personsAtnextAge > 0
-									&& numbers)
-								mortality[scen][stepCount][a][g] = nominator;
-							if (denominator == 0 || personsAtnextAge == 0)
-								mortality[scen][stepCount][a][g] = -1;
-							/*
-							 * also make mortality -1 for the highest age group
-							 * as there is never a higher age available with
-							 * which to calculate mortality
-							 */
-							if (a == (this.output.nDim - 2))
-								mortality[scen][stepCount][this.output.nDim - 1][g] = -1;
-
-						}
-		}
-		return mortality;
-	}
-
+	
+	
+	
 	/**
 	 * method writeOutput writes Excel-readable XML files The following files
 	 * are produced: depending on user input (TODO) - separate workbooks for for
@@ -293,8 +224,8 @@ public class ExcelReadableXMLWriter {
 				writeCell(writer, "riskClass");
 			} else {
 				writeCell(writer, "mean_riskFactor");
-			//	writeCell(writer, "std_riskFactor");
-			//	writeCell(writer, "skewness");
+			//	writeCell(xmlWriter, "std_riskFactor");
+			//	writeCell(xmlWriter, "skewness");
 				writeCell(writer, "risk class");
 			}
 			if (this.output.riskType == 3) {
@@ -334,6 +265,13 @@ public class ExcelReadableXMLWriter {
 			}
 			writeCell(writer, "disability");
 			writeCell(writer, "with disease");
+			writeCell(writer, "mortality");
+			for (int col = 0; col < this.output.nDiseases ; col++) {
+				writeCell(writer, "incidence of "+this.output.diseaseNames[col]);
+				
+
+			}
+			
 			writer.writeEndElement();// </row>
 
 			/* write the data */
@@ -422,7 +360,7 @@ public class ExcelReadableXMLWriter {
 
 					if (this.output.riskType == 2 && !this.output.categorized) {
 
-					//	writeCell(writer, rClass);
+					//	writeCell(xmlWriter, rClass);
 						// TODO vervangen door std risk factor
 
 						writeCell(writer, rClass);
@@ -565,6 +503,13 @@ public class ExcelReadableXMLWriter {
 								NDisease[thisScen][year][rClass][a][sex], thisScen,
 								year, a,sex);
 						writeCell(writer, data);
+						
+						
+						data = this.params.applySuccesrate(
+								this.output.getMortalityByRiskClassByAge()[0][year][rClass][a][sex],
+								this.output.getMortalityByRiskClassByAge()[thisScen][year][rClass][a][sex], thisScen,
+								year, a,sex);
+						writeCell(writer, data);
 
 					//	log.fatal("write nDisease");
 					} else {
@@ -581,7 +526,36 @@ public class ExcelReadableXMLWriter {
 								NDisease[thisScen][year][rClass][a], thisScen,
 								year, a);
 						writeCell(writer, data);
+						
+						data = this.params.applySuccesrateToBothGenders(
+								this.output.getMortalityByRiskClassByAge()[0][year][rClass][a],
+								this.output.getMortalityByRiskClassByAge()[thisScen][year][rClass][a], thisScen,
+								year, a);
+						writeCell(writer, data);
 					//	log.fatal("write nDisease");
+					}
+					
+					
+					for (int col = 0; col < this.output.nDiseases ; col++) {
+
+						if (sex < 2) {
+							data = this.params
+									.applySuccesrate(
+											this.output.getNewCasesByRiskClassByAge()[0][year][col][rClass][a][sex],
+											this.output.getNewCasesByRiskClassByAge()[thisScen][year][col][rClass][a][sex],
+											thisScen, year, a, sex);
+
+						} else {
+
+							data = this.params
+									.applySuccesrateToBothGenders(
+											this.output.getNewCasesByRiskClassByAge()[0][year][col][rClass][a],
+											this.output.getNewCasesByRiskClassByAge()[thisScen][year][col][rClass][a],
+											thisScen, year, a);
+
+						}
+						writeCell(writer, data);
+					//	log.fatal("write diseasestate");
 					}
 
 					writer.writeEndElement();
@@ -675,8 +649,8 @@ public class ExcelReadableXMLWriter {
 				writeCell(writer, "risk class in "+this.output.startYear);
 			} else {
 				writeCell(writer, "mean_riskFactor");
-				//writeCell(writer, "std_riskFactor");
-				//writeCell(writer, "skewness");
+				//writeCell(xmlWriter, "std_riskFactor");
+				//writeCell(xmlWriter, "skewness");
 
 			}
 			if (this.output.riskType == 3) {
@@ -716,6 +690,12 @@ public class ExcelReadableXMLWriter {
 			}
 			writeCell(writer, "disability");
 			writeCell(writer, "with disease");
+			writeCell(writer, "mortality");
+			for (int col = 0; col < this.output.nDiseases ; col++) {
+			writeCell(writer, "incidence of "+this.output.diseaseNames[col]);
+				
+
+			}
 			writer.writeEndElement();// </row>
 
 			/*
@@ -799,10 +779,10 @@ public class ExcelReadableXMLWriter {
 
 			//		if (this.output.riskType == 2 && !this.output.categorized) {
 
-				//		writeCell(writer, rClass);
+				//		writeCell(xmlWriter, rClass);
 						// TODO vervangen door std risk factor
 
-				//		writeCell(writer, rClass);
+				//		writeCell(xmlWriter, rClass);
 
 				//	}
 
@@ -951,6 +931,44 @@ public class ExcelReadableXMLWriter {
 					}
 					writeCell(writer, data);
 					
+					if (sex < 2) {
+						data = this.params
+								.applySuccesrate(
+										this.output.getMortalityByOriRiskClassByOriAge(0, year, rClass, cohort, sex),
+										this.output.getMortalityByOriRiskClassByOriAge(thisScen, year, rClass, cohort, sex),
+										thisScen, 0, cohort, sex);
+
+					} else {
+
+						data = this.params
+								.applySuccesrateToBothGenders(
+										this.output.getMortalityByOriRiskClassByOriAge()[0][year][rClass][cohort],
+										this.output.getMortalityByOriRiskClassByOriAge()[thisScen][year][rClass][cohort],
+										thisScen, 0, cohort);
+
+					}
+					writeCell(writer, data);
+					
+					for (int col = 0; col < this.output.nDiseases ; col++) {
+						if (sex < 2) {
+							data = this.params
+									.applySuccesrate(
+											this.output.getNewCasesByOriRiskClassByOriAge()[0][year][col ][rClass][cohort][sex],
+											this.output.getNewCasesByOriRiskClassByOriAge()[thisScen][year][col ][rClass][cohort][sex],
+											thisScen, 0, cohort, sex);
+
+						} else {
+
+							data = this.params
+									.applySuccesrateToBothGenders(
+											this.output.getNewCasesByOriRiskClassByOriAge()[0][year][col ][rClass][cohort],
+											this.output.getNewCasesByOriRiskClassByOriAge()[thisScen][year][col ][rClass][cohort],
+											thisScen, 0, cohort);
+
+						}
+						writeCell(writer, data);
+					}
+					
 					writer.writeEndElement();// </row>
 				}// end risk class and age loop
 
@@ -978,7 +996,7 @@ public class ExcelReadableXMLWriter {
 	/**
 	 * this method writes the XML for a cell of an excell spreadsheet
 	 * 
-	 * @param writer
+	 * @param xmlWriter
 	 *            stream to write to
 	 * @param toWrite
 	 *            number to write
@@ -1010,7 +1028,7 @@ public class ExcelReadableXMLWriter {
 	/**
 	 * this method writes the XML for a cell of an excell spreadsheet
 	 * 
-	 * @param writer
+	 * @param xmlWriter
 	 *            stream to write to
 	 * @param toWrite
 	 *            number to write
@@ -1042,7 +1060,7 @@ public class ExcelReadableXMLWriter {
 	/**
 	 * this method writes the XML for a cell of an excell spreadsheet
 	 * 
-	 * @param writer
+	 * @param xmlWriter
 	 *            stream to write to
 	 * @param toWrite
 	 *            number to write
@@ -1074,7 +1092,7 @@ public class ExcelReadableXMLWriter {
 	/**
 	 * this method writes the XML for a cell of an excell spreadsheet
 	 * 
-	 * @param writer
+	 * @param xmlWriter
 	 *            stream to write to
 	 * @param toWrite
 	 *            number to write

@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+
 /**
  * @author boshuizh
  *
@@ -33,15 +34,16 @@ public class CumulativeChoiceGroup {
 		// radiogroup.setBounds(10,10,200,150);
 		radiogroup.setText("Life-years gained or lost:");
 		/* do not change tooltiptext as this is also used to recdognize the button for disabling */
-		radiogroup.setToolTipText("Choose whether the years gained or lost are future years for only the chosen age or include all higher ages");
+		radiogroup.setToolTipText("Choose whether the years gained or lost are DALYs (effect of 1 year exposure changes), future years (permanent change of exposure) for entire population >= age"+
+				  " or future years (permanent change of exposure) of single age cohort");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
 		radiogroup.setLayout(new RowLayout(SWT.VERTICAL));
 		// yearButton.setBounds(10,10,20,100);
-		Button noneButton = new Button(radiogroup, SWT.RADIO);
-		noneButton.setText("do not display");
-		noneButton.setSelection(true);
+		Button dalyButton = new Button(radiogroup, SWT.RADIO);
+		dalyButton.setText("DALY (1 year exposure change)");
+		dalyButton.setSelection(true);
 
-		noneButton.addListener(SWT.Selection, (new Listener() {
+		dalyButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
 
@@ -79,7 +81,22 @@ public class CumulativeChoiceGroup {
 				}
 
 			}
-		}));			
+		}));
+		
+		Button noneButton = new Button(radiogroup, SWT.RADIO);
+		noneButton.setText("do not display");
+		noneButton.setSelection(false);
+
+		noneButton.addListener(SWT.Selection, (new Listener() {
+			public void handleEvent(Event event) {
+				if (((Button) event.widget).getSelection()) {
+
+					plotInfo.cumulative = 3;
+					plotDrawer.drawChartAction(plotInfo,chartComposite);
+				}
+
+			}
+		}));
 		}
 		
 	

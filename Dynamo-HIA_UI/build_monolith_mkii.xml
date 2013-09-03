@@ -42,6 +42,7 @@
 			</patternset>
 			<classpath>
 				<path refid="cross.project.class.path" />
+			
 				<pathelement path="${plugins.dir}/org.apache.commons.lang_2.3.0.v200803061910.jar" />
 				<pathelement path="${plugins.dir}/org.eclipse.jface_3.4.1.M20080827-2000.jar" />
 				<pathelement path="${plugins.dir}/org.eclipse.core.commands_3.4.0.I20080509-2000.jar" />

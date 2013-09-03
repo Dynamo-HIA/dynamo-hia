@@ -40,6 +40,8 @@ public enum RootChildDispatchEnum {
 			new AgnosticSingleRootChildFactory()), // 
 	MAXAGE(XMLTagEntityEnum.MAXAGE.getElementName(),
 			new AgnosticSingleRootChildFactory()), // 
+	REF_SCENARIONAME(XMLTagEntityEnum.REF_SCENARIONAME.getElementName(),
+					new AgnosticSingleRootChildFactory()), // 
 	TIMESTEP(XMLTagEntityEnum.TIMESTEP.getElementName(),
 			new AgnosticSingleRootChildFactory()), // 
 	RANDOMSEED(XMLTagEntityEnum.RANDOMSEED.getElementName(),

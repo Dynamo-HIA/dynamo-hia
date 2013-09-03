@@ -25,7 +25,7 @@ public class FileControlEnumHelp {
 	static final String[] dynamoSimulationStrings = {
 			RootElementNamesEnum.SIMULATION.getNodeLabel(), "hasnewborns",
 			"startingYear", "numberOfYears", "simPopSize", "minAge", "maxAge",
-			"timeStep", "randomSeed", "resultType", "popFileName", "scenarios",
+			"timeStep", "refScenarioName","randomSeed", "resultType", "popFileName", "scenarios",
 			"diseases", "riskfactors", "RRs" };
 	/* W11 */
 	static final String[] populationSizeStrings = {

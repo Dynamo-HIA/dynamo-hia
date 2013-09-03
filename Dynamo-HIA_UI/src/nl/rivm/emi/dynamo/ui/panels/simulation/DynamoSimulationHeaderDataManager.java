@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels.simulation;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
@@ -41,7 +42,12 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 	public String getCurrentValue(String dropDownName) {		
 		String value = null;
 		if (DynamoHeaderDataPanel.POP_FILE_NAME.equals(dropDownName)) {			
-			value = configuration.getPopulationFileName();
+			try {
+				value = configuration.getPopulationFileName();
+			} catch (DynamoConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return value;
 	}

@@ -640,6 +640,25 @@ public class DynamoLib {
 
 	}
 
+	
+	/**
+	 * @param inarray
+	 * @return deepcopy of input array
+	 */
+	public static double[][] deepcopy(double[][] inarray) {
+		double[][] returnarray = null;
+		if (inarray != null) {
+			returnarray = new double[inarray.length][inarray[0].length];
+			for (int i = 0; i < inarray.length; i++)
+				System.arraycopy(inarray[i], 0, returnarray[i], 0,
+						inarray[0].length);
+		}
+		return returnarray;
+
+	}
+	
+	
+	
 	/**
 	 * @param inarray
 	 * @return deepcopy of input array

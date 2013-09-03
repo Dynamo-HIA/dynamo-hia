@@ -250,7 +250,7 @@ public class InitialPopulationFactory {
 											 * inlezen baseDir aanpassen aan
 											 * userinterface
 											 */
-		rand3 = new Random(seed); // used to draw the scenario population
+		rand3 = new Random(seed+2945032); // used to draw the scenario population
 		// here the seed is reset by hand, so it does not matter that it used
 		// the same seed here
 		/* make a table of point from the inverse normal distribution */
@@ -883,7 +883,7 @@ public class InitialPopulationFactory {
 						 * GENERATION OF SCENARIO POPULATIONS
 						 * 
 						 * 
-						 * This is done for 3 cases:
+						 * This is done for 4 cases:
 						 * 
 						 * 1.- different initial risk factor prevalence, not
 						 * handled through one-for-all-population

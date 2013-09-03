@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.objects;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 
 import org.eclipse.core.databinding.observable.value.WritableValue;
@@ -109,8 +110,9 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return flag;
 	}
 
-	protected WritableValue getSingleRootChildWritableValue(String rootChildName) {
+	protected WritableValue getSingleRootChildWritableValue(String rootChildName) throws DynamoConfigurationException {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) get(rootChildName);
+		if (tuple==null) throw new DynamoConfigurationException("no tag: "+rootChildName+" in XML file" );
 		Object classIndexObject = tuple.getValue();
 		WritableValue result = null;
 		if (classIndexObject instanceof WritableValue) {

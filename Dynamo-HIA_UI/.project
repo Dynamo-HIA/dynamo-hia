@@ -18,12 +18,7 @@
 		<link>
 			<name>hendrie_java_dynamohome</name>
 			<type>2</type>
-			<location>C:/hendriek/java/dynamohome</location>
-		</link>
-		<link>
-			<name>projectdirectory</name>
-			<type>2</type>
-			<location>Q:/Projecten/EMI-DYNAMO-HIA</location>
+			<location>C:/Hendriek/java/dynamohome</location>
 		</link>
 	</linkedResources>
 </projectDescription>

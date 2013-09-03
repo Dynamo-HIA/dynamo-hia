@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.interfaces.ICategoricalObject;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceClass;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
@@ -31,7 +32,6 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 	AtomicTypeBase<Integer> myType = new ReferenceClass();
 	Combo dropDown = null;
 	ReferenceClassIndexComboModifyListener referenceClassIndexComboModifyListener = null;
-
 	public ReferenceClassDataPanel(Composite parent, Composite topNeighbour,
 			IReferenceClass riskFactorConfigurationObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -49,8 +49,14 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Referenceclass index:");
 		indexLabel.setLayoutData(gridData);
-		WritableValue observableObject = riskFactorConfigurationObject
-				.getObservableReferenceClass();
+		WritableValue observableObject=null;
+		try {
+			observableObject = riskFactorConfigurationObject
+					.getObservableReferenceClass();
+		} catch (DynamoConfigurationException e) {
+			
+			e.printStackTrace();
+		}
 		if (observableObject != null) {
 			// bindValue(observableObject);
 			createAndHookupDropDown(observableObject,

@@ -46,6 +46,7 @@ public class InputData {
 	private float[][] alphaMort = new float[96][2];
 	private float[][][] relRiskMortCat = new float[96][2][];
 	private float[][] relRiskMortCont = new float[96][2];
+	// use of this trend is not implemented
     private float trendInDrift=0;
 	// transition data
 	private int transType = -1;

@@ -21,10 +21,10 @@ public class AbstractString extends AtomicTypeBase<String> {
 	 * that should prevent subsequent conversions from blowing up.
 	 */
 	// NB(mondeelr) Refine this pattern.
-	
-	final public Pattern matchPattern = Pattern.compile("^\\w*$");
-
-
+	// HB spatie toegevoegd
+	final public Pattern matchPattern = Pattern.compile("^[\\w\\s]*$");
+	// was eerder
+	//final public Pattern matchPattern = Pattern.compile("^\\w*$");
 	/**
 	 * Constructor used for overriding.
 	 * 

@@ -6,6 +6,7 @@ package nl.rivm.emi.dynamo.data.objects;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.ICutoffs;
 import nl.rivm.emi.dynamo.data.interfaces.IReferenceValue;
@@ -33,7 +34,7 @@ public class RiskFactorContinuousObject extends
 				.getElementName());
 	}
 
-	public WritableValue getObservableReferenceValue() {
+	public WritableValue getObservableReferenceValue() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCEVALUE
 				.getElementName());
 	}

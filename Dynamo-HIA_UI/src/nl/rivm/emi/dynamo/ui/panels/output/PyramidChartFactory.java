@@ -5,9 +5,15 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Plot;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
+
 
 /**
  * @author boshuizh
@@ -24,30 +30,40 @@ public final class PyramidChartFactory implements PlotDrawer {
 	 * @param output2
 	 */
 	
-	public void drawChartAction(ButtonStates info,  final Composite composite) {
+	@Override
+	public void drawChartAction(ButtonStates info, Composite composite) {
 		
-	
+		Log log = LogFactory
+		.getLog("nl.rivm.emi.dynamo.PyramidChartFactory");
 
-			JFreeChart chart=null;
+
+			
+			JFreeChart chart=((ChartComposite)composite).getChart();
+			JFreeChart newChart=((ChartComposite)composite).getChart();
 			if (info.currentDisease == 0)
-				chart = plotFactory.makePyramidChart(	info.currentScen ,
+				newChart = plotFactory.makePyramidChart(	info.currentScen ,
 						info.currentYear,info.differencePlot,info.blackAndWhite );
 			else
-				chart = plotFactory.makePyramidChartIncludingDisease(
+				newChart = plotFactory.makePyramidChartIncludingDisease(
 						info.currentScen ,
 						info.currentYear,info.currentDisease - 3,info.differencePlot,info.blackAndWhite);
 
 			
-
-			
-			((ChartComposite) composite).setChart(chart);
-			((ChartComposite) composite).redraw();
-			((ChartComposite) composite).forceRedraw();
+         //   CategoryPlot newPlot=(CategoryPlot) newChart.getPlot();
+         //   CategoryDataset newData = newPlot.getDataset();
+         //   CategoryPlot plot=(CategoryPlot) chart.getPlot();
+         //   plot.setDataset(newData);
+		//	 chart.setTitle(newChart.getTitle());
+			((ChartComposite) composite).setChart(newChart);
+			//((ChartComposite) composite).redraw();
+			 ((ChartComposite) composite).forceRedraw();
 
 			
 
 		}
 		// TODO Auto-generated method stub
+	
+	
 
 	}
 

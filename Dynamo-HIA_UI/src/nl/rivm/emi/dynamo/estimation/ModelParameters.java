@@ -25,8 +25,6 @@ import Jama.Matrix;
  *         estimate the model parameters 3. write xml files needed by the
  *         simulation module 4. write the initial population file 5. writes a
  *         population of newborns
- * 
- * 
  */
 
 public class ModelParameters {
@@ -51,7 +49,57 @@ public class ModelParameters {
 	/* relRiskDiseaseOnDisease[][][][][] : third index = cluster nr */
 	private float relRiskDiseaseOnDisease[][][][][] = new float[96][2][][][];
 	private float baselineIncidence[][][] = new float[96][2][];;
-	private float baselineFatalIncidence[][][] = new float[96][2][];;
+	private float baselineFatalIncidence[][][] = new float[96][2][];
+	ScenarioInfo sceninfo;
+
+	public double[][] getBaselineAbility() {
+		return baselineAbility;
+	}
+
+	public void setBaselineAbility(double[][] baselineAbility) {
+		this.baselineAbility = baselineAbility;
+	}
+
+	public double[][][] getRiskFactorAbilityRRcat() {
+		return riskFactorAbilityRRcat;
+	}
+
+	public void setRiskFactorAbilityRRcat(double[][][] riskFactorAbilityRRcat) {
+		this.riskFactorAbilityRRcat = riskFactorAbilityRRcat;
+	}
+
+	public double[][] getRiskFactorAbilityRRcont() {
+		return riskFactorAbilityRRcont;
+	}
+
+	public void setRiskFactorAbilityRRcont(double[][] riskFactorAbilityRRcont) {
+		this.riskFactorAbilityRRcont = riskFactorAbilityRRcont;
+	}
+
+	public double[][] getRiskFactorAbilityRRend() {
+		return riskFactorAbilityRRend;
+	}
+
+	public void setRiskFactorAbilityRRend(double[][] riskFactorAbilityRRend) {
+		this.riskFactorAbilityRRend = riskFactorAbilityRRend;
+	}
+
+	public double[][] getRiskFactorAbilityRRbegin() {
+		return riskFactorAbilityRRbegin;
+	}
+
+	public void setRiskFactorAbilityRRbegin(double[][] riskFactorAbilityRRbegin) {
+		this.riskFactorAbilityRRbegin = riskFactorAbilityRRbegin;
+	}
+
+	public double[][] getRiskFactorAbilityAlpha() {
+		return riskFactorAbilityAlpha;
+	}
+
+	public void setRiskFactorAbilityAlpha(double[][] riskFactorAbilityAlpha) {
+		this.riskFactorAbilityAlpha = riskFactorAbilityAlpha;
+	}
+
 	// private float curedFraction[][][] = new float[96][2][];;
 	private double baselinePrevalenceOdds[][][] = new double[96][2][];;
 	private float relRiskOtherMort[][][] = new float[96][2][];;
@@ -90,14 +138,14 @@ public class ModelParameters {
 	 * diseases) It can also contain the daly weight (where 1 = perfect health,
 	 * 0= like being death
 	 */
-	private float[][][] diseaseAbility = new float[96][2][];
-	private float[][] baselineAbility = new float[96][2];
+	private double[][][] diseaseAbility = new double[96][2][];
+	private double[][] baselineAbility = new double[96][2];
 	/* for disability we do not have a duration option */
-	private float[][][] riskFactorAbilityRRcat = new float[96][2][];
-	private float[][] riskFactorAbilityRRcont = new float[96][2];
-	private float[][] riskFactorAbilityRRend = new float[96][2];
-	private float[][] riskFactorAbilityRRbegin = new float[96][2];
-	private float[][] riskFactorAbilityAlpha = new float[96][2];
+	private double[][][] riskFactorAbilityRRcat = new double[96][2][];
+	private double[][] riskFactorAbilityRRcont = new double[96][2];
+	private double[][] riskFactorAbilityRRend = new double[96][2];
+	private double[][] riskFactorAbilityRRbegin = new double[96][2];
+	private double[][] riskFactorAbilityAlpha = new double[96][2];
 	private float[][][] relRiskDuurBegin = new float[96][2][];
 	private float[][][] relRiskDuurEnd = new float[96][2][];
 	private float[][][] alphaDuur = new float[96][2][];
@@ -107,7 +155,7 @@ public class ModelParameters {
 	private float[][] offsetDrift = new float[96][2];
 	private float[][][][] transitionMatrix = new float[96][2][][];
 	private boolean zeroTransition;
-	
+
 	private Population[] initialPopulation;
 	// empty Constructor
 	// private Shell parentShell;
@@ -118,7 +166,8 @@ public class ModelParameters {
 	private boolean warningflag4 = true;
 	private boolean warningflag5 = true;
 	private boolean warningflag6 = true;
-	private boolean negativeMortality =false;
+	private boolean negativeMortality = false;
+	private boolean withRRdisability;
 
 	/**
 	 * contructor sets the baseDir;
@@ -185,16 +234,16 @@ public class ModelParameters {
 				this.globalBaseDir);
 		InputData inputData = new InputData();
 
-		ScenarioInfo scenInfo = new ScenarioInfo();
+		this.sceninfo = new ScenarioInfo();
 		this.log.debug("overall configuration read");
 		config
 				.addPopulationInfoToInputData(simulationName, inputData,
-						scenInfo);
+						sceninfo);
 		this.log.debug("population info added");
-		config.addRiskFactorInfoToInputData(inputData, scenInfo);
+		config.addRiskFactorInfoToInputData(inputData, sceninfo);
 		this.log.debug("risk factor info added");
-		config.addDiseaseInfoToInputData(inputData, scenInfo);
-		config.addScenarioInfoToScenarioData(simulationName, scenInfo);
+		config.addDiseaseInfoToInputData(inputData, sceninfo);
+		config.addScenarioInfoToScenarioData(simulationName, sceninfo);
 
 		this.log.debug("disease info added");
 
@@ -217,28 +266,28 @@ public class ModelParameters {
 			writer.close();
 		}
 		/* put estimated daly parameters in scenarioInfo */
-		scenInfo.setBaselineAbility(this.baselineAbility);
+		sceninfo.setBaselineAbility(this.baselineAbility);
 		if (this.getNDiseases() > 0)
-			scenInfo.setDiseaseAbility(this.diseaseAbility);
+			sceninfo.setDiseaseAbility(this.diseaseAbility);
 		else
-			scenInfo.setDiseaseAbility(null);
-		scenInfo.setRelRiskAbilityCat(this.riskFactorAbilityRRcat);
-		scenInfo.setRelRiskAbilityCont(this.riskFactorAbilityRRcont);
-		scenInfo.setRelRiskAbilityBegin(this.riskFactorAbilityRRbegin);
-		scenInfo.setRelRiskAbilityEnd(this.riskFactorAbilityRRend);
-		scenInfo.setAlphaAbility(this.riskFactorAbilityAlpha);
+			sceninfo.setDiseaseAbility(null);
+		sceninfo.setRelRiskAbilityCat(this.riskFactorAbilityRRcat);
+		sceninfo.setRelRiskAbilityCont(this.riskFactorAbilityRRcont);
+		sceninfo.setRelRiskAbilityBegin(this.riskFactorAbilityRRbegin);
+		sceninfo.setRelRiskAbilityEnd(this.riskFactorAbilityRRend);
+		sceninfo.setAlphaAbility(this.riskFactorAbilityAlpha);
 		/** * 3. write xml files needed by the simulation module */
 
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 				simulationName);
-		s.manufactureSimulationConfigurationFile(this, scenInfo);
+		s.manufactureSimulationConfigurationFile(this, sceninfo);
 		this.log.debug("SimulationConfigurationFile written ");
 		s.manufactureCharacteristicsConfigurationFile(this);
 		this.log.debug("CharacteristicsConfigurationFile written ");
-		s.manufactureUpdateRuleConfigurationFiles(this, scenInfo);
+		s.manufactureUpdateRuleConfigurationFiles(this, sceninfo);
 		this.log.debug("UpdateRuleConfigurationFile written ");
 
-		return scenInfo;
+		return sceninfo;
 
 	}
 
@@ -272,7 +321,7 @@ public class ModelParameters {
 		/*
 		 * NB this is not very safe, as copying like this means that changing
 		 * the object here will change it also in inputData So only possible for
-		 * primitive types 
+		 * primitive types
 		 */
 		this.riskType = inputData.getRiskType();
 
@@ -387,13 +436,11 @@ public class ModelParameters {
 				int anext = a + 1;
 				if (a == 95)
 					anext = 95;
-
-				
+				// make transitionrates for reference scenario
 				if (inputData.getRiskType() != 2) {
 					if (inputData.getTransType() == 1) { /*
 														 * nett transition rates
 														 */
-						
 
 						this.transitionMatrix[a][g] = NettTransitionRateFactory
 								.makeNettTransitionRates(getPrevRisk()[a][g],
@@ -422,12 +469,35 @@ public class ModelParameters {
 						this.transitionMatrix[a][g] = mat;
 
 					}
+
+					// make net transition for the scenarios
+
+					for (int scen = 0; scen < this.sceninfo.getNScenarios(); scen++)
+						if (this.sceninfo.getNettoTransition(scen)) {
+
+							this.sceninfo
+									.setAlternativeTransitionMatrix(
+											scen,
+											a,
+											g,
+											NettTransitionRateFactory
+													.makeNettTransitionRates(
+															this.sceninfo
+																	.getNewPrevalence(scen)[a][g],
+															this.sceninfo
+																	.getNewPrevalence(scen)[anext][g],
+															this.baselineMortality[a][g],
+															inputData
+																	.getRelRiskMortCat()[a][g]));
+						}
+
 				}
 			}
 		}
 
 		// bar.setSelection(96);
 		pii.update(96);
+
 		if (inputData.getRiskType() == 2) {
 			float drift[][][] = new float[3][96][2];
 			if (inputData.getTransType() == 2) { /* inputted rates */
@@ -460,6 +530,27 @@ public class ModelParameters {
 						this.offsetDrift[a][g] = 0;
 					}
 			}
+
+			/* make net transitions for scenario */
+
+			for (int scen = 0; scen < this.sceninfo.getNScenarios(); scen++)
+				if (this.sceninfo.getNettoTransition(scen)) {
+
+					drift = factory.makeNettTransitionRates(this.sceninfo
+							.getOldMean(scen), this.sceninfo.getOldStd(scen),
+							this.sceninfo.getOldSkewness(scen),
+							this.baselineMortality, inputData
+									.getRelRiskMortCont(), this.refClassCont,
+							inputData.getTrendInDrift());
+					this.sceninfo.setAlternativeMeanDrift(drift[0], scen);
+					this.sceninfo.setAlternativeSDDrift(drift[1], scen);
+					this.sceninfo.setAlternativeOffsetDrift(drift[2], scen);
+				}
+			/*
+			 * the drifts in standard deviation and offset are the same in all
+			 * scenarios this should be changed later TODO
+			 */
+
 		}
 		// bar.setSelection(97);
 		pii.update(97);
@@ -693,7 +784,7 @@ public class ModelParameters {
 	 * @param age
 	 * @param sex
 	 * @param dsi
-	 *            
+	 * 
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void estimateModelParametersForSingleAgeGroup(int nSim,
@@ -717,113 +808,36 @@ public class ModelParameters {
 		 * </p>
 		 */
 
+		/* ******************* Initializations ******************************* */
+
 		int nRiskCat = 1;
 		if (this.riskType != 2)
 			nRiskCat = inputData.getPrevRisk()[0][0].length;
 		int nDiseases = getNDiseases(inputData);
-
-		/* now copy data directly from DiseaseClusterData to parameter fields */
-		if (nDiseases > 0) {
-			this.attributableMortality[age][sex] = new float[nDiseases];
-			this.relRiskContinue[age][sex] = new float[nDiseases];
-			this.relRiskClass[age][sex] = new float[nRiskCat][nDiseases];
-			this.relRiskDuurBegin[age][sex] = new float[nDiseases];
-			this.relRiskDuurEnd[age][sex] = new float[nDiseases];
-			this.alphaDuur[age][sex] = new float[nDiseases];
-			this.diseaseAbility[age][sex] = new float[nDiseases];
-			this.relRiskDiseaseOnDisease[age][sex] = new float[this.nCluster][][];
-
-		}
+		initializeFields(age, sex, nRiskCat, nDiseases);
 		boolean withRRmort = inputData.isWithRRForMortality();
-		boolean withRRdisability = inputData.isWithRRForDisability();
-		if (withRRdisability && nWarningRRdis == 0) {
-			displayWarningMessage(
-					"WARNING:\nRR for disability is not (yet) implemented so RR for disability is ignored",
-					dsi);
-			nWarningRRdis++;
-		}
-		withRRdisability = false;
-		double log2 = Math.log(2.0); // keep outside loops to prevent
-		// recalculation
-		/* put prevalence also in a single array for easy access */
-		float[] excessMortality = new float[nDiseases];
-		float[] diseasePrevalence = new float[nDiseases];
-		if (nDiseases > 0)
-			for (int c = 0; c < this.nCluster; c++)
-				for (int dc = 0; dc < this.clusterStructure[c].getNInCluster(); dc++) {
-					int dNumber = this.clusterStructure[c].getDiseaseNumber()[dc];
+		this.withRRdisability = inputData.isWithRRForDisability();
+		/*
+		 * 
+		 * in dynamo version 1.0 next statements were included to exclude rr
+		 * from disability
+		 * 
+		 * if (withRRdisability && nWarningRRdis == 0) { displayWarningMessage(
+		 * "WARNING:\nRR for disability is not (yet) implemented so RR for disability is ignored"
+		 * , dsi); nWarningRRdis++; } withRRdisability = false;
+		 */
+		double log2 = Math.log(2.0); // keep outside loops
 
-					excessMortality[dNumber] = inputData.getClusterData()[age][sex][c]
-							.getExcessMortality()[dc];
-					this.diseaseAbility[age][sex][dNumber] = inputData
-							.getClusterData()[age][sex][c].getAbility()[dc];
-				}
-		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
-			this.relRiskContinue[age][sex] = new float[nDiseases];
-		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
-			this.refClassCont = 0;
-		if (nDiseases > 0)
-			for (int c = 0; c < this.nCluster; c++) {
+		float[] excessMortality = getExcessMort(inputData, age, sex, nDiseases);
 
-				this.relRiskDiseaseOnDisease[age][sex][c] = inputData
-						.getClusterData()[age][sex][c].getRRdisExtended();
+		/*
+		 * copy inputdata that are parameters directly from DiseaseClusterData
+		 * to parameter fields
+		 */
+		/* also put prevalence also in a single array for easy access */
+		float[] diseasePrevalence = copyInputandGetPrevalence(inputData, age,
+				sex, nRiskCat, nDiseases);
 
-				for (int d = 0; d < inputData.clusterStructure[c]
-						.getNInCluster(); d++) {
-					int dNumber = inputData.clusterStructure[c]
-							.getDiseaseNumber()[d];
-					if (this.riskType == 3) {
-						this.relRiskDuurEnd[age][sex][dNumber] = inputData
-								.getClusterData()[age][sex][c]
-								.getRelRiskDuurEnd()[d];
-						this.relRiskDuurBegin[age][sex][dNumber] = inputData
-								.getClusterData()[age][sex][c]
-								.getRelRiskDuurBegin()[d];
-						this.alphaDuur[age][sex][dNumber] = inputData
-								.getClusterData()[age][sex][c].getAlpha()[d];
-
-					}
-					diseasePrevalence[this.clusterStructure[c]
-							.getDiseaseNumber()[d]] = inputData
-							.getClusterData()[age][sex][c].getPrevalence()[d];
-
-					if (inputData.getRiskType() == 1
-							|| inputData.getRiskType() == 3)
-						for (int i = 0; i < nRiskCat; i++)
-							this.relRiskClass[age][sex][i][dNumber] = inputData
-									.getClusterData()[age][sex][c]
-									.getRelRiskCat()[i][d];
-					else
-						this.relRiskClass[age][sex][0][dNumber] = 1;
-					if (inputData.getRiskType() == 2) {
-
-						this.relRiskClass[age][sex][0][dNumber] = 1;
-					}
-					if (inputData.getRiskType() == 2)
-						this.relRiskContinue[age][sex][dNumber] = inputData
-								.getClusterData()[age][sex][c].getRelRiskCont()[d];
-
-					// can be changed into variable name of duration
-					if (inputData.getRiskType() == 1
-							|| inputData.getRiskType() == 3)
-						this.relRiskContinue[age][sex][dNumber] = 1;
-
-				}
-
-			}
-
-		// if not netto transition rates then: transitionMatrix=inputData....
-
-		// make declarations for the other fields
-		this.baselineIncidence[age][sex] = new float[nDiseases];
-		this.baselineFatalIncidence[age][sex] = new float[nDiseases];
-		this.baselinePrevalenceOdds[age][sex] = new double[nDiseases];
-		this.relRiskOtherMort[age][sex] = new float[nRiskCat];
-		this.riskFactorAbilityRRcat[age][sex] = new float[nRiskCat];
-		this.riskFactorAbilityRRcont[age][sex] = 1;
-		this.riskFactorAbilityRRbegin[age][sex] = 1;
-		this.riskFactorAbilityRRend[age][sex] = 1;
-		this.riskFactorAbilityAlpha[age][sex] = 0;
 		double baselineDisabilityOdds = 0;
 
 		if (inputData.getRiskType() == 1)
@@ -832,10 +846,8 @@ public class ModelParameters {
 			nSim = nRiskCat + inputData.getDuurFreq()[age][sex].length - 1;
 		if (inputData.getRiskType() == 2 && nSim < 100)
 			nSim = 100;
-		// help variables concerning all cause mortality
-		this.baselineMortality[age][sex] = 0; // Baseline mortality
 
-		// now the declation of the arrays that give data per simulated person
+		// declation of the arrays that give data per simulated person
 
 		// Disease info
 
@@ -865,81 +877,12 @@ public class ModelParameters {
 		double[] abilityFromRiskFactor = new double[nSim];
 		double[] abilityFromDiseases = new double[nSim];
 		double totalAbilityFromRiskFactor = 0;
-		boolean oneDuration = false; /*
-									 * one Duration is a flag that sees whether
-									 * there is only a single duration present
-									 */
-		if (inputData.getRiskType() == 3) {
-			double checkSum = 0;
-			int nFilled = 0;
-			/*
-			 * despite trying this not only changes the duurFreq, but also the
-			 * original version!
-			 */
-			for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++) {
+		// index giving the class of the compound riskfactor
 
-				checkSum += this.duurFreq[age][sex][k];
-				if (this.duurFreq[age][sex][k] > 0)
-					nFilled++;
-			}
-			if (nFilled == 1)
-				oneDuration = true;
-			/* there is a tolerance of 2% */
-			if (Math.abs(checkSum - 1) > 0.01)
-				throw new DynamoInconsistentDataException(
-						"durations given for compound risk factor class do not sum to 100% but to "
-								+ 100 * checkSum + "%");
-			/* if there is a small deviation, normalize */
-			if (Math.abs(checkSum - 1) > 0.00001) {
-				for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++)
-
-					this.duurFreq[age][sex][k] = (float) (this.duurFreq[age][sex][k] / checkSum);
-
-			}
-		}
-		if (oneDuration
-				&& warningflag6
-				&& (withRRdisability || withRRmort)
-				&& inputData.getPrevRisk()[age][sex][inputData
-						.getIndexDuurClass()] != 0) {
-			warningflag6 = false;
-
-			displayWarningMessage(
-					"WARNING: \n100% of the initial population has the same duration"
-							+ ". \nTherefore"
-							+ " it is not possible to estimate a time dependent other mortality or "
-							+ "other disability."
-							+ "\nIn case other mortality/disability is requested, those relative risks will be made constant over time"
-							+ "\nThis warning is give for age "
-							+ age
-							+ " and gender "
-							+ sex
-							+ "\nNo more warnings of this kind will be generated for "
-							+ "other age and gender groups", dsi);
-		}
-		double weight[] = new double[nSim]; // weight for weighting the
-		// prevalences
-		if (inputData.getRiskType() == 1) {
-			for (int i = 0; i < nSim; i++)
-				weight[i] = inputData.getPrevRisk()[age][sex][i];
-		}
-		if (inputData.getRiskType() == 3) {
-			int i = 0;
-			for (int k = 0; k < nRiskCat; k++) {
-				weight[i] = inputData.getPrevRisk()[age][sex][k];
-				if (inputData.getIndexDuurClass() == k) {
-					for (int j = 0; j < this.duurFreq[age][sex].length; j++) {
-						weight[i] = inputData.getPrevRisk()[age][sex][k]
-								* this.duurFreq[age][sex][j];
-						i++;
-					}
-				} else
-					i++;
-			}
-		}
-		if (inputData.getRiskType() == 2)
-			for (int i = 0; i < nSim; i++)
-				weight[i] = 1.0 / nSim;
+		boolean oneDuration = lookIfOnlyOneDurationPresent(inputData, age, sex,
+				dsi, withRRmort, withRRdisability);
+		/** weights : relative weight (sums to 1) */
+		double[] weight = calculateWeight(nSim, inputData, age, sex, nRiskCat);
 		// relative risks
 		double[][] relRisk = new double[nSim][nDiseases];
 		// relative risk for person i (first index) on the
@@ -966,196 +909,190 @@ public class ModelParameters {
 
 		/* initialize necessary sum-variables etc. */
 
-		{
+		double[] sumRR = new double[nDiseases]; // sum
+		// (index=disease)
+		// over all RR's
+		// due to
+		// riskfactors/classes
+		double sumRRm = 0; // sum over all RR's for all cause mortality due
+		// to riskfactors/classes
+		double relRiskMax[] = new double[nDiseases]; // maximum
+		for (int d = 0; d < nDiseases; d++) {
+			relRiskMax[d] = 0;
+		}
+		;
+		// auxilary variable to calculate the baselineOdds of disability
+		double sumRRDisability = 0;
 
-			double[] sumRR = new double[nDiseases]; // sum
-			// (index=disease)
-			// over all RR's
-			// due to
-			// riskfactors/classes
-			double sumRRm = 0; // sum over all RR's for all cause mortality due
-			// to riskfactors/classes
-			double relRiskMax[] = new double[nDiseases]; // maximum
-			for (int d = 0; d < nDiseases; d++) {
-				relRiskMax[d] = 0;
+		// now the loop itself
+		// index for cumulative probability of risk factor class
+		for (int i = 0; i < nSim; i++) {
+			/* first draw or initialize risk factors */
+
+			if (inputData.getRiskType() == 1)
+
+			{
+				riskfactor[i] = 0;
+				riskclass[i] = i;
 			}
-			;
-			// auxilary variable to calculate the baselineOdds of disability
-			double sumRRDisability = 0;
 
-			// now the loop itself
-			// index for cumulative probability of risk factor class
-			for (int i = 0; i < nSim; i++) {
-				/* first draw or initialize risk factors */
-
-				if (inputData.getRiskType() == 1)
-
-				{
+			if (inputData.getRiskType() == 2) {
+				riskclass[i] = 0;
+				if (this.RiskTypeDistribution == "Normal") {
+					riskfactor[i] = this.meanRisk[age][sex]
+							+ this.stdDevRisk[age][sex]
+							* DynamoLib.normInv((i + 0.5) / nSim);
+				} else if (this.RiskTypeDistribution == "LogNormal") {
+					riskfactor[i] = DynamoLib.logNormInv2(((i + 0.5) / nSim),
+							inputData.getSkewnessRisk()[age][sex], inputData
+									.getMeanRisk()[age][sex], inputData
+									.getStdDevRisk()[age][sex]);
+				} else
+					throw new DynamoInconsistentDataException(
+							" unknown riskfactor distribution "
+									+ inputData.riskDistribution);
+			}
+			if (inputData.getRiskType() == 3) {
+				if (i < inputData.getIndexDuurClass()) {
 					riskfactor[i] = 0;
 					riskclass[i] = i;
+				} else if (i >= inputData.getIndexDuurClass()
+						&& i < inputData.getIndexDuurClass()
+								+ this.duurFreq[age][sex].length) {
+					riskfactor[i] = i - inputData.getIndexDuurClass();
+					/**
+					 * 
+					 * duration class starts at 0: this is the first frequency
+					 * that should be inputted
+					 * 
+					 */
+					riskclass[i] = inputData.getIndexDuurClass();
+				} else {
+					riskfactor[i] = 0;
+					riskclass[i] = i - this.duurFreq[age][sex].length + 1;
 				}
+			}
+			// Calculate disability based on only the riskfactor
 
-				if (inputData.getRiskType() == 2) {
-					riskclass[i] = 0;
-					if (this.RiskTypeDistribution == "Normal") {
-						riskfactor[i] = this.meanRisk[age][sex]
-								+ this.stdDevRisk[age][sex]
-								* DynamoLib.normInv((i + 0.5) / nSim);
-					} else if (this.RiskTypeDistribution == "LogNormal") {
-						riskfactor[i] = DynamoLib.logNormInv2(
-								((i + 0.5) / nSim),
-								inputData.getSkewnessRisk()[age][sex],
-								inputData.getMeanRisk()[age][sex], inputData
-										.getStdDevRisk()[age][sex]);
-					} else
-						throw new DynamoInconsistentDataException(
-								" unknown riskfactor distribution "
-										+ inputData.riskDistribution);
-				}
-				if (inputData.getRiskType() == 3) {
-					if (i < inputData.getIndexDuurClass()) {
-						riskfactor[i] = 0;
-						riskclass[i] = i;
-					} else if (i >= inputData.getIndexDuurClass()
-							&& i < inputData.getIndexDuurClass()
-									+ this.duurFreq[age][sex].length) {
-						riskfactor[i] = i - inputData.getIndexDuurClass();
-						/**
-						 * 
-						 * duration class starts at 0: this is the first
-						 * frequency that should be inputted
-						 * 
-						 */
-						riskclass[i] = inputData.getIndexDuurClass();
-					} else {
-						riskfactor[i] = 0;
-						riskclass[i] = i - this.duurFreq[age][sex].length + 1;
-					}
-				}
-				// Calculate disability based on only the riskfactor
+			// first calculate the relative risk for this person/group
+			if (!withRRdisability)
+				relRiskDisability[i] = 1;
+			if (inputData.getRiskType() == 1 && withRRdisability)
+				relRiskDisability[i] = inputData.getRRforDisabilityCat()[age][sex][i];
+			if (inputData.getRiskType() == 2 && withRRdisability)
 
-				// first calculate the relative risk for this person/group
-				if (!withRRdisability)
-					relRiskDisability[i] = 1;
-				if (inputData.getRiskType() == 1 && withRRdisability)
-					relRiskDisability[i] = inputData.getRRforDisabilityCat()[age][sex][i];
-				if (inputData.getRiskType() == 2 && withRRdisability)
+				relRiskDisability[i] = Math.pow(inputData
+						.getRRforDisabilityCont()[age][sex],
+						(riskfactor[i] - inputData.getRefClassCont()));
 
-					relRiskDisability[i] = Math.pow(inputData
-							.getRRforDisabilityCont()[age][sex],
-							(riskfactor[i] - inputData.getRefClassCont()));
-
-				if (inputData.getRiskType() == 3 && withRRdisability)
-
+			if (inputData.getRiskType() == 3 && withRRdisability) {
+				if (riskclass[i] == this.durationClass)
 					relRiskDisability[i] = (inputData.getRRforDisabilityBegin()[age][sex] - inputData
 							.getRRforDisabilityEnd()[age][sex])
 							* Math
 									.exp(-riskfactor[i]
 											* inputData.getAlphaForDisability()[age][sex])
 							+ inputData.getRRforDisabilityEnd()[age][sex];
-				sumRRDisability += weight[i] * relRiskDisability[i];
+				else
+					relRiskDisability[i] = inputData.getRRforDisabilityCat()[age][sex][riskclass[i]];
 
-				// Calculate relative risks based on only the riskfactor
-
-				// loop over all clusters of diseases
-
-				if (nDiseases > 0)
-					for (int d = 0; d < nDiseases; d++) {
-
-						if (inputData.getRiskType() == 3) {
-							if (riskclass[i] == inputData.getIndexDuurClass()) {
-
-								relRisk[i][d] = (this.relRiskDuurBegin[age][sex][d] - this.relRiskDuurEnd[age][sex][d])
-										* Math.exp(-riskfactor[i]
-												* this.alphaDuur[age][sex][d])
-										+ this.relRiskDuurEnd[age][sex][d];
-
-								if (inputData.isWithRRForMortality())
-									relRiskMort[i] = (inputData
-											.getRelRiskDuurMortBegin()[age][sex] - inputData
-											.getRelRiskDuurMortEnd()[age][sex])
-											* Math
-													.exp(-riskfactor[i]
-															* inputData
-																	.getRrAlphaMort()[age][sex])
-											+ inputData.getRelRiskDuurMortEnd()[age][sex];
-
-							} else {
-								relRisk[i][d] = this.relRiskClass[age][sex][riskclass[i]][d];
-
-								if (inputData.isWithRRForMortality())
-									relRiskMort[i] = inputData
-											.getRelRiskMortCat()[age][sex][riskclass[i]];
-							}
-						} else
-
-							relRisk[i][d] = Math.pow(
-									this.relRiskContinue[age][sex][d],
-									(riskfactor[i] - inputData
-											.getRefClassCont()))
-									* this.relRiskClass[age][sex][riskclass[i]][d];
-
-						sumRR[d] += relRisk[i][d] * weight[i];
-						if (relRiskMax[d] < relRisk[i][d])
-							relRiskMax[d] = relRisk[i][d];
-
-					}
-				// calculate RR and sum of RR for mortality;
-				if (inputData.getRiskType() == 3) {
-					if (riskclass[i] == inputData.getIndexDuurClass()) {
-
-						if (inputData.isWithRRForMortality())
-							relRiskMort[i] = (inputData
-									.getRelRiskDuurMortBegin()[age][sex] - inputData
-									.getRelRiskDuurMortEnd()[age][sex])
-									* Math
-											.exp(-riskfactor[i]
-													* inputData.getAlphaMort()[age][sex])
-									+ inputData.getRelRiskDuurMortEnd()[age][sex];
-
-					} else {
-
-						if (inputData.isWithRRForMortality())
-							relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
-					}
-				} else if (inputData.isWithRRForMortality())
-					relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]]
-							* Math.pow(
-									inputData.getRelRiskMortCont()[age][sex],
-									(riskfactor[i] - inputData
-											.getRefClassCont()));
-				/* if not RR for mortality, this is 1 */
-				if (!inputData.isWithRRForMortality())
-					relRiskMort[i] = 1;
-
-				sumRRm += relRiskMort[i] * weight[i];
-				/* sum of relRiskMort over all persons */
-
-			} // end first loop over all individuals
-
-			// calculate a first estimate of baseline prevalence for the
-			// independent
-			// diseases and baseline all cause mortality
-			// the false indicates that this should be done for independent
-			// diseases only
-
-			;
-
-			if (nDiseases > 0) {
-				calculateBaselinePrev(inputData, age, sex, sumRR, false);
-				calculateBaselineFatalIncidence(inputData, age, sex, sumRR,
-						false);
 			}
-			if (inputData.isWithRRForMortality())
-				this.baselineMortality[age][sex] = (float) (inputData
-						.getMortTot()[age][sex] / sumRRm);
-			else
-				this.baselineMortality[age][sex] = (float) (inputData
-						.getMortTot()[age][sex]);
-			/* first estimate of baselineDisabilityOdds */
-			baselineDisabilityOdds = (float) (inputData.getOverallDalyWeight()[age][sex] / sumRRDisability);
+			sumRRDisability += weight[i] * relRiskDisability[i];
 
+			// Calculate relative risks based on only the riskfactor
+
+			// loop over all clusters of diseases
+
+			if (nDiseases > 0)
+				for (int d = 0; d < nDiseases; d++) {
+
+					if (inputData.getRiskType() == 3) {
+						if (riskclass[i] == inputData.getIndexDuurClass()) {
+
+							relRisk[i][d] = (this.relRiskDuurBegin[age][sex][d] - this.relRiskDuurEnd[age][sex][d])
+									* Math.exp(-riskfactor[i]
+											* this.alphaDuur[age][sex][d])
+									+ this.relRiskDuurEnd[age][sex][d];
+
+							/*
+							 * if (inputData.isWithRRForMortality())
+							 * relRiskMort[i] = (inputData
+							 * .getRelRiskDuurMortBegin()[age][sex] - inputData
+							 * .getRelRiskDuurMortEnd()[age][sex]) Math
+							 * .exp(-riskfactor[i] inputData
+							 * .getRrAlphaMort()[age][sex]) +
+							 * inputData.getRelRiskDuurMortEnd()[age][sex];
+							 */
+
+						} else {
+							relRisk[i][d] = this.relRiskClass[age][sex][riskclass[i]][d];
+
+							/*
+							 * if (inputData.isWithRRForMortality())
+							 * relRiskMort[i] = inputData
+							 * .getRelRiskMortCat()[age][sex][riskclass[i]];
+							 */
+						}
+					} else
+
+						relRisk[i][d] = Math.pow(
+								this.relRiskContinue[age][sex][d],
+								(riskfactor[i] - inputData.getRefClassCont()))
+								* this.relRiskClass[age][sex][riskclass[i]][d];
+
+					sumRR[d] += relRisk[i][d] * weight[i];
+					if (relRiskMax[d] < relRisk[i][d])
+						relRiskMax[d] = relRisk[i][d];
+
+				}
+			// calculate RR and sum of RR for mortality;
+			if (inputData.getRiskType() == 3) {
+				if (riskclass[i] == inputData.getIndexDuurClass()) {
+
+					if (inputData.isWithRRForMortality())
+						relRiskMort[i] = (inputData.getRelRiskDuurMortBegin()[age][sex] - inputData
+								.getRelRiskDuurMortEnd()[age][sex])
+								* Math.exp(-riskfactor[i]
+										* inputData.getAlphaMort()[age][sex])
+								+ inputData.getRelRiskDuurMortEnd()[age][sex];
+
+				} else {
+
+					if (inputData.isWithRRForMortality())
+						relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]];
+				}
+			} else if (inputData.isWithRRForMortality())
+				relRiskMort[i] = inputData.getRelRiskMortCat()[age][sex][riskclass[i]]
+						* Math.pow(inputData.getRelRiskMortCont()[age][sex],
+								(riskfactor[i] - inputData.getRefClassCont()));
+			/* if not RR for mortality, this is 1 */
+			if (!inputData.isWithRRForMortality())
+				relRiskMort[i] = 1;
+
+			sumRRm += relRiskMort[i] * weight[i];
+			/* sum of relRiskMort over all persons */
+
+		} // end first loop over all individuals
+
+		// calculate a first estimate of baseline prevalence for the
+		// independent
+		// diseases and baseline all cause mortality
+		// the false indicates that this should be done for independent
+		// diseases only
+
+		;
+
+		if (nDiseases > 0) {
+			calculateBaselinePrev(inputData, age, sex, sumRR, false);
+			calculateBaselineFatalIncidence(inputData, age, sex, sumRR, false);
 		}
+		if (inputData.isWithRRForMortality())
+			this.baselineMortality[age][sex] = (float) (inputData.getMortTot()[age][sex] / sumRRm);
+		else
+			this.baselineMortality[age][sex] = (float) (inputData.getMortTot()[age][sex]);
+		/* first estimate of baselineDisabilityOdds */
+		baselineDisabilityOdds = (float) (((double) inputData
+				.getOverallDalyWeight()[age][sex]) / sumRRDisability);
 
 		/*
 		 * now repeat loop 1 iteratively to estimate the baseline odds for
@@ -1217,7 +1154,8 @@ public class ModelParameters {
 				kk++;
 
 			}
-			double disabilityPrevalence = inputData.getOverallDalyWeight()[age][sex];
+			double disabilityPrevalence = (double) inputData
+					.getOverallDalyWeight()[age][sex];
 			/*
 			 * if disability prevalence == 0 do not do anything but keep
 			 * baseline odds ==0
@@ -1260,11 +1198,11 @@ public class ModelParameters {
 
 		}
 		if (Math.abs(totalAbilityFromRiskFactor
-				+ inputData.getOverallDalyWeight()[age][sex] - 1) > 0.0001)
+				+ (double) inputData.getOverallDalyWeight()[age][sex] - 1) > 0.0001)
 			log
 					.fatal(" bug in program when calculating baseline disablity odds. Total disability given"
 							+ " bij user = "
-							+ inputData.getOverallDalyWeight()[age][sex]
+							+ (double) inputData.getOverallDalyWeight()[age][sex]
 							+ " but calculated"
 							+ "from baselineDisabilityOdds = "
 							+ (1 - totalAbilityFromRiskFactor));
@@ -1292,7 +1230,7 @@ public class ModelParameters {
 		 */
 
 		// initialize necessary sum-variables etc.
-		double[] sumRR = new double[nDiseases]; // sum
+		double[] sumRR1 = new double[nDiseases]; // sum
 		// (index=disease)
 		// over all RR's
 		// due to
@@ -1406,7 +1344,7 @@ public class ModelParameters {
 															.getRRdisExtended()[di][dd] - 1));
 
 										}
-									sumRR[Ndd] += weight[i]
+									sumRR1[Ndd] += weight[i]
 											* relRiskIncludingDisease[i][Ndd];
 
 									;
@@ -1428,8 +1366,8 @@ public class ModelParameters {
 			 * (as it is with incidence) so can be estimated sooner
 			 */
 			calculateBaselineInc(inputData, age, sex, sumRRinHealth, false);
-			calculateBaselinePrev(inputData, age, sex, sumRR, true);
-			calculateBaselineFatalIncidence(inputData, age, sex, sumRR, true);
+			calculateBaselinePrev(inputData, age, sex, sumRR1, true);
+			calculateBaselineFatalIncidence(inputData, age, sex, sumRR1, true);
 			if (age == 0)
 				for (int d = 0; d < nDiseases; d++)
 					log.debug("or trial disease" + d + " = "
@@ -2147,31 +2085,16 @@ public class ModelParameters {
 				 * in case 100% of the population has disease, and the disease
 				 * also causes 100% diability, the ability from diseases will be
 				 * 0 In that case it is impossible to calculate the amount of
-				 * disability in those without the disease Therefore a warning
-				 * message is given, and abilityFrom other causes is set to 1
+				 * disability in those without the disease. In this case a
+				 * warning message was given, and abilityFrom other causes is
+				 * set to 1
 				 */
 
 				if (abilityFromDiseases[i] == 0) {
 					abilityFromOtherCauses[i] = 1;
 
-					if (warningflag3) {
-						warningflag3 = false;
+					issueWarning3(age, sex, dsi, i);
 
-						displayWarningMessage(
-								"WARNING:"
-										+ "\n100% of the initial population has disability due to at least one disease. \nTherefore"
-										+ " it is not possilible to estimate the disability from other (not modelled) diseases."
-										+ "\nThis is made 0 (no disability from other diseases"
-										+ "\nThis warning is give for age "
-										+ age
-										+ " and gender "
-										+ sex
-										+ " and riskgroup "
-										+ i
-										+ "\nNo more warnings of this kind will be generated for"
-										+ " other risk, age and gender groups",
-								dsi);
-					}
 				}
 
 				else
@@ -2187,99 +2110,25 @@ public class ModelParameters {
 							* abilityFromDiseases[i];
 
 				} else {
-					abilityFromOtherCauses[i] = abilityFromRiskFactor[i]
-							/ abilityFromDiseases[i];
-
-					if (riskType == 1) {
-						if (abilityFromOtherCauses[i] < 1) {
-							/*
-							 * take i=1 as the (temporary) reference category
-							 * this might be another category as the category
-							 * that is the baseline category given by the user.
-							 */
-							if (i == 0) {
-								this.baselineAbility[age][sex] = (float) abilityFromOtherCauses[i];
-								this.riskFactorAbilityRRcat[age][sex][i] = 1;
-							} else
-							/*
-							 * in case there is 100% disability in a particular
-							 * riskfactor group (user a=has given an
-							 * oddsratio=0) then the ability should become 0%,
-							 * thus RR should also be 0; As log(RR) then is
-							 * log(0) the standard formula does not work, so we
-							 * have to calculate this directly
-							 */
-
-							if (abilityFromOtherCauses[i] > 0)
-
-								/*
-								 * model for ability is: ability = exp( coef1 D
-								 * + coef2R + log(baseline)) As parameter we use
-								 * the RR = exp(coef2)
-								 */
-
-								this.riskFactorAbilityRRcat[age][sex][i] = (float) (abilityFromOtherCauses[i] / this.baselineAbility[age][sex]);
-							else
-								this.riskFactorAbilityRRcat[age][sex][i] = 0;
-
-						} else if (abilityFromOtherCauses[i] == 1) {
-							/*
-							 * here other causes do not cause disability, and we
-							 * set the R's to 1
-							 */
-							if (i == 0) {
-								this.baselineAbility[age][sex] = 1;
-								this.riskFactorAbilityRRcat[age][sex][i] = 1;
-							} else
-								this.riskFactorAbilityRRcat[age][sex][i] = 1;
-
-						} else {
-
-							if (i == 0) {
-								String label = "";
-
-								if (this.nWarningsDisability == 2)
-
-									label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
-											+ " OTHER AGE/SEX GROUPS";
-								if (this.nWarningsDisability < 3)
-									displayWarningMessage(
-											"WARNING:"
-													+ "\nthe disability given for riskfactor group "
-													+ i
-													+ " in age "
-													+ age
-													+ " and sex "
-													+ sex
-													+ " can "
-													+ "be explained completely by differences in disease prevalences due to the riskfactor. "
-													+ "\nTherefore disability for this group will be calculated solely on disease status and not on risk "
-													+ "factor status" + label,
-											dsi);
-
-								this.baselineAbility[age][sex] = 1;
-								this.riskFactorAbilityRRcat[age][sex][i] = 1;
-
-								this.nWarningsDisability++;
-							} else
-								this.riskFactorAbilityRRcat[age][sex][i] = 1;
-
-						}
-					} // end risktype == 1
-
-					// other risktype are done later on (together with
-					// mortality)
+					/* with RR for disability */
 
 				} // end part on disability
 
-			}// end loop over i
+			}// end loop over i in case of diseases for those with disease
+
+		else
+			/* when no diseases */
+
+			for (int i = 0; i < nSim; i++)
+				abilityFromDiseases[i] = 1;
 
 		if (!withRRdisability) {
-			float overallAbility = 1 - inputData.getOverallDalyWeight()[age][sex];
+			double overallAbility = 1 - (double) inputData
+					.getOverallDalyWeight()[age][sex];
 			if (nDiseases > 0)
-				this.baselineAbility[age][sex] = (float) (overallAbility / sumAbilityFromDiseases);
+				this.baselineAbility[age][sex] = (overallAbility / sumAbilityFromDiseases);
 			else
-				this.baselineAbility[age][sex] = (float) overallAbility;
+				this.baselineAbility[age][sex] = overallAbility;
 			for (int i = 0; i < nRiskCat; i++)
 				this.riskFactorAbilityRRcat[age][sex][i] = 1;
 			this.riskFactorAbilityRRcont[age][sex] = 1;
@@ -2288,12 +2137,103 @@ public class ModelParameters {
 			this.riskFactorAbilityAlpha[age][sex] = 1;
 
 			if (this.baselineAbility[age][sex] > 1) {
-				warnForAbilityGreaterOne(age, sex, sumAbilityFromDiseases,
-						overallAbility, dsi);
 
+				throw new DynamoInconsistentDataException(
+						"ERROR:\nOverall dalyweight/disability is smaller than dalyweight/disability due "
+								+ "to diseases for age "
+								+ age
+								+ " and gender "
+								+ sex
+								+ " : disability due to diseases: "
+								+ (1 - sumAbilityFromDiseases)
+								+ " and overall: "
+								+ (1 - overallAbility)
+								+ " . Other cause disability is set"
+								+ " to zero.");
+
+				/*
+				 * below the statements used in DYNAMO-HIA version 1.0, where
+				 * there was only a warning given
+				 */
+				//
+				// warnForAbilityGreaterOne(age, sex, -1,
+				// sumAbilityFromDiseases,
+				// overallAbility, dsi);
+				// this.baselineAbility[age][sex] = 1;
 			}
+		} else {  //MET RR DISABILITY
+
+			// april 2013 buiten de vorige loop gehaald zodat OOK BIJ
+			// AFWEZIGHEID VAN ZIEKTEN WORDT UITGEVOERD
+			for (int i = 0; i < nSim; i++) {
+				abilityFromOtherCauses[i] = abilityFromRiskFactor[i]
+						/ abilityFromDiseases[i];
+
+				if (riskType == 1) {
+					if (abilityFromOtherCauses[i] < 1) {
+						/*
+						 * take i=1 as the reference category this might be
+						 * another category as the category that is the baseline
+						 * category given by the user. However, the reference
+						 * category is not relevant for any results, and the
+						 * user never sees these RRs so we can just as well do
+						 * it the easy way
+						 */
+						if (i == 0) {
+							this.baselineAbility[age][sex] = (float) abilityFromOtherCauses[i];
+							this.riskFactorAbilityRRcat[age][sex][i] = 1;
+						} else
+						/*
+						 * in case there is 100% disability in a particular
+						 * riskfactor group (user a=has given an oddsratio=0)
+						 * then the ability should become 0%, thus RR should
+						 * also be 0; As log(RR) then is log(0) the standard
+						 * formula does not work, so we have to calculate this
+						 * directly
+						 */
+
+						if (abilityFromOtherCauses[i] > 0)
+
+							/*
+							 * model for ability is: ability = exp( coef1 D +
+							 * coef2R + log(baseline)) As parameter we use the
+							 * RR = exp(coef2)
+							 */
+
+							this.riskFactorAbilityRRcat[age][sex][i] = (float) (abilityFromOtherCauses[i] / this.baselineAbility[age][sex]);
+						else
+							this.riskFactorAbilityRRcat[age][sex][i] = 0;
+
+					} else if (abilityFromOtherCauses[i] == 1) {
+						/*
+						 * here other causes do not cause disability, and we set
+						 * the R's to 1
+						 */
+						if (i == 0) {
+							this.baselineAbility[age][sex] = 1;
+							this.riskFactorAbilityRRcat[age][sex][i] = 1;
+						} else
+							this.riskFactorAbilityRRcat[age][sex][i] = 1;
+
+					} else { /* if abilityFromOtherCauses>1 */
+
+						warnForOtherDisabilitySmallerThanZero(age, sex, dsi, i);
+						if (i == 0) {
+							this.baselineAbility[age][sex] = 1;
+							this.riskFactorAbilityRRcat[age][sex][i] = 1;
+
+						} else
+							/* riskFactorAbility= RR*baselineAbility = 1; */
+							this.riskFactorAbilityRRcat[age][sex][i] = 1 / this.baselineAbility[age][sex];
+
+					}
+				} // end risktype == 1
+
+				// other risktype are done later on (together with
+				// mortality) ,// if withdisability
+			}
+
 		}
-		
 
 		/* calculate the mortality from acutely fatal diseases */
 		/*
@@ -2346,8 +2286,6 @@ public class ModelParameters {
 								}
 								if (diseasePrevalence[d1] != 0)
 									sumForCF[d1] -= sum / diseasePrevalence[d1];
-
-							
 
 							} else { // without rr:
 								/*
@@ -2484,20 +2422,8 @@ public class ModelParameters {
 				}
 				vMat[d][d] = 1;
 				AMsetToZero[d] = true;
-				if (warningflag5 && Math.abs(diseasePrevalence[d]) > 0.00001) {
-					/* displayWarningMessage */
-					log
-							.fatal("WARNING:\nExcess mortality of disease "
-									+ diseaseNames[d]
-									+ " is zero for age "
-									+ age
-									+ " and gender "
-									+ sex
-									+ "\nThe program assumes a zero attributable mortality for this disease"
-									+ "\nNo more warning messages of this kind are given for other age/gender/disease groups"
-							/* ,dsi */);
-					warningflag5 = false;
-				}
+				if (warningflag5 && Math.abs(diseasePrevalence[d]) > 0.00001)
+					issueWarning5(age, sex, d);
 
 			}
 		}
@@ -2612,38 +2538,60 @@ public class ModelParameters {
 
 		double[] beta = null;
 
+		/*
+		 * ************************ ability
+		 * **************************************
+		 */
+
+		// first the adjustments in the case
+		// abilityFromOtherCauses>1
+		// in order to make total ability the same as input total
+		// ability for the continuous riskfactor
+		// to do this, the abilityfromOtherCauses is adjusted
+		if (riskType == 2 && withRRdisability) {
+			double inputAbility = 1 - (double) inputData.getOverallDalyWeight()[age][sex];
+			adjustOtherAbilityGreaterOne(nSim, abilityFromDiseases, weight,
+					abilityFromOtherCauses, inputAbility, age, sex);
+
+		}
 		double otherMort[] = new double[nSim];
 		double mortalityFromDisease[] = new double[nSim];
 		double logOtherMort[] = new double[nSim];
 
 		double logAbilityFromOtherCauses[] = new double[nSim];
 		double nNegativeOtherMort = 0;
-		
-		
+
 		for (int i = 0; i < nSim; i++) {
 
 			otherMort[i] = relRiskMort[i] * this.baselineMortality[age][sex];
-			// for riskType==1 the relative risks have already been made above
+			// for riskType==1 the relative risks have already been made above,
+			// but needs adjustement in case disease disability was larger that
+			// disability from odds ratio
 			if (withRRdisability && riskType != 1) {
 
 				// abilityFromOtherCauses[i] = 1;
 				logAbilityFromOtherCauses[i] = 0;
 
+				// abilityFromRiskFactor : based on odds ratio given by the user
+				// abilityFromOtherCauses :
+				// abilityFromRiskFactor-abilityFromDiseases
+
 				if (abilityFromRiskFactor[i] == 0) {
 					abilityFromOtherCauses[i] = 0.00000;
 					logAbilityFromOtherCauses[i] = -14;
-					if (this.warningflag2)
-						displayWarningMessage(
-								"WARNING:\n100% disability calculated for riskclass "
-										+ i
-										+ ". \nAs this gives"
-										+ " numerical problems disability is made slightly less then 100%.",
-								dsi);
-					this.warningflag2 = false;
+					issueWarning2(dsi, i);
 				} else {
-					logAbilityFromOtherCauses[i] = Math
-							.log(abilityFromOtherCauses[i]);
+					if (abilityFromOtherCauses[i] <= 1)
+						logAbilityFromOtherCauses[i] = Math
+								.log(abilityFromOtherCauses[i]);
+					// ability from other Causes can never be larger then 1
+					else {
+						logAbilityFromOtherCauses[i] = 0;
+						issueWarningForAbilityGreaterOne(age, sex, i,
+								abilityFromDiseases[i],
+								abilityFromRiskFactor[i], dsi);
 
+					}
 				}
 			}
 
@@ -2714,7 +2662,7 @@ public class ModelParameters {
 		Arrays.fill(validRiskClass, -1);
 		if (riskType != 3)
 			for (int i = 0; i < nSim; i++) {
-				if (weight[i] > 0 ) {
+				if (weight[i] > 0) {
 					indexForRows[nValidRows] = i;
 					validRiskClass[i] = nValidRows;
 					nValidRows++;
@@ -2750,7 +2698,6 @@ public class ModelParameters {
 		double[] wVector = new double[nValidRows];
 		// fourth loop over all persons i: fill the design matrix
 		int nrow = 0;
-		
 
 		for (int i = 0; i < nSim; i++) {
 			// add intercept
@@ -2791,16 +2738,26 @@ public class ModelParameters {
 		double[] yValue = new double[nSim];
 		if (riskType == 2)
 			yValue = logOtherMort;
-		else for (int i = 0; i < nSim; i++)
-			
-			/* make negative values a small positive value, small is relative to all cause mortality at this age */
-			/* if this happens to the reference value, relative risks will be in the order of 1000 */
-			/* for other categories also zero could have been used, but then changing the category order would
-			 * give different results, so this is not done
-			 */
-			if (otherMort[i]<=0) 
-				yValue[i]=baselineMortality[age][sex]/1000;
-			else yValue[i]=otherMort[i];
+		else
+			for (int i = 0; i < nSim; i++)
+
+				/*
+				 * make negative values a small positive value, small is
+				 * relative to all cause mortality at this age
+				 */
+				/*
+				 * if this happens to the reference value, relative risks will
+				 * be in the order of 1000
+				 */
+				/*
+				 * for other categories also zero could have been used, but then
+				 * changing the category order would give different results, so
+				 * this is not done
+				 */
+				if (otherMort[i] <= 0)
+					yValue[i] = baselineMortality[age][sex] / 1000;
+				else
+					yValue[i] = otherMort[i];
 		if (nValidRows < nSim) {
 			yValue = new double[nValidRows];
 			if (riskType == 2) {
@@ -2812,6 +2769,7 @@ public class ModelParameters {
 			}
 
 		}
+
 		double[] y2Value = logAbilityFromOtherCauses;
 		if (nValidRows < nSim) {
 			y2Value = new double[nValidRows];
@@ -2822,21 +2780,11 @@ public class ModelParameters {
 		// end of fourth loop over all persons i
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 4");
-		if (nNegativeOtherMort > 0.0) negativeMortality=true;
+		if (nNegativeOtherMort > 0.0)
+			negativeMortality = true;
 		if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality()
 				&& (warningflag4)) {
-			warningflag4 = false;
-			displayWarningMessage(
-					"WARNING: \nnegative other mortality  in  "
-							+ (nNegativeOtherMort * 100)
-							+ " % of simulated cases"
-							+ " for age "
-							+ age
-							+ " and gender "
-							+ sex
-							+ "\nData for further inspection will be written to the file parameters/otherMortData.csv"
-							+ "\nno more warnings of this kind will be generated for "
-							+ "other age and gender groups", dsi);
+			issueWarning4(age, sex, dsi, nNegativeOtherMort);
 		}
 		/*
 		 * if (nNegativeOtherMort > 0.3 && inputData.isWithRRForMortality())
@@ -2851,7 +2799,7 @@ public class ModelParameters {
 		 * );
 		 */
 		if (sumOtherMort < 0)
-			// TODO making debugging file with disease specific mortality 
+			// TODO making debugging file with disease specific mortality
 			throw new DynamoInconsistentDataException(
 					"FATAL ERROR: Attributable Mortality from diseases exceeds the overall mortality for age "
 							+ age
@@ -2864,14 +2812,10 @@ public class ModelParameters {
 		// carry out the regression of log other mortality on the risk
 		// factors;
 
-		
-
 		if (inputData.isWithRRForMortality()) {
 			try {
 
 				beta = weightedRegression(yValue, xMatrix, wVector);
-				
-				
 
 			} catch (Exception e) {
 
@@ -2904,7 +2848,7 @@ public class ModelParameters {
 					// (float) Math
 					// .exp(beta[j]);
 					if (beta[0] > 0)
-						this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) ((beta[j]+beta[0]) / beta[0]);
+						this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) ((beta[j] + beta[0]) / beta[0]);
 					else {
 						log.fatal("zero or negative baseline other mortality: "
 								+ beta[0] + " therefore RR set to 1");
@@ -3108,12 +3052,18 @@ public class ModelParameters {
 						.debug(" disability beta 0 and 1 :" + beta[0] + beta[1]);
 			// calculate relative risks from the regression coefficients
 
-			// first class has relative risk of 1; also default value for
-			// all
-			// other
-			// categories
+			// relative risk of 1 is for the reference category (as
+			// used to define Xmatrix
+			// here the categorical RR is set to 1 (not used in model)
 			Arrays.fill(this.riskFactorAbilityRRcat[age][sex], 1);
+			// last beta is the coefficient for the continuous risk
+			// factor
+			// //
+			if (riskType == 2)
+				this.riskFactorAbilityRRcont[age][sex] = (float) Math
+						.exp(beta[beta.length - 1]);
 
+			// TODO check if the following is correct
 			if (riskType == 3) {
 				for (int j = 1; j < beta.length; j++)
 				// calculate the relative risk relative to the first
@@ -3127,28 +3077,29 @@ public class ModelParameters {
 					if (inputData.getIndexDuurClass() == j)
 						this.riskFactorAbilityRRcat[age][sex][j] = 1;
 				}
-
-				// last beta is the coefficient for the continuous risk
-				// factor
-				// //
-				this.riskFactorAbilityRRcont[age][sex] = (float) Math
-						.exp(beta[beta.length - 1]);
-			}
-
-			if (inputData.getRiskType() == 3)
 				this.riskFactorAbilityRRcont[age][sex] = 1;
 
+			}
+
 			this.baselineAbility[age][sex] = (float) Math.exp(beta[0]);
-			if (this.baselineAbility[age][sex] > 1)
-				warnForAbilityGreaterOne(age, sex,
-						this.baselineAbility[age][sex], 1 - inputData
-								.getOverallDalyWeight()[age][sex], dsi);
+			double lowbaseline = Math.exp(beta[0] + beta[beta.length - 1]
+					* (riskfactor[1] - inputData.getRefClassCont()));
+			if (lowbaseline > 1)
+				issueWarningForAbilityGreaterOne(age, sex, 1, 1 - lowbaseline,
+						(double) inputData.getOverallDalyWeight()[age][sex],
+						dsi);
 			/**
 			 * in the fifth stage the sum of the RR's on other cause mortalities
 			 * is calculated in order to estimate the baseline other cause
 			 * mortality This could also be derived from the regression
 			 * (intercept)
 			 * 
+			 */
+
+			/*
+			 * TODO also check for disability hier alleen nog wat blind
+			 * gecopieerd voorlopig blijft dit zo, want anders dan bij mortality
+			 * is hier de overall disability niet heilig.
 			 */
 			if (inputData.getRiskType() == 3) { // now do time dependent
 				// part;
@@ -3176,6 +3127,7 @@ public class ModelParameters {
 				int index = 0;
 				double sumDif = 0;
 				for (int i = 0; i < nSim; i++) {
+					// needed later on
 					if (riskclass[i] == inputData.getIndexDuurClass()) {
 						y2data[index] = abilityFromOtherCauses[i];
 						x2data[index] = riskfactor[i];
@@ -3294,8 +3246,15 @@ public class ModelParameters {
 		// fifth loop over all persons i to calculate sum of RR other
 		// mortality to check baselineOtherMortality
 		// only temporary to check method
+
+		/* TODO bedenken wat te doen met continue risico-factoren */
+		if (riskType != 2)
+			adaptAbilityWhenToLow(nSim, inputData, age, sex, riskclass,
+					riskfactor, abilityFromDiseases, weight);
+
 		double baselineOtherMortality2;
 		double sumRROtherMort = 0;
+
 		for (int i = 0; i < nSim; i++) {
 			if (inputData.getRiskType() == 3) {
 				if (riskclass[i] == inputData.getIndexDuurClass()) {
@@ -3309,20 +3268,24 @@ public class ModelParameters {
 
 					sumRROtherMort += weight[i]
 							* this.relRiskOtherMort[age][sex][riskclass[i]];
+
 				}
-			} else
+			} else {
 				sumRROtherMort += weight[i]
 						* this.relRiskOtherMort[age][sex][riskclass[i]]
 						* Math.pow(this.relRiskOtherMortCont[age][sex],
 								riskfactor[i] - inputData.getRefClassCont());
 
+			}
+
 		}
 		baselineOtherMortality2 = sumOtherMort / sumRROtherMort;
+
 		/* check on RR's total mortality */
 		double RRmortNew[] = new double[nSim];
 
 		for (int i = 0; i < nSim; i++) {
-			
+
 			if (inputData.getRiskType() == 1)
 				RRmortNew[i] = mortalityFromDisease[i]
 						+ baselineOtherMortality2
@@ -3424,6 +3387,640 @@ public class ModelParameters {
 
 	}
 
+	public boolean isWithRRdisability() {
+		return withRRdisability;
+	}
+
+	public void setWithRRdisability(boolean withRRdisability) {
+		this.withRRdisability = withRRdisability;
+	}
+
+	/**
+	 * adjust
+	 * 
+	 * @param nSim
+	 * @param abilityFromDiseases
+	 * @param weight
+	 * @param abilityFromOtherCauses
+	 * @param inputAbility
+	 * @return
+	 * @throws DynamoInconsistentDataException
+	 */
+	private boolean adjustOtherAbilityGreaterOne(int nSim,
+			double[] abilityFromDiseases, double[] weight,
+			double[] abilityFromOtherCauses, double inputAbility, int age,
+			int sex) throws DynamoInconsistentDataException {
+		boolean furtherAdjustmentNeeded = false;
+		double sumWithZeroOtherDisability = 0;
+		double sumWithoutZeroOtherDisability = 0;
+
+		for (int i = 0; i < nSim; i++) {
+
+			if (abilityFromOtherCauses[i] >= 1) {
+				sumWithZeroOtherDisability += weight[i]
+						* abilityFromDiseases[i];
+			} else
+				sumWithoutZeroOtherDisability += weight[i]
+						* abilityFromDiseases[i] * abilityFromOtherCauses[i];
+
+		}
+		if (sumWithoutZeroOtherDisability == 0)
+			throw new DynamoInconsistentDataException(
+					"ERROR:\nOverall dalyweight/disability is smaller than dalyweight/disability due "
+							+ "to diseases for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ "\nDisability due to diseases: "
+							+ (1 - sumWithZeroOtherDisability)
+							+ " and overall disability: " + (1 - inputAbility));
+		if (sumWithZeroOtherDisability > 0)
+			for (int i = 0; i < nSim; i++) {
+
+				if (abilityFromOtherCauses[i] <= 1) {
+					abilityFromOtherCauses[i] = abilityFromOtherCauses[i]
+							* (inputAbility - sumWithZeroOtherDisability)
+							/ sumWithoutZeroOtherDisability;
+					if (abilityFromOtherCauses[i] > 1)
+						furtherAdjustmentNeeded = true;
+
+				}
+
+			}
+		if (furtherAdjustmentNeeded)
+			furtherAdjustmentNeeded = adjustOtherAbilityGreaterOne(nSim,
+					abilityFromDiseases, weight, abilityFromOtherCauses,
+					inputAbility, age, sex);
+		return furtherAdjustmentNeeded;
+	}
+
+	/**
+	 * this method checks whether the sum of ability as calculated from the
+	 * other (background) ability and disease disability is equal to the input
+	 * disability as given by the user If not, the baseline background ability
+	 * or relative risks are adapted. This can be an iterative process, so this
+	 * method call itself
+	 * 
+	 * @param nSim
+	 * @param inputData
+	 * @param age
+	 * @param sex
+	 * @param riskclass
+	 * @param riskfactor
+	 * @param abilityFromDiseases
+	 * @param weight
+	 * @return
+	 * @throws DynamoInconsistentDataException
+	 */
+	private boolean adaptAbilityWhenToLow(int nSim, InputData inputData,
+			int age, int sex, int[] riskclass, double[] riskfactor,
+			double[] abilityFromDiseases, double[] weight)
+			throws DynamoInconsistentDataException {
+
+		/*
+		 * ** adjust other ability in situations where other ability was >1 in
+		 * some categories
+		 */
+		boolean repeat = false;
+		double[] fittedOtherAbility = new double[nSim];
+		for (int i = 0; i < nSim; i++) {
+			if (riskType == 1)
+				fittedOtherAbility[i] = this.riskFactorAbilityRRcat[age][sex][riskclass[i]]
+						* this.baselineAbility[age][sex];
+			if (riskType == 2)
+				fittedOtherAbility[i] = (float) (this.baselineAbility[age][sex] * Math
+						.pow(this.riskFactorAbilityRRcont[age][sex],
+								riskfactor[i] - inputData.getRefClassCont()));
+			if (riskType == 3 && riskclass[i] != inputData.getIndexDuurClass())
+				fittedOtherAbility[i] = this.riskFactorAbilityRRcat[age][sex][riskclass[i]]
+						* this.baselineAbility[age][sex];
+
+			if (riskType == 3 && riskclass[i] == inputData.getIndexDuurClass())
+				fittedOtherAbility[i] = this.baselineAbility[age][sex]
+						* ((this.riskFactorAbilityRRbegin[age][sex] - this.riskFactorAbilityRRend[age][sex])
+								* Math
+										.exp(-this.riskFactorAbilityAlpha[age][sex]
+												* riskfactor[i]) + this.riskFactorAbilityRRend[age][sex]);
+			if (fittedOtherAbility[i] > 1)
+				throw new DynamoInconsistentDataException(
+						"ERROR: \nDiseaseAbility is larger than implied "
+								+ "  based on input odds ratios for disability for riskfactor level "
+								+ i
+								+ " and this makes fitting relative risks for disability impossible \nPlease adjust the input disability data");
+
+		}
+		// what if duration class is partly 1 and partly <1
+
+		// in that case only the begin or the end could be 1
+		// adjustment for 1 will not have an effect, which is OK
+		// so this will work then
+
+		double sumAbilityWhenNotOne = 0;
+		double sumAbilityWhenOne = 0; /*
+									 * sum ability when there is only disability
+									 * from diseases (disability from other
+									 * causes=0, ability from other causes =1
+									 */
+		double sumAbility = 0;
+		boolean[] hasOtherDisability = new boolean[nSim];
+
+		for (int i = 0; i < nSim; i++) {
+			sumAbility += weight[i] * fittedOtherAbility[i]
+					* abilityFromDiseases[i];
+
+			if (fittedOtherAbility[i] >= 1) {
+				hasOtherDisability[i] = false;
+				sumAbilityWhenOne += weight[i] * abilityFromDiseases[i];
+
+			} else {
+				hasOtherDisability[i] = true;
+				sumAbilityWhenNotOne += weight[i] * fittedOtherAbility[i]
+						* abilityFromDiseases[i];
+			}
+		}
+		double inputAbility = (1 - (double) inputData.getOverallDalyWeight()[age][sex]);
+
+		/*
+		 * sumAbility = 1 when there is no disability at all, in that case
+		 * things do not need correction
+		 */
+		if (sumAbility < inputAbility && sumAbilityWhenNotOne != 0) {
+			/*
+			 * if the sum of otherability is too low (because some
+			 * otherabilities were > 1, and made 1), correct
+			 */
+			/*
+			 * by simply lowering all disabilities proportionally (= increasing
+			 * all abilities)
+			 * 
+			 * This can be done only for categorical risk factors For compound
+			 * it is an approximate solution
+			 */
+			double correctionFactor = (inputAbility - sumAbilityWhenOne)
+					/ sumAbilityWhenNotOne;
+			double baselineOld = this.baselineAbility[age][sex];
+			boolean RRdurationIsAdjusted = false;
+			for (int i = 0; i < nSim; i++)
+				if (hasOtherDisability[i]) {
+					/* new other ability = old*correctionFactor */
+
+					if (i == 0) { /* for both categorical and compound */
+						this.baselineAbility[age][sex] = (float) (this.baselineAbility[age][sex] * correctionFactor);
+						/*
+						 * check if the ability from other causes is not made
+						 * more than 1
+						 */
+						if (this.baselineAbility[age][sex] > 1) {
+							this.baselineAbility[age][sex] = 1;
+							/* in that case the procedure should be repeated */
+							repeat = true;
+						}
+					}
+					/*
+					 * baseline ability can only become 0 if it already was 0
+					 * (as correction factor is <=1)
+					 * 
+					 * if baseline ability= 0 then the value of the RR does not
+					 * matter
+					 */
+					else if (this.baselineAbility[age][sex] != 0) {
+						if (riskType == 1
+								|| (riskType == 3 && riskclass[i] != inputData
+										.getIndexDuurClass())) {
+							this.riskFactorAbilityRRcat[age][sex][riskclass[i]] = (float) (this.riskFactorAbilityRRcat[age][sex][riskclass[i]]
+									* baselineOld * correctionFactor / this.baselineAbility[age][sex]);
+							if ((this.riskFactorAbilityRRcat[age][sex][riskclass[i]] * this.baselineAbility[age][sex]) > 1) {
+
+								this.riskFactorAbilityRRcat[age][sex][riskclass[i]] = 1 / this.baselineAbility[age][sex];
+								repeat = true;
+							}
+						}
+
+						if (riskType == 3
+								&& riskclass[i] == inputData
+										.getIndexDuurClass()
+								&& !RRdurationIsAdjusted) {
+							boolean oneEnd = false;
+							boolean oneBegin = false;
+							if (this.riskFactorAbilityRRbegin[age][sex]
+									* baselineOld >= 1)
+								oneBegin = true;
+							if (this.riskFactorAbilityRRbegin[age][sex]
+									* baselineOld >= 1)
+								oneEnd = true;
+							if (!oneBegin)
+								this.riskFactorAbilityRRbegin[age][sex] = (float) (this.riskFactorAbilityRRbegin[age][sex]
+										* baselineOld
+										/ this.baselineAbility[age][sex] * correctionFactor);
+							if (!oneEnd)
+								this.riskFactorAbilityRRend[age][sex] = (float) (this.riskFactorAbilityRRend[age][sex]
+										* baselineOld
+										/ this.baselineAbility[age][sex] * correctionFactor);
+							if (!oneBegin
+									&& this.riskFactorAbilityRRbegin[age][sex]
+											* this.baselineAbility[age][sex] > 1) {
+								this.riskFactorAbilityRRbegin[age][sex] = 1 / this.baselineAbility[age][sex];
+								repeat = true;
+							}
+							if (!oneEnd
+									&& this.riskFactorAbilityRRend[age][sex]
+											* this.baselineAbility[age][sex] > 1) {
+								this.riskFactorAbilityRRend[age][sex] = 1 / this.baselineAbility[age][sex];
+								repeat = true;
+							}
+							RRdurationIsAdjusted = true; // only do this once
+
+						}
+						if (riskType == 2) {
+
+							// this should not happen as either all abililities
+							// are 1, or all are smaller then 1
+
+						}
+
+					}
+				}
+			// next should not happen; last because in that case sum disease
+			// ability is larger than total ability, unless total ability is one
+			// also, due to rounding sumAbility might just be slightly higher
+			// then the input
+			// this is OK as long as it is not larger then 1
+			// however, after changing everything to double, there should not be
+			// any rounding any longer
+			// but this is the case for compound riskfactors
+		} else if ((sumAbility > inputAbility + 0.0000001) || (sumAbility > 1)
+				|| (sumAbilityWhenNotOne == 0 && sumAbility < 1))
+			throw new DynamoInconsistentDataException(
+					"error in program with calculation of disability: "
+							+ "Total ability is " + sumAbility);
+		if (repeat)
+			adaptAbilityWhenToLow(nSim, inputData, age, sex, riskclass,
+					riskfactor, abilityFromDiseases, weight);
+		return repeat;
+	}
+
+	private void warnForOtherDisabilitySmallerThanZero(int age, int sex,
+			DynSimRunPRInterface dsi, int i) {
+		String label = "";
+
+		if (this.nWarningsDisability == 2)
+
+			label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
+					+ " OTHER AGE/SEX GROUPS";
+		if (this.nWarningsDisability < 3)
+			displayWarningMessage(
+					"WARNING:"
+							+ "\nthe disability from diseases given for riskfactor group "
+							+ i
+							+ " in age "
+							+ age
+							+ " and sex "
+							+ sex
+							+ " is larger than the disability implied by the odds ratio "
+							+ "for disability. "
+							+ "\nTherefore disability for this group will be calculated solely on disease status and not on risk "
+							+ "factor status" + label, dsi);
+		this.nWarningsDisability++;
+	}
+
+	private double[] calculateWeight(int nSim, InputData inputData, int age,
+			int sex, int nRiskCat) {
+		double weight[] = new double[nSim]; // weight for weighting the
+		// prevalences
+		if (inputData.getRiskType() == 1) {
+			for (int i = 0; i < nSim; i++)
+				weight[i] = inputData.getPrevRisk()[age][sex][i];
+		}
+		if (inputData.getRiskType() == 3) {
+			int i = 0;
+			for (int k = 0; k < nRiskCat; k++) {
+
+				weight[i] = inputData.getPrevRisk()[age][sex][k];
+				if (inputData.getIndexDuurClass() == k) {
+					for (int j = 0; j < this.duurFreq[age][sex].length; j++) {
+						weight[i] = inputData.getPrevRisk()[age][sex][k]
+								* this.duurFreq[age][sex][j];
+
+						i++;
+					}
+				} else
+					i++;
+			}
+		}
+		if (inputData.getRiskType() == 2)
+			for (int i = 0; i < nSim; i++)
+				weight[i] = 1.0 / nSim;
+		normalizeWeight(nSim, weight);
+		return weight;
+	}
+
+	/**
+	 * makes the sum of weight equal to 1
+	 * 
+	 * @param nSim
+	 *            : dimension of array weight
+	 * @param weight
+	 */
+	private void normalizeWeight(int nSim, double[] weight) {
+		double sumw = 0;
+		double sumw2 = 0;
+		for (int i = 0; i < nSim; i++)
+			sumw += weight[i];
+		if (sumw != 1) {
+			for (int i = 0; i < nSim; i++) {
+				weight[i] = weight[i] / sumw;
+				sumw2 += weight[i];
+
+			}
+
+			/* if stil not right, just add to the first non-zero weight */
+			if (sumw2 != 1) {
+				for (int i = 0; i < nSim; i++) {
+
+					if (weight[i] != 0) {
+						weight[i] -= sumw2 - 1;
+						break;
+					}
+				}
+			}
+		}
+
+	}
+
+	private boolean lookIfOnlyOneDurationPresent(InputData inputData, int age,
+			int sex, DynSimRunPRInterface dsi, boolean withRRmort,
+			boolean withRRdisability) throws DynamoInconsistentDataException {
+		boolean oneDuration = false; /*
+									 * one Duration is a flag that sees whether
+									 * there is only a single duration present
+									 */
+		if (inputData.getRiskType() == 3) {
+			double checkSum = 0;
+			int nFilled = 0;
+			/*
+			 * despite trying this not only changes the duurFreq, but also the
+			 * original version!
+			 */
+			for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++) {
+
+				checkSum += this.duurFreq[age][sex][k];
+				if (this.duurFreq[age][sex][k] > 0)
+					nFilled++;
+			}
+			if (nFilled == 1)
+				oneDuration = true;
+			/* there is a tolerance of 2% */
+			if (Math.abs(checkSum - 1) > 0.01)
+				throw new DynamoInconsistentDataException(
+						"durations given for compound risk factor class do not sum to 100% but to "
+								+ 100 * checkSum + "%");
+			/* if there is a small deviation, normalize */
+			if (Math.abs(checkSum - 1) > 0.00001) {
+				for (int k = 0; k < inputData.getDuurFreq()[age][sex].length; k++)
+
+					this.duurFreq[age][sex][k] = (float) (this.duurFreq[age][sex][k] / checkSum);
+
+			}
+		}
+		if (oneDuration
+				&& warningflag6
+				&& (withRRdisability || withRRmort)
+				&& inputData.getPrevRisk()[age][sex][inputData
+						.getIndexDuurClass()] != 0) {
+			issueWarning6(age, sex, dsi);
+		}
+		return oneDuration;
+	}
+
+	private float[] copyInputandGetPrevalence(InputData inputData, int age,
+			int sex, int nRiskCat, int nDiseases) {
+		float[] diseasePrevalence = new float[nDiseases];
+		if (nDiseases > 0)
+			for (int c = 0; c < this.nCluster; c++)
+				for (int dc = 0; dc < this.clusterStructure[c].getNInCluster(); dc++) {
+					int dNumber = this.clusterStructure[c].getDiseaseNumber()[dc];
+
+					this.diseaseAbility[age][sex][dNumber] = inputData
+							.getClusterData()[age][sex][c].getAbility()[dc];
+				}
+
+		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
+			this.relRiskContinue[age][sex] = new float[nDiseases];
+		if (inputData.getRiskType() == 1 || inputData.getRiskType() == 3)
+			this.refClassCont = 0;
+		if (nDiseases > 0)
+			for (int c = 0; c < this.nCluster; c++) {
+
+				this.relRiskDiseaseOnDisease[age][sex][c] = inputData
+						.getClusterData()[age][sex][c].getRRdisExtended();
+
+				for (int d = 0; d < inputData.clusterStructure[c]
+						.getNInCluster(); d++) {
+					int dNumber = inputData.clusterStructure[c]
+							.getDiseaseNumber()[d];
+					if (this.riskType == 3) {
+						this.relRiskDuurEnd[age][sex][dNumber] = inputData
+								.getClusterData()[age][sex][c]
+								.getRelRiskDuurEnd()[d];
+						this.relRiskDuurBegin[age][sex][dNumber] = inputData
+								.getClusterData()[age][sex][c]
+								.getRelRiskDuurBegin()[d];
+						this.alphaDuur[age][sex][dNumber] = inputData
+								.getClusterData()[age][sex][c].getAlpha()[d];
+
+					}
+					diseasePrevalence[this.clusterStructure[c]
+							.getDiseaseNumber()[d]] = inputData
+							.getClusterData()[age][sex][c].getPrevalence()[d];
+
+					if (inputData.getRiskType() == 1
+							|| inputData.getRiskType() == 3)
+						for (int i = 0; i < nRiskCat; i++)
+							this.relRiskClass[age][sex][i][dNumber] = inputData
+									.getClusterData()[age][sex][c]
+									.getRelRiskCat()[i][d];
+					else
+						this.relRiskClass[age][sex][0][dNumber] = 1;
+					if (inputData.getRiskType() == 2) {
+
+						this.relRiskClass[age][sex][0][dNumber] = 1;
+					}
+					if (inputData.getRiskType() == 2)
+						this.relRiskContinue[age][sex][dNumber] = inputData
+								.getClusterData()[age][sex][c].getRelRiskCont()[d];
+
+					// can be changed into variable name of duration
+					if (inputData.getRiskType() == 1
+							|| inputData.getRiskType() == 3)
+						this.relRiskContinue[age][sex][dNumber] = 1;
+
+				}
+
+			}
+		return diseasePrevalence;
+	}
+
+	private float[] getExcessMort(InputData inputData, int age, int sex,
+			int nDiseases) {
+		float[] excessMortality = new float[nDiseases];
+		if (nDiseases > 0)
+			for (int c = 0; c < this.nCluster; c++)
+				for (int dc = 0; dc < this.clusterStructure[c].getNInCluster(); dc++) {
+					int dNumber = this.clusterStructure[c].getDiseaseNumber()[dc];
+
+					excessMortality[dNumber] = inputData.getClusterData()[age][sex][c]
+							.getExcessMortality()[dc];
+
+				}
+		return excessMortality;
+	}
+
+	private void initializeFields(int age, int sex, int nRiskCat, int nDiseases) {
+		if (nDiseases > 0) {
+			this.attributableMortality[age][sex] = new float[nDiseases];
+			this.relRiskContinue[age][sex] = new float[nDiseases];
+			this.relRiskClass[age][sex] = new float[nRiskCat][nDiseases];
+			this.relRiskDuurBegin[age][sex] = new float[nDiseases];
+			this.relRiskDuurEnd[age][sex] = new float[nDiseases];
+			this.alphaDuur[age][sex] = new float[nDiseases];
+			this.diseaseAbility[age][sex] = new double[nDiseases];
+			this.relRiskDiseaseOnDisease[age][sex] = new float[this.nCluster][][];
+
+		}
+
+		this.baselineIncidence[age][sex] = new float[nDiseases];
+		this.baselineFatalIncidence[age][sex] = new float[nDiseases];
+		this.baselinePrevalenceOdds[age][sex] = new double[nDiseases];
+		this.relRiskOtherMort[age][sex] = new float[nRiskCat];
+		this.riskFactorAbilityRRcat[age][sex] = new double[nRiskCat];
+		this.riskFactorAbilityRRcont[age][sex] = 1;
+		this.riskFactorAbilityRRbegin[age][sex] = 1;
+		this.riskFactorAbilityRRend[age][sex] = 1;
+		this.riskFactorAbilityAlpha[age][sex] = 0;
+		this.baselineMortality[age][sex] = 0; // Baseline mortality
+
+	}
+
+	
+	private void issueWarning4(int age, int sex, DynSimRunPRInterface dsi,
+			double nNegativeOtherMort) {
+		warningflag4 = false;
+		displayWarningMessage(
+				"WARNING: \nnegative other mortality  in  "
+						+ (nNegativeOtherMort * 100)
+						+ " % of simulated cases"
+						+ " for age "
+						+ age
+						+ " and gender "
+						+ sex
+						+ "\nData for further inspection will be written to the file parameters/otherMortData.csv"
+						+ "\nno more warnings of this kind will be generated for "
+						+ "other age and gender groups", dsi);
+	}
+
+	private void issueWarning6(int age, int sex, DynSimRunPRInterface dsi) {
+		warningflag6 = false;
+
+		displayWarningMessage(
+				"WARNING: \n100% of the initial population has the same duration"
+						+ ". \nTherefore"
+						+ " it is not possible to estimate a time dependent other mortality or "
+						+ "other disability."
+						+ "\nIn case other mortality/disability is requested, those relative risks will be made constant over time"
+						+ "\nThis warning is give for age "
+						+ age
+						+ " and gender "
+						+ sex
+						+ "\nNo more warnings of this kind will be generated for "
+						+ "other age and gender groups", dsi);
+	}
+
+	private void issueWarning5(int age, int sex, int d) {
+		{
+			/* displayWarningMessage */
+			log
+					.fatal("WARNING:\nExcess mortality of disease "
+							+ diseaseNames[d]
+							+ " is zero for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ "\nThe program assumes a zero attributable mortality for this disease"
+							+ "\nNo more warning messages of this kind are given for other age/gender/disease groups"
+					/* ,dsi */);
+			warningflag5 = false;
+		}
+	}
+
+	private void issueWarning2(DynSimRunPRInterface dsi, int i) {
+		if (this.warningflag2)
+			displayWarningMessage(
+					"WARNING:\n100% disability calculated for riskclass "
+							+ i
+							+ ". \nAs this gives"
+							+ " numerical problems disability is made slightly less then 100%.",
+					dsi);
+		this.warningflag2 = false;
+	}
+
+	private void issueWarning3(int age, int sex, DynSimRunPRInterface dsi, int i) {
+		if (warningflag3) {
+			warningflag3 = false;
+
+			displayWarningMessage(
+					"WARNING:"
+							+ "\n100% of the initial population has disability due to at least one disease. \nTherefore"
+							+ " it is not possilible to estimate the disability from other (not modelled) diseases."
+							+ "\nThis is made 0 (no disability from other diseases"
+							+ "\nThis warning is give for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ " and riskgroup "
+							+ i
+							+ "\nNo more warnings of this kind will be generated for"
+							+ " other risk, age and gender groups", dsi);
+		}
+	}
+
+	/**
+	 * @param age
+	 * @param sex
+	 * @param riskclass
+	 * @param diseaseAbility
+	 * @param overallAbility
+	 * @param dsi
+	 */
+	private void issueWarningForAbilityGreaterOne(int age, int sex,
+			int riskclass, double diseaseAbility, double overallAbility,
+			DynSimRunPRInterface dsi) {
+		String label = "";
+		if (nWarningsDisability == 2)
+			label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
+					+ " OTHER AGE/SEX GROUPS";
+		String riskLabel = "";
+		if (riskclass > -1)
+			riskLabel = " and riskclass nr " + riskclass;
+
+		if (nWarningsDisability < 3)
+			displayWarningMessage(
+					"WARNING:\nOverall dalyweight/disability is smaller than dalyweight/disability due "
+							+ "to diseases for age "
+							+ age
+							+ " and gender "
+							+ sex
+							+ riskLabel
+							+ " : disability due to diseases: "
+							+ (1 - diseaseAbility)
+							+ " and overall: "
+							+ (1 - overallAbility)
+							+ " . Other cause disability is set"
+							+ " to zero."
+							+ label, dsi);
+		nWarningsDisability++;
+
+	}
+
 	private boolean constantY(double[] value) {
 		boolean constantY = true;
 		for (int i = 0; i < value.length; i++)
@@ -3500,31 +4097,6 @@ public class ModelParameters {
 		return abilityFromDiseases;
 	}
 
-	private void warnForAbilityGreaterOne(int age, int sex, double ability,
-			float overallAbility, DynSimRunPRInterface dsi) {
-		String label = "";
-		if (nWarningsDisability == 2)
-			label = " NO MORE WARNINGS OF THIS TYPE WILL BE ISSUED FOR"
-					+ " OTHER AGE/SEX GROUPS";
-
-		if (nWarningsDisability < 3)
-			displayWarningMessage(
-					"WARNING:\nOverall dalyweight/disability is smaller than dalyweight/disability due "
-							+ "to diseases for age "
-							+ age
-							+ " and gender "
-							+ sex
-							+ " : disability due to diseases: "
-							+ (1 - ability)
-							+ " and overall: "
-							+ (1 - overallAbility)
-							+ " . Other cause disability is set"
-							+ " to zero."
-							+ label, dsi);
-		nWarningsDisability++;
-		this.baselineAbility[age][sex] = 1;
-	}
-
 	/**
 	 * @param inputData
 	 * @return number of diseases (int)
@@ -3571,21 +4143,21 @@ public class ModelParameters {
 			if (inputData.clusterStructure[c].isWithCuredFraction()) {
 				int d = inputData.clusterStructure[c].getDiseaseNumber()[0];
 				this.baselineIncidence[age][sex][d] = (float) (inputData
-						.getClusterData()[age][sex][c].getIncidence()[d]
+						.getClusterData()[age][sex][c].getIncidence()[0]
 						* (1 - inputData.getClusterData()[age][sex][c]
-								.getCaseFatality()[d])
+								.getCaseFatality()[0])
 
 						* (1 - inputData.getClusterData()[age][sex][c]
-								.getPrevalence()[d] - inputData
-								.getClusterData()[age][sex][c].getPrevalence()[d + 1]) / meanRR[d]);
+								.getPrevalence()[0] - inputData
+								.getClusterData()[age][sex][c].getPrevalence()[1]) / meanRR[d]);
 				this.baselineIncidence[age][sex][d + 1] = (float) (inputData
-						.getClusterData()[age][sex][c].getIncidence()[d + 1]
+						.getClusterData()[age][sex][c].getIncidence()[1]
 						* (1 - inputData.getClusterData()[age][sex][c]
-								.getCaseFatality()[d + 1])
+								.getCaseFatality()[1])
 
 						* (1 - inputData.getClusterData()[age][sex][c]
-								.getPrevalence()[d] - inputData
-								.getClusterData()[age][sex][c].getPrevalence()[d + 1]) / meanRR[d + 1]);
+								.getPrevalence()[0] - inputData
+								.getClusterData()[age][sex][c].getPrevalence()[1]) / meanRR[d + 1]);
 			}
 
 			else {// loop over the diseases within clusters
@@ -3962,8 +4534,9 @@ public class ModelParameters {
 	 * @throws Exception
 	 *             if dimensions do not match
 	 */
-	public double[] weightedRegression(double[] y_array_input, double[][] x_array_input,
-			double[] w_input) throws DynamoInconsistentDataException {
+	public double[] weightedRegression(double[] y_array_input,
+			double[][] x_array_input, double[] w_input)
+			throws DynamoInconsistentDataException {
 
 		// check dimensions //
 
@@ -3979,22 +4552,23 @@ public class ModelParameters {
 
 		/* remove NAN values by making the weight equal to 0 */
 		/*
-		 * use new arrays, in order not to overwrite the old array that might be used
-		 * again in the main program
+		 * use new arrays, in order not to overwrite the old array that might be
+		 * used again in the main program
 		 */
 		double[] w = new double[w_input.length];
-		double[] y_array = new double [w_input.length];
-		double[][] x_array= new double [w_input.length][x_array_input[0].length];
+		double[] y_array = new double[w_input.length];
+		double[][] x_array = new double[w_input.length][x_array_input[0].length];
 		for (int i = 0; i < w_input.length; i++) {
 			w[i] = w_input[i];
-			y_array[i]=y_array_input[i];
+			y_array[i] = y_array_input[i];
 			if ((new Double(y_array[i])).isNaN())
 				w[i] = 0;
-			for (int j = 0; j < x_array[0].length; j++){
+			for (int j = 0; j < x_array[0].length; j++) {
 				if ((new Double(x_array[i][j])).isNaN())
 					w[i] = 0;
-			x_array[i][j]=x_array_input[i][j];
-		}}
+				x_array[i][j] = x_array_input[i][j];
+			}
+		}
 		double[] coef = null;
 		/* check if all Y-values are the same */
 		if (!constantY(y_array)) {
@@ -4209,10 +4783,11 @@ public class ModelParameters {
 		return notCuredPrev;
 	}
 
-	
 	/**
-	 * @param message: content of message
-	 * @param dsi: interface to which to send message
+	 * @param message
+	 *            : content of message
+	 * @param dsi
+	 *            : interface to which to send message
 	 */
 	private void displayWarningMessage(String message, DynSimRunPRInterface dsi) {
 		// Shell shell = new Shell(this.parentShell);

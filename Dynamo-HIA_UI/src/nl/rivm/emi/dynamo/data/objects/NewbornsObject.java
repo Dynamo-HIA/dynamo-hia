@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IAmount;
 import nl.rivm.emi.dynamo.data.interfaces.ISexRatio;
@@ -38,7 +39,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		super.putAll(manufacturedMap);
 	}
 
-	public WritableValue getObservableSexRatio() {
+	public WritableValue getObservableSexRatio() throws DynamoConfigurationException {
 		WritableValue value = getSingleRootChildWritableValue(XMLTagEntityEnum.SEXRATIO
 				.getElementName());
 		return value;
@@ -56,7 +57,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 
 	}
 
-	public WritableValue getObservableStartingYear() {
+	public WritableValue getObservableStartingYear() throws DynamoConfigurationException {
 		WritableValue value = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR
 				.getElementName());
 		return value;
@@ -212,7 +213,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		return displacedObject;
 	}
 
-	public boolean isContainsPostfixZeros() {
+	public boolean isContainsPostfixZeros() throws DynamoConfigurationException {
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		int startingYear = ((Integer) getObservableStartingYear().doGetValue())

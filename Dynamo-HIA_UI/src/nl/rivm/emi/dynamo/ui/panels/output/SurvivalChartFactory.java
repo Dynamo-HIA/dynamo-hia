@@ -35,32 +35,50 @@ public final class SurvivalChartFactory implements PlotDrawer {
 			 * plotType= 0: by sex 1: by scenario 2: by risk class
 			 * 
 			 * TODO
-			 */if ((info.survival) && !info.axisIsAge)
-
-					chart = plotFactory.makeSurvivalPlotByScenario(info.genderChoice,info.riskClassChoice-1,
-							info.differencePlot, info.numbers,info.blackAndWhite);
-
-				if ((info.survival) && info.axisIsAge)
+			 */ 
+  // for survival age plot does not exists, so ignore this info
+				if ((info.survival) &&  info.plotType==1)
 					chart = plotFactory.makeSurvivalPlotByScenario(info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot,info.numbers,info.blackAndWhite);
 				
-				if ((info.population) && !info.axisIsAge)
+				if ((info.survival && !info.population)&& info.plotType==0)
+					chart = plotFactory.makeSurvivalPlotByRiskClass(info.genderChoice,info.currentScen,
+							info.differencePlot,info.numbers,info.blackAndWhite);
+				
+				
+				if ((info.population) && !info.axisIsAge && info.plotType==1)
 
 					chart = plotFactory.makeYearPopulationNumberPlotByScenario(info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot, info.blackAndWhite);
 
-				if ((info.population) && info.axisIsAge)
+				if ((info.population) && info.axisIsAge && info.plotType==1)
 					chart = plotFactory.makeAgePopulationNumberPlotByScenario(info.currentYear,info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot,info.blackAndWhite);
-				
-				if ((!info.survival && !info.population) && info.axisIsAge)
+				// geen survival en geen population betekent mortality
+				if ((!info.survival && !info.population) && info.axisIsAge && info.plotType==1)
 					chart = plotFactory.makeAgeMortalityPlotByScenario(info.currentYear,
 							info.genderChoice,info.riskClassChoice-1, info.differencePlot, info.numbers,info.blackAndWhite);
-				if ((!info.survival && !info.population) && !info.axisIsAge)
+				if ((!info.survival && !info.population) && !info.axisIsAge && info.plotType==1)
 					chart = plotFactory.makeYearMortalityPlotByScenario(info.genderChoice,info.riskClassChoice-1,
 							info.differencePlot,info.numbers,info.blackAndWhite);
+				
+				if ((!info.survival && !info.population) && info.axisIsAge && info.plotType==0)
+					chart = plotFactory.makeAgeMortalityByRiskFactorPlots(info.genderChoice,info.currentScen,info.currentYear,
+					 info.differencePlot, info.numbers,info.blackAndWhite);
+					
+				if ((!info.survival && !info.population) && !info.axisIsAge && info.plotType==0)
+					chart = plotFactory.makeYearMortalityByRiskFactorPlots(info.genderChoice,info.currentScen,
+							info.differencePlot,info.numbers,info.blackAndWhite);
+				
+				
+				if ((info.population) && !info.axisIsAge && info.plotType==0)
 
-			
+					chart = plotFactory.makeYearPopulationNumberPlotByRiskClass(info.genderChoice,info.currentScen,
+							info.differencePlot, info.blackAndWhite);
+
+				if ((info.population) && info.axisIsAge && info.plotType==0)
+					chart = plotFactory.makeAgePopulationNumberPlotByRiskClass(info.currentYear,info.genderChoice,info.currentScen,
+							info.differencePlot,info.blackAndWhite);
 			
 			((ChartComposite) composite).setChart(chart);
 			((ChartComposite) composite).forceRedraw();

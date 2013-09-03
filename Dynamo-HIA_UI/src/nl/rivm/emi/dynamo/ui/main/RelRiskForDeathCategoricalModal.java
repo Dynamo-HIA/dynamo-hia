@@ -101,6 +101,9 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 				int numberOfClasses = RiskFactorUtil
 						.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode) this.selectedNode)
 								.getParent());
+				// toegevoegd door Hendriek in mei 2013
+				if (numberOfClasses >18) throw new ConfigurationException("Risk factor data from risk factors"
+						+ " with more than 18 classes can not be displayed or created.");
 				((AgnosticCategoricalFactory) factory)
 						.setNumberOfCategories(numberOfClasses);
 				// ~ 20090929
@@ -118,6 +121,9 @@ public class RelRiskForDeathCategoricalModal extends AbstractDataModal {
 		} else {
 			int numberOfClasses = RiskFactorUtil
 					.getNumberOfRiskFactorClasses(this.selectedNode);
+			// toegevoegd door Hendriek in mei 2013
+			if (numberOfClasses >18) throw new ConfigurationException("Risk factor data from risk factors"
+					+ " with more than 18 classes can not be displayed or created.");
 			((RelRiskForDeathCategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);
 			producedData = factory.manufactureObservableDefault();

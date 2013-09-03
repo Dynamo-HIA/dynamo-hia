@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.data.xml.structure.test;
+package nl.rivm.emi.dynamo.data.xml.structure.check;
 
 import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
@@ -8,8 +8,10 @@ import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-public class FileLocationTest {
+/*
+ * testerr.gif
+ */
+public class FileLocationCheck {
 	Log log = LogFactory.getLog(getClass().getName());
 	private final int LEVELSTOTEST = 3;
 	private final int parentIndex = 0;
@@ -18,7 +20,7 @@ public class FileLocationTest {
 
 	private String[] expectedNodeLabels = new String[LEVELSTOTEST];
 
-	public FileLocationTest(String expectedParenNodeLabel,
+	public FileLocationCheck(String expectedParenNodeLabel,
 			String expectedGrandParenNodeLabel,
 			String expectedGreatGrandParenNodeLabel) {
 		super();

@@ -51,11 +51,11 @@ public interface CDMOutputInterface {
 	
 	public double[][][][] getNDisabledByAge() ;
 	
-	public double[][][] getNTotDiseaseByOriAge(int age) ;
+	public double[][][] getNTotFutureDiseaseByOriAge(int age) ;
 
 	public double[][][] getNDisabledByAge(int year) ;
 	
-	public double[][][] getNDisabledByOriAge(int age) ;
+	public double[][][] getNFutureDisabledByOriAge(int age) ;
 	
 	public double[][][][] getNDisabledByRiskClassByAge(int year);
 
@@ -76,11 +76,12 @@ public interface CDMOutputInterface {
 	public double[][][][][] getMeanRiskByRiskClassByAge();
 	
 	public double[][][][][] getMeanRiskByOriRiskClassByOriAge();
+	public double[][][][][] getMortalityByRiskClassByAge();
 	
-	
+	public double[][][][][][] getNewCasesByRiskClassByAge();
 
-	
-
+	public  double[][][][][] getMortalityByOriRiskClassByOriAge() ;
+	public  double[][][][][][] getNewCasesByOriRiskClassByOriAge() ;
 	
 
 

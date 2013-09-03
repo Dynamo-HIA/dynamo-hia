@@ -57,6 +57,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.RR;
 import nl.rivm.emi.dynamo.data.types.atomic.RRs;
 import nl.rivm.emi.dynamo.data.types.atomic.RandomSeed;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceClass;
+import nl.rivm.emi.dynamo.data.types.atomic.ReferenceScenarioName;
 import nl.rivm.emi.dynamo.data.types.atomic.ReferenceValue;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDeath;
 import nl.rivm.emi.dynamo.data.types.atomic.RelRiskForDisability;
@@ -178,6 +179,7 @@ public enum XMLTagEntityEnum {
 	PREVFILENAME((XMLTagEntity) new PrevFileName()), //
 	PROBABILITY((XMLTagEntity) new Probability()), // 
 	RANDOMSEED((XMLTagEntity) new RandomSeed()), //
+	REF_SCENARIONAME((XMLTagEntity) new ReferenceScenarioName()),
 	REFERENCECLASS((XMLTagEntity) new ReferenceClass()), // 
 	REFERENCEVALUE((XMLTagEntity) new ReferenceValue()), // 
 	RELATIVERISK((XMLTagEntity) new RelativeRisk()), //

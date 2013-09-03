@@ -100,6 +100,9 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 				.getNumberOfRiskFactorClasses((BaseNode) ((ChildNode)this.selectedNode).getParent());
 				((AgnosticCategoricalFactory)factory).setNumberOfCategories(numberOfClasses);
 // ~ 20090929				
+				// toegevoegd door Hendriek in mei 2013
+				if (numberOfClasses >18) throw new ConfigurationException("Risk factor data from risk factors"
+						+ " with more than 18 classes can not be displayed or created.");
 				producedData = factory
 						.manufactureObservable(riskFactorCategoricalPrevalencesFile, this.rootElementName);
 				if (producedData == null) {
@@ -116,6 +119,10 @@ public class RiskFactorCategoricalPrevalencesModal extends AbstractDataModal {
 					.getNumberOfRiskFactorClasses(this.selectedNode);
 			((RiskFactorPrevalencesCategoricalFactory) factory)
 					.setNumberOfCategories(numberOfClasses);
+			// toegevoegd door Hendriek in mei 2013
+			if (numberOfClasses >18) throw new ConfigurationException("Risk factor data from risk factors"
+					+ " with more than 18 classes can not be displayed or created.");
+			
 			producedData = factory.manufactureObservableDefault();
 		}
 		return producedData;

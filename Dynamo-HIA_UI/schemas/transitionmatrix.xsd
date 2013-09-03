@@ -4,7 +4,7 @@
   <xs:element name="transitionmatrix">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="576" maxOccurs="57600" name="transition">
+        <xs:element minOccurs="576" maxOccurs="5760000" name="transition">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">

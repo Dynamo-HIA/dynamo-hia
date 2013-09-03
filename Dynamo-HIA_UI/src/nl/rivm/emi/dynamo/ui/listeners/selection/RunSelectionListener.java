@@ -108,7 +108,7 @@ public class RunSelectionListener implements SelectionListener {
 		Set<Shell> preRunChildrenSet = new HashSet<Shell>();
 		for (Shell preRunChild : preRunChildren) {
 			preRunChildrenSet.add(preRunChild);
-		}
+		} 
 		try {
 			DynSimRunPRInterface dsi = new GraphicalDynSimRunPR(parentShell);
 			DynamoSimulationRunnable theSimulation = new DynamoSimulationRunnable(

@@ -22,6 +22,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.types.root.Alphas;
 import nl.rivm.emi.dynamo.data.types.root.Alphas4Parameters;
 import nl.rivm.emi.dynamo.data.types.root.AlphasOtherMortality;
+import nl.rivm.emi.dynamo.data.types.root.BaselineAbility;
 import nl.rivm.emi.dynamo.data.types.root.DALYWeights;
 import nl.rivm.emi.dynamo.data.types.root.DiseaseIncidences;
 import nl.rivm.emi.dynamo.data.types.root.DiseasePrevalences;
@@ -30,6 +31,8 @@ import nl.rivm.emi.dynamo.data.types.root.Newborns;
 import nl.rivm.emi.dynamo.data.types.root.OverallDALYWeights;
 import nl.rivm.emi.dynamo.data.types.root.OverallMortality;
 import nl.rivm.emi.dynamo.data.types.root.PopulationSize;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityContinuous;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathCategorical;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathCompound;
 import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForDeathContinuous;
@@ -65,7 +68,7 @@ import nl.rivm.emi.dynamo.data.types.root.TransitionDriftZero;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrix;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixNetto;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixZero;
-import nl.rivm.emi.dynamo.data.xml.structure.test.FileLocationTest;
+import nl.rivm.emi.dynamo.data.xml.structure.check.FileLocationCheck;
 import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
@@ -199,11 +202,13 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	RELATIVERISKSCLUSTER(new RelativeRisksCluster(),
 			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
 			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
-/*	TRANSITIONMATRIXPARAMETERS(new TransitionMatrix(),
-			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
-			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
-*/
-			RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P(
+	/*
+	 * TRANSITIONMATRIXPARAMETERS(new TransitionMatrix(),
+	 * StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+	 * StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	 */
+
+	RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P(
 			new RelativeRiskFromRiskFactorCategorical4Parameters(),
 			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
 			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
@@ -244,20 +249,38 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 	RELATIVERISKS_END(new RelativeRisks_End(),
 			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
 			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	BASELINE_ABILITY(new BaselineAbility(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 
+	RR_RISKFACTOR_ABILITY_END(new RelativeRisks_End(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	RR_RISKFACTOR_ABILITY_BEGIN(new RelativeRisks_Begin(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	RR_RISKFACTOR_ABILITY_ALPHA(new Alphas4Parameters(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	RR_RISKFACTOR_ABILITY_CONT(new RelativeRiskForAbilityContinuous(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
+	RR_RISKFACTOR_ABILITY_CAT(new RelativeRiskForAbilityCategorical(),
+			StandardTreeNodeLabelsEnum.PARAMETERS.getNodeLabel(), null,
+			StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel()), //
 	;
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	XMLTagEntity theType;
-	FileLocationTest fileLocationTest;
+	FileLocationCheck fileLocationCheck;
 
 	private RootElementNamesEnum(XMLTagEntity type,
 			String expectedParentNodeLabel,
 			String expectedGrandParentNodeLabel,
 			String expectedGreatGrandParentNodeLabel) {
 		theType = type;
-		fileLocationTest = new FileLocationTest(expectedParentNodeLabel,
+		fileLocationCheck = new FileLocationCheck(expectedParentNodeLabel,
 				expectedGrandParentNodeLabel, expectedGreatGrandParentNodeLabel);
 	}
 
@@ -269,10 +292,10 @@ public enum RootElementNamesEnum /* implements RootElementType */{
 
 	public boolean isLocationOK(FileNode node) {
 		if (!theType.getXMLElementName().equals("transitionmatrix")) {
-			return fileLocationTest.test(node);
+			return fileLocationCheck.test(node);
 		} else {
 			log.debug(theType.getXMLElementName());
-			return fileLocationTest.test(node);
+			return fileLocationCheck.test(node);
 		}
 	}
 }

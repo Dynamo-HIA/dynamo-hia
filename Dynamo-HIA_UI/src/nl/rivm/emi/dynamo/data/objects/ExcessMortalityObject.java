@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.objects;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IMortalityObject;
 import nl.rivm.emi.dynamo.data.interfaces.IParameterTypeObject;
@@ -51,7 +52,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	@Override
-	public WritableValue getObservableUnitType() {
+	public WritableValue getObservableUnitType() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.UNITTYPE
 				.getElementName());
 	}
@@ -76,9 +77,12 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	@Override
-	public WritableValue getObservableParameterType() {
-		return getSingleRootChildWritableValue(XMLTagEntityEnum.PARAMETERTYPE
-				.getElementName());
+	public WritableValue getObservableParameterType()throws DynamoConfigurationException {	
+		WritableValue value=null;		 		
+		
+			value=getSingleRootChildWritableValue(XMLTagEntityEnum.PARAMETERTYPE
+					.getElementName());
+		 return value;
 	}
 
 	@Override

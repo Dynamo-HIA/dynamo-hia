@@ -34,7 +34,7 @@ public class DiseaseResultGroup {
 	public static final String DISEASE_PREVALENCE = "Disease Prevalence";
 	public static final String INCIDENCE = "Incidence";
 	public static final String EXCESS_MORTALITY = "Excess Mortality";
-	public static final String DALY_WEIGHTS = "DALY Weights";
+	public static final String DALY_WEIGHTS = "Disabling impact or DALYweight";
 	protected Composite group;
 	// private Composite plotComposite;
 	private GenericComboModifyListener diseaseDropDownModifyListener;

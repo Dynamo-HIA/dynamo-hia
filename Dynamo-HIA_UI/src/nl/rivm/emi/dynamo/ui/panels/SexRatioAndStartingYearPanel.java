@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.SexRatio;
@@ -66,7 +67,13 @@ public class SexRatioAndStartingYearPanel {
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		dataLayoutData.widthHint = 50;
 		String labelValue = SEX_RATIO;
-		WritableValue observable = newbornsObject.getObservableSexRatio();
+		WritableValue observable=null;
+		try {
+			observable = newbornsObject.getObservableSexRatio();
+		} catch (DynamoConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Text text = bindHeaderValue(observable, labelValue, new SexRatio(),
 				group);
 //		Label spaceLabel = new Label(group, SWT.NONE);

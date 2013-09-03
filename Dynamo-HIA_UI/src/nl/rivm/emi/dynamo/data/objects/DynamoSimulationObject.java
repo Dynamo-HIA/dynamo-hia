@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IConfigurationCheck;
 import nl.rivm.emi.dynamo.data.interfaces.IDiseases;
@@ -13,6 +14,7 @@ import nl.rivm.emi.dynamo.data.interfaces.IMaxAge;
 import nl.rivm.emi.dynamo.data.interfaces.IMinAge;
 import nl.rivm.emi.dynamo.data.interfaces.INumberOfYears;
 import nl.rivm.emi.dynamo.data.interfaces.IRandomSeed;
+import nl.rivm.emi.dynamo.data.interfaces.IRefScenName;
 import nl.rivm.emi.dynamo.data.interfaces.IRelativeRisks;
 import nl.rivm.emi.dynamo.data.interfaces.IResultType;
 import nl.rivm.emi.dynamo.data.interfaces.IRiskFactor;
@@ -42,7 +44,7 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 public class DynamoSimulationObject extends
 		GroupConfigurationObjectServiceLayer implements IHasNewborns, IMaxAge,
 		IMinAge, INumberOfYears, PopulationFileName, ISimPopSize, IRandomSeed,
-		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases,
+		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases, IRefScenName,
 		IRelativeRisks, IScenarios, IConfigurationCheck {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
@@ -59,7 +61,7 @@ public class DynamoSimulationObject extends
 				.getElementName());
 	}
 
-	public WritableValue getObservableHasNewborns() {
+	public WritableValue getObservableHasNewborns() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.HASNEWBORNS
 				.getElementName());
 		return result;
@@ -75,7 +77,7 @@ public class DynamoSimulationObject extends
 				.getElementName());
 	}
 
-	public WritableValue getObservableMaxAge() {
+	public WritableValue getObservableMaxAge() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MAXAGE
 				.getElementName());
 		return result;
@@ -91,7 +93,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableMinAge() {
+	public WritableValue getObservableMinAge() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MINAGE
 				.getElementName());
 		return result;
@@ -107,7 +109,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableNumberOfYears() {
+	public WritableValue getObservableNumberOfYears() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.NUMBEROFYEARS
 				.getElementName());
 		return result;
@@ -118,16 +120,18 @@ public class DynamoSimulationObject extends
 
 	}
 
-	public String getPopulationFileName() {
+	public String getPopulationFileName() throws DynamoConfigurationException {
 		return (String) ((WritableValue) getObservablePopulationFileName())
 				.doGetValue();
 	}
 
-	public WritableValue getObservablePopulationFileName() {
+	public WritableValue getObservablePopulationFileName() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.POPFILENAME
 				.getElementName());
 		return result;
 	}
+	
+	
 
 	public void setPopulationFileName(String populationFileName) {
 		// TODO Auto-generated method stub
@@ -139,7 +143,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableSimPopSize() {
+	public WritableValue getObservableSimPopSize() throws DynamoConfigurationException  {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.SIMPOPSIZE
 				.getElementName());
 		return result;
@@ -155,7 +159,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableRandomSeed() {
+	public WritableValue getObservableRandomSeed()throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RANDOMSEED
 				.getElementName());
 		return result;
@@ -171,7 +175,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableStartingYear() {
+	public WritableValue getObservableStartingYear() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR
 				.getElementName());
 		return result;
@@ -187,9 +191,17 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableTimeStep() {
+	public WritableValue getObservableTimeStep() throws DynamoConfigurationException  {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.TIMESTEP
 				.getElementName());
+		return result;
+	}
+	
+	public WritableValue getObservableRefScenName() throws DynamoConfigurationException {
+		
+		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.REF_SCENARIONAME
+				.getElementName());
+		
 		return result;
 	}
 
@@ -203,7 +215,7 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
-	public WritableValue getObservableResultType() {
+	public WritableValue getObservableResultType() throws DynamoConfigurationException {
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RESULTTYPE
 				.getElementName());
 		return result;
@@ -414,5 +426,17 @@ public class DynamoSimulationObject extends
 	public void setBackDoorListener(
 			TabRelativeRiskConfigurationsProxy backDoorListener) {
 		this.backDoorListener = backDoorListener;
+	}
+
+	@Override
+	public String getRefScenName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setRefScenName(String popFileName) {
+		// TODO Auto-generated method stub
+		
 	}
 }

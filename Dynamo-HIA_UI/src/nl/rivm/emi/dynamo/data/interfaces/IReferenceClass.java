@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public interface IReferenceClass {
@@ -8,5 +10,5 @@ public interface IReferenceClass {
 
 	public Integer getReferenceClass();
 
-	public WritableValue getObservableReferenceClass();
+	public WritableValue getObservableReferenceClass() throws DynamoConfigurationException;
 }

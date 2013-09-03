@@ -109,6 +109,53 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		numberOfClassesDropDown.add("8", 6);
 		numberOfClassesDropDown.add("9", 7);
 		numberOfClassesDropDown.add("10", 8);
+		numberOfClassesDropDown.add("11", 9);
+		numberOfClassesDropDown.add("12", 10);
+		numberOfClassesDropDown.add("13", 11);
+		numberOfClassesDropDown.add("14", 12);
+		numberOfClassesDropDown.add("15", 13);
+		numberOfClassesDropDown.add("16", 14);
+		numberOfClassesDropDown.add("17", 15);
+		numberOfClassesDropDown.add("18", 16);
+	/*	
+	 * unfortunately, more than 18 classes do not work with the prevalence window as to many widgets are created (unclear why)
+	 * also, a blue square is on the lower part of the canvas
+	 * 
+	 * numberOfClassesDropDown.add("19", 17);
+		numberOfClassesDropDown.add("20", 18);
+		numberOfClassesDropDown.add("21", 19);
+		numberOfClassesDropDown.add("22", 20);
+		numberOfClassesDropDown.add("23", 21);
+		numberOfClassesDropDown.add("24", 22);
+		numberOfClassesDropDown.add("25", 23);
+		numberOfClassesDropDown.add("26", 24);
+		numberOfClassesDropDown.add("27", 25);
+		numberOfClassesDropDown.add("28", 26);
+		numberOfClassesDropDown.add("29", 27);
+		numberOfClassesDropDown.add("30", 28);
+		numberOfClassesDropDown.add("31", 29);
+		numberOfClassesDropDown.add("32", 30);
+		numberOfClassesDropDown.add("33", 31);
+		numberOfClassesDropDown.add("34", 32);
+		numberOfClassesDropDown.add("35", 33);
+		numberOfClassesDropDown.add("36", 34);
+		numberOfClassesDropDown.add("37", 35);
+		numberOfClassesDropDown.add("38", 36);
+		numberOfClassesDropDown.add("39", 37);
+		numberOfClassesDropDown.add("40", 38);
+		numberOfClassesDropDown.add("41", 39);
+		numberOfClassesDropDown.add("42", 40);
+		numberOfClassesDropDown.add("43", 41);
+		numberOfClassesDropDown.add("44", 42);
+		numberOfClassesDropDown.add("45", 43);
+		numberOfClassesDropDown.add("46", 44);
+		numberOfClassesDropDown.add("47", 45);
+		numberOfClassesDropDown.add("48", 46);
+		numberOfClassesDropDown.add("49", 47);
+		numberOfClassesDropDown.add("50", 48);
+		*/
+		
+		
 		numberOfClassesDropDown.select(0);
 		numberOfClasses = 2;
 		numberOfClassesDropDown.addModifyListener(new ModifyListener() {

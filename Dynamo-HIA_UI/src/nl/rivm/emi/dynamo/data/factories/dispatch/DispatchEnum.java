@@ -3,6 +3,7 @@ package nl.rivm.emi.dynamo.data.factories.dispatch;
 import nl.rivm.emi.dynamo.data.factories.AlphasFactory;
 import nl.rivm.emi.dynamo.data.factories.AlphasOtherMortalityFactory;
 import nl.rivm.emi.dynamo.data.factories.AttributableMortalitiesFactory;
+import nl.rivm.emi.dynamo.data.factories.BaselineAbilitiesFactory;
 import nl.rivm.emi.dynamo.data.factories.BaselineFatalIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.BaselineIncidencesFactory;
 import nl.rivm.emi.dynamo.data.factories.BaselineOtherMortalitiesFactory;
@@ -218,6 +219,24 @@ public enum DispatchEnum {
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
 	RELATIVERISKS_END(RootElementNamesEnum.RELATIVERISKS_END.getNodeLabel(),
 			new RelRiskFromRiskFactorContinuousFactory(), null), //
+
+	BASELINEABILITY(RootElementNamesEnum.BASELINE_ABILITY.getNodeLabel(),
+			new BaselineAbilitiesFactory(), null), //
+	RELATIVERISKS_ABILITY_CATEGORICAL(
+			RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CAT.getNodeLabel(),
+			new RelRiskFromRiskFactorCategoricalFactory(), null), //
+	RELATIVERISKS_ABILITY__CONTINUOUS(
+			RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CONT.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_ABILITY_BEGIN(
+			RootElementNamesEnum.RR_RISKFACTOR_ABILITY_BEGIN.getNodeLabel(),
+			new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_ABILITY_END(RootElementNamesEnum.RR_RISKFACTOR_ABILITY_END
+			.getNodeLabel(), new RelRiskFromRiskFactorContinuousFactory(), null), //
+	RELATIVERISKS_ABILITY_ALPHA(
+			RootElementNamesEnum.RR_RISKFACTOR_ABILITY_ALPHA.getNodeLabel(),
+			new AlphasFactory(), null), //
+
 	;
 
 	/**

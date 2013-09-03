@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.data.objects;
 
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IContinuousPrevalencesObject;
 import nl.rivm.emi.dynamo.data.interfaces.IDistributionTypeObject;
@@ -33,7 +34,7 @@ public class RiskFactorContinuousPrevalencesObject extends GroupConfigurationObj
 				.getElementName());
 	}
 
-	public WritableValue getObservableDistributionType() {
+	public WritableValue getObservableDistributionType() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.UNITTYPE
 				.getElementName());
 	}

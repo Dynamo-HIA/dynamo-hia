@@ -104,7 +104,7 @@ public class Output_DiseaseTab  {
 		new NumberChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 		new DifferenceChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo);
 			
-       new ByChoiceGroup(controlComposite, chartComposite,this. factory,this. plotInfo);
+        new ByChoiceGroup(controlComposite, chartComposite,this. factory,this. plotInfo);
 		new ScenarioChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo,this.output.getScenarioNames());
         
 		

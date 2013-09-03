@@ -48,7 +48,7 @@ public class Output_SurvivalTab  {
 		plotInfo=new ButtonStates();
 		plotInfo.currentScen = 0;
 		if (output.getNScen() > 0)
-			plotInfo.currentScen = 1;
+		plotInfo.currentScen = 1;
 		plotInfo.currentDisease = 0;
 		plotInfo.currentYear = 0;
 		plotInfo.plotType = 1;
@@ -107,7 +107,11 @@ public class Output_SurvivalTab  {
 		classNames[0]="all";
 		for (int i = 0; i < output.getRiskClassnames().length; i++)
 			classNames[i+1] = output.getRiskClassnames()[i];
+	new By2ChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
 	new YearChoiceGroup(controlComposite, chartComposite, factory,plotInfo,yearNames);
+	new ScenarioChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo,this.output.getScenarioNames());
+    
+	
 	new GenderChoiceGroup(controlComposite, chartComposite, factory,plotInfo);
 	// this does not work correctly, as mortality by riskclass cannot be calculated simply from 
 	// survival in case on non-zero transitions 

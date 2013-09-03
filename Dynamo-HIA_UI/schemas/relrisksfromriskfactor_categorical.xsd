@@ -4,7 +4,7 @@
   <xs:element name="relrisksfromriskfactor_categorical">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="192" maxOccurs="1920" name="relativerisk">
+        <xs:element minOccurs="192" maxOccurs="9600" name="relativerisk">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="age">
@@ -28,7 +28,7 @@
                   <xs:restriction base="xs:int">
                   <!-- Set from 1 to 0 for parameters configuration files. -->
                     <xs:minInclusive value="0" />
-                    <xs:maxInclusive value="10" />
+                    <xs:maxInclusive value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>

@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.data.interfaces;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+
 import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public interface IDurationClass {
@@ -8,5 +10,5 @@ public interface IDurationClass {
 
 	public Integer getDurationClass();
 
-	public WritableValue getObservableDurationClass();
+	public WritableValue getObservableDurationClass() throws DynamoConfigurationException;
 }

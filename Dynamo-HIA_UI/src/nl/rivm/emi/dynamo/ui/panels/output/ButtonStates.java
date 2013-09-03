@@ -21,6 +21,7 @@ public class ButtonStates {
 	 boolean survival;
 	 boolean population;
 	 boolean Sullivan;
+	 boolean oldSullivan=false;
 	// String [] availlableAges;
 	 int maxAge;
 	 int minAge;

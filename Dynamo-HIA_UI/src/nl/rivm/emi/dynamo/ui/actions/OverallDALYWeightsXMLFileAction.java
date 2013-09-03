@@ -38,7 +38,7 @@ public class OverallDALYWeightsXMLFileAction extends ActionBase {
 		String filePath = "";
 		if (node instanceof DirectoryNode) {
 			filePath = node.getPhysicalStorage().getAbsolutePath()
-					+ File.separator + "overalldalyweights" + ".xml";
+					+ File.separator + "overalldisability" + ".xml";
 		} else {
 			filePath = node.getPhysicalStorage().getAbsolutePath();
 		}

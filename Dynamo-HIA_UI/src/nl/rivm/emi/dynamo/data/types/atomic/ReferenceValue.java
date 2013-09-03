@@ -9,4 +9,5 @@ public class ReferenceValue extends AbstractValue implements PayloadType<Float> 
 	public ReferenceValue() {
 		super(XMLElementName, new Float(0), Float.MAX_VALUE);
 	}
+	
 }

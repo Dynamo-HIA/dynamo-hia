@@ -12,7 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+/** 
+ * 
+ * @author boshuizh
+ *
+ */
 public class TestEstimation {
 	Log log = LogFactory.getLog(getClass().getName());
 

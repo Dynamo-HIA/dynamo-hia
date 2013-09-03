@@ -459,7 +459,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.SexOneToOneUpdateRule";
 				break;
 			case 3:
-				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorMultiToOneUpdateRule";
+				ruleName = "nl.rivm.emi.cdm.rules.update.dynamo.CategoricalRiskFactorManyToOneUpdateRule";
 				break;
 			case 4:
 				if (riskType == 3)

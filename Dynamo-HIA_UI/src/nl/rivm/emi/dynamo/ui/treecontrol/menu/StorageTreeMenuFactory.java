@@ -235,8 +235,10 @@ public class StorageTreeMenuFactory {
 			} else {
 				if (StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel()
 						.equalsIgnoreCase(nodeLabel)) {
-					createInformationMenu4UnimplementedNodes(manager,
-							selection, treeDepth);
+					buildResultsMenu(manager, selection, nodeLabel, treeDepth)
+					/* was eerder:   createInformationMenu4UnimplementedNodes(manager,
+							selection, treeDepth)*/ ;
+					
 				} else {
 					ParentNode parentNode = ((ChildNode) selectedNode)
 							.getParent();
@@ -323,7 +325,7 @@ public class StorageTreeMenuFactory {
 								.equalsIgnoreCase(
 										((BaseNode) parentNode)
 												.deriveNodeLabel())) {
-							buildResultsMenu(manager, selection, nodeLabel);
+							buildResultsMenu(manager, selection, nodeLabel, 5);
 						} else {
 							createErrorMenu4UnexpectedNodes(manager, selection);
 						}
@@ -406,11 +408,15 @@ public class StorageTreeMenuFactory {
 	 *            The selection made just before entering here.
 	 * @param nodeLabel
 	 *            The label of the selected BaseNode.
+	 * @param treeDepth 
+	 *            The level at which the three was assessed 
 	 */
 	private void buildResultsMenu(IMenuManager manager,
-			IStructuredSelection selection, String nodeLabel) {
+			IStructuredSelection selection, String nodeLabel, int treeDepth) {
+		boolean higherNode=false;
+		if (treeDepth==4) higherNode=true;
 		ResultsObjFileAction action = new ResultsObjFileAction(this.shell,
-				this.treeViewer, (BaseNode) selection.getFirstElement());
+				this.treeViewer, (BaseNode) selection.getFirstElement(), higherNode);
 		action.setText("View results");
 		manager.add(action);
 	}
@@ -429,9 +435,15 @@ public class StorageTreeMenuFactory {
 	private void buildParametersMenu(IMenuManager manager,
 			IStructuredSelection selection, String nodeLabel)
 			throws DynamoConfigurationException {
+
 		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
 		String rootElementName = ConfigurationFileUtil
 				.justExtractRootElementName(selectedNode.getPhysicalStorage());
+
+		/*
+		 * Hendriek: { weggehaald na else voor betere layout
+		 */
+
 		if (RootElementNamesEnum.ATTRIBUTABLEMORTALITIES.getNodeLabel().equals(
 				rootElementName)) {
 			XMLFileAction action = new XMLFileAction(this.shell,
@@ -440,278 +452,213 @@ public class StorageTreeMenuFactory {
 					RootElementNamesEnum.ATTRIBUTABLEMORTALITIES.getNodeLabel());
 			action.setText("View attributable mortalities");
 			manager.add(action);
+		} else if (RootElementNamesEnum.BASELINEFATALINCIDENCES.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.BASELINEFATALINCIDENCES.getNodeLabel());
+			action.setText("View baseline fatal incidences");
+			manager.add(action);
+		} else if (RootElementNamesEnum.BASELINEOTHERMORTALITIES.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.BASELINEOTHERMORTALITIES
+							.getNodeLabel());
+			action.setText("View baseline other mortalities");
+			manager.add(action);
+		} else if (RootElementNamesEnum.BASELINEINCIDENCES.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.BASELINEINCIDENCES.getNodeLabel());
+			action.setText("View baseline incidences");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS.getNodeLabel().equals(
+				rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS.getNodeLabel());
+			action.setText("View relative risks");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKSCLUSTER.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKSCLUSTER.getNodeLabel());
+			action.setText("View relative risks for clusters");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(
+					this.shell,
+					this.treeViewer,
+					selectedNode,
+					selectedNode.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
+							.getNodeLabel());
+			action.setText("View categorical relative risks");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
+							.getNodeLabel());
+			action
+					.setText("View categorical relative risks for other mortality");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(
+					this.shell,
+					this.treeViewer,
+					selectedNode,
+					selectedNode.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
+							.getNodeLabel());
+			action.setText("View continuous relative risks");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
+							.getNodeLabel());
+			action
+					.setText("View continuous relative risks for other mortality");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
+							.getNodeLabel());
+			action.setText("View compound relative risks");
+			manager.add(action);
+		} else if (RootElementNamesEnum.ALFAS.getNodeLabel().equals(
+				rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(), RootElementNamesEnum.ALFAS
+							.getNodeLabel());
+			action.setText("View alphas.");
+			manager.add(action);
+		} else if (RootElementNamesEnum.ALPHASOTHERMORTALITY.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.ALPHASOTHERMORTALITY.getNodeLabel());
+			action.setText("View alphas other mortality.");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
+							.getNodeLabel());
+			action
+					.setText("View continuous relative risks for other mortality");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
+							.getNodeLabel());
+			action
+					.setText("View continuous relative risks for other mortality");
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_BEGIN.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_BEGIN.getNodeLabel());
+			action
+					.setText("View relative risks when coming into the duration class"); 
+
+			manager.add(action);
+		} else if (RootElementNamesEnum.RELATIVERISKS_END.getNodeLabel()
+				.equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RELATIVERISKS_END.getNodeLabel());
+			action
+					.setText("View relative risks after long time in duration class"); 
+
+			manager.add(action);
+		} else if (RootElementNamesEnum.BASELINE_ABILITY.getNodeLabel().equals(
+				rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.BASELINE_ABILITY.getNodeLabel());
+			action.setText("View baseline ability (= 1- disability)"); 
+
+			manager.add(action);
+		} else if (RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CONT
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CONT
+							.getNodeLabel());
+			action.setText("View RRs for ability (= 1- disability)"); 
+
+			manager.add(action);
+		} else if (RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CAT
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CAT
+							.getNodeLabel());
+			action.setText("View RRs for ability (= 1- disability)"); 
+
+			manager.add(action);
+		} else if (RootElementNamesEnum.RR_RISKFACTOR_ABILITY_ALPHA
+				.getNodeLabel().equals(rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.RR_RISKFACTOR_ABILITY_ALPHA
+							.getNodeLabel());
+			action.setText("View RRs for ability (= 1- disability)"); // TODO
+
+			manager.add(action);
+			/*
+			 * 
+			 * the end and begin RR's for ability share labels with that of
+			 * mortality so work without being explicitely included here
+			 */
+		} else if (RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel().equals(
+				rootElementName)) {
+			XMLFileAction action = new XMLFileAction(this.shell,
+					this.treeViewer, selectedNode, selectedNode
+							.deriveNodeLabel(),
+					RootElementNamesEnum.TRANSITIONMATRIX.getNodeLabel());
+			action.setText("View transition rates");
+			manager.add(action);
 		} else {
-			if (RootElementNamesEnum.BASELINEFATALINCIDENCES.getNodeLabel()
-					.equals(rootElementName)) {
-				XMLFileAction action = new XMLFileAction(this.shell,
-						this.treeViewer, selectedNode, selectedNode
-								.deriveNodeLabel(),
-						RootElementNamesEnum.BASELINEFATALINCIDENCES
-								.getNodeLabel());
-				action.setText("View baseline fatal incidences");
-				manager.add(action);
-			} else {
-				if (RootElementNamesEnum.BASELINEOTHERMORTALITIES
-						.getNodeLabel().equals(rootElementName)) {
-					XMLFileAction action = new XMLFileAction(this.shell,
-							this.treeViewer, selectedNode, selectedNode
-									.deriveNodeLabel(),
-							RootElementNamesEnum.BASELINEOTHERMORTALITIES
-									.getNodeLabel());
-					action.setText("View baseline other mortalities");
-					manager.add(action);
-				} else {
-					if (RootElementNamesEnum.BASELINEINCIDENCES.getNodeLabel()
-							.equals(rootElementName)) {
-						XMLFileAction action = new XMLFileAction(this.shell,
-								this.treeViewer, selectedNode, selectedNode
-										.deriveNodeLabel(),
-								RootElementNamesEnum.BASELINEINCIDENCES
-										.getNodeLabel());
-						action.setText("View baseline incidences");
-						manager.add(action);
-					} else {
-						if (RootElementNamesEnum.RELATIVERISKS.getNodeLabel()
-								.equals(rootElementName)) {
-							XMLFileAction action = new XMLFileAction(
-									this.shell, this.treeViewer, selectedNode,
-									selectedNode.deriveNodeLabel(),
-									RootElementNamesEnum.RELATIVERISKS
-											.getNodeLabel());
-							action.setText("View relative risks");
-							manager.add(action);
-						} else {
-							if (RootElementNamesEnum.RELATIVERISKSCLUSTER
-									.getNodeLabel().equals(rootElementName)) {
-								XMLFileAction action = new XMLFileAction(
-										this.shell,
-										this.treeViewer,
-										selectedNode,
-										selectedNode.deriveNodeLabel(),
-										RootElementNamesEnum.RELATIVERISKSCLUSTER
-												.getNodeLabel());
-								action
-										.setText("View relative risks for clusters");
-								manager.add(action);
-							} else {
-								if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
-										.getNodeLabel().equals(rootElementName)) {
-									XMLFileAction action = new XMLFileAction(
-											this.shell,
-											this.treeViewer,
-											selectedNode,
-											selectedNode.deriveNodeLabel(),
-											RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CATEGORICAL4P
-													.getNodeLabel());
-									action
-											.setText("View categorical relative risks");
-									manager.add(action);
-								} else {
-									if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
-											.getNodeLabel().equals(
-													rootElementName)) {
-										XMLFileAction action = new XMLFileAction(
-												this.shell,
-												this.treeViewer,
-												selectedNode,
-												selectedNode.deriveNodeLabel(),
-												RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CATEGORICAL
-														.getNodeLabel());
-										action
-												.setText("View categorical relative risks for other mortality");
-										manager.add(action);
-									} else {
-										if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
-												.getNodeLabel().equals(
-														rootElementName)) {
-											XMLFileAction action = new XMLFileAction(
-													this.shell,
-													this.treeViewer,
-													selectedNode,
-													selectedNode
-															.deriveNodeLabel(),
-													RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_CONTINUOUS4P
-															.getNodeLabel());
-											action
-													.setText("View continuous relative risks");
-											manager.add(action);
-										} else {
-											if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
-													.getNodeLabel().equals(
-															rootElementName)) {
-												XMLFileAction action = new XMLFileAction(
-														this.shell,
-														this.treeViewer,
-														selectedNode,
-														selectedNode
-																.deriveNodeLabel(),
-														RootElementNamesEnum.RELATIVERISKS_OTHERMORT_CONTINUOUS
-																.getNodeLabel());
-												action
-														.setText("View continuous relative risks for other mortality");
-												manager.add(action);
-											} else {
-												if (RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
-														.getNodeLabel()
-														.equals(rootElementName)) {
-													XMLFileAction action = new XMLFileAction(
-															this.shell,
-															this.treeViewer,
-															selectedNode,
-															selectedNode
-																	.deriveNodeLabel(),
-															RootElementNamesEnum.RELATIVERISKSFROMRISKFACTOR_COMPOUND4P
-																	.getNodeLabel());
-													action
-															.setText("View compound relative risks");
-													manager.add(action);
-												} else {
-													if (RootElementNamesEnum.ALFAS
-															.getNodeLabel()
-															.equals(
-																	rootElementName)) {
-														XMLFileAction action = new XMLFileAction(
-																this.shell,
-																this.treeViewer,
-																selectedNode,
-																selectedNode
-																		.deriveNodeLabel(),
-																RootElementNamesEnum.ALFAS
-																		.getNodeLabel());
-														action
-																.setText("View alphas.");
-														manager.add(action);
-													} else {
-														if (RootElementNamesEnum.ALPHASOTHERMORTALITY
-																.getNodeLabel()
-																.equals(
-																		rootElementName)) {
-															XMLFileAction action = new XMLFileAction(
-																	this.shell,
-																	this.treeViewer,
-																	selectedNode,
-																	selectedNode
-																			.deriveNodeLabel(),
-																	RootElementNamesEnum.ALPHASOTHERMORTALITY
-																			.getNodeLabel());
-															action
-																	.setText("View alphas other mortality.");
-															manager.add(action);
-														} else {
-															if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
-																	.getNodeLabel()
-																	.equals(
-																			rootElementName)) {
-																XMLFileAction action = new XMLFileAction(
-																		this.shell,
-																		this.treeViewer,
-																		selectedNode,
-																		selectedNode
-																				.deriveNodeLabel(),
-																		RootElementNamesEnum.RELATIVERISKS_OTHERMORT_BEGIN
-																				.getNodeLabel());
-																action
-																		.setText("View continuous relative risks for other mortality");
-																manager
-																		.add(action);
-															} else {
-																if (RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
-																		.getNodeLabel()
-																		.equals(
-																				rootElementName)) {
-																	XMLFileAction action = new XMLFileAction(
-																			this.shell,
-																			this.treeViewer,
-																			selectedNode,
-																			selectedNode
-																					.deriveNodeLabel(),
-																			RootElementNamesEnum.RELATIVERISKS_OTHERMORT_END
-																					.getNodeLabel());
-																	action
-																			.setText("View continuous relative risks for other mortality");
-																	manager
-																			.add(action);
-																} else {
-																	if (RootElementNamesEnum.RELATIVERISKS_BEGIN
-																			.getNodeLabel()
-																			.equals(
-																					rootElementName)) {
-																		XMLFileAction action = new XMLFileAction(
-																				this.shell,
-																				this.treeViewer,
-																				selectedNode,
-																				selectedNode
-																						.deriveNodeLabel(),
-																				RootElementNamesEnum.RELATIVERISKS_BEGIN
-																						.getNodeLabel());
-																		action
-																				.setText("View relative risks begin"); // TODO
-																														// More
-																														// sensible
-																														// text.
-																		manager
-																				.add(action);
-																	} else {
-																		if (RootElementNamesEnum.RELATIVERISKS_END
-																				.getNodeLabel()
-																				.equals(
-																						rootElementName)) {
-																			XMLFileAction action = new XMLFileAction(
-																					this.shell,
-																					this.treeViewer,
-																					selectedNode,
-																					selectedNode
-																							.deriveNodeLabel(),
-																					RootElementNamesEnum.RELATIVERISKS_END
-																							.getNodeLabel());
-																			action
-																					.setText("View relative risks end"); // TODO
-																															// More
-																															// sensible
-																															// text.
-																			manager
-																					.add(action);
-																		} else {
-																			if (RootElementNamesEnum.TRANSITIONMATRIX
-																					.getNodeLabel()
-																					.equals(
-																							rootElementName)) {
-																				XMLFileAction action = new XMLFileAction(
-																						this.shell,
-																						this.treeViewer,
-																						selectedNode,
-																						selectedNode
-																								.deriveNodeLabel(),
-																						RootElementNamesEnum.TRANSITIONMATRIX
-																								.getNodeLabel());
-																				action
-																						.setText("View transition rates");
-																				manager
-																						.add(action);
-																			} else {
-																				DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
-																						shell);
-																				action
-																						.setText("Unhandled parameters file");
-																				manager
-																						.add(action);
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(
+					shell);
+
+			action.setText("Unhandled parameters file");
+			manager.add(action);
+
 		}
 	}
 
@@ -915,7 +862,7 @@ public class StorageTreeMenuFactory {
 		// Calling screen W14
 		XMLFileAction action4 = new XMLFileAction(this.shell, this.treeViewer,
 				(DirectoryNode) selection.getFirstElement(),
-				"overalldalyweights",
+				"overalldisability",
 				StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
 						.getNodeLabel());
 		action4.setText("New overall DALY weights");
@@ -1174,8 +1121,7 @@ public class StorageTreeMenuFactory {
 	}
 
 	/**
-	 * TODO
-	 * 20100409 AcutelyFatal OR CuredFraction may be filled, not both. 
+	 * TODO 20100409 AcutelyFatal OR CuredFraction may be filled, not both.
 	 * 
 	 * @param manager
 	 *            The IMenuManager to add the Menu to.
@@ -1185,12 +1131,12 @@ public class StorageTreeMenuFactory {
 
 	private void createMenu4Excess_Mortalities(IMenuManager manager,
 			IStructuredSelection selection) {
-//		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
-//				treeViewer, (DirectoryNode) selection.getFirstElement(),
-//				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
-//				new FileAndDirectoryNameInputValidator());
-		ExcessMortalityXMLFileAction action = new ExcessMortalityXMLFileAction(shell,
-				treeViewer, (DirectoryNode) selection.getFirstElement(),
+		// FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
+		// treeViewer, (DirectoryNode) selection.getFirstElement(),
+		// RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel(),
+		// new FileAndDirectoryNameInputValidator());
+		ExcessMortalityXMLFileAction action = new ExcessMortalityXMLFileAction(
+				shell, treeViewer, (DirectoryNode) selection.getFirstElement(),
 				RootElementNamesEnum.EXCESSMORTALITY.getNodeLabel());
 		action.setText("New disease excess mortalities file");
 		manager.add(action);
@@ -1732,7 +1678,7 @@ public class StorageTreeMenuFactory {
 					shell, treeViewer, (BaseNode) node, "populationsize");
 			File nodeFile = node.getPhysicalStorage();
 			if (nodeFile.canWrite()) {
-				action.setText("Edit");
+				action.setText("View or Edit");
 			} else {
 				action.setText("View");
 			}
@@ -1744,20 +1690,20 @@ public class StorageTreeMenuFactory {
 						shell, treeViewer, (BaseNode) node, "overallmortality");
 				File nodeFile = node.getPhysicalStorage();
 				if (nodeFile.canWrite()) {
-					action.setText("Edit");
+					action.setText("Vieuw or Edit");
 				} else {
 					action.setText("View");
 				}
 				manager.add(action);
 				addFileDeleteAction(manager, node);
 			} else {
-				if ("overalldalyweights".equals(nodeLabel)) {
+				if ("overalldisability".equals(nodeLabel)) {
 					OverallDALYWeightsXMLFileAction action = new OverallDALYWeightsXMLFileAction(
 							shell, treeViewer, (BaseNode) node,
-							"overalldalyweights");
+							"overalldisability");
 					File nodeFile = node.getPhysicalStorage();
 					if (nodeFile.canWrite()) {
-						action.setText("Edit");
+						action.setText("View or Edit");
 					} else {
 						action.setText("View");
 					}
@@ -1769,7 +1715,7 @@ public class StorageTreeMenuFactory {
 								shell, treeViewer, (BaseNode) node, "newborns");
 						File nodeFile = node.getPhysicalStorage();
 						if (nodeFile.canWrite()) {
-							action.setText("Edit");
+							action.setText("View or Edit");
 						} else {
 							action.setText("View");
 						}
@@ -1837,7 +1783,7 @@ public class StorageTreeMenuFactory {
 		// String selectionPath = selectedNode.getPhysicalStorage()
 		// .getAbsolutePath();
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
-		action.setText("No action possible");
+		action.setText("Info: unknown node (not managed by this software)");
 		action.setSelectionPath(((BaseNode) selection.getFirstElement())
 				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);
@@ -1858,7 +1804,7 @@ public class StorageTreeMenuFactory {
 			final IMenuManager manager, IStructuredSelection selection,
 			int treeDepth) {
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
-		action.setText("Info: This node will not be managed by this software.");
+		action.setText("No actions possible");
 		action.setSelectionPath(((BaseNode) selection.getFirstElement())
 				.getPhysicalStorage().getAbsolutePath());
 		manager.add(action);

@@ -36,7 +36,7 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		messageBox.open();
+	
 
 	}
 
@@ -58,7 +58,7 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		messageBox.open();
+		
 
 	}
 
@@ -79,7 +79,7 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		messageBox.open();
+		
 	
 	}
 
@@ -98,6 +98,6 @@ public class ErrorMessageWindow {
 			shell.dispose();
 		}
 
-		messageBox.open();
+		
 	}
 }

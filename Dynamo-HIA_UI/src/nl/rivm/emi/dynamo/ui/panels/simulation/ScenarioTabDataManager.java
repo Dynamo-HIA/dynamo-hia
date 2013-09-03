@@ -106,7 +106,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 					!(this.singleConfiguration.getAltPrevalenceFileName()==null))
 				currentPrevalenceFile=this.singleConfiguration.getAltPrevalenceFileName();
 			
-			/* in case the is a new scenario, take the last items both for scenario prevalence and scenario 
+			/* in case this is a new scenario, take the last items both for scenario prevalence and scenario 
 	         * transitions */
 			else if (contents.size()>1){
 				
@@ -173,10 +173,10 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 			else contents=null;       
 		
 			
-						
+			if (currentTransFile!=null) 
 			if (currentTransFile.equals(referentScenarioTransFileName)|| contentsForTransitions.size()==1)
 			contents.remove(riskfactorData.getPrevalenceFileName());
-			if (contents.isEmpty()) contents=null;
+			if (contents!=null && contents.isEmpty()) contents=null;
 			/* end addition by hendriek */
 			log.debug("contents4" + contents);
 		}

@@ -43,7 +43,10 @@ public class BaseStorageTreeScreen {
 	public String getRestartMessage() {
 		return restartMessage;
 	}
-
+/*
+ * 
+ * configure and run simulation
+ */
 	/**
 	 * @deprecated Choice of the directorypath has been moved outside.
 	 * 

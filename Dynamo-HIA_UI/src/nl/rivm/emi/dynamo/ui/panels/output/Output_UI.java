@@ -31,6 +31,7 @@ public class Output_UI {
 
 	// Contains the base directory of the application data
 	private String currentPath;
+//	private String outputPath;
 	
 	private DynamoPlotFactory plotFactory;
 	private ScenarioParameters scenarioParameters;
@@ -44,11 +45,11 @@ public class Output_UI {
          * TO be tested for other platforms as Windows */
         String delim="[\\"+File.separator+"]";
         String [] tokens = currentPath.split(delim);
-        
+     //   for (int i=0;i<tokens.length-1;i++){}
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN);
 		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
-		outputShell.setBounds(30, 30, 750, 650);
+		outputShell.setBounds(30, 30, 900, 650);
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
         log.fatal("start making plotFactory");
@@ -72,7 +73,7 @@ public class Output_UI {
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
 
 		tabFolder1.setLayout(new FillLayout());
-		tabFolder1.setBounds(10, 10, 730, 580);
+		tabFolder1.setBounds(10, 10, 880, 580);
 
 		/* tab for changing the parameters of the scenarios */
 

@@ -1,2 +1,2 @@
-select cause of relative risk. This can be either the riskfactor selected, or a disease. 
-Note that diseases can not be selected as cause when they themselves are the consequence of another disease 
+<html body style='overflow:hidden'> select cause of the relative risk. <br>This can be either the riskfactor selected, or a disease. <br>
+Note that diseases can not be selected as cause when they themselves are the consequence of another disease </html>

@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
@@ -67,8 +68,14 @@ public class YearGroupParameterDataPanel extends Composite /*
 		numberLabel.setLayoutData(dataLayoutData);
 		int numberOfNumbers = newbornsObject.getNumberOfAmounts();
 
-		WritableValue observableObject = newbornsObject
-				.getObservableStartingYear();
+		WritableValue observableObject=null;
+		try {
+			observableObject = newbornsObject
+					.getObservableStartingYear();
+		} catch (DynamoConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		int startingYear = ((Integer) observableObject.doGetValue()).intValue();
 
 		// Start year is the first key of the hashmap

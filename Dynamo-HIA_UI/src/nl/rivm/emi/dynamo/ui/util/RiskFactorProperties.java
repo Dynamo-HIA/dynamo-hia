@@ -8,6 +8,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
  * subClasses should be used.
  * 
  * @author mondeelr
+ * netto
  * 
  */
 public abstract class RiskFactorProperties extends RiskSourceProperties {

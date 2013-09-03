@@ -9,6 +9,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.MaxAge;
 import nl.rivm.emi.dynamo.data.types.atomic.MinAge;
 import nl.rivm.emi.dynamo.data.types.atomic.NumberOfYears;
 import nl.rivm.emi.dynamo.data.types.atomic.RandomSeed;
+import nl.rivm.emi.dynamo.data.types.atomic.ReferenceScenarioName;
 import nl.rivm.emi.dynamo.data.types.atomic.SimPopSize;
 import nl.rivm.emi.dynamo.data.types.atomic.StartingYear;
 import nl.rivm.emi.dynamo.data.types.atomic.TimeStep;
@@ -77,6 +78,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	private static final String MINIMUM_AGE = "Minimum age";
 	private static final String MAXIMUM_AGE = "Maximum age";
 	private static final String CALC_TIME_STEP = "Calculation time step";
+	private static final String REFERENCE_SCENARIO_NAME = "Reference scenario name";
 
 	protected DynamoSimulationObject dynamoSimulationObject;
 	private Composite myParent = null;
@@ -145,19 +147,25 @@ public class DynamoHeaderDataPanel extends Composite {
 				throw new ConfigurationException(e.getMessage());
 			}
 
-			String labelValue = SIM_POP_SIZE;
-			WritableValue observable = dynamoSimulationObject
-					.getObservableSimPopSize();
-			bindHeaderValue(observable, labelValue, new SimPopSize());
-
+			String labelValue = REFERENCE_SCENARIO_NAME;
+			WritableValue observable = dynamoSimulationObject.getObservableRefScenName();
+			bindHeaderValue(observable, labelValue, new ReferenceScenarioName());
+			
 			labelValue = HAS_NEW_BORNS;
 			observable = dynamoSimulationObject.getObservableHasNewborns();
 			bindHeaderValue(observable, labelValue, new HasNewborns());
 
-			Label spaceLabel = new Label(this, SWT.NONE);
-			GridData spaceLabelData = new GridData();
-			spaceLabelData.horizontalSpan = 2;
-			spaceLabel.setLayoutData(spaceLabelData);
+					
+			labelValue = SIM_POP_SIZE;
+			 observable = dynamoSimulationObject
+					.getObservableSimPopSize();
+			bindHeaderValue(observable, labelValue, new SimPopSize());
+
+			/* volgende stukje was er voor om een leeg veld te maken */
+			//Label spaceLabel = new Label(this, SWT.NONE);
+			//GridData spaceLabelData = new GridData();
+			//spaceLabelData.horizontalSpan = 2;
+			//spaceLabel.setLayoutData(spaceLabelData);
 
 			labelValue = STARTING_YEAR;
 			observable = dynamoSimulationObject.getObservableStartingYear();
@@ -174,12 +182,13 @@ public class DynamoHeaderDataPanel extends Composite {
 			labelValue = MAXIMUM_AGE;
 			observable = dynamoSimulationObject.getObservableMaxAge();
 			bindHeaderValue(observable, labelValue, new MaxAge());
-
+			
+			
 			labelValue = CALC_TIME_STEP;
 			observable = dynamoSimulationObject.getObservableTimeStep();
 			// bindHeaderValue(observable, labelValue, new TimeStep());
 			calcTimeStepDummy(observable, labelValue, new TimeStep());
-
+			
 			labelValue = RAND_SEED;
 			observable = dynamoSimulationObject.getObservableRandomSeed();
 			bindHeaderValue(observable, labelValue, new RandomSeed());

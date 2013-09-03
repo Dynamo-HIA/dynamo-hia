@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
@@ -179,31 +180,36 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 				}
 			}
 			// Functionality relocated from save-selectionListener.
-			if (((NewbornsObject) modelObject).isContainsPostfixZeros()) {
-				Dialog dialog = new NewbornsDialog(
-						getShell(),
-						"Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
-				dialog.open();
-				if (dialog.getReturnCode() == IDialogConstants.OK_ID) {
-					if ((lastNonZeroIndex != -1)
-							&& (lastNonZeroIndex < startingYearInt
-									+ numberOfAmounts - 1))
-					// Trailing zeroes present.
-					{
-						for (int yearCounter = startingYearInt
-								+ numberOfAmounts - 1; yearCounter > lastNonZeroIndex; yearCounter--) {
-							modelObject.updateNumber(yearCounter,
-									lastNonZeroValue);
+			try {
+				if (((NewbornsObject) modelObject).isContainsPostfixZeros()) {
+					Dialog dialog = new NewbornsDialog(
+							getShell(),
+							"Number values with 0 still exist for the final years. If you save, all of these 0 values will be replaced with the value of the last year that does contain a non zero value. Do you want it to be saved with these replacements?");
+					dialog.open();
+					if (dialog.getReturnCode() == IDialogConstants.OK_ID) {
+						if ((lastNonZeroIndex != -1)
+								&& (lastNonZeroIndex < startingYearInt
+										+ numberOfAmounts - 1))
+						// Trailing zeroes present.
+						{
+							for (int yearCounter = startingYearInt
+									+ numberOfAmounts - 1; yearCounter > lastNonZeroIndex; yearCounter--) {
+								modelObject.updateNumber(yearCounter,
+										lastNonZeroValue);
+							}
+						} else {
+							MessageBox alertBox = new MessageBox(getShell(),
+									SWT.ERROR_CANNOT_BE_ZERO);
+							alertBox
+									.setText("Postfix says there are zeroes, but there aren't.");
 						}
 					} else {
-						MessageBox alertBox = new MessageBox(getShell(),
-								SWT.ERROR_CANNOT_BE_ZERO);
-						alertBox
-								.setText("Postfix says there are zeroes, but there aren't.");
+						doSave = false;
 					}
-				} else {
-					doSave = false;
 				}
+			} catch (DynamoConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			if (((NewbornsObject) modelObject).isContainsZeros()) {
 				Dialog dialog = new NewbornsDialog(getShell(),

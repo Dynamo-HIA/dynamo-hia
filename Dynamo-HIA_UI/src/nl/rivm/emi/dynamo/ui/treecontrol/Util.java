@@ -84,7 +84,7 @@ public class Util {
 	 * (parent) of the selected node
 	 * 
 	 * The selected node has to be a Transition (i.e. Drift, Matrix, Drift
-	 * Netto)
+	 * "Netto")
 	 * 
 	 * @param selectedNode
 	 * @return String []

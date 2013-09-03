@@ -8,7 +8,7 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
-import nl.rivm.emi.dynamo.data.xml.structure.test.FileLocationTest;
+import nl.rivm.emi.dynamo.data.xml.structure.check.FileLocationCheck;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
@@ -146,11 +146,11 @@ public class NodeFilter {
 		boolean putInTree = false;
 		ParentNode parentNode = ((ChildNode) theNode).getParent();
 		ParentNode grandParentNode = ((ChildNode) parentNode).getParent();
-		FileLocationTest fileLocationTest = new FileLocationTest(
+		FileLocationCheck fileLocationCheck = new FileLocationCheck(
 				StandardTreeNodeLabelsEnum.RESULTS.getNodeLabel(),
 				((BaseNode) grandParentNode).deriveNodeLabel(),
 				StandardTreeNodeLabelsEnum.SIMULATIONS.getNodeLabel());
-		boolean locationOK = fileLocationTest.test(theNode);
+		boolean locationOK = fileLocationCheck.test(theNode);
 		if (locationOK) {
 			putInTree = true;
 		} else {

@@ -1,5 +1,5 @@
-This is the central screen to specify the simulation that will be run. A simulation consists of one risk factor, one population, and one or more diseases. One or more scenarios can be specified (e.g. varying starting prevalence, target age of intervention, success rate etc.).
+<html body style='overflow:hidden'>This is the central screen to <b>specify the simulation </b>that will be run. <br>A simulation consists of one risk factor, one population, and one or more diseases. One or more scenarios can be specified (e.g. varying starting prevalence, target age of intervention, success rate etc.).
 
-No macro is provided for this configuration.
+<br>No macro is provided for this configuration.
 
-For details click on the individual fields and consult the manual.
+For details click on the individual fields and consult the manual.</html>

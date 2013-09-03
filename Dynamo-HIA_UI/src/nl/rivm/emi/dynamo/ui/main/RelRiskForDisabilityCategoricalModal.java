@@ -68,6 +68,9 @@ public class RelRiskForDisabilityCategoricalModal extends AgnosticModal {
 		TypedHashMap<?> producedData = null;
 		int numberOfClasses = RiskFactorUtil
 				.getNumberOfRiskFactorClasses(this.selectedNode);
+		// toegevoegd door Hendriek in mei 2013
+		if (numberOfClasses >18) throw new ConfigurationException("Risk factor data from risk factors"
+				+ " with more than 18 classes can not be displayed or created.");
 		((RelRiskForDisabilityCategoricalFactory) factory)
 				.setNumberOfCategories(numberOfClasses);
 		producedData = factory.manufactureObservableDefault();

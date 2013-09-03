@@ -7,14 +7,14 @@
         <xs:element name="classes">
           <xs:complexType>
             <xs:sequence>
-              <xs:element minOccurs="2" maxOccurs="10" name="class">
+              <xs:element minOccurs="2" maxOccurs="50" name="class">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="flexdex">
                       <xs:simpleType>
                         <xs:restriction base="xs:int">
                           <xs:minInclusive value="1" />
-                          <xs:maxInclusive value="10" />
+                          <xs:maxInclusive value="50" />
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:element>
@@ -33,7 +33,7 @@
           <xs:simpleType>
             <xs:restriction base="xs:int">
               <xs:minInclusive value="1" />
-              <xs:maxInclusive value="10" />
+              <xs:maxInclusive value="50" />
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
