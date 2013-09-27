@@ -55,8 +55,18 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 
 		
 	}
+
 	
-	
+	@Override
+	public ProgressIndicatorInterface createProgressIndicator(String message,
+			Boolean indeterminate) {bar = new RCPProgressBar(parentShell,
+					message,indeterminate);
+			return bar;
+	}
+	public void dispatchProgressBar(){
+		  this.bar.dispose();
+	}
+
 
 	
 
@@ -68,6 +78,7 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 			new Output_UI(parentShell, output, scenarioParameters, currentPath);
 		}
 	}
+
 
 	@Override
 	public void updateProgressIndicator() {
@@ -92,4 +103,7 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 		return	this.parentShell.getDisplay();
 		 
 	}
+
+	
+
 }

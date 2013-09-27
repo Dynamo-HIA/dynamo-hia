@@ -24,7 +24,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.data.types.root.Alphas;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityCategorical;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityContinuous;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_Begin;
+import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_End;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,10 +39,10 @@ import org.w3c.dom.Element;
 
 /**
  * @author Hendriek The class manufactures all the steering files needed by the
- *         CDM ("SOR") program Together with the initial population and the
- *         population of newborns that are manufactured by the class
- *         "InitialPopulationFactory" they form the input needed by the CDM
- *         ("SOR") model
+ *         aCDM ("SOR") program (old version, not the final SOR version)
+ *         Together with the initial population and the population of newborns
+ *         that are manufactured by the class "InitialPopulationFactory" they
+ *         form the input needed by the CDM ("SOR") model
  * 
  */
 public class SimulationConfigurationFactory {
@@ -149,7 +155,12 @@ public class SimulationConfigurationFactory {
 
 	/**
 	 * this method writes the ConfigurationFiles for the update rules that are
-	 * the inputs of the SOR CDM model
+	 * the inputs of the SOR CDM model, as well as the datafiles (containing the
+	 * parameter values) that are needed by the update rules
+	 * 
+	 * also (at the end) it writes parameter-value files for the daly-weights
+	 * used, which are not used by the program itself, but are only there to
+	 * inform the users of the parameters used.
 	 * 
 	 * @param parameters
 	 *            object with the model parameters
@@ -413,51 +424,63 @@ public class SimulationConfigurationFactory {
 						else
 							writeOneDimArray(parameters.getMeanDrift(),
 									"meandrift", "meandrift", fileName);
-/* the standard deviation drift is identical for all scenario's , 
- * so only a single filename is written here
- */
+						/*
+						 * the standard deviation drift is identical for all
+						 * scenario's except those with nett transitions,
+						 */
 						fileName = directoryName + File.separator
 								+ "parameters" + File.separator
-								+ "stddriftRiskFactor" + ".xml";
+								+ "stddriftRiskFactor_scen_" + population
+								+ ".xml";
 						writeFinalElementToDom(rootElement, "stdDriftFileName",
 								fileName);
-/* this is written for the second time, so could be left out, not done in order not to fix
- * what works
- */
-						writeOneDimArray(parameters.getStdDrift(), "stddrift",
-								"stddrift", fileName);
+
+						if (scenInfo.getNettoTransition(scenarioNumber))
+							writeOneDimArray(scenInfo
+									.getAlternativeSDDrift(scenarioNumber),
+									"stddrift", "stddrift", fileName);
+						else
+							writeOneDimArray(parameters.getStdDrift(),
+									"stddrift", "stddrift", fileName);
 
 						if (parameters.getRiskTypeDistribution()
 								.compareToIgnoreCase("LogNormal") == 0) {
 
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
-									+ "offsetRiskFactor" + ".xml";
+									+ "offsetRiskFactor_scen_" + population
+									+ ".xml";
 							writeFinalElementToDom(rootElement,
 									"offsetFileName", fileName);
-							/* this is written for the second time, so could be left out, not done in order not to fix
-							 * what works
+
+							if (scenInfo.getNettoTransition(scenarioNumber))
+								writeOneDimArray(scenInfo
+										.getNewOffset(scenarioNumber),
+										"offset", "offset", fileName);
+							else
+								writeOneDimArray(parameters.getOffsetRisk(),
+										"offset", "offset", fileName);
+							/*
+							 * the offset drift is identical for all scenario's
+							 * except the ones with net transitions ,
 							 */
-								
-							writeOneDimArray(parameters.getOffsetRisk(),
-									"offset", "offset", fileName);
-							/* the offset drift is identical for all scenario's 
-							 * , so only a single filename is written here
-							 */
-							
-							
+
 							fileName = directoryName + File.separator
 									+ "parameters" + File.separator
-									+ "offsetDriftRiskFactor" + ".xml";
-							
-								
+									+ "offsetDriftRiskFactor_scen_"
+									+ population + ".xml";
+
 							writeFinalElementToDom(rootElement,
 									"offsetDriftFileName", fileName);
-							/* this is written for the second time, so could be left out, not done in order not to fix
-							 * what works
-							 */
-							writeOneDimArray(parameters.getOffsetDrift(),
-									"offsetdrift", "offsetdrift", fileName);
+							
+							if (scenInfo.getNettoTransition(scenarioNumber))
+								writeOneDimArray(
+										scenInfo
+												.getAlternativeOffsetDrift(scenarioNumber),
+										"offsetdrift", "offsetdrift", fileName);
+							else
+								writeOneDimArray(parameters.getOffsetDrift(),
+										"offsetdrift", "offsetdrift", fileName);
 						}
 
 					}
@@ -816,6 +839,67 @@ public class SimulationConfigurationFactory {
 		documentForHealthState.appendChild(healthStateRootElement);
 		writeDomToXML(ConfigXMLfileName, documentForHealthState);
 
+		/* write parameter files with daly-weights used */
+
+		fileName = directoryName + File.separator + "parameters"
+				+ File.separator + "baselineAbility" + ".xml";
+
+		writeOneDimArray(parameters.getBaselineAbility(),
+				RootElementNamesEnum.BASELINE_ABILITY.getNodeLabel(),
+				"ability", fileName);
+
+		if (parameters.isWithRRdisability()) {
+			/* for categorical */
+
+			if (parameters.getRiskType() == ModelParameters.CATEGORICAL
+					|| parameters.getRiskType() == ModelParameters.COMPOUND) {
+
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "relativerisk_ability" + ".xml";
+
+				writeTwoDimArray(parameters.getRiskFactorAbilityRRcat(),
+						RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CAT
+								.getNodeLabel(), "relativerisk", fileName);
+			}
+
+			if (parameters.getRiskType() == ModelParameters.COMPOUND) {
+
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "relativerisk_ability_begin"
+						+ ".xml";
+
+				writeOneDimArray(parameters.getRiskFactorAbilityRRend(),
+						RootElementNamesEnum.RR_RISKFACTOR_ABILITY_BEGIN
+								.getNodeLabel(), "relativerisk", fileName);
+
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "relativerisk_ability_end" + ".xml";
+
+				writeOneDimArray(parameters.getRiskFactorAbilityRRend(),
+						RootElementNamesEnum.RR_RISKFACTOR_ABILITY_END
+								.getNodeLabel(), "relativerisk", fileName);
+
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "relativerisk_ability_alpha"
+						+ ".xml";
+
+				writeOneDimArray(parameters.getRiskFactorAbilityRRend(),
+						RootElementNamesEnum.RR_RISKFACTOR_ABILITY_ALPHA
+								.getNodeLabel(), "alpha", fileName);
+			}
+			if (parameters.getRiskType() == ModelParameters.CONTINUOUS) {
+
+				fileName = directoryName + File.separator + "parameters"
+						+ File.separator + "relativerisk_ability" + ".xml";
+
+				writeOneDimArray(parameters.getRiskFactorAbilityRRcont(),
+						RootElementNamesEnum.RR_RISKFACTOR_ABILITY_CONT
+								.getNodeLabel(), "relativerisk", fileName);
+
+			}
+
+		}
+
 	}
 
 	/**
@@ -854,16 +938,28 @@ public class SimulationConfigurationFactory {
 			writeFinalElementToDom(rootElement, "stepsinrun",
 					((Integer) scenInfo.getYearsInRun()).toString());
 			writeFinalElementToDom(rootElement, "stoppingcondition", null);
-			/* these are redundant as we do no longer write and read the population in DYNAMO:
-			 * however, the SOR-aCDM engine expects this information, therefore this is kept here
+
+			/*
+			 * these are redundant as we do no longer write and read the
+			 * population in DYNAMO: however, the SOR-aCDM engine expects this
+			 * information, therefore this is kept here
 			 */
-			if (pop > 0 && (scenInfo.getIsOneScenPopulation()[pop] || scenInfo.getInitialPrevalenceType()[scenInfo.getPopToScenIndex()[pop]]))
+			if (pop > 0
+					&& (scenInfo.getIsOneScenPopulation()[pop] || scenInfo
+							.getInitialPrevalenceType()[scenInfo
+							.getPopToScenIndex()[pop]]))
+
 				writeFinalElementToDom(rootElement, "pop", popFileName
 						+ "_pop_" + pop + ".xml");
 			else
 				writeFinalElementToDom(rootElement, "pop", popFileName + ".xml");
 			if (scenInfo.isWithNewBorns()) {
-				if (pop > 0 && (scenInfo.getIsOneScenPopulation()[pop] || scenInfo.getInitialPrevalenceType()[scenInfo.getPopToScenIndex()[pop]]))
+
+				if (pop > 0
+						&& (scenInfo.getIsOneScenPopulation()[pop] || scenInfo
+								.getInitialPrevalenceType()[scenInfo
+								.getPopToScenIndex()[pop]]))
+
 					writeFinalElementToDom(rootElement, "newborns",
 							newbornsFileName + "_pop_" + pop + ".xml");
 				else
@@ -1076,6 +1172,16 @@ public class SimulationConfigurationFactory {
 		parent.appendChild(element);
 	}
 
+	/**
+	 * the method takes a two dimensional array (age and gender) and writes this
+	 * to an XML file This is the most simple data, so we call it
+	 * one-dimensional
+	 * 
+	 * @param inArray
+	 * @param d
+	 *            : number of the third dimension to be extracted
+	 * @return
+	 */
 	private void writeOneDimArray(float[][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws DynamoConfigurationException {
 
@@ -1095,6 +1201,31 @@ public class SimulationConfigurationFactory {
 				writeFinalElementToDom(element, "sex", ((Integer) g).toString());
 				writeFinalElementToDom(element, "value",
 						((Float) arrayToWrite[a][g]).toString());
+			}
+		document.appendChild(rootElement);
+		/* write document to xml-file */
+		writeDomToXML(fileName, document);
+	}
+
+	private void writeOneDimArray(double[][] arrayToWrite, String globalTag,
+			String tag, String fileName) throws DynamoConfigurationException {
+
+		int dim2 = arrayToWrite[0].length;
+		int dim1 = arrayToWrite.length;
+		if (dim2 != 2 || dim1 != 96)
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+
+		Document document = newDocument(fileName);
+		Element rootElement = document.createElement(globalTag);
+
+		for (int a = 0; a < dim1; a++)
+			for (int g = 0; g < dim2; g++) {
+				Element element = document.createElement(tag);
+				rootElement.appendChild(element);
+				writeFinalElementToDom(element, "age", ((Integer) a).toString());
+				writeFinalElementToDom(element, "sex", ((Integer) g).toString());
+				writeFinalElementToDom(element, "value",
+						((Double) arrayToWrite[a][g]).toString());
 			}
 		document.appendChild(rootElement);
 		/* write document to xml-file */
@@ -1191,6 +1322,16 @@ public class SimulationConfigurationFactory {
 		return newArray;
 	}
 
+	/**
+	 * the method takes a three dimensional array (age and gender) and writes
+	 * this to an XML file
+	 * 
+	 * 
+	 * @param inArray
+	 * @param d
+	 *            : number of the third dimension to be extracted
+	 * @return
+	 */
 	private void writeTwoDimArray(float[][][] arrayToWrite, String globalTag,
 			String tag, String fileName) throws DynamoConfigurationException {
 
@@ -1216,6 +1357,38 @@ public class SimulationConfigurationFactory {
 							.toString());
 					writeFinalElementToDom(element, "value",
 							((Float) arrayToWrite[a][g][c]).toString());
+				}
+		document.appendChild(rootElement);
+		/* write document to xml-file */
+		writeDomToXML(fileName, document);
+
+	}
+
+	private void writeTwoDimArray(double[][][] arrayToWrite, String globalTag,
+			String tag, String fileName) throws DynamoConfigurationException {
+
+		int dim3 = arrayToWrite[0][0].length;
+		int dim2 = arrayToWrite[0].length;
+		int dim1 = arrayToWrite.length;
+		if (dim1 != 96 || dim2 != 2)
+			log.warn("array size not equal to 96:2, but " + dim1 + ":" + dim2);
+
+		Document document = newDocument(fileName);
+		Element rootElement = document.createElement(globalTag);
+
+		for (int a = 0; a < dim1; a++)
+			for (int g = 0; g < dim2; g++)
+				for (int c = 0; c < dim3; c++) {
+					Element element = document.createElement(tag);
+					rootElement.appendChild(element);
+					writeFinalElementToDom(element, "age", ((Integer) a)
+							.toString());
+					writeFinalElementToDom(element, "sex", ((Integer) g)
+							.toString());
+					writeFinalElementToDom(element, "cat", ((Integer) c)
+							.toString());
+					writeFinalElementToDom(element, "value",
+							((Double) arrayToWrite[a][g][c]).toString());
 				}
 		document.appendChild(rootElement);
 		/* write document to xml-file */

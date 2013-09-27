@@ -1,0 +1,10 @@
+2013-04-04 21:48:12,093 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortdata_men_reference scenario.xml" suppressed: Size: "23433221" larger than current test can endure.
+2013-04-04 21:48:12,312 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortdata_men_UK_Prevalence.xml" suppressed: Size: "23421477" larger than current test can endure.
+2013-04-04 21:48:12,312 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortdata_women_referencescenario.xml" suppressed: Size: "23677540" larger than current test can endure.
+2013-04-04 21:48:12,312 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortdata_women_UKPrevalence.xml" suppressed: Size: "23662146" larger than current test can endure.
+2013-04-04 21:48:12,484 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\yeardata_men_referencescenario.xml" suppressed: Size: "10913143" larger than current test can endure.
+2013-04-04 21:48:12,500 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\yeardata_men_UKPrevalence.xml" suppressed: Size: "10916500" larger than current test can endure.
+2013-04-04 21:48:12,500 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\yeardata_women_referencescenario.xml" suppressed: Size: "11115820" larger than current test can endure.
+2013-04-04 21:48:12,500 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\yeardata_women_UKPrevalence.xml" suppressed: Size: "11147351" larger than current test can endure.
+2013-04-04 21:49:18,015 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-04-04 21:49:18,578 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800

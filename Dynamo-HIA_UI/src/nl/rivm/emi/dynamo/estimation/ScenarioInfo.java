@@ -35,7 +35,45 @@ public class ScenarioInfo {
 	private boolean[] isNormal;
 	private boolean[] initialPrevalenceType = { false };
 	private boolean[] transitionType = { false };
+	private boolean[] nettoTransition;
+
+	public boolean[] getNettoTransition() {
+		return nettoTransition;
+	}
+
+	public boolean getNettoTransition(int i) {
+		if (this.nettoTransition == null)
+			return false;
+		else
+			return nettoTransition[i];
+	}
+
+	public void setNettoTransition(boolean[] nettoTransition) {
+		this.nettoTransition = nettoTransition;
+	}
+
+	/**
+	 * set the indicator for calculating an "own" net transition rate for
+	 * scenario i
+	 * 
+	 * @param i
+	 *            : scenario number (reference scenario not included)
+	 * @param nettoTransition
+	 *            boolean
+	 */
+	public void setNettoTransition(int i, boolean netTransition) {
+		if (this.nettoTransition == null) {
+			this.nettoTransition = new boolean[this.nScenarios];
+			for (int j = 1; j < this.nScenarios; j++)
+				this.nettoTransition[j] = false;
+		}
+
+		this.nettoTransition[i] = netTransition;
+
+	}
+
 	private boolean[] dalyType = { false };
+
 	public boolean[] getDalyType() {
 		return dalyType;
 	}
@@ -50,9 +88,11 @@ public class ScenarioInfo {
 	public int[] getNumberOfDalyPopForThisScenario() {
 		return numberOfDalyPopForThisScenario;
 	}
+
 	/**
-	 * the scenario number of the daly-population ; this is -1 for non-daly populations and the one-for-all
-	 * dalypoopulation (as the latter can belong to multiple scenario's
+	 * the scenario number of the daly-population ; this is -1 for non-daly
+	 * populations and the one-for-all dalypoopulation (as the latter can belong
+	 * to multiple scenario's
 	 */
 	private int[] scenNumberOfThisDalyPop;/*
 										 * give the scenarioNumber belonging to
@@ -80,6 +120,52 @@ public class ScenarioInfo {
 								 */
 	private float[][][] newStd; /* indexes: scenario,age, sex */
 	private float[][][] newOffset; /* indexes: scenario,age, sex */
+
+	private float[][][] oldMean; /*
+								 * indexes: scenario,age, sex scenario starts at
+								 * index 0 with the first alternative scenario
+								 * info
+								 */
+
+	public float[][][] getOldMean() {
+		return oldMean;
+	}
+
+	public float[][] getOldMean(int scen) {
+		return oldMean[scen];
+	}
+
+	public void setOldMean(float[][][] oldMean) {
+		this.oldMean = oldMean;
+	}
+
+	public float[][][] getOldStd() {
+		return oldStd;
+	}
+
+	public float[][] getOldStd(int scen) {
+		return oldStd[scen];
+	}
+
+	public void setOldStd(float[][][] oldStd) {
+		this.oldStd = oldStd;
+	}
+
+	public float[][][] getOldSkewness() {
+		return oldSkewness;
+	}
+
+	public float[][] getOldSkewness(int scen) {
+		return oldSkewness[scen];
+	}
+
+	public void setOldSkewness(float[][][] oldSkewness) {
+		this.oldSkewness = oldSkewness;
+	}
+
+	private float[][][] oldStd; /* indexes: scenario,age, sex */
+	private float[][][] oldSkewness; /* indexes: scenario,age, sex */
+
 	private float[][][][] newPrevalence; /*
 										 * indexes: scenario,age, sex, class
 										 * scenario starts at index 0 with the
@@ -97,6 +183,41 @@ public class ScenarioInfo {
 													 */
 
 	private float[][][] alternativeMeanDrift = null;
+	private float[][][] alternativeOffsetDrift = null;
+	private float[][][] alternativeSDDrift = null;
+
+	public void setAlternativeMeanDrift(float[][][] alternativeMeanDrift) {
+		this.alternativeMeanDrift = alternativeMeanDrift;
+	}
+
+	public void setAlternativeMeanDrift(float[][] alternativeDrift, int scen) {
+		this.alternativeMeanDrift[scen] = alternativeDrift;
+	}
+
+	public void setAlternativeOffsetDrift(float[][] alternativeDrift, int scen) {
+		this.alternativeOffsetDrift[scen] = alternativeDrift;
+	}
+
+	public void setAlternativeSDDrift(float[][] alternativeDrift, int scen) {
+		this.alternativeSDDrift[scen] = alternativeDrift;
+	}
+
+	public float[][] getAlternativeMeanDrift(int scen) {
+		return alternativeMeanDrift[scen];
+	}
+
+	public float[][] getAlternativeSDDrift(int scen) {
+		return alternativeSDDrift[scen];
+	}
+
+	public float[][] getAlternativeOffsetDrift(int scen) {
+		return alternativeOffsetDrift[scen];
+	}
+
+	public float[][][] getAlternativeMeanDrift() {
+		return alternativeMeanDrift;
+	}
+
 	/* indexes: scenario,age, sex + two dimention for matrix */// TODO volgende
 	// 3 inlezen en
 	// initialiseren
@@ -112,13 +233,13 @@ public class ScenarioInfo {
 	private boolean[] inWomen = null;
 	private float[][] populationSize; // float as no reading method for integers
 	// is availlable at the moment
-	private float[][] baselineAbility;
-	private float[][][] diseaseAbility;//
-	private float[][][] relRiskAbilityCat;
-	private float[][] relRiskAbilityCont;
-	private float[][] relRiskAbilityBegin;
-	private float[][] relRiskAbilityEnd;
-	private float[][] alfaAbility;
+	private double[][] baselineAbility;
+	private double[][][] diseaseAbility;//
+	private double[][][] relRiskAbilityCat;
+	private double[][] relRiskAbilityCont;
+	private double[][] relRiskAbilityBegin;
+	private double[][] relRiskAbilityEnd;
+	private double[][] alfaAbility;
 	private int[] newborns; // index= year (0=startYearnewborns)
 	private int startYearNewborns;
 	private float maleFemaleRatio;
@@ -153,7 +274,13 @@ public class ScenarioInfo {
 
 	private int nScenariosIncludingDalys;
 
-	private int nPopulations=-3;
+	private int nPopulations = -3;
+
+	private String refScenName="reference scenario";
+
+	public String getRefScenName() {
+		return refScenName;
+	}
 
 	/**
 	 * @return
@@ -239,7 +366,8 @@ public class ScenarioInfo {
 	/**
 	 * adds information on DALY scenario's and returns the number of extra
 	 * populations needed to simulate for this
-	 * @param nPopulations 
+	 * 
+	 * @param nPopulations
 	 * 
 	 */
 	public int addDalyScenarios(int nPopulations) {
@@ -248,22 +376,22 @@ public class ScenarioInfo {
 		if (!hasDalyScenarios()) {
 			/*
 			 * first count the number of scenarios that needs to be added and
-			 * fill the dalyType array: This indicates for each population that is a dalytype population
+			 * fill the dalyType array: This indicates for each population that
+			 * is a dalytype population
 			 */
 			dalyType = new boolean[nPopulations];
-			Arrays.fill(dalyType,false);
+			Arrays.fill(dalyType, false);
 			this.setFirstOneForAllDalyPop(-1);
 			int extraScens = 0;
-			
 
 			for (int scennum = 0; scennum < this.nScenarios; scennum++) {
 				if (!transitionType[scennum]) {
 					extraScens++;
 				}
-				
+
 			}
-            this.setNScenariosIncludingDalys(extraScens+this.getNScenarios());
-            this.numberOfDalyPopForThisScenario = new int[this.nScenarios];
+			this.setNScenariosIncludingDalys(extraScens + this.getNScenarios());
+			this.numberOfDalyPopForThisScenario = new int[this.nScenarios];
 			if (extraScens > 0) {
 
 				/* make arrays with properties for the new part of the arrays */
@@ -290,7 +418,7 @@ public class ScenarioInfo {
 					isOneScenPopulation2 = new boolean[1];
 					isOneScenPopulation2[0] = true;
 					popToScenIndex2[0] = this.firstOneForAllPopScenario;
-					dalyType2[0]=true;
+					dalyType2[0] = true;
 					nExtraPop = 1;
 				}
 				this.nDalyPops = nExtraPop;
@@ -314,13 +442,13 @@ public class ScenarioInfo {
 				 */
 
 				/**
-				 * the scenario number of the daly-population ; this is -1 for non-daly populations and the one-for-all
-				 * dalypoopulation (as the latter can belong to multiple scenario's
+				 * the scenario number of the daly-population ; this is -1 for
+				 * non-daly populations and the one-for-all dalypoopulation (as
+				 * the latter can belong to multiple scenario's
 				 */
 				this.scenNumberOfThisDalyPop = new int[this.nPopulations
 						+ nExtraPop];
 				Arrays.fill(this.scenNumberOfThisDalyPop, -1);
-				
 
 				Arrays.fill(this.numberOfDalyPopForThisScenario, -1);
 
@@ -346,9 +474,12 @@ public class ScenarioInfo {
 									+ this.getNPopulationsWithoutDalys();
 							scenNumberOfThisDalyPop[this
 									.getNPopulationsWithoutDalys()
-									+ index] = scennum; /* this is the same value as popToScenIndex */
-							popToScenIndex2[index] = scennum
-									; /*
+									+ index] = scennum; /*
+														 * this is the same
+														 * value as
+														 * popToScenIndex
+														 */
+							popToScenIndex2[index] = scennum; /*
 															 * scenario
 															 * numbering is
 															 * always without
@@ -365,9 +496,10 @@ public class ScenarioInfo {
 						popToScenIndex2);
 				this.setNScenariosIncludingDalys(transitionType.length);
 
+			} else {
+				for (int scen = 0; scen < nScenarios; scen++)
+					numberOfDalyPopForThisScenario[scen] = -1;
 			}
-			else {for (int scen=0;scen<nScenarios;scen++)
-			numberOfDalyPopForThisScenario[scen] = -1;}
 		}
 
 		return nExtraPop;
@@ -380,82 +512,88 @@ public class ScenarioInfo {
 	 * @return number of populations
 	 */
 	public int getNPopulations() {
-		
-		/* only do the calculation the first time 
-		 * necessary as the addDALY method also works the first time only, so the adjustments of this methods
-		 * are not carried out if you rerun this method */
-        if (this.nPopulations>-1) return this.nPopulations;
-        else {
-		this.nPopulations = this.getNScenarios() + 1;
-		this.thisScenarioUsedOneForAllPop = new boolean[this.getNScenarios()];
-		boolean isAtLeastOneAllForOnePopulation = false;
-		this.firstOneForAllPopScenario = -1;
 
-		Arrays.fill(thisScenarioUsedOneForAllPop, false);
-		if (this.getRiskType() != 2 && this.getNScenarios() > 0)
-			for (int scennum = 0; scennum < this.getNScenarios(); scennum++) {
-				/*
-				 * NB is both prevalence and transitions are identical to the
-				 * reference scenario (not very usefull, but users will try)
-				 * this is assumed to be a one for all population, meaning that
-				 * no extra simulations will be done
-				 */
-				if ((!this.getTransitionType()[scennum])) {
-					this.nPopulations--; /*
-									 * remove this scenario from number than
-									 * need to be simulated
-									 */
+		/*
+		 * only do the calculation the first time necessary as the addDALY
+		 * method also works the first time only, so the adjustments of this
+		 * methods are not carried out if you rerun this method
+		 */
+		if (this.nPopulations > -1)
+			return this.nPopulations;
+		else {
+			this.nPopulations = this.getNScenarios() + 1;
+			this.thisScenarioUsedOneForAllPop = new boolean[this
+					.getNScenarios()];
+			boolean isAtLeastOneAllForOnePopulation = false;
+			this.firstOneForAllPopScenario = -1;
 
-					isAtLeastOneAllForOnePopulation = true;
-					thisScenarioUsedOneForAllPop[scennum] = true;
-					if (this.firstOneForAllPopScenario == -1)
-						this.firstOneForAllPopScenario = scennum;
+			Arrays.fill(thisScenarioUsedOneForAllPop, false);
+			if (this.getRiskType() != 2 && this.getNScenarios() > 0)
+				for (int scennum = 0; scennum < this.getNScenarios(); scennum++) {
+					/*
+					 * NB is both prevalence and transitions are identical to
+					 * the reference scenario (not very usefull, but users will
+					 * try) this is assumed to be a one for all population,
+					 * meaning that no extra simulations will be done
+					 */
+					if ((!this.getTransitionType()[scennum])) {
+						this.nPopulations--; /*
+											 * remove this scenario from number
+											 * than need to be simulated
+											 */
+
+						isAtLeastOneAllForOnePopulation = true;
+						thisScenarioUsedOneForAllPop[scennum] = true;
+						if (this.firstOneForAllPopScenario == -1)
+							this.firstOneForAllPopScenario = scennum;
+
+					}
+				}
+			/* add the one-for-all-scenario that still needs to be simulated */
+			if (isAtLeastOneAllForOnePopulation)
+				this.nPopulations++;
+
+			/* returns the scenario number belonging with a population */
+			this.popToScenIndex = new int[this.nPopulations];
+			this.isOneScenPopulation = new boolean[this.nPopulations];
+			this.getPopToScenIndex()[0] = 0;
+			this.getIsOneScenPopulation()[0] = false;
+			int currentPop = 1;
+
+			/* look which populations are one-for-all */
+			/*
+			 * make an indicator array to "translate" the other populations into
+			 * scenarionumbers
+			 */
+			for (int i = 0; i < this.nScenarios; i++) {
+				if (i == this.firstOneForAllPopScenario) {
+					this.getPopToScenIndex()[currentPop] = i;
+					this.getIsOneScenPopulation()[currentPop] = true;
+					currentPop++;
+				}
+				if (!this.thisScenarioUsedOneForAllPop[i]) {
+					this.getPopToScenIndex()[currentPop] = i;
+					currentPop++;
 
 				}
 			}
-		/* add the one-for-all-scenario that still needs to be simulated */
-		if (isAtLeastOneAllForOnePopulation)
-			this.nPopulations++;
 
-		/* returns the scenario number belonging with a population */
-		this.popToScenIndex = new int[this.nPopulations];
-		this.isOneScenPopulation = new boolean[this.nPopulations];
-		this.getPopToScenIndex()[0] = 0;
-		this.getIsOneScenPopulation()[0] = false;
-		int currentPop = 1;
+			/* 11-2011: added populations for DALY calculations */
+			/*
+			 * DALY scenario's are added only in the case of scenario's of
+			 * !transitiontype In those cases, there are 2 possibilities:
+			 * continous risk factor, or categorical/compound The latter use a
+			 * one-for-all population, which means an extra one-for-all
+			 * population The former have an extra population for each
+			 * !transitiontype scenario
+			 * 
+			 * The DALY scenarios are added to the end of the scenario's DALY
+			 * scenario's are always not transition types and initial prev types
+			 */
 
-		/* look which populations are one-for-all */
-		/*
-		 * make an indicator array to "translate" the other populations into
-		 * scenarionumbers
-		 */
-		for (int i = 0; i < this.nScenarios; i++) {
-			if (i == this.firstOneForAllPopScenario) {
-				this.getPopToScenIndex()[currentPop] = i;
-				this.getIsOneScenPopulation()[currentPop] = true;
-				currentPop++;
-			}
-			if (!this.thisScenarioUsedOneForAllPop[i]) {
-				this.getPopToScenIndex()[currentPop] = i;
-				currentPop++;
-
-			}
+			nPopulations += addDalyScenarios(nPopulations);
+			return nPopulations;
 		}
-
-		/* 11-2011: added populations for DALY calculations */
-		/*
-		 * DALY scenario's are added only in the case of scenario's of
-		 * !transitiontype In those cases, there are 2 possibilities: continous
-		 * risk factor, or categorical/compound The latter use a one-for-all
-		 * population, which means an extra one-for-all population The former
-		 * have an extra population for each !transitiontype scenario
-		 * 
-		 * The DALY scenarios are added to the end of the scenario's DALY
-		 * scenario's are always not transition types and initial prev types
-		 */
-
-		nPopulations += addDalyScenarios(nPopulations);
-		return nPopulations;}
 
 	}
 
@@ -509,6 +647,11 @@ public class ScenarioInfo {
 		this.nScenarios = nScenarios;
 	}
 
+	/**
+	 * get number of alternative scenarios (reference scenario not included)
+	 * 
+	 * @return
+	 */
 	public int getNScenarios() {
 		return nScenarios;
 	}
@@ -706,8 +849,29 @@ public class ScenarioInfo {
 		return zeroTransition[i];
 	}
 
-	public void setOldPrevalence(float[][][] oldPrevalence) {
-		this.oldPrevalence = oldPrevalence;
+	public void setOldPrevalence(float[][][] oldPrevalence)
+			throws DynamoInconsistentDataException {
+		this.oldPrevalence = checkedRates(oldPrevalence);
+	}
+
+	public float[][][] checkedRates(float[][][] prevalence)
+			throws DynamoInconsistentDataException {
+		for (int a = 0; a < 96; a++)
+
+			for (int s = 0; s < 2; s++) {
+
+				float sumP = 0;
+				for (float prev : prevalence[a][s])
+					sumP += prev;
+				if (Math.abs(sumP - 1.0) > 1E-3)
+					throw new DynamoInconsistentDataException(
+							"Risk factor prevalence does not sum "
+									+ "to 100% but to " + 100 * sumP + "%"
+									+ " for age " + a + " and gender " + s);
+				else if (Math.abs(sumP - 1.0) > 1E-8)
+					prevalence[a][s][prevalence[a][s].length - 1] += 1 - sumP;
+			}
+		return prevalence;
 	}
 
 	public float[][][] getOldPrevalence() {
@@ -717,6 +881,13 @@ public class ScenarioInfo {
 	public void setAlternativeTransitionMatrix(
 			float[][][][][] alternativeTransitionMatrix) {
 		this.alternativeTransitionMatrix = alternativeTransitionMatrix;
+	}
+
+	public void setAlternativeTransitionMatrix(int scenNumber, int age,
+			int sex, float[][] alternativeTransitionMatrix) {
+		if (this.alternativeTransitionMatrix[scenNumber] == null)
+			this.alternativeTransitionMatrix[scenNumber] = new float[96][2][][];
+		this.alternativeTransitionMatrix[scenNumber][age][sex] = alternativeTransitionMatrix;
 	}
 
 	public void setAlternativeTransitionMatrix(
@@ -839,7 +1010,8 @@ public class ScenarioInfo {
 		this.newPrevalence = newPrevalence;
 	}
 
-	public void setNewPrevalence(float[][][] inPrevalence, int i) {
+	public void setNewPrevalence(float[][][] inPrevalence, int i)
+			throws DynamoInconsistentDataException {
 
 		this.newPrevalence[i] = new float[inPrevalence.length][inPrevalence[0].length][inPrevalence[0][0].length];
 
@@ -847,7 +1019,7 @@ public class ScenarioInfo {
 			for (int l = 0; l < inPrevalence[0].length; l++)
 				for (int j = 0; j < inPrevalence[0][0].length; j++)
 					this.newPrevalence[i][k][l][j] = inPrevalence[k][l][j];
-
+		this.newPrevalence[i] = checkedRates(this.newPrevalence[i]);
 	}
 
 	public boolean isWithInitialChange() {
@@ -878,6 +1050,10 @@ public class ScenarioInfo {
 		return newPrevalence;
 	}
 
+	public float[][][] getNewPrevalence(int scen) {
+		return newPrevalence[scen];
+	}
+
 	/**
 	 * this method take a mean, std and skewness and converts it to the
 	 * parameters of a lognormal distribution (mu, sigma, offset) before it sets
@@ -887,62 +1063,75 @@ public class ScenarioInfo {
 	 *            (float [scenario][age][sex]) * @param inputSTD (float
 	 *            [scenario][age][sex]) * @param inputSkew (float
 	 *            [scenario][age][sex])
-	 * @param i
+	 * @param scen
 	 *            : number of scenario;
 	 * @param isLognormal
 	 *            (boolean)
 	 * @throws DynamoInconsistentDataException
 	 */
 	public void setNewMeanSTD(float[][] inputMean, float[][] inputSTD,
-			float[][] inputSkew, int i) throws DynamoInconsistentDataException {
+			float[][] inputSkew, int scen)
+			throws DynamoInconsistentDataException {
 		boolean isLognormal = false;
+		if (this.oldMean == null) {
+
+			this.oldMean = new float[this.nScenarios][][];
+			this.oldStd = new float[this.nScenarios][][];
+			this.oldSkewness = new float[this.nScenarios][][];
+		}
+		this.oldMean[scen] = inputMean;
+		this.oldStd[scen] = inputSTD;
+		this.oldSkewness[scen] = inputSkew;
+
 		for (int a = 0; a < 96; a++)
 			for (int g = 0; g < 2; g++)
 				if (inputSkew[a][g] > 0)
 					isLognormal = true;
 		if (isLognormal)
-			isNormal[i] = false;
+			isNormal[scen] = false;
 		else
-			isNormal[i] = true;
+			isNormal[scen] = true;
 		if (isLognormal) {
 
 			for (int a = 0; a < 96; a++)
 				for (int g = 0; g < 2; g++) {
 
 					try {
-						newStd[i][a][g] = (float) DynamoLib
+						newStd[scen][a][g] = (float) DynamoLib
 								.findSigma(inputSkew[a][g]);
 					} catch (Exception e) {
 
 						log
 								.fatal("skewness of lognormal variable "
 										+ "has a value that is not possible for a lognormal distribution for scenario "
-										+ i + " at age " + a + " and gender "
-										+ g + ". Problematic skewness = "
+										+ scen + " at age " + a
+										+ " and gender " + g
+										+ ". Problematic skewness = "
 										+ inputSkew[a][g]);
 						e.printStackTrace();
 						throw new DynamoInconsistentDataException(
 								"skewness of lognormal variable "
 										+ "has a value that is not possible for a lognormal distribution for scenario "
-										+ i + " at age " + a + " and gender "
-										+ g + ". Problematic skewness = "
+										+ scen + " at age " + a
+										+ " and gender " + g
+										+ ". Problematic skewness = "
 										+ inputSkew[a][g]);
 
 					}
-					newMean[i][a][g] = (float) (0.5 * (Math.log(inputSTD[a][g]
-							* inputSTD[a][g])
-							- Math.log(Math.exp(newStd[i][a][g]
-									* newStd[i][a][g]) - 1) - newStd[i][a][g]
-							* newStd[i][a][g]));
-					newOffset[i][a][g] = (float) (inputMean[a][g] - Math
-							.exp(newMean[i][a][g] + 0.5 * newStd[i][a][g]
-									* newStd[i][a][g]));
+					newMean[scen][a][g] = (float) (0.5 * (Math
+							.log(inputSTD[a][g] * inputSTD[a][g])
+							- Math.log(Math.exp(newStd[scen][a][g]
+									* newStd[scen][a][g]) - 1) - newStd[scen][a][g]
+							* newStd[scen][a][g]));
+					newOffset[scen][a][g] = (float) (inputMean[a][g] - Math
+							.exp(newMean[scen][a][g] + 0.5 * newStd[scen][a][g]
+									* newStd[scen][a][g]));
 
 				}
 		} else {
-			this.newMean[i] = inputMean;
-			this.newStd[i] = inputSTD;
-			this.newOffset[i] = null;
+			this.newMean[scen] = inputMean;
+			this.newStd[scen] = inputSTD;
+			this.newOffset[scen] = null;
 		}
 	}
 
@@ -961,6 +1150,10 @@ public class ScenarioInfo {
 
 	public float[][][] getNewOffset() {
 		return newOffset;
+	}
+
+	public float[][] getNewOffset(int scen) {
+		return newOffset[scen];
 	}
 
 	public void setNewMean(float[][][] newMean) {
@@ -1064,60 +1257,60 @@ public class ScenarioInfo {
 		this.indexDurationClass = indexDurationClass;
 	}
 
-	public float[][] getBaselineAbility() {
+	public double[][] getBaselineAbility() {
 		return DynamoLib.deepcopy(baselineAbility);
 	}
 
-	public void setBaselineAbility(float[][] overallAbility) {
-		this.baselineAbility = overallAbility;
+	public void setBaselineAbility(double[][] ds) {
+		this.baselineAbility = ds;
 	}
 
-	public float[][][] getDiseaseAbility() {
+	public double[][][] getDiseaseAbility() {
 		return DynamoLib.deepcopy(diseaseAbility);
 	}
 
-	public void setDiseaseAbility(float[][][] diseaseAbility) {
-		this.diseaseAbility = diseaseAbility;
+	public void setDiseaseAbility(double[][][] ds) {
+		this.diseaseAbility = ds;
 	}
 
-	public float[][][] getRelRiskAbilityCat() {
+	public double[][][] getRelRiskAbilityCat() {
 		return DynamoLib.deepcopy(relRiskAbilityCat);
 	}
 
-	public void setRelRiskAbilityCat(float[][][] input) {
-		this.relRiskAbilityCat = input;
+	public void setRelRiskAbilityCat(double[][][] ds) {
+		this.relRiskAbilityCat = ds;
 	}
 
-	public float[][] getRelRiskAbilityCont() {
+	public double[][] getRelRiskAbilityCont() {
 		return DynamoLib.deepcopy(relRiskAbilityCont);
 	}
 
-	public void setRelRiskAbilityCont(float[][] input) {
-		this.relRiskAbilityCont = input;
+	public void setRelRiskAbilityCont(double[][] ds) {
+		this.relRiskAbilityCont = ds;
 	}
 
-	public float[][] getRelRiskAbilityBegin() {
+	public double[][] getRelRiskAbilityBegin() {
 		return DynamoLib.deepcopy(relRiskAbilityBegin);
 	}
 
-	public void setRelRiskAbilityBegin(float[][] relRiskAbilityBegin) {
-		this.relRiskAbilityBegin = relRiskAbilityBegin;
+	public void setRelRiskAbilityBegin(double[][] ds) {
+		this.relRiskAbilityBegin = ds;
 	}
 
-	public float[][] getRelRiskAbilityEnd() {
+	public double[][] getRelRiskAbilityEnd() {
 		return DynamoLib.deepcopy(relRiskAbilityEnd);
 	}
 
-	public void setRelRiskAbilityEnd(float[][] relRiskAbilityEnd) {
-		this.relRiskAbilityEnd = relRiskAbilityEnd;
+	public void setRelRiskAbilityEnd(double[][] ds) {
+		this.relRiskAbilityEnd = ds;
 	}
 
-	public float[][] getAlfaAbility() {
+	public double[][] getAlfaAbility() {
 		return DynamoLib.deepcopy(alfaAbility);
 	}
 
-	public void setAlphaAbility(float[][] alfaAbility) {
-		this.alfaAbility = alfaAbility;
+	public void setAlphaAbility(double[][] ds) {
+		this.alfaAbility = ds;
 	}
 
 	public int getNewbornStartYear() {
@@ -1146,6 +1339,11 @@ public class ScenarioInfo {
 
 	public int getFirstOneForAllDalyPop() {
 		return firstOneForAllDalyPop;
+	}
+
+	public void setRefScenName(String inputString) {
+		this.refScenName=inputString;
+		
 	}
 
 }

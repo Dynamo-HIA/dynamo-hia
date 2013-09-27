@@ -1,0 +1,39 @@
+2013-05-09 16:07:50,312 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:07:50,328 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:08:39,296 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-05-09 16:09:12,640 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-05-09 16:09:13,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-05-09 16:09:14,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-05-09 16:09:14,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-05-09 16:09:14,203 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-05-09 16:09:14,312 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-05-09 16:09:23,687 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-05-09 16:09:28,875 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-05-09 16:09:34,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2013-05-09 16:20:28,828 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:20:28,828 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:20:33,078 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-05-09 16:20:45,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-05-09 16:20:46,296 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-05-09 16:20:46,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-05-09 16:20:46,578 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-05-09 16:20:46,671 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-05-09 16:20:46,671 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-05-09 16:20:47,656 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-05-09 16:20:48,500 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-05-09 16:20:51,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2013-05-09 16:23:04,609 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:23:04,609 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:23:19,062 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-05-09 16:26:44,375 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:26:44,390 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml" suppressed: Size: "6034666" larger than current test can endure.
+2013-05-09 16:26:49,640 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-05-09 16:27:01,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-05-09 16:27:02,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-05-09 16:27:02,828 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-05-09 16:27:02,828 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-05-09 16:27:02,953 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-05-09 16:27:02,953 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-05-09 16:27:03,906 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-05-09 16:27:04,500 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-05-09 16:27:07,750 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written

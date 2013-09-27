@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -21,6 +22,7 @@ import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * writes output files with life expectancies in the form of csv files.
@@ -34,10 +36,19 @@ public class CSVLEwriter implements Runnable  {
 
 	/* object with the output data */
 	private CDMOutputFactory output;
-	private String delimiter = ";";
+	private String delimiter = ",";
 	private DynamoPlotFactory factory;
     private String filename;
-    FileWriter writer ;
+    private Shell shell;
+    public Shell getShell() {
+		return shell;
+	}
+
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
+
+	FileWriter writer ;
     public FileWriter getWriter() {
 		return writer;
 	}
@@ -93,18 +104,20 @@ public class CSVLEwriter implements Runnable  {
 	 * @throws DynamoOutputException
 	 */
 
-	public CSVLEwriter(CDMOutputFactory output, ScenarioParameters params) {
+	public CSVLEwriter(CDMOutputFactory output, ScenarioParameters params, Shell shell) {
 		super();
 		this.params = params;
 		this.output = output;
 		this.factory = new DynamoPlotFactory(output, params);
-
+		this.shell=shell;
+	
 	}
 
 	public void run()
 			 {
 
-		
+		    
+			
 			
 /* we use a second string for the data of females, as they are generate at the same time as those
  * for men, but need to be put on another line
@@ -114,24 +127,24 @@ public class CSVLEwriter implements Runnable  {
 
 			
 			/* write column headings */
-			toWriteCSVString.append("year" + this.delimiter);
+			if (sullivan) toWriteCSVString.append("year" + this.delimiter);
 			toWriteCSVString.append("scenario" + this.delimiter);
 			toWriteCSVString.append("gender" + this.delimiter);
 			toWriteCSVString.append("age" + this.delimiter);
 
 			/* total number */
 			toWriteCSVString.append("total life expectancy" + this.delimiter);
+			
+			/* disease info */
 			toWriteCSVString.append("expectancy with disability"+ this.delimiter);
 			toWriteCSVString.append("expectancy with all diseases");
-
-			/* disease info */
 
 			for (int col = 0; col < this.output.nDiseases; col++) {
 				toWriteCSVString.append(this.delimiter + "life expectany with "
 						+ this.output.diseaseNames[col]);
 
 			}
-
+			
 			/* the end of the line */
 			toWriteCSVString.append("\n");// </row>
 			
@@ -139,7 +152,8 @@ public class CSVLEwriter implements Runnable  {
 			int endyear=this.output.stepsInRun;
 			if (!sullivan) endyear=1;
 			for (int year = 0; year < endyear ; year++) {
-				log.fatal(" start loop year " +year);
+				int year2= year+this.output.getStartYear();
+				//log.fatal(" start loop year " +year);
 				for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++)
 
 					/* write the data */
@@ -148,12 +162,12 @@ public class CSVLEwriter implements Runnable  {
 					for (int a = 0; a < 96; a++) {
 
 						
-						toWriteCSVString.append(year + this.delimiter);
-						toWriteCSVString.append(thisScen + this.delimiter);
+						if (sullivan) toWriteCSVString.append(year2 + this.delimiter);
+						toWriteCSVString.append(this.output.scenarioNames[thisScen] + this.delimiter);
 						toWriteCSVString.append("males" + this.delimiter);
 						toWriteCSVString.append(a + this.delimiter);
-						toWriteCSVString2.append(year + this.delimiter);
-						toWriteCSVString2.append(thisScen + this.delimiter);
+						if (sullivan) toWriteCSVString2.append(year2 + this.delimiter);
+						toWriteCSVString2.append(this.output.scenarioNames[thisScen] + this.delimiter);
 						toWriteCSVString2.append("females" + this.delimiter);
 						toWriteCSVString2.append(a + this.delimiter);
 						/* write risk factor info */
@@ -165,7 +179,7 @@ public class CSVLEwriter implements Runnable  {
 							 * expectancy and type=2 the starting population;
 							 * [0][0] is made -1 if calculation fails
 							 */
-							//log.fatal(" start loop age " +a+ "  diseaseno "+d);
+						//	log.fatal(" start loop age " +a+ "  diseaseno "+d);
 							double[][] LE;
 							if (sullivan)
 								LE = factory.calculateSullivanLifeExpectancy(
@@ -173,13 +187,13 @@ public class CSVLEwriter implements Runnable  {
 							else
 								LE = factory.calculateCohortHealthExpectancy(a,
 										 thisScen, d);
-							//log.fatal(" le calculated ");
+						//	log.fatal(" le calculated ");
 							/*
 							 * first write the total life expectancy, needs to
 							 * be done only once ( for d=-2)
 							 */
 
-							if (d == -1) {
+							if (d == -2) {
 								toWriteCSVString.append(LE[0][0]
 										+ this.delimiter);
 								toWriteCSVString2.append(LE[1][0]
@@ -190,10 +204,10 @@ public class CSVLEwriter implements Runnable  {
 							toWriteCSVString2.append(LE[1][1] + this.delimiter);
 
 						}
-
+                      //  log.fatal("end string");
 						toWriteCSVString.append("\n");// end of </row>
 						toWriteCSVString2.append("\n");// end of </row>
-
+					//	log.fatal("end append to string");
 						// end of </row>
 
 						// log.fatal("writing year "+ year + " for gender "
@@ -204,15 +218,20 @@ public class CSVLEwriter implements Runnable  {
 			}
 			// end loop over years, scenarios and gender
 			try {
-				writer.append(toWriteCSVString);
-				writer.append(toWriteCSVString2);
-				writer.flush();
-				writer.close();
+				this.writer.append(toWriteCSVString);
+				this.writer.append(toWriteCSVString2);
+				this.writer.flush();
+				this.writer.close();
+				
 			} catch (IOException e) {
-				// TODO find something to do. This exception should not occur, as the writer is already
-				// initiated in the main thread and any problems with IO are signaled to the user there
-				// worse case is that the file is not written correctly without the user being notified
-				e.printStackTrace();
+				new ErrorMessageWindow("file " + this.filename
+						+ " can not be written. \nPlease make sure that"
+						+ " this file is not in use by another program.",shell);	
+				
+					
+					e.printStackTrace();
+				}
+				
 			}
 			
 
@@ -220,4 +239,5 @@ public class CSVLEwriter implements Runnable  {
 
 	}
 
-}
+
+

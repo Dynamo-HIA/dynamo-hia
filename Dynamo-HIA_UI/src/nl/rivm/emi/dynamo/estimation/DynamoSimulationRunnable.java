@@ -217,7 +217,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * scenario's calculate the number of populations that are needed to
 			 * carry out this simulation
 			 */
-
+			
 			// TODO: ONLY INI output = new DynamoOutputFactory(scen, pop);
 			InitialPopulationFactory popFactory = new InitialPopulationFactory(
 					p, scen, pr);
@@ -240,11 +240,17 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * and 160 second when running all runs separately by age and sex;
 			 * so not that much difference
 			 */
+			
 			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
+
+				 pii = pr
+					.createProgressIndicator("Creating population for simulation ......"
+							,true);
 				simulation = new Simulation[scen.getNPopulations()];
 				for (int n = 0; n < scen.getNPopulations(); n++)
 					simulation[n] = new Simulation();
 				this.runInOne = true;
+
 				pop = popFactory.manufactureInitialPopulation(agemin, agemax,
 						0, 1, 1, 1, false);
 				
@@ -260,14 +266,18 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 					}
 				}
+				pii.dispose();
 				output = runPopulation(pop, simFileName, output);
 				log.fatal("population has run");
-				pii = pr.createProgressIndicator("");
+
+	
 			} else {
 				this.runInOne = false;
-			//	ExecutorService exec = Executors.newFixedThreadPool(2);
 
+			//	ExecutorService exec = Executors.newFixedThreadPool(2);
+				  
                   pii = pr
+
 						.createProgressIndicator("Simulation of scenarios "
 								+ "running ....");
 
@@ -354,6 +364,10 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						
 					}
 				}
+
+				
+				pii.dispose();
+
 				
 			
 /* make sure that all treads are finished before doing the final combination of data */
@@ -366,10 +380,13 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				
 			}
 			/** * finalize output */
-			pii.setIndeterminate("summarizing results ...... ");
+
+			pii=pr.createProgressIndicator("summarizing results ...... ",true);
+			//pii.setIndeterminate("summarizing results ...... ");
 			// TODO: PI making output adding
+
 			output.makeArraysWithPopulationNumbers();
-			pii.dispose();
+
 			log.fatal("output object finalized");
 			// log.fatal("Starting to write populations");
 			// for (int npop = 0; npop < nPopulations; npop++) {
@@ -395,6 +412,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			/* temporarily disabled for testing */
 			pr.createOutput(output, scenParms, currentPath);
 			log.fatal("output created");
+			pii.dispose();
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
 			log.fatal("output written");
@@ -864,11 +882,13 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		}
 		log.fatal("end simulation");
 		if (runInOne)
-			pii.dispose();
+			dsi.dispatchProgressBar();
 	}
 
+	
 	private void displayErrorMessage(Exception e, String SimFilePath) {
 		pr.communicateErrorMessage(this, e, SimFilePath);
+
 		e.printStackTrace();
 	}
 

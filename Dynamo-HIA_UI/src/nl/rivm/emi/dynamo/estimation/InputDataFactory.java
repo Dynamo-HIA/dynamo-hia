@@ -63,6 +63,7 @@ public class InputDataFactory {
 	private static final String minAgeLabel = "minAge";
 	private static final String maxAgeLabel = "maxAge";
 	private static final String timeStepLabel = "timeStep";
+	private static final String refScenNameLabel = "refScenarioName";
 	private static final String randomSeedLabel = "randomSeed";
 	private static final String resultTypeLabel = "resultType";
 	private static final String popFileNameLabel = "popFileName";
@@ -74,7 +75,6 @@ public class InputDataFactory {
 	private static final String riskFactorNameLabel = "uniquename";
 	private static final String riskFactorTransFileLabel = "transfilename";
 	private static final String riskFactorPrevFileLabel = "prevfilename";
-
 	private static final String RRindexLabel = "RRindex";
 	private static final String isRRfromLabel = "isRRfrom";
 	private static final String isRRtoLabel = "isRRto";
@@ -142,6 +142,13 @@ public class InputDataFactory {
 	 * values have not been tested
 	 */
 	public static int timeStep = 1;
+	
+	/**
+	 * time steps used in simulation. In DynamoHia this is fixed to 1. Other
+	 * values have not been tested
+	 */
+	public static String refScenName = "reference scenario";
+	
 	/**
 	 * randomSeed starting the simulation
 	 */
@@ -249,7 +256,7 @@ public class InputDataFactory {
 	// "simulation"
 	private static final String RRriskDir = "Relative_Risks_From_Risk_Factor"; // OK
 	private static final String RRdiseaseDir = "Relative_Risks_From_Diseases"; // OK
-	private static final String DALYWeightsDir = "DALY_Weights"; // OK
+	private static final String DALYWeightsDir = "disability"; // OK
 	private static final String prevalencesDir = "Prevalences"; // OK
 	private static final String incidencesDir = "Incidences"; // OK
 	private static final String excessMoratalitiesDir = "Excess_Mortalities"; // OK
@@ -257,7 +264,7 @@ public class InputDataFactory {
 	private static final String riskFactorPrevalencesDir = "Prevalences"; // OK
 	private static final String riskFactorTransitionDir = "Transitions"; // OK
 	private static final String RelriskForDeathDir = "Relative_Risks_For_Death"; //
-	private static final String RelriskForDisabilityDir = "Relative_Risks_For_Disability"; //
+	private static final String RelriskForDisabilityDir = "Odds_Ratios_For_Disability"; //
 
 	/* standard names of files */
 
@@ -268,7 +275,7 @@ public class InputDataFactory {
 	private static final String sizeXMLname = "size.xml";
 	private static final String allcauseXMLname = "overallmortality.xml";
 	private static final String newbornXMLname = "newborns.xml";
-	private static final String totDalyXMLname = "overalldalyweights.xml";
+	private static final String totDalyXMLname = "overalldisability.xml";
 
 	private static final String riskfactorXMLname = "configuration.xml";
 
@@ -347,6 +354,7 @@ public class InputDataFactory {
 		minAge = getInteger(minAgeLabel);
 		maxAge = getInteger(maxAgeLabel);
 		timeStep = getInteger(timeStepLabel);
+		refScenName = getRefScenName(refScenNameLabel);
 
 		/*
 		 * put this information in the scenario object
@@ -791,14 +799,39 @@ public class InputDataFactory {
 
 		try {
 			String name = this.configuration.getString(tag);
+			
 			if (name == null) {
 				throw new DynamoConfigurationException("empty " + tag
-						+ " in XML file from window 1");
+						+ " in XML file from simulation configuration window ");
 			}
 			return name;
 		} catch (NoSuchElementException e) {
 			throw new DynamoConfigurationException("no " + tag
 					+ " in XML file from window 1");
+		}
+
+	}
+
+	
+	/** This is a variant of getName specifically made for getting the reference scenario name, as this is a new addition
+	 * in DYNAMO-2, and thus old files do not have this. If absent, the reference scenario gets a default name
+	 * @param tag
+	 * @return string value of xml with given tag
+	 * @throws DynamoConfigurationException
+	 */
+	public String getRefScenName(String tag)
+
+	throws DynamoConfigurationException {
+
+		try {
+			String name = this.configuration.getString(tag);
+			
+			if (name == null) {
+				name="Reference Scenario";
+			}
+			return name;
+		} catch (NoSuchElementException e) {
+			return("Reference Scenario");
 		}
 
 	}
@@ -928,13 +961,13 @@ public class InputDataFactory {
 			int value = this.configuration.getInt(tag);
 			if (value < 0) {
 				throw new DynamoConfigurationException("zero or negative "
-						+ tag + " in XML file from window 1");
+						+ tag + " in XML file from simulation window");
 			}
 
 			return value;
 		} catch (NoSuchElementException e) {
 			throw new DynamoConfigurationException("no " + tag
-					+ " in XML file from window 1");
+					+ " in XML file from simulation window");
 		}
 
 	}
@@ -953,13 +986,13 @@ public class InputDataFactory {
 			int value = config.getInt(tag);
 			if (value < 0) {
 				throw new DynamoConfigurationException("negative " + tag
-						+ " in XML file from window 1");
+						+ " in XML in risk factor configuration file");
 			}
 
 			return value;
 		} catch (NoSuchElementException e) {
 			throw new DynamoConfigurationException("no " + tag
-					+ " in XML file from window 1");
+					+ " in XML  risk factor configuration file");
 		}
 
 	}
@@ -976,15 +1009,16 @@ public class InputDataFactory {
 
 		try {
 			float value = config.getFloat(tag);
-			if (value <= 0) {
-				throw new DynamoConfigurationException("zero or negative "
-						+ tag + " in XML file from window 1");
-			}
+			/* there is no reason why the reference value should not be zero or -1 */
+		//	if (value <= 0) {
+		//		throw new DynamoConfigurationException("zero or negative "
+		//				+ tag + " in XML file from window");
+		//	}
 
 			return value;
 		} catch (NoSuchElementException e) {
 			throw new DynamoConfigurationException("no " + tag
-					+ " in XML file from window 1");
+					+ " in XML  risk factor configuration file");
 		}
 
 	}
@@ -1024,7 +1058,7 @@ public class InputDataFactory {
 		scenarioInfo.setPopulationSize(this.factory.manufactureOneDimArray(
 				sizeName, "populationsize", "size", "number", false));
 		inputData.setOverallDalyWeight(this.factory.manufactureOneDimArray(
-				dalyName, "overalldalyweights", "weight", "percent", false),
+				dalyName, "overalldisability", "weight", "percent", false),
 				false);
 
 		inputData.setMortTot(this.factory.manufactureOneDimArray(mortName,
@@ -1050,6 +1084,7 @@ public class InputDataFactory {
 		scenarioInfo.setMaxSimAge(maxAge);
 		scenarioInfo.setWithNewBorns(newborn);
 		scenarioInfo.setStepsize(timeStep);
+		scenarioInfo.setRefScenName(refScenName);
 		scenarioInfo.setRandomSeed(randomSeed);
 		scenarioInfo.setSimPopSize(simPopSize);
 		/* initialize the arrays in scenarioInfo */
@@ -1408,14 +1443,31 @@ public class InputDataFactory {
 		/* first for categorical/compound */
 		//
 		if (this.riskFactorType != 2) {
-			inputData.setPrevRisk(takeValueAtNextBirthDay(this.factory.manufactureTwoDimArray(
+
+		/*
+		 * for the future
+		 * 
+		 * 	inputData.setPrevRisk(takeValueAtNextBirthDay(this.factory.manufactureTwoDimArray(
+		
+
 					configFileName, "riskfactorprevalences_categorical",
-					"prevalence", "cat", "percent", false)));
+
+					"prevalence", "cat", "percent", false))); */ 
+			
+			inputData.setPrevRisk((this.factory.manufactureTwoDimArray(
+					
+					configFileName, "riskfactorprevalences_categorical",
+					"prevalence", "cat", "percent", false))); 
+
 			scenarioInfo.setOldPrevalence(inputData.getPrevRisk());
 
 		} else {
 
+			/*
+			 * for the future
+			 * 
 			inputData.setMeanRisk(takeValueAtNextBirthDay(this.factory
+
 					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
 							"riskfactorprevalences_continuous", "prevalences",
 							"prevalence", "mean", true)));
@@ -1426,7 +1478,22 @@ public class InputDataFactory {
 			inputData.setSkewnessRisk(takeValueAtNextBirthDay(this.factory
 					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
 							"riskfactorprevalences_continuous", "prevalences",
+
+							"prevalence", "skewness", true)));*/
+			
+			inputData.setMeanRisk((this.factory
+					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
+							"riskfactorprevalences_continuous", "prevalences",
+							"prevalence", "mean", true)));
+			inputData.setStdDevRisk((this.factory
+					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
+							"riskfactorprevalences_continuous", "prevalences",
+							"prevalence", "standarddeviation", true)));
+			inputData.setSkewnessRisk((this.factory
+					.manufactureOneDimArrayFromTreeLayeredXML(configFileName,
+							"riskfactorprevalences_continuous", "prevalences",
 							"prevalence", "skewness", true)));
+
 			float[][] skewness = inputData.getSkewnessRisk();
 			boolean normal = true;
 			for (int a = 0; a < AGE_ARRAYSIZE; a++)
@@ -1695,13 +1762,15 @@ public class InputDataFactory {
 	/**
 	 * @param inputData
 	 *            : object with input data to which the transition matrix is
-	 *            added this parameter should be null if transition matrix
+	 *            added.
+	 *            this parameter should be null if the transition matrix
 	 *            should be added to the scenario info
 	 * @param scenInfo
 	 *            object with scenario info to which the transition matrix
-	 *            should be added * this parameter should be null if transition
+	 *            should be added 
+	 *            this parameter should be null if the transition
 	 *            matrix should be added to the input data (= transtionmatrix
-	 *            for reference scenario
+	 *            for reference scenario)
 	 * 
 	 * @throws DynamoConfigurationException
 	 * @throws DynamoInconsistentDataException
@@ -1747,12 +1816,13 @@ public class InputDataFactory {
 				if (inputData != null)
 					inputData.setTransType(1);
 
-				else
-					throw new DynamoConfigurationException(
-							"Nett transitions are defined as nett transitions for the distribution"
-									+ " of the reference scenario. They can only be used in an alternative scenario when"
-									+ " they are also used in the reference scenario."
-									+ "\nPlease alter the input to comply with this requirement");
+				else scenInfo.setNettoTransition(scenNumber, true);
+					
+					//throw new DynamoConfigurationException(
+					//		"Nett transitions are defined as nett transitions for the distribution"
+					//				+ " of the reference scenario. They can only be used in an alternative scenario when"
+					//				+ " they are also used in the reference scenario."
+					//				+ "\nPlease alter the input to comply with this requirement");//
 
 			}
 
@@ -2260,7 +2330,9 @@ public class InputDataFactory {
 							.get(d);
 
 					/* find the DisInfo element for this disease */
-
+/* weggehaald: take value at next birthday want dat slaat nergens op */
+					
+					
 					for (int dTot = 0; dTot < nDiseases; dTot++) {
 						info2 = disInfo.get(dTot);
 						if (thisDisease == info2.name) {
@@ -2281,7 +2353,7 @@ public class InputDataFactory {
 									+ thisDisease + File.separator
 									+ incidencesDir + File.separator
 									+ info2.incFileName + ".xml";
-							iData[d] = takeValueAtNextBirthDay(this.factory.manufactureOneDimArray(
+							iData[d] = (this.factory.manufactureOneDimArray(
 									configFileName, "diseaseincidences",
 									"incidence", "value", false));
 							configFileName = this.baseDir + File.separator
@@ -2290,17 +2362,17 @@ public class InputDataFactory {
 									+ thisDisease + File.separator
 									+ excessMoratalitiesDir + File.separator
 									+ info2.emFileName + ".xml";
-							eData[d] = takeValueAtNextBirthDay(this.factory
+							eData[d] = (this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality", "unit",
 											true));
-							fData[d] = takeValueAtNextBirthDay(this.factory
+							fData[d] = (this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality",
 											"acutelyfatal", true));
-							cData[d] = takeValueAtNextBirthDay(this.factory
+							cData[d] = (this.factory
 									.manufactureOneDimArrayFromTreeLayeredXML(
 											configFileName, "excessmortality",
 											"mortalities", "mortality",
@@ -2669,7 +2741,7 @@ public class InputDataFactory {
 							+ " in file : " + configFileName);
 
 		int startYear = year[0];
-		scenInfo.setStartYear(startYear);
+		scenInfo.setStartYearNewborns(startYear);
 		int newborns[] = new int[currentChild];
 
 		for (int i = 0; i < currentChild; i++)
@@ -2722,6 +2794,7 @@ public class InputDataFactory {
 	public static void setSimPopSize(int simPopSize) {
 		InputDataFactory.simPopSize = simPopSize;
 	}
+
 	private float[][] takeValueAtNextBirthDay( float[][] inputArray){
 		
 		float[][] returnArray;
@@ -2736,6 +2809,11 @@ public class InputDataFactory {
 		return returnArray;
 		
 	}
+/** average the prevalence with that of the next category: this is strange, should be with the last as we need the
+ * prevalence at the last birthday
+ * @param inputArray
+ * @return
+ */
 
 private float[][][] takeValueAtNextBirthDay( float[][][] inputArray){
 		

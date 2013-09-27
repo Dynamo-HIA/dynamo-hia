@@ -58,13 +58,10 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 		CSVWriter writer= new CSVWriter(output, scenarioParameters);
 		String fileName=currentpath+File.separator+"batchoutput";
 		try {
-			writer.writeBatchOutputCSV(fileName);
+			writer.writeBatchOutputCSV(fileName,true);
 		} catch (FactoryConfigurationError e) {
 			usedToBeErrorMessageWindow(e);
 		
-		} catch (XMLStreamException e) {
-			usedToBeErrorMessageWindow(e);
-			
 		} catch (DynamoOutputException e) {
 			usedToBeErrorMessageWindow(e);
 			
@@ -94,10 +91,19 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public void dispatchProgressBar(){}
 	@Override
 	public Display getDisplay() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ProgressIndicatorInterface createProgressIndicator(String message,
+			Boolean indeterminate) {
+		ProgressIndicatorInterface instance = new ProgressLogger(message);
+		return instance; 
+	}
+
 }

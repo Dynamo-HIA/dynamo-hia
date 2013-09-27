@@ -1,0 +1,7 @@
+2012-11-08 21:14:15,421 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2012-11-08 21:14:51,250 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2012-11-08 21:14:52,718 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2012-11-15 17:11:46,312 FATAL [nl.rivm.emi.dynamo.ui.actions.ResultsObjFileAction] - Deserialized scenarioInfoObject is still null.
+2012-11-15 17:30:15,093 FATAL [nl.rivm.emi.dynamo.ui.actions.ResultsObjFileAction] - Deserialized scenarioInfoObject is still null.
+2012-11-15 17:30:34,625 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2012-11-15 17:30:40,906 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800

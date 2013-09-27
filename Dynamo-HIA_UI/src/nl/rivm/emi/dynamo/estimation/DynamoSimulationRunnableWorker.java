@@ -1,3 +1,4 @@
+
 package nl.rivm.emi.dynamo.estimation;
 
 import java.awt.event.ActionEvent;
@@ -24,6 +25,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * @author boshuizh
+ *
+ */
 public class DynamoSimulationRunnableWorker  implements Runnable{
 	private Log log;
 	private Simulation[] simulation;
@@ -39,6 +44,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 	private ModelParameters p;
 	private ScenarioInfo scen;
 	private int age;
+	private int generation;
 	private int g;
 	
 	private boolean newborns;
@@ -46,6 +52,21 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 	private DynamoOutputFactory output;
 	private Display display;
 
+	/** This runnables runs the simulation for one age and gender group and add the results to the output object
+	 *   it also updates the progress bar
+	 * 
+	 * @param display
+	 * @param log
+	 * @param pr
+	 * @param param
+	 * @param scenInfo
+	 * @param simFileName
+	 * @param output
+	 * @param age
+	 * @param g
+	 * @param generation
+	 * @param newborns
+	 */
 	public DynamoSimulationRunnableWorker(Display display, Log log, DynSimRunPRInterface pr, 
 			 ModelParameters param, ScenarioInfo scenInfo, String simFileName, 
 			 DynamoOutputFactory output, int age, int g, int generation, boolean newborns) {
@@ -56,10 +77,14 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 		this.p=param;
 		this.age=age;
 		this.g=g;
-		this.age=generation;
+		this.generation=generation;
 		this.newborns=newborns;
 		this.simFileName=simFileName;
 		this.output=output;
+		/* replace the seed in scenInfo, otherwise all age/sex groups are run with the same random seed */
+		long seed=scenInfo.getRandomSeed();
+		seed=(seed<<generation)+g*14132-age*11;
+		scenInfo.setRandomSeed(seed);
 		
 		
 	}
@@ -78,7 +103,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 					this.p, this.scen, this.pr);
 		
 	Population [] pop = popFactory.manufactureInitialPopulation(age, age, g,
-			g, age, age, false);
+			g, generation, generation, newborns);
 	log.debug("simulation pop made");
 	pop = runPopulation(pop, simFileName);
 	output.extractNumbersFromPopulation(pop);

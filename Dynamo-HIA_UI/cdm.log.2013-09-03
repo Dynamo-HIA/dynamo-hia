@@ -1,0 +1,2 @@
+2013-09-03 16:32:21,240 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Throwable caught: java.lang.UnsatisfiedLinkError with message: Cannot load 32-bit SWT libraries on 64-bit JVM
+2013-09-03 16:32:21,256 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occurred during startup: java.lang.Exception: java.lang.UnsatisfiedLinkError: Cannot load 32-bit SWT libraries on 64-bit JVM

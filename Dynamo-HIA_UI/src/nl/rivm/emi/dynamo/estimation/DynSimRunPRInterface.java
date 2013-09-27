@@ -8,7 +8,7 @@ import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 /**
  * @author mondeelr<br/>
  *         Interface that separates the calculations from the
- *         "public relations".<br/>
+ *         "public relations = the user interface".<br/>
  *         In the initial use-case the "public relations" are delivered through
  *         the RCP user interface, using graphical widgets.<br/>
  *         In the use-case for the batch-runner there will be no graphical
@@ -21,10 +21,13 @@ public interface DynSimRunPRInterface {
 	 * @return
 	 */
 	public ProgressIndicatorInterface createProgressIndicator(String message);
+
 	
+	public ProgressIndicatorInterface createProgressIndicator(String message, Boolean indeterminate);
 	
 	
 	public void updateProgressIndicator();
+
 
 	/**
 	 * @param e
@@ -60,9 +63,15 @@ public interface DynSimRunPRInterface {
  */
 public void createOutput( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
 
+
 public RCPProgressBar getBar();
 
 
 
 public Display getDisplay();
+
+
+
+public void dispatchProgressBar();
+
 }

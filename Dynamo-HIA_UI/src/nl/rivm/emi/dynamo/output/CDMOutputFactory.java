@@ -34,12 +34,16 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		return newCasesByOriRiskClassByOriAge[scen][step][d][r][a][g];
 	}
 
+
 	protected double[][][][][][] newCasesByOriRiskClassByOriAge;
 	
-	
+	public synchronized double[][][][][][] getNewCasesByOriRiskClassByOriAge() {
+		return newCasesByOriRiskClassByOriAge;
+	}
+
 
 	
-	public synchronized double[][][][][][] getNewCasesByRiskClassByAge(int scen, int step,int d, int r, int a, int g) {
+	public synchronized double[][][][][][] getNewCasesByRiskClassByAge() {
 		return newCasesByRiskClassByAge;
 	}
 	
@@ -52,6 +56,9 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	public synchronized double getMortalityByRiskClassByAge(int scen, int step, int r, int a, int g) {
 		return mortalityByRiskClassByAge[scen][step][r][a][g];
 	}
+	public synchronized double [][][][][] getMortalityByRiskClassByAge() {
+		return mortalityByRiskClassByAge;
+	}
 
 	public synchronized double getMortalityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
 		return mortalityByOriRiskClassByOriAge[scen][step][r][a][g];
@@ -60,7 +67,9 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	 * indexes: scenario, year in run, riskclass, age, sex ;
 	 */
 	protected double[][][][][] mortalityByOriRiskClassByOriAge;
-	
+	public synchronized double[][][][][] getMortalityByOriRiskClassByOriAge() {
+		return mortalityByOriRiskClassByOriAge;
+	}
 
 	public synchronized double getPDisabilityByOriRiskClassByOriAge(int scen, int step, int r, int a, int g) {
 		return pDisabilityByOriRiskClassByOriAge[scen][step][r][a][g];
@@ -309,7 +318,16 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 	protected double nDiseaseStateByOriRiskClassByOriAge[][][][][][];
 
+	public double[][][][][][] getNDiseaseStateByOriRiskClassByOriAge() {
+		return nDiseaseStateByOriRiskClassByOriAge;
+	}
+
 	public int nDiseaseStates;
+	
+	double[][][][][] makeDiseaseArray(double[][][][][][] stateArray,
+			int disease){
+		double[][][][][] returnarray = null;
+		return returnarray;}
 	
 
 	
@@ -319,6 +337,11 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 	public double getNDiseaseStateByOriRiskClassByOriAge(int scen, int step,int s, int r, int a, int g) {
 		return nDiseaseStateByOriRiskClassByOriAge[scen][step][s][r][a][g];
+	}
+	
+	
+	public double [][][][][][]getNDiseasesByOriRiskClassByOriAge() {
+		return null;
 	}
 /* ******************  POPULATION NUMBERS  ************************************************************/
 	/*  methods returning population number information */
@@ -398,7 +421,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		return this.nPopByOriRiskClassByOriAge;
 	}
 
-	public double[][][] getNTotDiseaseByOriAge(int age) {
+	public double[][][] getNTotFutureDiseaseByOriAge(int age) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -429,6 +452,9 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
+	
 	
 	
 	public double[][][] getPopDALY() {
@@ -472,6 +498,11 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	protected double[][][][] diseaseDALY;
 
 	protected double[][][] disabilityDALY;
+	public boolean[] scenTrans;
+
+	public boolean[] getScenTrans() {
+		return scenTrans;
+	}
 
 	public double[][][] getDiseaseDALY(int disease){
 		return null;
@@ -526,10 +557,40 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 			) {
 		this.meanRiskByOriRiskClassByOriAge [scen][step][r][a][g]=value;
 	}
-		
+
+	public double[][][] getNDiseaseByAgeInYear(int disease, int year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+
+
+	public double[][][][] getNDisabledByOriRiskClassByOriAge(int ageAtStart) {
+		
+		return null;
+	}
+
+ 
+
+	public double[][][][] getNTotalDiseaseByOriRiskClassByOriAge(int ageAtStart) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * get the array of diseaseNumbers by age at start of simulation and
+	 * riskclass at start of simulation for disease d.
+	 * 
+	 * @param d
+	 *            : diseasenumber of disease to return
+	 * @return: array with diseaseNumbers. indexes scenario, year of follow-up,
+	 *          risk factorclass, age, sex
+	 */
 	
+}
+	
+	
+
 	/* **************   mortality methods ****************************************/	
 
 	/* not present as mortality is calculated from population data in the plot object */
