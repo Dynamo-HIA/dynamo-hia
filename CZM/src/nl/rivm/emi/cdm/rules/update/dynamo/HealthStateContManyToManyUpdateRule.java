@@ -103,7 +103,7 @@ extends HealthStateManyToManyUpdateRule {
 			// wellicht doordat setter in andere classe dan deze??
 			if (getCharacteristicIndex() > 0)
 				setCharacteristicIndex(4);
-			float[] oldValue = getValues(currentValues,
+			float[] oldValue = getValues(currentValues, 
 					getCharacteristicIndex());
 			if (ageValue < 0) {
 				newValue = oldValue;

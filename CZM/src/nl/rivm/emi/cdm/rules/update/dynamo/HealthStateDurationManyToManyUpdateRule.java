@@ -28,7 +28,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class HealthStateDurationManyToManyUpdateRule
 
-extends HealthStateCatManyToManyUpdateRule {
+extends HealthStateCatManyToManyUpdateRule  {
 
 	int[][][] atIndex;
 	/*

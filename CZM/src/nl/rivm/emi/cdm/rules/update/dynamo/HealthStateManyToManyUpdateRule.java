@@ -34,7 +34,7 @@ import nl.rivm.emi.cdm.rules.update.base.DynamoManyToManyUpdateRuleBase;
 
 
 
-public class HealthStateManyToManyUpdateRule extends
+public class HealthStateManyToManyUpdateRule  extends
 		DynamoManyToManyUpdateRuleBase implements ConfigurationEntryPoint {
 	Log log = LogFactory.getLog(this.getClass().getName());
 

@@ -29,7 +29,7 @@ import org.apache.commons.configuration.tree.ConfigurationNode;
  * 
  */
 public class HealthStateCatManyToManyUpdateRule extends
-		HealthStateManyToManyUpdateRule {
+		HealthStateManyToManyUpdateRule  {
 
 	/**
 	 * @throws ConfigurationException

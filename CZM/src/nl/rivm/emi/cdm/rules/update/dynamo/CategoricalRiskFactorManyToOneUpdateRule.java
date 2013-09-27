@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
 		 * 
 		 */
  
-public class CategoricalRiskFactorManyToOneUpdateRule extends
+public class CategoricalRiskFactorManyToOneUpdateRule extends 
 		DynamoManyToOneUpdateRuleBase implements ConfigurationEntryPoint {
 
 	
