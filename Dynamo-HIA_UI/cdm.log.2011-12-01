@@ -1,6 +1,0 @@
-2011-12-01 23:00:04,265 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
-2011-12-01 23:00:05,812 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
-2011-12-01 23:00:05,875 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
-2011-12-01 23:00:05,921 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
-2011-12-01 23:01:09,921 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Exception caught: java.lang.NullPointerException with message: null
-2011-12-01 23:01:13,687 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occured during startup: java.lang.NullPointerException

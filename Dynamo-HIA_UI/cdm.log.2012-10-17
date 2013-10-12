@@ -1,2 +1,0 @@
-2012-10-17 21:14:56,265 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Exception caught: java.lang.SecurityException with message: class "org.eclipse.core.runtime.ISafeRunnable"'s signer information does not match signer information of other classes in the same package
-2012-10-17 21:14:56,281 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occured during startup: java.lang.SecurityException: class "org.eclipse.core.runtime.ISafeRunnable"'s signer information does not match signer information of other classes in the same package

@@ -1,8 +1,0 @@
-2011-09-21 09:13:32,843 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
-2011-09-21 09:13:34,640 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
-2011-09-21 09:13:34,734 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
-2011-09-21 09:13:34,750 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
-2011-09-21 09:59:12,578 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
-2011-09-21 09:59:13,609 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
-2011-09-21 09:59:13,656 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
-2011-09-21 09:59:13,687 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made

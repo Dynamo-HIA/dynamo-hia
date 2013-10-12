@@ -2567,6 +2567,29 @@ public class InputDataFactory {
 		double yearOfMedian;
 		double sumRate;
 
+		/* 2013 addition: median survival is the median survival of those have this age of diagnosis */
+		/* Survival of these persons can be expressed as the exp of the cummulative rate  during follow-up */
+		/* at the median survival survival = 1/2, thus -log(2)=-sum rates.  
+		 * As the median survival is for the average x year old person, so with age x+1/2 year, 
+		 * in the original version of DYNAMO the remaining rate*time was for only 0.5 year, so the remaining
+		 * rate*time needed to be multiplied by 2. This might have gone wrong because 
+		 * brackets were omitted from this formulae when inspected again
+		 * 
+		 * However, this approach is very sensitive to data that are not increasing
+		 * with age in the way that is expected, due to the multiplication with 2
+		 * that makes remaining rates sometimes very high
+		 * 
+		 * Therefore for DYNAMO-2 we first calculate the median survival at exact age x (by averaging that of age x and x-1)
+		 * this make the multiplication with 2 unnecessary
+		 * for age 0 with maintain the old method
+		 */
+		
+		
+		
+		 
+			/* the excess mortality at a certain age is the average excess mortality rate of all who survive to this age
+		 */
+		 
 		for (int g = 0; g < 2; g++) {
 			if (medianSurvival[95][g] == 0)
 				throw new DynamoInconsistentDataException(
@@ -2577,13 +2600,18 @@ public class InputDataFactory {
 			drate[95][g] = (log2 / medianSurvival[AGE_ARRAYSIZE-1][g]);
 			rate[95][g] = (float) drate[95][g];
 			for (int a = 94; a >= 0; a--) {
+				if (g==0 && a==63)
+				{
+					int hhh=0;
+					hhh++;
+				}
 				if (medianSurvival[a][g] == 0)
 					throw new DynamoInconsistentDataException(
 							"median survival of zero for disease "
 									+ diseaseLabel
 									+ " is not"
 									+ " possible: use the option 100% fatal fraction to model acutely fatal diseases");
-				medianAge = a + medianSurvival[a][g] + 0.5;
+				if (a==0) medianAge = a + medianSurvival[a][g] + 0.5; else medianAge = a + 0.5*(medianSurvival[a][g]+ medianSurvival[a-1][g]) ;
 				yearOfMedian = Math.floor(medianAge);
 				sumRate = 0;
 				int upper;
@@ -2602,7 +2630,9 @@ public class InputDataFactory {
 					else
 						sumRate += aaRate;
 				}
-				drate[a][g] = 2 * log2 - sumRate;
+				/* sumrate is over median duration +0.5, dus de resterende rate is over een half jaar */
+				/* dus rest = 0.5*rate, en dus is de rate 2*rest */
+				if (a==0) drate[a][g] = 2*(log2 - sumRate);else drate[a][g] = (log2 - sumRate);
 				if (drate[a][g] < 0)
 					throw new DynamoInconsistentDataException(
 							"median survival rates for age "

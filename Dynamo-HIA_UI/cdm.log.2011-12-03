@@ -1,7 +1,0 @@
-2011-12-03 22:13:15,687 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
-2011-12-03 22:13:17,031 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab risk factor made
-2011-12-03 22:13:17,093 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab diseases made
-2011-12-03 22:13:17,156 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - tab incidences made
-2011-12-03 22:16:35,687 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Exception caught: java.lang.NullPointerException with message: null
-2011-12-03 22:16:44,750 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occured during startup: java.lang.NullPointerException
-2011-12-03 22:46:49,609 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".

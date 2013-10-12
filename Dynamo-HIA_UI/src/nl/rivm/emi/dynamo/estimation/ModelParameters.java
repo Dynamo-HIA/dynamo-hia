@@ -747,9 +747,15 @@ public class ModelParameters {
 						prevalence[a] = inputData.getClusterData()[a][g][c]
 								.getPrevalence()[0];
 						newdata.setPrevalence(new float[2]);
+						/* if the prevalence is zero it should stay zero 
+						 * otherwise split the prevalence */
+						if (prevalence[a]!=0){
 						newdata.setPrevalence(
 								(float) (prevalence[a] - notCured[a]), 0);
-						newdata.setPrevalence((float) notCured[a], 1);
+						newdata.setPrevalence((float) notCured[a], 1);}
+						else {newdata.setPrevalence(
+								(float) 0, 0);
+						newdata.setPrevalence((float) 0, 1);}
 						inputData.setClusterData(newdata, a, g, c);
 					}
 
@@ -4743,7 +4749,7 @@ public class ModelParameters {
 					* inc[a - 1] - excessmort[a - 1]);
 			if ((1 - curedFraction[a - 1]) * inc[a - 1] != excessmort[a - 1])
 
-				notCuredPrev[a] = ((notCuredPrev[a - 1] * excessmort[a - 1] - (1 - curedFraction[a - 1])
+				 notCuredPrev[a] = ((notCuredPrev[a - 1] * excessmort[a - 1] - (1 - curedFraction[a - 1])
 						* inc[a - 1])
 						* expDifferenceIncExcessMort + (1 - curedFraction[a - 1])
 						* inc[a - 1] * (1 - notCuredPrev[a - 1]))
@@ -4751,6 +4757,7 @@ public class ModelParameters {
 								* inc[a - 1])
 								* expDifferenceIncExcessMort + excessmort[a - 1]
 								* (1 - notCuredPrev[a - 1]));
+				
 			/*
 			 * this should be checked on whether this is OK! moet formule worden
 			 * voor em=inc. hieronder is i=not cured

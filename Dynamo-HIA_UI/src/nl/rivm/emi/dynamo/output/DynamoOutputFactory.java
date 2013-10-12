@@ -2598,7 +2598,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	/**
 	 * combines from the stateArray the contributions for disease with
-	 * diseasenumber disease ,
+	 * diseasenjumber disease ,
 	 * 
 	 * @param stateArray
 	 * @param disease
@@ -2678,7 +2678,8 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 							for (int stepCount = 0; stepCount < dim2; stepCount++)
 								for (int a = 0; a < dim5; a++)
 									for (int g = 0; g < dim6; g++)
-										diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart][r][a][g];				}
+										diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart][r][a][g];
+				}
 				if (this.structure[c].getDiseaseNumber()[1] == disease) {
 					diseaseFound = true;
 
@@ -2690,7 +2691,6 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 										diseaseArray[scen][stepCount][r][a][g] = stateArray[scen][stepCount][currentClusterStart + 1][r][a][g];
 				}
 
-				
 				currentDisease += 2;
 
 				currentClusterStart += 2;

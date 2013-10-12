@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
+import java.awt.Toolkit;
+
 import nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper;
 
 import org.apache.commons.logging.Log;
