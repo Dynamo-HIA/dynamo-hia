@@ -566,11 +566,11 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 
 
 	public double[][][][] getNDisabledByOriRiskClassByOriAge(int ageAtStart) {
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
- 
+
 
 	public double[][][][] getNTotalDiseaseByOriRiskClassByOriAge(int ageAtStart) {
 		// TODO Auto-generated method stub
