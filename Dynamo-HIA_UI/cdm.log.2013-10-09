@@ -1,0 +1,14 @@
+2013-10-09 11:42:29,055 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-09 11:47:30,638 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerpancreas_cured is zero for age 20 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2013-10-09 11:47:34,059 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-09 11:47:35,455 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-10-09 11:47:36,411 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-10-09 11:47:36,412 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-10-09 11:47:36,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-10-09 11:47:36,712 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-10-09 11:47:39,586 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-10-09 11:47:41,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-10-09 11:47:52,643 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
