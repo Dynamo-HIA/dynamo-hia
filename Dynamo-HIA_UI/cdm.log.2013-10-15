@@ -1,0 +1,459 @@
+2013-10-15 10:06:00,109 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-15 10:06:00,126 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-15 10:06:00,126 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-15 10:06:00,126 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-15 10:06:17,918 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-15 10:06:21,273 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,273 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,274 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,305 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,305 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,305 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:21,305 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:06:32,898 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 0 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.007961489441328
+Mortality from diseases: 5.8131076946347544E-5 totalMort: 0.004064645160792798
+2013-10-15 10:06:32,899 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 1 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1415485379512094
+Mortality from diseases: 5.446645203501611E-5 totalMort: 2.656715808999443E-4
+2013-10-15 10:06:32,931 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerkidney_cured is zero for age 2 and gender 0
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2013-10-15 10:06:32,931 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1444681625454307
+Mortality from diseases: 5.223120837429722E-5 totalMort: 2.6452517892694075E-4
+2013-10-15 10:06:32,946 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.1329409265073038
+Mortality from diseases: 3.084512753106307E-5 totalMort: 1.5021590511000876E-4
+2013-10-15 10:06:32,946 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.2015346377142018
+Mortality from diseases: 5.1439448069025256E-5 totalMort: 2.039242910066823E-4
+2013-10-15 10:06:32,946 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.3398945656624672
+Mortality from diseases: 3.164666957134251E-5 totalMort: 7.451682853727891E-5
+2013-10-15 10:06:32,946 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6682985103267696
+Mortality from diseases: 5.174063212629341E-5 totalMort: 8.849685742950503E-5
+2013-10-15 10:06:32,946 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.2250763323426423
+Mortality from diseases: 2.8229390192154632E-5 totalMort: 6.498561549536625E-5
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2982389036191804
+Mortality from diseases: 3.2440786253985375E-5 totalMort: 8.65949606188231E-5
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3545404417470637
+Mortality from diseases: 5.2816201883481466E-5 totalMort: 1.415669043954129E-4
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1126466791367027
+Mortality from diseases: 2.753519135777125E-5 totalMort: 1.1628589386970268E-4
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2354419443765825
+Mortality from diseases: 3.321178065881093E-5 totalMort: 1.0854587123529998E-4
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6327819158783896
+Mortality from diseases: 5.449658943256499E-5 totalMort: 1.0056500857281178E-4
+2013-10-15 10:06:32,962 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1915722365333656
+Mortality from diseases: 2.732195284806438E-5 totalMort: 7.339037198831118E-5
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.3984918394631838
+Mortality from diseases: 3.4007329985710863E-5 totalMort: 7.503121532689095E-5
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3767713829372303
+Mortality from diseases: 5.667535123410069E-5 totalMort: 1.5048774748943432E-4
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1094722164994588
+Mortality from diseases: 2.7458264097087163E-5 totalMort: 1.2127066035242081E-4
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.423627284402833
+Mortality from diseases: 3.481308294443133E-5 totalMort: 7.396426731547084E-5
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3650741003902425
+Mortality from diseases: 5.817392147594085E-5 totalMort: 1.5949378470609735E-4
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.103266352193654
+Mortality from diseases: 2.75845867187159E-5 totalMort: 1.289044499488724E-4
+2013-10-15 10:06:32,977 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -1.4735295529696598E-5 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 2.1048310966289447
+Mortality from diseases: 3.556609196892833E-5 totalMort: 4.2986441008924865E-5
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.3074894415534204
+Mortality from diseases: 1.9282182027291436E-5 totalMort: 2.6702531067287978E-5
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.502088641032226
+Mortality from diseases: 5.931006572997175E-5 totalMort: 1.307888943038276E-4
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1394298407605536
+Mortality from diseases: 2.7732872346437563E-5 totalMort: 9.921170092029339E-5
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.4561423670149232
+Mortality from diseases: 3.633017390854293E-5 totalMort: 7.373507530435493E-5
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.1256227317228582
+Mortality from diseases: 1.9593561644600348E-5 totalMort: 5.699846304041235E-5
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.389074489656622
+Mortality from diseases: 6.03201592147284E-5 totalMort: 1.5926176634661917E-4
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1066407474668263
+Mortality from diseases: 2.793824090007288E-5 totalMort: 1.2687984803196365E-4
+2013-10-15 10:06:32,993 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.26404697568383
+Mortality from diseases: 3.721573691416292E-5 totalMort: 1.1340021544858171E-4
+2013-10-15 10:06:33,009 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 11 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1428512754822084
+Mortality from diseases: 2.4646400662652538E-5 totalMort: 8.176191909142649E-5
+2013-10-15 10:06:47,392 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 0
+2013-10-15 10:06:52,183 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:06:53,237 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 1
+2013-10-15 10:06:55,871 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:06:56,934 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 0
+2013-10-15 10:06:59,854 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:00,939 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 1
+2013-10-15 10:07:04,011 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:05,075 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 0
+2013-10-15 10:07:08,003 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:09,080 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 1
+2013-10-15 10:07:11,874 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:12,969 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 3 gender: 0
+2013-10-15 10:07:15,947 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:16,964 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 3 gender: 1
+2013-10-15 10:07:19,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:20,702 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 4 gender: 0
+2013-10-15 10:07:23,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:24,305 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 4 gender: 1
+2013-10-15 10:07:26,968 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:27,975 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 5 gender: 0
+2013-10-15 10:07:30,859 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:31,875 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 5 gender: 1
+2013-10-15 10:07:34,673 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:35,697 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 6 gender: 0
+2013-10-15 10:07:38,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:39,986 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 6 gender: 1
+2013-10-15 10:07:43,234 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:44,322 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 7 gender: 0
+2013-10-15 10:07:47,275 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:48,288 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 7 gender: 1
+2013-10-15 10:07:51,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:52,356 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 8 gender: 0
+2013-10-15 10:07:55,109 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:56,103 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 8 gender: 1
+2013-10-15 10:07:58,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:07:59,813 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 9 gender: 0
+2013-10-15 10:08:02,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:03,699 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 9 gender: 1
+2013-10-15 10:08:05,985 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:06,975 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 10 gender: 0
+2013-10-15 10:08:09,815 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:10,781 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 10 gender: 1
+2013-10-15 10:08:13,411 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:14,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 11 gender: 0
+2013-10-15 10:08:17,472 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:18,437 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 11 gender: 1
+2013-10-15 10:08:21,264 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:22,275 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 12 gender: 0
+2013-10-15 10:08:25,243 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:26,221 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 12 gender: 1
+2013-10-15 10:08:29,094 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:29,915 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 13 gender: 0
+2013-10-15 10:08:32,460 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:33,429 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 13 gender: 1
+2013-10-15 10:08:36,314 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:37,316 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 14 gender: 0
+2013-10-15 10:08:40,233 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:41,169 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 14 gender: 1
+2013-10-15 10:08:44,753 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:45,687 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 15 gender: 0
+2013-10-15 10:08:48,369 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:49,202 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 15 gender: 1
+2013-10-15 10:08:51,965 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:52,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 16 gender: 0
+2013-10-15 10:08:55,806 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:08:56,609 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 16 gender: 1
+2013-10-15 10:08:59,544 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:00,369 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 17 gender: 0
+2013-10-15 10:09:03,323 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:04,238 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 17 gender: 1
+2013-10-15 10:09:08,238 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:08,853 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 0
+2013-10-15 10:09:11,285 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:12,039 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 1
+2013-10-15 10:09:14,863 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:15,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 0
+2013-10-15 10:09:18,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:19,382 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 1
+2013-10-15 10:09:22,213 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:22,924 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 20 gender: 0
+2013-10-15 10:09:25,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:26,088 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 20 gender: 1
+2013-10-15 10:09:28,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:29,790 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 21 gender: 0
+2013-10-15 10:09:32,410 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:33,338 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,344 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,346 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,347 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,350 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,351 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,352 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,353 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,360 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,362 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,363 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,374 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,375 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,376 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,378 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:09:33,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 21 gender: 1
+2013-10-15 10:09:36,104 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:36,978 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 22 gender: 0
+2013-10-15 10:09:39,831 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:40,884 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 22 gender: 1
+2013-10-15 10:09:43,666 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:44,563 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 23 gender: 0
+2013-10-15 10:09:47,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:48,180 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 23 gender: 1
+2013-10-15 10:09:51,034 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:51,880 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 24 gender: 0
+2013-10-15 10:09:54,597 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:55,310 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 24 gender: 1
+2013-10-15 10:09:58,122 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:09:58,976 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 25 gender: 0
+2013-10-15 10:10:01,689 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:02,559 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 25 gender: 1
+2013-10-15 10:10:05,435 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:06,306 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 26 gender: 0
+2013-10-15 10:10:09,130 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:09,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 26 gender: 1
+2013-10-15 10:10:12,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:13,626 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 27 gender: 0
+2013-10-15 10:10:16,443 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:17,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 27 gender: 1
+2013-10-15 10:10:20,141 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:20,928 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 28 gender: 0
+2013-10-15 10:10:23,798 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:25,489 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 28 gender: 1
+2013-10-15 10:10:28,231 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:29,096 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 29 gender: 0
+2013-10-15 10:10:31,927 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:32,751 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 29 gender: 1
+2013-10-15 10:10:35,523 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:36,292 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 30 gender: 0
+2013-10-15 10:10:39,068 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:39,814 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 30 gender: 1
+2013-10-15 10:10:42,697 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:43,537 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 31 gender: 0
+2013-10-15 10:10:46,339 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:46,962 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 31 gender: 1
+2013-10-15 10:10:49,837 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:50,723 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 32 gender: 0
+2013-10-15 10:10:53,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:54,336 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 32 gender: 1
+2013-10-15 10:10:57,092 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:10:59,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,405 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,406 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,408 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,409 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,410 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,411 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,413 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,414 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,415 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,417 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,418 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,420 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,422 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,423 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,424 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:10:59,426 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:00,172 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-15 10:12:00,188 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-15 10:12:00,189 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-15 10:12:00,189 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-15 10:12:19,241 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,627 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:22,628 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:12:43,730 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 0 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.007961489441328
+Mortality from diseases: 5.8131076946347544E-5 totalMort: 0.004064645160792798
+2013-10-15 10:12:43,731 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 1 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1415485379512094
+Mortality from diseases: 5.446645203501611E-5 totalMort: 2.656715808999443E-4
+2013-10-15 10:12:43,762 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerkidney_cured is zero for age 2 and gender 0
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2013-10-15 10:12:43,762 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1444681625454307
+Mortality from diseases: 5.223120837429722E-5 totalMort: 2.6452517892694075E-4
+2013-10-15 10:12:43,762 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.1329409265073038
+Mortality from diseases: 3.084512753106307E-5 totalMort: 1.5021590511000876E-4
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.2015346377142018
+Mortality from diseases: 5.1439448069025256E-5 totalMort: 2.039242910066823E-4
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.3398945656624672
+Mortality from diseases: 3.164666957134251E-5 totalMort: 7.451682853727891E-5
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6682985103267696
+Mortality from diseases: 5.174063212629341E-5 totalMort: 8.849685742950503E-5
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.2250763323426423
+Mortality from diseases: 2.8229390192154632E-5 totalMort: 6.498561549536625E-5
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2982389036191804
+Mortality from diseases: 3.2440786253985375E-5 totalMort: 8.65949606188231E-5
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3545404417470637
+Mortality from diseases: 5.2816201883481466E-5 totalMort: 1.415669043954129E-4
+2013-10-15 10:12:43,778 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1126466791367027
+Mortality from diseases: 2.753519135777125E-5 totalMort: 1.1628589386970268E-4
+2013-10-15 10:12:43,793 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2354419443765825
+Mortality from diseases: 3.321178065881093E-5 totalMort: 1.0854587123529998E-4
+2013-10-15 10:12:43,793 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6327819158783896
+Mortality from diseases: 5.449658943256499E-5 totalMort: 1.0056500857281178E-4
+2013-10-15 10:12:43,793 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1915722365333656
+Mortality from diseases: 2.732195284806438E-5 totalMort: 7.339037198831118E-5
+2013-10-15 10:12:43,793 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.3984918394631838
+Mortality from diseases: 3.4007329985710863E-5 totalMort: 7.503121532689095E-5
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3767713829372303
+Mortality from diseases: 5.667535123410069E-5 totalMort: 1.5048774748943432E-4
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1094722164994588
+Mortality from diseases: 2.7458264097087163E-5 totalMort: 1.2127066035242081E-4
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.423627284402833
+Mortality from diseases: 3.481308294443133E-5 totalMort: 7.396426731547084E-5
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3650741003902425
+Mortality from diseases: 5.817392147594085E-5 totalMort: 1.5949378470609735E-4
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.103266352193654
+Mortality from diseases: 2.75845867187159E-5 totalMort: 1.289044499488724E-4
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -1.4735295529696598E-5 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 2.1048310966289447
+Mortality from diseases: 3.556609196892833E-5 totalMort: 4.2986441008924865E-5
+2013-10-15 10:12:43,809 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.3074894415534204
+Mortality from diseases: 1.9282182027291436E-5 totalMort: 2.6702531067287978E-5
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.502088641032226
+Mortality from diseases: 5.931006572997175E-5 totalMort: 1.307888943038276E-4
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1394298407605536
+Mortality from diseases: 2.7732872346437563E-5 totalMort: 9.921170092029339E-5
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.4561423670149232
+Mortality from diseases: 3.633017390854293E-5 totalMort: 7.373507530435493E-5
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.1256227317228582
+Mortality from diseases: 1.9593561644600348E-5 totalMort: 5.699846304041235E-5
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.389074489656622
+Mortality from diseases: 6.03201592147284E-5 totalMort: 1.5926176634661917E-4
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1066407474668263
+Mortality from diseases: 2.793824090007288E-5 totalMort: 1.2687984803196365E-4
+2013-10-15 10:12:43,825 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.26404697568383
+Mortality from diseases: 3.721573691416292E-5 totalMort: 1.1340021544858171E-4
+2013-10-15 10:12:43,840 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 11 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1428512754822084
+Mortality from diseases: 2.4646400662652538E-5 totalMort: 8.176191909142649E-5
+2013-10-15 10:13:02,604 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:13:03,772 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-10-15 10:13:07,904 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-10-15 10:13:07,904 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-10-15 10:13:07,945 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 90167.19 ninsim  3
+2013-10-15 10:13:07,946 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  3.0   90167.185546875
+2013-10-15 10:13:07,946 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  0.0   0.0
+2013-10-15 10:13:07,947 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  0.0   0.0
+2013-10-15 10:13:07,947 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 92729.35 ninsim  3
+2013-10-15 10:13:07,952 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 85791.81 ninsim  3
+2013-10-15 10:13:07,952 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 88229.65 ninsim  3
+2013-10-15 10:13:08,339 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-10-15 10:13:08,423 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-10-15 10:13:11,123 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-10-15 10:13:13,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-10-15 10:14:02,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2013-10-15 10:39:12,662 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-15 10:39:12,677 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-15 10:39:12,678 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-15 10:39:12,678 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-15 10:39:28,230 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-15 10:39:43,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:39:43,083 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-10-15 10:47:14,738 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 0 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.007961489441328
+Mortality from diseases: 5.8131076946347544E-5 totalMort: 0.004064645160792798
+2013-10-15 10:47:26,205 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 1 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1415485379512094
+Mortality from diseases: 5.446645203501611E-5 totalMort: 2.656715808999443E-4
+2013-10-15 10:47:26,236 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerkidney_cured is zero for age 2 and gender 0
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2013-10-15 10:47:26,236 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.1444681625454307
+Mortality from diseases: 5.223120837429722E-5 totalMort: 2.6452517892694075E-4
+2013-10-15 10:47:26,251 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 2 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.1329409265073038
+Mortality from diseases: 3.084512753106307E-5 totalMort: 1.5021590511000876E-4
+2013-10-15 10:47:26,251 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.2015346377142018
+Mortality from diseases: 5.1439448069025256E-5 totalMort: 2.039242910066823E-4
+2013-10-15 10:47:26,252 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 3 sex: 1 riskclass: 1 old RR: 1.0199999809265137 new RR: 1.3398945656624672
+Mortality from diseases: 3.164666957134251E-5 totalMort: 7.451682853727891E-5
+2013-10-15 10:47:26,252 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6682985103267696
+Mortality from diseases: 5.174063212629341E-5 totalMort: 8.849685742950503E-5
+2013-10-15 10:47:26,252 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.2250763323426423
+Mortality from diseases: 2.8229390192154632E-5 totalMort: 6.498561549536625E-5
+2013-10-15 10:47:26,252 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 4 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2982389036191804
+Mortality from diseases: 3.2440786253985375E-5 totalMort: 8.65949606188231E-5
+2013-10-15 10:47:26,253 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3545404417470637
+Mortality from diseases: 5.2816201883481466E-5 totalMort: 1.415669043954129E-4
+2013-10-15 10:47:26,279 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1126466791367027
+Mortality from diseases: 2.753519135777125E-5 totalMort: 1.1628589386970268E-4
+2013-10-15 10:47:26,282 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 5 sex: 1 riskclass: 1 old RR: 1.0199899673461914 new RR: 1.2354419443765825
+Mortality from diseases: 3.321178065881093E-5 totalMort: 1.0854587123529998E-4
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.6327819158783896
+Mortality from diseases: 5.449658943256499E-5 totalMort: 1.0056500857281178E-4
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1915722365333656
+Mortality from diseases: 2.732195284806438E-5 totalMort: 7.339037198831118E-5
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 6 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.3984918394631838
+Mortality from diseases: 3.4007329985710863E-5 totalMort: 7.503121532689095E-5
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3767713829372303
+Mortality from diseases: 5.667535123410069E-5 totalMort: 1.5048774748943432E-4
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1094722164994588
+Mortality from diseases: 2.7458264097087163E-5 totalMort: 1.2127066035242081E-4
+2013-10-15 10:47:26,320 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 7 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.423627284402833
+Mortality from diseases: 3.481308294443133E-5 totalMort: 7.396426731547084E-5
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.3650741003902425
+Mortality from diseases: 5.817392147594085E-5 totalMort: 1.5949378470609735E-4
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.103266352193654
+Mortality from diseases: 2.75845867187159E-5 totalMort: 1.289044499488724E-4
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -1.4735295529696598E-5 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 2.1048310966289447
+Mortality from diseases: 3.556609196892833E-5 totalMort: 4.2986441008924865E-5
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 8 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.3074894415534204
+Mortality from diseases: 1.9282182027291436E-5 totalMort: 2.6702531067287978E-5
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.502088641032226
+Mortality from diseases: 5.931006572997175E-5 totalMort: 1.307888943038276E-4
+2013-10-15 10:47:26,351 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1394298407605536
+Mortality from diseases: 2.7732872346437563E-5 totalMort: 9.921170092029339E-5
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.4561423670149232
+Mortality from diseases: 3.633017390854293E-5 totalMort: 7.373507530435493E-5
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 9 sex: 1 riskclass: 2 old RR: 1.0199799537658691 new RR: 1.1256227317228582
+Mortality from diseases: 1.9593561644600348E-5 totalMort: 5.699846304041235E-5
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 1 old RR: 2.680000066757202 new RR: 1.389074489656622
+Mortality from diseases: 6.03201592147284E-5 totalMort: 1.5926176634661917E-4
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1066407474668263
+Mortality from diseases: 2.793824090007288E-5 totalMort: 1.2687984803196365E-4
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 10 sex: 1 riskclass: 1 old RR: 1.0199799537658691 new RR: 1.26404697568383
+Mortality from diseases: 3.721573691416292E-5 totalMort: 1.1340021544858171E-4
+2013-10-15 10:47:26,366 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 11 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1428512754822084
+Mortality from diseases: 2.4646400662652538E-5 totalMort: 8.176191909142649E-5
+2013-10-15 10:47:46,842 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-15 10:47:48,054 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-10-15 10:47:52,652 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-10-15 10:47:52,652 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-10-15 10:47:52,696 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 90167.19 ninsim  3
+2013-10-15 10:47:52,696 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  3.0   90167.185546875
+2013-10-15 10:47:52,697 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  0.0   0.0
+2013-10-15 10:47:52,699 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 30055.729  0.0   0.0
+2013-10-15 10:47:52,699 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 92729.35 ninsim  3
+2013-10-15 10:47:52,706 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 85791.81 ninsim  3
+2013-10-15 10:47:52,707 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 88229.65 ninsim  3
+2013-10-15 10:47:53,118 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-10-15 10:47:53,212 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-10-15 10:47:55,087 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-10-15 10:47:57,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-10-15 10:48:43,997 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
