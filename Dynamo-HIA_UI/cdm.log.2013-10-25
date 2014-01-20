@@ -1,0 +1,91 @@
+2013-10-25 13:48:42,592 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 13:48:42,639 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 13:48:42,639 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 13:48:42,639 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 13:49:23,736 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-25 13:49:41,873 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-25 13:49:43,678 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-10-25 13:49:44,462 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-10-25 13:49:44,463 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-10-25 13:49:44,577 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,578 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,579 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,579 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 13:49:44,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-10-25 13:49:44,715 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-10-25 13:49:46,921 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-10-25 13:49:48,002 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-10-25 13:49:58,823 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2013-10-25 13:50:14,069 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-25 13:50:14,070 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-25 13:50:14,071 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-25 14:01:07,963 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:01:07,964 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:01:07,995 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:01:07,995 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:01:31,045 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-25 14:18:59,379 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:18:59,380 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:18:59,380 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:18:59,380 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:19:23,790 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-25 14:23:28,394 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:23:28,395 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:23:28,426 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:23:28,426 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:46:31,819 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:46:31,820 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:46:31,820 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:46:31,820 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:46:43,114 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Throwable caught: java.lang.Error with message: Unresolved compilation problems: 
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+
+2013-10-25 14:46:43,114 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occurred during startup: java.lang.Exception: java.lang.Error: Unresolved compilation problems: 
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+	AbstractUIPlugin cannot be resolved
+
+2013-10-25 14:52:51,600 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:52:51,601 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:52:51,601 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:52:51,601 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:53:31,521 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-25 14:53:31,537 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-25 14:53:31,537 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-25 14:53:31,537 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\DYNAMO-HIA\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-25 14:53:48,308 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-25 14:53:55,594 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-10-25 14:53:56,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-10-25 14:53:57,062 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-10-25 14:53:57,062 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-10-25 14:53:57,078 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 14:53:57,078 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 14:53:57,078 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 14:53:57,078 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 14:53:57,094 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 0.0  0.0   0.0
+2013-10-25 14:53:57,172 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-10-25 14:53:57,172 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-10-25 14:53:58,529 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-10-25 14:54:00,417 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-10-25 14:54:01,323 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written

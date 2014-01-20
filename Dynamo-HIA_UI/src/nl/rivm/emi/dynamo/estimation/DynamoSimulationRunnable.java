@@ -268,7 +268,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				}
 				pii.dispose();
 				output = runPopulation(pop, simFileName, output);
-				log.fatal("population has run");
+				log.info("population has run");
 
 	
 			} else {
@@ -288,7 +288,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					pii.setMaximum(agemax*2 - agemin*2 + 2 + 2*scen.getYearsInRun());
 				for (int a = agemin; a <= agemax; a++) {
 					for (int g = 0; g < 2; g++) {
-						log.fatal("simulation start for age:: "+a+" gender: "+ g);
+						log.info("simulation start for age:: "+a+" gender: "+ g);
 						
 						DynamoSimulationRunnableWorker worker =new DynamoSimulationRunnableWorker(pr.getDisplay(),log, 
 								pr,   p, scen, simFileName, output, a, g, 1, false);
@@ -319,7 +319,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 						
 					//	pop = popFactory.manufactureInitialPopulation(a, a, g,
 					//			g, 1, 1, false);
-					//	log.fatal("simulation pop made");
+					//	log.("simulation pop made");
 					//	output = runPopulation(pop, simFileName, output);
 					}
 					
@@ -354,11 +354,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 							worker.run();
 							/* flush the event queue as it otherwise does not work */
 							while(pr.getDisplay().readAndDispatch()){};
-							log.fatal("newborn simulation start for generation: "+generation+" gender: "+ g);
+							log.info("newborn simulation start for generation: "+generation+" gender: "+ g);
 
 						//	pop = popFactory.manufactureInitialPopulation(0, 0,
 						//			g, g, generation, generation, true);
-							log.fatal("start simulation newborns");
+							log.info("start simulation newborns");
 						//	output = runPopulation(pop, simFileName, output);
 						}
 						
@@ -387,7 +387,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			output.makeArraysWithPopulationNumbers();
 
-			log.fatal("output object finalized");
+			log.info("output object finalized");
 			// log.fatal("Starting to write populations");
 			// for (int npop = 0; npop < nPopulations; npop++) {
 			// String iniPopFileName = directoryName + File.separator
@@ -411,11 +411,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// }
 			/* temporarily disabled for testing */
 			pr.createOutput(output, scenParms, currentPath);
-			log.fatal("output created");
+			log.info("output created");
 			pii.dispose();
 			/* write the output object to a file */
 			persistDynamoOutputFactory(output);
-			log.fatal("output written");
+			log.info("output written");
 			persistScenarioInfo(scenParms);
 			// persistPopulationArray(pop);
 		} catch (DynamoConfigurationException e) {
@@ -538,7 +538,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			}
 		}
 		output.extractNumbersFromPopulation(pop);
-		log.fatal("numbers are extracted");
+		log.info("numbers are extracted");
 		return output;
 	}
 
@@ -824,7 +824,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	public void runScenario(int populationNum, DynSimRunPRInterface dsi)
 			throws Exception {
 
-		log.fatal("start of runScenario for scen " + populationNum);
+		log.info("start of runScenario for scen " + populationNum);
 		Population population = simulation[populationNum].getPopulation();
 		int stepsInRun = 105;
 
@@ -880,7 +880,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					currentProgressIndicator++;
 				}
 		}
-		log.fatal("end simulation");
+		log.info("end simulation");
 		if (runInOne)
 			dsi.dispatchProgressBar();
 	}

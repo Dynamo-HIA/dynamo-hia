@@ -1,0 +1,69 @@
+2013-10-24 11:21:47,031 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-10-24 11:21:47,048 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-10-24 11:21:47,048 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-10-24 11:21:47,048 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-10-24 11:22:21,126 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-10-24 11:22:43,585 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-24 11:22:43,585 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-24 11:22:43,585 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-24 11:24:05,890 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-24 11:24:05,891 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-24 11:24:05,891 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-24 11:24:55,673 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-24 11:24:55,674 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-24 11:24:55,674 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-24 11:26:30,587 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-24 11:26:30,588 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-24 11:26:30,588 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-24 12:37:16,182 ERROR [nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+2013-10-24 12:37:16,182 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+
+2013-10-24 12:37:16,182 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Caught Exception of type: org.apache.commons.configuration.ConfigurationException with message: Cannot locate configuration source size.xmlfrom file R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Reference_Data\Populations\Emptyness2BFilled\size.xml
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:903)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:101)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2013-10-24 12:47:22,787 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Throwable caught: java.lang.UnsatisfiedLinkError with message: Cannot load 64-bit SWT libraries on 32-bit JVM
+2013-10-24 12:47:22,787 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occurred during startup: java.lang.Exception: java.lang.UnsatisfiedLinkError: Cannot load 64-bit SWT libraries on 32-bit JVM
+2013-10-24 12:50:38,305 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Throwable caught: java.lang.UnsatisfiedLinkError with message: Cannot load 64-bit SWT libraries on 32-bit JVM
+2013-10-24 12:50:38,321 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occurred during startup: java.lang.Exception: java.lang.UnsatisfiedLinkError: Cannot load 64-bit SWT libraries on 32-bit JVM

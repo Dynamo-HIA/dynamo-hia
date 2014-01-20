@@ -262,7 +262,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 	public void runScenario(int populationNum, DynSimRunPRInterface dsi)
 			throws Exception {
 
-		log.fatal("start of runScenario for scen "+populationNum);
+		log.info("start of runScenario for scen "+populationNum);
 		Population population = simulation[populationNum].getPopulation();
 		int stepsInRun = 105;
 

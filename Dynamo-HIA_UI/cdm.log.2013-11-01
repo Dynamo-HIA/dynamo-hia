@@ -1,0 +1,88 @@
+2013-11-01 12:59:02,484 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_ReferenceScenario.xml" suppressed: Size: "9239761" larger than current test can endure.
+2013-11-01 12:59:02,501 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_ReferenceScenario.xml" suppressed: Size: "9156645" larger than current test can endure.
+2013-11-01 12:59:02,501 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_men_BMImax.xml" suppressed: Size: "8263719" larger than current test can endure.
+2013-11-01 12:59:02,501 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V270241 VTV-2014\04 Uitvoering\Werkgroep Methodologie\DYNAMO\Dynamo Input\Simulations\BMI\results\yeardata_women_BMImax.xml" suppressed: Size: "8359471" larger than current test can endure.
+2013-11-01 12:59:25,573 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,058 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,059 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:28,059 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2013-11-01 12:59:34,673 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 0 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,673 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 1 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,673 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 2 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,673 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 3 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,689 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 4 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,689 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 5 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,690 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 6 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,690 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 7 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,690 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 8 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,705 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 9 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,721 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 10 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,721 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 11 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,721 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 12 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,721 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 13 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,737 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 14 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,737 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_cured is zero for age 15 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2013-11-01 12:59:34,737 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 15 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:34,737 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease cancerbreast_notcured is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2013-11-01 12:59:48,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2013-11-01 13:00:04,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2013-11-01 13:00:28,184 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2013-11-01 13:00:28,184 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 90167.19 ninsim  102
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 883.992  93.67054319381714   82804.01123062693
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 883.992  7.228884696960449   6390.276272803021
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 883.992  0.43197697401046753   381.8641911077975
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - wordt: 883.992  0.6685923933982849   591.0303299630868
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 92729.35 ninsim  102
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 85791.81 ninsim  101
+2013-11-01 13:00:28,216 FATAL [nl.rivm.emi.dynamo.output.DynamoOutputFactory] - stepCount2 orginal number: 88229.65 ninsim  101
+2013-11-01 13:00:28,435 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2013-11-01 13:00:28,450 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2013-11-01 13:00:30,478 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2013-11-01 13:00:31,790 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2013-11-01 13:00:51,322 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written

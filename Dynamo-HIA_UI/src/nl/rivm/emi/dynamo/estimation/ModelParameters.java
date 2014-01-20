@@ -1205,6 +1205,7 @@ public class ModelParameters {
 		}
 		if (Math.abs(totalAbilityFromRiskFactor
 				+ (double) inputData.getOverallDalyWeight()[age][sex] - 1) > 0.0001)
+		{
 			log
 					.fatal(" bug in program when calculating baseline disablity odds. Total disability given"
 							+ " bij user = "
@@ -1212,6 +1213,13 @@ public class ModelParameters {
 							+ " but calculated"
 							+ "from baselineDisabilityOdds = "
 							+ (1 - totalAbilityFromRiskFactor));
+			throw new DynamoInconsistentDataException(" bug in program when calculating baseline disablity odds. Total disability given"
+					+ " bij user = "
+					+ (double) inputData.getOverallDalyWeight()[age][sex]
+					+ " but calculated"
+					+ "from baselineDisabilityOdds = "
+					+ (1 - totalAbilityFromRiskFactor));
+			}
 
 		// //////////////////////////////////////////////einde first loop
 		// /////////////////////////////
@@ -2502,7 +2510,7 @@ public class ModelParameters {
 		for (int d = 0; d < nDiseases; d++)
 			if (excessMortality[d] > 0 && diseasePrevalence[d] == 0) {
 				log
-						.fatal("WARNING:\nExcess mortality of disease "
+						.warn("WARNING:\nExcess mortality of disease "
 								+ diseaseNames[d]
 								+ " is not zero for age "
 								+ age
@@ -2613,7 +2621,7 @@ public class ModelParameters {
 			if (otherMort[i] > 0)
 				logOtherMort[i] = Math.log(otherMort[i]);
 			else {
-				this.log.fatal("negative other mortality  = " + otherMort[i]
+				this.log.warn("negative other mortality  = " + otherMort[i]
 						+ " for person  " + i + " for riskclass "
 						+ riskclass[i] + " and for riskfactor " + riskfactor[i]
 						+ " age: " + age + " sex: " + sex);
@@ -2856,7 +2864,7 @@ public class ModelParameters {
 					if (beta[0] > 0)
 						this.relRiskOtherMort[age][sex][indexForCategories[j]] = (float) ((beta[j] + beta[0]) / beta[0]);
 					else {
-						log.fatal("zero or negative baseline other mortality: "
+						log.warn("zero or negative baseline other mortality: "
 								+ beta[0] + " therefore RR set to 1");
 						this.relRiskOtherMort[age][sex][indexForCategories[j]] = 0;
 					}
@@ -2947,7 +2955,7 @@ public class ModelParameters {
 									&& beginRR <= RRdurationclass && endRR != -1))
 						beginRR = -1;
 					if (!oneDuration && Math.abs(sumDif) > 0.00001) {
-						log.fatal("age: " + age + " sex: " + sex);
+						log.warn("age: " + age + " sex: " + sex);
 						try {
 
 							beta = nonLinearDurationRegression(ydata, xdata,
@@ -3181,7 +3189,7 @@ public class ModelParameters {
 
 						if (!success) {
 
-							this.log.fatal(e.getMessage());
+							this.log.warn(e.getMessage());
 							displayWarningMessage(
 									"WARNING: \n"
 											+ e.getMessage()
@@ -3319,7 +3327,7 @@ public class ModelParameters {
 
 			if (Math.abs(relRiskMort[i] - RRmort) > 0.1)
 				this.log
-						.fatal("WARNING: RR used for mortality differs from RR given for age: "
+						.warn("WARNING: RR used for mortality differs from RR given for age: "
 								+ age
 								+ " sex: "
 								+ sex
@@ -3945,7 +3953,7 @@ public class ModelParameters {
 		{
 			/* displayWarningMessage */
 			log
-					.fatal("WARNING:\nExcess mortality of disease "
+					.warn("WARNING:\nExcess mortality of disease "
 							+ diseaseNames[d]
 							+ " is zero for age "
 							+ age
@@ -4500,13 +4508,13 @@ public class ModelParameters {
 				break;
 			else if (iter == 499)
 				this.log
-						.fatal("ERROR: non-linear regression other cause mortality did not converge in 500 iterations "
+						.warn("ERROR: non-linear regression other cause mortality did not converge in 500 iterations "
 								+ " results: alpha "
 								+ currentAlpha
 								+ " RR end "
 								+ currentRRend
 								+ " RR begin "
-								+ currentRRbegin + " criterium = " + Criterium);
+								+ currentRRbegin + " criterium = " + Criterium +"\n WARNING: results are used nevertheless");
 		}
 		result[0] = currentRRbegin;
 		result[1] = currentRRend;
