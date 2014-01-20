@@ -143,10 +143,12 @@ public class RiskFactorDurationMultiToOneUpdateRule extends
 		try {
 			int readCharacteristicIndex = simulationConfiguration
 					.getInt(charIDLabel);
-			if (characteristicIndex != readCharacteristicIndex)
+			if (characteristicIndex != readCharacteristicIndex){
 				log
 						.fatal("the characteristics number in the rule-configuration file does not match"
 								+ "the expected value of 4 in the duration update rule");
+			throw new ConfigurationException("the characteristics number in the rule-configuration file does not match"
+					+ "the expected value of 4 in the duration update rule");}
 
 		} catch (NoSuchElementException e) {
 			throw new ConfigurationException(

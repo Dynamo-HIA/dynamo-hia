@@ -712,14 +712,17 @@ public class HealthStateManyToManyUpdateRule  extends
 
 		}// end loop over diseases
 
-		if (diseaseRead != getNDiseases())
+		if (diseaseRead != getNDiseases()){
 			log
 					.fatal("Number of disease read ("
 							+ diseaseRead
 							+ "does not agree with number of diseases as given in XML file"
 							+ getNDiseases());
-		// TODO gooi exception
-	}
+		throw new CDMConfigurationException("Number of disease read ("
+				+ diseaseRead
+				+ ") does not agree with number of diseases as given in XML file: "
+				+ getNDiseases());
+	}}
 
 	/**
 	 * this method reads in the number of categories of a categorical covariate

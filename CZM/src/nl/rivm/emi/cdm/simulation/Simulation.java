@@ -477,7 +477,7 @@ public class Simulation extends DomLevelTraverser {
 						if (DALYSCEN && charVal.getNumberFilled()==1){
 							 String label=individual.getLabel();
 							
-							 log.fatal(" in breakarea ");
+							 log.debug(" in breakarea ");
 							 /* split at the place of the  underscore 			 */
 							 /* elements are: "ind", indno, currentriskfactor, duration or to (optional), new Value of DALY */
 							 String delims="_";
@@ -526,7 +526,7 @@ public class Simulation extends DomLevelTraverser {
 						if (DALYSCEN && charVal.getNumberFilled()==1){
 							 String label=individual.getLabel();
 							
-							 log.fatal(" in breakarea ");
+							 log.debug(" in breakarea ");
 							 /* split at the place of the  underscore 			 */
 							 /* elements are: "ind", indno, currentriskfactor, duration or to (optional), new Value of DALY */
 							 String delims="_";
@@ -635,7 +635,20 @@ public class Simulation extends DomLevelTraverser {
 						 * ((ManyToOneUpdateRuleBase) updateRule)
 						 * .update(charVals);
 						 */
-
+						if (individual.getLabel().equals("ind_1701_ref")  && oldValue==1)
+						{ int ii=0;
+						
+						
+						ii++;
+						
+						}
+						if (individual.getLabel().equals("ind_1701_0.0_1") && oldValue==1)
+						{ int ii=0;
+						
+						
+						ii++;
+						
+						}
 						Long seed = individual.getRandomNumberGeneratorSeed();
 						Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
 								.update(charVals, seed);
@@ -695,6 +708,8 @@ public class Simulation extends DomLevelTraverser {
 							 * ((ManyToOneUpdateRuleBase) updateRule)
 							 * .update(charVals);
 							 */
+							
+							
 							Long seed = individual
 									.getRandomNumberGeneratorSeed();
 							Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
