@@ -1,4 +1,6 @@
 package nl.rivm.emi.dynamo.estimation;
+
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 //* Simple algorithm for numerical recipies in C  //
 
 
@@ -25,7 +27,7 @@ public class Simplx {
 // er zit een goto in die anders moet worden georganiseerd. */
 	
 	
-	public Simplx(double[][]ainput,int m, int n, int m1, int m2, int m3) {
+	public Simplx(double[][]ainput,int m, int n, int m1, int m2, int m3) throws DynamoConfigurationException {
 
 		// Here EPS is the absolute precision, which should be adjusted to the
 		// scale of your variables.
@@ -77,7 +79,8 @@ public class Simplx {
 		double q1 = 0;
 		double bmax = 0;
 		if (m != (m1 + m2 + m3))
-			System.out.println("Bad input constraint counts in simplx");
+			throw new DynamoConfigurationException("Error in simplex algorithm: Bad input constraint counts in simplx. \nThis might be caused by zero prevalence of consequative riskfactor categories");
+			
 		int[] l1 = new int[n + 2];
 		int[] l2 = new int[m+1]; //  indexes hier een hoger maken  (vanwege start bij 1 ipv 0)
 		int[] l3 = new int[m+1]; // alle loops hier hebben ook <= als stop conditie ipv <
@@ -89,7 +92,7 @@ public class Simplx {
 		nl2 = m; // Make all artificial variables left-hand,
 		for (i = 1; i <= m; i++) { // and initialize those lists.
 			if (a[i + 1][1] < 0.0)
-				System.out.println("Bad input tableau in simplx");
+				throw new DynamoConfigurationException("Error in simplex algorithm: Bad input tableau in simplx.");
 			// Constants bi must be nonnegative.
 			l2[i] = i;
 			iposv[i] = n + i;
@@ -314,7 +317,7 @@ public class Simplx {
 	}
 
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws DynamoConfigurationException
 
 	{
 	//test: this should give the solution: eerste var: 15, tweede 22.5. maximum = -45

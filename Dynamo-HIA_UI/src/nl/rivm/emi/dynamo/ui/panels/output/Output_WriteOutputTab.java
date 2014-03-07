@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
+import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.CSVLEwriter;
@@ -99,7 +100,7 @@ public class Output_WriteOutputTab {
 		this.params = params;
 		this.xmlWriter = new ExcelReadableXMLWriter(outputFactory, params);
 		this.csvWriter = new CSVWriter(outputFactory, params);
-		this.leWriter = new CSVLEwriter(outputFactory, params, outputShell);
+		this.leWriter = new CSVLEwriter(outputFactory, params, new GraphicalDynSimRunPR(outputShell));
 
 		makeIt();
 	}

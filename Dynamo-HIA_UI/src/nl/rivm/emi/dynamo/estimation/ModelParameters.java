@@ -308,9 +308,10 @@ public class ModelParameters {
 	 * @returns ScenarioInfo: an object containing information that is needed
 	 *          for postprocessing
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 */
 	public void estimateModelParameters(int nSim, InputData inputData)
-			throws DynamoInconsistentDataException {
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		// first initialize the fields that can be directly copied from the
 		// input data

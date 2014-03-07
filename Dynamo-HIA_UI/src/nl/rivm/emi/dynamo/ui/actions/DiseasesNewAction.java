@@ -55,6 +55,10 @@ public class DiseasesNewAction extends Action {
 			log.debug("ReturnCode is: " + returnCode);
 			if(returnCode != Window.CANCEL){
 			String candidateName = inputDialog.getValue();
+			/* toegevoegd door Hendriek jan 2014 omdat dit namen zijn waarop de output straks gaat crashen
+			 * werkt niet blijkbaar is dit een blindedarm code  */
+			if (candidateName.equalsIgnoreCase("totaldisease")) candidateName=candidateName+"_as_input";
+			if (candidateName.equalsIgnoreCase("disability")) candidateName=candidateName+"_as_input";
 			String candidatePath = selectionPath + File.separator
 					+ candidateName;
 			File candidateDirectory = new File(candidatePath);

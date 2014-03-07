@@ -854,6 +854,7 @@ public class ScenarioInfo {
 		this.oldPrevalence = checkedRates(oldPrevalence);
 	}
 
+	/*  aangepast in maart 2014 waarbij de aanpassing gelijk is gemaakt aan die  voor de oude prevalentie */
 	public float[][][] checkedRates(float[][][] prevalence)
 			throws DynamoInconsistentDataException {
 		for (int a = 0; a < 96; a++)
@@ -863,16 +864,24 @@ public class ScenarioInfo {
 				float sumP = 0;
 				for (float prev : prevalence[a][s])
 					sumP += prev;
-				if (Math.abs(sumP - 1.0) > 1E-3)
+				if (Math.abs(sumP - 1.0) > 0.02)
 					throw new DynamoInconsistentDataException(
 							"Risk factor prevalence does not sum "
 									+ "to 100% but to " + 100 * sumP + "%"
 									+ " for age " + a + " and gender " + s);
-				else if (Math.abs(sumP - 1.0) > 1E-8)
-					prevalence[a][s][prevalence[a][s].length - 1] += 1 - sumP;
+				else if (Math.abs(sumP - 1.0) > 0.00001)
+					for (int r = 0; r < prevalence[a][s].length; r++)
+					prevalence[a][s][r] = (float) prevalence[a][s][r] /sumP;
 			}
 		return prevalence;
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	public float[][][] getOldPrevalence() {
 		return DynamoLib.deepcopy(oldPrevalence);

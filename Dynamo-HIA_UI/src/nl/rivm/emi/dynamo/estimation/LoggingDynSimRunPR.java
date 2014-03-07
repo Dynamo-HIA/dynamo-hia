@@ -7,6 +7,7 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
+import nl.rivm.emi.dynamo.output.CSVLEwriter;
 import nl.rivm.emi.dynamo.output.CSVWriter;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
@@ -56,9 +57,16 @@ Log log = LogFactory.getLog(this.getClass().getSimpleName());
 		/* creates output for DYNAMO-BATCH runner */
 		log.debug("start writing CSV");
 		CSVWriter writer= new CSVWriter(output, scenarioParameters);
+		CSVLEwriter lewriter= new CSVLEwriter(output, scenarioParameters, null);
+		lewriter.setSullivan(true);
+		lewriter.setFilename(currentpath+File.separator+"sullivan");
 		String fileName=currentpath+File.separator+"batchoutput";
 		try {
 			writer.writeBatchOutputCSV(fileName,true);
+			lewriter.run();
+			lewriter.setSullivan(false);
+			lewriter.setFilename(currentpath+File.separator+"cohortLE");
+			lewriter.run();
 		} catch (FactoryConfigurationError e) {
 			usedToBeErrorMessageWindow(e);
 		

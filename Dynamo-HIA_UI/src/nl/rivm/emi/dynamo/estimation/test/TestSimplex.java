@@ -1,5 +1,6 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.estimation.Simplx;
 
 import org.apache.commons.logging.Log;
@@ -21,7 +22,7 @@ public void teardown() {
 }
 
 @Test
-public void test() {
+public void test() throws DynamoConfigurationException {
 	//test: this should give the solution: eerste var: 15, tweede 22.5. maximum = -45
 	//	double[][] augmented = { { 2.5, 5 ,1 ,0,150 }, {5,2,0,1,120 },{-1.5,-1,0,0,0 } };
 	//	double [][]augmented = { {-1.5,-1,0,0,0 },{ 2.5, 5 ,1 ,0, 150 }, {5,2,0,1,120 } }; 

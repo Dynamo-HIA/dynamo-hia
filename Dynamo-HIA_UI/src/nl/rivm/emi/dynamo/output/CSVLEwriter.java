@@ -17,11 +17,13 @@ import java.io.OutputStream;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
+import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -39,15 +41,8 @@ public class CSVLEwriter implements Runnable  {
 	private String delimiter = ",";
 	private DynamoPlotFactory factory;
     private String filename;
-    private Shell shell;
-    public Shell getShell() {
-		return shell;
-	}
-
-	public void setShell(Shell shell) {
-		this.shell = shell;
-	}
-
+    private DynSimRunPRInterface pr;
+    
 	FileWriter writer ;
     public FileWriter getWriter() {
 		return writer;
@@ -104,12 +99,12 @@ public class CSVLEwriter implements Runnable  {
 	 * @throws DynamoOutputException
 	 */
 
-	public CSVLEwriter(CDMOutputFactory output, ScenarioParameters params, Shell shell) {
+	public CSVLEwriter(CDMOutputFactory output, ScenarioParameters params, DynSimRunPRInterface pr) {
 		super();
 		this.params = params;
 		this.output = output;
 		this.factory = new DynamoPlotFactory(output, params);
-		this.shell=shell;
+		this.pr=pr;
 	
 	}
 
@@ -223,10 +218,12 @@ public class CSVLEwriter implements Runnable  {
 				this.writer.flush();
 				this.writer.close();
 				
-			} catch (IOException e) {
-				new ErrorMessageWindow("file " + this.filename
+			} catch (IOException e) {	
+				((DynSimRunPRInterface) pr).usedToBeErrorMessageWindow("file " + this.filename
 						+ " can not be written. \nPlease make sure that"
-						+ " this file is not in use by another program.",shell);	
+						+ " this file is not in use by another program.");
+				
+				
 				
 					
 					e.printStackTrace();

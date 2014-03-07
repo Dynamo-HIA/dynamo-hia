@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.individual.Individual;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.dynamo.estimation.DiseaseClusterStructure;
@@ -592,10 +593,11 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 	 * 
 	 * @throws DynamoScenarioException
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 * 
 	 */
 	public void extractNumbersFromPopulation(Population[] pop)
-			throws DynamoScenarioException, DynamoInconsistentDataException {
+			throws DynamoScenarioException, DynamoInconsistentDataException, DynamoConfigurationException {
 
 		// TODO newborns weighting
 		// TODO weighting of initial scenario that is not a one-for-all scenario
@@ -1698,7 +1700,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								 * this.pDiseaseStateByRiskClassByAge[scen +
 								 * 1][stepCount][state][r][a][s] = 0; }
 								 */
-
+try{
 								if (a >= stepCount) {
 									toChange = NettTransitionRateFactory
 											.makeNettTransitionRates(
@@ -1719,6 +1721,38 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 										log
 												.debug("toChange from 0: "+toChange[0][0]+ " "+toChange[0][1]+ "\n from 1  "+toChange[1][0]+ " "+toChange[1][1]); */
 								} 
+}
+								
+								//
+								
+									catch (DynamoConfigurationException E){
+										
+										if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.") ) { 
+											/* one possibility for this error is that the user has different categories for the old and the new situation
+											 * below we give a solution for this case, provided that the categories are ordered: first all old situation
+											 * categories, and second all new situation categories
+											 * 
+											 * Also, each old categories should correspond to a new category in the same order and prevalences should stay the same
+											 * 
+											 * this has been checked already in the initial population factory, so we do not check this again but assume this is OK
+											 */
+											int nCat=this.nRiskFactorClasses;
+											toChange = new float [nCat][nCat];
+											for (int r1 = 0; r1<nCat;r1++){
+												for (int r2 = 0; r2<nCat;r2++){
+													if (r1<(nCat/2) && r2==r1+nCat/2)
+														toChange[r1][r2]=1;
+											}}
+												
+											
+											
+											
+											}
+										else throw new DynamoConfigurationException(E.getMessage());
+											}
+								
+								//
+								
 
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
@@ -1908,11 +1942,37 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 																	 * 0; }
 																	 */
 
-								toChange = NettTransitionRateFactory
+								try{ toChange = NettTransitionRateFactory
 										.makeNettTransitionRates(
 												this.oldPrevalence[a][s],
 												this.newPrevalence[scen][a][s],
-												0, dummy);
+												0, dummy); }
+								
+								catch (DynamoConfigurationException E){
+									
+									if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.") ) { 
+										/* one possibility for this error is that the user has different categories for the old and the new situation
+										 * below we give a solution for this case, provided that the categories are ordered: first all old situation
+										 * categories, and second all new situation categories
+										 * 
+										 * Also, each old categories should correspond to a new category in the same order and prevalences should stay the same
+										 * 
+										 * this has been checked already in the initial population factory, so we do not check this again but assume this is OK
+										 */
+										int nCat=this.nRiskFactorClasses;
+										toChange = new float [nCat][nCat];
+										for (int r1 = 0; r1<nCat;r1++){
+											for (int r2 = 0; r2<nCat;r2++){
+												if (r1<(nCat/2) && r2==r1+nCat/2)
+													toChange[r1][r2]=1;
+										}}
+											
+										
+										
+										
+										}
+									else throw new DynamoConfigurationException(E.getMessage());
+										}
 
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {

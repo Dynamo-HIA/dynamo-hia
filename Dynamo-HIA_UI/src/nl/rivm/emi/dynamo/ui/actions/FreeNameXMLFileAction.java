@@ -79,6 +79,8 @@ public class FreeNameXMLFileAction extends ActionBase {
 		log.debug("ReturnCode is: " + returnCode);
 		if (returnCode != Window.CANCEL) {
 			String candidateName = inputDialog.getValue();
+			/* toegevoegd door hendriek omdat programma vastliep door gebruiker die lege filenaam opgaf */
+			if (candidateName.isEmpty()) candidateName="unnamed";
 			String candidatePath = selectionPath + File.separator
 					+ candidateName + ".xml";
 			File candidateFile = new File(candidatePath);

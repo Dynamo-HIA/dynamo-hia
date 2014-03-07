@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.estimation;
 
 import java.util.Arrays;
 
+import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 /**
@@ -515,11 +516,12 @@ public class NettTransitionRateFactory {
 	 * 
 	 * @return
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 */
 
 	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
 			float[] newPrevOriginal, double baselineMort, float[] RR)
-			throws DynamoInconsistentDataException {
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		int nCat = oldPrevOriginal.length;
 		// first calculate oldPrev including selective mortality;
@@ -767,10 +769,11 @@ public class NettTransitionRateFactory {
 	 * @param newPrevOriginal
 	 * @return
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 */
 	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
 			float[] newPrevOriginal)
-			throws DynamoInconsistentDataException {
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 		
 		float[] RR= new float[oldPrevOriginal.length];
 		double baselineMort=0;

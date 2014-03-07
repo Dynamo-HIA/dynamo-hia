@@ -17,7 +17,7 @@ public class UltraConservativeNameInputValidator implements IInputValidator{
 		Matcher nameMatcher = matchPattern.matcher(arg0);
 		boolean match = nameMatcher.matches();
 		if (!match) {
-			errorMessage = "The change you just made resulted in an invalid name!";
+			errorMessage = "The change you just made resulted in an invalid name!"+"\nThe only valid name here is: durationprevalence";
 		}
 		return errorMessage;
 	}

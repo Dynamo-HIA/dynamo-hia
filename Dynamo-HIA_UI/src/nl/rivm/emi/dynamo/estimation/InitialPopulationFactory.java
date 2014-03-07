@@ -93,11 +93,12 @@ public class InitialPopulationFactory {
 	 * @param scenInfo
 	 *            : scenario Info object
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 */
 	public InitialPopulationFactory(ModelParameters params,
 
 	ScenarioInfo scenInfo, DynSimRunPRInterface dsi)
-			throws DynamoInconsistentDataException {
+			throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		initializeInitialPopulationFactory(params,
 
@@ -216,10 +217,11 @@ public class InitialPopulationFactory {
 	 *            ; object with scenario information
 	 * @return
 	 * @throws DynamoInconsistentDataException
+	 * @throws DynamoConfigurationException 
 	 */
 	public void initializeInitialPopulationFactory(ModelParameters params,
 
-	ScenarioInfo scenInfo) throws DynamoInconsistentDataException {
+	ScenarioInfo scenInfo) throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		/*
 		 * at this moment:
@@ -321,17 +323,47 @@ public class InitialPopulationFactory {
 						if (isOneForAllPopulation[s]) {
 							float oldPrev[] = parameters.getPrevRisk()[a][g];
 							float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
-							float[][] trans = NettTransitionRateFactory
+							float[][] trans =null;
+							try {
+							trans = NettTransitionRateFactory
 									.makeNettTransitionRates(oldPrev, newPrev,
-											0, RR);
+											0, RR);}
+							catch (DynamoConfigurationException E){
+								
+								if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.") && isZeroType(oldPrev, newPrev)) { 
+									/* one possibility for this error is that the user has different categories for the old and the new situation
+									 * below we give a solution for this case, provided that the categories are ordered: first all old situation
+									 * categories, and second all new situation categories
+									 * Also, each old categories should correspond to a new category in the same order and prevalences should stay the same
+									 */
+									
+									trans = new float [nCat][nCat];
+									for (int r1 = 0; r1<nCat;r1++){
+										for (int r2 = 0; r2<nCat;r2++){
+											if (r1<(nCat/2) && r2==r1+nCat/2)
+										     trans[r1][r2]=1;
+									}}
+										
+									
+									
+									
+									}
+								else if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.")) throw new DynamoConfigurationException(E.getMessage()
+										 +"\nOne possible reason might be that there are multiple riskfactor classes with a prevalence of zero, not confirming to the special case where the first n prevalences are EXACTLY " +
+										 "equal to second n scenario prevalences");
+								else throw new DynamoConfigurationException(E.getMessage());
+									}
+							
+							
 							for (int r1 = 0; r1 < nCat; r1++)
 								for (int r2 = 0; r2 < nCat; r2++) {
 									if (r1 != r2 && trans[r1][r2] > 0)
 										shouldChangeInto[a][g][r1][r2] = true;
 								}
-
 						}
-					}
+
+						
+					}		
 		}
 
 		/*
@@ -1460,7 +1492,7 @@ public class InitialPopulationFactory {
 	}
 
 	private void makeTransitionMatrixForPrevalence(ModelParameters parameters,
-			ScenarioInfo scenarioInfo) throws DynamoInconsistentDataException {
+			ScenarioInfo scenarioInfo) throws DynamoInconsistentDataException, DynamoConfigurationException {
 		int nCat = parameters.getPrevRisk()[0][0].length;
 		float[] RR = new float[nCat];
 		Arrays.fill(RR, 1);
@@ -1949,4 +1981,22 @@ public class InitialPopulationFactory {
 	 * @param newborns
 	 */
 
+
+
+
+/** checks if this is a situation where the first n categories are filled in the old prevalence, and the second n in the new prevalence with exactly the same numbers
+ * @param oldPrev
+ * @param newPrev
+ * @return
+ */
+private boolean isZeroType(float[] oldPrev, float[] newPrev) { 
+	boolean isOK=true;
+	int ncat=oldPrev.length;
+	if (2*Math.floor(ncat/2)!=ncat) isOK=false; //oneven kan niet
+	for (int i = 0; i<(ncat/2);i++){		
+		if(oldPrev[i] != newPrev[i+(ncat/2)]) isOK=false;}
+	
+	// TODO Auto-generated method stub
+	return isOK;
+}
 }
