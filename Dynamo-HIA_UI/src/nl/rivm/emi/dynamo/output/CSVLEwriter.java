@@ -56,8 +56,9 @@ public class CSVLEwriter implements Runnable  {
 		return filename;
 	}
 
-	public void setFilename(String filename) {
+	public void setFilename(String filename)  {
 		this.filename = filename;
+		
 	}
 
 	public boolean isSullivan() {
@@ -199,15 +200,11 @@ public class CSVLEwriter implements Runnable  {
 							toWriteCSVString2.append(LE[1][1] + this.delimiter);
 
 						}
-                      //  log.fatal("end string");
+                     
 						toWriteCSVString.append("\n");// end of </row>
 						toWriteCSVString2.append("\n");// end of </row>
-					//	log.fatal("end append to string");
-						// end of </row>
-
-						// log.fatal("writing year "+ year + " for gender "
-						// +sex+ " scenario " + thisScen);
-
+					
+					
 						
 					}
 			}
