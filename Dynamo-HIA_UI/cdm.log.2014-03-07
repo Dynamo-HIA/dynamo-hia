@@ -1,0 +1,1239 @@
+2014-03-07 14:04:36,752 INFO [nl.rivm.emi.dynamo.ui.startup.BaseDirectoryHandler] - Returning workDirectoryPath: R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default
+2014-03-07 14:04:36,767 INFO [nl.rivm.emi.dynamo.ui.startup.BaseDirectoryHandler] - Tree-Base-Directory: R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default
+2014-03-07 14:05:07,019 INFO [nl.rivm.emi.dynamo.ui.treecontrol.RootNode] - Instantiating StorageTree-Root-Node.
+2014-03-07 14:05:07,019 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent null physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default
+2014-03-07 14:05:07,020 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent default physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data
+2014-03-07 14:05:07,160 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors
+2014-03-07 14:05:07,176 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt
+2014-03-07 14:05:07,191 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent salt physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\configuration.xml
+2014-03-07 14:05:07,254 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent salt physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Prevalences
+2014-03-07 14:05:07,269 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Prevalences\salt_prevalence_default.xml
+2014-03-07 14:05:07,285 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Prevalences\salt_prevalence_default_alt.xml
+2014-03-07 14:05:07,316 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Prevalences\salt_prevalence_default_everyone_to_cat2.xml
+2014-03-07 14:05:07,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent salt physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Relative_Risks_For_Death
+2014-03-07 14:05:07,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Relative_Risks_For_Death\RR_death_default.xml
+2014-03-07 14:05:07,363 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent salt physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Transitions
+2014-03-07 14:05:07,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent salt physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\salt\Odds_Ratios_For_Disability
+2014-03-07 14:05:07,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP
+2014-03-07 14:05:07,394 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\configuration.xml
+2014-03-07 14:05:07,410 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Prevalences
+2014-03-07 14:05:07,410 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Prevalences\SBP_prevalence_default.xml
+2014-03-07 14:05:07,456 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Prevalences\SBP_prevalence_default_alt.xml
+2014-03-07 14:05:07,472 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Relative_Risks_For_Death
+2014-03-07 14:05:07,472 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Relative_Risks_For_Death\RR_death_default.xml
+2014-03-07 14:05:07,503 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Transitions
+2014-03-07 14:05:07,519 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Transitions\Name.xml
+2014-03-07 14:05:07,534 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP\Odds_Ratios_For_Disability
+2014-03-07 14:05:07,550 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8
+2014-03-07 14:05:07,566 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\configuration.xml
+2014-03-07 14:05:07,566 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Prevalences
+2014-03-07 14:05:07,581 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Prevalences\SBP8_prevalence_default.xml
+2014-03-07 14:05:07,597 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Prevalences\SBP8_prevalence_default_alt.xml
+2014-03-07 14:05:07,612 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Prevalences\SBP8_prevalence_test_alt.xml
+2014-03-07 14:05:07,644 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Prevalences\SBP8_prevalence_test.xml
+2014-03-07 14:05:07,675 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Relative_Risks_For_Death
+2014-03-07 14:05:07,675 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Relative_Risks_For_Death\RR_death_default_+_default_alt.xml
+2014-03-07 14:05:07,690 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Transitions
+2014-03-07 14:05:07,690 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Transitions\Name.xml
+2014-03-07 14:05:07,706 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Risk_Factors\SBP8\Odds_Ratios_For_Disability
+2014-03-07 14:05:07,706 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases
+2014-03-07 14:05:07,706 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD
+2014-03-07 14:05:07,722 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor
+2014-03-07 14:05:07,737 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_IHD_default-salt.xml
+2014-03-07 14:05:07,753 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_IHD_default-SBP.xml
+2014-03-07 14:05:07,768 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_IHD_default_+_default_alt-SBP8.xml
+2014-03-07 14:05:07,784 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Prevalences
+2014-03-07 14:05:07,800 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Prevalences\Prevalences.xml
+2014-03-07 14:05:07,862 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Incidences
+2014-03-07 14:05:07,862 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Incidences\Incidences.xml
+2014-03-07 14:05:07,878 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Disability
+2014-03-07 14:05:07,893 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Disability\Disability.xml
+2014-03-07 14:05:07,893 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Relative_Risks_From_Diseases
+2014-03-07 14:05:07,909 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Excess_Mortalities
+2014-03-07 14:05:07,909 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\IHD\Excess_Mortalities\Excess_mortality.xml
+2014-03-07 14:05:07,940 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA
+2014-03-07 14:05:07,971 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Relative_Risks_From_Risk_Factor
+2014-03-07 14:05:07,987 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Relative_Risks_From_Risk_Factor\RR_CVA_default-salt.xml
+2014-03-07 14:05:08,096 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Relative_Risks_From_Risk_Factor\RR_CVA_default-SBP.xml
+2014-03-07 14:05:08,096 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Relative_Risks_From_Risk_Factor\RR_CVA_default_+_default_alt-SBP8.xml
+2014-03-07 14:05:08,128 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Prevalences
+2014-03-07 14:05:08,128 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Prevalences\Prevalences.xml
+2014-03-07 14:05:08,144 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Incidences
+2014-03-07 14:05:08,144 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Incidences\Incidences.xml
+2014-03-07 14:05:08,159 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Disability
+2014-03-07 14:05:08,159 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Disability\Disability.xml
+2014-03-07 14:05:08,159 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Relative_Risks_From_Diseases
+2014-03-07 14:05:08,175 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent CVA physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Excess_Mortalities
+2014-03-07 14:05:08,175 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Diseases\CVA\Excess_Mortalities\Excess_mortality.xml
+2014-03-07 14:05:08,175 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations
+2014-03-07 14:05:08,175 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Populations physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations\Netherlands
+2014-03-07 14:05:08,191 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Netherlands physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations\Netherlands\size.xml
+2014-03-07 14:05:08,191 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Netherlands physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations\Netherlands\overallmortality.xml
+2014-03-07 14:05:08,206 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Netherlands physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations\Netherlands\overalldisability.xml
+2014-03-07 14:05:08,222 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Netherlands physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Reference_Data\Populations\Netherlands\newborns.xml
+2014-03-07 14:05:08,253 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent default physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations
+2014-03-07 14:05:08,253 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Simulations physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP
+2014-03-07 14:05:08,253 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent SBP physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP\configuration.xml
+2014-03-07 14:05:08,269 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Simulations physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8
+2014-03-07 14:05:08,284 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\configuration.xml
+2014-03-07 14:05:08,315 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0304_145215.XML
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0304_145215.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\resultsObject.obj
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\scenarioParameters.obj
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\scenarioParameters.obj"suppressed: Has no XML extension.
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_112438.XML
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_112438.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_115754.XML
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_115754.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_120739.XML
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_120739.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,347 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_125933.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_125933.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130109.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130109.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130333.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130333.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130406.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130406.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130448.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130448.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130523.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130523.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130828.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130828.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130941.XML
+2014-03-07 14:05:08,362 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_130941.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_131121.XML
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_131121.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_131811.XML
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_131811.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_133727.XML
+2014-03-07 14:05:08,378 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_133727.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_134421.XML
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_134421.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_134730.XML
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\results\runConfiguration_2014_0305_134730.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration
+2014-03-07 14:05:08,393 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule4.xml
+2014-03-07 14:05:08,425 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule4.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-03-07 14:05:08,440 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation.xml
+2014-03-07 14:05:08,471 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation.xml" suppressed: RootElementName: "sim" found wrong.
+2014-03-07 14:05:08,487 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation_scen_1.xml
+2014-03-07 14:05:08,503 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation_scen_1.xml" suppressed: RootElementName: "sim" found wrong.
+2014-03-07 14:05:08,503 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation_scen_2.xml
+2014-03-07 14:05:08,518 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\simulation_scen_2.xml" suppressed: RootElementName: "sim" found wrong.
+2014-03-07 14:05:08,534 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\charconfig.XML
+2014-03-07 14:05:08,534 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\charconfig.XML"suppressed: Has no XML extension.
+2014-03-07 14:05:08,534 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3.xml
+2014-03-07 14:05:08,534 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-03-07 14:05:08,565 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3_scen_1.xml
+2014-03-07 14:05:08,581 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3_scen_1.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-03-07 14:05:08,596 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3_scen_2.xml
+2014-03-07 14:05:08,643 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\modelconfiguration\rule3_scen_2.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-03-07 14:05:08,643 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent SBP8 physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters
+2014-03-07 14:05:08,659 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineFatalIncidence_1_0_IHD.xml
+2014-03-07 14:05:08,690 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineOtherMort.xml
+2014-03-07 14:05:08,721 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\relativeRisk_OtherMort.xml
+2014-03-07 14:05:08,768 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\attributableMort_0_0_CVA.xml
+2014-03-07 14:05:08,799 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\relativeRisk_0_0_CVA.xml
+2014-03-07 14:05:08,830 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineIncidence_1_0_IHD.xml
+2014-03-07 14:05:08,861 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\attributableMort_1_0_IHD.xml
+2014-03-07 14:05:08,877 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\relativeRisk_1_0_IHD.xml
+2014-03-07 14:05:08,893 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineAbility.xml
+2014-03-07 14:05:08,908 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\relativeRiskDiseaseOnDisease_cluster0.xml
+2014-03-07 14:05:08,924 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\relativeRiskDiseaseOnDisease_cluster1.xml
+2014-03-07 14:05:08,924 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineIncidence_0_0_CVA.xml
+2014-03-07 14:05:08,955 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage R:\Projecten\V350022 Herformulering Voedingsmiddelen\WHO Workshop Zout-November 2013\test_SBP\default\Simulations\SBP8\parameters\baselineFatalIncidence_0_0_CVA.xml
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:12,590 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:12,591 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:13,923 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DynamoSimulationGroup] - selectedNode-label: SBP8
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:14,563 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:14,578 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,578 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:14,578 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:14,594 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,592 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,593 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,687 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,703 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disease and selected value CVA
+2014-03-07 14:05:15,703 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration CVA
+2014-03-07 14:05:15,703 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[CVA]
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disease Prevalence and selected value Prevalences
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration CVA
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[CVA]
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Incidence and selected value Incidences
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration CVA
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[CVA]
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Excess Mortality and selected value Excess_mortality
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration CVA
+2014-03-07 14:05:15,718 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[CVA]
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disabling impact or DALYweight and selected value Disability
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration CVA
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[CVA]
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,734 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disease and selected value IHD
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration IHD
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[IHD]
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disease Prevalence and selected value Prevalences
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration IHD
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[IHD]
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Incidence and selected value Incidences
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration IHD
+2014-03-07 14:05:15,749 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[IHD]
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Excess Mortality and selected value Excess_mortality
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration IHD
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[IHD]
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - UPDATING OBJECT STATE for Disabling impact or DALYweight and selected value Disability
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - name current singleConfiguration IHD
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - this.initialSelection[IHD]
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - OLDDEFAULT to remove for Disease : CVA
+2014-03-07 14:05:15,765 INFO [nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseTabDataManager] - OLDDEFAULT to remove for Disease : IHD
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,796 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: CVA
+			relRiskFileName: RR_CVA_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,843 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,859 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,874 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,874 INFO [nl.rivm.emi.dynamo.ui.support.RelRisksCollectionForDropdown] - >>>>getAvaillableRelRisksForDropdown()>>>>>:
+
+	sourceName: SBP8
+		targetName: IHD
+			relRiskFileName: RR_IHD_default_+_default_alt-SBP8
+		targetName: death
+			relRiskFileName: RR_death_default_+_default_alt
+2014-03-07 14:05:15,874 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2014-03-07 14:05:15,874 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Missing configuration-file(s)in directory: Transitions
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Prevalences checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Directory: Transitions checks out.
+2014-03-07 14:05:15,890 INFO [nl.rivm.emi.dynamo.ui.util.SimulationConfigurationRiskFactorsSetFactory] - Risk Factor: SBP8 checks out.
+2014-03-07 14:05:18,027 INFO [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Control org.eclipse.swt.widgets.Button got widgetSelected callback.
+2014-03-07 14:05:18,027 INFO [nl.rivm.emi.dynamo.ui.listeners.selection.SaveSelectionListener] - Control org.eclipse.swt.widgets.Button got widgetSelected callback.
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease CVA is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 35 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1376466435044204
+Mortality from diseases: 1.3632242837048614E-4 totalMort: 8.850890737369299E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 35 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2309356643531788
+Mortality from diseases: 2.0890128536821435E-4 totalMort: 9.576679307346581E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease CVA is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 35 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.202162982747188
+Mortality from diseases: 1.2637189335155778E-4 totalMort: 6.708069440460073E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 35 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.428683898143885
+Mortality from diseases: 2.5277056408131316E-4 totalMort: 7.972056147757627E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 36 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1822161882554356
+Mortality from diseases: 1.9265955023125913E-4 totalMort: 9.765105752160489E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 36 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2932731405499456
+Mortality from diseases: 2.843925931757036E-4 totalMort: 0.0010682436181604932
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 36 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1003320858945485
+Mortality from diseases: 7.734600893237672E-5 totalMort: 6.57998601965779E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 36 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2374739452567667
+Mortality from diseases: 1.5935684265078488E-4 totalMort: 7.400094356841872E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 36 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.46379416806508
+Mortality from diseases: 2.946963388933088E-4 totalMort: 8.753489319267111E-4
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2298931232007109
+Mortality from diseases: 2.6024421569128837E-4 totalMort: 0.0010884553977217454
+2014-03-07 14:05:19,760 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3700608241818668
+Mortality from diseases: 3.842926292007026E-4 totalMort: 0.0012125038112311597
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1147401978584082
+Mortality from diseases: 9.400692805802853E-5 totalMort: 7.045157840046268E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2713757162216806
+Mortality from diseases: 1.9300057270695738E-4 totalMort: 8.035094286535557E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.106917893416891
+Mortality from diseases: 8.906323179864389E-5 totalMort: 6.995720877452421E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 37 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.491535921454678
+Mortality from diseases: 3.321418182584576E-4 totalMort: 9.426506742050559E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.281669935546963
+Mortality from diseases: 3.2978438252479516E-4 totalMort: 0.0011663196445228403
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.444031396741873
+Mortality from diseases: 4.775333126143844E-4 totalMort: 0.0013140685746124295
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1259582129471566
+Mortality from diseases: 1.1121182909833875E-4 totalMort: 7.611477802401289E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2978831535846578
+Mortality from diseases: 2.2743309328862132E-4 totalMort: 8.773690444304114E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1171702064756204
+Mortality from diseases: 1.0527113650279603E-4 totalMort: 7.552070876445862E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 38 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.5005752294878711
+Mortality from diseases: 3.64452941691499E-4 totalMort: 0.0010143888928332893
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.298163926996091
+Mortality from diseases: 4.159722383325634E-4 totalMort: 0.0014085078559063608
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4728679593521552
+Mortality from diseases: 6.055261127815618E-4 totalMort: 0.001598061730355359
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.134018548135988
+Mortality from diseases: 1.2872805001605528E-4 totalMort: 8.255655184921723E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3183283241617951
+Mortality from diseases: 2.6290556947376623E-4 totalMort: 9.597430379498832E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1244309147749467
+Mortality from diseases: 1.2174825279860128E-4 totalMort: 8.185857212747183E-4
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 39 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4985478553682745
+Mortality from diseases: 3.941053906472835E-4 totalMort: 0.0010909428591234006
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1041423148207634
+Mortality from diseases: 2.273016830882999E-4 totalMort: 0.0011990985581484502
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3600436999668515
+Mortality from diseases: 5.052105883426711E-4 totalMort: 0.0014770074634028213
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1028109437014222
+Mortality from diseases: 2.2585581404756697E-4 totalMort: 0.0011976526891077173
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5495108458122202
+Mortality from diseases: 7.109719094605595E-4 totalMort: 0.0016827687845207097
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1201767082929475
+Mortality from diseases: 1.4723113334075651E-4 totalMort: 0.0010283222240217186
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2985384895957643
+Mortality from diseases: 3.1096724950165614E-4 totalMort: 0.0011920583401826181
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1114033348281032
+Mortality from diseases: 1.391771764545343E-4 totalMort: 0.0010202682671354964
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 40 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4706837103232968
+Mortality from diseases: 4.689965630222078E-4 totalMort: 0.00135008765370317
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1118074913432905
+Mortality from diseases: 2.7269823226928766E-4 totalMort: 0.001328609973195605
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3865088622643194
+Mortality from diseases: 6.009663757184961E-4 totalMort: 0.0016568781166448135
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.109828073421952
+Mortality from diseases: 2.703328278158289E-4 totalMort: 0.0013262445687421461
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5785575662702709
+Mortality from diseases: 8.304645806400291E-4 totalMort: 0.0018863763215663464
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.119951125572487
+Mortality from diseases: 1.6695164540876577E-4 totalMort: 0.001153549707611357
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2989120565398196
+Mortality from diseases: 3.5128141201862224E-4 totalMort: 0.0013378794742212134
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1114383134880546
+Mortality from diseases: 1.581834485948845E-4 totalMort: 0.0011447815107974756
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 41 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4427866933325697
+Mortality from diseases: 4.99472294116383E-4 totalMort: 0.0014860703563189743
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1110599709347566
+Mortality from diseases: 3.237255797688387E-4 totalMort: 0.00156215031443234
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.387020227797736
+Mortality from diseases: 7.117256997503435E-4 totalMort: 0.0019501504344138446
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1087499057944104
+Mortality from diseases: 3.20477628191288E-4 totalMort: 0.0015589023628547892
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5605556877536473
+Mortality from diseases: 9.55716555713965E-4 totalMort: 0.002194141290377466
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.131309521501731
+Mortality from diseases: 1.8776530447082244E-4 totalMort: 0.001179955859972339
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3298669134674057
+Mortality from diseases: 3.948606693889226E-4 totalMort: 0.0013870512248904392
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.122216131764843
+Mortality from diseases: 1.7828089874177795E-4 totalMort: 0.0011704714542432944
+2014-03-07 14:05:19,761 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 42 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4594964836219646
+Mortality from diseases: 5.300643143883279E-4 totalMort: 0.0015222548698898444
+2014-03-07 14:05:19,776 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1089277367751975
+Mortality from diseases: 3.794849733360038E-4 totalMort: 0.0018252950110416969
+2014-03-07 14:05:19,776 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3834705325899512
+Mortality from diseases: 8.313824044304676E-4 totalMort: 0.0022771924421361605
+2014-03-07 14:05:19,776 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1061239759463963
+Mortality from diseases: 3.7486998312226166E-4 totalMort: 0.0018206800208279547
+2014-03-07 14:05:19,776 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5455071298803995
+Mortality from diseases: 0.0010980946371865188 totalMort: 0.002543904674892212
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1320972611540987
+Mortality from diseases: 2.125175887129672E-4 totalMort: 0.0013132328062378862
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3298993868451452
+Mortality from diseases: 4.419680515965747E-4 totalMort: 0.0015426832691214937
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1231913936731321
+Mortality from diseases: 2.021867825664268E-4 totalMort: 0.0013029020000913459
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 43 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4390026516130028
+Mortality from diseases: 5.685278371177819E-4 totalMort: 0.001669243054642701
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1389945166948574
+Mortality from diseases: 4.421111379350101E-4 totalMort: 0.0016765999657782013
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4977517475281028
+Mortality from diseases: 9.702017934397587E-4 totalMort: 0.00220469062128295
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1349779828898976
+Mortality from diseases: 4.361988000429161E-4 totalMort: 0.0016706876278861072
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.686745722889342
+Mortality from diseases: 0.0012484009313446784 totalMort: 0.0024828897591878695
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1095992487533373
+Mortality from diseases: 2.3669407431340053E-4 totalMort: 0.00169768686018251
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.27798541353566
+Mortality from diseases: 4.943249078856608E-4 totalMort: 0.0019553176937547705
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1023803318574839
+Mortality from diseases: 2.2564913140035421E-4 totalMort: 0.0016866419172694637
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 44 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3515790041677995
+Mortality from diseases: 6.069231021888799E-4 totalMort: 0.002067915888057989
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1235541478448086
+Mortality from diseases: 5.111860675100242E-4 totalMort: 0.002099922734701481
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4507660368258384
+Mortality from diseases: 0.0011227450974454376 totalMort: 0.0027114817646368946
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1193292222093143
+Mortality from diseases: 5.032896813755277E-4 totalMort: 0.0020920263485669846
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.6096494827526107
+Mortality from diseases: 0.0014196982624614125 totalMort: 0.0030084349296528694
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.130779922980698
+Mortality from diseases: 2.625353232609041E-4 totalMort: 0.0015763072361660259
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3386476006340515
+Mortality from diseases: 5.523028702352955E-4 totalMort: 0.0018660747831404172
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1223416443407115
+Mortality from diseases: 2.507723626611668E-4 totalMort: 0.0015645442755662885
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 45 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4105780822569205
+Mortality from diseases: 6.525739631144101E-4 totalMort: 0.0019663458760195316
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.133777117277443
+Mortality from diseases: 5.853394332339124E-4 totalMort: 0.0021711832134177307
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.5004436626410926
+Mortality from diseases: 0.0012875058785464758 totalMort: 0.002873349658730294
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1280191921547456
+Mortality from diseases: 5.743130064521331E-4 totalMort: 0.002160156786635951
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.6666137298865566
+Mortality from diseases: 0.001605721562279984 totalMort: 0.003191565342463802
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.108725237791273
+Mortality from diseases: 2.9205675426512053E-4 totalMort: 0.002027858412322392
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.286991276195359
+Mortality from diseases: 6.18105330853189E-4 totalMort: 0.0023539069889104603
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.102244573977768
+Mortality from diseases: 2.8020362042843614E-4 totalMort: 0.0020160052784857076
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 46 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3343153747491963
+Mortality from diseases: 7.046611050765221E-4 totalMort: 0.0024404627631337936
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.119245349825747
+Mortality from diseases: 6.682635205229447E-4 totalMort: 0.0026582076203611154
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4461331990850075
+Mortality from diseases: 0.0014446221375497698 totalMort: 0.0034345662373879405
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1134565014211184
+Mortality from diseases: 6.54515006004037E-4 totalMort: 0.002644459105842208
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5640208535156388
+Mortality from diseases: 0.0017246053078196215 totalMort: 0.0037145494076577922
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1110990667545406
+Mortality from diseases: 3.2265428326093925E-4 totalMort: 0.0021444212295488796
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.302399271722236
+Mortality from diseases: 6.918636841364449E-4 totalMort: 0.002513630630424385
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1046312092741264
+Mortality from diseases: 3.1017131814495725E-4 totalMort: 0.0021319382644328978
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 47 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3409132423362338
+Mortality from diseases: 7.661956484860506E-4 totalMort: 0.002587962594773991
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.111469569377951
+Mortality from diseases: 7.591824868530053E-4 totalMort: 0.003094331293553294
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4323252026936573
+Mortality from diseases: 0.0016524445735849914 totalMort: 0.00398759338028528
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.1050738457467912
+Mortality from diseases: 7.413767921924738E-4 totalMort: 0.0030765255988927627
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5380701457999189
+Mortality from diseases: 0.0019468384963730397 totalMort: 0.004281987303073329
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1083546913872302
+Mortality from diseases: 3.573493562713528E-4 totalMort: 0.002369662309838467
+2014-03-07 14:05:19,792 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.304591228164313
+Mortality from diseases: 7.769030682982007E-4 totalMort: 0.002789216021865315
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 1 riskclass: 6 old RR: 1.0 new RR: 1.1023635883928409
+Mortality from diseases: 3.445403781793348E-4 totalMort: 0.002356853331746449
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 48 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3332778572738366
+Mortality from diseases: 8.382350808077262E-4 totalMort: 0.0028505480343748403
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.113917674216887
+Mortality from diseases: 8.61684632809119E-4 totalMort: 0.003325044159356294
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.454127776414663
+Mortality from diseases: 0.0018772117578832364 totalMort: 0.004340571284430411
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 0 riskclass: 6 old RR: 1.0 new RR: 1.106499870941201
+Mortality from diseases: 8.395424906850044E-4 totalMort: 0.003302902017232179
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5570427309125332
+Mortality from diseases: 0.0021844128879884165 totalMort: 0.004647772414535591
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1041781913587627
+Mortality from diseases: 3.9694704211303846E-4 totalMort: 0.002659965207436118
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3017955806877974
+Mortality from diseases: 8.730073230652787E-4 totalMort: 0.0031360254883883586
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 49 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.322649683099416
+Mortality from diseases: 9.232448547257749E-4 totalMort: 0.003186263020048855
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 50 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1050049928939554
+Mortality from diseases: 9.570818238896127E-4 totalMort: 0.0037083966930220166
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 50 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4154826392416042
+Mortality from diseases: 0.001999044787294408 totalMort: 0.004750359656426811
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 50 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4891102471640179
+Mortality from diseases: 0.0022461390352756048 totalMort: 0.004997453904408009
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 50 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2579667415884412
+Mortality from diseases: 8.641076887256134E-4 totalMort: 0.003386446479828125
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 50 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.2460612702195755
+Mortality from diseases: 8.320581596920546E-4 totalMort: 0.0033543969507945663
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 51 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4126860556768226
+Mortality from diseases: 0.002264391380587755 totalMort: 0.005358318224401817
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 51 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4796448035337058
+Mortality from diseases: 0.0025183659119302946 totalMort: 0.005612292755744357
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 51 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.281790576513572
+Mortality from diseases: 9.876662591522239E-4 totalMort: 0.003595422487950373
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 51 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.2669235304892736
+Mortality from diseases: 9.459641959723355E-4 totalMort: 0.003553720424770484
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.104263676808462
+Mortality from diseases: 0.0012144190850966114 totalMort: 0.00432208803191688
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4454146548565547
+Mortality from diseases: 0.0025496840134513576 totalMort: 0.005657352960271626
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8990614545393192
+Mortality from diseases: 4.11257586970068E-4 totalMort: 0.0035189265337903365
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5114086078815019
+Mortality from diseases: 0.0028079843456441044 totalMort: 0.005915653292464373
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2709000366441008
+Mortality from diseases: 0.0011331271212785667 totalMort: 0.004239722551996139
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 52 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.2565507162946852
+Mortality from diseases: 0.0010852577882570023 totalMort: 0.004191853218974575
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.895440358703459
+Mortality from diseases: 4.8032250721137835E-4 totalMort: 0.003834275624000758
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 0 riskclass: 2 old RR: 1.0 new RR: 1.1009375806557964
+Mortality from diseases: 0.0013602616134546996 totalMort: 0.004714214730244079
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4490312869184185
+Mortality from diseases: 0.0028507988667938232 totalMort: 0.006204751983583202
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8912469302995378
+Mortality from diseases: 4.623662467481709E-4 totalMort: 0.0038163193635375506
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.50551944986456
+Mortality from diseases: 0.0030926811810359283 totalMort: 0.0064466342978253075
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1004021219059632
+Mortality from diseases: 5.845291996792442E-4 totalMort: 0.0034805720250248714
+2014-03-07 14:05:19,807 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.325711239890153
+Mortality from diseases: 0.001297181963089505 totalMort: 0.004193224788435132
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 53 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3098277388119262
+Mortality from diseases: 0.0012469424475417027 totalMort: 0.00414298527288733
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8929610253979448
+Mortality from diseases: 5.392646981305098E-4 totalMort: 0.004394261192756967
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4371349380197558
+Mortality from diseases: 0.0032171445140822715 totalMort: 0.007072141008708729
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8888016360964615
+Mortality from diseases: 5.187963434395188E-4 totalMort: 0.004373792838065976
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4896423050511831
+Mortality from diseases: 0.0034755332664662 totalMort: 0.0073305297610926565
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3328844225549643
+Mortality from diseases: 0.0015022077293273815 totalMort: 0.004770393363101193
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 54 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3195767368718536
+Mortality from diseases: 0.001454579522119993 totalMort: 0.004722765155893804
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8850012774191084
+Mortality from diseases: 6.056000515711374E-4 totalMort: 0.004744491915447578
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4439516464872848
+Mortality from diseases: 0.0036021330225902643 totalMort: 0.007741024886466705
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8806041948536876
+Mortality from diseases: 5.820272916040185E-4 totalMort: 0.004720919155480459
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.492058032420504
+Mortality from diseases: 0.003860031361231273 totalMort: 0.007998923225107714
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.339314162734479
+Mortality from diseases: 0.0017162257453484325 totalMort: 0.005345202674312174
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 55 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.329776396703695
+Mortality from diseases: 0.001678160522181808 totalMort: 0.00530713745114555
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8757119745486146
+Mortality from diseases: 6.78093345736017E-4 totalMort: 0.005075626513218188
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4541426320197233
+Mortality from diseases: 0.00403067737615526 totalMort: 0.00842821054363743
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8710383840274456
+Mortality from diseases: 6.510052155623973E-4 totalMort: 0.005048538383044568
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4993957109338745
+Mortality from diseases: 0.004292964216825462 totalMort: 0.008690497384307633
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1006505579242782
+Mortality from diseases: 8.28693267176286E-4 totalMort: 0.00444882960370961
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3749757733035302
+Mortality from diseases: 0.0019375157998471801 totalMort: 0.005557652136380504
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 56 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3665770708445104
+Mortality from diseases: 0.0019035682441371276 totalMort: 0.005523704580670451
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8648940687327725
+Mortality from diseases: 7.590129771509927E-4 totalMort: 0.005367532784080682
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.471375979303601
+Mortality from diseases: 0.004522839849857422 totalMort: 0.009131359656787111
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8599639477899037
+Mortality from diseases: 7.284166454764056E-4 totalMort: 0.005336936452406095
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5147077082981064
+Mortality from diseases: 0.004791756569693051 totalMort: 0.009400276376622739
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.366766189808388
+Mortality from diseases: 0.0022188506037157953 totalMort: 0.006436101670580601
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 57 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3597840454875578
+Mortality from diseases: 0.0021859716877295652 totalMort: 0.006403222754594371
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8617197678302924
+Mortality from diseases: 8.482622421718421E-4 totalMort: 0.006065645285943007
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.4596054416882485
+Mortality from diseases: 0.005056779389574207 totalMort: 0.010274162433345372
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8567097349318504
+Mortality from diseases: 8.129966215288695E-4 totalMort: 0.0060303796653000345
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4998100619536685
+Mortality from diseases: 0.005339779704166155 totalMort: 0.01055716274793732
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3846672463866099
+Mortality from diseases: 0.0024705089075913286 totalMort: 0.006829178632255378
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 58 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3755533873224295
+Mortality from diseases: 0.0024255593561803967 totalMort: 0.006784229080844447
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8528402745218948
+Mortality from diseases: 9.489252989543009E-4 totalMort: 0.006518258408134666
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.465831496817766
+Mortality from diseases: 0.005634017347500877 totalMort: 0.011203350456681242
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8475847151235013
+Mortality from diseases: 9.087570573017426E-4 totalMort: 0.006478090166482107
+2014-03-07 14:05:19,823 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.5020997695066305
+Mortality from diseases: 0.005911215763740357 totalMort: 0.011480548872920722
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 1 riskclass: 2 old RR: 1.0 new RR: 1.1014364962051169
+Mortality from diseases: 0.0011799674937938048 totalMort: 0.005553443043020076
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4224965144458674
+Mortality from diseases: 0.00279875217256021 totalMort: 0.007172227721786481
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4126566826569165
+Mortality from diseases: 0.002749139738633143 totalMort: 0.007122615287859414
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8628060970173177
+Mortality from diseases: 0.0011478202128665134 totalMort: 0.0076289313428428394
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3921372393991147
+Mortality from diseases: 0.005828166071361581 totalMort: 0.012309277201337907
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8577557094922446
+Mortality from diseases: 0.0011031646873472497 totalMort: 0.007584275817323576
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4169370579127956
+Mortality from diseases: 0.006047446061859882 totalMort: 0.01252855719183621
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.351606373229004
+Mortality from diseases: 0.0028411140556722694 totalMort: 0.007919061933573925
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3413815964305882
+Mortality from diseases: 0.0027812070869516464 totalMort: 0.007859154964853302
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8663987205560053
+Mortality from diseases: 0.0012832924261703177 totalMort: 0.009052999973709022
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.367536752493547
+Mortality from diseases: 0.00651968357301284 totalMort: 0.014289391120551545
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8615575477986327
+Mortality from diseases: 0.0012327070134666956 totalMort: 0.0090024145610054
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3886109253236838
+Mortality from diseases: 0.006739887598654445 totalMort: 0.01450959514619315
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3559242523887727
+Mortality from diseases: 0.003243506324642342 totalMort: 0.008886727658130712
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.345969735150383
+Mortality from diseases: 0.00317826441786924 totalMort: 0.00882148575135761
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8601718196004243
+Mortality from diseases: 0.0014329574069754793 totalMort: 0.00985928956714376
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3695323362328933
+Mortality from diseases: 0.007271247749807561 totalMort: 0.01569757990997584
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8552108783077497
+Mortality from diseases: 0.0013760950968932906 totalMort: 0.00980242725706157
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3882649295752894
+Mortality from diseases: 0.007485960738419567 totalMort: 0.015912292898587845
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4058951077941264
+Mortality from diseases: 0.003657569681386124 totalMort: 0.00899069926085126
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3930769822415436
+Mortality from diseases: 0.003575597768053328 totalMort: 0.008908727347518464
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8431680131569348
+Mortality from diseases: 0.0015973246335850217 totalMort: 0.009873497623284294
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3996769980758628
+Mortality from diseases: 0.008114044971872677 totalMort: 0.01639021796157195
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8377478912069996
+Mortality from diseases: 0.0015338550043349436 totalMort: 0.009810027994034215
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.416952360403869
+Mortality from diseases: 0.008316339468610422 totalMort: 0.016592512458309693
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4032720948265025
+Mortality from diseases: 0.004157994518592218 totalMort: 0.010162496785956002
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3909217146671822
+Mortality from diseases: 0.004068553063056152 totalMort: 0.010073055330419935
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8409411169022054
+Mortality from diseases: 0.0017862892069130587 totalMort: 0.0110583756985419
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3921372404145997
+Mortality from diseases: 0.009034518238493158 totalMort: 0.018306604730122
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8355107497748908
+Mortality from diseases: 0.0017148798791160444 totalMort: 0.010986966370744887
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4061155664114338
+Mortality from diseases: 0.009218333225538992 totalMort: 0.018490419717167833
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4034471095696561
+Mortality from diseases: 0.004698129590552819 totalMort: 0.011328625064096362
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.39023058878071
+Mortality from diseases: 0.0045914458347854105 totalMort: 0.011221941308328954
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8413099472880944
+Mortality from diseases: 0.0019864722794266975 totalMort: 0.01264825407503261
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.379448834251705
+Mortality from diseases: 0.010076852515523215 totalMort: 0.020738634311129128
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8360744096408246
+Mortality from diseases: 0.0019077612043995633 totalMort: 0.012569543000005477
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.390805079505628
+Mortality from diseases: 0.010247582311091425 totalMort: 0.020909364106697338
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8976009340659795
+Mortality from diseases: 8.26569898572702E-4 totalMort: 0.007462654563124352
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.437860685812655
+Mortality from diseases: 0.0053182897137265435 totalMort: 0.011954374378278194
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8953123681226405
+Mortality from diseases: 8.075427603068067E-4 totalMort: 0.007443627424858457
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.422177762822953
+Mortality from diseases: 0.005187901885048522 totalMort: 0.011823986549600173
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8312241674500287
+Mortality from diseases: 0.002216569962670433 totalMort: 0.013321198142607007
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3918247698030823
+Mortality from diseases: 0.011200754969850003 totalMort: 0.022305383149786577
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8257405574932271
+Mortality from diseases: 0.0021286896319102967 totalMort: 0.01323331781184687
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 5 old RR: 1.0 new RR: 0.8973471620288742
+Mortality from diseases: 0.003276257044759855 totalMort: 0.01438088522469643
+2014-03-07 14:05:19,839 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.4004208288749986
+Mortality from diseases: 0.01133851540876245 totalMort: 0.022443143588699026
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8882576588169175
+Mortality from diseases: 9.397228067444684E-4 totalMort: 0.008043172921635514
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4490840774333678
+Mortality from diseases: 0.006018005914330261 totalMort: 0.013121456029221306
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.885827296247193
+Mortality from diseases: 9.177158741652434E-4 totalMort: 0.008021165989056288
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4332652583896002
+Mortality from diseases: 0.005874766511075864 totalMort: 0.01297821662596691
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8311037640353581
+Mortality from diseases: 0.002470607009254455 totalMort: 0.015054614046201432
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3850782270898132
+Mortality from diseases: 0.01250530074261323 totalMort: 0.025089307779560206
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8257060447419489
+Mortality from diseases: 0.0023728327189571066 totalMort: 0.014956839755904085
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 5 old RR: 1.0 new RR: 0.8962290314813318
+Mortality from diseases: 0.003650286140166283 totalMort: 0.016234293177113262
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3915543185842236
+Mortality from diseases: 0.012622608667562162 totalMort: 0.02520661570450914
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8831911368446144
+Mortality from diseases: 0.0010676206804421824 totalMort: 0.00907213934440202
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.447365658055041
+Mortality from diseases: 0.006862821353841572 totalMort: 0.014867340017801411
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8807381153707174
+Mortality from diseases: 0.0010424232438991578 totalMort: 0.009046941907858997
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.431285344406826
+Mortality from diseases: 0.006697644372288641 totalMort: 0.01470216303624848
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8292351269236128
+Mortality from diseases: 0.0027630972260605617 totalMort: 0.01670577025975201
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3822920199658413
+Mortality from diseases: 0.01390498098828426 totalMort: 0.02784765402197571
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8237662806780298
+Mortality from diseases: 0.0026529218536018957 totalMort: 0.016595594887293345
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 5 old RR: 1.0 new RR: 0.8939587716391221
+Mortality from diseases: 0.004067019725101912 totalMort: 0.018009692758793362
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3865469563347357
+Mortality from diseases: 0.013990700933256106 totalMort: 0.027933373966947554
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8730820905612164
+Mortality from diseases: 0.0012120260454719246 totalMort: 0.009765422937819993
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4572171447392706
+Mortality from diseases: 0.007745576462464628 totalMort: 0.016298973354812694
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8705065174067573
+Mortality from diseases: 0.001183218260462362 totalMort: 0.00973661515281043
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4390706122518369
+Mortality from diseases: 0.007542607501687097 totalMort: 0.016096004394035166
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.830544180695101
+Mortality from diseases: 0.0030728423966694964 totalMort: 0.018984578408176522
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.3746487398730698
+Mortality from diseases: 0.015509984099733868 totalMort: 0.03142172011124089
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8252199982819526
+Mortality from diseases: 0.0029511422381092844 totalMort: 0.018862878249616313
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 5 old RR: 1.0 new RR: 0.894148061904286
+Mortality from diseases: 0.0045266998770380155 totalMort: 0.02043843588854504
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.3770433387591818
+Mortality from diseases: 0.015564719839705555 totalMort: 0.03147645585121258
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8629149893124185
+Mortality from diseases: 0.0013799947973723741 totalMort: 0.010514619043961686
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.4633890771917117
+Mortality from diseases: 0.008696771488031114 totalMort: 0.017831395734620427
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8602327430099588
+Mortality from diseases: 0.0013473116264902554 totalMort: 0.010481935873079568
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.4436032890210502
+Mortality from diseases: 0.00845568166148308 totalMort: 0.017590305908072392
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8529155317932102
+Mortality from diseases: 0.004040660072452369 totalMort: 0.021990721594547225
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2858566582121957
+Mortality from diseases: 0.015203181357406384 totalMort: 0.03315324287950124
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8478425169240229
+Mortality from diseases: 0.003909862527473031 totalMort: 0.021859924049567887
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.286044976217659
+Mortality from diseases: 0.015208036760638022 totalMort: 0.033158098282732876
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8737501212412855
+Mortality from diseases: 0.0018645188546213413 totalMort: 0.011748444483778495
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3588614058973698
+Mortality from diseases: 0.008387325384410213 totalMort: 0.018271251013567365
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8709972165627523
+Mortality from diseases: 0.0018275032971998065 totalMort: 0.01171142892635696
+2014-03-07 14:05:19,854 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3445130725084293
+Mortality from diseases: 0.008194397687856379 totalMort: 0.018078323317013534
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8535957486623461
+Mortality from diseases: 0.0045095313623954095 totalMort: 0.024703914459975145
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2849863706728772
+Mortality from diseases: 0.016994407302422146 totalMort: 0.03718879040000188
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.848581852688534
+Mortality from diseases: 0.0043644241996168105 totalMort: 0.024558807297196547
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2843839760183091
+Mortality from diseases: 0.016976973398796318 totalMort: 0.037171356496376054
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8742134334787182
+Mortality from diseases: 0.0021293427187594836 totalMort: 0.013826559103434565
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.343841031542679
+Mortality from diseases: 0.009556972508657283 totalMort: 0.021254188893332367
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.87152259616009
+Mortality from diseases: 0.0020867844374531765 totalMort: 0.013784000822128259
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3296484388845076
+Mortality from diseases: 0.009332502472274623 totalMort: 0.021029718856949705
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8525852534492062
+Mortality from diseases: 0.0050257483196789795 totalMort: 0.02731768269017866
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.283962918738689
+Mortality from diseases: 0.018847519376982695 totalMort: 0.041139453747482374
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.847602704757577
+Mortality from diseases: 0.004866102485323248 totalMort: 0.02715803685582293
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.28142270778636
+Mortality from diseases: 0.018766128482076753 totalMort: 0.04105806285257643
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8671676345270959
+Mortality from diseases: 0.0024265190899645283 totalMort: 0.01519451109825333
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.349062136614831
+Mortality from diseases: 0.010870274447776558 totalMort: 0.02363826645606536
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.864332182505004
+Mortality from diseases: 0.0023768363002675446 totalMort: 0.015144828308556346
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.334058334764041
+Mortality from diseases: 0.010607377835102417 totalMort: 0.023375369843391218
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8515638300413438
+Mortality from diseases: 0.005593212251043286 totalMort: 0.030131734006696557
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2871291705283812
+Mortality from diseases: 0.021005255974711583 totalMort: 0.04554377773036485
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8466359083045666
+Mortality from diseases: 0.005418842671523709 totalMort: 0.029957364427176978
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.284417895326461
+Mortality from diseases: 0.02090932021473543 totalMort: 0.0454478419703887
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8596219547559233
+Mortality from diseases: 0.002762818565162928 totalMort: 0.016614773162119945
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3549424987733647
+Mortality from diseases: 0.012336374051800443 totalMort: 0.02618832864875746
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.856683334924604
+Mortality from diseases: 0.0027060209209927764 totalMort: 0.016557975517949793
+2014-03-07 14:05:19,870 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3390670971866696
+Mortality from diseases: 0.012029534289552408 totalMort: 0.025881488886509426
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8541442645205027
+Mortality from diseases: 0.006232020592607571 totalMort: 0.034020565379754
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2835579294425399
+Mortality from diseases: 0.023335566526550063 totalMort: 0.05112411131369649
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.849412957284447
+Mortality from diseases: 0.006043572629140536 totalMort: 0.033832117416286965
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2797936832884094
+Mortality from diseases: 0.023185636605210627 totalMort: 0.05097418139235706
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8644142293158414
+Mortality from diseases: 0.0031444931089127655 totalMort: 0.02007861445285563
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3303461731217194
+Mortality from diseases: 0.013967160695438083 totalMort: 0.030901282039380945
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.861684212758888
+Mortality from diseases: 0.003081080282008744 totalMort: 0.020015201625951606
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3149902518643866
+Mortality from diseases: 0.013610473343428126 totalMort: 0.030544594687370988
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8531267272367913
+Mortality from diseases: 0.006913438561291526 totalMort: 0.03734135713998415
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2865574050938506
+Mortality from diseases: 0.025884699477834873 totalMort: 0.05631261805652749
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.848488980897665
+Mortality from diseases: 0.006710444402457839 totalMort: 0.03713836298115046
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2814484703474265
+Mortality from diseases: 0.025661081402254236 totalMort: 0.05608899998094685
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8531882130620552
+Mortality from diseases: 0.0035684143231834047 totalMort: 0.021198314850991582
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.346141452920011
+Mortality from diseases: 0.01581633081492856 totalMort: 0.033446231342736735
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8502923349029232
+Mortality from diseases: 0.003496463332713119 totalMort: 0.021126363860521295
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3293302372985776
+Mortality from diseases: 0.015398639341564133 totalMort: 0.033028539869372306
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8597675432357424
+Mortality from diseases: 0.007682772382903812 totalMort: 0.04333916082672977
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2778034778133103
+Mortality from diseases: 0.028755127047310876 totalMort: 0.06441151549113683
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8554515741563029
+Mortality from diseases: 0.007465213021040654 totalMort: 0.04312160146486661
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2724046179120307
+Mortality from diseases: 0.028482981326780486 totalMort: 0.06413936977060644
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8514697304325458
+Mortality from diseases: 0.004041041142233633 totalMort: 0.024136612857019856
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3418269530736906
+Mortality from diseases: 0.017941197567665636 totalMort: 0.03803676928245186
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8486002568013535
+Mortality from diseases: 0.003959700171833746 totalMort: 0.024055271886619968
+2014-03-07 14:05:19,885 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3250238866272237
+Mortality from diseases: 0.017464881035047237 totalMort: 0.03756045274983346
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8645223908702888
+Mortality from diseases: 0.008522784810907819 totalMort: 0.04946364983344455
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.2727720805232423
+Mortality from diseases: 0.031880791389867436 totalMort: 0.07282165641240416
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8604502741060776
+Mortality from diseases: 0.008289798644403695 totalMort: 0.04923066366694043
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2671448978221924
+Mortality from diseases: 0.031558832123556986 totalMort: 0.07249969714609372
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8499047237727795
+Mortality from diseases: 0.004583214841696426 totalMort: 0.027318487972497463
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3396508785477739
+Mortality from diseases: 0.02032512574602322 totalMort: 0.04306039887682425
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.847024293986284
+Mortality from diseases: 0.0044906291855905354 totalMort: 0.027225902316391572
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3228517929705932
+Mortality from diseases: 0.019785152729692675 totalMort: 0.04252042586049371
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8685293593782111
+Mortality from diseases: 0.009440199765324092 totalMort: 0.055969770091520446
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.269432503271512
+Mortality from diseases: 0.035275200678522585 totalMort: 0.08180477100471895
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8646567238000765
+Mortality from diseases: 0.009190639378428697 totalMort: 0.05572020970462505
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2628990818307275
+Mortality from diseases: 0.034854173925652085 totalMort: 0.08138374425184844
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8502136275775054
+Mortality from diseases: 0.005185239965519881 totalMort: 0.03126575448692526
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.3300341316285123
+Mortality from diseases: 0.022830158361142668 totalMort: 0.048910672882548044
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8473612212636458
+Mortality from diseases: 0.005080345580610769 totalMort: 0.031160860102016144
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3132769782524283
+Mortality from diseases: 0.022213930831540253 totalMort: 0.04829444535294563
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 0 riskclass: 0 old RR: 1.0 new RR: 0.8685765110432629
+Mortality from diseases: 0.010435974493934791 totalMort: 0.06101837100290621
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.274632497584712
+Mortality from diseases: 0.03896181478516865 totalMort: 0.08954421129414007
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 0 riskclass: 4 old RR: 1.0 new RR: 0.8647746112349044
+Mortality from diseases: 0.010168887219442809 totalMort: 0.060751283728414235
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.2673345576118427
+Mortality from diseases: 0.03844912718291398 totalMort: 0.08903152369188541
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8446217975724367
+Mortality from diseases: 0.005848676944597177 totalMort: 0.03405008323171072
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.336800358107807
+Mortality from diseases: 0.025690363483187442 totalMort: 0.05389176977030099
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8416891493911389
+Mortality from diseases: 0.0057304501655233726 totalMort: 0.03393185645263692
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 79 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.3192805983577063
+Mortality from diseases: 0.0249840718868717 totalMort: 0.05318547817398525
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1764121916376926
+Mortality from diseases: 0.036073206792823165 totalMort: 0.0941800338893252
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.17179065388241
+Mortality from diseases: 0.035703220332713996 totalMort: 0.09381004742921602
+2014-03-07 14:05:19,901 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8843330540930753
+Mortality from diseases: 0.008514036077874751 totalMort: 0.04123291439193794
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2104423547878085
+Mortality from diseases: 0.023719208852684838 totalMort: 0.05643808716674803
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8817466510964894
+Mortality from diseases: 0.008393442447626872 totalMort: 0.041112320761690066
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 80 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.2004257444766444
+Mortality from diseases: 0.02325217436432548 totalMort: 0.05597105267838867
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1751830285848117
+Mortality from diseases: 0.03971087929871902 totalMort: 0.1053316551966848
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1703185559724552
+Mortality from diseases: 0.039274876617046955 totalMort: 0.10489565251501275
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8837293991828915
+Mortality from diseases: 0.009566180477775481 totalMort: 0.04621993201692571
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.2102144558995358
+Mortality from diseases: 0.026641675691511674 totalMort: 0.06329542723066191
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8811564795414105
+Mortality from diseases: 0.0094316142055385 totalMort: 0.04608536574468873
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 81 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.2003981242901098
+Mortality from diseases: 0.026128271724117608 totalMort: 0.06278202326326784
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1786733078249643
+Mortality from diseases: 0.043588192992570295 totalMort: 0.11477567333538899
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1733548229826833
+Mortality from diseases: 0.043070294882174204 totalMort: 0.1142577752249929
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8883691518781494
+Mortality from diseases: 0.010704922428408477 totalMort: 0.0542980125662218
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1995446456720253
+Mortality from diseases: 0.029724280357034154 totalMort: 0.07331737049484748
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.885955273845714
+Mortality from diseases: 0.010557383784747337 totalMort: 0.05415047392256066
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 82 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1897442987770157
+Mortality from diseases: 0.029125273336435185 totalMort: 0.07271836347424851
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1727032593262028
+Mortality from diseases: 0.047839970113905166 totalMort: 0.13142954816237992
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1676058312224498
+Mortality from diseases: 0.047268680943231736 totalMort: 0.1308582589917065
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8889509682513297
+Mortality from diseases: 0.011956666410452236 totalMort: 0.060702907313476065
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1994599573824063
+Mortality from diseases: 0.03316008376462046 totalMort: 0.08190632466764429
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8865384996681865
+Mortality from diseases: 0.011791928576725265 totalMort: 0.0605381694797491
+2014-03-07 14:05:19,917 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 83 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.189688599614692
+Mortality from diseases: 0.032492836811656135 totalMort: 0.08123907771467997
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1806042303362119
+Mortality from diseases: 0.05226385482081739 totalMort: 0.13975048484339145
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1748502002702057
+Mortality from diseases: 0.051582738769506246 totalMort: 0.13906936879208032
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.894434439438862
+Mortality from diseases: 0.01328516240384958 totalMort: 0.07103061889674098
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1896091082925015
+Mortality from diseases: 0.036726164322859134 totalMort: 0.09447162081575053
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8921472638954903
+Mortality from diseases: 0.013103528639307697 totalMort: 0.0708489851321991
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 84 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1801086526526194
+Mortality from diseases: 0.0359716951139977 totalMort: 0.0937171516068891
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1767600834811274
+Mortality from diseases: 0.056986182445608845 totalMort: 0.1571586625826586
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1707971090077887
+Mortality from diseases: 0.05618981527918339 totalMort: 0.15636229541623314
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 1 riskclass: 0 old RR: 1.0 new RR: 0.8996399191312587
+Mortality from diseases: 0.014654572268776297 totalMort: 0.08278666620665394
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.181397030977414
+Mortality from diseases: 0.04058242570627506 totalMort: 0.1087145196441527
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 1 riskclass: 4 old RR: 1.0 new RR: 0.8975407847477753
+Mortality from diseases: 0.014461405720879932 totalMort: 0.08259349965875758
+2014-03-07 14:05:19,932 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 85 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1723485312626012
+Mortality from diseases: 0.03974976464974417 totalMort: 0.10788185858762181
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 86 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1672323199389631
+Mortality from diseases: 0.06212841830939064 totalMort: 0.1827243815267237
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 86 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1616192149082327
+Mortality from diseases: 0.06124971479196375 totalMort: 0.1818456780092968
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 86 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1765721376180993
+Mortality from diseases: 0.04457093866219212 totalMort: 0.12260352190180152
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 86 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1677888399538436
+Mortality from diseases: 0.043655683920795954 totalMort: 0.12168826716040534
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 87 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1748154407253495
+Mortality from diseases: 0.06731712864602155 totalMort: 0.1931655107565253
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 87 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1687236849649334
+Mortality from diseases: 0.06631550994739578 totalMort: 0.19216389205789952
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 87 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1728470462767038
+Mortality from diseases: 0.048652138973168134 totalMort: 0.13694865621626826
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 87 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1642294296686657
+Mortality from diseases: 0.04764589436693038 totalMort: 0.1359424116100305
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 88 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1720998749933134
+Mortality from diseases: 0.07288033946492165 totalMort: 0.21559487305023275
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 88 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1657608757002662
+Mortality from diseases: 0.0717143503056294 totalMort: 0.2144288838909405
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 88 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.166182396380758
+Mortality from diseases: 0.052779676221956465 totalMort: 0.15474541386301
+2014-03-07 14:05:19,948 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 88 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1578352066855404
+Mortality from diseases: 0.051672054182738354 totalMort: 0.1536377918237919
+2014-03-07 14:05:19,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 89 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1680255657048355
+Mortality from diseases: 0.07867847902577776 totalMort: 0.24197751800881742
+2014-03-07 14:05:19,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 89 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1617170434253457
+Mortality from diseases: 0.07737155509507329 totalMort: 0.24067059407811295
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 89 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1567140843374661
+Mortality from diseases: 0.05687086102327681 totalMort: 0.17708830561008268
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 89 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.148892611418105
+Mortality from diseases: 0.055673424763599794 totalMort: 0.17589086935040565
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 90 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1703967288882882
+Mortality from diseases: 0.08460165575454803 totalMort: 0.2619207351971787
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 90 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1638775686862206
+Mortality from diseases: 0.08314274597562575 totalMort: 0.2604618254182564
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 90 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1502618404763583
+Mortality from diseases: 0.060743352866421754 totalMort: 0.1982970827539467
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 90 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1427237069050502
+Mortality from diseases: 0.0594438314496451 totalMort: 0.19699756133717006
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 91 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1629140432297016
+Mortality from diseases: 0.09050101882159176 totalMort: 0.29639539970372775
+2014-03-07 14:05:19,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 91 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1562703479153602
+Mortality from diseases: 0.08880772021567317 totalMort: 0.29470210109780914
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 91 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.142148790710734
+Mortality from diseases: 0.06406875364540493 totalMort: 0.22136555976767042
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 91 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1348453998095585
+Mortality from diseases: 0.06265324698971363 totalMort: 0.21995005311197913
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 92 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.165470655007104
+Mortality from diseases: 0.0968297039504853 totalMort: 0.3203750539212777
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 92 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1587065849790383
+Mortality from diseases: 0.09497033555655895 totalMort: 0.3185156855273513
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 92 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.13868204793295
+Mortality from diseases: 0.0673501444434825 totalMort: 0.24257456845102163
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 92 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1318415590851083
+Mortality from diseases: 0.06589290830520188 totalMort: 0.24111733231274102
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 93 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1540080976544538
+Mortality from diseases: 0.10263388999448422 totalMort: 0.3680893483445814
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 93 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1473773236494347
+Mortality from diseases: 0.10051889852476362 totalMort: 0.3659743568748608
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 93 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1285661447266209
+Mortality from diseases: 0.06948099647253975 totalMort: 0.2710793322592745
+2014-03-07 14:05:19,995 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 93 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1221147518947696
+Mortality from diseases: 0.06793138480895036 totalMort: 0.2695297205956851
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 94 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1559170616486627
+Mortality from diseases: 0.10859429516711161 totalMort: 0.3942810100776113
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 94 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1490095226287362
+Mortality from diseases: 0.10623814734968717 totalMort: 0.39192486226018686
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 94 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1198537026510926
+Mortality from diseases: 0.07071720257162217 totalMort: 0.2984062982738969
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 94 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.1137843850140199
+Mortality from diseases: 0.06909991755944621 totalMort: 0.29678901326172097
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 95 sex: 0 riskclass: 3 old RR: 1.0 new RR: 1.1577156189507833
+Mortality from diseases: 0.11443432039196294 totalMort: 0.4217627495831105
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 95 sex: 0 riskclass: 7 old RR: 1.0 new RR: 1.1506526639983772
+Mortality from diseases: 0.11186124350490485 totalMort: 0.4191896726960524
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 95 sex: 1 riskclass: 3 old RR: 1.0 new RR: 1.1122140840901593
+Mortality from diseases: 0.07110296018886952 totalMort: 0.3258253415800525
+2014-03-07 14:05:20,026 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 95 sex: 1 riskclass: 7 old RR: 1.0 new RR: 1.10654689554248
+Mortality from diseases: 0.06944274596324523 totalMort: 0.3241651273544282
+2014-03-07 14:05:22,397 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 0
+2014-03-07 14:05:23,334 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-03-07 14:05:23,849 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-03-07 14:05:24,224 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2014-03-07 14:05:25,051 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 1
+2014-03-07 14:05:25,442 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-03-07 14:05:25,707 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-03-07 14:05:26,081 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2014-03-07 14:05:26,816 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 0
+2014-03-07 14:05:27,206 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-03-07 14:05:27,566 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-03-07 14:05:27,988 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2014-03-07 14:05:28,846 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 1
+2014-03-07 14:05:29,112 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-03-07 14:05:29,486 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-03-07 14:05:29,892 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2
+2014-03-07 14:05:30,688 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 20 gender: 0
+2014-03-07 14:05:31,032 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-03-07 14:05:31,298 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-03-07 14:05:31,610 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 2

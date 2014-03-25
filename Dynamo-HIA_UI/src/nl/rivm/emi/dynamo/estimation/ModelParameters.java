@@ -3663,7 +3663,8 @@ public class ModelParameters {
 			// however, after changing everything to double, there should not be
 			// any rounding any longer
 			// but this is the case for compound riskfactors
-		} else if ((sumAbility > inputAbility + 0.0000001) || (sumAbility > 1)
+			// we allow a larger margin there and also for continuous risk factors
+		} else if (((sumAbility > inputAbility + 0.0000001) && this.riskType ==1) ||(sumAbility > inputAbility + 0.001)|| (sumAbility > 1)
 				|| (sumAbilityWhenNotOne == 0 && sumAbility < 1))
 			throw new DynamoInconsistentDataException(
 					"error in program with calculation of disability: "
