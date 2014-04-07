@@ -67,8 +67,12 @@ public class PopulationWritingRunner {
 	private void handleFile(File batchFile) {
 		try {
 			String batchFilePath = batchFile.getAbsolutePath();
+// april 2014: veranderd omdat nu de basedirectory eindigd met een fileseparator, en dat gaat verderop fout
+// want de ui gebruikt een basedirectory zonder fileseparator
+//			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
+	//				.lastIndexOf(File.separatorChar) + 1);
 			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
-					.lastIndexOf(File.separatorChar) + 1);
+									.lastIndexOf(File.separatorChar) );
 			BaseDirectory.getInstance(baseDirectoryPath);
 			DynSimRunPRInterface dsi = new LoggingDynSimRunPR();
 			FileReader reader = new FileReader(batchFile);
@@ -77,7 +81,7 @@ public class PopulationWritingRunner {
 				String simulationName = null;
 				while ((simulationName = bufferedReader.readLine()) != null) 
 				if (!simulationName.equals("")){
-					String simulationConfigurationPath = baseDirectoryPath
+					String simulationConfigurationPath = baseDirectoryPath+ File.separator
 							+ StandardTreeNodeLabelsEnum.SIMULATIONS
 									.getNodeLabel()
 							+ File.separator

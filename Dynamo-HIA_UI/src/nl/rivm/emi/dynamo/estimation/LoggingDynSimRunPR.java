@@ -62,7 +62,7 @@ public class LoggingDynSimRunPR implements DynSimRunPRInterface {
 		CSVWriter writer = new CSVWriter(output, scenarioParameters);
 		CSVLEwriter lewriter = new CSVLEwriter(output, scenarioParameters, null);
 		lewriter.setSullivan(true);
-		lewriter.setFilename(currentpath + File.separator + "sullivan");
+		lewriter.setFilename(currentpath + File.separator + "sullivan.csv");
 		try {
 			lewriter.setWriter(new FileWriter(lewriter.getFilename()));
 		} catch (IOException e1) {
@@ -74,12 +74,12 @@ public class LoggingDynSimRunPR implements DynSimRunPRInterface {
 			e1.printStackTrace();
 
 		}
-		String fileName = currentpath + File.separator + "batchoutput";
+		String fileName = currentpath + File.separator + "batchoutput.csv";
 		try {
 			writer.writeBatchOutputCSV(fileName, true);
 			lewriter.run();
 			lewriter.setSullivan(false);
-			lewriter.setFilename(currentpath + File.separator + "cohortLE");
+			lewriter.setFilename(currentpath + File.separator + "cohortLE.csv");
 			try {
 				lewriter.setWriter(new FileWriter(lewriter.getFilename()));
 			} catch (IOException e1) {

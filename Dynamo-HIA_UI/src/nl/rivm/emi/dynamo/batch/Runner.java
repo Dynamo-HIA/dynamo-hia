@@ -67,8 +67,13 @@ public class Runner {
 	private void handleFile(File batchFile) {
 		try {
 			String batchFilePath = batchFile.getAbsolutePath();
+			// veranderd in april 2014 omdat niet werkt met een basedirpath eindigend op een file separator. 
+			// dat is anders dan verwacht bi de ui
+			//was:
+		//	String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
+		//			.lastIndexOf(File.separatorChar) + 1);
 			String baseDirectoryPath = batchFilePath.substring(0, batchFilePath
-					.lastIndexOf(File.separatorChar) + 1);
+					.lastIndexOf(File.separatorChar) );
 			BaseDirectory.getInstance(baseDirectoryPath);
 			DynSimRunPRInterface dsi = new LoggingDynSimRunPR();
 			FileReader reader = new FileReader(batchFile);
@@ -77,7 +82,7 @@ public class Runner {
 				String simulationName = null;
 				while ((simulationName = bufferedReader.readLine()) != null) 
 				if (!simulationName.equals("")){
-					String simulationConfigurationPath = baseDirectoryPath
+					String simulationConfigurationPath = baseDirectoryPath + File.separator
 							+ StandardTreeNodeLabelsEnum.SIMULATIONS
 									.getNodeLabel()
 							+ File.separator

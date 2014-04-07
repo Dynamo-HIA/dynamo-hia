@@ -161,11 +161,11 @@ public class CSVLEwriter implements Runnable  {
 						if (sullivan) toWriteCSVString.append(year2 + this.delimiter);
 						toWriteCSVString.append(this.output.scenarioNames[thisScen] + this.delimiter);
 						toWriteCSVString.append("males" + this.delimiter);
-						toWriteCSVString.append(a + this.delimiter);
+						toWriteCSVString.append(a );
 						if (sullivan) toWriteCSVString2.append(year2 + this.delimiter);
 						toWriteCSVString2.append(this.output.scenarioNames[thisScen] + this.delimiter);
 						toWriteCSVString2.append("females" + this.delimiter);
-						toWriteCSVString2.append(a + this.delimiter);
+						toWriteCSVString2.append(a );
 						/* write risk factor info */
 						for (int d = -2; d < output.nDiseases; d++) {
 
@@ -190,14 +190,14 @@ public class CSVLEwriter implements Runnable  {
 							 */
 
 							if (d == -2) {
-								toWriteCSVString.append(LE[0][0]
-										+ this.delimiter);
-								toWriteCSVString2.append(LE[1][0]
-										+ this.delimiter);
+								toWriteCSVString.append( this.delimiter+LE[0][0]
+										);
+								toWriteCSVString2.append(this.delimiter+LE[1][0]
+										);
 							}
 							/* write the health life expectancy */
-							toWriteCSVString.append(LE[0][1] + this.delimiter);
-							toWriteCSVString2.append(LE[1][1] + this.delimiter);
+							toWriteCSVString.append(this.delimiter + LE[0][1]  );
+							toWriteCSVString2.append(this.delimiter+LE[1][1]);
 
 						}
                      

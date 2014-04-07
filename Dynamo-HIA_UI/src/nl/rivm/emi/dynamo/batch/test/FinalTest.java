@@ -127,6 +127,14 @@ public class FinalTest {
 	
 	*/
 	
+	
+	@Test
+	public void test_0() {
+		 baseDir = "C:\\DYNAMO-HIA\\Country_data\\Netherlands";
+	     runTest("simulation1.txt", "simulation1", 11.83285, 6.95871, 10.064339,
+		 7.263274,
+		 0, 0, -1, true);
+	} /*
 	@Test
 	public void test_1() {
 		 baseDir = "C:\\HENDRIEK\\TESTDATA voor versie 2";
@@ -160,7 +168,7 @@ public class FinalTest {
 	}
 	
 	/* deze test met grotere aantallen zodat de andere runmethode wordt gebruikt */
-
+/*
 	@Test
 	public void test_3a() {
 		runTest("run_test_3a", "test03a", 11.62399547, 8.426732, 10.05240022,
@@ -367,7 +375,7 @@ public class FinalTest {
 	//private void checkDALY( String testName, double PYLL,double diseaseDaly,
 		//	double disabilityDaly )
 	
-	
+	/*
 		@Test
 	public void test_daly() { 
 	 runTest("run_test_daly", "testDALY", 11.64373307, 8.627173, 0,
@@ -386,7 +394,7 @@ public class FinalTest {
 	//11.62399399	8.426734	10.528738	10.449349
 	//10.05240015	7.254658498	9.047160422	9.047160132
 
-
+/*
 	@Test
 	public void test_3RR() {
 		 runTest("run_test_3RR", "test03RR", 11.62399547, 8.426732, 10.05240022,
@@ -472,7 +480,7 @@ public class FinalTest {
 	
 	/* nb these simulations should give identical results as those for 
 	 * test 3,4 and 5 , with exception of dale with RR for disability, as the RR is 2.5 here in stead of 3.5*/ 
-
+/*
 	@Test
 	public void test_11RR() {
 		runTest("run_test_11RR", "test11RR", 11.62399399, 8.426751, 10.05240015,
@@ -501,7 +509,7 @@ public class FinalTest {
 	/* de volgende testen hebben een OR disability van 10, waardoor other
 	 * disability boven de 1 komt in klasse 2, en daarvoor correctie nodig is
 	 */
-
+/*
 	@Test
 	public void test_5RRa() {
 		runTest("run_test_5RRa", "test05RRa", 11.86143824, 10.319618, 10.06416548,
@@ -518,7 +526,7 @@ public class FinalTest {
 	}
 	
 
-	
+*/	
 	private void checkParameters(String simName, float baselineIncidenceA,
 			float baselineIncidenceB, float atmort1, float atmort2,
 			float rrOMbegin, float rrOMend, float alphaOM,

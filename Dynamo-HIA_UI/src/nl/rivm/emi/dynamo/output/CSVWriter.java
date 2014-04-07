@@ -300,8 +300,8 @@ public class CSVWriter {
 													this.output.nPopByRiskClassByAge[thisScen][year][rClass][a],
 													thisScen, year, a);
 								}
-
-								toWriteCSVString.append(data + this.delimiter);
+/* from now, put delimitor before as data can be missing */
+								toWriteCSVString.append(data );
 								/* write disease info */
 
 								if (this.details) {
@@ -333,8 +333,8 @@ public class CSVWriter {
 										 * + 3) writer.append(((Double) data)
 										 * .toString()); else
 										 */
-										toWriteCSVString.append(data
-												+ this.delimiter);
+										toWriteCSVString.append(this.delimiter + data
+												 );
 									}
 
 								} else { /*
@@ -366,8 +366,8 @@ public class CSVWriter {
 										 * writer.append(((Double) data)
 										 * .toString()); else
 										 */
-										toWriteCSVString.append(data
-												+ this.delimiter);
+										toWriteCSVString.append(this.delimiter +data
+												);
 									}
 
 								}
@@ -385,9 +385,9 @@ public class CSVWriter {
 													thisScen, year, a);
 								}
 								// log.fatal(" write disabled");
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString()
-										+ this.delimiter);
+										);
 								if (separateGenders) {
 									data = this.params
 											.applySuccesrate(
@@ -403,9 +403,9 @@ public class CSVWriter {
 								}
 
 								// log.fatal(" write total disease");
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString()
-										+ this.delimiter);
+										);
 								if (separateGenders) {
 									data = this.params
 											.applySuccesrate(
@@ -425,9 +425,9 @@ public class CSVWriter {
 								}
 
 								// log.fatal(" write total disease");
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString()
-										+ this.delimiter);
+										);
 								double[][][][][][] incByRiskClassByAge = this.output
 										.getNewCasesByRiskClassByAge();
 
@@ -451,9 +451,9 @@ public class CSVWriter {
 									 * writer.append(((Double) data)
 									 * .toString()); else
 									 */
-									toWriteCSVString.append(((Double) data)
+									toWriteCSVString.append(this.delimiter +((Double) data)
 											.toString()
-											+ this.delimiter);
+											);
 								}
 
 								// writeEndElement
@@ -739,7 +739,7 @@ public class CSVWriter {
 											thisScen, year, a);
 
 						}
-						toWriteCSVString.append(data + this.delimiter);
+						toWriteCSVString.append(data );
 						/* write disease info */
 
 						if (this.details) {
@@ -765,11 +765,8 @@ public class CSVWriter {
 													thisScen, year, a);
 
 								}
-								if (col == this.output.nDiseaseStates + 3)
-									toWriteCSVString.append(((Double) data)
-											.toString());
-								else
-									toWriteCSVString.append(data
+								
+									toWriteCSVString.append(this.delimiter +data
 											+ this.delimiter);
 							}
 
@@ -800,11 +797,11 @@ public class CSVWriter {
 
 								}
 								if (col == this.output.nDiseases + 3)
-									toWriteCSVString.append(((Double) data)
+									toWriteCSVString.append(this.delimiter +((Double) data)
 											.toString());
 								else
-									toWriteCSVString.append(data
-											+ this.delimiter);
+									toWriteCSVString.append(this.delimiter +data
+											);
 							}
 
 						}
@@ -824,8 +821,8 @@ public class CSVWriter {
 
 						}
 						// log.fatal(" write disabled");
-						toWriteCSVString.append(((Double) data).toString()
-								+ this.delimiter);
+						toWriteCSVString.append(this.delimiter +((Double) data).toString()
+								);
 						if (sex < 2) {
 							data = this.params
 									.applySuccesrate(
@@ -841,8 +838,8 @@ public class CSVWriter {
 
 						}
 						// log.fatal(" write total disease");
-						toWriteCSVString.append(((Double) data).toString()
-								+ this.delimiter);
+						toWriteCSVString.append(this.delimiter +((Double) data).toString()
+								);
 						if (sex < 2) {
 							data = this.params
 									.applySuccesrate(
@@ -862,8 +859,8 @@ public class CSVWriter {
 
 						}
 						// log.fatal(" write total disease");
-						toWriteCSVString.append(((Double) data).toString()
-								+ this.delimiter);
+						toWriteCSVString.append(this.delimiter +((Double) data).toString()
+								);
 						double[][][][][][] incByRiskClassByAge = this.output
 								.getNewCasesByRiskClassByAge();
 
@@ -886,8 +883,8 @@ public class CSVWriter {
 							 * if (col == this.output.nDiseases + 3)
 							 * writer.append(((Double) data) .toString()); else
 							 */
-							toWriteCSVString.append(((Double) data).toString()
-									+ this.delimiter);
+							toWriteCSVString.append(this.delimiter +((Double) data).toString()
+									);
 						}
 
 						// writeEndElement
@@ -1107,7 +1104,7 @@ public class CSVWriter {
 											thisScen, 0, cohort);
 
 						}
-						toWriteCSVString.append(this.delimiter + data);
+						toWriteCSVString.append( this.delimiter+data);
 						/* write disease info */
 						// log.fatal("write  ziekten");
 						if (this.details) {
@@ -1158,11 +1155,11 @@ public class CSVWriter {
 													thisScen, 0, cohort);
 
 								}
-								toWriteCSVString.append(this.delimiter + data);
+								toWriteCSVString.append(this.delimiter  + data);
 							}
 
 						}
-						toWriteCSVString.append(this.delimiter);
+						
 						// log.fatal("write  disability");
 						// this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
 						if (sex < 2) {
@@ -1191,8 +1188,8 @@ public class CSVWriter {
 									inputRef, inputScen, thisScen, 0, cohort);
 
 						}
-						toWriteCSVString.append(((Double) data).toString());
-						toWriteCSVString.append(this.delimiter);
+						toWriteCSVString.append(this.delimiter +((Double) data).toString());
+						
 						if (sex < 2) {
 							data = this.params
 									.applySuccesrate(
@@ -1220,7 +1217,7 @@ public class CSVWriter {
 									inputRef, inputScen, thisScen, 0, cohort);
 
 						}
-						toWriteCSVString.append(data + this.delimiter);
+						toWriteCSVString.append(this.delimiter +data );
 						if (sex < 2) {
 							data = this.params
 									.applySuccesrate(
@@ -1241,8 +1238,8 @@ public class CSVWriter {
 							// .applySuccesrateToBothGenders(
 						}
 						// log.fatal(" write total disease");
-						toWriteCSVString.append(((Double) data).toString()
-								+ this.delimiter);
+						toWriteCSVString.append(this.delimiter +((Double) data).toString()
+								);
 						double[][][][][][] incByRiskClassByAge = this.output
 								.getNewCasesByOriRiskClassByOriAge();
 						// log.fatal("write  incidences");
@@ -1266,7 +1263,7 @@ public class CSVWriter {
 							 * if (col == this.output.nDiseases + 3)
 							 * writer.append(((Double) data) .toString()); else
 							 */
-							toWriteCSVString.append(data + this.delimiter);
+							toWriteCSVString.append(this.delimiter +data );
 						}
 
 						toWriteCSVString.append("\n");// </row>
@@ -1407,12 +1404,12 @@ public class CSVWriter {
 								toWriteCSVString.append(((Integer) (cohort))
 										.toString()
 										+ this.delimiter);
-								/* write sex */
-								toWriteCSVString.append(((Integer) (thisScen))
+								/* write scenario */
+								toWriteCSVString.append(((Integer) (thisScen)+this.delimiter)
 										.toString()
-										+ this.delimiter);
+										);
 								/* write sex */
-								if (separateGenders) toWriteCSVString.append(((Integer) (sex))
+								if (separateGenders) toWriteCSVString.append( ((Integer) (sex))
 										.toString());
 								else toWriteCSVString.append("both genders");
 								/* write risk factor info */
@@ -1575,7 +1572,7 @@ public class CSVWriter {
 									}
 
 								}
-								toWriteCSVString.append(this.delimiter);
+								
 								// this.output.nPopByOriRiskClassByOriAge[0][year][rClass][cohort][sex],
 								if (separateGenders) {
 									data = this.params
@@ -1606,9 +1603,9 @@ public class CSVWriter {
 													thisScen, 0, cohort);
 								}
 								// log.fatal(" write disabled");
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString());
-								toWriteCSVString.append(this.delimiter);
+								
 
 								if (separateGenders) {
 									data = this.params
@@ -1640,9 +1637,9 @@ public class CSVWriter {
 													thisScen, 0, cohort);
 
 								}
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString());
-								toWriteCSVString.append(this.delimiter);
+								
 
 								if (separateGenders) {
 									data = this.params
@@ -1663,9 +1660,9 @@ public class CSVWriter {
 								}
 
 								// log.fatal(" write total disease");
-								toWriteCSVString.append(((Double) data)
+								toWriteCSVString.append(this.delimiter +((Double) data)
 										.toString());
-								toWriteCSVString.append(this.delimiter);
+								
 								double[][][][][][] incByRiskClassByAge = this.output
 										.getNewCasesByOriRiskClassByOriAge();
 
@@ -1691,8 +1688,8 @@ public class CSVWriter {
 									 * writer.append(((Double) data)
 									 * .toString()); else
 									 */
-									toWriteCSVString.append(data
-											+ this.delimiter);
+									toWriteCSVString.append(this.delimiter +data
+											);
 								}
 
 								toWriteCSVString.append("\n");// </row>
