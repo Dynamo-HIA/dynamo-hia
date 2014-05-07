@@ -47,7 +47,7 @@ public class ReferenceClassDataPanel extends Composite /* implements Runnable */
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gridData.widthHint = 120;
 		Label indexLabel = new Label(this, SWT.NONE);
-		indexLabel.setText("Referenceclass index:");
+		indexLabel.setText("Reference class index:");
 		indexLabel.setLayoutData(gridData);
 		WritableValue observableObject=null;
 		try {

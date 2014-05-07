@@ -1198,6 +1198,7 @@ public class InitialPopulationFactory {
 									if (riskType==1||riskType==3) riskLabel= Integer.toString(newRiskValue);
 									if (riskType==2) riskLabel=Float.toString(newRiskFactorValue);
 									/* durations needs no labeling, as it is always zero after change */
+								 /* but the category itself needs labeling */
 								//	if (riskType==3) riskLabel=Integer.toString(newRiskValue)+"_dur_"+ Float.toString(newDurationValue);
 									
 									setLabelDalyIndividual(dalyIndividual,riskLabel);
@@ -1328,7 +1329,8 @@ public class InitialPopulationFactory {
 											
 										String riskLabel="";
 										/* durations needs no labeling, as it is always zero after change */
-										if (riskType==1) riskLabel= Integer.toString(r);
+										/* yes they do as the category itself needs changing back */
+										if (riskType==1 || riskType==3) riskLabel= Integer.toString(r);
 										setLabelDalyIndividual(dalyIndividual,riskLabel);
 									
 										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]
@@ -1426,7 +1428,7 @@ public class InitialPopulationFactory {
 														4, currentDurationValue));
 											
 										String riskLabel="";
-										if (riskType==1) riskLabel= Integer.toString(r);
+										if (riskType==1 || riskType==3) riskLabel= Integer.toString(r);
 										setLabelDalyIndividual(dalyIndividual,riskLabel);
 									
 										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]

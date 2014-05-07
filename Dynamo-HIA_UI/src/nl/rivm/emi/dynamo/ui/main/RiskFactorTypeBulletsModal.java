@@ -99,7 +99,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		Label numberOfClassesLabel = new Label(categoricalGroup, SWT.NONE);
 		numberOfClassesLabel.setText("Pick the number of classes:");
 		Combo numberOfClassesDropDown = new Combo(categoricalGroup,
-				SWT.DROP_DOWN);
+				SWT.DROP_DOWN | SWT.READ_ONLY);
 		numberOfClassesDropDown.add("2", 0);
 		numberOfClassesDropDown.add("3", 1);
 		numberOfClassesDropDown.add("4", 2);
@@ -116,7 +116,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		numberOfClassesDropDown.add("15", 13);
 		numberOfClassesDropDown.add("16", 14);
 		numberOfClassesDropDown.add("17", 15);
-		numberOfClassesDropDown.add("18", 16);
+		numberOfClassesDropDown.add("18", 16); 
 	/*	
 	 * unfortunately, more than 18 classes do not work with the prevalence window as to many widgets are created (unclear why)
 	 * also, a blue square is on the lower part of the canvas
@@ -194,7 +194,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		Label numberOfCutoffsLabel = new Label(continuousGroup, SWT.NONE);
 		numberOfCutoffsLabel.setText("Pick the number of cutoffs:");
 		Combo numberOfCutOffsDropDown = new Combo(continuousGroup,
-				SWT.DROP_DOWN);
+				SWT.DROP_DOWN| SWT.READ_ONLY);
 		numberOfCutOffsDropDown.add("0", 0);
 		numberOfCutOffsDropDown.add("1", 1);
 		numberOfCutOffsDropDown.add("2", 2);
@@ -246,7 +246,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			Label numberOfCompoundClassesLabel = new Label(compoundGroup, SWT.NONE);
 			numberOfCompoundClassesLabel.setText("Pick the number of classes:");
 			Combo numberOfCompoundClassesDropDown = new Combo(compoundGroup,
-					SWT.DROP_DOWN);
+					SWT.DROP_DOWN| SWT.READ_ONLY);
 			numberOfCompoundClassesDropDown.add("2", 0);
 			numberOfCompoundClassesDropDown.add("3", 1);
 			numberOfCompoundClassesDropDown.add("4", 2);
@@ -272,7 +272,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		addPushButtons();
 		shell.pack();
 		// This is the first place this works.
-		shell.setSize(350, 250);
+		shell.setSize(400, 250);
 		shell.open();
 		Display display = shell.getDisplay();
 		while (!shell.isDisposed()) {

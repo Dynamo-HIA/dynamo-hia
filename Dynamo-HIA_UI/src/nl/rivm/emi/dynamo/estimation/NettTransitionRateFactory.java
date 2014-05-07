@@ -573,7 +573,7 @@ public class NettTransitionRateFactory {
 		for (int i = 0; i < nCat; i++)
 			for (int j = 0; j < nCat; j++) { // looping over all variables
 
-				table[0][nCat * i + j + 1] = costCalc(i - j); // other columns
+				table[0][nCat * i + j + 1] = costCalc(i - j, nCat); // other columns
 				// are
 				// costs;
 
@@ -693,7 +693,7 @@ public class NettTransitionRateFactory {
 
 	}
 
-	public static float costCalc(int dif) {
+	public static float costCalc(int dif, int nCat) {
 		float cost;
 
 		cost = 0;
@@ -702,8 +702,12 @@ public class NettTransitionRateFactory {
 			cost += i;
 		}
 		;
-		cost = 100 - cost; // this is the wrong way round;
+		cost = nCat*nCat - cost; // this is the wrong way round;
 		// with only 10 categories 100 is enough to change around
+		//but with 36 it is not!!! We made this nCat ^2
+		
+		// also when there are regular patterns with zero's the equality of costs can be a problem
+	    
 		return cost;
 
 	};
@@ -758,9 +762,8 @@ public class NettTransitionRateFactory {
 								+ "to 100% but to " + 100 * sumP + "%"
 								);
 			else if (Math.abs(sumP - 1.0) !=0)
-				returnp[prevalence.length - 1] += 1 - sumP;
-		
-		return returnp;
+				for (int i = 0; i < prevalence.length; i++) returnp[i] = returnp[i]/sumP;
+						return returnp;
 	}
 	
 	
