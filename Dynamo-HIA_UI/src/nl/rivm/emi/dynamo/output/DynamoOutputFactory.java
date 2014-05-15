@@ -849,7 +849,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 		
 		log.debug("weight  " +weight[0][Math.max(0, minMaxData[0])][minMaxData[2]]);
-		log.debug("weight  Newborn "+weightNewborns[0][minimumGeneration][minMaxData[2]]);
+	//	log.debug("weight  Newborn "+weightNewborns[0][minimumGeneration][minMaxData[2]]); // geeft out of boundary wanneer geen newborns???
 		/*
 		 * 
 		 * 
