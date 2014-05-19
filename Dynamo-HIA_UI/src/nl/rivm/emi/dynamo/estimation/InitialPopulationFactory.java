@@ -45,11 +45,14 @@ public class InitialPopulationFactory {
 	int nSim = 50;
 
 	/* in case of debugging, more elements are needed */
+	
+	
+ // index: population, age , sex
+	// gives the number of durationclasses =20??
+	// ja want kan niet groter worden in het scenario, wel kleiner evt
+	int[][][] nDuurClasses ;
 
-	int[][] nDuurClasses = new int[96][2];
-
-	int[][] nSimNew = new int[96][2];
-
+	
 	Random rand; // used to draw the initial population
 	MTRand rand2; /*
 				 * used to generate seeds which are entered as information with
@@ -61,13 +64,12 @@ public class InitialPopulationFactory {
 	// the same seed here
 	/* make a table of point from the inverse normal distribution */
 	private int nPopulations;
-	private int numberOfTheOneForAllPop;
-	private boolean isAtLeastOneAllForOnePopulation;
+	
 	private boolean hasDalyScenarios;
 	private int[] numberOfDalypopulation;
 	private boolean[][][][] shouldChangeInto;
 	private int individualNumber;
-	private boolean[] isOneForAllPopulation;
+	
 	private ModelParameters parameters;
 	private ScenarioInfo scenarioInfo;
 	private double[] baselineOdds;
@@ -77,6 +79,7 @@ public class InitialPopulationFactory {
 	private float[] relativeRisksCont;
 	private float[] alphaDuur;
 	private float[][][] RRdiseaseOnDisease;
+	private int[][][] nSimNew;
 
 	/* indexes are: scenario, age ,sex, transitionmatrix */
 
@@ -279,13 +282,9 @@ public class InitialPopulationFactory {
 		 * numberOfOneForAllPop = the number of the population that contains the
 		 * one for all scenario
 		 */
-		this.numberOfTheOneForAllPop = scenarioInfo
-				.getFirstOneForAllPopScenario() + 1;
+		
 
-		this.isAtLeastOneAllForOnePopulation = false;
-		if (numberOfTheOneForAllPop > 0)
-			isAtLeastOneAllForOnePopulation = true;
-		isOneForAllPopulation = scenarioInfo.getthisScenarioUsedOneForAllPop();
+		
 
 		/* add the one-for-all-scenario that still needs to be simulated */
 		if (scenarioInfo.getNTranstionScenarios() != 0
@@ -303,75 +302,14 @@ public class InitialPopulationFactory {
 			agemax = 95;
 		int agemin = scenarioInfo.getMinSimAge();
 
-		if (isAtLeastOneAllForOnePopulation) {
-			int nCat = parameters.getPrevRisk()[0][0].length;
-			float[] RR = new float[nCat];
-
-			// initialize arrays;
-			Arrays.fill(RR, 1);
-
-			this.shouldChangeInto = new boolean[agemax + 1][2][nCat][nCat];
-			for (int a = agemin; a < agemax + 1; a++)
-				for (int g = 0; g < 2; g++)
-					for (int r1 = 0; r1 < nCat; r1++)
-						for (int r2 = 0; r2 < nCat; r2++)
-							this.shouldChangeInto[a][g][r1][r2] = false;
-
-			for (int a = agemin; a < agemax + 1; a++)
-				for (int g = 0; g < 2; g++)
-					for (int s = 0; s < scenarioInfo.getNScenarios(); s++) {
-						if (isOneForAllPopulation[s]) {
-							float oldPrev[] = parameters.getPrevRisk()[a][g];
-							float newPrev[] = scenarioInfo.getNewPrevalence()[s][a][g];
-							float[][] trans =null;
-							try {
-							trans = NettTransitionRateFactory
-									.makeNettTransitionRates(oldPrev, newPrev,
-											0, RR);}
-							catch (DynamoConfigurationException E){
-								
-								if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.") && isZeroType(oldPrev, newPrev)) { 
-									/* one possibility for this error is that the user has different categories for the old and the new situation
-									 * below we give a solution for this case, provided that the categories are ordered: first all old situation
-									 * categories, and second all new situation categories
-									 * Also, each old categories should correspond to a new category in the same order and prevalences should stay the same
-									 */
-									
-									trans = new float [nCat][nCat];
-									for (int r1 = 0; r1<nCat;r1++){
-										for (int r2 = 0; r2<nCat;r2++){
-											if (r1<(nCat/2) && r2==r1+nCat/2)
-										     trans[r1][r2]=1;
-									}}
-										
-									
-									
-									
-									}
-								else if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.")) throw new DynamoConfigurationException(E.getMessage()
-										 +"\nOne possible reason might be that there are multiple riskfactor classes with a prevalence of zero, not confirming to the special case where the first n prevalences are EXACTLY " +
-										 "equal to second n scenario prevalences");
-								else throw new DynamoConfigurationException(E.getMessage());
-									}
-							
-							
-							for (int r1 = 0; r1 < nCat; r1++)
-								for (int r2 = 0; r2 < nCat; r2++) {
-									if (r1 != r2 && trans[r1][r2] > 0)
-										shouldChangeInto[a][g][r1][r2] = true;
-								}
-						}
-
-						
-					}		
-		}
-
+		
 		/*
 		 * a new cohort of newborns is generated for each step in the
 		 * simulation, the existing population needs to be generated only once
 		 */
 
 		/* count the number of duration categories in each age class */
+		
 		if (parameters.getRiskType() == 3) {
 			for (int a = agemin; a <= agemax; a++)
 				for (int g = 0; g < 2; g++) {
@@ -411,12 +349,7 @@ public class InitialPopulationFactory {
 					null);
 		}
 
-		int[] cumulativeNSimPerClass;
-		int[] nSimPerClass;
-		int[] nSimPerDurationClass;
-		int[] cumulativeNSimPerDurationClass;
-		float[] rest;
-		float[] restDuration;
+		
 		
 		/* this is the number of the Individual */
 		/*
@@ -441,229 +374,53 @@ public class InitialPopulationFactory {
 				 * Q:/projecten/emi-dynamohia/description of calculations/ for
 				 * the method used
 				 */
-				nSimNew[a][g] = nSim;
+				nSimNew[nPopulations][a][g] = nSim;
 				/*
 				 * if (Math.abs(Math.round(a / 10) - a / 10) < 0.01 && g == 1)
 				 * 
 				 * updateProgressBar();
 				 */
 
-				// calculate the number of persons in each risk factor class
-				cumulativeNSimPerClass = new int[nClasses];
-				cumulativeNSimPerDurationClass = new int[nDuurClasses[a][g]];
-				rest = new float[nClasses];
-				restDuration = new float[nDuurClasses[a][g]];
-				if (parameters.getRiskType() == 1) {
-					// NB all statements here are copied to the next part
-					// (risktype==3)
-					// so any fault found here should be mended there too.
-					nSimPerClass = new int[nClasses];
-
-					int c = 0;
-
-					for (c = 0; c < nClasses; c++) {
-						nSimPerClass[c] = (int) Math.floor(parameters
-								.getPrevRisk()[a][g][c]
-								* nSimNew[a][g]);
-						/*
-						 * if zero case in a class, add a person to the
-						 * simulated population, in case such persons exist in
-						 * the population
-						 */
-						if (nSimPerClass[c] == 0
-								&& parameters.getPrevRisk()[a][g][c] > 0) {
-							nSimPerClass[c] = 1;
-							nSimNew[a][g]++;
-
-							/*
-							 * in that case, the rest from other categories only
-							 * needs to be distributed differently over the
-							 * other categories, as this categorie already has a
-							 * large part of the total as needed
-							 * 
-							 * We therefore recalculate the earlier
-							 */
-
-						}
-
-						if (c > 0)
-							cumulativeNSimPerClass[c] = nSimPerClass[c]
-									+ cumulativeNSimPerClass[c - 1];
-						else
-							cumulativeNSimPerClass[c] = nSimPerClass[c];
-					}
-					/*
-					 * calculated the parts of nSim that have not yet been
-					 * allocated
-					 */
-					float totrest = 0;
-					float totrestWithoutNegatives = 0;
-					for (c = 0; c < nClasses; c++) {
-						/*
-						 * rest is the difference between the prevalence that is
-						 * the aim to reach, and the prevalence that is reached
-						 * already the rest of the data are drawn proportionally
-						 * to that figure
-						 */
-						rest[c] = parameters.getPrevRisk()[a][g][c]
-								- (float) nSimPerClass[c]
-								/ (float) nSimNew[a][g];
-						totrest += rest[c];
-						/*
-						 * is totrest is negative, it should be taken into
-						 * account into totrest (part that is to be distributed
-						 * later), but this should not be used in the
-						 * distribution itself
-						 */
-						if (rest[c] < 0)
-							rest[c] = 0;
-						else
-							totrestWithoutNegatives += rest[c];
-
-					}
-
-					for (c = 0; c < nClasses; c++) {
-						rest[c] = rest[c] / totrestWithoutNegatives;
-					}
-
-					;
-
+				
+				
+			/// to do: maak de method hieronder compleet met het ook trekken van de random aanvullingen uit rest zodat dat verder niet nodig is
+				// idem voor type 3
+				// en zet deze binnen de loop voor populatie
+				
+				// kan de eerste ook niet deels voor 3 worden gedaan??
+				
+				
+				int[] cumulativeNSimPerClass;
+				if (parameters.getRiskType() == 1) {					
+					
+					cumulativeNSimPerClass=giveNumbersPerRiskClassForSimulation(0,a, g);
 				}
+				
+			///	
 				/*
 				 * repeat this for categorical riskfactors with duration, where
 				 * the same "trick" is applied both to the categories, and the
 				 * duration within categories
 				 */
+					
+					
+				
+			
 				if (parameters.getRiskType() == 3) {
-					// NB all statements here are copied from (risktype==1)
-					// so any fault found here should be mended there too.
-					nSimPerClass = new int[nClasses];
-					nSimPerDurationClass = new int[nDuurClasses[a][g]];
-					int c = 0;
-
-					for (c = 0; c < nClasses; c++) {
-						nSimPerClass[c] = (int) Math.floor(parameters
-								.getPrevRisk()[a][g][c]
-								* nSimNew[a][g]);
-						/*
-						 * if zero case in a class, add a person to the
-						 * simulated population but not if such persons do not
-						 * exist in the population
-						 */
-						if (nSimPerClass[c] == 0
-								&& parameters.getPrevRisk()[a][g][c] > 0) {
-							nSimPerClass[c] = 1;
-							nSimNew[a][g]++;
-
-							/*
-							 * in that case, the rest from other categories only
-							 * needs to be distributed differently over the
-							 * other categories, as this category already has a
-							 * large part of the total as needed
-							 * 
-							 * We therefore recalculate the earlier
-							 */
-
-						}
-
-						if (c > 0)
-							cumulativeNSimPerClass[c] = nSimPerClass[c]
-									+ cumulativeNSimPerClass[c - 1];
-						else
-							cumulativeNSimPerClass[c] = nSimPerClass[c];
-					}
-					/*
-					 * calculated the parts of nSim that have not yet been
-					 * allocated
-					 */
-					float totrest = 0;
-					float totrestWithoutNegatives = 0;
-					for (c = 0; c < nClasses; c++) {
-						/*
-						 * rest is the difference between the prevalence that is
-						 * the aim to reach, and the prevalence that is reached
-						 * already the rest of the data are drawn proportionally
-						 * to that figure
-						 */
-						rest[c] = parameters.getPrevRisk()[a][g][c]
-								- (float) nSimPerClass[c]
-								/ (float) nSimNew[a][g];
-						totrest += rest[c];
-						/*
-						 * is totrest is negative, it should be taken into
-						 * account into totrest (part that is to be distributed
-						 * later), but this should not be used in the
-						 * distribution itself
-						 */
-						if (rest[c] < 0)
-							rest[c] = 0;
-						else
-							totrestWithoutNegatives += rest[c];
-
-					}
-
-					for (c = 0; c < nClasses; c++) {
-						rest[c] = rest[c] / totrestWithoutNegatives;
-					}
-
-					;
-
-					for (c = 0; c < nDuurClasses[a][g]; c++) {
-						nSimPerDurationClass[c] = (int) Math.floor(parameters
-								.getDuurFreq()[a][g][c]
-								* nSimPerClass[parameters.getDurationClass()]);
-						/*
-						 * if no cases in duration class, add an extra case in
-						 * case such persons exist
-						 */
-						if (nSimPerDurationClass[c] == 0
-								&& nSimPerClass[parameters.getDurationClass()] > 0
-								&& parameters.getDuurFreq()[a][g][c] > 0) {
-							nSimPerDurationClass[c] = 1;
-							nSimNew[a][g]++;
-
-						}
-						restDuration[c] = parameters.getDuurFreq()[a][g][c]
-								- (float) nSimPerDurationClass[c]
-								/ (float) nSimPerClass[parameters
-										.getDurationClass()];
-						if (c > 0)
-							cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c]
-									+ cumulativeNSimPerDurationClass[c - 1];
-						else
-							cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c];
-					}
-					totrest = 0;
-					totrestWithoutNegatives = 0;
-					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
-						totrest += restDuration[c2];
-						if (restDuration[c2] < 0)
-							restDuration[c2] = 0;
-						else
-							totrestWithoutNegatives += restDuration[c2];
-					}
-
-					for (int c2 = 0; c2 < nDuurClasses[a][g]; c2++) {
-						restDuration[c2] = restDuration[c2]
-								/ totrestWithoutNegatives;
-					}
-					/*
-					 * if extra points have been added (because otherwise
-					 * durations would not have been present), adjust the arrays
-					 * for the overall classes
-					 */
-					if (cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1] > nSimPerClass[parameters
-							.getDurationClass()]) {
-						nSimPerClass[parameters.getDurationClass()] = cumulativeNSimPerDurationClass[nDuurClasses[a][g] - 1];
-						for (c = 0; c < nClasses; c++) {
-
-							if (c > 0)
-								cumulativeNSimPerClass[c] = nSimPerClass[c]
-										+ cumulativeNSimPerClass[c - 1];
-							else
-								cumulativeNSimPerClass[c] = nSimPerClass[c];
-						}
-					}
+					int durClass=parameters.getDurationClass();
+				    int nInDurationClass=0;
+				    if (durClass>0) nInDurationClass=cumulativeNSimPerClass[0] ;
+				    else nInDurationClass=cumulativeNSimPerClass[durClass] -cumulativeNSimPerClass[durClass-1] ;
+				    
+					int[] cumulativeNSimPerDurationClass = giveNumberPerDurationClassForSimulation(0,a, g,durClass);
+					
+					// if extra numbers were added to the durationclass, those should also be added to the array for the riskfactorclasses
+					// this means that all cumulative numbers above this class will increase
+					if (cumulativeNSimPerDurationClass[cumulativeNSimPerDurationClass.length-1]> nInDurationClass )
+					
+						for (int c=durClass; c<cumulativeNSimPerDurationClass.length;c++)
+							cumulativeNSimPerClass[c] += cumulativeNSimPerDurationClass[cumulativeNSimPerDurationClass.length-1]- nInDurationClass;
+						
 				}
 
 				/*****************************************************************************
@@ -915,29 +672,22 @@ public class InitialPopulationFactory {
 						 * GENERATION OF SCENARIO POPULATIONS
 						 * 
 						 * 
-						 * This is done for 4 cases:
+						 * This is done for 3 cases:
 						 * 
-						 * 1.- different initial risk factor prevalence, not
-						 * handled through one-for-all-population
+						 * 1.- different initial risk factor prevalence, 
 						 * 
-						 * 2.- different initial risk factor prevalence handled
-						 * by one-for-all-population
-						 * 
-						 * 3.- same initial prevalence: just copy reference
+						 * 2.- same initial prevalence: just copy reference
 						 * population
 						 * 
-						 * 4. - daly scenarios: just copy reference population,
+						 * 3. - daly scenarios: just copy reference population,
 						 * but with different label, and different health status for newborns
 						 * 
-						 * 3. is done in a separate loop (not for this
+						 * 2. is done in a separate loop (not for this
 						 * individual).
 						 * 
 						 * 
 						 * The numbering of the population is in the order of
-						 * the scenario's. So if the one-for-all scenario is
-						 * only the 4th scenario (=scennum=3), population 4 will
-						 * be the one-for-all population (population 0 is
-						 * reference population)
+						 * the scenario's. after that the daly scenarios are placed
 						 * 
 						 * 
 						 * /
@@ -947,20 +697,12 @@ public class InitialPopulationFactory {
 						 * 
 						 * 
 						 * GENERATE SCENARIO POPULATIONS WITH DIFFERENT INITIAL
-						 * PREVALENCE DISTRIBUTIONS (but not an all-for-one
-						 * population)
+						 * PREVALENCE DISTRIBUTIONS 
 						 */
 
 						/*
 						 * 
-						 * There are two cases for which this needs to be done:
-						 * 1. for continuous riskfactors with different initial
-						 * populations and 2. categorical where both initial
-						 * population and transition rates are changed
-						 * 
-						 * (if there exist oneForAll populations and there are
-						 * only 2 populations, this means no such situation
-						 * exists and than this part can be skipped)
+						 * The next part is for different initial prevalence distribution
 						 */
 						int newRiskValue = -1;
 						float newDurationValue=-1;
@@ -968,88 +710,15 @@ public class InitialPopulationFactory {
 						int currentscen = 0;
 						int currentpop = 1; // population 0 is the reference
 						// population
-						boolean moreScenarios = true;
-						if ((isAtLeastOneAllForOnePopulation && nPopulations == 2)
-								|| (isAtLeastOneAllForOnePopulation
-										&& nPopulations == 3 && this.hasDalyScenarios))
-							moreScenarios = false;
+						
+						
 
-						while ((currentpop < nPopulations) && moreScenarios) {
+						while ((currentpop < nPopulations)) {
 
-							/*
-							 * look for next scenario that has an different
-							 * initial prevalence (initialprevalencetype) and is
-							 * not an all for One Population type
-							 */
-							boolean found = false;
-							for (int i1 = currentscen; i1 < scenarioInfo
-									.getNScenarios(); i1++) {
-								/*
-								 * find the population number that belongs to
-								 * the current scenario
-								 */
-								/*
-								 * isOneForAllPopulation indicates that this
-								 * scenario uses a one-for-all-pop
-								 */
-								/*
-								 * if this scenario is the first one for all
-								 * scenario, then making this population should
-								 * not be done here in this loop, so increase
-								 * the population number
-								 */
-								if (numberOfTheOneForAllPop - 1 == i1) /*
-																		 * this
-																		 * tests
-																		 * whether
-																		 * this
-																		 * scenario
-																		 * is
-																		 * the
-																		 * first
-																		 * scenario
-																		 * that
-																		 * uses
-																		 * a one
-																		 * for
-																		 * all
-																		 * population
-																		 */
-									currentpop++;
-								/*
-								 * find the next scenario that is not a 1 for
-								 * all scenario, and also not a scenario that is
-								 * copied later
-								 */
-								if (!isOneForAllPopulation[i1]
-										&& scenarioInfo
-												.getInitialPrevalenceType()[i1]) {
-									currentscen = i1;
-									found = true;
-									break;
-								}
-								/*
-								 * if scenario has same initial pop, it is just
-								 * copied from the reference scenario, This is
-								 * done later, so we have to skip filling the
-								 * population here
-								 */
-								if (!isOneForAllPopulation[i1]
-										&& !scenarioInfo
-												.getInitialPrevalenceType()[i1])
-									currentpop++;
-
-								/* if no such scenario is found */
-
-							}
-							if (!found)
-								moreScenarios = false;
-							/* now give the values to the individual */
-							/*
-							 * first check if there is a population to be made
-							 */
-
-							if (moreScenarios) {
+							
+							
+							/*  give the values to the individual */
+							
 									
 								String riskFactorLevel="";
 								if (riskType==1) riskFactorLevel=Float.toString(currentRiskValue);
@@ -1110,7 +779,7 @@ public class InitialPopulationFactory {
 
 								/* if categorical risk factor */
 								else {
-									/* get transition matrix */
+									/* get transition matrix from old to new prevalences */
 
 									float trans[][] = getPrevalenceTransitionMatrix(
 											currentscen, a, g);
@@ -1125,10 +794,14 @@ public class InitialPopulationFactory {
 									 * their difference is not influenced by
 									 * this
 									 */
+									// to do: make sure that all  riskfactor classes are present
+									
+									
 
 									rand3.setSeed(seed2 + 5);
-									newRiskValue = DynamoLib.draw(
-											trans[currentRiskValue], rand3);
+									newRiskValue = drawRiskfactorValueWithSupplyingAllValues(trans[currentRiskValue], currentpop);
+											
+											
 									currentIndividualS
 											.add(new IntCharacteristicValue(
 													stepsInSimulation, 3,
@@ -1206,236 +879,22 @@ public class InitialPopulationFactory {
 														.addIndividual(dalyIndividual);
 								}
 								
-			
+			//* currentscen en currentpop zijn overblijfselen uit de tijd dat scenarios en populaties niet syncroon liepen. dit zou kunnen worden vereenvoudigd tot een for loop.
 
 								currentscen++;
 								currentpop++;
 
-							}
+							
 						} // end loop over populations of this individual
 
 						/*
 						 * 
-						 * 2.
-						 * 
-						 * 2. generation of SCENARIO POPULATION for the
-						 * one-for-all population
-						 */
-
-						/*
-						 * 
-						 * 
-						 * for categorical covariates, but not for newborns and
-						 * 0 year old (=newborns in the existing population) as
-						 * the latter will start "clean", that is without having
-						 * disease prevalences based on old history
-						 * 
-						 * the label is an indicator of scenario for the
-						 * "all in one" scenario population for categorical
-						 * riskfactors. This gives the old (baseline) value of
-						 * the individual (0-9) plus the new value (0-9) for
-						 * categorical data
-						 */
-
-						if (parameters.getRiskType() != 2
-								&& shouldChangeInto != null && a != 0
-								&& !newborns) {
-							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
-								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividualS = new Individual("scen"
-											+ numberOfTheOneForAllPop, "ind_"
-											+ individualNumber + "_"
-											+ currentRiskValue + "_" + r);
-									currentIndividualS
-											.setRandomNumberGeneratorSeed(seed2);
-									currentIndividualS.luxeSet(1,
-											new FloatCharacteristicValue(
-													stepsInSimulation, 1,
-													(float) agestart));
-									currentIndividualS.luxeSet(2,
-											new IntCharacteristicValue(
-													stepsInSimulation, 2, g));
-									if (parameters.getRiskType() == 1
-											|| parameters.getRiskType() == 3)
-										currentIndividualS
-												.luxeSet(
-														3,
-														new IntCharacteristicValue(
-																stepsInSimulation,
-																3, r));
-									// duration = 0, both for just stopped, and
-									// for
-									// other categories
-									characteristicIndex = 4;
-									if (parameters.getRiskType() == 3) {
-										currentIndividualS
-												.luxeSet(
-														4,
-														new FloatCharacteristicValue(
-																stepsInSimulation,
-																4, 0));
-										characteristicIndex = 5;
-									}
-									/*
-									 * newborns and zero year olds are not
-									 * bothered disease histories, so their
-									 * diseases are recalculated from the new
-									 * risk factor state but not the others:
-									 * they keep the disease probabilities based
-									 * on their old risk factors (before
-									 * intervention)
-									 */
-									if (newborns || a == 0)
-
-										CharValues = calculateDiseaseStates(
-												parameters, currentRiskValue,
-												a, g, riskFactorValue,
-												currentDurationValue);
-
-									currentIndividualS.luxeSet(
-											characteristicIndex,
-											new CompoundCharacteristicValue(
-													stepsInSimulation,
-													characteristicIndex,
-													numberOfElements,
-													CharValues));
-									
-									
-									initialPopulation[numberOfTheOneForAllPop]
-											.addIndividual(currentIndividualS);
-									
-									
-									
-									
-									/* also add the daly-scenarios */
-									/* daly is een copy van the one for all
-									 * but all riskfactors back to the reference value 
-									  */
-									if (this.scenarioInfo.getFirstOneForAllDalyPop()>-1) {
-										Individual dalyIndividual=deepCopy(currentIndividualS);
-										
-										dalyIndividual
-										.luxeSet(
-												3,
-												new IntCharacteristicValue(
-														stepsInSimulation,
-														3, currentRiskValue));
-										if (riskType==3) dalyIndividual
-										.luxeSet(
-												4,
-												new FloatCharacteristicValue(
-														stepsInSimulation,
-														4, currentDurationValue));
-											
-										String riskLabel="";
-										/* durations needs no labeling, as it is always zero after change */
-										/* yes they do as the category itself needs changing back */
-										if (riskType==1 || riskType==3) riskLabel= Integer.toString(r);
-										setLabelDalyIndividual(dalyIndividual,riskLabel);
-									
-										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]
-															.addIndividual(dalyIndividual);
-										// end daly addition
-									}
-								}
-							}
-
-						}
+						
+						
 						/*
 						 * now the one year olds and newborns
 						 */
-						else if (parameters.getRiskType() != 2
-								&& shouldChangeInto != null
-								&& (a == 0 || newborns))
-
-							for (int r = 0; r < shouldChangeInto[a][g].length; r++) {
-								if (shouldChangeInto[a][g][currentRiskValue][r]) {
-									currentIndividualS = new Individual("scen"
-											+ numberOfTheOneForAllPop, "ind_"
-											+ individualNumber + "_"
-											+ currentRiskValue + "_" + r);
-									currentIndividualS
-											.setRandomNumberGeneratorSeed(seed2);
-									currentIndividualS.luxeSet(1,
-											new FloatCharacteristicValue(
-													stepsInSimulation, 1,
-													agestart));
-									currentIndividualS.luxeSet(2,
-											new IntCharacteristicValue(
-													stepsInSimulation, 2, g));
-									if (parameters.getRiskType() == 1
-											|| parameters.getRiskType() == 3)
-										currentIndividualS
-												.luxeSet(
-														3,
-														new IntCharacteristicValue(
-																stepsInSimulation,
-																3, r));
-									// duration = 0, both for just stopped, and
-									// for
-									// other categories
-									characteristicIndex = 4;
-									if (parameters.getRiskType() == 3) {
-										currentIndividualS
-												.luxeSet(
-														4,
-														new FloatCharacteristicValue(
-																stepsInSimulation,
-																4, 0));
-										characteristicIndex = 5;
-									}
-
-									/*
-									 * newborns and zero year olds are not
-									 * bothered disease histories, so their
-									 * diseases are recalculated from the new
-									 * risk factor state but not the others:
-									 * they keep the disease probabilities based
-									 * on their old risk factors (before
-									 * intervention)
-									 */
-									if (newborns || a == 0)
-										CharValues = calculateDiseaseStates(
-												parameters, r, a, g,
-												riskFactorValue,
-												currentDurationValue);
-									currentIndividualS.luxeSet(
-											characteristicIndex,
-											new CompoundCharacteristicValue(
-													stepsInSimulation,
-													characteristicIndex,
-													numberOfElements,
-													CharValues));
-									initialPopulation[numberOfTheOneForAllPop]
-											.addIndividual(currentIndividualS);
-									
-									// add daly individual: this starts with having  reference values 
-									
-									if (this.scenarioInfo.getFirstOneForAllDalyPop()>-1) {
-										Individual dalyIndividual=deepCopy(currentIndividualS);
-										
-										dalyIndividual
-										.luxeSet(
-												3,
-												new IntCharacteristicValue(
-														stepsInSimulation,
-														3, currentRiskValue));
-										if (riskType==3) dalyIndividual
-										.luxeSet(
-												4,
-												new FloatCharacteristicValue(
-														stepsInSimulation,
-														4, currentDurationValue));
-											
-										String riskLabel="";
-										if (riskType==1 || riskType==3) riskLabel= Integer.toString(r);
-										setLabelDalyIndividual(dalyIndividual,riskLabel);
-									
-										initialPopulation[this.scenarioInfo.getFirstOneForAllDalyPop()]
-															.addIndividual(dalyIndividual);
-									}
-							}
-					}
+						
 				}// end sim loop
 				;
 				}
@@ -1449,23 +908,298 @@ public class InitialPopulationFactory {
 
 		/* only replace ref in the name by number of currentpop */
 
-		if (parameters.getRiskType() == 2
-				|| !(isAtLeastOneAllForOnePopulation && nPopulations == 2)) {
+		
 
 			for (int i1 = 1; i1 < nPopulations; i1++) {
-				int scenNum = scenarioInfo.getPopToScenIndex()[i1];
+				int scenNum = i1-1;
 				if (!scenarioInfo.getInitialPrevalenceType()[scenNum]
-						&& !isOneForAllPopulation[scenNum]) {
+						) {
 					initialPopulation[i1] = deepCopy(initialPopulation[0]);
 
 				}
 
 			}
-		}
+		
 		/*
 		 * if (newborns || !scenarioInfo.isWithNewBorns()) closeProgressBar();
 		 */
 		return initialPopulation;
+	}
+
+	/** calculates the numbers that are put in each duration category
+	 * @param pop population number
+	 * @param a age
+	 * @param g gender
+	 * @return array with cumulative numbers per class
+	 */
+	private int[] giveNumberPerDurationClassForSimulation(int pop,int a, int g, int nInDurationClass) {
+		// NB all statements here are copied from (risktype==1)
+		// so any fault found here should be mended there too.
+		int[] nSimPerDurationClass;
+		int[] cumulativeNSimPerDurationClass;
+		cumulativeNSimPerDurationClass = new int[nDuurClasses[pop][a][g]];
+		
+		
+		
+		nSimPerDurationClass = new int[nDuurClasses[pop][a][g]];
+		int c = 0;
+
+		
+
+			
+		/*
+		 * calculated the parts of nSim that have not yet been
+		 * allocated
+		 */
+		float[] restDuration;	
+		restDuration = new float[nDuurClasses[pop][a][g]];
+		//float totrest = 0;
+		//float totrestWithoutNegatives = 0;
+		
+		
+
+		
+		
+		
+		
+
+		for (c = 0; c < nDuurClasses[pop][a][g]; c++) {
+			
+			
+		
+			nSimPerDurationClass[c] = (int) Math.floor(parameters
+					.getDuurFreq()[a][g][c]
+					* nInDurationClass);
+			/*
+			 * if no cases in duration class, add an extra case in
+			 * case such persons exist
+			 */
+			if (nSimPerDurationClass[c] == 0
+					&& nInDurationClass > 0
+					&& parameters.getDuurFreq()[a][g][c] > 0) {
+				nSimPerDurationClass[c] = 1;
+				nSimNew[pop][a][g]++;
+				nInDurationClass++;
+
+			}
+			restDuration[c] = parameters.getDuurFreq()[a][g][c]
+					- (float) nSimPerDurationClass[c]
+					/ (float) nInDurationClass;
+			if (c > 0)
+				cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c]
+						+ cumulativeNSimPerDurationClass[c - 1];
+			else
+				cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c];
+		}
+		
+		float totrestWithoutNegatives = 0;
+		for (int c2 = 0; c2 < nDuurClasses[pop][a][g]; c2++) {
+			
+			if (restDuration[c2] < 0)
+				restDuration[c2] = 0;
+			else
+				totrestWithoutNegatives += restDuration[c2];
+		}
+		 int sumNallocated=0;
+		for (int c2 = 0; c2 < nDuurClasses[pop][a][g]; c2++) {
+			restDuration[c2] = restDuration[c2]
+					/ totrestWithoutNegatives;
+			sumNallocated+=nSimPerDurationClass[c];
+		}
+		/*
+		 * if extra points have been added (because otherwise
+		 * durations would not have been present), adjust the arrays
+		 * for the overall classes ==> this should be done in the calling method */
+		
+		
+		   			
+	     // fill with random drawn values
+	         for (int add=1;add< nSimNew[pop][a][g]-sumNallocated;add++)
+	        	nSimPerDurationClass[DynamoLib.draw(restDuration, rand)]++;
+	        		
+	        
+	         for (c = 0; c < nClasses; c++) {
+	 			if (c > 0)
+	 				cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c]
+	 						+ cumulativeNSimPerDurationClass[c - 1];
+	 			else
+	 				cumulativeNSimPerDurationClass[c] = nSimPerDurationClass[c];
+	 		}
+			
+			
+		
+		return cumulativeNSimPerDurationClass;
+	}
+
+	/** calculates the numbers that are put in each risk factor category
+	 * only looking at the prevalence rate of the population itself
+	 * @param pop population number
+	 * @param a age
+	 * @param g gender
+	 * @return array with cumulative numbers per class
+	 */
+	
+	
+	private int[] giveNumbersPerRiskClassForSimulation(int pop, int a, int g) {
+		int[] cumulativeNSimPerClass =null ;
+		
+		cumulativeNSimPerClass = new int[nClasses];
+		// calculate the number of persons in each risk factor class
+		
+		
+		int[] nSimPerClass = new int[nClasses];
+		// NB all statements here are copied to the next part
+		// (risktype==3)
+		// so any fault found here should be mended there too.
+		
+
+		int c = 0;
+
+		for (c = 0; c < nClasses; c++) {
+			nSimPerClass[c] = (int) Math.floor(parameters
+					.getPrevRisk()[a][g][c]
+					* nSimNew[pop][a][g]);
+			/*
+			 * if zero case in a class, add a person to the
+			 * simulated population, in case such persons exist in
+			 * the population
+			 */
+			if (nSimPerClass[c] == 0
+					&& parameters.getPrevRisk()[a][g][c] > 0) {
+				nSimPerClass[c] = 1;
+				nSimNew[pop][a][g]++;
+
+				/*
+				 * in that case, the rest from other categories only
+				 * needs to be distributed differently over the
+				 * other categories, as this categorie already has a
+				 * large part of the total as needed
+				 * 
+				 * We therefore recalculate the earlier
+				 */
+
+			}		
+		}
+		/*
+		 * calculated the parts of nSim that have not yet been
+		 * allocated
+		 */
+			
+		
+		float[] rest  = new float[nClasses];
+		float totrest = 0;
+		float totrestWithoutNegatives = 0;
+		for (c = 0; c < nClasses; c++) {
+			/*
+			 * rest is the difference between the prevalence that is
+			 * the aim to reach, and the prevalence that is reached
+			 * already the rest of the data are drawn proportionally
+			 * to that figure
+			 */
+			rest[c] = parameters.getPrevRisk()[a][g][c]
+					- (float) nSimPerClass[c]
+					/ (float) nSimNew[pop][a][g];
+			totrest += rest[c];
+			/*
+			 * is totrest is negative, it should be taken into
+			 * account into totrest (part that is to be distributed
+			 * later), but this should not be used in the
+			 * distribution itself
+			 */
+			if (rest[c] < 0)
+				rest[c] = 0;
+			else
+				totrestWithoutNegatives += rest[c];
+
+		}
+        int sumNallocated=0;
+		for (c = 0; c < nClasses; c++) {
+			rest[c] = rest[c] / totrestWithoutNegatives;
+			sumNallocated+=nSimPerClass[c];
+		}
+
+		
+     // fill with random drawn values
+         for (int add=1;add< nSimNew[pop][a][g]-sumNallocated;add++)
+        	nSimPerClass[DynamoLib.draw(rest, rand)]++;
+        		
+        
+         for (c = 0; c < nClasses; c++) {
+ 			if (c > 0)
+ 				cumulativeNSimPerClass[c] = nSimPerClass[c]
+ 						+ cumulativeNSimPerClass[c - 1];
+ 			else
+ 				cumulativeNSimPerClass[c] = nSimPerClass[c];
+ 		}
+		
+		
+		
+		
+		return cumulativeNSimPerClass;
+	}
+
+	
+	private int[] adaptNumbersPerRiskClassForSimulationForTransitions(int[] cumulativeNPerSimClass, float [] oldPrev, float [] newPrev ) throws DynamoConfigurationException, DynamoInconsistentDataException{
+		
+		//* if there are "transitions" from old to new prevalence, there must be at least one individual per transition.
+		
+		
+		    float[]R=new float [oldPrev.length];
+		    Arrays.fill(R,1);
+				float [][] toChange = NettTransitionRateFactory
+				.makeNettTransitionRates(
+						oldPrev,
+						newPrev,
+						0, R);
+
+				// check if enough 
+				
+				for (int s=0; s<oldPrev.length;s++)	
+		return cumulativeNPerSimClass;
+		
+	}
+	
+	
+	
+	
+	
+	
+	private int[] areFilled = new int [this.nPopulations];
+	
+	private int drawRiskfactorValueWithSupplyingAllValues(float[] fs,  int popnr) {
+		// TODO Auto-generated method stub
+		int fillValue=0;
+		if (areFilled[popnr]<this.nClasses) {
+			fillValue=areFilled[popnr];
+			areFilled[popnr]++;
+			
+			
+			}
+		else 
+		fillValue=DynamoLib.draw(fs, rand3);
+		
+		
+		return fillValue;
+	}
+	
+	
+	
+private int[] areFilledDuration = new int [this.nPopulations];
+	
+	private int drawDurationValueWithSupplyingAllValues(float[] fs,  int popnr) {
+		// TODO Auto-generated method stub
+		int fillValue=0;
+		if (areFilledDuration[popnr]<this.nClasses) {
+			fillValue=areFilled[popnr];
+			areFilledDuration[popnr]++;
+			
+			
+			}
+		else 
+		fillValue=DynamoLib.draw(fs, rand3);
+		
+		
+		return fillValue;
 	}
 
 	private void setLabelDalyIndividual(Individual dalyIndividual, String riskLabel) {
