@@ -319,17 +319,33 @@ public class SimulationUniversalAction extends ActionBase {
 				"Not all preconditions have been met:\n");
 		TreeAsDropdownLists instance = TreeAsDropdownLists.getInstance(node);
 		instance.refresh(node);
-		int numberOfPopulations = instance.getPopulations().size();
+		int numberOfPopulations = 0;
+		try{
+		 numberOfPopulations = instance.getPopulations().size();}
+		catch (NullPointerException e) {
+			numberOfPopulations=0;
+		}
 		if (numberOfPopulations == 0) {
 			allTestsOK = false;
 			errorMessage.append("No valid population was found.\n");
 		}
-		int numberOfDiseases = instance.getValidDiseaseNames().size();
+		int numberOfDiseases = 0;
+			try{	
+				numberOfDiseases =instance.getValidDiseaseNames().size();
+				}
+			catch (NullPointerException e) {
+				numberOfDiseases=0;
+			}
 		if (numberOfDiseases == 0) {
 			allTestsOK = false;
 			errorMessage.append("No valid disease was found.\n");
 		}
-		int numberOfRiskFactors = instance.getRiskFactorNames().size();
+		int numberOfRiskFactors=0;
+		try{
+		 numberOfRiskFactors = instance.getRiskFactorNames().size();}
+		catch (NullPointerException e) {
+			numberOfRiskFactors=0;
+		}
 		if (numberOfRiskFactors == 0) {
 			allTestsOK = false;
 			errorMessage.append("No valid risk factor was found.\n");
