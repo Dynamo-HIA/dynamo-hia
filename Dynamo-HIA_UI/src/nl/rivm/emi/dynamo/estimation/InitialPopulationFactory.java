@@ -547,8 +547,11 @@ public class InitialPopulationFactory {
 					}
 
 					;
+					if (cumulativeNSimPerClass[nClasses-1]>nSimNew[a][g]) nSimNew[a][g]=cumulativeNSimPerClass[nClasses-1];
 
 				}
+				
+				
 				/*
 				 * repeat this for categorical riskfactors with duration, where
 				 * the same "trick" is applied both to the categories, and the
@@ -684,6 +687,7 @@ public class InitialPopulationFactory {
 								cumulativeNSimPerClass[c] = nSimPerClass[c];
 						}
 					}
+					if (cumulativeNSimPerClass[nClasses-1]>nSimNew[a][g]) nSimNew[a][g]=cumulativeNSimPerClass[nClasses-1];
 				}
 
 				/*****************************************************************************
