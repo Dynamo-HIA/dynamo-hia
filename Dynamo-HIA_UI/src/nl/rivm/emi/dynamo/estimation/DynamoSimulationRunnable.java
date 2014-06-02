@@ -218,20 +218,22 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * carry out this simulation
 			 */
 			
-			// TODO: ONLY INI output = new DynamoOutputFactory(scen, pop);
-			InitialPopulationFactory popFactory = new InitialPopulationFactory(
-					p, scen, pr);
 			
 			
 			
 
 
 
-			int nIndividuals = getNIndividuals(popFactory);
+			
 			int agemax = scen.getMaxSimAge();
 			if (agemax > 95)
 				agemax = 95;
 			int agemin = scen.getMinSimAge();
+			// TODO: ONLY INI output = new DynamoOutputFactory(scen, pop);
+						InitialPopulationFactory popFactory = new InitialPopulationFactory(
+								p, scen, pr,agemin, agemax,	0, 1);
+						int nIndividuals = getNIndividuals(popFactory);
+						
 			Population[] pop = null;
 			DynamoOutputFactory output = new DynamoOutputFactory(scen);
 			/* for test: made 10 time lower: TODO change 200 in 2 later */

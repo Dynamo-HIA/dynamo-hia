@@ -656,8 +656,8 @@ public class NettTransitionRateFactory {
 				}
 				if (Math.abs(sum - 1.0) > 1E-5) {
 					/* add the missing fraction to the categories closed to i */
-					int closestUnder = 10;
-					int closestOver = 10;
+					int closestUnder = nCat;
+					int closestOver = nCat;
 					boolean canStay = false;
 					for (int j = 0; j < nCat; j++) {
 						if (newPrev[j] > 0) {
@@ -672,13 +672,13 @@ public class NettTransitionRateFactory {
 
 					if (canStay)
 						transitionRates[i][i] += (1 - sum);
-					else if (closestUnder < 10 && closestOver < 10) {
+					else if (closestUnder < nCat && closestOver < nCat) {
 						transitionRates[i][i - closestUnder] += (1 - sum) / 2;
 						transitionRates[i][i + closestOver] += (1 - sum) / 2;
-					} else if (closestUnder < 10) {
+					} else if (closestUnder < nCat) {
 						transitionRates[i][i - closestUnder] += (1 - sum);
 
-					} else if (closestOver < 10) {
+					} else if (closestOver < nCat) {
 
 						transitionRates[i][i + closestOver] += (1 - sum);
 					} else

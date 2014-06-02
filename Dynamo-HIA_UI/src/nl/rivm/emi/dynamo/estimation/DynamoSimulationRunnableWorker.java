@@ -91,22 +91,26 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 	
 	public void run()
 	{
-		
+	//	log.fatal("start worker");
 		
 		simulation = new Simulation[scen.getNPopulations()];
+	//	log.fatal("simulations object made");
 		for (int n = 0; n < scen.getNPopulations(); n++)
 			simulation[n] = new Simulation();
-
+    //    log.fatal("all simulations made");
 		InitialPopulationFactory popFactory;
 		try {
 			popFactory = new InitialPopulationFactory(
-					this.p, this.scen, this.pr);
-		
+					this.p, this.scen, this.pr,age, age, g,
+					g);
+	//		log.fatal("popfactory made");
 	Population [] pop = popFactory.manufactureInitialPopulation(age, age, g,
 			g, generation, generation, newborns);
-	log.debug("simulation pop made");
+//	log.fatal("simulation pop made");
 	pop = runPopulation(pop, simFileName);
+	log.fatal("starting extracting age "+age+" gender "+g);
 	output.extractNumbersFromPopulation(pop);
+//	log.fatal("end extracting");
 	//this.pr.updateProgressIndicator();
 	
 	;
@@ -171,7 +175,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 				simulationFilePath = simFileName + "_scen_" + popNum + ".xml";
 
 			simulationConfigurationFile = new File(simulationFilePath);
-			 log.debug("simulationFile made for scenario " );
+			 //log.fatal("simulationFile made for scenario " );
 
 			// assertTrue(CharacteristicsConfigurationMapSingleton
 			// .getInstance().size() > 1);

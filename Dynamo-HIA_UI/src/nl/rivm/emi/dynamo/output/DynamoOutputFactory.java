@@ -606,6 +606,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		 * the real number of populations Is redundant if correct, but just to
 		 * be sure
 		 */
+	//	log.fatal("begin extract");
 		if (pop.length != this.nPopulations)
 			throw new DynamoScenarioException(
 					"something goes wrong "
@@ -757,7 +758,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 		 * the numbers sum up to nSim= nInSimulationByAge at the start of
 		 * simulation
 		 */
-
+	//	log.fatal("na inis");
 		for (int s = minMaxData[2]; s <= minMaxData[3]; s++)
 			for (int age = Math.max(0, minMaxData[0]); age <=  Math.max(0,minMaxData[1]); age++)
 				/* this loop must be used once also with 0 generations */
@@ -847,7 +848,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 			}
 
-		
+		//log.fatal("na loop 1");
 		log.debug("weight  " +weight[0][Math.max(0, minMaxData[0])][minMaxData[2]]);
 	//	log.debug("weight  Newborn "+weightNewborns[0][minimumGeneration][minMaxData[2]]); // geeft out of boundary wanneer geen newborns???
 		/*
@@ -1643,7 +1644,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 				}// end over stepCount
 			}// end loop over individuals
 		}// end loop populations
-
+	//	log.fatal("na loop pop (2)");
 		/*
 		works only for 3 category variables
 		log
@@ -1667,6 +1668,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 			float[] dummy = new float[this.nRiskFactorClasses];
 			Arrays.fill(dummy, 1);
 			float[][] toChange;
+			
 
 			int minSimAge = Math.max(0, minMaxData[0]);
 			int maxSimAge = minMaxData[1];
@@ -1753,7 +1755,7 @@ try{
 								
 								//
 								
-
+//log.fatal("na  berekening change");
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 										for (int r = 0; r < this.nRiskFactorClasses; r++) {
@@ -1829,6 +1831,10 @@ try{
 													zeroToPrevalence = true;
 												if (oldPrevalence[a - stepCount][s][to] == 0)
 													zeroFromPrevalence = true;
+												// for very small prevalences and old ages sum becomes zero while it works OK for similar
+												// figures at younger ages
+												// number of survivors might be small??
+												// anyway this small will not influence results
 											}
 
 											else {
@@ -1893,10 +1899,10 @@ try{
 										+(this.pSurvivalByRiskClassByAge[0][2][0][0][0]+this.pSurvivalByRiskClassByAge[0][2][1][0][0]+this.pSurvivalByRiskClassByAge[0][2][2][0][0])
 								);*/
 					
-					
+				//	log.fatal("na eerste loop onescen ");
 					
 
-					for (int stepCount = 0; stepCount < this.nDim; stepCount++)
+					
 						for (int a = minSimAge; a < maxSimAge + 1; a++)
 							for (int s = minMaxData[2]; s <= minMaxData[3]; s++)
 
@@ -1973,7 +1979,8 @@ try{
 										}
 									else throw new DynamoConfigurationException(E.getMessage());
 										}
-
+								// verplaatst voor versnellen
+								for (int stepCount = 0; stepCount < this.nDim; stepCount++)
 								for (from = 0; from < this.nRiskFactorClasses; from++)
 									for (to = 0; to < this.nRiskFactorClasses; to++) {
 										{
@@ -1983,7 +1990,7 @@ try{
 											 * gaat gfout bij from=to=1 en bij
 											 * from=to=0
 											 */
-											{
+											{ // log.fatal(" from inside diseaseloop");
 												if (pDiseaseStateByOriRiskClassByOriAge_scen[0][stepCount][state][from][to][a
 														- minimumAge][s
 														- minimumGender] > 0)
@@ -2136,6 +2143,7 @@ try{
 																- minimumAge][s
 																- minimumGender];
 										}
+										
 										/*
 										 * look if data are availlable for the
 										 * first step, except when the
@@ -2156,7 +2164,7 @@ try{
 
 											if (newPrevalence[scen][a][s][to] == 0)
 												zeroToPrevalence = true;
-											if (oldPrevalence[a][s][to] == 0)
+											if (oldPrevalence[a][s][to] == 0 )
 												zeroFromPrevalence = true;
 
 											if (sum == 0
@@ -2181,10 +2189,11 @@ try{
 									}// end to-from loop
 
 							}// end age , sex and stepCount loop
-
+//log.fatal("na tweede loop for onescen");
 				}// end loop for scenario
 
 		}
+		//log.fatal("na loop onescen (3)");
 
 		/*
 		 * arrays for average riskfactor value now contain the sum of value
