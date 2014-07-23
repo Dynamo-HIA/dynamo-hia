@@ -454,7 +454,8 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 				log.debug("Type \"" + myType.getXMLElementName()
 						+ "\" minimumValue: " + minValue + " maximumValue: "
 						+ maxValue);
-				if (minValue < maxValue) {
+				// juli 2014: hendriek < veranderd in <= anders werkt het niet voor cutoffs continue risico factoren wanneer aantal cutoffs=1
+				if (minValue <= maxValue) {
 					for (int value = minValue; value <= maxValue; value++) {
 						TypedHashMap<?> pathMap = (TypedHashMap<?>) priorLevel
 								.get(value);

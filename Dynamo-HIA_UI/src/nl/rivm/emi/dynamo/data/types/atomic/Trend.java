@@ -13,6 +13,7 @@ public class Trend extends AbstractValue implements PayloadType<Float>{
 	 * Constructor
 	 */
 	public Trend(){
-		super(XMLElementName, 0F, Float.MAX_VALUE);
+		super(XMLElementName, Float.MIN_VALUE, Float.MAX_VALUE);
 	}	
 }
+

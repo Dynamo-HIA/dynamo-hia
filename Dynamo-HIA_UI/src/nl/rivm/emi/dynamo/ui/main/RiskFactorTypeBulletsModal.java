@@ -212,6 +212,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			public void modifyText(ModifyEvent event) {
 				Combo myCombo = (Combo) event.widget;
 				numberOfCutoffs = myCombo.getSelectionIndex();
+				log.fatal("number of cutoffs"+numberOfCutoffs);
 			}
 		});
 		

@@ -19,9 +19,9 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 			.compile("^\\d*\\.?\\d*$");
 	
 	private Float defaultValue = 0F;
-	
+	//Hendriek veranderd juli 2014 zodat trend ook negatief kan zijn
 	public AbstractValue(String XMLElementName){
-		this(XMLElementName, 0F, Float.MAX_VALUE);
+		this(XMLElementName, Float.MIN_VALUE, Float.MAX_VALUE);
 	}
 
 	/**

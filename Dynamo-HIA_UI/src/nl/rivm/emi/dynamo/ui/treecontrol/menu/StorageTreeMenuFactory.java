@@ -865,7 +865,7 @@ public class StorageTreeMenuFactory {
 				"overalldisability",
 				StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
 						.getNodeLabel());
-		action4.setText("New overall DALY weights");
+		action4.setText("New overall disability (or DALY weight)");
 		action4
 				.setEnabled(allPossibleChildren
 						.contains(StandardTreeNodeLabelsEnum.POPULATIONOVERALLDALYWEIGHTSFILE
@@ -1045,7 +1045,7 @@ public class StorageTreeMenuFactory {
 				treeViewer,
 				(DirectoryNode) selection.getFirstElement(),
 				RiskFactorStringConstantsEnum.RISKFACTORRELATIVERISKSFORDISABILITY);
-		action.setText("New risk factor relative risks for disability file");
+		action.setText("New risk factor odds ratios for disability file");
 		manager.add(action);
 	}
 
@@ -1116,7 +1116,7 @@ public class StorageTreeMenuFactory {
 		FreeNameXMLFileAction action = new FreeNameXMLFileAction(shell,
 				treeViewer, (DirectoryNode) selection.getFirstElement(),
 				"dalyweights", new FileAndDirectoryNameInputValidator());
-		action.setText("New disease DALY weights file");
+		action.setText("New disease disability (or DALY weigth) file");
 		manager.add(action);
 	}
 

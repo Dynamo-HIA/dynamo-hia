@@ -150,14 +150,18 @@ public class CSVLEwriter implements Runnable  {
 			for (int year = 0; year < endyear ; year++) {
 				int year2= year+this.output.getStartYear();
 				//log.fatal(" start loop year " +year);
-				for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++)
+				for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++){
 
 					/* write the data */
 					/* each row is a year / risk-class / age /sex combination */
+					
+					int startage=Math.max(this.output.getMinAgeInSimulation(),0)+year;
+			    if (this.output.withNewborns && sullivan) startage=0;
 
-					for (int a = 0; a < 96; a++) {
+				for (int a = startage; a < Math.min(96,this.output.getMaxAgeInSimulation())+year; a++) {
 
-						
+
+									
 						if (sullivan) toWriteCSVString.append(year2 + this.delimiter);
 						toWriteCSVString.append(this.output.scenarioNames[thisScen] + this.delimiter);
 						toWriteCSVString.append("males" + this.delimiter);
@@ -206,7 +210,7 @@ public class CSVLEwriter implements Runnable  {
 					
 					
 						
-					}
+					}}
 			}
 			// end loop over years, scenarios and gender
 			try {

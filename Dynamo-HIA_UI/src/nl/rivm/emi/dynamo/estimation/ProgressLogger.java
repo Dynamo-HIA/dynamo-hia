@@ -29,15 +29,14 @@ public class ProgressLogger implements ProgressIndicatorInterface {
 	@Override
 	public void update(int percent) {
 		position = percent;
-		log.info(message + ": Position set to " + percent);
+		if (25*Math.floor(position/25)==position) 	log.info(message + ": Position set to " + percent);
 	}
 	
 	
 	@Override
 	public void update() {
-		position++;
-		
-		log.info(message + ": Position set to " + position);
+		position++;		
+		if (25*Math.floor(position/25)==position) log.info(message + ": Position set to " + position);
 	}
 
 	@Override
