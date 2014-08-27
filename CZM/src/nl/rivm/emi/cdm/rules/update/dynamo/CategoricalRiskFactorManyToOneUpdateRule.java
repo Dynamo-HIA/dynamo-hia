@@ -273,7 +273,10 @@ public class CategoricalRiskFactorManyToOneUpdateRule extends
 		
 			
 		}
-		
+		if(Math.abs(sumP-1.0)>1E-3) {
+			int iii=0;
+			iii++;
+		}
 		if(Math.abs(sumP-1.0)>1E-3) throw new CDMUpdateRuleException("row of transition matrix for risk factor does not sum to 1");
 		
 		double cump = 0; // cump is cumulative p

@@ -50,7 +50,7 @@ public class RelRiskForDisabilityCategoricalModal extends AgnosticModal {
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for disability from categorical riskfactor";
+		return "Odds Ratios for disability from categorical riskfactor";
 	}
 
 	@Override

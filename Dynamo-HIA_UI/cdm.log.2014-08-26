@@ -1,0 +1,945 @@
+2014-08-25 13:39:12,996 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - tutorial_3 started 
+2014-08-25 13:39:14,931 INFO [ProgressLogger] - Parameter estimation in progress .......: Instantiated.
+2014-08-25 13:39:14,931 INFO [ProgressLogger] - Parameter estimation in progress .......: Maximum set to 100
+2014-08-25 13:39:14,931 INFO [ProgressLogger] - Parameter estimation in progress .......: Position set to 0
+2014-08-25 13:39:14,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 15 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Colorectal_Cancer is zero for age 15 and gender 1
+The program assumes a zero attributable mortality for this disease
+No more warning messages of this kind are given for other age/gender/disease groups
+2014-08-25 13:39:14,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,963 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 16 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,979 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Esophageal_Cancer is not zero for age 21 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,979 INFO [ProgressLogger] - Parameter estimation in progress .......: Position set to 25
+2014-08-25 13:39:14,994 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,994 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 0 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,994 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease IHD is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:14,994 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING:
+Excess mortality of disease Stroke is not zero for age 35 and gender 1 while prevalence is zero. In this situation no attributable mortality can be calculated.
+The program assumes a attributable mortality for this disease that is equal to the input excess mortality
+2014-08-25 13:39:15,010 INFO [ProgressLogger] - Parameter estimation in progress .......: Position set to 50
+2014-08-25 13:39:15,041 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -0.0011085328922669287 for person  2 for riskclass 2 and for riskfactor 0.0 age: 70 sex: 1
+2014-08-25 13:39:15,041 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -3.1788102811306255E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 71 sex: 1
+2014-08-25 13:39:15,041 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -4.6608580033109717E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 72 sex: 1
+2014-08-25 13:39:15,041 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative other mortality  = -7.242249762016246E-4 for person  2 for riskclass 2 and for riskfactor 0.0 age: 73 sex: 1
+2014-08-25 13:39:15,041 INFO [ProgressLogger] - Parameter estimation in progress .......: Position set to 75
+2014-08-25 13:39:15,072 INFO [ProgressLogger] - Parameter estimation in progress .......: Disposed.
+2014-08-25 13:39:16,648 INFO [ProgressLogger] - Creating population for simulation ......: Instantiated.
+2014-08-25 13:39:17,990 INFO [ProgressLogger] - Creating population for simulation ......: Disposed.
+2014-08-25 13:39:17,990 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulationFile made for scenario 
+2014-08-25 13:39:18,803 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start running scenario 
+2014-08-25 13:39:18,803 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 0
+2014-08-25 13:39:18,803 INFO [ProgressLogger] - Simulation of scenario 0 running ....: Instantiated.
+2014-08-25 13:39:18,803 INFO [ProgressLogger] - Simulation of scenario 0 running ....: Maximum set to 50
+2014-08-25 13:39:18,803 INFO [ProgressLogger] - Simulation of scenario 0 running ....: Position set to 0
+2014-08-25 13:39:21,002 INFO [ProgressLogger] - Simulation of scenario 0 running ....: Position set to 25
+2014-08-25 13:39:22,360 INFO [nl.rivm.emi.dynamo.ui.startup.BaseDirectoryHandler] - Returning workDirectoryPath: C:\Hendriek\Tutorial_Data
+2014-08-25 13:39:22,360 INFO [nl.rivm.emi.dynamo.ui.startup.BaseDirectoryHandler] - Tree-Base-Directory: C:\Hendriek\Tutorial_Data
+2014-08-25 13:39:22,408 INFO [ProgressLogger] - Simulation of scenario 0 running ....: Position set to 50
+2014-08-25 13:39:22,408 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2014-08-25 13:39:22,408 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulationFile made for scenario 
+2014-08-25 13:39:22,924 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start running scenario 
+2014-08-25 13:39:22,924 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start of runScenario for scen 1
+2014-08-25 13:39:22,924 INFO [ProgressLogger] - Simulation of scenario 1 running ....: Instantiated.
+2014-08-25 13:39:22,924 INFO [ProgressLogger] - Simulation of scenario 1 running ....: Maximum set to 50
+2014-08-25 13:39:22,924 INFO [ProgressLogger] - Simulation of scenario 1 running ....: Position set to 0
+2014-08-25 13:39:24,780 INFO [nl.rivm.emi.dynamo.ui.treecontrol.RootNode] - Instantiating StorageTree-Root-Node.
+2014-08-25 13:39:24,780 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent null physical storage C:\Hendriek\Tutorial_Data
+2014-08-25 13:39:24,781 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_Data physical storage C:\Hendriek\Tutorial_Data\Reference_Data
+2014-08-25 13:39:24,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases
+2014-08-25 13:39:24,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer
+2014-08-25 13:39:24,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\DALY_Weights
+2014-08-25 13:39:24,859 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Disability
+2014-08-25 13:39:24,875 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Disability\NL_disease_BreastCa_DALY_V1.xml
+2014-08-25 13:39:24,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Excess_Mortalities
+2014-08-25 13:39:24,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Excess_Mortalities\NL_disease_BreastCa_ExecMor_V2.xml
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Incidences
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Incidences\NL_disease_BreastCa_Inc_V2.xml
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Prevalences
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Prevalences\NL_disease_BreastCa_Prev_V2.xml
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Diseases
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Breast_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor\RR_to_BreastCa-Alcohol_cat5.xml
+2014-08-25 13:39:24,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor\RR_to_BreastCa-BMI_cat3.xml
+2014-08-25 13:39:24,984 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor\RR_to_BreastCa-BMI_cont.xml
+2014-08-25 13:39:24,984 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor\RR_to_BreastCa-Smoking_cat3.xml
+2014-08-25 13:39:24,984 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Breast_Cancer\Relative_Risks_From_Risk_Factor\RR_to_BreastCa-Smoking_dur.xml
+2014-08-25 13:39:24,984 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\DALY_Weights
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Disability
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Disability\NL_disease_ColorectalCa_DALY_V1.xml
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Excess_Mortalities
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Excess_Mortalities\NL_disease_ColorectalCa_ExecMor_V2.xml
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Incidences
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Incidences\NL_disease_ColorectalCa_Inc_V2.xml
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Prevalences
+2014-08-25 13:39:25,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Prevalences\NL_disease_ColorectalCa_Prev_V2.xml
+2014-08-25 13:39:25,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Colorectal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_ColorectalCa-Alcohol_cat5.xml
+2014-08-25 13:39:25,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_ColorectalCa-BMI_cat3.xml
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_ColorectalCa-BMI_cont.xml
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_ColorectalCa-Smoking_cat3.xml
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Colorectal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_ColorectalCa-Smoking_dur.xml
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\DALY_Weights
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Disability
+2014-08-25 13:39:25,062 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Disability\NL_disease_COPD_DALY_V1.xml
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Excess_Mortalities
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Excess_Mortalities\NL_disease_COPD_ExecMor_V1.xml
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Incidences
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Incidences\NL_disease_COPD_Inc_V1.xml
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Prevalences
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Prevalences\NL_disease_COPD_Prev_V1.xml
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent COPD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor\RR_to_COPD-Alcohol_cat5.xml
+2014-08-25 13:39:25,093 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor\RR_to_COPD-BMI_cat3.xml
+2014-08-25 13:39:25,093 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor\RR_to_COPD-BMI_cont.xml
+2014-08-25 13:39:25,093 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor\RR_to_COPD-Smoking_cat3.xml
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\COPD\Relative_Risks_From_Risk_Factor\RR_to_COPD-Smoking_dur.xml
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\DALY_Weights
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Disability
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Disability\NL_disease_Diabetes_DALY_V1.xml
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Excess_Mortalities
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Excess_Mortalities\NL_disease_Diabetes_ExecMor_V2.xml
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Incidences
+2014-08-25 13:39:25,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Incidences\NL_disease_Diabetes_Inc_V2.xml
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Prevalences
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Prevalences\NL_disease_Diabetes_Prev_V2.xml
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diabetes physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor\RR_to_Diabetes-Alcohol_cat5.xml
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor\RR_to_Diabetes-BMI_cat3.xml
+2014-08-25 13:39:25,125 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor\RR_to_Diabetes-BMI_cont.xml
+2014-08-25 13:39:25,140 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor\RR_to_Diabetes-Smoking_cat3.xml
+2014-08-25 13:39:25,140 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Diabetes\Relative_Risks_From_Risk_Factor\RR_to_Diabetes-Smoking_dur.xml
+2014-08-25 13:39:25,140 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\DALY_Weights
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Disability
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Disability\NL_disease_EsophagealCa_DALY_V1.xml
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Excess_Mortalities
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Excess_Mortalities\NL_disease_EsophageallCa_ExecMor_V2.xml
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Incidences
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Incidences\NL_disease_EsophagealCa_Inc_V2.xml
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Prevalences
+2014-08-25 13:39:25,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Prevalences\NL_disease_EsophagealCa_Prev_V2.xml
+2014-08-25 13:39:25,171 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,171 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Esophageal_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,171 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_EsophagealCa-Alcohol_cat5.xml
+2014-08-25 13:39:25,171 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_EsophagealCa-BMI_cat3.xml
+2014-08-25 13:39:25,171 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_EsophagealCa-BMI_cont.xml
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_EsophagealCa-Smoking_cat3.xml
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Esophageal_Cancer\Relative_Risks_From_Risk_Factor\RR_to_EsophagealCa-Smoking_dur.xml
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\DALY_Weights
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Disability
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Disability\NL_disease_IHD_DALY_V1.xml
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Excess_Mortalities
+2014-08-25 13:39:25,187 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Excess_Mortalities\NL_disease_IHD_ExecMor_V2.xml
+2014-08-25 13:39:25,218 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Incidences
+2014-08-25 13:39:25,218 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Incidences\NL_disease_IHD_Inc_V2.xml
+2014-08-25 13:39:25,218 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Prevalences
+2014-08-25 13:39:25,218 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Prevalences\NL_disease_IHD_Prev_V2.xml
+2014-08-25 13:39:25,218 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Diseases\RR_from_Diabetes_to_IHD-Diabetes.xml
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent IHD physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_to_IHD-Alcohol_cat5.xml
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_to_IHD-BMI_cat3.xml
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_to_IHD-BMI_cont.xml
+2014-08-25 13:39:25,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_to_IHD-Smoking_cat3.xml
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\IHD\Relative_Risks_From_Risk_Factor\RR_to_IHD-Smoking_dur.xml
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\DALY_Weights
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Disability
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Disability\NL_disease_LungCa_DALY_V1.xml
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Excess_Mortalities
+2014-08-25 13:39:25,249 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Excess_Mortalities\NL_disease_LungCa_ExecMor_V2.xml
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Incidences
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Incidences\NL_disease_LungCa_Inc_V2.xml
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Prevalences
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Prevalences\NL_disease_LungCa_Prev_V2.xml
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Lung_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor\RR_to_LungCa-Alcohol_cat5.xml
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor\RR_to_LungCa-BMI_cat3.xml
+2014-08-25 13:39:25,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor\RR_to_LungCa-BMI_cont.xml
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor\RR_to_LungCa-Smoking_cat3.xml
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Lung_Cancer\Relative_Risks_From_Risk_Factor\RR_to_LungCa-Smoking_dur.xml
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\DALY_Weights
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Disability
+2014-08-25 13:39:25,327 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Disability\NL_disease_OralCa_DALY_V1.xml
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Excess_Mortalities
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Excess_Mortalities\NL_disease_OralCa_ExecMor_V2.xml
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Incidences
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Incidences\NL_disease_OralCa_Inc_V2.xml
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Prevalences
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Prevalences\NL_disease_OralCa_Prev_V2.xml
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Oral_Cancer physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor\RR_to_OralCa-Alcohol_cat5.xml
+2014-08-25 13:39:25,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor\RR_to_OralCa-BMI_cat3.xml
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor\RR_to_OralCa-BMI_cont.xml
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor\RR_to_OralCa-Smoking_cat3.xml
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Oral_Cancer\Relative_Risks_From_Risk_Factor\RR_to_OralCa-Smoking_dur.xml
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\DALY_Weights
+2014-08-25 13:39:25,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Disability
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Disability\NL_disease_Stroke_DALY_V1.xml
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Excess_Mortalities
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Excess_Mortalities physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Excess_Mortalities\NL_disease_Stroke_ExecMor_V2.xml
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Incidences
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Incidences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Incidences\NL_disease_Stroke_Inc_V2.xml
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Prevalences
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Prevalences\NL_disease_Stroke_Prev_V2.xml
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Diseases
+2014-08-25 13:39:25,374 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Diseases physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Diseases\RR_from_Diabetes_to_Stroke-Diabetes.xml
+2014-08-25 13:39:25,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Stroke physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor
+2014-08-25 13:39:25,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor\RR_to_Stroke-Alcohol_cat5.xml
+2014-08-25 13:39:25,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor\RR_to_Stroke-BMI_cat3.xml
+2014-08-25 13:39:25,405 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor\RR_to_Stroke-BMI_cont.xml
+2014-08-25 13:39:25,405 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor\RR_to_Stroke-Smoking_cat3.xml
+2014-08-25 13:39:25,405 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_From_Risk_Factor physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Diseases\Stroke\Relative_Risks_From_Risk_Factor\RR_to_Stroke-Smoking_dur.xml
+2014-08-25 13:39:25,405 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations
+2014-08-25 13:39:25,405 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Populations physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations\Batavia
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Batavia physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations\Batavia\newborns.xml
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Batavia physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations\Batavia\overalldisability.xml
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Batavia physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations\Batavia\overallmortality.xml
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Batavia physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Populations\Batavia\size.xml
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Reference_Data physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5
+2014-08-25 13:39:25,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\configuration.xml
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Prevalences
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Prevalences\NL_RF_alcohol_Cat5_Prev_V1.xml
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Prevalences\PL_RF_alcohol_cat5_Prev.xml
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Prevalences\UK_RF_alcohol_cat5_Prev.xml
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Relative_Risks_For_Death
+2014-08-25 13:39:25,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Relative_Risks_For_Death\RR_from_alcohol_cat5_to_TotalMort.xml
+2014-08-25 13:39:25,468 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Relative_Risks_For_Disability
+2014-08-25 13:39:25,468 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Alcohol_cat5 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Transitions
+2014-08-25 13:39:25,468 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Transitions\NL_RF_Alc_cat5_Transition_Netto.xml
+2014-08-25 13:39:25,468 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Transitions\NL_RF_Alc_cat5_Transition_Zero.xml
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Transitions\PL_RF_alcohol_cat5_TransitionsNetto.xml
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Alcohol_cat5\Transitions\UK_RF_alcohol_cat5_TransitionsNetto.xml
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\configuration.xml
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,483 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Prevalences
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Prevalences\DK_RF_BMI_cat3_Prev.xml
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Prevalences\NL_RF_BMI_cat3_Prev_V1.xml
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Prevalences\UK_RF_BMI_cat3_Prev.xml
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Relative_Risks_For_Death
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Relative_Risks_For_Death\RR_from_BMI_cat3_to_TotalMort.xml
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Relative_Risks_For_Disability
+2014-08-25 13:39:25,499 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Transitions
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Transitions\DK_RF_BMI_cat3_TransitionsNetto.xml
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Transitions\NL_RF_BMI_cat3_Transition_Netto.xml
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cat3\Transitions\UK_RF_BMI_cat3_TransitionsNetto.xml
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\configuration.xml
+2014-08-25 13:39:25,515 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,530 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Prevalences
+2014-08-25 13:39:25,530 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Prevalences\NL_RF_BMI_cont_Prev_V1.xml
+2014-08-25 13:39:25,530 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Relative_Risks_For_Death
+2014-08-25 13:39:25,530 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Relative_Risks_For_Death\RR_from_BMI_cont_to_TotalMort.xml
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Relative_Risks_For_Disability
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent BMI_cont physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Transitions
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Transitions\NL_RF_BMI_cont_Transition_Netto.xml
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\BMI_cont\Transitions\NL_RF_BMI_cont_Transition_Zero.xml
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Name
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Name physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Name\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Name physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Name\Prevalences
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Name physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Name\Relative_Risks_For_Death
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Name physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Name\Transitions
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3
+2014-08-25 13:39:25,546 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\configuration.xml
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Prevalences
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Prevalences\DK_RF_smoking_cat3_Prev.xml
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Prevalences\NL_RF_smoking_cat3_Prev_V1.xml
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Prevalences\SE_RF_smoking_cat3_Prev.xml
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Relative_Risks_For_Death
+2014-08-25 13:39:25,561 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Relative_Risks_For_Death\RR_smoking_cat3_to_TotalMort.xml
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Relative_Risks_For_Disability
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_cat3 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Transitions
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Transitions\DK_RF_smoking_cat3_TransitionsNetto.xml
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Transitions\NL_RF_smoking_Transitions_Netto.xml
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Transitions\NL_RF_smoking_Transitions_Zero.xml
+2014-08-25 13:39:25,577 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_cat3\Transitions\SE_RF_smoking_cat3_TransitionsNetto.xml
+2014-08-25 13:39:25,608 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur
+2014-08-25 13:39:25,608 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\configuration.xml
+2014-08-25 13:39:25,608 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\DurationDistributions
+2014-08-25 13:39:25,624 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent DurationDistributions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\DurationDistributions\durationprevalence.xml
+2014-08-25 13:39:25,624 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,624 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Prevalences
+2014-08-25 13:39:25,624 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Prevalences\RF_NL_smoking_cat3_Prev_V1.xml
+2014-08-25 13:39:25,624 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Relative_Risks_For_Death
+2014-08-25 13:39:25,639 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Relative_Risks_For_Death\RR_smoking_dur_to_TotalMort.xml
+2014-08-25 13:39:25,639 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Relative_Risks_For_Disability
+2014-08-25 13:39:25,639 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Smoking_dur physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Transitions
+2014-08-25 13:39:25,639 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Transitions\NL_RF_Smoking_dur_Transition_Netto.xml
+2014-08-25 13:39:25,639 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\Smoking_dur\Transitions\NL_RF_Smoking_dur_Transition_Zero.xml
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent test physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test\configuration.xml
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test\Prevalences
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test\Relative_Risks_For_Death
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test\Transitions
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18
+2014-08-25 13:39:25,655 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent test18 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\configuration.xml
+2014-08-25 13:39:25,671 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,671 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Odds_Ratios_For_Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Odds_Ratios_For_Disability\Name.xml
+2014-08-25 13:39:25,671 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Prevalences
+2014-08-25 13:39:25,671 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Prevalences\Name.xml
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Relative_Risks_For_Death
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Relative_Risks_For_Death\Name.xml
+2014-08-25 13:39:25,686 INFO [ProgressLogger] - Simulation of scenario 1 running ....: Position set to 25
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml
+2014-08-25 13:39:25,686 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name.xml" suppressed: Size: "6034666" larger than current test can endure.
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml
+2014-08-25 13:39:25,686 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name2.xml" suppressed: Size: "6034666" larger than current test can endure.
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18\Transitions\Name7.xml
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound
+2014-08-25 13:39:25,686 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\configuration.xml
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\DurationDistributions
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\Prevalences
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\Relative_Risks_For_Death
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test18compound physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test18compound\Transitions
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test19
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test19 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test19\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test19 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test19\Prevalences
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test19 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test19\Relative_Risks_For_Death
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test19 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test19\Transitions
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent test20 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\configuration.xml
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test20 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test20 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\Prevalences
+2014-08-25 13:39:25,687 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\Prevalences\Name.xml
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test20 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\Relative_Risks_For_Death
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test20 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test20\Transitions
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent test24 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\configuration.xml
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test24 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Odds_Ratios_For_Disability physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Odds_Ratios_For_Disability\Name.xml
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test24 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Prevalences
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test24 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Relative_Risks_For_Death
+2014-08-25 13:39:25,718 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Relative_Risks_For_Death physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Relative_Risks_For_Death\Name.xml
+2014-08-25 13:39:25,750 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent test24 physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Transitions
+2014-08-25 13:39:25,750 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Transitions\Name.xml
+2014-08-25 13:39:25,750 WARN [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\test24\Transitions\Name.xml" suppressed: Size: "10752826" larger than current test can endure.
+2014-08-25 13:39:25,750 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Risk_Factors physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent testNiels physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\configuration.xml
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent testNiels physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Odds_Ratios_For_Disability
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent testNiels physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Prevalences
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Prevalences physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Prevalences\Name.xml
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent testNiels physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Relative_Risks_For_Death
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent testNiels physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Transitions
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Transitions physical storage C:\Hendriek\Tutorial_Data\Reference_Data\Risk_Factors\testNiels\Transitions\Name.xml
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_Data physical storage C:\Hendriek\Tutorial_Data\run_test_1
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\run_test_1"suppressed: Has no XML extension.
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_Data physical storage C:\Hendriek\Tutorial_Data\run_test_2.txt
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\run_test_2.txt"suppressed: Has no XML extension.
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_Data physical storage C:\Hendriek\Tutorial_Data\Simulations
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Simulations physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1
+2014-08-25 13:39:25,765 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_1 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\configuration.xml
+2014-08-25 13:39:25,781 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_1 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\charconfig.XML
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\charconfig.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule3.xml
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule3.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule3_scen_1.xml
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule3_scen_1.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule4.xml
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\rule4.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\simulation.xml
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\simulation.xml" suppressed: RootElementName: "sim" found wrong.
+2014-08-25 13:39:25,782 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\simulation_scen_1.xml
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\modelconfiguration\simulation_scen_1.xml" suppressed: RootElementName: "sim" found wrong.
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_1 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_0_0_IHD.xml
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_0_1_Stroke.xml
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_0_2_Diabetes.xml
+2014-08-25 13:39:25,813 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_1_0_Lung_Cancer.xml
+2014-08-25 13:39:25,829 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_2_0_Oral_Cancer.xml
+2014-08-25 13:39:25,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:25,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:25,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_5_0_Breast_Cancer.xml
+2014-08-25 13:39:25,844 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\attributableMort_6_0_COPD.xml
+2014-08-25 13:39:25,860 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineAbility.xml
+2014-08-25 13:39:25,860 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_0_0_IHD.xml
+2014-08-25 13:39:25,860 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_0_1_Stroke.xml
+2014-08-25 13:39:25,860 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_0_2_Diabetes.xml
+2014-08-25 13:39:25,875 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_1_0_Lung_Cancer.xml
+2014-08-25 13:39:25,875 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_2_0_Oral_Cancer.xml
+2014-08-25 13:39:25,875 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:25,875 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:25,907 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_5_0_Breast_Cancer.xml
+2014-08-25 13:39:25,907 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineFatalIncidence_6_0_COPD.xml
+2014-08-25 13:39:25,922 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_0_0_IHD.xml
+2014-08-25 13:39:25,922 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_0_1_Stroke.xml
+2014-08-25 13:39:25,922 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_0_2_Diabetes.xml
+2014-08-25 13:39:25,922 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_1_0_Lung_Cancer.xml
+2014-08-25 13:39:25,938 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_2_0_Oral_Cancer.xml
+2014-08-25 13:39:25,938 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:25,938 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:25,938 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_5_0_Breast_Cancer.xml
+2014-08-25 13:39:25,938 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineIncidence_6_0_COPD.xml
+2014-08-25 13:39:25,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\baselineOtherMort.xml
+2014-08-25 13:39:25,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\otherMortData.csv
+2014-08-25 13:39:25,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\otherMortData.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:25,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster0.xml
+2014-08-25 13:39:25,953 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster1.xml
+2014-08-25 13:39:25,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster2.xml
+2014-08-25 13:39:25,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster3.xml
+2014-08-25 13:39:25,969 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster4.xml
+2014-08-25 13:39:25,985 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster5.xml
+2014-08-25 13:39:25,985 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRiskDiseaseOnDisease_cluster6.xml
+2014-08-25 13:39:25,985 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_0_0_IHD.xml
+2014-08-25 13:39:26,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_0_1_Stroke.xml
+2014-08-25 13:39:26,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_0_2_Diabetes.xml
+2014-08-25 13:39:26,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_1_0_Lung_Cancer.xml
+2014-08-25 13:39:26,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_2_0_Oral_Cancer.xml
+2014-08-25 13:39:26,000 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:26,016 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:26,016 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_5_0_Breast_Cancer.xml
+2014-08-25 13:39:26,016 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_6_0_COPD.xml
+2014-08-25 13:39:26,016 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\relativeRisk_OtherMort.xml
+2014-08-25 13:39:26,031 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\transitionrates.xml
+2014-08-25 13:39:26,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\transitionrates.xml" suppressed: Location in tree found wrong.
+2014-08-25 13:39:26,047 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\transitionrates_scen_1.xml
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\parameters\transitionrates_scen_1.xml" suppressed: Location in tree found wrong.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_1 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\output.csv
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\output.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\resultsObject.obj
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_202816.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_202816.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_203327.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_203327.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_203834.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_203834.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_210451.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_210451.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211514.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211514.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211619.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211619.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211718.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_211718.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_212353.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_212353.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_212801.XML
+2014-08-25 13:39:26,063 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_212801.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_213455.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_213455.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220106.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220106.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220334.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220334.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220504.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_220504.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_221037.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_221037.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_221703.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_221703.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_222436.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_222436.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_224744.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_224744.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_225811.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1124_225811.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_201242.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_201242.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_201334.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_201334.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_212318.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_212318.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_215953.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2012_1125_215953.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2013_0127_203953.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2013_0127_203953.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2013_0127_205500.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2013_0127_205500.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0723_175259.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0723_175259.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0725_112817.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0725_112817.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0725_113012.XML
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\runConfiguration_2014_0725_113012.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\scenarioParameters.obj
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_1\results\scenarioParameters.obj"suppressed: Has no XML extension.
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Simulations physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2
+2014-08-25 13:39:26,078 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_2 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\configuration.xml
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_2 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\charconfig.XML
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\charconfig.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\rule3.xml
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\rule3.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\rule4.xml
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\rule4.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\simulation.xml
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\modelconfiguration\simulation.xml" suppressed: RootElementName: "sim" found wrong.
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_2 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters
+2014-08-25 13:39:26,094 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\attributableMort_0_0_IHD.xml
+2014-08-25 13:39:26,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\baselineAbility.xml
+2014-08-25 13:39:26,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\baselineFatalIncidence_0_0_IHD.xml
+2014-08-25 13:39:26,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\baselineIncidence_0_0_IHD.xml
+2014-08-25 13:39:26,109 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\baselineOtherMort.xml
+2014-08-25 13:39:26,141 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\relativeRiskDiseaseOnDisease_cluster0.xml
+2014-08-25 13:39:26,141 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\relativeRisk_0_0_IHD.xml
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\relativeRisk_OtherMort.xml
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\transitionrates.xml
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\parameters\transitionrates.xml" suppressed: Location in tree found wrong.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_2 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\resultsObject.obj
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_133103.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_133103.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_133459.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_133459.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_200918.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_200918.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_232408.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1121_232408.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1124_204201.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1124_204201.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1124_210436.XML
+2014-08-25 13:39:26,156 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\runConfiguration_2012_1124_210436.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\scenarioParameters.obj
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\results\scenarioParameters.obj"suppressed: Has no XML extension.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_2 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\Tutorial2.txt
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_2\Tutorial2.txt"suppressed: Has no XML extension.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Simulations physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent Tutorial_3 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\configuration.xml
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_3 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\charconfig.XML
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\charconfig.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule3.xml
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule3.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule3_scen_1.xml
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule3_scen_1.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule4.xml
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\rule4.xml" suppressed: RootElementName: "updateRuleConfiguration" found wrong.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\simulation.xml
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\simulation.xml" suppressed: RootElementName: "sim" found wrong.
+2014-08-25 13:39:26,172 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent modelconfiguration physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\simulation_scen_1.xml
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\modelconfiguration\simulation_scen_1.xml" suppressed: RootElementName: "sim" found wrong.
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_3 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_0_0_IHD.xml
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_0_1_Stroke.xml
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_0_2_Diabetes.xml
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_1_0_Lung_Cancer.xml
+2014-08-25 13:39:26,219 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_2_0_Oral_Cancer.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_5_0_Breast_Cancer.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\attributableMort_6_0_COPD.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineAbility.xml
+2014-08-25 13:39:26,234 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_0_0_IHD.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_0_1_Stroke.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_0_2_Diabetes.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_1_0_Lung_Cancer.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_2_0_Oral_Cancer.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:26,250 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_5_0_Breast_Cancer.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineFatalIncidence_6_0_COPD.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_0_0_IHD.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_0_1_Stroke.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_0_2_Diabetes.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_1_0_Lung_Cancer.xml
+2014-08-25 13:39:26,265 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_2_0_Oral_Cancer.xml
+2014-08-25 13:39:26,281 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:26,312 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:26,312 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_5_0_Breast_Cancer.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineIncidence_6_0_COPD.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\baselineOtherMort.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\otherMortData.csv
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\otherMortData.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster0.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster1.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster2.xml
+2014-08-25 13:39:26,328 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster3.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster4.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster5.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRiskDiseaseOnDisease_cluster6.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_0_0_IHD.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_0_1_Stroke.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_0_2_Diabetes.xml
+2014-08-25 13:39:26,343 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_1_0_Lung_Cancer.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_2_0_Oral_Cancer.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_3_0_Esophageal_Cancer.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_4_0_Colorectal_Cancer.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_5_0_Breast_Cancer.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_6_0_COPD.xml
+2014-08-25 13:39:26,359 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\relativeRisk_OtherMort.xml
+2014-08-25 13:39:26,375 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\transitionrates.xml
+2014-08-25 13:39:26,375 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\transitionrates.xml" suppressed: Location in tree found wrong.
+2014-08-25 13:39:26,375 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent parameters physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\transitionrates_scen_1.xml
+2014-08-25 13:39:26,375 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\parameters\transitionrates_scen_1.xml" suppressed: Location in tree found wrong.
+2014-08-25 13:39:26,375 INFO [nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode] - Instantiating DirectoryNode, parent Tutorial_3 physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\batchoutput
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\batchoutput"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\batchoutput.csv
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\batchoutput.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortLE.csv
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\cohortLE.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\resultsObject.obj
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_220448.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_220448.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_220725.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_220725.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222351.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222351.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222535.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222535.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222819.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222819.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222954.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_222954.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_223355.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_223355.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_223523.XML
+2014-08-25 13:39:26,390 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_223523.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224432.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224432.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224508.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224508.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224607.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0501_224607.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0502_214142.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0502_214142.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_180051.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_180051.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_180337.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_180337.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192317.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192317.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192444.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192444.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192848.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_192848.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193035.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193035.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193338.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193338.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193528.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193528.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193924.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_193924.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_194427.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_194427.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_194901.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_194901.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_195740.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_195740.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_195928.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_195928.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_230731.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_0505_230731.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1218_232413.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1218_232413.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1218_232429.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1218_232429.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121000.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121000.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121017.XML
+2014-08-25 13:39:26,406 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121017.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121307.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121307.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121753.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2013_1231_121753.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0314_131608.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0314_131608.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0314_132622.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0314_132622.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_164207.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_164207.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_164218.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_164218.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_172327.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_172327.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_173514.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0627_173514.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_101307.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_101307.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_102336.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_102336.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_165708.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_165708.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_165718.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_165718.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_170741.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_170741.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_171228.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_171228.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_172815.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_172815.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_173926.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_173926.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174127.XML
+2014-08-25 13:39:26,421 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174127.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174442.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174442.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174628.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174628.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174900.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0630_174900.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_103925.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_103925.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_140819.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_140819.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_141933.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0725_141933.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0825_133915.XML
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\runConfiguration_2014_0825_133915.XML"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\scenarioParameters.obj
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\scenarioParameters.obj"suppressed: Has no XML extension.
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.FileNode] - Instantiating FileNode, parent results physical storage C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\sullivan.csv
+2014-08-25 13:39:26,437 INFO [nl.rivm.emi.dynamo.ui.treecontrol.NodeFilter] - File "C:\Hendriek\Tutorial_Data\Simulations\Tutorial_3\results\sullivan.csv"suppressed: Has no XML extension.
+2014-08-25 13:39:27,077 INFO [ProgressLogger] - Simulation of scenario 1 running ....: Position set to 50
+2014-08-25 13:39:27,077 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - end simulation
+2014-08-25 13:39:44,752 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2014-08-25 13:39:44,971 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:44,987 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,003 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,018 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,034 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,034 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,034 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:45,034 INFO [nl.rivm.emi.dynamo.data.factories.DiseasePrevalencesFactory] - Handle rootChild: prevalence
+2014-08-25 13:39:46,750 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - numbers are extracted
+2014-08-25 13:39:46,750 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - population has run
+2014-08-25 13:39:46,750 INFO [ProgressLogger] - summarizing results ...... : Instantiated.
+2014-08-25 13:39:46,891 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output object finalized
+2014-08-25 13:42:58,270 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output created
+2014-08-25 13:42:58,270 INFO [ProgressLogger] - summarizing results ...... : Disposed.
+2014-08-25 13:43:02,717 INFO [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - output written
+2014-08-25 13:43:02,718 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 0
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - voor old
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - na old
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - na new
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2014-08-25 13:43:56,646 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2014-08-25 13:43:56,647 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2014-08-25 13:43:56,647 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - tutorial_3 successfully completed 
+2014-08-25 13:43:56,647 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - tutorial_3 started 
+2014-08-25 13:43:56,647 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - runner has run
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - starting plotfactory
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - plotfactory ready
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - checking scenario 1
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - voor old
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - na old
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - na new
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE cohort is OK 
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  HLE Sullivan is OK 
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  DALE cohort is OK 
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] -  Dale sullivan is OK 
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - tutorial_3 successfully completed 
+2014-08-25 13:44:51,558 FATAL [nl.rivm.emi.dynamo.batch.test.FinalTest] - Test completed 

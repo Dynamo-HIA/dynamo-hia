@@ -48,7 +48,7 @@ public class RelRiskForDisabilityCompoundModal extends AbstractDataModal {
 
 	@Override
 	protected String createCaption(BaseNode selectedNode2) {
-		return "Relative risks for disability from compound riskfactor";
+		return "Odds Ratios for disability from compound riskfactor";
 	}
 
 	@Override

@@ -1,0 +1,4 @@
+Overall Disability is the percentage disability in the general population: 0 means no disability, a value of 100 means that everyone is disabled. 
+It is also possible to enter DALY-weights here, which reflect the overall health of the population on a scale of 0 to 100.
+Overall disability (or an overall DALY-weight) is needed as just providing disease specific disability (DALY weights) would lead to underestimation as only a limited number of diseases that cause disabilities are modeled. 
+Import-ready xml-files for this window can be created using the "Overall disability weights" worksheet in the Excel-file "Populations.xls".

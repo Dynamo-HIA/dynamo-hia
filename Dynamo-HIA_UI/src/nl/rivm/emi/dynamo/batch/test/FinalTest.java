@@ -71,7 +71,7 @@ public class FinalTest {
 	
 	// hier echter 77.31025037823959, 9.476103206219452
 	// nee, het is 77.3040717 en 9.4723516298 in nieuwe versie van oud
-/*
+
 	@Test
 	public void test_compareOld_1() {
 		 baseDir = "C:\\Hendriek\\Tutorial_DATA";
@@ -91,7 +91,7 @@ public class FinalTest {
 	 * bugfixing does not change the results
 	 * For testing DYNAMO-2 , this does not have any intrinsic value, as results are taken from the program itself
 	 */
-/*	
+	
 	@Test
 	public void test_compareOld_2() {
 		 baseDir = "C:\\Hendriek\\Tutorial_DATA";
@@ -111,7 +111,7 @@ public class FinalTest {
 	/*
 	 * this test is the same as the previous version, but with larger number in the simulation, so it will test the other running method
 	 */
-/*
+
 	@Test
 	public void test_compareOld_3() {
 		 baseDir = "C:\\Hendriek\\Tutorial_DATA";
@@ -138,7 +138,7 @@ public class FinalTest {
 	    		 68.678526364837,  77.4402140007-7.7440186306, -1, true);
 	}
 	
-	/*
+	
 	@Test
 	public void test_1() {
 		 baseDir = "C:\\HENDRIEK\\TESTDATA voor versie 2";
@@ -172,7 +172,7 @@ public class FinalTest {
 	}
 	
 	/* deze test met grotere aantallen zodat de andere runmethode wordt gebruikt */
-/*
+
 	@Test
 	public void test_3a() {
 		runTest("run_test_3a", "test03a", 11.62399547, 8.426732, 10.05240022,
@@ -274,7 +274,7 @@ public class FinalTest {
 // volgorde andersom als in excel 
 		 checkIncidence("test11a",  0.015406758,0.008453573	);
 	}
-*/
+
 	@Test
 	public void test_12() {
 		 runTest("run_test_12", "test12", 11.64373307, 8.627173, 10.05454054,
@@ -286,7 +286,7 @@ public class FinalTest {
 		 checkIncidence("test12", 	0.01543499,0.008454043);
 
 	}
-/*	
+
 	
 	@Test
 	public void test_12a() {

@@ -1,3 +1,3 @@
-For the selected categorical risk factor, enter the relative risk on disability by age, sex, and risk factor class. (
+For the selected categorical risk factor, enter the odds ratio on disability by age, sex, and risk factor class. 
 This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases. These are needed to calculate summary measures.
-Import-ready xml-files for this window can be created using the "Rel risk for disability_Cate" worksheet in the Excel-file "Relative risk for riskfactor cat.xls".
+Import-ready xml-files for this window can be created using the "Odds Ratio for disability_Cate" worksheet in the Excel-file "Relative risk for riskfactor cat.xls".

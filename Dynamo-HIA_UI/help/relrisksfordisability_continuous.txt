@@ -1,4 +1,4 @@
-For the selected continuous risk factor, enter the relative risk on disability by age and sex.
+For the selected continuous risk factor, enter the odds ratio on disability by age and sex.
 This gives the increase in RR for every increase in one unit of the risk factor.
 This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases.
-Import-ready xml-files for this window can be created using the "rr for disability_contin" worksheet in the Excel-file "Relative risk for riskfactor continuous.xls".  
+Import-ready xml-files for this window can be created using the "OR for riskfactor_contin" worksheet in the Excel-file "Relative risk for riskfactor continuous.xls".

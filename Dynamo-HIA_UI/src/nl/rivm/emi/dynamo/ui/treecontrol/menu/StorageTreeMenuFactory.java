@@ -1690,7 +1690,7 @@ public class StorageTreeMenuFactory {
 						shell, treeViewer, (BaseNode) node, "overallmortality");
 				File nodeFile = node.getPhysicalStorage();
 				if (nodeFile.canWrite()) {
-					action.setText("Vieuw or Edit");
+					action.setText("View or Edit");
 				} else {
 					action.setText("View");
 				}

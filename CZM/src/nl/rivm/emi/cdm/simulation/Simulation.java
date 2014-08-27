@@ -491,6 +491,7 @@ public class Simulation extends DomLevelTraverser {
 							}
 							if (riskVal instanceof IntCharacteristicValue){
 								IntCharacteristicValue riskValue = (IntCharacteristicValue) riskVal;
+								
 								riskValue.setFirstValue(Integer.parseInt(tokens[4]));
 							}
 							/* if with duration  */
@@ -504,7 +505,7 @@ public class Simulation extends DomLevelTraverser {
 						 * if (charVal.getIndex()==5) {;
 						 * durationCharVal=individual[4]
 						 * replaceCharVal(riskfactorCharVal, individual)}
-						 * NB checken of inderdaad nummer 5 ,4 en 3
+						 * NB checken of inderdaad nummer 5 , 4 en 3
 						 * 
 						 *  TODO
 						 *  */
