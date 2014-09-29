@@ -91,22 +91,22 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 	
 	public void run()
 	{
-	//	log.fatal("start worker");
+		log.fatal("start worker");
 		
 		simulation = new Simulation[scen.getNPopulations()];
-	//	log.fatal("simulations object made");
+		log.fatal("simulations object made");
 		for (int n = 0; n < scen.getNPopulations(); n++)
 			simulation[n] = new Simulation();
-    //    log.fatal("all simulations made");
+        log.fatal("all simulations made");
 		InitialPopulationFactory popFactory;
 		try {
 			popFactory = new InitialPopulationFactory(
 					this.p, this.scen, this.pr,age, age, g,
 					g);
-	//		log.fatal("popfactory made");
+			log.fatal("popfactory made");
 	Population [] pop = popFactory.manufactureInitialPopulation(age, age, g,
 			g, generation, generation, newborns);
-//	log.fatal("simulation pop made");
+	log.fatal("simulation pop made");
 	pop = runPopulation(pop, simFileName);
 	log.fatal("starting extracting age "+age+" gender "+g);
 	output.extractNumbersFromPopulation(pop);

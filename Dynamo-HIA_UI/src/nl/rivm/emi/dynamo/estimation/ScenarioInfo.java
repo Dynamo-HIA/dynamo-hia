@@ -88,6 +88,11 @@ public class ScenarioInfo {
 	public int[] getNumberOfDalyPopForThisScenario() {
 		return numberOfDalyPopForThisScenario;
 	}
+	
+	
+	public int getNumberOfDalyPopForThisScenario(int scen) {
+		return numberOfDalyPopForThisScenario[scen];
+	}
 
 	/**
 	 * the scenario number of the daly-population ; this is -1 for non-daly
@@ -263,14 +268,12 @@ public class ScenarioInfo {
 	 * firstOneForAllPopScenario : -3 if not initialized, and -1 if no OneForAll
 	 * population is present
 	 */
-	private int firstOneForAllPopScenario = -3;
-	private int firstOneForAllDalyPop = -3;
-
-	private boolean[] thisScenarioUsedOneForAllPop;
+	
+	
 
 	private int[] popToScenIndex;
 
-	private boolean[] isOneScenPopulation;
+	
 
 	private int nScenariosIncludingDalys;
 
@@ -285,43 +288,20 @@ public class ScenarioInfo {
 	/**
 	 * @return
 	 */
-	public boolean[] getthisScenarioUsedOneForAllPop() {
-		/* check if already calculated; if not make it */
-		if (this.firstOneForAllPopScenario == -3)
-			/*
-			 * getNPopulations() also calculates which populations are
-			 * oneForAllPopulations
-			 */
-			this.getNPopulations();
-		return thisScenarioUsedOneForAllPop;
-	}
+	
 
 	/**
 	 * @return
 	 */
-	public boolean[] getIsFirstForAllPop() {
-		if (this.firstOneForAllPopScenario == -3)
-
-			/*
-			 * getNPopulations() also calculates which populations are
-			 * oneForAllPopulations
-			 */
-			this.getNPopulations();
-		return thisScenarioUsedOneForAllPop;
-	}
-
+	
 	/**
 	 * @return
 	 */
-	public int getFirstOneForAllPopScenario() {
-		if (this.firstOneForAllPopScenario == -3)
-			/*
+	/*
 			 * getNPopulations() also calculates which populations are
 			 * oneForAllPopulations
 			 */
-			this.getNPopulations();
-		return firstOneForAllPopScenario;
-	}
+		
 
 	public ScenarioInfo() {
 
@@ -381,7 +361,7 @@ public class ScenarioInfo {
 			 */
 			dalyType = new boolean[nPopulations];
 			Arrays.fill(dalyType, false);
-			this.setFirstOneForAllDalyPop(-1);
+			
 			int extraScens = 0;
 
 			for (int scennum = 0; scennum < this.nScenarios; scennum++) {
@@ -398,29 +378,18 @@ public class ScenarioInfo {
 				boolean[] initialPrevalenceType2 = null;
 				boolean[] transitionType2 = null;
 				boolean[] dalyType2 = null;
-				boolean[] isOneScenPopulation2 = null;
+				
 				int[] popToScenIndex2 = null;
 
 				/* continuous riskfactor */
-				if (this.riskType == 2) {
+				
 					initialPrevalenceType2 = new boolean[extraScens];
 					transitionType2 = new boolean[extraScens];
 					dalyType2 = new boolean[extraScens];
-					popToScenIndex2 = new int[extraScens];
-					isOneScenPopulation2 = new boolean[extraScens];
-					Arrays.fill(isOneScenPopulation2, false);
+					popToScenIndex2 = new int[extraScens];			
+					
 					nExtraPop = extraScens;
-				} else {
-					initialPrevalenceType2 = new boolean[1];
-					transitionType2 = new boolean[1];
-					dalyType2 = new boolean[1];
-					popToScenIndex2 = new int[1];
-					isOneScenPopulation2 = new boolean[1];
-					isOneScenPopulation2[0] = true;
-					popToScenIndex2[0] = this.firstOneForAllPopScenario;
-					dalyType2[0] = true;
-					nExtraPop = 1;
-				}
+				
 				this.nDalyPops = nExtraPop;
 				for (int scennum2 = 0; scennum2 < nExtraPop; scennum2++) {
 					initialPrevalenceType2[scennum2] = true;
@@ -432,12 +401,9 @@ public class ScenarioInfo {
 				this.transitionType = ArrayUtils.addAll(transitionType,
 						transitionType2);
 				this.dalyType = ArrayUtils.addAll(dalyType, dalyType2);
-				this.isOneScenPopulation = ArrayUtils.addAll(
-						isOneScenPopulation, isOneScenPopulation2);
+				
 				/*
-				 * now calculate the number of population needed: if categorical
-				 * or compound risk factor then this is one extra, that is an
-				 * extra one for all population if continous risk factor, than
+				 * now calculate the number of population needed: 
 				 * this is equal to the number of extraSens
 				 */
 
@@ -452,14 +418,8 @@ public class ScenarioInfo {
 
 				Arrays.fill(this.numberOfDalyPopForThisScenario, -1);
 
-				this.setFirstOneForAllDalyPop(-1);
-				if (nExtraPop == 1 && !(this.riskType == 2)) {
-					this.setFirstOneForAllDalyPop(this
-							.getNPopulationsWithoutDalys());
-					numberOfDalyPopForThisScenario[this.firstOneForAllPopScenario] = this
-							.getFirstOneForAllDalyPop();
-					popToScenIndex2[0] = this.firstOneForAllPopScenario;
-				} else if (nExtraPop > 0) {
+				
+				if (nExtraPop > 0) {
 
 					int index = 0;
 					Arrays.fill(scenNumberOfThisDalyPop, -1);
@@ -522,60 +482,29 @@ public class ScenarioInfo {
 			return this.nPopulations;
 		else {
 			this.nPopulations = this.getNScenarios() + 1;
-			this.thisScenarioUsedOneForAllPop = new boolean[this
-					.getNScenarios()];
-			boolean isAtLeastOneAllForOnePopulation = false;
-			this.firstOneForAllPopScenario = -1;
+			
 
-			Arrays.fill(thisScenarioUsedOneForAllPop, false);
-			if (this.getRiskType() != 2 && this.getNScenarios() > 0)
-				for (int scennum = 0; scennum < this.getNScenarios(); scennum++) {
-					/*
-					 * NB is both prevalence and transitions are identical to
-					 * the reference scenario (not very usefull, but users will
-					 * try) this is assumed to be a one for all population,
-					 * meaning that no extra simulations will be done
-					 */
-					if ((!this.getTransitionType()[scennum])) {
-						this.nPopulations--; /*
-											 * remove this scenario from number
-											 * than need to be simulated
-											 */
-
-						isAtLeastOneAllForOnePopulation = true;
-						thisScenarioUsedOneForAllPop[scennum] = true;
-						if (this.firstOneForAllPopScenario == -1)
-							this.firstOneForAllPopScenario = scennum;
-
-					}
-				}
+			
+		
 			/* add the one-for-all-scenario that still needs to be simulated */
-			if (isAtLeastOneAllForOnePopulation)
-				this.nPopulations++;
+			
 
 			/* returns the scenario number belonging with a population */
 			this.popToScenIndex = new int[this.nPopulations];
-			this.isOneScenPopulation = new boolean[this.nPopulations];
-			this.getPopToScenIndex()[0] = 0;
-			this.getIsOneScenPopulation()[0] = false;
+					this.getPopToScenIndex()[0] = 0;
+		
 			int currentPop = 1;
 
-			/* look which populations are one-for-all */
-			/*
-			 * make an indicator array to "translate" the other populations into
+			 /* make an indicator array to "translate" the other populations into
 			 * scenarionumbers
+			 * 
+			 * kind of superfluous in new program but retained
 			 */
 			for (int i = 0; i < this.nScenarios; i++) {
-				if (i == this.firstOneForAllPopScenario) {
-					this.getPopToScenIndex()[currentPop] = i;
-					this.getIsOneScenPopulation()[currentPop] = true;
-					currentPop++;
-				}
-				if (!this.thisScenarioUsedOneForAllPop[i]) {
 					this.getPopToScenIndex()[currentPop] = i;
 					currentPop++;
 
-				}
+				
 			}
 
 			/* 11-2011: added populations for DALY calculations */
@@ -1330,25 +1259,15 @@ public class ScenarioInfo {
 		this.newbornStartYear = newbornStartYear;
 	}
 
-	public boolean[] getIsOneScenPopulation() {
-		if (this.firstOneForAllPopScenario == -3)
-			this.getNPopulations();
-		return isOneScenPopulation;
-	}
+	
 
 	public int[] getPopToScenIndex() {
-		if (this.firstOneForAllPopScenario == -3)
+		
 			this.getNPopulations();
 		return popToScenIndex;
 	}
 
-	public void setFirstOneForAllDalyPop(int firstOneForAllDalyPop) {
-		this.firstOneForAllDalyPop = firstOneForAllDalyPop;
-	}
-
-	public int getFirstOneForAllDalyPop() {
-		return firstOneForAllDalyPop;
-	}
+	
 
 	public void setRefScenName(String inputString) {
 		this.refScenName=inputString;

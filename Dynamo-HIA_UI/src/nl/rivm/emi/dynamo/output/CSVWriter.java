@@ -125,6 +125,7 @@ public class CSVWriter {
 			int endsex = 2;
 			if (!separateGenders)
 				endsex = 1;
+			int maxAgeAtStart=this.output.getMaxAgeInSimulation();
 			for (int year = 0; year < this.output.stepsInRun + 1; year++) {
 				toWriteCSVString = new StringBuilder();
 				int year2 = year + this.output.startYear;
@@ -137,7 +138,7 @@ public class CSVWriter {
 
 						for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
 
-							for (int a = 0; a < Math.min(96 + this.output
+							for (int a = 0; a < Math.min( maxAgeAtStart+1 + this.output
 									.getStepsInRun(), this.output.getNDim()); a++) {
 								toWriteCSVString.append(year2 + this.delimiter);
 								toWriteCSVString.append(thisScen
@@ -577,6 +578,7 @@ public class CSVWriter {
 			writeHeaders(toWriteCSVString, false);
 
 			/* now write the data */
+			int maxAgeAtStart=this.output.getMaxAgeInSimulation();
 
 			for (int year = 0; year < this.output.stepsInRun + 1; year++) {
 				/* write the data */
@@ -585,7 +587,7 @@ public class CSVWriter {
 
 				for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
 
-					for (int a = 0; a < 96; a++) {
+					for (int a = 0; a <  maxAgeAtStart+1; a++) {
 
 						toWriteCSVString.append(year2 + this.delimiter);
 						/* write risk factor info */
@@ -1001,7 +1003,8 @@ public class CSVWriter {
 			 * 
 			 * write the data
 			 */
-			for (int cohort = 0; cohort < 96; cohort++) {
+			int maxAgeAtStart=this.output.getMaxAgeInSimulation();
+			for (int cohort = 0; cohort <  maxAgeAtStart+1; cohort++) {
 
 				/* each row is a cohort / risk-class / age combination */
 				for (int rClass = 0; rClass < this.output.nRiskFactorClasses; rClass++)
@@ -1389,9 +1392,10 @@ public class CSVWriter {
 			int endsex = 2;
 			if (separateGenders)
 				endsex = 1;
+			int maxAgeAtStart=this.output.getMaxAgeInSimulation();
 			for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++) {
 				for (int sex = 0; sex < endsex; sex++)
-					for (int cohort = 0; cohort < 96; cohort++) {
+					for (int cohort = 0; cohort <  maxAgeAtStart+1; cohort++) {
 						/* cohort is age at start of simulation */
 
 						/* each row is a cohort / risk-class / age combination */

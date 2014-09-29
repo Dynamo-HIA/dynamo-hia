@@ -945,7 +945,7 @@ public class SimulationConfigurationFactory {
 			 * information, therefore this is kept here
 			 */
 			if (pop > 0
-					&& (scenInfo.getIsOneScenPopulation()[pop] || scenInfo
+					&& ( scenInfo
 							.getInitialPrevalenceType()[scenInfo
 							.getPopToScenIndex()[pop]]))
 
@@ -956,7 +956,7 @@ public class SimulationConfigurationFactory {
 			if (scenInfo.isWithNewBorns()) {
 
 				if (pop > 0
-						&& (scenInfo.getIsOneScenPopulation()[pop] || scenInfo
+						&& ( scenInfo
 								.getInitialPrevalenceType()[scenInfo
 								.getPopToScenIndex()[pop]]))
 

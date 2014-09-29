@@ -103,7 +103,7 @@ public class ExcelReadableXMLWriter {
 		.getPTotalDiseaseByRiskClassByAge();
 		for (int r = 0; r < this.output.nRiskFactorClasses; r++)
 			for (int scen = 0; scen < this.output.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.output.stepsInRun; a++)
+				for (int a = 0; a < this.output.maxAgeInSimulation + 1 + this.output.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.output.stepsInRun + 1; stepCount++)
 

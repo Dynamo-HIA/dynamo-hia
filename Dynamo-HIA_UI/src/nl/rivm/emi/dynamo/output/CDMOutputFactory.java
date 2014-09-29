@@ -356,7 +356,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 			double [][][][] nPopByAge=new double[this.getNScen() + 1][this.getStepsInRun()+1][96][2];
 			for (int scen = 0; scen < this.getNScen(); scen++)
 				for (int year = 0; year < this.getStepsInRun(); year++)
-					for (int a = 0; a < 96; a++)
+					for (int a = 0; a < this.maxAgeInSimulation + 1; a++)
 						for (int s = 0; s < 2; s++)
 							for (int r = 0;r<this.getNRiskFactorClasses(); r++)
 							nPopByAge[scen][year][a][s]+=this.getNPopByRiskClassByAge()[scen][year][r][a][s];
@@ -372,7 +372,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 	public double[][][] getNPopByAge(int year) {
 		double [][][] nPopByAge=new double[this.getNScen() + 1][96][2];
 		for (int scen = 0; scen < this.getNScen(); scen++)
-				for (int a = 0; a < 96; a++)
+				for (int a = 0; a < this.maxAgeInSimulation + 1; a++)
 					for (int s = 0; s < 2; s++)
 						for (int r = 0;r<this.getNRiskFactorClasses(); r++)
 						nPopByAge[scen][a][s]+=this.getNPopByRiskClassByAge()[scen][year][r][a][s];
@@ -396,7 +396,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		for (int stepcount = 0; stepcount < this.stepsInRun + 1; stepcount++)
 
 			for (int scen = 0; scen < this.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.stepsInRun; a++)
+				for (int a = 0; a < this.maxAgeInSimulation + 1 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 
 						nPopByAge[scen][stepcount][a][g] += this.nPopByRiskClassByAge[scen][stepcount][riskClass][a][g];
@@ -407,7 +407,7 @@ public abstract class CDMOutputFactory implements CDMOutputInterface, Serializab
 		double[][][][][] NDisease = new double[this.nScen + 1][this.stepsInRun + 1][nRiskFactorClasses][96 + this.stepsInRun][2];
 		for (int r = 0; r < this.nRiskFactorClasses; r++)
 			for (int scen = 0; scen < this.nScen + 1; scen++)
-				for (int a = 0; a < 96 + this.stepsInRun; a++)
+				for (int a = 0; a < this.maxAgeInSimulation + 1 + this.stepsInRun; a++)
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.stepsInRun + 1; stepCount++)
 							NDisease[scen][stepCount][r][a][g] += nPopByRiskClassByAge[scen][stepCount][r][a][g]

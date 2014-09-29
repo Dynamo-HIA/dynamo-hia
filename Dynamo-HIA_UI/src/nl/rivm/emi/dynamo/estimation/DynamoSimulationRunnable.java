@@ -201,17 +201,17 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		//	for (int n = 0; n < scen.getNPopulations(); n++)
 		//		simulation[n] = new Simulation();
 
-			// log.info("ModelParameters estimated and written");
+			log.info("ModelParameters estimated and written");
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
-			// log.info("charFile made.");
+			 log.info("charFile made.");
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
-			// log.info("charFile handled.");
+			 log.info("charFile handled.");
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
 
-			// log.info("charmap made");
+			 log.info("charmap made");
 			/*
 			 * array pop contains the stimulated populations for the different
 			 * scenario's calculate the number of populations that are needed to
@@ -290,7 +290,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					pii.setMaximum(agemax*2 - agemin*2 + 2 + 2*scen.getYearsInRun());
 				for (int a = agemin; a <= agemax; a++) {
 					for (int g = 0; g < 2; g++) {
-						log.info("simulation start for age:: "+a+" gender: "+ g);
+						log.fatal("simulation start for age:: "+a+" gender: "+ g);
 						
 						DynamoSimulationRunnableWorker worker =new DynamoSimulationRunnableWorker(pr.getDisplay(),log, 
 								pr,   p, scen, simFileName, output, a, g, 1, false);
@@ -429,6 +429,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		} catch (Exception e) {
 			displayErrorMessage(e, simulationFilePath);
 			e.printStackTrace();
+			
 		}
 	}
 
@@ -562,8 +563,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		 * type of populations, therefore for safety count this as the maximum
 		 * possible number of populations
 		 */
-		if (scen.getFirstOneForAllPopScenario() != -1)
-			npop += nclasses * (nclasses - 1) / 2 - 1;
+		
 		nIndividuals /= npop;
 		return nIndividuals;
 	}

@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.management.RuntimeErrorException;
+
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
@@ -108,10 +110,13 @@ public class PopulationWritingRunner {
 			statLog.fatal(e.getClass().getSimpleName()
 					+ " should not happen, because this has been tested for.");
 			e.printStackTrace();
+			//volgende weer weg want weet niet goed wat ik aan het doen ben
+	//		throw new RuntimeErrorException(new Error(), e.getMessage()+ " should not happen, because this has been tested for.");
 		} catch (IOException e) {
 			statLog.fatal(e.getClass().getSimpleName() + " " + e.getMessage());
 			e.printStackTrace(System.err);
 			System.err.flush();
+	//		throw new RuntimeErrorException(new Error(), e.getMessage());
 		}
 	}
 
@@ -123,7 +128,7 @@ public class PopulationWritingRunner {
 			R.run();
 			return true;
 		} catch (DynamoInconsistentDataException e) {
-			statLog.info(e.getMessage());
+			statLog.fatal(e.getMessage());
 			e.printStackTrace(System.err);
 			System.err.flush();
 			return false;

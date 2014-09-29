@@ -692,7 +692,10 @@ public class DynamoPlotFactory {
 	public double[][][][] getMortality(boolean numbers, int riskFactor) {
 
 		double[][][][] mortality = new double[this.output.nScen + 1][this.output.stepsInRun][this.output.nDim][2];
-
+		for (int scen = 0; scen < this.output.nScen + 1; scen++)
+			for (int stepCount = 0; stepCount < this.output.stepsInRun; stepCount++)
+				for (int a= 0; a < this.output.nDim; a++) Arrays.fill(mortality[scen][stepCount][a],-1);
+			
 		int loopBegin = riskFactor;
 		int loopEnd = riskFactor + 1;
 		if (riskFactor < 0) {
@@ -706,8 +709,9 @@ public class DynamoPlotFactory {
 			 * there are persons available at a particular age and year
 			 * combination
 			 */
-			for (int scen = 0; scen < this.output.nScen + 1; scen++)
-				for (int a = 0; a < Math.min(96 + this.output.stepsInRun - 1,
+			for (int scen = 0; scen < this.output.nScen + 1; scen++){
+				
+				for (int a = 0; a < Math.min(this.output.getMaxAgeInSimulation() + this.output.stepsInRun ,
 						this.output.nDim - 1); a++)
 					for (int g = 0; g < 2; g++)
 						for (int stepCount = 0; stepCount < this.output.stepsInRun; stepCount++) {
@@ -743,7 +747,7 @@ public class DynamoPlotFactory {
 							if (a == (this.output.nDim - 2))
 								mortality[scen][stepCount][this.output.nDim - 1][g] = -1;
 
-						}
+						}}
 		}
 		return mortality;
 	}
@@ -1516,7 +1520,7 @@ public class DynamoPlotFactory {
 
 		if (prevalence || year < this.output.getStepsInRun())
 			if (prevalence || year < this.output.getStepsInRun())
-				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+				for (int age = 0; age < Math.min(96,this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun()) ; age++) {
 					indat0 = applySuccesrate(nDiseaseByAge[0][year][age][0],
 							nDiseaseByAge[thisScen][year][age][0], thisScen,
 							year, age, 0);
@@ -1709,7 +1713,7 @@ public class DynamoPlotFactory {
 					this.output.getScenarioNames()[thisScen]);
 
 			if (prevalence || year < this.output.getStepsInRun())
-				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+				for (int age = 0; age < Math.min(96,this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun()) /* + this.output.getStepsInRun() */; age++) {
 					indat0 = 0;
 					indat1 = 0;
 					npop0 = 0;
@@ -1871,7 +1875,7 @@ public class DynamoPlotFactory {
 		nominator = 0;
 		denominator = 0;
 		if (gender < 2) {
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(); age++) {
 				nominator += applySuccesrate(nDiseaseByAge[0][age][gender],
 						nDiseaseByAge[thisScen][age][gender], thisScen, year,
 						age, gender);
@@ -1881,7 +1885,7 @@ public class DynamoPlotFactory {
 
 			}
 		} else {
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(); age++) {
 				nominator += applySuccesrate(nDiseaseByAge[0][age][0],
 						nDiseaseByAge[thisScen][age][0], thisScen, year, age, 0)
 						+ applySuccesrate(nDiseaseByAge[0][age][1],
@@ -1945,7 +1949,7 @@ public class DynamoPlotFactory {
 					d, steps);
 
 		if (gender < 2) {
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(); age++) {
 				if (d >= 0)
 					nominator += applySuccesrate(
 							nDiseaseByRiskClassByAge[0][r][age][gender],
@@ -1957,7 +1961,7 @@ public class DynamoPlotFactory {
 						thisScen, steps, age, gender);
 			}
 		} else {
-			for (int age = 0; age < 96 + this.output.getStepsInRun(); age++) {
+			for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(); age++) {
 				nominator += applySuccesrate(
 						nDiseaseByRiskClassByAge[0][r][age][0],
 						nDiseaseByRiskClassByAge[thisScen][r][age][0],
@@ -2556,7 +2560,7 @@ public class DynamoPlotFactory {
 				double npopr = 0;
 				if (gender < 2) {
 					for (int r = 0; r < this.output.getNRiskFactorClasses(); r++) {
-						for (int age = 0; age < 96 + this.output
+						for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output
 								.getStepsInRun(); age++) {
 							indat += applySuccesrate(
 									nDiseaseByRiskClassByAge[0][steps][r][age][gender],
@@ -2573,7 +2577,7 @@ public class DynamoPlotFactory {
 				} else {
 					for (int r = 0; r < this.output.getNRiskFactorClasses(); r++) {
 
-						for (int age = 0; age < 96 + this.output
+						for (int age = 0; age < this.output.getMaxAgeInSimulation()+1 + this.output
 								.getStepsInRun(); age++) {
 							indat += applySuccesrate(
 									nDiseaseByRiskClassByAge[0][steps][r][age][0],
@@ -2762,7 +2766,7 @@ public class DynamoPlotFactory {
 			double womenpopr = 0;
 			if (prevalence || year < this.output.getStepsInRun())
 				if (prevalence || year < this.output.getStepsInRun())
-					for (int age = 0; age < 96/* + this.output.getStepsInRun() */; age++) {
+					for (int age = 0; age < this.output.getMaxAgeInSimulation()+1/* + this.output.getStepsInRun() */; age++) {
 
 						mendat = applySuccesrate(
 								nDiseaseByRiskClassByAge[0][r][age][0],
@@ -2995,7 +2999,7 @@ public class DynamoPlotFactory {
 				double menpopr = 0;
 				double womenpopr = 0;
 				if (year < this.output.getStepsInRun())
-					for (int age = 0; age < 96; age++) {
+					for (int age = 0; age < this.output.getMaxAgeInSimulation()+1; age++) {
 
 						mendat = applySuccesrate(
 								nMortalityByRiskClassByAger[year][r][age][0],
@@ -3851,7 +3855,7 @@ public class DynamoPlotFactory {
 				double indat1r = 0;
 				double denominator1r = 0;
 
-				for (int age = 0; age < Math.min(96 + this.output
+				for (int age = 0; age < Math.min(this.output.getMaxAgeInSimulation()+1 + this.output
 						.getStepsInRun(), 106); age++) {
 					/*
 					 * check if mortality is present (next age in dataset)
@@ -4024,7 +4028,7 @@ public class DynamoPlotFactory {
 				 * datapoint for mortality than for most other outcomes
 				 */
 
-				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+				for (int age = 0; age < Math.min(this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun() ,96); age++) {
 
 					double indat0 = 0;
 					double denominator0 = 0;
@@ -4181,7 +4185,7 @@ public class DynamoPlotFactory {
 				 * datapoint for mortality than for most other outcomes
 				 */
 
-				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+				for (int age = 0; age < Math.min(96, this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun()); age++) {
 
 					double indat0 = 0;
 
@@ -4317,7 +4321,7 @@ public class DynamoPlotFactory {
 				 * datapoint for mortality than for most other outcomes
 				 */
 
-				for (int age = 0; age < 96 /* + this.output.getStepsInRun() */; age++) {
+				for (int age = 0; age < Math.min( 96,this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun() ); age++) {
 
 					double indat0 = 0;
 
@@ -5871,19 +5875,26 @@ public class DynamoPlotFactory {
 				double nPop_2 = 0;
 				double mort_2 = 0;
 
+				int start = ageOfLE + 1;
+				if (ageOfLE == 95 && maxAgeInSimulation[sex] == 95)
+					start = ageOfLE;
+				nInLifeTable[ageOfLE][sex] = 1;
+				HLE[sex][0] = 0;
+				HLE[sex][1] = 0;
+				double diseasePerc = 0;
+				
+				if ( maxAgeInSimulation[sex]>=ageOfLE){
 				for (int r = 0; r < this.output.getNRiskFactorClasses(); r++) {
 					nPop0 += this.output.getNPopByRiskClassByAge()[0][year][r][ageOfLE][sex];
 					nPopScen += this.output.getNPopByRiskClassByAge()[scenario][year][r][ageOfLE][sex];
 				}
-				double diseasePerc = 0;
-
-				nInLifeTable[ageOfLE][sex] = 1;
-				HLE[sex][0] = 0;
-				HLE[sex][1] = 0;
+				
+			
 				HLE[sex][2] = applySuccesrate(nPop0, nPopScen, scenario, year,
 						ageOfLE, sex); /* starting population */
+				
+				}
 				double nPop = HLE[sex][2];
-
 				/*
 				 * we add the data at the end of each interval, so start at
 				 * ageOfLE +1 the period after age 95 is added on top of this at
@@ -5892,15 +5903,14 @@ public class DynamoPlotFactory {
 				 * need to get through the loop without adding the "normal"
 				 * part, but adding the last part
 				 */
-				int start = ageOfLE + 1;
-				if (ageOfLE == 95 && maxAgeInSimulation[sex] == 95)
-					start = ageOfLE;
-
+				
 				/*
 				 * here we add the data of the period between age-1 and age If
 				 * maxAgeInSimulation is equal to 95, then we need to add also
 				 * the period after, we do this in the loop where age=95
 				 */
+				
+				/*  if no data, no LE is calculated and the values stay zero */
 				for (int age = start; age <= maxAgeInSimulation[sex]; age++) {
 					nPop0 = 0;
 					nPopScen = 0;
@@ -6107,7 +6117,7 @@ public class DynamoPlotFactory {
 				maxAgeInSimulation[sex] = age;
 			}
 			if (maxAgeInSimulation[sex] < 0)
-				maxAgeInSimulation[sex] = maxAge;
+				maxAgeInSimulation[sex] = ageOfLE-1;
 		}
 		return maxAgeInSimulation;
 	}
@@ -6458,7 +6468,7 @@ public class DynamoPlotFactory {
 			dataRef = this.output.getDiseaseDALY(disease)[0];
 		}
 
-		for (int a = age; a < 96; a++)
+		for (int a = age; a <  this.output.getMaxAgeInSimulation()+1 ; a++)
 			for (int g = 0; g < 2; g++)
 				daly[g] += applySuccesrate(dataScen[a][g], dataRef[a][g],
 						scenario, 0, a, g)
@@ -6823,7 +6833,7 @@ public class DynamoPlotFactory {
 		String[] ageKey = new String[105];
 
 		// if (Math.floor(a/5)==a)
-		int maxAge = Math.min(96 + this.output.getStepsInRun(), 105);
+		int maxAge = Math.min( this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun() , 105);
 		// else ageKey[104-a]="";
 		for (int a = 0; a < 105; a++) {
 			ageKey[104 - a] = ((Integer) a).toString();
@@ -7086,7 +7096,7 @@ public class DynamoPlotFactory {
 		}
 
 		String[] ageKey = new String[105];
-		int maxAge = Math.min(96 + this.output.getStepsInRun(), 105);
+		int maxAge = Math.min(this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(), 105);
 		for (int a = 0; a < 105; a++) {
 			// if (Math.floor(a/5)==a)
 			ageKey[104 - a] = ((Integer) a).toString();
@@ -7458,7 +7468,7 @@ public class DynamoPlotFactory {
 		for (int r = 0; r < this.output.getNRiskFactorClasses(); r++)
 
 			for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
-				for (int a = 0; a < 96 + this.output.getStepsInRun(); a++)
+				for (int a = 0; a < this.output.getMaxAgeInSimulation()+1 + this.output.getStepsInRun(); a++)
 					for (int g = 0; g < 2; g++)
 						for (int d = 0; d < this.output.getNDiseases(); d++)
 							for (int stepCount = 0; stepCount < this.output
@@ -7475,12 +7485,12 @@ public class DynamoPlotFactory {
 	public double[][][][] getNPopByOriAge() {
 
 		double[][][][] nPopByAge = new double[this.output.getNScen() + 1][this.output
-				.getNDim()][96][2];
+				.getNDim()][this.output.getMaxAgeInSimulation()+1][2];
 
 		for (int r = 0; r < this.output.getNRiskFactorClasses(); r++)
 
 			for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
-				for (int a = 0; a < 96; a++)
+				for (int a = 0; a < this.output.getMaxAgeInSimulation()+1; a++)
 					for (int g = 0; g < 2; g++)
 
 						for (int stepCount = 0; stepCount < this.output
@@ -7514,10 +7524,10 @@ public class DynamoPlotFactory {
 	public double[][][][] getNPopByOriAge(int riskClass) {
 
 		double[][][][] nPopByAge = new double[this.output.getNScen() + 1][this.output
-				.getNDim()][96][2];
+				.getNDim()][this.output.getMaxAgeInSimulation()+1][2];
 
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
-			for (int a = 0; a < 96; a++)
+			for (int a = 0; a < this.output.getMaxAgeInSimulation()+1; a++)
 				for (int g = 0; g < 2; g++)
 					for (int stepCount = 0; stepCount < this.output.getNDim(); stepCount++)
 						nPopByAge[scen][stepCount][a][g] = this.output
@@ -7536,7 +7546,7 @@ public class DynamoPlotFactory {
 		double[][][][] pop = this.output.getNPopByAge();
 		for (int scen = 0; scen < this.output.getNScen() + 1; scen++)
 			for (int year = 0; year < this.output.getStepsInRun() + 1; year++)
-				for (int a = 0; a < 96; a++)
+				for (int a = 0; a < this.output.getMaxAgeInSimulation()+1; a++)
 					for (int s = 0; s < 2; s++)
 						if (pop[scen][year][a][s] > maximum)
 							maximum = (int) Math.round(pop[scen][year][a][s]);
