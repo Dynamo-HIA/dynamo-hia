@@ -4638,7 +4638,7 @@ public class DynamoPlotFactory {
 				.getRenderer();
 		renderer1.setDrawBarOutline(true);
 
-		renderer1.setBarPainter(new StandardBarPainter());
+	//	renderer1.setBarPainter(new StandardBarPainter());
 
 		// plot.setDomainAxisLocation(AxisLocation.TOP_OR_RIGHT);
 		renderer1.setItemMargin(0.15);
@@ -4856,7 +4856,7 @@ public class DynamoPlotFactory {
 				domainAxis.setCategoryMargin(0.1);
 			/* assign a generator to a CategoryItemRenderer, */
 			BarRenderer renderer1 = (BarRenderer) plot.getRenderer();
-			renderer1.setBarPainter(new StandardBarPainter());
+		//	renderer1.setBarPainter(new StandardBarPainter());
 			renderer1.setDrawBarOutline(true);
 
 			CategoryItemRenderer renderer = plot.getRenderer();
@@ -5305,7 +5305,7 @@ public class DynamoPlotFactory {
 			subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
 			chart.addSubtitle(subTitle);
 			GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
-			renderer.setBarPainter(new StandardBarPainter());
+	//		renderer.setBarPainter(new StandardBarPainter());
 			KeyToGroupMap map = new KeyToGroupMap(this.output
 					.getScenarioNames()[0]);
 			map.mapKeyToGroup(legend[0], this.output.getScenarioNames()[0]);
@@ -6296,7 +6296,7 @@ public class DynamoPlotFactory {
 		subTitle.setFont(new Font("SansSerif", Font.PLAIN, 12));
 		chart.addSubtitle(subTitle);
 		GroupedStackedBarRenderer renderer = new GroupedStackedBarRenderer();
-		renderer.setBarPainter(new StandardBarPainter());
+	//	renderer.setBarPainter(new StandardBarPainter());
 
 		KeyToGroupMap map = new KeyToGroupMap(this.output.getScenarioNames()[0]);
 		map.mapKeyToGroup(itemLabel0, this.output.getScenarioNames()[0]);
@@ -6952,10 +6952,10 @@ public class DynamoPlotFactory {
 		plot.addAnnotation(annotation2);
 
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
-		renderer.setBarPainter(new StandardBarPainter());
+	//	renderer.setBarPainter(new StandardBarPainter());
 		renderer.setItemMargin(0.0);
 		renderer.setDrawBarOutline(true);
-		renderer.setShadowVisible(false);
+	//	renderer.setShadowVisible(false);
 
 		renderer.setItemMargin(0.0);
 
@@ -7300,7 +7300,7 @@ public class DynamoPlotFactory {
 		plot.setDataset(1, dataset2);
 
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
-		renderer.setShadowVisible(false);
+	//	renderer.setShadowVisible(false);
 		/*
 		 * make a separate renderer for the female part of the plot, so that the
 		 * legend can be made invisible here
@@ -7315,8 +7315,8 @@ public class DynamoPlotFactory {
 		renderer.setDrawBarOutline(true);
 		renderer2.setDrawBarOutline(true);
 
-		renderer.setBarPainter(new StandardBarPainter());
-		renderer2.setBarPainter(new StandardBarPainter());
+	//	renderer.setBarPainter(new StandardBarPainter());
+	//	renderer2.setBarPainter(new StandardBarPainter());
 
 		// ChartFrame frame = new ChartFrame("LifeExpectancy Chart", chart);
 
