@@ -10,6 +10,7 @@ public class Trends extends XMLTagEntity implements WrapperType{
 	static final protected String XMLElementName = "trends";
 
 	public Trends() {
+		
 		super(XMLElementName);
 	}
 	

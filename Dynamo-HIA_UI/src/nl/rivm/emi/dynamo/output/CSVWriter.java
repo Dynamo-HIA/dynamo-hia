@@ -1390,7 +1390,7 @@ public class CSVWriter {
 			 * write the data
 			 */
 			int endsex = 2;
-			if (separateGenders)
+			if (!separateGenders)
 				endsex = 1;
 			int maxAgeAtStart=this.output.getMaxAgeInSimulation();
 			for (int thisScen = 0; thisScen < this.output.nScen + 1; thisScen++) {

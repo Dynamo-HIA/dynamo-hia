@@ -15,13 +15,18 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	 * Pattern for matching String input. Provides an initial validation that
 	 * should prevent subsequent conversions from blowing up.
 	 */
-	final public Pattern matchPattern = Pattern
-			.compile("^\\d*\\.?\\d*$");
 	
+	
+	final public Pattern matchPattern = Pattern
+			.compile("^-?\\d*\\.?\\d*$");
+	// februari 2015 -? toegevoegd om negatieve getallen mogelijk te maken
 	private Float defaultValue = 0F;
 	//Hendriek veranderd juli 2014 zodat trend ook negatief kan zijn
+	// werkt niet want Float.MIN_VALUE is kleinste positieve getal groter 0
+	// daarom veranderd in - maxvalue
+	// negatief bij aanroepen
 	public AbstractValue(String XMLElementName){
-		this(XMLElementName, Float.MIN_VALUE, Float.MAX_VALUE);
+		this(XMLElementName,  Float.MIN_VALUE, Float.MAX_VALUE);
 	}
 
 	/**

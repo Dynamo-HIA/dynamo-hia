@@ -14,6 +14,7 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.RootChildDispatchMap;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticHierarchicalRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.AgnosticSingleRootChildFactory;
 import nl.rivm.emi.dynamo.data.factories.rootchild.RootChildFactory;
+import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractEmptyIndicator;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractFlexibleUpperLimitInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
@@ -441,7 +442,9 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 		try {
 			AtomicTypeBase<?> testType = (AtomicTypeBase<?>) fileControl
 					.getParameterType4GroupFactory(currentLevel);
-			if (!(testType instanceof AbstractString)) {
+			// 2de conditie toegevoegd januari 2015 om te voorkomen dat de RR worden gevuld
+			// onduidelijk waarom dat niet meer werkte
+			if (!(testType instanceof AbstractString||testType instanceof AbstractEmptyIndicator)) {
 				AtomicTypeBase<Integer> myType = (AtomicTypeBase<Integer>) fileControl
 						.getParameterType4GroupFactory(currentLevel);
 				log.info("Handling AtomicTypeBase<Integer> ContainerType: "

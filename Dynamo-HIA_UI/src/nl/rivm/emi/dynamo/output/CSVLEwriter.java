@@ -158,8 +158,8 @@ public class CSVLEwriter implements Runnable  {
 					/* if not all ages are present, start at the first age that is present */
 					int startage=Math.max(this.output.getMinAgeInSimulation(),0)+year;
 				    if (this.output.withNewborns && sullivan) startage=0;
-
-					for (int a = startage; a < Math.min(96,this.output.getMaxAgeInSimulation()+year); a++) {
+//dit verhoogd met 1 (< veranderd in <=) omdat bij cohort te weinig jaren gaf (februari 2015)
+					for (int a = startage; a <= Math.min(96,this.output.getMaxAgeInSimulation()+year); a++) {
 
 						
 						if (sullivan) toWriteCSVString.append(year2 + this.delimiter);

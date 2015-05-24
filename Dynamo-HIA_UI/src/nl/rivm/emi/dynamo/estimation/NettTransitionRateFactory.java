@@ -521,7 +521,7 @@ public class NettTransitionRateFactory {
 
 	public static float[][] makeNettTransitionRates(float[] oldPrevOriginal,
 			float[] newPrevOriginal, double baselineMort, float[] RR)
-			throws DynamoInconsistentDataException, DynamoConfigurationException {
+			 throws DynamoInconsistentDataException, DynamoConfigurationException {
 
 		int nCat = oldPrevOriginal.length;
 		// first calculate oldPrev including selective mortality;
@@ -617,6 +617,7 @@ public class NettTransitionRateFactory {
 		}
 
 		double[][] oldtable = table;
+		
 		Simplx result = new Simplx(table, 2 * nCat, numVar, 0, 0, 2 * nCat);
 
 		// Extract transitionrates

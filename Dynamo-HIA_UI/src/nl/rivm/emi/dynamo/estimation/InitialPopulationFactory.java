@@ -322,7 +322,6 @@ public class InitialPopulationFactory {
 		/* Make some indexes that are needed */
 		this.parameters = params;
 		this.scenarioInfo = scenInfo;
-		
 		this.numberOfElements = getNumberOfDiseaseStateElements(parameters);
 		/* in case of debugging, more elements are needed */
 		if (this.incidenceDebug)
@@ -333,16 +332,49 @@ public class InitialPopulationFactory {
 			this.nClasses = parameters.getPrevRisk()[0][0].length;
 		long seed = scenInfo.getRandomSeed();
 		this.nSim = scenInfo.getSimPopSize();
-		rand = new Random(seed); // used to draw the initial population
-		rand2 = new MTRand(seed + 111777444); /*
-											 * used to generate seeds which are
-											 * entered as information with each
-											 * generated individual, and will be
-											 * used by the update rules // TODO
-											 * inlezen baseDir aanpassen aan
-											 * userinterface
-											 */
-		rand3 = new Random(seed+2945032); // used to draw the scenario population
+
+		rand = new Random(seed + minage * 2510689 + ming * 753209); // used to
+																	// draw the
+																	// initial
+																	// population
+		rand2 = new MTRand(seed + 111777444 + minage * 237 + ming * 39927); /*
+																			 * used
+																			 * to
+																			 * generate
+																			 * seeds
+																			 * which
+																			 * are
+																			 * entered
+																			 * as
+																			 * information
+																			 * with
+																			 * each
+																			 * generated
+																			 * individual
+																			 * ,
+																			 * and
+																			 * will
+																			 * be
+																			 * used
+																			 * by
+																			 * the
+																			 * update
+																			 * rules
+																			 * /
+																			 * /
+																			 * TODO
+																			 * inlezen
+																			 * baseDir
+																			 * aanpassen
+																			 * aan
+																			 * userinterface
+																			 */
+		rand3 = new Random(seed + 2945032 + minage * 2057 + ming * 89452); // used
+																			// to
+																			// draw
+																			// the
+																			// scenario
+		// population
 		// here the seed is reset by hand, so it does not matter that it used
 		// the same seed here
 		/* make a table of point from the inverse normal distribution */
@@ -441,9 +473,11 @@ public class InitialPopulationFactory {
 									
 									
 									}
-								else if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.")) throw new DynamoConfigurationException(E.getMessage()
-										 +"\nOne possible reason might be that there are multiple riskfactor classes with a prevalence of zero, not confirming to the special case where the first n prevalences are EXACTLY " +
-										 "equal to second n scenario prevalences");
+								else if (  E.getMessage().equals("Error in simplex algorithm: Bad input tableau in simplx.")) throw new DynamoConfigurationException(E.getMessage()+ " for age "+ a+
+										" gender "+ g +
+										 "\nOne possible reason might be that there are multiple riskfactor classes with a prevalence of zero, where it is not clear how to change the original prevalence into " +
+										 "the scenario prevalence. Also this error is known to occur when negative prevalence rates are present in the data. " 
+										);
 								else throw new DynamoConfigurationException(E.getMessage());
 									}
 							

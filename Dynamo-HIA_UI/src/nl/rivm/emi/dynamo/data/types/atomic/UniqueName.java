@@ -14,24 +14,12 @@ public class UniqueName extends AbstractString implements ContainerType<String> 
 
 	static final protected String XMLElementName = "uniquename";
 
-	// private DynamoTabDataManager dynamoTabDataManager;
-	// private String label;
-	// private Shell shell;
-
+	
 	public UniqueName() {
 		super(XMLElementName);
 	}
 
-	// public UniqueName(DynamoTabDataManager dynamoTabDataManager,
-	// String label,
-	// Shell shell
-	// ) {
-	// super(XMLElementName);
-	// this.dynamoTabDataManager = dynamoTabDataManager;
-	// this.label = label;
-	// this.shell = shell;
-	// }
-
+	
 	@Override
 	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
@@ -48,29 +36,6 @@ public class UniqueName extends AbstractString implements ContainerType<String> 
 			super(debugString);
 		}
 
-		// 20090923 RLM Gedespagettificeerd.
-		// @Override
-		// public Object convert(Object arg0) {
-		// log.debug("UniqueName: Override convert(Object) entered with:" +
-		// arg0.toString());
-		// Object result = null;
-		// if (arg0 instanceof String) {
-		// result = arg0;
-		// try {
-		//					
-		// log.debug("result: MODELVIEW " + result);
-		// // This is a workaround created to set the model value of "Name"
-		// // in the Scenario tabs of Simulation Model
-		// UniqueName.this.dynamoTabDataManager.updateObjectState(UniqueName.this.label,
-		// (String) result);
-		// } catch (ConfigurationException ce) {
-		// this.handleErrorMessage(ce);
-		// } catch (NoMoreDataException e) {
-		//					
-		// this.handleErrorMessage(e);
-		// }
-		// }
-		// return result;
-		// }
+	
 	}
 }

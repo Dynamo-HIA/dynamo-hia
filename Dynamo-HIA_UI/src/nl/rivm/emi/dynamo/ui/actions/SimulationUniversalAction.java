@@ -304,10 +304,11 @@ public class SimulationUniversalAction extends ActionBase {
 		}
 	}
 
-	/**
+	/** configured
 	 * Method for checking the preconditions for making a new simulation
 	 * configuration. When this check fails a messagebox indicating the error(s)
 	 * is shown and false is returned.
+	 * from Dynamo 2.07 on it does not check any more for diseases
 	 * 
 	 * @return true when creating a new simulation-configuration can go ahead.
 	 *         false when no further action should be taken.
@@ -336,10 +337,10 @@ public class SimulationUniversalAction extends ActionBase {
 			catch (NullPointerException e) {
 				numberOfDiseases=0;
 			}
-		if (numberOfDiseases == 0) {
-			allTestsOK = false;
-			errorMessage.append("No valid disease was found.\n");
-		}
+		//if (numberOfDiseases == 0) {
+		//	allTestsOK = false;
+		//	errorMessage.append("No valid disease was found.\n");
+		//}
 		int numberOfRiskFactors=0;
 		try{
 		 numberOfRiskFactors = instance.getRiskFactorNames().size();}

@@ -75,6 +75,8 @@ public enum FileControlEnum {
 			false), //
 	TRANSITIONDRIFT_NETTO(FileControlEnumHelp.transitionDriftNettoStrings,
 			true, false), //
+			
+				
 	TRANSITIONMATRIX(FileControlEnumHelp.transitionMatrixStrings, false, false), //
 	TRANSITIONMATRIX_ZERO(FileControlEnumHelp.transitionMatrixZeroStrings,
 			false, false), //

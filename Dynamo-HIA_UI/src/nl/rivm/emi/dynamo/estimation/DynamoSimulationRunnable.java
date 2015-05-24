@@ -243,7 +243,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * so not that much difference
 			 */
 			
-			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize()) {
+			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize() &&   scen.getOldPrevalence()[0][0].length<6) {
 
 				 pii = pr
 					.createProgressIndicator("Creating population for simulation ......"
@@ -456,7 +456,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			// .getInstance().size() > 1);
 			if (!(CharacteristicsConfigurationMapSingleton.getInstance().size() > 1)) {
 				throw new DynamoConfigurationException(
-						"More than 1 disease needs to be configured.");
+						"More than 1 characteristic needs to be configured.");
 			}
 			// calculate frequency of risk factor values during simulation
 

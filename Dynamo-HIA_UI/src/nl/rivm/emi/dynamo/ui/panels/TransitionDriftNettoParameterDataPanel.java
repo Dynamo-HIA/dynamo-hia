@@ -1,11 +1,14 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+// extra toegevoegd 15-2-2015 omdat trend ook negatief moet kunnen zijn
+// dus Value as type werkt niet
+
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
+import nl.rivm.emi.dynamo.ui.listeners.verify.TrendVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.apache.commons.logging.Log;
@@ -63,7 +66,7 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
-		text.addVerifyListener(new ValueVerifyListener(theHelpGroup
+		text.addVerifyListener(new TrendVerifyListener(theHelpGroup
 				.getTheModal()));
 	}
 }

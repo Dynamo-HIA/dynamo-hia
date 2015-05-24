@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.TabItem;
 
 /**
  * 
- * Tab that shows the NestedTab children NestedTab children are handled by the
+ * Tab that shows the NestedTab children. NestedTab children are handled by the
  * TabManager Shows New buttons and Delete buttons, of which the actions, are
  * also handled by the TabManager
  * 

@@ -166,6 +166,7 @@ public class ModelParameters {
 	private boolean warningflag4 = true;
 	private boolean warningflag5 = true;
 	private boolean warningflag6 = true;
+	private boolean warningflag7 = true;
 	private boolean negativeMortality = false;
 	private boolean withRRdisability;
 
@@ -2128,7 +2129,7 @@ public class ModelParameters {
 					/* with RR for disability */
 
 				} // end part on disability
-
+// dit is wrsch weggehaald in 2013 (zie verder op)
 			}// end loop over i in case of diseases for those with disease
 
 		else
@@ -2150,10 +2151,18 @@ public class ModelParameters {
 			this.riskFactorAbilityRRend[age][sex] = 1;
 			this.riskFactorAbilityRRbegin[age][sex] = 1;
 			this.riskFactorAbilityAlpha[age][sex] = 1;
-
-			if (this.baselineAbility[age][sex] > 1) {
-
-				throw new DynamoInconsistentDataException(
+			/// wanneer slechts klein verschil maak het 1
+			
+			if (this.baselineAbility[age][sex] > 1.000) {
+				if (overallAbility==1) {
+					if ( warningflag7) displayWarningMessage(
+							"WARNING: \nOverall Disability is given as zero. It is assumed this means disability due to "+
+					"non modelled diseases is zero, but disability due to modelled diseases is still present",dsi);
+                     warningflag7=false; 
+                     this.baselineAbility[age][sex] =1; 
+				}
+       
+				else throw new DynamoInconsistentDataException(
 						"ERROR:\nOverall dalyweight/disability is smaller than dalyweight/disability due "
 								+ "to diseases for age "
 								+ age
@@ -2261,7 +2270,7 @@ public class ModelParameters {
 		 * part 2: in case of RRothermort: we subtract from the matrix all the
 		 * rows for risk factors, each row multiplied by p(r|d) A single row has
 		 * terms CF given r, thus the sum is the sum over all CFs for a single
-		 * riskfactor level i.
+		 * riskfactor level i.f
 		 * 
 		 * In terms over variables: sum over all diseases e of fatalIncidence
 		 * [e]; the multiplication factor p(r|d)= p(d|r)p(r)/p(d) In variables:
@@ -2622,7 +2631,7 @@ public class ModelParameters {
 			if (otherMort[i] > 0)
 				logOtherMort[i] = Math.log(otherMort[i]);
 			else {
-				this.log.warn("negative other mortality  = " + otherMort[i]
+				this.log.warn("negative or zero other mortality  = " + otherMort[i]
 						+ " for person  " + i + " for riskclass "
 						+ riskclass[i] + " and for riskfactor " + riskfactor[i]
 						+ " age: " + age + " sex: " + sex);
@@ -3046,7 +3055,6 @@ public class ModelParameters {
 			this.relRiskOtherMortEnd[age][sex] = 1;
 			this.alphaOtherMort[age][sex] = 1; // does not really matter
 		}
-
 		/*
 		 * now repeat for disability, but this has already been done for
 		 * riskType==1
@@ -3244,6 +3252,8 @@ public class ModelParameters {
 			this.riskFactorAbilityRRbegin[age][sex] = 1;
 			this.riskFactorAbilityRRend[age][sex] = 1;
 			this.riskFactorAbilityAlpha[age][sex] = 1; // does not really matter
+		
+
 		}
 
 		if (age == 0 && sex == 0)
@@ -3263,10 +3273,12 @@ public class ModelParameters {
 		// only temporary to check method
 
 		/* TODO bedenken wat te doen met continue risico-factoren */
-		if (riskType != 2)
+		if (riskType != 2 &&   inputData
+				.getOverallDalyWeight()[age][sex]!=0)
 			adaptAbilityWhenToLow(nSim, inputData, age, sex, riskclass,
 					riskfactor, abilityFromDiseases, weight);
-
+		
+		
 		double baselineOtherMortality2;
 		double sumRROtherMort = 0;
 
@@ -3325,8 +3337,8 @@ public class ModelParameters {
 			 * the RR is not 1 for RefClassCont()
 			 */
 			double RRmort = RRmortNew[i] / this.baselineMortality[age][sex];
-
-			if (Math.abs(relRiskMort[i] - RRmort) > 0.1)
+// added weight[i]>0 because otherwise this gives warnings for RRs that not have been calculated yet
+			if (Math.abs(relRiskMort[i] - RRmort) > 0.1 && weight[i]>0)
 				this.log
 						.warn("WARNING: RR used for mortality differs from RR given for age: "
 								+ age
@@ -3396,6 +3408,36 @@ public class ModelParameters {
 								+ this.baselineOtherMortality[age][sex]
 								+ " before (age=" + age + "; sex=" + sex + ").");
 		this.baselineOtherMortality[age][sex] = (float) baselineOtherMortality2;
+		
+		// added nov 2014 : use this to calculate the RR for empty categories
+		if (withRRmort && riskType!=2) for (int i = 0; i < nSim; i++) {
+			if (weight[i]==0)
+				this.relRiskOtherMort[age][sex][riskclass[i]]=(float) (otherMort[i]/this.baselineOtherMortality[age][sex]) ;
+			/* second part: in case of zero mortality this should not give an error */
+			/* dit gaf eerst een exception maar dat is te strikt want soms bij jonge mensen is dit probleem niet goed oplosbaar daarom nu warning
+			 * TODO betere oplossing bedenken
+			 */
+			if (this.relRiskOtherMort[age][sex][riskclass[i]]<=0 && !(this.relRiskOtherMort[age][sex][riskclass[i]]==0 && this.baselineOtherMortality[age][sex]==0)) 	displayWarningMessage("no valid other mortality"
+					+" could be calculated for empty prevalence category (sequence number "+riskclass[i]+  ") for age "+age+" and sex "+sex+ " because of zero or negative other mortality", dsi);
+         // in case of zero mortality the relative risk is made 1 as it will not matter what value it has, but should not be NaN
+			// this is also done for negative zero baselineMortality
+			if (this.baselineOtherMortality[age][sex]<=0 ) this.relRiskOtherMort[age][sex][riskclass[i]]=1;
+			if (this.baselineOtherMortality[age][sex]<=0 ) this.baselineOtherMortality[age][sex]=0;
+			if (weight[i]==0 && i==this.durationClass && !(this.baselineOtherMortality[age][sex]==0 ) )
+			{this.relRiskOtherMortBegin[age][sex] = this.relRiskOtherMort[age][sex][riskclass[i]];
+			this.relRiskOtherMortEnd[age][sex] = this.relRiskOtherMort[age][sex][riskclass[i]];
+			this.alphaOtherMort[age][sex] = 1; // does not really matter
+			this.log
+			.warn("prevalence in duration class is missing so no duration dependent relative risks are used "
+						+ "for other cause mortality. This message is generated for  "					
+					+ "age=" + age + "; sex=" + sex + ").");
+				
+			}
+				//throw new DynamoInconsistentDataException("prevalence of durationClass is zero for age "+
+			//	age+	" and sex "+sex+" which makes parameter estimation impossible ");
+		}
+		
+	
 
 		if (age == 0 && sex == 0)
 			this.log.debug("end loop 6");
@@ -3669,6 +3711,8 @@ public class ModelParameters {
 			throw new DynamoInconsistentDataException(
 					"error in program with calculation of disability: "
 							+ "Total ability is " + sumAbility);
+		// eerder was baselineAbility toegestaan om max  1.0001 te zijn maar dat is geen goede waarde om mee verder ter rekenen
+	
 		if (repeat)
 			adaptAbilityWhenToLow(nSim, inputData, age, sex, riskclass,
 					riskfactor, abilityFromDiseases, weight);
@@ -3922,7 +3966,7 @@ public class ModelParameters {
 			double nNegativeOtherMort) {
 		warningflag4 = false;
 		displayWarningMessage(
-				"WARNING: \nnegative other mortality  in  "
+				"WARNING: \nnegative or zero other mortality  in  "
 						+ (nNegativeOtherMort * 100)
 						+ " % of simulated cases"
 						+ " for age "
