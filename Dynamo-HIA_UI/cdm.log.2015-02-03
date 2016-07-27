@@ -1,0 +1,1552 @@
+2015-02-03 13:51:01,758 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2015-02-03 13:51:03,537 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:51:03,537 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:51:03,537 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:51:03,537 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:51:03,537 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:51:06,970 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 13:51:07,112 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 13:54:44,281 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2015-02-03 13:54:45,811 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:54:45,811 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:54:45,811 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:54:45,811 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:54:45,811 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 13:54:50,040 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 13:54:50,181 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 13:55:13,051 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: ERROR:
+Overall dalyweight/disability is smaller than dalyweight/disability due to diseases for age 74 and gender 0 : disability due to diseases: 0.0013892068543936986 and overall: 0.0013195379870012403 . Other cause disability is set to zero.
+
+2015-02-03 13:55:13,051 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - ERROR:
+Overall dalyweight/disability is smaller than dalyweight/disability due to diseases for age 74 and gender 0 : disability due to diseases: 0.0013892068543936986 and overall: 0.0013195379870012403 . Other cause disability is set to zero.
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 13:58:01,377 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 13:58:01,425 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 13:58:05,777 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: ERROR:
+Overall dalyweight/disability is smaller than dalyweight/disability due to diseases for age 74 and gender 0 : disability due to diseases: 0.0013892068543936986 and overall: 0.0013195379870012403 . Other cause disability is set to zero.
+
+2015-02-03 13:58:05,777 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - ERROR:
+Overall dalyweight/disability is smaller than dalyweight/disability due to diseases for age 74 and gender 0 : disability due to diseases: 0.0013892068543936986 and overall: 0.0013195379870012403 . Other cause disability is set to zero.
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 13:59:06,730 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 13:59:06,762 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:08:14,573 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2015-02-03 14:08:16,383 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:08:16,383 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:08:16,383 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:08:16,383 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:08:16,383 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:08:22,452 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:08:39,768 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:08:44,885 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: error in program with calculation of disability: Total ability is 0.9986107931456063
+
+2015-02-03 14:08:44,885 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - error in program with calculation of disability: Total ability is 0.9986107931456063
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 14:10:32,907 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:10:32,956 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:10:34,672 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: error in program with calculation of disability: Total ability is 0.9986107931456063
+
+2015-02-03 14:10:34,672 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - error in program with calculation of disability: Total ability is 0.9986107931456063
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 14:20:57,787 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2015-02-03 14:20:59,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:20:59,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:20:59,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:20:59,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:20:59,348 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:03,561 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:21:03,687 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:21:05,434 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+
+2015-02-03 14:21:05,449 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 14:21:17,744 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:17,744 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:17,745 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:17,745 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:17,745 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:19,789 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:19,789 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:19,789 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:20,741 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:20,741 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:20,741 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,365 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,365 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,365 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,944 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,944 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:21,944 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:23,004 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:23,004 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:23,004 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:24,519 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:24,519 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:24,519 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:25,206 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:25,206 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:25,206 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:26,064 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:26,064 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:26,064 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:28,764 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:28,764 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:28,764 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:21:35,551 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:21:35,599 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:21:37,190 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+
+2015-02-03 14:21:37,190 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 14:39:20,392 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:20,392 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:20,392 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:20,392 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:20,392 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:39,284 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:39,284 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:39,284 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:39,284 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:39,284 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:39:46,180 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:39:46,213 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - Running the Simulation threw a DynamoInconsistentDataException with message: ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+
+2015-02-03 14:39:46,213 ERROR [nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener] - ERROR: 
+DiseaseAbility is larger than implied   based on input odds ratios for disability for riskfactor level 0 and this makes fitting relative risks for disability impossible 
+Please adjust the input disability data
+DynamoInconsistentDataException
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.wrapAndThrowErrorMessage(DynamoSimulationRunnable.java:905)
+nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable.<init>(DynamoSimulationRunnable.java:97)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.runDynamoSimulation(RunSelectionListener.java:114)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.setupAndRunDynamoSimulation(RunSelectionListener.java:100)
+nl.rivm.emi.dynamo.ui.listeners.selection.RunSelectionListener.widgetSelected(RunSelectionListener.java:67)
+org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:228)
+
+2015-02-03 14:41:27,380 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2015-02-03 14:41:29,081 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:41:29,081 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:41:29,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:41:29,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:41:29,082 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 14:41:38,286 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2015-02-03 14:42:08,487 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.4636084641978647E-6 for person  1 for riskclass 1 and for riskfactor 0.0 age: 8 sex: 1
+2015-02-03 14:42:10,641 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - SimulationConfigurationFile written 
+2015-02-03 14:42:10,704 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - CharacteristicsConfigurationFile written 
+2015-02-03 14:42:12,451 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - UpdateRuleConfigurationFile written 
+2015-02-03 14:42:27,615 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 0
+2015-02-03 14:42:27,615 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:42:27,615 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:42:27,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:42:27,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:42:27,975 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:42:31,002 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 0 gender 0
+2015-02-03 14:42:34,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 1
+2015-02-03 14:42:34,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:42:34,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:42:34,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:42:34,887 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:42:35,403 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:42:37,821 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 0 gender 1
+2015-02-03 14:42:41,394 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 0
+2015-02-03 14:42:41,394 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:42:41,394 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:42:41,394 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:42:41,394 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:42:41,551 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:42:44,188 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 1 gender 0
+2015-02-03 14:42:47,808 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 1
+2015-02-03 14:42:47,808 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:42:47,808 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:42:47,823 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:42:47,823 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:42:47,965 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:42:50,773 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 1 gender 1
+2015-02-03 14:42:54,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 0
+2015-02-03 14:42:54,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:42:54,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:42:54,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:42:54,923 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:42:55,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:42:57,102 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 2 gender 0
+2015-02-03 14:43:00,694 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 1
+2015-02-03 14:43:00,694 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:00,694 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:00,694 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:00,694 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:00,835 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:03,378 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 2 gender 1
+2015-02-03 14:43:07,025 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 3 gender: 0
+2015-02-03 14:43:07,025 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:07,025 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:07,025 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:07,025 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:07,120 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:09,164 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 3 gender 0
+2015-02-03 14:43:12,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 3 gender: 1
+2015-02-03 14:43:12,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:12,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:12,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:12,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:12,956 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:14,392 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 3 gender 1
+2015-02-03 14:43:17,809 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 4 gender: 0
+2015-02-03 14:43:17,809 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:17,809 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:17,809 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:17,809 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:17,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:20,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 4 gender 0
+2015-02-03 14:43:23,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 4 gender: 1
+2015-02-03 14:43:23,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:23,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:23,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:23,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:24,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:25,768 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 4 gender 1
+2015-02-03 14:43:29,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 5 gender: 0
+2015-02-03 14:43:29,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:29,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:29,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:29,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:29,218 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:31,667 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 5 gender 0
+2015-02-03 14:43:35,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 5 gender: 1
+2015-02-03 14:43:35,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:35,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:35,240 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:35,240 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:35,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:37,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 5 gender 1
+2015-02-03 14:43:41,857 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 6 gender: 0
+2015-02-03 14:43:41,857 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:41,857 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:41,857 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:41,857 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:42,014 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:44,151 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 6 gender 0
+2015-02-03 14:43:47,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 6 gender: 1
+2015-02-03 14:43:47,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:47,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:47,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:47,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:48,022 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:50,502 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 6 gender 1
+2015-02-03 14:43:54,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 7 gender: 0
+2015-02-03 14:43:54,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:43:54,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:43:54,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:43:54,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:43:54,529 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:43:56,760 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 7 gender 0
+2015-02-03 14:44:00,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 7 gender: 1
+2015-02-03 14:44:00,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:00,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:00,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:00,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:00,334 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:02,674 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 7 gender 1
+2015-02-03 14:44:06,466 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 8 gender: 0
+2015-02-03 14:44:06,466 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:06,466 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:06,466 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:06,466 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:06,607 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:09,103 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 8 gender 0
+2015-02-03 14:44:12,271 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 8 gender: 1
+2015-02-03 14:44:12,271 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:12,271 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:12,271 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:12,271 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:12,366 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:14,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 8 gender 1
+2015-02-03 14:44:18,045 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 9 gender: 0
+2015-02-03 14:44:18,045 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:18,045 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:18,045 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:18,045 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:18,202 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:20,324 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 9 gender 0
+2015-02-03 14:44:23,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 9 gender: 1
+2015-02-03 14:44:23,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:23,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:23,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:23,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:23,898 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:26,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 9 gender 1
+2015-02-03 14:44:30,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 10 gender: 0
+2015-02-03 14:44:30,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:30,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:30,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:30,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:30,483 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:32,698 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 10 gender 0
+2015-02-03 14:44:36,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 10 gender: 1
+2015-02-03 14:44:36,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:36,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:36,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:36,365 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:36,554 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:38,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 10 gender 1
+2015-02-03 14:44:42,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 11 gender: 0
+2015-02-03 14:44:42,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:42,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:42,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:42,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:42,125 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:44,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 11 gender 0
+2015-02-03 14:44:47,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 11 gender: 1
+2015-02-03 14:44:47,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:47,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:47,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:47,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:47,743 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:49,974 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 11 gender 1
+2015-02-03 14:44:53,407 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 12 gender: 0
+2015-02-03 14:44:53,407 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:53,407 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:53,407 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:53,407 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:53,579 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:44:55,654 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 12 gender 0
+2015-02-03 14:44:59,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 12 gender: 1
+2015-02-03 14:44:59,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:44:59,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:44:59,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:44:59,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:44:59,509 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:01,818 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 12 gender 1
+2015-02-03 14:45:05,189 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 13 gender: 0
+2015-02-03 14:45:05,189 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:05,189 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:05,189 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:05,189 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:05,330 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:07,576 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 13 gender 0
+2015-02-03 14:45:11,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 13 gender: 1
+2015-02-03 14:45:11,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:11,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:11,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:11,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:11,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:13,678 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 13 gender 1
+2015-02-03 14:45:17,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 14 gender: 0
+2015-02-03 14:45:17,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:17,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:17,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:17,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:17,440 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:19,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 14 gender 0
+2015-02-03 14:45:23,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 14 gender: 1
+2015-02-03 14:45:23,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:23,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:23,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:23,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:23,463 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:25,460 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 14 gender 1
+2015-02-03 14:45:28,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 15 gender: 0
+2015-02-03 14:45:28,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:28,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:28,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:28,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:28,941 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:31,031 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 15 gender 0
+2015-02-03 14:45:33,840 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 15 gender: 1
+2015-02-03 14:45:33,840 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:33,840 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:33,840 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:33,840 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:33,966 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:36,446 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 15 gender 1
+2015-02-03 14:45:38,959 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 16 gender: 0
+2015-02-03 14:45:38,959 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:38,959 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:38,959 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:38,959 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:39,100 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:41,222 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 16 gender 0
+2015-02-03 14:45:44,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 16 gender: 1
+2015-02-03 14:45:44,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:44,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:44,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:44,359 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:44,516 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:46,778 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 16 gender 1
+2015-02-03 14:45:49,758 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 17 gender: 0
+2015-02-03 14:45:49,758 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:49,758 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:49,758 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:49,758 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:49,822 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:51,756 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 17 gender 0
+2015-02-03 14:45:54,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 17 gender: 1
+2015-02-03 14:45:54,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:45:54,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:45:54,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:45:54,721 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:45:54,847 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:45:57,046 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 17 gender 1
+2015-02-03 14:46:00,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 0
+2015-02-03 14:46:00,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:00,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:00,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:00,199 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:00,340 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:02,789 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 18 gender 0
+2015-02-03 14:46:06,082 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 18 gender: 1
+2015-02-03 14:46:06,082 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:06,082 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:06,082 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:06,082 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:06,223 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:08,298 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 18 gender 1
+2015-02-03 14:46:11,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 0
+2015-02-03 14:46:11,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:11,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:11,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:11,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:11,732 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:13,729 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 19 gender 0
+2015-02-03 14:46:16,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 19 gender: 1
+2015-02-03 14:46:16,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:16,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:16,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:16,881 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:17,038 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:19,487 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 19 gender 1
+2015-02-03 14:46:22,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 20 gender: 0
+2015-02-03 14:46:22,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:22,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:22,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:22,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:22,562 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:24,590 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 20 gender 0
+2015-02-03 14:46:27,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 20 gender: 1
+2015-02-03 14:46:27,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:27,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:27,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:27,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:27,525 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:29,241 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 20 gender 1
+2015-02-03 14:46:32,300 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 21 gender: 0
+2015-02-03 14:46:32,300 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:32,300 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:32,300 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:32,300 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:32,441 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:34,656 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 21 gender 0
+2015-02-03 14:46:37,715 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 21 gender: 1
+2015-02-03 14:46:37,715 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:37,715 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:37,715 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:37,715 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:37,903 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:39,760 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 21 gender 1
+2015-02-03 14:46:42,865 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 22 gender: 0
+2015-02-03 14:46:42,866 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:42,866 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:42,866 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:42,866 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:43,038 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:44,863 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 22 gender 0
+2015-02-03 14:46:47,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 22 gender: 1
+2015-02-03 14:46:47,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:47,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:47,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:47,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:48,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:50,450 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 22 gender 1
+2015-02-03 14:46:53,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 23 gender: 0
+2015-02-03 14:46:53,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:53,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:53,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:53,384 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:53,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:46:55,584 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 23 gender 0
+2015-02-03 14:46:58,783 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 23 gender: 1
+2015-02-03 14:46:58,783 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:46:58,783 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:46:58,783 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:46:58,783 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:46:58,924 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:00,952 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 23 gender 1
+2015-02-03 14:47:04,214 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 24 gender: 0
+2015-02-03 14:47:04,214 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:04,214 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:04,214 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:04,214 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:04,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:06,617 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 24 gender 0
+2015-02-03 14:47:09,754 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 24 gender: 1
+2015-02-03 14:47:09,769 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:09,769 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:09,769 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:09,769 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:09,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:11,954 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 24 gender 1
+2015-02-03 14:47:14,841 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 25 gender: 0
+2015-02-03 14:47:14,841 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:14,841 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:14,841 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:14,841 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:14,983 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:16,964 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 25 gender 0
+2015-02-03 14:47:19,679 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 25 gender: 1
+2015-02-03 14:47:19,679 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:19,679 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:19,679 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:19,679 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:19,821 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:22,176 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 25 gender 1
+2015-02-03 14:47:25,297 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 26 gender: 0
+2015-02-03 14:47:25,297 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:25,297 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:25,297 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:25,297 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:25,454 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:27,467 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 26 gender 0
+2015-02-03 14:47:30,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 26 gender: 1
+2015-02-03 14:47:30,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:30,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:30,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:30,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:30,417 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:32,367 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 26 gender 1
+2015-02-03 14:47:35,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 27 gender: 0
+2015-02-03 14:47:35,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:35,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:35,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:35,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:35,224 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:37,314 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 27 gender 0
+2015-02-03 14:47:40,201 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 27 gender: 1
+2015-02-03 14:47:40,201 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:40,201 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:40,201 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:40,201 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:40,327 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:42,293 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 27 gender 1
+2015-02-03 14:47:45,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 28 gender: 0
+2015-02-03 14:47:45,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:45,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:45,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:45,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:45,368 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:47,240 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 28 gender 0
+2015-02-03 14:47:50,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 28 gender: 1
+2015-02-03 14:47:50,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:50,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:50,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:50,049 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:50,222 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:52,421 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 28 gender 1
+2015-02-03 14:47:55,527 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 29 gender: 0
+2015-02-03 14:47:55,527 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:47:55,527 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:47:55,527 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:47:55,527 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:47:55,668 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:47:57,618 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 29 gender 0
+2015-02-03 14:48:00,396 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 29 gender: 1
+2015-02-03 14:48:00,396 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:00,396 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:00,396 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:00,396 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:00,568 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:02,456 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 29 gender 1
+2015-02-03 14:48:05,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 30 gender: 0
+2015-02-03 14:48:05,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:05,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:05,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:05,546 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:05,687 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:07,325 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 30 gender 0
+2015-02-03 14:48:10,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 30 gender: 1
+2015-02-03 14:48:10,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:10,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:10,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:10,259 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:10,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:12,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 30 gender 1
+2015-02-03 14:48:15,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 31 gender: 0
+2015-02-03 14:48:15,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:15,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:15,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:15,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:15,488 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:17,032 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 31 gender 0
+2015-02-03 14:48:19,451 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 31 gender: 1
+2015-02-03 14:48:19,451 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:19,451 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:19,451 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:19,451 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:19,624 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:21,356 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 31 gender 1
+2015-02-03 14:48:23,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 32 gender: 0
+2015-02-03 14:48:23,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:23,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:23,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:23,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:23,932 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:25,913 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 32 gender 0
+2015-02-03 14:48:28,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 32 gender: 1
+2015-02-03 14:48:28,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:28,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:28,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:28,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:28,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:30,236 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 32 gender 1
+2015-02-03 14:48:32,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 33 gender: 0
+2015-02-03 14:48:32,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:32,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:32,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:32,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:32,843 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:34,653 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 33 gender 0
+2015-02-03 14:48:37,228 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 33 gender: 1
+2015-02-03 14:48:37,228 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:37,228 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:37,228 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:37,228 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:37,400 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:39,288 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 33 gender 1
+2015-02-03 14:48:41,738 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 34 gender: 0
+2015-02-03 14:48:41,738 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:41,738 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:41,738 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:41,738 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:41,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:43,876 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 34 gender 0
+2015-02-03 14:48:45,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 34 gender: 1
+2015-02-03 14:48:45,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:45,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:45,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:45,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:46,078 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:47,732 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 34 gender 1
+2015-02-03 14:48:50,182 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 35 gender: 0
+2015-02-03 14:48:50,182 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:50,182 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:50,182 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:50,182 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:50,276 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:52,086 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 35 gender 0
+2015-02-03 14:48:54,911 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 35 gender: 1
+2015-02-03 14:48:54,911 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:54,911 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:54,911 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:54,911 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:55,036 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:48:57,018 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 35 gender 1
+2015-02-03 14:48:59,733 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 36 gender: 0
+2015-02-03 14:48:59,733 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:48:59,733 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:48:59,733 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:48:59,733 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:48:59,874 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:01,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 36 gender 0
+2015-02-03 14:49:04,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 36 gender: 1
+2015-02-03 14:49:04,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:04,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:04,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:04,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:04,244 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:05,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 36 gender 1
+2015-02-03 14:49:08,676 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 37 gender: 0
+2015-02-03 14:49:08,676 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:08,676 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:08,676 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:08,676 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:08,817 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:10,440 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 37 gender 0
+2015-02-03 14:49:12,625 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 37 gender: 1
+2015-02-03 14:49:12,625 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:12,625 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:12,625 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:12,625 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:12,766 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:14,825 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 37 gender 1
+2015-02-03 14:49:16,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 38 gender: 0
+2015-02-03 14:49:16,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:16,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:16,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:16,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:17,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:18,634 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 38 gender 0
+2015-02-03 14:49:21,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 38 gender: 1
+2015-02-03 14:49:21,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:21,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:21,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:21,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:21,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:22,926 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 38 gender 1
+2015-02-03 14:49:25,485 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 39 gender: 0
+2015-02-03 14:49:25,485 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:25,485 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:25,485 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:25,485 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:25,658 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:27,545 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 39 gender 0
+2015-02-03 14:49:29,855 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 39 gender: 1
+2015-02-03 14:49:29,855 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:29,855 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:29,855 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:29,855 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:29,996 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:31,666 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 39 gender 1
+2015-02-03 14:49:34,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 40 gender: 0
+2015-02-03 14:49:34,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:34,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:34,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:34,319 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:34,460 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:36,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 40 gender 0
+2015-02-03 14:49:38,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 40 gender: 1
+2015-02-03 14:49:38,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:38,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:38,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:38,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:38,846 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:40,530 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 40 gender 1
+2015-02-03 14:49:42,981 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 41 gender: 0
+2015-02-03 14:49:42,981 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:42,981 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:42,981 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:42,981 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:43,138 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:45,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 41 gender 0
+2015-02-03 14:49:47,538 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 41 gender: 1
+2015-02-03 14:49:47,538 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:47,538 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:47,538 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:47,538 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:47,726 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:49,239 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 41 gender 1
+2015-02-03 14:49:51,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 42 gender: 0
+2015-02-03 14:49:51,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:51,362 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:51,363 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:51,363 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:51,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:53,141 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 42 gender 0
+2015-02-03 14:49:55,295 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 42 gender: 1
+2015-02-03 14:49:55,295 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:55,295 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:55,295 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:55,295 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:55,421 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:49:57,121 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 42 gender 1
+2015-02-03 14:49:59,556 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 43 gender: 0
+2015-02-03 14:49:59,556 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:49:59,556 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:49:59,556 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:49:59,556 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:49:59,697 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:01,647 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 43 gender 0
+2015-02-03 14:50:04,160 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 43 gender: 1
+2015-02-03 14:50:04,160 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:04,160 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:04,160 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:04,160 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:04,301 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:06,048 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 43 gender 1
+2015-02-03 14:50:08,389 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 44 gender: 0
+2015-02-03 14:50:08,389 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:08,389 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:08,389 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:08,389 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:08,531 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:10,231 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 44 gender 0
+2015-02-03 14:50:12,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 44 gender: 1
+2015-02-03 14:50:12,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:12,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:12,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:12,385 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:12,495 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:14,554 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 44 gender 1
+2015-02-03 14:50:16,786 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 45 gender: 0
+2015-02-03 14:50:16,786 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:16,786 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:16,786 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:16,786 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:16,928 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:18,316 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 45 gender 0
+2015-02-03 14:50:20,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 45 gender: 1
+2015-02-03 14:50:20,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:20,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:20,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:20,704 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:20,830 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:22,390 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 45 gender 1
+2015-02-03 14:50:24,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 46 gender: 0
+2015-02-03 14:50:24,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:24,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:24,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:24,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:24,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:26,416 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 46 gender 0
+2015-02-03 14:50:28,539 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 46 gender: 1
+2015-02-03 14:50:28,539 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:28,539 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:28,539 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:28,539 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:28,665 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:30,147 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 46 gender 1
+2015-02-03 14:50:32,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 47 gender: 0
+2015-02-03 14:50:32,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:32,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:32,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:32,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:32,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:33,940 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 47 gender 0
+2015-02-03 14:50:36,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 47 gender: 1
+2015-02-03 14:50:36,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:36,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:36,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:36,265 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:36,406 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:37,920 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 47 gender 1
+2015-02-03 14:50:40,136 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 48 gender: 0
+2015-02-03 14:50:40,136 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:40,151 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:40,151 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:40,151 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:40,277 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:41,853 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 48 gender 0
+2015-02-03 14:50:43,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 48 gender: 1
+2015-02-03 14:50:43,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:43,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:43,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:43,960 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:44,086 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:45,646 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 48 gender 1
+2015-02-03 14:50:47,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 49 gender: 0
+2015-02-03 14:50:47,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:47,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:47,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:47,503 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:47,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:49,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 49 gender 0
+2015-02-03 14:50:50,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 49 gender: 1
+2015-02-03 14:50:50,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:50,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:50,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:50,734 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:50,829 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:52,342 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 49 gender 1
+2015-02-03 14:50:54,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 50 gender: 0
+2015-02-03 14:50:54,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:54,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:54,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:54,262 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:54,356 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:55,870 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 50 gender 0
+2015-02-03 14:50:57,930 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 50 gender: 1
+2015-02-03 14:50:57,930 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:50:57,930 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:50:57,930 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:50:57,930 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:50:58,056 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:50:59,662 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 50 gender 1
+2015-02-03 14:51:01,801 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 51 gender: 0
+2015-02-03 14:51:01,801 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:01,801 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:01,801 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:01,801 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:01,895 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:03,611 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 51 gender 0
+2015-02-03 14:51:05,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 51 gender: 1
+2015-02-03 14:51:05,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:05,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:05,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:05,718 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:05,813 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:07,357 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 51 gender 1
+2015-02-03 14:51:09,246 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 52 gender: 0
+2015-02-03 14:51:09,246 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:09,246 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:09,246 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:09,246 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:09,387 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:10,776 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 52 gender 0
+2015-02-03 14:51:12,571 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 52 gender: 1
+2015-02-03 14:51:12,586 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:12,586 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:12,586 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:12,586 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:12,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:14,428 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 52 gender 1
+2015-02-03 14:51:16,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 53 gender: 0
+2015-02-03 14:51:16,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:16,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:16,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:16,582 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:16,723 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:17,706 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 53 gender 0
+2015-02-03 14:51:19,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 53 gender: 1
+2015-02-03 14:51:19,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:19,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:19,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:19,329 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:19,486 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:20,937 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 53 gender 1
+2015-02-03 14:51:22,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 54 gender: 0
+2015-02-03 14:51:22,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:22,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:22,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:22,919 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:23,061 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:24,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 54 gender 0
+2015-02-03 14:51:26,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 54 gender: 1
+2015-02-03 14:51:26,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:26,119 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:26,135 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:26,135 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:26,261 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:27,680 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 54 gender 1
+2015-02-03 14:51:29,413 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 55 gender: 0
+2015-02-03 14:51:29,413 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:29,413 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:29,413 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:29,413 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:29,492 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:30,896 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 55 gender 0
+2015-02-03 14:51:32,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 55 gender: 1
+2015-02-03 14:51:32,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:32,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:32,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:32,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:32,948 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:34,320 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 55 gender 1
+2015-02-03 14:51:36,193 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 56 gender: 0
+2015-02-03 14:51:36,193 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:36,193 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:36,193 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:36,193 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:36,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:37,630 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 56 gender 0
+2015-02-03 14:51:39,612 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 56 gender: 1
+2015-02-03 14:51:39,612 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:39,612 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:39,612 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:39,612 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:39,753 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:41,142 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 56 gender 1
+2015-02-03 14:51:42,905 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 57 gender: 0
+2015-02-03 14:51:42,905 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:42,905 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:42,905 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:42,905 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:43,047 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:44,186 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 57 gender 0
+2015-02-03 14:51:45,856 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 57 gender: 1
+2015-02-03 14:51:45,856 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:45,856 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:45,856 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:45,856 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:45,950 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:47,479 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 57 gender 1
+2015-02-03 14:51:49,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 58 gender: 0
+2015-02-03 14:51:49,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:49,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:49,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:49,227 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:49,369 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:50,664 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 58 gender 0
+2015-02-03 14:51:52,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 58 gender: 1
+2015-02-03 14:51:52,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:52,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:52,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:52,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:52,194 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:53,474 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 58 gender 1
+2015-02-03 14:51:54,925 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 59 gender: 0
+2015-02-03 14:51:54,925 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:54,925 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:54,925 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:54,925 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:55,020 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:56,174 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 59 gender 0
+2015-02-03 14:51:57,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 59 gender: 1
+2015-02-03 14:51:57,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:51:57,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:51:57,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:51:57,767 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:51:57,908 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:51:59,047 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 59 gender 1
+2015-02-03 14:52:00,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 60 gender: 0
+2015-02-03 14:52:00,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:00,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:00,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:00,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:00,952 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:02,528 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 60 gender 0
+2015-02-03 14:52:04,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 60 gender: 1
+2015-02-03 14:52:04,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:04,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:04,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:04,338 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:04,480 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:05,806 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 60 gender 1
+2015-02-03 14:52:07,335 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 61 gender: 0
+2015-02-03 14:52:07,335 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:07,335 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:07,335 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:07,335 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:07,492 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:08,647 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 61 gender 0
+2015-02-03 14:52:10,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 61 gender: 1
+2015-02-03 14:52:10,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:10,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:10,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:10,426 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:10,568 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:11,847 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 61 gender 1
+2015-02-03 14:52:13,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 62 gender: 0
+2015-02-03 14:52:13,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:13,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:13,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:13,657 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:13,768 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:14,797 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 62 gender 0
+2015-02-03 14:52:16,452 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 62 gender: 1
+2015-02-03 14:52:16,452 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:16,452 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:16,452 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:16,452 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:16,593 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:18,044 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 62 gender 1
+2015-02-03 14:52:19,761 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 63 gender: 0
+2015-02-03 14:52:19,761 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:19,761 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:19,761 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:19,761 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:19,902 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:21,213 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 63 gender 0
+2015-02-03 14:52:22,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 63 gender: 1
+2015-02-03 14:52:22,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:22,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:22,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:22,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:22,837 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:23,914 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 63 gender 1
+2015-02-03 14:52:25,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 64 gender: 0
+2015-02-03 14:52:25,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:25,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:25,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:25,631 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:25,803 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:27,004 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 64 gender 0
+2015-02-03 14:52:28,659 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 64 gender: 1
+2015-02-03 14:52:28,659 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:28,659 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:28,659 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:28,659 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:28,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:30,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 64 gender 1
+2015-02-03 14:52:31,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 65 gender: 0
+2015-02-03 14:52:31,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:31,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:31,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:31,921 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:32,032 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:33,420 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 65 gender 0
+2015-02-03 14:52:34,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 65 gender: 1
+2015-02-03 14:52:34,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:34,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:34,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:34,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:34,826 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:35,871 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 65 gender 1
+2015-02-03 14:52:37,448 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 66 gender: 0
+2015-02-03 14:52:37,448 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:37,448 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:37,448 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:37,448 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:37,574 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:38,837 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 66 gender 0
+2015-02-03 14:52:40,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 66 gender: 1
+2015-02-03 14:52:40,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:40,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:40,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:40,414 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:40,555 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:41,741 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 66 gender 1
+2015-02-03 14:52:42,912 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 67 gender: 0
+2015-02-03 14:52:42,927 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:42,927 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:42,927 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:42,927 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:43,053 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:44,270 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 67 gender 0
+2015-02-03 14:52:45,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 67 gender: 1
+2015-02-03 14:52:45,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:45,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:45,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:45,644 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:45,770 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:46,955 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 67 gender 1
+2015-02-03 14:52:48,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 68 gender: 0
+2015-02-03 14:52:48,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:48,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:48,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:48,267 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:48,346 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:49,796 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 68 gender 0
+2015-02-03 14:52:51,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 68 gender: 1
+2015-02-03 14:52:51,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:51,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:51,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:51,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:51,405 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:52,575 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 68 gender 1
+2015-02-03 14:52:54,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 69 gender: 0
+2015-02-03 14:52:54,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:54,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:54,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:54,058 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:54,184 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:55,245 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 69 gender 0
+2015-02-03 14:52:56,697 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 69 gender: 1
+2015-02-03 14:52:56,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:56,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:56,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:56,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:56,838 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:52:57,836 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 69 gender 1
+2015-02-03 14:52:59,132 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 70 gender: 0
+2015-02-03 14:52:59,132 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:52:59,132 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:52:59,132 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:52:59,133 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:52:59,274 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:00,678 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 70 gender 0
+2015-02-03 14:53:01,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 70 gender: 1
+2015-02-03 14:53:01,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:01,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:01,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:01,973 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:02,099 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:03,098 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 70 gender 1
+2015-02-03 14:53:04,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 71 gender: 0
+2015-02-03 14:53:04,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:04,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:04,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:04,331 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:04,441 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:05,533 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 71 gender 0
+2015-02-03 14:53:06,891 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 71 gender: 1
+2015-02-03 14:53:06,891 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:06,891 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:06,891 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:06,891 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:07,033 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:08,062 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 71 gender 1
+2015-02-03 14:53:09,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 72 gender: 0
+2015-02-03 14:53:09,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:09,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:09,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:09,249 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:09,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:10,482 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 72 gender 0
+2015-02-03 14:53:11,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 72 gender: 1
+2015-02-03 14:53:11,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:11,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:11,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:11,794 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:11,920 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:12,996 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 72 gender 1
+2015-02-03 14:53:14,307 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 73 gender: 0
+2015-02-03 14:53:14,307 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:14,307 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:14,307 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:14,307 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:14,433 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:15,463 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 73 gender 0
+2015-02-03 14:53:16,493 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 73 gender: 1
+2015-02-03 14:53:16,493 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:16,493 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:16,493 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:16,493 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:16,619 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:17,820 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 73 gender 1
+2015-02-03 14:53:18,991 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 74 gender: 0
+2015-02-03 14:53:18,991 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:18,991 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:18,991 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:18,991 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:19,133 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:20,194 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 74 gender 0
+2015-02-03 14:53:20,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 74 gender: 1
+2015-02-03 14:53:20,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:20,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:20,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:20,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:21,021 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:22,098 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 74 gender 1
+2015-02-03 14:53:23,175 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 75 gender: 0
+2015-02-03 14:53:23,175 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:23,175 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:23,175 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:23,175 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:23,301 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:24,315 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 75 gender 0
+2015-02-03 14:53:25,377 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 75 gender: 1
+2015-02-03 14:53:25,377 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:25,377 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:25,377 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:25,377 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:25,518 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:26,470 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 75 gender 1
+2015-02-03 14:53:27,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 76 gender: 0
+2015-02-03 14:53:27,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:27,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:27,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:27,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:27,813 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:28,781 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 76 gender 0
+2015-02-03 14:53:29,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 76 gender: 1
+2015-02-03 14:53:29,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:29,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:29,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:29,764 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:29,874 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:31,060 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 76 gender 1
+2015-02-03 14:53:32,216 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 77 gender: 0
+2015-02-03 14:53:32,216 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:32,216 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:32,216 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:32,216 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:32,279 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:33,480 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 77 gender 0
+2015-02-03 14:53:34,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 77 gender: 1
+2015-02-03 14:53:34,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:34,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:34,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:34,308 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:34,433 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:35,431 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 77 gender 1
+2015-02-03 14:53:36,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 78 gender: 0
+2015-02-03 14:53:36,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:36,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:36,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:36,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:36,462 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:37,446 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 78 gender 0
+2015-02-03 14:53:38,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 78 gender: 1
+2015-02-03 14:53:38,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:38,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:38,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:38,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:38,507 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:39,475 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 78 gender 1
+2015-02-03 14:53:40,285 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 79 gender: 0
+2015-02-03 14:53:40,286 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:40,286 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:40,286 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:40,286 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:40,350 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:41,008 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 79 gender 0
+2015-02-03 14:53:41,759 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 79 gender: 1
+2015-02-03 14:53:41,759 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:41,759 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:41,759 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:41,759 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:41,884 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:43,163 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 79 gender 1
+2015-02-03 14:53:44,084 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 80 gender: 0
+2015-02-03 14:53:44,084 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:44,084 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:44,084 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:44,084 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:44,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:45,223 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 80 gender 0
+2015-02-03 14:53:46,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 80 gender: 1
+2015-02-03 14:53:46,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:46,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:46,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:46,129 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:46,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:47,190 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 80 gender 1
+2015-02-03 14:53:47,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 81 gender: 0
+2015-02-03 14:53:47,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:47,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:47,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:47,893 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:48,017 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:48,938 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 81 gender 0
+2015-02-03 14:53:49,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 81 gender: 1
+2015-02-03 14:53:49,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:49,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:49,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:49,672 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:49,812 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:50,795 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 81 gender 1
+2015-02-03 14:53:51,685 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 82 gender: 0
+2015-02-03 14:53:51,685 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:51,685 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:51,685 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:51,685 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:51,810 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:52,591 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 82 gender 0
+2015-02-03 14:53:53,512 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 82 gender: 1
+2015-02-03 14:53:53,512 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:53,512 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:53,512 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:53,512 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:53,637 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:54,589 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 82 gender 1
+2015-02-03 14:53:55,510 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 83 gender: 0
+2015-02-03 14:53:55,510 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:55,510 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:55,510 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:55,510 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:55,620 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:56,541 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 83 gender 0
+2015-02-03 14:53:57,415 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 83 gender: 1
+2015-02-03 14:53:57,415 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:57,415 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:57,415 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:57,415 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:57,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:53:58,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 83 gender 1
+2015-02-03 14:53:59,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 84 gender: 0
+2015-02-03 14:53:59,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:53:59,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:53:59,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:53:59,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:53:59,382 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:00,256 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 84 gender 0
+2015-02-03 14:54:01,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 84 gender: 1
+2015-02-03 14:54:01,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:01,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:01,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:01,083 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:01,208 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:02,347 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 84 gender 1
+2015-02-03 14:54:03,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 85 gender: 0
+2015-02-03 14:54:03,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:03,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:03,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:03,191 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:03,315 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:04,236 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 85 gender 0
+2015-02-03 14:54:04,970 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 85 gender: 1
+2015-02-03 14:54:04,970 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:04,970 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:04,970 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:04,970 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:05,110 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:05,953 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 85 gender 1
+2015-02-03 14:54:06,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 86 gender: 0
+2015-02-03 14:54:06,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:06,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:06,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:06,749 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:06,874 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:07,717 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 86 gender 0
+2015-02-03 14:54:08,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 86 gender: 1
+2015-02-03 14:54:08,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:08,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:08,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:08,326 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:08,388 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:09,012 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 86 gender 1
+2015-02-03 14:54:09,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 87 gender: 0
+2015-02-03 14:54:09,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:09,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:09,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:09,700 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:09,825 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:10,511 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 87 gender 0
+2015-02-03 14:54:11,152 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 87 gender: 1
+2015-02-03 14:54:11,152 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:11,152 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:11,152 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:11,152 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:11,245 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:12,072 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 87 gender 1
+2015-02-03 14:54:12,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 88 gender: 0
+2015-02-03 14:54:12,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:12,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:12,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:12,775 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:12,900 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:13,711 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 88 gender 0
+2015-02-03 14:54:14,383 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 88 gender: 1
+2015-02-03 14:54:14,398 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:14,398 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:14,398 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:14,398 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:14,523 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:15,334 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 88 gender 1
+2015-02-03 14:54:16,006 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 89 gender: 0
+2015-02-03 14:54:16,006 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:16,006 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:16,006 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:16,006 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:16,131 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:16,942 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 89 gender 0
+2015-02-03 14:54:17,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 89 gender: 1
+2015-02-03 14:54:17,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:17,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:17,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:17,567 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:17,692 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:18,519 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 89 gender 1
+2015-02-03 14:54:19,144 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 90 gender: 0
+2015-02-03 14:54:19,144 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:19,144 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:19,144 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:19,144 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:19,269 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:19,986 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 90 gender 0
+2015-02-03 14:54:20,596 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 90 gender: 1
+2015-02-03 14:54:20,596 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:20,596 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:20,596 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:20,596 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:20,705 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:21,781 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 90 gender 1
+2015-02-03 14:54:22,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 91 gender: 0
+2015-02-03 14:54:22,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:22,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:22,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:22,375 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:22,515 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:23,358 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 91 gender 0
+2015-02-03 14:54:23,858 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 91 gender: 1
+2015-02-03 14:54:23,858 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:23,858 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:23,858 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:23,858 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:23,920 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:24,638 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 91 gender 1
+2015-02-03 14:54:25,029 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 92 gender: 0
+2015-02-03 14:54:25,029 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:25,029 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:25,029 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:25,029 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:25,154 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:25,918 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 92 gender 0
+2015-02-03 14:54:26,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 92 gender: 1
+2015-02-03 14:54:26,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:26,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:26,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:26,372 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:26,481 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:27,120 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 92 gender 1
+2015-02-03 14:54:27,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 93 gender: 0
+2015-02-03 14:54:27,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:27,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:27,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:27,496 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:27,589 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:28,323 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 93 gender 0
+2015-02-03 14:54:28,807 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 93 gender: 1
+2015-02-03 14:54:28,807 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:28,807 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:28,807 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:28,807 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:28,932 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:29,712 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 93 gender 1
+2015-02-03 14:54:30,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 94 gender: 0
+2015-02-03 14:54:30,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:30,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:30,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:30,181 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:30,306 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:31,070 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 94 gender 0
+2015-02-03 14:54:31,524 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 94 gender: 1
+2015-02-03 14:54:31,524 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:31,524 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:31,524 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:31,524 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:31,648 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:32,272 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 94 gender 1
+2015-02-03 14:54:32,710 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 95 gender: 0
+2015-02-03 14:54:32,710 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:32,710 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:32,710 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:32,710 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:32,835 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:33,490 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 95 gender 0
+2015-02-03 14:54:33,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 95 gender: 1
+2015-02-03 14:54:33,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2015-02-03 14:54:33,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2015-02-03 14:54:33,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2015-02-03 14:54:33,897 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2015-02-03 14:54:34,022 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2015-02-03 14:54:34,661 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 95 gender 1
+2015-02-03 14:54:35,115 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2015-02-03 14:54:36,331 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,287 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,288 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,288 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,288 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,288 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:23:38,288 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2015-02-03 17:25:47,737 FATAL [nl.rivm.emi.dynamo.ui.panels.output.Output_UI] - start making plotFactory
+2015-02-03 17:25:47,816 FATAL [nl.rivm.emi.dynamo.Output_PyramidTab] - 420 680 200 300 600 800

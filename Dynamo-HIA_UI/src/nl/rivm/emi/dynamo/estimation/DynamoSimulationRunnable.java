@@ -355,7 +355,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 							// next line is alternative without multithreading
 							worker.run();
 							/* flush the event queue as it otherwise does not work */
-							while(pr.getDisplay().readAndDispatch()){};
+						//	while(pr.getDisplay().readAndDispatch()){};
 							log.info("newborn simulation start for generation: "+generation+" gender: "+ g);
 
 						//	pop = popFactory.manufactureInitialPopulation(0, 0,
