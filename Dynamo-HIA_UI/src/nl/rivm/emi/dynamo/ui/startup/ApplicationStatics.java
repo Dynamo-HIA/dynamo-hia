@@ -7,7 +7,7 @@ import javax.swing.JFileChooser;
 public class ApplicationStatics {
 	public static final String APPBASENAME = "DYNAMO-HIA";
 
-	public static final String RELEASE_TAG = "Version 2.0.7, Release date: 20150608, build 1255";
+	public static final String RELEASE_TAG = "Version 2.0.7a, Release date: 20170213, build 1258";
 	/*
 	 * 
 	 * NB the following statement is not platform independent, so needs changing in case of linux versions

@@ -243,7 +243,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			 * so not that much difference
 			 */
 			
-			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize() &&   scen.getOldPrevalence()[0][0].length<6) {
+			if (nIndividuals > (agemax - agemin) * 2 * scen.getSimPopSize() &&  (scen.getRiskType()!=2 && scen.getOldPrevalence()[0][0].length<6)) {
 
 				 pii = pr
 					.createProgressIndicator("Creating population for simulation ......"
