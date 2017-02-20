@@ -1,2 +1,0 @@
-2015-02-19 14:24:24,846 FATAL [nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper] - Exception caught: java.lang.NullPointerException with message: null
-2015-02-19 14:24:24,862 FATAL [nl.rivm.emi.dynamo.ui.main.main.Main] - A fatal error occurred during startup: java.lang.NullPointerException

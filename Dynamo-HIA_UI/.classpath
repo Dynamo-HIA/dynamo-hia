@@ -45,8 +45,8 @@
 	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/org.eclipse.ui_3.4.1.M20080910-0800.jar"/>
 	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/org.eclipse.ui.workbench_3.4.1.M20080827-0800a.jar"/>
 	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/org.eclipse.xsd_2.4.1.v200808251517.jar"/>
-	<classpathentry kind="lib" path="/org.jfree.chart"/>
 	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/jfreechart-1.0.19/lib/jfreechart-1.0.19.jar"/>
-	<classpathentry kind="src" path="/org.jfree.experimental.chart"/>
+	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/jfreechart-1.0.19/lib/jfreechart-1.0.19-experimental.jar"/>
+	<classpathentry kind="lib" path="C:/Dynamo/eclipse341/plugins/jfreechart-1.0.19/lib/jfreechart-1.0.19-swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

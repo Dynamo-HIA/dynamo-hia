@@ -72,6 +72,7 @@ public class FinalTest {
 	// hier echter 77.31025037823959, 9.476103206219452
 	// nee, het is 77.3040717 en 9.4723516298 in nieuwe versie van oud
 	
+	
 	@Test
 	public void test_compareOld_1() {
 		 baseDir = "C:\\Hendriek\\Tutorial_DATA";
@@ -129,11 +130,11 @@ public class FinalTest {
 	
 	/*
 	/* Oorsprong van deze test is niet helemaal duidelijk
-	 
+	 Hij werkt niet meer omdat de data zoek zijn
 
 	 */
 	
-	
+	/*
 	@Test
 	public void test_0() {
 		 baseDir = "C:\\DYNAMO-HIA\\Country_data\\Netherlands";
@@ -141,6 +142,7 @@ public class FinalTest {
 	    		 68.678526364837,  77.4402140007-7.7440186306, -1, true);
 	
 	} 
+	*/
 	
 	@Test
 	public void test_1() {

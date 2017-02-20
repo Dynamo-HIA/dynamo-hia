@@ -1,0 +1,395 @@
+2016-03-25 15:18:48,883 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:18:52,955 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:18:53,190 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:18:53,377 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:19:52,902 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:24,371 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:20:28,163 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:21:08,074 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2016-03-25 15:21:08,294 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.617082643913932E-5 for person  0 for riskclass 0 and for riskfactor 0.0 age: 56 sex: 0
+2016-03-25 15:21:08,294 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -1.5229103563256432E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 57 sex: 0
+2016-03-25 15:21:08,294 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -2.884001884348777E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 58 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -4.4614740255733787E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 59 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1028042472659365
+Mortality from diseases: 0.004827137222322429 totalMort: 0.004831374180465772
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -6.271906814505738E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 60 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.129510234345643
+Mortality from diseases: 0.005506088832669465 totalMort: 0.005510765394131773
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -8.330659942135804E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 61 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1540994675084373
+Mortality from diseases: 0.00627263570217347 totalMort: 0.006277804503431535
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0010653711710030024 for person  0 for riskclass 0 and for riskfactor 0.0 age: 62 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1763865481734832
+Mortality from diseases: 0.007137784347301144 totalMort: 0.007143505175548548
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0013254491303316684 for person  0 for riskclass 0 and for riskfactor 0.0 age: 63 sex: 0
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1961850219534522
+Mortality from diseases: 0.008113889179026279 totalMort: 0.008120230308677458
+2016-03-25 15:21:08,309 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 1 old RR: 2.7549901008605957 new RR: 2.654414313898948
+Mortality from diseases: 0.008340550120100387 totalMort: 0.01801933243429985
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.001614327269688288 for person  0 for riskclass 0 and for riskfactor 0.0 age: 64 sex: 0
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.213324885927118
+Mortality from diseases: 0.009214786074206272 totalMort: 0.009221825811985543
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 1 old RR: 2.7276198863983154 new RR: 2.6182720389500598
+Mortality from diseases: 0.009465860009378105 totalMort: 0.019900068771061236
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0019324223262643142 for person  0 for riskclass 0 and for riskfactor 0.0 age: 65 sex: 0
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.227634913972871
+Mortality from diseases: 0.0104559442711448 totalMort: 0.010463773129549233
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 1 old RR: 2.697540044784546 new RR: 2.5803225726679844
+Mortality from diseases: 0.010733508797489341 totalMort: 0.021993436073006037
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002279104787267974 for person  0 for riskclass 0 and for riskfactor 0.0 age: 66 sex: 0
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2389246862007093
+Mortality from diseases: 0.011854626360692313 totalMort: 0.011863350060562872
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 1 old RR: 2.6648600101470947 new RR: 2.5407760363546243
+Mortality from diseases: 0.012160949952645118 totalMort: 0.02432925574935329
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002651361207727191 for person  0 for riskclass 0 and for riskfactor 0.0 age: 67 sex: 0
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2468857543328653
+Mortality from diseases: 0.013430053758684394 totalMort: 0.013439798192122307
+2016-03-25 15:21:08,325 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 1 old RR: 2.62965989112854 new RR: 2.4998954416807058
+Mortality from diseases: 0.01376762608257771 totalMort: 0.02694560437541569
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0030435109476461297 for person  0 for riskclass 0 and for riskfactor 0.0 age: 68 sex: 0
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2511853569633036
+Mortality from diseases: 0.015203568149627674 totalMort: 0.01521448551095547
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 1 old RR: 2.5920400619506836 new RR: 2.4580425149167695
+Mortality from diseases: 0.015575133926928737 totalMort: 0.029889937586290494
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.003449110681967911 for person  0 for riskclass 0 and for riskfactor 0.0 age: 69 sex: 0
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2517434556410352
+Mortality from diseases: 0.01719876043017405 totalMort: 0.017211034089673442
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 1 old RR: 2.5521399974823 new RR: 2.4156399463963676
+Mortality from diseases: 0.017607356665322756 totalMort: 0.03321420318072551
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038585431435351376 for person  0 for riskclass 0 and for riskfactor 0.0 age: 70 sex: 0
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2485006918145543
+Mortality from diseases: 0.019441586130226132 totalMort: 0.019455439949459648
+2016-03-25 15:21:08,341 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 1 old RR: 2.510129928588867 new RR: 2.373227857590762
+Mortality from diseases: 0.019890582891093765 totalMort: 0.036982111722049425
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0042579074872698824 for person  0 for riskclass 0 and for riskfactor 0.0 age: 71 sex: 0
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2414120914825497
+Mortality from diseases: 0.021960492573496346 totalMort: 0.02197620317654019
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 1 old RR: 2.466170072555542 new RR: 2.3313890190710667
+Mortality from diseases: 0.02245363549479556 totalMort: 0.04127161247919961
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.00463422332542804 for person  0 for riskclass 0 and for riskfactor 0.0 age: 72 sex: 0
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.230818491864478
+Mortality from diseases: 0.024789135350164443 totalMort: 0.024807038421947293
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 1 old RR: 2.420409917831421 new RR: 2.290402697503464
+Mortality from diseases: 0.025330501310591794 totalMort: 0.04616286486940127
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.004971150056070774 for person  0 for riskclass 0 and for riskfactor 0.0 age: 73 sex: 0
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.217162904444475
+Mortality from diseases: 0.02795686547512481 totalMort: 0.027977360140189957
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 1 old RR: 2.3730199337005615 new RR: 2.2504583971896426
+Mortality from diseases: 0.028550688850029676 totalMort: 0.05172839628022159
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0052407207557665396 for person  0 for riskclass 0 and for riskfactor 0.0 age: 74 sex: 0
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2005538575736123
+Mortality from diseases: 0.03148946451337209 totalMort: 0.03151303057465462
+2016-03-25 15:21:08,356 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 1 old RR: 2.3240699768066406 new RR: 2.2116854469047187
+Mortality from diseases: 0.03214004237549453 totalMort: 0.058053964568227284
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005407254938301763 for person  0 for riskclass 0 and for riskfactor 0.0 age: 75 sex: 0
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.181126790127809
+Mortality from diseases: 0.0354109013269517 totalMort: 0.035438110551155935
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005423393644549914 for person  0 for riskclass 0 and for riskfactor 0.0 age: 76 sex: 0
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1589615920699028
+Mortality from diseases: 0.039739352263667656 totalMort: 0.039770878034617596
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005230089455146099 for person  0 for riskclass 0 and for riskfactor 0.0 age: 77 sex: 0
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.134161981639354
+Mortality from diseases: 0.04448643121053626 totalMort: 0.04452305035720503
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0047498444023659665 for person  0 for riskclass 0 and for riskfactor 0.0 age: 78 sex: 0
+2016-03-25 15:21:08,372 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1067347731924129
+Mortality from diseases: 0.04965026173024682 totalMort: 0.0496928531876169
+2016-03-25 15:21:08,387 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038887758744846216 for person  0 for riskclass 0 and for riskfactor 0.0 age: 79 sex: 0
+2016-03-25 15:21:08,387 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0025295700040594664 for person  0 for riskclass 0 and for riskfactor 0.0 age: 80 sex: 0
+2016-03-25 15:21:08,387 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -5.290550993448237E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 81 sex: 0
+2016-03-25 15:21:08,559 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - SimulationConfigurationFile written 
+2016-03-25 15:21:08,575 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - CharacteristicsConfigurationFile written 
+2016-03-25 15:21:09,121 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - UpdateRuleConfigurationFile written 
+2016-03-25 15:21:10,354 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 0
+2016-03-25 15:21:10,354 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:10,354 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:10,354 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:10,354 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:10,417 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:12,133 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 0 gender 0
+2016-03-25 15:21:13,273 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 1
+2016-03-25 15:21:13,273 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:13,273 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:13,273 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:13,273 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:13,321 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:14,476 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 0 gender 1
+2016-03-25 15:21:15,693 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 0
+2016-03-25 15:21:15,693 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:15,693 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:15,693 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:15,693 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:15,726 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:17,322 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 1 gender 0
+2016-03-25 15:21:18,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 1 gender: 1
+2016-03-25 15:21:18,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:18,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:18,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:18,540 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:18,587 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:19,804 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 1 gender 1
+2016-03-25 15:21:21,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 0
+2016-03-25 15:21:21,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:21,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:21,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:21,225 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:21,257 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:22,443 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 2 gender 0
+2016-03-25 15:21:23,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 2 gender: 1
+2016-03-25 15:21:23,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:21:23,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:21:23,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:21:23,785 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:21:23,817 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 15:21:25,065 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - starting extracting age 2 gender 1
+2016-03-25 15:22:46,745 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:22:50,133 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:22:50,321 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:22:50,524 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 15:23:07,372 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:23:08,247 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 15:34:20,947 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2016-03-25 15:34:21,166 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.617082643913932E-5 for person  0 for riskclass 0 and for riskfactor 0.0 age: 56 sex: 0
+2016-03-25 15:34:21,166 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -1.5229103563256432E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 57 sex: 0
+2016-03-25 15:34:21,166 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -2.884001884348777E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 58 sex: 0
+2016-03-25 15:34:21,166 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -4.4614740255733787E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 59 sex: 0
+2016-03-25 15:34:21,166 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1028042472659365
+Mortality from diseases: 0.004827137222322429 totalMort: 0.004831374180465772
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -6.271906814505738E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 60 sex: 0
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.129510234345643
+Mortality from diseases: 0.005506088832669465 totalMort: 0.005510765394131773
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -8.330659942135804E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 61 sex: 0
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1540994675084373
+Mortality from diseases: 0.00627263570217347 totalMort: 0.006277804503431535
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0010653711710030024 for person  0 for riskclass 0 and for riskfactor 0.0 age: 62 sex: 0
+2016-03-25 15:34:21,182 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1763865481734832
+Mortality from diseases: 0.007137784347301144 totalMort: 0.007143505175548548
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0013254491303316684 for person  0 for riskclass 0 and for riskfactor 0.0 age: 63 sex: 0
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1961850219534522
+Mortality from diseases: 0.008113889179026279 totalMort: 0.008120230308677458
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 1 old RR: 2.7549901008605957 new RR: 2.654414313898948
+Mortality from diseases: 0.008340550120100387 totalMort: 0.01801933243429985
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.001614327269688288 for person  0 for riskclass 0 and for riskfactor 0.0 age: 64 sex: 0
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.213324885927118
+Mortality from diseases: 0.009214786074206272 totalMort: 0.009221825811985543
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 1 old RR: 2.7276198863983154 new RR: 2.6182720389500598
+Mortality from diseases: 0.009465860009378105 totalMort: 0.019900068771061236
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0019324223262643142 for person  0 for riskclass 0 and for riskfactor 0.0 age: 65 sex: 0
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.227634913972871
+Mortality from diseases: 0.0104559442711448 totalMort: 0.010463773129549233
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 1 old RR: 2.697540044784546 new RR: 2.5803225726679844
+Mortality from diseases: 0.010733508797489341 totalMort: 0.021993436073006037
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002279104787267974 for person  0 for riskclass 0 and for riskfactor 0.0 age: 66 sex: 0
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2389246862007093
+Mortality from diseases: 0.011854626360692313 totalMort: 0.011863350060562872
+2016-03-25 15:34:21,197 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 1 old RR: 2.6648600101470947 new RR: 2.5407760363546243
+Mortality from diseases: 0.012160949952645118 totalMort: 0.02432925574935329
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002651361207727191 for person  0 for riskclass 0 and for riskfactor 0.0 age: 67 sex: 0
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2468857543328653
+Mortality from diseases: 0.013430053758684394 totalMort: 0.013439798192122307
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 1 old RR: 2.62965989112854 new RR: 2.4998954416807058
+Mortality from diseases: 0.01376762608257771 totalMort: 0.02694560437541569
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0030435109476461297 for person  0 for riskclass 0 and for riskfactor 0.0 age: 68 sex: 0
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2511853569633036
+Mortality from diseases: 0.015203568149627674 totalMort: 0.01521448551095547
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 1 old RR: 2.5920400619506836 new RR: 2.4580425149167695
+Mortality from diseases: 0.015575133926928737 totalMort: 0.029889937586290494
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.003449110681967911 for person  0 for riskclass 0 and for riskfactor 0.0 age: 69 sex: 0
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2517434556410352
+Mortality from diseases: 0.01719876043017405 totalMort: 0.017211034089673442
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 1 old RR: 2.5521399974823 new RR: 2.4156399463963676
+Mortality from diseases: 0.017607356665322756 totalMort: 0.03321420318072551
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038585431435351376 for person  0 for riskclass 0 and for riskfactor 0.0 age: 70 sex: 0
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2485006918145543
+Mortality from diseases: 0.019441586130226132 totalMort: 0.019455439949459648
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 1 old RR: 2.510129928588867 new RR: 2.373227857590762
+Mortality from diseases: 0.019890582891093765 totalMort: 0.036982111722049425
+2016-03-25 15:34:21,213 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0042579074872698824 for person  0 for riskclass 0 and for riskfactor 0.0 age: 71 sex: 0
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2414120914825497
+Mortality from diseases: 0.021960492573496346 totalMort: 0.02197620317654019
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 1 old RR: 2.466170072555542 new RR: 2.3313890190710667
+Mortality from diseases: 0.02245363549479556 totalMort: 0.04127161247919961
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.00463422332542804 for person  0 for riskclass 0 and for riskfactor 0.0 age: 72 sex: 0
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.230818491864478
+Mortality from diseases: 0.024789135350164443 totalMort: 0.024807038421947293
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 1 old RR: 2.420409917831421 new RR: 2.290402697503464
+Mortality from diseases: 0.025330501310591794 totalMort: 0.04616286486940127
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.004971150056070774 for person  0 for riskclass 0 and for riskfactor 0.0 age: 73 sex: 0
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.217162904444475
+Mortality from diseases: 0.02795686547512481 totalMort: 0.027977360140189957
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 1 old RR: 2.3730199337005615 new RR: 2.2504583971896426
+Mortality from diseases: 0.028550688850029676 totalMort: 0.05172839628022159
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0052407207557665396 for person  0 for riskclass 0 and for riskfactor 0.0 age: 74 sex: 0
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2005538575736123
+Mortality from diseases: 0.03148946451337209 totalMort: 0.03151303057465462
+2016-03-25 15:34:21,228 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 1 old RR: 2.3240699768066406 new RR: 2.2116854469047187
+Mortality from diseases: 0.03214004237549453 totalMort: 0.058053964568227284
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005407254938301763 for person  0 for riskclass 0 and for riskfactor 0.0 age: 75 sex: 0
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.181126790127809
+Mortality from diseases: 0.0354109013269517 totalMort: 0.035438110551155935
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005423393644549914 for person  0 for riskclass 0 and for riskfactor 0.0 age: 76 sex: 0
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1589615920699028
+Mortality from diseases: 0.039739352263667656 totalMort: 0.039770878034617596
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005230089455146099 for person  0 for riskclass 0 and for riskfactor 0.0 age: 77 sex: 0
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.134161981639354
+Mortality from diseases: 0.04448643121053626 totalMort: 0.04452305035720503
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0047498444023659665 for person  0 for riskclass 0 and for riskfactor 0.0 age: 78 sex: 0
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1067347731924129
+Mortality from diseases: 0.04965026173024682 totalMort: 0.0496928531876169
+2016-03-25 15:34:21,244 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038887758744846216 for person  0 for riskclass 0 and for riskfactor 0.0 age: 79 sex: 0
+2016-03-25 15:34:21,260 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0025295700040594664 for person  0 for riskclass 0 and for riskfactor 0.0 age: 80 sex: 0
+2016-03-25 15:34:21,260 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -5.290550993448237E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 81 sex: 0
+2016-03-25 15:34:21,431 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - SimulationConfigurationFile written 
+2016-03-25 15:34:21,462 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - CharacteristicsConfigurationFile written 
+2016-03-25 15:34:22,180 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - UpdateRuleConfigurationFile written 
+2016-03-25 15:34:23,211 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 0
+2016-03-25 15:34:23,211 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 15:34:23,211 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 15:34:23,212 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 15:34:23,212 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 15:34:42,260 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made
+2016-03-25 17:22:44,125 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:22:47,699 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:22:47,918 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:22:48,152 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:25:16,093 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:25:19,167 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:25:19,371 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:25:19,574 ERROR [nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil] - javax.xml.stream.XMLStreamException ParseError at [row,col]:[1,1]
+Message: Content is not allowed in prolog.
+2016-03-25 17:25:37,514 FATAL [nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton] - Duplicate entry for tag "value" present entity "nl.rivm.emi.dynamo.data.types.atomic.StandardValue" new entity "nl.rivm.emi.dynamo.data.types.atomic.Value".
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:38,404 WARN [RelativeRiskComboModifyListener] - Error: Should not load configuration more than once.
+2016-03-25 17:25:44,613 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - disease info added
+2016-03-25 17:25:44,817 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -3.617082643913932E-5 for person  0 for riskclass 0 and for riskfactor 0.0 age: 56 sex: 0
+2016-03-25 17:25:44,817 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -1.5229103563256432E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 57 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -2.884001884348777E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 58 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -4.4614740255733787E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 59 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 59 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1028042472659365
+Mortality from diseases: 0.004827137222322429 totalMort: 0.004831374180465772
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -6.271906814505738E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 60 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 60 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.129510234345643
+Mortality from diseases: 0.005506088832669465 totalMort: 0.005510765394131773
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -8.330659942135804E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 61 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 61 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1540994675084373
+Mortality from diseases: 0.00627263570217347 totalMort: 0.006277804503431535
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0010653711710030024 for person  0 for riskclass 0 and for riskfactor 0.0 age: 62 sex: 0
+2016-03-25 17:25:44,832 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 62 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1763865481734832
+Mortality from diseases: 0.007137784347301144 totalMort: 0.007143505175548548
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0013254491303316684 for person  0 for riskclass 0 and for riskfactor 0.0 age: 63 sex: 0
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1961850219534522
+Mortality from diseases: 0.008113889179026279 totalMort: 0.008120230308677458
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 63 sex: 0 riskclass: 1 old RR: 2.7549901008605957 new RR: 2.654414313898948
+Mortality from diseases: 0.008340550120100387 totalMort: 0.01801933243429985
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.001614327269688288 for person  0 for riskclass 0 and for riskfactor 0.0 age: 64 sex: 0
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.213324885927118
+Mortality from diseases: 0.009214786074206272 totalMort: 0.009221825811985543
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 64 sex: 0 riskclass: 1 old RR: 2.7276198863983154 new RR: 2.6182720389500598
+Mortality from diseases: 0.009465860009378105 totalMort: 0.019900068771061236
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0019324223262643142 for person  0 for riskclass 0 and for riskfactor 0.0 age: 65 sex: 0
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.227634913972871
+Mortality from diseases: 0.0104559442711448 totalMort: 0.010463773129549233
+2016-03-25 17:25:44,848 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 65 sex: 0 riskclass: 1 old RR: 2.697540044784546 new RR: 2.5803225726679844
+Mortality from diseases: 0.010733508797489341 totalMort: 0.021993436073006037
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002279104787267974 for person  0 for riskclass 0 and for riskfactor 0.0 age: 66 sex: 0
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2389246862007093
+Mortality from diseases: 0.011854626360692313 totalMort: 0.011863350060562872
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 66 sex: 0 riskclass: 1 old RR: 2.6648600101470947 new RR: 2.5407760363546243
+Mortality from diseases: 0.012160949952645118 totalMort: 0.02432925574935329
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.002651361207727191 for person  0 for riskclass 0 and for riskfactor 0.0 age: 67 sex: 0
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2468857543328653
+Mortality from diseases: 0.013430053758684394 totalMort: 0.013439798192122307
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 67 sex: 0 riskclass: 1 old RR: 2.62965989112854 new RR: 2.4998954416807058
+Mortality from diseases: 0.01376762608257771 totalMort: 0.02694560437541569
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0030435109476461297 for person  0 for riskclass 0 and for riskfactor 0.0 age: 68 sex: 0
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2511853569633036
+Mortality from diseases: 0.015203568149627674 totalMort: 0.01521448551095547
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 68 sex: 0 riskclass: 1 old RR: 2.5920400619506836 new RR: 2.4580425149167695
+Mortality from diseases: 0.015575133926928737 totalMort: 0.029889937586290494
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.003449110681967911 for person  0 for riskclass 0 and for riskfactor 0.0 age: 69 sex: 0
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2517434556410352
+Mortality from diseases: 0.01719876043017405 totalMort: 0.017211034089673442
+2016-03-25 17:25:44,863 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 69 sex: 0 riskclass: 1 old RR: 2.5521399974823 new RR: 2.4156399463963676
+Mortality from diseases: 0.017607356665322756 totalMort: 0.03321420318072551
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038585431435351376 for person  0 for riskclass 0 and for riskfactor 0.0 age: 70 sex: 0
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2485006918145543
+Mortality from diseases: 0.019441586130226132 totalMort: 0.019455439949459648
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 70 sex: 0 riskclass: 1 old RR: 2.510129928588867 new RR: 2.373227857590762
+Mortality from diseases: 0.019890582891093765 totalMort: 0.036982111722049425
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0042579074872698824 for person  0 for riskclass 0 and for riskfactor 0.0 age: 71 sex: 0
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2414120914825497
+Mortality from diseases: 0.021960492573496346 totalMort: 0.02197620317654019
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 71 sex: 0 riskclass: 1 old RR: 2.466170072555542 new RR: 2.3313890190710667
+Mortality from diseases: 0.02245363549479556 totalMort: 0.04127161247919961
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.00463422332542804 for person  0 for riskclass 0 and for riskfactor 0.0 age: 72 sex: 0
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.230818491864478
+Mortality from diseases: 0.024789135350164443 totalMort: 0.024807038421947293
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 72 sex: 0 riskclass: 1 old RR: 2.420409917831421 new RR: 2.290402697503464
+Mortality from diseases: 0.025330501310591794 totalMort: 0.04616286486940127
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.004971150056070774 for person  0 for riskclass 0 and for riskfactor 0.0 age: 73 sex: 0
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.217162904444475
+Mortality from diseases: 0.02795686547512481 totalMort: 0.027977360140189957
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 73 sex: 0 riskclass: 1 old RR: 2.3730199337005615 new RR: 2.2504583971896426
+Mortality from diseases: 0.028550688850029676 totalMort: 0.05172839628022159
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0052407207557665396 for person  0 for riskclass 0 and for riskfactor 0.0 age: 74 sex: 0
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.2005538575736123
+Mortality from diseases: 0.03148946451337209 totalMort: 0.03151303057465462
+2016-03-25 17:25:44,879 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 74 sex: 0 riskclass: 1 old RR: 2.3240699768066406 new RR: 2.2116854469047187
+Mortality from diseases: 0.03214004237549453 totalMort: 0.058053964568227284
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005407254938301763 for person  0 for riskclass 0 and for riskfactor 0.0 age: 75 sex: 0
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 75 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.181126790127809
+Mortality from diseases: 0.0354109013269517 totalMort: 0.035438110551155935
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005423393644549914 for person  0 for riskclass 0 and for riskfactor 0.0 age: 76 sex: 0
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 76 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1589615920699028
+Mortality from diseases: 0.039739352263667656 totalMort: 0.039770878034617596
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.005230089455146099 for person  0 for riskclass 0 and for riskfactor 0.0 age: 77 sex: 0
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 77 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.134161981639354
+Mortality from diseases: 0.04448643121053626 totalMort: 0.04452305035720503
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0047498444023659665 for person  0 for riskclass 0 and for riskfactor 0.0 age: 78 sex: 0
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - WARNING: RR used for mortality differs from RR given for age: 78 sex: 0 riskclass: 0 old RR: 1.0 new RR: 1.1067347731924129
+Mortality from diseases: 0.04965026173024682 totalMort: 0.0496928531876169
+2016-03-25 17:25:44,895 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0038887758744846216 for person  0 for riskclass 0 and for riskfactor 0.0 age: 79 sex: 0
+2016-03-25 17:25:44,910 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -0.0025295700040594664 for person  0 for riskclass 0 and for riskfactor 0.0 age: 80 sex: 0
+2016-03-25 17:25:44,910 WARN [nl.rivm.emi.dynamo.estimation.ModelParameters] - negative or zero other mortality  = -5.290550993448237E-4 for person  0 for riskclass 0 and for riskfactor 0.0 age: 81 sex: 0
+2016-03-25 17:25:45,082 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - SimulationConfigurationFile written 
+2016-03-25 17:25:45,097 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - CharacteristicsConfigurationFile written 
+2016-03-25 17:25:45,800 FATAL [nl.rivm.emi.dynamo.estimation.ModelParameters] - UpdateRuleConfigurationFile written 
+2016-03-25 17:25:46,815 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation start for age:: 0 gender: 0
+2016-03-25 17:25:46,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - start worker
+2016-03-25 17:25:46,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulations object made
+2016-03-25 17:25:46,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - all simulations made
+2016-03-25 17:25:46,816 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - popfactory made
+2016-03-25 17:25:46,878 FATAL [nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable] - simulation pop made

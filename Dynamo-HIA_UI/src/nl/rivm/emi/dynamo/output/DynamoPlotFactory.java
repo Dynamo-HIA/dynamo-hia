@@ -24,6 +24,7 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
+import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.annotations.CategoryTextAnnotation;
 import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.CategoryAxis;
@@ -50,6 +51,7 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.chart.util.ShadowGenerator;
 import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -93,6 +95,11 @@ public class DynamoPlotFactory {
 			ScenarioParameters scenarioParameters) {
 		this.output = outputFactory;
 		this.params = scenarioParameters;
+		/* volgende twee statements toegevoegd om de bars weer mooi te krijgen na verandering JFREECHART */
+		/* zetten oude layout van bars weer terug */
+		ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
+		BarRenderer.setDefaultBarPainter(new StandardBarPainter());
+		
 		/*
 		 * copy the information from scenInfo into the current object (as
 		 * fields)
@@ -4599,12 +4606,13 @@ public class DynamoPlotFactory {
 			domainAxis.setCategoryMargin(0.1);
 
 		// domainAxis.setMaximumCategoryLabelWidthRatio(3f);
-
+		
 		/* assign a generator to a CategoryItemRenderer, */
 		CategoryItemRenderer renderer = ((CategoryPlot) plot).getRenderer();
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f));
 		/* disable next 2 statements for daly in bars */
+	 
 		CategoryItemLabelGenerator generator0 = new StandardCategoryItemLabelGenerator(
 				"{2}", new DecimalFormat("0.00"));
 		if (cumulative == 3)
@@ -6923,13 +6931,18 @@ public class DynamoPlotFactory {
 				typeKey, ageKey, pyramidDataMales);
 		CategoryDataset dataset2 = DatasetUtilities.createCategoryDataset(
 				typeKey, ageKey, pyramidDataFemales);
-		// BarRenderer.setDefaultShadowsVisible(false);
+		BarRenderer.setDefaultShadowsVisible(false);
+		
 		/* the last three booleans are for: legend , tooltips ,url */
 		JFreeChart chart = ChartFactory.createStackedBarChart(
 				"Population pyramid for "
 						+ this.output.getScenarioNames()[thisScen] + " versus"
-						+ " ref scenario", "", "population size", dataset1,
+						+ " ref scenario", "age", "population size", dataset1,
 				PlotOrientation.HORIZONTAL, false, true, true);
+		
+		
+
+		
 		TextTitle title = chart.getTitle();
 		title.setFont(new Font("SansSerif", Font.BOLD, 14));
 		String label = "" + (this.output.getStartYear() + timestep);
@@ -6952,11 +6965,10 @@ public class DynamoPlotFactory {
 		plot.addAnnotation(annotation2);
 
 		BarRenderer renderer = (BarRenderer) plot.getRenderer();
-	//	renderer.setBarPainter(new StandardBarPainter());
+		renderer.setBarPainter(new StandardBarPainter());
 		renderer.setItemMargin(0.0);
 		renderer.setDrawBarOutline(true);
-	//	renderer.setShadowVisible(false);
-
+		
 		renderer.setItemMargin(0.0);
 
 		renderer.setItemLabelAnchorOffset(9.0);
@@ -6967,6 +6979,8 @@ public class DynamoPlotFactory {
 		renderer.setBaseOutlinePaint(Color.black);
 		renderer.setBaseOutlineStroke(new BasicStroke(1.5f)); // dikte van de
 		// lijnen
+		renderer.setShadowVisible(false);
+		plot.setRenderer(renderer);
 
 		CategoryAxis categoryAxis = plot.getDomainAxis();
 		categoryAxis.setCategoryMargin(0.0); // ruimte tussen de balken
@@ -7016,6 +7030,8 @@ public class DynamoPlotFactory {
 
 		plot.setRenderer(1, renderer);
 		plot.setRenderer(2, renderer);
+		
+		
 		return chart;
 	}
 
@@ -7314,7 +7330,8 @@ public class DynamoPlotFactory {
 		renderer2.setItemMargin(0.0);
 		renderer.setDrawBarOutline(true);
 		renderer2.setDrawBarOutline(true);
-
+		renderer.setShadowVisible(false);
+		renderer2.setShadowVisible(false);
 	//	renderer.setBarPainter(new StandardBarPainter());
 	//	renderer2.setBarPainter(new StandardBarPainter());
 

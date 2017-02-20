@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-
 /**
  * @author boshuizh
  *awt
