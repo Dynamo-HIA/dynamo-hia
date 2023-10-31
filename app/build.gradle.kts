@@ -4,6 +4,7 @@
 
 plugins {
     id("dynamo.hia.java-application-conventions")
+    id("eclipse")
 }
 
 dependencies {
