@@ -1039,7 +1039,7 @@ public class AllTests {
 	public void test47() throws Exception {
 		byte[] buffer;
 
-		String test = "München";
+		String test = "MÃ¼nchen";
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		PrintWriter writer = new PrintWriter(new OutputStreamWriter(stream,
@@ -1061,7 +1061,7 @@ public class AllTests {
 	public void test48() throws Exception {
 		byte[] buffer;
 
-		String test = "München";
+		String test = "Mï¿½nchen";
 
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		PrintWriter writer = new PrintWriter(new OutputStreamWriter(stream,
