@@ -5,14 +5,129 @@
 plugins {
     id("dynamo.hia.java-application-conventions")
     id("eclipse")
+//    id("com.diffplug.eclipse.mavencentral") version "3.43.0"
 }
 
-dependencies {
-    implementation("org.apache.commons:commons-text")
-    implementation(project(":utilities"))
+
+
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("org.eclipse.platform:org.eclipse.swt.\${osgi.platform}")).
+            using(module("org.eclipse.platform:org.eclipse.swt.cocoa.macosx.aarch64:3.124.200"))
+    }
 }
+
+
+/*
+buildscript {
+    dependencies {
+        classpath "com.diffplug.gradle:goomph:3.37.0"
+    }
+}
+
+apply(plugin = "com.diffplug.eclipse.mavencentral")
+
+eclipseMavenCentral {
+    release "4.24.0", {
+        implementation "org.eclipse.jdt.core"
+
+        // specify this to add the native jars for this platform
+        useNativesForRunningPlatform()
+
+        // specify that all transitive dependencies should be from this release
+        constrainTransitivesToThisRelease()
+    }
+}
+
+*/
+
+/*
+
+buildscript {
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
+  }
+  dependencies {
+
+    classpath("com.diffplug.gradle:goomph:3.43.0")
+  }
+  
+}
+
+apply(plugin = "com.diffplug.eclipse.mavencentral")
+
+
+*/
+
+
+dependencies {
+//    implementation(project(":utilities"))
+
+    implementation("junit:junit:4.13.2")
+
+    implementation("commons-logging:commons-logging:1.2")
+    implementation("commons-configuration:commons-configuration:1.5")
+    implementation("commons-collections:commons-collections:3.2.2")
+    implementation("commons-lang:commons-lang:2.6")
+    implementation("log4j:log4j:1.2.17")
+    implementation("gov.nist.math.jama:gov.nist.math.jama:1.1.1")
+    
+    implementation("com.ibm.icu:icu4j:3.6.1")
+    implementation("org.jfree:jcommon:1.0.17")
+    implementation("org.jfree:jfreechart:1.0.19")
+    implementation("org.jfree:jfreechart-swt:1.0")
+    
+    implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.8.100")
+    implementation("org.eclipse.platform:org.eclipse.ui.ide:3.16.0")
+    implementation("org.eclipse.platform:org.eclipse.core.resources:3.16.100")
+
+
+
+
+
+}
+
+/*
+
+apply plugin: 'com.diffplug.eclipse.mavencentral'
+
+eclipseMavenCentral 
+{ release '4.7.0', 
+{
+// supports the standard java configurations
+api 'org.eclipse.swt'
+implementation 'org.eclipse.jdt'
+testImplementation 'org.eclipse.swt'
+// and custom ones too
+dep 'implementation', 'org.eclipse.jdt' 
+// specify this to add the native jars for this platform
+useNativesForRunningPlatform() 
+// specify that all transitive dependencies should be from this release
+// (otherwise the version ranges which eclipse uses will use latest available)
+constrainTransitivesToThisRelease() } } ```
+
+ ## Platform-native jars When an eclipse jar needs a platform-specific dependency, such as SWT, the platform-specific part of the name is specified in the POM as `${osgi.platform}`. 
+ useNativesForRunningPlatform() will replace `${osgi.platform}` with whatever is appropriate for your platform, such as `org.eclipse.swt.win32.win32.x86_64`.
+ That's normally all you need, but if you want more specific control, there is a special
+ `sourceSetNative` method, along with builtins like `testRuntimeNative` for each of the builtin java configurations. 
+ ``` eclipseMavenCentral 
+ { release '4.7.0', 
+ { testRuntimeOnlyNative 'org.eclipse.swt' 
+ nativeDep 'testRuntimeOnly', 'org.eclipse.swt' } } ```
+
+*/
+
 
 application {
     // Define the main class for the application.
     mainClass.set("dynamo.hia.app.App")
 }
+
+tasks.test {
+    //use Junit for tests
+    useJUnitPlatform()
+}
+
