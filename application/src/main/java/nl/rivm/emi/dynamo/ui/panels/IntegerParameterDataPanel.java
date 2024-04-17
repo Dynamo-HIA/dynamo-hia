@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -91,8 +91,9 @@ public class IntegerParameterDataPanel extends Composite {
 		text.setText(sexMap.get(index).toString());
 		HelpTextListenerUtil.addHelpTextListeners(text,
 				(AtomicTypeBase<?>) XMLTagEntityEnum.NUMBER.getTheType());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) ((ArrayList<?>) sexMap
 				.get(index)).get(0);
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
