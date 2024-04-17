@@ -17,7 +17,11 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+
+//ND: deprecated and replaced
+//import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -122,8 +126,12 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		text.setLayoutData(textLayoutData);
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+
+		// ND: This was depracated and removed
+		//		IObservableValue textObservableValue = SWTObservables.observeText(text,
+		//				SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+		
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType

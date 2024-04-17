@@ -7,8 +7,7 @@ plugins {
     id("eclipse")
 }
 
-/*
+
 dependencies {
-    api(project(":list"))
+    implementation("commons-configuration:commons-configuration:1.5")
 }
-*/

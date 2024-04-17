@@ -64,8 +64,7 @@ apply(plugin = "com.diffplug.eclipse.mavencentral")
 
 
 dependencies {
-//    implementation(project(":utilities"))
-
+    implementation(project(":utilities"))
     implementation(project(":acdm"))
 
     implementation("junit:junit:4.13.2")
