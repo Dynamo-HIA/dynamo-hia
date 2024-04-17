@@ -10,7 +10,9 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: no longer experimental
+//import org.jfree.experimental.chart.swt.ChartComposite;
+import org.jfree.chart.swt.ChartComposite;
 
 /**
  * @author boshuizh
