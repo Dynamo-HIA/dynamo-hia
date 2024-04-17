@@ -24,7 +24,8 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+//ND: Use DisplayRealm instead of SWTObservables
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
@@ -273,7 +274,7 @@ public class SimulationUniversalAction extends ActionBase {
 						simulationNameDirectoryNode,
 						/* configurationFileExistsBefore */bogusFlag);
 				if (theModal != null) {
-					Realm.runWithDefault(SWTObservables.getRealm(Display
+					Realm.runWithDefault(DisplayRealm.getRealm(Display
 							.getDefault()), theModal);
 					boolean isPresentAfter = configurationFile.exists();
 					if (isPresentAfter

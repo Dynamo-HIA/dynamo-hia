@@ -14,7 +14,8 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+//ND: Use DisplayRealm instead of SWTObservables
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -43,7 +44,7 @@ public class EditPopulationSizeXMLFileAction extends ActionBase {
 			FileCreationFlag.isOld = candidateFile.exists();
 			PopulationSizeModal popSizeModal = new PopulationSizeModal(shell,
 					candidatePath + ".xml", candidatePath + ".xml", rootElementName, node);
-			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
+			Realm.runWithDefault(DisplayRealm.getRealm(Display.getDefault()),
 					popSizeModal);
 			boolean isPresentAfter = candidateFile.exists();
 			if (isPresentAfter && !FileCreationFlag.isOld) {

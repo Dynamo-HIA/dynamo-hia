@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -75,8 +75,8 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
@@ -104,8 +104,8 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 	private void bindTestValue(TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue
