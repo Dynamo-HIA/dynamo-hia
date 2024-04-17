@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="bin/main" path="src/main/java">
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry output="bin/main" kind="src" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/main" path="src/main/resources">
+	<classpathentry output="bin/main" kind="src" path="src/main/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/test" path="src/test/java">
+	<classpathentry output="bin/test" kind="src" path="src/test/java">
 		<attributes>
 			<attribute name="gradle_scope" value="test"/>
 			<attribute name="gradle_used_by_scope" value="test"/>
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="bin/test" path="src/test/resources">
+	<classpathentry output="bin/test" kind="src" path="src/test/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="test"/>
 			<attribute name="gradle_used_by_scope" value="test"/>
@@ -27,16 +28,628 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21/"/>
-	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
-	<classpathentry kind="src" path="/utilities">
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/33987872a811fe4d4001ed494b07854822257f42/junit-4.13.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.2/8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12/junit-4.13.2.jar">
 		<attributes>
-			<attribute name="without_test_code" value="true"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="/list">
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-configuration/commons-configuration/1.5/e9ad33bd361d75c21e9fe3167c01c993e9518cac/commons-configuration-1.5-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-configuration/commons-configuration/1.5/d891c003b41adc63ab99e5f697e04d633568965a/commons-configuration-1.5.jar">
 		<attributes>
-			<attribute name="without_test_code" value="true"/>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8/6c296de7dc352e0af9a40f92f5af995314d41fc9/commons-digester-1.8-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8/dc6a73fdbd1fa3f0944e8497c6c872fa21dca37e/commons-digester-1.8.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils-core/1.7.0/52f7701e1e9fd1d2b93379503c0bc839d2caf68d/commons-beanutils-core-1.7.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.7.0/b68c4fc66026e8c08df7fb57c7dc1e94a6ed8cbb/commons-beanutils-1.7.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.7.0/5675fd96b29656504b86029551973d60fb41339b/commons-beanutils-1.7.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.ide/3.16.0/258d5a7b73997855641193c17297b75b9a6dccdd/org.eclipse.ui.ide-3.16.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.ide/3.16.0/2b8d77d69b9068bac322da6f33063438043c3e0b/org.eclipse.ui.ide-3.16.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.navigator/3.12.300/be18cc88d29258eb9932c097fee7be31b2a97a09/org.eclipse.ui.navigator-3.12.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.navigator/3.12.300/f16348d3ff461788152b69da3719d4037ee3a568/org.eclipse.ui.navigator-3.12.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui/3.205.100/9ce00eabbc68b0e1b2806ede387b4795d1f05790/org.eclipse.ui-3.205.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui/3.205.100/22569e2dea304cf4819915c28e856602848d9a96/org.eclipse.ui-3.205.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.workbench/3.131.100/6dd6ba4db466ff3f210fe095aeb9effd68237186/org.eclipse.ui.workbench-3.131.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.ui.workbench/3.131.100/a7306cbda92c1e84db4f995e0b042ae285da8735/org.eclipse.ui.workbench-3.131.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.addons.swt/1.5.300/802fff8ca169af91d855731934fc0ce97651897b/org.eclipse.e4.ui.workbench.addons.swt-1.5.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.addons.swt/1.5.300/80d34e777ec064f60840d76bd8052768852c950c/org.eclipse.e4.ui.workbench.addons.swt-1.5.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.renderers.swt/0.16.300/56a26ce5a9d635070589b91526bfed6aeba2a0e2/org.eclipse.e4.ui.workbench.renderers.swt-0.16.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.renderers.swt/0.16.300/d712c44978c46539a7ccb6cf0f7117af814ce081/org.eclipse.e4.ui.workbench.renderers.swt-0.16.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.swt/0.17.300/107a487cba488bb925682a209fdc71cfb1aec9e1/org.eclipse.e4.ui.workbench.swt-0.17.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench.swt/0.17.300/8273d736407d20b32e870763fddb82af5a3898e2/org.eclipse.e4.ui.workbench.swt-0.17.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.swt.theme/0.14.300/459c070e2984aaf8321075395d23063070d9714/org.eclipse.e4.ui.css.swt.theme-0.14.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.swt.theme/0.14.300/9db1f1d27d3698f94788ce43a7760a2308d63327/org.eclipse.e4.ui.css.swt.theme-0.14.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.swt/0.15.300/33ace6290984dcc46b8b9186df5bb98b9ad26fa2/org.eclipse.e4.ui.css.swt-0.15.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.swt/0.15.300/dd64b6e154a2b164521caccb27fad0ab295418ea/org.eclipse.e4.ui.css.swt-0.15.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.core/0.14.300/56a34e9ea0fc32df20c6facf5bd6f0f50eedccfe/org.eclipse.e4.ui.css.core-0.14.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.css.core/0.14.300/d0bd27f63b4e30b714100deb1fd963e17b530291/org.eclipse.e4.ui.css.core-0.14.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.17/965b2f20fd7600337897c7a41f8b0ff23e76bd95/batik-css-1.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.17/d5ff4e0463af8a0ea5ab8d782c5418bab2f45c4d/batik-css-1.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.9/137a8c8848dad01382e36387042523713b381a2/xmlgraphics-commons-2.9-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/2.9/de2d1bd8d40474bbe876bb269410c750489f08e5/xmlgraphics-commons-2.9.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/ecf26c7507d67782a3bbd148d170b31dfad001aa/commons-logging-1.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.2/4bfc12adfe4842bf07b657f0369c4cb522955686/commons-logging-1.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.2/78c50ebda5784937ca1615fc0e1d0cb35857d572/commons-collections-3.2.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.2/8ad72fe39fa8c91eaaf12aadb21e0c3661fe26d5/commons-collections-3.2.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/67313d715fbf0ea4fd0bdb69217fb77f807a8ce5/commons-lang-2.6-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/677abe279b68c5e7490d6d50c6951376238d7d3e/log4j-1.2.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.17/5af35056b4d257e4b64b9e8069c0746e8b08629f/log4j-1.2.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/gov.nist.math.jama/gov.nist.math.jama/1.1.1/a80f6ae272058803ef7488e949cbc9c8e16539a2/gov.nist.math.jama-1.1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/gov.nist.math.jama/gov.nist.math.jama/1.1.1/c6af1aec88f29e850c6c759909dab7fa6038ce52/gov.nist.math.jama-1.1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.text/3.25.0/f85b0942312d7a30752aed8ec28d58c66d5c4e19/org.eclipse.jface.text-3.25.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.text/3.25.0/437236a143d9372dd05da3cf3694c190d260e721/org.eclipse.jface.text-3.25.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/74.2/39aab22518b49bd6c07f3aaec9c1a5157bcbdd63/icu4j-74.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/com.ibm.icu/icu4j/74.2/97222d018f7f43cae88cacd1fad39717b001ffc4/icu4j-74.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jfreechart-swt/1.0/d45c6825182088ca02ea2560fc411d4a725e3224/jfreechart-swt-1.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jfreechart-swt/1.0/8cf7320b8ed49cc24c22ca7e8206fa33c15c736a/jfreechart-swt-1.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jfreechart/1.0.19/5aae69aa497ce4ea82b59317102a09c5abc91ba1/jfreechart-1.0.19-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jfreechart/1.0.19/ba9ee7dbb2e4c57a6901c79f614ed2dea9cc0e20/jfreechart-1.0.19.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jcommon/1.0.23/76c1fec968d3f6e55cf9bea2855ad33d085a6b6/jcommon-1.0.23-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/jcommon/1.0.23/a316f336ca996e0c6bec4e4fbd49be8f5e1c3968/jcommon-1.0.23.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.databinding/1.15.200/f5f903fe1a7b4f190b46b01331cbdd2f124d4861/org.eclipse.jface.databinding-1.15.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.databinding/1.15.200/775f7e09179668ae0850f4a8324a7e710fa025f0/org.eclipse.jface.databinding-1.15.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/4e51f45da5469ba338459ab83bbba221431158b/org.eclipse.core.resources-3.16.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/6c621aff38fe8ae62dea56845cb97c8a752675ce/org.eclipse.core.resources-3.16.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/8abb55c432843f8faac498737952bfafe10166d7/swtgraphics2d-1.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/7dfb0b3bc496546a97d03ba3c4b9f5465bf2db4a/swtgraphics2d-1.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.bindings/0.14.300/62cfd9ce7caa1e4b7f16d2241b9aa554b5e23b6d/org.eclipse.e4.ui.bindings-0.14.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.bindings/0.14.300/a18a032031b4ccad29b733453137e5458c149c98/org.eclipse.e4.ui.bindings-0.14.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.dialogs/1.4.200/1c6491a1385e2f51634dfb00e14ad18799751b3c/org.eclipse.e4.ui.dialogs-1.4.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.dialogs/1.4.200/42b3870f4b831a38369ca15fd21b3110b20258e8/org.eclipse.e4.ui.dialogs-1.4.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface/3.33.0/9c2a394fbd30b129f93c2d88232605d68b31eded/org.eclipse.jface-3.33.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface/3.33.0/d61a2e45d524ef1f7bcf53df3d05bfb53943aac9/org.eclipse.jface-3.33.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.124.200/51d7414fdb5dd75004f517007a72a940b6de058/org.eclipse.swt.cocoa.macosx.aarch64-3.124.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.124.200/7dd3ae8d14a33c7312543249d936d84a0ae658bb/org.eclipse.swt.cocoa.macosx.aarch64-3.124.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench3/0.17.300/bbb2282c05005aac481d58665d2941e97a52c95c/org.eclipse.e4.ui.workbench3-0.17.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench3/0.17.300/500a1cce4f53045c651e01a064486e17485c84aa/org.eclipse.e4.ui.workbench3-0.17.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.widgets/1.4.100/4aa516305abf9393b09399e7144cf5754183ac6b/org.eclipse.e4.ui.widgets-1.4.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.widgets/1.4.100/9123b629e5e8952a7f5fc1aae3f870092e1583d5/org.eclipse.e4.ui.widgets-1.4.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt/3.125.0/708f7daacdee32ec690d41c02e712097899d5149/org.eclipse.swt-3.125.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding/1.13.200/1f4b42148c09f5b2a37f052602c7aba08763fed8/org.eclipse.core.databinding-1.13.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding/1.13.200/db6a69c543ac79fcd24fc585d501d37362e9093/org.eclipse.core.databinding-1.13.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding.property/1.10.200/61a144538822cba9461c7338797daa2f785ac8b/org.eclipse.core.databinding.property-1.10.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding.property/1.10.200/24a513d32c9b7357e7a04c54b5ee26cfeed29954/org.eclipse.core.databinding.property-1.10.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding.observable/1.13.200/67210bb22201c333449423550a3399e81390b675/org.eclipse.core.databinding.observable-1.13.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.databinding.observable/1.13.200/7514487fdeef08686630a7ddc3407eed718fb197/org.eclipse.core.databinding.observable-1.13.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.filesystem/1.10.300/8db5f6aec0e546f4cbdad040bc92d4511d164940/org.eclipse.core.filesystem-1.10.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.filesystem/1.10.300/9bc848bd15920f3f01336496fee25c4fb2095a5f/org.eclipse.core.filesystem-1.10.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.help/3.10.300/4aa4c23e600c8d949a78443034294d21fc58f79/org.eclipse.help-3.10.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.help/3.10.300/cc038367f14946c9153f60783527dacee1c5ad13/org.eclipse.help-3.10.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench/1.15.300/d402fba27569ca58a2009ee5288863d97fe30fb1/org.eclipse.e4.ui.workbench-1.15.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench/1.15.300/e6e78bcb78ffa7f6785b29de45a87263c1d78f49/org.eclipse.e4.ui.workbench-1.15.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.model.workbench/2.4.200/4476baf1698ae04c57b6a4bfdd24d6ddd64e325a/org.eclipse.e4.ui.model.workbench-2.4.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.model.workbench/2.4.200/93d84dd79246a2e241b9455e23106d03b29e3268/org.eclipse.e4.ui.model.workbench-2.4.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.commands/1.1.300/470e25f12a595dddc026c9c0fe1c8f38ca404370/org.eclipse.e4.core.commands-1.1.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.commands/1.1.300/41c0f6283f286babd071a2e840a8f2743f12857/org.eclipse.e4.core.commands-1.1.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.expressions/3.9.300/45bf5f316cd54501d8cb47f07f33eae4d35a4932/org.eclipse.core.expressions-3.9.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.expressions/3.9.300/62eeac77a1db70866cab80d3948052cd472bca82/org.eclipse.core.expressions-3.9.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.text/3.14.0/7073e5d2a2db47774b56c8f1f692442c37f7650f/org.eclipse.text-3.14.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.text/3.14.0/8e3578da612c813d7bb062a0a6d548b948b20a8d/org.eclipse.text-3.14.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.engine/2.10.0/7fdbdfabb8352c03617b4dcaeebf68f17a033392/org.eclipse.equinox.p2.engine-2.10.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.engine/2.10.0/d7561fa4526b1b9615f2a7c25e1ff5eed5f4688b/org.eclipse.equinox.p2.engine-2.10.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.artifact.repository/1.5.300/1102eac00ff26df4a1cad36ab55a2acb0e37f7d0/org.eclipse.equinox.p2.artifact.repository-1.5.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.artifact.repository/1.5.300/9f4aada77d90c2807abdd339b4466f57bbec7a54/org.eclipse.equinox.p2.artifact.repository-1.5.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.metadata.repository/1.5.300/a5831121acab5b4a29e5468b90c6be027a5cdad2/org.eclipse.equinox.p2.metadata.repository-1.5.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.metadata.repository/1.5.300/a43ffb1bcaa9165999fee80875728e4c7aa28557/org.eclipse.equinox.p2.metadata.repository-1.5.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.repository/2.8.100/1a2a91cdd18187b09023ad2bb0cad044473a6dd8/org.eclipse.equinox.p2.repository-2.8.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.repository/2.8.100/1e490dbeab16b1d34db8ba151aa775d412d0b06f/org.eclipse.equinox.p2.repository-2.8.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.metadata/2.9.0/42266e60bffa1c29536d97dc963ef187e33fabfc/org.eclipse.equinox.p2.metadata-2.9.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.metadata/2.9.0/c3bc25ca8ecd1b2d394538f970e9eca3f02b9fff/org.eclipse.equinox.p2.metadata-2.9.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.core/2.11.0/74e1574cd1f2fec2cf3558181192fbc7b2a5a292/org.eclipse.equinox.p2.core-2.11.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.core/2.11.0/3a79452271af7c6795578e0de372d8b9eac75015/org.eclipse.equinox.p2.core-2.11.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.emf.xpath/0.4.200/2ba0e19ac88216f1d26a204291af839462e316be/org.eclipse.e4.emf.xpath-0.4.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.emf.xpath/0.4.200/ae940862d98b71b94f9f499f16f64dadef56b35b/org.eclipse.e4.emf.xpath-0.4.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.urischeme/1.3.200/3be45e6ba771fd04ad30ce1637eb40b643843590/org.eclipse.urischeme-1.3.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.urischeme/1.3.200/83f222f6d5e5e60df6b3cde482282ea3edbece11/org.eclipse.urischeme-1.3.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.security/1.4.200/bc752ed680dec2ac93f659516173b651f6b0fcb9/org.eclipse.equinox.security-1.4.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.security/1.4.200/bbf67b074d6a3c7e776d80de6399fc86da035cd6/org.eclipse.equinox.security-1.4.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.runtime/3.31.0/42edd4027a1a019ff6febe8073e8d7e3943a1480/org.eclipse.core.runtime-3.31.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.runtime/3.31.0/b815a6f4da0be97526bfe7d915054e80f2bc8197/org.eclipse.core.runtime-3.31.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.bidi/1.5.0/76b921b55ace88b1592b266d00eb423397b25cca/org.eclipse.equinox.bidi-1.5.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.bidi/1.5.0/d2f1982a741c94139116a3a7528c832889a0f685/org.eclipse.equinox.bidi-1.5.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.services/1.6.300/e9fb5fbeffc19ece6296628b0f434f58c155dab8/org.eclipse.e4.ui.services-1.6.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.services/1.6.300/b905e90d0359acab9350d38815625d1969d426b0/org.eclipse.e4.ui.services-1.6.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.services/2.4.300/130573305c87eb07d38ced50c542d82057ac7f04/org.eclipse.e4.core.services-2.4.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.services/2.4.300/cb304d21a9ba7e92e837ea24ca4a562a072936ce/org.eclipse.e4.core.services-2.4.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.commands/3.12.0/c9f91dbaee78aa54bfd8d024806316a58907395/org.eclipse.core.commands-3.12.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.commands/3.12.0/d1604534d74b8119e905f58b929f3b10940c43be/org.eclipse.core.commands-3.12.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.jobs/3.15.200/8d169e9d7f525f46d5ea6c44c1b4790295c44f3f/org.eclipse.core.jobs-3.15.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.jobs/3.15.200/6d32405156e9732768b3374bfb2bdcc4f49f0c54/org.eclipse.core.jobs-3.15.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.contenttype/3.9.300/4a6cd307957303ae5171ec7cb6119f8d70dfce1e/org.eclipse.core.contenttype-3.9.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.contenttype/3.9.300/a4670d530c7b4c2ba6d2374947d7e8bdb027d2ac/org.eclipse.core.contenttype-3.9.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.app/1.7.0/3c1ed61a4ddacd301b2315f9921f6893127597/org.eclipse.equinox.app-1.7.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.app/1.7.0/27ad31338c942b3b8ff693780b99514f25257940/org.eclipse.equinox.app-1.7.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.registry/3.12.0/29d0dabf906675fbeb0700346579b6813d6b35b2/org.eclipse.equinox.registry-3.12.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.registry/3.12.0/d873328963eee04833540334b9868a4b5894f1fa/org.eclipse.equinox.registry-3.12.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.di/1.5.300/17ab770d5265b61df1b25f0837e38df8b2ec3dc5/org.eclipse.e4.ui.di-1.5.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.di/1.5.300/dbf68d3fa499e6ba12438e02d3d0c734fcc89938/org.eclipse.e4.ui.di-1.5.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.extensions.supplier/0.17.400/e84a920d1b28b0a4bcabbe2a680bf6d8c16987e7/org.eclipse.e4.core.di.extensions.supplier-0.17.400-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.extensions.supplier/0.17.400/632cfc0f1e5e49c4c568b5211d6ae0cb53106b70/org.eclipse.e4.core.di.extensions.supplier-0.17.400.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.preferences/3.11.0/47b1c290ccb249f03335f9bc797a2b0937545e0d/org.eclipse.equinox.preferences-3.11.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.preferences/3.11.0/94a74fb01448da1df6a0f7e896bdd2b337683745/org.eclipse.equinox.preferences-3.11.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.jarprocessor/1.3.300/cea4b2b4743c5c961b70cb70a0e4203e330b1ad2/org.eclipse.equinox.p2.jarprocessor-1.3.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.p2.jarprocessor/1.3.300/3301b17a86868de3898651f8356701ca1e526901/org.eclipse.equinox.p2.jarprocessor-1.3.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.common/3.19.0/2c036aaf98c670a1d4eb2911eed164469a8d94a1/org.eclipse.equinox.common-3.19.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.common/3.19.0/5b6633ba85fc1c59a6024e1068a2a0a39458445d/org.eclipse.equinox.common-3.19.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.contexts/1.12.500/bc23858c19531a56cc587df9e09d0297ca68ed14/org.eclipse.e4.core.contexts-1.12.500-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.contexts/1.12.500/498a42b00f4e96a71dd2cadf1d355c7f118e216c/org.eclipse.e4.core.contexts-1.12.500.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di/1.9.300/c09979ed023b6abe6fa8b51c6c4071012ee3bb76/org.eclipse.e4.core.di-1.9.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di/1.9.300/9f607869c9c6a643b0778ed869675a61b20b5fa0/org.eclipse.e4.core.di-1.9.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.extensions/0.18.200/c9c9ed8892c6b9a9a8727a268274254c508d1ab2/org.eclipse.e4.core.di.extensions-0.18.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.extensions/0.18.200/b91c2ee3c1bd5d771165824c978914b2a7599ec1/org.eclipse.e4.core.di.extensions-0.18.200.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.osgi.services/3.12.0/1c61c634d7e39f1e648dcb16d83a49fe03772836/org.eclipse.osgi.services-3.12.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.osgi.services/3.12.0/76d671b8e88789ff9f83338333d36f9d38fffc92/org.eclipse.osgi.services-3.12.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.swt/org.eclipse.swt.cocoa.macosx.x86_64/4.3/7cd7d3675397d70521801ec431b0579756130c6c/org.eclipse.swt.cocoa.macosx.x86_64-4.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.swt/org.eclipse.swt.cocoa.macosx.x86_64/4.3/d3464862f2abd36e1aef3314276eca4c31098dae/org.eclipse.swt.cocoa.macosx.x86_64-4.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.osgi/3.19.0/63aa06e926873977f09ca1bf5280176187c3268f/org.eclipse.osgi-3.19.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.osgi/3.19.0/7f25804defcfe435632b92ea7b9f93d352e2f65/org.eclipse.osgi-3.19.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore.xmi/2.37.0/ec79dc685fd687e7f01f6e88b467b162c47c4d88/org.eclipse.emf.ecore.xmi-2.37.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore.xmi/2.37.0/5491bb83af1f49f1cfd7dedacbfeea4486a8b0b0/org.eclipse.emf.ecore.xmi-2.37.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.1.1/3beea3ed2e687d9bd8a78c00e18951fffccefe90/jakarta.annotation-api-2.1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.1.1/48b9bda22b091b1f48b13af03fe36db3be6e1ae3/jakarta.annotation-api-2.1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.annotations/1.8.300/e3fc19736a377ffacf25d14db436db799be728a5/org.eclipse.e4.core.di.annotations-1.8.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.core.di.annotations/1.8.300/a8944e31c165325019d49420f5b961a05814f25f/org.eclipse.e4.core.di.annotations-1.8.300.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/jakarta.inject/jakarta.inject-api/2.0.1/569d6c5f18d6ff83c82152d1870cf0faf830c594/jakarta.inject-api-2.0.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/jakarta.inject/jakarta.inject-api/2.0.1/4c28afe1991a941d7702fe1362c365f0a8641d1e/jakarta.inject-api-2.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.event/1.4.1/122764909c80839e35af8737cbb3b8a64b060dc6/org.osgi.service.event-1.4.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.event/1.4.1/f6d98f06834a911d04be512b751de3563d6b909/org.osgi.service.event-1.4.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpg-jdk18on/1.77/33ff3269cede7165dac44033a3b150cc9f9f11cf/bcpg-jdk18on-1.77-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpg-jdk18on/1.77/bb0be51e8b378baae6e0d86f5282cd3887066539/bcpg-jdk18on-1.77.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.prefs/1.1.2/533cc195a4ef0d967343d50c315a4a75b0406b16/org.osgi.service.prefs-1.1.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.prefs/1.1.2/44351fdfb119ee920394c1a27c938288c93c03c8/org.osgi.service.prefs-1.1.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore.change/2.16.0/693c15012bd063324173615d4fc06608545c3f4/org.eclipse.emf.ecore.change-2.16.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore.change/2.16.0/c23cc5606cfeba72b6c42e06f25848ed4fc661d2/org.eclipse.emf.ecore.change-2.16.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore/2.36.0/9c9787bc232679bf8e2adac689612e13dae1207d/org.eclipse.emf.ecore-2.36.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.ecore/2.36.0/dd0b967aee9f9b631c2d068bd0ead6b96c6be466/org.eclipse.emf.ecore-2.36.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.upnp/1.2.1/b89033fce02ffb179aade8bdbc430d40541521f2/org.osgi.service.upnp-1.2.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.upnp/1.2.1/928120b7d36cb41d1f43bb53bdead28e308ae191/org.osgi.service.upnp-1.2.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.device/1.1.1/7cf23792a28da511887704562fb00534d15d6f76/org.osgi.service.device-1.1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.device/1.1.1/a2366b06f31045b8277493edd97240cf5bbe5661/org.osgi.service.device-1.1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.http.whiteboard/1.1.1/a3fd31e684314665f48c2d95e9dd01693d6b601c/org.osgi.service.http.whiteboard-1.1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.http.whiteboard/1.1.1/4bcd682f7d40919299ada68fb6b914a24b913f01/org.osgi.service.http.whiteboard-1.1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.http.service.api/1.2.2/bb55af499deb97f859d8f6212d923a834efc01a3/org.eclipse.equinox.http.service.api-1.2.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.equinox.http.service.api/1.2.2/34f91e6113363302d228fedc50ebf77312a1ef78/org.eclipse.equinox.http.service.api-1.2.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.wireadmin/1.0.2/4d641d6461df81c8976a6b9c3ce60e902ef98f0b/org.osgi.service.wireadmin-1.0.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.wireadmin/1.0.2/66f720098cc1ed54afdab542214f580e376e34f3/org.osgi.service.wireadmin-1.0.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.provisioning/1.2.0/4b0031929a8718d435924feaa061bb17ae3b2a08/org.osgi.service.provisioning-1.2.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.provisioning/1.2.0/556c89f6b2bd483ffe416b296392a816aac4bc1a/org.osgi.service.provisioning-1.2.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.component/1.5.1/656f65c2fcd219e36bfc21d6b549456c76e53e44/org.osgi.service.component-1.5.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.component/1.5.1/5e4804b15f3d99c52d0be15b51736699c434396b/org.osgi.service.component-1.5.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.useradmin/1.1.1/f6675c22ad8f66ed2c5770cde2ac5c22302ad678/org.osgi.service.useradmin-1.1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.useradmin/1.1.1/8bc0747550a67ecc237169e4b071995d9aa9cd20/org.osgi.service.useradmin-1.1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.metatype/1.4.1/be67bf6e1d282f4f02976c4928865b3455614905/org.osgi.service.metatype-1.4.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.metatype/1.4.1/e9834f148346bf3f698e2179a287c29d1196a894/org.osgi.service.metatype-1.4.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.cm/1.6.1/69fe8e427473064ec49c4b34673842ee73dfd90b/org.osgi.service.cm-1.6.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.service.cm/1.6.1/2153bb7f8b45ca4130b96dbf3be6ce0d25170325/org.osgi.service.cm-1.6.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis-ext/1.3.04/41a8b86b358e87f3f13cf46069721719105aff66/xml-apis-ext-1.3.04.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/osgi.annotation/8.1.0/b9c42f18e5941aae2b7a5f128e73034220898876/osgi.annotation-8.1.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/osgi.annotation/8.1.0/59d42736bcc0af2144ba5c1a12ff7c08ea4b7e12/osgi.annotation-8.1.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.namespace.implementation/1.0.0/8b3ce9c960607590bc21add4c3a76b5b935137c7/org.osgi.namespace.implementation-1.0.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.namespace.implementation/1.0.0/16341d68d2a72f83dfdafaeb3045deac5c885fef/org.osgi.namespace.implementation-1.0.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk18on/1.77/14ea9a3d759261358c6a1f59490ded125b5273a6/bcprov-jdk18on-1.77-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk18on/1.77/2cc971b6c20949c1ff98d1a4bc741ee848a09523/bcprov-jdk18on-1.77.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.9/802ffc2e4237e0c76999e293a97171de020d659f/xz-1.9-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.tukaani/xz/1.9/1ea4bec1a921180164852c65006d928617bd2caf/xz-1.9.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.common/2.30.0/b4534be1c238c2398f08652a39b290c9aba830e9/org.eclipse.emf.common-2.30.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.emf/org.eclipse.emf.common/2.30.0/28e02b110df989bbd8715f753d84e00fa9335aa0/org.eclipse.emf.common-2.30.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-jxpath/commons-jxpath/1.3/8635d6b633d632d5aad1924fb0dc767b4527689/commons-jxpath-1.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-jxpath/commons-jxpath/1.3/c22d7d0f0f40eb7059a23cfa61773a416768b137/commons-jxpath-1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.toolchain/jetty-servlet-api/4.0.6/c5d5e3995fc8672207bcc687525f46855657db13/jetty-servlet-api-4.0.6-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.toolchain/jetty-servlet-api/4.0.6/959c5d83d08f5cddf56caff749e48b735193191b/jetty-servlet-api-4.0.6.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.namespace.extender/1.0.1/799aa83ab7f983c049e6a130734937613ca9d478/org.osgi.namespace.extender-1.0.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.namespace.extender/1.0.1/18c5eac4fe14b1d1914e62ea0e95abe80af31a9c/org.osgi.namespace.extender-1.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.util.function/1.0.0/c16d28a4e5d98045a410cbe2bc3ff6fa7b945e1b/org.osgi.util.function-1.0.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.util.function/1.0.0/1f38195e5eab663c162989a4a2186e8d62c2cc1d/org.osgi.util.function-1.0.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.util.promise/1.0.0/1f244ef165def28ae82817068ca4e6339860b5ed/org.osgi.util.promise-1.0.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.osgi/org.osgi.util.promise/1.0.0/ebbbe7a061d665afa565b6369ef62d8c9df16f1a/org.osgi.util.promise-1.0.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.14.0/cefe3d258159eb44f4369ff5d8e12602a340bd15/jna-platform-5.14.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna-platform/5.14.0/28934d48aed814f11e4c584da55c49fa7032b31b/jna-platform-5.14.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.14.0/13bda98796cf4739f5d40cb825578cfaa8463c6e/jna-5.14.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.14.0/67bf3eaea4f0718cb376a181a629e5f88fa1c9dd/jna-5.14.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.17/6cf6a61c82696d7fbf10a3de24b7b43da9bd7346/batik-util-1.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.17/83ef2a8b449444a1d57e91e938522899317a8672/batik-util-1.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.17/b1dc53d92d0f0b79a5f3d908c242ca8db3a623fb/batik-constants-1.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-constants/1.17/22bf8b4c207dc46859db0269853186d8dfc8cb9a/batik-constants-1.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.17/b25b770ee03c7f82525ddd61791214466c797bdd/batik-i18n-1.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-i18n/1.17/39b233a71430ffa9d0282d47789a58fa8bf4f861/batik-i18n-1.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-shared-resources/1.17/79d95b0917e2bc7d8cd572be7140794aa7b5d78/batik-shared-resources-1.17-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-shared-resources/1.17/2862b81d9dc63990cb5586323b4a2410fc1f2249/batik-shared-resources-1.17.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.11.0/2ef0187124bbfc7aed3038d4ffdd2241e8992937/commons-io-2.11.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.11.0/a2503f302b11ebde7ebc3df41daebe0e4eea3689/commons-io-2.11.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.9.3/d10dec2ad6dad92cdab830904e9bc4a1de4fd84a/junit-jupiter-params-5.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.9.3/9e2a4bf6016a1975f408a73523392875cff7c26f/junit-jupiter-params-5.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.9.3/85988e8197299a175eb2576f8f069fc84299a9f4/junit-jupiter-api-5.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.9.3/815818ad6ffcc8d320d8fbdf3d748c753cf83201/junit-jupiter-api-5.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.9.3/86401c81baae1d05c5dc76d3e40c1b9397384eda/junit-platform-commons-1.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.9.3/36b2e26a90c41603be7f0094bee80e3f8a2cd4d4/junit-platform-commons-1.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.9.3/5fd01c33132462aab3905cb74bd1097a713ab91a/junit-jupiter-5.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.9.3/72e840501e1550e9799c9a5cc9483d7d6b29e0ba/junit-jupiter-5.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/41d55b3c2254de9837b4ec8923cbd371b8a7eab5/opentest4j-1.2.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/28c11eb91f9b6d8e200631d46e20a7f407f2a046/opentest4j-1.2.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.2/e0787a997746ac32639e0bf3cb27af8dce8a3428/apiguardian-api-1.1.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.2/a231e0d844d2721b0fa1b238006d15c6ded6842a/apiguardian-api-1.1.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value=""/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.9.3/197892276ba628c4cdca0ab3168f9c24ce6c73f8/junit-jupiter-engine-5.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.9.3/355322b03bf39306a183162cd06626c206f0286b/junit-jupiter-engine-5.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.9.3/127cb253e495382cf9683a9acfaf7633bf27b2a7/junit-platform-launcher-1.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-launcher/1.9.3/485650bfe2a2f39b606a6ca013285afda2eaee79/junit-platform-launcher-1.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.9.3/819f0849cf19b1f46718c36a4fc8406c87bced45/junit-platform-engine-1.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.9.3/8616734a190f8d307376aeb7353dba0a2c037a09/junit-platform-engine-1.9.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="test"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 </classpath>
