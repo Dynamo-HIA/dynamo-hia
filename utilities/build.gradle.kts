@@ -7,6 +7,8 @@ plugins {
     id("eclipse")
 }
 
+/*
 dependencies {
     api(project(":list"))
 }
+*/
