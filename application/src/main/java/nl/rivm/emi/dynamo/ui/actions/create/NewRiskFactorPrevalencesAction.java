@@ -20,7 +20,8 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+//ND: Use DisplayRealm instead of SWTObservables
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -120,7 +121,7 @@ public class NewRiskFactorPrevalencesAction extends ActionBase {
 						}
 					}
 				}
-				Realm.runWithDefault(SWTObservables.getRealm(Display
+				Realm.runWithDefault(DisplayRealm.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = file.exists();
 				if (isPresentAfter && !FileCreationFlag.isOld) {

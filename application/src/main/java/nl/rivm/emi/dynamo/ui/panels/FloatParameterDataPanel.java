@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -81,8 +81,9 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		text.setText(typedHashMap.get(index).toString());
 		HelpTextListenerUtil.addHelpTextListeners(text, (AtomicTypeBase<?>) XMLTagEntityEnum.STANDARDVALUE.getTheType());
 		//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+
 		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

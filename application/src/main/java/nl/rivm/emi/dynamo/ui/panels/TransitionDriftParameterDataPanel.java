@@ -14,7 +14,7 @@ import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -90,8 +90,8 @@ public class TransitionDriftParameterDataPanel extends Composite {
 				.doGetValue());
 		text.setText(convertedText);
 		HelpTextListenerUtil.addHelpTextListeners(text, type);
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				type.getModelUpdateValueStrategy(), type
 						.getViewUpdateValueStrategy());

@@ -33,7 +33,8 @@ import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+//ND: Use DisplayRealm instead of SWTObservables
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
@@ -168,7 +169,7 @@ public class RelativeRiskFromRiskSourceAction extends ActionBase {
 					}
 				}
 			}
-			Realm.runWithDefault(SWTObservables.getRealm(Display.getDefault()),
+			Realm.runWithDefault(DisplayRealm.getRealm(Display.getDefault()),
 					theModal);
 			boolean isPresentAfter = candidateFile.exists();
 			if (isPresentAfter && !FileCreationFlag.isOld) {
