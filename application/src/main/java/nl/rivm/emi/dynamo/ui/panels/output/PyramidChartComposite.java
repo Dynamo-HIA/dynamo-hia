@@ -102,10 +102,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.ValueAxisPlot;
 import org.jfree.chart.plot.Zoomable;
-import org.jfree.experimental.chart.swt.ChartComposite;
-import org.jfree.experimental.chart.swt.editor.SWTChartEditor;
-import org.jfree.experimental.swt.SWTGraphics2D;
-import org.jfree.experimental.swt.SWTUtils;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
+import org.jfree.chart.swt.editor.SWTChartEditor;
+import org.jfree.swt.SWTGraphics2D;
+import org.jfree.swt.SWTUtils;
 
 /**
  * A SWT GUI composite for displaying a {@link JFreeChart} object.

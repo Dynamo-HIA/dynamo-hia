@@ -7,7 +7,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scale;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 public class AutoRunButton {
 	

@@ -13,7 +13,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 /**
  * @author boshuizh

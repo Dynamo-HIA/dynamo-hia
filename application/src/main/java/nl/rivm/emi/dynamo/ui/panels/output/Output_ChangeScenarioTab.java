@@ -19,7 +19,8 @@ import org.eclipse.swt.widgets.Slider;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 /**
  * @author boshuizh

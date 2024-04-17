@@ -12,7 +12,8 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 
 /**

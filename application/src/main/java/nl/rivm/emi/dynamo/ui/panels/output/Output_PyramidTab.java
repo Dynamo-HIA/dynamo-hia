@@ -23,7 +23,9 @@ import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.jfree.chart.JFreeChart;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: no longer experimental
+//import org.jfree.experimental.chart.swt.ChartComposite;
+import org.jfree.chart.swt.ChartComposite;
 
 
 /**

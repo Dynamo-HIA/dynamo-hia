@@ -11,7 +11,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Listener;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 
 /**
