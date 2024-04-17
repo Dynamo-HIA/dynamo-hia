@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-import com.sun.org.apache.xerces.internal.dom.ChildNode;
+//import com.sun.org.apache.xerces.internal.dom.ChildNode;
 
 /**
  * Started as a copy of the RelativeRiskContextPanel because the logic becomes

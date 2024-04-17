@@ -21,6 +21,61 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21/"/>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-configuration/commons-configuration/1.5/e9ad33bd361d75c21e9fe3167c01c993e9518cac/commons-configuration-1.5-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-configuration/commons-configuration/1.5/d891c003b41adc63ab99e5f697e04d633568965a/commons-configuration-1.5.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils-core/1.7.0/52f7701e1e9fd1d2b93379503c0bc839d2caf68d/commons-beanutils-core-1.7.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/73d0340eaecbb0ec9d3e0ace90547ef08cbfaf27/commons-collections-3.2-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2/f951934aa5ae5a88d7e6dfaa6d32307d834a88be/commons-collections-3.2.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.3/11dd3ae4f7545c30a031ccc1ba5b5b53ea278b67/commons-lang-2.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.3/eecdac8c86bc84b4bdfc24371ba8c785a1fc552/commons-lang-2.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8/6c296de7dc352e0af9a40f92f5af995314d41fc9/commons-digester-1.8-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-digester/commons-digester/1.8/dc6a73fdbd1fa3f0944e8497c6c872fa21dca37e/commons-digester-1.8.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.7.0/b68c4fc66026e8c08df7fb57c7dc1e94a6ed8cbb/commons-beanutils-1.7.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-beanutils/commons-beanutils/1.7.0/5675fd96b29656504b86029551973d60fb41339b/commons-beanutils-1.7.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1/5c2bd34c9a05067c72dcf08cd248630561a9c852/commons-logging-1.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1/ba24d5de831911b684c92cd289ed5ff826271824/commons-logging-1.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/log4j/log4j/1.2.12/57b8740427ee6d7b0b60792751356cad17dc0d9/log4j-1.2.12.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/logkit/logkit/1.0.1/8fe57ebee0b676973c011c88bb1a0dbf634ae0eb/logkit-1.0.1-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/logkit/logkit/1.0.1/aaf5649b523c5ffc925e746074979150bb74bfdc/logkit-1.0.1.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/avalon-framework/avalon-framework/4.1.3/92315ee1c4a4c90bee05055713811f28f8509075/avalon-framework-4.1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/javax.servlet/servlet-api/2.3/2b8664910b937aa77aaa388f2403ed019e37662e/servlet-api-2.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/javax.servlet/servlet-api/2.3/137a24e9f62973f01f16dd23fc1b5a9964fd9ef/servlet-api-2.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.9.3/d10dec2ad6dad92cdab830904e9bc4a1de4fd84a/junit-jupiter-params-5.9.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.9.3/9e2a4bf6016a1975f408a73523392875cff7c26f/junit-jupiter-params-5.9.3.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="test"/>
