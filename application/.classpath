@@ -173,22 +173,12 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.125.0/82e954720cb6886f863ae8a95f6913661935cac2/org.eclipse.swt.cocoa.macosx.aarch64-3.125.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.125.0/2f00ea820c326b485d14cb2e4447dad245f24642/org.eclipse.swt.cocoa.macosx.aarch64-3.125.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.databinding/1.15.200/f5f903fe1a7b4f190b46b01331cbdd2f124d4861/org.eclipse.jface.databinding-1.15.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.jface.databinding/1.15.200/775f7e09179668ae0850f4a8324a7e710fa025f0/org.eclipse.jface.databinding-1.15.200.jar">
-		<attributes>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/4e51f45da5469ba338459ab83bbba221431158b/org.eclipse.core.resources-3.16.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/6c621aff38fe8ae62dea56845cb97c8a752675ce/org.eclipse.core.resources-3.16.100.jar">
-		<attributes>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar">
-		<attributes>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/8abb55c432843f8faac498737952bfafe10166d7/swtgraphics2d-1.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/7dfb0b3bc496546a97d03ba3c4b9f5465bf2db4a/swtgraphics2d-1.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -208,11 +198,6 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.124.200/51d7414fdb5dd75004f517007a72a940b6de058/org.eclipse.swt.cocoa.macosx.aarch64-3.124.200-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt.cocoa.macosx.aarch64/3.124.200/7dd3ae8d14a33c7312543249d936d84a0ae658bb/org.eclipse.swt.cocoa.macosx.aarch64-3.124.200.jar">
-		<attributes>
-			<attribute name="gradle_used_by_scope" value="main,test"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench3/0.17.300/bbb2282c05005aac481d58665d2941e97a52c95c/org.eclipse.e4.ui.workbench3-0.17.300-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.e4.ui.workbench3/0.17.300/500a1cce4f53045c651e01a064486e17485c84aa/org.eclipse.e4.ui.workbench3-0.17.300.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
@@ -224,6 +209,21 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.swt/3.125.0/708f7daacdee32ec690d41c02e712097899d5149/org.eclipse.swt-3.125.0.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/4e51f45da5469ba338459ab83bbba221431158b/org.eclipse.core.resources-3.16.100-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.eclipse.platform/org.eclipse.core.resources/3.16.100/6c621aff38fe8ae62dea56845cb97c8a752675ce/org.eclipse.core.resources-3.16.100.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/1dc37250fbc78e23a65a67fbbaf71d2e9cbc3c0b/hamcrest-core-1.3-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar">
+		<attributes>
+			<attribute name="gradle_used_by_scope" value="main,test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry sourcepath="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/8abb55c432843f8faac498737952bfafe10166d7/swtgraphics2d-1.0-sources.jar" kind="lib" path="/Users/niels/.gradle/caches/modules-2/files-2.1/org.jfree/swtgraphics2d/1.0/7dfb0b3bc496546a97d03ba3c4b9f5465bf2db4a/swtgraphics2d-1.0.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
