@@ -11,12 +11,12 @@ public class SimpleViewConverterFactory {
 
 	public static IConverter getConverter(Object objectType) {
 		IConverter resultConverter = null;
-		if (objectType instanceof Integer) {
+		if (objectType instanceof Integer | (objectType.equals(Integer.class))) {
 			resultConverter = new IntegerViewConverter("");
 			log.debug("Viewconverter constructed for "
-					+ objectType.getClass().getName());
+					+ objectType);
 		} else {
-			if (objectType instanceof Float) {
+			if (objectType instanceof Float | (objectType.equals(Float.class))) {
 				resultConverter = new StandardFloatViewConverter("");
 				log.debug("Viewconverter constructed for "
 						+ objectType.getClass().getName());
