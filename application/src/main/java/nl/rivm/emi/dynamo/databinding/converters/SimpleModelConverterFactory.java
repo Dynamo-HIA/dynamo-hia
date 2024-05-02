@@ -10,18 +10,21 @@ public class SimpleModelConverterFactory {
 
 	public static IConverter getConverter(Object objectType) {
 		IConverter resultConverter = null;
-		if (objectType instanceof Integer) {
+		//FIXME: Fix this properly
+		if (objectType instanceof Integer | (objectType.equals(Integer.class))) {
 			resultConverter = new IntegerModelConverter("");
 			log.debug("Modelconverter constructed for "
-					+ objectType.getClass().getName());
+					+ objectType);
 		} else {
-			if (objectType instanceof Float) {
+			if (objectType instanceof Float | (objectType.equals(Float.class))) {
 				resultConverter = new StandardFloatModelConverter("");
 				log.debug("Modelconverter constructed for "
 						+ objectType.getClass().getName());
 			} else {
 				log.error("No modelconverter found for "
 						+ objectType.getClass().getName());
+				//FIXME:Remove
+				throw new Error("No modelconverter found for "+ objectType.getClass().getName());
 			}
 		}
 		return resultConverter;
