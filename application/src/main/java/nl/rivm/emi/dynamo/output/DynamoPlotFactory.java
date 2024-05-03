@@ -7002,7 +7002,7 @@ public class DynamoPlotFactory {
 				categoryAxis.setTickLabelPaint(((Integer) i).toString(),
 						background);
 				categoryAxis.setTickLabelFont(((Integer) i).toString(),
-						new Font("SansSerif", Font.PLAIN, 2));
+						new Font("SansSerif", Font.PLAIN, 12));
 			}
 
 		categoryAxis.setTickLabelsVisible(true);
@@ -7410,7 +7410,7 @@ public class DynamoPlotFactory {
 				categoryAxis.setTickLabelPaint(((Integer) i).toString(),
 						background);
 				categoryAxis.setTickLabelFont(((Integer) i).toString(),
-						new Font("SansSerif", Font.PLAIN, 2));
+						new Font("SansSerif", Font.PLAIN, 12));
 			}
 
 		NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
