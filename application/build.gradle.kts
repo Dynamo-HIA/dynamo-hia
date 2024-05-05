@@ -3,31 +3,21 @@
  */
 
 
-// plugin used to fetch eclipse (and binaries)
-// https://github.com/diffplug/goomph
-// or https://jmini.github.io/ecentral/
-// https://github.com/jmini/ecentral/issues/21
-// https://github.com/diffplug/goomph/issues/130
-
 plugins {
     id("dynamo.hia.java-application-conventions")
-    id("eclipse")
-//    id("com.diffplug.eclipse.mavencentral") version "3.44.0"
-//    id("com.diffplug.eclipse.mavencentral")
-
+    id("com.diffplug.eclipse.mavencentral")
 }
 
 
 apply(plugin = "com.diffplug.eclipse.mavencentral")
 
-
-/*
-
 eclipseMavenCentral {
     release("4.30.0", {
-//        implementation("org.eclipse.jdt.core")
-//        compile("org.eclipse.swt")
+        implementation("org.eclipse.jdt.core")
         implementation("org.eclipse.swt")
+        implementation("org.eclipse.jface.databinding")
+        implementation("org.eclipse.ui.ide")
+        implementation("org.eclipse.core.resources")
 
         // specify this to add the native jars for this platform
         useNativesForRunningPlatform()
@@ -37,80 +27,6 @@ eclipseMavenCentral {
     }
     )
 }
-*/
-
-
-
-//replace osgi references with the right platform https://github.com/jmini/ecentral/issues/21
-
-/*
-configurations.all {
-    resolutionStrategy {
-        eachDependency {
-            if (requested.name.contains("\${osgi.platform}")) {
-                // use MacOs arm64 as "osgi.platform" when computing the dependencies
-                useTarget(requested.toString().replace("\${osgi.platform}", "cocoa.macosx.aarch64"))
-            }
-        }
-    }
-}
-*/
-
-
-
-//kinda worked.
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute(module("org.eclipse.platform:org.eclipse.swt.\${osgi.platform}")).
-            using(module("org.eclipse.platform:org.eclipse.swt.cocoa.macosx.aarch64:3.125.0"))
-    }
-}
-
-
-/*
-buildscript {
-    dependencies {
-        classpath "com.diffplug.gradle:goomph:3.37.0"
-    }
-}
-
-apply(plugin = "com.diffplug.eclipse.mavencentral")
-
-eclipseMavenCentral {
-    release "4.31.0", {
-        implementation "org.eclipse.jdt.core"
-        compile 'org.eclipse.swt'
-        implementation 'org.eclipse.swt'
-
-        // specify this to add the native jars for this platform
-        useNativesForRunningPlatform()
-
-        // specify that all transitive dependencies should be from this release
-        constrainTransitivesToThisRelease()
-    }
-}
-
-*/
-
-/*
-
-buildscript {
-  repositories {
-    maven {
-      url = uri("https://plugins.gradle.org/m2/")
-    }
-  }
-  dependencies {
-
-    classpath("com.diffplug.gradle:goomph:3.43.0")
-  }
-  
-}
-
-apply(plugin = "com.diffplug.eclipse.mavencentral")
-
-
-*/
 
 
 dependencies {
@@ -130,25 +46,32 @@ dependencies {
     implementation("org.jfree:jcommon:1.0.17")
     implementation("org.jfree:jfreechart:1.0.19")
     implementation("org.jfree:jfreechart-swt:1.0")
-  
-// with versions  
-//    implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.8.100")
-//    implementation("org.eclipse.platform:org.eclipse.ui.ide:3.16.0")
-//    implementation("org.eclipse.platform:org.eclipse.core.resources:3.16.100")
-
-//let plugin above figure out versions
-	implementation("org.eclipse.platform:org.eclipse.swt:3.125.0")	
-    implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.8.100")
-    implementation("org.eclipse.platform:org.eclipse.ui.ide:3.16.0")
-    implementation("org.eclipse.platform:org.eclipse.core.resources:3.16.100")
-
-
-
-
-
+    
+    //swt etc are imported using the eclipseMavenCentral plugin
 }
 
+
+
+
+application {
+    // Define the main class for the application.
+    //mainClass.set("nl.rivm.emi.dynamo.batch.Runner")
+
+    //this could perhaps be a OSX-only arg
+    applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
+    mainClass.set("nl.rivm.emi.dynamo.ui.main.main.Main")
+}
+
+tasks.test {
+    //use Junit for tests
+    useJUnitPlatform()
+}
+
+
+
 /*
+-- BEGIN SETTINGS GRAVEYARD --
+
 
 apply plugin: 'com.diffplug.eclipse.mavencentral'
 
@@ -176,18 +99,97 @@ constrainTransitivesToThisRelease() } } ```
  { testRuntimeOnlyNative 'org.eclipse.swt' 
  nativeDep 'testRuntimeOnly', 'org.eclipse.swt' } } ```
 
+
+eclipseMavenCentral {
+    release("4.30.0", {
+//        implementation("org.eclipse.jdt.core")
+//        compile("org.eclipse.swt")
+        implementation("org.eclipse.swt")
+
+        // specify this to add the native jars for this platform
+        useNativesForRunningPlatform()
+
+        // specify that all transitive dependencies should be from this release
+        constrainTransitivesToThisRelease()
+    }
+    )
+}
+
+
+
+//replace osgi references with the right platform https://github.com/jmini/ecentral/issues/21
+configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (requested.name.contains("\${osgi.platform}")) {
+                // use MacOs arm64 as "osgi.platform" when computing the dependencies
+                useTarget(requested.toString().replace("\${osgi.platform}", "cocoa.macosx.aarch64"))
+            }
+        }
+    }
+}
+
+//kinda worked.
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("org.eclipse.platform:org.eclipse.swt.\${osgi.platform}")).
+            using(module("org.eclipse.platform:org.eclipse.swt.cocoa.macosx.aarch64:3.125.0"))
+    }
+}
+buildscript {
+    dependencies {
+        classpath "com.diffplug.gradle:goomph:3.37.0"
+    }
+}
+
+dependencies {
+
+  
+// with versions  
+//    implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.8.100")
+//    implementation("org.eclipse.platform:org.eclipse.ui.ide:3.16.0")
+//    implementation("org.eclipse.platform:org.eclipse.core.resources:3.16.100")
+
+//let plugin above figure out versions
+	implementation("org.eclipse.platform:org.eclipse.swt:3.125.0")	
+    implementation("org.eclipse.platform:org.eclipse.jface.databinding:1.8.100")
+    implementation("org.eclipse.platform:org.eclipse.ui.ide:3.16.0")
+    implementation("org.eclipse.platform:org.eclipse.core.resources:3.16.100")
+
+//swt spy debugging tools
+//    implementation("org.eclipse.platform:org.eclipse.swt.tools.spies:3.109.300")
+//    implementation("org.eclipse.platform:org.eclipse.tools.layout.spy:1.2.300")
+//    implementation("org.eclipse.jdt:org.eclipse.jdt.core:3.37.0")
+//    implementation("org.eclipse.jdt:org.eclipse.jdt.annotation:2.3.0")
+//    implementation("org.eclipse.platform:org.eclipse.ui.icons:3.16.0")
+
+
+}
+
+
+buildscript {
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
+  }
+  dependencies {
+
+    classpath("com.diffplug.gradle:goomph:3.43.0")
+  }
+  
+}
+
+apply(plugin = "com.diffplug.eclipse.mavencentral")
+
+
+// plugin used to fetch eclipse (and binaries)
+// https://github.com/diffplug/goomph
+// or https://jmini.github.io/ecentral/
+// https://github.com/jmini/ecentral/issues/21
+// https://github.com/diffplug/goomph/issues/130
+
+
+
+-- END SETTINGS GRAVEYARD --
 */
-
-
-application {
-    // Define the main class for the application.
-    //mainClass.set("nl.rivm.emi.dynamo.batch.Runner")
-    applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
-    mainClass.set("nl.rivm.emi.dynamo.ui.main.main.Main")
-}
-
-tasks.test {
-    //use Junit for tests
-    useJUnitPlatform()
-}
-
