@@ -4,7 +4,9 @@
 
 plugins {
     // Apply the java Plugin to add support for Java.
-    java
+    id("java")
+    id("eclipse")
+
 }
 
 repositories {
@@ -21,13 +23,21 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 
+    // Use Vintage JUnit engine for JUnit4 tests
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.9.3")
+
+    // add junit to the dependencies of the main code too, until tests are properly separated
+    implementation("junit:junit:4.13.2")
+
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(20))
     }
 }
 
