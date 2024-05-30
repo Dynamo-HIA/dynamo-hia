@@ -154,7 +154,8 @@ public class Output_PyramidTab  {
 				Output_PyramidTab.this.plotInfo.currentYear = userValue;
 				Output_PyramidTab.this.plotFactory.drawChartAction(Output_PyramidTab.this.plotInfo, Output_PyramidTab.this.chartComposite );
 				
-
+				//force redraw of plot composite
+				Output_PyramidTab.this.plotComposite.redraw();
 			}
 
 		});
