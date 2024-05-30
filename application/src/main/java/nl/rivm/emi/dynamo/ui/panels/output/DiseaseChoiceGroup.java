@@ -50,6 +50,7 @@ public class DiseaseChoiceGroup {
 
 				plotInfo.currentDisease = combo.getSelectionIndex();
 				 plotDrawer.drawChartAction(plotInfo,chartComposite);
+				 chartComposite.redraw();
 			}
 		});
 	

@@ -47,7 +47,7 @@ public class Output_UI {
         String [] tokens = currentPath.split(delim);
      //   for (int i=0;i<tokens.length-1;i++){}
 		this.parentShell = shell;
-		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN);
+		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN | SWT.CLOSE);
 		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
 		outputShell.setBounds(30, 30, 900, 650);
         this.scenarioParameters=scenarioParameters;
