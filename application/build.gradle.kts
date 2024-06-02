@@ -6,6 +6,7 @@
 plugins {
     id("dynamo.hia.java-application-conventions")
     id("com.diffplug.eclipse.mavencentral")
+    id("org.beryx.runtime") version "1.13.1"
 }
 
 
@@ -49,6 +50,7 @@ dependencies {
     
     //swt etc are imported using the eclipseMavenCentral plugin
 }
+
 
 
 
