@@ -24,7 +24,7 @@ import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.lang.exception.NestableException;
 import org.apache.commons.logging.Log;
@@ -71,7 +71,7 @@ public class TestRootChildFactories {
 			AgnosticSingleRootChildFactory factory = (AgnosticSingleRootChildFactory) RootChildDispatchMap
 					.getInstance().get("hasnewborns").getTheFactory();
 			assertNotNull(factory);
-			XMLConfiguration configurationFromFile = new XMLConfiguration(
+			XMLConfigurationToo configurationFromFile = new XMLConfigurationToo(
 					configurationFile);
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode

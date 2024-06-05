@@ -1,5 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.help;
 
+import java.io.BufferedReader;
+
 /**
  * First actual helptekst panel.
  * Commented out from the working debug version.
@@ -12,6 +14,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,36 +62,48 @@ public class ElementNameScrollableHelpGroup {
 		String helpContent = "";
 		try {
 			if (!helpContent.equalsIgnoreCase(helpKey)) {
-				String helpFilePath = helpDirectoryPath + File.separator
-						+ helpKey + ".txt";
-				File helpFile = new File(helpFilePath);
-				if (helpFile.exists()) {
-					if (helpFile.isFile()) {
-						if (helpFile.canRead()) {
-							FileReader reader = new FileReader(helpFile);
-							// StringBuffer stringBuffer = new StringBuffer();
-							char[] charArray = new char[(int) helpFile.length()];
-							reader.read(charArray);
-							helpContent = new String(charArray);
-						} else {
-							helpContent = "Can't read helpfile for: " + helpKey;
-						}
-					} else {
-						helpContent = "Help for: \"" + helpKey
-								+ "\" does not point to a file.";
-					}
+				ClassLoader loader = ElementNameScrollableHelpGroup.class.getClassLoader();
+				
+				InputStream in = loader.getResourceAsStream("help/" + helpKey + ".txt");
+				
+				if (in == null) {
+					helpContent = "Can't read helpfile for: " + helpKey;
 				} else {
-					helpContent = "Helpfile for: \"" + helpKey
-							+ "\" does not exist.(Searched at: "
-							+ helpFile.getAbsolutePath() + ")";
+					helpContent = new BufferedReader(new InputStreamReader(in))
+						   .lines().collect(Collectors.joining("\n"));
 				}
+				
+				//helpContent = "some help here";
+//				String helpFilePath = helpDirectoryPath + File.separator
+//						+ helpKey + ".txt";
+//				File helpFile = new File(helpFilePath);
+//				if (helpFile.exists()) {
+//					if (helpFile.isFile()) {
+//						if (helpFile.canRead()) {
+//							FileReader reader = new FileReader(helpFile);
+//							// StringBuffer stringBuffer = new StringBuffer();
+//							char[] charArray = new char[(int) helpFile.length()];
+//							reader.read(charArray);
+//							helpContent = new String(charArray);
+//						} else {
+//							helpContent = "Can't read helpfile for: " + helpKey;
+//						}
+//					} else {
+//						helpContent = "Help for: \"" + helpKey
+//								+ "\" does not point to a file.";
+//					}
+//				} else {
+//					helpContent = "Helpfile for: \"" + helpKey
+//							+ "\" does not exist.(Searched at: "
+//							+ helpFile.getAbsolutePath() + ")";
+//				}
 			}
-		} catch (FileNotFoundException e) {
-			helpContent = "Exception! Helpfile for: \"" + helpKey
-					+ "\" could not be found.";
-		} catch (IOException e) {
-			helpContent = "Exception! Helpfile for: \"" + helpKey
-					+ "\" threw an IOException.";
+//		} catch (FileNotFoundException e) {
+//			helpContent = "Exception! Helpfile for: \"" + helpKey
+//					+ "\" could not be found.";
+//		} catch (IOException e) {
+//			helpContent = "Exception! Helpfile for: \"" + helpKey
+//					+ "\" threw an IOException.";
 		} finally {
 			synchronized (theGroup) {
 				if (!theGroup.isDisposed()) {

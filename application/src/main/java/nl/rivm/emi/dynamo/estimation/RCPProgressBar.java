@@ -4,7 +4,8 @@ package nl.rivm.emi.dynamo.estimation;
 import java.io.File;
 import java.util.ArrayList;
 
-
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -32,6 +33,8 @@ import org.eclipse.swt.widgets.Label;
 
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
+
+import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 public class RCPProgressBar implements ProgressIndicatorInterface {
 
@@ -90,11 +93,15 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 
 		shell.setLayout(layout);
 		shell.setSize(600, 56);
-		String imageDirectoryPath = System.getProperty("user.dir")
-				+ File.separator + "images";
-
-		Image image = new Image(display, imageDirectoryPath + File.separator
-				+ "logo.png");
+//		String imageDirectoryPath = System.getProperty("user.dir")
+//				+ File.separator + "images";
+//		
+//		
+//		ClassLoader loader = Util.class.getClassLoader();
+//		
+		
+		Image image = Util.getImageRegistry().get(Util.imageRegistryLogoKey);
+				
 		shell.setImage(image);
 		// GC shellGC = new GC(shell);
 		// Color shellBackground = shell.getBackground();
@@ -189,11 +196,10 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 
 		shell.setLayout(layout);
 		shell.setSize(600, 56);
-		String imageDirectoryPath = System.getProperty("user.dir")
-				+ File.separator + "images";
+//		String imageDirectoryPath = System.getProperty("user.dir")
+//				+ File.separator + "images";
 
-		Image image = new Image(display, imageDirectoryPath + File.separator
-				+ "logo.png");
+		Image image = Util.getImageRegistry().get(Util.imageRegistryLogoKey);
 		shell.setImage(image);
 		// GC shellGC = new GC(shell);
 		// Color shellBackground = shell.getBackground();

@@ -92,7 +92,7 @@ public class FileTreeLabelProvider extends LabelProvider {
 		} catch (ConfigurationException e) {
 			log.warn("Schema check failed, exception: " + e.getClass().getSimpleName()
 					+ " thrown, cause: " + e.getCause() + " message: "
-					+ e.getMessage());
+					+ e.getMessage(), e.getCause());
 			image = Util.getImageRegistry().get(
 					Util.imageRegistrySupportedXMLFileWrongPlaceKey);
 			return image;

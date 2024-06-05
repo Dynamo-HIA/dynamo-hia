@@ -8,10 +8,14 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+
+//custom version of this class from the utilities package
+import org.apache.commons.configuration.XMLConfigurationToo;
+
 
 /**
  * @author Hendriek; variant of IncidencesFactory from Rene Mondeel
@@ -105,9 +109,9 @@ public class ArraysFromXMLFactory {
 
 		log.debug("Starting manufacture from file " + fileName);
 
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 
 			/**
 			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
@@ -237,9 +241,9 @@ public class ArraysFromXMLFactory {
 
 		this.log.debug("Starting manufacture from file " + fileName);
 
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 
 			/**
 			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
@@ -486,9 +490,9 @@ public class ArraysFromXMLFactory {
 		log.debug("Starting manufacturing four Dimensional array from file "
 				+ fileName);
 
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 			/**
 			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT
 			 * IN THE CODE
@@ -771,9 +775,9 @@ public class ArraysFromXMLFactory {
 		log.debug("Starting manufacturing two Dimensional array from file "
 				+ fileName);
 
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls
@@ -1038,9 +1042,9 @@ public class ArraysFromXMLFactory {
 		log.debug("Starting manufacturing five Dimensional array from file "
 				+ fileName);
 
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 
 			/**
 			 * TODO: VALIDATION IS FOR FUTURE USE NICE TO HAVE FEATURE KEEP IT

@@ -20,7 +20,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -133,9 +133,9 @@ public class RiskFactorUtil {
 
 	private static String extractRiskfactorName(File configurationFile) {
 		String riskfactorName = null;
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also
 			// calls load()).

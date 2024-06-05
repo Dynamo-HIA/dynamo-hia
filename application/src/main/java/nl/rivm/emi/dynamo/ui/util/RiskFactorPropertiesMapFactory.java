@@ -19,7 +19,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -158,7 +158,7 @@ public class RiskFactorPropertiesMapFactory {
 		// Leave this in for the checking.
 		String rootElementName = ConfigurationFileUtil
 				.extractRootElementNameIncludingSchemaCheck(configurationFile);
-		XMLConfiguration configurationFromFile = new XMLConfiguration(
+		XMLConfigurationToo configurationFromFile = new XMLConfigurationToo(
 				configurationFile);
 		if (RootElementNamesEnum.RISKFACTOR_CATEGORICAL.getNodeLabel()
 				.equalsIgnoreCase(rootElementName)) {
@@ -188,7 +188,7 @@ public class RiskFactorPropertiesMapFactory {
 
 	private static void fillSpecializedRiskFactorProperties(
 			RiskFactorProperties theProperties,
-			XMLConfiguration configurationFromFile) {
+			XMLConfigurationToo configurationFromFile) {
 		log.debug("Entering fillSpecialized...");
 		ConfigurationNode rootNode = configurationFromFile.getRootNode();
 		List<?> rootChildren = rootNode.getChildren();
