@@ -18,7 +18,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -97,9 +97,9 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			boolean makeObservable, String rootElementName)
 			throws ConfigurationException, DynamoInconsistentDataException {
 		TypedHashMap<Age> underConstruction = null;
-		XMLConfiguration configurationFromFile;
+		XMLConfigurationToo configurationFromFile;
 		try {
-			configurationFromFile = new XMLConfiguration(configurationFile);
+			configurationFromFile = new XMLConfigurationToo(configurationFile);
 
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls

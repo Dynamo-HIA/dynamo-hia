@@ -33,7 +33,7 @@ import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
 import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.widgets.Button;
@@ -438,7 +438,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 		;
 		// Assemble the simulation file name
-		XMLConfiguration simulationConfiguration;
+		XMLConfigurationToo simulationConfiguration;
 		String simulationFilePath = simFileName + ".xml";
 		// log.debug("simulationFilePath" + simulationFilePath);
 
@@ -467,7 +467,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 				 * simulationConfigurationFile);
 				 */
 
-				simulationConfiguration = new XMLConfiguration();
+				simulationConfiguration = new XMLConfigurationToo();
 				simulationConfiguration.setDelimiterParsingDisabled(true);
 				simulationConfiguration.setFile(simulationConfigurationFile);
 				simulationConfiguration.load();

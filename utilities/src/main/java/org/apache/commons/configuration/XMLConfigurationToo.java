@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -44,6 +45,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
@@ -66,7 +70,8 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * <p>
  * A specialized hierarchical configuration class that is able to parse XML
- * documents.
+ * documents. This is a variant of this class specifically tuned for use in Dynamo-HIA
+ * (hence the Too in the name).
  * </p>
  * 
  * <p>
@@ -195,12 +200,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  * @since commons-configuration 1.0
  * 
- * @author J&ouml;rg Schaible
- * @author Oliver Heger
- * @version $Revision: 721895 $, $Date: 2008-11-30 22:08:42 +0100 (So, 30 Nov
- *          2008) $
  */
-public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
+public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 		implements EntityResolver {
 	/**
 	 * The serial version UID.
@@ -251,12 +252,12 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 
 	private File schemaFile;
 
-	private static Log log = LogFactory.getLog(XMLConfiguration.class);
+	private static Log log = LogFactory.getLog(XMLConfigurationToo.class);
 
 	/**
 	 * Creates a new instance of <code>XMLConfiguration</code>.
 	 */
-	public XMLConfiguration() {
+	public XMLConfigurationToo() {
 		super();
 	}
 
@@ -271,7 +272,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 *            the configuration to copy
 	 * @since 1.4
 	 */
-	public XMLConfiguration(HierarchicalConfiguration c) {
+	public XMLConfigurationToo(HierarchicalConfiguration c) {
 		super(c);
 		clearReferences(getRootNode());
 		setRootElementName(getRootNode().getName());
@@ -286,7 +287,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 * @throws ConfigurationException
 	 *             if the file cannot be loaded
 	 */
-	public XMLConfiguration(String fileName) throws ConfigurationException {
+	public XMLConfigurationToo(String fileName) throws ConfigurationException {
 		super(fileName);
 	}
 
@@ -299,11 +300,11 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 * @throws ConfigurationException
 	 *             if an error occurs while loading the file
 	 */
-	public XMLConfiguration(File file) throws ConfigurationException {
+	public XMLConfigurationToo(File file) throws ConfigurationException {
 		super(file);
 	}
 
-	public XMLConfiguration(File file, File schemaFile)
+	public XMLConfigurationToo(File file, File schemaFile)
 			throws ConfigurationException {
 		super(file);
 		this.schemaFile = schemaFile;
@@ -318,7 +319,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 * @throws ConfigurationException
 	 *             if loading causes an error
 	 */
-	public XMLConfiguration(URL url) throws ConfigurationException {
+	public XMLConfigurationToo(URL url) throws ConfigurationException {
 		super(url);
 	}
 
@@ -735,13 +736,15 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 * @return the <code>DocumentBuilder</code> for loading configuration files
 	 * @throws ParserConfigurationException
 	 *             if an error occurs
+	 * @throws SAXException 
 	 * @since 1.2
 	 */
 	protected DocumentBuilder createDocumentBuilder()
-			throws ParserConfigurationException {
-		if (getDocumentBuilder() != null) {
-			return getDocumentBuilder();
-		} else {
+			throws ParserConfigurationException, SAXException {
+//		if (getDocumentBuilder() != null) {
+//			return getDocumentBuilder();
+//		} else {
+			log.debug("getting document builder for " + getRootNode());
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
 
@@ -750,9 +753,9 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 			// The xsd is provided in the xml by the attribute
 			// "xsi:noNamespaceSchemaLocation"
 			factory.setNamespaceAware(true);
-			factory.setValidating(isValidating());
-			factory.setAttribute(JAXP_SCHEMA_LANGUAGE_NAME,
-					JAXP_SCHEMA_LANGUAGE_VALUE);
+//			factory.setValidating(isValidating());
+//			factory.setAttribute(JAXP_SCHEMA_LANGUAGE_NAME,
+//					JAXP_SCHEMA_LANGUAGE_VALUE);
 
 			// The parser uses the createDocumentBuilder twice:
 			// The first time the name of the root node does not exist
@@ -770,9 +773,25 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 					// + File.separator + getRootNode().getName() +
 					// XSD_EXTENSION);
 					// }
-					file = SchemaFileProviderStaticAccess.getSchemaFile(getRootNode().getName());
-					// Set the schema
-					factory.setAttribute(JAXP_SCHEMA_SOURCE_NAME, file);
+//					file = SchemaFileProviderStaticAccess.getSchemaFile(getRootNode().getName());
+//					// Set the schema
+//					factory.setAttribute(JAXP_SCHEMA_SOURCE_NAME, file);
+					
+					String schemaPath = "/schemas/" + getRootNode().getName() +
+							 ".xsd";
+					
+					
+					final SchemaFactory sf = 
+					        SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
+					//do not use, it will complain the schema is not there (as it does not match the document)
+					//factory.setValidating(true);  
+					final Schema schema = sf.newSchema(new StreamSource(
+					        getClass().getResourceAsStream(schemaPath), getRootNode().getName()));
+					factory.setSchema(schema);
+					
+					log.debug("Set schema: " + schema);
+					
 				} catch (IllegalArgumentException iae) {
 					log.fatal(iae.getStackTrace());
 					iae.getStackTrace();
@@ -792,7 +811,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 				});
 			}
 			return result;
-		}
+//		}
 	}
 
 	/**
@@ -928,6 +947,9 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 			}
 
 			DocumentBuilder builder = createDocumentBuilder();
+			
+			log.debug("using schema while loading: " + builder.getSchema());
+			
 			Document newDocument = builder.parse(source);
 			Document oldDocument = document;
 			document = null;
@@ -1002,7 +1024,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 * @return the copy
 	 */
 	public Object clone() {
-		XMLConfiguration copy = (XMLConfiguration) super.clone();
+		XMLConfigurationToo copy = (XMLConfigurationToo) super.clone();
 
 		// clear document related properties
 		copy.document = null;
@@ -1143,6 +1165,9 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	 */
 	public InputSource resolveEntity(String publicId, String systemId)
 			throws SAXException {
+		log.debug("Fetching entity: " + publicID + " " + systemId);
+		
+		
 		// Has this system identifier been registered?
 		URL entityURL = null;
 		if (publicId != null) {
@@ -1479,7 +1504,7 @@ public class XMLConfiguration extends AbstractHierarchicalFileConfiguration
 	private class XMLFileConfigurationDelegate extends
 			FileConfigurationDelegate {
 		public void load(InputStream in) throws ConfigurationException {
-			XMLConfiguration.this.load(in);
+			XMLConfigurationToo.this.load(in);
 		}
 	}
 
