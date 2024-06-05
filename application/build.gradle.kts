@@ -46,7 +46,11 @@ dependencies {
     implementation("com.ibm.icu:icu4j:3.6.1")
     implementation("org.jfree:jcommon:1.0.17")
     implementation("org.jfree:jfreechart:1.0.19")
-    implementation("org.jfree:jfreechart-swt:1.0")
+
+    //jfreechart-swt drags in a somewhat random version of swt, so we exclude it here.
+    implementation("org.jfree:jfreechart-swt:1.0") {
+	exclude(group = "org.eclipse.swt", module="org.eclipse.swt.cocoa.macosx.x86_64")
+    }
     
     //swt etc are imported using the eclipseMavenCentral plugin
 }
