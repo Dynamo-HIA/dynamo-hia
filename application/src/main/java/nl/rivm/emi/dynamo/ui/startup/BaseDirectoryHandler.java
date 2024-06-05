@@ -182,10 +182,9 @@ public class BaseDirectoryHandler {
 		directoryDialog.setText("Choose the DYNAMO-HIA home directory.");
 		directoryDialog
 				.setMessage("In the DYNAMO-HIA home directory data and simulations are stored.");
-		directoryDialog.open();
-		String newBaseDirectoryPath = directoryDialog.getFilterPath();
+		String result = directoryDialog.open();
 		myShell.dispose();
-		return newBaseDirectoryPath;
+		return result;
 	}
 
 	private void storeDataDirectory(String baseDirectoryPath) {
