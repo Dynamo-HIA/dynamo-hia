@@ -15,7 +15,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -91,7 +91,7 @@ public class InputDataFactory {
 	// private HierarchicalConfiguration configuration;
 	// The XMLConfiguration instance contains XML configuration file contents
 	// and offers methods for validation
-	private XMLConfiguration configuration;
+	private XMLConfigurationToo configuration;
 
 	private ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 
@@ -315,7 +315,7 @@ public class InputDataFactory {
 				+ File.separator + simName + File.separator
 				+ "configuration.xml";
 		try {
-			this.configuration = new XMLConfiguration(fileName);
+			this.configuration = new XMLConfigurationToo(fileName);
 
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls
@@ -397,12 +397,12 @@ public class InputDataFactory {
 
 		ConfigurationNode rootNode = this.configuration.getRootNode();
 
-		if (((XMLConfiguration) this.configuration).getRootElementName() != mainTagLabel)
+		if (((XMLConfigurationToo) this.configuration).getRootElementName() != mainTagLabel)
 			throw new DynamoConfigurationException(" Tagname "
 					+ mainTagLabel
 					+ " expected in main simulation configuration file "
 					+ "but found tag "
-					+ ((XMLConfiguration) this.configuration)
+					+ ((XMLConfigurationToo) this.configuration)
 							.getRootElementName());
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 				.getChildren();
@@ -1207,10 +1207,10 @@ public class InputDataFactory {
 		configFileName = this.baseDir + File.separator + referenceDataDir
 				+ File.separator + riskFactorDir + File.separator
 				+ this.riskFactorName + File.separator + riskfactorXMLname;
-		XMLConfiguration config = null;
+		XMLConfigurationToo config = null;
 		try {
 
-			config = new XMLConfiguration(configFileName);
+			config = new XMLConfigurationToo(configFileName);
 
 			// WORKAROUND: clear() is put after the constructor (also calls
 			// load()).
@@ -1227,7 +1227,7 @@ public class InputDataFactory {
 			ErrorMessageUtil.handleErrorMessage(this.log, dynamoErrorMessage,
 					e, configFileName);
 		}
-		String type = ((XMLConfiguration) config).getRootElementName();
+		String type = ((XMLConfigurationToo) config).getRootElementName();
 		boolean givenAsNormal = false;
 		if (type == "riskfactor_categorical") {
 			this.riskFactorType = 1;
@@ -1780,10 +1780,10 @@ public class InputDataFactory {
 			throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
 
-		XMLConfiguration config = null;
+		XMLConfigurationToo config = null;
 		if (this.riskFactorType != 2) {
 			try {
-				config = new XMLConfiguration(configFileName);
+				config = new XMLConfigurationToo(configFileName);
 
 				// Validate the xml by xsd schema
 				// WORKAROUND: clear() is put after the constructor (also calls
@@ -1801,7 +1801,7 @@ public class InputDataFactory {
 				ErrorMessageUtil.handleErrorMessage(this.log,
 						dynamoErrorMessage, e, configFileName);
 			}
-			if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_zero") {
+			if (((XMLConfigurationToo) config).getRootElementName() == "transitionmatrix_zero") {
 				if (inputData != null)
 					inputData.setTransType(0);
 				else if (scenInfo != null)
@@ -1812,7 +1812,7 @@ public class InputDataFactory {
 									+ "readTransitionData, so information can not be added to anything");
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix_netto") {
+			else if (((XMLConfigurationToo) config).getRootElementName() == "transitionmatrix_netto") {
 				if (inputData != null)
 					inputData.setTransType(1);
 
@@ -1826,7 +1826,7 @@ public class InputDataFactory {
 
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitionmatrix") {
+			else if (((XMLConfigurationToo) config).getRootElementName() == "transitionmatrix") {
 				if (inputData != null) {
 					inputData.setTransType(2);
 
@@ -1854,14 +1854,14 @@ public class InputDataFactory {
 						+ "transitionmatrix (_zero,_netto) "
 						+ " expected in main simulation configuration file "
 						+ "but found tag "
-						+ ((XMLConfiguration) config).getRootElementName());
+						+ ((XMLConfigurationToo) config).getRootElementName());
 		}
 		/* second for continuous */
 		//
 		else {
 
 			try {
-				config = new XMLConfiguration(configFileName);
+				config = new XMLConfigurationToo(configFileName);
 
 				// Validate the xml by xsd schema
 				// WORKAROUND: clear() is put after the constructor (also calls
@@ -1879,7 +1879,7 @@ public class InputDataFactory {
 				ErrorMessageUtil.handleErrorMessage(this.log,
 						dynamoErrorMessage, e, configFileName);
 			}
-			if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_zero") {
+			if (((XMLConfigurationToo) config).getRootElementName() == "transitiondrift_zero") {
 				if (inputData != null) {
 					inputData.setTransType(0);
 				} else if (scenInfo != null)
@@ -1887,7 +1887,7 @@ public class InputDataFactory {
 
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift_netto") {
+			else if (((XMLConfigurationToo) config).getRootElementName() == "transitiondrift_netto") {
 				if (inputData != null) {
 					inputData.setTransType(1);
 					inputData.setTrendInDrift(config.getFloat("trend"));
@@ -1897,7 +1897,7 @@ public class InputDataFactory {
 									+ "For alternative scenario's one should enter an explicite file");
 			}
 
-			else if (((XMLConfiguration) config).getRootElementName() == "transitiondrift") {
+			else if (((XMLConfigurationToo) config).getRootElementName() == "transitiondrift") {
 				if (inputData != null) {
 					inputData.setTransType(2);
 					inputData.setMeanDrift(this.factory.manufactureOneDimArray(
@@ -1923,7 +1923,7 @@ public class InputDataFactory {
 						+ "transitionmatrix/drift (_zero,_netto) "
 						+ " expected in main simulation configuration file "
 						+ "but found tag "
-						+ ((XMLConfiguration) config).getRootElementName());
+						+ ((XMLConfigurationToo) config).getRootElementName());
 		}
 	}
 
@@ -2377,9 +2377,9 @@ public class InputDataFactory {
 											configFileName, "excessmortality",
 											"mortalities", "mortality",
 											"curedfraction", true));
-							XMLConfiguration config = null;
+							XMLConfigurationToo config = null;
 							try {
-								config = new XMLConfiguration(configFileName);
+								config = new XMLConfigurationToo(configFileName);
 
 								// Validate the xml by xsd schema
 								// WORKAROUND: clear() is put after the
@@ -2657,14 +2657,14 @@ public class InputDataFactory {
 			throws DynamoConfigurationException,
 			DynamoInconsistentDataException {
 
-		XMLConfiguration config = null;
+		XMLConfigurationToo config = null;
 		/* make an array large enough for all cases */
 
 		int[] year = new int[200];
 		int[] number = new int[200];
 		int currentChild = 0;
 		try {
-			config = new XMLConfiguration(configFileName);
+			config = new XMLConfigurationToo(configFileName);
 
 			// Validate the xml by xsd schema
 			// WORKAROUND: clear() is put after the constructor (also calls
@@ -2681,7 +2681,7 @@ public class InputDataFactory {
 					e, configFileName);
 		}
 
-		if (((XMLConfiguration) config).getRootElementName() == "newborns") {
+		if (((XMLConfigurationToo) config).getRootElementName() == "newborns") {
 			if (scenInfo != null) {
 
 				try {
@@ -2767,7 +2767,7 @@ public class InputDataFactory {
 		} else
 			throw new DynamoConfigurationException(
 					"label newborns expected but found label: "
-							+ ((XMLConfiguration) config).getRootElementName()
+							+ ((XMLConfigurationToo) config).getRootElementName()
 							+ " in file : " + configFileName);
 
 		int startYear = year[0];

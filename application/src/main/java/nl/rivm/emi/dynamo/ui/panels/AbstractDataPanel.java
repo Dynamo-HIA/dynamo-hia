@@ -10,7 +10,7 @@ import nl.rivm.emi.dynamo.databinding.updatevaluestrategy.ViewUpdateValueStrateg
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -42,8 +42,10 @@ public abstract class AbstractDataPanel extends Composite {
 	protected void bindTestValue(TypedHashMap<?> sexMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+		
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		this.dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

@@ -7,3 +7,8 @@ build
 
 # Ignore OSX files
 .DS_Store
+
+# Ignore Eclipse files (generate using Gradle if needed)
+.settings/
+.project
+.classpath

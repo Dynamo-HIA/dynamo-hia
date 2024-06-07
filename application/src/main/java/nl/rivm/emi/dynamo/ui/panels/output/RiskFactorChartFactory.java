@@ -7,7 +7,8 @@ import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.JFreeChart;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 /**
  * @author boshuizh

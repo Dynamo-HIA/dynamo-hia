@@ -18,7 +18,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.DisplayRealm;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -138,7 +138,9 @@ public class DurationDistributionFreeXMLFilePlusTypeBulletsAction extends
 				}
 			}
 			if (theModal != null) {
-				Realm.runWithDefault(SWTObservables.getRealm(Display
+				//ND:Updated to DisplayRealm instead of SWTObservables
+
+				Realm.runWithDefault(DisplayRealm.getRealm(Display
 						.getDefault()), theModal);
 				boolean isPresentAfter = savedFile.exists();
 				if (isPresentAfter && !FileCreationFlag.isOld) {

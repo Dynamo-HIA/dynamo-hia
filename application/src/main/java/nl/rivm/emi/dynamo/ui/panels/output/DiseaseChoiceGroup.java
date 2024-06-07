@@ -10,7 +10,8 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
-import org.jfree.experimental.chart.swt.ChartComposite;
+//ND: not experimental anymore
+import org.jfree.chart.swt.ChartComposite;
 
 
 /**
@@ -49,6 +50,7 @@ public class DiseaseChoiceGroup {
 
 				plotInfo.currentDisease = combo.getSelectionIndex();
 				 plotDrawer.drawChartAction(plotInfo,chartComposite);
+				 chartComposite.redraw();
 			}
 		});
 	

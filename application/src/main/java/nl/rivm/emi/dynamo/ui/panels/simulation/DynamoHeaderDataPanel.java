@@ -39,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FormAttachment;
@@ -300,8 +300,8 @@ public class DynamoHeaderDataPanel extends Composite {
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
-		IObservableValue textObservableValue = SWTObservables.observeText(text,
-				SWT.Modify);
+		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
 						.getViewUpdateValueStrategy());
@@ -329,8 +329,9 @@ public class DynamoHeaderDataPanel extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(radioButtons[0], myType);
 		HelpTextListenerUtil.addHelpTextListeners(radioButtons[1], myType);
 		// Only the value of one radio button (the first one) is reminded
-		IObservableValue textObservableValue = SWTObservables
-				.observeSelection(this.radioButtons[0]);
+		// ND: Deprecated  IObservableValue textObservableValue = SWTObservables.observeSelection(this.radioButtons[0]);
+		IObservableValue textObservableValue = WidgetProperties.buttonSelection().observe(this.radioButtons[0]);
+
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 		/* KISS first/ myType.getModelUpdateValueStrategy() */null, /*
 																	 * KISS

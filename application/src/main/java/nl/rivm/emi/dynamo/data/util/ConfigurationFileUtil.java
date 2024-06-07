@@ -23,7 +23,7 @@ import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -278,8 +278,8 @@ public class ConfigurationFileUtil {
 			if (configurationFile.exists()) {
 				if (configurationFile.isFile()) {
 					if (configurationFile.canRead()) {
-						XMLConfiguration configurationFromFile;
-						configurationFromFile = new XMLConfiguration(
+						XMLConfigurationToo configurationFromFile;
+						configurationFromFile = new XMLConfigurationToo(
 								configurationFile);
 
 						// Validate the xml by xsd schema
@@ -300,6 +300,7 @@ public class ConfigurationFileUtil {
 			}
 			return rootElementName;
 		} catch (ConfigurationException e) {
+			log.warn("Error reading configuration file", e);
 			// Exception is not thrown again
 			// because the application has to continue
 			String exceptionMessage = e.getMessage();
@@ -381,7 +382,7 @@ public class ConfigurationFileUtil {
 						.equals(rootElementName)
 						|| RootElementNamesEnum.RISKFACTOR_COMPOUND
 								.getNodeLabel().equals(rootElementName)) {
-					XMLConfiguration configurationFromFile = new XMLConfiguration(
+					XMLConfigurationToo configurationFromFile = new XMLConfigurationToo(
 							configurationFile);
 
 					// Validate the xml by xsd schema
@@ -431,7 +432,7 @@ public class ConfigurationFileUtil {
 			if (rootElementName != null) {
 				if (RootElementNamesEnum.RISKFACTOR_COMPOUND.getNodeLabel()
 						.equals(rootElementName)) {
-					XMLConfiguration configurationFromFile = new XMLConfiguration(
+					XMLConfigurationToo configurationFromFile = new XMLConfigurationToo(
 							configurationFile);
 
 					// Validate the xml by xsd schema

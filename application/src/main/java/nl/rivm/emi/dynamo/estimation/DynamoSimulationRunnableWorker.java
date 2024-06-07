@@ -19,7 +19,7 @@ import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.logging.Log;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -162,7 +162,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 
 		;
 		// Assemble the simulation file name
-		XMLConfiguration simulationConfiguration;
+		XMLConfigurationToo simulationConfiguration;
 		String simulationFilePath = simFileName + ".xml";
 		// log.debug("simulationFilePath" + simulationFilePath);
 
@@ -190,7 +190,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 			/*	simulationConfiguration = new XMLConfiguration(
 						simulationConfigurationFile);*/
 				
-				simulationConfiguration = new XMLConfiguration();
+				simulationConfiguration = new XMLConfigurationToo();
 				simulationConfiguration.setDelimiterParsingDisabled(true);
 				simulationConfiguration.setFile(simulationConfigurationFile);
 				simulationConfiguration.load();

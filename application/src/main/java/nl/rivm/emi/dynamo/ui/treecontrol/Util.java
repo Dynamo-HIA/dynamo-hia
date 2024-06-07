@@ -30,6 +30,8 @@ public class Util {
 	static final public String imageRegistrySupportedXMLFileRightPlaceKey = "supportedfile_rightplace";
 	static final public String imageRegistrySupportedXMLFileWrongPlaceKey = "supportedfile_wrongplace";
 	static final public String imageRegistryErrorKey = "error";
+	static final public String imageRegistryLogoKey = "logo";
+	
 
 	static public String[] deriveEntityLabelAndValueFromRiskSourceNode(
 			BaseNode selectedNode) throws DynamoConfigurationException {
@@ -232,31 +234,53 @@ public class Util {
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/tsuiteerror.gif");
 				image_registry.put("error", errorImageDesriptor);
+				
+				
+				// Logo
+				ImageDescriptor logoImageDescriptor = AbstractUIPlugin
+						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
+								"/images/logo.png");
+				image_registry.put("logo", errorImageDesriptor);
 			} else {
 				// The application is not a standalone plugin;
 				// The images are loaded by URL
 				image_registry = new ImageRegistry();
-				image_registry.put(imageRegistryFolderKey, ImageDescriptor
-						.createFromURL(newURL("file:images/tsuite.gif")));
+//				image_registry.put(imageRegistryFolderKey, ImageDescriptor
+//						.createFromURL(newURL("file:images/tsuite.gif")));
+				
+				
+				//We are fetching the images from the resources included in the jar.
+				//So we will ask the classloader used to load this class to find them for us.
+				ClassLoader loader = Util.class.getClassLoader();
+				
+				
+				image_registry.put(imageRegistryFolderKey, ImageDescriptor.createFromURL(loader.getResource("images/tsuite.gif")));
+
+				
 				image_registry.put(imageRegistryFileKey, ImageDescriptor
-						.createFromURL(newURL("file:images/test.gif")));
+						.createFromURL(loader.getResource("images/test.gif")));
+				
 				image_registry
 						.put(
 								imageRegistryUnsupportedXMLFileKey,
 								ImageDescriptor
-										.createFromURL(newURL("file:images/testfail.gif")));
+										.createFromURL(loader.getResource("images/testfail.gif")));
 				image_registry
 						.put(
 								imageRegistrySupportedXMLFileRightPlaceKey,
 								ImageDescriptor
-										.createFromURL(newURL("file:images/testok.gif")));
+										.createFromURL(loader.getResource("images/testok.gif")));
 				image_registry
 						.put(
 								imageRegistrySupportedXMLFileWrongPlaceKey,
 								ImageDescriptor
-										.createFromURL(newURL("file:images/testerr.gif")));
-				image_registry.put("error", ImageDescriptor
-						.createFromURL(newURL("file:images/tsuiteerror.gif")));
+										.createFromURL(loader.getResource("images/testerr.gif")));
+				
+				image_registry.put(imageRegistryErrorKey, ImageDescriptor
+						.createFromURL(loader.getResource("file:images/tsuiteerror.gif")));
+				
+				image_registry.put(imageRegistryLogoKey, ImageDescriptor
+						.createFromURL(loader.getResource("file:images/logo.png")));
 			}
 		}
 		return image_registry;

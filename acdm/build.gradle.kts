@@ -4,17 +4,10 @@
 
 plugins {
     id("dynamo.hia.java-library-conventions")
-    id("eclipse")
 }
-
-repositories {
-    mavenCentral()
-}
-
 
 dependencies {
-
-    implementation("junit:junit:4.13.2")
+    implementation(project(":utilities"))
 
     implementation("commons-logging:commons-logging:1.2")
     implementation("commons-configuration:commons-configuration:1.5")
@@ -25,8 +18,7 @@ dependencies {
 }
 
 
-
-tasks.test {
-    //use Junit for tests
-    useJUnitPlatform()
-}
+//tasks.test {
+//    //use Junit for tests
+//    useJUnitPlatform()
+//}

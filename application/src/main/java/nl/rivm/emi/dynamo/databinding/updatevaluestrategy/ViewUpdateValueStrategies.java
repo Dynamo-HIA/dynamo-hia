@@ -12,7 +12,7 @@ public class ViewUpdateValueStrategies {
 
 	public static UpdateValueStrategy getStrategy(Object objectType) {
 		UpdateValueStrategy resultStrategy = null;
-		if (objectType instanceof Integer) {
+		if (objectType instanceof Integer | (objectType.equals(Integer.class))) {
 			log.debug("Constructing viewvalueupdatestrategy for " + objectType.getClass().getName());
 			resultStrategy = assembleIntegerViewValueUpdateStrategy(objectType);
 		} else {

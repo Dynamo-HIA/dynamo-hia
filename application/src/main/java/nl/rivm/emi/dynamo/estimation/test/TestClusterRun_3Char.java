@@ -30,7 +30,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
+import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -133,7 +133,7 @@ public class TestClusterRun_3Char {
 			File simulationConfigurationFile = new File(simFileName);
 			log.fatal("simulationFile made.");
 			if (simulationConfigurationFile.exists()) {
-				simulationConfiguration = new XMLConfiguration(
+				simulationConfiguration = new XMLConfigurationToo(
 						simulationConfigurationFile);
 				log.fatal("simulationFile read");
 				sim = SimulationFromXMLFactory
