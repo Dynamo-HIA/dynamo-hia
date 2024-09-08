@@ -11,7 +11,7 @@ import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.CSVLEwriter;
 import nl.rivm.emi.dynamo.output.CSVWriter;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -116,11 +116,12 @@ public class LoggingDynSimRunPR implements DynSimRunPRInterface {
 	}
 
 	@Override
-	public RCPProgressBar getBar() {
-		// TODO Auto-generated method stub
-		return null;
+	public void update() {
+		//NOTHING
+
 	}
 
+	
 	@Override
 	public void dispatchProgressBar() {
 	}

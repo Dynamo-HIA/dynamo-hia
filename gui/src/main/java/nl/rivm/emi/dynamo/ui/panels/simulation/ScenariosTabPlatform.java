@@ -12,8 +12,8 @@ import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.eclipse.core.databinding.DataBindingContext;

@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import nl.rivm.emi.dynamo.data.util.TreeStructureException;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.actions.RiskFactorTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.DeleteDirectoryAction;
 import nl.rivm.emi.dynamo.ui.actions.delete.MessageStrings;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

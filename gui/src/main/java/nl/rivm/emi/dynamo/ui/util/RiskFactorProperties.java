@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.util;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 /**
  * RiskFactorProperties Class as such cannot be instantiated, one of the three

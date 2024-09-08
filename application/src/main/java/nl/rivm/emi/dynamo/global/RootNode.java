@@ -1,10 +1,12 @@
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.global;
 
 /**
  * The RootNode does not correspond to a physical directory. 
  * It's only child is the base directory of the Dynamo-HIA configuration.
  */
 import java.util.ArrayList;
+
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public class RootNode extends BaseNode implements ParentNode {
 

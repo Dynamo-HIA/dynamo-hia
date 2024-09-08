@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.global;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -9,7 +9,6 @@ import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
 import nl.rivm.emi.dynamo.data.xml.structure.check.FileLocationCheck;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +70,7 @@ public class NodeFilter {
 					log.debug("Processing FileNode: "
 					 + ((BaseNode) baseNode).deriveNodeLabel());
 					FileNode theNode = (FileNode) baseNode;
-					File physicalStorage = theNode.physicalStorage;
+					File physicalStorage = theNode.getPhysicalStorage();
 					// log.debug("File size: " + physicalStorage.length());
 					String fileName = physicalStorage.getName();
 					if (hasXMLExtension(fileName)) {
@@ -82,7 +81,7 @@ public class NodeFilter {
 							putInTree = passResultsObjectFile(theNode);
 						} else {
 							log.info("File \""
-									+ ((FileNode) baseNode).physicalStorage
+									+ ((FileNode) baseNode).getPhysicalStorage()
 									+ "\"suppressed: Has no XML extension.");
 						}
 					}
@@ -121,20 +120,20 @@ public class NodeFilter {
 					} else {
 						log
 								.info("File \""
-										+ ((FileNode) baseNode).physicalStorage
+										+ ((FileNode) baseNode).getPhysicalStorage()
 										+ "\" suppressed: Location in tree found wrong.");
 					}
 				} else {
-					log.info("File \"" + ((FileNode) baseNode).physicalStorage
+					log.info("File \"" + ((FileNode) baseNode).getPhysicalStorage()
 							+ "\" suppressed: RootElementName: \""
 							+ rootElementName + "\" found wrong.");
 				}
 			} else {
-				log.info("File \"" + ((FileNode) baseNode).physicalStorage
+				log.info("File \"" + ((FileNode) baseNode).getPhysicalStorage()
 						+ "\" suppressed: No valid RootElementName found.");
 			}
 		} else {
-			log.warn("File \"" + ((FileNode) baseNode).physicalStorage
+			log.warn("File \"" + ((FileNode) baseNode).getPhysicalStorage()
 					+ "\" suppressed: Size: \"" + physicalStorage.length()
 					+ "\" larger than current test can endure.");
 		}
@@ -154,7 +153,7 @@ public class NodeFilter {
 		if (locationOK) {
 			putInTree = true;
 		} else {
-			log.info("File \"" + ((FileNode) theNode).physicalStorage
+			log.info("File \"" + ((FileNode) theNode).getPhysicalStorage()
 					+ "\" suppressed: Location in tree found wrong.");
 		}
 		return putInTree;

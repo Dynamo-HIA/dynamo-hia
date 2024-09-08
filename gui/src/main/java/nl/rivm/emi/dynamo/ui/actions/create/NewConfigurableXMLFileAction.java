@@ -6,9 +6,9 @@ package nl.rivm.emi.dynamo.ui.actions.create;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.main.PopulationSizeModal;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

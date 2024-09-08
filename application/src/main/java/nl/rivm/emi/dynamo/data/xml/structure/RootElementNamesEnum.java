@@ -69,8 +69,8 @@ import nl.rivm.emi.dynamo.data.types.root.TransitionMatrix;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixNetto;
 import nl.rivm.emi.dynamo.data.types.root.TransitionMatrixZero;
 import nl.rivm.emi.dynamo.data.xml.structure.check.FileLocationCheck;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -5,12 +5,12 @@ import java.io.FileInputStream;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

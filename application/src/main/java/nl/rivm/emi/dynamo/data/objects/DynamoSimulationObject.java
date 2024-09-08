@@ -35,7 +35,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.RelativeRiskIndex;
 import nl.rivm.emi.dynamo.data.types.atomic.UniqueName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.ui.panels.simulation.TabRelativeRiskConfigurationsProxy;
+import nl.rivm.emi.dynamo.global.BackDoorListenerInterface;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,7 +49,7 @@ public class DynamoSimulationObject extends
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
-	private TabRelativeRiskConfigurationsProxy backDoorListener = null;
+	private BackDoorListenerInterface backDoorListener = null;
 
 	public DynamoSimulationObject(LinkedHashMap<String, Object> content) {
 		super();
@@ -424,7 +424,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public void setBackDoorListener(
-			TabRelativeRiskConfigurationsProxy backDoorListener) {
+			BackDoorListenerInterface backDoorListener) {
 		this.backDoorListener = backDoorListener;
 	}
 

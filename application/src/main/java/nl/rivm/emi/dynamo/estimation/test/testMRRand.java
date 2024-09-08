@@ -6,7 +6,7 @@ package nl.rivm.emi.dynamo.estimation.test;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.estimation.MTRand;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

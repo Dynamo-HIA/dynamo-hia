@@ -3,12 +3,12 @@ package nl.rivm.emi.dynamo.ui.support;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.RootNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 

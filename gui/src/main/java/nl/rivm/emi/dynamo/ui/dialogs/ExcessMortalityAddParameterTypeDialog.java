@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.dialogs;
 
-import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.ui.main.structure.BulletButtonNamesEnum;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -111,7 +111,7 @@ public class ExcessMortalityAddParameterTypeDialog extends Dialog {
 
 	private void createRadioButtons(Composite composite) {
 		int count = 0;
-		for (String radioButtonName : ExcessMortalityModal.ParameterTypeHelperClass.PARAMETERTYPES) {
+		for (String radioButtonName : ExcessMortalityObject.ParameterTypeHelperClass.PARAMETERTYPES) {
 			createRadioButton(composite, count, radioButtonName);
 			count++;
 		}
@@ -130,7 +130,7 @@ public class ExcessMortalityAddParameterTypeDialog extends Dialog {
 			if (idCounter == id) {
 				radioButtons[idCounter].setSelection(true);
 				selectedBulletButtonIndex = idCounter; // Quick fix.
-				ExcessMortalityModal.ParameterTypeHelperClass.chosenParameterName = radioButtons[idCounter]
+				ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName = radioButtons[idCounter]
 						.getText();
 			} else {
 				radioButtons[idCounter].setSelection(false);

@@ -7,14 +7,14 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.dialogs.DurationDistributionTrialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;

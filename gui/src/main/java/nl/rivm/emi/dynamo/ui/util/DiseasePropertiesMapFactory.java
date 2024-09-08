@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

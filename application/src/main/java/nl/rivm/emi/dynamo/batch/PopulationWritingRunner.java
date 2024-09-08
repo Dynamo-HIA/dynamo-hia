@@ -14,7 +14,7 @@ import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
 import nl.rivm.emi.dynamo.estimation.LoggingDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.SchemaFileProviderInitializer;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

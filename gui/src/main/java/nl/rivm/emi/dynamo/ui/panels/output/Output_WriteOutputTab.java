@@ -14,12 +14,13 @@ import java.util.concurrent.Executors;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.CSVLEwriter;
 import nl.rivm.emi.dynamo.output.CSVWriter;
 import nl.rivm.emi.dynamo.output.ExcelReadableXMLWriter;
+import nl.rivm.emi.dynamo.ui.main.main.GraphicalDynSimRunPR;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;

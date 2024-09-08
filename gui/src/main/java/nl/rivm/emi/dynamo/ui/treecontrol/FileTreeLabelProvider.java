@@ -8,6 +8,9 @@ import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesSingleton;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.FileNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -34,7 +37,7 @@ public class FileTreeLabelProvider extends LabelProvider {
 			} else {
 				if (element instanceof FileNode) {
 					FileNode theNode = (FileNode) element;
-					File physicalStorage = theNode.physicalStorage;
+					File physicalStorage = theNode.getPhysicalStorage();
 					String fileName = physicalStorage.getName();
 					if (hasXMLExtension(fileName)) {
 						String rootElementName;

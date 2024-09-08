@@ -1,9 +1,9 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
-import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.ParameterTypeComboModifyListener;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
@@ -38,7 +38,7 @@ public class ParameterTypeDropDownPanel {
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);
 		label = new Label(group, SWT.LEFT);
-		label.setText( ExcessMortalityModal.ParameterTypeHelperClass.CHOOSE + ":");
+		label.setText( ExcessMortalityObject.ParameterTypeHelperClass.CHOOSE + ":");
 		layoutLabel();
 		dropDown = new Combo(group, SWT.DROP_DOWN|SWT.READ_ONLY);
 		createDropDownPropertiesMap();
@@ -64,8 +64,8 @@ public class ParameterTypeDropDownPanel {
 	
 	private void createDropDownPropertiesMap() {
 		selectableParameterTypePropertiesSet = new DropDownPropertiesSet();
-		selectableParameterTypePropertiesSet.add(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL);
-		selectableParameterTypePropertiesSet.add(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION);
+		selectableParameterTypePropertiesSet.add(ExcessMortalityObject.ParameterTypeHelperClass.ACUTELY_FATAL);
+		selectableParameterTypePropertiesSet.add(ExcessMortalityObject.ParameterTypeHelperClass.CURED_FRACTION);
 	}
 
 	public String getParameterType() {

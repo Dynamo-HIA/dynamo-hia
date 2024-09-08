@@ -1,12 +1,12 @@
 package nl.rivm.emi.dynamo.ui.actions;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Shell;
+
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 abstract public class ActionBase extends Action {
 	Log log = LogFactory.getLog(this.getClass().getName());

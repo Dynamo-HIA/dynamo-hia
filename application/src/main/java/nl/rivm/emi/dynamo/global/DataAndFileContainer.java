@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.main.base;
+package nl.rivm.emi.dynamo.global;
 
 /**
  * 
@@ -9,9 +9,8 @@ package nl.rivm.emi.dynamo.ui.main.base;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
-import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.SideEffectProcessor;
+//import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.widgets.Shell;
@@ -200,11 +199,11 @@ abstract public class DataAndFileContainer {
 
 	abstract public BaseNode getBaseNode();
 
-	/**
-	 * Used to link the buttons to the helpsystem.
-	 */
-	/*
-	 * TODO Too high up the inheritance tree, but anyway.
-	 */
-	abstract public HelpGroup getHelpGroup();
+//	/**
+//	 * Used to link the buttons to the helpsystem.
+//	 */
+//	/*
+//	 * TODO Too high up the inheritance tree, but anyway.
+//	 */
+//	abstract public HelpGroup getHelpGroup();
 }

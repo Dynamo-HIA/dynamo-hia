@@ -12,11 +12,12 @@ import java.util.LinkedHashMap;
 import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
-import nl.rivm.emi.dynamo.help.HelpTextManager;
-import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.SideEffectProcessor;
+import nl.rivm.emi.dynamo.ui.help.HelpTextManager;
 import nl.rivm.emi.dynamo.ui.panels.button.GenericButtonPanel;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

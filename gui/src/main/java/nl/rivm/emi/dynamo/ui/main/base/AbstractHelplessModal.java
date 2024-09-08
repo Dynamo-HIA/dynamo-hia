@@ -1,18 +1,12 @@
 package nl.rivm.emi.dynamo.ui.main.base;
 
-/**
- * 
- * Exception handling OK
- * 
- */
-
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Shell;
+
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 /**
  * Abstract class with for the data model screen

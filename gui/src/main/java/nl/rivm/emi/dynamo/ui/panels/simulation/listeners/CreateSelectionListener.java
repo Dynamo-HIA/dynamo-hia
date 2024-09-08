@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.simulation.NestedTab;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
 

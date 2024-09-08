@@ -8,7 +8,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.UnitType;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;

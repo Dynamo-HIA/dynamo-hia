@@ -1,16 +1,10 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
-/**
- * Listener that can to be registered to a Text field in the user interface.
- * It will then be called each time a character is typed, thereby checking 
- * whether the input characters are going anywhere.
- */
-
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
-
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
+
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 public class AgeTextVerifyListener extends AbstractNonSAPVerifyListener {
 

@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.util;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 public class CompoundRiskFactorProperties extends CategoricalRiskFactorProperties{
 

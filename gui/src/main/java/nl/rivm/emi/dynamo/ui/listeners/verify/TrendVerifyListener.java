@@ -6,7 +6,7 @@ import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
 import nl.rivm.emi.dynamo.data.types.atomic.Trend;
 import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

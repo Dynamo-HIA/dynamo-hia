@@ -6,9 +6,9 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
-import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.main.SimulationModal;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.ui.main.main.GraphicalDynSimRunPR;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,12 +1,11 @@
 /**
  * 
  */
-package nl.rivm.emi.dynamo.estimation.test;
+package nl.rivm.emi.dynamo.ui.main.main;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
-import nl.rivm.emi.dynamo.estimation.GraphicalDynSimRunPR;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 import org.apache.commons.logging.Log;

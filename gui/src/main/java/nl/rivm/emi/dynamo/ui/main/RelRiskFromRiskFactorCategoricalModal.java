@@ -19,13 +19,13 @@ import nl.rivm.emi.dynamo.data.factories.RelRiskFromRiskFactorCategoricalFactory
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategorical4ParametersGroup;
 import nl.rivm.emi.dynamo.ui.panels.RelRisksFromRiskFactorCategoricalGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.RelativeRisksUtil;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMap;

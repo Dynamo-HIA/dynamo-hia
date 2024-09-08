@@ -1,12 +1,12 @@
 package nl.rivm.emi.dynamo.ui.listeners;
 
-import nl.rivm.emi.dynamo.help.HelpTextManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.widgets.Button;
+
+import nl.rivm.emi.dynamo.ui.help.HelpTextManager;
 
 /**
  * 

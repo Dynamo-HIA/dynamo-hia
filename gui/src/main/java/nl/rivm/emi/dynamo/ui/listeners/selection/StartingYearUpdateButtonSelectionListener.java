@@ -6,8 +6,8 @@ import nl.rivm.emi.dynamo.data.objects.NewbornsObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Number;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
 import org.apache.commons.logging.Log;

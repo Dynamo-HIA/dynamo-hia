@@ -5,10 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

@@ -1,11 +1,11 @@
 package nl.rivm.emi.dynamo.ui.listeners;
 
-import nl.rivm.emi.dynamo.help.HelpTextManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+
+import nl.rivm.emi.dynamo.ui.help.HelpTextManager;
 
 public class TextedFocusListener implements FocusListener {
 	Log log = LogFactory.getLog(this.getClass().getName());

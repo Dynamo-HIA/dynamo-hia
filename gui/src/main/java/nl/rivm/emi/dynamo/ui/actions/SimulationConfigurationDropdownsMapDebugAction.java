@@ -3,10 +3,10 @@ package nl.rivm.emi.dynamo.ui.actions;
 import java.util.HashMap;
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.global.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.support.RelativeRisksCollection;
 import nl.rivm.emi.dynamo.ui.support.SimulationConfigurationDropdownsMapFactory;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

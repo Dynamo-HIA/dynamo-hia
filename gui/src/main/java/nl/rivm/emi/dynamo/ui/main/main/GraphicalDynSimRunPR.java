@@ -1,9 +1,12 @@
-package nl.rivm.emi.dynamo.estimation;
+package nl.rivm.emi.dynamo.ui.main.main;
 
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
+import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;
+import nl.rivm.emi.dynamo.estimation.ProgressIndicatorInterface;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -94,10 +97,15 @@ public class GraphicalDynSimRunPR implements DynSimRunPRInterface {
 		// TODO Auto-generated method stub
 		
 	}
-	public RCPProgressBar getBar(){
-		return (RCPProgressBar) this.bar;
-	}
-
+	
+	@Override
+	public void update() {
+		RCPProgressBar bar= (RCPProgressBar) this.bar;
+		if (bar==null) return; // null in batch mode 
+		if (bar.isDisposed() ) return;
+		bar.update();
+	}	
+	
 	@Override
 	public Display getDisplay() {
 		return	this.parentShell.getDisplay();

@@ -2,8 +2,6 @@ package nl.rivm.emi.dynamo.ui.panels.help;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -16,6 +14,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 public class HelpGroup {
 	Log log = LogFactory.getLog(this.getClass().getSimpleName());

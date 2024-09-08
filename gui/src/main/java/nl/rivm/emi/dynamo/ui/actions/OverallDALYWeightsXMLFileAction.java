@@ -5,13 +5,13 @@ package nl.rivm.emi.dynamo.ui.actions;
  */
 import java.io.File;
 
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.main.OverallDALYWeightsModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

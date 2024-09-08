@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.treecontrol.structure;
+package nl.rivm.emi.dynamo.global;
 
 import java.io.File;
 import java.util.HashSet;
@@ -7,11 +7,6 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.util.ConfigurationFileUtil;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.RootNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

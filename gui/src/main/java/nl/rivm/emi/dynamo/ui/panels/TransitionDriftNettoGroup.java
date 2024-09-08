@@ -2,8 +2,8 @@ package nl.rivm.emi.dynamo.ui.panels;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.data.objects.TransitionDriftNettoObject;
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.swt.SWT;

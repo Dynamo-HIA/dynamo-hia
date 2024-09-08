@@ -129,10 +129,8 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
     		
     	if (display.isDisposed() )
             return;
-    	RCPProgressBar bar=pr.getBar();
-    	if (bar==null) return; // null in batch mode 
-        if (bar.isDisposed() ) return;
-         bar.update();
+    	
+    	pr.update();
 
     	          }
     })

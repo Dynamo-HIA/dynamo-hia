@@ -28,9 +28,8 @@ import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.ui.panels.output.Output_WriteOutputTab;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfigurationToo;

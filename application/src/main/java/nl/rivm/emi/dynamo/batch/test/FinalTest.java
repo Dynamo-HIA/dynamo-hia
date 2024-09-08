@@ -19,8 +19,8 @@ import nl.rivm.emi.dynamo.batch.Runner;
 import nl.rivm.emi.dynamo.estimation.InputDataFactory.ScenInfo;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

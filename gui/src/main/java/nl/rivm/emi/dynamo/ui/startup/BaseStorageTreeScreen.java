@@ -1,13 +1,8 @@
 package nl.rivm.emi.dynamo.ui.startup;
 
-/**
- * 
- * Exception handling OK
- * 
- */
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
+import nl.rivm.emi.dynamo.global.StorageTree;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
 import org.apache.commons.logging.Log;

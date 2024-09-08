@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.estimation;
 import org.eclipse.swt.widgets.Display;
 
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 /**
  * @author mondeelr<br/>
@@ -47,31 +47,22 @@ public interface DynSimRunPRInterface {
 			Throwable e, String simulationFilePath);
 
 	/**
-	 * Gets the graphical shell.
-	 * 
-	 * @return A reference to the Shell Object, null if no graphical context is
-	 *         present.
+	 * Create the output screen for graphical version or output on file for the batch version. 
+	
+	 * @param output
+	 * @param scenarioParameters
+	 * @param currentpath
 	 */
-//	public Shell getShell();
-
-/**
- * Create the output screen for graphical version or output on file for the batch version. 
-
- * @param output
- * @param scenarioParameters
- * @param currentpath
- */
-public void createOutput( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
+	public void createOutput( CDMOutputFactory output,ScenarioParameters scenarioParameters, String currentpath);
 
 
-public RCPProgressBar getBar();
+	/**
+	 * update progress bar
+	 */
+	public void update();
 
+	public Display getDisplay();
 
-
-public Display getDisplay();
-
-
-
-public void dispatchProgressBar();
+	public void dispatchProgressBar();
 
 }

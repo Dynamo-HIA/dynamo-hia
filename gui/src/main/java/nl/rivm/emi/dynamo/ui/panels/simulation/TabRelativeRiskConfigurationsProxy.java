@@ -8,13 +8,14 @@ import java.util.Set;
 
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
+import nl.rivm.emi.dynamo.global.BackDoorListenerInterface;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class TabRelativeRiskConfigurationsProxy extends
-		LinkedHashMap<Integer, TabRelativeRiskConfigurationData> {
+		LinkedHashMap<Integer, TabRelativeRiskConfigurationData> implements BackDoorListenerInterface {
 	private static final long serialVersionUID = -40812919647534350L;
 
 	Log log = LogFactory.getLog(this.getClass().getSimpleName());

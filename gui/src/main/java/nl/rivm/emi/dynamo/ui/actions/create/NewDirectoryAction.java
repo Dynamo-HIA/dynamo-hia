@@ -6,10 +6,10 @@ package nl.rivm.emi.dynamo.ui.actions.create;
  */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;

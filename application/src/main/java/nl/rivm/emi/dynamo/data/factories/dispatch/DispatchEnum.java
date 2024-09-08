@@ -41,7 +41,7 @@ import nl.rivm.emi.dynamo.data.factories.TransitionDriftNettoFactory;
 import nl.rivm.emi.dynamo.data.factories.TransitionMatrixFactory;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 /**
  * @author mondeelr

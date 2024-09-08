@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.ui.listeners.selection;
 
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
@@ -10,6 +8,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
+
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 public class CloseSelectionListener implements SelectionListener {
 	protected Log log = LogFactory.getLog(this.getClass().getName());

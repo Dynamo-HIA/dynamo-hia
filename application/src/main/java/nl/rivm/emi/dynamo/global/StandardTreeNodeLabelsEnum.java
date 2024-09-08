@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.treecontrol.structure;
+package nl.rivm.emi.dynamo.global;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

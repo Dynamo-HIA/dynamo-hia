@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.ui.treecontrol.menu;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 public class ContextMenuEntries extends
 LinkedHashMap<String, ContextMenuEntry> {

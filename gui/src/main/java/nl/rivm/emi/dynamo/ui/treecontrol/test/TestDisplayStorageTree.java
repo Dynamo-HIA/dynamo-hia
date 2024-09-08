@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTree;
+import nl.rivm.emi.dynamo.global.StorageTree;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeContentProvider;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 
 import org.apache.commons.logging.Log;

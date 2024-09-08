@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.estimation;
+package nl.rivm.emi.dynamo.ui.main.main;
 
 
 import java.io.File;
@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
+import nl.rivm.emi.dynamo.estimation.FinishingListener;
+import nl.rivm.emi.dynamo.estimation.ProgressIndicatorInterface;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
 public class RCPProgressBar implements ProgressIndicatorInterface {
@@ -100,9 +102,10 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 //		ClassLoader loader = Util.class.getClassLoader();
 //		
 		
-		Image image = Util.getImageRegistry().get(Util.imageRegistryLogoKey);
-				
+		Image image = Util.getImageRegistry().get(Util.imageRegistryLogoKey);		
 		shell.setImage(image);
+		
+		
 		// GC shellGC = new GC(shell);
 		// Color shellBackground = shell.getBackground();
 

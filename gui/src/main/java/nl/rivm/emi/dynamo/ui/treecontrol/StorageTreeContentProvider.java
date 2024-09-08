@@ -3,6 +3,11 @@ package nl.rivm.emi.dynamo.ui.treecontrol;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
+import nl.rivm.emi.dynamo.global.RootNode;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
+
 public class StorageTreeContentProvider implements ITreeContentProvider {
 
 	RootNode rootNode = null;

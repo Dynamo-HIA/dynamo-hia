@@ -1,10 +1,10 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ChildNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.FileNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.ParentNode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

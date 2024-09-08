@@ -1,7 +1,7 @@
 package nl.rivm.emi.dynamo.ui.listeners;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
-import nl.rivm.emi.dynamo.help.HelpTextManager;
+import nl.rivm.emi.dynamo.ui.help.HelpTextManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

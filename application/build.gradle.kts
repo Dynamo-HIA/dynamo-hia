@@ -62,10 +62,8 @@ application {
 	    applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
 	}
     
-    // Define the main class for the application.
-    // There is also a non-gui batch runner
-    // mainClass.set("nl.rivm.emi.dynamo.batch.Runner")
-    mainClass.set("nl.rivm.emi.dynamo.ui.main.main.Main")
+    // Define the main class for the application (in this case the batch runner)
+     mainClass.set("nl.rivm.emi.dynamo.batch.Runner")
 }
 
 tasks.test {

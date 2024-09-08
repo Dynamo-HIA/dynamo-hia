@@ -10,8 +10,6 @@ import java.util.Properties;
 
 import javax.swing.JFileChooser;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.structure.StandardTreeNodeLabelsEnum;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,6 +18,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+
+import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 public class BaseDirectoryHandler {
 	Log log = LogFactory.getLog(this.getClass().getName());

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.help;
+package nl.rivm.emi.dynamo.ui.help;
 
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 

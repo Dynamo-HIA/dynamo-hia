@@ -2,11 +2,11 @@ package nl.rivm.emi.dynamo.ui.main;
 
 import java.util.Set;
 
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractHelplessModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.DataLessMessageGroup;
 import nl.rivm.emi.dynamo.ui.panels.button.NoImportHelpLessButtonPanel;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;

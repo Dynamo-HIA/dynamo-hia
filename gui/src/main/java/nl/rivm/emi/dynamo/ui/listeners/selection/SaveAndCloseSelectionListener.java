@@ -21,8 +21,8 @@ import nl.rivm.emi.dynamo.data.writers.StAXAgnosticGroupWriter;
 import nl.rivm.emi.dynamo.data.writers.StAXAgnosticTypedHashMapWriter;
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
-import nl.rivm.emi.dynamo.ui.listeners.SideEffectProcessor;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.SideEffectProcessor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

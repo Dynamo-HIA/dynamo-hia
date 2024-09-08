@@ -13,10 +13,10 @@ import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabDiseaseConfigurationData;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
 import nl.rivm.emi.dynamo.exceptions.DynamoNoValidDataException;
 import nl.rivm.emi.dynamo.exceptions.NoMoreDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.panels.util.DropDownPropertiesSet;
 import nl.rivm.emi.dynamo.ui.support.ChoosableDiseases;
 import nl.rivm.emi.dynamo.ui.support.TreeAsDropdownLists;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -441,6 +441,8 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		return getDropDownSet(label, null);
 	}
 
+	
+	
 	/**
 	 * (non-Javadoc)
 	 * 

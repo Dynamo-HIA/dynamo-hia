@@ -8,11 +8,11 @@ import nl.rivm.emi.dynamo.data.factories.AgnosticFactory;
 import nl.rivm.emi.dynamo.data.factories.CategoricalFactory;
 import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.RelativeRisksMatrixAgeGroup;
 import nl.rivm.emi.dynamo.ui.panels.TransitionMatrixAgeGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 import nl.rivm.emi.dynamo.ui.util.RelativeRisksUtil;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorUtil;
 

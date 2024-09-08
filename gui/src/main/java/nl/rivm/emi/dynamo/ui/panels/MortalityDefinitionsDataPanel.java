@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.interfaces.IMortalityObject;
 import nl.rivm.emi.dynamo.data.interfaces.IParameterTypeObject;
+import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
@@ -12,7 +13,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
-import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 import nl.rivm.emi.dynamo.ui.panels.listeners.UnitTypeComboModifyListener;
 
@@ -51,7 +51,7 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		super(parent, SWT.NONE);
 		this.myMortalityObject = iMortalityObject;
 		// 20100409
-		boolean acutelyFaltalChosen = ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL
+		boolean acutelyFaltalChosen = ExcessMortalityObject.ParameterTypeHelperClass.ACUTELY_FATAL
 				.equals(((IParameterTypeObject) myMortalityObject)
 						.getParameterType());
 		this.dataBindingContext = dataBindingContext;
@@ -84,10 +84,10 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		Label parameterLabel = new Label(this, SWT.NONE);
 		if (acutelyFaltalChosen) {
 			parameterLabel
-					.setText(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL);
+					.setText(ExcessMortalityObject.ParameterTypeHelperClass.ACUTELY_FATAL);
 		} else {
 			parameterLabel
-					.setText(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION);
+					.setText(ExcessMortalityObject.ParameterTypeHelperClass.CURED_FRACTION);
 		}
 		Label femaleUnitLabel = new Label(this, SWT.NONE);
 		unitText = unitTypeModifyListener.registerLabel(femaleUnitLabel);
@@ -95,10 +95,10 @@ public class MortalityDefinitionsDataPanel extends Composite /*
 		Label femaleParameterLabel = new Label(this, SWT.NONE);
 		if (acutelyFaltalChosen) {
 			femaleParameterLabel
-					.setText(ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL);
+					.setText(ExcessMortalityObject.ParameterTypeHelperClass.ACUTELY_FATAL);
 		} else {
 			femaleParameterLabel
-					.setText(ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION);
+					.setText(ExcessMortalityObject.ParameterTypeHelperClass.CURED_FRACTION);
 		}
 		// Data panel.
 		// int numberOfAges = iMortalityObject.getNumberOfMortalities();

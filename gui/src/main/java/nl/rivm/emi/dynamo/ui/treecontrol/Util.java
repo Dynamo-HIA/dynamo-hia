@@ -5,6 +5,11 @@ import java.net.URL;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.ChildNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
+import nl.rivm.emi.dynamo.global.FileNode;
+import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
 import nl.rivm.emi.dynamo.ui.util.RiskFactorPropertiesMapFactory;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;

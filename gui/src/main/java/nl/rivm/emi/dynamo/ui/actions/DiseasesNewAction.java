@@ -2,7 +2,7 @@ package nl.rivm.emi.dynamo.ui.actions;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.DirectoryNode;
+import nl.rivm.emi.dynamo.global.DirectoryNode;
 import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 
 import org.apache.commons.logging.Log;

@@ -12,7 +12,7 @@ package nl.rivm.emi.dynamo.ui.main;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

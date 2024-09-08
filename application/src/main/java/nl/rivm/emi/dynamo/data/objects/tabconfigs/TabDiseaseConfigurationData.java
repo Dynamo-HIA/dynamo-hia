@@ -12,8 +12,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.IncFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.PrevFileName;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseResultGroup;
-import nl.rivm.emi.dynamo.ui.panels.simulation.DiseaseSelectionGroup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +19,13 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 		ITabStoreConfiguration {
+	
+	//FIXME: This is a duplicate of DiseaseResultGroup and DiseaseSelectionGroup to get rid of a dependancy on the Gui
+	public static final String DISEASE_PREVALENCE = "Disease Prevalence";
+	public static final String INCIDENCE = "Incidence";
+	public static final String EXCESS_MORTALITY = "Excess Mortality";
+	public static final String DALY_WEIGHTS = "Disabling impact or DALYweight";
+	public static final String DISEASE = "Disease";
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
@@ -144,19 +149,19 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 
 	public String getValueForDropDown(String name) {
 		String value = null;
-		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+		if (DISEASE.equals(name)) {
 			value = getName();
 			log.debug("VALUE: " + value);
-		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
+		} else if (DISEASE_PREVALENCE.equals(name)) {
 			value = getPrevalenceFileName();
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.INCIDENCE.equals(name)) {
+		} else if (INCIDENCE.equals(name)) {
 			value = getIncidenceFileName();
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.EXCESS_MORTALITY.equals(name)) {
+		} else if (EXCESS_MORTALITY.equals(name)) {
 			value = getExcessMortalityFileName();
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
+		} else if (DALY_WEIGHTS.equals(name)) {
 			value = getDalyWeightsFileName();
 			log.debug("value" + value);
 		}
@@ -164,19 +169,19 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 	}
 
 	public void setValueFromDropDown(String name, String value) {
-		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+		if (DISEASE.equals(name)) {
 			 setName(value);
 			log.debug("VALUE: " + value);
-		} else if (DiseaseResultGroup.DISEASE_PREVALENCE.equals(name)) {
+		} else if (DISEASE_PREVALENCE.equals(name)) {
 			setPrevalenceFileName(value);
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.INCIDENCE.equals(name)) {
+		} else if (INCIDENCE.equals(name)) {
 			setIncidenceFileName(value);
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.EXCESS_MORTALITY.equals(name)) {
+		} else if (EXCESS_MORTALITY.equals(name)) {
 			setExcessMortalityFileName(value);
 			log.debug("value" + value);
-		} else if (DiseaseResultGroup.DALY_WEIGHTS.equals(name)) {
+		} else if (DALY_WEIGHTS.equals(name)) {
 			setDalyWeightsFileName(value);
 			log.debug("value" + value);
 		}

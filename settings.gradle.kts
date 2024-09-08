@@ -14,4 +14,4 @@ plugins {
 }
 
 rootProject.name = "dynamo-hia"
-include("acdm", "utilities", "application")
+include("acdm", "utilities", "application", "gui")

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.panels.output;
+package nl.rivm.emi.dynamo.global;
 
 import java.io.Serializable;
 

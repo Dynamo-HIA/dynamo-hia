@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.ui.panels;
 import java.util.Set;
 
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;

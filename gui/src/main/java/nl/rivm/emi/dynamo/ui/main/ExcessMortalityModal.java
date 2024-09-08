@@ -18,12 +18,12 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.dialogs.ExcessMortalityAddParameterTypeDialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -49,16 +49,6 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	 */
 	private ExcessMortalityObject modelObject;
 
-	public static class ParameterTypeHelperClass {
-		static public final String CHOOSE = ParameterType.CHOOSE;
-		static public final String ACUTELY_FATAL = ParameterType.ACUTELY_FATAL;
-		static public final String CURED_FRACTION = ParameterType.CURED_FRACTION;
-		// Add functionality without breaking other code.
-		static public final String[] PARAMETERTYPES = { ACUTELY_FATAL,
-				CURED_FRACTION };
-		static public String chosenParameterName = null;
-	}
-
 	private boolean abortModalHandling = false;
 
 	/**
@@ -79,9 +69,9 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 		super(parentShell, dataFilePath, configurationFilePath,
 				rootElementName, selectedNode);
 		if (!isImported()) {
-			ParameterTypeHelperClass.chosenParameterName = parameterName;
+			ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName = parameterName;
 		} else {
-			ParameterTypeHelperClass.chosenParameterName = null;
+			ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName = null;
 		}
 	}
 
@@ -134,14 +124,14 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 	 * 
 	 */
 	private void updateModelObjectWithChosenParameterType(boolean zapOtherColumn) {
-		if (ParameterTypeHelperClass.CURED_FRACTION
-				.equals(ParameterTypeHelperClass.chosenParameterName)) {
+		if (ExcessMortalityObject.ParameterTypeHelperClass.CURED_FRACTION
+				.equals(ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName)) {
 			modelObject.insertParameterType(ParameterType.CURED_FRACTION,
 					zapOtherColumn);
 			changed = true;
 		} else {
-			if (ParameterTypeHelperClass.ACUTELY_FATAL
-					.equals(ParameterTypeHelperClass.chosenParameterName)) {
+			if (ExcessMortalityObject.ParameterTypeHelperClass.ACUTELY_FATAL
+					.equals(ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName)) {
 				modelObject.insertParameterType(ParameterType.ACUTELY_FATAL,
 						zapOtherColumn);
 				changed = true;
@@ -218,7 +208,7 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 				log.debug("ReturnCode is: " + returnCode);
 				if (returnCode == Window.OK) {
 					log.debug("Dilemma: Updating modelObject with: "
-							+ ParameterTypeHelperClass.chosenParameterName);
+							+ ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName);
 					updateModelObjectWithChosenParameterType(true);
 				} else {
 					// doNotOpenModal = true;
@@ -242,7 +232,7 @@ public class ExcessMortalityModal extends AbstractMultiRootChildDataModal {
 				log.debug("ReturnCode is: " + returnCode);
 				if (returnCode == Window.OK) {
 					log.debug("Choice: Updating modelObject with: "
-							+ ParameterTypeHelperClass.chosenParameterName);
+							+ ExcessMortalityObject.ParameterTypeHelperClass.chosenParameterName);
 					updateModelObjectWithChosenParameterType(false);
 				} else {
 					// doNotOpenModal = true;

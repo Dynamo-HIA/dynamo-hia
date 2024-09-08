@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.global;
 
 import java.io.File;
 

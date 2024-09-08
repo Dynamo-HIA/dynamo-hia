@@ -1,8 +1,8 @@
 package nl.rivm.emi.dynamo.ui.listeners.verify;
 
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
-
 import org.eclipse.swt.events.VerifyListener;
+
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
 /**
  * @author mondeelr <br/>

@@ -19,7 +19,7 @@ import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

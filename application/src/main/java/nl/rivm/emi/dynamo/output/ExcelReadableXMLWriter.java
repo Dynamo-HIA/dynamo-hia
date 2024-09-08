@@ -15,7 +15,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoOutputException;
 import nl.rivm.emi.dynamo.exceptions.DynamoScenarioException;
-import nl.rivm.emi.dynamo.ui.panels.output.ScenarioParameters;
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

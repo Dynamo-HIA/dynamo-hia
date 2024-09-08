@@ -3,7 +3,7 @@ package nl.rivm.emi.dynamo.ui.util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
+import nl.rivm.emi.dynamo.global.BaseNode;
 
 public class CategoricalRiskFactorProperties extends RiskFactorProperties {
 	Log log = LogFactory.getLog(this.getClass().getName());

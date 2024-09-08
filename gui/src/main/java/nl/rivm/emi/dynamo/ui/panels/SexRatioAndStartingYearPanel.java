@@ -8,11 +8,11 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractValue;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.selection.StartingYearUpdateButtonSelectionListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractRangedIntegerVerifyListener;
 import nl.rivm.emi.dynamo.ui.listeners.verify.AbstractValueVerifyListener;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.eclipse.core.databinding.DataBindingContext;

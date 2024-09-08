@@ -10,11 +10,12 @@ import nl.rivm.emi.dynamo.data.interfaces.IParameterTypeObject;
 import nl.rivm.emi.dynamo.data.interfaces.IUnitTypeObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
+import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
-import nl.rivm.emi.dynamo.ui.main.ExcessMortalityModal;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,6 +25,16 @@ import org.eclipse.swt.widgets.Label;
 
 public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 		implements IMortalityObject, IUnitTypeObject, IParameterTypeObject {
+	public static class ParameterTypeHelperClass {
+		static public final String CHOOSE = ParameterType.CHOOSE;
+		static public final String ACUTELY_FATAL = ParameterType.ACUTELY_FATAL;
+		static public final String CURED_FRACTION = ParameterType.CURED_FRACTION;
+		// Add functionality without breaking other code.
+		static public final String[] PARAMETERTYPES = { ACUTELY_FATAL,
+				CURED_FRACTION };
+		static public String chosenParameterName = null;
+	}
+
 	private static final long serialVersionUID = 3681891491526136721L;
 	/**
 	 * Initialize self and copy content.
@@ -192,7 +203,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 						.get(sexCount);
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
 					if ((paramCount == 1)
-							&& ExcessMortalityModal.ParameterTypeHelperClass.CURED_FRACTION.equals(parameterTypeName2Zap)){
+							&& ParameterTypeHelperClass.CURED_FRACTION.equals(parameterTypeName2Zap)){
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
@@ -200,7 +211,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 								.doSetValue(zeroFloat);
 					}
 					if ((paramCount == 2)
-							&& ExcessMortalityModal.ParameterTypeHelperClass.ACUTELY_FATAL.equals(parameterTypeName2Zap)){
+							&& ParameterTypeHelperClass.ACUTELY_FATAL.equals(parameterTypeName2Zap)){
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();

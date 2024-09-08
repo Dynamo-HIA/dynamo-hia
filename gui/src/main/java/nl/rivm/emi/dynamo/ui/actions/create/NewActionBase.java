@@ -1,8 +1,8 @@
 package nl.rivm.emi.dynamo.ui.actions.create;
 
+import nl.rivm.emi.dynamo.global.BaseNode;
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 import nl.rivm.emi.dynamo.ui.actions.ActionBase;
-import nl.rivm.emi.dynamo.ui.treecontrol.BaseNode;
-import nl.rivm.emi.dynamo.ui.treecontrol.StorageTreeException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

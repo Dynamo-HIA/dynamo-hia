@@ -2,10 +2,10 @@ package nl.rivm.emi.dynamo.ui.listeners.selection;
 
 import java.io.File;
 
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.actions.XMLFileAction;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCategoricalModal;
 import nl.rivm.emi.dynamo.ui.main.RelRiskFromRiskFactorCompoundModal;
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.treecontrol.TreeViewerPlusCustomMenu;
 import nl.rivm.emi.dynamo.ui.util.CategoricalRiskFactorProperties;
 import nl.rivm.emi.dynamo.ui.util.CompoundRiskFactorProperties;

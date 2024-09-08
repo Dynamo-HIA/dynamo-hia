@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation.listeners;
 
-import nl.rivm.emi.dynamo.ui.main.base.DataAndFileContainer;
+import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 import nl.rivm.emi.dynamo.ui.panels.simulation.TabPlatform;
 
 import org.apache.commons.configuration.ConfigurationException;

@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.treecontrol;
+package nl.rivm.emi.dynamo.global;
 
 /**
  * Very small Object wrapping the RootNode, that does a lot more work...
@@ -9,6 +9,8 @@ package nl.rivm.emi.dynamo.ui.treecontrol;
  * provided through a directory dialog that provides a "guaranteed" directory. 
  */
 import java.io.File;
+
+import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public class StorageTree {
 	private RootNode rootNode = null;

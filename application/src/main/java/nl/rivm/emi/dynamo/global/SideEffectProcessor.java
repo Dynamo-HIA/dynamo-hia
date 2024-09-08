@@ -1,4 +1,4 @@
-package nl.rivm.emi.dynamo.ui.listeners;
+package nl.rivm.emi.dynamo.global;
 
 /**
  * Class that does some processing. The result is reached through side-effects
