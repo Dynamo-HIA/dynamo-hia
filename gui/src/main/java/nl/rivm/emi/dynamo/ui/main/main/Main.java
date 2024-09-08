@@ -1,12 +1,11 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
-import java.awt.Toolkit;
-
 import nl.rivm.emi.dynamo.ui.startup.ApplicationWrapper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import nl.rivm.emi.dynamo.batch.Runner;
 
 /**
  * 
@@ -31,6 +30,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		if (args.length > 0) {
+			//call the batch runner instead
+			Runner.main(args);
+			return;
+		}
+		
 		try {
 			//Toolkit.getDefaultToolkit() ;
 			ApplicationWrapper wrapper = new ApplicationWrapper();
