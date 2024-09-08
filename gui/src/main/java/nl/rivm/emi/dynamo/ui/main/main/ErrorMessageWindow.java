@@ -1,7 +1,7 @@
 /**
  * 
  */
-package nl.rivm.emi.dynamo.output;
+package nl.rivm.emi.dynamo.ui.main.main;
 
 import java.io.FileNotFoundException;
 

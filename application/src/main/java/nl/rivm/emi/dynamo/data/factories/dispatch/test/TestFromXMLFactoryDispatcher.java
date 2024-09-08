@@ -2,9 +2,6 @@ package nl.rivm.emi.dynamo.data.factories.dispatch.test;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +13,6 @@ import org.junit.Test;
  */
 public class TestFromXMLFactoryDispatcher {
 	Log log = LogFactory.getLog(getClass().getName());
-	Display display = null;
-	Shell shell = null;
-	Composite container = null;
 	boolean killScreen = false;
 	String incidenceConfigurationFilePath = "D:\\eclipse_workspaces\\KISFromSVN\\Dynamo-HIA_UI\\data\\dynamobase\\ReferenceData\\Lung Cancer\\Incidences\\incidence1.xml";
 	String prevalenceConfigurationFilePath = "D:\\eclipse_workspaces\\KISFromSVN\\Dynamo-HIA_UI\\data\\development\\prevalencecategorical.xml";

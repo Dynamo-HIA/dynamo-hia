@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
-import nl.rivm.emi.dynamo.output.ErrorMessageWindow;
 import nl.rivm.emi.dynamo.ui.panels.output.Output_UI;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.DynamoSimulationRunnable;

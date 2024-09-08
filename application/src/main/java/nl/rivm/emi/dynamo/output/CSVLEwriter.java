@@ -23,8 +23,6 @@ import nl.rivm.emi.dynamo.global.ScenarioParameters;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * writes output files with life expectancies in the form of csv files.

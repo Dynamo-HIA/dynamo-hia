@@ -12,13 +12,15 @@ plugins {
 
 apply(plugin = "com.diffplug.eclipse.mavencentral")
 
+//the application ideally should not need any eclipse classes
 eclipseMavenCentral {
     release("4.30.0", {
         implementation("org.eclipse.jdt.core")
+        implementation("org.eclipse.core.resources")
+        implementation("org.eclipse.core.databinding")
         implementation("org.eclipse.swt")
         implementation("org.eclipse.jface.databinding")
         implementation("org.eclipse.ui.ide")
-        implementation("org.eclipse.core.resources")
 
         // specify this to add the native jars for this platform
         useNativesForRunningPlatform()

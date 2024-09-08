@@ -20,8 +20,6 @@ import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.databinding.observable.value.WritableValue;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Label;
 
 public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 		implements IMortalityObject, IUnitTypeObject, IParameterTypeObject {
