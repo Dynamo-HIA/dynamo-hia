@@ -43,7 +43,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ubuntu-package
-        path: gui/build/jpackage
+        path: application/build/jpackage
 
 
   dependency-submission:
