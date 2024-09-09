@@ -65,6 +65,7 @@ application {
     
     // Define the main class for the application.
     mainClass.set("nl.rivm.emi.dynamo.ui.main.main.Main")
+    applicationName.set("dynamo-hia")
 }
 
 tasks.test {
