@@ -1,5 +1,5 @@
 /*
- * Gradle file for the Dynamo-HIA application swt GUI
+ * Gradle file for the Dynamo-HIA application.
  */
 
 
@@ -12,13 +12,15 @@ plugins {
 
 apply(plugin = "com.diffplug.eclipse.mavencentral")
 
+//the application ideally should not need any eclipse classes
 eclipseMavenCentral {
     release("4.30.0", {
         implementation("org.eclipse.jdt.core")
+        implementation("org.eclipse.core.resources")
+        implementation("org.eclipse.core.databinding")
         implementation("org.eclipse.swt")
         implementation("org.eclipse.jface.databinding")
         implementation("org.eclipse.ui.ide")
-        implementation("org.eclipse.core.resources")
 
         // specify this to add the native jars for this platform
         useNativesForRunningPlatform()
@@ -33,7 +35,6 @@ eclipseMavenCentral {
 dependencies {
     implementation(project(":utilities"))
     implementation(project(":acdm"))
-    implementation(project(":application"))
 
     implementation("junit:junit:4.13.2")
 
@@ -56,6 +57,14 @@ dependencies {
     }
 }
 
+
+runtime {
+	jpackage {
+		imageName = "DYNAMO-HIA-backend"
+		installerName = "DYNAMO-HIA-backend-installer"
+	}
+}
+
 application {
 
 	if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
@@ -63,9 +72,11 @@ application {
 	    applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
 	}
     
-    // Define the main class for the application.
-    mainClass.set("nl.rivm.emi.dynamo.ui.main.main.Main")
-    applicationName.set("dynamo-hia")
+     // Define the main class for the application (in this case the batch runner)
+     mainClass.set("nl.rivm.emi.dynamo.batch.Runner")
+     
+     //set the application name, also for the executable and such
+     applicationName = "DYNAMO-HIA-backend"
 }
 
 tasks.test {
