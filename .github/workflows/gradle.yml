@@ -42,11 +42,13 @@ jobs:
     - name: Build package with Gradle Wrapper
       run: ./gradlew jpackage
 
-    - name: Upload package as artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.os }}-package
-        path: frontend/build/jpackage
+    # Disabled upload for all pushes and PRs
+    #- name: Upload package as artifact
+    #  uses: actions/upload-artifact@v4
+    #  with:
+    #    name: ${{ matrix.os }}-package
+    #    path: frontend/build/jpackage
+    #
 
 
   dependency-submission:
