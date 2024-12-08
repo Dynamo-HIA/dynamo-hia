@@ -8,18 +8,18 @@ Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
 
 ## Folders and files in this repo
 
-DynamoDataSet:	dataset for use with Dynamo-HIA
-README: This file
-acdm: The acdm model underlying Dynamo-HIA
-application: the main Dynamo-HIA application, including batch runner
-gui: SWT gui for Dynamo-GIA
-attic: old subprojects for Dynamo-HIA that need to be (re)moved at some point
-buildSrc: source for gradle build
-gradle: copy of grade (the builder)
-gradlew: gradle wrapper script used to build the application
-gradlew.bat: Windows version of script used to build the application
-settings.gradle.kts: main build script
-utilities: various supporting utilities
+- DynamoDataSet:	dataset for use with Dynamo-HIA
+- README: This file
+- acdm: The acdm model underlying Dynamo-HIA
+- application: the main Dynamo-HIA application, including batch runner
+- gui: SWT gui for Dynamo-GIA
+- attic: old subprojects for Dynamo-HIA that need to be (re)moved at some point
+- buildSrc: source for gradle build
+- gradle: copy of grade (the builder)
+- gradlew: gradle wrapper script used to build the application
+- gradlew.bat: Windows version of script used to build the application
+- settings.gradle.kts: main build script
+- utilities: various supporting utilities
 
 ## Building and running Dynamo-HIA
 
