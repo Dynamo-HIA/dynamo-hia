@@ -35,7 +35,7 @@ To create a compiled version of dynamo-hia, including java and an executable, us
 
 `$ ./gradlew frontend:runtime`
 
-The files can be found in gui/build/image
+The files can be found in frontend/build/image
 
 To create an installable package of dynamo-hia, using an OS specific installer, use:
 
