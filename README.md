@@ -33,7 +33,7 @@ Or in batch mode:
 
 To create a compiled version of dynamo-hia, including java and an executable, use:
 
-`$ ./gradlew frondend:runtime`
+`$ ./gradlew frontend:runtime`
 
 The files can be found in gui/build/image
 
