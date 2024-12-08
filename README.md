@@ -23,6 +23,10 @@ Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
 
 ## Building and running Dynamo-HIA
 
+Dynamo-HIA is built using Gradle. This is supported by most IDEs.
+
+### Command line
+
 To run Dynamo-HIA from gradle, using the GUI:
 
 `$ ./gradlew frontend:run`
@@ -41,3 +45,8 @@ To create an installable package of dynamo-hia, using an OS specific installer, 
 
 `$ ./gradlew jpackage`
 
+Gradle itself needs to be updated from time to time, mostly to support the latest Java.
+
+NOTE: run this command twice for the update to all files to be completed
+
+`$ ./gradlew wrapper --gradle-version latest`
