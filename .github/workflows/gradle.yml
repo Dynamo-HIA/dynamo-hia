@@ -40,8 +40,12 @@ jobs:
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+    # settings to workaround cache issue as described in https://github.com/gradle/actions/issues/33#issuecomment-1935282425
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      uses: gradle/actions/setup-gradle@v4
+      with:
+        gradle-version: current
+        gradle-home-cache-cleanup: true
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
