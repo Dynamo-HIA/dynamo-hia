@@ -13,6 +13,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+  workflow_dispatch:
+    inputs:
+      create_artifacts:
+        type: boolean
+        description: Create artifacts for the package. Careful, uses shared storage quota.
+        default: false
+
 jobs:
   gradle:
     strategy:
@@ -41,15 +48,15 @@ jobs:
 
     - name: Build package with Gradle Wrapper
       run: ./gradlew jpackage
-
-    # Disabled upload for all pushes and PRs
-    #- name: Upload package as artifact
-    #  uses: actions/upload-artifact@v4
-    #  with:
-    #    name: ${{ matrix.os }}-package
-    #    path: frontend/build/jpackage
-    #
-
+    
+    - name: Upload package as artifact
+      if: ${{ github.event.inputs.create_artifacts }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.os }}-package
+        path: frontend/build/jpackage
+        retention-days: 1
+        compression-level: 9
 
   dependency-submission:
 
