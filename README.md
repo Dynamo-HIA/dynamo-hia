@@ -1,11 +1,12 @@
-#Dynamo-HIA
-
-**Copyright (C) National Institute for Public Health and the Environment (RIVM)**
-Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
+# Dynamo-HIA
 
 This repo contains the Dynamo-HIA Model
 
-Folders and files in this repo:
+**Copyright (C) National Institute for Public Health and the Environment (RIVM)**
+
+Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
+
+## Folders and files in this repo
 
 DynamoDataSet:	dataset for use with Dynamo-HIA
 README: This file
@@ -20,22 +21,23 @@ gradlew.bat: Windows version of script used to build the application
 settings.gradle.kts: main build script
 utilities: various supporting utilities
 
+## Building and running Dynamo-HIA
 
 To run Dynamo-HIA from gradle, using the GUI:
 
-$ ./gradlew gui:run
+`$ ./gradlew frontend:run`
 
 Or in batch mode:
 
-$ ./gradlew application:run --args BATCH_FILE_LOCATION
+`$ ./gradlew backend:run --args BATCH_FILE_LOCATION`
 
 To create a compiled version of dynamo-hia, including java and an executable, use:
 
-./gradlew gui:runtime
+`$ ./gradlew frondend:runtime`
 
 The files can be found in gui/build/image
 
 To create an installable package of dynamo-hia, using an OS specific installer, use:
 
-./gradlew gui:jpackage
+`$ ./gradlew jpackage`
 
