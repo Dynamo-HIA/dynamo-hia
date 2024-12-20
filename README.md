@@ -58,3 +58,9 @@ NOTE: run this command twice for the update to all files to be completed
 ### Eclipse
 
 To start developing Dynamo-HIA using the Eclipse IDE see [the small howto](ECLIPSE.md).
+
+## Actions and Artifacts
+
+This repo contains a number of [GitHub actions](https://github.com/Dynamo-HIA/dynamo-hia/actions) to build and test Dynamo-HIA.
+
+The [Java CI with Gradle](https://github.com/Dynamo-HIA/dynamo-hia/actions/workflows/gradle.yml) action builds a binary distribution for all major platforms. To save these as artifacts (so they can be downloaded) it must be manually triggered. Note that they are rather large, so will use up significant "shared storage" quota in GitHub.
