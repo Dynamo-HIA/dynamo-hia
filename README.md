@@ -4,7 +4,7 @@ This repo contains the Dynamo-HIA Model
 
 **Copyright (C) National Institute for Public Health and the Environment (RIVM)**
 
-Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
+Dynamo-HIA is licenced under the [EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2](LICENCE.md)
 
 ## Folders and files in this repo
 
