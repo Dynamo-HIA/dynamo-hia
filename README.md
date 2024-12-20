@@ -13,7 +13,6 @@ Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
 - acdm: The acdm model underlying Dynamo-HIA
 - application: the main Dynamo-HIA application, including batch runner
 - gui: SWT gui for Dynamo-GIA
-- attic: old subprojects for Dynamo-HIA that need to be (re)moved at some point
 - buildSrc: source for gradle build
 - gradle: copy of grade (the builder)
 - gradlew: gradle wrapper script used to build the application
