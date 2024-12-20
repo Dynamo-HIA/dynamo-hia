@@ -1,4 +1,0 @@
-Compounding Risk Factor Prevalence Screen for the duration class
-Prevalence within the duration depended risk factor class. For a given age (the column), enter the share of people in duration since entering this class (the top row in years). Each row has to add up to 100. 
-
-Not everybody in the population has to be in the duration depended class, only a fraction might be exposed (see Prevalence for Compounding risk factor). 

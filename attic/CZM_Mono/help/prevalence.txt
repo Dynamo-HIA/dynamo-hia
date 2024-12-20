@@ -1,1 +1,0 @@
-prevalence rate in percent (range 0 - 100)

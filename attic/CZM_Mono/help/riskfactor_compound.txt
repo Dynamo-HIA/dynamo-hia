@@ -1,4 +1,0 @@
-Compound Risk Factor Configuration Screen
-Compound risk factors are risk factors where the relative risk depends on the duration of membership. 
-
-Up to 10 classes can be chosen, but only one can be specified as a compounding risk factor. This is done by setting “Duration class index”. The baseline category is set by “Referenceclass index”.

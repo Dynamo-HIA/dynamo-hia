@@ -1,8 +1,0 @@
-Relative Risks from Risk factor (continuous)
-
-For the selected disease, enter relative risk of obtaining the selected disease given a unit increase in the continuous risk factor by age and sex (say, increase per BMI or litre of annual alcohol consumption). The risk factor has to be specified before creating this window. Other options are categorical and compounding risk factors. 
-
-Save the results (“Save”) and close the window (“cancel”).
-
-The risk of contracting a disease depends on the degree of exposure to a given risk factor. It usually, but not necessarily increases with a unit increase in risk factor exposure. 
-

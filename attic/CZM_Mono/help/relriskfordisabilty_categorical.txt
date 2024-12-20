@@ -1,9 +1,0 @@
-Relative Risk for Disability from Categorical Risk Factor
-
-For the selected categorical risk factor, enter the relative risk on disability by age, sex, and risk factor class (either manually or via import).
-
-Save the results ("Save") and close the window ("Cancel").
-
-This captures the increased risk of disability through the exposure to a risk factor in general and not just via the modelled diseases. These are needed to calculate summary measures such das DALE (Disability adjusted life expectancy)
-
-Sources for the relative risk on overall mortality are the scientific literature. 

@@ -1,1 +1,0 @@
-enter relative risk that is eventually reached (at infinity) in the riskfactor class where the risk depends on the duration of being in this class 

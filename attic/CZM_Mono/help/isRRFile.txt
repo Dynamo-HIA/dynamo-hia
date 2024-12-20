@@ -1,1 +1,0 @@
-select the file containing the relative risk data

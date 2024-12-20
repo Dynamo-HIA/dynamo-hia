@@ -1,1 +1,0 @@
-import an XML file with data. Such an XML file can be made with the special Excel spreadsheet that can be downloaded at www.dynamo-hia.eu

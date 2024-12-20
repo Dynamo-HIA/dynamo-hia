@@ -1,1 +1,0 @@
-enter coefficient for rate of change of the relative risk after starting in the riskclass where the relative risk depends on duration (positive value, 0= no change)
