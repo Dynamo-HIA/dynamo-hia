@@ -42,7 +42,7 @@ dependencies {
     implementation("commons-configuration:commons-configuration:1.5")
     implementation("commons-collections:commons-collections:3.2.2")
     implementation("commons-lang:commons-lang:2.6")
-    implementation("log4j:log4j:1.2.17")
+    implementation("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("gov.nist.math.jama:gov.nist.math.jama:1.1.1")
     
     implementation("com.ibm.icu:icu4j:3.6.1")
@@ -62,6 +62,9 @@ runtime {
 	jpackage {
 		imageName = "DYNAMO-HIA-backend"
 		installerName = "DYNAMO-HIA-backend-installer"
+                //options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages", "--strip-native-commands"))
+                //modules.set(listOf("java.desktop", "java.management", "java.xml", "java.logging", "java.sql", "java.naming", "java.datatransfer"))
+
 	}
 }
 
