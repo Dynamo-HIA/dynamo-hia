@@ -8,7 +8,15 @@ The obvious (but unfortunately non-functional) way to create a project would be 
 
 - Use the Git repository view to clone the repository from GitHub, and clone it to your workspace. Note that the default location for the clone is outside of your workspace.
 
+![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_1_clone.png)
+
+![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_2_clone_target.png)
+
 - Use "Import exiting Gradle Project" under File -> Import to import the project.
+
+![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_3_import_gradle.png)
+
+![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_3_import_gradle_source.png)
 
 - To test the setup, running the Main class under Frontend -> Src/main/java -> nl.rivm.emi.dynamo.ui.main.main.Main should start the Dynamo-HIA application.
 
