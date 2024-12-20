@@ -1,6 +1,6 @@
 # Developing DYNAMO-HIA using Eclipse
 
-This is a small guide on how develop Dynamo-HIA in [Eclipse](https://eclipseide.org).
+This is a small guide on how to get started with developing Dynamo-HIA in [Eclipse](https://eclipseide.org).
 
 The obvious (but unfortunately non-functional) way to create a project would be to use import and fetch the project from GitHub in a single step. Instead we will first clone the repository to our workspace, and import it from there.
 
