@@ -37,15 +37,18 @@ dependencies {
 
     implementation("junit:junit:4.13.2")
 
-    implementation("commons-logging:commons-logging:1.2")
+    implementation("commons-logging:commons-logging:1.3.4")
     implementation("commons-configuration:commons-configuration:1.5")
     implementation("commons-collections:commons-collections:3.2.2")
     implementation("commons-lang:commons-lang:2.6")
     implementation("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("gov.nist.math.jama:gov.nist.math.jama:1.1.1")
     
+    //ensure a new-ish bouncycastle
+    implementation("org.bouncycastle:bcpg-jdk18on:1.78")
+    
     implementation("com.ibm.icu:icu4j:3.6.1")
-    implementation("org.jfree:jcommon:1.0.17")
+    implementation("org.jfree:jcommon:1.0.24")
     implementation("org.jfree:jfreechart:1.0.19")
 
     //jfreechart-swt drags in a somewhat random version of swt, so we exclude it here.
