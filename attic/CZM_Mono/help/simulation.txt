@@ -1,6 +1,0 @@
-Simulation Screen
-This is the central screen to specify the simulation that will be run. A simulation consists of one risk factor, one population, and one or more diseases. One or more scenarios can be specified (e.g. varying starting prevalence, target age of intervention, success rate etc.).
-
-Press the “save” button before running the simulation by pressing the “Run” button. 
-
-For details click on the individual fields and consult the manual.

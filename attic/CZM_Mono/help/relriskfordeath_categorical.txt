@@ -1,8 +1,0 @@
-                                                   Relative Risk for Death from Categorical Risk Factor
-For the selected categorical risk factor, enter the relative risk on total mortality for each age, sex, and risk factor class (either manually or via import).
-
-Save the results ("Save") and close the window ("cancel").
-
-This captures the increased mortality of exposure to a risk factor in general and not just via the modelled diseases. An example is smoking which not only leads to, say, lung cancer but increase mortality through a number of other diseases which are not specifically modeled. 
-
-Sources for the relative risk on overall mortality are the scientific literature. 

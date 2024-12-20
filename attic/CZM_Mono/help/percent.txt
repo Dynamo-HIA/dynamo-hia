@@ -1,1 +1,0 @@
-enter percentage (value between 0 and 100)

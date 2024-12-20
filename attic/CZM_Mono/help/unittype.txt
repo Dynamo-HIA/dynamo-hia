@@ -1,1 +1,0 @@
-indicate if you will enter exces mortality rates (rate, case per year) or median survival of non-cured patients (in years after diagnosis)

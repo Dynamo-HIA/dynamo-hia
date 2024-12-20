@@ -1,1 +1,0 @@
-select the file with excess mortality data. Note that these data are assumed to apply to the start year of simulation

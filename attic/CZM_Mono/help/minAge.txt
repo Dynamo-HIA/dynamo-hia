@@ -1,1 +1,0 @@
-give the minimum age of persons in the simulated population (=age at the start of simulation) 

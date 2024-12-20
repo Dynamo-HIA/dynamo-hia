@@ -1,1 +1,0 @@
-select the file with dalyweights/disability data. 

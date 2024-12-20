@@ -11,7 +11,6 @@ Dynamo-HIA is licenced under the [EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2](LI
 
 - DynamoDataSet:	dataset for use with Dynamo-HIA
 - acdm: The rule-based acdm model underlying Dynamo-HIA
-- attic: old subprojects for Dynamo-HIA that need to be (re)moved at some point
 - backend: the main Dynamo-HIA application, including batch runner
 - buildSrc: source for gradle build
 - docs: documentation
