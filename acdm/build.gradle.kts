@@ -9,11 +9,11 @@ plugins {
 dependencies {
     implementation(project(":utilities"))
 
-    implementation("commons-logging:commons-logging:1.2")
+    implementation("commons-logging:commons-logging:1.3.4")
     implementation("commons-configuration:commons-configuration:1.5")
     implementation("commons-collections:commons-collections:3.2.2")
     implementation("commons-lang:commons-lang:2.6")
-    implementation("log4j:log4j:1.2.17")
+    implementation("org.apache.logging.log4j:log4j-core:2.24.3")
     implementation("gov.nist.math.jama:gov.nist.math.jama:1.1.1")
 }
 
