@@ -50,3 +50,7 @@ Gradle itself needs to be updated from time to time, mostly to support the lates
 NOTE: run this command twice for the update to all files to be completed
 
 `$ ./gradlew wrapper --gradle-version latest`
+
+### Eclipse
+
+To start developing Dynamo-HIA using the Eclipse IDE see [the small howto](ECLIPSE.md).
