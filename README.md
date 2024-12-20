@@ -4,21 +4,25 @@ This repo contains the Dynamo-HIA Model
 
 **Copyright (C) National Institute for Public Health and the Environment (RIVM)**
 
-Dynamo-HIA is licenced under the EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2
+Dynamo-HIA is licenced under the [EUROPEAN UNION PUBLIC LICENCE (EPL) v. 1.2](LICENCE.md)
 
 ## Folders and files in this repo
 
+
 - DynamoDataSet:	dataset for use with Dynamo-HIA
-- README: This file
-- acdm: The acdm model underlying Dynamo-HIA
-- application: the main Dynamo-HIA application, including batch runner
-- gui: SWT gui for Dynamo-GIA
+- acdm: The rule-based acdm model underlying Dynamo-HIA
+- backend: the main Dynamo-HIA application, including batch runner
 - buildSrc: source for gradle build
+- docs: documentation
+- frontend: SWT gui for Dynamo-GIA
 - gradle: copy of grade (the builder)
-- gradlew: gradle wrapper script used to build the application
+- utilities: various supporting utilities
+- ECLIPSE.md: small howto on developing Dynamo-HIA using the Eclipse IDE
+- LICENSE.md: the License for Dynamo-HIA
+- README.md: this file
+- gradlew: Linux and Mac-OS version of gradle wrapper script used to build the application
 - gradlew.bat: Windows version of script used to build the application
 - settings.gradle.kts: main build script
-- utilities: various supporting utilities
 
 ## Building and running Dynamo-HIA
 
@@ -49,3 +53,13 @@ Gradle itself needs to be updated from time to time, mostly to support the lates
 NOTE: run this command twice for the update to all files to be completed
 
 `$ ./gradlew wrapper --gradle-version latest`
+
+### Eclipse
+
+To start developing Dynamo-HIA using the Eclipse IDE see [the small howto](ECLIPSE.md).
+
+## Actions and Artifacts
+
+This repo contains a number of [GitHub actions](https://github.com/Dynamo-HIA/dynamo-hia/actions) to build and test Dynamo-HIA.
+
+The [Java CI with Gradle](https://github.com/Dynamo-HIA/dynamo-hia/actions/workflows/gradle.yml) action builds a binary distribution for all major platforms. To save these as artifacts (so they can be downloaded) it must be manually triggered. Note that they are rather large, so will use up significant "shared storage" quota in GitHub.
