@@ -16,7 +16,7 @@ The obvious (but unfortunately non-functional) way to create a project would be 
 
 ![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_3_import_gradle.png)
 
-![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_3_import_gradle_source.png)
+![Alt text of the image](docs/screenshots/Screenshot_eclipse_install_4_import_gradle_source.png)
 
 - To test the setup, running the Main class under Frontend -> Src/main/java -> nl.rivm.emi.dynamo.ui.main.main.Main should start the Dynamo-HIA application.
 
