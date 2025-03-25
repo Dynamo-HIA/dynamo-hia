@@ -12,3 +12,6 @@ build
 .settings/
 .project
 .classpath
+
+# Ignore VS Code files
+.vscode
