@@ -50,7 +50,7 @@ public class Output_UI {
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN | SWT.CLOSE);
 		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
-		outputShell.setBounds(30, 30, 900, 650);
+		outputShell.setBounds(30, 30, 970, 820);
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
         log.fatal("start making plotFactory");
@@ -74,7 +74,7 @@ public class Output_UI {
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
 
 		tabFolder1.setLayout(new FillLayout());
-		tabFolder1.setBounds(10, 10, 880, 580);
+		tabFolder1.setBounds(10, 10, 950, 770);
 
 		/* tab for changing the parameters of the scenarios */
 
