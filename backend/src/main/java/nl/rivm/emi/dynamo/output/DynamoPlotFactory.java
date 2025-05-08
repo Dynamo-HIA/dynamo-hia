@@ -2317,7 +2317,7 @@ public class DynamoPlotFactory {
 													+ this.output
 															.getStartYear(),
 											100 * ((mendat + womendat)
-													/ (menpop + womenpop) - (mendatr - womendatr)
+													/ (menpop + womenpop) - (mendatr + womendatr)
 													/ (menpopr + womenpopr)));
 					}
 				}
