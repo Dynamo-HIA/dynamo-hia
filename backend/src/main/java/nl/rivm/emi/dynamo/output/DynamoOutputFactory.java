@@ -1675,7 +1675,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 			for (int scen = 0; scen < this.nScen; scen++)
 
-				if (this.scenInitial[scen] && !this.getScenTrans()[scen]) {
+				if (this.scenInitial[scen]) {
 					/*
 					 * calculate the transitions needed from old to new
 					 * prevalence
