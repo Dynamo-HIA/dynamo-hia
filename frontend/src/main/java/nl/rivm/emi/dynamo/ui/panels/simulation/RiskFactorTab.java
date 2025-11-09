@@ -118,7 +118,7 @@ public class RiskFactorTab {
 	 * @throws DynamoNoValidDataException 
 	 */
 	public void makeIt() throws ConfigurationException, NoMoreDataException, DynamoNoValidDataException{
-		this.setPlotComposite(new Group(this.upperTabFolder, SWT.FILL));
+		this.setPlotComposite(new Group(this.upperTabFolder, SWT.NONE));
 		FormLayout formLayout = new FormLayout();
 		this.getPlotComposite().setLayout(formLayout);
 		//this.plotComposite.setBackground(new Color(null, 0xff, 0xff,0xff)); //White
@@ -141,7 +141,7 @@ public class RiskFactorTab {
 					riskFactorSelectionGroup.group,
 					riskFactorSelectionGroup.getDropDownModifyListener(), 
 					dynamoTabDataManager);
-
+// changed from SWT.NONE to SWT.FILL
 		TabItem item = new TabItem(this.upperTabFolder, SWT.NONE);
 		item.setText("Risk Factor");
 		item.setControl(this.getPlotComposite());		

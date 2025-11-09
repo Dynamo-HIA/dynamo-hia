@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.apache.commons.logging.Log;
@@ -26,6 +27,14 @@ public final class PyramidChartFactory implements PlotDrawer {
 	 * @see nl.rivm.emi.dynamo.output.Action#performAction(nl.rivm.emi.dynamo.output.PlotFormatInfo)
 	 */
 	DynamoPlotFactory plotFactory;
+	
+	public void setParams(ScenarioParameters params) {
+		
+		this.plotFactory.setParams(params);
+	};
+	
+	
+	
 	public PyramidChartFactory(DynamoPlotFactory factory){this.plotFactory=factory;}
 	/**
 	 * @param output2
@@ -39,8 +48,9 @@ public final class PyramidChartFactory implements PlotDrawer {
 
 
 			
-			JFreeChart chart=((ChartComposite)composite).getChart();
-			JFreeChart newChart=((ChartComposite)composite).getChart();
+		//	JFreeChart chart=((ChartComposite)composite).getChart();
+		//	JFreeChart newChart=((ChartComposite)composite).getChart();
+		JFreeChart newChart=null;
 			if (info.currentDisease == 0)
 				newChart = plotFactory.makePyramidChart(	info.currentScen ,
 						info.currentYear,info.differencePlot,info.blackAndWhite );

@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.widgets.Composite;
@@ -21,6 +22,12 @@ public final class IncidenceChartFactory implements PlotDrawer {
 	 */
 	DynamoPlotFactory plotFactory;
 	public IncidenceChartFactory(DynamoPlotFactory output){this.plotFactory=output;}
+	
+    public void setParams(ScenarioParameters params) {
+		
+		this.plotFactory.setParams(params);
+	};
+	
 	/**
 	 * @param output2
 	 */

@@ -59,7 +59,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	 * the initial population. The parameters are written to XML files that are
 	 * input-parameters for the model, and the population is extracted directly
 	 * and fed into the simulation. There is also an option to write the
-	 * intitial population to XML, but this is not used here.
+	 * intitial population to XML, but this is not used here. transitionmatrix/drift 
 	 */
 	private ModelParameters p;
 	/*
@@ -289,7 +289,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 					pii.setMaximum(agemax*2 - agemin*2 + 2 + 2*scen.getYearsInRun());
 				for (int a = agemin; a <= agemax; a++) {
 					for (int g = 0; g < 2; g++) {
-						log.fatal("simulation start for age:: "+a+" gender: "+ g);
+						log.info("simulation start for age:: "+a+" gender: "+ g);
 						
 						DynamoSimulationRunnableWorker worker =new DynamoSimulationRunnableWorker(pr.getDisplay(),log, 
 								pr,   p, scen, simFileName, output, a, g, 1, false);

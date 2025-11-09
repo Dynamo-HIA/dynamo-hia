@@ -285,4 +285,12 @@ public class Output_ChangeScenarioTab {
 		Control[] subcomp = ((Composite) plotcomp[0]).getChildren();
 		factory.drawChartAction(plotInfo, (ChartComposite) subcomp[1]);
 	}
+	
+	public ButtonStates getPlotInfo() {
+		return this.plotInfo;
+	}
+	
+	public ScenarioParameters getParams() {
+		return(this.params);
+	}
 }

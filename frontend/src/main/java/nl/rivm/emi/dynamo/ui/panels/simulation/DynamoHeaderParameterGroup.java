@@ -39,12 +39,10 @@ public class DynamoHeaderParameterGroup {
 					null, dynamoSimulationObject, dataBindingContext, selectedNode,
 					helpGroup, dynamoTabDataManager);
 		
-			
-			
-			
-			
+						
 		FormData dynamoHeaderFormData = new FormData();
 		dynamoHeaderFormData.top = new FormAttachment(0, 0);
+		// changing this does not seem to have any influence, probably override later
 		dynamoHeaderFormData.right = new FormAttachment(100, 0);
 		dynamoHeaderFormData.left = new FormAttachment(0, 0);
 		dynamoHeaderFormData.bottom = new FormAttachment(100, 0);

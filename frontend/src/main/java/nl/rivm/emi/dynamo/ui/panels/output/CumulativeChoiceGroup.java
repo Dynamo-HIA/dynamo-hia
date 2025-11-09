@@ -34,7 +34,7 @@ public class CumulativeChoiceGroup {
 		Group radiogroup = new Group(controlComposite, SWT.VERTICAL);
 		// radiogroup.setBounds(10,10,200,150);
 		radiogroup.setText("Life-years gained or lost:");
-		/* do not change tooltiptext as this is also used to recdognize the button for disabling */
+		/* do not change tooltiptext as this is also used to recognize the button for disabling */
 		radiogroup.setToolTipText("Choose whether the years gained or lost are DALYs (effect of 1 year exposure changes), future years (permanent change of exposure) for entire population >= age"+
 				  " or future years (permanent change of exposure) of single age cohort");
 		// label.setBackground(display.getSystemColor(SWT.COLOR_YELLOW));
@@ -42,8 +42,8 @@ public class CumulativeChoiceGroup {
 		// yearButton.setBounds(10,10,20,100);
 		Button dalyButton = new Button(radiogroup, SWT.RADIO);
 		dalyButton.setText("DALY (1 year exposure change)");
-		dalyButton.setSelection(true);
-
+	    dalyButton.setSelection(false);
+		
 		dalyButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {
 				if (((Button) event.widget).getSelection()) {
@@ -86,7 +86,7 @@ public class CumulativeChoiceGroup {
 		
 		Button noneButton = new Button(radiogroup, SWT.RADIO);
 		noneButton.setText("do not display");
-		noneButton.setSelection(false);
+		noneButton.setSelection(true);
 
 		noneButton.addListener(SWT.Selection, (new Listener() {
 			public void handleEvent(Event event) {

@@ -1850,11 +1850,12 @@ public class InputDataFactory {
 			}
 
 			else
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoConfigurationException("when reading file " + configFileName +" Tagname "
 						+ "transitionmatrix (_zero,_netto) "
-						+ " expected in main simulation configuration file "
+						+ " expected "
 						+ "but found tag "
-						+ ((XMLConfigurationToo) config).getRootElementName());
+						+ ((XMLConfigurationToo) config).getRootElementName()
+						+ ". Note that continuous and categorical risk factors have different tags (transitiondrift and transitionmatrix respectively)");
 		}
 		/* second for continuous */
 		//
@@ -1919,11 +1920,11 @@ public class InputDataFactory {
 			}
 
 			else
-				throw new DynamoConfigurationException(" Tagname "
-						+ "transitionmatrix/drift (_zero,_netto) "
-						+ " expected in main simulation configuration file "
-						+ "but found tag "
-						+ ((XMLConfigurationToo) config).getRootElementName());
+				throw new DynamoConfigurationException("when reading file " + configFileName 
+						+ " (transitions for a continuous riskfactor) a Tag transitiondrift(_zero,_netto) is"
+						+ " expected but found tag "
+						+ ((XMLConfigurationToo) config).getRootElementName()
+						+ ". Note that continuous and categorical riskfactors have different tags (transitiondrift and transitionmatrix respectively)");
 		}
 	}
 

@@ -46,7 +46,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataLayoutData.widthHint = 150;
+		dataLayoutData.widthHint = 250; // changed from 150 but no effect seem
 
 		final Label indexLabel = new Label(this, SWT.NONE);
 		indexLabel.setText("Index");
@@ -63,7 +63,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 			if (observableClassName != null) {
 				found++;
 				final Label label = new Label(this, SWT.NONE);
-				label.setText(new Integer(count).toString());
+				label.setText(Integer.valueOf(count).toString());
 				bindValue(observableClassName);
 //				@SuppressWarnings("unused")
 //				final Label anotherEmptyLabel = new Label(this, SWT.NONE);
@@ -98,7 +98,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 	private Text createAndPlaceTextField() {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gridData.widthHint = 150;
+		gridData.widthHint = 300; // changed from 150
 		text.setLayoutData(gridData);
 		return text;
 	}

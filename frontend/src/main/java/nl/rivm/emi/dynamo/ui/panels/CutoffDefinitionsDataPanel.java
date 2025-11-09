@@ -46,7 +46,7 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		indexLabel.setText("Index");
 		indexLabel.setLayoutData(layoutData);
 		GridData fieldLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		fieldLayoutData.widthHint = 75;
+		fieldLayoutData.widthHint = 100; // was 50
 		final Label classNameLabel = new Label(this, SWT.NONE);
 		classNameLabel.setText("Cutoff-value");
 		classNameLabel.setLayoutData(fieldLayoutData);

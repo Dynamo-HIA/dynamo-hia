@@ -60,7 +60,7 @@ public class ValuePerClassBaseZeroParameterDataPanel extends Composite {
 		dataLayoutData.widthHint = 50;
 
 		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		ageLabel.setLayoutData(labelLayoutData);
 		Label classLabel = new Label(this, SWT.NONE);
 		classLabel.setText("Class");
@@ -70,6 +70,7 @@ public class ValuePerClassBaseZeroParameterDataPanel extends Composite {
 		maleLabel.setLayoutData(dataLayoutData);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		dataLayoutData.widthHint = 58;
 		femaleLabel.setLayoutData(dataLayoutData);
 		// Made ageCount Object scope for debugging;
 		for (ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {

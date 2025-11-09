@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.widgets.Composite;
@@ -24,6 +25,12 @@ public final class DiseaseChartFactory implements PlotDrawer {
 	/**
 	 * @param output2
 	 */
+	
+    public void setParams(ScenarioParameters params) {
+		
+		this.plotFactory.setParams(params);
+	};
+	
 	
 	public void drawChartAction(ButtonStates info,  final Composite composite) {
 		

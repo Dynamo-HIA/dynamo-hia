@@ -35,6 +35,7 @@ public class ApplicationWrapper {
 					BaseDirectory.getInstance(baseDirectoryPath);
 					application = new BaseStorageTreeScreen(baseDirectoryPath);
 					shell = application.open(display);
+					shell.forceActive(); // added in 2025 to force the window on top
 					Plugin plugin = ResourcesPlugin.getPlugin();
 					log.debug("Before initialize: Plugin is " + plugin);
 					SchemaFileProviderInitializer.initialize(plugin);

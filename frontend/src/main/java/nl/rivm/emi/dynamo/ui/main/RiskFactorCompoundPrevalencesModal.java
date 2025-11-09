@@ -73,7 +73,7 @@ public class RiskFactorCompoundPrevalencesModal extends AbstractDataModal {
 			this.shell.pack();
 			// This is the first place this works.
 //			this.shell.setSize(400, ModalStatics.defaultHeight);
-			this.shell.setSize(475, ModalStatics.defaultHeight);
+			this.shell.setSize(700, ModalStatics.defaultHeight); //was 475
 			this.shell.open();
 	}
 

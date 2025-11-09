@@ -57,13 +57,13 @@ public class ValuePerClassParameterDataPanel extends Composite {
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataLayoutData.widthHint = 50;
+		dataLayoutData.widthHint = 58;
 
 		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		ageLabel.setLayoutData(labelLayoutData);
 		Label classLabel = new Label(this, SWT.NONE);
-		classLabel.setText("Class");
+		classLabel.setText("Class ");
 		classLabel.setLayoutData(labelLayoutData);
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
@@ -71,7 +71,7 @@ public class ValuePerClassParameterDataPanel extends Composite {
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
 		femaleLabel.setLayoutData(dataLayoutData);
-		log.fatal("start loop");
+		log.debug("start loop");
 		// Made ageCount Object scope for debugging;
 		for (ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);
@@ -89,9 +89,9 @@ public class ValuePerClassParameterDataPanel extends Composite {
 				Label classCellLabel = new Label(this, SWT.NONE);
 				classCellLabel.setText(new Integer(classCount).toString());
 				genderCount = BiGender.MALE_INDEX;
-				log.fatal("agecount: "+ ageCount + " classCount: "+ classCount + " voor bindValue");
+				log.debug("agecount: "+ ageCount + " classCount: "+ classCount + " voor bindValue");
 				bindValue(maleClassHMap, classCount);
-				log.fatal(" na bindValue male");
+				log.debug(" na bindValue male");
 				genderCount = BiGender.FEMALE_INDEX;
 				bindValue(femaleClassHMap, classCount);
 			}

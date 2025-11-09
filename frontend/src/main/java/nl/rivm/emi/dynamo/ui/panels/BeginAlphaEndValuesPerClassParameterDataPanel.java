@@ -23,6 +23,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -61,6 +62,13 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 		maleLabel.setText("Male");
 		final Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		// not enough room for label so window made larger
+		// solutions below do not work
+		//femaleLabel.requestLayout();
+		//FormData formData = new FormData();
+		//formData.width=58;
+		//femaleLabel.setLayoutData(formData);
+		
 		// Just above the values.
 		final Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");

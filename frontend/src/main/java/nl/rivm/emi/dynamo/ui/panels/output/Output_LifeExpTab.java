@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -159,6 +160,6 @@ public class Output_LifeExpTab  {
 	public void redraw(){
 		Control[] subcomp= this.plotComposite.getChildren();
 		this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
-		this.plotComposite.redraw();
+		//this.plotComposite.redraw();unnecessary, already part of action above
 	}
 		}

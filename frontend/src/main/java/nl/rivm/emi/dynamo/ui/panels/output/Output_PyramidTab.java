@@ -5,6 +5,7 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 
 
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.apache.commons.logging.Log;
@@ -45,7 +46,7 @@ public class Output_PyramidTab  {
 	 */
 	PyramidChartFactory plotFactory;
      ChartComposite chartComposite;
-	private Composite plotComposite;
+	public Composite plotComposite;  // this is the composite which is made
 
 	/**
 	 * @param tabfolder
@@ -172,7 +173,7 @@ public class Output_PyramidTab  {
 		// RowData rowData3 = new RowData(450, 500);
 //	 this.chartComposite =  new ChartComposite(this.plotComposite, SWT.NONE,
 	//	pyramidChart, true, true ,true,true, true);
-	 log.fatal(this.chartComposite.DEFAULT_HEIGHT+" "+this.chartComposite.DEFAULT_WIDTH+  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_HEIGHT
+	 log.debug(this.chartComposite.DEFAULT_HEIGHT+" "+this.chartComposite.DEFAULT_WIDTH+  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_HEIGHT
 			 +  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_WIDTH+  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_HEIGHT
 			 +  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_WIDTH);
 
@@ -223,8 +224,8 @@ public class Output_PyramidTab  {
 	public void redraw(){
 		
 		Control[] subcomp= this.plotComposite.getChildren();
-		this.plotFactory.drawChartAction(this.plotInfo, (PyramidChartComposite) subcomp[1]);
-		//this.plotComposite.redraw();
+		this.plotFactory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
+	//	this.plotComposite.redraw(); unnecessary as already forced redraw in the drawAction
 		
 	}
 		}

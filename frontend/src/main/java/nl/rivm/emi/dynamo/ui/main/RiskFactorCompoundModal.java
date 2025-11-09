@@ -114,7 +114,7 @@ public class RiskFactorCompoundModal extends AbstractMultiRootChildDataModal {
 		this.shell.pack();
 		// This is the first place this works.
 //		this.shell.setSize(400, ModalStatics.defaultHeight);
-		this.shell.setSize(475, ModalStatics.defaultHeight);
+		this.shell.setSize(ModalStatics.defaultWidth42Cols+150, ModalStatics.defaultHeight);
 		this.shell.open();
 	}
 

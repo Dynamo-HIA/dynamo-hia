@@ -70,7 +70,7 @@ public class RiskFactorContinuousPrevalencesModal extends AbstractMultiRootChild
 			this.shell.pack();
 			// This is the first place this works.
 //			this.shell.setSize(600, ModalStatics.defaultHeight);
-			this.shell.setSize(675, ModalStatics.defaultHeight);
+			this.shell.setSize( ModalStatics.defaultWidth42Cols+325, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 

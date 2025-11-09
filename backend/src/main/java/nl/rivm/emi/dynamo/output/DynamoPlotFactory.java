@@ -74,6 +74,14 @@ public class DynamoPlotFactory {
 
 	private ScenarioParameters params;
 
+	public ScenarioParameters getParams() {
+		return params;
+	}
+
+	public void setParams(ScenarioParameters params) {
+		this.params = params;
+	}
+
 	/**
 	 * 
 	 * 
@@ -4560,7 +4568,7 @@ public class DynamoPlotFactory {
 
 				}
 
-		if (cumulative == 0)
+		if (cumulative == 0)  // should give dalys for 1 year scenario
 
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 
@@ -4615,7 +4623,7 @@ public class DynamoPlotFactory {
 	 
 		CategoryItemLabelGenerator generator0 = new StandardCategoryItemLabelGenerator(
 				"{2}", new DecimalFormat("0.00"));
-		if (cumulative == 3)
+		if (cumulative == 3) // no display of years lost
 			renderer.setBaseItemLabelGenerator(generator0);
 		else
 			renderer.setBaseItemLabelGenerator(generator1);
@@ -5018,7 +5026,7 @@ public class DynamoPlotFactory {
 				result = df2.format(value);
 
 				/* category: sex */
-				/*
+				/* riskfactorprevalences_categorical
 				 * stacked series: 0=with /1=without disease 2/ without
 				 * scenario1 3/ with scenario1 etc
 				 */
@@ -5029,7 +5037,10 @@ public class DynamoPlotFactory {
 				boolean outputPopulationDifference = false;
 				if (2 * scenario == series || !stacked)
 					outputPopulationDifference = true;
-
+				if (scenario > 0 && notADalyScen[scenario - 1]) {
+					result += " (DALY not available when transitions differ between scenarios)";
+				}
+				
 				if (scenario > 0 && !notADalyScen[scenario - 1])
 					if (scenario > 0 && outputPopulationDifference) {
 						/* 0.5 is added in order to round */
@@ -6241,7 +6252,7 @@ public class DynamoPlotFactory {
 			 */
 			double[] daly = new double[2];
 			if (cumulative == 0)
-				if (scenario == 0 || !this.output.scenTrans[scenario - 1])
+				if (scenario == 0 || !this.output.scenTrans[scenario - 1])  // TODO look at this, seems to fill wrong number
 					daly = calculateCumulativeDALYHealthyYears(age, disease,
 							scenario);
 

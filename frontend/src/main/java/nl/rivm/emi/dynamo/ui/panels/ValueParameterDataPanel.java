@@ -52,13 +52,13 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		GridData labelLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		ageLabel.setLayoutData(labelLayoutData);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataLayoutData.widthHint = 50;
+		dataLayoutData.widthHint = 55;
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		maleLabel.setLayoutData(dataLayoutData);

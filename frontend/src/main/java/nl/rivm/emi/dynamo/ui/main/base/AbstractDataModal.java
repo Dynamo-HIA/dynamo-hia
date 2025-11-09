@@ -81,6 +81,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 		this.shell.setText(createCaption(selectedNode));
 		// 20100222 Added setLocation.
 		this.shell.setLocation(25, 25);
+		this.shell.setSize(1200, 1100); // added 2025, does not work
 //		this.shell.addShellListener(new MyShellListener());
 		FormLayout formLayout = new FormLayout();
 		this.shell.setLayout(formLayout);
@@ -244,7 +245,7 @@ public abstract class AbstractDataModal extends DataAndFileContainer implements
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc) female
 	 * 
 	 * @see nl.rivm.emi.dynamo.ui.main.AbstractDataModal#getData()
 	 */

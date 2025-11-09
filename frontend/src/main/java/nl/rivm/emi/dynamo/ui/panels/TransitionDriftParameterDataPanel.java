@@ -43,7 +43,7 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		setLayout(layout);
 		GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING );
 		GridData dataGridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataGridData.widthHint = 50;
+		dataGridData.widthHint = 58;
 		Label spaceLabel = new Label(this, SWT.NONE);
 		spaceLabel.setLayoutData(labelGridData);
 		Label maleHeaderLabel = new Label(this, SWT.NONE);

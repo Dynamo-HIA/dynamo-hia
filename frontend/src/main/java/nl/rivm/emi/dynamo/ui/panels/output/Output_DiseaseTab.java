@@ -3,10 +3,12 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -32,7 +34,7 @@ public class Output_DiseaseTab  {
 	 */
 	private DiseaseChartFactory factory;
 	private Composite plotComposite;
-	private CDMOutputFactory  output;
+	private CDMOutputFactory output;
 
 	/**
 	 * @param tabfolder
@@ -72,6 +74,7 @@ public class Output_DiseaseTab  {
 		* it has to children: control composite containing the controls, and a chartcomposite containing the plot
 		*/
 		this.plotComposite = new Composite(this.tabFolder, SWT.FILL);
+		if (this.output.getNDiseases()>0){
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 
@@ -87,14 +90,11 @@ public class Output_DiseaseTab  {
 		controlComposite.setLayout(gridLayoutControl);
 		controlComposite.setLayoutData(controlData);
 
-		
-		
 		/* draw chart for the startup-situation */
 		final ChartComposite chartComposite = new ChartComposite(
-				this.plotComposite, SWT.NONE, null, true);
+				this.plotComposite, SWT.NONE, null, true); 
         this.factory.drawChartAction(this.plotInfo, chartComposite);
-		
-        
+		        
         GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
 				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
 				| GridData.GRAB_VERTICAL);
@@ -122,7 +122,12 @@ public class Output_DiseaseTab  {
 		new YearChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo,yearNames);
 		new GenderChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
         new ColorChoiceGroup(controlComposite, chartComposite, this.factory,this.plotInfo);
-		
+		}
+		else {
+			final StyledText message = new StyledText(this.plotComposite, SWT.SINGLE | SWT.BOLD|SWT.LONG);
+        message.setText("No diseases in simulaton, so no prevalence can be presented")
+				;
+        message.setEditable(false);}
 
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
 		// changed item.setText("prevalence plots");
@@ -145,8 +150,10 @@ public class Output_DiseaseTab  {
 	public void redraw(){
 		
 		Control[] subcomp= this.plotComposite.getChildren();
+		
 		this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
-		this.plotComposite.redraw();
+	//	this.plotComposite.redraw();
+		
 		
 	}
 		}

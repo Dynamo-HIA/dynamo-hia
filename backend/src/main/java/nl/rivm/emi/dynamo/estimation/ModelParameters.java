@@ -246,7 +246,7 @@ public class ModelParameters {
 		config.addDiseaseInfoToInputData(inputData, sceninfo);
 		config.addScenarioInfoToScenarioData(simulationName, sceninfo);
 
-		this.log.fatal("disease info added");
+		this.log.info("disease info added");
 
 		/** * 2. uses the inputdata to estimate the model parameters */
 
@@ -282,11 +282,11 @@ public class ModelParameters {
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 				simulationName);
 		s.manufactureSimulationConfigurationFile(this, sceninfo);
-		this.log.fatal("SimulationConfigurationFile written ");
+		this.log.info("SimulationConfigurationFile written ");
 		s.manufactureCharacteristicsConfigurationFile(this);
-		this.log.fatal("CharacteristicsConfigurationFile written ");
+		this.log.info("CharacteristicsConfigurationFile written ");
 		s.manufactureUpdateRuleConfigurationFiles(this, sceninfo);
-		this.log.fatal("UpdateRuleConfigurationFile written ");
+		this.log.info("UpdateRuleConfigurationFile written ");
 
 		return sceninfo;
 

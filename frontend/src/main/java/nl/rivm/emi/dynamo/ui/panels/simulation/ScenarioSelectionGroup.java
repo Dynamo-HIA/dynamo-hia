@@ -328,8 +328,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 		FormData scenarioFormData = new FormData();
 		scenarioFormData.top = new FormAttachment(0, 6);
 		scenarioFormData.left = new FormAttachment(0, 5);
-		/* was 100*/
-		scenarioFormData.right = new FormAttachment(120, -5);
+		/* was 100 put on 90 back to this value*/
+		scenarioFormData.right = new FormAttachment(80, -5);
 //		scenarioFormData.bottom = new FormAttachment(53, 0);
 		scenarioFormData.bottom = new FormAttachment(60, 0);
 		scenarioDefGroup.setLayoutData(scenarioFormData);
