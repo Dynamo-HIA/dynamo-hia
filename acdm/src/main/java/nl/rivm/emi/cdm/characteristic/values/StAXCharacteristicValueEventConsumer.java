@@ -10,7 +10,7 @@ import javax.xml.stream.events.XMLEvent;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMRunException;
 import nl.rivm.emi.cdm.individual.StAXIndividualEventConsumer;
-import nl.rivm.emi.cdm.obsolete.NopStAXEventConsumerBase;
+//import nl.rivm.emi.cdm.obsolete.NopStAXEventConsumerBase;
 import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 import nl.rivm.emi.cdm.stax.AbstractStAXElementEventConsumer;
 import nl.rivm.emi.cdm.stax.AbstractStAXEventConsumer;

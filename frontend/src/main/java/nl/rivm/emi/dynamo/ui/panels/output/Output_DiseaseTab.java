@@ -149,11 +149,12 @@ public class Output_DiseaseTab  {
 	 */
 	public void redraw(){
 		
+		if (this.output.getNDiseases()>0){
 		Control[] subcomp= this.plotComposite.getChildren();
 		
 		this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
 	//	this.plotComposite.redraw();
-		
+		}
 		
 	}
 		}
