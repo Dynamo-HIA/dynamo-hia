@@ -2,6 +2,7 @@ package nl.rivm.emi.cdm.characteristic.types;
 
 import java.util.HashMap;
 
+@SuppressWarnings("rawtypes")
 public class CharacteristicTypesContainer extends HashMap<String, Class> {
 	/**
 	 * Class stuff.

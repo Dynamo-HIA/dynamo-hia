@@ -5,8 +5,6 @@ package nl.rivm.emi.cdm.characteristic;
  * model. User indices are one up, internal storage is zero up.
  * This is a Singleton.
  */
-import java.util.Iterator;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class CharacteristicsConfigurationMap extends
@@ -66,7 +64,7 @@ public class CharacteristicsConfigurationMap extends
 		int characteristicCount = 0;
 		for(int index = 0; characteristicCount < size(); index++){
 			resultBuffer.append("Characteristic at index " + index + ":");
-			Characteristic current = get(new Integer(index));
+			Characteristic current = get(Integer.valueOf(index));
 if(current == null){
 	resultBuffer.append("None\n");
 } else {

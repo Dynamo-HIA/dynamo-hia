@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class NonSingletonCharacteristicsFromXMLFactory{
 
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 1L;
 
 	Log log = LogFactory.getLog(getClass().getName());
@@ -63,6 +64,7 @@ public class NonSingletonCharacteristicsFromXMLFactory{
 
 		CharacteristicsConfigurationMap characteristicsConfigurationObject = null;
 
+		@SuppressWarnings("unchecked")
 		List<HierarchicalConfiguration> characteristicConfigurations = characteristicsXMLConfiguration
 				.configurationsAt(characteristicTag);
 		if (characteristicConfigurations.size() > 0) {

@@ -44,6 +44,7 @@ public class IntegerCategoricalCharacteristicType extends
 		return success;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public boolean isValueValid(Object value) {
 		boolean valid = false;
 		if (value instanceof String) {
@@ -62,7 +63,7 @@ public class IntegerCategoricalCharacteristicType extends
 
 	@Override
 	public Integer getNumberOfPossibleValues() {
-		return new Integer(possibleValues.size());
+		return  Integer.valueOf(possibleValues.size());
 	}
 
 	@Override

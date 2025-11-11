@@ -6,7 +6,6 @@ package nl.rivm.emi.cdm.characteristic.types;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStringParser;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 

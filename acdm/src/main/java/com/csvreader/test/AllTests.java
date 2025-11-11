@@ -1424,6 +1424,7 @@ public class AllTests {
 		Assert.assertEquals("1\r\n#blah\r\n2\r\n", data);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void test76() throws Exception {
 		CsvReader reader = CsvReader.parse("user_id,name\r\n1,Bruce");
@@ -1579,6 +1580,7 @@ public class AllTests {
 	@Test
 	public void test88() throws Exception {
 		try {
+			@SuppressWarnings("unused")
 			CsvReader reader = new CsvReader((String) null, ',', Charset
 					.forName("ISO-8859-1"));
 		} catch (Exception ex) {

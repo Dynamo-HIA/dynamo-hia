@@ -14,6 +14,7 @@ abstract public class AbstractCategoricalCharacteristicType extends
 	
 // Cannot be overridden correctly.
 //	abstract public ArrayList<Object> getPossibleValues();
+	@SuppressWarnings("rawtypes")
 	abstract public ArrayList getPossibleValues();
 
 	abstract public Integer getNumberOfPossibleValues();

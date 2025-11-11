@@ -171,6 +171,7 @@ public class Characteristic {
 			if (label != null) {
 				if (type != null) {
 					if(type instanceof AbstractCategoricalCharacteristicType){
+						@SuppressWarnings("rawtypes")
 						ArrayList possibleValues = ((AbstractCategoricalCharacteristicType)type).getPossibleValues();
 					if (( possibleValues != null) && (possibleValues.size() > 0)) {
 						thisWhenValid = this;
