@@ -8,7 +8,9 @@ package nl.rivm.emi.cdm.xmlpersistence;
 import java.util.HashMap;
 
 public class TagNameCoordinator {
+@SuppressWarnings("unused")
 private static TagNameCoordinator instance = null;
+@SuppressWarnings("unused")
 private HashMap<String, String> tagNameMap;
 
 private TagNameCoordinator() {

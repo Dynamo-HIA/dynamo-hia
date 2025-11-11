@@ -8,8 +8,6 @@ import org.apache.commons.configuration.HierarchicalConfiguration;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
-import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.simulation.Simulation;
 
 
 

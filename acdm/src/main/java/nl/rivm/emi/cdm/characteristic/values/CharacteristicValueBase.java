@@ -12,9 +12,11 @@ abstract public class CharacteristicValueBase {
 
 	int index;
 	
+	@SuppressWarnings("unused")
 	private CharacteristicValueBase() {
 	}
 
+	@SuppressWarnings("static-access")
 	CharacteristicValueBase(String elementName, int index) {
 		this.xmlElementName = elementName;
 		this.index = index;

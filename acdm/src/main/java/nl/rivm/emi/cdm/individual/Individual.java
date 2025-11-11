@@ -21,6 +21,11 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class Individual extends ArrayList<CharacteristicValueBase> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 26L;
+
 	Log log = LogFactory.getLog(getClass().getName());
 
 	/**

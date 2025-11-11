@@ -48,8 +48,10 @@ public class Test02_10_10 {
 			try {
 				File multipleCharacteristicsFile = new File(
 						preCharConfig);
+				@SuppressWarnings("unused")
 				CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 						multipleCharacteristicsFile);
+				@SuppressWarnings("unused")
 				CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 						.getInstance();
 				if (simulationConfigurationFile.exists()) {

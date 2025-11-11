@@ -28,6 +28,7 @@ public class ParameterFactory {
 
 	double[][][][] getParameters(File fln) throws ConfigurationException {
 		if (fln.exists()) {
+			@SuppressWarnings("unused")
 			XMLConfiguration transitionConfiguration;
 		}
 

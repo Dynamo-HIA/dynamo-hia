@@ -5,7 +5,6 @@ package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -115,6 +114,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 		
 		
 		
+		@SuppressWarnings("unused")
 		float[] currentDiseaseStateValues = new float[oldValue.length];
 		
 		
@@ -155,6 +155,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 
 			if (numberOfDiseasesInCluster[c] == 1) {
 
+				@SuppressWarnings("unused")
 				int d = clusterStartsAtDiseaseNumber[c];
 				currentHealthyState[c] = (1 - oldValue[currentStateNo]);
 				survival = (1 - oldValue[currentStateNo])
@@ -241,6 +242,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 			float incidence = 0F;
 			if (numberOfDiseasesInCluster[c] == 1) {
 				currentStateNo++;
+				@SuppressWarnings("unused")
 				int d = clusterStartsAtDiseaseNumber[c];
 				incidence = incidenceInState[ageValue][sexValue][riskFactorValue][c][0][0];
 				// incidence =
@@ -263,6 +265,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 				/* update diseases with cured fraction */
 			} else if (withCuredFraction[c]) {
 				currentStateNo++;
+				@SuppressWarnings("unused")
 				int d = clusterStartsAtDiseaseNumber[c];
 				/*
 				 * indexes are : age sex riskfactor diseaseCluster TOdiseaseWithinCluster
@@ -292,6 +295,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 			/* update cluster diseases */
 			else {
 
+				@SuppressWarnings("unused")
 				int dInCluster = 0;
 				/*
 				 * calculate the healthy state at the end of the time
@@ -408,6 +412,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 	 *            : array with state occupancy values
 	 * @return prevalence of disease D (double)
 	 */
+	@SuppressWarnings("unused")
 	private double getPrevalenceOfD(int c, int diseaseNumber,
 			int firstStateIndex, float[] value) {
 
@@ -537,6 +542,7 @@ public class HealthStateCatManyToManyUpdateRule extends
 						 * DiseaseNumberWithinCluster;== array over diseases
 						 */
 
+						@SuppressWarnings("unused")
 						int currentStateNo = 0;
 
 						for (int c = 0; c < nCluster; c++) {

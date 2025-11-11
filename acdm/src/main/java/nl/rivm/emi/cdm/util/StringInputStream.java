@@ -12,6 +12,7 @@ public class StringInputStream extends InputStream {
 	 */
 	private String string;
 
+	@SuppressWarnings("unused")
 	private int position = -1;
 
 	public StringInputStream(String string) {

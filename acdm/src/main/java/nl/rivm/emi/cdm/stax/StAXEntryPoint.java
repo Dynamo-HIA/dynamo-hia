@@ -7,20 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Iterator;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,8 +71,8 @@ public class StAXEntryPoint {
 		Writer fileWriter;
 		fileWriter = new FileWriter(populationFile);
 		XMLEventWriter writer = factory.createXMLEventWriter(fileWriter);
-		StAXPopulationDocumentEventStreamer popCons = new StAXPopulationDocumentEventStreamer();
+	//	StAXPopulationDocumentEventStreamer popCons = new StAXPopulationDocumentEventStreamer();
 		XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-		popCons.streamEvents(population, writer, eventFactory);
+		StAXPopulationDocumentEventStreamer.streamEvents(population, writer, eventFactory);
 	}
 }

@@ -23,8 +23,8 @@ public class DOMCharacteristicValueWriter {
 					+ ") from a nonexistent location: " + stepNumber);
 		}
 		int value = characteristicValue.getValue(stepNumber);
-		element.setAttribute("id", new Integer(index).toString());
-		element.setAttribute("vl", new Integer(value).toString());
+		element.setAttribute("id", Integer.valueOf(index).toString());
+		element.setAttribute("vl", Integer.valueOf(value).toString());
 		parentElement.appendChild(element);
 	}
 
@@ -41,8 +41,8 @@ public class DOMCharacteristicValueWriter {
 					+ ") from a nonexistent location: " + stepNumber);
 		}
 		float value = characteristicValue.getValue(stepNumber);
-		element.setAttribute("id", new Integer(index).toString());
-		element.setAttribute("vl", new Float(value).toString());
+		element.setAttribute("id", Integer.valueOf(index).toString());
+		element.setAttribute("vl", Float.valueOf(value).toString());
 		parentElement.appendChild(element);
 	}
 
@@ -63,8 +63,8 @@ public class DOMCharacteristicValueWriter {
 		for (int i = 0; i < value.length; i++) {
 			Element element = parentElement.getOwnerDocument().createElement(
 					elementName);
-			element.setAttribute("id", new Integer(index).toString());
-			element.setAttribute("vl", new Float(value[i]).toString());
+			element.setAttribute("id", Integer.valueOf(index).toString());
+			element.setAttribute("vl", Float.valueOf(value[i]).toString());
 			parentElement.appendChild(element);
 		}
 	}

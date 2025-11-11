@@ -23,6 +23,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 
 	private Log log = LogFactory.getLog(getClass().getName());
 	
+	@SuppressWarnings("rawtypes")
 	public TreeMap transitionConfiguration = null; // TODO remove public,
 
 	final int maxRandInt = 100000;
@@ -53,8 +54,10 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 		return newValue;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public boolean loadConfigurationFile(File configurationFile) throws ConfigurationException
 			 {
+		@SuppressWarnings("unused")
 		boolean success = false;
 		XMLConfiguration configurationFileConfiguration;
 		try {
@@ -71,6 +74,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 			configurationFileConfiguration.setValidating(true);			
 			configurationFileConfiguration.load();
 			
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> snConf = configurationFileConfiguration
 					.configurationsAt("transitionmatrix");
 			if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
@@ -98,6 +102,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 	
 	private Object handleLevel(SubnodeConfiguration snConf, int levelNumber) {
 		Object resultObject = null;
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> levelConfs = snConf.configurationsAt("level"
 				+ levelNumber);
 		if (!levelConfs.isEmpty()) {
@@ -130,6 +135,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public String dumpTreeMapTree(TreeMap daTree) {
 		StringBuffer result = new StringBuffer();
 		for (int count = 1; count <= daTree.size(); count++) {
@@ -152,6 +158,7 @@ public class UpdateRuleIntermediateLayer extends OneToOneUpdateRuleBase implemen
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean consistencyCheck(TreeMap daTree, boolean consistent,
 			int[] levels) {
 		float totalOfLeafGroup = 0;

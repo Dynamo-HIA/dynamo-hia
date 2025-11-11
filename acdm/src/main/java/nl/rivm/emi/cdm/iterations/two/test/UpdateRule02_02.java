@@ -39,6 +39,7 @@ public class UpdateRule02_02 extends ManyToOneUpdateRuleBase implements
 		Float returnValue = null;
 		if(!(currentValues[1] == null)&&(currentValues[1] instanceof Integer) &&!(currentValues[2]==null)){
 			Characteristic characteristic1 = CharacteristicsConfigurationMapSingleton.getInstance().getCharacteristic(1);
+			@SuppressWarnings("unused")
 			String derefValue = characteristic1.getPossibleValue((Integer)currentValues[1]);
 			float currVal1 = ((Integer)currentValues[1]).floatValue();
 			float currVal2 = ((Float)currentValues[2]).floatValue();

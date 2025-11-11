@@ -28,6 +28,7 @@ public abstract class AbstractStAXEventConsumer {
 			AbstractStAXEventConsumer mother) throws XMLStreamException,
 			UnexpectedFileStructureException;
 
+	@SuppressWarnings("finally")
 	public boolean nextStartElementOrFalse(XMLEventReader reader) {
 		boolean startElementEventFound = false;
 		logHeadOfEventStream(reader, "nextStartElementOrFalse");

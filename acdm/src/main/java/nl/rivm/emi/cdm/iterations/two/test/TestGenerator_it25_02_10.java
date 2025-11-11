@@ -4,37 +4,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.JUnit4TestAdapter;
+
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.individual.Individual;
-import nl.rivm.emi.cdm.population.Generator;
-import nl.rivm.emi.cdm.population.GeneratorFromXMLFactory;
-import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationFromDomFactory;
 import nl.rivm.emi.cdm.population.SeedLessGenerator;
 import nl.rivm.emi.cdm.population.SeedLessGeneratorFromXMLFactory;
-import nl.rivm.emi.cdm.simulation.Simulation;
 
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.HierarchicalXMLConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-import static org.junit.Assert.assertEquals;
 
 public class TestGenerator_it25_02_10 {
 	Log log = LogFactory.getLog(getClass().getName());
@@ -62,6 +47,7 @@ public class TestGenerator_it25_02_10 {
 		System.out.println(multipleCharacteristicsFileName);
 		File multipleCharacteristicsFile = new File(
 				multipleCharacteristicsFileName);
+		@SuppressWarnings("unused")
 		CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 				multipleCharacteristicsFile);
 	}

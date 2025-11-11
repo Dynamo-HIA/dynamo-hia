@@ -1,19 +1,17 @@
 package nl.rivm.emi.cdm.rules.update;
 
-import java.io.File;
+
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
+
 import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationLevel;
 import nl.rivm.emi.cdm.rules.update.base.NeedsSeed;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -21,6 +19,7 @@ public class SpinAsLeafUpdateRuleLayer extends OneToOneUpdateRuleBase implements
 		ConfigurationLevel, NeedsSeed {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("rawtypes")
 	public TreeMap transitionConfiguration = null; // TODO remove public,
 
 	final int maxRandInt = 100000;
@@ -52,6 +51,7 @@ public class SpinAsLeafUpdateRuleLayer extends OneToOneUpdateRuleBase implements
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	public boolean handleFirstLevel(SubnodeConfiguration snConf, int levelNumber) {
 		log.info("Handling " + snConf.getRootNode().getName()
 				+ " at level " + levelNumber);
@@ -67,6 +67,7 @@ public class SpinAsLeafUpdateRuleLayer extends OneToOneUpdateRuleBase implements
 	
 	public Object handleLevel(SubnodeConfiguration snConf, int levelNumber) {
 		Object resultObject = null;
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> levelConfs = snConf.configurationsAt("level"
 				+ levelNumber);
 		if (!levelConfs.isEmpty()) {
@@ -103,6 +104,7 @@ public class SpinAsLeafUpdateRuleLayer extends OneToOneUpdateRuleBase implements
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public String dumpTreeMapTree(TreeMap daTree) {
 		StringBuffer result = new StringBuffer();
 		for (int count = 1; count <= daTree.size(); count++) {
@@ -125,6 +127,7 @@ public class SpinAsLeafUpdateRuleLayer extends OneToOneUpdateRuleBase implements
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean consistencyCheck(TreeMap daTree, boolean consistent,
 			int[] levels) {
 		float totalOfLeafGroup = 0;

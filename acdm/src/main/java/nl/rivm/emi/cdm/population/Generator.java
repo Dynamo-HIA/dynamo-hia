@@ -30,6 +30,7 @@ public class Generator {
 
 	private String rngClassName = null;
 
+	@SuppressWarnings("rawtypes")
 	private Class rngClass = null;
 
 	private float rngSeed = -1;
@@ -88,7 +89,6 @@ public class Generator {
 	 *         configuration.
 	 * @throws CDMConfigurationException
 	 */
-	@SuppressWarnings("finally")
 	public Generator isValid() throws CDMConfigurationException {
 		Generator thisWhenValid = null;
 		try {
@@ -114,10 +114,13 @@ public class Generator {
 		return thisWhenValid;
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean loadAndCheckRNGClass() throws ClassNotFoundException {
 		ClassLoader classLoader =
 			Thread.currentThread().getContextClassLoader();		
+		@SuppressWarnings("rawtypes")
 		Class randomNumberGenerator = classLoader.loadClass(rngClassName);
+		@SuppressWarnings("rawtypes")
 		Class javaUtilRandom = classLoader.loadClass("java.util.Random");
 		boolean success = (randomNumberGenerator.asSubclass(javaUtilRandom) != null);
 		if (success) {

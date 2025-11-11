@@ -29,14 +29,6 @@ import org.apache.commons.configuration.XMLConfigurationToo;
  * </p>
  */
 
-/**
- * @author Hendriek
- *
- */
-/**
- * @author Hendriek
- * 
- */
 public class ArraysFromXMLFactory {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	private float[][][][] checkArray;
@@ -157,6 +149,7 @@ public class ArraysFromXMLFactory {
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
 
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 
@@ -365,6 +358,7 @@ public class ArraysFromXMLFactory {
 		boolean ageRead = false;
 
 		boolean valueRead = false;
+		@SuppressWarnings("unchecked")
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
@@ -523,13 +517,16 @@ public class ArraysFromXMLFactory {
 						+ " expected in file " + fileName + " but found tag "
 						+ configurationFromFile.getRootElementName());
 
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 
 			/* first find out how many elements there are */
 
+			@SuppressWarnings("unchecked")
 			List<Integer> indexL = configurationFromFile.getList(tagName + "."
 					+ value1TagName);
+			@SuppressWarnings("rawtypes")
 			Iterator it = indexL.iterator();
 			int maxIndex = 0;
 			int minIndex = 1000;
@@ -665,6 +662,7 @@ public class ArraysFromXMLFactory {
 		boolean ageRead = false;
 		boolean indexRead = false;
 		boolean valueRead = false;
+		@SuppressWarnings("unchecked")
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
@@ -797,6 +795,7 @@ public class ArraysFromXMLFactory {
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
 
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 
@@ -894,6 +893,7 @@ public class ArraysFromXMLFactory {
 		boolean ageRead = false;
 		boolean indexRead = false;
 		boolean valueRead = false;
+		@SuppressWarnings("unchecked")
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {
@@ -1074,15 +1074,19 @@ public class ArraysFromXMLFactory {
 						+ " but found tag "
 						+ configurationFromFile.getRootElementName());
 
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 
 			/* first find out how many elements there are */
 			/* the third and fourth dimension should be equal */
+			@SuppressWarnings("unchecked")
 			List<Integer> indexL1 = configurationFromFile.getList(tagName + "."
 					+ value1TagName);
+			@SuppressWarnings("unchecked")
 			List<Integer> indexL2 = configurationFromFile.getList(tagName + "."
 					+ value2TagName);
+			@SuppressWarnings("rawtypes")
 			Iterator it = indexL1.iterator();
 			int maxIndex1 = 0;
 			while (it.hasNext()) {
@@ -1090,6 +1094,7 @@ public class ArraysFromXMLFactory {
 				if (curVar > maxIndex1)
 					maxIndex1 = curVar;
 			}
+			@SuppressWarnings("rawtypes")
 			Iterator it2 = indexL2.iterator();
 			int maxIndex2 = 0;
 			while (it2.hasNext()) {
@@ -1207,6 +1212,7 @@ public class ArraysFromXMLFactory {
 		boolean index2Read = false;
 		boolean valueRead = false;
 
+		@SuppressWarnings("unchecked")
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild
 				.getChildren();
 		for (ConfigurationNode leafChild : leafChildren) {

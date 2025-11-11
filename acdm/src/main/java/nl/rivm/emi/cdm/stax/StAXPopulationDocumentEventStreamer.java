@@ -1,16 +1,12 @@
 package nl.rivm.emi.cdm.stax;
 
 import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.population.Population;
-import nl.rivm.emi.cdm.population.PopulationStAXEventConsumer;
 import nl.rivm.emi.cdm.population.StAXPopulationEventStreamer;
-import nl.rivm.emi.cdm.population.UnexpectedFileStructureException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

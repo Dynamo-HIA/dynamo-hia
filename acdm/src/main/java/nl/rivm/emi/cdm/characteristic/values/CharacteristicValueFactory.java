@@ -135,6 +135,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	private boolean handleIntegerValue(Individual individual,
 			int numberOfSteps, boolean success, NamedNodeMap myAttributes,
 			String index) throws CDMConfigurationException, CDMRunException {
+		@SuppressWarnings("unused")
 		Matcher matcher;
 		boolean indexOK = isIndexPosInt(index);
 		Node valueNode = myAttributes.getNamedItem("vl");
@@ -184,6 +185,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 	private boolean handleFloatValue(Individual individual, int numberOfSteps,
 			boolean success, NamedNodeMap myAttributes, String index)
 			throws CDMConfigurationException, CDMRunException {
+		@SuppressWarnings("unused")
 		Matcher matcher;
 		boolean indexOK = isIndexPosInt(index);
 		Node valueNode = myAttributes.getNamedItem("vl");
@@ -238,6 +240,7 @@ public class CharacteristicValueFactory extends XMLConfiguredObjectFactory {
 			int numberOfSteps, boolean success, NamedNodeMap myAttributes,
 			String index, int numberOfElements)
 			throws CDMConfigurationException, CDMRunException {
+		@SuppressWarnings("unused")
 		Matcher matcher;
 		boolean indexOK = isIndexPosInt(index);
 		Node valueNode = myAttributes.getNamedItem("vl");

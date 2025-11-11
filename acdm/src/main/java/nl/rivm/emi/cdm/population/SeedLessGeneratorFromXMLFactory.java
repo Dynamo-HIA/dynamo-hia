@@ -10,7 +10,6 @@ import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 
 public class SeedLessGeneratorFromXMLFactory {
 	public static final String labelLabel = "lb";
@@ -57,11 +56,13 @@ public class SeedLessGeneratorFromXMLFactory {
 	private static void addCharacteristicsIds(
 			HierarchicalConfiguration generatorConfiguration,
 			SeedLessGenerator generator) throws ConfigurationException {
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> characteristicsConfigurations = generatorConfiguration
 				.configurationsAt(characteristicsLabel);
 		if (characteristicsConfigurations.size() == 1) {
 			SubnodeConfiguration characteristicsConfiguration = characteristicsConfigurations
 					.get(0);
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> characteristicIdConfigurations = characteristicsConfiguration
 					.configurationsAt(characteristicIndexLabel);
 			if (characteristicIdConfigurations.size() > 0) {

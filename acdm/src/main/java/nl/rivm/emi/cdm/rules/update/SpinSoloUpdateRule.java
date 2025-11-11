@@ -23,6 +23,7 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
+	@SuppressWarnings("rawtypes")
 	public TreeMap transitionConfiguration = null; // TODO remove public,
 
 	final int maxRandInt = 100000;
@@ -53,9 +54,11 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 		return newValue;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public boolean loadConfigurationFile(File configurationFile)
 			throws ConfigurationException {
 		try {
+			@SuppressWarnings("unused")
 			boolean success = false;
 			XMLConfiguration configurationFileConfiguration = new XMLConfiguration(
 					configurationFile);
@@ -70,6 +73,7 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 			configurationFileConfiguration.setValidating(true);			
 			configurationFileConfiguration.load();
 			
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> snConf = configurationFileConfiguration
 					.configurationsAt("transitionmatrix");
 			if ((snConf == null) || (snConf.isEmpty() || (snConf.size() > 1))) {
@@ -100,6 +104,7 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 	
 	private Object handleLevel(SubnodeConfiguration snConf, int levelNumber) {
 		Object resultObject = null;
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> levelConfs = snConf.configurationsAt("level"
 				+ levelNumber);
 		if (!levelConfs.isEmpty()) {
@@ -136,6 +141,7 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public String dumpTreeMapTree(TreeMap daTree) {
 		StringBuffer result = new StringBuffer();
 		for (int count = 1; count <= daTree.size(); count++) {
@@ -158,6 +164,7 @@ public class SpinSoloUpdateRule extends OneToOneUpdateRuleBase implements
 	 * @param daTree
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean consistencyCheck(TreeMap daTree, boolean consistent,
 			int[] levels) {
 		float totalOfLeafGroup = 0;

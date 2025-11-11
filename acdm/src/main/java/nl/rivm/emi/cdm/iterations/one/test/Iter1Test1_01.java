@@ -19,8 +19,6 @@ import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.rules.update.AbstractDoubleBoundOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
