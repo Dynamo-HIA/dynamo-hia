@@ -10,5 +10,6 @@ public interface IReferenceClass {
 
 	public Integer getReferenceClass();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableReferenceClass() throws DynamoConfigurationException;
 }

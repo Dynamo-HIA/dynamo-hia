@@ -8,6 +8,7 @@ public interface IMinAge {
 
 	public abstract Integer getMinAge();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableMinAge() throws DynamoConfigurationException;
 
 	public abstract void setMinAge(Integer minAge);

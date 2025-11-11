@@ -8,6 +8,7 @@ public interface IStartingYear {
 
 	public abstract Integer getStartingYear();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableStartingYear() throws DynamoConfigurationException;
 
 	public abstract void setStartingYear(Integer startingYear);

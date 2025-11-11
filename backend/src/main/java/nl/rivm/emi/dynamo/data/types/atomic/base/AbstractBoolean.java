@@ -47,6 +47,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 	 *            The String produced by the view.
 	 * @return The resulting Boolean after conversion.
 	 */
+	@SuppressWarnings("unchecked")
 	public Boolean fromString(String inputString) {
 		return (Boolean) modelUpdateValueStrategy.convert(inputString);
 	}
@@ -58,6 +59,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 	 *            The Boolean from the modelobject.
 	 * @return The String for the view.
 	 */
+	@SuppressWarnings("unchecked")
 	public String toString(Boolean inputValue) {
 		return (String) viewUpdateValueStrategy.convert(inputValue);
 	}
@@ -89,6 +91,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 	}
 
 	public Object convert4Model(String viewString) {
+		@SuppressWarnings("unchecked")
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
@@ -103,6 +106,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		Boolean nakedValue = null;
@@ -110,6 +114,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		if (modelValue instanceof WritableValue) {
 			log.debug("Type WritableValue: "
 					+ ((WritableValue) modelValue).doGetValue());
+		
 			Object value = ((WritableValue) modelValue).doGetValue();
 			if (value instanceof Boolean) {
 				log.debug("Type Boolean");
@@ -117,7 +122,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 						.doGetValue();
 			} else if (value instanceof String) {
 				log.debug("Type String");
-				nakedValue = new Boolean((String) ((WritableValue) modelValue)
+				nakedValue = Boolean.valueOf((String) ((WritableValue) modelValue)
 						.doGetValue());
 			}
 		} else {
@@ -126,7 +131,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 				nakedValue = (Boolean) modelValue;
 			} else if (modelValue instanceof String) {
 				log.debug("Type String");
-				nakedValue = new Boolean((String) modelValue);
+				nakedValue = Boolean.valueOf((String) modelValue);
 			}
 		}
 		// String viewValue = convert4View(nakedValue);
@@ -144,13 +149,15 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		 */
 	}
 
-	protected UpdateValueStrategy assembleModelStrategy() {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	protected UpdateValueStrategy assembleModelStrategy() {	
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
 				"ValueModelConverter"));
 		return resultStrategy;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy
@@ -158,14 +165,17 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		return resultStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		return modelUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueModelConverter implements IConverter {
 		String debugString = "";
 
@@ -204,6 +214,7 @@ public class AbstractBoolean extends AtomicTypeBase<Boolean> implements
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueViewConverter implements IConverter {
 		Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";

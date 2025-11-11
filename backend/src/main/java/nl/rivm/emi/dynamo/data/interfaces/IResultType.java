@@ -8,6 +8,7 @@ public interface IResultType {
 
 	public abstract String getResultType();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableResultType() throws DynamoConfigurationException;
 
 	public abstract void setResultType(String resultType);

@@ -15,13 +15,15 @@ public interface ITabScenarioConfiguration {
 
 	public void setName(String name);
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableName();
 
-	public void setObservableName(WritableValue name);
+	public void setObservableName(@SuppressWarnings("rawtypes") WritableValue name);
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableSuccessRate();
 
-	public void setObservableSuccessRate(WritableValue successRate);
+	public void setObservableSuccessRate(@SuppressWarnings("rawtypes") WritableValue successRate);
 
 	public Integer getMinAge();
 

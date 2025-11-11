@@ -8,6 +8,6 @@ public class DurationClass extends AbstractClassIndex implements PayloadType<Int
 	static final protected String XMLElementName = "durationclass";
 
 	public DurationClass() {
-		super(XMLElementName, new Integer(1), hardUpperLimit);
+		super(XMLElementName, Integer.valueOf(1), hardUpperLimit);
 	}
 }

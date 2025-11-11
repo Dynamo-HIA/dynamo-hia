@@ -21,6 +21,10 @@ import org.eclipse.core.databinding.observable.value.WritableValue;
 
 public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLayer
 		implements ICategoricalObject, IReferenceClass, IDurationClass {
+	/**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	public RiskFactorCompoundObject(LinkedHashMap<String, Object> content) {
@@ -28,7 +32,9 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 		super.putAll(content);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public String getCategoryName(Integer index) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 				.getElementName());
 		Object categoryNameObject = (String) wrappedObject.get(index);
@@ -42,14 +48,18 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 		return categoryName;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableCategoryName(Integer index) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 				.getElementName());
 		Object payloadObject = wrappedObject.get(index);
+		
 		WritableValue writableCategoryName = null;
 //		if (categoryNameObject instanceof WritableValue) {
 //			writableCategoryName = (WritableValue) categoryNameObject;
 		if (payloadObject instanceof ArrayList) {
+			@SuppressWarnings("unchecked")
 			ArrayList<AtomicTypeObjectTuple> payloadArrayList = (ArrayList<AtomicTypeObjectTuple>)payloadObject;
 			writableCategoryName = (WritableValue)payloadArrayList.get(0).getValue();
 		} else {
@@ -58,14 +68,17 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 		return writableCategoryName;
 	}
 
+	@SuppressWarnings("unchecked")
 	public int getNumberOfCategories() {
 		return ((TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 				.getElementName())).size();
 	}
 
 	public Object putCategory(Integer index, String name) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Index> wrappedObject = (TypedHashMap<Index>) get(XMLTagEntityEnum.CLASSES
 				.getElementName());
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		WritableValue newName = new WritableValue(name, name.getClass());
 		return wrappedObject.put(index, newName);
 	}
@@ -75,6 +88,7 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableReferenceClass() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCECLASS
 				.getElementName());
@@ -90,6 +104,7 @@ public class RiskFactorCompoundObject extends GroupConfigurationObjectServiceLay
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableDurationClass() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.DURATIONCLASS
 				.getElementName());

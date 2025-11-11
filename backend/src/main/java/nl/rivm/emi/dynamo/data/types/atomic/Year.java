@@ -7,6 +7,7 @@ import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
  * @author mondeelr
  * Bla
  */
+@SuppressWarnings("rawtypes")
 public class Year extends AbstractYear implements ContainerType{
 	static final protected String XMLElementName = "year";	
 

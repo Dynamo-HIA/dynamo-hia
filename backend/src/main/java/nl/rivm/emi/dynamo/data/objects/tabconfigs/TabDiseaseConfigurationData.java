@@ -75,6 +75,7 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 		this.dalyWeightsFileName = dalyWeightsFileName;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initialize(Object name,
 			ArrayList<AtomicTypeObjectTuple> modelDiseaseData) {
 		setName((String) name);
@@ -116,6 +117,7 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> diseasesMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();
@@ -127,6 +129,7 @@ public class TabDiseaseConfigurationData implements ITabDiseaseConfiguration,
 		 * WritableValue(getPrevalenceFileName(), String.class));
 		 * diseaseModelData.add(tuple);
 		 */
+	
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
 				XMLTagEntityEnum.PREVFILENAME.getTheType(), new WritableValue(
 						getPrevalenceFileName(), String.class));

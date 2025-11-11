@@ -21,7 +21,7 @@ public class StartingYear extends AbstractRangedInteger implements PayloadType<I
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		return new Integer(calendar.get(Calendar.YEAR));
+		return Integer.valueOf(calendar.get(Calendar.YEAR));
 	}
 	
 }

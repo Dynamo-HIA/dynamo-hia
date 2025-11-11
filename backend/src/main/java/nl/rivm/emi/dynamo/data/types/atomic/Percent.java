@@ -18,7 +18,7 @@ public class Percent extends AbstractValue implements
 			.compile("^\\d{0,3}(\\.\\d{0,8}?)?$");
 
 	public Percent(){
-		super("percent", new Float(0), new Float(100));
+		super("percent", Float.valueOf(0), Float.valueOf(100));
 		modelUpdateValueStrategy = assembleModelStrategy();
 		viewUpdateValueStrategy = assembleViewStrategy();
 	}

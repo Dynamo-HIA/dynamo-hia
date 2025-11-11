@@ -8,6 +8,7 @@ public interface IMaxAge {
 
 	public abstract Integer getMaxAge();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableMaxAge() throws DynamoConfigurationException;
 
 	public abstract void setMaxAge(Integer maxAge);

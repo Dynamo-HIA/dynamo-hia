@@ -19,8 +19,8 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	 */
 	final public Pattern matchPattern = Pattern.compile("^\\d*$");
 
-	static final protected Integer hardLowerLimit = new Integer(1);
-	static final protected Integer hardUpperLimit = new Integer(50);
+	static final protected Integer hardLowerLimit = Integer.valueOf(1);
+	static final protected Integer hardUpperLimit = Integer.valueOf(50);
 
 
 	/**
@@ -36,7 +36,7 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 	}
 
 	public Integer getDefaultValue() {
-		return new Integer(1);
+		return Integer.valueOf(1);
 	}
 	
 	public boolean inRange(Integer testValue) {
@@ -96,6 +96,7 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 		return viewValue;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		Integer nakedValue = null;
@@ -108,12 +109,14 @@ abstract public class AbstractClassIndex extends FlexibleUpperLimitNumberRangeTy
 			return viewValue;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		// TODO Auto-generated method stub

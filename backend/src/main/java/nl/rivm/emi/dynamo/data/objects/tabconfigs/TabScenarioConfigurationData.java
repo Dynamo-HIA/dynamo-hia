@@ -23,7 +23,9 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		ITabStoreConfiguration {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
+	@SuppressWarnings("rawtypes")
 	WritableValue observableName;
+	@SuppressWarnings("rawtypes")
 	WritableValue observableSuccessRate;
 	Integer minAge;
 	Integer maxAge;
@@ -35,6 +37,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		return (String) observableName.doGetValue();
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setName(String name) {
 		if (this.observableName == null) {
 			setObservableName(new WritableValue(name, String.class));	
@@ -42,14 +45,16 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		observableName.doSetValue(name);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableName() {
 		return observableName;
 	}
 
-	public void setObservableName(WritableValue name) {		
+	public void setObservableName(@SuppressWarnings("rawtypes") WritableValue name) {		
 		this.observableName = name;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setSuccessRate(Integer successRate) {
 		if (this.observableSuccessRate == null) {
 			setObservableSuccessRate(new WritableValue(successRate, Integer.class));	
@@ -57,11 +62,12 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		observableSuccessRate.doSetValue(successRate);		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableSuccessRate() {
 		return observableSuccessRate;
 	}
 
-	public void setObservableSuccessRate(WritableValue successRate) {
+	public void setObservableSuccessRate(@SuppressWarnings("rawtypes") WritableValue successRate) {
 		this.observableSuccessRate = successRate;
 	}
 
@@ -106,6 +112,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		this.altPrevalenceFileName = altPrevalenceFileName;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void initialize(Object name, ArrayList<AtomicTypeObjectTuple> list) {
 		log.debug("Initializing: " + this);
 		setObservableName(new WritableValue(name, String.class));
@@ -157,6 +164,7 @@ public class TabScenarioConfigurationData implements ITabScenarioConfiguration,
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> scenarioModelData = new ArrayList<AtomicTypeObjectTuple>();

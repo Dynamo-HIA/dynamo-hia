@@ -39,6 +39,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		super.putAll(manufacturedMap);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableSexRatio() throws DynamoConfigurationException {
 		WritableValue value = getSingleRootChildWritableValue(XMLTagEntityEnum.SEXRATIO
 				.getElementName());
@@ -57,7 +58,9 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableStartingYear() throws DynamoConfigurationException {
+	
 		WritableValue value = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR
 				.getElementName());
 		return value;
@@ -74,7 +77,9 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 				.getElementName(), startingYear);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Integer getNumber(Integer index) {
+		
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		Object numberObject = wrappedObject.get(index);
@@ -91,6 +96,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		return number;
 	}
 
+	@SuppressWarnings("unchecked")
 	public int getNumberOfAmounts() {
 		log.debug("getNumberOfAmounts() about to return "
 				+ ((TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
@@ -99,14 +105,18 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 				.getElementName())).size();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableNumber(Integer index) {
 		log.debug("getObservableNumber(" + index + ")");
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
+		@SuppressWarnings("unchecked")
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
 		log.debug("index:: " + index + "numberTupleList:: " + numberTupleList);
 		Object numberObject = numberTupleList.get(0).getValue();
+	
 		WritableValue writableNumber = null;
 		if (numberObject instanceof WritableValue) {
 			writableNumber = (WritableValue) numberObject;
@@ -122,8 +132,10 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	 *      java.lang.Integer)
 	 */
 	public Object putNumber(Integer index, Integer number) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
+		@SuppressWarnings("unchecked")
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
 		AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
@@ -132,6 +144,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 			log.warn("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		WritableValue newNumber = new WritableValue(number, number.getClass());
 		numberTuple.setValue(newNumber);
 		numberTupleList.remove(0);
@@ -147,14 +160,18 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	 * @see nl.rivm.emi.dynamo.data.interfaces.IAmount#putNumber(java.lang.Integer,
 	 *      java.lang.Integer)
 	 */
+	@SuppressWarnings("unchecked")
 	public Object updateNumber(Integer index, Integer number) {
 		Object displacedObject = null;
+	
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
+		
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
 		AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
 		// Assumption, always writable.
+		@SuppressWarnings("rawtypes")
 		WritableValue numberWritable = (WritableValue) numberTuple.getValue();
 		if (numberWritable == null) {
 			log.warn("!!!!!!!!!!putNumber() may not be used to add numbers!!!!!!!!!!!!");
@@ -181,12 +198,15 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	 * @return
 	 */
 	public Object addNumber(Integer index, Integer number, boolean prefix) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
+		@SuppressWarnings("unchecked")
 		ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
 		if (numberTupleList == null) {
 			numberTupleList = new ArrayList<AtomicTypeObjectTuple>();
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			WritableValue newNumber = new WritableValue(number, number
 					.getClass());
 			AtomicTypeObjectTuple numberTuple = new AtomicTypeObjectTuple(
@@ -207,6 +227,7 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	 * @return
 	 */
 	public Object removeNumber(Integer index) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		Object displacedObject = wrappedObject.remove(index);
@@ -214,15 +235,18 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	public boolean isContainsPostfixZeros() throws DynamoConfigurationException {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
 		int startingYear = ((Integer) getObservableStartingYear().doGetValue())
 				.intValue();
 		for (int index = (startingYear + this.getNumberOfAmounts() - 1); index >= startingYear; index--) {
+			@SuppressWarnings("unchecked")
 			ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 					.get(index);
 			if (numberTupleList != null) {
 				AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
+				@SuppressWarnings("rawtypes")
 				Integer currentNumber = (Integer) ((WritableValue) numberTuple
 						.getValue()).doGetValue();
 				if (currentNumber != null) {
@@ -242,15 +266,20 @@ public class NewbornsObject extends GroupConfigurationObjectServiceLayer
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean isContainsZeros() {
+	
 		TypedHashMap<Year> wrappedObject = (TypedHashMap<Year>) get(XMLTagEntityEnum.AMOUNTS
 				.getElementName());
+		@SuppressWarnings("rawtypes")
 		Set keys = wrappedObject.keySet();
 		for (Integer key : (Set<Integer>) keys) {
+		
 			ArrayList<AtomicTypeObjectTuple> numberTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 					.get(key);
 			if (numberTupleList != null) {
 				AtomicTypeObjectTuple numberTuple = numberTupleList.get(0);
+				@SuppressWarnings("rawtypes")
 				Integer currentNumber = (Integer) ((WritableValue) numberTuple
 						.getValue()).doGetValue();
 				if (currentNumber != null) {

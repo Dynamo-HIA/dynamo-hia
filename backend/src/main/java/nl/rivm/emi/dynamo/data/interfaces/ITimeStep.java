@@ -8,6 +8,7 @@ public interface ITimeStep {
 
 	public abstract Float getTimeStep();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableTimeStep() throws DynamoConfigurationException;
 
 	public abstract void setTimeStep(Float timeStep);

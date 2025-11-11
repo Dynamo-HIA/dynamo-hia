@@ -8,6 +8,7 @@ public interface ISimPopSize {
 
 	public abstract Integer getSimPopSize();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableSimPopSize() throws DynamoConfigurationException;
 
 	public abstract void setSimPopSize(Integer simPopSize);

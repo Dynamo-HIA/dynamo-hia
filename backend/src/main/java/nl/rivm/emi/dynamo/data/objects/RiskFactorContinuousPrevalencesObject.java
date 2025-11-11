@@ -34,7 +34,7 @@ public class RiskFactorContinuousPrevalencesObject extends GroupConfigurationObj
 				.getElementName());
 	}
 
-	public WritableValue getObservableDistributionType() throws DynamoConfigurationException {
+	public WritableValue<?> getObservableDistributionType() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.UNITTYPE
 				.getElementName());
 	}

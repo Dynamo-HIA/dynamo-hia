@@ -66,15 +66,18 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 	}
 
 	public String convert4View(Object modelValue) {
+		@SuppressWarnings("unchecked")
 		String result = (String) viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
 
 	public Object convert4Model(String viewString) {
+		@SuppressWarnings("unchecked")
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		String nakedValue = null;
@@ -87,6 +90,7 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 			return viewValue;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
@@ -94,6 +98,7 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 		return resultStrategy;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy
@@ -101,6 +106,7 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 		return resultStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueModelConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -130,6 +136,7 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueViewConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -159,10 +166,12 @@ public class AbstractString2 extends AtomicTypeBase<String> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		return modelUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}

@@ -8,6 +8,7 @@ public interface ITrend {
 
 	public abstract Float getTrend() throws DynamoConfigurationException;
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableTrend() throws DynamoConfigurationException;
 
 	public abstract void setTrend(Float trend) throws DynamoConfigurationException;

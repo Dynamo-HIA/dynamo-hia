@@ -8,6 +8,7 @@ public interface IRefScenName {
 
 	public abstract String getRefScenName();
 	
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableRefScenName() throws DynamoConfigurationException;
 
 	public abstract void setRefScenName(String popFileName);

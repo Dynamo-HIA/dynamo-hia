@@ -23,6 +23,7 @@ public class TabRiskFactorConfigurationData implements
 	String prevalenceFileName;
 	String transitionFileName;
 
+	@SuppressWarnings("rawtypes")
 	public void initialize(Object name,
 			ArrayList<AtomicTypeObjectTuple> list) {
 		if (name instanceof String) {
@@ -53,6 +54,7 @@ log.debug("Intitializing, name: " + name);
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();

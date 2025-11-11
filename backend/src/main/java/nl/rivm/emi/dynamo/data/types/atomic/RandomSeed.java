@@ -11,6 +11,6 @@ public class RandomSeed extends AbstractRangedInteger implements PayloadType<Int
 	}
 
 	public Integer getDefaultValue() {
-		return new Integer(1);
+		return Integer.valueOf(1);
 	}
 }
