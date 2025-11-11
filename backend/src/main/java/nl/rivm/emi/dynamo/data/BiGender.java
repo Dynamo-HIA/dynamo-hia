@@ -45,7 +45,7 @@ public class BiGender {
 	static Integer validate(int candidate) {
 		Integer result = null;
 		if ((candidate >= MINIMUM_VALUE) && (candidate <= MAXIMUM_VALUE)) {
-			result = new Integer(candidate);
+			result = Integer.valueOf(candidate);
 		}
 		return result;
 	}

@@ -34,6 +34,7 @@ public class TestTransitionDriftNettoFactory {
 	public void teardown() {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDefault() {
 		try {
@@ -69,6 +70,7 @@ public class TestTransitionDriftNettoFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testReadWrite() {
 		try {

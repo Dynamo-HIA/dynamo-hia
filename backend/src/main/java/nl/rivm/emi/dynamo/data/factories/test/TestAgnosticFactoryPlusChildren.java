@@ -50,6 +50,7 @@ public class TestAgnosticFactoryPlusChildren {
 	 * This test must not finish normally because of unexpected "male"and
 	 * "female" tags instead of "sex".
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testPopulationSize() {
 		String rootElementName = FileControlEnum.POPULATIONSIZE
@@ -88,6 +89,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCorrectedPopulationSize() {
 		String rootElementName = FileControlEnum.POPULATIONSIZE
@@ -130,6 +132,7 @@ public class TestAgnosticFactoryPlusChildren {
 	// This test must not finish normally because of unexpected "male"and
 	// "female" tags instead of "sex".
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testOverallMortality() {
 		String rootElementName = FileControlEnum.OVERALLMORTALITY
@@ -169,6 +172,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCorrectedOverallMortality() {
 		String rootElementName = FileControlEnum.OVERALLMORTALITY
@@ -206,6 +210,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testOverallDALYWeights() {
 		String rootElementName = FileControlEnum.OVERALLDALYWEIGHTS
@@ -244,6 +249,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testTransitionMatrix() {
 		String rootElementName = FileControlEnum.TRANSITIONMATRIX
@@ -294,6 +300,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCategoricalRiskFactorPrevalences() {
 		String rootElementName = FileControlEnum.RISKFACTORPREVALENCESCATEGORICAL
@@ -344,6 +351,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRelRiskForDeathCategorical() {
 		String rootElementName = FileControlEnum.RELRISKFORDEATHCATEGORICAL
@@ -394,6 +402,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRelRiskForDeathContinuous() {
 		String rootElementName = FileControlEnum.RELRISKFORDEATHCONTINUOUS
@@ -443,6 +452,7 @@ public class TestAgnosticFactoryPlusChildren {
 	}
 
 	// This test must not finish normally because of a comma in a value field.
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testOriginalDiseasePrevalences() {
 		String rootElementName = FileControlEnum.PREVALENCES
@@ -478,6 +488,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDiseasePrevalences() {
 		String rootElementName = FileControlEnum.PREVALENCES
@@ -517,6 +528,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDiseaseIncidence() {
 		String rootElementName = FileControlEnum.INCIDENCES
@@ -556,6 +568,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRelRiskForRiskFactorCategorical() {
 		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCATEGORICAL
@@ -606,6 +619,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRelRiskForRiskFactorContinuous() {
 		String rootElementName = FileControlEnum.RELRISKFROMRISKFACTORCONTINUOUS
@@ -656,6 +670,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testRelRiskFromOtherDisease() {
 		String rootElementName = FileControlEnum.RELRISKFROMOTHERDISEASE
@@ -704,6 +719,7 @@ public class TestAgnosticFactoryPlusChildren {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDALYWeights() {
 		String rootElementName = FileControlEnum.DALYWEIGHTS

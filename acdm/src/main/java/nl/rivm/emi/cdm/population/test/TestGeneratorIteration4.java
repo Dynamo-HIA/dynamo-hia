@@ -38,6 +38,7 @@ public class TestGeneratorIteration4 {
 				+ characteristicsConfigFileName);
 		File multipleCharacteristicsFile = new File(
 				characteristicsConfigFileName);
+		@SuppressWarnings("unused")
 		CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 				multipleCharacteristicsFile);
 	}

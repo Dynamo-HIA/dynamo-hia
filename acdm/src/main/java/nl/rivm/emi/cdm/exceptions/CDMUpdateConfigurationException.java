@@ -3,6 +3,11 @@ package nl.rivm.emi.cdm.exceptions;
 public class CDMUpdateConfigurationException 	
 	 extends Exception {
 
+		/**
+ 	 * serial id not used
+ 	 */
+	 private static final long serialVersionUID = 2L;
+
 		public static final String wrongConfigurationFile = "Configuration file for update rule %1$s cannot be read for characteristic  %2$s";
 
 		public static final String noParameterFileMessage = "Updaterule %1$s: no filename for parameter data is found for characteristic %2$s.";

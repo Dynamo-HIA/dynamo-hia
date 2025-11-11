@@ -46,8 +46,10 @@ public class Iter1Test1_01 {
 	File transSimOutputStep5 = new File(
 	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop1st5.xml");
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleST1_01 extends AbstractDoubleBoundOneToOneUpdateRule {
 
+	
 		public UpdateRuleST1_01() {
 			super(1, 1);
 		}
@@ -78,8 +80,10 @@ public class Iter1Test1_01 {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleST1_02 extends AbstractDoubleBoundOneToOneUpdateRule {
 
+		
 		public UpdateRuleST1_02() {
 			super(2, 1);
 		}

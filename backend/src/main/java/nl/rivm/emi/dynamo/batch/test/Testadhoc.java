@@ -30,7 +30,7 @@ import org.junit.Test;
 
 /**
  * @author boshuizh
- * This unit test contains the complete battery of tests for DYNAMO-HIA
+ * This global test class is there to adapt for adhoc purposes tests for DYNAMO-HIA
  * 
  */
 

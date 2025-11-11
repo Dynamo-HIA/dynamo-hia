@@ -34,6 +34,7 @@ public class TestExcessMortalityFactory {
 	public void teardown() {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testExcessMortalityDefault() {
 		try {

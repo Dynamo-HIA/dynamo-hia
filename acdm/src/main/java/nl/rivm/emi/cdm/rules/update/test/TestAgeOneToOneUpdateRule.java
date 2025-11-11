@@ -3,18 +3,10 @@ package nl.rivm.emi.cdm.rules.update.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.AgeOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRulesByCharIdRepository;
-import nl.rivm.emi.cdm.rules.update.obsolete.AbstractDoubleBoundUpdateRule;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
@@ -32,6 +24,7 @@ public class TestAgeOneToOneUpdateRule {
 	public void teardown() {
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void staticHandling() {
 		AgeOneToOneUpdateRule daRule = new AgeOneToOneUpdateRule(1, 0.4F);
@@ -40,6 +33,7 @@ public class TestAgeOneToOneUpdateRule {
 		assertEquals(0.4F, daRule.getStepSize());
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void simulation() {
 		AgeOneToOneUpdateRule daRule = new AgeOneToOneUpdateRule(1, 0.4F);

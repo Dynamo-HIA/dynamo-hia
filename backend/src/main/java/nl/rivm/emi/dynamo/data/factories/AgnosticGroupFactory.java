@@ -373,7 +373,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> handleWrapperType(XMLTagEntity wrapperType,
 			FileControlEnum rootChildControlEnum, int level,
 			TypedHashMap<?> resultMap, Boolean makeObservable)
@@ -435,7 +435,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	 *         results of the manufacturing in this method and its delegates.
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			FileControlEnum fileControl, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
@@ -533,6 +533,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 			if (!makeObservable) {
 				modelTuple = new AtomicTypeObjectTuple(type, defaultValue);
 			} else {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				WritableValue observable = new WritableValue(defaultValue,
 						defaultValue.getClass());
 				modelTuple = new AtomicTypeObjectTuple(type, observable);
@@ -550,6 +551,7 @@ abstract public class AgnosticGroupFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Object manufactureDefaultSinglePayload(AtomicTypeBase<?> type,
 			boolean makeObservable) throws DynamoConfigurationException {
 		Object result = null;

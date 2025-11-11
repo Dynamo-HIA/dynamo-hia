@@ -39,6 +39,7 @@ public abstract class AgnosticCategoricalGroupFactory extends
 			throws ConfigurationException, DynamoInconsistentDataException {
 		LinkedHashMap<String, Object> resultObject = super.manufacture(
 				configurationFile, makeObservable, rootElementName);
+		@SuppressWarnings("rawtypes")
 		TypedHashMap<Class> classesMap = (TypedHashMap<Class>) resultObject
 				.get(XMLTagEntityEnum.CLASSES.getElementName());
 		// TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) ageMap.get(0);

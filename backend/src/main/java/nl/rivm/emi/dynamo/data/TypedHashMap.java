@@ -62,6 +62,7 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 			for (Object key : keySet) {
 				Object value = map.get(key);
 				if (value instanceof TypedHashMap<?>) {
+					@SuppressWarnings({ "rawtypes", "unchecked" })
 					TypedHashMap nextLevelTypedHashMap = new TypedHashMap(
 							(TypedHashMap<?>) value);
 					put(key, nextLevelTypedHashMap);
@@ -96,6 +97,7 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 	 * @throws DynamoConfigurationException
 	 *             Thrown when unsupported Types are encountered.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private ArrayList<AtomicTypeObjectTuple> deepCopyEnclosedArrayList(
 			Object value) throws DynamoConfigurationException {
 		ArrayList<AtomicTypeObjectTuple> newList = null;
@@ -104,15 +106,18 @@ public class TypedHashMap<T> extends LinkedHashMap<Object, Object> {
 			for (AtomicTypeObjectTuple oldTuple : (ArrayList<AtomicTypeObjectTuple>) value) {
 				Object oldTupleValue = oldTuple.getValue();
 				XMLTagEntity oldTupleType = oldTuple.getType();
+				
 				WritableValue newTupleValue = null;
 				if (oldTupleValue instanceof WritableValue) {
+				
 					Object oldWritableValue = ((WritableValue) oldTupleValue)
 							.getValue();
+					
 					Object oldWritableType = ((WritableValue) oldTupleValue)
 							.getValueType();
 					if (oldWritableValue instanceof Float) {
 						// Float doesn't clone #@%&.
-						Object newWritableValue = new Float(
+						Object newWritableValue = Float.valueOf(
 								((Float) oldWritableValue).floatValue());
 						newTupleValue = new WritableValue(newWritableValue,
 								oldWritableType);

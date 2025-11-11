@@ -380,6 +380,7 @@ public class DynamoLib {
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
 		double sigma;
+		@SuppressWarnings("unused")
 		double sigma2; /* just for checking */
 				try {
 					sigma2 = findRoot(skewness);

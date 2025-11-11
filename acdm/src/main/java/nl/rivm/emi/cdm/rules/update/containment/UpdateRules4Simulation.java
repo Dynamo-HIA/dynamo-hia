@@ -1,8 +1,6 @@
 package nl.rivm.emi.cdm.rules.update.containment;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -10,6 +8,11 @@ import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 
 public class UpdateRules4Simulation extends HashMap<Integer, UpdateRuleMarker> {
+
+	/**
+	 * serial ID not used
+	 */
+	private static final long serialVersionUID = 12L;
 
 	public UpdateRules4Simulation() {
 		super();
@@ -23,9 +26,10 @@ public class UpdateRules4Simulation extends HashMap<Integer, UpdateRuleMarker> {
 	public UpdateRuleMarker putUpdateRule(Integer characteristicId,
 			UpdateRuleMarker updateRule) throws CDMConfigurationException {
 		UpdateRuleMarker priorRule = null;
+		@SuppressWarnings("rawtypes")
 		Class[] klaasjes = updateRule.getClass().getInterfaces();
 		boolean found = false;
-		for (Class klaas : klaasjes) {
+		for (@SuppressWarnings("rawtypes") Class klaas : klaasjes) {
 			if ("CharacteristicSpecific".equals(klaas.getName())) {
 				found = true;
 			}

@@ -35,7 +35,7 @@ public class TestCharacteristicValues {
 		if (charType.addPossibleValue("Mies")) {
 			correctCount++;
 		}
-		if (charType.addPossibleValue(new Integer(1))) {
+		if (charType.addPossibleValue(Integer.valueOf(1))) {
 			correctCount++;
 		}
 		assertEquals(3, correctCount);
@@ -48,7 +48,7 @@ public class TestCharacteristicValues {
 		charType.addPossibleValue("Aap");
 		charType.addPossibleValue("Noot");
 		charType.addPossibleValue("Mies");
-		charType.addPossibleValue(new Integer(1));
+		charType.addPossibleValue(Integer.valueOf(1));
 		
 		// Assert the number of possible values
 		assertEquals(3, charType.getNumberOfPossibleValues().intValue());

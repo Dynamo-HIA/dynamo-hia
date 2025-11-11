@@ -34,6 +34,7 @@ public class Test01_03 {
 		System.out.println(multipleCharacteristicsFileName);
 		try {
 			File multipleCharacteristicsFile = new File(
+					
 					multipleCharacteristicsFileName);
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);

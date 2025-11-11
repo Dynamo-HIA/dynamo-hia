@@ -20,12 +20,8 @@ import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleOneOne;
-import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleSixFour;
-import nl.rivm.emi.cdm.simulation.test.TestSimulation.UpdateRuleTwoTwo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -128,9 +124,9 @@ public class TestSimulation10000 {
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
 			UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
-			updateRuleStorage.putUpdateRule(new Integer(1), new UpdateRuleOneOne());
-			updateRuleStorage.putUpdateRule(new Integer(2), new UpdateRuleTwoTwo());
-			updateRuleStorage.putUpdateRule(new Integer(3), new UpdateRuleSixFour());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(1), new UpdateRuleOneOne());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(2), new UpdateRuleTwoTwo());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(3), new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
 			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running longitudinal.");
@@ -185,9 +181,9 @@ public class TestSimulation10000 {
 			int stepSize = 1;
 			simulation.setTimeStep(stepSize);
 			UpdateRules4Simulation updateRuleStorage = new UpdateRules4Simulation();
-			updateRuleStorage.putUpdateRule(new Integer(1), new UpdateRuleOneOne());
-			updateRuleStorage.putUpdateRule(new Integer(2), new UpdateRuleTwoTwo());
-			updateRuleStorage.putUpdateRule(new Integer(3), new UpdateRuleSixFour());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(1), new UpdateRuleOneOne());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(2), new UpdateRuleTwoTwo());
+			updateRuleStorage.putUpdateRule(Integer.valueOf(3), new UpdateRuleSixFour());
 			simulation.setUpdateRuleStorage(updateRuleStorage);
 			assertTrue(simulation.isConfigurationOK());
 			log.fatal("Running transversal");

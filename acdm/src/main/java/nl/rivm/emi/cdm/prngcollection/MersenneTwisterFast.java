@@ -155,7 +155,11 @@ import java.util.Random;
 
 public class MersenneTwisterFast implements Serializable, Cloneable
     {
-    // Period parameters
+    /**
+	 * serial ID not used
+	 */
+	private static final long serialVersionUID = 11L;
+	// Period parameters
     private static final int N = 624;
     private static final int M = 397;
     private static final int MATRIX_A = 0x9908b0df;   //    private static final * constant vector a

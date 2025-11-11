@@ -4,6 +4,11 @@ import org.apache.commons.configuration.ConfigurationException;
 
 public class CDMConfigurationException extends ConfigurationException {
 
+	/**
+	 * serial id not used
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public CDMConfigurationException(String message) {
 		super(message);
 	}

@@ -74,6 +74,7 @@ public class TestRootChildFactories {
 			XMLConfigurationToo configurationFromFile = new XMLConfigurationToo(
 					configurationFile);
 			ConfigurationNode rootNode = configurationFromFile.getRootNode();
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 					.getChildren();
 			assertEquals(1, rootChildren.size());
@@ -94,6 +95,7 @@ public class TestRootChildFactories {
 //		try {
 			String configurationFilePath = "data" + File.separator
 					+ "development" + File.separator + "hasnewbornsonly.xml";
+			@SuppressWarnings("unused")
 			File configurationFile = new File(configurationFilePath);
 //			AgnosticGroupFactory factory = new AgnosticGroupFactory();
 //			assertNotNull(factory);
@@ -117,7 +119,9 @@ public class TestRootChildFactories {
 					+ "riskfactor_compoundconfig_test.xml";
 			String outputFilePath = "data" + File.separator + "development"
 					+ File.separator + "riskfactor_compoundconfig_test_rw.xml";
+			@SuppressWarnings("unused")
 			File configurationFile = new File(configurationFilePath);
+			@SuppressWarnings("unused")
 			File outputFile = new File(outputFilePath);
 //			AgnosticGroupFactory factory = new AgnosticGroupFactory();
 //			assertNotNull(factory);

@@ -6,9 +6,6 @@ import static org.junit.Assert.assertNull;
 import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.base.StepSizeSpecific;
 import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRulesByCharIdRepository;
@@ -23,9 +20,11 @@ import org.junit.Test;
 public class TestUpdateRuleContainers {
 	Log log = LogFactory.getLog(getClass().getName());
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleOneOne extends AbstractDoubleBoundUpdateRule{
 	private int characteristicId;
 	private float stepSize;
+		
 		public UpdateRuleOneOne(int characteristicId, float stepSize) {
 			super( characteristicId, stepSize);
 			this.characteristicId = 1;
@@ -55,9 +54,11 @@ public class TestUpdateRuleContainers {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleTwoTwo extends AbstractDoubleBoundUpdateRule{
 		private int characteristicId;
 		private float stepSize;
+	
 		public UpdateRuleTwoTwo(int characteristicId, float stepSize) {
 			super( characteristicId, stepSize);
 			this.characteristicId = 2;
@@ -87,9 +88,11 @@ public class TestUpdateRuleContainers {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleSixFour extends  AbstractDoubleBoundUpdateRule{
 		private int characteristicId;
 		private float stepSize;
+	
 		public UpdateRuleSixFour(int characteristicId, float stepSize) {
 			super( characteristicId, stepSize);
 			this.characteristicId = 6;
@@ -133,6 +136,7 @@ public class TestUpdateRuleContainers {
 		assertNotNull(updateRulesByCharIdContainer);
 		Set<UpdateRuleMarker> updateRules = updateRulesByCharIdContainer.getUpdateRuleSet(1);
 		assertNull(updateRules);
+		@SuppressWarnings("deprecation")
 		AbstractDoubleBoundUpdateRule updateRuleOneOne = new UpdateRuleOneOne(1,1F);
 		assertNotNull(updateRuleOneOne);
 		updateRulesByCharIdContainer.putUpdateRule(updateRuleOneOne);

@@ -42,6 +42,7 @@ public class StAXTest02_10_100k {
 
 	Simulation sim;
 
+	@SuppressWarnings("unused")
 	@Before
 		public void setup() throws ConfigurationException {
 			log.fatal("Processing: " + preCharConfig);

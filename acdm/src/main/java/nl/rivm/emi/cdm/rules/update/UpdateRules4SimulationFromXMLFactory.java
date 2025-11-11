@@ -4,11 +4,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 
-import nl.rivm.emi.cdm.characteristic.Characteristic;
-import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
@@ -41,6 +37,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 			HierarchicalConfiguration simulationConfiguration,
 			Simulation simulation) throws ConfigurationException {
 		UpdateRules4Simulation updateRules = new UpdateRules4Simulation();
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> updateRulesConfigurations = simulationConfiguration
 				.configurationsAt(updaterulesLabel);
 		if (updateRulesConfigurations.size() == 1) {
@@ -48,6 +45,7 @@ public class UpdateRules4SimulationFromXMLFactory {
 			updateRules = new UpdateRules4Simulation();
 			SubnodeConfiguration updaterulesConfiguration = updateRulesConfigurations
 					.get(0);
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> updateruleConfigurations = updaterulesConfiguration
 					.configurationsAt(updateruleLabel);
 			if (updateruleConfigurations.size() > 0) {
@@ -163,12 +161,15 @@ public class UpdateRules4SimulationFromXMLFactory {
 			throws ConfigurationException {
 		ClassLoader classLoader =
 			Thread.currentThread().getContextClassLoader();		
+		@SuppressWarnings("rawtypes")
 		Class updateRuleClass = null;
 		UpdateRuleMarker instance = null;
 		try {
 			updateRuleClass = classLoader.loadClass(className);
+			@SuppressWarnings("rawtypes")
 			Class updateRuleMarkerClass = classLoader
 					.loadClass("nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker");
+			@SuppressWarnings("unchecked")
 			boolean success = (updateRuleClass
 					.asSubclass(updateRuleMarkerClass) != null);
 			if (success) {

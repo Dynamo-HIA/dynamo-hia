@@ -12,11 +12,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import junit.framework.Assert;
+
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 import nl.rivm.emi.dynamo.batch.Runner;
-import nl.rivm.emi.dynamo.estimation.InputDataFactory.ScenInfo;
 import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 import nl.rivm.emi.dynamo.global.ScenarioParameters;
@@ -25,6 +24,7 @@ import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -578,6 +578,7 @@ public class FinalTest {
 			float RRend = factory.manufactureOneDimArray(parameterDir
 					+ "endRelativeRisk_OtherMort.xml",
 					"relativerisks_othermort_end", "relativerisk", false)[0][0];
+			@SuppressWarnings("unused")
 			float alpha = factory.manufactureOneDimArray(parameterDir
 					+ "alpha_OtherMort.xml", "alphasothermortality", "alpha",
 					false)[0][0];
@@ -749,6 +750,7 @@ public class FinalTest {
 			log.fatal("na old");
 			if (scen == 1 ){
 				
+				@SuppressWarnings("unused")
 				int i=0;
 				i++;
 			}
@@ -836,6 +838,7 @@ public class FinalTest {
 		log.fatal("Test completed ");
 	}
 
+	@SuppressWarnings("resource")
 	public DynamoOutputFactory getOutput(String baseDir, String simName) {
 
 		String resultFileName = baseDir + File.separator + "Simulations"
@@ -885,6 +888,7 @@ public class FinalTest {
 
 			try {
 				parmsFileStream = new FileInputStream(parmsFileName);
+				@SuppressWarnings("resource")
 				ObjectInputStream inputStream = new ObjectInputStream(
 						parmsFileStream);
 				scenParms = (ScenarioParameters) inputStream.readObject();

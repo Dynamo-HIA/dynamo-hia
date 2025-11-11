@@ -36,6 +36,7 @@ public class Test01_00 {
 		try {
 			File multipleCharacteristicsFile = new File(
 					multipleCharacteristicsFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton

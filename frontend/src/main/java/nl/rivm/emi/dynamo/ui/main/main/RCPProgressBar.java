@@ -1,39 +1,24 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
 
-import java.io.File;
 import java.util.ArrayList;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-
-import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
-
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
-
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
-
 import nl.rivm.emi.dynamo.estimation.FinishingListener;
 import nl.rivm.emi.dynamo.estimation.ProgressIndicatorInterface;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
@@ -44,6 +29,11 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 	Display display = null;
 
 	ProgressBar bar = null;
+	
+	
+	/**
+	 * not used
+	 
 	private class ExtendedBar extends ProgressBar {
 		 ArrayList<FinishingListener> listeners = new ArrayList();
 
@@ -54,11 +44,12 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 			// TODO Auto-generated constructor stub
 		}
 
-		public void addFinishingListener(FinishingListener e) {
-			this.listeners.add(e);
-		};
+	//	public void addFinishingListener(FinishingListener e) {
+	//		this.listeners.add(e);
+	//	};
 
 	}
+	*/
 
 	public RCPProgressBar(Shell parentShell, String message,
 			Boolean indeterminate) {

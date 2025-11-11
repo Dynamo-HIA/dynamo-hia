@@ -25,9 +25,10 @@ public class UpdateRulesByCharIdRepository extends
 	 */
 	public UpdateRuleMarker putUpdateRule(UpdateRuleMarker updateRule) {
 		UpdateRuleMarker priorRule = null;
+		@SuppressWarnings("rawtypes")
 		Class[] klaasjes = updateRule.getClass().getInterfaces();
 		boolean found = false;
-		for (Class klaas : klaasjes) {
+		for (@SuppressWarnings("rawtypes") Class klaas : klaasjes) {
 			if ("CharacteristicSpecific".equals(klaas.getName())) {
 				found = true;
 			}

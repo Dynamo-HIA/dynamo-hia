@@ -27,15 +27,16 @@ public class UpdateRuleRepository extends
 	 */
 	public UpdateRuleMarker addUpdateRule(UpdateRuleMarker updateRule) {
 		UpdateRulesByCharIdRepository selectedContainer;
+		@SuppressWarnings("rawtypes")
 		Class[] klaasjes = updateRule.getClass().getInterfaces();
 		boolean found = false;
-		for(Class klaas: klaasjes){
+		for(@SuppressWarnings("rawtypes") Class klaas: klaasjes){
 			if("StepSizeSpecific".equals(klaas.getName())){
 				found = true;
 			}
 		}
 		if(found){
-		Float stepSizeKey = new Float(((StepSizeSpecific)updateRule).getStepSize());
+		Float stepSizeKey = Float.valueOf(((StepSizeSpecific)updateRule).getStepSize());
 		selectedContainer = this.get(stepSizeKey);
 		if (selectedContainer == null) {
 			selectedContainer = new UpdateRulesByCharIdRepository();

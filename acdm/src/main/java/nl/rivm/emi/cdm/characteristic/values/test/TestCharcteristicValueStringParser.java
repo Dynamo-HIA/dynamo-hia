@@ -49,7 +49,7 @@ public class TestCharcteristicValueStringParser {
 		String inputString = "11";
 		Integer result = CharacteristicValueStringParser.parseStringToInteger(inputString);
 		assertNotNull(result);
-		assertEquals(new Integer(11), result);
+		assertEquals(Integer.valueOf(11), result);
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class TestCharcteristicValueStringParser {
 		String inputString = "1";
 		Float result = CharacteristicValueStringParser.parseStringToFloat(inputString);
 		assertNotNull(result);
-		assertEquals(new Float(1), result);
+		assertEquals(Float.valueOf((float)1), result);
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class TestCharcteristicValueStringParser {
 		String inputString = ".1";
 		Float result = CharacteristicValueStringParser.parseStringToFloat(inputString);
 		assertNotNull(result);
-		assertEquals(new Float(.1), result);
+		assertEquals(Float.valueOf((float) .1), result);
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class TestCharcteristicValueStringParser {
 		String inputString = "11.12";
 		Float result = CharacteristicValueStringParser.parseStringToFloat(inputString);
 		assertNotNull(result);
-		assertEquals(new Float(11.12), result);
+		assertEquals(Float.valueOf((float) 11.12), result);
 	}
 
 	public static junit.framework.Test suite() {

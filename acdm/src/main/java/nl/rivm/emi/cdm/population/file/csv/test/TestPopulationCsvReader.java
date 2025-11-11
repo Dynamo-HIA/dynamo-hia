@@ -38,6 +38,7 @@ public class TestPopulationCsvReader {
 		try {
 			File multipleCharacteristicsFile = new File(
 					multipleCharacteristicsFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			single = CharacteristicsConfigurationMapSingleton.getInstance();

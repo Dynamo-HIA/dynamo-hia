@@ -28,16 +28,19 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 																	 * Runnable
 																	 */{
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("rawtypes")
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
+	@SuppressWarnings("rawtypes")
 	AtomicTypeBase myType;
 	int durationClassIndex;
 
+	@SuppressWarnings("rawtypes")
 	public ThreeValuesPerClassParameterDataPanel(Composite parent,
-			Text topNeighbour, TypedHashMap lotsOfData,
+			Text topNeighbour, @SuppressWarnings("rawtypes") TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup,
 			int durationClassIndex) {
 		super(parent, SWT.NONE);
@@ -56,23 +59,27 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 		// Top line.
 		createHeader();
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
+			
 			TypedHashMap oneAgeMap = (TypedHashMap) lotsOfData.get(ageCount);
+			
 			TypedHashMap femaleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.FEMALE_INDEX);
-			TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
+						TypedHashMap maleClassHMap = (TypedHashMap) oneAgeMap
 					.get(BiGender.MALE_INDEX);
 			log.debug("Aantal categorie\u00ebn: " + femaleClassHMap.size());
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
-					ageCellLabel.setText(new Integer(ageCount).toString());
+					ageCellLabel.setText(Integer.valueOf(ageCount).toString());
 				}
 				boolean isDurationClass = (classCount == durationClassIndex);
 				Label classCellLabel = new Label(this, SWT.NONE);
-				classCellLabel.setText(new Integer(classCount).toString());
+				classCellLabel.setText(Integer.valueOf(classCount).toString());
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> maleList = (ArrayList<AtomicTypeObjectTuple>) maleClassHMap
 						.get(classCount);
 				bindGenderValues(maleList, isDurationClass);
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> femaleList = (ArrayList<AtomicTypeObjectTuple>) femaleClassHMap
 				.get(classCount);
 		        bindGenderValues(femaleList, isDurationClass);
@@ -91,11 +98,13 @@ public class ThreeValuesPerClassParameterDataPanel extends Composite /*
 						.get(tupleIndex);
 				bindTuple(gridData, tuple);
 			} else {
+				@SuppressWarnings("unused")
 				Label spaceLabel = new Label(this, SWT.NONE);
 			}
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void bindTuple(GridData gridData, AtomicTypeObjectTuple tuple) {
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
 		AtomicTypeBase modelType = (AtomicTypeBase) tuple.getType();

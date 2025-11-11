@@ -12,7 +12,6 @@ import java.io.IOException;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsXMLConfiguration;
-import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
@@ -35,6 +34,7 @@ public class Test01_04 {
 		try {
 			File multipleCharacteristicsFile = new File(
 					multipleCharacteristicsFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton

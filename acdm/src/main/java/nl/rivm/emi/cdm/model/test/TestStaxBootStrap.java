@@ -190,6 +190,7 @@ try {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void checkResult(Population population) {
 		log.debug("Checking Object Tree");
 		try {

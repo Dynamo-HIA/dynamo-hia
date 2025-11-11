@@ -183,7 +183,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> makePath(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable)
@@ -217,7 +217,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @param currentLevelValue
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void handleContainerType(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable,
@@ -280,6 +280,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @param currentLevelValue
 	 * @throws DynamoConfigurationException
 	 */
+	@SuppressWarnings("unchecked")
 	private void handleAggregatePayLoadTypes(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList, int currentLevel,
 			boolean makeObservable, Integer currentLevelValue)
@@ -292,6 +293,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 		if (makeObservable) {
 			for (AtomicTypeObjectTuple tuple : leafNodeList) {
 				Object theValue = tuple.getValue();
+				@SuppressWarnings("rawtypes")
 				WritableValue observableValue = new WritableValue(theValue,
 						theValue.getClass());
 				tuple.setValue(observableValue);
@@ -310,13 +312,15 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return the Object filled with default values.
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected TypedHashMap manufactureDefault(LeafNodeList leafNodeList,
 			boolean makeObservable) throws ConfigurationException {
 		int theLastContainer = leafNodeList.checkContents();
 		int currentLevel = 0;
+	
 		AtomicTypeBase type = (AtomicTypeBase) leafNodeList.get(currentLevel)
 				.getType();
+		
 		TypedHashMap resultMap = new TypedHashMap(type);
 		makeDefaultPath(resultMap, leafNodeList, theLastContainer,
 				currentLevel, makeObservable);
@@ -335,7 +339,7 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			ArrayList<AtomicTypeObjectTuple> leafNodeList,
 			int theLastContainer, int currentLevel, boolean makeObservable)
@@ -394,11 +398,13 @@ abstract public class AgnosticFactory implements RootLevelFactory {
 			AtomicTypeObjectTuple leafNodeTuple = leafNodeList.get(count);
 			XMLTagEntity type = leafNodeTuple.getType();
 			log.debug("Handling payloadSubType: " + type.getXMLElementName());
+			@SuppressWarnings("rawtypes")
 			Object defaultValue = ((PayloadType) type).getDefaultValue();
 			AtomicTypeObjectTuple modelTuple = null;
 			if (!makeObservable) {
 				modelTuple = new AtomicTypeObjectTuple(type, defaultValue);
 			} else {
+				@SuppressWarnings("rawtypes")
 				WritableValue observable = new WritableValue(defaultValue,
 						defaultValue.getClass());
 				modelTuple = new AtomicTypeObjectTuple(type, observable);
