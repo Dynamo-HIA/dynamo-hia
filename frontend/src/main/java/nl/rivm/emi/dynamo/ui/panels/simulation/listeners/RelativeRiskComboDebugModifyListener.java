@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Combo;
 public class RelativeRiskComboDebugModifyListener implements ModifyListener {
 
 	private Log log = LogFactory.getLog(this.getClass().getSimpleName());
+	@SuppressWarnings("unused")
 	private String comboLabel;
 	private RelativeRiskTabDataManager dataManager;
 

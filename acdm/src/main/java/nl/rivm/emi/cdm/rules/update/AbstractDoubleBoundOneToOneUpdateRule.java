@@ -14,8 +14,10 @@ import nl.rivm.emi.cdm.rules.update.base.UpdateRuleMarker;
 public abstract class AbstractDoubleBoundOneToOneUpdateRule implements
 		UpdateRuleMarker, CharacteristicSpecific, StepSizeSpecific {
 
+	@SuppressWarnings("unused")
 	private int characteristicId;
 
+	@SuppressWarnings("unused")
 	private float stepSize;
 
 	protected AbstractDoubleBoundOneToOneUpdateRule() {

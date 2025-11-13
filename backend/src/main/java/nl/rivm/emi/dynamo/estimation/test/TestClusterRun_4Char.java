@@ -22,7 +22,6 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;

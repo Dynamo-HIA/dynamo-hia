@@ -8,7 +8,6 @@ import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.ui.listeners.HelpTextListenerUtil;
 import nl.rivm.emi.dynamo.ui.listeners.verify.MeanVerifyListener;
-import nl.rivm.emi.dynamo.ui.listeners.verify.ValueVerifyListener;
 import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -23,7 +22,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class TransitionDriftParameterDataPanel extends Composite {
+	@SuppressWarnings("unused")
 	private Composite myParent = null;
+	@SuppressWarnings("unused")
 	private boolean open = false;
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup theHelpGroup;
@@ -65,14 +66,17 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		for (int ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(ageCount);
 			Label labelRow = new Label(this, SWT.NONE);
-			labelRow.setText(new Integer(ageCount).toString());
+			labelRow.setText(Integer.valueOf(ageCount).toString());
 			// labelRow.setLayoutData(labelLayoutData);
 			for (int genderCount = 0; genderCount < tHMap.size(); genderCount++) {
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) tHMap
 						.get(genderCount);
 				AtomicTypeObjectTuple tuple = list.get(0);
+				@SuppressWarnings("rawtypes")
 				WritableValue modelObservableValue = (WritableValue) tuple
 						.getValue();
+				@SuppressWarnings("unchecked")
 				AtomicTypeBase<Float> type = (AtomicTypeBase<Float>) tuple
 						.getType();
 				bindAbstractValue(modelObservableValue, type);
@@ -80,7 +84,8 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		}
 	}
 
-	protected void bindAbstractValue(WritableValue modelObservableValue,
+	@SuppressWarnings("unchecked")
+	protected void bindAbstractValue(@SuppressWarnings("rawtypes") WritableValue modelObservableValue,
 			AtomicTypeBase<Float> type) {
 		Text text = new Text(this, SWT.NONE);
 		GridData textLayoutData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -91,6 +96,7 @@ public class TransitionDriftParameterDataPanel extends Composite {
 		text.setText(convertedText);
 		HelpTextListenerUtil.addHelpTextListeners(text, type);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				type.getModelUpdateValueStrategy(), type

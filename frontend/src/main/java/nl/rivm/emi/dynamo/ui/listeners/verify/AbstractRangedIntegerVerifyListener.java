@@ -41,6 +41,7 @@ public class AbstractRangedIntegerVerifyListener extends
 						candidateContent).matches()) {
 					Integer candidateInteger = Integer
 							.valueOf(candidateContent);
+					@SuppressWarnings("unchecked")
 					NumberRangeTypeBase<Integer> myAtomicType = (NumberRangeTypeBase<Integer>) this.type;
 					if (myAtomicType.inRange(candidateInteger)) {
 						arg0.doit = true;

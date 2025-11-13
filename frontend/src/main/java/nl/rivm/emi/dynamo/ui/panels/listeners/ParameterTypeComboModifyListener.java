@@ -13,6 +13,7 @@ public class ParameterTypeComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue parameterTypeWritableValue;
 
 	/**
@@ -20,7 +21,7 @@ public class ParameterTypeComboModifyListener implements ModifyListener {
 	 */
 	HashSet<Label> registeredLabels = new HashSet<Label>();
 
-	public ParameterTypeComboModifyListener(WritableValue parameterTypeWritableValue) {
+	public ParameterTypeComboModifyListener(@SuppressWarnings("rawtypes") WritableValue parameterTypeWritableValue) {
 		super();
 		this.parameterTypeWritableValue = parameterTypeWritableValue;
 	}
@@ -34,6 +35,7 @@ public class ParameterTypeComboModifyListener implements ModifyListener {
 		registeredLabels.remove(label);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();

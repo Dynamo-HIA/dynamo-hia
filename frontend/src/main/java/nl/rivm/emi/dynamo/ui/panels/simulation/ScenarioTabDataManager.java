@@ -186,6 +186,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	/* added by hendriek */
 	private Set<String> deepcopy(Set<String> inSet) {
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set<String> returnSet= new LinkedHashSet() ;
 		if (inSet==null) returnSet=null;
 		else 
@@ -231,6 +232,7 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		return value;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public WritableValue getCurrentWritableValue(String name) {
 		WritableValue writableValue = null;
 		if (this.singleConfiguration != null) {
@@ -239,16 +241,18 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 				writableValue
 						.addValueChangeListener(new IValueChangeListener() {
 							@Override
-							public void handleValueChange(ValueChangeEvent arg0) {
+							public void handleValueChange( ValueChangeEvent arg0) {
 //								updateDynamoSimulationObject();
 								Object oldValue = arg0.diff.getOldValue();
 								Object newValue = arg0.diff.getNewValue();
 								Map<String, ITabScenarioConfiguration> scenarioConfigurations = dynamoSimulationObject.getScenarioConfigurations();
 								// Debugging.
+								@SuppressWarnings("unused")
 								Set<String> currentNames = scenarioConfigurations.keySet();
 								scenarioConfigurations.remove(oldValue);
 								scenarioConfigurations.put((String)newValue, singleConfiguration);
 								dynamoSimulationObject.setScenarioConfigurations(scenarioConfigurations);
+								@SuppressWarnings("unused")
 								Set<String> newNames = scenarioConfigurations.keySet();
 							}
 						});
@@ -365,12 +369,12 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 	private Integer convertToInteger(String selectedValue) {
 		log.debug("convertToInteger: selectedValue:: " + selectedValue);
 		Integer gender = null;
-		if (this.MALE.equals(selectedValue)) {
-			gender = new Integer(0);
-		} else if (this.FEMALE.equals(selectedValue)) {
-			gender = new Integer(1);
-		} else if (this.MALE_FEMALE.equals(selectedValue)) {
-			gender = new Integer(2);
+		if (ScenarioTabDataManager.MALE.equals(selectedValue)) {
+			gender = Integer.valueOf(0);
+		} else if (ScenarioTabDataManager.FEMALE.equals(selectedValue)) {
+			gender = Integer.valueOf(1);
+		} else if (ScenarioTabDataManager.MALE_FEMALE.equals(selectedValue)) {
+			gender = Integer.valueOf(2);
 		}
 		log.debug("convertToInteger:  gender:: " + gender);
 		return gender;
@@ -408,7 +412,9 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
+		@SuppressWarnings("rawtypes")
 		Map map = this.dynamoSimulationObject.getScenarioConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			ITabScenarioConfiguration conf = (ITabScenarioConfiguration) map
@@ -440,7 +446,9 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 
 	private String getInitialRiskFactorName() {
 		String chosenRiskFactorName = null;
+		@SuppressWarnings("rawtypes")
 		Map map = this.dynamoSimulationObject.getRiskFactorConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map

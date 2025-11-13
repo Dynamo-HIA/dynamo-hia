@@ -18,6 +18,7 @@ public class TransitionNoAction extends Action {
 	private String selectionPath;
 	boolean isReferenceData = false;
 	boolean isPopulation = false;
+	@SuppressWarnings("unused")
 	private Shell shell;
 
 	public TransitionNoAction(Shell shell) {

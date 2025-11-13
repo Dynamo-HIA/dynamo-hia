@@ -226,6 +226,7 @@ public class RelativeRisksCollection {
 			} else {
 				if (StandardTreeNodeLabelsEnum.RELRISKFORDISABILITYDIR
 						.getNodeLabel().equals(riskFactorSubDirName)) {
+					@SuppressWarnings("unused")
 					Set<String> validRiskFactorNames = treeList
 							.getRiskFactorNames();
 					handlePossibleRelativeRisksForTargetFromSource(

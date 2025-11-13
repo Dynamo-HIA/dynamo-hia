@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 
 public class TransitionDriftNettoParameterGroup {
+	@SuppressWarnings("unused")
 	private static final String TREND = "Trend";
 	Group theGroup;
 

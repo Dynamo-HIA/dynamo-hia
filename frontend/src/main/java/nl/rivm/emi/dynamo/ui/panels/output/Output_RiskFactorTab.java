@@ -3,13 +3,10 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
-import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -32,6 +29,7 @@ public class Output_RiskFactorTab {
 	 */
 	private RiskFactorChartFactory factory;
 	/* plotGenerator is the general object that contains the data and makes all possible plots */
+	@SuppressWarnings("unused")
 	private DynamoPlotFactory plotGenerator;
 
 	private Composite plotComposite;

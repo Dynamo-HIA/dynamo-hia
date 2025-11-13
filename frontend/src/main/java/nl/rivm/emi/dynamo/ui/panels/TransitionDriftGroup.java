@@ -21,9 +21,10 @@ import org.eclipse.swt.widgets.Shell;
 public class TransitionDriftGroup {
 	Group theGroup;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
-	public TransitionDriftGroup(Shell shell, TypedHashMap lotsOfData,
+	public TransitionDriftGroup(Shell shell, @SuppressWarnings("rawtypes") TypedHashMap lotsOfData,
 			DataBindingContext dataBindingContext, BaseNode selectedNode,
 			HelpGroup helpGroup) throws DynamoConfigurationException {
 		theGroup = new Group(shell, SWT.NONE);

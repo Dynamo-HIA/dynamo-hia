@@ -1,7 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.Set;
-
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.HasNewborns;
@@ -130,6 +128,7 @@ public class DynamoHeaderDataPanel extends Composite {
 			Label label = new Label(this, SWT.NONE);
 			label.setText(POP_FILE_NAME + ":");
 
+			@SuppressWarnings("rawtypes")
 			WritableValue observablePopFileName = dynamoSimulationObject
 					.getObservablePopulationFileName();
 			// PopFileNameDropDownPanel populationFileNameDropDownPanel;
@@ -148,6 +147,7 @@ public class DynamoHeaderDataPanel extends Composite {
 			}
 
 			String labelValue = REFERENCE_SCENARIO_NAME;
+			@SuppressWarnings("rawtypes")
 			WritableValue observable = dynamoSimulationObject.getObservableRefScenName();
 			bindHeaderValue(observable, labelValue, new ReferenceScenarioName());
 			
@@ -207,7 +207,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		}
 	}
 
-	private void bindHeaderValue(WritableValue observable, String labelValue,
+	private void bindHeaderValue(@SuppressWarnings("rawtypes") WritableValue observable, String labelValue,
 			AtomicTypeBase<?> myType) {
 		if (observable != null) {
 			Label label = new Label(this, SWT.NONE);
@@ -221,7 +221,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		}
 	}
 
-	protected void bindValue(WritableValue observable, AtomicTypeBase<?> myType) {
+	protected void bindValue(@SuppressWarnings("rawtypes") WritableValue observable, AtomicTypeBase<?> myType) {
 		if (myType instanceof AbstractRangedInteger) {
 			bindAbstractRangedInteger(observable, myType);
 		} else if (myType instanceof AbstractValue) {
@@ -235,7 +235,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		}
 	}
 
-	private void calcTimeStepDummy(WritableValue observable, String labelValue,
+	private void calcTimeStepDummy(@SuppressWarnings("rawtypes") WritableValue observable, String labelValue,
 			AtomicTypeBase<?> myType) {
 		Label label = new Label(this, SWT.NONE);
 		label.setText(labelValue + ": ");
@@ -243,7 +243,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		valueLabel.setText(" 1 ");
 	}
 
-	protected void bindAbstractRangedInteger(WritableValue observableObject,
+	protected void bindAbstractRangedInteger(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
@@ -252,7 +252,7 @@ public class DynamoHeaderDataPanel extends Composite {
 				theHelpGroup.getTheModal(), myType));
 	}
 
-	protected void bindAbstractValue(WritableValue observableObject,
+	protected void bindAbstractValue(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup
@@ -260,7 +260,7 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	// Binds values that are subclass types of AbstractString
-	protected void bindAbstractString(WritableValue observableObject,
+	protected void bindAbstractString(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractStringVerifyListener(theHelpGroup
@@ -268,14 +268,14 @@ public class DynamoHeaderDataPanel extends Composite {
 	}
 
 	// Binds values that are subclass types of AbstractBoolean
-	protected void bindAbstractBoolean(WritableValue observableObject,
+	protected void bindAbstractBoolean(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		this.getBooleanBinding(observableObject, myType);
 	}
 
 	// FileName
 	// Binds values that are subclass types of AbstractString
-	protected void bindAbstractFileName(WritableValue observableObject,
+	protected void bindAbstractFileName(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractFileNameVerifyListener(theHelpGroup
@@ -294,13 +294,15 @@ public class DynamoHeaderDataPanel extends Composite {
 		return text;
 	}
 
-	private Text getTextBinding(WritableValue observableObject,
+	@SuppressWarnings("unchecked")
+	private Text getTextBinding(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		final Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
@@ -308,7 +310,8 @@ public class DynamoHeaderDataPanel extends Composite {
 		return text;
 	}
 
-	private void getBooleanBinding(WritableValue observableObject,
+	@SuppressWarnings("unchecked")
+	private void getBooleanBinding(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		final Composite radioButtonsContainer = new Composite(this, SWT.NONE);
 		radioButtonsContainer.setBackground(new Color(null, 0xcc, 0xcc, 0xcc));
@@ -330,6 +333,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(radioButtons[1], myType);
 		// Only the value of one radio button (the first one) is reminded
 		// ND: Deprecated  IObservableValue textObservableValue = SWTObservables.observeSelection(this.radioButtons[0]);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.buttonSelection().observe(this.radioButtons[0]);
 
 		dataBindingContext.bindValue(textObservableValue, observableObject,
@@ -394,7 +398,7 @@ public class DynamoHeaderDataPanel extends Composite {
 		private int selectedIndex;
 
 		public PopFileNameDropDownPanel(Composite parent,
-				WritableValue writableValue, DropDownPropertiesSet theSet,
+				@SuppressWarnings("rawtypes") WritableValue writableValue, DropDownPropertiesSet theSet,
 				HelpGroup theHelpGroup) {
 			selectablePopulationFileNamePropertiesSet = theSet;
 			// this.theHelpGroup = DynamoHeaderDataPanel.this.theHelpGroup;

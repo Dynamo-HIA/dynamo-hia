@@ -52,6 +52,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private TreeAsDropdownLists treeLists;
 
+	@SuppressWarnings("unused")
 	private RelativeRiskTab tab = null;
 	private RelRisksCollectionForDropdown relRisksCollectionForDropdown; 
 	/**
@@ -200,6 +201,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	// // log.debug("contentsLast" + contents);
 	// return contents;
 	// }
+	@SuppressWarnings("unused")
 	private Set<String> filterByRiskFactorType(Set<String> contents,
 			String chosenFromName) {
 		Set<String> newContents = new LinkedHashSet<String>();
@@ -351,8 +353,10 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private String getInitialRiskFactorName() {
 		String chosenRiskFactorNameFromTab = null;
+		@SuppressWarnings("rawtypes")
 		Map map = configurationsProxy.getDynamoSimulationObject()
 				.getRiskFactorConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map
@@ -365,9 +369,11 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 
 	private Set<String> getInitialDiseasesList() {
 		Set<String> chosenDiseases = new LinkedHashSet<String>();
+		@SuppressWarnings("rawtypes")
 		Map map = configurationsProxy.getDynamoSimulationObject()
 				.getDiseaseConfigurations();
 
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabDiseaseConfigurationData conf = (TabDiseaseConfigurationData) map
@@ -384,6 +390,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	 * chosen (only one) risk factor.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private Set<String> getInitialFromList() {
 		Set<String> initialDiseasesList = getInitialDiseasesList();
 		initialDiseasesList.add(getInitialRiskFactorName());
@@ -396,6 +403,7 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	 * relativeriskfordeath and relativeriskfordisability.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private Set<String> getInitialToList() {
 		Set<String> initialDiseasesList = getInitialDiseasesList();
 		// Add relriskfordeath
@@ -485,13 +493,14 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 	/**
 	 * @deprecated
 	 */
+	@SuppressWarnings("rawtypes")
 	public Map getCurrentRelativeRiskConfigurations() {
 		return configurationsProxy.getDynamoSimulationObject()
 				.getRelativeRiskConfigurations();
 	}
 
 	/**
-	 * @deprecated author Hendriek: refreshes the configuration with the
+	 *             author Hendriek: refreshes the configuration with the
 	 *             contents of the index number of the current configuraton
 	 * 
 	 *             This is needed after deleting a tab, when the tabs have
@@ -550,13 +559,14 @@ public class RelativeRiskTabPlatformDataManager implements DynamoTabDataManager 
 		 */
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;
 	}
 
-	@Deprecated
+	// is used so not deprecated
 	// Not 2b used for RRs.
 	@Override
 	public DynamoSimulationObject getDynamoSimulationObject() {

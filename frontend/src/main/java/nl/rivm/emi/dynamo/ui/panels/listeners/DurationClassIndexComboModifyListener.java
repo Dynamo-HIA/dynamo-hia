@@ -10,14 +10,16 @@ public class DurationClassIndexComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue durationClassIndexWritableValue;
 
 	public DurationClassIndexComboModifyListener(
-			WritableValue durationClassIndexWritableValue) {
+			@SuppressWarnings("rawtypes") WritableValue durationClassIndexWritableValue) {
 		super();
 		this.durationClassIndexWritableValue = durationClassIndexWritableValue;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;

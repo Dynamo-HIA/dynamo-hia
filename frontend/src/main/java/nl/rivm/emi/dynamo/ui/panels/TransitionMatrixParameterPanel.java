@@ -47,6 +47,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 	 */
 	private int numberOfCategories = -1;
 
+	@SuppressWarnings("rawtypes")
 	public TransitionMatrixParameterPanel(Composite parent, Text topNeighbour,
 			TypedHashMap<TransitionSource> transitionFromClassToClassObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -64,7 +65,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		Label[] topLabels = new Label[numberOfCategories];
 		for (int count = 1; count <= numberOfCategories; count++) {
 			topLabels[count - 1] = new Label(this, SWT.NONE);
-			topLabels[count - 1].setText(new Integer(count).toString());
+			topLabels[count - 1].setText(Integer.valueOf(count).toString());
 		}
 		Label toLabel = new Label(this, SWT.NONE);
 		toLabel.setText("From");
@@ -75,11 +76,13 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		}
 		for (int sourceCount = 1; sourceCount <= numberOfCategories; sourceCount++) {
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(sourceCount).toString());
+			label.setText(Integer.valueOf(sourceCount).toString());
+			@SuppressWarnings("unchecked")
 			TypedHashMap<TransitionDestination> destinationMap = (TypedHashMap<TransitionDestination>) transitionFromClassToClassObject
 					.get(sourceCount);
 			int numberOfDestinations = destinationMap.size();
 			for (int destinationCount = 1; destinationCount <= numberOfDestinations; destinationCount++) {
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> parameterList = (ArrayList<AtomicTypeObjectTuple>) destinationMap
 						.get(destinationCount);
 				WritableValue observableValue = null;
@@ -96,6 +99,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 					observableValue = (WritableValue) parameterList.get(0)
 							.getValue();
 				}
+				@SuppressWarnings("unchecked")
 				AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) parameterList
 						.get(0).getType();
 				bindAndLayoutValue(observableValue, theType);
@@ -111,7 +115,8 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		 */
 	}
 
-	private void bindAndLayoutValue(WritableValue observableClassName,
+	@SuppressWarnings("unchecked")
+	private void bindAndLayoutValue(@SuppressWarnings("rawtypes") WritableValue observableClassName,
 			AtomicTypeBase<Float> theType) {
 		Text text = new Text(this, SWT.NONE); // createAndPlaceTextField();
 		text.setText("Bla"); 
@@ -130,8 +135,10 @@ public class TransitionMatrixParameterPanel extends Composite /*
 		// ND: This was depracated and removed
 		//		IObservableValue textObservableValue = SWTObservables.observeText(text,
 		//				SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				theType.getModelUpdateValueStrategy(), theType
@@ -140,6 +147,7 @@ public class TransitionMatrixParameterPanel extends Composite /*
 				.getTheModal()));
 	}
 
+	@SuppressWarnings("unused")
 	private Text createAndPlaceTextField() {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();

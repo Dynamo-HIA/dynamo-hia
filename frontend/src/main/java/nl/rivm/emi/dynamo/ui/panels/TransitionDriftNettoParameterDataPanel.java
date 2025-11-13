@@ -27,10 +27,12 @@ import org.eclipse.swt.widgets.Text;
 public class TransitionDriftNettoParameterDataPanel extends Composite {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("unused")
 	private Composite myParent = null;
 	protected DataBindingContext dataBindingContext = null;
 	protected HelpGroup theHelpGroup;
 
+	@SuppressWarnings("rawtypes")
 	public TransitionDriftNettoParameterDataPanel(Composite parent,
 			Text topNeighbour, TransitionDriftNettoObject lotsOfData,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup)
@@ -52,8 +54,9 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 				(AtomicTypeBase) XMLTagEntityEnum.TREND.getTheType());
 	}
 
-	protected void bindAbstractValue(WritableValue modelObservableValue,
-			AtomicTypeBase myType) {
+	@SuppressWarnings("unchecked")
+	protected void bindAbstractValue(@SuppressWarnings("rawtypes") WritableValue modelObservableValue,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType) {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gridData.widthHint = 50;
@@ -63,6 +66,7 @@ public class TransitionDriftNettoParameterDataPanel extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

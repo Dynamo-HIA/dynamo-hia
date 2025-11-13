@@ -1,8 +1,6 @@
 package nl.rivm.emi.dynamo.ui.main.main;
 
 
-import java.util.ArrayList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -14,12 +12,10 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
-import nl.rivm.emi.dynamo.estimation.FinishingListener;
 import nl.rivm.emi.dynamo.estimation.ProgressIndicatorInterface;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
 
@@ -117,6 +113,7 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 		Device device = Display.getCurrent();
 		// dit zijn de kleuren van de website
 		Color zalm = new Color(device, 255, 229, 203);
+		@SuppressWarnings("unused")
 		Color orange = new Color(device, 255, 197, 141);
 		// Color blue = new Color (device, 0, 42, 118);
 		Color blue = new Color(device, 46, 133, 255);
@@ -214,6 +211,7 @@ public class RCPProgressBar implements ProgressIndicatorInterface {
 		Device device = Display.getCurrent();
 		// dit zijn de kleuren van de website
 		Color zalm = new Color(device, 255, 229, 203);
+		@SuppressWarnings("unused")
 		Color orange = new Color(device, 255, 197, 141);
 		// Color blue = new Color (device, 0, 42, 118);
 		Color blue = new Color(device, 46, 133, 255);

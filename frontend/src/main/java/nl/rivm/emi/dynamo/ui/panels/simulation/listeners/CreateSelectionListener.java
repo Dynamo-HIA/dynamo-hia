@@ -43,6 +43,7 @@ public class CreateSelectionListener implements
 		log.info("Control " + ((Control) arg0.getSource()).getClass().getName()
 				+ " got widgetSelected event.");
 		try {
+			@SuppressWarnings("unused")
 			NestedTab newTab = tabPlatform.createNestedTab();
 			theModal.setChanged(true);
 		} catch (DynamoConfigurationException dce) {

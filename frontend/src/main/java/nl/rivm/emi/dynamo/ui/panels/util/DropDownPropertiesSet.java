@@ -4,6 +4,10 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 public class DropDownPropertiesSet extends LinkedHashSet<String> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int defaultChoiceIndex = 0;
 
 	public int getSelectedIndex(String value) {

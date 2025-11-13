@@ -20,7 +20,6 @@ import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.global.RootNode;
 import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFixedXMLFilePlusTypeBulletsAction;
-import nl.rivm.emi.dynamo.ui.actions.DurationDistributionFreeXMLFilePlusTypeBulletsAction;
 import nl.rivm.emi.dynamo.ui.actions.DynamoHIADummyDebugAction;
 import nl.rivm.emi.dynamo.ui.actions.ExcessMortalityXMLFileAction;
 import nl.rivm.emi.dynamo.ui.actions.FreeName4RiskFactorXMLFileAction;
@@ -1615,6 +1614,7 @@ public class StorageTreeMenuFactory {
 			FileNode node, String nodeLabel)
 			throws DynamoConfigurationException {
 		if ("configuration".equals(nodeLabel)) {
+			@SuppressWarnings("unused")
 			String rootElementName = ConfigurationFileUtil
 					.justExtractRootElementName(node.getPhysicalStorage());
 			// XMLFileAction action = new XMLFileAction(shell, treeViewer,
@@ -1737,6 +1737,7 @@ public class StorageTreeMenuFactory {
 	 * @param selection
 	 *            The selection made just before entering here.
 	 */
+	@SuppressWarnings("unused")
 	private void createMenu4Scenario(IMenuManager manager,
 			IStructuredSelection selection) {
 		DynamoHIADummyDebugAction action = new DynamoHIADummyDebugAction(shell);
@@ -1757,6 +1758,7 @@ public class StorageTreeMenuFactory {
 	 * @param treeDepth
 	 *            The level at which the selected BaseNode is situated.
 	 */
+	@SuppressWarnings("unused")
 	private void createDefaultMenu4UnimplementedNodes(
 			final IMenuManager manager, IStructuredSelection selection,
 			int treeDepth) {
@@ -1779,6 +1781,7 @@ public class StorageTreeMenuFactory {
 	 */
 	private void createErrorMenu4UnexpectedNodes(final IMenuManager manager,
 			IStructuredSelection selection) {
+		@SuppressWarnings("unused")
 		BaseNode selectedNode = (BaseNode) selection.getFirstElement();
 		// String selectionPath = selectedNode.getPhysicalStorage()
 		// .getAbsolutePath();

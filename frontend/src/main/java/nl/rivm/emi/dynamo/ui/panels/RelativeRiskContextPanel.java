@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.treecontrol.Util;
@@ -17,7 +16,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 public class RelativeRiskContextPanel implements RelativeRiskContextInterface {
+	@SuppressWarnings("unused")
 	private static final String FROM = "From ";
+	@SuppressWarnings("unused")
 	private static final String TO = "To ";
 	Group group;
 	Label nameLabel;

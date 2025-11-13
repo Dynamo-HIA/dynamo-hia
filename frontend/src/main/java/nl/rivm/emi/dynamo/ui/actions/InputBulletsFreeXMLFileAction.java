@@ -110,6 +110,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void processThroughModal(File dataFile, File savedFile) {
 		try {
@@ -139,6 +140,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 							String rootElementName = FileControlEnum.TRANSITIONDRIFT_ZERO
 									.getRootElementName();
 							String caption = "Transition Drift Zero";
+							@SuppressWarnings("rawtypes")
 							Set<String> messageLineSet = new LinkedHashSet();
 							messageLineSet
 									.add("You have chosen to create a Transition Drift Zero file.");
@@ -174,6 +176,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 							String rootElementName = FileControlEnum.TRANSITIONMATRIX_NETTO
 									.getRootElementName();
 							String caption = "Transition Matrix Netto";
+							@SuppressWarnings("rawtypes")
 							Set<String> messageLineSet = new LinkedHashSet();
 							messageLineSet
 									.add("You have chosen to create a Transition Matrix Netto file.");
@@ -192,6 +195,7 @@ public class InputBulletsFreeXMLFileAction extends FreeNameXMLFileAction {
 								String rootElementName = FileControlEnum.TRANSITIONMATRIX_ZERO
 										.getRootElementName();
 								String caption = "Transition Matrix Zero";
+								@SuppressWarnings("rawtypes")
 								Set<String> messageLineSet = new LinkedHashSet();
 								messageLineSet
 										.add("You have chosen to create a Transition Matrix Zero file.");

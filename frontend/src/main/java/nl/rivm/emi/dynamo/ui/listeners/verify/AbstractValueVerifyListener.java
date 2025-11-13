@@ -40,6 +40,7 @@ public class AbstractValueVerifyListener extends AbstractNonSAPVerifyListener {
 				if ((((AbstractValue) this.type).matchPattern
 						.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
+					@SuppressWarnings("unchecked")
 					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>) this.type;
 					if (type.inRange(candidateFloat)) {
 						arg0.doit = true;

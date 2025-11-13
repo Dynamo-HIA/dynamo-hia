@@ -38,6 +38,7 @@ public class RelativeRiskDropDownPanel {
 	private Combo dropDown;
 	private DropDownPropertiesSet selectablePropertiesSet;
 	private RelativeRiskTabDataManager myDataManager;
+	@SuppressWarnings("unused")
 	private HelpGroup helpGroup;
 	/**
 	 * Actual label for this instance.

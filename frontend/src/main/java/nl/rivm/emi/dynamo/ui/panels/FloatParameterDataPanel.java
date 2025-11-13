@@ -55,7 +55,7 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>)lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
+			label.setText(Integer.valueOf(count).toString());
 			bindValue(tHMap, BiGender.FEMALE_INDEX);
 //			bindTestValue(tHMap, BiGender.FEMALE_INDEX);
 			bindValue(tHMap, BiGender.MALE_INDEX);
@@ -73,6 +73,7 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		panel.setLayoutData(formData);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void bindValue(TypedHashMap<?> typedHashMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -82,8 +83,10 @@ public class FloatParameterDataPanel extends Composite /* implements Runnable */
 		HelpTextListenerUtil.addHelpTextListeners(text, (AtomicTypeBase<?>) XMLTagEntityEnum.STANDARDVALUE.getTheType());
 		//	Too early, see below.	text.addVerifyListener(new StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) typedHashMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

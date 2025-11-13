@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RiskFactorContinuousPrevalencesGroup {
 	private Group theGroup;
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
 	public RiskFactorContinuousPrevalencesGroup(Shell shell,
@@ -37,6 +38,7 @@ public class RiskFactorContinuousPrevalencesGroup {
 		// Set the selected item from the stored values in the xml
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) lotsOfData
 				.get(XMLTagEntityEnum.DISTRIBUTIONTYPE.getElementName());
+		@SuppressWarnings("rawtypes")
 		WritableValue writableValue = (WritableValue) tuple.getValue();
 		RiskFactorContinuousPrevalencesDropDownPanel dropDownGroup = new RiskFactorContinuousPrevalencesDropDownPanel(
 				theGroup, writableValue);

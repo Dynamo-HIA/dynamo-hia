@@ -32,12 +32,13 @@ public class RiskFactorContinuousPrevalencesDropDownPanel {
 	public Group group;
 	private Label label;
 	private Combo dropDown;
+	@SuppressWarnings("unused")
 	private HelpGroup theHelpGroup;
 	private DropDownPropertiesSet selectableDistributionTypePropertiesSet;
 	private DistributionTypeComboModifyListener distributionTypeModifyListener;
 	private int selectedIndex;
 
-	public RiskFactorContinuousPrevalencesDropDownPanel(Composite parent, WritableValue writableValue) {
+	public RiskFactorContinuousPrevalencesDropDownPanel(Composite parent, @SuppressWarnings("rawtypes") WritableValue writableValue) {
 		choices.add("Normal");
 		choices.add("Log normal");
 		group = new Group(parent, SWT.NONE);

@@ -3,7 +3,6 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
-import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -31,6 +30,7 @@ public class Output_SurvivalTab  {
 	 */
 	private SurvivalChartFactory factory;
 	/* plotGenerator is the general object that contains the data and makes all possible plots */
+	@SuppressWarnings("unused")
 	private DynamoPlotFactory  plotGenerator;
 
 	private Composite plotComposite;

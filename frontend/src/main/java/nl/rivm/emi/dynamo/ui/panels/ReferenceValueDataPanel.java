@@ -52,6 +52,7 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING );
 		indexLabel.setLayoutData(gridData);
 	
+		@SuppressWarnings("rawtypes")
 		WritableValue observableObject=null;
 		try {
 			observableObject = referenceValueObject
@@ -70,12 +71,14 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		}
 	}
 
-	private void bindValue(WritableValue observableObject) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableObject) {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
@@ -101,11 +104,14 @@ public class ReferenceValueDataPanel extends Composite /* implements Runnable */
 		panel.setLayoutData(formData);
 	}
 
-	private void bindTestValue(TypedHashMap sexMap, int index) {
+	@SuppressWarnings({ "unused", "unchecked" })
+	private void bindTestValue(@SuppressWarnings("rawtypes") TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

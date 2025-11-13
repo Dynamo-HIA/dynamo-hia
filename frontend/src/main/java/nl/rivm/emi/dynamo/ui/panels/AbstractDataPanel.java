@@ -39,13 +39,16 @@ public abstract class AbstractDataPanel extends Composite {
 		}		
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void bindTestValue(TypedHashMap<?> sexMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		this.dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

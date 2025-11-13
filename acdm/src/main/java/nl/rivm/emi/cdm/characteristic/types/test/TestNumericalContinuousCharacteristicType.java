@@ -1,6 +1,4 @@
 package nl.rivm.emi.cdm.characteristic.types.test;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -9,14 +7,7 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicFromXMLFactory;
-import nl.rivm.emi.cdm.characteristic.types.AbstractCharacteristicType;
-import nl.rivm.emi.cdm.characteristic.types.AbstractCategoricalCharacteristicType;
 import nl.rivm.emi.cdm.characteristic.types.NumericalContinuousCharacteristicType;
-import nl.rivm.emi.cdm.characteristic.types.StringCategoricalCharacteristicType;
-import nl.rivm.emi.cdm.characteristic.types.WrongPossibleValueException;
-import nl.rivm.emi.cdm.simulation.Simulation;
-import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -49,7 +40,7 @@ public class TestNumericalContinuousCharacteristicType {
 		assertFalse(charType.isValueValid("aap"));
 		assertTrue(charType.isValueValid("1"));
 		assertTrue(charType.isValueValid("1.2"));
-		charType.setLimits(new Float(0F), new Float(3.14F));
+		charType.setLimits(Float.valueOf(0F), Float.valueOf(3.14F));
 		assertTrue(charType.isValueValid("1.2"));
 		assertFalse(charType.isValueValid("42"));
 	}

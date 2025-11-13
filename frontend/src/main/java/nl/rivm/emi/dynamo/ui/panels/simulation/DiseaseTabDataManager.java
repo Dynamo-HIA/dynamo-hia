@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.ui.panels.simulation;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -128,10 +127,12 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#getContents
 	 * (java.lang.String, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public Set<String> getContents(String name, String chosenDiseaseName)
 			throws ConfigurationException, NoMoreDataException {
 		log.debug("GET CONTENTS");
 		Set<String> contents = new LinkedHashSet<String>();
+		@SuppressWarnings("rawtypes")
 		ChoosableDiseases choosableDiseases = ChoosableDiseases.getInstance();
 		// The name is still empty
 		if (chosenDiseaseName == null) {
@@ -213,8 +214,10 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		if (this.initialSelection == null && singleConfiguration == null) {
 			log.debug("CREATING NEW TAB");
 			createInDynamoSimulationObject();
+			@SuppressWarnings("rawtypes")
 			ChoosableDiseases choosableDiseases = ChoosableDiseases
 					.getInstance();
+			@SuppressWarnings("unchecked")
 			String chosenDiseaseName = (String) choosableDiseases
 					.getFirstDiseaseOfSet(null, treeLists);
 			selectedValue = chosenDiseaseName;
@@ -271,7 +274,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		/**
 		 * TODO REMOVE: LOGGING BELOW
 		 */
+		@SuppressWarnings("rawtypes")
 		Map map = this.getDynamoSimulationObject().getDiseaseConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			ITabDiseaseConfiguration conf = (ITabDiseaseConfiguration) map
@@ -328,6 +333,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * @seenl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#
 	 * removeFromDynamoSimulationObject()
 	 */
+	@SuppressWarnings("unchecked")
 	public void removeFromDynamoSimulationObject()
 			throws ConfigurationException {
 		
@@ -389,6 +395,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * 
 	 * @param diseaseConfigurations
 	 */
+	@SuppressWarnings("unused")
 	private boolean updateRelativeRisks (Set<String> chosenDiseases){
 		
 			
@@ -449,6 +456,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * @see nl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#setDefaultValue(java.lang.String,
 	 *      java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public void setDefaultValue(String name, String selectedValue)
 			throws ConfigurationException {
 		log.debug("SETDEFAULT: " + selectedValue);
@@ -461,6 +469,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		// ~20091029+
 		if (DiseaseSelectionGroup.DISEASE.equals(name)) {
 
+			@SuppressWarnings("rawtypes")
 			ChoosableDiseases choosableDiseases = ChoosableDiseases
 					.getInstance();
 			choosableDiseases.setChosenDisease(selectedValue);
@@ -473,6 +482,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 	 * @seenl.rivm.emi.dynamo.ui.panels.simulation.DynamoTabDataManager#
 	 * removeOldDefaultValue(java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public void removeOldDefaultValue(String name)
 			throws ConfigurationException {
 		if (this.singleConfiguration != null) {
@@ -481,7 +491,9 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 			
 				
 			if (DiseaseSelectionGroup.DISEASE.equals(name)) {
+				@SuppressWarnings("unused")
 				String removedDisease = this.singleConfiguration.getName();
+				@SuppressWarnings("rawtypes")
 				ChoosableDiseases choosableDiseases = ChoosableDiseases
 						.getInstance();
 				/*
@@ -503,6 +515,7 @@ public class DiseaseTabDataManager implements DynamoTabDataManager {
 		}
 	
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;

@@ -53,6 +53,7 @@ public class TestHandlingStorageTree {
 	public void baseDirectoryPathNull() {
 		try {
 			String baseDirectoryName = null;
+			@SuppressWarnings("unused")
 			StorageTree testTree = new StorageTree(baseDirectoryName);
 			assertNotNull(baseDirectoryName); // Force error.
 		} catch (StorageTreeException e) {
@@ -65,6 +66,7 @@ public class TestHandlingStorageTree {
 	public void baseDirectoryPathNonExistent() {
 		try {
 			String baseDirectoryName = "xyz:/";
+			@SuppressWarnings("unused")
 			StorageTree testTree = new StorageTree(baseDirectoryName);
 			assertNull(baseDirectoryName); // Force error.
 		} catch (StorageTreeException e) {

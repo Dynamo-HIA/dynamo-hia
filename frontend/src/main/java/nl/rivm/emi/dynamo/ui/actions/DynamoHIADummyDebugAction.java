@@ -10,6 +10,7 @@ public class DynamoHIADummyDebugAction extends Action {
 	private String selectionPath;
 	boolean isReferenceData = false;
 	boolean isPopulation = false;
+	@SuppressWarnings("unused")
 	private Shell shell;
 
 	public DynamoHIADummyDebugAction(Shell shell) {

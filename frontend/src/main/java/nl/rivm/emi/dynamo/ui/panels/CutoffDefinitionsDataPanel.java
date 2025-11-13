@@ -54,12 +54,14 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		int count = 1;
 		int numberOfCutoffs = cutoffsObject.getNumberOfCutoffs();
 		for (; found <= numberOfCutoffs && count <= numberOfCutoffs; count++) {
+			@SuppressWarnings("rawtypes")
 			WritableValue observableCutoffValue = cutoffsObject
 					.getObservableCutoffValue(count);
 			if (observableCutoffValue != null) {
 				found++;
 				final Label label = new Label(this, SWT.NONE);
-				label.setText(new Integer(count).toString());
+				label.setText(Integer.valueOf(count).toString());
+				@SuppressWarnings("unused")
 				GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 				bindValue(observableCutoffValue);
 			} else {
@@ -72,14 +74,17 @@ public class CutoffDefinitionsDataPanel extends Composite /* implements Runnable
 		}
 	}
 
-	private void bindValue(WritableValue observableClassName) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableClassName) {
 		final Text text = createAndPlaceTextField();
 		text.setText(myType.convert4View(observableClassName.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		//ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType

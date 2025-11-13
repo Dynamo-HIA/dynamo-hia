@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RelRisksFromRiskFactorCategoricalGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelRisksFromRiskFactorCategoricalGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {

@@ -58,6 +58,7 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		int count = 1;
 		int numberOfCategories = iCategoricalObject.getNumberOfCategories();
 		for (; found <= numberOfCategories && count <= numberOfCategories; count++) {
+			@SuppressWarnings("rawtypes")
 			WritableValue observableClassName = iCategoricalObject
 					.getObservableCategoryName(count);
 			if (observableClassName != null) {
@@ -77,7 +78,8 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 		}
 	}
 
-	private void bindValue(WritableValue observableClassName) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observableClassName) {
 		final Text text = createAndPlaceTextField();
 		text.setText((String) observableClassName.doGetValue());
 //		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
@@ -85,8 +87,10 @@ public class ClassDefinitionsDataPanel extends Composite /* implements Runnable 
 //		text.setLayoutData(layoutData);
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		//ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) observableClassName;
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				myType.getModelUpdateValueStrategy(), myType

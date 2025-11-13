@@ -19,7 +19,7 @@ public class RelRisksFromRiskFactorContinuousParameterGroup {
 	Group theGroup;
 
 	public RelRisksFromRiskFactorContinuousParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

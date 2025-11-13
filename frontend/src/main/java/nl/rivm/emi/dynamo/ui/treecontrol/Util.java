@@ -11,7 +11,6 @@ import nl.rivm.emi.dynamo.global.DirectoryNode;
 import nl.rivm.emi.dynamo.global.FileNode;
 import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.ui.main.main.DynamoPlugin;
-import nl.rivm.emi.dynamo.ui.util.RiskFactorPropertiesMapFactory;
 import nl.rivm.emi.dynamo.ui.util.RiskSourceProperties;
 import nl.rivm.emi.dynamo.ui.util.RiskSourcePropertiesMapFactory;
 
@@ -242,6 +241,7 @@ public class Util {
 				
 				
 				// Logo
+				@SuppressWarnings("unused")
 				ImageDescriptor logoImageDescriptor = AbstractUIPlugin
 						.imageDescriptorFromPlugin(DynamoPlugin.PLUGIN_ID,
 								"/images/logo.png");

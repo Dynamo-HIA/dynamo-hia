@@ -30,12 +30,13 @@ public class UnitTypeDropDownPanel {
 	public Group group;
 	private Label label;
 	private Combo dropDown;
+	@SuppressWarnings("unused")
 	private HelpGroup theHelpGroup;
 	private DropDownPropertiesSet selectableExcessMortalityPropertiesSet;
 	private UnitTypeComboModifyListener unitTypeModifyListener;
 	private int selectedIndex;
 
-	public UnitTypeDropDownPanel(Composite parent, WritableValue writableValue) {
+	public UnitTypeDropDownPanel(Composite parent, @SuppressWarnings("rawtypes") WritableValue writableValue) {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);

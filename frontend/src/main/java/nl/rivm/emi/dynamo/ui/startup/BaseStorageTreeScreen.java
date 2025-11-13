@@ -102,6 +102,7 @@ public class BaseStorageTreeScreen {
 		return menuBar;
 	}
 
+	@SuppressWarnings("unused")
 	private void displayError(String msg) {
 		MessageBox box = new MessageBox(shell, SWT.ICON_ERROR);
 		box.setMessage(msg);

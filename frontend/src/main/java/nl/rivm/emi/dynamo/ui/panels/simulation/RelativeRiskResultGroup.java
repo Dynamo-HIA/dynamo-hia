@@ -32,6 +32,7 @@ public class RelativeRiskResultGroup implements RelativeRiskDropDownGroup{
 
 	private Set<String> selections;
 	private RelativeRiskTabDataManager relativeRiskTabDataManager;
+	@SuppressWarnings("unused")
 	private RelativeRiskSelectionGroup selectionGroup;
 	private HelpGroup helpGroup;
 
@@ -41,7 +42,7 @@ public class RelativeRiskResultGroup implements RelativeRiskDropDownGroup{
 			RelativeRiskTabDataManager relativeRiskTabDataManager)
 			throws ConfigurationException, NoMoreDataException,
 			DynamoNoValidDataException {
-		this.selections = selections;
+	//	this.selections = selections; // removed 2025 as seems nonsense
 		// this.plotComposite = plotComposite;
 		this.selectionGroup = selectionGroup;
 		this.relativeRiskTabDataManager = relativeRiskTabDataManager;
@@ -66,6 +67,7 @@ public class RelativeRiskResultGroup implements RelativeRiskDropDownGroup{
 		formData.bottom = new FormAttachment(77, 0);
 		group.setLayoutData(formData);
 
+		@SuppressWarnings("unused")
 		String chosenIndexSelection = null;
 		if (this.selections != null) {
 			for (String chosenIndex : selections) {

@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.parameters;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.panels.ParametersFileContextPanel;
@@ -21,7 +20,7 @@ public class RelativeRisksCategoricalGroup {
 	Group theGroup;
 
 	public RelativeRisksCategoricalGroup(Shell shell,
-			TypedHashMap modelObject, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

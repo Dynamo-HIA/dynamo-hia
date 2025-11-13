@@ -57,6 +57,7 @@ public class GenderChoiceGroup {
 			
 
 			public void widgetSelected(SelectionEvent e) {
+				@SuppressWarnings("unused")
 				Combo combo4 = (Combo) e.getSource();
 				//combo4.getParent()
 				 plotInfo.genderChoice = combo.getSelectionIndex();
@@ -66,6 +67,7 @@ public class GenderChoiceGroup {
 				
 			}
 
+			@SuppressWarnings("unused")
 			private JFreeChart makeChart() {
 				// TODO Auto-generated method stub
 				return null;

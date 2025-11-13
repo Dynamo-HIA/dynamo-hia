@@ -32,6 +32,7 @@ public class TransitionTrialog extends InputBulletsTrialog {
 	private String riskFactorName;
 	private String riskFactorType;
 
+	@SuppressWarnings("unused")
 	private Control riskFactorArea;
 	private String rootElementName;
 

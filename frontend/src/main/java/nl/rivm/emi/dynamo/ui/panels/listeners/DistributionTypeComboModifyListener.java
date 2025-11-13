@@ -13,6 +13,7 @@ public class DistributionTypeComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue distributionTypeWritableValue;
 
 	/**
@@ -20,11 +21,12 @@ public class DistributionTypeComboModifyListener implements ModifyListener {
 	 */
 	HashSet<Label> registeredLabels = new HashSet<Label>();
 
-	public DistributionTypeComboModifyListener(WritableValue distributionTypeWritableValue) {
+	public DistributionTypeComboModifyListener(@SuppressWarnings("rawtypes") WritableValue distributionTypeWritableValue) {
 		super();
 		this.distributionTypeWritableValue = distributionTypeWritableValue;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;
 		String newText = myCombo.getText();

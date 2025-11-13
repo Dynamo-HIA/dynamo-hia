@@ -19,7 +19,7 @@ public class RelRisksFromRiskFactorCategoricalParameterGroup {
 	Group theGroup;
 
 	public RelRisksFromRiskFactorCategoricalParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

@@ -405,6 +405,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		return contents;
 	}
 
+	@SuppressWarnings("unused")
 	private Set<String> filterByRiskFactorType(Set<String> contents,
 			String chosenFromName) {
 		Set<String> newContents = new LinkedHashSet<String>();
@@ -555,6 +556,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 		// */
 	}
 
+	@SuppressWarnings("unused")
 	private Integer getInitialIndex() {
 		Integer chosenInitalIndex = null;
 		// log.debug("initialSelection" + initialSelection);
@@ -569,8 +571,10 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 
 	private String getInitialRiskFactorName() {
 		String chosenRiskFactorNameFromTab = null;
+		@SuppressWarnings("rawtypes")
 		Map map = myBoss.getDynamoSimulationObject()
 				.getRiskFactorConfigurations();
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabRiskFactorConfigurationData conf = (TabRiskFactorConfigurationData) map
@@ -583,8 +587,10 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 
 	private Set<String> getInitialDiseasesList() {
 		Set<String> chosenDiseases = new LinkedHashSet<String>();
+		@SuppressWarnings("rawtypes")
 		Map map = myBoss.getDynamoSimulationObject().getDiseaseConfigurations();
 
+		@SuppressWarnings("unchecked")
 		Set<String> keys = map.keySet();
 		for (String key : keys) {
 			TabDiseaseConfigurationData conf = (TabDiseaseConfigurationData) map
@@ -601,6 +607,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	 * chosen (only one) risk factor.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private Set<String> getInitialFromList() {
 		Set<String> initialDiseasesList = getInitialDiseasesList();
 		initialDiseasesList.add(getInitialRiskFactorName());
@@ -613,6 +620,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	 * relativeriskfordeath and relativeriskfordisability.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private Set<String> getInitialToList() {
 		Set<String> initialDiseasesList = getInitialDiseasesList();
 		// Add relriskfordeath
@@ -623,7 +631,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	}
 
 	/**
-	 * @deprecated
+	 * 
 	 * Cannot be removed because the parent Object requires it. 
 	 * @author mondeelr
 	 * 
@@ -683,6 +691,7 @@ public class RelativeRiskTabDataManager /* implements DynamoTabDataManager */{
 	// this.dynamoSimulationObject = dynamoSimulationObject;
 	// }
 
+	@SuppressWarnings("unused")
 	private void handleWarningMessage(String s) {
 
 		MessageBox box = new MessageBox(this.tab.plotComposite.getShell(),

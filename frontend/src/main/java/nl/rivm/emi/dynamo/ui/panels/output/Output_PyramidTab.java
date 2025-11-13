@@ -5,7 +5,6 @@ package nl.rivm.emi.dynamo.ui.panels.output;
 
 
 
-import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.apache.commons.logging.Log;
@@ -173,9 +172,9 @@ public class Output_PyramidTab  {
 		// RowData rowData3 = new RowData(450, 500);
 //	 this.chartComposite =  new ChartComposite(this.plotComposite, SWT.NONE,
 	//	pyramidChart, true, true ,true,true, true);
-	 log.debug(this.chartComposite.DEFAULT_HEIGHT+" "+this.chartComposite.DEFAULT_WIDTH+  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_HEIGHT
-			 +  " "+this.chartComposite.DEFAULT_MINIMUM_DRAW_WIDTH+  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_HEIGHT
-			 +  " "+this.chartComposite.DEFAULT_MAXIMUM_DRAW_WIDTH);
+	 log.debug(ChartComposite.DEFAULT_HEIGHT+" "+ChartComposite.DEFAULT_WIDTH+  " "+ChartComposite.DEFAULT_MINIMUM_DRAW_HEIGHT
+			 +  " "+ChartComposite.DEFAULT_MINIMUM_DRAW_WIDTH+  " "+ChartComposite.DEFAULT_MAXIMUM_DRAW_HEIGHT
+			 +  " "+ChartComposite.DEFAULT_MAXIMUM_DRAW_WIDTH);
 
 	    this.chartComposite= new ChartComposite(this.plotComposite, SWT.NONE, pyramidChart, 680, 420, 300, 200, 800,600, true, true ,true,true, true, true);
 	    this.chartComposite.setDisplayToolTips(true);

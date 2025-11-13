@@ -23,6 +23,7 @@ public class FactoryCommon {
 		workingNode = findTheRootNode(workingNode);
 		Object[] children = ((ParentNode) workingNode).getChildren();
 		workingNode = null;
+		@SuppressWarnings("unused")
 		boolean found = false;
 		for (Object childNode : children) {
 			Object[] grandChildren = ((ParentNode) childNode).getChildren();
