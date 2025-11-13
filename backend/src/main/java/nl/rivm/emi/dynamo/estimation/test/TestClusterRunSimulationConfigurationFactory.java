@@ -39,6 +39,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 	private String simFileName = null;
 //	private String popFileName = null;
 	private String directoryName = null;
+	@SuppressWarnings("unused")
 	private String newbornsFileName = null;
 	private int nRules;
 	private String simulationName;
@@ -818,6 +819,7 @@ public class TestClusterRunSimulationConfigurationFactory {
 		boolean isDirectory = XMLfile.isDirectory();
 		boolean canWrite = XMLfile.canWrite();
 		try {
+			@SuppressWarnings("unused")
 			boolean isNewDirectory = directory.mkdirs();
 			boolean isNew = XMLfile.createNewFile();
 			if (!isDirectory && (canWrite || isNew)) {

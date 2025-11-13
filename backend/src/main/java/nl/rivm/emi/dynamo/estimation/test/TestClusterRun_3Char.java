@@ -22,7 +22,6 @@ import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.simulation.Simulation;
 import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
@@ -39,6 +38,7 @@ import org.junit.Test;
 
 public class TestClusterRun_3Char {
 	Log log = LogFactory.getLog(getClass().getName());
+	@SuppressWarnings("static-access")
 	String baseDir = BaseDirectory.getInstance(
 			"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 
@@ -122,6 +122,7 @@ public class TestClusterRun_3Char {
 
 			File multipleCharacteristicsFile = new File(threeCharConfig);
 			log.fatal("charFile made.");
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			log.fatal("charFile handled.");
@@ -173,6 +174,7 @@ public class TestClusterRun_3Char {
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
+	@SuppressWarnings("unused")
 	private void evaluateResult(Simulation sim)
 			throws ParserConfigurationException, TransformerException {
 		Population pop = sim.getPopulation();

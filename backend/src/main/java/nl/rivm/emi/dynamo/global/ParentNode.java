@@ -1,6 +1,5 @@
 package nl.rivm.emi.dynamo.global;
 
-import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public interface ParentNode {
 

@@ -35,6 +35,7 @@ public class LeafNodeList extends ArrayList<AtomicTypeObjectTuple> {
 	 *             Thrown when the structure of the configuration file cannot be
 	 *             handled.
 	 */
+	@SuppressWarnings("unchecked")
 	public int fill(ConfigurationNode rootChild) throws ConfigurationException {
 		theLastContainer = 0;
 		List<ConfigurationNode> leafChildren = (List<ConfigurationNode>) rootChild

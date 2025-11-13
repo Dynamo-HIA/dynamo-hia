@@ -365,6 +365,7 @@ public class Simplx {
 				b = [0.7189476, 0.2255193, 0.05553312] */
 		double [] poud={0.7304662F, 0.2169622F, 0.05257154F} ;
 		double [] pnew={0.7189476F, 0.2255193F, 0.05553312F} ;
+		@SuppressWarnings("unused")
 		double [] hulp = new double[3];
 		
 		double[][]augmented2 = {{0,        3,  2,  0,  2,  3,  2,  0,  2,  3},

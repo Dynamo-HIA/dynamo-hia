@@ -6,7 +6,6 @@ package nl.rivm.emi.dynamo.global;
  */
 import java.util.ArrayList;
 
-import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public class RootNode extends BaseNode implements ParentNode {
 

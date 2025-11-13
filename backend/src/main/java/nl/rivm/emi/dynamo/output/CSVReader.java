@@ -497,7 +497,8 @@ public class CSVReader {
     }
   }
 
-  public void setHeaders(String[] headers) {
+  @SuppressWarnings("unchecked")
+public void setHeaders(String[] headers) {
     headersHolder.Headers = headers;
 
     headersHolder.IndexByName.clear();
@@ -510,7 +511,7 @@ public class CSVReader {
 
     // use headersHolder.Length here in case headers is null
     for (int i = 0; i < headersHolder.Length; i++) {
-      headersHolder.IndexByName.put(headers[i], new Integer(i));
+      headersHolder.IndexByName.put(headers[i], Integer.valueOf(i));
     }
   }
 
@@ -1225,7 +1226,8 @@ public class CSVReader {
    *                Thrown if an error occurs while reading data from the
    *                source stream.
    */
-  public boolean readHeaders() throws IOException {
+  @SuppressWarnings("unchecked")
+public boolean readHeaders() throws IOException {
     boolean result = readRecord();
 
     // copy the header data from the column array
@@ -1241,7 +1243,7 @@ public class CSVReader {
       headersHolder.Headers[i] = columnValue;
 
       // if there are duplicate header names, we will save the last one
-      headersHolder.IndexByName.put(columnValue, new Integer(i));
+      headersHolder.IndexByName.put(columnValue, Integer.valueOf(i));
     }
 
     if (result) {
@@ -1708,7 +1710,8 @@ public class CSVReader {
   private class UserSettings {
     // having these as publicly accessible members will prevent
     // the overhead of the method call that exists on properties
-    public boolean CaseSensitive;
+    @SuppressWarnings("unused")
+	public boolean CaseSensitive;
 
     public char TextQualifier;
 
@@ -1753,9 +1756,11 @@ public class CSVReader {
 
     public int Length;
 
-    public HashMap IndexByName;
+    @SuppressWarnings("rawtypes")
+	public HashMap IndexByName;
 
-    public HeadersHolder() {
+    @SuppressWarnings("rawtypes")
+	public HeadersHolder() {
       Headers = null;
       Length = 0;
       IndexByName = new HashMap();

@@ -15,6 +15,7 @@ public class test1 {
 	Log log = LogFactory.getLog(getClass().getName());
 	String baseDir;
 	
+@SuppressWarnings("static-access")
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");
@@ -39,7 +40,9 @@ public void test() {
 	double x[][] = { { 1, 2, 3, 4 }, { 1, 3, 5, 5 }, { 1, 4, 7, 2 },
 			{ 1, 5, 8, 3 }, { 1, 6, 7, 5 }, { 1, 7, 8, 9 } };
 	double coef[] = { 0, 0, 0 };
+	@SuppressWarnings("unused")
 	double coef2[] = { 0, 0, 0 };
+	@SuppressWarnings("unused")
 	InputData Testdata = new InputData();
 
 	try {

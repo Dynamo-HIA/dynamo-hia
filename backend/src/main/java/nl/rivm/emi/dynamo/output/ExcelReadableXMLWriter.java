@@ -1034,6 +1034,7 @@ public class ExcelReadableXMLWriter {
 	 *            number to write
 	 * @throws XMLStreamException
 	 */
+	@SuppressWarnings("unused")
 	private void writeCell(XMLStreamWriter writer, float toWrite)
 			throws XMLStreamException {
 

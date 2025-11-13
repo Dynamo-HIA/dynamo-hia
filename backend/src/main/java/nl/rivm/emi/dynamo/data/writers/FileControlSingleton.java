@@ -12,12 +12,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class FileControlSingleton extends HashMap<String, FileControlEnum> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Log log = LogFactory.getLog(this.getClass().getName());
 	private static FileControlSingleton instance = null;
 
 	private FileControlSingleton() throws DynamoConfigurationException {
 		super();
 		StringBuffer exceptionMessage = new StringBuffer();
+		@SuppressWarnings("unused")
 		Object test = FileControlEnum.values();
 		for (FileControlEnum type : FileControlEnum.values()) {
 			String typeRootElementName = null;

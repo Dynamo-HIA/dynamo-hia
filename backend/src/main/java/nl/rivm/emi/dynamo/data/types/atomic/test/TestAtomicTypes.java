@@ -34,7 +34,7 @@ public class TestAtomicTypes {
 		AbstractAge age;
 		age = new Age();
 		assertNotNull(age);
-		assertTrue(age.inRange(new Integer(0)));
+		assertTrue(age.inRange(Integer.valueOf(0)));
 		assertFalse(age.inRange(-1));
 		assertTrue(age.inRange(95));
 		assertFalse(age.inRange(96));
@@ -46,7 +46,7 @@ public class TestAtomicTypes {
 		sex = new Sex();
 		assertNotNull(sex);
 		assertFalse(sex.inRange(-1));
-		assertTrue(sex.inRange(new Integer(0)));
+		assertTrue(sex.inRange(Integer.valueOf(0)));
 		assertTrue(sex.inRange(1));
 		assertFalse(sex.inRange(2));
 	}
@@ -57,7 +57,7 @@ public class TestAtomicTypes {
 		percentage = new Percent();
 		assertNotNull(percentage);
 		assertFalse(percentage.inRange(-1F));
-		assertTrue(percentage.inRange(new Float(0)));
+		assertTrue(percentage.inRange(Float.valueOf(0)));
 		assertTrue(percentage.inRange(100F));
 		assertFalse(percentage.inRange(101F));
 		assertFalse(((Percent)XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern.matcher("3333").matches());

@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import nl.rivm.emi.cdm.DomLevelTraverser;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
@@ -35,9 +32,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 public class DynamoSimulationRunnable extends DomLevelTraverser {
 
@@ -204,9 +198,11 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
 			 log.info("charFile made.");
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			 log.info("charFile handled.");
+			@SuppressWarnings("unused")
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 					.getInstance();
 
@@ -554,6 +550,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 		int nIndividuals = 500000;
 		nIndividuals /= numberOfElements;
 		int npop = scen.getNPopulations();
+		@SuppressWarnings("unused")
 		int nclasses = 1;
 		if (p.getRiskType() != 2)
 			nclasses = p.getPrevRisk()[0][0].length;
@@ -655,6 +652,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 	}
 
 	// not used
+	@SuppressWarnings("unused")
 	private void persistPopulationArray(Population[] populationArray) {
 		String resultFileName = this.baseDir
 				+ File.separator
@@ -695,6 +693,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			FileInputStream resultFileStream;
 			try {
 				resultFileStream = new FileInputStream(resultFileName);
+				@SuppressWarnings("resource")
 				ObjectInputStream inputStream = new ObjectInputStream(
 						resultFileStream);
 				output = (DynamoOutputFactory) inputStream.readObject();
@@ -746,6 +745,7 @@ public class DynamoSimulationRunnable extends DomLevelTraverser {
 			ScenarioParameters scenParms = null;
 			try {
 				parmsFileStream = new FileInputStream(parmsFileName);
+				@SuppressWarnings("resource")
 				ObjectInputStream inputStream = new ObjectInputStream(
 						parmsFileStream);
 				scenParms = (ScenarioParameters) inputStream.readObject();

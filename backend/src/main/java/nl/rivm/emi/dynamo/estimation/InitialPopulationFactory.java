@@ -103,6 +103,7 @@ public class InitialPopulationFactory {
 	private boolean hasDalyScenarios;
 	
 	/** The number of dalypopulation. */
+	@SuppressWarnings("unused")
 	private int[] numberOfDalypopulation;
 	
 	/** The should change into. */
@@ -133,6 +134,7 @@ public class InitialPopulationFactory {
 	private float[][] relativeRisksCat;
 	
 	/** The relative risks cont. */
+	@SuppressWarnings("unused")
 	private float[] relativeRisksCont;
 	
 	/** The alpha duur. */
@@ -198,6 +200,7 @@ public class InitialPopulationFactory {
 	 * @param scenarioInfo            : information on scenario
 	 * @throws DynamoConfigurationException the dynamo configuration exception
 	 */
+	@SuppressWarnings("null")
 	public void writeInitialPopulation(ModelParameters parameters, int nSim,
 			String simulationName, long seed, boolean newborns,
 			ScenarioInfo scenarioInfo) throws DynamoConfigurationException {
@@ -622,6 +625,7 @@ public class InitialPopulationFactory {
 					 * calculated the parts of nSim that have not yet been
 					 * allocated
 					 */
+					@SuppressWarnings("unused")
 					float totrest = 0;
 					float totrestWithoutNegatives = 0;
 					for (c = 0; c < nClasses; c++) {
@@ -705,6 +709,7 @@ public class InitialPopulationFactory {
 					 * calculated the parts of nSim that have not yet been
 					 * allocated
 					 */
+					@SuppressWarnings("unused")
 					float totrest = 0;
 					float totrestWithoutNegatives = 0;
 					for (c = 0; c < nClasses; c++) {
@@ -1685,6 +1690,7 @@ public class InitialPopulationFactory {
 		Population copy = new Population(population.getElementName(),
 				population.getLabel());
 		String label = "";
+		@SuppressWarnings("unused")
 		String delims = "[_]";
 		String elementName = null;
 		for (Individual individual : population) {
@@ -1840,6 +1846,7 @@ public class InitialPopulationFactory {
 
 		float[] CharValues = new float[numberOfElements];
 		if (a == 36) {
+			@SuppressWarnings("unused")
 			int stop = 0;
 			stop++;
 		}
@@ -2105,9 +2112,9 @@ public class InitialPopulationFactory {
 				.newDocumentBuilder();
 		Document document = docBuilder.newDocument();
 		String elementName = population.getElementName();
-		Element element = document.createElement(population.xmlElementName);
+		Element element = document.createElement(Population.xmlElementName);
 		Element nameElement = document
-				.createElement(population.xmlLabelAttributeName);
+				.createElement(Population.xmlLabelAttributeName);
 		nameElement.setTextContent(elementName);
 		element.appendChild(nameElement);
 		String label = population.getLabel();

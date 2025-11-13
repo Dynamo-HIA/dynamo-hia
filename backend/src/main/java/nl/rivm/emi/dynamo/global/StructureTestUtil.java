@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class StructureTestUtil {
 
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(StructureTestUtil.class);
 
 /**

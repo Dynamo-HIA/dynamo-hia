@@ -10,7 +10,6 @@ package nl.rivm.emi.dynamo.global;
  */
 import java.io.File;
 
-import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public class StorageTree {
 	private RootNode rootNode = null;

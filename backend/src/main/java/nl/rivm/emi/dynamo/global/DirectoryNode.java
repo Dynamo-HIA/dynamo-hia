@@ -3,9 +3,6 @@ package nl.rivm.emi.dynamo.global;
 import java.io.File;
 import java.util.ArrayList;
 
-import nl.rivm.emi.dynamo.global.StorageTreeException;
-import nl.rivm.emi.dynamo.global.StandardDirectoryStructureHandler;
-
 /**
  * @author mondeelr <br/>
  * 

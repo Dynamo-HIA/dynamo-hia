@@ -4,8 +4,6 @@ package nl.rivm.emi.dynamo.estimation;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Iterator;
-import java.util.List;
-
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
@@ -22,9 +20,6 @@ import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
 import org.apache.commons.configuration.XMLConfigurationToo;
 import org.apache.commons.logging.Log;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-
 /**
  * @author boshuizh
  *
@@ -272,6 +267,7 @@ public class DynamoSimulationRunnableWorker  implements Runnable{
 
 		
 		
+		@SuppressWarnings("unused")
 		int currentIndividual = 0;
 		Iterator<Individual> individualIterator = population.iterator();
 		while (individualIterator.hasNext()) {

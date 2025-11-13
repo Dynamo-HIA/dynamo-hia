@@ -24,13 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.dynamo.data.types.root.Alphas;
-import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityCategorical;
-import nl.rivm.emi.dynamo.data.types.root.RelativeRiskForAbilityContinuous;
-import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_Begin;
-import nl.rivm.emi.dynamo.data.types.root.RelativeRisks_End;
 import nl.rivm.emi.dynamo.data.xml.structure.RootElementNamesEnum;
-import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -30,7 +30,8 @@ public class InputData {
 	private DiseaseClusterData[][][] clusterData = new DiseaseClusterData[96][2][];
 	private float[][] mortTot = new float[96][2];
 	// third index is for risk factor class //
-      private float temp;
+      @SuppressWarnings("unused")
+	private float temp;
 	private float prevRisk[][][] = new float[96][2][];;
 	/** mean as entered into the model, also for the lognormal distribution */
 	private float[][] meanRisk = new float[96][2];
@@ -98,6 +99,7 @@ public class InputData {
 		nDisease = 7;
 		refClassCont = 1;
 		indexDuurClass = 2;
+		@SuppressWarnings("unused")
 		int[] indexIndependentDiseases = { 1, 4 };
 		for (int age = 0; age < 96; age++)
 			for (int g = 0; g < 2; g++) {
@@ -522,6 +524,7 @@ public class InputData {
 
 	}
 
+	@SuppressWarnings("unused")
 	private float[][][][] deepcopy(float[][][][] inarray) {
 		float[][][][] returnarray;
 		if (inarray == null)

@@ -17,6 +17,7 @@ public class testXMLwriter {
 	
 	String baseDir;
 	
+@SuppressWarnings("static-access")
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");

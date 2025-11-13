@@ -9,7 +9,6 @@ package nl.rivm.emi.dynamo.global;
 import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.global.SideEffectProcessor;
 //import nl.rivm.emi.dynamo.ui.panels.help.HelpGroup;
 
 import org.eclipse.core.databinding.DataBindingContext;

@@ -2,7 +2,6 @@ package nl.rivm.emi.dynamo.global;
 
 import java.io.File;
 
-import nl.rivm.emi.dynamo.global.StorageTreeException;
 
 public class FileNode extends BaseNode implements ChildNode {
 

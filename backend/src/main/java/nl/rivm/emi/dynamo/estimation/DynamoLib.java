@@ -5,8 +5,6 @@ package nl.rivm.emi.dynamo.estimation;
  */
 import java.util.Random;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import Jama.Matrix;
@@ -387,8 +385,10 @@ public class DynamoLib {
 			throw new DynamoInconsistentDataException(
 					" STD of lognormal distribution can not be zero or negative");
 		double sigma;
+		@SuppressWarnings("unused")
 		double sigma2; /* just for checking */
 		try {
+			//sigma is for debugging
 			sigma2 = findRoot(skewness);
 			sigma = findSigma(skewness);
 		} catch (Exception e) {
