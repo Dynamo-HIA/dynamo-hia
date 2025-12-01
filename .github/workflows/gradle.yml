@@ -29,7 +29,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
-
+      actions: read
+      id-token: write
+      # Add the following line for dependency graph submission
+     
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
