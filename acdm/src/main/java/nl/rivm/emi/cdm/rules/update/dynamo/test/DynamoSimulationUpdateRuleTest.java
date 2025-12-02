@@ -57,8 +57,10 @@ public class DynamoSimulationUpdateRuleTest {
 				
 				File multipleCharacteristicsFile = new File(
 						preCharConfig);
+				@SuppressWarnings("unused")
 				CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 						multipleCharacteristicsFile);
+				@SuppressWarnings("unused")
 				CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 						.getInstance();
 				if (simulationConfigurationFile.exists()) {

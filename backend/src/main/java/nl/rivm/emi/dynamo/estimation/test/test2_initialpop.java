@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.InitialPopulationFactory;
 import nl.rivm.emi.dynamo.estimation.InputData;
 import nl.rivm.emi.dynamo.estimation.ModelParameters;
 
@@ -15,6 +14,7 @@ public class test2_initialpop {
 	Log log = LogFactory.getLog(getClass().getName());
 	String baseDir;
 	
+@SuppressWarnings("static-access")
 @Before
 	public void setup() {
 	log.fatal("Starting test. ");

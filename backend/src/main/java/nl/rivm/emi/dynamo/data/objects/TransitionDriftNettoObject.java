@@ -33,8 +33,10 @@ public class TransitionDriftNettoObject extends
 /**
  * Tested and in use for databinding in the modal.
  */
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableTrend()
 			throws DynamoConfigurationException {
+		
 		WritableValue result = null;
 		Object candidateValue = getSingleRootChildWritableValue(XMLTagEntityEnum.TREND.getElementName());
 		if (candidateValue instanceof WritableValue) {
@@ -43,6 +45,7 @@ public class TransitionDriftNettoObject extends
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Float getTrend() throws DynamoConfigurationException {
 		Float result = null;
 		Object candidateValue = getValue();
@@ -64,6 +67,7 @@ public class TransitionDriftNettoObject extends
 		Object currentValue = getValue();
 		if (currentValue != null) {
 			if (currentValue instanceof WritableValue) {
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				WritableValue newValue = new WritableValue(trend,
 						((WritableValue) currentValue).getValueType());
 				setValue(newValue);
@@ -82,7 +86,7 @@ public class TransitionDriftNettoObject extends
 		}
 	}
 
-	public void setObservableTrend(WritableValue trend)
+	public void setObservableTrend(@SuppressWarnings("rawtypes") WritableValue trend)
 			throws DynamoConfigurationException {
 		setValue(trend);
 	}

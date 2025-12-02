@@ -57,6 +57,9 @@ public class DynamoSimulationParameterGroup {
 		FormData formData = new FormData();
 		formData.top = new FormAttachment(0, 5);
 		formData.left = new FormAttachment(0, 5);
+		// This changes the width of the panel, but this needs to fit
+		// into the container
+		// HB changed from 100 to 120
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(bottomNeighbour, -5);
 		group.setLayoutData(formData);		

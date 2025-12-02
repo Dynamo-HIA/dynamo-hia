@@ -8,7 +8,9 @@ public class SimpleModelConverterFactory {
 	static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.databinding.converters.ModelConverters");
 
+	@SuppressWarnings("rawtypes")
 	public static IConverter getConverter(Object objectType) {
+	
 		IConverter resultConverter = null;
 		//FIXME: Fix this properly
 		if (objectType instanceof Integer | (objectType.equals(Integer.class))) {

@@ -35,6 +35,7 @@ public class TestNonGraphicalSimulationRun {
 	/**
 	 * The BaseDirectory needs to be set manually for this test.
 	 */
+	@SuppressWarnings("static-access")
 	final String baseDir = BaseDirectory.getInstance(
 			"D:\\DynamoHIA_testspaces\\Netherlands_scmeeting").getBaseDir();
 	/**

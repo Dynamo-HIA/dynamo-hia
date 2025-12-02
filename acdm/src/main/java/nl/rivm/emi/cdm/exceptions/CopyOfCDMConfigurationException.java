@@ -4,6 +4,11 @@ import org.apache.commons.configuration.ConfigurationException;
 
 public class CopyOfCDMConfigurationException extends ConfigurationException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 24L;
+
 	public CopyOfCDMConfigurationException(String message) {
 		super(message);
 	}

@@ -8,6 +8,7 @@ public interface PopulationFileName {
 
 	public abstract String getPopulationFileName() throws DynamoConfigurationException;
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservablePopulationFileName() throws DynamoConfigurationException;
 
 	public abstract void setPopulationFileName(String populationFileName);

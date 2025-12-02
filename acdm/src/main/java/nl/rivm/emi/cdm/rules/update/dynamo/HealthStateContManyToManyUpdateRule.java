@@ -4,9 +4,7 @@
 package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -116,12 +114,14 @@ extends HealthStateManyToManyUpdateRule {
 						riskFactorIndex1);
 				if (ageValue == 56 && sexValue == 1) {
 
+					@SuppressWarnings("unused")
 					int stop = 0;
 					stop++;
 
 				}
 
 				newValue = new float[oldValue.length];
+				@SuppressWarnings("unused")
 				float[] currentDiseaseStateValues = new float[oldValue.length];
 				/*
 				 * float totInStates=0; for (int i=0;i<oldValue.length-1;i++)
@@ -145,6 +145,7 @@ extends HealthStateManyToManyUpdateRule {
 
 				double survivalFraction = calculateOtherCauseSurvival(
 						riskFactorValue, ageValue, sexValue);
+				@SuppressWarnings("unused")
 				float[][] currentTransMat;
 				double expAI;
 				double expI;
@@ -486,6 +487,7 @@ extends HealthStateManyToManyUpdateRule {
 					/* update cluster diseases */
 					else {
 
+						@SuppressWarnings("unused")
 						int dInCluster = 0;
 						/*
 						 * calculate the healthy state at the end of the time
@@ -643,6 +645,7 @@ extends HealthStateManyToManyUpdateRule {
 			handleOtherMort(configurationFileConfiguration);
 			handleDiseaseData(rootNode);
 			/* make matrixes with transition probabilities */
+			@SuppressWarnings("unused")
 			MatrixExponential matExp = MatrixExponential.getInstance();
 
 			atIndex = new int[nCluster][][];
@@ -708,6 +711,7 @@ extends HealthStateManyToManyUpdateRule {
 			 * DiseaseNumberWithinCluster;== array over diseases
 			 */
 
+			@SuppressWarnings("unused")
 			int currentStateNo = 0;
 
 			for (int c = 0; c < nCluster; c++) {

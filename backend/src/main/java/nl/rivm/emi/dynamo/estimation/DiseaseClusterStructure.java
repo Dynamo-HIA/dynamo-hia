@@ -19,6 +19,13 @@ public class DiseaseClusterStructure implements Serializable {
 	 */
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
+	/**
 	 * @dependentDisease (boolean[]) indicates whether a disease is a dependent
 	 *                   disease or not
 	 */

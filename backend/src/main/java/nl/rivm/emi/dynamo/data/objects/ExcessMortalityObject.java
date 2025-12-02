@@ -12,8 +12,6 @@ import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.data.types.atomic.Sex;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AtomicTypeBase;
-import nl.rivm.emi.dynamo.data.types.atomic.base.XMLTagEntity;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 
 
@@ -60,6 +58,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public WritableValue getObservableUnitType() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.UNITTYPE
@@ -85,8 +84,10 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 		return wrappedObject;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public WritableValue getObservableParameterType()throws DynamoConfigurationException {	
+	
 		WritableValue value=null;		 		
 		
 			value=getSingleRootChildWritableValue(XMLTagEntityEnum.PARAMETERTYPE
@@ -121,6 +122,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 	public void insertParameterType(String parameterTypeName,
 			boolean zapOtherColumn) {
 		boolean stripMortalities = hasNoParameterType();
+		@SuppressWarnings("unchecked")
 		TypedHashMap<Age> mortalitiesObject = (TypedHashMap<Age>) get(XMLTagEntityEnum.MORTALITIES
 				.getElementName());
 		if(zapOtherColumn){
@@ -131,6 +133,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 			remove(XMLTagEntityEnum.MORTALITIES.getElementName());
 		}
 		// Add parameterType
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		WritableValue writableValue = new WritableValue(parameterTypeName,
 				new String());
 		AtomicTypeObjectTuple tuple = new AtomicTypeObjectTuple(
@@ -144,16 +147,18 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 	}
 
 	private void checkObjectState() {
-		final Float zeroFloat = new Float(0);
+		final Float zeroFloat = Float.valueOf(0);
 		notAllAcutelyFatalsAreZeroAtConstructionTime = Boolean.FALSE;
 		notAllCuredFractionsAreZeroAtConstructionTime = Boolean.FALSE;
 		TypedHashMap<Age> mortalitiesMap = getMortalities();
 		final int numberOfAges = mortalitiesMap.size();
 		for (int ageCount = 0; ageCount < numberOfAges; ageCount++) {
+			@SuppressWarnings("unchecked")
 			TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) mortalitiesMap
 					.get(ageCount);
 			int numberOfSexes = sexMap.size();
 			for (int sexCount = 0; sexCount < numberOfSexes; sexCount++) {
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> arrayList = (ArrayList<AtomicTypeObjectTuple>) sexMap
 						.get(sexCount);
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
@@ -162,6 +167,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 							&& (notAllAcutelyFatalsAreZeroAtConstructionTime
 									.equals(Boolean.FALSE))) {
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						@SuppressWarnings("rawtypes")
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
 						Float acutelyFatalFloatValue = (Float) observableClassName
@@ -175,6 +181,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 							&& (notAllCuredFractionsAreZeroAtConstructionTime
 									.equals(Boolean.FALSE))) {
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						@SuppressWarnings("rawtypes")
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
 						Float curedFractionFloatValue = (Float) observableClassName
@@ -188,21 +195,25 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void zapColumn(TypedHashMap<Age> mortalitiesMap,
 			String parameterTypeName2Zap) {
-		final Float zeroFloat = new Float(0);
+		final Float zeroFloat = Float.valueOf(0);
 		final int numberOfAges = mortalitiesMap.size();
 		for (int ageCount = 0; ageCount < numberOfAges; ageCount++) {
+			
 			TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) mortalitiesMap
 					.get(ageCount);
 			int numberOfSexes = sexMap.size();
 			for (int sexCount = 0; sexCount < numberOfSexes; sexCount++) {
+				
 				ArrayList<AtomicTypeObjectTuple> arrayList = (ArrayList<AtomicTypeObjectTuple>) sexMap
 						.get(sexCount);
 				for (int paramCount = 0; paramCount < arrayList.size(); paramCount++) {
 					if ((paramCount == 1)
 							&& ParameterTypeHelperClass.CURED_FRACTION.equals(parameterTypeName2Zap)){
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						@SuppressWarnings("rawtypes")
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
 						observableClassName
@@ -211,6 +222,7 @@ public class ExcessMortalityObject extends GroupConfigurationObjectServiceLayer
 					if ((paramCount == 2)
 							&& ParameterTypeHelperClass.ACUTELY_FATAL.equals(parameterTypeName2Zap)){
 						AtomicTypeObjectTuple tuple = arrayList.get(paramCount);
+						@SuppressWarnings("rawtypes")
 						WritableValue observableClassName = (WritableValue) tuple
 								.getValue();
 						observableClassName

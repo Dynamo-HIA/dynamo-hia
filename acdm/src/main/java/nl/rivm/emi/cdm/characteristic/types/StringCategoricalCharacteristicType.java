@@ -40,7 +40,7 @@ public class StringCategoricalCharacteristicType extends
 	}
 
 	public Integer getNumberOfPossibleValues() {
-		return new Integer(possibleValues.size());
+		return Integer.valueOf(possibleValues.size());
 	}
 
 	public ArrayList<String> getPossibleValues() {

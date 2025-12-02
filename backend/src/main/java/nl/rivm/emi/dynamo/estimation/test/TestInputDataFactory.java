@@ -28,6 +28,7 @@ import org.junit.Test;
 		
 		String simulationName="simulation1";
 
+		@SuppressWarnings("static-access")
 		@Before
 			public void setup() throws DynamoConfigurationException {
 			baseDir = BaseDirectory.

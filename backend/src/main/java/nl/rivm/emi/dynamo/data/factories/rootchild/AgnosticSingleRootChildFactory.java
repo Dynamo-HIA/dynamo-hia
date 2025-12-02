@@ -162,6 +162,7 @@ public class AgnosticSingleRootChildFactory implements RootChildFactory {
 			underConstruction = new AtomicTypeObjectTuple(nodeType,
 					nodeModelValue);
 		} else {
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			WritableValue observableNodeModelValue = new WritableValue(
 					nodeModelValue, nodeModelValue.getClass());
 			underConstruction = new AtomicTypeObjectTuple(nodeType,

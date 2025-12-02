@@ -8,6 +8,7 @@ public interface ICutoffs {
 
 	public abstract Float getCutoffValue(Integer index);
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableCutoffValue(Integer index);
 	
 	public abstract int getNumberOfCutoffs();

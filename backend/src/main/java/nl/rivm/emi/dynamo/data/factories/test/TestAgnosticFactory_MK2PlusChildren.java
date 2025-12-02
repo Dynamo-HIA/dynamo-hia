@@ -34,6 +34,7 @@ public class TestAgnosticFactory_MK2PlusChildren {
 		File configurationFile = new File(configurationFilePath);
 		String outputFilePath = "data" + File.separator + "development"
 				+ File.separator + "riskfactor_categorical_config1_after.xml";
+		@SuppressWarnings("unused")
 		File outputFile = new File(outputFilePath);
 		log.debug(configurationFile.getAbsolutePath());
 	}

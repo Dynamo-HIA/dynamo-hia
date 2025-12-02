@@ -66,6 +66,7 @@ public class CategoricalRiskFactorManyToOneUpdateRule extends
 		// temporary;
 		super();
         int randomSeed=0;
+		@SuppressWarnings("unused")
 		Random randomgenerator=new Random(randomSeed);
 		
 	}
@@ -75,6 +76,7 @@ public class CategoricalRiskFactorManyToOneUpdateRule extends
 		File configFile = new File(configFileName);
 		boolean success = loadConfigurationFile(configFile);
         int randomSeed=0;
+		@SuppressWarnings("unused")
 		Random randomgenerator=new Random(randomSeed);
 		if (characteristicIndex!=3) throw new CDMUpdateRuleException("wrong character ID given for DYNAMO riskfactor update rule (should always be 3) ");
 		
@@ -269,11 +271,13 @@ public class CategoricalRiskFactorManyToOneUpdateRule extends
 		for (float prev:p) sumP+=prev;
 		if(Math.abs(sumP-1.0)>1E-4){
 			
+		@SuppressWarnings("unused")
 		int stop=0; stop++;
 		
 			
 		}
 		if(Math.abs(sumP-1.0)>1E-3) {
+			@SuppressWarnings("unused")
 			int iii=0;
 			iii++;
 		}

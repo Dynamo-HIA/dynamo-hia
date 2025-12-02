@@ -87,7 +87,7 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		Date date = new Date();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
-		return new Integer(calendar.get(Calendar.YEAR));
+		return Integer.valueOf(calendar.get(Calendar.YEAR));
 	}
 
 	public String getElementName() {
@@ -103,15 +103,18 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 	}
 
 	public String convert4View(Object modelValue) {
+		@SuppressWarnings("unchecked")
 		String result = (String) viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
 
 	public Object convert4Model(String viewString) {
+		@SuppressWarnings("unchecked")
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		Integer nakedValue = null;
@@ -124,6 +127,7 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		return viewValue;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
@@ -131,6 +135,7 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		return resultStrategy;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy
@@ -138,6 +143,7 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		return resultStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueModelConverter implements IConverter {
 		Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -177,6 +183,7 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueViewConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -215,10 +222,12 @@ abstract public class AbstractYear extends AbstractFlexibleUpperLimitInteger {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		return modelUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}

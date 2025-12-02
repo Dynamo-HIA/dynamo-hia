@@ -72,15 +72,18 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 	}
 
 	public String convert4View(Object modelValue) {
+		@SuppressWarnings("unchecked")
 		String result = (String) viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
 
 	public Object convert4Model(String viewString) {
+		@SuppressWarnings("unchecked")
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		Integer nakedValue = null;
@@ -93,6 +96,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 		return viewValue;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
@@ -100,6 +104,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 		return resultStrategy;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy
@@ -107,6 +112,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 		return resultStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueModelConverter implements IConverter {
 		Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -146,6 +152,7 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueViewConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -184,10 +191,12 @@ abstract public class AbstractFlexibleUpperLimitInteger extends
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		return modelUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}

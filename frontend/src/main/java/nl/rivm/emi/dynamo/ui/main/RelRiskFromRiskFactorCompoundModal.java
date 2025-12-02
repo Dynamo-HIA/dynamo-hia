@@ -82,7 +82,7 @@ public class RelRiskFromRiskFactorCompoundModal extends AbstractDataModal {
 			this.shell.pack();
 			// This is the first place this works.
 //			this.shell.setSize(500, ModalStatics.defaultHeight);
-			this.shell.setSize(575, ModalStatics.defaultHeight);
+			this.shell.setSize(ModalStatics.defaultWidth42Cols+225, ModalStatics.defaultHeight);
 			this.shell.open();
 	}
 

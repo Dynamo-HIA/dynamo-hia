@@ -19,8 +19,6 @@ import nl.rivm.emi.cdm.model.DOMBootStrap;
 import nl.rivm.emi.cdm.population.Population;
 import nl.rivm.emi.cdm.population.DOMPopulationWriter;
 import nl.rivm.emi.cdm.rules.update.AbstractDoubleBoundOneToOneUpdateRule;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
 import nl.rivm.emi.cdm.rules.update.containment.UpdateRules4Simulation;
 import nl.rivm.emi.cdm.simulation.Simulation;
 
@@ -46,8 +44,10 @@ public class Iter1Test1_01 {
 	File transSimOutputStep5 = new File(
 	"C:/eclipse321/workspace/CZM/data/iter1test1/transtestpop1st5.xml");
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleST1_01 extends AbstractDoubleBoundOneToOneUpdateRule {
 
+	
 		public UpdateRuleST1_01() {
 			super(1, 1);
 		}
@@ -78,8 +78,10 @@ public class Iter1Test1_01 {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	static public class UpdateRuleST1_02 extends AbstractDoubleBoundOneToOneUpdateRule {
 
+		
 		public UpdateRuleST1_02() {
 			super(2, 1);
 		}

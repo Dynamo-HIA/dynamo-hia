@@ -1,24 +1,14 @@
 package nl.rivm.emi.cdm.individual;
 
 import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.EndDocument;
 import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.EntityReference;
-import javax.xml.stream.events.Namespace;
-import javax.xml.stream.events.ProcessingInstruction;
-import javax.xml.stream.events.StartDocument;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
-import nl.rivm.emi.cdm.population.Population;
 
 /**
  * Class containing purely example code as a template for functional code.
@@ -37,6 +27,7 @@ public class IndElementStAXEventConsumer {
 	 * @return
 	 * @throws CDMConfigurationException
 	 */
+	@SuppressWarnings("finally")
 	static public Object dispatchEvents(XMLEventReader reader) {
 		Object whatEver = null;
 		XMLEvent event;

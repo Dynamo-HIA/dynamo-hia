@@ -39,7 +39,9 @@ public class ModelParameters {
 	private int nSim = 100;
 	private int riskType = -1;
 	private int nWarningsDisability = 0;
+	@SuppressWarnings("unused")
 	private int nWarningsMort = 0;
+	@SuppressWarnings("unused")
 	private int nWarningRRdis = 0;
 	private String RiskTypeDistribution = null;
 	private int durationClass = -1;
@@ -246,7 +248,7 @@ public class ModelParameters {
 		config.addDiseaseInfoToInputData(inputData, sceninfo);
 		config.addScenarioInfoToScenarioData(simulationName, sceninfo);
 
-		this.log.fatal("disease info added");
+		this.log.info("disease info added");
 
 		/** * 2. uses the inputdata to estimate the model parameters */
 
@@ -282,11 +284,11 @@ public class ModelParameters {
 		SimulationConfigurationFactory s = new SimulationConfigurationFactory(
 				simulationName);
 		s.manufactureSimulationConfigurationFile(this, sceninfo);
-		this.log.fatal("SimulationConfigurationFile written ");
+		this.log.info("SimulationConfigurationFile written ");
 		s.manufactureCharacteristicsConfigurationFile(this);
-		this.log.fatal("CharacteristicsConfigurationFile written ");
+		this.log.info("CharacteristicsConfigurationFile written ");
 		s.manufactureUpdateRuleConfigurationFiles(this, sceninfo);
-		this.log.fatal("UpdateRuleConfigurationFile written ");
+		this.log.info("UpdateRuleConfigurationFile written ");
 
 		return sceninfo;
 
@@ -834,6 +836,7 @@ public class ModelParameters {
 		 * "WARNING:\nRR for disability is not (yet) implemented so RR for disability is ignored"
 		 * , dsi); nWarningRRdis++; } withRRdisability = false;
 		 */
+		@SuppressWarnings("unused")
 		double log2 = Math.log(2.0); // keep outside loops
 
 		float[] excessMortality = getExcessMort(inputData, age, sex, nDiseases);
@@ -1158,6 +1161,7 @@ public class ModelParameters {
 			int nIter = 0;
 			double del = 100;
 			if (age == 50) {
+				@SuppressWarnings("unused")
 				int kk = 0;
 				kk++;
 
@@ -1836,6 +1840,7 @@ public class ModelParameters {
 		if (nDiseases > 0)
 			for (int i = 0; i < nSim; i++) {
 				if (age == 70) {
+					@SuppressWarnings("unused")
 					int ii = 0;
 					ii++;
 				}
@@ -2454,6 +2459,7 @@ public class ModelParameters {
 
 		if (age == 46) {
 
+			@SuppressWarnings("unused")
 			int i = 0;
 			i++;
 
@@ -4338,6 +4344,7 @@ public class ModelParameters {
 	 *            : matrix containing the x values
 	 * @return array of regression coefficients
 	 */
+	@SuppressWarnings("unused")
 	private double[] regression(double[] y_array, double[][] x_array) {
 		Matrix X = new Matrix(x_array);
 		Matrix Y = new Matrix(y_array, y_array.length);
@@ -4402,9 +4409,9 @@ public class ModelParameters {
 		else
 			currentRRend = endRR;
 		currentAlpha = 3 / (x_array[x_array.length - 1] - x_array[0]);
-		if ((new Double(currentRRbegin)).isNaN())
+		if ((Double.valueOf(currentRRbegin)).isNaN())
 			currentRRbegin = 0.1;
-		if ((new Double(currentRRend)).isNaN())
+		if ((Double.valueOf(currentRRend)).isNaN())
 			currentRRend = 0.1;
 
 		double delRRbegin[] = new double[x_array.length];
@@ -4594,6 +4601,7 @@ public class ModelParameters {
 	 * @throws Exception
 	 *             if dimensions do not match
 	 */
+	@SuppressWarnings("unused")
 	public double[] weightedRegression(double[] y_array_input,
 			double[][] x_array_input, double[] w_input)
 			throws DynamoInconsistentDataException {
@@ -4621,10 +4629,10 @@ public class ModelParameters {
 		for (int i = 0; i < w_input.length; i++) {
 			w[i] = w_input[i];
 			y_array[i] = y_array_input[i];
-			if ((new Double(y_array[i])).isNaN())
+			if ((Double.valueOf(y_array[i])).isNaN())
 				w[i] = 0;
 			for (int j = 0; j < x_array[0].length; j++) {
-				if ((new Double(x_array[i][j])).isNaN())
+				if ((Double.valueOf(x_array[i][j])).isNaN())
 					w[i] = 0;
 				x_array[i][j] = x_array_input[i][j];
 			}

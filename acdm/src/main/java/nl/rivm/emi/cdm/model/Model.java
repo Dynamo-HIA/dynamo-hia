@@ -35,6 +35,7 @@ public class Model {
 			// Preliminary checks.
 			if (populationFile.exists() && populationFile.isFile()
 					&& populationFile.canRead()) {
+				@SuppressWarnings("unused")
 				Simulation simulation = new Simulation("AlphaOne", numberOfSteps, populationFile);
 //				simulation.run();
 			}

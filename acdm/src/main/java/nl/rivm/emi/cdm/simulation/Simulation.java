@@ -1,20 +1,14 @@
 package nl.rivm.emi.cdm.simulation;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.DomLevelTraverser;
-import nl.rivm.emi.cdm.characteristic.Characteristic;
 import nl.rivm.emi.cdm.characteristic.CharacteristicsConfigurationMapSingleton;
 import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueBase;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
@@ -432,11 +426,7 @@ public class Simulation extends DomLevelTraverser {
 	public void processCharVals(Individual individual) throws CDMRunException {
 		Iterator<CharacteristicValueBase> charValIterator = individual
 				.iterator();
-		if (DALYSCEN)
-		{
-			int iii=0;
-		iii++;
-		}
+		
 		
 		
 		while (charValIterator.hasNext()) {
@@ -591,7 +581,7 @@ public class Simulation extends DomLevelTraverser {
 						int oldValue = intCharVal.getCurrentValue();
 
 						Integer newValue = (Integer) ((OneToOneUpdateRuleBase) updateRule)
-								.update(new Integer(oldValue));
+								.update(Integer.valueOf(oldValue));
 
 						intCharVal.appendValue(newValue);
 						log.debug("Updated charval at " + intCharVal.getIndex()
@@ -636,20 +626,7 @@ public class Simulation extends DomLevelTraverser {
 						 * ((ManyToOneUpdateRuleBase) updateRule)
 						 * .update(charVals);
 						 */
-						if (individual.getLabel().equals("ind_1701_ref")  && oldValue==1)
-						{ int ii=0;
 						
-						
-						ii++;
-						
-						}
-						if (individual.getLabel().equals("ind_1701_0.0_1") && oldValue==1)
-						{ int ii=0;
-						
-						
-						ii++;
-						
-						}
 						Long seed = individual.getRandomNumberGeneratorSeed();
 						Integer newValue = (Integer) ((ManyToOneUpdateRuleBase) updateRule)
 								.update(charVals, seed);
@@ -749,6 +726,7 @@ public class Simulation extends DomLevelTraverser {
 
 	
 	/* added by Hendriek to replace the first value for DALY calculations */
+	@SuppressWarnings("unused")
 	private boolean replaceIntCharVal(IntCharacteristicValue intCharVal,
 			Individual individual) throws CDMRunException {
 
@@ -787,6 +765,7 @@ public class Simulation extends DomLevelTraverser {
 
 		return isReplaced;
 	}
+	@SuppressWarnings("unused")
 	private boolean replaceFloatCharVal(FloatCharacteristicValue floatCharVal,
 			Individual individual) throws CDMRunException {
 
@@ -868,7 +847,7 @@ public class Simulation extends DomLevelTraverser {
 					if (updateRule instanceof OneToOneUpdateRuleBase) {
 						float oldValue = floatCharVal.getCurrentValue();
 						Float newValue = (Float) ((OneToOneUpdateRuleBase) updateRule)
-								.update(new Float(oldValue));
+								.update(Float.valueOf(oldValue));
 						floatCharVal.appendValue(newValue);
 						log.debug("Updated charval at "
 								+ floatCharVal.getIndex() + " for "
@@ -1034,7 +1013,7 @@ public class Simulation extends DomLevelTraverser {
 
 	public void setCharacteristics(
 			CharacteristicsConfigurationMapSingleton characteristics) {
-		characteristics = characteristics;
+		this.characteristics = characteristics;
 	}
 
 	public void setTimeStep(float stepSize) {

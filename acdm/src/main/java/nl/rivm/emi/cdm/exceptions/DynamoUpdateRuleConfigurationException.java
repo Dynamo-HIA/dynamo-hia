@@ -8,9 +8,9 @@ public class DynamoUpdateRuleConfigurationException extends Exception  {
 	public static final String finalParameterMessage = "Updaterule %1$s: Parameter %2$s cannot be changed.";
 
 	/**
-	 * 
+	 * serial id not used
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6L;
 
 	
 

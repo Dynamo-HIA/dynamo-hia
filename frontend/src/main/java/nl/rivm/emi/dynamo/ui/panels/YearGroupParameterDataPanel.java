@@ -84,7 +84,7 @@ public class YearGroupParameterDataPanel extends Composite /*
 			log.debug("yearCount" + yearCount);
 			// Set the year label
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(yearCount).toString());
+			label.setText(Integer.valueOf(yearCount).toString());
 
 			WritableValue observableClassName = newbornsObject
 					.getObservableNumber(yearCount);

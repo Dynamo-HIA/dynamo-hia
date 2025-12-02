@@ -1,9 +1,5 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
-import nl.rivm.emi.dynamo.estimation.BaseDirectory;
-import nl.rivm.emi.dynamo.estimation.InputData;
-import nl.rivm.emi.dynamo.estimation.InputDataFactory;
-import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import nl.rivm.emi.dynamo.estimation.NettTransitionRateFactory;
 
 import org.apache.commons.logging.Log;

@@ -1,7 +1,5 @@
 package nl.rivm.emi.cdm.rules.update;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.base.CharacteristicSpecific;

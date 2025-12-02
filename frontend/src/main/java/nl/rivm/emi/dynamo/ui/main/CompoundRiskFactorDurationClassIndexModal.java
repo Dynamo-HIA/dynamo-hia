@@ -82,7 +82,7 @@ public class CompoundRiskFactorDurationClassIndexModal implements Runnable {
 		addPushButtons(compoundGroup);
 		shell.pack();
 		// This is the first place this works.
-		shell.setSize(250, 150);
+		shell.setSize(400, 250);
 		shell.open();
 		Display display = shell.getDisplay();
 		while (!shell.isDisposed()) {

@@ -16,7 +16,7 @@ public class FlexDex extends AbstractFlexibleUpperLimitInteger implements
 	static final protected String XMLElementName = "flexdex";
 
 	public FlexDex() {
-		super(XMLElementName, new Integer(1), new Integer(Integer.MAX_VALUE));
+		super(XMLElementName,  Integer.valueOf(1),  Integer.valueOf(Integer.MAX_VALUE));
 	}
 
 	@Override

@@ -59,6 +59,7 @@ public class Test02_01 {
 		System.out.println(multipleCharacteristicsFileName);
 		File multipleCharacteristicsFile = new File(
 				multipleCharacteristicsFileName);
+		@SuppressWarnings("unused")
 		CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 				multipleCharacteristicsFile);
 		try {

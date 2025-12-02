@@ -8,6 +8,7 @@ import org.apache.commons.configuration.ConfigurationException;
 /**
  * NB(mondeelr) Not yet in use.
  */
+@SuppressWarnings("rawtypes")
 public class VirtualCutoffIndex extends AbstractRangedInteger implements ContainerType
 		/* implements IXMLHandlingLayer<Integer> */ {
 	static final protected String XMLElementName = "virtual_cutoff_index";

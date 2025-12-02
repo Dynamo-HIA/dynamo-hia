@@ -10,6 +10,7 @@ public class ViewUpdateValueStrategies {
 
 	static Log log = LogFactory.getLog("nl.rivm.emi.dynamo.databinding.converters.ViewUpdateValueStrategies");
 
+	@SuppressWarnings("rawtypes")
 	public static UpdateValueStrategy getStrategy(Object objectType) {
 		UpdateValueStrategy resultStrategy = null;
 		if (objectType instanceof Integer | (objectType.equals(Integer.class))) {
@@ -21,6 +22,7 @@ public class ViewUpdateValueStrategies {
 		return resultStrategy;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static UpdateValueStrategy assembleIntegerViewValueUpdateStrategy(Object type) {
 		UpdateValueStrategy integerUpdateValueStrategy = new UpdateValueStrategy();
 		integerUpdateValueStrategy.setConverter(SimpleViewConverterFactory.getConverter(type));	

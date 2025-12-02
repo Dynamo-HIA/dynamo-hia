@@ -101,6 +101,7 @@ public class StAXTransitionDriftNettoWriter {
 	 * @throws DynamoOutputException
 	 * @throws nl.rivm.emi.cdm.exceptions.DynamoConfigurationException 
 	 */
+	@SuppressWarnings("rawtypes")
 	public static void writeDatum(FileControlEnum fileControl,
 			TransitionDriftNettoObject configurationLevel, XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoOutputException, nl.rivm.emi.cdm.exceptions.DynamoConfigurationException {

@@ -11,7 +11,7 @@ public class SuccessRate extends AbstractRangedInteger implements PayloadType<In
 	}
 
 	public Integer getDefaultValue() {
-		return new Integer(100);
+		return Integer.valueOf(100);
 	}
 
 

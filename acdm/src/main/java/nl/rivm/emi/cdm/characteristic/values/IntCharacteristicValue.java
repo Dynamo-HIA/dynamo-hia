@@ -66,7 +66,7 @@ public class IntCharacteristicValue extends CharacteristicValueBase implements S
 	}
 
 	public Integer getValue(int step) {
-		return new Integer(rijtje[step]);
+		return Integer.valueOf(rijtje[step]);
 	}
 
 	public int[] getRijtje() {

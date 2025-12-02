@@ -71,7 +71,8 @@ abstract public class AgnosticModal extends AbstractDataModal {
 		this.shell.pack();
 		// This is the first place this works.
 //		this.shell.setSize(400, ModalStatics.defaultHeight);
-		this.shell.setSize(475, ModalStatics.defaultHeight);
+		// + 15 to accommodate also extra class column
+		this.shell.setSize(ModalStatics.defaultWidth42Cols+15, ModalStatics.defaultHeight);
 		this.shell.open();
 		openModal();
 	}

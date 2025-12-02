@@ -2,6 +2,7 @@ package nl.rivm.emi.dynamo.databinding.converters;
 
 import org.eclipse.core.databinding.conversion.IConverter;
 
+@SuppressWarnings("rawtypes")
 public class IntegerViewConverter implements IConverter {
 	// Log log = LogFactory.getLog(this.getClass());
 	String debugString = "";

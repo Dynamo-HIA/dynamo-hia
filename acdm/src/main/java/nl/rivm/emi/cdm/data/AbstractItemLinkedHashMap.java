@@ -18,6 +18,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 	abstract public class AbstractItemLinkedHashMap extends
 			LinkedHashMap<String, String> {
+		/**
+		     * 
+		     */
+		    private static final long serialVersionUID = 23L;
+
 		Log logger = LogFactory.getLog(getClass().getName());
 
 		FileInputStream iStream;
@@ -47,6 +52,7 @@ import org.xml.sax.helpers.DefaultHandler;
 		}
 		
 		public void fill(String baseDirectory, String xmlFileName, String xmlSchemaFileName){		
+			@SuppressWarnings("unused")
 			boolean success = false;
 			StringBuffer recordBuffer = new StringBuffer();
 			if (XMLFileValidator.validate(xmlFileName, xmlSchemaFileName) == true) {

@@ -2,12 +2,9 @@ package nl.rivm.emi.cdm.population;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -68,7 +65,6 @@ public class SeedLessGenerator {
 	 *         configuration.
 	 * @throws CDMConfigurationException
 	 */
-	@SuppressWarnings("finally")
 	public SeedLessGenerator isValid() throws CDMConfigurationException {
 		SeedLessGenerator thisWhenValid = null;
 		if (label != null) {

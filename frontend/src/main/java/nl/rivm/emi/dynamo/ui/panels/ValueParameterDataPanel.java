@@ -31,13 +31,16 @@ import org.eclipse.swt.widgets.Text;
 
 public class ValueParameterDataPanel extends Composite /* implements Runnable */{
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("rawtypes")
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
+	@SuppressWarnings("rawtypes")
 	AtomicTypeBase myType;
 
+	@SuppressWarnings({ "rawtypes", "removal" })
 	public ValueParameterDataPanel(Composite parent, Text topNeighbour,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			HelpGroup helpGroup) {
@@ -52,13 +55,13 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		GridData labelLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		ageLabel.setLayoutData(labelLayoutData);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataLayoutData.widthHint = 50;
+		dataLayoutData.widthHint = 55;
 		Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		maleLabel.setLayoutData(dataLayoutData);
@@ -66,6 +69,7 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		femaleLabel.setText("Female");
 		femaleLabel.setLayoutData(dataLayoutData);
 		for (int count = 0; count < lotsOfData.size(); count++) {
+			
 			TypedHashMap tHMap = (TypedHashMap) lotsOfData.get(count);
 			Label label = new Label(this, SWT.NONE);
 			label.setText(new Integer(count).toString());
@@ -84,13 +88,15 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(TypedHashMap typedHashMap, int index) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") TypedHashMap typedHashMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		text.setLayoutData(gridData);
 		ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
 				.get(index);
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) ((AtomicTypeObjectTuple) list
 				.get(0)).getValue();
 		AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0)
@@ -105,6 +111,7 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				((Value) myType).getModelUpdateValueStrategy(),
@@ -113,12 +120,15 @@ public class ValueParameterDataPanel extends Composite /* implements Runnable */
 				.getTheModal()));
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void bindTestValue(TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings({"rawtypes", "rawtypes"})
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

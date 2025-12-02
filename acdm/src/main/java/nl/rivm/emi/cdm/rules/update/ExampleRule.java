@@ -1,8 +1,9 @@
 package nl.rivm.emi.cdm.rules.update;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
+/**
+ * this is an example updaterule for the users of aCDM, not relevant for DYNAMO-HIA
+ */
 public class ExampleRule {
 /*
 	

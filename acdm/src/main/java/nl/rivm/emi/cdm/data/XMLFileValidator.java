@@ -28,6 +28,7 @@ public class XMLFileValidator {
 	 * @param fileName
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	static public File checkFileExistsAndCanRead(String fileName) {
 		File theFile = new File(fileName);
 		if (theFile == null) {

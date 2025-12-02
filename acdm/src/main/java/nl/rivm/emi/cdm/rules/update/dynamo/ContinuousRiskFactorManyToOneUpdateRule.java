@@ -1,11 +1,8 @@
 package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-
-import Jama.Matrix;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
@@ -15,9 +12,7 @@ import nl.rivm.emi.cdm.rules.update.base.DynamoManyToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.SubnodeConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
-import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -57,6 +52,7 @@ public class ContinuousRiskFactorManyToOneUpdateRule extends
 	// static String[] requiredTags = {"updateRuleConfiguration", "age", "sex",
 	// "charID" };
 
+	@SuppressWarnings("unused")
 	private float transitionMatrix[][][][] = null;
 
 	private String meanDriftFileName = null;
@@ -113,6 +109,7 @@ public class ContinuousRiskFactorManyToOneUpdateRule extends
 		// temporary;
 		super();
 		int randomSeed = 0;
+		@SuppressWarnings("unused")
 		Random randomgenerator = new Random(randomSeed);
 
 	}
@@ -124,6 +121,7 @@ public class ContinuousRiskFactorManyToOneUpdateRule extends
 		File configFile = new File(configFileName);
 		boolean success = loadConfigurationFile(configFile);
 		int randomSeed = 0;
+		@SuppressWarnings("unused")
 		Random randomgenerator = new Random(randomSeed);
 		if (characteristicIndex != 3)
 			throw new CDMUpdateRuleException(

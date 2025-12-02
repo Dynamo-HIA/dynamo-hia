@@ -142,6 +142,7 @@ public class StAXAgnosticWriter {
 					}
 				} else {
 					if (containedObject instanceof WritableValue) {
+						@SuppressWarnings("rawtypes")
 						Object writableValueContent = ((WritableValue) containedObject)
 								.doGetValue();
 						level = handleContainedObject(fileControl, level,

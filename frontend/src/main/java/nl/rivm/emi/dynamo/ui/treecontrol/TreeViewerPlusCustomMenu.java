@@ -26,7 +26,7 @@ public class TreeViewerPlusCustomMenu {
 		// Open the tree at startup upto simulation-level.
 		treeViewer.expandToLevel(3);
 		treeViewer.getControl().addListener(SWT.MouseHover, new MouseHoverListener(treeViewer));
-	}
+		}
 	
 	/**
 	 * @return TreeViewer

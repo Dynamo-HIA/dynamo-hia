@@ -7,30 +7,17 @@ package nl.rivm.emi.dynamo.batch.test;
 
 /* werkt niet */
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
-import junit.framework.Assert;
-import nl.rivm.emi.cdm.exceptions.DynamoConfigurationException;
-import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 import nl.rivm.emi.dynamo.batch.Runner;
-import nl.rivm.emi.dynamo.estimation.InputDataFactory.ScenInfo;
-import nl.rivm.emi.dynamo.output.DynamoOutputFactory;
-import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
-import nl.rivm.emi.dynamo.global.ScenarioParameters;
-import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author boshuizh
- * This unit test contains the complete battery of tests for DYNAMO-HIA
+ * This global test class is there to adapt for adhoc purposes tests for DYNAMO-HIA
  * 
  */
 

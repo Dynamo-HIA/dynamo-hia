@@ -1,8 +1,5 @@
 package nl.rivm.emi.cdm.rules.update.dynamo.test;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.rules.update.dynamo.MatrixExponential;
 
@@ -11,9 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import junit.framework.Assert;
-import junit.framework.JUnit4TestAdapter;
-
 
 public class ExpMattest {
 	Log log = LogFactory.getLog(getClass().getName());

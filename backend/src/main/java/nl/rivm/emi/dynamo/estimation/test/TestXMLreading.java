@@ -2,12 +2,12 @@ package nl.rivm.emi.dynamo.estimation.test;
 
 import java.util.ArrayList;
 
-import junit.framework.Assert;
 import nl.rivm.emi.cdm.rules.update.dynamo.ArraysFromXMLFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,8 +31,10 @@ public class TestXMLreading {
 
 		// data to test the regression
 		String f = "c:/hendriek/java/workspace/dynamo/dynamoinput/test.xml";
+		@SuppressWarnings("unused")
 		String ff = "c:/hendriek/java/workspace/dynamo/dynamoinput/relrisktest.xml";
 		float[][] incidence;
+		@SuppressWarnings("unused")
 		ArrayList<ArrayList<ArrayList<Float>>> relrisk;
 		try {
 			ArraysFromXMLFactory factory= new ArraysFromXMLFactory();

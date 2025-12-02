@@ -35,6 +35,7 @@ public class TestDynamoSimulationFactory {
 	}
 
 //	@Test
+	@SuppressWarnings("unchecked")
 	public void testDynamoSimulationDefault() {
 		try {
 			String outputFilePath = "data" + File.separator + "development"
@@ -70,6 +71,7 @@ public class TestDynamoSimulationFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDynamoSimulationConstruction() {
 		try {

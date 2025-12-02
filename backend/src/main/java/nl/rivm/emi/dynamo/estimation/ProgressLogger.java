@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 public class ProgressLogger implements ProgressIndicatorInterface {
 	Log log = LogFactory.getLog(this.getClass().getSimpleName());
 	private String message = null;
+	@SuppressWarnings("unused")
 	private int maximum;
 	private int position = 0;
 

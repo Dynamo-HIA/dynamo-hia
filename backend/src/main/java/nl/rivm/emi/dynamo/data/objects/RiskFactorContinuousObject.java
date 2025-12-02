@@ -34,6 +34,7 @@ public class RiskFactorContinuousObject extends
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableReferenceValue() throws DynamoConfigurationException {
 		return getSingleRootChildWritableValue(XMLTagEntityEnum.REFERENCEVALUE
 				.getElementName());
@@ -44,7 +45,9 @@ public class RiskFactorContinuousObject extends
 				.getElementName(), value);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Float getCutoffValue(Integer index) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<FlexDex> wrappedObject = (TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
 				.getElementName());
 		Object cutoffValueObject = (String) wrappedObject.get(index);
@@ -59,6 +62,7 @@ public class RiskFactorContinuousObject extends
 	}
 
 	public int getNumberOfCutoffs() {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<FlexDex> cutoffs =((TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
 				.getElementName()));
 		int numberOfCutoffs = ((cutoffs == null)? 0 : cutoffs.size());
@@ -66,9 +70,12 @@ public class RiskFactorContinuousObject extends
 		return numberOfCutoffs;
 }
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableCutoffValue(Integer index) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<FlexDex> wrappedObject = (TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
 				.getElementName());
+		@SuppressWarnings("unchecked")
 		ArrayList<AtomicTypeObjectTuple> cutoffValuesTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 				.get(index);
 		Object cutoffValueObject = cutoffValuesTupleList.get(0).getValue();
@@ -80,8 +87,10 @@ public class RiskFactorContinuousObject extends
 }
 
 	public Object putCutoff(Integer index, Float value) {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<FlexDex> wrappedObject = (TypedHashMap<FlexDex>) get(XMLTagEntityEnum.CUTOFFS
 				.getElementName());
+		@SuppressWarnings("unchecked")
 		ArrayList<AtomicTypeObjectTuple> cutoffValueTupleList = (ArrayList<AtomicTypeObjectTuple>) wrappedObject
 		.get(index);
 		AtomicTypeObjectTuple currentCutoffValueTuple = cutoffValueTupleList.get(0);
@@ -91,6 +100,7 @@ public class RiskFactorContinuousObject extends
 					.warn("!!!!!!!!!!putCutoff() may not be used to add cutoffs!!!!!!!!!!!!");
 		}
 		// Assumption, always writable.
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		WritableValue newValue = new WritableValue(value, value.getClass());
 		currentCutoffValueTuple.setValue(newValue);
 		cutoffValueTupleList.remove(0);

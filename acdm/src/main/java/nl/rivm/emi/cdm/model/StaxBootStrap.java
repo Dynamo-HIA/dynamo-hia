@@ -7,8 +7,6 @@ import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMRunException;
@@ -22,8 +20,10 @@ import org.xml.sax.SAXException;
 
 public class StaxBootStrap {
 
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(getClass().getName());
 
+	
 	public Population process2PopulationTree(File populationFile,
 			int numberOfSteps) throws ParserConfigurationException,
 			SAXException, IOException, CDMConfigurationException,
@@ -31,7 +31,9 @@ public class StaxBootStrap {
 		Population population = null;
 //		try {
 			if (populationFile.isFile() && populationFile.canRead()) {
+				@SuppressWarnings("unused")
 				InputStream in = new FileInputStream(populationFile);
+				@SuppressWarnings("unused")
 				XMLInputFactory factory = XMLInputFactory.newInstance();
 // 				XMLStreamReaderImpl xmlr = (XMLStreamReaderImpl)factory.createXMLStreamReader(in);
 
@@ -42,7 +44,7 @@ public class StaxBootStrap {
 //						log.info("StAX: " + element);
 //					}
 //				}
-
+            in.close() ;
 			}
 //		} catch (XMLStreamException e) {
 //			// TODO Auto-generated catch block

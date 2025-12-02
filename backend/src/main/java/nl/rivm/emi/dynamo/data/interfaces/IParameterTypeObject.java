@@ -10,6 +10,7 @@ public interface IParameterTypeObject {
 
 	String getParameterType();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableParameterType() throws DynamoConfigurationException;
 
 }

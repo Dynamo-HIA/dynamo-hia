@@ -9,7 +9,6 @@ import nl.rivm.emi.cdm.characteristic.values.DOMCharacteristicValueWriter;
 import nl.rivm.emi.cdm.characteristic.values.CompoundCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.FloatCharacteristicValue;
 import nl.rivm.emi.cdm.characteristic.values.IntCharacteristicValue;
-import nl.rivm.emi.cdm.individual.Individual.CharacteristicValueIterator;
 import nl.rivm.emi.cdm.prngutil.DOMRNGSeedWriter;
 
 import org.apache.commons.logging.Log;

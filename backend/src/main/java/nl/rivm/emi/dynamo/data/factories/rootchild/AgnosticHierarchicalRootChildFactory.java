@@ -151,7 +151,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> makePath(TypedHashMap<?> myContainer,
 			LeafNodeList leafNodeList, int theLastContainer, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
@@ -240,6 +240,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 		if (makeObservable) {
 			for (AtomicTypeObjectTuple tuple : leafNodeList) {
 				Object theValue = tuple.getValue();
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				WritableValue observableValue = new WritableValue(theValue,
 						theValue.getClass());
 				tuple.setValue(observableValue);
@@ -285,7 +286,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 	 * @return
 	 * @throws DynamoConfigurationException
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private TypedHashMap<?> makeDefaultPath(TypedHashMap<?> priorLevel,
 			LeafNodeList leafNodeList, int theLastContainer, int currentLevel,
 			boolean makeObservable) throws DynamoConfigurationException {
@@ -332,6 +333,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 								AtomicTypeObjectTuple tuple = leafNodeList
 										.get(count);
 								XMLTagEntity type = tuple.getType();
+								
 								Object defaultValue = ((PayloadType) type)
 										.getDefaultValue();
 								tuple.setValue(defaultValue);
@@ -373,6 +375,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 			priorLevel.put(value, defaultValue);
 		} else {
 			if (defaultValue instanceof Integer) {
+				@SuppressWarnings("rawtypes")
 				WritableValue writableValue = new WritableValue(defaultValue,
 						Integer.class);
 				log.debug("Adding default Writable Integer leaf "
@@ -380,6 +383,7 @@ public class AgnosticHierarchicalRootChildFactory implements RootChildFactory {
 				priorLevel.put(value, writableValue);
 			} else {
 				if (defaultValue instanceof Float) {
+					@SuppressWarnings("rawtypes")
 					WritableValue writableValue = new WritableValue(
 							defaultValue, Float.class);
 					log.debug("Adding default Writable Float leaf "

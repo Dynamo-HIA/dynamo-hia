@@ -94,6 +94,7 @@ public class StAXAgnosticGroupWriter {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	static public void streamRootChildren(HashMap<String, Object> theModel,
 			XMLEventWriter writer, XMLEventFactory eventFactory)
 			throws XMLStreamException, DynamoConfigurationException,
@@ -167,6 +168,7 @@ public class StAXAgnosticGroupWriter {
 		writer.add(event);
 	}
 
+	@SuppressWarnings("unused")
 	private static void handleHierarchicRootChildData(XMLEventWriter writer,
 			XMLEventFactory eventFactory, String rootChildElementName,
 			Object rootChildObject) throws XMLStreamException,
@@ -252,6 +254,7 @@ public class StAXAgnosticGroupWriter {
 					}
 				} else {
 					if (containedObject instanceof WritableValue) {
+						@SuppressWarnings("rawtypes")
 						Object writableValueContent = ((WritableValue) containedObject)
 								.doGetValue();
 						level = handleContainedObject(fileControl, level,

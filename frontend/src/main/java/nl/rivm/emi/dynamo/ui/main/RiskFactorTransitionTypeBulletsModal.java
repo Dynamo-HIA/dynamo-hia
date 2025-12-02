@@ -58,7 +58,7 @@ public class RiskFactorTransitionTypeBulletsModal implements Runnable {
 	}
 
 	/**
-	 * 
+	 * attribu
 	 */
 	public synchronized void open() {
 		this.radioButtons[0] = new Button(this.shell, SWT.RADIO);

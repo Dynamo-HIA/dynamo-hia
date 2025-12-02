@@ -24,8 +24,10 @@ import org.eclipse.core.databinding.DataBindingContext;
 public class RunnablePopulationSizeManufacturing implements Runnable {
 	Log log = LogFactory.getLog(getClass().getName());
 
+	@SuppressWarnings("unchecked")
 	public void run() {
 		String rootElementName = FileControlEnum.POPULATIONSIZE.getRootElementName();
+	@SuppressWarnings("unused")
 	DataBindingContext dbc = new DataBindingContext();
 		String configurationFilePath = "data" + File.separator + "Mehdi"
 				+ File.separator + "Population size_corrected.xml";

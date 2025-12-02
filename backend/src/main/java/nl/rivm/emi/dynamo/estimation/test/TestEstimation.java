@@ -1,6 +1,6 @@
 package nl.rivm.emi.dynamo.estimation.test;
 
-import junit.framework.Assert;
+
 import nl.rivm.emi.dynamo.estimation.BaseDirectory;
 import nl.rivm.emi.dynamo.estimation.DynSimRunPRInterface;
 import nl.rivm.emi.dynamo.estimation.InputData;
@@ -10,6 +10,7 @@ import nl.rivm.emi.dynamo.estimation.ModelParameters;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 /** 
@@ -23,6 +24,7 @@ public class TestEstimation {
 	String baseDir;
 	DynSimRunPRInterface dsi = null;
 
+	@SuppressWarnings("static-access")
 	@Before
 	public void setup() {
 		log.fatal("Starting test. ");
@@ -49,6 +51,7 @@ public class TestEstimation {
 		double x[][] = { { 1, 2, 3, 4 }, { 1, 3, 5, 5 }, { 1, 4, 7, 2 },
 				{ 1, 5, 8, 3 }, { 1, 6, 7, 5 }, { 1, 7, 8, 9 } };
 		double coef[] = { 0, 0, 0 };
+		@SuppressWarnings("unused")
 		double coef2[] = { 0, 0, 0 };
 		InputData testdata = new InputData();
 

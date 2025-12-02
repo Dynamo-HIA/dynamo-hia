@@ -10,6 +10,7 @@ public interface IDistributionTypeObject {
 
 	String getDistributionType();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableDistributionType() throws DynamoConfigurationException;
 
 }

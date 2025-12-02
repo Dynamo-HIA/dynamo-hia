@@ -23,6 +23,11 @@ import org.apache.commons.logging.LogFactory;
 
 public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 
+	/**
+	 * serial id not used
+	 */
+	private static final long serialVersionUID = 22L;
+
 	Log log = LogFactory.getLog(getClass().getName());
 
 	static final String containerTag = "characteristics";
@@ -70,6 +75,7 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 			throws ConfigurationException {
 		CharacteristicsConfigurationMapSingleton singleton = null;
 		
+		@SuppressWarnings("unchecked")
 		List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
 		if (characteristicConfigurations.size() > 0) {
 			// The XML contains at least one Characteristic-tag.
@@ -102,9 +108,11 @@ public class CharacteristicsXMLConfiguration extends XMLConfiguration {
 	 * @return null if the configuration was not changed.
 	 * @throws ConfigurationException
 	 */
+	@SuppressWarnings("unused")
 	private CharacteristicsConfigurationMapSingleton rePopulateSingleton()
 			throws ConfigurationException {
 		CharacteristicsConfigurationMapSingleton singleton = null;
+		@SuppressWarnings("unchecked")
 		List<HierarchicalConfiguration> characteristicConfigurations = configurationsAt(characteristicTag);
 		if (characteristicConfigurations.size() > 0) {
 			// The XML contains at least one Characteristic-tag.

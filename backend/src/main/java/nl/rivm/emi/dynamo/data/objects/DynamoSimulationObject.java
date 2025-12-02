@@ -47,6 +47,11 @@ public class DynamoSimulationObject extends
 		IStartingYear, ITimeStep, IResultType, IRiskFactor, IDiseases, IRefScenName,
 		IRelativeRisks, IScenarios, IConfigurationCheck {
 
+	/**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
+
 	Log log = LogFactory.getLog(this.getClass().getName());
 
 	private BackDoorListenerInterface backDoorListener = null;
@@ -61,7 +66,9 @@ public class DynamoSimulationObject extends
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableHasNewborns() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.HASNEWBORNS
 				.getElementName());
 		return result;
@@ -77,7 +84,9 @@ public class DynamoSimulationObject extends
 				.getElementName());
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableMaxAge() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MAXAGE
 				.getElementName());
 		return result;
@@ -93,7 +102,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableMinAge() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.MINAGE
 				.getElementName());
 		return result;
@@ -109,7 +120,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableNumberOfYears() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.NUMBEROFYEARS
 				.getElementName());
 		return result;
@@ -120,12 +133,15 @@ public class DynamoSimulationObject extends
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	public String getPopulationFileName() throws DynamoConfigurationException {
 		return (String) ((WritableValue) getObservablePopulationFileName())
 				.doGetValue();
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservablePopulationFileName() throws DynamoConfigurationException {
+	
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.POPFILENAME
 				.getElementName());
 		return result;
@@ -143,7 +159,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableSimPopSize() throws DynamoConfigurationException  {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.SIMPOPSIZE
 				.getElementName());
 		return result;
@@ -159,7 +177,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableRandomSeed()throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RANDOMSEED
 				.getElementName());
 		return result;
@@ -175,7 +195,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableStartingYear() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.STARTINGYEAR
 				.getElementName());
 		return result;
@@ -191,13 +213,17 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableTimeStep() throws DynamoConfigurationException  {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.TIMESTEP
 				.getElementName());
 		return result;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableRefScenName() throws DynamoConfigurationException {
+		
 		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.REF_SCENARIONAME
 				.getElementName());
@@ -215,7 +241,9 @@ public class DynamoSimulationObject extends
 		return null;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableResultType() throws DynamoConfigurationException {
+		
 		WritableValue result = getSingleRootChildWritableValue(XMLTagEntityEnum.RESULTTYPE
 				.getElementName());
 		return result;
@@ -227,6 +255,7 @@ public class DynamoSimulationObject extends
 	}
 
 	public Map<String, TabRiskFactorConfigurationData> getRiskFactorConfigurations() {
+		@SuppressWarnings("unchecked")
 		TypedHashMap<UniqueName> riskFactorMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.RISKFACTORS
 				.getElementName());
 		Map<String, TabRiskFactorConfigurationData> theMap = new LinkedHashMap<String, TabRiskFactorConfigurationData>();
@@ -235,6 +264,7 @@ public class DynamoSimulationObject extends
 					+ "< RiskFactorConfigurations");
 			Set<Object> namesSet = riskFactorMap.keySet();
 			for (Object nameObject : namesSet) {
+				@SuppressWarnings("unchecked")
 				ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) riskFactorMap
 						.get(nameObject);
 				TabRiskFactorConfigurationData data = new TabRiskFactorConfigurationData();
@@ -247,6 +277,7 @@ public class DynamoSimulationObject extends
 
 	public void setRiskFactorConfigurations(
 			Map<String, TabRiskFactorConfigurationData> riskFactorConfigurations) {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		TypedHashMap<? extends XMLTagEntity> riskFactorsMap = new TypedHashMap(
 				XMLTagEntityEnum.UNIQUENAME.getTheType());
 		Set<String> nameSet = riskFactorConfigurations.keySet();
@@ -267,7 +298,10 @@ public class DynamoSimulationObject extends
 		put(XMLTagEntityEnum.RISKFACTORS.getElementName(), riskFactorsMap);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, ITabDiseaseConfiguration> getDiseaseConfigurations() {
+		
+		
 		TypedHashMap<UniqueName> diseasesMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.DISEASES
 				.getElementName());
 		Map<String, ITabDiseaseConfiguration> resultMap = new LinkedHashMap<String, ITabDiseaseConfiguration>();
@@ -283,6 +317,8 @@ public class DynamoSimulationObject extends
 		keySet = diseasesMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
+		
+		
 			ArrayList<AtomicTypeObjectTuple> diseaseModelData = (ArrayList<AtomicTypeObjectTuple>) diseasesMap
 					.get(key);
 			TabDiseaseConfigurationData data = new TabDiseaseConfigurationData();
@@ -294,6 +330,7 @@ public class DynamoSimulationObject extends
 
 	public void setDiseaseConfigurations(
 			Map<String, ITabDiseaseConfiguration> diseaseConfigurations) {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		TypedHashMap<? extends XMLTagEntity> diseasesMap = new TypedHashMap(
 				XMLTagEntityEnum.UNIQUENAME.getTheType());
 		Set<String> nameSet = diseaseConfigurations.keySet();
@@ -305,10 +342,13 @@ public class DynamoSimulationObject extends
 		put(XMLTagEntityEnum.DISEASES.getElementName(), diseasesMap);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<Integer, TabRelativeRiskConfigurationData> getRelativeRiskConfigurations() {
+		
 		TypedHashMap<RelativeRiskIndex> relativeRisksMap = (TypedHashMap<RelativeRiskIndex>) get(XMLTagEntityEnum.RRS
 				.getElementName());
 		log.debug("Getting relative risk configurations.");
+		@SuppressWarnings("unused")
 		Exception e = new Exception();
 		Map<Integer, TabRelativeRiskConfigurationData> resultMap = new LinkedHashMap<Integer, TabRelativeRiskConfigurationData>();
 		Set<Object> keySet;
@@ -323,6 +363,7 @@ public class DynamoSimulationObject extends
 		keySet = relativeRisksMap.keySet();
 		for (Object key : keySet) {
 			Integer index = (Integer) key;
+			
 			ArrayList<AtomicTypeObjectTuple> relativeRiskModelData = (ArrayList<AtomicTypeObjectTuple>) relativeRisksMap
 					.get(key);
 			TabRelativeRiskConfigurationData data = new TabRelativeRiskConfigurationData();
@@ -339,6 +380,7 @@ public class DynamoSimulationObject extends
 	synchronized public void setRelativeRiskConfigurations(
 			Map<Integer, TabRelativeRiskConfigurationData> relativeRiskConfigurations) {
 		log.debug("Setting RelativeRisks in instance: " + this);
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		TypedHashMap<? extends XMLTagEntity> relativeRisksMap = new TypedHashMap(
 				XMLTagEntityEnum.RRINDEX.getTheType());
 		Set<Integer> indexSet = relativeRiskConfigurations.keySet();
@@ -357,7 +399,9 @@ public class DynamoSimulationObject extends
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Map<String, ITabScenarioConfiguration> getScenarioConfigurations() {
+		
 		TypedHashMap<UniqueName> scenariosMap = (TypedHashMap<UniqueName>) get(XMLTagEntityEnum.SCENARIOS
 				.getElementName());
 		Map<String, ITabScenarioConfiguration> resultMap = new LinkedHashMap<String, ITabScenarioConfiguration>();
@@ -373,6 +417,7 @@ public class DynamoSimulationObject extends
 		keySet = scenariosMap.keySet();
 		for (Object key : keySet) {
 			String name = (String) key;
+			
 			ArrayList<AtomicTypeObjectTuple> scenarioModelData = (ArrayList<AtomicTypeObjectTuple>) scenariosMap
 					.get(key);
 			ITabStoreConfiguration data = new TabScenarioConfigurationData();
@@ -393,6 +438,7 @@ public class DynamoSimulationObject extends
 
 	public void setScenarioConfigurations(
 			Map<String, ITabScenarioConfiguration> scenarioConfigurations) {
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		TypedHashMap<? extends XMLTagEntity> scenariosMap = new TypedHashMap(
 				XMLTagEntityEnum.UNIQUENAME.getTheType());
 		Set<String> nameSet = scenarioConfigurations.keySet();

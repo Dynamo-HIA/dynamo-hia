@@ -8,6 +8,7 @@ public interface INumberOfYears {
 
 	public abstract Integer getNumberOfYears();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableNumberOfYears() throws DynamoConfigurationException;
 
 	public abstract void setNumberOfYears(Integer numberOfYears);

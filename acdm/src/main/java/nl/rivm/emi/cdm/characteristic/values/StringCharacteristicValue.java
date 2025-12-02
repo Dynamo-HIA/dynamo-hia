@@ -1,8 +1,6 @@
 package nl.rivm.emi.cdm.characteristic.values;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nl.rivm.emi.cdm.exceptions.CDMRunException;
 
@@ -70,7 +68,7 @@ public class StringCharacteristicValue extends CharacteristicValueBase
 	}
 
 	public Integer getValue(int step) {
-		return new Integer(rijtje[step]);
+		return Integer.valueOf(rijtje[step]);
 	}
 
 	public String[] getRijtje() {

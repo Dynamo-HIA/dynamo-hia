@@ -22,7 +22,9 @@ import org.eclipse.core.databinding.UpdateValueStrategy;
  */
 public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 	final protected T aValue;
+	@SuppressWarnings("rawtypes")
 	protected UpdateValueStrategy modelUpdateValueStrategy;
+	@SuppressWarnings("rawtypes")
 	protected UpdateValueStrategy viewUpdateValueStrategy;
 
 	/**
@@ -47,6 +49,7 @@ public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 	/**
 	 * @return The type for the value contained by the Object. 
 	 */
+	@SuppressWarnings("unchecked")
 	public T getType() {
 		return (T) aValue.getClass();
 	}
@@ -86,12 +89,14 @@ public abstract class AtomicTypeBase<T> extends XMLTagEntity{
 	 * The databinding conversion strategy from view to the backing Object.
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	abstract public UpdateValueStrategy getModelUpdateValueStrategy();
 
 	/**
 	 * The databinding conversion strategy the backing Object to the view.
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	abstract public UpdateValueStrategy getViewUpdateValueStrategy();
 }
 

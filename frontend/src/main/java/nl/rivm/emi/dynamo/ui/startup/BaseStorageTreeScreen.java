@@ -64,7 +64,7 @@ public class BaseStorageTreeScreen {
 					testTree.getRootNode());
 			new TreeViewerPlusCustomMenu(shell, sTCP);
 			createMenuBar();
-			this.shell.open();
+			this.shell.open();		   
 			return this.shell;
 		} catch (StorageTreeException ste) {
 			this.log.error("Caught " + ste.getClass().getName()

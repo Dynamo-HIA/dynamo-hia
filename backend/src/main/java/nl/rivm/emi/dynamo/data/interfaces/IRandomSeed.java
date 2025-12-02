@@ -8,6 +8,7 @@ public interface IRandomSeed {
 
 	public abstract Float getRandomSeed();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableRandomSeed() throws DynamoConfigurationException;
 
 	public abstract void setRandomSeed(Float randomSeed);

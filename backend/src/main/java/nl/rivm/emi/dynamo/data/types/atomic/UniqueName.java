@@ -20,8 +20,9 @@ public class UniqueName extends AbstractString implements ContainerType<String> 
 	}
 
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	protected UpdateValueStrategy assembleModelStrategy() {
+	protected UpdateValueStrategy assembleModelStrategy() {		
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
 				"ValueModelConverter"));
@@ -30,6 +31,7 @@ public class UniqueName extends AbstractString implements ContainerType<String> 
 
 	public class ValueModelConverter extends AbstractString.ValueModelConverter {
 
+		@SuppressWarnings("unused")
 		private Log log = LogFactory.getLog(this.getClass().getName());
 
 		public ValueModelConverter(String debugString) {

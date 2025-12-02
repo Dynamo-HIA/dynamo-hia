@@ -51,7 +51,6 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.chart.util.ShadowGenerator;
 import org.jfree.data.KeyToGroupMap;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -73,6 +72,14 @@ public class DynamoPlotFactory {
 	public CDMOutputFactory output;
 
 	private ScenarioParameters params;
+
+	public ScenarioParameters getParams() {
+		return params;
+	}
+
+	public void setParams(ScenarioParameters params) {
+		this.params = params;
+	}
 
 	/**
 	 * 
@@ -126,6 +133,7 @@ public class DynamoPlotFactory {
 	 * @return the result for a scenario to which the successrates and
 	 *         min-maximum age have been applied
 	 */
+	@SuppressWarnings("unused")
 	private double applySuccesrateToBothGenders(double[] inputRef,
 			double[] inputScen, int thisScen, int year, int a) {
 		double data = 0.0;
@@ -278,6 +286,7 @@ public class DynamoPlotFactory {
 	 *         min-maximum age have been applied
 	 * @throws DynamoOutputException
 	 */
+	@SuppressWarnings("unused")
 	private double applySuccesrateToMean(double[] inputRef, double[] inputScen,
 			double[] nInRef, double[] nInScen, int thisScen, int year, int a,
 			int gender) throws DynamoOutputException {
@@ -484,6 +493,7 @@ public class DynamoPlotFactory {
 	 * @return the result for a scenario to which the successrates and
 	 *         min-maximum age have been applied
 	 */
+	@SuppressWarnings("unused")
 	private double applySuccesrateToMeanToBothGenders(double[][] inputRef,
 			double[][] inputScen, double[][] nInRef, double[][] nInScen,
 			int thisScen, int year, int a) {
@@ -3711,6 +3721,7 @@ public class DynamoPlotFactory {
 								sumweight += weight;
 							}
 							if (Double.isNaN(mean)) {
+								@SuppressWarnings("unused")
 								int stop = 0;
 								stop++;
 
@@ -4560,7 +4571,7 @@ public class DynamoPlotFactory {
 
 				}
 
-		if (cumulative == 0)
+		if (cumulative == 0)  // should give dalys for 1 year scenario
 
 			for (int scenario = 0; scenario < this.output.getNScen() + 1; scenario++)
 
@@ -4615,7 +4626,7 @@ public class DynamoPlotFactory {
 	 
 		CategoryItemLabelGenerator generator0 = new StandardCategoryItemLabelGenerator(
 				"{2}", new DecimalFormat("0.00"));
-		if (cumulative == 3)
+		if (cumulative == 3) // no display of years lost
 			renderer.setBaseItemLabelGenerator(generator0);
 		else
 			renderer.setBaseItemLabelGenerator(generator1);
@@ -4817,6 +4828,7 @@ public class DynamoPlotFactory {
 							lifeExp[scenario][sex] += nPopByAge[scenario][maxAgeInSimulation[sex]][sex]
 									/ rate;
 						}
+						@SuppressWarnings("unused")
 						double totalPopulationYearsOfLife = applySuccesrate(
 								getNPopByOriAge(scenario, year, ageOfLE, sex),
 								getNPopByOriAge(scenario, year, ageOfLE, sex),
@@ -5018,7 +5030,7 @@ public class DynamoPlotFactory {
 				result = df2.format(value);
 
 				/* category: sex */
-				/*
+				/* riskfactorprevalences_categorical
 				 * stacked series: 0=with /1=without disease 2/ without
 				 * scenario1 3/ with scenario1 etc
 				 */
@@ -5029,7 +5041,10 @@ public class DynamoPlotFactory {
 				boolean outputPopulationDifference = false;
 				if (2 * scenario == series || !stacked)
 					outputPopulationDifference = true;
-
+				if (scenario > 0 && notADalyScen[scenario - 1]) {
+					result += " (DALY not available when transitions differ between scenarios)";
+				}
+				
 				if (scenario > 0 && !notADalyScen[scenario - 1])
 					if (scenario > 0 && outputPopulationDifference) {
 						/* 0.5 is added in order to round */
@@ -5079,6 +5094,7 @@ public class DynamoPlotFactory {
 		/**
 		 * 
 		 */
+		@SuppressWarnings("unused")
 		private static final long serialVersionUID = 1L;
 		private LabelGenerator theGenerator;
 
@@ -5243,6 +5259,7 @@ public class DynamoPlotFactory {
 			}
 
 			String label;
+			@SuppressWarnings("unused")
 			String dalyLabel;
 			if (disease == -1) {
 				chartTitle = chartTitle + "disease" + " (Sullivan Method)";
@@ -5725,6 +5742,7 @@ public class DynamoPlotFactory {
 					}
 					if (age == 50) {
 
+						@SuppressWarnings("unused")
 						int i = 0;
 						i++;
 
@@ -6010,6 +6028,7 @@ public class DynamoPlotFactory {
 					}
 					if (age == 50) {
 
+						@SuppressWarnings("unused")
 						int i = 0;
 						i++;
 
@@ -6130,6 +6149,7 @@ public class DynamoPlotFactory {
 		return maxAgeInSimulation;
 	}
 
+	@SuppressWarnings("unused")
 	private LegendItemCollection makeLegend(int disease) {
 
 		LegendItemCollection legend = new LegendItemCollection();
@@ -6181,6 +6201,7 @@ public class DynamoPlotFactory {
 		String itemLabel = null; // for text in bar
 		String itemLabel0 = null; // for legend and as identifier for bar
 		String itemLabel1 = null; // for legend
+		@SuppressWarnings("unused")
 		String[] legend = new String[2];
 
 		if (disease == -1) {
@@ -6241,7 +6262,7 @@ public class DynamoPlotFactory {
 			 */
 			double[] daly = new double[2];
 			if (cumulative == 0)
-				if (scenario == 0 || !this.output.scenTrans[scenario - 1])
+				if (scenario == 0 || !this.output.scenTrans[scenario - 1])  // TODO look at this, seems to fill wrong number
 					daly = calculateCumulativeDALYHealthyYears(age, disease,
 							scenario);
 
@@ -6460,6 +6481,7 @@ public class DynamoPlotFactory {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private double[] calculateDALY(int age, int disease, int scenario) {
 		double[] daly = new double[2];
 		Arrays.fill(daly, 0);

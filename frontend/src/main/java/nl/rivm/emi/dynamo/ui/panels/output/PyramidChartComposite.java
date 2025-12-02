@@ -321,6 +321,9 @@ public class PyramidChartComposite extends ChartComposite implements ChartChange
     /** The resourceBundle for the localization. */
     protected static ResourceBundle localizationResources 
         = ResourceBundle.getBundle("org.jfree.chart.LocalizationBundle");
+    
+    
+    
 
     /**
      * Create a new chart composite with a default FillLayout. 

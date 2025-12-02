@@ -1,5 +1,5 @@
 package nl.rivm.emi.dynamo.data.factories.test;
-
+/*
 import junit.framework.JUnit4TestAdapter;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +12,7 @@ import org.eclipse.core.databinding.observable.Realm;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
+*/
 /**
  * ND: Disabled this test class for now as it depends on SWT
  */

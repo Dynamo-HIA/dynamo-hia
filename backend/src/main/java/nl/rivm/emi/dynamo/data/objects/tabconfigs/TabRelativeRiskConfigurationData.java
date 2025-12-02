@@ -69,6 +69,7 @@ public class TabRelativeRiskConfigurationData implements
 		this.dataFileName = dataFileName;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void initialize(Object index, ArrayList<AtomicTypeObjectTuple> list) {
 		if (index instanceof Integer) {
 			this.index = (Integer) index;
@@ -100,6 +101,7 @@ public class TabRelativeRiskConfigurationData implements
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TypedHashMap<? extends XMLTagEntity> putInTypedHashMap(
 			TypedHashMap<? extends XMLTagEntity> theMap) {
 		ArrayList<AtomicTypeObjectTuple> diseaseModelData = new ArrayList<AtomicTypeObjectTuple>();

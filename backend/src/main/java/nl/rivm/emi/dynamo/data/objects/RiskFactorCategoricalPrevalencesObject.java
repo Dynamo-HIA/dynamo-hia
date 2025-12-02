@@ -31,7 +31,7 @@ public class RiskFactorCategoricalPrevalencesObject extends TypedHashMap<Age>
 		putAll(manufacturedMap);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public boolean dataChecksOut() {
 		boolean soFarSoGood = true;

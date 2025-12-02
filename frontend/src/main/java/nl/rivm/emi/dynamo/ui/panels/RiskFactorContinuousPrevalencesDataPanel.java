@@ -60,7 +60,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 		int numberOfAges = ageMap.size();
 		for (int AgeCount = 0; AgeCount < numberOfAges; AgeCount++) {
 			Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(AgeCount).toString());
+			label.setText(Integer.valueOf(AgeCount).toString());
 			TypedHashMap<Sex> sexMap = (TypedHashMap<Sex>) ageMap.get(AgeCount);
 			int numberOfSexes = sexMap.size();
 			for (int sexCount = 0; sexCount < numberOfSexes; sexCount++) {
@@ -83,7 +83,7 @@ public class RiskFactorContinuousPrevalencesDataPanel extends Composite /*
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		GridData dataGridData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataGridData.widthHint = 50;
+		dataGridData.widthHint = 75;// was 50
 
 		Label ageLabel = new Label(this, SWT.NONE);
 		ageLabel.setText("Age");

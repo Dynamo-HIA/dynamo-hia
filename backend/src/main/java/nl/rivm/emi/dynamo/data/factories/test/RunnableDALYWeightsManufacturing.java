@@ -24,7 +24,9 @@ import org.eclipse.core.databinding.DataBindingContext;
 public class RunnableDALYWeightsManufacturing implements Runnable {
 	Log log = LogFactory.getLog(getClass().getName());
 
+	@SuppressWarnings("unchecked")
 	public void run() {
+		@SuppressWarnings("unused")
 		DataBindingContext dbc = new DataBindingContext();
 		String rootElementName = FileControlEnum.DALYWEIGHTS.getRootElementName();
 		String configurationFilePath = "data" + File.separator + "development"

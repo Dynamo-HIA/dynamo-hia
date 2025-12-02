@@ -7,7 +7,7 @@ public class ReferenceValue extends AbstractValue implements PayloadType<Float> 
 	static final protected String XMLElementName = "referencevalue";
 
 	public ReferenceValue() {
-		super(XMLElementName, new Float(0), Float.MAX_VALUE);
+		super(XMLElementName, Float.valueOf(0), Float.MAX_VALUE);
 	}
 	
 }

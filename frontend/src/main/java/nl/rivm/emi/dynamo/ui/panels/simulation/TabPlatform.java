@@ -60,7 +60,8 @@ public abstract class TabPlatform extends Tab {
 		makeIt();
 
 		// The TabItem can only be created AFTER makeIt()
-		TabItem item = new TabItem(upperTabFolder, SWT.NONE);
+		// changed to FILL from NONE
+		TabItem item = new TabItem(upperTabFolder, SWT.FILL);
 		item.setText(tabName);
 		item.setControl(plotComposite);
 		item.addListener(SWT.SELECTED, new Listener() {
@@ -101,7 +102,8 @@ public abstract class TabPlatform extends Tab {
 		if (tabFolder == null) {
 			// In some cases there is apparently a race condition, don't do it
 			// twice.
-			tabFolder = new TabFolder(plotComposite, SWT.FILL);
+			
+			tabFolder = new TabFolder(plotComposite, SWT.NONE); // was fill, but this works better 
 			tabFolder.setLayout(new FormLayout());
 
 			nestedTabs = new NestedTabsMap();
@@ -109,6 +111,7 @@ public abstract class TabPlatform extends Tab {
 			FormData formData = new FormData();
 			formData.top = new FormAttachment(0, 6);
 			formData.left = new FormAttachment(0, 5);
+			// changing these seems not to have effect, probably override elsewhere	
 			formData.right = new FormAttachment(100, -5);
 			formData.bottom = new FormAttachment(90, -5);
 			tabFolder.setLayoutData(formData);

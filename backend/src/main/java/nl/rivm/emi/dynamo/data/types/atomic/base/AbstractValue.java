@@ -80,15 +80,18 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 	}
 
 	public String convert4View(Object modelValue) {
+		@SuppressWarnings("unchecked")
 		String result = (String)viewUpdateValueStrategy.convert(modelValue);
 		return result.toString();
 	}
 	
 	public Object convert4Model(String viewString) {
+		@SuppressWarnings("unchecked")
 		Object result = modelUpdateValueStrategy.convert(viewString);
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public String convert4File(Object modelValue) {
 		Float nakedValue = null;
@@ -101,6 +104,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		return viewValue;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected UpdateValueStrategy assembleModelStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueModelConverter(
@@ -108,6 +112,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		return resultStrategy;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected UpdateValueStrategy assembleViewStrategy() {
 		UpdateValueStrategy resultStrategy = new UpdateValueStrategy();
 		resultStrategy.setConverter(new ValueViewConverter(
@@ -115,6 +120,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		return resultStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueModelConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -152,6 +158,7 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public class ValueViewConverter implements IConverter {
 		// Log log = LogFactory.getLog(this.getClass());
 		String debugString = "";
@@ -190,10 +197,12 @@ public class AbstractValue extends NumberRangeTypeBase<Float> implements Payload
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getModelUpdateValueStrategy() {
 		return modelUpdateValueStrategy;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public UpdateValueStrategy getViewUpdateValueStrategy() {
 		return viewUpdateValueStrategy;
 	}

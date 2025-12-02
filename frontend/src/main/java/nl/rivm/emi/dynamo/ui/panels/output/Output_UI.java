@@ -13,6 +13,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
@@ -50,10 +54,11 @@ public class Output_UI {
 		this.parentShell = shell;
 		outputShell = new Shell(parentShell,SWT.MAX | SWT.RESIZE |SWT.MIN | SWT.CLOSE);
 		outputShell.setText("Dynamo Output for simulation:  "+tokens[tokens.length-2]);
-		outputShell.setBounds(30, 30, 900, 650);
+		outputShell.setBounds(30, 30, 1090, 950);
+		shell.setLayout(new FillLayout());
         this.scenarioParameters=scenarioParameters;
 		this.output = output;
-        log.fatal("start making plotFactory");
+        log.info("start making plotFactory");
 		this.plotFactory=new DynamoPlotFactory(output,scenarioParameters);
         makeOutputDisplay(outputShell);
 		
@@ -72,9 +77,18 @@ public class Output_UI {
 		/* tab for pyramid plots */
 		log.debug("start making tabfolder");
 		TabFolder tabFolder1 = new TabFolder(shell, SWT.FILL);
+		FillLayout layout = new FillLayout();
+		//layout.marginHeight=5;
+		//layout.marginWidth=5;
+		tabFolder1.setLayout(layout);
+		
+		
+		
+       // tabFolder1.setLayout(new GridLayout());
+       // tabFolder1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		tabFolder1.setLayout(new FillLayout());
-		tabFolder1.setBounds(10, 10, 880, 580);
+		
+    	tabFolder1.setBounds(10, 10, 1050, 860); // this is needed to show something or pack works also
 
 		/* tab for changing the parameters of the scenarios */
 
@@ -98,47 +112,30 @@ public class Output_UI {
 		final Output_ChangeScenarioTab tab6 = new Output_ChangeScenarioTab(
 				tabFolder1, this.output,this.scenarioParameters);
 		log.debug("tab scenarioparams made");
-
+				
 		shell.open();
 		tabFolder1.addListener(SWT.Selection, new Listener() {
-
+			/**
+			 * transfer of scenario parameters is not necessary, tried to see if this solves the refresh problem
+			 */
 			public void handleEvent(Event event) {
 				TabItem item = (TabItem) event.item;
 				String tabId = item.getText();
-				if (tabId == "population Pyramid")
+				if (tabId == "Population Pyramid")
 					tab0.redraw();
-				if (tabId == "prevalence plots")
+				if (tabId == "Prevalence")
 					tab1.redraw();
-				if (tabId == "incidence plots")
+				if (tabId == "Incidence")
 					tab7.redraw();
-				if (tabId == "riskfactor plots")
+				if (tabId == "Risk factor")
 					tab2.redraw();
-				if (tabId == "life expectancy plots")
+				if (tabId == "Life expectancy")
 					tab3.redraw();
-				if (tabId == "mortality/survival plots")
+				if (tabId == "Mortality/Survival")
 					tab4.redraw();
 			}
 
 		});
-		// Free the memory in the very large output-object for next run ;
-		// this.output=null;
-
-		/*
-		 * tabFolder1.addSelectionListener(new SelectionListener() {
-		 * 
-		 * public void widgetDefaultSelected(SelectionEvent e) {
-		 * 
-		 * 
-		 * 
-		 * 
-		 * }
-		 * 
-		 * public void widgetSelected(SelectionEvent arg0) {
-		 * 
-		 * }
-		 * 
-		 * });
-		 */
-
+		
 	}
 }

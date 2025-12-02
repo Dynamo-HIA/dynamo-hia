@@ -10,6 +10,7 @@ public interface IUnitTypeObject {
 
 	String getUnitType();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableUnitType() throws DynamoConfigurationException;
 
 }

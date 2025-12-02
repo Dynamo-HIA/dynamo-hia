@@ -60,7 +60,7 @@ public class ValuePerClassBaseZeroParameterDataPanel extends Composite {
 		dataLayoutData.widthHint = 50;
 
 		Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		ageLabel.setLayoutData(labelLayoutData);
 		Label classLabel = new Label(this, SWT.NONE);
 		classLabel.setText("Class");
@@ -70,6 +70,7 @@ public class ValuePerClassBaseZeroParameterDataPanel extends Composite {
 		maleLabel.setLayoutData(dataLayoutData);
 		Label femaleLabel = new Label(this, SWT.NONE);
 		femaleLabel.setText("Female");
+		dataLayoutData.widthHint = 58;
 		femaleLabel.setLayoutData(dataLayoutData);
 		// Made ageCount Object scope for debugging;
 		for (ageCount = 0; ageCount < lotsOfData.size(); ageCount++) {
@@ -83,10 +84,10 @@ public class ValuePerClassBaseZeroParameterDataPanel extends Composite {
 				// + " and category: " + classCount);
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 0) {
-					ageCellLabel.setText(new Integer(ageCount).toString());
+					ageCellLabel.setText(Integer.valueOf(ageCount).toString());
 				}
 				Label classCellLabel = new Label(this, SWT.NONE);
-				classCellLabel.setText(new Integer(classCount).toString());
+				classCellLabel.setText(Integer.valueOf(classCount).toString());
 				genderCount = BiGender.MALE_INDEX;
 				bindValue(maleClassHMap, classCount);
 				genderCount = BiGender.FEMALE_INDEX;

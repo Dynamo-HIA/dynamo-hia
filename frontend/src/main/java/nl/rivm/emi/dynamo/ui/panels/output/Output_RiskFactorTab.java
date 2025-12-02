@@ -3,10 +3,13 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -57,15 +60,20 @@ public class Output_RiskFactorTab {
 		plotInfo.numbers = false;
 		plotInfo.genderChoice = 2;
 		/*
-		 * plotComposite is the highest level composite in the folder it has to
+		 * plotComposite is the highest level composite in the folder it has two
 		 * children: control composite containing the controls, and a
 		 * chartcomposite containing the plot
 		 */
 		this.plotComposite = new Composite(tabFolder, SWT.FILL);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
-
-		plotComposite.setLayout(gridLayout);
+		GridData compositeData = new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
+				| GridData.GRAB_VERTICAL); 
+		//gridLayout.marginHeight=5;
+		//gridLayout.marginWidth=5;
+		this.plotComposite.setLayout(gridLayout);
+		this.plotComposite.setLayoutData(compositeData);
 
 		// control composite contains the controls
 
@@ -82,9 +90,14 @@ public class Output_RiskFactorTab {
 				SWT.NONE, null, true);
 		factory.drawChartAction(plotInfo, chartComposite);
 
+	//	GridLayout layoutChart= new GridLayout(1,true);
+		//layoutChart.marginWidth=1;
+		//layoutChart.marginHeight=1;
+	//	layoutChart.marginWidth=1;		
+	//	chartComposite.setLayout(layoutChart);
 		GridData chartData = new GridData(GridData.VERTICAL_ALIGN_FILL
-				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
+				| GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL 
+				| GridData.GRAB_VERTICAL); 
 		chartComposite.setLayoutData(chartData);
 		/* draw the buttons */
 
@@ -135,6 +148,6 @@ public class Output_RiskFactorTab {
 	public void redraw() {
 		Control[] subcomp = plotComposite.getChildren();
 		factory.drawChartAction(plotInfo, (ChartComposite) subcomp[1]);
-		plotComposite.redraw();
+	//	plotComposite.update();unnecessary, already part of action above
 	}
 }

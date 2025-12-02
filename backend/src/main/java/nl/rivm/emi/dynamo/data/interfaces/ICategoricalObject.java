@@ -8,6 +8,7 @@ public interface ICategoricalObject {
 
 	public abstract String getCategoryName(Integer index);
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableCategoryName(Integer index);
 	
 	public abstract int getNumberOfCategories();

@@ -87,10 +87,10 @@ public class ValuePerClassParameterDataPanel extends Composite {
 				// + " and category: " + classCount);
 				Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
-					ageCellLabel.setText(new Integer(ageCount).toString());
+					ageCellLabel.setText(Integer.valueOf(ageCount).toString());
 				}
 				Label classCellLabel = new Label(this, SWT.NONE);
-				classCellLabel.setText(new Integer(classCount).toString());
+				classCellLabel.setText(Integer.valueOf(classCount).toString());
 				genderCount = BiGender.MALE_INDEX;
 				bindValue(maleClassHMap, classCount);
 				genderCount = BiGender.FEMALE_INDEX;

@@ -63,6 +63,7 @@ public class TestGenerator {
 		System.out.println(multipleCharacteristicsFileName);
 		File multipleCharacteristicsFile = new File(
 				multipleCharacteristicsFileName);
+		@SuppressWarnings("unused")
 		CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 				multipleCharacteristicsFile);
 	}

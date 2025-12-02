@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -143,8 +144,9 @@ public class Output_SurvivalTab  {
 	}
 	
 	public void redraw(){
+	
 		Control[] subcomp= plotComposite.getChildren();
 		factory.drawChartAction(plotInfo, (ChartComposite) subcomp[1]);
-		plotComposite.redraw();
+	//	plotComposite.redraw();unnecessary, already part of action above
 	}
 		}

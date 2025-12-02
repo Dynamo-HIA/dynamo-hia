@@ -54,7 +54,7 @@ public class FloatCharacteristicValue extends CharacteristicValueBase implements
 	}
 
 	public Float getValue(int step) {
-		return new Float(rijtje[step]);
+		return Float.valueOf(rijtje[step]);
 	}
 
 	public float[] getRijtje() {

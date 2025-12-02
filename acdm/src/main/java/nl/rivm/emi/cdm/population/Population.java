@@ -13,6 +13,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class Population extends ArrayList<Individual> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 30L;
+
 	/* implements java.io.Serializable */
 	Log log = LogFactory.getLog(getClass().getName());
 

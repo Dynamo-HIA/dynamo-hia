@@ -5,7 +5,6 @@ package nl.rivm.emi.cdm.rules.update.dynamo;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
@@ -114,6 +113,7 @@ extends HealthStateCatManyToManyUpdateRule  {
 					setCharacteristicIndex(5);
 
 				newValue = new float[oldValue.length];
+				@SuppressWarnings("unused")
 				float[] currentDiseaseStateValues = new float[oldValue.length];
 
 				if (riskFactorValue != durationClass) {
@@ -298,11 +298,7 @@ extends HealthStateCatManyToManyUpdateRule  {
 
 							double[][] rateMatrix = fillRateMatrixForCluster(
 									ageValue, sexValue, riskDurationValue, c);
-							if (ageValue == 46) {
-								int stop = 0;
-								stop++;
-
-							}
+							
 							float[][] transMat = matExp
 									.exponentiateFloatMatrix(rateMatrix);
 
@@ -428,6 +424,7 @@ extends HealthStateCatManyToManyUpdateRule  {
 						else {
 
 												
+							@SuppressWarnings("unused")
 							int dInCluster = 0;
 							/*
 							 * calculate the healthy state at the end of the
@@ -534,6 +531,7 @@ extends HealthStateCatManyToManyUpdateRule  {
 					setCharacteristicIndex(5);
 
 				newValue = new float[oldValue.length];
+				@SuppressWarnings("unused")
 				float[] currentDiseaseStateValues = new float[oldValue.length];
 
 				/*
@@ -715,11 +713,7 @@ extends HealthStateCatManyToManyUpdateRule  {
 
 							double[][] rateMatrix = fillRateMatrixForCluster(
 									ageValue, sexValue, riskDurationValue, c);
-							if (ageValue == 46) {
-								int stop = 0;
-								stop++;
-
-							}
+							
 							float[][] transMat = matExp
 									.exponentiateFloatMatrix(rateMatrix);
 

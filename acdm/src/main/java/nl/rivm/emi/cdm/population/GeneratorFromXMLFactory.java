@@ -80,11 +80,13 @@ public class GeneratorFromXMLFactory {
 	private static void addCharacteristicsIds(
 			HierarchicalConfiguration generatorConfiguration,
 			Generator generator) throws ConfigurationException {
+		@SuppressWarnings("unchecked")
 		List<SubnodeConfiguration> characteristicsConfigurations = generatorConfiguration
 				.configurationsAt(characteristicsLabel);
 		if (characteristicsConfigurations.size() == 1) {
 			SubnodeConfiguration characteristicsConfiguration = characteristicsConfigurations
 					.get(0);
+			@SuppressWarnings("unchecked")
 			List<SubnodeConfiguration> characteristicIdConfigurations = characteristicsConfiguration
 					.configurationsAt(characteristicIndexLabel);
 			if (characteristicIdConfigurations.size() > 0) {

@@ -1,11 +1,13 @@
 package nl.rivm.emi.dynamo.estimation;
 
 import java.awt.event.ActionEvent;
-import java.util.EventObject;
-
-import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 
 public class ExceptionEvent extends ActionEvent {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public ExceptionEvent(Object source) {
 		super(source, 1, "empty");

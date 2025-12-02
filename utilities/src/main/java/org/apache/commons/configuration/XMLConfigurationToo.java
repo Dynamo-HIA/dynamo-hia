@@ -230,6 +230,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	private Document document;
 
 	/** Stores a map with the registered public IDs. */
+	@SuppressWarnings("rawtypes")
 	private Map registeredEntities = new HashMap();
 
 	/** Stores the name of the root element. */
@@ -630,6 +631,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 			org.w3c.dom.Node w3cNode = attributes.item(i);
 			if (w3cNode instanceof Attr) {
 				Attr attr = (Attr) w3cNode;
+				@SuppressWarnings("rawtypes")
 				List values;
 				if (isAttributeSplittingDisabled()) {
 					values = Collections.singletonList(attr.getValue());
@@ -639,7 +641,8 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 									: getListDelimiter());
 				}
 
-				for (Iterator it = values.iterator(); it.hasNext();) {
+				for (@SuppressWarnings("rawtypes")
+				Iterator it = values.iterator(); it.hasNext();) {
 					Node child = new XMLNode(attr.getName(), elemRefs ? element
 							: null);
 					child.setValue(it.next());
@@ -660,8 +663,10 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	 * @param trim
 	 *            flag whether texts of elements should be trimmed
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void handleDelimiters(Node parent, Node child, boolean trim) {
 		if (child.getValue() != null) {
+		
 			List values;
 			if (isDelimiterParsingDisabled()) {
 				values = new ArrayList();
@@ -672,12 +677,14 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 			}
 
 			if (values.size() > 1) {
+			
 				Iterator it = values.iterator();
 				// Create new node for the original child's first value
 				Node c = createNode(child.getName());
 				c.setValue(it.next());
 				// Copy original attributes to the new node
-				for (Iterator itAttrs = child.getAttributes().iterator(); itAttrs
+				for (
+				Iterator itAttrs = child.getAttributes().iterator(); itAttrs
 						.hasNext();) {
 					Node ndAttr = (Node) itAttrs.next();
 					ndAttr.setReference(null);
@@ -1058,12 +1065,15 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	 *            the collection with the new nodes
 	 * @since 1.5
 	 */
-	public void addNodes(String key, Collection nodes) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addNodes(String key, @SuppressWarnings("rawtypes") Collection nodes) {
+		@SuppressWarnings("rawtypes")
 		Collection xmlNodes;
 
 		if (nodes != null && !nodes.isEmpty()) {
 			xmlNodes = new ArrayList(nodes.size());
-			for (Iterator it = nodes.iterator(); it.hasNext();) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator it = nodes.iterator(); it.hasNext();) {
 				xmlNodes.add(convertToXMLNode((ConfigurationNode) it.next()));
 			}
 		} else {
@@ -1093,10 +1103,12 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 		XMLNode nd = (XMLNode) createNode(node.getName());
 		nd.setValue(node.getValue());
 		nd.setAttribute(node.isAttribute());
-		for (Iterator it = node.getChildren().iterator(); it.hasNext();) {
+		for (@SuppressWarnings("rawtypes")
+		Iterator it = node.getChildren().iterator(); it.hasNext();) {
 			nd.addChild(convertToXMLNode((ConfigurationNode) it.next()));
 		}
-		for (Iterator it = node.getAttributes().iterator(); it.hasNext();) {
+		for (@SuppressWarnings("rawtypes")
+		Iterator it = node.getAttributes().iterator(); it.hasNext();) {
 			nd.addAttribute(convertToXMLNode((ConfigurationNode) it.next()));
 		}
 		return nd;
@@ -1141,6 +1153,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	 *             if the public ID is undefined
 	 * @since 1.5
 	 */
+	@SuppressWarnings("unchecked")
 	public void registerEntityId(String publicId, URL entityURL) {
 		if (publicId == null) {
 			throw new IllegalArgumentException("Public ID must not be null!");
@@ -1199,6 +1212,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	 * 
 	 * @return a map with the registered entity IDs
 	 */
+	@SuppressWarnings("rawtypes")
 	Map getRegisteredEntities() {
 		return registeredEntities;
 	}
@@ -1311,11 +1325,13 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 		 * 
 		 * @return the first and only text node
 		 */
+		@SuppressWarnings("unchecked")
 		private Text findTextNodeForUpdate() {
 			Text result = null;
 			Element elem = (Element) getReference();
 			// Find all Text nodes
 			NodeList children = elem.getChildNodes();
+			@SuppressWarnings("rawtypes")
 			Collection textNodes = new ArrayList();
 			for (int i = 0; i < children.getLength(); i++) {
 				org.w3c.dom.Node nd = children.item(i);
@@ -1335,7 +1351,8 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 			}
 
 			// Remove all but the first Text node
-			for (Iterator it = textNodes.iterator(); it.hasNext();) {
+			for (@SuppressWarnings("rawtypes")
+			Iterator it = textNodes.iterator(); it.hasNext();) {
 				elem.removeChild((org.w3c.dom.Node) it.next());
 			}
 			return result;
@@ -1438,11 +1455,13 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 		private static void updateAttribute(Node node, Element elem,
 				String name, char listDelimiter) {
 			if (node != null && elem != null) {
+				@SuppressWarnings("rawtypes")
 				List attrs = node.getAttributes(name);
 				StringBuffer buf = new StringBuffer();
 				char delimiter = (listDelimiter != 0) ? listDelimiter
 						: ATTR_VALUE_DELIMITER;
-				for (Iterator it = attrs.iterator(); it.hasNext();) {
+				for (@SuppressWarnings("rawtypes")
+				Iterator it = attrs.iterator(); it.hasNext();) {
 					Node attr = (Node) it.next();
 					if (attr.getValue() != null) {
 						if (buf.length() > 0) {

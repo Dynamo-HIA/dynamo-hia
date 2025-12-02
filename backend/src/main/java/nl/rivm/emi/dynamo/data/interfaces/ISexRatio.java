@@ -8,6 +8,7 @@ public interface ISexRatio {
 
 	public abstract Float getSexRatio();
 
+	@SuppressWarnings("rawtypes")
 	public abstract WritableValue getObservableSexRatio() throws DynamoConfigurationException;
 
 	public abstract void setSexratio(Float sexRatio);

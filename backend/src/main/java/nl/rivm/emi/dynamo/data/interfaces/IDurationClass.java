@@ -10,5 +10,6 @@ public interface IDurationClass {
 
 	public Integer getDurationClass();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableDurationClass() throws DynamoConfigurationException;
 }

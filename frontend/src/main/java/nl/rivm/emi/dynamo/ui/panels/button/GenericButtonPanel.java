@@ -46,7 +46,7 @@ public class GenericButtonPanel extends Composite {
 	private void setFormData() {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);
-		formData.right = new FormAttachment(100, -5);
+		formData.right = new FormAttachment(100, -5); 
 		formData.bottom = new FormAttachment(100, -5);
 		setLayoutData(formData);
 	}

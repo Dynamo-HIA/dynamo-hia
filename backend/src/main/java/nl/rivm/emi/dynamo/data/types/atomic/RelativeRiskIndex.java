@@ -1,11 +1,8 @@
 package nl.rivm.emi.dynamo.data.types.atomic;
 
 import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractEmptyIndicator;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractRangedInteger;
 import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
-import nl.rivm.emi.dynamo.data.types.atomic.base.AbstractString;
 
-import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * Nonnegative Integer without fixed upper limit. This to enable adjustment to

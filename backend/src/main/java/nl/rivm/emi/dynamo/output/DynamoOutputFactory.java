@@ -42,6 +42,11 @@ import org.apache.commons.logging.LogFactory;
  */
 public class DynamoOutputFactory extends CDMOutputFactory implements
 		Serializable, CDMOutputInterface {
+	/**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
+
 	static private Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.output.DynamoOutputFactory");
 
@@ -248,6 +253,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 
 	transient private int[] popToScenIndex;
 
+	@SuppressWarnings("unused")
 	private int nScenIncludingDalys;
 
 	transient private double[][][][][] pDALYSurvivalByOriRiskClassByOriAge;
@@ -1037,6 +1043,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 						
 						survival = compoundData[getNDiseaseStates() - 1];
 						if (thisPop==1 && stepCount==2 && ageIndex==0){
+							@SuppressWarnings("unused")
 							int ii=0;
 							ii++;
 							
@@ -1150,6 +1157,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 											|| from < 0 || to < 0
 											|| sexIndexRelativeToMinimum < 0
 											|| type < 0) {
+										@SuppressWarnings("unused")
 										int kk = 0;
 										kk++;
 
@@ -1261,6 +1269,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									if (stepCount <= this.stepsInRun)
 										if (Double
 												.isNaN(this.meanRiskByAge[this.popToScenIndex[thisPop] + 1][stepCount][ageIndex][sexIndex])) {
+											@SuppressWarnings("unused")
 											int stop = 0;
 											stop++;
 
@@ -1348,6 +1357,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 								if (stepCount <= this.stepsInRun)
 									if (Double
 											.isNaN(this.meanRiskByAge[0][stepCount][ageIndex][sexIndex])) {
+										@SuppressWarnings("unused")
 										int stop = 0;
 										stop++;
 
@@ -1579,6 +1589,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 												* compoundData[sequenceNumber]* (lastSurvival + survival)*0.5;
 										if (ageIndex > 50){
 											
+											@SuppressWarnings("unused")
 											int stopx=0;
 											stopx++;
 										}
@@ -1620,6 +1631,7 @@ public class DynamoOutputFactory extends CDMOutputFactory implements
 									this.newCasesByOriRiskClassByOriAge[0][stepCount - 1][d][riskClassAtStart][ageAtStart][sexIndex] += weightOfIndividual
 											* compoundData[sequenceNumber]* (lastSurvival + survival)*0.5;
 								if (Double.isNaN(compoundData[sequenceNumber])) {
+									@SuppressWarnings("unused")
 									int kk = 0;
 									kk++;
 								}
@@ -2159,6 +2171,7 @@ try{
 												sum += pSurvivalByRiskClassByAge_scen[stepCount][from][to][r][a-minSimAge][s
 														- minimumGender];
 
+											@SuppressWarnings("unused")
 											boolean zeroToPrevalence = false;
 											boolean zeroFromPrevalence = false;
 
@@ -2477,6 +2490,7 @@ try{
 		double ability = makeDiseaseAbility(compoundData, riskFactor,
 				riskValue, riskDurationValue, age2, sex);
 		if (riskFactor == 1) {
+			@SuppressWarnings("unused")
 			int ii = 1;
 			ii++;
 
@@ -2671,6 +2685,7 @@ try{
 
 	private double[][][][] makeDiseaseArray(double[][][][][][] stateArray,
 			int stepCount, int disease) {
+		@SuppressWarnings("unused")
 		int currentDisease = 0;
 		int currentClusterStart = 0;
 		int dim6 = stateArray[0][0][0][0][0].length;
@@ -2759,6 +2774,7 @@ try{
 
 	public double[][][][][] makeDiseaseArray(double[][][][][][] stateArray,
 			int disease) {
+		@SuppressWarnings("unused")
 		int currentDisease = 0;
 		int currentClusterStart = 0;
 		int dim6 = stateArray[0][0][0][0][0].length;
@@ -2967,6 +2983,7 @@ try{
 	 * @return array (indexes; scenario, timesteps (= up to very old age as
 	 *         given by nDim) sex
 	 */
+	@SuppressWarnings("unused")
 	private double[][][] getNumberOfFutureOriDiseasedPersons(int age) {
 
 		double diseasedPersons[][][] = new double[this.nScen + 1][this.nDim][2];
@@ -3691,6 +3708,7 @@ try{
 	 * @return inverse of the expected numbers in the risk class
 	 * @throws DynamoInconsistentDataException 
 	 */
+	@SuppressWarnings("unused")
 	private double sumweightPerRiskClass(int s, int scen, int r, int a, int stepCount) throws DynamoInconsistentDataException {
 		double inverseSimnumber = 0;
 		//if (this.nInSimulationByAge[a][s] > 0) {
@@ -3720,6 +3738,7 @@ try{
 	 * @return inverse of the expected numbers in the risk class
 	 * @throws DynamoInconsistentDataException 
 	 */
+	@SuppressWarnings("unused")
 	private double sumweightPerRiskClass_old(int s, int scen, int r, int a) throws DynamoInconsistentDataException {
 		double inverseSimnumber = 0;
 		if (this.nInSimulationByAge[a][s] > 0) {
@@ -3791,6 +3810,7 @@ try{
 	 * @return inverse of the expected numbers in the risk class
 	 * @throws DynamoInconsistentDataException 
 	 */
+	@SuppressWarnings("unused")
 	private double sumweightPerRiskClass(int s, int scen, int r, int a) throws DynamoInconsistentDataException {
 		
 		// this should work for all cases, not need to do it complicated as in the old version

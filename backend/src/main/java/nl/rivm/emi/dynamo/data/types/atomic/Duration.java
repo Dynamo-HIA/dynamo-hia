@@ -7,6 +7,6 @@ public class Duration extends AbstractFlexibleUpperLimitInteger implements Conta
 	static final protected String XMLElementName = "duration";
 
 	public Duration(){
-		super(XMLElementName , new Integer(1), new Integer(20));
+		super(XMLElementName , Integer.valueOf(1),  Integer.valueOf(20));
 	}
 }

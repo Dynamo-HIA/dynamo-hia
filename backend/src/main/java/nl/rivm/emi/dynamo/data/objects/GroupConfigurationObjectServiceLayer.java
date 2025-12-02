@@ -53,6 +53,7 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		super(arg0, arg1, arg2);
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected Integer getSingleRootChildIntegerValue(String rootChildName) {
 		Object classIndexObject = get(rootChildName);
 		if (classIndexObject instanceof AtomicTypeObjectTuple) {
@@ -70,6 +71,7 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return classIndex;
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected Float getSingleRootChildFloatValue(String rootChildName) {
 		Object floatValueObject = get(rootChildName);
 		Float floatValue = null;
@@ -82,6 +84,7 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return floatValue;
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected Boolean getSingleRootChildBooleanValue(String rootChildName) {
 		Object flagObject = get(rootChildName);
 		Boolean flag = null;
@@ -93,6 +96,7 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return flag;
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected String getSingleRootChildStringValue(String rootChildName) {
 		Object flagObject = get(rootChildName);
 		String flag = null;
@@ -110,10 +114,12 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return flag;
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected WritableValue getSingleRootChildWritableValue(String rootChildName) throws DynamoConfigurationException {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) get(rootChildName);
 		if (tuple==null) throw new DynamoConfigurationException("no tag: "+rootChildName+" in XML file" );
 		Object classIndexObject = tuple.getValue();
+		
 		WritableValue result = null;
 		if (classIndexObject instanceof WritableValue) {
 			result = (WritableValue) classIndexObject;
@@ -141,6 +147,7 @@ abstract public class GroupConfigurationObjectServiceLayer extends
 		return putSingleRootChildObjectValue(rootChildName, value);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Object putSingleRootChildObjectValue(String rootChildName,
 			Object value) {
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) get(rootChildName);

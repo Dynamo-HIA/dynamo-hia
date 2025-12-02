@@ -19,7 +19,6 @@ import nl.rivm.emi.cdm.simulation.SimulationFromXMLFactory;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,8 +51,10 @@ public class DynamoSimulation {
 			try {
 				File multipleCharacteristicsFile = new File(
 						preCharConfig);
+				@SuppressWarnings("unused")
 				CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 						multipleCharacteristicsFile);
+				@SuppressWarnings("unused")
 				CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton
 						.getInstance();
 				if (simulationConfigurationFile.exists()) {

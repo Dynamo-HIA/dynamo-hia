@@ -52,17 +52,17 @@ public class PercentParameterDataPanel extends Composite /* implements Runnable 
 		layout.makeColumnsEqualWidth = false;
 		setLayout(layout);
 		final Label ageLabel = new Label(this, SWT.NONE);
-		ageLabel.setText("Age");
+		ageLabel.setText("Age  ");
 		GridData labelLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		ageLabel.setLayoutData(labelLayoutData);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
-		dataLayoutData.widthHint = 50;
+		dataLayoutData.widthHint = 55;
 		final Label maleLabel = new Label(this, SWT.NONE);
 		maleLabel.setText("Male");
 		maleLabel.setLayoutData(dataLayoutData);
-		final Label femaleLabel = new Label(this, SWT.NONE);
+		final Label femaleLabel = new Label(this, SWT.FILL);
 		femaleLabel.setText("Female");
 		femaleLabel.setLayoutData(dataLayoutData);
 		for (int count = 0; count < lotsOfData.size(); count++) {

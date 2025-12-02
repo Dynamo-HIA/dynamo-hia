@@ -37,6 +37,7 @@ public class TestIncidencesAgnosticFactoryDefaultBehaviour {
 	 * This test must not finish normally because of unexpected "male"and
 	 * "female" tags instead of "sex".
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testManufactureDefaultObject() {
 		String outputFilePath = "data" + File.separator + "development"

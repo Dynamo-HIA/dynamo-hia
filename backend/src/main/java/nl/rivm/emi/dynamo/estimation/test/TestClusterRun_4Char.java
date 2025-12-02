@@ -39,6 +39,7 @@ import org.junit.Test;
 
 public class TestClusterRun_4Char {
 	Log log = LogFactory.getLog(getClass().getName());
+	@SuppressWarnings("static-access")
 	String baseDir = BaseDirectory.getInstance(
 			"c:\\hendriek\\java\\dynamohome\\").getBaseDir();
 
@@ -120,6 +121,7 @@ public class TestClusterRun_4Char {
 
 			File multipleCharacteristicsFile = new File(preCharConfig);
 			log.fatal("charFile made.");
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			log.fatal("charFile handled.");
@@ -172,6 +174,7 @@ public class TestClusterRun_4Char {
 	 * @throws ParserConfigurationException
 	 * @throws TransformerException
 	 */
+	@SuppressWarnings("unused")
 	private void evaluateResult(Simulation sim)
 			throws ParserConfigurationException, TransformerException {
 		Population pop = sim.getPopulation();

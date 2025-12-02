@@ -7,6 +7,6 @@ public class StandardDeviation extends AbstractValue implements PayloadType<Floa
 	static final protected String XMLElementName = "standarddeviation";
 
 	public StandardDeviation() {
-		super(XMLElementName, new Float(0), Float.MAX_VALUE);
+		super(XMLElementName, Float.valueOf(0), Float.MAX_VALUE);
 	}
 }

@@ -50,6 +50,7 @@ public class TestCharacteristicXMLConfiguration {
 			String currentWorkingDirectory = System.getProperty("user.dir");
 			System.out.println(currentWorkingDirectory);
 			File nonExistentFile = new File(nonExistentFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					nonExistentFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -70,6 +71,7 @@ public class TestCharacteristicXMLConfiguration {
 		try {
 			File withoutCharacteristicFile = new File(
 					withoutCharacteristicFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutCharacteristicFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -90,6 +92,7 @@ public class TestCharacteristicXMLConfiguration {
 		try {
 			File withoutCharacteristicFile = new File(
 					withoutCharacteristicFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutCharacteristicFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -109,6 +112,7 @@ public class TestCharacteristicXMLConfiguration {
 		System.out.println(withoutLabelFileName);
 		try {
 			File withoutLabelFile = new File(withoutLabelFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -128,6 +132,7 @@ public class TestCharacteristicXMLConfiguration {
 		System.out.println(withoutTypeFileName);
 		try {
 			File withoutLabelFile = new File(withoutTypeFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -146,6 +151,7 @@ public class TestCharacteristicXMLConfiguration {
 		System.out.println(withoutPossibleValuesFileName);
 		try {
 			File withoutLabelFile = new File(withoutPossibleValuesFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -165,6 +171,7 @@ public class TestCharacteristicXMLConfiguration {
 		System.out.println(withoutValueFileName);
 		try {
 			File withoutLabelFile = new File(withoutValueFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					withoutLabelFile);
 			assertNotNull(null); // An exception should be thrown.
@@ -208,6 +215,7 @@ public class TestCharacteristicXMLConfiguration {
 		try {
 			File multipleCharacteristicsFile = new File(
 					multipleCharacteristicsFileName);
+			@SuppressWarnings("unused")
 			CharacteristicsXMLConfiguration handler = new CharacteristicsXMLConfiguration(
 					multipleCharacteristicsFile);
 			CharacteristicsConfigurationMapSingleton single = CharacteristicsConfigurationMapSingleton

@@ -10,5 +10,6 @@ public interface IReferenceValue {
 
 	public Float getReferenceValue();
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getObservableReferenceValue() throws DynamoConfigurationException;
 }

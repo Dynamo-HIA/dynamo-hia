@@ -9,11 +9,12 @@ import nl.rivm.emi.dynamo.data.types.interfaces.ContainerType;
  * Nonnegative Integer without fixed upper limit. 
  * This to enable adjustment to the range of categories the transitions can cover. 
  */
+@SuppressWarnings("rawtypes")
 public class TransitionDestination extends
 		AbstractClassIndex implements ContainerType {
 	static final public String XMLElementName = "to";
 
 	public TransitionDestination(){
-		super(XMLElementName, new Integer(1), new Integer(Integer.MAX_VALUE));
+		super(XMLElementName, Integer.valueOf(1), Integer.valueOf(Integer.MAX_VALUE));
 	}
 }

@@ -23,12 +23,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 public class AllTests {
 	public static void main(String[] args) throws Exception {
+		@SuppressWarnings("rawtypes")
 		Class testClass = AllTests.class;
 		ArrayList<Method> setups = new ArrayList<Method>();
 		ArrayList<Method> tearDowns = new ArrayList<Method>();
@@ -50,7 +50,8 @@ public class AllTests {
 
 		System.out.println("Starting all tests.");
 
-		Object instance = testClass.newInstance();
+		@SuppressWarnings("unchecked")
+		Object instance = testClass.getDeclaredConstructor().newInstance();
 
 		for (Method method : testClass.getDeclaredMethods()) {
 			int modifiers = method.getModifiers();
@@ -64,6 +65,7 @@ public class AllTests {
 						setup.invoke(instance, (Object[]) null);
 					}
 
+					@SuppressWarnings("rawtypes")
 					Class expectedException = testAnnotation.expected();
 
 					// can't for the life of me get eclipse to be able to
@@ -1422,6 +1424,7 @@ public class AllTests {
 		Assert.assertEquals("1\r\n#blah\r\n2\r\n", data);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test
 	public void test76() throws Exception {
 		CsvReader reader = CsvReader.parse("user_id,name\r\n1,Bruce");
@@ -1577,6 +1580,7 @@ public class AllTests {
 	@Test
 	public void test88() throws Exception {
 		try {
+			@SuppressWarnings("unused")
 			CsvReader reader = new CsvReader((String) null, ',', Charset
 					.forName("ISO-8859-1"));
 		} catch (Exception ex) {
@@ -1585,6 +1589,7 @@ public class AllTests {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void test89() throws Exception {
 		try {
@@ -1594,7 +1599,7 @@ public class AllTests {
 					"Parameter charset can not be null."), ex);
 		}
 	}
-
+	@SuppressWarnings("unused")
 	@Test
 	public void test90() throws Exception {
 		try {
@@ -1646,7 +1651,7 @@ public class AllTests {
 		Assert.assertEquals(test, reader.get(0));
 		reader.close();
 	}
-
+	@SuppressWarnings("unused")
 	@Test
 	public void test112() throws Exception {
 		try {
@@ -1656,7 +1661,7 @@ public class AllTests {
 			assertException(new IllegalArgumentException("Parameter fileName can not be null."), ex);
 		}
 	}
-
+	@SuppressWarnings("unused")
 	@Test
 	public void test113() throws Exception {
 		try {
@@ -1665,7 +1670,7 @@ public class AllTests {
 			assertException(new IllegalArgumentException("Parameter charset can not be null."), ex);
 		}
 	}
-
+	@SuppressWarnings("unused")
 	@Test
 	public void test114() throws Exception {
 		try {
@@ -2155,7 +2160,7 @@ public class AllTests {
 		Assert.assertFalse(reader.readRecord());
 		reader.close();
 	}
-
+	@SuppressWarnings("unused")
 	@Test
 	public void test149() throws Exception {
 		try

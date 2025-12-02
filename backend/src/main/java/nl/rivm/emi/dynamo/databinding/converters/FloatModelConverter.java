@@ -9,6 +9,7 @@ import org.eclipse.core.databinding.conversion.IConverter;
  *         possible.
  *         
  */
+@SuppressWarnings("rawtypes")
 public class FloatModelConverter implements IConverter {
 	// Log log = LogFactory.getLog(this.getClass());
 	String debugString = "";

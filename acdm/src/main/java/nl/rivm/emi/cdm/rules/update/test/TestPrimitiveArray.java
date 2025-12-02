@@ -1,12 +1,7 @@
 package nl.rivm.emi.cdm.rules.update.test;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import junit.framework.JUnit4TestAdapter;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRuleRepository;
-import nl.rivm.emi.cdm.rules.update.containment.UpdateRulesByCharIdRepository;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.After;

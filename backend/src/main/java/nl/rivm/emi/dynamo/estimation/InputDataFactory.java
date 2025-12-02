@@ -52,11 +52,13 @@ public class InputDataFactory {
 	private static final String rrTagLabel = "RRs";
 	private static final String scenTagSubLabel = "scenario";
 	private static final String disTagSubLabel = "disease";
+	@SuppressWarnings("unused")
 	private static final String riskfactorTagSubLabel = "disease";
 	private static final String rrSubTagLabel = "RR";
 
 	private static final String newbornLabel = "hasnewborns";
 	private static final String startingYearLabel = "startingYear";
+	@SuppressWarnings("unused")
 	private static final String startingYearLabel2 = "startingYear";
 	private static final String numberOfYearsLabel = "numberOfYears";
 	private static final String simPopSizeLabel = "simPopSize";
@@ -105,6 +107,7 @@ public class InputDataFactory {
 
 	private int originalNumberDurationClass;
 
+	@SuppressWarnings("unused")
 	private String disabilityFileName;
 	/* this are the public fields that contain the information from the XML file */
 	/**
@@ -261,6 +264,7 @@ public class InputDataFactory {
 	private static final String incidencesDir = "Incidences"; // OK
 	private static final String excessMoratalitiesDir = "Excess_Mortalities"; // OK
 	private static final String referenceDataDir = "Reference_Data"; // OK
+	@SuppressWarnings("unused")
 	private static final String riskFactorPrevalencesDir = "Prevalences"; // OK
 	private static final String riskFactorTransitionDir = "Transitions"; // OK
 	private static final String RelriskForDeathDir = "Relative_Risks_For_Death"; //
@@ -281,8 +285,11 @@ public class InputDataFactory {
 
 	private static final String riskfactorPrevDir = "prevalences";
 	private static final String durationPrevDir = "DurationDistributions";
+	@SuppressWarnings("unused")
 	private static final String durationXMLname = "durationdistribution.xml";
+	@SuppressWarnings("unused")
 	private static final String allcauseRRXMLname = "relriskfordeath.xml";
+	@SuppressWarnings("unused")
 	private static final String dalyRRXMLname = "relriskfordisability.xml";
 
 	private static final String rrDiseaseTagName = "relrisksfromdisease"; // "rrisksfromdisease"
@@ -406,9 +413,13 @@ public class InputDataFactory {
 							.getRootElementName());
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 				.getChildren();
+		@SuppressWarnings("unused")
 		boolean scenPresent = false;
+		@SuppressWarnings("unused")
 		boolean disPresent = false;
+		@SuppressWarnings("unused")
 		boolean riskfactorPresent = false;
+		@SuppressWarnings("unused")
 		boolean rrPresent = false;
 		for (ConfigurationNode rootChild : rootChildren) {
 
@@ -1131,7 +1142,7 @@ public class InputDataFactory {
 				String completePrevFileName = this.baseDir + File.separator
 						+ referenceDataDir + File.separator + riskFactorDir
 						+ File.separator + this.riskFactorName + File.separator
-						+ this.riskfactorPrevDir + File.separator
+						+ InputDataFactory.riskfactorPrevDir + File.separator
 						+ scenInfo.get(scen).prevFileName + ".xml";
 				if (this.riskFactorType != 2)
 					scenarioInfo.setNewPrevalence(this.factory
@@ -1528,6 +1539,7 @@ public class InputDataFactory {
 		RRInfo info;
 		String deathFileName = null;
 		String disabilityFileName = null;
+		@SuppressWarnings("unused")
 		int currentRR = 0;
 		for (int rr = 0; rr < rrInfo.size(); rr++) {
 			info = rrInfo.get(rr);
@@ -1850,11 +1862,12 @@ public class InputDataFactory {
 			}
 
 			else
-				throw new DynamoConfigurationException(" Tagname "
+				throw new DynamoConfigurationException("when reading file " + configFileName +" Tagname "
 						+ "transitionmatrix (_zero,_netto) "
-						+ " expected in main simulation configuration file "
+						+ " expected "
 						+ "but found tag "
-						+ ((XMLConfigurationToo) config).getRootElementName());
+						+ ((XMLConfigurationToo) config).getRootElementName()
+						+ ". Note that continuous and categorical risk factors have different tags (transitiondrift and transitionmatrix respectively)");
 		}
 		/* second for continuous */
 		//
@@ -1919,11 +1932,11 @@ public class InputDataFactory {
 			}
 
 			else
-				throw new DynamoConfigurationException(" Tagname "
-						+ "transitionmatrix/drift (_zero,_netto) "
-						+ " expected in main simulation configuration file "
-						+ "but found tag "
-						+ ((XMLConfigurationToo) config).getRootElementName());
+				throw new DynamoConfigurationException("when reading file " + configFileName 
+						+ " (transitions for a continuous riskfactor) a Tag transitiondrift(_zero,_netto) is"
+						+ " expected but found tag "
+						+ ((XMLConfigurationToo) config).getRootElementName()
+						+ ". Note that continuous and categorical riskfactors have different tags (transitiondrift and transitionmatrix respectively)");
 		}
 	}
 
@@ -2210,6 +2223,7 @@ public class InputDataFactory {
 			float dData[][][];
 			float fData[][][];
 			float cData[][][];
+			@SuppressWarnings("unused")
 			double log2 = Math.log(2);
 
 			// first read in the relative risks
@@ -2602,6 +2616,7 @@ public class InputDataFactory {
 			for (int a = 94; a >= 0; a--) {
 				if (g==0 && a==63)
 				{
+					@SuppressWarnings("unused")
 					int hhh=0;
 					hhh++;
 				}
@@ -2825,6 +2840,7 @@ public class InputDataFactory {
 		InputDataFactory.simPopSize = simPopSize;
 	}
 
+	@SuppressWarnings("unused")
 	private float[][] takeValueAtNextBirthDay( float[][] inputArray){
 		
 		float[][] returnArray;
@@ -2845,6 +2861,7 @@ public class InputDataFactory {
  * @return
  */
 
+@SuppressWarnings("unused")
 private float[][][] takeValueAtNextBirthDay( float[][][] inputArray){
 		
 		float[][][] returnArray;

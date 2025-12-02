@@ -118,12 +118,7 @@ public class NettTransitionRateFactory {
 				// and we weight with the probability of having this value
 				// this weight is preprocessed in DynamoLib.cdfTable
 				// this is most accurate for calculating standard deviations
-				if (a == 20) {
-
-					int stop = 0;
-					stop++;
-
-				}
+				
 				if (skewRisk[a][s] == 0) {
 					lognorm = false;
 					for (int i = 0; i < nSim; i++) {
@@ -170,6 +165,7 @@ public class NettTransitionRateFactory {
 				checkSkewNew[a] = 0;
 				checkMuNew[a] = 0;
 				checkSigmaNew[a] = 0;
+				@SuppressWarnings("unused")
 				double checksum = 0;
 				double meanSurv = 0;
 				double checkMeanSurv = 0;
@@ -328,12 +324,7 @@ public class NettTransitionRateFactory {
 				 * NB: the "New" variables are the old variables adjusted for
 				 * mortality, the variable names without new are the new targets
 				 */
-				if (a == 21) {
-
-					int stop = 0;
-					stop++;
-
-				}
+				
 				if (a > 0) {
 					if (!lognorm) {
 
@@ -616,6 +607,7 @@ public class NettTransitionRateFactory {
 
 		}
 
+		@SuppressWarnings("unused")
 		double[][] oldtable = table;
 		
 		Simplx result = new Simplx(table, 2 * nCat, numVar, 0, 0, 2 * nCat);

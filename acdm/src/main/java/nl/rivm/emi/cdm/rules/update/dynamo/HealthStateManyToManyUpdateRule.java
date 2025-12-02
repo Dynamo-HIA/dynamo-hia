@@ -146,6 +146,7 @@ public class HealthStateManyToManyUpdateRule  extends
 					ageValue = 95;
 
 				newValue = new float[oldValue.length];
+				@SuppressWarnings("unused")
 				float[] currentDiseaseStateValues = new float[oldValue.length];
 				/*
 				 * float totInStates=0; for (int i=0;i<oldValue.length-1;i++)
@@ -641,6 +642,7 @@ public class HealthStateManyToManyUpdateRule  extends
 	 */
 	protected void handleDiseaseData(ConfigurationNode rootNode)
 			throws ConfigurationException {
+		@SuppressWarnings("unchecked")
 		List<ConfigurationNode> rootChildren = (List<ConfigurationNode>) rootNode
 				.getChildren();
 
@@ -833,6 +835,7 @@ public class HealthStateManyToManyUpdateRule  extends
 
 			ArraysFromXMLFactory factory = new ArraysFromXMLFactory();
 
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> diseaseChildren = (List<ConfigurationNode>) node
 					.getChildren();
 			for (ConfigurationNode diseaseElement : diseaseChildren) {
@@ -1028,6 +1031,7 @@ public class HealthStateManyToManyUpdateRule  extends
 	protected void handleClusterInformation(ConfigurationNode rootChild) {
 
 		try {
+			@SuppressWarnings("unchecked")
 			List<ConfigurationNode> clusterChildren = (List<ConfigurationNode>) rootChild
 					.getChildren();
 
@@ -1138,6 +1142,7 @@ public class HealthStateManyToManyUpdateRule  extends
 
 	}
 
+	@SuppressWarnings("unused")
 	private void setStartsAtDiseaseNumber(int value, int i) {
 		clusterStartsAtDiseaseNumber[i] = value;
 

@@ -7,6 +7,11 @@ import nl.rivm.emi.dynamo.data.types.atomic.Age;
 public class DiseaseIncidencesObject extends TypedHashMap<Age> implements
 		StandardObjectMarker {
 	/**
+	     * 
+	     */
+	    private static final long serialVersionUID = 1L;
+
+	/**
 	 * Initialize self and copy content.
 	 * 
 	 * @param manufacturedMap

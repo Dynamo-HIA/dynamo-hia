@@ -4,7 +4,6 @@ import java.io.File;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
 import nl.rivm.emi.dynamo.data.objects.AlphasObject;
-import nl.rivm.emi.dynamo.data.objects.AttributableMortalitiesObject;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;

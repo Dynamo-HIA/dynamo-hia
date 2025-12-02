@@ -3,6 +3,7 @@
  */
 package nl.rivm.emi.dynamo.ui.panels.output;
 
+import nl.rivm.emi.dynamo.global.ScenarioParameters;
 import nl.rivm.emi.dynamo.output.CDMOutputFactory;
 import nl.rivm.emi.dynamo.output.DynamoPlotFactory;
 
@@ -12,6 +13,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 //ND: not experimental anymore
@@ -89,8 +91,7 @@ public class Output_IncidenceTab  {
 		controlComposite.setLayout(gridLayoutControl);
 		controlComposite.setLayoutData(controlData);
 
-		
-		
+				
 		/* draw chart for the startup-situation */
 		final ChartComposite chartComposite = new ChartComposite(
 				this.plotComposite, SWT.NONE, null, true);
@@ -109,8 +110,7 @@ public class Output_IncidenceTab  {
 			
         new ByChoiceGroup(controlComposite, chartComposite,this. factory,this. plotInfo);
 		new ScenarioChoiceGroup(controlComposite, chartComposite, this.factory, this.plotInfo,this.output.getScenarioNames());
-		
-        
+		        
 		
 		String [] names=new String [1];
 		if (this.output.getNDiseases()>0){ names=new String[this.output.getDiseaseNames().length];
@@ -133,29 +133,25 @@ public class Output_IncidenceTab  {
         message.setEditable(false);}
 
 		TabItem item = new TabItem(this.tabFolder, SWT.NONE);
-		//item.setText("incidence plots");
+		
 		item.setText("Incidence");
 		item.setControl(this.plotComposite);
-		/*item2.addListener(SWT.Selection, new Listener() {
-			
-			public void handleEvent(Event arg0) {
-				JFreeChart chart = makeDiseaseChart();
-				chartComposite2.setChart(chart);
-				chartComposite2.forceRedraw();
-				
-			}
-		});*/
+		
 	}
 	
 	/**
-	 * 
+	 * transfer of scenario parameters is not necessary, tried to see if this solves the refresh problem
 	 */
 	public void redraw(){
 		if (this.output.getNDiseases()>0){
 		Control[] subcomp= this.plotComposite.getChildren();
+		
 		this.factory.drawChartAction(this.plotInfo, (ChartComposite) subcomp[1]);
-		this.plotComposite.redraw();}
-		else this.tabFolder.redraw();
+		
+	//	this.plotComposite.update(); unnecessary, already part of action above
+		}
+ 	else this.tabFolder.update();
+			
 		
 	}
 		}

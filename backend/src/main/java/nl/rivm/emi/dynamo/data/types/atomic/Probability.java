@@ -7,6 +7,6 @@ public class Probability extends AbstractValue implements PayloadType<Float> {
 	static final protected String XMLElementName = "prob";
 
 	public Probability(){
-	super(XMLElementName, new Float(0F), new Float(1F));
+	super(XMLElementName, Float.valueOf(0F), Float.valueOf(1F));
 	}
 }

@@ -27,6 +27,7 @@ public class AbstractDoubleBoundUpdateRule implements UpdateRuleMarker, Characte
 	 */
 	float stepSize = 0;
 
+	@SuppressWarnings("unused")
 	private AbstractDoubleBoundUpdateRule() {
 		super();
 	}

@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 
 import nl.rivm.emi.dynamo.global.DataAndFileContainer;
+import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 
 public class HelpGroup {
 	Log log = LogFactory.getLog(this.getClass().getSimpleName());
@@ -67,7 +68,7 @@ public class HelpGroup {
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(buttonPane, -5);
 //		formData.left = new FormAttachment(100, -155);
-		formData.left = new FormAttachment(100, -230);
+		formData.left = new FormAttachment(100, -ModalStatics.defaultHelpWidth ); // was -230
 		myComposite.setLayoutData(formData);
 	}
 

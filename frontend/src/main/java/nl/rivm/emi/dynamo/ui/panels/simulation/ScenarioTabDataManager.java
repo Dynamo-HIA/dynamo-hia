@@ -344,11 +344,11 @@ public class ScenarioTabDataManager implements DynamoTabDataManager {
 		if (ScenarioSelectionGroup.NAME.equals(name)) {
 			singleConfiguration.setName(selectedValue);
 		} else if (ScenarioSelectionGroup.SUCCESS_RATE.equals(name)) {
-			singleConfiguration.setSuccessRate(new Integer(selectedValue));
+			singleConfiguration.setSuccessRate(Integer.valueOf(selectedValue));
 		} else if (ScenarioSelectionGroup.MIN_AGE.equals(name)) {
-			singleConfiguration.setMinAge(new Integer(selectedValue));
+			singleConfiguration.setMinAge(Integer.valueOf(selectedValue));
 		} else if (ScenarioSelectionGroup.MAX_AGE.equals(name)) {
-			singleConfiguration.setMaxAge(new Integer(selectedValue));
+			singleConfiguration.setMaxAge(Integer.valueOf(selectedValue));
 		} else if (ScenarioSelectionGroup.GENDER.equals(name)) {
 			Integer gender = convertToInteger(selectedValue);
 			singleConfiguration.setTargetSex(gender);

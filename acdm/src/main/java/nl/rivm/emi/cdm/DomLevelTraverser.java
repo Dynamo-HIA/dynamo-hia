@@ -9,6 +9,10 @@ import org.w3c.dom.Node;
 
 public abstract class DomLevelTraverser extends TreeSet<Individual>{
  
+	/**
+	 * serial number not used
+	 */
+	private static final long serialVersionUID = 21L;
 	protected String myElementName = "Skblzz";
 	
 	protected Node traverseTreeLevel(Node node) throws CDMConfigurationException {

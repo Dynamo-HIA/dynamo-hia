@@ -54,6 +54,7 @@ public class DynamoSimulationFactory extends AgnosticGroupFactory {
 	/* (non-Javadoc)
 	 * @see nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory#manufactureObservable(java.io.File, java.lang.String)
 	 */
+	@SuppressWarnings("unchecked")
 	public DynamoSimulationObject manufactureObservable(File configurationFile,
 			String rootNodeName) throws ConfigurationException,
 			DynamoInconsistentDataException {
@@ -65,6 +66,7 @@ public class DynamoSimulationFactory extends AgnosticGroupFactory {
 		if (!modelMap.containsKey("refScenarioName")){
 			
 			XMLTagEntity name = XMLTagEntitySingleton.getInstance().get("refScenarioName");
+			@SuppressWarnings("rawtypes")
 			WritableValue value=new WritableValue();
 			value.doSetValue(new String("Reference Scenario"));
 			AtomicTypeObjectTuple toAdd = new AtomicTypeObjectTuple (name,value);

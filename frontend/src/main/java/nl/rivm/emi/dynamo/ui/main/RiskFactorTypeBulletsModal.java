@@ -212,7 +212,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 			public void modifyText(ModifyEvent event) {
 				Combo myCombo = (Combo) event.widget;
 				numberOfCutoffs = myCombo.getSelectionIndex();
-				log.fatal("number of cutoffs"+numberOfCutoffs);
+				log.debug("number of cutoffs"+numberOfCutoffs);
 			}
 		});
 		
@@ -273,7 +273,7 @@ public class RiskFactorTypeBulletsModal implements Runnable {
 		addPushButtons();
 		shell.pack();
 		// This is the first place this works.
-		shell.setSize(400, 250);
+		shell.setSize(600, 400);
 		shell.open();
 		Display display = shell.getDisplay();
 		while (!shell.isDisposed()) {
