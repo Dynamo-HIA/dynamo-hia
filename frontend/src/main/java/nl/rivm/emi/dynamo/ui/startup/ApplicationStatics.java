@@ -7,7 +7,7 @@ import javax.swing.JFileChooser;
 public class ApplicationStatics {
 	public static final String APPBASENAME = "DYNAMO-HIA";
 
-	public static final String RELEASE_TAG = "Version 3.0.1, Release date: 20251103";
+	public static final String RELEASE_TAG = "Version 3.0 beta 2, Release date: 20251231";
 	/*
 	 * 
 	 * NB the following statement is not platform independent, so needs changing in case of linux versions
@@ -26,4 +26,5 @@ public class ApplicationStatics {
 /* volgende is poging om my documents/dynamo-hia als default te zetten maar werkt niet
 	public static final String DEFAULTWORKDATADIRECTORY = new JFileChooser().getFileSystemView().getDefaultDirectory()+File.separator+"DYNAMO-HIA"
     +File.separator+"Country_data"; */
+
 }
