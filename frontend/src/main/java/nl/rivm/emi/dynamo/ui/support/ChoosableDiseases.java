@@ -21,10 +21,17 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @param <String>
  */
+@SuppressWarnings("hiding")
 public class ChoosableDiseases<String> extends LinkedHashSet<String> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Log log = LogFactory.getLog(this.getClass().getName());
 
+	@SuppressWarnings("rawtypes")
 	private static ChoosableDiseases chosenDiseaseNames = null;
 
 	private ChoosableDiseases() {
@@ -40,6 +47,7 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 * @return
 	 * @throws ConfigurationException
 	 */
+	@SuppressWarnings("rawtypes")
 	static synchronized public ChoosableDiseases getInstance()
 			throws ConfigurationException {
 		if (chosenDiseaseNames == null) {
@@ -55,6 +63,7 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 * @return
 	 * @throws ConfigurationException
 	 */
+	@SuppressWarnings("rawtypes")
 	static synchronized public ChoosableDiseases createFreshInstance()
 			throws ConfigurationException {
 		chosenDiseaseNames = new ChoosableDiseases();
@@ -74,11 +83,13 @@ public class ChoosableDiseases<String> extends LinkedHashSet<String> {
 	 *            be able to be chosen again.
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Set<String> getChoosableDiseases(String currentDiseaseName,
 			TreeAsDropdownLists lists) {
 		log.debug("currentDiseasesName: " + currentDiseaseName);
 
 		
+		@SuppressWarnings("rawtypes")
 		Set diseaseNames = new LinkedHashSet<String>();
 		diseaseNames.addAll(lists.getValidDiseaseNames());
 		log.debug("all valid diseaseNames: " + diseaseNames);

@@ -2,17 +2,14 @@ package nl.rivm.emi.cdm.rules.update;
 
 import java.io.File;
 import java.util.List;
-import java.util.Random;
 import java.util.TreeMap;
 
 import nl.rivm.emi.cdm.exceptions.CDMConfigurationException;
 import nl.rivm.emi.cdm.exceptions.CDMUpdateRuleException;
 import nl.rivm.emi.cdm.exceptions.ErrorMessageUtil;
-import nl.rivm.emi.cdm.prngcollection.MersenneTwister;
 import nl.rivm.emi.cdm.rules.update.base.ConfigurationEntryPoint;
 import nl.rivm.emi.cdm.rules.update.base.ManyToOneUpdateRuleBase;
 import nl.rivm.emi.cdm.rules.update.base.NeedsSeed;
-import nl.rivm.emi.cdm.rules.update.base.OneToOneUpdateRuleBase;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.SubnodeConfiguration;

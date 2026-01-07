@@ -22,7 +22,7 @@ public class RiskFactorCategoricalPrevalencesGroup {
 	Group theGroup;
 
 	public RiskFactorCategoricalPrevalencesGroup(Shell shell,
-			TypedHashMap modelObject, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, HelpGroup helpGroup)
 			throws ConfigurationException {
 		log.debug("selectedNode-label: " + selectedNode.deriveNodeLabel());

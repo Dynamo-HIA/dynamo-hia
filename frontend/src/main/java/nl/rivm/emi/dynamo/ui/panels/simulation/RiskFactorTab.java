@@ -41,6 +41,7 @@ public class RiskFactorTab {
 	private Log log = LogFactory.getLog(this.getClass().getName());
 	
 	private DynamoSimulationObject dynamoSimulationObject;
+	@SuppressWarnings("unused")
 	private DataBindingContext dataBindingContext = null;
 	private HelpGroup helpGroup;
 	private BaseNode selectedNode;
@@ -74,6 +75,7 @@ public class RiskFactorTab {
 		
 		Set<String> defaultTabKeyValues = this.getConfigurations();
 		for (String defaultTabKeyValue : defaultTabKeyValues) {
+			@SuppressWarnings("unused")
 			Set<String> keyValues = new LinkedHashSet<String>();
 			this.selections.add(defaultTabKeyValue);
 		}
@@ -135,6 +137,7 @@ public class RiskFactorTab {
 					dynamoTabDataManager
 					);
 		
+		@SuppressWarnings("unused")
 		RiskFactorResultGroup riskFactorResultGroup =
 			new RiskFactorResultGroup(this.selections, this.getPlotComposite(),
 					selectedNode, helpGroup,

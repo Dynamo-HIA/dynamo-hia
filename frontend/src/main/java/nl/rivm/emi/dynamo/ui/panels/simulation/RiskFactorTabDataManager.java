@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import nl.rivm.emi.dynamo.data.interfaces.ITabDiseaseConfiguration;
 import nl.rivm.emi.dynamo.data.interfaces.ITabScenarioConfiguration;
 import nl.rivm.emi.dynamo.data.objects.DynamoSimulationObject;
 import nl.rivm.emi.dynamo.data.objects.tabconfigs.TabRelativeRiskConfigurationData;
@@ -252,6 +251,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 	 * @param riskfactorName
 	 * @throws ConfigurationException
 	 */
+	@SuppressWarnings("rawtypes")
 	private void checkScenarios(String riskfactorName)
 			throws ConfigurationException {
 
@@ -259,7 +259,9 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 				.getScenarioConfigurations();
 		if (!scenarioConfigurations.isEmpty()) {
 			// Something to do.
+			@SuppressWarnings("unused")
 			Set<String> scenarioNames = scenarioConfigurations.keySet();
+			@SuppressWarnings("unused")
 			ITabScenarioConfiguration singleScenarioConfiguration;
 			Iterator scenIter = scenarioConfigurations.keySet().iterator();
 			while (scenIter.hasNext()) {
@@ -272,7 +274,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 
 	private void checkAScenario(String riskfactorName,
 			Map<String, ITabScenarioConfiguration> scenarioConfigurations,
-			Iterator scenIter) throws ConfigurationException {
+			@SuppressWarnings("rawtypes") Iterator scenIter) throws ConfigurationException {
 
 		ITabScenarioConfiguration singleScenarioConfiguration;
 		String scenName = (String) scenIter.next();
@@ -538,6 +540,7 @@ public class RiskFactorTabDataManager implements DynamoTabDataManager {
 		return chosenRiskFactorName;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used

@@ -32,6 +32,7 @@ public class Output_RiskFactorTab {
 	 */
 	private RiskFactorChartFactory factory;
 	/* plotGenerator is the general object that contains the data and makes all possible plots */
+	@SuppressWarnings("unused")
 	private DynamoPlotFactory plotGenerator;
 
 	private Composite plotComposite;

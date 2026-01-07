@@ -15,7 +15,6 @@ import nl.rivm.emi.dynamo.ui.dialogs.DurationDistributionTrialog;
 import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.DurationDistributionModal;
 import nl.rivm.emi.dynamo.ui.statusflags.FileCreationFlag;
-import nl.rivm.emi.dynamo.ui.validators.FileAndDirectoryNameInputValidator;
 import nl.rivm.emi.dynamo.ui.validators.UltraConservativeNameInputValidator;
 
 import org.eclipse.core.databinding.observable.Realm;

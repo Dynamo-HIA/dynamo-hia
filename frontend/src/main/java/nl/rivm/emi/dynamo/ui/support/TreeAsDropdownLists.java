@@ -72,6 +72,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public Set<String> getPopulations() {
 		log.debug("getPopulations::TreeAsDropdownLists instance: " + this);
 		log.debug("StandardTreeNodeLabelsEnum.POPULATIONS.getNodeLabel() "
@@ -96,6 +97,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 */
 	public Set<String> getValidDiseaseNames() {
 		log.debug("getValidDiseases().....");
+		@SuppressWarnings("unchecked")
 		HashMap<String, Object> diseasesMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.DISEASES
 				.getNodeLabel());
 		Set<String> diseaseNames = diseasesMap.keySet();
@@ -133,6 +135,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		return theSet;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Set<String> getDiseaseSet(String chosenDiseaseName, String name) {
 		log
 				.debug("getDiseaseSet(" + chosenDiseaseName + ", " + name
@@ -158,6 +161,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	 */
 	public Set<String> get2RiskFactors() {
 		log.debug("get2RiskFactors().....");
+		@SuppressWarnings("unchecked")
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
 		Set<String> riskFactorNames = riskFactorsMap.keySet();
@@ -173,12 +177,14 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 	public Set<String> getRiskFactorNames() {
 		log.debug("getRiskFactors().....");
 		Exception ex = new Exception();
+		@SuppressWarnings("unused")
 		StackTraceElement[] stackTraceArray = ex.getStackTrace();
 //		for (int count = 0; count < 2 && count < stackTraceArray.length; count++) {
 //			log.debug("StackTraceElement at " + count + ": "
 //					+ stackTraceArray[count].getClassName() + "."
 //					+ stackTraceArray[count].getMethodName() + "(" + stackTraceArray[count].getLineNumber()+ ")");
 //		}
+		@SuppressWarnings("unchecked")
 		HashMap<String, Object> riskFactorsMap = (HashMap<String, Object>) get(StandardTreeNodeLabelsEnum.RISKFACTORS
 				.getNodeLabel());
 		Set<String> riskFactorNames = riskFactorsMap.keySet();
@@ -200,6 +206,7 @@ public class TreeAsDropdownLists extends HashMap<String, Object> {
 		return theSet;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Set<String> getRiskFactorSet(String chosenRiskFactorName,
 			String name) {
 		log.debug("getRiskFactorSet( " + chosenRiskFactorName + ", " + name

@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Shell;
 public class DeleteXMLFileAction extends ActionBase {
 	Log log = LogFactory.getLog(this.getClass().getName());
 
+	@SuppressWarnings("unused")
 	private String fileNameTrunk;
 
 	public DeleteXMLFileAction(Shell shell, TreeViewer v, BaseNode node,

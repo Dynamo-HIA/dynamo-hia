@@ -48,8 +48,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.tree.ConfigurationNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -220,10 +218,13 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	/** Constant for the delimiter for multiple attribute values. */
 	private static final char ATTR_VALUE_DELIMITER = '|';
 
+	@SuppressWarnings("unused")
 	private static final String JAXP_SCHEMA_LANGUAGE_NAME = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
 
+	@SuppressWarnings("unused")
 	private static final Object JAXP_SCHEMA_LANGUAGE_VALUE = "http://www.w3.org/2001/XMLSchema";
 
+	@SuppressWarnings("unused")
 	private static final String JAXP_SCHEMA_SOURCE_NAME = "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
 	/** The document from this configuration's data source. */
@@ -730,6 +731,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static final String SCHEMA_PATH_PROPERTY_KEY = "dynamo.schema.dir";
 
 	/**
@@ -768,6 +770,7 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 			// The first time the name of the root node does not exist
 			if (getRootNode().getName() != null) {
 				try {
+					@SuppressWarnings("unused")
 					File file = null;
 					// if (ResourcesPlugin.getPlugin() == null) {
 					// // In case of development
@@ -1069,7 +1072,6 @@ public class XMLConfigurationToo extends AbstractHierarchicalFileConfiguration
 	public void addNodes(String key, @SuppressWarnings("rawtypes") Collection nodes) {
 		@SuppressWarnings("rawtypes")
 		Collection xmlNodes;
-
 		if (nodes != null && !nodes.isEmpty()) {
 			xmlNodes = new ArrayList(nodes.size());
 			for (@SuppressWarnings("rawtypes")

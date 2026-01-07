@@ -43,6 +43,7 @@ public interface DynamoTabDataManager {
 
 	public void removeOldDefaultValue(String label) throws ConfigurationException;
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getCurrentWritableValue(String successRate);
 
 	public DynamoSimulationObject getDynamoSimulationObject();

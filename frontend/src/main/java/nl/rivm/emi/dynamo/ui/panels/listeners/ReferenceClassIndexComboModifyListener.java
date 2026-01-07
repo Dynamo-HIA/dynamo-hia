@@ -10,14 +10,16 @@ public class ReferenceClassIndexComboModifyListener implements ModifyListener {
 	/**
 	 * The value in the model-object to update.
 	 */
+	@SuppressWarnings("rawtypes")
 	WritableValue referenceClassIndexWritableValue;
 
 	public ReferenceClassIndexComboModifyListener(
-			WritableValue referenceClassIndexWritableValue) {
+			@SuppressWarnings("rawtypes") WritableValue referenceClassIndexWritableValue) {
 		super();
 		this.referenceClassIndexWritableValue = referenceClassIndexWritableValue;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void modifyText(ModifyEvent event) {
 		Combo myCombo = (Combo) event.widget;

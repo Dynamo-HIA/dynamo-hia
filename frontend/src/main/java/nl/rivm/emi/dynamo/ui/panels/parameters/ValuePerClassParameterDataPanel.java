@@ -31,17 +31,20 @@ import org.eclipse.swt.widgets.Text;
 
 public class ValuePerClassParameterDataPanel extends Composite {
 	Log log = LogFactory.getLog(this.getClass().getName());
+	@SuppressWarnings("rawtypes")
 	TypedHashMap lotsOfData;
 	Composite myParent = null;
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
+	@SuppressWarnings("rawtypes")
 	AtomicTypeBase myType;
 	int ageCount;
 	int genderCount;
 
+	@SuppressWarnings("rawtypes")
 	public ValuePerClassParameterDataPanel(Composite parent, Text topNeighbour,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+		    TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			HelpGroup helpGroup) {
 		super(parent, SWT.NONE);
 		this.lotsOfData = lotsOfData;
@@ -109,7 +112,8 @@ public class ValuePerClassParameterDataPanel extends Composite {
 		panel.setLayoutData(formData);
 	}
 
-	private void bindValue(TypedHashMap typedHashMap, int index) {
+	@SuppressWarnings("unchecked")
+	private void bindValue(@SuppressWarnings("rawtypes") TypedHashMap typedHashMap, int index) {
 		try {
 			Text text = new Text(this, SWT.NONE);
 			GridData gridData = new GridData();
@@ -117,6 +121,7 @@ public class ValuePerClassParameterDataPanel extends Composite {
 			text.setLayoutData(gridData);
 			ArrayList<AtomicTypeObjectTuple> list = (ArrayList<AtomicTypeObjectTuple>) typedHashMap
 					.get(index);
+		    @SuppressWarnings("rawtypes")
 			WritableValue modelObservableValue = (WritableValue) ((AtomicTypeObjectTuple) list
 					.get(0)).getValue();
 			AtomicTypeBase<Float> theType = (AtomicTypeBase<Float>) list.get(0)
@@ -130,6 +135,7 @@ public class ValuePerClassParameterDataPanel extends Composite {
 			// focusListener);
 			HelpTextListenerUtil.addHelpTextListeners(text, theType);
 			// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+			@SuppressWarnings("rawtypes")
 			IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 			dataBindingContext.bindValue(textObservableValue,
 					modelObservableValue, ((Percent) myType)
@@ -145,11 +151,14 @@ public class ValuePerClassParameterDataPanel extends Composite {
 		}
 	}
 
-	private void bindTestValue(TypedHashMap sexMap, int index) {
+	@SuppressWarnings({ "unchecked", "unused" })
+	private void bindTestValue(@SuppressWarnings("rawtypes") TypedHashMap sexMap, int index) {
 		Text text = new Text(this, SWT.NONE);
 		text.setText(sexMap.get(index).toString());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) sexMap.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

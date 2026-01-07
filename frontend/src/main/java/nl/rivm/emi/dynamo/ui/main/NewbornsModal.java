@@ -132,7 +132,7 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 			Date date = new Date();
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(date);
-			Integer maxYear = new Integer(calendar.get(Calendar.YEAR) + 29);
+			Integer maxYear = Integer.valueOf(calendar.get(Calendar.YEAR) + 29);
 			// Set the limit to 30 years from the current year
 			factory.setIndexLimit(maxYear);
 			// The configuration file with data does not yet exist, create a new
@@ -176,7 +176,7 @@ public class NewbornsModal extends AbstractMultiRootChildDataModal {
 						lastNonZeroValue = currentNumberInt;
 					}
 				} else {
-					modelObject.updateNumber(yearCounter, new Integer(0));
+					modelObject.updateNumber(yearCounter, Integer.valueOf(0));
 				}
 			}
 			// Functionality relocated from save-selectionListener.

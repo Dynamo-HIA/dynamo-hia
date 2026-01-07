@@ -38,6 +38,7 @@ public class PercentVerifyListener extends AbstractNonSAPVerifyListener {
 				if ((((Percent) XMLTagEntityEnum.PERCENTAGE.getTheType()).matchPattern
 						.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
+					@SuppressWarnings("unchecked")
 					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>) XMLTagEntitySingleton
 							.getInstance().get("percent");
 					if (type.inRange(candidateFloat)) {

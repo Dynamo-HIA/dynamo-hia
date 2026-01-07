@@ -89,6 +89,7 @@ public class DynamoSimulationHeaderDataManager implements DynamoTabDataManager {
 		// Will not be used		
 	}
 
+	@SuppressWarnings("rawtypes")
 	public WritableValue getCurrentWritableValue(String successRate) {
 		// Will not be used
 		return null;

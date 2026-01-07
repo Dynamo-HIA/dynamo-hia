@@ -92,6 +92,7 @@ public class DurationDistributionTrialog extends InputBulletsTrialog {
 		return composite;
 	}
 
+	@SuppressWarnings("unused")
 	private void createNameAndTypeOfRiskFactorArea(Composite composite) {
 		createRiskFactorName(composite, this.riskFactorName);
 		createRiskFactorType(composite, this.riskFactorType);

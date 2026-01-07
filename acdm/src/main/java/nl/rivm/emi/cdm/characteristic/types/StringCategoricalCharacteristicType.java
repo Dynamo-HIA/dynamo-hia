@@ -2,7 +2,6 @@ package nl.rivm.emi.cdm.characteristic.types;
 
 import java.util.ArrayList;
 
-import nl.rivm.emi.cdm.characteristic.values.CharacteristicValueStringParser;
 import nl.rivm.emi.cdm.characteristic.values.StringCharacteristicValue;
 
 public class StringCategoricalCharacteristicType extends

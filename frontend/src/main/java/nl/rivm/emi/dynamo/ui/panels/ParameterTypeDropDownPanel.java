@@ -28,12 +28,13 @@ public class ParameterTypeDropDownPanel {
 	public Group group;
 	private Label label;
 	private Combo dropDown;
+	@SuppressWarnings("unused")
 	private HelpGroup theHelpGroup;
 	private DropDownPropertiesSet selectableParameterTypePropertiesSet;
 	private ParameterTypeComboModifyListener parameterTypeModifyListener;
 	private int selectedIndex;
 
-	public ParameterTypeDropDownPanel(Composite parent, WritableValue writableValue) {
+	public ParameterTypeDropDownPanel(Composite parent, @SuppressWarnings("rawtypes") WritableValue writableValue) {
 		group = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		group.setLayout(formLayout);

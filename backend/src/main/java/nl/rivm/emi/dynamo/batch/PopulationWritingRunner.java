@@ -104,6 +104,7 @@ public class PopulationWritingRunner {
 				statLog
 						.warn("The bufferedReader is not ready. File may be empty.");
 			}
+			bufferedReader.close();
 		} catch (FileNotFoundException e) {
 			statLog.fatal(e.getClass().getSimpleName()
 					+ " should not happen, because this has been tested for.");

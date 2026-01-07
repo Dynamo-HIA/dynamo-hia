@@ -2,9 +2,7 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
-import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
 import nl.rivm.emi.dynamo.data.types.atomic.Trend;
-import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
@@ -41,6 +39,7 @@ public class TrendVerifyListener extends AbstractNonSAPVerifyListener {
 				if ((((Trend) XMLTagEntityEnum.TREND.getTheType()).matchPattern
 						.matcher(candidateContent)).matches()) {
 					Float candidateFloat = Float.valueOf(candidateContent);
+					@SuppressWarnings("unchecked")
 					NumberRangeTypeBase<Float> type = (NumberRangeTypeBase<Float>) XMLTagEntitySingleton
 							.getInstance().get("trend");
 					if (type.inRange(candidateFloat)) {

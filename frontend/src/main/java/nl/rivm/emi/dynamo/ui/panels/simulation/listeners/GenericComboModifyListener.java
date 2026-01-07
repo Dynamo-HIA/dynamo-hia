@@ -27,6 +27,7 @@ public class GenericComboModifyListener implements ModifyListener {
 	 */
 	private Set<GenericDropDownPanel> registeredDropDowns = new HashSet<GenericDropDownPanel>();
 
+	@SuppressWarnings("unused")
 	private DynamoTabDataManager dataManager;
 	private GenericDropDownPanel dropDown;
 	private HelpGroup helpGroup;

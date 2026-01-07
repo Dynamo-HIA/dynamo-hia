@@ -11,16 +11,11 @@ package nl.rivm.emi.dynamo.ui.main;
  */
 
 import java.io.File;
-import java.util.LinkedHashMap;
-
-import nl.rivm.emi.dynamo.data.factories.AgnosticGroupFactory;
-import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.objects.ExcessMortalityObject;
 import nl.rivm.emi.dynamo.data.types.atomic.ParameterType;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.dialogs.ExcessMortalityAddParameterTypeDialog;
-import nl.rivm.emi.dynamo.ui.dialogs.ImportExtendedInputTrialog;
 import nl.rivm.emi.dynamo.ui.main.base.AbstractMultiRootChildDataModal;
 import nl.rivm.emi.dynamo.ui.main.base.ModalStatics;
 import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
@@ -28,12 +23,7 @@ import nl.rivm.emi.dynamo.ui.panels.ExcessMortalityGroup;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
 /**

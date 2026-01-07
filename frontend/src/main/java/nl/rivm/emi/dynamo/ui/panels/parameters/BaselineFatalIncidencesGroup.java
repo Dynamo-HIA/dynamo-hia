@@ -1,7 +1,6 @@
 package nl.rivm.emi.dynamo.ui.panels.parameters;
 
 import nl.rivm.emi.dynamo.data.TypedHashMap;
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.ui.panels.ParametersFileContextPanel;
@@ -27,6 +26,7 @@ public class BaselineFatalIncidencesGroup {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();
 		theGroup.setLayout(formLayout);
+		@SuppressWarnings("unused")
 		String[] entityArray = Util.deriveEntityLabelAndValueFromRiskSourceNode(selectedNode);
 		ParametersFileContextPanel entityNameGroup = new ParametersFileContextPanel(theGroup,
 				 null, selectedNode);

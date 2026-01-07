@@ -23,6 +23,7 @@ public class TransitionDriftNettoButtonPanel extends GenericButtonPanel {
 		super(shell);
 	}
 
+	@SuppressWarnings("unused")
 	private void setFormData() {
 		FormData formData = new FormData();
 		formData.left = new FormAttachment(0, 5);

@@ -179,6 +179,7 @@ public class Generator {
 		output.writeEndDocument();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void writePopulation(XMLStreamWriter output)
 			throws XMLStreamException, CDMConfigurationException {
 		output.writeStartElement(Population.xmlElementName);

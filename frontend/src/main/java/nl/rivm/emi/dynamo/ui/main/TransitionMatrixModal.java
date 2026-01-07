@@ -11,7 +11,6 @@ import nl.rivm.emi.dynamo.data.factories.dispatch.FactoryProvider;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.atomic.Age;
 import nl.rivm.emi.dynamo.data.types.atomic.Index;
-import nl.rivm.emi.dynamo.data.types.atomic.Sex;
 import nl.rivm.emi.dynamo.data.util.AtomicTypeObjectTuple;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
@@ -152,6 +151,7 @@ public class TransitionMatrixModal extends AbstractDataModal {
 	 * 
 	 * @param producedData
 	 */
+	@SuppressWarnings("unchecked")
 	private void initializeDiagonal(TypedHashMap<?> producedData) {
 		for (int ageCount = Age.MINAGE.intValue(); ageCount < producedData
 				.size(); ageCount++) {
@@ -167,9 +167,10 @@ public class TransitionMatrixModal extends AbstractDataModal {
 						if (fromCount == toCount) {
 							ArrayList<AtomicTypeObjectTuple> tupleArray = (ArrayList<AtomicTypeObjectTuple>) toMap
 									.get(toCount);
+							@SuppressWarnings("rawtypes")
 							WritableValue value = (WritableValue) tupleArray
 									.get(0).getValue();
-							value.doSetValue(new Float(100F));
+							value.doSetValue(Float.valueOf(100F));
 						}
 					}
 				}

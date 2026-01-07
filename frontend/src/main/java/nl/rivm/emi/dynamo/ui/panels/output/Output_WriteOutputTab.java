@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,13 +25,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -325,6 +320,7 @@ public class Output_WriteOutputTab {
 
 			private void writeAggregatedCohortFile(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done;
 				for (int scen = 0; scen < Output_WriteOutputTab.this.output
 						.getNScen() + 1; scen++) {
@@ -370,6 +366,7 @@ public class Output_WriteOutputTab {
 
 			private void writeSingleYearFile(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done;
 				for (int scen = 0; scen < Output_WriteOutputTab.this.output
 						.getNScen() + 1; scen++) {
@@ -402,6 +399,7 @@ public class Output_WriteOutputTab {
 			}
 			private void writeSingleCohortFile(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done;
 				for (int scen = 0; scen < Output_WriteOutputTab.this.output
 						.getNScen() + 1; scen++) {
@@ -442,6 +440,7 @@ public class Output_WriteOutputTab {
 
 			private void writeCSVfile(final String[] scenarioNamesToWrite,
 					String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done = false;
 
 				String fileName = Output_WriteOutputTab.this.currentPath
@@ -463,6 +462,7 @@ public class Output_WriteOutputTab {
 
 			private void writeCSVfileByScen(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done = false;
 				for (int scen = 0; scen < Output_WriteOutputTab.this.output
 						.getNScen() + 1; scen++)
@@ -518,6 +518,7 @@ public class Output_WriteOutputTab {
 
 			private void writeCSVCohortfileByScen(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done = false;
 				for (int scen = 0; scen < Output_WriteOutputTab.this.output
 						.getNScen() + 1; scen++)
@@ -574,6 +575,7 @@ public class Output_WriteOutputTab {
 
 			private void writeCSVCohortfile(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done = false;
 
 				String fileName = Output_WriteOutputTab.this.currentPath
@@ -622,6 +624,7 @@ public class Output_WriteOutputTab {
 
 			private void writeLESullivanfile(
 					final String[] scenarioNamesToWrite, String userFileName) {
+				@SuppressWarnings("unused")
 				boolean done = false;
 
 				String fileName = Output_WriteOutputTab.this.currentPath
@@ -974,6 +977,7 @@ public class Output_WriteOutputTab {
 	 * @param controlComposite
 	 *            : the parent controlComposite
 	 */
+	@SuppressWarnings("unused")
 	private void makeFileFormatButton(final Composite controlComposite) {
 		/*
 		 * first radio group

@@ -1,14 +1,11 @@
 package nl.rivm.emi.dynamo.ui.panels;
 
-import nl.rivm.emi.dynamo.exceptions.DynamoConfigurationException;
 import nl.rivm.emi.dynamo.exceptions.DynamoInconsistentDataException;
 import nl.rivm.emi.dynamo.global.BaseNode;
 import nl.rivm.emi.dynamo.global.DirectoryNode;
 import nl.rivm.emi.dynamo.global.FileNode;
 import nl.rivm.emi.dynamo.global.ParentNode;
 import nl.rivm.emi.dynamo.global.StandardTreeNodeLabelsEnum;
-import nl.rivm.emi.dynamo.ui.treecontrol.Util;
-
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +31,9 @@ public class RelativeRiskForDStarContextPanel implements RelativeRiskContextInte
 		return group;
 	}
 
+	@SuppressWarnings("unused")
 	private static final String FROM = "From ";
+	@SuppressWarnings("unused")
 	private static final String TO = "To ";
 	Group group;
 	Label nameLabel;

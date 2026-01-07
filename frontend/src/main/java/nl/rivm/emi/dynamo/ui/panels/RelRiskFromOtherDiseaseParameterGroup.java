@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Group;
 public class RelRiskFromOtherDiseaseParameterGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelRiskFromOtherDiseaseParameterGroup(Composite parent,
 			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {

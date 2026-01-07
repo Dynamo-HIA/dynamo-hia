@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class SimulationConfigurationDropdownsMapFactory {
 
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory
 			.getLog("nl.rivm.emi.dynamo.ui.util.SimulationConfigurationDropdownsMapFactory");
 

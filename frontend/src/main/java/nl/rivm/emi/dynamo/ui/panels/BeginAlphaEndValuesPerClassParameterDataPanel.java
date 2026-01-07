@@ -95,10 +95,10 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
 				final Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
-					ageCellLabel.setText(new Integer(ageCount).toString());
+					ageCellLabel.setText(Integer.valueOf(ageCount).toString());
 				}
 				final Label classCellLabel = new Label(this, SWT.NONE);
-				classCellLabel.setText(new Integer(classCount).toString());
+				classCellLabel.setText(Integer.valueOf(classCount).toString());
 				bindValues(femaleClassHMap, classCount);
 				bindValues(maleClassHMap, classCount);
 			}
@@ -123,7 +123,9 @@ public class BeginAlphaEndValuesPerClassParameterDataPanel extends Composite /*
 			// Too early, see below. text.addVerifyListener(new
 			// StandardValueVerifyListener());
 			//ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+			@SuppressWarnings("rawtypes")
 			IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
+			@SuppressWarnings("rawtypes")
 			WritableValue modelObservableValue = (WritableValue) data
 					.get(count).getValue();
 			dataBindingContext.bindValue(textObservableValue,

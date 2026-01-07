@@ -45,6 +45,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 	boolean grow = false;
 	private Point initialSize;
 
+	@SuppressWarnings("unchecked")
 	public TransitionMatrixAgeGroup(Shell parent, int style,
 			BaseNode selectedNode, TypedHashMap<?> modelObject,
 			DataBindingContext dataBindingContext, HelpGroup helpPanel,
@@ -101,7 +102,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 		int maxAge = ((AbstractRangedInteger) XMLTagEntityEnum.AGE.getTheType())
 				.getMAX_VALUE();
 		for (int ageCount = minAge; ageCount <= maxAge; ageCount++) {
-			ageDropDown.add(new Integer(ageCount).toString(), ageCount);
+			ageDropDown.add(Integer.valueOf(ageCount).toString(), ageCount);
 		}
 		ageDropDown.select(42);
 		// The select doesn't fire a modify-event.
@@ -146,6 +147,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 		modalShell.update();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void refreshTransitionMatrixGroup(Composite parent, int age,
 			int gender, Composite topNeighbour) {
 		// remove if present.
@@ -197,6 +199,7 @@ public class TransitionMatrixAgeGroup extends Composite {
 		 * of clicking to all higher ages.
 		 * 
 		 */
+		@SuppressWarnings("unchecked")
 		public void widgetSelected(SelectionEvent arg0) {
 			try {
 				((Button) arg0.widget).setText("Apply current sheet to all higher ages");

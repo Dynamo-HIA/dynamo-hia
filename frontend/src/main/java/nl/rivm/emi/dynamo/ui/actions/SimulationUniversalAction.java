@@ -331,6 +331,7 @@ public class SimulationUniversalAction extends ActionBase {
 			allTestsOK = false;
 			errorMessage.append("No valid population was found.\n");
 		}
+		@SuppressWarnings("unused")
 		int numberOfDiseases = 0;
 			try{	
 				numberOfDiseases =instance.getValidDiseaseNames().size();

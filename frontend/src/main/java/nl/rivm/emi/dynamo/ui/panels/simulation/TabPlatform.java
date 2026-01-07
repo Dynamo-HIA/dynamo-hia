@@ -306,6 +306,7 @@ public abstract class TabPlatform extends Tab {
 		NestedTab selectedNestedTab = null;
 		int index = tabFolder.getSelectionIndex();
 		if (index > -1) {
+			@SuppressWarnings("unused")
 			TabItem[] tabItems = tabFolder.getItems();
 			TabItem tabItem = tabFolder.getItem(index);
 			selectedNestedTab = nestedTabs.get(tabItem.getText());
@@ -333,6 +334,7 @@ public abstract class TabPlatform extends Tab {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void handleErrorMessage(Exception e) {
 		e.printStackTrace();
 		MessageBox box = new MessageBox(tabFolder.getShell(),

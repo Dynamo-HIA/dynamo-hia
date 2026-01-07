@@ -69,6 +69,7 @@ public class ResultsObjFileAction_old extends ActionBase {
 		new Output_UI(shell, output, scenParms, savedFileDirectoryPath);
 	}
 
+	@SuppressWarnings("resource")
 	private ScenarioParameters deserializeScenarioParameters(
 			String savedFileDirectoryPath) {
 		ObjectInputStream in;
@@ -101,6 +102,7 @@ public class ResultsObjFileAction_old extends ActionBase {
 		return scenarioInfoObject;
 	}
 
+	@SuppressWarnings("resource")
 	private DynamoOutputFactory deserializeOutputObject(
 			String savedFileDirectoryPath) {
 		ObjectInputStream in;

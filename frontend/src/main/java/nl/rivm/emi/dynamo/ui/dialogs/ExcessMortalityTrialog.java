@@ -30,6 +30,7 @@ public class ExcessMortalityTrialog extends InputBulletsTrialog {
 	Log log = LogFactory.getLog(getClass().getName());
 	private String diseaseName;
 
+	@SuppressWarnings("unused")
 	private Control diseaseArea;
 	private String rootElementName;
 

@@ -16,13 +16,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 
 public class TransitionDriftParameterGroup {
+	@SuppressWarnings("unused")
 	private static final String AGE = "Age";
+	@SuppressWarnings("unused")
 	private static final String MEAN = "Mean";
 	
 	Group theGroup;
 
 	public TransitionDriftParameterGroup(Composite parent,
-			TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap lotsOfData, DataBindingContext dataBindingContext,
 			final HelpGroup helpGroup) {
 		theGroup = new Group(parent, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

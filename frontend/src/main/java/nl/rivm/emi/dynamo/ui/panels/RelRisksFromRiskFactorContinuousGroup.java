@@ -19,7 +19,7 @@ public class RelRisksFromRiskFactorContinuousGroup {
 	Group theGroup;
 
 	public RelRisksFromRiskFactorContinuousGroup(Shell shell,
-			TypedHashMap modelObject, DataBindingContext dataBindingContext,
+			@SuppressWarnings("rawtypes") TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, BaseNode riskSourceNode, HelpGroup helpGroup) throws ConfigurationException, DynamoInconsistentDataException {
 		theGroup = new Group(shell, SWT.NONE);
 		FormLayout formLayout = new FormLayout();

@@ -3,7 +3,6 @@ package nl.rivm.emi.dynamo.ui.listeners.verify;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntityEnum;
 import nl.rivm.emi.dynamo.data.types.XMLTagEntitySingleton;
 import nl.rivm.emi.dynamo.data.types.atomic.StandardValue;
-import nl.rivm.emi.dynamo.data.types.atomic.Value;
 import nl.rivm.emi.dynamo.data.types.atomic.base.NumberRangeTypeBase;
 import nl.rivm.emi.dynamo.global.DataAndFileContainer;
 
@@ -21,6 +20,7 @@ public class StandardValueVerifyListener extends AbstractNonSAPVerifyListener {
 
 	Log log = LogFactory.getLog(this.getClass().getName());
 
+	@SuppressWarnings("unchecked")
 	public void verifyText(VerifyEvent arg0) {
 		Text myText = (Text) arg0.widget;
 		String currentContent = myText.getText();

@@ -65,7 +65,7 @@ public class IntegerParameterDataPanel extends Composite {
 		for (int count = 0; count < lotsOfData.size(); count++) {
 			TypedHashMap<?> tHMap = (TypedHashMap<?>) lotsOfData.get(count);
 			final Label label = new Label(this, SWT.NONE);
-			label.setText(new Integer(count).toString());
+			label.setText(Integer.valueOf(count).toString());
 			bindValue(tHMap, BiGender.MALE_INDEX);
 			// bindTestValue(sexMap, BiGender.MALE_INDEX);
 			bindValue(tHMap, BiGender.FEMALE_INDEX);
@@ -83,6 +83,7 @@ public class IntegerParameterDataPanel extends Composite {
 		panel.setLayoutData(formData);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void bindValue(TypedHashMap<?> sexMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -92,10 +93,12 @@ public class IntegerParameterDataPanel extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(text,
 				(AtomicTypeBase<?>) XMLTagEntityEnum.NUMBER.getTheType());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 
 		AtomicTypeObjectTuple tuple = (AtomicTypeObjectTuple) ((ArrayList<?>) sexMap
 				.get(index)).get(0);
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) tuple.getValue();
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,
 				ModelUpdateValueStrategies.getStrategy(modelObservableValue

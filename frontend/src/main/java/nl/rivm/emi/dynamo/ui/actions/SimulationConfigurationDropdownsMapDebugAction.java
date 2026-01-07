@@ -32,7 +32,9 @@ public class SimulationConfigurationDropdownsMapDebugAction extends Action {
 	public void run() {
 		try {
 			log.info("Starting test");
+			@SuppressWarnings("unused")
 			SimulationConfigurationDropdownsMapFactory a = new SimulationConfigurationDropdownsMapFactory();
+			@SuppressWarnings("unused")
 			HashMap<String, Object> product = SimulationConfigurationDropdownsMapFactory
 					.make(node);
 			TreeAsDropdownLists treeList = TreeAsDropdownLists.getInstance(node);

@@ -105,6 +105,7 @@ public class SaveAndCloseSelectionListener implements SelectionListener {
 													+ "is empty of Relative Risks is empty");
 								}
 
+								@SuppressWarnings("rawtypes")
 								Map secondMap = ((DynamoSimulationObject) modelObject)
 										.getRelativeRiskConfigurations();
 								Set<Integer> secondKeys = secondMap.keySet();

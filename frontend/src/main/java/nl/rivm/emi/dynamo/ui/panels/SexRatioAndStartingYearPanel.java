@@ -61,12 +61,14 @@ public class SexRatioAndStartingYearPanel {
 		// group.setLayout(formLayout);
 		GridLayout gridLayout = new GridLayout(5, false);
 		group.setLayout(gridLayout);
+		@SuppressWarnings("unused")
 		GridData labelLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		GridData dataLayoutData = new GridData(
 				GridData.HORIZONTAL_ALIGN_BEGINNING);
 		dataLayoutData.widthHint = 50;
 		String labelValue = SEX_RATIO;
+		@SuppressWarnings("rawtypes")
 		WritableValue observable=null;
 		try {
 			observable = newbornsObject.getObservableSexRatio();
@@ -74,6 +76,7 @@ public class SexRatioAndStartingYearPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		@SuppressWarnings("unused")
 		Text text = bindHeaderValue(observable, labelValue, new SexRatio(),
 				group);
 //		Label spaceLabel = new Label(group, SWT.NONE);
@@ -95,8 +98,8 @@ public class SexRatioAndStartingYearPanel {
 		group.setLayoutData(formData);
 	}
 
-	private Text bindHeaderValue(WritableValue observable, String labelValue,
-			AtomicTypeBase myType, Composite group) {
+	private Text bindHeaderValue(@SuppressWarnings("rawtypes") WritableValue observable, String labelValue,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType, Composite group) {
 		Text text = null;
 		if (observable != null) {
 			GridData labelLayoutData = new GridData(
@@ -108,6 +111,7 @@ public class SexRatioAndStartingYearPanel {
 			label.setText(labelValue + ": ");
 			label.setLayoutData(labelLayoutData);
 			text = bindValue(observable, myType, group, label);
+			@SuppressWarnings("unused")
 			GridData textGridDate = new GridData(GridData.FILL_HORIZONTAL);
 			text.setLayoutData(/* textGridDate */dataLayoutData);
 		} else {
@@ -119,7 +123,7 @@ public class SexRatioAndStartingYearPanel {
 		return text;
 	}
 
-	protected Text bindValue(WritableValue observable, AtomicTypeBase myType,
+	protected Text bindValue(@SuppressWarnings("rawtypes") WritableValue observable, @SuppressWarnings("rawtypes") AtomicTypeBase myType,
 			Composite group, Label label) {
 		Text text = null;
 		if (myType instanceof AbstractRangedInteger) {
@@ -130,29 +134,31 @@ public class SexRatioAndStartingYearPanel {
 		return text;
 	}
 
-	protected Text bindAbstractRangedInteger(WritableValue observableObject,
-			AtomicTypeBase myType, Composite group, Label label) {
+	protected Text bindAbstractRangedInteger(@SuppressWarnings("rawtypes") WritableValue observableObject,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
 		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(
 				theHelpGroup.getTheModal(), myType));
 		return text;
 	}
 
-	protected Text bindAbstractValue(WritableValue observableObject,
-			AtomicTypeBase myType, Composite group, Label label) {
+	protected Text bindAbstractValue(@SuppressWarnings("rawtypes") WritableValue observableObject,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType, Composite group, Label label) {
 		Text text = getTextBinding(observableObject, myType, group, label);
 		text.addVerifyListener(new AbstractValueVerifyListener(theHelpGroup
 				.getTheModal(), myType));
 		return text;
 	}
 
-	private Text getTextBinding(WritableValue observableObject,
-			AtomicTypeBase myType, Composite group, Label label) {
+	@SuppressWarnings("unchecked")
+	private Text getTextBinding(@SuppressWarnings("rawtypes") WritableValue observableObject,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType, Composite group, Label label) {
 		Text text = createAndPlaceTextField(group, label);
 		text.setText((String) myType
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		

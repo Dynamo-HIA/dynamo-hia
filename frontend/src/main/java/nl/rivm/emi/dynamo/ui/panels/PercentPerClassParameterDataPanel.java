@@ -67,10 +67,10 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 			for (int classCount = 1; classCount <= femaleClassHMap.size(); classCount++) {
 				final Label ageCellLabel = new Label(this, SWT.NONE);
 				if (classCount == 1) {
-					ageCellLabel.setText(new Integer(ageCount).toString());
+					ageCellLabel.setText(Integer.valueOf(ageCount).toString());
 				}
 				final Label classCellLabel = new Label(this, SWT.NONE);
-				classCellLabel.setText(new Integer(classCount).toString());
+				classCellLabel.setText(Integer.valueOf(classCount).toString());
 				bindValue(femaleClassHMap, classCount);
 				bindValue(maleClassHMap, classCount);
 			}
@@ -87,6 +87,7 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 		panel.setLayoutData(formData);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void bindValue(TypedHashMap<?> typedHashMap, int index) {
 		final Text text = new Text(this, SWT.NONE);
 		GridData gridData = new GridData();
@@ -99,8 +100,10 @@ public class PercentPerClassParameterDataPanel extends Composite /*
 		// Too early, see below. text.addVerifyListener(new
 		// StandardValueVerifyListener());
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
+		@SuppressWarnings("rawtypes")
 		WritableValue modelObservableValue = (WritableValue) typedHashMap
 				.get(index);
 		dataBindingContext.bindValue(textObservableValue, modelObservableValue,

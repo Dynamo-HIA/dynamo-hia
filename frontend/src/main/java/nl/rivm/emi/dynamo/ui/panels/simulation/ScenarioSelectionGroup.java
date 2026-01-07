@@ -32,7 +32,6 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -61,6 +60,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 	// private static final String PERCENTAGE = "(%)";
 
 	protected Composite scenarioDefGroup;
+	@SuppressWarnings("unused")
 	private Composite plotComposite;
 	@SuppressWarnings("unused")
 	private DynamoSimulationObject dynamoSimulationObject;
@@ -126,11 +126,13 @@ public class ScenarioSelectionGroup { // extends Composite {
 			dynamoTabDataManager.updateObjectState(GENDER, "Male and Female");
 		}
 		String labelValue = NAME;
+		@SuppressWarnings("rawtypes")
 		WritableValue observable = (WritableValue) dynamoTabDataManager
 				.getCurrentWritableValue(NAME);
 		bindNameValue(observable, labelValue, new UniqueName());
 
 		labelValue = SUCCESS_RATE;
+		@SuppressWarnings("rawtypes")
 		WritableValue observable2 = (WritableValue) dynamoTabDataManager
 				.getCurrentWritableValue(SUCCESS_RATE);
 		bindHeaderValue(observable2, labelValue, new SuccessRate());
@@ -138,7 +140,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		Label label = new Label(scenarioDefGroup, SWT.LEFT);
 		
 		GridData ld = new GridData();
-		ld.horizontalSpan = 6;
+		ld.horizontalSpan = 10;//was 6
 		ld.verticalIndent = 4;
 		
 		
@@ -146,16 +148,16 @@ public class ScenarioSelectionGroup { // extends Composite {
 		label.setLayoutData(ld);
 
 		this.minAgeDropDownPanel = createDropDown(MIN_AGE, dynamoTabDataManager
-				.getDropDownSet(MIN_AGE, chosenScenarioName), 1,
+				.getDropDownSet(MIN_AGE, chosenScenarioName), 2,
 				dynamoTabDataManager);
 		this.dropDownModifyListener = minAgeDropDownPanel
 				.getGenericComboModifyListener();
 		HelpTextListenerUtil.addHelpTextListeners(minAgeDropDownPanel
 				.getDropDown(), (AtomicTypeBase<?>) XMLTagEntityEnum.MINAGE
 				.getTheType());
-
+ // columspan (argument 3) changed from 1 to 2
 		this.maxAgeDropDownPanel = createDropDown(MAX_AGE, dynamoTabDataManager
-				.getDropDownSet(MAX_AGE, chosenScenarioName), 1,
+				.getDropDownSet(MAX_AGE, chosenScenarioName), 2,
 				dynamoTabDataManager);
 		this.dropDownModifyListener = maxAgeDropDownPanel
 				.getGenericComboModifyListener();
@@ -164,7 +166,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 				.getTheType());
 
 		this.genderDropDownPanel = createDropDown(GENDER, dynamoTabDataManager
-				.getDropDownSet(GENDER, chosenScenarioName), 1,
+				.getDropDownSet(GENDER, chosenScenarioName),2,
 				dynamoTabDataManager);
 		this.dropDownModifyListener = genderDropDownPanel
 				.getGenericComboModifyListener();
@@ -194,7 +196,8 @@ public class ScenarioSelectionGroup { // extends Composite {
 	 * @param myType
 	 * @throws ConfigurationException
 	 */
-	private void bindNameValue(WritableValue observable, String labelValue,
+	@SuppressWarnings("unchecked")
+	private void bindNameValue(@SuppressWarnings("rawtypes") WritableValue observable, String labelValue,
 			AtomicTypeBase<?> myType) throws ConfigurationException {
 		if (myType instanceof UniqueName) {
 			if (observable != null) {
@@ -210,6 +213,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 				// StandardValueVerifyListener());
 
 				// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+				@SuppressWarnings("rawtypes")
 				IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 			
 				
@@ -239,7 +243,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		}
 	}
 
-	private void bindHeaderValue(WritableValue observable, String labelValue,
+	private void bindHeaderValue(@SuppressWarnings("rawtypes") WritableValue observable, String labelValue,
 			AtomicTypeBase<?> myType) throws ConfigurationException {
 		if (observable != null) {
 			Label successRateLabel = new Label(scenarioDefGroup, SWT.NONE);
@@ -253,7 +257,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		}
 	}
 
-	private void bindValue(WritableValue observable, AtomicTypeBase<?> myType)
+	private void bindValue(@SuppressWarnings("rawtypes") WritableValue observable, AtomicTypeBase<?> myType)
 			throws ConfigurationException {
 		if (myType instanceof AbstractRangedInteger) {
 			bindAbstractRangedInteger(observable, myType);
@@ -262,7 +266,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		}
 	}
 
-	protected void bindAbstractRangedInteger(WritableValue observableObject,
+	protected void bindAbstractRangedInteger(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = getTextBinding(observableObject, myType);
 		GridData layoutData = new GridData(GridData.FILL_HORIZONTAL);
@@ -272,14 +276,15 @@ public class ScenarioSelectionGroup { // extends Composite {
 	}
 
 	// Binds values that are subclass types of AbstractString
-	protected void bindAbstractString(WritableValue observableObject,
+	protected void bindAbstractString(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) throws ConfigurationException {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractStringVerifyListener(helpGroup
 				.getTheModal(), myType));
 	}
 
-	private Text getTextBinding(WritableValue observableObject,
+	@SuppressWarnings("unchecked")
+	private Text getTextBinding(@SuppressWarnings("rawtypes") WritableValue observableObject,
 			AtomicTypeBase<?> myType) {
 		Text text = createAndPlaceTextField();
 		text.setText((String) myType
@@ -287,6 +292,7 @@ public class ScenarioSelectionGroup { // extends Composite {
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		
 		dataBindingContext.bindValue(textObservableValue, observableObject,

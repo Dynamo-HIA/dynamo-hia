@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Shell;
 public class RelativeRisksCategoricalGroup {
 	Group theGroup;
 
+	@SuppressWarnings("rawtypes")
 	public RelativeRisksCategoricalGroup(Shell shell,
 			TypedHashMap modelObject, DataBindingContext dataBindingContext,
 			BaseNode selectedNode, HelpGroup helpGroup) throws DynamoConfigurationException {

@@ -40,8 +40,10 @@ public class YearGroupParameterDataPanel extends Composite /*
 	boolean open = false;
 	DataBindingContext dataBindingContext = null;
 	HelpGroup theHelpGroup;
+	@SuppressWarnings("rawtypes")
 	AtomicTypeBase myType;
 
+	@SuppressWarnings("rawtypes")
 	public YearGroupParameterDataPanel(Composite parent, Text topNeighbour,
 			NewbornsObject newbornsObject,
 			DataBindingContext dataBindingContext, HelpGroup helpGroup) {
@@ -104,16 +106,17 @@ public class YearGroupParameterDataPanel extends Composite /*
 		}
 	}
 
-	protected void bindAbstractRangedInteger(WritableValue observableObject,
-			AtomicTypeBase myType) {
+	protected void bindAbstractRangedInteger(@SuppressWarnings("rawtypes") WritableValue observableObject,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType) {
 		Text text = getTextBinding(observableObject, myType);
 		text.addVerifyListener(new AbstractRangedIntegerVerifyListener(
 				theHelpGroup.getTheModal(), myType));
 		// Testing Text testText = getTextBinding(observableObject, myType);
 	}
 
-	private Text getTextBinding(WritableValue observableObject,
-			AtomicTypeBase myType) {
+	@SuppressWarnings("unchecked")
+	private Text getTextBinding(@SuppressWarnings("rawtypes") WritableValue observableObject,
+			@SuppressWarnings("rawtypes") AtomicTypeBase myType) {
 		Text text = createAndPlaceTextField();
 //		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
 //		textGridData.horizontalSpan = 2;
@@ -122,6 +125,7 @@ public class YearGroupParameterDataPanel extends Composite /*
 				.convert4View(observableObject.doGetValue()));
 		HelpTextListenerUtil.addHelpTextListeners(text, myType);
 		// ND: Deprecated IObservableValue textObservableValue = SWTObservables.observeText(text, SWT.Modify);
+		@SuppressWarnings("rawtypes")
 		IObservableValue textObservableValue = WidgetProperties.text(SWT.Modify).observe(text);
 		dataBindingContext.bindValue(textObservableValue, observableObject,
 				myType.getModelUpdateValueStrategy(), myType
