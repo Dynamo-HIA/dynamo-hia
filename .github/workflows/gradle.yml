@@ -90,5 +90,5 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
        # Added by hendriek 2026 to prevent errors on merging fork
-      if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == 'Hendriek/dynamo-hia' }}
+      if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != 'Hendriek/dynamo-hia' }}
       uses: gradle/actions/dependency-submission@v4
